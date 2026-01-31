@@ -1,15 +1,22 @@
 import {defineConfig} from 'vite';
 import {resolve} from 'path';
+import babel from 'vite-plugin-babel';
 import solidPlugin from 'vite-plugin-solid';
-import solidDevtools from 'solid-devtools/vite';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
     plugins: [
-        solidDevtools({
-            autoname: true,
+        tailwindcss(),
+        babel({
+            babelConfig: {
+                plugins: [
+                    ['@babel/plugin-proposal-decorators', {legacy: true}],
+                    ['@babel/plugin-transform-class-properties', {loose: true}],
+                ],
+            },
         }),
         solidPlugin({
-            extensions: ['.tsx', '.jsx'],
+            include: [/\.tsx$/, /\.jsx$/],
         }),
     ],
     resolve: {

@@ -4,9 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Helium</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { overflow: hidden; background: #1a1a2e; }
+    body { overflow: hidden; background: #0a0a0f; font-family: 'Inter', sans-serif; }
     #helium-ui { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 100; }
   </style>
 </head>
@@ -26,7 +29,7 @@
 
     // Initialize Helium
     await Helium.bootstrap({
-      background: '#1a1a2e',
+      background: '#0a0a0f',
       // Connection config
       connection: {
          host: 'localhost',

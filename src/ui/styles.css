@@ -1,28 +1,111 @@
-/* Helium UI Styles */
+@import "tailwindcss";
+
+/* ============================================
+   Helium Theme - Modern Dark Mode
+   ============================================ */
+
+@theme {
+    /* Colors - Modern Dark Palette */
+    --color-bg-primary: #0a0a0f;
+    --color-bg-secondary: #12121a;
+    --color-bg-tertiary: #1a1a24;
+    --color-bg-elevated: #22222e;
+    --color-bg-hover: #2a2a38;
+
+    /* Surface colors with transparency */
+    --color-surface: rgba(255, 255, 255, 0.03);
+    --color-surface-hover: rgba(255, 255, 255, 0.06);
+    --color-surface-active: rgba(255, 255, 255, 0.1);
+
+    /* Border colors */
+    --color-border: rgba(255, 255, 255, 0.08);
+    --color-border-hover: rgba(255, 255, 255, 0.15);
+    --color-border-focus: rgba(99, 102, 241, 0.5);
+
+    /* Text colors */
+    --color-text-primary: #f4f4f5;
+    --color-text-secondary: #a1a1aa;
+    --color-text-muted: #71717a;
+    --color-text-disabled: #52525b;
+
+    /* Accent colors - Indigo/Purple gradient feel */
+    --color-accent: #6366f1;
+    --color-accent-hover: #818cf8;
+    --color-accent-muted: rgba(99, 102, 241, 0.2);
+
+    /* Status colors */
+    --color-success: #22c55e;
+    --color-warning: #f59e0b;
+    --color-error: #ef4444;
+    --color-info: #3b82f6;
+
+    /* Credits/Currency */
+    --color-credits: #fbbf24;
+    --color-diamonds: #06b6d4;
+    --color-duckets: #a855f7;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+    --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.3);
+
+    /* Spacing */
+    --spacing-toolbar: 60px;
+
+    /* Animation */
+    --transition-fast: 150ms ease;
+    --transition-normal: 200ms ease;
+    --transition-slow: 300ms ease;
+
+    /* Border radius */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 20px;
+    --radius-full: 9999px;
+}
+
+/* ============================================
+   Base Styles
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    overflow: hidden;
+}
+
+/* ============================================
+   Helium UI Container
+   ============================================ */
 
 .helium-ui {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     pointer-events: none;
     z-index: 100;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .helium-ui > * {
     pointer-events: auto;
 }
 
-/* Loading Screen */
+/* ============================================
+   Loading Screen
+   ============================================ */
+
 .loading-screen {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    inset: 0;
+    background: linear-gradient(135deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -31,126 +114,137 @@
 
 .loading-content {
     text-align: center;
-    color: #fff;
 }
 
 .loading-logo h1 {
-    font-size: 48px;
-    margin-bottom: 30px;
-    background: linear-gradient(90deg, #00d4ff, #7c3aed);
+    font-size: 3rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--color-accent) 0%, #a855f7 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    margin-bottom: 2rem;
 }
 
 .loading-spinner {
-    width: 50px;
-    height: 50px;
-    border: 3px solid rgba(255, 255, 255, 0.1);
-    border-top-color: #00d4ff;
-    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    border: 3px solid var(--color-border);
+    border-top-color: var(--color-accent);
+    border-radius: var(--radius-full);
     animation: spin 1s linear infinite;
-    margin: 0 auto 20px;
+    margin: 0 auto 1.5rem;
 }
 
 @keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
+    to { transform: rotate(360deg); }
 }
 
 .loading-status {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
 }
 
-/* Landing View */
+/* ============================================
+   Landing View
+   ============================================ */
+
 .landing-view {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: calc(100% - 60px);
+    inset: 0;
+    bottom: var(--spacing-toolbar);
     display: flex;
     justify-content: center;
-    padding-top: 40px;
-    box-sizing: border-box;
+    padding: 2.5rem 1.5rem;
+    overflow-y: auto;
 }
 
 .landing-content {
     max-width: 1200px;
     width: 100%;
-    padding: 0 20px;
 }
 
 .welcome-section {
     text-align: center;
-    margin-bottom: 40px;
-    color: #fff;
+    margin-bottom: 2.5rem;
 }
 
 .welcome-section h2 {
-    font-size: 28px;
-    margin-bottom: 10px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
 }
 
 .user-motto {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
     font-style: italic;
 }
 
 .landing-widgets {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.25rem;
 }
 
 .widget-placeholder {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 40px;
+    background: var(--color-surface);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
     text-align: center;
-    color: #fff;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all var(--transition-normal);
+}
+
+.widget-placeholder:hover {
+    background: var(--color-surface-hover);
+    border-color: var(--color-border-hover);
 }
 
 .widget-placeholder p {
-    margin: 5px 0;
+    margin: 0.25rem 0;
 }
 
 .widget-info {
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
 }
 
-/* Toolbar */
+/* ============================================
+   Toolbar
+   ============================================ */
+
 .toolbar {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 100%;
-    height: 60px;
-    background: linear-gradient(180deg, rgba(26, 26, 46, 0.95) 0%, rgba(16, 16, 32, 0.98) 100%);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    right: 0;
+    height: var(--spacing-toolbar);
+    background: var(--color-bg-secondary);
+    border-top: 1px solid var(--color-border);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 20px;
-    box-sizing: border-box;
-    backdrop-filter: blur(10px);
+    padding: 0 1.25rem;
+    backdrop-filter: blur(12px);
 }
 
-.toolbar-left {
+.toolbar-left,
+.toolbar-right {
     flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.toolbar-right {
+    justify-content: flex-end;
 }
 
 .toolbar-logo {
-    font-size: 20px;
-    font-weight: bold;
-    background: linear-gradient(90deg, #00d4ff, #7c3aed);
+    font-size: 1.25rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--color-accent) 0%, #a855f7 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -158,24 +252,27 @@
 
 .toolbar-center {
     display: flex;
-    gap: 8px;
+    gap: 0.5rem;
 }
 
 .toolbar-icon {
     width: 44px;
     height: 44px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all var(--transition-fast);
     display: flex;
     align-items: center;
     justify-content: center;
+    color: var(--color-text-secondary);
 }
 
 .toolbar-icon:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--color-surface-hover);
+    border-color: var(--color-border-hover);
+    color: var(--color-text-primary);
     transform: translateY(-2px);
 }
 
@@ -184,36 +281,33 @@
 }
 
 .icon-emoji {
-    font-size: 20px;
-}
-
-.toolbar-right {
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
+    font-size: 1.25rem;
 }
 
 .user-info {
-    color: #fff;
-    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 }
 
 .user-credits {
-    background: rgba(255, 215, 0, 0.2);
-    padding: 6px 12px;
-    border-radius: 20px;
-    color: #ffd700;
+    background: rgba(251, 191, 36, 0.15);
+    color: var(--color-credits);
+    padding: 0.375rem 0.875rem;
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
     font-weight: 500;
+    border: 1px solid rgba(251, 191, 36, 0.25);
 }
 
-/* Error Screen */
+/* ============================================
+   Error Screen
+   ============================================ */
+
 .error-screen {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(26, 26, 46, 0.95);
+    inset: 0;
+    background: var(--color-bg-primary);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -222,18 +316,61 @@
 
 .error-content {
     text-align: center;
-    color: #fff;
-    padding: 40px;
-    background: rgba(255, 0, 0, 0.1);
-    border-radius: 12px;
-    border: 1px solid rgba(255, 0, 0, 0.3);
+    padding: 2.5rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    border-radius: var(--radius-lg);
+    max-width: 400px;
 }
 
 .error-content h2 {
-    color: #ff6b6b;
-    margin-bottom: 15px;
+    color: var(--color-error);
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
 }
 
 .error-content p {
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+
+.glass {
+    background: var(--color-surface);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--color-border);
+}
+
+.glass-hover:hover {
+    background: var(--color-surface-hover);
+    border-color: var(--color-border-hover);
+}
+
+.glow {
+    box-shadow: var(--shadow-glow);
+}
+
+/* ============================================
+   Scrollbar Styling
+   ============================================ */
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-bg-hover);
+    border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-border-hover);
 }
