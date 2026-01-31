@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(for dir in \"C:\\\\Users\\\\Clayton\\\\Desktop\\\\helium\\\\source_as\\\\habbo\"/*)"
+    ]
+  }
+}

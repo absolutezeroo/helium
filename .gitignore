@@ -1,0 +1,8 @@
+node_modules/
+source_as/
+source_nitro/
+dist/
+*.log
+.DS_Store
+.env
+.env.local
