@@ -1,6 +1,8 @@
-import {configStore, connectionStore, sessionStore} from './stores';
+import {configStore, connectionStore, localizationStore, navigatorStore, sessionStore} from './stores';
 import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
 import type {IConfigurationManager} from '@core/configuration/IConfigurationManager';
+import type {IHabboLocalizationManager} from '@habbo/localization/IHabboLocalizationManager';
+import type {IHabboNavigator, IHabboNewNavigator} from '@habbo/navigator';
 
 /**
  * Bridge between Habbo managers and SolidJS stores
@@ -9,17 +11,40 @@ import type {IConfigurationManager} from '@core/configuration/IConfigurationMana
 export class UIBridge {
     private _sessionDataManager: ISessionDataManager | null = null;
     private _configurationManager: IConfigurationManager | null = null;
+    private _localizationManager: IHabboLocalizationManager | null = null;
+    private _navigator: IHabboNavigator | null = null;
+    private _newNavigator: IHabboNewNavigator | null = null;
 
     /**
      * Connect ConfigurationManager to config store
      */
     connectConfigurationManager(manager: IConfigurationManager): void {
         this._configurationManager = manager;
+
         configStore.connect(manager);
     }
 
     /**
-     * Connect SessionDataManager to session store
+     * Connect LocalizationManager to localization store
+     */
+    connectLocalizationManager(manager: IHabboLocalizationManager): void {
+        this._localizationManager = manager;
+
+        localizationStore.connect(manager);
+    }
+
+    /**
+     * Connect Navigator to the navigator store
+     */
+    connectNavigator(navigator: IHabboNavigator, newNavigator?: IHabboNewNavigator): void {
+        this._navigator = navigator;
+        this._newNavigator = newNavigator ?? null;
+
+        navigatorStore.connect(navigator, newNavigator);
+    }
+
+    /**
+     * Connect SessionDataManager to the session store
      */
     connectSessionDataManager(manager: ISessionDataManager): void {
         this._sessionDataManager = manager;
@@ -94,7 +119,7 @@ export class UIBridge {
     }
 
     /**
-     * Set connection state
+     * Set a connection state
      */
     setConnectionState(state: 'connecting' | 'connected' | 'authenticated' | 'disconnected' | 'error', error?: string): void {
         switch (state) {
@@ -123,6 +148,16 @@ export class UIBridge {
     disconnect(): void {
         this._sessionDataManager = null;
         this._configurationManager = null;
+        this._localizationManager = null;
+
+        if (this._navigator) {
+            navigatorStore.disconnect();
+
+            this._navigator = null;
+        }
+
+        this._newNavigator = null;
+
         sessionStore.reset();
         connectionStore.setDisconnected();
     }

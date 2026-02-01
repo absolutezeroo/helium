@@ -20,10 +20,12 @@ export {MessageRegistry} from './messages/MessageRegistry';
 
 // Encryption
 export type {IEncryption} from './encryption/IEncryption';
-export type {IKeyExchange} from './encryption/IKeyExchange';
-export {ArcFour} from './encryption/ArcFour';
-export {DiffieHellman} from './encryption/DiffieHellman';
+export {ArcFour} from '@habbo/communication/encryption/ArcFour';
+export {DiffieHellman} from '@habbo/communication/encryption/DiffieHellman';
 export {CryptoTools} from './encryption/CryptoTools';
+
+// Handshake
+export type {IKeyExchange} from './handshake/IKeyExchange';
 
 // Wire format
 export type {IWireFormatter} from './wireformat/IWireFormatter';

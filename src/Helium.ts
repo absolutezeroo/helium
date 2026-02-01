@@ -3,6 +3,8 @@ import {Application, Ticker} from 'pixi.js';
 import {container, setupContainer, TYPES} from './iid';
 import type {ICoreCommunicationManager} from '@core/communication/ICoreCommunicationManager';
 import type {IConfigurationManager} from '@core/configuration/IConfigurationManager';
+import type {IHabboLocalizationManager} from '@habbo/localization/IHabboLocalizationManager';
+import type {IHabboNavigator, IHabboNewNavigator} from '@habbo/navigator';
 import {HabboCommunicationManager} from '@habbo/communication/HabboCommunicationManager';
 import {Logger} from '@core/utils/Logger';
 import {mountUI, uiBridge} from '@ui/index';
@@ -12,10 +14,14 @@ const log = Logger.getLogger('Helium');
 
 export class Helium {
     private _ready = false;
+
+    private _application: Application | null = null;
+
     // Managers
     private _configurationManager: IConfigurationManager | null = null;
     private _communicationManager: ICoreCommunicationManager | null = null;
     private _habboCommunicationManager: HabboCommunicationManager | null = null;
+
     // UI
     private _disposeUI: (() => void) | null = null;
 
@@ -29,7 +35,7 @@ export class Helium {
         return this._instance;
     }
 
-    private _application: Application | null = null;
+
 
     public get application(): Application {
         if (!this._application) {
@@ -172,10 +178,26 @@ export class Helium {
         // Connect UIBridge to managers
         uiBridge.connectConfigurationManager(this._configurationManager);
 
+        // Initialize localization manager
+        const localizationManager = container.get<IHabboLocalizationManager>(TYPES.LocalizationManager);
+        localizationManager.setConfigurationManager(this._configurationManager);
+        uiBridge.connectLocalizationManager(localizationManager);
+
+        // Activate default localization if configured
+        if (this._configurationManager.propertyExists('localization.1')) {
+            const locName = this._configurationManager.getProperty('localization.1');
+            localizationManager.activateLocalizationDefinition(locName);
+        }
+
         const sessionDataManager = this._habboCommunicationManager.sessionDataManager;
         if (sessionDataManager) {
             uiBridge.connectSessionDataManager(sessionDataManager);
         }
+
+        // Connect Navigator to UIBridge
+        const navigator = container.get<IHabboNavigator>(TYPES.NavigatorManager);
+        const newNavigator = container.get<IHabboNewNavigator>(TYPES.NewNavigatorManager);
+        uiBridge.connectNavigator(navigator, newNavigator);
 
         // Mount SolidJS UI
         const uiContainer = document.createElement('div');

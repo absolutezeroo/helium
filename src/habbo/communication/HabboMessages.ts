@@ -26,7 +26,29 @@ import {AvailabilityStatusMessageEvent,} from './messages/incoming/availability'
 import {FigureUpdateMessageEvent,} from './messages/incoming/avatar';
 
 // Incoming Events - Navigator
-import {FavouritesMessageEvent, NavigatorSettingsMessageEvent,} from './messages/incoming/navigator';
+import {
+    FavouritesMessageEvent,
+    NavigatorSettingsMessageEvent,
+    FavouriteChangedMessageEvent,
+    GetGuestRoomResultMessageEvent,
+    GuestRoomSearchResultMessageEvent,
+    UserFlatCatsMessageEvent,
+    UserEventCatsMessageEvent,
+    PopularRoomTagsResultMessageEvent,
+    OfficialRoomsMessageEvent,
+    CategoriesWithVisitorCountMessageEvent,
+    CanCreateRoomMessageEvent,
+    CanCreateRoomEventMessageEvent,
+    FlatCreatedMessageEvent,
+    RoomRatingMessageEvent,
+    RoomInfoUpdatedMessageEvent,
+    DoorbellMessageEvent,
+    RoomEventMessageEvent,
+    RoomEventCancelMessageEvent,
+    FlatAccessDeniedMessageEvent,
+    ConvertedRoomIdMessageEvent,
+    CompetitionRoomsDataMessageEvent,
+} from './messages/incoming/navigator';
 
 // Incoming Events - Notifications
 import {ActivityPointsMessageEvent, InfoFeedEnableMessageEvent,} from './messages/incoming/notifications';
@@ -44,7 +66,17 @@ import {MysteryBoxKeysMessageEvent,} from './messages/incoming/mysterybox';
 // Incoming Events - Catalog
 import {BuildersClubSubscriptionStatusMessageEvent,} from './messages/incoming/catalog';
 
-// Outgoing Composers
+// Incoming Events - New Navigator
+import {
+    NavigatorMetaDataMessageEvent,
+    NavigatorSearchResultSetMessageEvent,
+    NavigatorSavedSearchesMessageEvent,
+    NavigatorWindowSettingsMessageEvent,
+    NavigatorLiftedRoomsMessageEvent,
+    NavigatorCollapsedCategoriesMessageEvent,
+} from './messages/incoming/newnavigator';
+
+// Outgoing Composers - Handshake & Core
 import {
     ClientHelloMessageComposer,
     CompleteDiffieHandshakeMessageComposer,
@@ -57,6 +89,56 @@ import {
     UniqueIDMessageComposer,
     VersionCheckMessageComposer,
 } from './messages/outgoing';
+
+// Outgoing Composers - Navigator
+import {
+    GetGuestRoomMessageComposer,
+    CreateFlatMessageComposer,
+    AddFavouriteRoomMessageComposer,
+    DeleteFavouriteRoomMessageComposer,
+    RoomTextSearchMessageComposer,
+    PopularRoomsSearchMessageComposer,
+    MyRoomsSearchMessageComposer,
+    MyFavouriteRoomsSearchMessageComposer,
+    GetOfficialRoomsMessageComposer,
+    CanCreateRoomMessageComposer,
+    GetUserFlatCatsMessageComposer,
+    GetUserEventCatsMessageComposer,
+    UpdateHomeRoomMessageComposer,
+    RateFlatMessageComposer,
+    ToggleStaffPickMessageComposer,
+    GetPopularRoomTagsMessageComposer,
+    MyFriendsRoomsSearchMessageComposer,
+    ForwardToSomeRoomMessageComposer,
+    ConvertGlobalRoomIdMessageComposer,
+    CancelEventMessageComposer,
+    EditEventMessageComposer,
+    CompetitionRoomsSearchMessageComposer,
+    RoomsWithHighestScoreSearchMessageComposer,
+    RoomsWhereMyFriendsAreSearchMessageComposer,
+    MyRoomHistorySearchMessageComposer,
+    MyFrequentRoomHistorySearchMessageComposer,
+    MyRoomRightsSearchMessageComposer,
+    MyGuildBasesSearchMessageComposer,
+    MyRecommendedRoomsMessageComposer,
+    GuildBaseSearchMessageComposer,
+    SetRoomSessionTagsMessageComposer,
+    RoomAdSearchMessageComposer,
+    RemoveOwnRoomRightsRoomMessageComposer,
+    RoomAdEventTabAdClickedComposer,
+    RoomAdEventTabViewedComposer,
+} from './messages/outgoing/navigator';
+
+// Outgoing Composers - New Navigator
+import {
+    NewNavigatorInitComposer,
+    NewNavigatorSearchComposer,
+    NavigatorAddSavedSearchComposer,
+    NavigatorDeleteSavedSearchComposer,
+    NavigatorAddCollapsedCategoryMessageComposer,
+    NavigatorRemoveCollapsedCategoryMessageComposer,
+    NavigatorSetSearchCodeViewModeMessageComposer,
+} from './messages/outgoing/newnavigator';
 
 /**
  * Habbo message configuration
@@ -107,6 +189,25 @@ export class HabboMessages implements IMessageConfiguration {
         // === NAVIGATOR ===
         this._events.set(895, NavigatorSettingsMessageEvent);
         this._events.set(2676, FavouritesMessageEvent);
+        this._events.set(3523, FavouriteChangedMessageEvent);
+        this._events.set(2048, GetGuestRoomResultMessageEvent);
+        this._events.set(34, GuestRoomSearchResultMessageEvent);
+        this._events.set(523, UserFlatCatsMessageEvent);
+        this._events.set(804, UserEventCatsMessageEvent);
+        this._events.set(3210, PopularRoomTagsResultMessageEvent);
+        this._events.set(215, OfficialRoomsMessageEvent);
+        this._events.set(965, CategoriesWithVisitorCountMessageEvent);
+        this._events.set(3627, CanCreateRoomMessageEvent);
+        this._events.set(1722, CanCreateRoomEventMessageEvent);
+        this._events.set(1489, FlatCreatedMessageEvent);
+        this._events.set(1183, RoomRatingMessageEvent);
+        this._events.set(1773, RoomInfoUpdatedMessageEvent);
+        this._events.set(1546, DoorbellMessageEvent);
+        this._events.set(3037, RoomEventMessageEvent);
+        this._events.set(805, RoomEventCancelMessageEvent);
+        this._events.set(1906, FlatAccessDeniedMessageEvent);
+        this._events.set(574, ConvertedRoomIdMessageEvent);
+        this._events.set(739, CompetitionRoomsDataMessageEvent);
 
         // === NOTIFICATIONS ===
         this._events.set(2875, ActivityPointsMessageEvent);
@@ -125,6 +226,14 @@ export class HabboMessages implements IMessageConfiguration {
 
         // === HANDSHAKE (continued) ===
         this._events.set(3129, IsFirstLoginOfDayMessageEvent);
+
+        // === NEW NAVIGATOR ===
+        this._events.set(3718, NavigatorMetaDataMessageEvent);
+        this._events.set(1245, NavigatorSearchResultSetMessageEvent);
+        this._events.set(1134, NavigatorSavedSearchesMessageEvent);
+        this._events.set(1310, NavigatorLiftedRoomsMessageEvent);
+        this._events.set(1396, NavigatorCollapsedCategoriesMessageEvent);
+        this._events.set(3658, NavigatorWindowSettingsMessageEvent);
     }
 
     /**
@@ -140,13 +249,57 @@ export class HabboMessages implements IMessageConfiguration {
         this._composers.set(1390, UniqueIDMessageComposer);
 
         // === SESSION ===
-        this._composers.set(2596, PongMessageComposer);
+        this._composers.set(2331, PongMessageComposer);
         this._composers.set(1113, DisconnectMessageComposer);
         this._composers.set(245, InfoRetrieveMessageComposer);
 
         // === TRACKING ===
         this._composers.set(2297, EventLogMessageComposer);
 
-        // TODO: Add more message composers as needed...
+        // === NAVIGATOR ===
+        this._composers.set(1561, GetGuestRoomMessageComposer);
+        this._composers.set(3526, CreateFlatMessageComposer);
+        this._composers.set(915, AddFavouriteRoomMessageComposer);
+        this._composers.set(79, DeleteFavouriteRoomMessageComposer);
+        this._composers.set(3236, RoomTextSearchMessageComposer);
+        this._composers.set(324, PopularRoomsSearchMessageComposer);
+        this._composers.set(3540, MyRoomsSearchMessageComposer);
+        this._composers.set(2673, MyFavouriteRoomsSearchMessageComposer);
+        this._composers.set(2089, GetOfficialRoomsMessageComposer);
+        this._composers.set(2897, CanCreateRoomMessageComposer);
+        this._composers.set(315, GetUserFlatCatsMessageComposer);
+        this._composers.set(1679, GetUserEventCatsMessageComposer);
+        this._composers.set(2188, UpdateHomeRoomMessageComposer);
+        this._composers.set(2080, RateFlatMessageComposer);
+        this._composers.set(1210, ToggleStaffPickMessageComposer);
+        this._composers.set(3900, GetPopularRoomTagsMessageComposer);
+        this._composers.set(2171, MyFriendsRoomsSearchMessageComposer);
+        this._composers.set(524, ForwardToSomeRoomMessageComposer);
+        this._composers.set(2889, ConvertGlobalRoomIdMessageComposer);
+        this._composers.set(1684, CancelEventMessageComposer);
+        this._composers.set(692, EditEventMessageComposer);
+        this._composers.set(3578, CompetitionRoomsSearchMessageComposer);
+        this._composers.set(1890, RoomsWithHighestScoreSearchMessageComposer);
+        this._composers.set(1105, RoomsWhereMyFriendsAreSearchMessageComposer);
+        this._composers.set(3392, MyRoomHistorySearchMessageComposer);
+        this._composers.set(3783, MyFrequentRoomHistorySearchMessageComposer);
+        this._composers.set(283, MyRoomRightsSearchMessageComposer);
+        this._composers.set(3530, MyGuildBasesSearchMessageComposer);
+        this._composers.set(1686, MyRecommendedRoomsMessageComposer);
+        this._composers.set(2806, GuildBaseSearchMessageComposer);
+        this._composers.set(790, SetRoomSessionTagsMessageComposer);
+        this._composers.set(1526, RoomAdSearchMessageComposer);
+        this._composers.set(1189, RemoveOwnRoomRightsRoomMessageComposer);
+        this._composers.set(1199, RoomAdEventTabAdClickedComposer);
+        this._composers.set(1472, RoomAdEventTabViewedComposer);
+
+        // === NEW NAVIGATOR ===
+        this._composers.set(3032, NewNavigatorInitComposer);
+        this._composers.set(657, NewNavigatorSearchComposer);
+        this._composers.set(403, NavigatorAddSavedSearchComposer);
+        this._composers.set(3162, NavigatorDeleteSavedSearchComposer);
+        this._composers.set(494, NavigatorAddCollapsedCategoryMessageComposer);
+        this._composers.set(141, NavigatorRemoveCollapsedCategoryMessageComposer);
+        this._composers.set(1108, NavigatorSetSearchCodeViewModeMessageComposer);
     }
 }

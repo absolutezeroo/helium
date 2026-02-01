@@ -38,7 +38,7 @@ export class ConfigurationManager extends EventEmitter<ConfigurationManagerEvent
         return this._environmentId;
     }
 
-    private _useHttps: boolean = true;
+    private _useHttps: boolean = false;
 
     get useHttps(): boolean {
         return this._useHttps;
@@ -119,10 +119,13 @@ export class ConfigurationManager extends EventEmitter<ConfigurationManagerEvent
      */
     getInteger(key: string, defaultValue: number = 0): number {
         const value = this._data.get(key);
+
         if (value === undefined) {
             return defaultValue;
         }
+
         const parsed = parseInt(value, 10);
+
         return isNaN(parsed) ? defaultValue : parsed;
     }
 
@@ -135,16 +138,20 @@ export class ConfigurationManager extends EventEmitter<ConfigurationManagerEvent
         }
 
         const regex = /\$\{([^}]*)\}/g;
+
         let interpolated = value;
         let limit = ConfigurationManager.INTERPOLATION_DEPTH_LIMIT;
 
         while (limit-- > 0) {
             let hasMatch = false;
+
             interpolated = interpolated.replace(regex, (match, key) => {
                 if (!this.propertyExists(key)) {
                     return match; // Keep original if key doesn't exist
                 }
+
                 hasMatch = true;
+
                 return this._data.get(key) || '';
             });
 
@@ -171,20 +178,27 @@ export class ConfigurationManager extends EventEmitter<ConfigurationManagerEvent
             log.info(`Loading configuration from ${url}`);
 
             const response = await fetch(url);
+
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             }
 
             const text = await response.text();
+
             this.parseConfiguration(text);
 
             this._initialized = true;
+
             log.success('Configuration loaded');
+
             this.emit('loaded');
         } catch (error) {
             const err = error instanceof Error ? error : new Error(String(error));
+
             log.error(`Failed to load configuration: ${err.message}`);
+
             this.emit('error', err);
+
             throw err;
         }
     }
@@ -196,8 +210,11 @@ export class ConfigurationManager extends EventEmitter<ConfigurationManagerEvent
         for (const [key, value] of Object.entries(config)) {
             this.setProperty(key, value);
         }
+
         this._initialized = true;
+
         log.success('Configuration loaded from object');
+
         this.emit('loaded');
     }
 
@@ -208,7 +225,9 @@ export class ConfigurationManager extends EventEmitter<ConfigurationManagerEvent
         this._data.clear();
         this._persistentKeys.clear();
         this._initialized = false;
+
         this.setDefaults();
+
         log.info('Configuration reset');
     }
 
@@ -221,8 +240,10 @@ export class ConfigurationManager extends EventEmitter<ConfigurationManagerEvent
         }
 
         this._environmentId = envId;
+
         this.setProperty('environment.id', envId);
         this.updateEnvironmentVariables();
+
         log.info(`Environment set to: ${envId}`);
     }
 
@@ -231,9 +252,11 @@ export class ConfigurationManager extends EventEmitter<ConfigurationManagerEvent
      */
     toObject(): Record<string, string> {
         const result: Record<string, string> = {};
+
         for (const [key, value] of this._data) {
             result[key] = value;
         }
+
         return result;
     }
 
@@ -253,6 +276,7 @@ export class ConfigurationManager extends EventEmitter<ConfigurationManagerEvent
         if (this._useHttps) {
             return url.replace('http://', 'https://');
         }
+
         return url;
     }
 
@@ -286,6 +310,7 @@ export class ConfigurationManager extends EventEmitter<ConfigurationManagerEvent
 
             // Find first = sign
             const eqIndex = trimmed.indexOf('=');
+
             if (eqIndex === -1) {
                 continue;
             }
@@ -320,6 +345,7 @@ export class ConfigurationManager extends EventEmitter<ConfigurationManagerEvent
             const envKey = `${key}.${this._environmentId}`;
             if (this.propertyExists(envKey)) {
                 const envValue = this._data.get(envKey)!;
+
                 this.setProperty(key, envValue);
             }
         }

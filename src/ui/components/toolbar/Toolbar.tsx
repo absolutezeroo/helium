@@ -1,5 +1,5 @@
 import {Component, For} from 'solid-js';
-import {sessionStore} from '../../stores';
+import {sessionStore, navigatorStore} from '../../stores';
 
 interface ToolbarIcon {
     id: string;
@@ -18,8 +18,37 @@ export const Toolbar: Component = () => {
     ];
 
     const handleIconClick = (iconId: string) => {
-        // TODO: Handle toolbar icon clicks
-        console.log('Toolbar icon clicked:', iconId);
+        switch (iconId) {
+            case 'navigator':
+                if (navigatorStore.isOpen()) {
+                    navigatorStore.closeNavigator();
+                } else {
+                    navigatorStore.openNavigator();
+                }
+                break;
+            case 'hotel':
+                // TODO: Implement hotel view
+                console.log('Hotel view clicked');
+                break;
+            case 'catalog':
+                // TODO: Implement catalog
+                console.log('Catalog clicked');
+                break;
+            case 'inventory':
+                // TODO: Implement inventory
+                console.log('Inventory clicked');
+                break;
+            case 'friends':
+                // TODO: Implement friends
+                console.log('Friends clicked');
+                break;
+            case 'me':
+                // TODO: Implement me menu
+                console.log('Me menu clicked');
+                break;
+            default:
+                console.log('Toolbar icon clicked:', iconId);
+        }
     };
 
     return (
@@ -32,7 +61,7 @@ export const Toolbar: Component = () => {
                 <For each={icons}>
                     {(icon) => (
                         <button
-                            class="toolbar-icon"
+                            class={`toolbar-icon ${icon.id === 'navigator' && navigatorStore.isOpen() ? 'active' : ''}`}
                             title={icon.label}
                             onClick={() => handleIconClick(icon.id)}
                         >

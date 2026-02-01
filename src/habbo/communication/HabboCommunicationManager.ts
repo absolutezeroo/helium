@@ -1,12 +1,12 @@
 import {inject, injectable} from 'inversify';
 import {TYPES} from '@iid/types';
-import {ArcFour} from '@core/communication/encryption/ArcFour';
-import {DiffieHellman} from '@core/communication/encryption/DiffieHellman';
+import {ArcFour} from '@habbo/communication/encryption/ArcFour';
+import {DiffieHellman} from '@habbo/communication/encryption/DiffieHellman';
 import {Logger} from '@core/utils/Logger';
 import {HabboMessages} from './HabboMessages';
 import {IncomingMessages} from './demo/IncomingMessages';
 import {SessionDataManager} from '../session/SessionDataManager';
-import {uiBridge} from '@ui/UIBridge';
+import {uiBridge} from '@ui/uiBridge';
 import type {IHabboCommunicationManager} from './IHabboCommunicationManager';
 import type {ICoreCommunicationManager} from '@core/communication/ICoreCommunicationManager';
 import type {IConnection} from '@core/communication/connection/IConnection';
@@ -14,7 +14,7 @@ import type {IConnectionCallback} from '@core/communication/connection/IConnecti
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
 import type {IMessageConfiguration} from '@core/communication/messages/IMessageConfiguration';
 import type {IEncryption} from '@core/communication/encryption/IEncryption';
-import type {IKeyExchange} from '@core/communication/encryption/IKeyExchange';
+import type {IKeyExchange} from '@core/communication/handshake/IKeyExchange';
 import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
 import type {ISessionDataManager} from '../session/ISessionDataManager';
 
@@ -35,6 +35,7 @@ export class HabboCommunicationManager implements IHabboCommunicationManager, IC
     private portIndex: number = -1;
     private connectionAttempt: number = 1;
     private maxConnectionAttempts: number = 2;
+    private pendingMessageEvents: IMessageEvent[] = [];
 
     constructor(
         @inject(TYPES.CommunicationManager) communicationManager: ICoreCommunicationManager
@@ -91,6 +92,15 @@ export class HabboCommunicationManager implements IHabboCommunicationManager, IC
         if (!this._connection) {
             this._connection = this.communicationManager.createConnection(this);
             this._connection.registerMessageClasses(this.messageConfig);
+
+            // Flush pending message events
+            if (this.pendingMessageEvents.length > 0) {
+                log.debug(`Flushing ${this.pendingMessageEvents.length} pending message events`);
+                for (const event of this.pendingMessageEvents) {
+                    this._connection.addMessageEvent(event);
+                }
+                this.pendingMessageEvents = [];
+            }
         }
 
         // Dispose previous instances
@@ -111,12 +121,25 @@ export class HabboCommunicationManager implements IHabboCommunicationManager, IC
     }
 
     addMessageEvent(event: IMessageEvent): IMessageEvent {
-        this._connection?.addMessageEvent(event);
+        if (this._connection) {
+            this._connection.addMessageEvent(event);
+        } else {
+            // Buffer events until connection is established
+            this.pendingMessageEvents.push(event);
+        }
         return event;
     }
 
     removeMessageEvent(event: IMessageEvent): void {
-        this._connection?.removeMessageEvent(event);
+        if (this._connection) {
+            this._connection.removeMessageEvent(event);
+        } else {
+            // Remove from pending events if not yet registered
+            const index = this.pendingMessageEvents.indexOf(event);
+            if (index !== -1) {
+                this.pendingMessageEvents.splice(index, 1);
+            }
+        }
     }
 
     createEncryption(): IEncryption {

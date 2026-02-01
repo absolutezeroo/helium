@@ -1,12 +1,11 @@
 import {EventEmitter} from 'eventemitter3';
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
 import type {IEncryption} from '@core/communication/encryption/IEncryption';
-import type {IKeyExchange} from '@core/communication/encryption/IKeyExchange';
+import type {IKeyExchange} from '@core/communication/handshake/IKeyExchange';
 import {CryptoTools} from '@core/communication/encryption/CryptoTools';
 import {RSA} from '@core/communication/encryption/RSA';
 import {SocketConnection} from '@core/communication/connection/SocketConnection';
 import {Logger} from '@core/utils/Logger';
-import {uiBridge} from '@ui/UIBridge';
 import type {IHabboCommunicationManager} from '../IHabboCommunicationManager';
 
 // Events
@@ -40,6 +39,7 @@ import {
 } from '../messages/outgoing/handshake';
 
 import {EventLogMessageComposer} from '../messages/outgoing/tracking';
+import {uiBridge} from "@/ui";
 
 const log = Logger.getLogger('Handshake');
 
@@ -97,6 +97,7 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents> {
 
     dispose(): void {
         const connection = this._communication.connection as SocketConnection;
+
         if (connection) {
             connection.off('connected', this._boundOnConnected);
             connection.off('disconnected', this._boundOnDisconnected);
@@ -105,8 +106,10 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents> {
         for (const event of this._messageEvents) {
             this._communication.removeMessageEvent(event);
         }
+
         this._messageEvents = [];
         this._keyExchange = null;
+
         this.removeAllListeners();
     }
 
@@ -117,26 +120,35 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents> {
 
     private onConnectionEstablished(): void {
         const connection = this._communication.connection;
+
         if (!connection) {
             log.error('No connection available');
             return;
         }
 
         this.emit('loginStep', 'HABBO_CONNECTION_EVENT_ESTABLISHED');
+
         this._wasDisconnected = false;
         this._isHandshaking = true;
+
         this.emit('loginStep', 'HABBO_CONNECTION_EVENT_HANDSHAKING');
 
         log.info('Starting handshake...');
+
         connection.sendUnencrypted(new ClientHelloMessageComposer());
         connection.sendUnencrypted(new InitDiffieHandshakeMessageComposer());
     }
 
     private onInitDiffieHandshake(event: IMessageEvent): void {
         const connection = event.connection;
+
         if (!connection) return;
 
+        if (!event) return;
+
         const parser = event.parser as InitDiffieHandshakeMessageParser;
+
+        if (!parser) return;
 
         // Decrypt prime and generator using RSA
         const primeDecimal = this._rsa.decryptString(parser.encryptedPrime);
@@ -183,9 +195,14 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents> {
 
     private onCompleteDiffieHandshake(event: IMessageEvent): void {
         const connection = event.connection;
+
         if (!connection || !this._keyExchange) return;
 
+        if (!event) return;
+
         const parser = event.parser as CompleteDiffieHandshakeMessageParser;
+
+        if (!parser) return;
 
         // Decrypt server's public key using RSA
         const serverPublicKey = this._rsa.decryptString(parser.encryptedPublicKey);
@@ -195,6 +212,7 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents> {
 
         if (!this._keyExchange.isValidServerPublicKey()) {
             log.error('Invalid server public key');
+
             return;
         }
 
@@ -203,20 +221,25 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents> {
         const keyBytes = CryptoTools.hexStringToByteArray(sharedKeyHex);
 
         const clientToServer = this._communication.createEncryption();
+
         clientToServer.init(keyBytes);
 
         let serverToClient: IEncryption | null = null;
+
         if (parser.serverClientEncryption) {
             serverToClient = this._communication.createEncryption();
+
             serverToClient.init(CryptoTools.hexStringToByteArray(sharedKeyHex));
         }
 
         connection.setEncryption(clientToServer, serverToClient!);
 
         this._isHandshaking = false;
+
         this.emit('loginStep', 'HABBO_CONNECTION_EVENT_HANDSHAKED');
 
         log.success('Encryption enabled');
+
         this.sendConnectionParameters(connection);
     }
 
@@ -231,8 +254,10 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents> {
         ));
 
         const ssoTicket = this._communication.ssoTicket;
+
         if (ssoTicket && ssoTicket.length > 0) {
             connection.send(new SSOTicketMessageComposer(ssoTicket, this.getTimer()));
+
             log.info('SSO ticket sent');
         } else {
             log.warn('No SSO ticket available');
@@ -241,9 +266,11 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents> {
 
     private onAuthenticationOK(event: IMessageEvent): void {
         const connection = event.connection;
+
         if (!connection) return;
 
         log.success('Authenticated');
+
         this.emit('loginStep', 'HABBO_CONNECTION_EVENT_AUTHENTICATED');
 
         // Notify UI that authentication succeeded
@@ -256,11 +283,17 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents> {
     }
 
     private onPing(event: IMessageEvent): void {
+        if (!event) return;
+
         event.connection?.send(new PongMessageComposer());
     }
 
     private onDisconnectReason(event: IMessageEvent): void {
+        if (!event) return;
+
         const parser = event.parser as DisconnectReasonMessageParser;
+
+        if (!parser) return;
 
         if (this._isHandshaking) {
             this.emit('loginStep', 'HABBO_CONNECTION_EVENT_HANDSHAKE_FAIL');
@@ -274,7 +307,12 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents> {
     }
 
     private onGenericError(event: IMessageEvent): void {
+        if (!event) return;
+
         const parser = event.parser as GenericErrorMessageParser;
+
+        if (!parser) return;
+
         log.error(`Server error: ${parser.errorCode}`);
         this.emit('error', parser.errorCode, `Error ${parser.errorCode}`);
     }
@@ -295,25 +333,32 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents> {
 
     private generateRandomHexString(byteLength: number): string {
         let result = '';
+
         for (let i = 0; i < byteLength; i++) {
             const byte = Math.floor(Math.random() * 255);
+
             result += byte.toString(16).padStart(2, '0');
         }
+
         return result;
     }
 
     private getMachineId(): string {
         let machineId = localStorage.getItem('helium_machine_id');
+
         if (!machineId) {
             machineId = this.generateRandomHexString(16);
+
             localStorage.setItem('helium_machine_id', machineId);
         }
+
         return machineId;
     }
 
     private generateFingerprint(): string {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
+
         if (ctx) {
             ctx.textBaseline = 'top';
             ctx.font = '14px Arial';
@@ -329,10 +374,12 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents> {
         ].join('|');
 
         let hash = 0;
+
         for (let i = 0; i < data.length; i++) {
             hash = ((hash << 5) - hash) + data.charCodeAt(i);
             hash = hash & hash;
         }
+
         return Math.abs(hash).toString(16);
     }
 

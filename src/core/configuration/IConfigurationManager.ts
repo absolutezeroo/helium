@@ -10,7 +10,6 @@ export interface ConfigurationManagerEvents {
 
 /**
  * Interface for configuration manager
- * Based on AS3 com.sulake.core.runtime.ICoreConfiguration
  */
 export interface IConfigurationManager extends EventEmitter<ConfigurationManagerEvents> {
     /**

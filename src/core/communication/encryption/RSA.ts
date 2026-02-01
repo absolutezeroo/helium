@@ -3,9 +3,9 @@
  * Uses the standard Habbo public key with exponent 3
  */
 export class RSA {
-    // Standard Habbo RSA public key
     private static readonly DEFAULT_MODULUS = '86851DD364D5C5CECE3C883171CC6DDC5760779B992482BD1E20DD296888DF91B33B936A7B93F06D29E8870F703A216257DEC7C81DE0058FEA4CC5116F75E6EFC4E9113513E45357DC3FD43D4EFAB5963EF178B78BD61E81A14C603B24C8BCCE0A12230B320045498EDC29282FF0603BC7B7DAE8FC1B05B52B2F301A9DC783B7';
     private static readonly DEFAULT_EXPONENT = '3';
+
     private readonly modulus: bigint;
     private readonly exponent: bigint;
     private readonly blockSize: number;
@@ -68,6 +68,7 @@ export class RSA {
         const bytes = new TextEncoder().encode(value);
         const padded = this.addPKCS1Padding(bytes);
         const encrypted = this.encrypt(padded);
+
         return this.bytesToHex(encrypted);
     }
 
@@ -76,13 +77,16 @@ export class RSA {
      */
     private modPow(base: bigint, exp: bigint, mod: bigint): bigint {
         let result = 1n;
+
         base = base % mod;
 
         while (exp > 0n) {
             if (exp % 2n === 1n) {
                 result = (result * base) % mod;
             }
+
             exp = exp / 2n;
+
             base = (base * base) % mod;
         }
 
@@ -94,9 +98,11 @@ export class RSA {
      */
     private bytesToBigInt(bytes: Uint8Array): bigint {
         let hex = '';
+
         for (const byte of bytes) {
             hex += byte.toString(16).padStart(2, '0');
         }
+
         return hex.length > 0 ? BigInt('0x' + hex) : 0n;
     }
 
@@ -105,11 +111,13 @@ export class RSA {
      */
     private bigIntToBytes(value: bigint, minLength?: number): Uint8Array {
         let hex = value.toString(16);
+
         if (hex.length % 2 !== 0) {
             hex = '0' + hex;
         }
 
         const bytes = new Uint8Array(hex.length / 2);
+
         for (let i = 0; i < bytes.length; i++) {
             bytes[i] = parseInt(hex.substr(i * 2, 2), 16);
         }
@@ -117,7 +125,9 @@ export class RSA {
         // Pad to minimum length if needed
         if (minLength && bytes.length < minLength) {
             const padded = new Uint8Array(minLength);
+
             padded.set(bytes, minLength - bytes.length);
+
             return padded;
         }
 
@@ -131,10 +141,13 @@ export class RSA {
         if (hex.length % 2 !== 0) {
             hex = '0' + hex;
         }
+
         const bytes = new Uint8Array(hex.length / 2);
+
         for (let i = 0; i < bytes.length; i++) {
             bytes[i] = parseInt(hex.substr(i * 2, 2), 16);
         }
+
         return bytes;
     }
 
@@ -143,9 +156,11 @@ export class RSA {
      */
     private bytesToHex(bytes: Uint8Array): string {
         let hex = '';
+
         for (const byte of bytes) {
             hex += byte.toString(16).padStart(2, '0');
         }
+
         return hex;
     }
 
@@ -180,6 +195,7 @@ export class RSA {
 
         // Return the remaining data as string
         const result = data.slice(i);
+
         return new TextDecoder().decode(result);
     }
 
@@ -195,6 +211,7 @@ export class RSA {
         }
 
         const padded = new Uint8Array(this.blockSize);
+
         padded[0] = 0x00;
         padded[1] = 0x02;
 

@@ -1,0 +1,11 @@
+export type {ILocalizable} from './ILocalizable';
+export type {ILocalization} from './ILocalization';
+export type {ILocalizationDefinition} from './ILocalizationDefinition';
+export type {IGameDataResources} from './IGameDataResources';
+export type {ICoreLocalizationManager, LocalizationManagerEvents} from './ICoreLocalizationManager';
+export {LocalizationDefinition} from './LocalizationDefinition';
+export {Localization} from './Localization';
+export {GameDataResources} from './GameDataResources';
+export {LocalizationEvent} from './LocalizationEvent';
+export type {LocalizationEventType} from './LocalizationEvent';
+export {CoreLocalizationManager} from './CoreLocalizationManager';

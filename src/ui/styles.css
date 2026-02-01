@@ -280,6 +280,17 @@ body {
     transform: translateY(0);
 }
 
+.toolbar-icon.active {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: white;
+}
+
+.toolbar-icon.active:hover {
+    background: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+}
+
 .icon-emoji {
     font-size: 1.25rem;
 }

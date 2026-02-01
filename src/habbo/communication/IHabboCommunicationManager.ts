@@ -1,7 +1,7 @@
 import type {IConnection} from '@core/communication/connection/IConnection';
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
 import type {IEncryption} from '@core/communication/encryption/IEncryption';
-import type {IKeyExchange} from '@core/communication/encryption/IKeyExchange';
+import type {IKeyExchange} from '@core/communication/handshake/IKeyExchange';
 import type {ISessionDataManager} from '../session/ISessionDataManager';
 
 /**
@@ -12,14 +12,17 @@ export interface IHabboCommunicationManager {
      * Get the main Habbo connection
      */
     readonly connection: IConnection | null;
+
     /**
      * Get the session data manager
      */
     readonly sessionDataManager: ISessionDataManager | null;
+
     /**
      * Whether currently connected to server
      */
     readonly isConnected: boolean;
+
     /**
      * Get the SSO ticket for authentication
      */
