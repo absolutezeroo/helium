@@ -153,7 +153,9 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
             for (const wrapper of messages) {
                 const messageId = wrapper.getMessageId();
                 const messageName = this.messageRegistry.getIncomingMessageName(messageId);
+
                 this.callback?.messageReceived?.(messageId, messageName);
+
                 this.emit('message', messageId);
 
                 const events = this.messageRegistry.getMessageEventsForId(messageId);

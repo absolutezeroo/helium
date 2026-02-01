@@ -15,6 +15,7 @@ import type {
 import type {IHabboCommunicationManager} from '../communication/IHabboCommunicationManager';
 import {TYPES} from '@iid/types';
 import {Logger} from '@core/utils/Logger';
+import {ViewModeCode} from './view';
 
 // Composers
 import {
@@ -53,7 +54,7 @@ export class HabboNewNavigator extends EventEmitter<HabboNewNavigatorEvents> imp
     private _currentResults: NavigatorSearchResultSet | null = null;
     private _collapsedCategories: string[] = [];
     private _noPushToHistoryDueToNavigation: boolean = false;
-    private _lastSearchCode: string = 'official_view';
+    private _lastSearchCode: string = ViewModeCode.OFFICIAL_VIEW;
     private _lastFiltering: string = '';
 
     constructor(
@@ -227,11 +228,11 @@ export class HabboNewNavigator extends EventEmitter<HabboNewNavigatorEvents> imp
         if (searchTag.indexOf(' ') !== -1) {
             searchTag = '"' + searchTag + '"';
         }
-        this.performSearch('hotel_view', 'tag:' + searchTag);
+        this.performSearch(ViewModeCode.HOTEL_VIEW, 'tag:' + searchTag);
     }
 
     performTextSearch(text: string): void {
-        this.performSearch('hotel_view', text);
+        this.performSearch(ViewModeCode.HOTEL_VIEW, text);
     }
 
     goBack(): void {

@@ -3,6 +3,7 @@ import {Logger} from '@core/utils/Logger';
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
 import type {IHabboCommunicationManager} from '../communication/IHabboCommunicationManager';
 import type {ISessionDataManager, SessionDataManagerEvents} from './ISessionDataManager';
+import {HabboClubLevelEnum} from './enum';
 
 // Events
 import {UserObjectMessageEvent} from '../communication/messages/incoming/handshake/UserObjectMessageEvent';
@@ -268,11 +269,11 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
     }
 
     get hasVip(): boolean {
-        return this._clubLevel >= 2;
+        return this._clubLevel >= HabboClubLevelEnum.VIP;
     }
 
     get hasClub(): boolean {
-        return this._clubLevel >= 1;
+        return this._clubLevel >= HabboClubLevelEnum.CLUB;
     }
 
     get isNoob(): boolean {
@@ -386,7 +387,11 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
      * Contains main user data after login
      */
     private onUserObject(event: IMessageEvent): void {
+        if (!event) return;
+
         const parser = event.parser as UserObjectMessageParser;
+
+        if(!parser) return;
 
         this._userId = parser.id;
         this._userName = parser.name;
@@ -404,7 +409,6 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
         this._accountSafetyLocked = parser.accountSafetyLocked;
 
         log.success(`User loaded: ${this._userName} (ID: ${this._userId})`);
-        log.debug(`Figure: ${this._figure}`);
 
         this.emit('userDataUpdated');
     }
@@ -414,7 +418,11 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
      * Contains club level and security permissions
      */
     private onUserRights(event: IMessageEvent): void {
+        if (!event) return;
+
         const parser = event.parser as UserRightsMessageParser;
+
+        if(!parser) return;
 
         this._clubLevel = parser.clubLevel;
         this._securityLevel = parser.securityLevel;
@@ -430,7 +438,11 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
      * Indicates if user is new
      */
     private onNoobnessLevel(event: IMessageEvent): void {
+        if (!event) return;
+
         const parser = event.parser as NoobnessLevelMessageParser;
+
+        if(!parser) return;
 
         this._noobnessLevel = parser.noobnessLevel;
 
@@ -442,7 +454,11 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
      * Indicates hotel open/shutdown status
      */
     private onAvailabilityStatus(event: IMessageEvent): void {
+        if (!event) return;
+
         const parser = event.parser as AvailabilityStatusMessageParser;
+
+        if(!parser) return;
 
         this._systemOpen = parser.isOpen;
         this._systemShutDown = parser.onShutDown;
@@ -458,7 +474,11 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
      * Sent when avatar appearance changes
      */
     private onFigureUpdate(event: IMessageEvent): void {
+        if (!event) return;
+
         const parser = event.parser as FigureUpdateMessageParser;
+
+        if(!parser) return;
 
         this._figure = parser.figure;
         this._gender = parser.gender;
@@ -472,8 +492,14 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
      * Handle first login of day event
      */
     private onIsFirstLoginOfDay(event: IMessageEvent): void {
+        if (!event) return;
+
         const parser = event.parser as IsFirstLoginOfDayMessageParser;
+
+        if(!parser) return;
+
         this._isFirstLoginOfDay = parser.isFirstLoginOfDay;
+
         log.debug(`First login of day: ${this._isFirstLoginOfDay}`);
     }
 
@@ -481,7 +507,11 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
      * Handle navigator settings event
      */
     private onNavigatorSettings(event: IMessageEvent): void {
+        if (!event) return;
+
         const parser = event.parser as NavigatorSettingsMessageParser;
+
+        if(!parser) return;
 
         this._homeRoomId = parser.homeRoomId;
         this._roomIdToEnter = parser.roomIdToEnter;
@@ -495,7 +525,11 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
      * Handle favourites event
      */
     private onFavourites(event: IMessageEvent): void {
+        if (!event) return;
+
         const parser = event.parser as FavouritesMessageParser;
+
+        if(!parser) return;
 
         this._favouriteRoomsLimit = parser.limit;
         this._favouriteRooms = [...parser.favouriteRoomIds];
@@ -509,7 +543,11 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
      * Handle activity points event
      */
     private onActivityPoints(event: IMessageEvent): void {
+        if (!event) return;
+
         const parser = event.parser as ActivityPointsMessageParser;
+
+        if(!parser) return;
 
         this._activityPoints = new Map(parser.points);
 
@@ -522,8 +560,14 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
      * Handle info feed enable event
      */
     private onInfoFeedEnable(event: IMessageEvent): void {
+        if (!event) return;
+
         const parser = event.parser as InfoFeedEnableMessageParser;
+
+        if(!parser) return;
+
         this._infoFeedEnabled = parser.enabled;
+
         log.debug(`Info feed enabled: ${this._infoFeedEnabled}`);
     }
 
@@ -531,7 +575,11 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
      * Handle achievements score event
      */
     private onAchievementsScore(event: IMessageEvent): void {
+        if (!event) return;
+
         const parser = event.parser as AchievementsScoreMessageParser;
+
+        if(!parser) return;
 
         this._achievementScore = parser.score;
 
@@ -544,7 +592,11 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
      * Handle figure set ids event
      */
     private onFigureSetIds(event: IMessageEvent): void {
+        if (!event) return;
+
         const parser = event.parser as FigureSetIdsMessageParser;
+
+        if(!parser) return;
 
         this._figureSetIds = [...parser.figureSetIds];
         this._boundFurnitureNames = [...parser.boundFurnitureNames];
@@ -556,20 +608,26 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
      * Handle avatar effects event
      */
     private onAvatarEffects(event: IMessageEvent): void {
+        if (!event) return;
+
         const parser = event.parser as AvatarEffectsMessageParser;
+
+        if(!parser) return;
 
         this._avatarEffects = [...parser.effects];
 
         log.debug(`Avatar effects: ${this._avatarEffects.length}`);
     }
 
-    // ========== Methods ==========
-
     /**
      * Handle mystery box keys event
      */
     private onMysteryBoxKeys(event: IMessageEvent): void {
+        if (!event) return;
+
         const parser = event.parser as MysteryBoxKeysMessageParser;
+
+        if(!parser) return;
 
         this._mysteryBoxColor = parser.boxColor;
         this._mysteryBoxKeyColor = parser.keyColor;
@@ -581,7 +639,11 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
      * Handle builders club subscription status event
      */
     private onBuildersClubStatus(event: IMessageEvent): void {
+        if (!event) return;
+
         const parser = event.parser as BuildersClubSubscriptionStatusMessageParser;
+
+        if(!parser) return;
 
         this._buildersClubSecondsLeft = parser.secondsLeft;
         this._buildersClubFurniLimit = parser.furniLimit;

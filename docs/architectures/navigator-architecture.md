@@ -10,10 +10,10 @@ This document categorizes all AS3 navigator files into **ENGINE** (business logi
 
 | Category          | Count | Done | Description                                            |
 |-------------------|-------|------|--------------------------------------------------------|
-| ENGINE (Required) | 25    | 17   | Business logic, data models, message handlers, caching |
+| ENGINE (Required) | 25    | 20   | Business logic, data models, message handlers, caching |
 | VIEW (Ignore)     | 45+   | N/A  | UI components, rendering, display controllers          |
 
-**Progress: ~68% ENGINE files implemented**
+**Progress: ~80% ENGINE files implemented**
 
 ---
 
@@ -55,9 +55,9 @@ This document categorizes all AS3 navigator files into **ENGINE** (business logi
 
 ### Lift (Promoted/Lifted Rooms)
 
-| AS3 File                    | Purpose                          | TS Equivalent               | Status |
-|-----------------------------|----------------------------------|-----------------------------|--------|
-| `lift/LiftDataContainer.as` | Container for promoted room data | `lift/LiftDataContainer.ts` | TODO   |
+| AS3 File                    | Purpose                          | TS Equivalent               | Status  |
+|-----------------------------|----------------------------------|-----------------------------|---------|
+| `lift/LiftDataContainer.as` | Container for promoted room data | `lift/LiftDataContainer.ts` | ✅ Done |
 
 ### Events (Tracking)
 
@@ -70,8 +70,8 @@ This document categorizes all AS3 navigator files into **ENGINE** (business logi
 
 | AS3 File                                 | Purpose                                | TS Equivalent             | Status  |
 |------------------------------------------|----------------------------------------|---------------------------|---------|
-| `view/search/ViewMode.as`                | VIEW_MODE constants (LIST, THUMBNAILS) | `view/ViewMode.ts`        | TODO    |
-| `view/search/results/ResultsModeEnum.as` | Results mode enumeration               | `view/ResultsModeEnum.ts` | TODO    |
+| `view/search/ViewMode.as`                | VIEW_MODE constants (LIST, THUMBNAILS) | `view/ViewMode.ts`        | ✅ Done |
+| `view/search/results/ResultsModeEnum.as` | Results mode enumeration               | `view/ResultsModeEnum.ts` | ✅ Done |
 | `view/search/results/RoomEntryUtils.as`  | Room entry utility functions           | `view/RoomEntryUtils.ts`  | TODO    |
 
 ### Transitional (Legacy Bridge)

@@ -5,20 +5,20 @@ import type {HabboNewNavigator} from './HabboNewNavigator';
 
 // Message events
 import {
-    NavigatorMetaDataMessageEvent,
-    NavigatorSearchResultSetMessageEvent,
-    NavigatorSavedSearchesMessageEvent,
-    NavigatorLiftedRoomsMessageEvent,
     NavigatorCollapsedCategoriesMessageEvent,
+    NavigatorLiftedRoomsMessageEvent,
+    NavigatorMetaDataMessageEvent,
+    NavigatorSavedSearchesMessageEvent,
+    NavigatorSearchResultSetMessageEvent,
 } from '../communication/messages/incoming/newnavigator';
 
 // Parsers
 import {
-    NavigatorMetaDataMessageParser,
-    NavigatorSearchResultSetMessageParser,
-    NavigatorSavedSearchesMessageParser,
-    NavigatorLiftedRoomsMessageParser,
     NavigatorCollapsedCategoriesMessageParser,
+    NavigatorLiftedRoomsMessageParser,
+    NavigatorMetaDataMessageParser,
+    NavigatorSavedSearchesMessageParser,
+    NavigatorSearchResultSetMessageParser,
 } from '../communication/messages/parser/newnavigator';
 
 import {Logger} from '@core/utils/Logger';
@@ -70,40 +70,71 @@ export class NewIncomingMessages {
         for (const event of this._messageEvents) {
             this._communication.removeMessageEvent(event);
         }
+        
         this._messageEvents = [];
     }
 
     // ========== Message Handlers ==========
 
     private onNavigatorMetaData(event: IMessageEvent): void {
+        if(!event) return;
+
         const parser = event.parser as NavigatorMetaDataMessageParser;
+
+        if(!parser) return;
+
         this._navigator.initialize(parser.topLevelContexts);
+
         log.info(`Navigator metadata received: ${parser.topLevelContexts.length} contexts`);
     }
 
     private onNavigatorSearchResultSet(event: IMessageEvent): void {
+        if(!event) return;
+
         const parser = event.parser as NavigatorSearchResultSetMessageParser;
-        if (parser.searchResult) {
-            this._navigator.onSearchResult(parser.searchResult);
-            log.debug(`Search results: ${parser.searchResult.blocks.length} blocks`);
-        }
+
+        if(!parser) return;
+
+        if(!parser.searchResult) return;
+
+        this._navigator.onSearchResult(parser.searchResult);
+
+        log.debug(`Search results: ${parser.searchResult.blocks.length} blocks`);
     }
 
     private onSavedSearches(event: IMessageEvent): void {
+        if(!event) return;
+
         const parser = event.parser as NavigatorSavedSearchesMessageParser;
+
+        if(!parser) return;
+
         this._navigator.onSavedSearches(parser.savedSearches);
+
         log.debug(`Saved searches: ${parser.savedSearches.length}`);
     }
 
     private onLiftedRooms(event: IMessageEvent): void {
+        if(!event) return;
+
         const parser = event.parser as NavigatorLiftedRoomsMessageParser;
+
+        if(!parser) return;
+
         this._navigator.onLiftedRooms(parser.liftedRooms);
+
         log.debug(`Lifted rooms: ${parser.liftedRooms.length}`);
     }
 
     private onCollapsedCategories(event: IMessageEvent): void {
+        if(!event) return;
+
         const parser = event.parser as NavigatorCollapsedCategoriesMessageParser;
+
+        if(!parser) return;
+
         this._navigator.onCollapsedCategories(parser.collapsedCategories);
+
         log.debug(`Collapsed categories: ${parser.collapsedCategories.length}`);
     }
 }

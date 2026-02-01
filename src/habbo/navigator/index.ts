@@ -2,6 +2,8 @@ export * from './domain';
 export * from './cache';
 export * from './context';
 export * from './events';
+export * from './lift';
+export * from './view';
 export type {IHabboNavigator, HabboNavigatorEvents} from './IHabboNavigator';
 export type {IHabboNewNavigator, HabboNewNavigatorEvents} from './IHabboNewNavigator';
 export {HabboNavigator} from './HabboNavigator';

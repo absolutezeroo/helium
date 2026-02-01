@@ -10,10 +10,10 @@ This document categorizes all AS3 configuration files into **ENGINE** (business 
 
 | Category          | Count | Done | Description                                           |
 |-------------------|-------|------|-------------------------------------------------------|
-| ENGINE (Required) | 6     | 2    | Configuration management, settings, property storage  |
+| ENGINE (Required) | 6     | 4    | Configuration management, settings, property storage  |
 | VIEW (Ignore)     | 0     | N/A  | No UI components in this module                       |
 
-**Progress: ~33% ENGINE files implemented**
+**Progress: ~67% ENGINE files implemented**
 
 ---
 
@@ -28,12 +28,12 @@ This document categorizes all AS3 configuration files into **ENGINE** (business 
 
 ### Enumerations
 
-| AS3 File                              | Purpose                                     | TS Equivalent                     | Status |
-|---------------------------------------|---------------------------------------------|-----------------------------------|--------|
-| `enum/HabboComponentFlags.as`         | Component mode flags (e.g., ROOM_VIEWER)    | `enum/HabboComponentFlags.ts`     | TODO   |
-| `enum/HabboConfigurationEvent.as`     | Configuration event constants               | `enum/HabboConfigurationEvent.ts` | TODO   |
-| `enum/HabboConfigurationFlags.as`     | Configuration flags (skip external vars)    | `enum/HabboConfigurationFlags.ts` | TODO   |
-| `enum/HabboProperty.as`               | Property key constants for configuration    | `enum/HabboProperty.ts`           | TODO   |
+| AS3 File                              | Purpose                                     | TS Equivalent                     | Status  |
+|---------------------------------------|---------------------------------------------|-----------------------------------|---------|
+| `enum/HabboComponentFlags.as`         | Component mode flags (e.g., ROOM_VIEWER)    | `enum/HabboComponentFlags.ts`     | TODO    |
+| `enum/HabboConfigurationEvent.as`     | Configuration event constants               | `enum/HabboConfigurationEvent.ts` | ✅ Done |
+| `enum/HabboConfigurationFlags.as`     | Configuration flags (skip external vars)    | `enum/HabboConfigurationFlags.ts` | ✅ Done |
+| `enum/HabboProperty.as`               | Property key constants for configuration    | `enum/HabboProperty.ts`           | TODO    |
 
 ---
 
