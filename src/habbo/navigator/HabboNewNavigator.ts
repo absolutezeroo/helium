@@ -170,7 +170,9 @@ export class HabboNewNavigator extends EventEmitter<HabboNewNavigatorEvents> imp
 		this._noPushToHistoryDueToNavigation = false;
 
 		this.emit('searchResults', results);
+
 		log.debug(`Search results: ${results.blocks.length} blocks`);
+		log.debug(results);
 	}
 
 	onLiftedRooms(rooms: NavigatorLiftedRoomData[]): void

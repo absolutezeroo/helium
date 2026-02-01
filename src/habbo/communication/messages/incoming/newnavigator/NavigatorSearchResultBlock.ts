@@ -26,6 +26,7 @@ export class NavigatorSearchResultBlock
 		this._viewMode = wrapper.readInt();
 
 		const count = wrapper.readInt();
+		
 		for (let i = 0; i < count; i++)
 		{
 			this._guestRooms.push(new GuestRoomData(wrapper));

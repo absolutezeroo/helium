@@ -3,9 +3,8 @@ import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 import {NavigatorSearchResultSet} from '../../incoming/newnavigator';
 
 /**
- * Parser for navigator search result set
+ * Parser for a navigator search result set
  *
- * Based on AS3 class_1337
  */
 export class NavigatorSearchResultSetMessageParser implements IMessageParser
 {
@@ -19,12 +18,14 @@ export class NavigatorSearchResultSetMessageParser implements IMessageParser
 	flush(): boolean
 	{
 		this._searchResult = null;
+
 		return true;
 	}
 
 	parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._searchResult = new NavigatorSearchResultSet(wrapper);
+
 		return true;
 	}
 }

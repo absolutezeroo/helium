@@ -1,5 +1,6 @@
 import type {JSX, ParentProps} from 'solid-js';
 import {Show} from 'solid-js';
+import clsx from 'clsx';
 import {IconButton} from './NavigatorButton';
 import {type IconName, NavigatorIcon} from './NavigatorIcon';
 
@@ -21,27 +22,28 @@ export function NavigatorHeader(props: NavigatorHeaderProps): JSX.Element
 {
 	return (
 		<div
-			class={`
-                flex items-center justify-between
-                px-3 py-2
-                bg-gradient-to-r from-blue-700 to-blue-600
-                border-b border-blue-800
-                rounded-t-lg
-                select-none
-                ${props.class ?? ''}
-            `}
+			class={clsx(
+				'flex items-center justify-between',
+				'px-4 py-2.5',
+				'bg-gradient-to-r from-slate-800 via-slate-800 to-slate-700',
+				'border-b border-slate-600/50',
+				'rounded-t-xl select-none',
+				props.class
+			)}
 		>
 			{/* Title section */}
-			<div class="flex items-center gap-2 min-w-0">
+			<div class="flex items-center gap-2.5 min-w-0">
 				<Show when={props.icon}>
-					<NavigatorIcon name={props.icon!} size="md" class="text-white"/>
+					<div class="p-1.5 rounded-lg bg-amber-500/10">
+						<NavigatorIcon name={props.icon!} size="md" class="text-amber-400"/>
+					</div>
 				</Show>
 				<div class="min-w-0">
-					<h2 class="text-white font-semibold text-sm truncate">
+					<h2 class="text-slate-100 font-semibold text-sm truncate">
 						{props.title}
 					</h2>
 					{props.subtitle && (
-						<p class="text-blue-200 text-xs truncate">
+						<p class="text-slate-400 text-xs truncate">
 							{props.subtitle}
 						</p>
 					)}

@@ -1,4 +1,5 @@
 import type {JSX} from 'solid-js';
+import clsx from 'clsx';
 import {type IconName, NavigatorIcon} from './NavigatorIcon';
 
 export interface NavigatorButtonProps
@@ -46,24 +47,20 @@ export function NavigatorButton(props: NavigatorButtonProps): JSX.Element
 	const size = () => sizeClasses[props.size ?? 'md'];
 	const iconSize = () => iconSizes[props.size ?? 'md'];
 
-	const baseClasses = `
-        inline-flex items-center justify-center
-        rounded border font-medium
-        transition-colors duration-150
-        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-800
-        disabled:opacity-50 disabled:cursor-not-allowed
-    `;
-
 	return (
 		<button
 			type={props.type ?? 'button'}
-			class={`
-                ${baseClasses}
-                ${variant()}
-                ${size()}
-                ${props.fullWidth ? 'w-full' : ''}
-                ${props.class ?? ''}
-            `}
+			class={clsx(
+				'inline-flex items-center justify-center',
+				'rounded border font-medium',
+				'transition-colors duration-150',
+				'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-800',
+				'disabled:opacity-50 disabled:cursor-not-allowed',
+				variant(),
+				size(),
+				props.fullWidth && 'w-full',
+				props.class
+			)}
 			disabled={props.disabled || props.loading}
 			onClick={props.onClick}
 			title={props.title}
@@ -129,16 +126,16 @@ export function IconButton(props: IconButtonProps): JSX.Element
 	return (
 		<button
 			type="button"
-			class={`
-                inline-flex items-center justify-center
-                rounded border
-                transition-colors duration-150
-                focus:outline-none focus:ring-2 focus:ring-blue-500
-                disabled:opacity-50 disabled:cursor-not-allowed
-                ${variant()}
-                ${size()}
-                ${props.class ?? ''}
-            `}
+			class={clsx(
+				'inline-flex items-center justify-center',
+				'rounded border',
+				'transition-colors duration-150',
+				'focus:outline-none focus:ring-2 focus:ring-blue-500',
+				'disabled:opacity-50 disabled:cursor-not-allowed',
+				variant(),
+				size(),
+				props.class
+			)}
 			disabled={props.disabled}
 			onClick={props.onClick}
 			title={props.title}

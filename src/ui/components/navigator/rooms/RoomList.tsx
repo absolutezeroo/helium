@@ -2,7 +2,7 @@ import type {JSX} from 'solid-js';
 import {createMemo, For, Show} from 'solid-js';
 import {RoomCard} from './RoomCard';
 import {RoomCardCompact} from './RoomCardCompact';
-import {NavigatorIcon} from '../common';
+import {NavigatorIcon, RoomCardSkeleton, RoomCardCompactSkeleton} from '../common';
 
 export type RoomListViewMode = 'cards' | 'compact' | 'grid';
 
@@ -58,13 +58,26 @@ export function RoomList(props: RoomListProps): JSX.Element
 
 	return (
 		<div class={`${props.class ?? ''}`}>
-			{/* Loading state */}
+			{/* Loading state with skeletons */}
 			<Show when={props.loading}>
-				<div class="flex items-center justify-center py-8">
-					<div class="flex items-center gap-2 text-slate-400">
-						<NavigatorIcon name="loading" size="md" class="animate-spin"/>
-						<span>Loading rooms...</span>
-					</div>
+				<div class={containerClass()}>
+					<Show
+						when={viewMode() !== 'compact'}
+						fallback={
+							<>
+								<RoomCardCompactSkeleton/>
+								<RoomCardCompactSkeleton/>
+								<RoomCardCompactSkeleton/>
+								<RoomCardCompactSkeleton/>
+								<RoomCardCompactSkeleton/>
+							</>
+						}
+					>
+						<RoomCardSkeleton/>
+						<RoomCardSkeleton/>
+						<RoomCardSkeleton/>
+						<RoomCardSkeleton/>
+					</Show>
 				</div>
 			</Show>
 

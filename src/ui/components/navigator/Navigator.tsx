@@ -82,11 +82,17 @@ export interface NavigatorProps
 export function Navigator(props: NavigatorProps): JSX.Element
 {
 	const currentSearchCode = () => props.currentSearchCode ?? '';
+	
 	const tabs = () => props.tabs ?? [];
+
 	const rooms = () => props.rooms ?? [];
+
 	const categories = () => props.categories ?? [];
+
 	const popularTags = () => props.popularTags ?? [];
+
 	const roomCategories = () => props.roomCategories ?? [];
+
 	const roomModels = () => props.roomModels ?? [];
 
 	return (

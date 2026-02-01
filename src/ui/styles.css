@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Tell Tailwind v4 where to scan for classes */
+@source "../**/*.{ts,tsx,js,jsx}";
+
 /* ============================================
    Helium Theme - Modern Dark Mode
    ============================================ */
@@ -67,20 +70,22 @@
 }
 
 /* ============================================
-   Base Styles
+   Base Styles (in layer so Tailwind utilities can override)
    ============================================ */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+@layer base {
+    *, *::before, *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: var(--color-bg-primary);
-    color: var(--color-text-primary);
-    overflow: hidden;
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: var(--color-bg-primary);
+        color: var(--color-text-primary);
+        overflow: hidden;
+    }
 }
 
 /* ============================================

@@ -1,5 +1,6 @@
 import type {JSX} from 'solid-js';
-import {createMemo, createSignal, Show} from 'solid-js';
+import {createMemo, createSignal, onMount, Show} from 'solid-js';
+import clsx from 'clsx';
 import {NavigatorHeader, NavigatorIcon} from './common';
 import type {TabDefinition} from './tabs';
 import {NavigatorTabs} from './tabs';
@@ -9,6 +10,7 @@ import type {RoomListRoom, RoomListViewMode} from './rooms';
 import {RoomList} from './rooms';
 import type {Category} from './categories';
 import {CategoryList} from './categories';
+import {useDraggable, useNavigatorLocalization} from './hooks';
 
 export type NavigatorView = string; // Now dynamic from server
 
@@ -33,6 +35,12 @@ export interface NavigatorWindowProps
 	popularTags: PopularTag[];
 	favouriteRoomIds?: Set<number>;
 
+	// Navigation history
+	canGoBack?: boolean;
+	canGoForward?: boolean;
+	onBack?: () => void;
+	onForward?: () => void;
+
 	// Callbacks
 	onClose?: () => void;
 	onTabChange?: (searchCode: string) => void;
@@ -50,6 +58,10 @@ export interface NavigatorWindowProps
 	viewMode?: RoomListViewMode;
 	onViewModeChange?: (mode: RoomListViewMode) => void;
 
+	// Window options
+	draggable?: boolean;
+	initialPosition?: { x: number; y: number };
+
 	class?: string;
 }
 
@@ -58,7 +70,32 @@ export interface NavigatorWindowProps
  */
 export function NavigatorWindow(props: NavigatorWindowProps): JSX.Element
 {
+	const {t, keys} = useNavigatorLocalization();
 	const [showCategories, setShowCategories] = createSignal(true);
+	let windowRef: HTMLDivElement | undefined;
+	let headerRef: HTMLDivElement | undefined;
+
+	// Draggable functionality
+	const draggable = useDraggable({
+		initialPosition: props.initialPosition ?? {
+			x: Math.max(20, (window.innerWidth - 480) / 2),
+			y: Math.max(20, (window.innerHeight - 600) / 2),
+		},
+		constrainToViewport: true,
+		viewportPadding: 20,
+	});
+
+	onMount(() =>
+	{
+		if (props.draggable !== false && windowRef)
+		{
+			draggable.bindDragTarget(windowRef);
+			if (headerRef)
+			{
+				draggable.bindDragHandle(headerRef);
+			}
+		}
+	});
 
 	const viewMode = () => props.viewMode ?? 'cards';
 	const isSearchView = () => props.searchQuery && props.searchQuery.length > 0;
@@ -80,6 +117,7 @@ export function NavigatorWindow(props: NavigatorWindowProps): JSX.Element
 	const roomsWithFavourites = createMemo(() =>
 	{
 		if (!props.favouriteRoomIds) return props.rooms;
+
 		return props.rooms.map(room => ({
 			...room,
 			isFavourite: props.favouriteRoomIds!.has(room.id),
@@ -89,41 +127,80 @@ export function NavigatorWindow(props: NavigatorWindowProps): JSX.Element
 	return (
 		<Show when={props.isOpen}>
 			<div
-				class={`
-                    flex flex-col
-                    w-[480px] h-[600px]
-                    bg-slate-900 border border-slate-700
-                    rounded-xl shadow-2xl
-                    overflow-hidden
-                    ${props.class ?? ''}
-                `}
+				ref={windowRef}
+				class={clsx(
+					'flex flex-col w-[480px] h-[600px]',
+					'bg-slate-900 border border-slate-700',
+					'rounded-xl shadow-2xl overflow-hidden',
+					props.draggable !== false && 'fixed z-50',
+					draggable.isDragging() && 'select-none',
+					props.class
+				)}
 			>
-				{/* Header */}
-				<NavigatorHeader
-					title="Navigator"
-					icon="compass"
-					onClose={props.onClose}
-				>
-					{/* Header actions */}
-					<div class="flex items-center gap-1">
-						<button
-							type="button"
-							class="p-1.5 rounded text-slate-400 hover:text-slate-200 hover:bg-slate-700/50 transition-colors"
-							onClick={props.onRefresh}
-							title="Refresh"
-						>
-							<NavigatorIcon name="refresh" size="sm"/>
-						</button>
-						<button
-							type="button"
-							class="p-1.5 rounded text-slate-400 hover:text-slate-200 hover:bg-slate-700/50 transition-colors"
-							onClick={props.onCreateRoom}
-							title="Create Room"
-						>
-							<NavigatorIcon name="plus" size="sm"/>
-						</button>
-					</div>
-				</NavigatorHeader>
+				{/* Header (drag handle) */}
+				<div ref={headerRef}>
+					<NavigatorHeader
+						title={t(keys.TITLE)}
+						icon="compass"
+						onClose={props.onClose}
+					>
+						{/* Header actions */}
+						<div class="flex items-center gap-1">
+							{/* Back/Forward buttons */}
+							<button
+								type="button"
+								class={clsx(
+									'p-1.5 rounded transition-colors',
+									props.canGoBack
+										? 'text-slate-400 hover:text-slate-200 hover:bg-slate-700/50'
+										: 'text-slate-600 cursor-not-allowed'
+								)}
+								onClick={props.onBack}
+								disabled={!props.canGoBack}
+								title={t(keys.ACTION_BACK)}
+								data-no-drag
+							>
+								<NavigatorIcon name="chevronLeft" size="sm"/>
+							</button>
+							<button
+								type="button"
+								class={clsx(
+									'p-1.5 rounded transition-colors',
+									props.canGoForward
+										? 'text-slate-400 hover:text-slate-200 hover:bg-slate-700/50'
+										: 'text-slate-600 cursor-not-allowed'
+								)}
+								onClick={props.onForward}
+								disabled={!props.canGoForward}
+								title={t(keys.ACTION_FORWARD)}
+								data-no-drag
+							>
+								<NavigatorIcon name="chevronRight" size="sm"/>
+							</button>
+
+							<div class="w-px h-4 bg-slate-600 mx-1"/>
+
+							<button
+								type="button"
+								class="p-1.5 rounded text-slate-400 hover:text-slate-200 hover:bg-slate-700/50 transition-colors"
+								onClick={props.onRefresh}
+								title={t(keys.ACTION_REFRESH)}
+								data-no-drag
+							>
+								<NavigatorIcon name="refresh" size="sm"/>
+							</button>
+							<button
+								type="button"
+								class="p-1.5 rounded text-slate-400 hover:text-slate-200 hover:bg-slate-700/50 transition-colors"
+								onClick={props.onCreateRoom}
+								title={t(keys.CREATE_TITLE)}
+								data-no-drag
+							>
+								<NavigatorIcon name="plus" size="sm"/>
+							</button>
+						</div>
+					</NavigatorHeader>
+				</div>
 
 				{/* Tabs */}
 				<NavigatorTabs
@@ -133,12 +210,12 @@ export function NavigatorWindow(props: NavigatorWindowProps): JSX.Element
 				/>
 
 				{/* Search bar */}
-				<div class="px-3 py-2 border-b border-slate-700/50">
+				<div class="px-4 py-3 border-b border-slate-700/50 bg-slate-800/20">
 					<NavigatorSearch
 						value={props.searchQuery}
 						onSearch={props.onSearch}
 						onClear={props.onClearSearch}
-						placeholder="Search rooms by name or owner..."
+						placeholder={t(keys.SEARCH_PLACEHOLDER)}
 					/>
 				</div>
 
@@ -146,11 +223,12 @@ export function NavigatorWindow(props: NavigatorWindowProps): JSX.Element
 				<div class="flex-1 flex overflow-hidden">
 					{/* Sidebar (categories) */}
 					<Show when={showCategories() && !isSearchView()}>
-						<div class="w-48 border-r border-slate-700/50 overflow-y-auto">
+						<div class="w-52 border-r border-slate-700/30 overflow-y-auto bg-slate-800/20">
 							<CategoryList
 								categories={props.categories}
 								onCategoryClick={props.onCategoryClick}
 								loading={props.loading}
+								class="py-2"
 							/>
 						</div>
 					</Show>
@@ -158,36 +236,39 @@ export function NavigatorWindow(props: NavigatorWindowProps): JSX.Element
 					{/* Main content */}
 					<div class="flex-1 flex flex-col overflow-hidden">
 						{/* View controls */}
-						<div class="flex items-center justify-between px-3 py-2 border-b border-slate-700/50">
-							<div class="flex items-center gap-2">
+						<div
+							class="flex items-center justify-between px-4 py-2.5 border-b border-slate-700/30 bg-slate-800/30">
+							<div class="flex items-center gap-3">
 								<Show when={!isSearchView()}>
 									<button
 										type="button"
-										class={`
-                                            p-1 rounded
-                                            ${showCategories() ? 'text-blue-400 bg-blue-500/10' : 'text-slate-400 hover:text-slate-200'}
-                                            transition-colors
-                                        `}
+										class={clsx(
+											'p-1.5 rounded-md transition-colors',
+											showCategories()
+												? 'text-amber-400 bg-amber-500/10'
+												: 'text-slate-400 hover:text-slate-200 hover:bg-slate-700/50'
+										)}
 										onClick={() => setShowCategories(!showCategories())}
 										title={showCategories() ? 'Hide categories' : 'Show categories'}
 									>
 										<NavigatorIcon name="menu" size="sm"/>
 									</button>
 								</Show>
-								<span class="text-xs text-slate-500">
-                                    {props.rooms.length} rooms
-                                </span>
+								<span class="text-xs text-slate-500 font-medium">
+									{props.rooms.length} rooms
+								</span>
 							</div>
 
 							{/* View mode toggle */}
-							<div class="flex items-center gap-1 bg-slate-800 rounded-lg p-0.5">
+							<div class="flex items-center gap-1 bg-slate-800/60 rounded-lg p-1">
 								<button
 									type="button"
-									class={`
-                                        p-1 rounded
-                                        ${viewMode() === 'cards' ? 'bg-slate-700 text-slate-200' : 'text-slate-400 hover:text-slate-200'}
-                                        transition-colors
-                                    `}
+									class={clsx(
+										'p-1.5 rounded-md transition-colors',
+										viewMode() === 'cards'
+											? 'bg-amber-500/20 text-amber-400'
+											: 'text-slate-400 hover:text-slate-200 hover:bg-slate-700/50'
+									)}
 									onClick={() => props.onViewModeChange?.('cards')}
 									title="Card view"
 								>
@@ -195,11 +276,12 @@ export function NavigatorWindow(props: NavigatorWindowProps): JSX.Element
 								</button>
 								<button
 									type="button"
-									class={`
-                                        p-1 rounded
-                                        ${viewMode() === 'compact' ? 'bg-slate-700 text-slate-200' : 'text-slate-400 hover:text-slate-200'}
-                                        transition-colors
-                                    `}
+									class={clsx(
+										'p-1.5 rounded-md transition-colors',
+										viewMode() === 'compact'
+											? 'bg-amber-500/20 text-amber-400'
+											: 'text-slate-400 hover:text-slate-200 hover:bg-slate-700/50'
+									)}
 									onClick={() => props.onViewModeChange?.('compact')}
 									title="Compact view"
 								>
@@ -209,7 +291,7 @@ export function NavigatorWindow(props: NavigatorWindowProps): JSX.Element
 						</div>
 
 						{/* Room list */}
-						<div class="flex-1 overflow-y-auto p-3">
+						<div class="flex-1 overflow-y-auto p-4">
 							<Show
 								when={isSearchView()}
 								fallback={

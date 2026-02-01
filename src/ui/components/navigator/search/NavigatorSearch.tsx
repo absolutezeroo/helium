@@ -1,5 +1,6 @@
 import type {JSX} from 'solid-js';
 import {createSignal} from 'solid-js';
+import clsx from 'clsx';
 import {NavigatorIcon} from '../common';
 
 export interface NavigatorSearchProps
@@ -50,12 +51,12 @@ export function NavigatorSearch(props: NavigatorSearchProps): JSX.Element
 
 	return (
 		<form
-			class={`relative flex items-center ${props.class ?? ''}`}
+			class={clsx('relative flex items-center', props.class)}
 			onSubmit={handleSubmit}
 		>
 			{/* Search icon */}
-			<div class="absolute left-3 pointer-events-none">
-				<NavigatorIcon name="search" size="sm" class="text-slate-400"/>
+			<div class="absolute left-3.5 pointer-events-none flex items-center justify-center">
+				<NavigatorIcon name="search" size="sm" class="text-slate-500"/>
 			</div>
 
 			{/* Input */}
@@ -66,25 +67,23 @@ export function NavigatorSearch(props: NavigatorSearchProps): JSX.Element
 				onKeyDown={handleKeyDown}
 				placeholder={props.placeholder ?? 'Search rooms...'}
 				disabled={props.disabled}
-				class={`
-                    w-full pl-10 pr-20 py-2
-                    bg-slate-800 border border-slate-700
-                    rounded-lg
-                    text-sm text-slate-200
-                    placeholder:text-slate-500
-                    focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500
-                    disabled:opacity-50 disabled:cursor-not-allowed
-                    transition-colors
-                `}
+				class={clsx(
+					'w-full pl-11 pr-24 py-2.5',
+					'bg-slate-800/80 border border-slate-600/50 rounded-lg',
+					'text-sm text-slate-200 placeholder:text-slate-500',
+					'focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/30 focus:bg-slate-800',
+					'disabled:opacity-50 disabled:cursor-not-allowed',
+					'transition-all duration-200'
+				)}
 			/>
 
 			{/* Action buttons */}
-			<div class="absolute right-2 flex items-center gap-1">
+			<div class="absolute right-2.5 flex items-center gap-1.5">
 				{/* Clear button */}
 				{localValue() && (
 					<button
 						type="button"
-						class="p-1 rounded text-slate-400 hover:text-slate-200 hover:bg-slate-700 transition-colors"
+						class="p-1.5 rounded-md text-slate-400 hover:text-slate-200 hover:bg-slate-700/70 transition-colors"
 						onClick={handleClear}
 						title="Clear search"
 					>
@@ -95,14 +94,12 @@ export function NavigatorSearch(props: NavigatorSearchProps): JSX.Element
 				{/* Search button */}
 				<button
 					type="submit"
-					class={`
-                        p-1.5 rounded
-                        ${localValue().trim()
-						? 'bg-blue-600 hover:bg-blue-500 text-white'
-						: 'bg-slate-700 text-slate-400'
-					}
-                        transition-colors
-                    `}
+					class={clsx(
+						'p-1.5 rounded-md transition-colors',
+						localValue().trim()
+							? 'bg-amber-500 hover:bg-amber-400 text-slate-900'
+							: 'bg-slate-700/70 text-slate-500'
+					)}
 					disabled={!localValue().trim() || props.disabled}
 					title="Search"
 				>

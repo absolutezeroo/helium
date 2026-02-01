@@ -1,7 +1,7 @@
 import type {JSX} from 'solid-js';
 import {Show} from 'solid-js';
 import type {IconName} from '../common';
-import {NavigatorIcon} from '../common';
+import {NavigatorIcon, UserCountBar} from '../common';
 
 export interface RoomCardProps
 {
@@ -61,15 +61,6 @@ export function RoomCard(props: RoomCardProps): JSX.Element
 			default:
 				return 'door';
 		}
-	};
-
-	const getOccupancyColor = () =>
-	{
-		const ratio = props.userCount / props.maxUserCount;
-		if (ratio >= 1) return 'text-red-400';
-		if (ratio >= 0.75) return 'text-orange-400';
-		if (ratio >= 0.5) return 'text-yellow-400';
-		return 'text-green-400';
 	};
 
 	return (
@@ -137,31 +128,36 @@ export function RoomCard(props: RoomCardProps): JSX.Element
 				</Show>
 
 				{/* Footer */}
-				<div class="mt-2 flex items-center justify-between">
-					{/* User count */}
-					<div class={`flex items-center gap-1 text-xs ${getOccupancyColor()}`}>
-						<NavigatorIcon name="users" size="xs"/>
-						<span>{props.userCount}/{props.maxUserCount}</span>
+				<div class="mt-2 flex flex-col gap-2">
+					{/* User count progress bar */}
+					<UserCountBar
+						userCount={props.userCount}
+						maxUserCount={props.maxUserCount}
+						size="sm"
+						showLabel
+					/>
+
+					{/* Bottom row: Score and Tags */}
+					<div class="flex items-center justify-between">
+						{/* Score */}
+						<Show when={props.score !== undefined && props.score > 0}>
+							<div class="flex items-center gap-1 text-xs text-slate-400">
+								<NavigatorIcon name="thumbUp" size="xs"/>
+								<span>{props.score}</span>
+							</div>
+						</Show>
+
+						{/* Tags */}
+						<Show when={props.tags && props.tags.length > 0}>
+							<div class="flex items-center gap-1">
+								{props.tags!.slice(0, 2).map((tag) => (
+									<span class="px-1.5 py-0.5 text-xs bg-slate-700 text-slate-400 rounded">
+										{tag}
+									</span>
+								))}
+							</div>
+						</Show>
 					</div>
-
-					{/* Score */}
-					<Show when={props.score !== undefined && props.score > 0}>
-						<div class="flex items-center gap-1 text-xs text-slate-400">
-							<NavigatorIcon name="thumbUp" size="xs"/>
-							<span>{props.score}</span>
-						</div>
-					</Show>
-
-					{/* Tags */}
-					<Show when={props.tags && props.tags.length > 0}>
-						<div class="flex items-center gap-1">
-							{props.tags!.slice(0, 2).map((tag) => (
-								<span class="px-1.5 py-0.5 text-xs bg-slate-700 text-slate-400 rounded">
-                                    {tag}
-                                </span>
-							))}
-						</div>
-					</Show>
 				</div>
 			</div>
 

@@ -3,9 +3,8 @@ import type {MessageEventCallback} from '@core/communication/messages/IMessageEv
 import {NavigatorSearchResultSetMessageParser} from '../../parser/newnavigator';
 
 /**
- * Event for navigator search result set
+ * Event for a navigator search result set
  *
- * Based on AS3 class_151
  */
 export class NavigatorSearchResultSetMessageEvent extends MessageEvent
 {

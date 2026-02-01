@@ -4,3 +4,7 @@ export {RoomCardCompact} from './RoomCardCompact';
 export type {RoomCardCompactProps} from './RoomCardCompact';
 export {RoomList} from './RoomList';
 export type {RoomListProps, RoomListRoom, RoomListViewMode} from './RoomList';
+export {LiftedRoomsSection} from './LiftedRoomsSection';
+export type {LiftedRoomsSectionProps, LiftedRoom} from './LiftedRoomsSection';
+export {RoomEventsSection} from './RoomEventsSection';
+export type {RoomEventsSectionProps, RoomEvent} from './RoomEventsSection';

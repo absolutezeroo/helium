@@ -1,5 +1,6 @@
 import type {JSX} from 'solid-js';
 import {For, createSignal, onMount, Show} from 'solid-js';
+import clsx from 'clsx';
 import {NavigatorTab} from './NavigatorTab';
 import {NavigatorIcon, type IconName} from '../common';
 
@@ -41,7 +42,6 @@ export function NavigatorTabs(props: NavigatorTabsProps): JSX.Element
 	{
 		updateScrollButtons();
 		scrollContainerRef?.addEventListener('scroll', updateScrollButtons);
-		// Update on resize
 		window.addEventListener('resize', updateScrollButtons);
 	});
 
@@ -56,12 +56,12 @@ export function NavigatorTabs(props: NavigatorTabsProps): JSX.Element
 	};
 
 	return (
-		<div class={`relative flex items-center border-b border-slate-700 bg-slate-800/50 ${props.class ?? ''}`}>
+		<div class={clsx('relative flex items-center border-b border-slate-700/50 bg-slate-800/30', props.class)}>
 			{/* Scroll left button */}
 			<Show when={canScrollLeft()}>
 				<button
 					type="button"
-					class="absolute left-0 z-10 h-full px-1.5 bg-gradient-to-r from-slate-800 via-slate-800/90 to-transparent hover:from-slate-700 transition-colors"
+					class="absolute left-0 z-10 h-full px-2 bg-gradient-to-r from-slate-800 via-slate-800/95 to-transparent hover:from-slate-700 transition-colors"
 					onClick={() => scroll('left')}
 				>
 					<NavigatorIcon name="chevronLeft" size="sm" class="text-slate-300" />
@@ -71,7 +71,7 @@ export function NavigatorTabs(props: NavigatorTabsProps): JSX.Element
 			{/* Tabs container */}
 			<div
 				ref={scrollContainerRef}
-				class="flex items-center overflow-x-auto scrollbar-hide"
+				class="flex items-center gap-2 px-3 py-2 overflow-x-auto"
 				style={{"scroll-behavior": "smooth", "-ms-overflow-style": "none", "scrollbar-width": "none"}}
 			>
 				<For each={props.tabs}>

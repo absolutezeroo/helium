@@ -115,23 +115,28 @@ export class HabboNavigator extends EventEmitter<HabboNavigatorEvents> implement
 	performTagSearch(tag: string): void
 	{
 		let searchTag = tag;
+
 		if (searchTag.indexOf(' ') !== -1)
 		{
 			searchTag = '"' + searchTag + '"';
 		}
+
 		this.send(new RoomTextSearchMessageComposer(searchTag));
+
 		log.debug(`Tag search: ${searchTag}`);
 	}
 
 	performTextSearch(searchText: string): void
 	{
 		this.send(new RoomTextSearchMessageComposer(searchText));
+
 		log.debug(`Text search: ${searchText}`);
 	}
 
 	performGuildBaseSearch(): void
 	{
 		this.send(new MyGuildBasesSearchMessageComposer());
+
 		log.debug('Guild base search');
 	}
 
@@ -141,6 +146,7 @@ export class HabboNavigator extends EventEmitter<HabboNavigatorEvents> implement
 		{
 			return;
 		}
+
 		// Set competition data for tracking
 		this._data.competitionRoomsData = {
 			goalId,
@@ -149,13 +155,16 @@ export class HabboNavigator extends EventEmitter<HabboNavigatorEvents> implement
 		} as CompetitionRoomsData;
 
 		this.send(new CompetitionRoomsSearchMessageComposer(goalId, pageIndex));
+
 		log.debug(`Competition rooms search: goal=${goalId}, page=${pageIndex}`);
 	}
 
 	showOwnRooms(): void
 	{
 		this.send(new MyRoomsSearchMessageComposer());
+
 		this.openNavigator();
+
 		log.debug('Showing own rooms');
 	}
 
@@ -165,6 +174,7 @@ export class HabboNavigator extends EventEmitter<HabboNavigatorEvents> implement
 	{
 		// Would check with room session manager
 		log.debug(`Checking room rights for: ${roomId}`);
+
 		return false;
 	}
 
@@ -178,6 +188,7 @@ export class HabboNavigator extends EventEmitter<HabboNavigatorEvents> implement
 	startRoomCreation(): void
 	{
 		log.debug('Starting room creation');
+		
 		this.emit('navigatorOpened');
 		// Would open room creation view
 	}

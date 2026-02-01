@@ -5,7 +5,6 @@ import type {GuestRoomData} from '../navigator/GuestRoomData';
 /**
  * A complete set of search results from the new navigator
  *
- * Based on AS3 class_1652
  */
 export class NavigatorSearchResultSet
 {
@@ -15,6 +14,7 @@ export class NavigatorSearchResultSet
 		this._filteringData = wrapper.readString();
 
 		const count = wrapper.readInt();
+
 		for (let i = 0; i < count; i++)
 		{
 			this._blocks.push(new NavigatorSearchResultBlock(wrapper));
@@ -50,11 +50,13 @@ export class NavigatorSearchResultSet
 		for (const block of this._blocks)
 		{
 			const room = block.findGuestRoom(flatId);
+
 			if (room)
 			{
 				return room;
 			}
 		}
+
 		return null;
 	}
 
@@ -64,10 +66,12 @@ export class NavigatorSearchResultSet
 	getAllRooms(): GuestRoomData[]
 	{
 		const rooms: GuestRoomData[] = [];
+
 		for (const block of this._blocks)
 		{
 			rooms.push(...block.guestRooms);
 		}
+
 		return rooms;
 	}
 }

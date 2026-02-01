@@ -1,8 +1,9 @@
 import type {JSX} from 'solid-js';
 import {createSignal, For, Show} from 'solid-js';
+import clsx from 'clsx';
 import {CategoryItem} from './CategoryItem';
 import type {IconName} from '../common';
-import {NavigatorIcon} from '../common';
+import {NavigatorIcon, CategoryItemSkeleton} from '../common';
 
 export interface Category
 {
@@ -76,7 +77,7 @@ export function CategoryList(props: CategoryListProps): JSX.Element
 	};
 
 	return (
-		<div class={`${props.class ?? ''}`}>
+		<div class={clsx(props.class)}>
 			{/* Title */}
 			<Show when={props.title}>
 				<h3 class="text-xs font-medium text-slate-400 uppercase tracking-wider mb-2 px-3">
@@ -84,18 +85,26 @@ export function CategoryList(props: CategoryListProps): JSX.Element
 				</h3>
 			</Show>
 
-			{/* Loading state */}
+			{/* Loading state with skeletons */}
 			<Show when={props.loading}>
-				<div class="flex items-center gap-2 text-slate-500 text-sm py-4 px-3">
-					<NavigatorIcon name="loading" size="sm" class="animate-spin"/>
-					Loading categories...
+				<div class="space-y-1">
+					<CategoryItemSkeleton/>
+					<CategoryItemSkeleton/>
+					<CategoryItemSkeleton/>
+					<CategoryItemSkeleton/>
+					<CategoryItemSkeleton/>
+					<CategoryItemSkeleton/>
 				</div>
 			</Show>
 
 			{/* Empty state */}
 			<Show when={!props.loading && props.categories.length === 0}>
-				<div class="text-sm text-slate-500 py-4 px-3">
-					No categories available
+				<div class="flex flex-col items-center justify-center py-8 px-4 text-center">
+					<div class="w-12 h-12 rounded-full bg-slate-700/50 flex items-center justify-center mb-3">
+						<NavigatorIcon name="search" size="md" class="text-slate-500"/>
+					</div>
+					<p class="text-sm text-slate-400 font-medium">No categories available</p>
+					<p class="text-xs text-slate-500 mt-1">Try refreshing or check back later</p>
 				</div>
 			</Show>
 

@@ -1,6 +1,8 @@
 import type {JSX} from 'solid-js';
 import {For, Show} from 'solid-js';
+import clsx from 'clsx';
 import {NavigatorIcon} from '../common';
+import {useNavigatorLocalization} from '../hooks';
 
 export interface PopularTag
 {
@@ -22,6 +24,8 @@ export interface PopularTagsProps
  */
 export function PopularTags(props: PopularTagsProps): JSX.Element
 {
+	const {t, keys} = useNavigatorLocalization();
+
 	const displayTags = () =>
 	{
 		const max = props.maxTags ?? 10;
@@ -29,10 +33,10 @@ export function PopularTags(props: PopularTagsProps): JSX.Element
 	};
 
 	return (
-		<div class={`${props.class ?? ''}`}>
-			<h3 class="text-xs font-medium text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-2">
-				<NavigatorIcon name="tag" size="sm"/>
-				Popular Tags
+		<div class={clsx(props.class)}>
+			<h3 class="text-xs font-medium text-slate-500 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+				<NavigatorIcon name="tag" size="xs" class="text-amber-500/70"/>
+				{t(keys.POPULAR_TAGS_TITLE)}
 			</h3>
 
 			<Show
@@ -50,26 +54,27 @@ export function PopularTags(props: PopularTagsProps): JSX.Element
 						<p class="text-sm text-slate-500">No popular tags</p>
 					}
 				>
-					<div class="flex flex-wrap gap-2">
+					<div class="flex flex-wrap gap-1.5">
 						<For each={displayTags()}>
 							{(item) => (
 								<button
 									type="button"
-									class={`
-                                        inline-flex items-center gap-1
-                                        px-2.5 py-1
-                                        bg-slate-800 hover:bg-slate-700
-                                        border border-slate-700 hover:border-slate-600
-                                        rounded-full
-                                        text-xs text-slate-300 hover:text-slate-100
-                                        transition-colors
-                                        ${props.onTagClick ? 'cursor-pointer' : 'cursor-default'}
-                                    `}
+									class={clsx(
+										'inline-flex items-center gap-1',
+										'px-2.5 py-1',
+										'bg-slate-800/60 hover:bg-amber-500/10',
+										'border border-slate-700/50 hover:border-amber-500/30',
+										'rounded-full',
+										'text-xs text-slate-300 hover:text-amber-300',
+										'transition-all duration-150',
+										props.onTagClick ? 'cursor-pointer' : 'cursor-default'
+									)}
 									onClick={() => props.onTagClick?.(item.tag)}
 									disabled={!props.onTagClick}
 								>
-									<span>#{item.tag}</span>
-									<span class="text-slate-500">({item.count})</span>
+									<span class="text-amber-500/70">#</span>
+									<span>{item.tag}</span>
+									<span class="text-slate-500 text-[10px]">{item.count}</span>
 								</button>
 							)}
 						</For>

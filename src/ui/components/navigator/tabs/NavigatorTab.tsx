@@ -1,5 +1,6 @@
 import type {JSX} from 'solid-js';
 import {Show} from 'solid-js';
+import clsx from 'clsx';
 import {type IconName, NavigatorIcon} from '../common';
 
 export interface NavigatorTabProps
@@ -31,21 +32,15 @@ export function NavigatorTab(props: NavigatorTabProps): JSX.Element
 			type="button"
 			onClick={handleClick}
 			disabled={props.disabled}
-			class={`
-                relative flex items-center gap-1.5
-                px-3 py-2
-                text-sm font-medium
-                transition-all duration-150
-                border-b-2 -mb-px
-                ${props.isActive
-				? 'text-amber-400 border-amber-400 bg-slate-800/50'
-				: 'text-slate-400 border-transparent hover:text-slate-200 hover:bg-slate-700/30'
-			}
-                ${props.disabled
-				? 'opacity-50 cursor-not-allowed'
-				: 'cursor-pointer'
-			}
-            `}
+			class={clsx(
+				'relative flex items-center gap-1.5 px-3 py-1.5',
+				'text-xs font-medium whitespace-nowrap',
+				'rounded-md transition-all duration-150 flex-shrink-0',
+				props.isActive
+					? 'text-amber-400 bg-amber-500/15 border border-amber-500/30'
+					: 'text-slate-400 bg-slate-700/30 border border-transparent hover:text-slate-200 hover:bg-slate-700/50 hover:border-slate-600/50',
+				props.disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
+			)}
 		>
 			<Show when={props.icon}>
 				<NavigatorIcon
@@ -55,21 +50,19 @@ export function NavigatorTab(props: NavigatorTabProps): JSX.Element
 				/>
 			</Show>
 
-			<span>{props.label}</span>
+			<span class="capitalize">{props.label}</span>
 
 			<Show when={props.badge !== undefined}>
-                <span
-					class={`
-                        ml-1 px-1.5 py-0.5
-                        text-xs font-bold rounded-full
-                        ${props.isActive
-						? 'bg-amber-400/20 text-amber-300'
-						: 'bg-slate-600 text-slate-300'
-					}
-                    `}
+				<span
+					class={clsx(
+						'ml-1 px-1.5 py-0.5 text-xs font-bold rounded-full',
+						props.isActive
+							? 'bg-amber-400/20 text-amber-300'
+							: 'bg-slate-600 text-slate-300'
+					)}
 				>
-                    {props.badge}
-                </span>
+					{props.badge}
+				</span>
 			</Show>
 		</button>
 	);

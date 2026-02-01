@@ -1,5 +1,6 @@
 import type {JSX} from 'solid-js';
 import {Show} from 'solid-js';
+import clsx from 'clsx';
 import type {IconName} from '../common';
 import {NavigatorIcon} from '../common';
 
@@ -40,17 +41,15 @@ export function CategoryItem(props: CategoryItemProps): JSX.Element
 	};
 
 	return (
-		<div class={props.class ?? ''}>
+		<div class={props.class}>
 			<div
-				class={`
-                    flex items-center gap-2 py-2 pr-3
-                    cursor-pointer
-                    transition-colors duration-100
-                    ${props.isSelected
-					? 'bg-blue-600/20 text-blue-300 border-l-2 border-blue-500'
-					: 'hover:bg-slate-700/50 text-slate-300 hover:text-slate-100 border-l-2 border-transparent'
-				}
-                `}
+				class={clsx(
+					'flex items-center gap-2 py-2.5 pr-3',
+					'cursor-pointer transition-all duration-150',
+					props.isSelected
+						? 'bg-amber-500/10 text-amber-300 border-l-2 border-amber-500'
+						: 'hover:bg-slate-700/40 text-slate-300 hover:text-slate-100 border-l-2 border-transparent'
+				)}
 				style={{'padding-left': paddingLeft()}}
 				onClick={handleClick}
 			>
@@ -70,7 +69,6 @@ export function CategoryItem(props: CategoryItemProps): JSX.Element
 				</Show>
 				<Show when={!props.hasSubcategories}>
 					<div class="w-5"/>
-					{/* Spacer */}
 				</Show>
 
 				{/* Icon */}
@@ -78,28 +76,28 @@ export function CategoryItem(props: CategoryItemProps): JSX.Element
 					<NavigatorIcon
 						name={props.icon!}
 						size="sm"
-						class={props.isSelected ? 'text-blue-400' : 'text-slate-400'}
+						class={props.isSelected ? 'text-amber-400' : 'text-slate-400'}
 					/>
 				</Show>
 
 				{/* Name */}
 				<span class="flex-1 truncate text-sm">
-                    {props.name}
-                </span>
+					{props.name}
+				</span>
 
 				{/* Room count */}
 				<Show when={props.roomCount !== undefined}>
-                    <span class="text-xs text-slate-500">
-                        {props.roomCount} rooms
-                    </span>
+					<span class="text-xs text-slate-500">
+						{props.roomCount} rooms
+					</span>
 				</Show>
 
 				{/* User count */}
 				<Show when={props.userCount !== undefined}>
-                    <span class="flex items-center gap-1 text-xs text-green-400">
-                        <NavigatorIcon name="users" size="xs"/>
+					<span class="flex items-center gap-1 text-xs text-green-400">
+						<NavigatorIcon name="users" size="xs"/>
 						{props.userCount}
-                    </span>
+					</span>
 				</Show>
 			</div>
 
