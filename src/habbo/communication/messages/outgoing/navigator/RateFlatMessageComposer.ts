@@ -5,18 +5,22 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  *
  * Based on AS3 RateFlatMessageComposer
  */
-export class RateFlatMessageComposer implements IMessageComposer {
-    private _data: unknown[];
+export class RateFlatMessageComposer implements IMessageComposer<ConstructorParameters<typeof RateFlatMessageComposer>>
+{
+	private _data: ConstructorParameters<typeof RateFlatMessageComposer>;
 
-    constructor(rating: number) {
-        this._data = [rating];
-    }
+	constructor(rating: number)
+	{
+		this._data = [rating];
+	}
 
-    getMessageArray(): unknown[] {
-        return this._data;
-    }
+	getMessageArray()
+	{
+		return this._data;
+	}
 
-    dispose(): void {
-        // Nothing to dispose
-    }
+	dispose(): void
+	{
+		return;
+	}
 }

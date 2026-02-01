@@ -4,34 +4,27 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  * First message sent to server to initiate connection
  * Message ID: 4000
  */
-export class ClientHelloMessageComposer implements IMessageComposer {
-    private releaseVersion: string;
-    private type: string;
-    private platform: number;
-    private category: number;
+export class ClientHelloMessageComposer implements IMessageComposer<ConstructorParameters<typeof ClientHelloMessageComposer>>
+{
+	private _data: ConstructorParameters<typeof ClientHelloMessageComposer>;
 
-    constructor(
-        releaseVersion: string = 'WIN63-202407091256-704579380',
-        type: string = 'FLASH20',
-        platform: number = 6,
-        category: number = 4
-    ) {
-        this.releaseVersion = releaseVersion;
-        this.type = type;
-        this.platform = platform;
-        this.category = category;
-    }
+	constructor(
+		releaseVersion: string = 'WIN63-202407091256-704579380',
+		type: string = 'FLASH20',
+		platform: number = 6,
+		category: number = 4
+	)
+	{
+		this._data = [releaseVersion, type, platform, category];
+	}
 
-    getMessageArray(): unknown[] {
-        return [
-            this.releaseVersion,
-            this.type,
-            this.platform,
-            this.category
-        ];
-    }
+	getMessageArray()
+	{
+		return this._data;
+	}
 
-    dispose(): void {
-        // Nothing to dispose
-    }
+	dispose(): void
+	{
+		return;
+	}
 }

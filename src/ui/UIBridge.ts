@@ -3,6 +3,7 @@ import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
 import type {IConfigurationManager} from '@core/configuration/IConfigurationManager';
 import type {IHabboLocalizationManager} from '@habbo/localization/IHabboLocalizationManager';
 import type {IHabboNavigator, IHabboNewNavigator} from '@habbo/navigator';
+import type {HabboCommunicationEventType} from '@habbo/communication/enum';
 
 /**
  * Bridge between Habbo managers and SolidJS stores
@@ -140,6 +141,14 @@ export class UIBridge {
                 connectionStore.setError(error || 'Unknown error');
                 break;
         }
+    }
+
+    /**
+     * Set detailed login step from AS3 connection flow
+     * Called by IncomingMessages during handshake/authentication
+     */
+    setLoginStep(step: HabboCommunicationEventType): void {
+        connectionStore.setLoginStep(step);
     }
 
     /**

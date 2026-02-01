@@ -5,18 +5,22 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  *
  * Based on AS3 DeleteFavouriteRoomMessageComposer
  */
-export class DeleteFavouriteRoomMessageComposer implements IMessageComposer {
-    private _data: unknown[];
+export class DeleteFavouriteRoomMessageComposer implements IMessageComposer<ConstructorParameters<typeof DeleteFavouriteRoomMessageComposer>>
+{
+	private _data: ConstructorParameters<typeof DeleteFavouriteRoomMessageComposer>;
 
-    constructor(roomId: number) {
-        this._data = [roomId];
-    }
+	constructor(roomId: number)
+	{
+		this._data = [roomId];
+	}
 
-    getMessageArray(): unknown[] {
-        return this._data;
-    }
+	getMessageArray()
+	{
+		return this._data;
+	}
 
-    dispose(): void {
-        // Nothing to dispose
-    }
+	dispose(): void
+	{
+		return;
+	}
 }

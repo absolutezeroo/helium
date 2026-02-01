@@ -6,24 +6,24 @@
 
 **Helium** is a modern Habbo client renderer built as a lighter, cleaner, and more optimized alternative to Nitro. It aims to recreate the Nitro client functionality using modern web technologies and best practices.
 
-| Property | Value |
-|----------|-------|
-| **Type** | Monolith Web Application |
-| **Primary Language** | TypeScript 5.7 |
-| **Runtime** | Browser (ES2022) |
-| **Graphics Engine** | PixiJS 8.6 |
-| **UI Framework** | SolidJS 1.9 |
-| **DI Container** | Inversify 6.2 |
-| **Build Tool** | Vite 6.0 |
+| Property             | Value                    |
+|----------------------|--------------------------|
+| **Type**             | Monolith Web Application |
+| **Primary Language** | TypeScript 5.7           |
+| **Runtime**          | Browser (ES2022)         |
+| **Graphics Engine**  | PixiJS 8.6               |
+| **UI Framework**     | SolidJS 1.9              |
+| **DI Container**     | Inversify 6.2            |
+| **Build Tool**       | Vite 6.0                 |
 
 ## Quick Reference
 
-| Metric | Value |
-|--------|-------|
-| **Source Files** | ~294 |
-| **Lines of Code** | ~7,300 |
-| **Implemented Features** | Communication, Navigator, Session, UI |
-| **Stub Features** | Avatar, Catalog, Room Engine, Messenger |
+| Metric                   | Value                                   |
+|--------------------------|-----------------------------------------|
+| **Source Files**         | ~294                                    |
+| **Lines of Code**        | ~7,300                                  |
+| **Implemented Features** | Communication, Navigator, Session, UI   |
+| **Stub Features**        | Avatar, Catalog, Room Engine, Messenger |
 
 ### Entry Points
 
@@ -53,19 +53,20 @@
 
 ## Existing Documentation
 
-| File | Description |
-|------|-------------|
+| File                      | Description            |
+|---------------------------|------------------------|
 | [README.md](../README.md) | Basic project overview |
-| [CLAUDE.md](../CLAUDE.md) | AI assistant guidance |
+| [CLAUDE.md](../CLAUDE.md) | AI assistant guidance  |
 
 ## Reference Sources
 
 The project includes two reference implementations (not part of the build):
 
-| Folder | Description | Files |
-|--------|-------------|-------|
-| `source_as/` | Original Habbo Flash client (ActionScript 3) | ~4,462 |
-| `source_nitro/` | Nitro TypeScript client | ~2,644 |
+| Folder                   | Description                                  | Files  |
+|--------------------------|----------------------------------------------|--------|
+| `source_as/`             | Original Habbo Flash client (ActionScript 3) | ~4,462 |
+| `source_nitro_react/`    | Nitro TypeScript react                       | ~      |
+| `source_nitro_renderer/` | Nitro TypeScript client                      | ~2,644 |
 
 ## Getting Started
 
@@ -99,28 +100,28 @@ await Helium.bootstrap({
 
 ### Implemented ✅
 
-| Feature | Location | Description |
-|---------|----------|-------------|
-| Core Communication | `src/core/communication/` | WebSocket, encryption, message handling |
-| Habbo Protocol | `src/habbo/communication/` | Message registry, 40+ events, 40+ composers |
-| Navigator | `src/habbo/navigator/` | Room search, favorites, categories |
-| Session Management | `src/habbo/session/` | User data, rights, settings |
-| Configuration | `src/core/configuration/` | External variables loading |
-| Localization | `src/core/localization/` | Base i18n infrastructure |
-| UI Framework | `src/ui/` | SolidJS components, stores, bridge |
+| Feature            | Location                   | Description                                 |
+|--------------------|----------------------------|---------------------------------------------|
+| Core Communication | `src/core/communication/`  | WebSocket, encryption, message handling     |
+| Habbo Protocol     | `src/habbo/communication/` | Message registry, 40+ events, 40+ composers |
+| Navigator          | `src/habbo/navigator/`     | Room search, favorites, categories          |
+| Session Management | `src/habbo/session/`       | User data, rights, settings                 |
+| Configuration      | `src/core/configuration/`  | External variables loading                  |
+| Localization       | `src/core/localization/`   | Base i18n infrastructure                    |
+| UI Framework       | `src/ui/`                  | SolidJS components, stores, bridge          |
 
 ### Stub / Planned 📋
 
-| Feature | Location | Description |
-|---------|----------|-------------|
-| Room Engine | `src/room/` | Room rendering, objects, physics |
-| Avatar System | `src/habbo/avatar/` | Avatar rendering, animation, effects |
-| Catalog | `src/habbo/catalog/` | Shop, purchasing, offers |
-| Messenger | `src/habbo/messenger/` | Friends, chat, notifications |
-| Inventory | `src/habbo/inventory/` | Items, effects, badges |
-| Groups | `src/habbo/groups/` | Guild management |
-| Games | `src/habbo/game/` | Mini-games, quests |
-| Moderation | `src/habbo/moderation/` | Moderation tools |
+| Feature       | Location                | Description                          |
+|---------------|-------------------------|--------------------------------------|
+| Room Engine   | `src/room/`             | Room rendering, objects, physics     |
+| Avatar System | `src/habbo/avatar/`     | Avatar rendering, animation, effects |
+| Catalog       | `src/habbo/catalog/`    | Shop, purchasing, offers             |
+| Messenger     | `src/habbo/messenger/`  | Friends, chat, notifications         |
+| Inventory     | `src/habbo/inventory/`  | Items, effects, badges               |
+| Groups        | `src/habbo/groups/`     | Guild management                     |
+| Games         | `src/habbo/game/`       | Mini-games, quests                   |
+| Moderation    | `src/habbo/moderation/` | Moderation tools                     |
 
 ## Next Steps
 

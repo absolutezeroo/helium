@@ -3,18 +3,22 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Adds a saved search to the navigator
  */
-export class NavigatorAddSavedSearchComposer implements IMessageComposer {
-    private _data: unknown[];
+export class NavigatorAddSavedSearchComposer implements IMessageComposer<ConstructorParameters<typeof NavigatorAddSavedSearchComposer>>
+{
+	private _data: ConstructorParameters<typeof NavigatorAddSavedSearchComposer>;
 
-    constructor(searchCode: string, filtering: string) {
-        this._data = [searchCode, filtering];
-    }
+	constructor(searchCode: string, filtering: string)
+	{
+		this._data = [searchCode, filtering];
+	}
 
-    getMessageArray(): unknown[] {
-        return this._data;
-    }
+	getMessageArray()
+	{
+		return this._data;
+	}
 
-    dispose(): void {
-        // Nothing to dispose
-    }
+	dispose(): void
+	{
+		return;
+	}
 }

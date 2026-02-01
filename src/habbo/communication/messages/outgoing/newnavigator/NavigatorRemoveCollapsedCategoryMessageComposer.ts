@@ -3,20 +3,23 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Removes a collapsed category from the navigator
  *
- * Based on AS3 NavigatorRemoveCollapsedCategoryMessageComposer
  */
-export class NavigatorRemoveCollapsedCategoryMessageComposer implements IMessageComposer {
-    private _data: unknown[];
+export class NavigatorRemoveCollapsedCategoryMessageComposer implements IMessageComposer<ConstructorParameters<typeof NavigatorRemoveCollapsedCategoryMessageComposer>>
+{
+	private _data: ConstructorParameters<typeof NavigatorRemoveCollapsedCategoryMessageComposer>;
 
-    constructor(category: string) {
-        this._data = [category];
-    }
+	constructor(category: string)
+	{
+		this._data = [category];
+	}
 
-    getMessageArray(): unknown[] {
-        return this._data;
-    }
+	getMessageArray()
+	{
+		return this._data;
+	}
 
-    dispose(): void {
-        // Nothing to dispose
-    }
+	dispose(): void
+	{
+		return;
+	}
 }

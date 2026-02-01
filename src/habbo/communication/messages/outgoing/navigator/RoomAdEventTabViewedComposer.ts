@@ -5,12 +5,22 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  *
  * Based on AS3 RoomAdEventTabViewedComposer
  */
-export class RoomAdEventTabViewedComposer implements IMessageComposer {
-    getMessageArray(): unknown[] {
-        return [];
-    }
+export class RoomAdEventTabViewedComposer implements IMessageComposer<ConstructorParameters<typeof RoomAdEventTabViewedComposer>>
+{
+	private _data: ConstructorParameters<typeof RoomAdEventTabViewedComposer>;
 
-    dispose(): void {
-        // Nothing to dispose
-    }
+	constructor()
+	{
+		this._data = [];
+	}
+
+	getMessageArray()
+	{
+		return this._data;
+	}
+
+	dispose(): void
+	{
+		return;
+	}
 }

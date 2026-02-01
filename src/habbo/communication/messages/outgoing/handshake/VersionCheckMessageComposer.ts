@@ -4,30 +4,28 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  * Send client version information
  * Message ID: 2602
  */
-export class VersionCheckMessageComposer implements IMessageComposer {
-    private versionId: number;
-    private clientUrl: string;
-    private externalVariablesUrl: string;
+export class VersionCheckMessageComposer implements IMessageComposer<ConstructorParameters<typeof VersionCheckMessageComposer>>
+{
+	private _data: ConstructorParameters<typeof VersionCheckMessageComposer>;
 
-    constructor(
-        versionId: number = 0,
-        clientUrl: string = '',
-        externalVariablesUrl: string = ''
-    ) {
-        this.versionId = versionId;
-        this.clientUrl = clientUrl;
-        this.externalVariablesUrl = externalVariablesUrl;
-    }
+	constructor(
+		versionId: number = 0,
+		clientUrl: string = '',
+		externalVariablesUrl: string = ''
+	)
+	{
+		this._data = [];
 
-    getMessageArray(): unknown[] {
-        return [
-            this.versionId,
-            this.clientUrl,
-            this.externalVariablesUrl
-        ];
-    }
+		this._data.push(versionId, clientUrl, externalVariablesUrl);
+	}
 
-    dispose(): void {
-        // Nothing to dispose
-    }
+	getMessageArray()
+	{
+		return this._data;
+	}
+
+	dispose(): void
+	{
+		return;
+	}
 }

@@ -7,6 +7,7 @@ import {RSA} from '@core/communication/encryption/RSA';
 import {SocketConnection} from '@core/communication/connection/SocketConnection';
 import {Logger} from '@core/utils/Logger';
 import type {IHabboCommunicationManager} from '../IHabboCommunicationManager';
+import {HabboCommunicationEvent, type HabboCommunicationEventType} from '../enum';
 
 // Events
 import {
@@ -47,7 +48,7 @@ const log = Logger.getLogger('Handshake');
  * Events emitted by IncomingMessages
  */
 export interface IncomingMessagesEvents {
-    'loginStep': (step: string) => void;
+    'loginStep': (step: HabboCommunicationEventType) => void;
     'authenticated': () => void;
     'disconnected': (reason: number, reasonText: string) => void;
     'error': (code: number, message: string) => void;
@@ -85,6 +86,10 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents> {
         connection.on('connected', this._boundOnConnected);
         connection.on('disconnected', this._boundOnDisconnected);
 
+        // Emit INIT event - connection initialization started
+        // This matches AS3's dispatchLoginStepEvent("HABBO_CONNECTION_EVENT_INIT")
+        this.dispatchLoginStepEvent(HabboCommunicationEvent.INIT);
+
         // Register message handlers
         this.addMessageEvent(new InitDiffieHandshakeMessageEvent(this.onInitDiffieHandshake.bind(this)));
         this.addMessageEvent(new CompleteDiffieHandshakeMessageEvent(this.onCompleteDiffieHandshake.bind(this)));
@@ -118,6 +123,15 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents> {
         this._messageEvents.push(event);
     }
 
+    /**
+     * Dispatch login step event to both event emitter and UI bridge
+     * Matches AS3's dispatchLoginStepEvent()
+     */
+    private dispatchLoginStepEvent(step: HabboCommunicationEventType): void {
+        this.emit('loginStep', step);
+        uiBridge.setLoginStep(step);
+    }
+
     private onConnectionEstablished(): void {
         const connection = this._communication.connection;
 
@@ -126,12 +140,12 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents> {
             return;
         }
 
-        this.emit('loginStep', 'HABBO_CONNECTION_EVENT_ESTABLISHED');
+        this.dispatchLoginStepEvent(HabboCommunicationEvent.ESTABLISHED);
 
         this._wasDisconnected = false;
         this._isHandshaking = true;
 
-        this.emit('loginStep', 'HABBO_CONNECTION_EVENT_HANDSHAKING');
+        this.dispatchLoginStepEvent(HabboCommunicationEvent.HANDSHAKING);
 
         log.info('Starting handshake...');
 
@@ -236,7 +250,7 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents> {
 
         this._isHandshaking = false;
 
-        this.emit('loginStep', 'HABBO_CONNECTION_EVENT_HANDSHAKED');
+        this.dispatchLoginStepEvent(HabboCommunicationEvent.HANDSHAKED);
 
         log.success('Encryption enabled');
 
@@ -271,7 +285,7 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents> {
 
         log.success('Authenticated');
 
-        this.emit('loginStep', 'HABBO_CONNECTION_EVENT_AUTHENTICATED');
+        this.dispatchLoginStepEvent(HabboCommunicationEvent.AUTHENTICATED);
 
         // Notify UI that authentication succeeded
         uiBridge.setConnectionState('authenticated');
@@ -296,7 +310,7 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents> {
         if (!parser) return;
 
         if (this._isHandshaking) {
-            this.emit('loginStep', 'HABBO_CONNECTION_EVENT_HANDSHAKE_FAIL');
+            this.dispatchLoginStepEvent(HabboCommunicationEvent.HANDSHAKE_FAIL);
         }
 
         log.warn(`Disconnected: ${parser.reason} - ${parser.reasonText}`);
@@ -323,7 +337,7 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents> {
 
     private onConnectionDisconnected(): void {
         if (this._isHandshaking) {
-            this.emit('loginStep', 'HABBO_CONNECTION_EVENT_HANDSHAKE_FAIL');
+            this.dispatchLoginStepEvent(HabboCommunicationEvent.HANDSHAKE_FAIL);
         }
 
         if (!this._wasDisconnected) {

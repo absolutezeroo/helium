@@ -4,30 +4,28 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  * Send unique machine/device identification
  * Message ID: 1390
  */
-export class UniqueIDMessageComposer implements IMessageComposer {
-    private machineId: string;
-    private fingerprint: string;
-    private flashVersion: string;
+export class UniqueIDMessageComposer implements IMessageComposer<ConstructorParameters<typeof UniqueIDMessageComposer>>
+{
+	private _data: ConstructorParameters<typeof UniqueIDMessageComposer>;
 
-    constructor(
-        machineId: string = '',
-        fingerprint: string = '',
-        flashVersion: string = ''
-    ) {
-        this.machineId = machineId;
-        this.fingerprint = fingerprint;
-        this.flashVersion = flashVersion;
-    }
+	constructor(
+		machineId: string = '',
+		fingerprint: string = '',
+		flashVersion: string = ''
+	)
+	{
+		this._data = [];
 
-    getMessageArray(): unknown[] {
-        return [
-            this.machineId,
-            this.fingerprint,
-            this.flashVersion
-        ];
-    }
+		this._data.push(machineId, fingerprint, flashVersion);
+	}
 
-    dispose(): void {
-        // Nothing to dispose
-    }
+	getMessageArray()
+	{
+		return this._data;
+	}
+
+	dispose(): void
+	{
+		return;
+	}
 }

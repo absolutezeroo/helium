@@ -4,18 +4,22 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  * Complete Diffie-Hellman key exchange with our public key
  * Message ID: 2616
  */
-export class CompleteDiffieHandshakeMessageComposer implements IMessageComposer {
-    private publicKey: string;
+export class CompleteDiffieHandshakeMessageComposer implements IMessageComposer<ConstructorParameters<typeof CompleteDiffieHandshakeMessageComposer>>
+{
+	private _data: ConstructorParameters<typeof CompleteDiffieHandshakeMessageComposer>;
 
-    constructor(publicKey: string) {
-        this.publicKey = publicKey;
-    }
+	constructor(publicKey: string)
+	{
+		this._data = [publicKey];
+	}
 
-    getMessageArray(): unknown[] {
-        return [this.publicKey];
-    }
+	getMessageArray()
+	{
+		return this._data;
+	}
 
-    dispose(): void {
-        // Nothing to dispose
-    }
+	dispose(): void
+	{
+		return;
+	}
 }

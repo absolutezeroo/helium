@@ -5,18 +5,22 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  *
  * Based on AS3 RoomsWithHighestScoreSearchMessageComposer
  */
-export class RoomsWithHighestScoreSearchMessageComposer implements IMessageComposer {
-    private _data: unknown[];
+export class RoomsWithHighestScoreSearchMessageComposer implements IMessageComposer<ConstructorParameters<typeof RoomsWithHighestScoreSearchMessageComposer>>
+{
+	private _data: ConstructorParameters<typeof RoomsWithHighestScoreSearchMessageComposer>;
 
-    constructor(categoryId: number) {
-        this._data = [categoryId];
-    }
+	constructor(categoryId: number)
+	{
+		this._data = [categoryId];
+	}
 
-    getMessageArray(): unknown[] {
-        return this._data;
-    }
+	getMessageArray()
+	{
+		return this._data;
+	}
 
-    dispose(): void {
-        // Nothing to dispose
-    }
+	dispose(): void
+	{
+		return;
+	}
 }

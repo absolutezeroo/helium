@@ -4,38 +4,28 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  * Send event log for tracking
  * Message ID: 2297
  */
-export class EventLogMessageComposer implements IMessageComposer {
-    private category: string;
-    private type: string;
-    private action: string;
-    private extraString: string;
-    private extraInt: number;
+export class EventLogMessageComposer implements IMessageComposer<ConstructorParameters<typeof EventLogMessageComposer>>
+{
+	private _data: ConstructorParameters<typeof EventLogMessageComposer>;
 
-    constructor(
-        category: string,
-        type: string,
-        action: string,
-        extraString: string = '',
-        extraInt: number = 0
-    ) {
-        this.category = category || '';
-        this.type = type || '';
-        this.action = action || '';
-        this.extraString = extraString || '';
-        this.extraInt = extraInt || 0;
-    }
+	constructor(
+		category: string,
+		type: string,
+		action: string,
+		extraString: string = '',
+		extraInt: number = 0
+	)
+	{
+		this._data = [category, type, action, extraString, extraInt];
+	}
 
-    getMessageArray(): unknown[] {
-        return [
-            this.category,
-            this.type,
-            this.action,
-            this.extraString,
-            this.extraInt
-        ];
-    }
+	getMessageArray()
+	{
+		return this._data;
+	}
 
-    dispose(): void {
-        // Nothing to dispose
-    }
+	dispose(): void
+	{
+		return;
+	}
 }

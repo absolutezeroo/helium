@@ -4,12 +4,22 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  * Request to disconnect from server
  * Message ID: 1113
  */
-export class DisconnectMessageComposer implements IMessageComposer {
-    getMessageArray(): unknown[] {
-        return [];
-    }
+export class DisconnectMessageComposer implements IMessageComposer<ConstructorParameters<typeof DisconnectMessageComposer>>
+{
+	private _data: ConstructorParameters<typeof DisconnectMessageComposer>;
 
-    dispose(): void {
-        // Nothing to dispose
-    }
+	constructor()
+	{
+		this._data = [];
+	}
+
+	getMessageArray()
+	{
+		return this._data;
+	}
+
+	dispose(): void
+	{
+		return;
+	}
 }

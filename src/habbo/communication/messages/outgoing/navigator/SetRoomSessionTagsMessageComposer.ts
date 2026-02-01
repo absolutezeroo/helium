@@ -5,18 +5,22 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  *
  * Based on AS3 SetRoomSessionTagsMessageComposer
  */
-export class SetRoomSessionTagsMessageComposer implements IMessageComposer {
-    private _data: unknown[];
+export class SetRoomSessionTagsMessageComposer implements IMessageComposer<ConstructorParameters<typeof SetRoomSessionTagsMessageComposer>>
+{
+	private _data: ConstructorParameters<typeof SetRoomSessionTagsMessageComposer>;
 
-    constructor(tag1: string, tag2: string) {
-        this._data = [tag1, tag2];
-    }
+	constructor(tag1: string, tag2: string)
+	{
+		this._data = [tag1, tag2];
+	}
 
-    getMessageArray(): unknown[] {
-        return this._data;
-    }
+	getMessageArray()
+	{
+		return this._data;
+	}
 
-    dispose(): void {
-        // Nothing to dispose
-    }
+	dispose(): void
+	{
+		return;
+	}
 }

@@ -3,20 +3,23 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Performs a search in the new navigator
  *
- * Based on AS3 com.sulake.habbo.communication.messages.outgoing.newnavigator.NewNavigatorSearchComposer
  */
-export class NewNavigatorSearchComposer implements IMessageComposer {
-    private _data: unknown[];
+export class NewNavigatorSearchComposer implements IMessageComposer<ConstructorParameters<typeof NewNavigatorSearchComposer>>
+{
+	private _data: ConstructorParameters<typeof NewNavigatorSearchComposer>;
 
-    constructor(searchCode: string, filtering: string) {
-        this._data = [searchCode, filtering];
-    }
+	constructor(searchCode: string, filtering: string)
+	{
+		this._data = [searchCode, filtering];
+	}
 
-    getMessageArray(): unknown[] {
-        return this._data;
-    }
+	getMessageArray()
+	{
+		return this._data;
+	}
 
-    dispose(): void {
-        // Nothing to dispose
-    }
+	dispose(): void
+	{
+		return;
+	}
 }

@@ -5,25 +5,29 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  *
  * Based on AS3 CreateFlatMessageComposer
  */
-export class CreateFlatMessageComposer implements IMessageComposer {
-    private _data: unknown[];
+export class CreateFlatMessageComposer implements IMessageComposer<ConstructorParameters<typeof CreateFlatMessageComposer>>
+{
+	private _data: ConstructorParameters<typeof CreateFlatMessageComposer>;
 
-    constructor(
-        roomName: string,
-        roomDescription: string,
-        roomModel: string,
-        categoryId: number,
-        maxUsers: number,
-        tradeMode: number
-    ) {
-        this._data = [roomName, roomDescription, roomModel, categoryId, maxUsers, tradeMode];
-    }
+	constructor(
+		roomName: string,
+		roomDescription: string,
+		roomModel: string,
+		categoryId: number,
+		maxUsers: number,
+		tradeMode: number
+	)
+	{
+		this._data = [roomName, roomDescription, roomModel, categoryId, maxUsers, tradeMode];
+	}
 
-    getMessageArray(): unknown[] {
-        return this._data;
-    }
+	getMessageArray()
+	{
+		return this._data;
+	}
 
-    dispose(): void {
-        // Nothing to dispose
-    }
+	dispose(): void
+	{
+		return;
+	}
 }

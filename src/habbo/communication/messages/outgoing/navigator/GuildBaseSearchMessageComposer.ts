@@ -5,18 +5,22 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  *
  * Based on AS3 GuildBaseSearchMessageComposer
  */
-export class GuildBaseSearchMessageComposer implements IMessageComposer {
-    private _data: unknown[];
+export class GuildBaseSearchMessageComposer implements IMessageComposer<ConstructorParameters<typeof GuildBaseSearchMessageComposer>>
+{
+	private _data: ConstructorParameters<typeof GuildBaseSearchMessageComposer>;
 
-    constructor(guildId: number) {
-        this._data = [guildId];
-    }
+	constructor(guildId: number)
+	{
+		this._data = [guildId];
+	}
 
-    getMessageArray(): unknown[] {
-        return this._data;
-    }
+	getMessageArray()
+	{
+		return this._data;
+	}
 
-    dispose(): void {
-        // Nothing to dispose
-    }
+	dispose(): void
+	{
+		return;
+	}
 }

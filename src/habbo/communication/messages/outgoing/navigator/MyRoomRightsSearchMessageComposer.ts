@@ -5,12 +5,22 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  *
  * Based on AS3 MyRoomRightsSearchMessageComposer
  */
-export class MyRoomRightsSearchMessageComposer implements IMessageComposer {
-    getMessageArray(): unknown[] {
-        return [];
-    }
+export class MyRoomRightsSearchMessageComposer implements IMessageComposer<ConstructorParameters<typeof MyRoomRightsSearchMessageComposer>>
+{
+	private _data: ConstructorParameters<typeof MyRoomRightsSearchMessageComposer>;
 
-    dispose(): void {
-        // Nothing to dispose
-    }
+	constructor()
+	{
+		this._data = [];
+	}
+
+	getMessageArray()
+	{
+		return this._data;
+	}
+
+	dispose(): void
+	{
+		return;
+	}
 }

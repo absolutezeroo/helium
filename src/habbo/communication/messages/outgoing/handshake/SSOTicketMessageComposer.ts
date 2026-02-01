@@ -3,20 +3,22 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Send SSO ticket for authentication
  */
-export class SSOTicketMessageComposer implements IMessageComposer {
-    private ssoTicket: string;
-    private time: number;
+export class SSOTicketMessageComposer implements IMessageComposer<ConstructorParameters<typeof SSOTicketMessageComposer>>
+{
+	private _data: ConstructorParameters<typeof SSOTicketMessageComposer>;
 
-    constructor(ssoTicket: string, time: number = 0) {
-        this.ssoTicket = ssoTicket;
-        this.time = time;
-    }
+	constructor(ssoTicket: string, time: number = 0)
+	{
+		this._data = [ssoTicket, time];
+	}
 
-    getMessageArray(): unknown[] {
-        return [this.ssoTicket, this.time];
-    }
+	getMessageArray()
+	{
+		return this._data;
+	}
 
-    dispose(): void {
-        // Nothing to dispose
-    }
+	dispose(): void
+	{
+		return;
+	}
 }

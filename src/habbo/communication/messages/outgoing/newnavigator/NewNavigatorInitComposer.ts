@@ -4,20 +4,23 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Sent when the navigator is initialized to request metadata
  *
- * Based on AS3 com.sulake.habbo.communication.messages.outgoing.newnavigator.NewNavigatorInitComposer
  */
-export class NewNavigatorInitComposer implements IMessageComposer {
-    private _data: unknown[];
+export class NewNavigatorInitComposer implements IMessageComposer<ConstructorParameters<typeof NewNavigatorInitComposer>>
+{
+	private _data: ConstructorParameters<typeof NewNavigatorInitComposer>;
 
-    constructor() {
-        this._data = [];
-    }
+	constructor()
+	{
+		this._data = [];
+	}
 
-    getMessageArray(): unknown[] {
-        return this._data;
-    }
+	getMessageArray()
+	{
+		return this._data;
+	}
 
-    dispose(): void {
-        // Nothing to dispose
-    }
+	dispose(): void
+	{
+		return;
+	}
 }

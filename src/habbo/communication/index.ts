@@ -4,4 +4,5 @@ export type {HabboConnectionConfig} from './HabboCommunicationManager';
 export {HabboMessages} from './HabboMessages';
 
 export * from './encryption';
+export * from './enum';
 export * from './messages';

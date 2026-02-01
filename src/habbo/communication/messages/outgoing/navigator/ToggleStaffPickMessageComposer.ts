@@ -5,18 +5,22 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  *
  * Based on AS3 ToggleStaffPickMessageComposer
  */
-export class ToggleStaffPickMessageComposer implements IMessageComposer {
-    private _data: unknown[];
+export class ToggleStaffPickMessageComposer implements IMessageComposer<ConstructorParameters<typeof ToggleStaffPickMessageComposer>>
+{
+	private _data: ConstructorParameters<typeof ToggleStaffPickMessageComposer>;
 
-    constructor(roomId: number, picked: boolean) {
-        this._data = [roomId, picked];
-    }
+	constructor(roomId: number, picked: boolean)
+	{
+		this._data = [roomId, picked];
+	}
 
-    getMessageArray(): unknown[] {
-        return this._data;
-    }
+	getMessageArray()
+	{
+		return this._data;
+	}
 
-    dispose(): void {
-        // Nothing to dispose
-    }
+	dispose(): void
+	{
+		return;
+	}
 }

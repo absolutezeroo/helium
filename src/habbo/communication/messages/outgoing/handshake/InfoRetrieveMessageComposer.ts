@@ -3,12 +3,22 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Request user info after authentication
  */
-export class InfoRetrieveMessageComposer implements IMessageComposer {
-    getMessageArray(): unknown[] {
-        return [];
-    }
+export class InfoRetrieveMessageComposer implements IMessageComposer<ConstructorParameters<typeof InfoRetrieveMessageComposer>>
+{
+	private _data: ConstructorParameters<typeof InfoRetrieveMessageComposer>;
 
-    dispose(): void {
-        // Nothing to dispose
-    }
+	constructor()
+	{
+		this._data = [];
+	}
+
+	getMessageArray()
+	{
+		return this._data;
+	}
+
+	dispose(): void
+	{
+		return;
+	}
 }

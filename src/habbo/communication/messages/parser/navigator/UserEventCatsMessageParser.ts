@@ -5,7 +5,6 @@ import {EventCategory} from '../../incoming/navigator';
 /**
  * Parser for user event categories message
  *
- * Based on AS3 UserEventCatsEventParser
  */
 export class UserEventCatsMessageParser implements IMessageParser {
     private _eventCategories: EventCategory[] = [];
@@ -16,15 +15,19 @@ export class UserEventCatsMessageParser implements IMessageParser {
 
     flush(): boolean {
         this._eventCategories = [];
+
         return true;
     }
 
     parse(wrapper: IMessageDataWrapper): boolean {
         this._eventCategories = [];
+
         const count = wrapper.readInt();
+
         for (let i = 0; i < count; i++) {
             this._eventCategories.push(new EventCategory(wrapper));
         }
+
         return true;
     }
 }

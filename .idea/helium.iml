@@ -6,7 +6,8 @@
       <excludeFolder url="file://$MODULE_DIR$/_bmad" />
       <excludeFolder url="file://$MODULE_DIR$/_bmad-output" />
       <excludeFolder url="file://$MODULE_DIR$/source_as" />
-      <excludeFolder url="file://$MODULE_DIR$/source_nitro" />
+      <excludeFolder url="file://$MODULE_DIR$/source_nitro_react" />
+      <excludeFolder url="file://$MODULE_DIR$/source_nitro_renderer" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -9,4 +9,4 @@ export function mountUI(container: HTMLElement): () => void {
 export {App} from './App';
 export * from './stores';
 export * from './components';
-export {uiBridge} from './uiBridge';
+export {uiBridge} from './UIBridge';

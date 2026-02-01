@@ -5,18 +5,22 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  *
  * Based on AS3 ConvertGlobalRoomIdMessageComposer
  */
-export class ConvertGlobalRoomIdMessageComposer implements IMessageComposer {
-    private _data: unknown[];
+export class ConvertGlobalRoomIdMessageComposer implements IMessageComposer<ConstructorParameters<typeof ConvertGlobalRoomIdMessageComposer>>
+{
+	private _data: ConstructorParameters<typeof ConvertGlobalRoomIdMessageComposer>;
 
-    constructor(flatId: string) {
-        this._data = [flatId];
-    }
+	constructor(flatId: string)
+	{
+		this._data = [flatId];
+	}
 
-    getMessageArray(): unknown[] {
-        return this._data;
-    }
+	getMessageArray()
+	{
+		return this._data;
+	}
 
-    dispose(): void {
-        // Nothing to dispose
-    }
+	dispose(): void
+	{
+		return;
+	}
 }

@@ -5,18 +5,22 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  *
  * Based on AS3 PopularRoomsSearchMessageComposer
  */
-export class PopularRoomsSearchMessageComposer implements IMessageComposer {
-    private _data: unknown[];
+export class PopularRoomsSearchMessageComposer implements IMessageComposer<ConstructorParameters<typeof PopularRoomsSearchMessageComposer>>
+{
+	private _data: ConstructorParameters<typeof PopularRoomsSearchMessageComposer>;
 
-    constructor(category: string, index: number) {
-        this._data = [category, index];
-    }
+	constructor(category: string, index: number)
+	{
+		this._data = [category, index];
+	}
 
-    getMessageArray(): unknown[] {
-        return this._data;
-    }
+	getMessageArray()
+	{
+		return this._data;
+	}
 
-    dispose(): void {
-        // Nothing to dispose
-    }
+	dispose(): void
+	{
+		return;
+	}
 }
