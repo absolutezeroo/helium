@@ -1,20 +1,20 @@
 import {createRoot, createSignal} from 'solid-js';
-import type {IConfigurationManager} from '@core/configuration/IConfigurationManager';
+import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
 
 function createConfigStore() {
     const [isLoaded, setIsLoaded] = createSignal(false);
-    let _manager: IConfigurationManager | null = null;
+    let _manager: IHabboConfigurationManager | null = null;
 
     return {
         // State
         isLoaded,
 
         // Connect to configuration manager
-        connect: (manager: IConfigurationManager) => {
+        connect: (manager: IHabboConfigurationManager) => {
             _manager = manager;
             setIsLoaded(manager.isInitialized());
 
-            manager.on('loaded', () => {
+            manager.on('complete', () => {
                 setIsLoaded(true);
             });
         },

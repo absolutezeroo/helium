@@ -1,9 +1,11 @@
-import {injectable, inject} from 'inversify';
+import {injectable} from 'inversify';
 import {Logger} from '@core/utils/Logger';
 import {CoreLocalizationManager} from '@core/localization';
-import type {IConfigurationManager} from '@core/configuration';
+import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
+import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommunicationManager';
 import type {IHabboLocalizationManager} from './IHabboLocalizationManager';
 import {BadgeBaseAndLevel} from './BadgeBaseAndLevel';
+import {HabboCommunicationEvent} from '@habbo/communication/enum';
 
 const log = Logger.getLogger('HabboLocalization');
 
@@ -14,234 +16,311 @@ const log = Logger.getLogger('HabboLocalization');
  * Based on AS3 com.sulake.habbo.localization.HabboLocalizationManager
  */
 @injectable()
-export class HabboLocalizationManager extends CoreLocalizationManager implements IHabboLocalizationManager {
-    private static readonly ROMAN_NUMERALS: string[] = [
-        'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X',
-        'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX',
-        'XXI', 'XXII', 'XXIII', 'XXIV', 'XXV', 'XXVI', 'XXVII', 'XXVIII', 'XXIX', 'XXX',
-    ];
+export class HabboLocalizationManager extends CoreLocalizationManager implements IHabboLocalizationManager
+{
+	private static readonly ROMAN_NUMERALS: string[] = [
+		'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X',
+		'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX',
+		'XXI', 'XXII', 'XXIII', 'XXIV', 'XXV', 'XXVI', 'XXVII', 'XXVIII', 'XXIX', 'XXX',
+	];
 
-    private _isLocalizationInitialized: boolean = false;
-    private _badgePointLimits: Map<string, number> = new Map();
-    private _externalVariablesUrl: string = '';
-    private _externalVariablesHash: string = '';
-    private _configurationManager: IConfigurationManager | null = null;
+	private _isLocalizationInitialized: boolean = false;
+	private _badgePointLimits: Map<string, number> = new Map();
+	private _externalVariablesUrl: string = '';
+	private _externalVariablesHash: string = '';
+	private _configurationManager: IHabboConfigurationManager | null = null;
+	private _communicationManager: IHabboCommunicationManager | null = null;
+	private _skipExternals: boolean = false;
 
-    constructor() {
-        super();
-    }
+	constructor()
+	{
+		super();
+	}
 
-    /**
-     * Set the configuration manager reference
-     */
-    setConfigurationManager(configManager: IConfigurationManager): void {
-        this._configurationManager = configManager;
-        this.configureLocalizationLocations();
-    }
+	/**
+	 * Set the configuration manager reference
+	 */
+	setConfigurationManager(configManager: IHabboConfigurationManager): void
+	{
+		this._configurationManager = configManager;
+        
+		this.configureLocalizationLocations();
+	}
 
-    loadDefaultEmbedLocalizations(language: string, fallback: boolean = true): boolean {
-        // In TypeScript version, embedded localizations would be imported modules
-        // For now, we log and return false as external loading is preferred
-        log.info(`Loading default localizations for language: ${language}`);
+	/**
+	 * Set the communication manager reference
+	 */
+	setCommunicationManager(commManager: IHabboCommunicationManager): void
+	{
+		this._communicationManager = commManager;
 
-        if (fallback && language !== 'en') {
-            log.info('Trying with default language: en');
-            return this.loadDefaultEmbedLocalizations('en', false);
-        }
+		if (this._skipExternals)
+		{
+			this.emit('complete');
+		} else
+		{
+			// Listen for AUTHENTICATED event to trigger localization loading
+			this._communicationManager.on('loginStep', (step) =>
+			{
+				if (step === HabboCommunicationEvent.AUTHENTICATED)
+				{
+					this.onAuthenticated();
+				}
+			});
+		}
+	}
 
-        return false;
-    }
+	loadDefaultEmbedLocalizations(language: string, fallback: boolean = true): boolean
+	{
+		// In TypeScript version, embedded localizations would be imported modules
+		// For now, we log and return false as external loading is preferred
+		log.info(`Loading default localizations for language: ${language}`);
 
-    getLocalizationWithParams(key: string, defaultValue: string = '', ...params: string[]): string {
-        if (params && params.length > 0) {
-            for (let i = 0; i < params.length / 2; i++) {
-                this.registerParameter(key, params[i * 2], params[i * 2 + 1]);
-            }
-        }
+		if (fallback && language !== 'en')
+		{
+			log.info('Trying with default language: en');
+			return this.loadDefaultEmbedLocalizations('en', false);
+		}
 
-        return this.getLocalization(key, defaultValue);
-    }
+		return false;
+	}
 
-    getLocalizationWithParamMap(key: string, defaultValue: string = '', paramMap?: Map<string, string>): string {
-        if (paramMap) {
-            for (const [paramKey, paramValue] of paramMap) {
-                this.registerParameter(key, paramKey, paramValue);
-            }
-        }
+	getLocalizationWithParams(key: string, defaultValue: string = '', ...params: string[]): string
+	{
+		if (params && params.length > 0)
+		{
+			for (let i = 0; i < params.length / 2; i++)
+			{
+				this.registerParameter(key, params[i * 2], params[i * 2 + 1]);
+			}
+		}
 
-        return this.getLocalization(key, defaultValue);
-    }
+		return this.getLocalization(key, defaultValue);
+	}
 
-    getExternalVariablesUrl(): string {
-        return this._externalVariablesUrl;
-    }
+	getLocalizationWithParamMap(key: string, defaultValue: string = '', paramMap?: Map<string, string>): string
+	{
+		if (paramMap)
+		{
+			for (const [paramKey, paramValue] of paramMap)
+			{
+				this.registerParameter(key, paramKey, paramValue);
+			}
+		}
 
-    getExternalVariablesHash(): string {
-        return this._externalVariablesHash;
-    }
+		return this.getLocalization(key, defaultValue);
+	}
 
-    override getActiveEnvironmentId(): string {
-        return super.getActiveEnvironmentId();
-    }
+	getExternalVariablesUrl(): string
+	{
+		return this._externalVariablesUrl;
+	}
 
-    override getLocalization(key: string, defaultValue: string = ''): string {
-        const localization = super.getLocalization(key, defaultValue);
-        return this.interpolate(localization);
-    }
+	getExternalVariablesHash(): string
+	{
+		return this._externalVariablesHash;
+	}
 
-    getAchievementName(badgeId: string): string {
-        const badgeInfo = new BadgeBaseAndLevel(badgeId);
+	override getActiveEnvironmentId(): string
+	{
+		return super.getActiveEnvironmentId();
+	}
 
-        const localizationKey = this.getExistingKey([
-            'badge_name_al_' + badgeId,
-            'badge_name_al_' + badgeInfo.base,
-            'badge_name_' + badgeId,
-            'badge_name_' + badgeInfo.base,
-        ]);
+	override getLocalization(key: string, defaultValue: string = ''): string
+	{
+		const localization = super.getLocalization(key, defaultValue);
+		return this.interpolate(localization);
+	}
 
-        this.registerParameter(localizationKey, 'roman', this.getRomanNumeral(badgeInfo.level));
+	getAchievementName(badgeId: string): string
+	{
+		const badgeInfo = new BadgeBaseAndLevel(badgeId);
 
-        const localization = this.getLocalization(localizationKey);
-        return localization ?? '';
-    }
+		const localizationKey = this.getExistingKey([
+			'badge_name_al_' + badgeId,
+			'badge_name_al_' + badgeInfo.base,
+			'badge_name_' + badgeId,
+			'badge_name_' + badgeInfo.base,
+		]);
 
-    getAchievementDesc(badgeId: string, limit: number): string {
-        const badgeInfo = new BadgeBaseAndLevel(badgeId);
+		this.registerParameter(localizationKey, 'roman', this.getRomanNumeral(badgeInfo.level));
 
-        const localizationKey = this.getExistingKey([
-            'badge_desc_al_' + badgeId,
-            'badge_desc_al_' + badgeInfo.base,
-            'badge_desc_' + badgeId,
-            'badge_desc_' + badgeInfo.base,
-        ]);
+		const localization = this.getLocalization(localizationKey);
+		return localization ?? '';
+	}
 
-        this.registerParameter(localizationKey, 'limit', '' + limit);
-        this.registerParameter(localizationKey, 'roman', this.getRomanNumeral(badgeInfo.level));
+	getAchievementDesc(badgeId: string, limit: number): string
+	{
+		const badgeInfo = new BadgeBaseAndLevel(badgeId);
 
-        return this.getLocalization(localizationKey);
-    }
+		const localizationKey = this.getExistingKey([
+			'badge_desc_al_' + badgeId,
+			'badge_desc_al_' + badgeInfo.base,
+			'badge_desc_' + badgeId,
+			'badge_desc_' + badgeInfo.base,
+		]);
 
-    getAchievementInstruction(badgeId: string): string {
-        const badgeInfo = new BadgeBaseAndLevel(badgeId);
+		this.registerParameter(localizationKey, 'limit', '' + limit);
+		this.registerParameter(localizationKey, 'roman', this.getRomanNumeral(badgeInfo.level));
 
-        const localizationKey = this.getExistingKey(['badge_instruction_' + badgeInfo.base]);
+		return this.getLocalization(localizationKey);
+	}
 
-        this.registerParameter(localizationKey, 'limit', '' + this.getBadgePointLimit(badgeId));
+	getAchievementInstruction(badgeId: string): string
+	{
+		const badgeInfo = new BadgeBaseAndLevel(badgeId);
 
-        const localization = this.getLocalization(localizationKey);
-        return localization ?? '';
-    }
+		const localizationKey = this.getExistingKey(['badge_instruction_' + badgeInfo.base]);
 
-    getBadgeBaseName(badgeId: string): string {
-        const badgeInfo = new BadgeBaseAndLevel(badgeId);
-        return badgeInfo.base;
-    }
+		this.registerParameter(localizationKey, 'limit', '' + this.getBadgePointLimit(badgeId));
 
-    getBadgeName(badgeId: string): string {
-        const badgeInfo = new BadgeBaseAndLevel(badgeId);
+		const localization = this.getLocalization(localizationKey);
+		return localization ?? '';
+	}
 
-        const localizationKey = this.fixBadLocalization(
-            this.getExistingKey(['badge_name_' + badgeId, 'badge_name_' + badgeInfo.base])
-        );
+	getBadgeBaseName(badgeId: string): string
+	{
+		const badgeInfo = new BadgeBaseAndLevel(badgeId);
+		return badgeInfo.base;
+	}
 
-        this.registerParameter(localizationKey, 'roman', this.getRomanNumeral(badgeInfo.level));
+	getBadgeName(badgeId: string): string
+	{
+		const badgeInfo = new BadgeBaseAndLevel(badgeId);
 
-        return this.getLocalization(localizationKey);
-    }
+		const localizationKey = this.fixBadLocalization(
+			this.getExistingKey(['badge_name_' + badgeId, 'badge_name_' + badgeInfo.base])
+		);
 
-    getBadgeDesc(badgeId: string): string {
-        const badgeInfo = new BadgeBaseAndLevel(badgeId);
+		this.registerParameter(localizationKey, 'roman', this.getRomanNumeral(badgeInfo.level));
 
-        const localizationKey = this.fixBadLocalization(
-            this.getExistingKey(['badge_desc_' + badgeId, 'badge_desc_' + badgeInfo.base])
-        );
+		return this.getLocalization(localizationKey);
+	}
 
-        this.registerParameter(localizationKey, 'limit', '' + this.getBadgePointLimit(badgeId));
-        this.registerParameter(localizationKey, 'roman', this.getRomanNumeral(badgeInfo.level));
+	getBadgeDesc(badgeId: string): string
+	{
+		const badgeInfo = new BadgeBaseAndLevel(badgeId);
 
-        const localization = this.getLocalization(localizationKey);
-        return localizationKey === localization ? '' : localization;
-    }
+		const localizationKey = this.fixBadLocalization(
+			this.getExistingKey(['badge_desc_' + badgeId, 'badge_desc_' + badgeInfo.base])
+		);
 
-    getPreviousLevelBadgeId(badgeId: string): string {
-        const badgeInfo = new BadgeBaseAndLevel(badgeId);
-        badgeInfo.level--;
-        return badgeInfo.badgeId;
-    }
+		this.registerParameter(localizationKey, 'limit', '' + this.getBadgePointLimit(badgeId));
+		this.registerParameter(localizationKey, 'roman', this.getRomanNumeral(badgeInfo.level));
 
-    setBadgePointLimit(badgeId: string, limit: number): void {
-        this._badgePointLimits.set(badgeId, limit);
-    }
+		const localization = this.getLocalization(localizationKey);
+		return localizationKey === localization ? '' : localization;
+	}
 
-    requestLocalizationInit(): void {
-        if (this._isLocalizationInitialized) {
-            return;
-        }
+	getPreviousLevelBadgeId(badgeId: string): string
+	{
+		const badgeInfo = new BadgeBaseAndLevel(badgeId);
+		badgeInfo.level--;
+		return badgeInfo.badgeId;
+	}
 
-        if (!this._configurationManager) {
-            log.error('Configuration manager not set');
-            return;
-        }
+	setBadgePointLimit(badgeId: string, limit: number): void
+	{
+		this._badgePointLimits.set(badgeId, limit);
+	}
 
-        this._isLocalizationInitialized = true;
+	requestLocalizationInit(): void
+	{
+		if (this._isLocalizationInitialized)
+		{
+			return;
+		}
 
-        this.once('loaded', () => {
-            this._isLocalizationInitialized = false;
-            log.success('Localizations ready');
-        });
+		if (!this._configurationManager)
+		{
+			log.error('Configuration manager not set');
+			return;
+		}
 
-        this.once('failed', () => {
-            this._isLocalizationInitialized = false;
-            log.error('Failed loading localization data');
-        });
+		this._isLocalizationInitialized = true;
 
-        const hashesUrl = this._configurationManager.getProperty('gamedata.hashes.url');
-        const environmentId = this._configurationManager.getProperty('environment.id');
+		this.once('loaded', () =>
+		{
+			this._isLocalizationInitialized = false;
+			log.success('Localizations ready');
+		});
 
-        super.loadLocalizationFromURL(hashesUrl, environmentId);
-    }
+		this.once('failed', () =>
+		{
+			this._isLocalizationInitialized = false;
+			log.error('Failed loading localization data');
+		});
 
-    private configureLocalizationLocations(): void {
-        if (!this._configurationManager) {
-            return;
-        }
+		const hashesUrl = this._configurationManager.getProperty('gamedata.hashes.url');
+		const environmentId = this._configurationManager.getProperty('environment.id');
 
-        let index = 1;
+		super.loadLocalizationFromURL(hashesUrl, environmentId);
+	}
 
-        while (this._configurationManager.propertyExists('localization.' + index)) {
-            const localizationName = this._configurationManager.getProperty('localization.' + index);
-            const localizationCode = this._configurationManager.getProperty('localization.' + index + '.code');
-            const localizationDisplayName = this._configurationManager.getProperty('localization.' + index + '.name');
-            const localizationUrl = this._configurationManager.getProperty('localization.' + index + '.url');
+	/**
+	 * Called when authentication is complete
+	 * Based on AS3:
+	 * ```
+	 * private function onAuthenticated(event: Event): void {
+	 *     requestLocalizationInit();
+	 * }
+	 * ```
+	 */
+	private onAuthenticated(): void
+	{
+		this.requestLocalizationInit();
+	}
 
-            super.registerLocalizationDefinition(localizationName, localizationDisplayName, localizationUrl, localizationCode);
+	private configureLocalizationLocations(): void
+	{
+		if (!this._configurationManager)
+		{
+			return;
+		}
 
-            index++;
-        }
-    }
+		let index = 1;
 
-    private getBadgePointLimit(badgeId: string): number {
-        return this._badgePointLimits.get(badgeId) ?? 0;
-    }
+		while (this._configurationManager.propertyExists('localization.' + index))
+		{
+			const localizationName = this._configurationManager.getProperty('localization.' + index);
+			const localizationCode = this._configurationManager.getProperty('localization.' + index + '.code');
+			const localizationDisplayName = this._configurationManager.getProperty('localization.' + index + '.name');
+			const localizationUrl = this._configurationManager.getProperty('localization.' + index + '.url');
 
-    private getExistingKey(keys: string[]): string {
-        for (const candidateKey of keys) {
-            const value = this.getLocalization(candidateKey);
-            if (value !== '') {
-                return candidateKey;
-            }
-        }
+			super.registerLocalizationDefinition(localizationName, localizationDisplayName, localizationUrl, localizationCode);
 
-        return keys[0];
-    }
+			index++;
+		}
+	}
 
-    private getRomanNumeral(level: number): string {
-        return HabboLocalizationManager.ROMAN_NUMERALS[Math.max(0, level - 1)] ?? '';
-    }
+	private getBadgePointLimit(badgeId: string): number
+	{
+		return this._badgePointLimits.get(badgeId) ?? 0;
+	}
 
-    private fixBadLocalization(localizationKey: string): string {
-        let fixedKey = localizationKey.replace('${', '$');
-        fixedKey = fixedKey.replace('{', '$');
-        return fixedKey.replace('}', '$');
-    }
+	private getExistingKey(keys: string[]): string
+	{
+		for (const candidateKey of keys)
+		{
+			const value = this.getLocalization(candidateKey);
+			if (value !== '')
+			{
+				return candidateKey;
+			}
+		}
+
+		return keys[0];
+	}
+
+	private getRomanNumeral(level: number): string
+	{
+		return HabboLocalizationManager.ROMAN_NUMERALS[Math.max(0, level - 1)] ?? '';
+	}
+
+	private fixBadLocalization(localizationKey: string): string
+	{
+		let fixedKey = localizationKey.replace('${', '$');
+		fixedKey = fixedKey.replace('{', '$');
+		return fixedKey.replace('}', '$');
+	}
 }

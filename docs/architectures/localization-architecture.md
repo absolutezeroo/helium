@@ -138,25 +138,42 @@ These event strings are used by the localization manager to notify listeners of 
 
 ---
 
-## TypeScript Migration Notes
+## TypeScript Implementation
 
-When porting to TypeScript/SolidJS:
+### Implemented Files
 
-1. **HabboLocalizationManager** - Convert to a service class or store. The badge/achievement methods are heavily used throughout the client for displaying badge information.
+| AS3 File                       | TS Equivalent                                      | Status  |
+|--------------------------------|----------------------------------------------------|---------|
+| `HabboLocalizationManager.as`  | `habbo/localization/HabboLocalizationManager.ts`   | ✅ Done |
+| `IHabboLocalizationManager.as` | `habbo/localization/IHabboLocalizationManager.ts`  | ✅ Done |
+| `BadgeBaseAndLevel.as`         | `habbo/localization/BadgeBaseAndLevel.ts`          | ✅ Done |
+| `CoreLocalizationManager`      | `core/localization/CoreLocalizationManager.ts`     | ✅ Done |
+| `GameDataResources`            | `core/localization/GameDataResources.ts`           | ✅ Done |
 
-2. **IHabboLocalizationManager** - Convert to a TypeScript interface.
+### Key Implementation Details
 
-3. **BadgeBaseAndLevel** - Convert to a TypeScript class or utility function. The parsing logic is straightforward.
+1. **Authentication Event Listener** - `setCommunicationManager()` method receives the HabboCommunicationManager and listens for `loginStep` events. When `AUTHENTICATED` is received, it calls `requestLocalizationInit()` automatically.
 
-4. **HabboLocalizationFlags** - Convert to a TypeScript enum or const object.
+2. **Hashes Loading** - `requestLocalizationInit()` loads from `gamedata.hashes.url` which returns a JSON with file URLs and hashes. The final URL is constructed as `${url}/${hash}`.
 
-5. **class_80 (Event Constants)** - Convert to TypeScript string constants or enum. Consider renaming to `HabboLocalizationEventTypes` for clarity.
+3. **CoreLocalizationManager** - Base class handles:
+   - Text storage with `Map<string, Localization>`
+   - Parameter substitution with `%param%` syntax
+   - Interpolation with `${key}` syntax
+   - Loading from URL (key=value or JSON format)
 
-6. **CoreLocalizationManager Dependency** - The HabboLocalizationManager extends CoreLocalizationManager from `com.sulake.core.localization`. This base class handles the actual text storage and retrieval. Ensure it is ported first.
-
-7. **Parameter Substitution** - The `registerParameter()` and `interpolate()` methods handle placeholder replacement like `${name}`. Modern TypeScript can use template literals or a simple string replacement function.
-
-8. **Authentication Dependency** - The manager listens for "HABBO_CONNECTION_EVENT_AUTHENTICATED" to trigger localization loading. Ensure this integrates with the connection/authentication flow.
+4. **Event Flow**:
+   ```
+   Authentication → loginStep(AUTHENTICATED) → onAuthenticated()
+                                                    ↓
+                                           requestLocalizationInit()
+                                                    ↓
+                                           loadLocalizationFromURL(hashes.url)
+                                                    ↓
+                                           Parse hashes.json → Load external_texts
+                                                    ↓
+                                           emit('loaded') → emit('complete')
+   ```
 
 ---
 

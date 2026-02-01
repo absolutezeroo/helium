@@ -1,4 +1,5 @@
 import {inject, injectable} from 'inversify';
+import {EventEmitter} from 'eventemitter3';
 import {TYPES} from '@iid/types';
 import {ArcFour} from '@habbo/communication/encryption/ArcFour';
 import {DiffieHellman} from '@habbo/communication/encryption/DiffieHellman';
@@ -8,7 +9,7 @@ import {HabboCommunicationEvent} from './enum';
 import {IncomingMessages} from './demo/IncomingMessages';
 import {SessionDataManager} from '../session/SessionDataManager';
 import {uiBridge} from '@ui/UIBridge';
-import type {IHabboCommunicationManager} from './IHabboCommunicationManager';
+import type {IHabboCommunicationManager, HabboCommunicationManagerEvents} from './IHabboCommunicationManager';
 import type {ICoreCommunicationManager} from '@core/communication/ICoreCommunicationManager';
 import type {IConnection} from '@core/communication/connection/IConnection';
 import type {IConnectionCallback} from '@core/communication/connection/IConnectionCallback';
@@ -27,8 +28,16 @@ export interface HabboConnectionConfig {
     ssoTicket?: string;
 }
 
+/**
+ * Habbo Communication Manager
+ *
+ * Based on AS3: com.sulake.habbo.communication.HabboCommunicationManager
+ *
+ * Extends EventEmitter to act as the central event dispatcher (context.events in AS3)
+ * for communication-related events like AUTHENTICATED, HANDSHAKED, etc.
+ */
 @injectable()
-export class HabboCommunicationManager implements IHabboCommunicationManager, IConnectionCallback {
+export class HabboCommunicationManager extends EventEmitter<HabboCommunicationManagerEvents> implements IHabboCommunicationManager, IConnectionCallback {
     private communicationManager: ICoreCommunicationManager;
     private messageConfig: IMessageConfiguration;
     private incomingMessages: IncomingMessages | null = null;
@@ -41,6 +50,7 @@ export class HabboCommunicationManager implements IHabboCommunicationManager, IC
     constructor(
         @inject(TYPES.CommunicationManager) communicationManager: ICoreCommunicationManager
     ) {
+        super();
         this.communicationManager = communicationManager;
         this.messageConfig = new HabboMessages();
     }
@@ -115,6 +125,13 @@ export class HabboCommunicationManager implements IHabboCommunicationManager, IC
         // Create new instances
         this.incomingMessages = new IncomingMessages(this);
         this._sessionDataManager = new SessionDataManager(this);
+
+        // Forward events from IncomingMessages to this manager
+        // This acts as context.events in AS3 for other components to listen
+        this.incomingMessages.on('loginStep', (step) => this.emit('loginStep', step));
+        this.incomingMessages.on('authenticated', () => this.emit('authenticated'));
+        this.incomingMessages.on('disconnected', (reason, reasonText) => this.emit('disconnected', reason, reasonText));
+        this.incomingMessages.on('error', (code, message) => this.emit('error', code, message));
 
         this.portIndex = -1;
         this.connectionAttempt = 1;

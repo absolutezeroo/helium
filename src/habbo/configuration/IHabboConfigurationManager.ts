@@ -1,0 +1,68 @@
+import type {EventEmitter} from 'eventemitter3';
+import type {ICoreConfiguration} from '@core/runtime/ICoreConfiguration';
+
+/**
+ * Habbo Configuration Manager Events
+ *
+ * Based on AS3: com.sulake.habbo.configuration.enum.HabboConfigurationEvent
+ */
+export interface HabboConfigurationManagerEvents {
+    /**
+     * Configuration loaded successfully
+     */
+    'configurationLoaded': () => void;
+
+    /**
+     * Configuration load error
+     */
+    'configurationError': (error: Error) => void;
+
+    /**
+     * Component complete (ready to use)
+     */
+    'complete': () => void;
+}
+
+/**
+ * Habbo Configuration Manager Interface
+ *
+ * Based on AS3: com.sulake.habbo.configuration.IHabboConfigurationManager
+ *
+ * Extends ICoreConfiguration with Habbo-specific functionality:
+ * - Environment management
+ * - External variables download
+ * - Configuration reset
+ */
+export interface IHabboConfigurationManager extends ICoreConfiguration, EventEmitter<HabboConfigurationManagerEvents> {
+    /**
+     * Check if configuration has been loaded
+     */
+    isInitialized(): boolean;
+
+    /**
+     * Update the environment ID and reload environment-specific properties
+     * @param envId Environment identifier (e.g., "production", "staging")
+     */
+    updateEnvironmentId(envId: string): void;
+
+    /**
+     * Reset all configuration to defaults
+     * Clears all properties and reloads embedded configurations
+     */
+    resetAll(): void;
+
+    /**
+     * Initialize configuration download from external variables URL
+     */
+    initConfigurationDownload(): Promise<void>;
+
+    /**
+     * Get the current environment ID
+     */
+    readonly environmentId: string;
+
+    /**
+     * Whether to use HTTPS for URLs
+     */
+    useHttps: boolean;
+}

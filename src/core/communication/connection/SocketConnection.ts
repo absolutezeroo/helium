@@ -90,7 +90,7 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
         }
     }
 
-    send(composer: IMessageComposer): boolean {
+    send(composer: IMessageComposer<unknown[]>): boolean {
         const messageId = this.messageRegistry.getMessageIdForComposer(composer);
         if (messageId < 0) {
             log.warn(`Unknown composer: ${composer.constructor.name}`);
@@ -106,7 +106,7 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
         return this.sendRaw(encoded, messageId);
     }
 
-    sendUnencrypted(composer: IMessageComposer): boolean {
+    sendUnencrypted(composer: IMessageComposer<unknown[]>): boolean {
         const messageId = this.messageRegistry.getMessageIdForComposer(composer);
         if (messageId < 0) {
             log.warn(`Unknown composer: ${composer.constructor.name}`);

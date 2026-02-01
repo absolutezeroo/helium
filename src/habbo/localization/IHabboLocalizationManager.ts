@@ -1,5 +1,6 @@
 import type {ICoreLocalizationManager} from '@core/localization';
-import type {IConfigurationManager} from '@core/configuration';
+import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
+import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommunicationManager';
 
 /**
  * Habbo-specific localization manager interface
@@ -10,7 +11,14 @@ export interface IHabboLocalizationManager extends ICoreLocalizationManager {
     /**
      * Set the configuration manager reference
      */
-    setConfigurationManager(configManager: IConfigurationManager): void;
+    setConfigurationManager(configManager: IHabboConfigurationManager): void;
+
+    /**
+     * Set the communication manager reference
+     * Used to listen for HABBO_CONNECTION_EVENT_AUTHENTICATED
+     * Based on AS3: context.events.addEventListener("HABBO_CONNECTION_EVENT_AUTHENTICATED", onAuthenticated)
+     */
+    setCommunicationManager(commManager: IHabboCommunicationManager): void;
 
     /**
      * Load default embedded localizations

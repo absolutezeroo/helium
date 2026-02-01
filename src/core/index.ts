@@ -1,4 +1,4 @@
 export * from './communication';
-export * from './configuration';
 export * from './localization';
+export * from './runtime';
 export * from './utils';

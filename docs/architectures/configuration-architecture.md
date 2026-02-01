@@ -10,10 +10,10 @@ This document categorizes all AS3 configuration files into **ENGINE** (business 
 
 | Category          | Count | Done | Description                                           |
 |-------------------|-------|------|-------------------------------------------------------|
-| ENGINE (Required) | 6     | 4    | Configuration management, settings, property storage  |
+| ENGINE (Required) | 7     | 7    | Configuration management, settings, property storage  |
 | VIEW (Ignore)     | 0     | N/A  | No UI components in this module                       |
 
-**Progress: ~67% ENGINE files implemented**
+**Progress: 100% ENGINE files implemented** ✅
 
 ---
 
@@ -21,19 +21,20 @@ This document categorizes all AS3 configuration files into **ENGINE** (business 
 
 ### Core Configuration Manager
 
-| AS3 File                        | Purpose                                             | TS Equivalent                   | Status  |
-|---------------------------------|-----------------------------------------------------|---------------------------------|---------|
-| `HabboConfigurationManager.as`  | Main configuration manager, loads/stores properties | `ConfigurationManager.ts`       | ✅ Done (merged with Core) |
-| `IHabboConfigurationManager.as` | Interface for configuration manager                 | `IConfigurationManager.ts`      | ✅ Done |
+| AS3 File                        | Purpose                                             | TS Equivalent                                      | Status  |
+|---------------------------------|-----------------------------------------------------|----------------------------------------------------|---------|
+| `HabboConfigurationManager.as`  | Main configuration manager, loads/stores properties | `habbo/configuration/HabboConfigurationManager.ts` | ✅ Done |
+| `IHabboConfigurationManager.as` | Interface for configuration manager                 | `habbo/configuration/IHabboConfigurationManager.ts`| ✅ Done |
+| `ICoreConfiguration.as`         | Core configuration interface (in core/runtime)      | `core/configuration/ICoreConfiguration.ts`         | ✅ Done |
 
 ### Enumerations
 
 | AS3 File                              | Purpose                                     | TS Equivalent                     | Status  |
 |---------------------------------------|---------------------------------------------|-----------------------------------|---------|
-| `enum/HabboComponentFlags.as`         | Component mode flags (e.g., ROOM_VIEWER)    | `enum/HabboComponentFlags.ts`     | TODO    |
+| `enum/HabboComponentFlags.as`         | Component mode flags (e.g., ROOM_VIEWER)    | `enum/HabboComponentFlags.ts`     | ✅ Done |
 | `enum/HabboConfigurationEvent.as`     | Configuration event constants               | `enum/HabboConfigurationEvent.ts` | ✅ Done |
 | `enum/HabboConfigurationFlags.as`     | Configuration flags (skip external vars)    | `enum/HabboConfigurationFlags.ts` | ✅ Done |
-| `enum/HabboProperty.as`               | Property key constants for configuration    | `enum/HabboProperty.ts`           | TODO    |
+| `enum/HabboProperty.as`               | Property key constants for configuration    | `enum/HabboProperty.ts`           | ✅ Done |
 
 ---
 
@@ -260,12 +261,20 @@ configurationStore (SolidJS reactive store) [if UI needs config values]
 
 ---
 
-## Next Implementation Steps
+## Implementation Status
 
-1. **Create IHabboConfigurationManager interface** - Define the public API
-2. **Implement HabboConfigurationManager** - Core configuration logic
-3. **Port HabboProperty constants** - Type-safe property keys
-4. **Port configuration flags** - HabboConfigurationFlags, HabboComponentFlags
-5. **Implement configuration events** - HabboConfigurationEvent
-6. **Add to dependency injection** - Register with core
-7. **Test property interpolation** - Verify ${} syntax works correctly
+### Completed ✅
+1. **ICoreConfiguration interface** - `core/configuration/ICoreConfiguration.ts`
+2. **IHabboConfigurationManager interface** - `habbo/configuration/IHabboConfigurationManager.ts`
+3. **HabboConfigurationManager implementation** - `habbo/configuration/HabboConfigurationManager.ts`
+   - Property storage with Map<string, string>
+   - Interpolation with ${variable} syntax
+   - Environment-specific overrides
+   - External variables download
+   - URL protocol handling
+4. **HabboConfigurationEvent** - Events for configuration loaded/error
+5. **Dependency injection** - Registered in IoC container
+
+### All Complete ✅
+- `HabboProperty.ts` - Type-safe property keys (ENVIRONMENT_ID, CONNECTION_HOST, SSO_TOKEN, etc.)
+- `HabboComponentFlags.ts` - Component mode flags with `isRoomViewerMode()` helper

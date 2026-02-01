@@ -1,6 +1,6 @@
 import {configStore, connectionStore, localizationStore, navigatorStore, sessionStore} from './stores';
 import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
-import type {IConfigurationManager} from '@core/configuration/IConfigurationManager';
+import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
 import type {IHabboLocalizationManager} from '@habbo/localization/IHabboLocalizationManager';
 import type {IHabboNavigator, IHabboNewNavigator} from '@habbo/navigator';
 import type {HabboCommunicationEventType} from '@habbo/communication/enum';
@@ -11,7 +11,7 @@ import type {HabboCommunicationEventType} from '@habbo/communication/enum';
  */
 export class UIBridge {
     private _sessionDataManager: ISessionDataManager | null = null;
-    private _configurationManager: IConfigurationManager | null = null;
+    private _configurationManager: IHabboConfigurationManager | null = null;
     private _localizationManager: IHabboLocalizationManager | null = null;
     private _navigator: IHabboNavigator | null = null;
     private _newNavigator: IHabboNewNavigator | null = null;
@@ -19,7 +19,7 @@ export class UIBridge {
     /**
      * Connect ConfigurationManager to config store
      */
-    connectConfigurationManager(manager: IConfigurationManager): void {
+    connectConfigurationManager(manager: IHabboConfigurationManager): void {
         this._configurationManager = manager;
 
         configStore.connect(manager);

@@ -6,10 +6,16 @@ import type {IGameDataResources} from './IGameDataResources';
 
 /**
  * Events emitted by the localization manager
+ *
+ * Based on AS3 localization events:
+ * - LOCALIZATION_EVENT_LOCALIZATION_LOADED
+ * - LOCALIZATION_EVENT_LOCALIZATION_FAILED
+ * - "complete" event
  */
 export interface LocalizationManagerEvents {
     loaded: () => void;
     failed: () => void;
+    complete: () => void;
 }
 
 /**

@@ -19,7 +19,7 @@ export const TYPES = {
     // Habbo
     AvatarRenderManager: Symbol.for('AvatarRenderManager'),
     CatalogManager: Symbol.for('CatalogManager'),
-    ConfigurationManager: Symbol.for('ConfigurationManager'),
+    HabboConfigurationManager: Symbol.for('HabboConfigurationManager'),
     HabboCommunicationManager: Symbol.for('HabboCommunicationManager'),
     InventoryManager: Symbol.for('InventoryManager'),
     NavigatorManager: Symbol.for('NavigatorManager'),

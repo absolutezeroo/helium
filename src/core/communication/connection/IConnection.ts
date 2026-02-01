@@ -33,14 +33,14 @@ export interface IConnection {
      * @param composer The message to send
      * @returns True if message was sent
      */
-    send(composer: IMessageComposer): boolean;
+    send(composer: IMessageComposer<unknown[]>): boolean;
 
     /**
      * Send an unencrypted message
      * @param composer The message to send
      * @returns True if message was sent
      */
-    sendUnencrypted(composer: IMessageComposer): boolean;
+    sendUnencrypted(composer: IMessageComposer<unknown[]>): boolean;
 
     /**
      * Set encryption for both directions

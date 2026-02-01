@@ -89,7 +89,7 @@ export class MessageRegistry {
     /**
      * Get message ID for a composer instance
      */
-    getMessageIdForComposer(composer: IMessageComposer): number {
+    getMessageIdForComposer(composer: IMessageComposer<unknown[]>): number {
         // Try by class reference first
         const composerClass = composer.constructor as ComposerClass;
         const idByClass = this.composerClassToId.get(composerClass);

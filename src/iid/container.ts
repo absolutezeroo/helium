@@ -2,9 +2,9 @@ import 'reflect-metadata';
 import {Container} from 'inversify';
 import {TYPES} from './types';
 
-// Core Configuration
-import {ConfigurationManager} from '@core/configuration/ConfigurationManager';
-import type {IConfigurationManager} from '@core/configuration/IConfigurationManager';
+// Habbo Configuration
+import {HabboConfigurationManager} from '@habbo/configuration/HabboConfigurationManager';
+import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
 
 // Core Communication
 import {CoreCommunicationManager} from '@core/communication/CoreCommunicationManager';
@@ -32,11 +32,12 @@ const container = new Container({
 export {container};
 
 export function setupContainer(): Container {
-    // Bind Core Services
-    container.bind<IConfigurationManager>(TYPES.ConfigurationManager)
-        .to(ConfigurationManager)
+    // Bind Habbo Configuration
+    container.bind<IHabboConfigurationManager>(TYPES.HabboConfigurationManager)
+        .to(HabboConfigurationManager)
         .inSingletonScope();
 
+    // Bind Core Services
     container.bind<ICoreCommunicationManager>(TYPES.CommunicationManager)
         .to(CoreCommunicationManager)
         .inSingletonScope();

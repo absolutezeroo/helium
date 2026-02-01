@@ -1,13 +1,43 @@
+import type {EventEmitter} from 'eventemitter3';
 import type {IConnection} from '@core/communication/connection/IConnection';
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
 import type {IEncryption} from '@core/communication/encryption/IEncryption';
 import type {IKeyExchange} from '@core/communication/handshake/IKeyExchange';
 import type {ISessionDataManager} from '../session/ISessionDataManager';
+import type {HabboCommunicationEventType} from './enum';
+
+/**
+ * Events emitted by HabboCommunicationManager
+ * Matches AS3's context.events dispatcher for communication events
+ */
+export interface HabboCommunicationManagerEvents {
+    /**
+     * Login step changed (INIT, ESTABLISHED, HANDSHAKING, HANDSHAKED, AUTHENTICATED, etc.)
+     */
+    'loginStep': (step: HabboCommunicationEventType) => void;
+
+    /**
+     * Authentication successful
+     */
+    'authenticated': () => void;
+
+    /**
+     * Disconnected from server
+     */
+    'disconnected': (reason: number, reasonText: string) => void;
+
+    /**
+     * Error occurred
+     */
+    'error': (code: number, message: string) => void;
+}
 
 /**
  * Interface for Habbo-specific communication manager
+ *
+ * Based on AS3: com.sulake.habbo.communication.IHabboCommunicationManager
  */
-export interface IHabboCommunicationManager {
+export interface IHabboCommunicationManager extends EventEmitter<HabboCommunicationManagerEvents> {
     /**
      * Get the main Habbo connection
      */

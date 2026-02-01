@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import {Application, Ticker} from 'pixi.js';
 import {container, setupContainer, TYPES} from './iid';
 import type {ICoreCommunicationManager} from '@core/communication/ICoreCommunicationManager';
-import type {IConfigurationManager} from '@core/configuration/IConfigurationManager';
+import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
 import type {IHabboLocalizationManager} from '@habbo/localization/IHabboLocalizationManager';
 import type {IHabboNavigator, IHabboNewNavigator} from '@habbo/navigator';
 import {HabboCommunicationManager} from '@habbo/communication/HabboCommunicationManager';
@@ -18,7 +18,7 @@ export class Helium {
     private _application: Application | null = null;
 
     // Managers
-    private _configurationManager: IConfigurationManager | null = null;
+    private _configurationManager: IHabboConfigurationManager | null = null;
     private _communicationManager: ICoreCommunicationManager | null = null;
     private _habboCommunicationManager: HabboCommunicationManager | null = null;
 
@@ -52,7 +52,7 @@ export class Helium {
     /**
      * Get the configuration manager
      */
-    public get configuration(): IConfigurationManager {
+    public get configuration(): IHabboConfigurationManager {
         if (!this._configurationManager) {
             throw new Error('[Helium] Not initialized');
         }
@@ -141,15 +141,22 @@ export class Helium {
         setupContainer();
 
         // Initialize configuration manager
-        this._configurationManager = container.get<IConfigurationManager>(TYPES.ConfigurationManager);
+        this._configurationManager = container.get<IHabboConfigurationManager>(TYPES.HabboConfigurationManager);
 
-        // Load configuration from URL if provided
-        if (config?.configurationUrl) {
-            await this._configurationManager.loadFromUrl(config.configurationUrl);
-        } else if (config?.configuration) {
-            // Load configuration from object
-            this._configurationManager.loadFromObject(config.configuration);
+        // Set configuration properties
+        if (config?.configuration) {
+            for (const [key, value] of Object.entries(config.configuration)) {
+                this._configurationManager.setProperty(key, value);
+            }
         }
+
+        // Set external variables URL if provided
+        if (config?.configurationUrl) {
+            this._configurationManager.setProperty('external.variables.txt', config.configurationUrl);
+        }
+
+        // Load external configuration
+        await this._configurationManager.initConfigurationDownload();
 
         // Initialize PixiJS application
         this._application = new Application();
@@ -181,6 +188,7 @@ export class Helium {
         // Initialize localization manager
         const localizationManager = container.get<IHabboLocalizationManager>(TYPES.LocalizationManager);
         localizationManager.setConfigurationManager(this._configurationManager);
+        localizationManager.setCommunicationManager(this._habboCommunicationManager);
         uiBridge.connectLocalizationManager(localizationManager);
 
         // Activate default localization if configured
