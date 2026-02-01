@@ -5,9 +5,9 @@ import {GuestRoomData} from './GuestRoomData';
  * Official room entry type constants
  */
 export const OfficialRoomEntryType = {
-    TAG: 1,
-    GUEST_ROOM: 2,
-    FOLDER: 4,
+	TAG: 1,
+	GUEST_ROOM: 2,
+	FOLDER: 4,
 } as const;
 
 /**
@@ -15,115 +15,152 @@ export const OfficialRoomEntryType = {
  *
  * Based on AS3 com.sulake.habbo.communication.messages.incoming.navigator.class_1653
  */
-export class OfficialRoomEntryData {
-    private _index: number = 0;
-    private _popupCaption: string = '';
-    private _popupDesc: string = '';
-    private _showDetails: boolean = false;
-    private _picText: string = '';
-    private _picRef: string = '';
-    private _folderId: number = 0;
-    private _userCount: number = 0;
-    private _type: number = 0;
-    private _tag: string = '';
-    private _guestRoomData: GuestRoomData | null = null;
-    private _open: boolean = false;
-    private _disposed: boolean = false;
+export class OfficialRoomEntryData
+{
+	constructor(wrapper: IMessageDataWrapper)
+	{
+		this._index = wrapper.readInt();
+		this._popupCaption = wrapper.readString();
+		this._popupDesc = wrapper.readString();
+		this._showDetails = wrapper.readInt() === 1;
+		this._picText = wrapper.readString();
+		this._picRef = wrapper.readString();
+		this._folderId = wrapper.readInt();
+		this._userCount = wrapper.readInt();
+		this._type = wrapper.readInt();
 
-    constructor(wrapper: IMessageDataWrapper) {
-        this._index = wrapper.readInt();
-        this._popupCaption = wrapper.readString();
-        this._popupDesc = wrapper.readString();
-        this._showDetails = wrapper.readInt() === 1;
-        this._picText = wrapper.readString();
-        this._picRef = wrapper.readString();
-        this._folderId = wrapper.readInt();
-        this._userCount = wrapper.readInt();
-        this._type = wrapper.readInt();
+		if (this._type === OfficialRoomEntryType.TAG)
+		{
+			this._tag = wrapper.readString();
+		} else if (this._type === OfficialRoomEntryType.GUEST_ROOM)
+		{
+			this._guestRoomData = new GuestRoomData(wrapper);
+		} else
+		{
+			this._open = wrapper.readBoolean();
+		}
+	}
 
-        if (this._type === OfficialRoomEntryType.TAG) {
-            this._tag = wrapper.readString();
-        } else if (this._type === OfficialRoomEntryType.GUEST_ROOM) {
-            this._guestRoomData = new GuestRoomData(wrapper);
-        } else {
-            this._open = wrapper.readBoolean();
-        }
-    }
+	private _index: number = 0;
 
-    get index(): number {
-        return this._index;
-    }
+	get index(): number
+	{
+		return this._index;
+	}
 
-    get popupCaption(): string {
-        return this._popupCaption;
-    }
+	private _popupCaption: string = '';
 
-    get popupDesc(): string {
-        return this._popupDesc;
-    }
+	get popupCaption(): string
+	{
+		return this._popupCaption;
+	}
 
-    get showDetails(): boolean {
-        return this._showDetails;
-    }
+	private _popupDesc: string = '';
 
-    get picText(): string {
-        return this._picText;
-    }
+	get popupDesc(): string
+	{
+		return this._popupDesc;
+	}
 
-    get picRef(): string {
-        return this._picRef;
-    }
+	private _showDetails: boolean = false;
 
-    get folderId(): number {
-        return this._folderId;
-    }
+	get showDetails(): boolean
+	{
+		return this._showDetails;
+	}
 
-    get userCount(): number {
-        return this._userCount;
-    }
+	private _picText: string = '';
 
-    get type(): number {
-        return this._type;
-    }
+	get picText(): string
+	{
+		return this._picText;
+	}
 
-    get tag(): string {
-        return this._tag;
-    }
+	private _picRef: string = '';
 
-    get guestRoomData(): GuestRoomData | null {
-        return this._guestRoomData;
-    }
+	get picRef(): string
+	{
+		return this._picRef;
+	}
 
-    get open(): boolean {
-        return this._open;
-    }
+	private _folderId: number = 0;
 
-    get maxUsers(): number {
-        if (this._type === OfficialRoomEntryType.TAG) {
-            return 0;
-        }
-        if (this._type === OfficialRoomEntryType.GUEST_ROOM && this._guestRoomData) {
-            return this._guestRoomData.maxUserCount;
-        }
-        return 0;
-    }
+	get folderId(): number
+	{
+		return this._folderId;
+	}
 
-    get disposed(): boolean {
-        return this._disposed;
-    }
+	private _userCount: number = 0;
 
-    toggleOpen(): void {
-        this._open = !this._open;
-    }
+	get userCount(): number
+	{
+		return this._userCount;
+	}
 
-    dispose(): void {
-        if (this._disposed) {
-            return;
-        }
-        this._disposed = true;
-        if (this._guestRoomData) {
-            this._guestRoomData.dispose();
-            this._guestRoomData = null;
-        }
-    }
+	private _type: number = 0;
+
+	get type(): number
+	{
+		return this._type;
+	}
+
+	private _tag: string = '';
+
+	get tag(): string
+	{
+		return this._tag;
+	}
+
+	private _guestRoomData: GuestRoomData | null = null;
+
+	get guestRoomData(): GuestRoomData | null
+	{
+		return this._guestRoomData;
+	}
+
+	private _open: boolean = false;
+
+	get open(): boolean
+	{
+		return this._open;
+	}
+
+	private _disposed: boolean = false;
+
+	get disposed(): boolean
+	{
+		return this._disposed;
+	}
+
+	get maxUsers(): number
+	{
+		if (this._type === OfficialRoomEntryType.TAG)
+		{
+			return 0;
+		}
+		if (this._type === OfficialRoomEntryType.GUEST_ROOM && this._guestRoomData)
+		{
+			return this._guestRoomData.maxUserCount;
+		}
+		return 0;
+	}
+
+	toggleOpen(): void
+	{
+		this._open = !this._open;
+	}
+
+	dispose(): void
+	{
+		if (this._disposed)
+		{
+			return;
+		}
+		this._disposed = true;
+		if (this._guestRoomData)
+		{
+			this._guestRoomData.dispose();
+			this._guestRoomData = null;
+		}
+	}
 }

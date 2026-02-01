@@ -7,20 +7,24 @@ import {CompetitionRoomsData} from '../../incoming/navigator';
  *
  * Based on AS3 CompetitionRoomsDataMessageEventParser
  */
-export class CompetitionRoomsDataMessageParser implements IMessageParser {
-    private _data: CompetitionRoomsData | null = null;
+export class CompetitionRoomsDataMessageParser implements IMessageParser
+{
+	private _data: CompetitionRoomsData | null = null;
 
-    get data(): CompetitionRoomsData | null {
-        return this._data;
-    }
+	get data(): CompetitionRoomsData | null
+	{
+		return this._data;
+	}
 
-    flush(): boolean {
-        this._data = null;
-        return true;
-    }
+	flush(): boolean
+	{
+		this._data = null;
+		return true;
+	}
 
-    parse(wrapper: IMessageDataWrapper): boolean {
-        this._data = new CompetitionRoomsData(wrapper);
-        return true;
-    }
+	parse(wrapper: IMessageDataWrapper): boolean
+	{
+		this._data = new CompetitionRoomsData(wrapper);
+		return true;
+	}
 }

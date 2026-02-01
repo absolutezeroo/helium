@@ -6,8 +6,10 @@ import {DisconnectReasonMessageParser} from '../../parser/handshake/DisconnectRe
  * Event handler for Disconnect reason message
  * Message ID: 4000
  */
-export class DisconnectReasonMessageEvent extends MessageEvent {
-    constructor(callback: MessageEventCallback) {
-        super(callback, DisconnectReasonMessageParser);
-    }
+export class DisconnectReasonMessageEvent extends MessageEvent
+{
+	constructor(callback: MessageEventCallback)
+	{
+		super(callback, DisconnectReasonMessageParser);
+	}
 }

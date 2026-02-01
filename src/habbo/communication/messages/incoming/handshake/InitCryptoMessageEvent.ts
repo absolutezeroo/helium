@@ -6,8 +6,10 @@ import {InitDiffieHandshakeMessageParser} from '../../parser/handshake/InitCrypt
  * Event handler for InitDiffieHandshake message
  * Message ID: 771
  */
-export class InitDiffieHandshakeMessageEvent extends MessageEvent {
-    constructor(callback: MessageEventCallback) {
-        super(callback, InitDiffieHandshakeMessageParser);
-    }
+export class InitDiffieHandshakeMessageEvent extends MessageEvent
+{
+	constructor(callback: MessageEventCallback)
+	{
+		super(callback, InitDiffieHandshakeMessageParser);
+	}
 }

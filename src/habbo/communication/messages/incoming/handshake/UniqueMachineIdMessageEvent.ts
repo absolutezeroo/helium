@@ -6,8 +6,10 @@ import {UniqueMachineIdMessageParser} from '../../parser/handshake/UniqueMachine
  * Event handler for Unique Machine ID message
  * Message ID: 3974
  */
-export class UniqueMachineIdMessageEvent extends MessageEvent {
-    constructor(callback: MessageEventCallback) {
-        super(callback, UniqueMachineIdMessageParser);
-    }
+export class UniqueMachineIdMessageEvent extends MessageEvent
+{
+	constructor(callback: MessageEventCallback)
+	{
+		super(callback, UniqueMachineIdMessageParser);
+	}
 }

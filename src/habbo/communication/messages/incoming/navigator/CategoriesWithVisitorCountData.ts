@@ -6,41 +6,51 @@ import type {INavigatorSearchResultData} from './INavigatorSearchResultData';
  *
  * Based on AS3 com.sulake.habbo.communication.messages.incoming.navigator.class_1751
  */
-export class CategoriesWithVisitorCountData implements INavigatorSearchResultData {
-    private _categoryToCurrentUserCountMap: Map<number, number> = new Map();
-    private _categoryToMaxUserCountMap: Map<number, number> = new Map();
-    private _disposed: boolean = false;
+export class CategoriesWithVisitorCountData implements INavigatorSearchResultData
+{
+	constructor(wrapper: IMessageDataWrapper)
+	{
+		const count = wrapper.readInt();
+		for (let i = 0; i < count; i++)
+		{
+			const categoryId = wrapper.readInt();
+			const currentUserCount = wrapper.readInt();
+			const maxUserCount = wrapper.readInt();
 
-    constructor(wrapper: IMessageDataWrapper) {
-        const count = wrapper.readInt();
-        for (let i = 0; i < count; i++) {
-            const categoryId = wrapper.readInt();
-            const currentUserCount = wrapper.readInt();
-            const maxUserCount = wrapper.readInt();
+			this._categoryToCurrentUserCountMap.set(categoryId, currentUserCount);
+			this._categoryToMaxUserCountMap.set(categoryId, maxUserCount);
+		}
+	}
 
-            this._categoryToCurrentUserCountMap.set(categoryId, currentUserCount);
-            this._categoryToMaxUserCountMap.set(categoryId, maxUserCount);
-        }
-    }
+	private _categoryToCurrentUserCountMap: Map<number, number> = new Map();
 
-    get categoryToCurrentUserCountMap(): Map<number, number> {
-        return this._categoryToCurrentUserCountMap;
-    }
+	get categoryToCurrentUserCountMap(): Map<number, number>
+	{
+		return this._categoryToCurrentUserCountMap;
+	}
 
-    get categoryToMaxUserCountMap(): Map<number, number> {
-        return this._categoryToMaxUserCountMap;
-    }
+	private _categoryToMaxUserCountMap: Map<number, number> = new Map();
 
-    get disposed(): boolean {
-        return this._disposed;
-    }
+	get categoryToMaxUserCountMap(): Map<number, number>
+	{
+		return this._categoryToMaxUserCountMap;
+	}
 
-    dispose(): void {
-        if (this._disposed) {
-            return;
-        }
-        this._disposed = true;
-        this._categoryToCurrentUserCountMap.clear();
-        this._categoryToMaxUserCountMap.clear();
-    }
+	private _disposed: boolean = false;
+
+	get disposed(): boolean
+	{
+		return this._disposed;
+	}
+
+	dispose(): void
+	{
+		if (this._disposed)
+		{
+			return;
+		}
+		this._disposed = true;
+		this._categoryToCurrentUserCountMap.clear();
+		this._categoryToMaxUserCountMap.clear();
+	}
 }

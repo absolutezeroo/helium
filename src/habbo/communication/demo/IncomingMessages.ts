@@ -11,32 +11,32 @@ import {HabboCommunicationEvent, type HabboCommunicationEventType} from '../enum
 
 // Events
 import {
-    AuthenticationOKMessageEvent,
-    CompleteDiffieHandshakeMessageEvent,
-    DisconnectReasonMessageEvent,
-    GenericErrorMessageEvent,
-    InitDiffieHandshakeMessageEvent,
-    PingMessageEvent,
-    UniqueMachineIdMessageEvent,
+	AuthenticationOKMessageEvent,
+	CompleteDiffieHandshakeMessageEvent,
+	DisconnectReasonMessageEvent,
+	GenericErrorMessageEvent,
+	InitDiffieHandshakeMessageEvent,
+	PingMessageEvent,
+	UniqueMachineIdMessageEvent,
 } from '../messages/incoming/handshake';
 
 // Parsers
 import {
-    CompleteDiffieHandshakeMessageParser,
-    DisconnectReasonMessageParser,
-    GenericErrorMessageParser,
-    InitDiffieHandshakeMessageParser,
+	CompleteDiffieHandshakeMessageParser,
+	DisconnectReasonMessageParser,
+	GenericErrorMessageParser,
+	InitDiffieHandshakeMessageParser,
 } from '../messages/parser/handshake';
 
 // Composers
 import {
-    ClientHelloMessageComposer,
-    CompleteDiffieHandshakeMessageComposer,
-    InfoRetrieveMessageComposer,
-    InitDiffieHandshakeMessageComposer,
-    PongMessageComposer,
-    SSOTicketMessageComposer,
-    UniqueIDMessageComposer,
+	ClientHelloMessageComposer,
+	CompleteDiffieHandshakeMessageComposer,
+	InfoRetrieveMessageComposer,
+	InitDiffieHandshakeMessageComposer,
+	PongMessageComposer,
+	SSOTicketMessageComposer,
+	UniqueIDMessageComposer,
 } from '../messages/outgoing/handshake';
 
 import {EventLogMessageComposer} from '../messages/outgoing/tracking';
@@ -47,357 +47,396 @@ const log = Logger.getLogger('Handshake');
 /**
  * Events emitted by IncomingMessages
  */
-export interface IncomingMessagesEvents {
-    'loginStep': (step: HabboCommunicationEventType) => void;
-    'authenticated': () => void;
-    'disconnected': (reason: number, reasonText: string) => void;
-    'error': (code: number, message: string) => void;
+export interface IncomingMessagesEvents
+{
+	'loginStep': (step: HabboCommunicationEventType) => void;
+	'authenticated': () => void;
+	'disconnected': (reason: number, reasonText: string) => void;
+	'error': (code: number, message: string) => void;
 }
 
 /**
  * Handles incoming messages during connection/handshake
  */
-export class IncomingMessages extends EventEmitter<IncomingMessagesEvents> {
-    private _communication: IHabboCommunicationManager;
-    private _messageEvents: IMessageEvent[] = [];
-    private _keyExchange: IKeyExchange | null = null;
-    private _privateKey: string = '';
-    private _isHandshaking: boolean = false;
-    private _wasDisconnected: boolean = false;
-    private _rsa: RSA;
+export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
+{
+	private _communication: IHabboCommunicationManager;
+	private _messageEvents: IMessageEvent[] = [];
+	private _keyExchange: IKeyExchange | null = null;
+	private _privateKey: string = '';
+	private _isHandshaking: boolean = false;
+	private _wasDisconnected: boolean = false;
+	private _rsa: RSA;
+
+	private _boundOnConnected: () => void;
+	private _boundOnDisconnected: () => void;
+
+	constructor(communication: IHabboCommunicationManager)
+	{
+		super();
+		this._communication = communication;
+		this._rsa = new RSA();
+
+		const connection = this._communication.connection as SocketConnection;
+
+		if (!connection)
+		{
+			throw new Error('Connection is required to initialize!');
+		}
+
+		this._boundOnConnected = this.onConnectionEstablished.bind(this);
+		this._boundOnDisconnected = this.onConnectionDisconnected.bind(this);
+
+		connection.on('connected', this._boundOnConnected);
+		connection.on('disconnected', this._boundOnDisconnected);
+
+		// Emit INIT event - connection initialization started
+		// This matches AS3's dispatchLoginStepEvent("HABBO_CONNECTION_EVENT_INIT")
+		this.dispatchLoginStepEvent(HabboCommunicationEvent.INIT);
+
+		// Register message handlers
+		this.addMessageEvent(new InitDiffieHandshakeMessageEvent(this.onInitDiffieHandshake.bind(this)));
+		this.addMessageEvent(new CompleteDiffieHandshakeMessageEvent(this.onCompleteDiffieHandshake.bind(this)));
+		this.addMessageEvent(new AuthenticationOKMessageEvent(this.onAuthenticationOK.bind(this)));
+		this.addMessageEvent(new PingMessageEvent(this.onPing.bind(this)));
+		this.addMessageEvent(new DisconnectReasonMessageEvent(this.onDisconnectReason.bind(this)));
+		this.addMessageEvent(new GenericErrorMessageEvent(this.onGenericError.bind(this)));
+		this.addMessageEvent(new UniqueMachineIdMessageEvent(this.onUniqueMachineId.bind(this)));
+	}
+
+	dispose(): void
+	{
+		const connection = this._communication.connection as SocketConnection;
+
+		if (connection)
+		{
+			connection.off('connected', this._boundOnConnected);
+			connection.off('disconnected', this._boundOnDisconnected);
+		}
+
+		for (const event of this._messageEvents)
+		{
+			this._communication.removeMessageEvent(event);
+		}
+
+		this._messageEvents = [];
+		this._keyExchange = null;
+
+		this.removeAllListeners();
+	}
+
+	private addMessageEvent(event: IMessageEvent): void
+	{
+		this._communication.addMessageEvent(event);
+		this._messageEvents.push(event);
+	}
+
+	/**
+	 * Dispatch login step event to both event emitter and UI bridge
+	 * Matches AS3's dispatchLoginStepEvent()
+	 */
+	private dispatchLoginStepEvent(step: HabboCommunicationEventType): void
+	{
+		this.emit('loginStep', step);
+		uiBridge.setLoginStep(step);
+	}
+
+	private onConnectionEstablished(): void
+	{
+		const connection = this._communication.connection;
+
+		if (!connection)
+		{
+			log.error('No connection available');
+			return;
+		}
+
+		this.dispatchLoginStepEvent(HabboCommunicationEvent.ESTABLISHED);
+
+		this._wasDisconnected = false;
+		this._isHandshaking = true;
+
+		this.dispatchLoginStepEvent(HabboCommunicationEvent.HANDSHAKING);
 
-    private _boundOnConnected: () => void;
-    private _boundOnDisconnected: () => void;
+		log.info('Starting handshake...');
 
-    constructor(communication: IHabboCommunicationManager) {
-        super();
-        this._communication = communication;
-        this._rsa = new RSA();
+		connection.sendUnencrypted(new ClientHelloMessageComposer());
+		connection.sendUnencrypted(new InitDiffieHandshakeMessageComposer());
+	}
 
-        const connection = this._communication.connection as SocketConnection;
+	private onInitDiffieHandshake(event: IMessageEvent): void
+	{
+		const connection = event.connection;
 
-        if (!connection) {
-            throw new Error('Connection is required to initialize!');
-        }
+		if (!connection) return;
 
-        this._boundOnConnected = this.onConnectionEstablished.bind(this);
-        this._boundOnDisconnected = this.onConnectionDisconnected.bind(this);
+		if (!event) return;
 
-        connection.on('connected', this._boundOnConnected);
-        connection.on('disconnected', this._boundOnDisconnected);
+		const parser = event.parser as InitDiffieHandshakeMessageParser;
 
-        // Emit INIT event - connection initialization started
-        // This matches AS3's dispatchLoginStepEvent("HABBO_CONNECTION_EVENT_INIT")
-        this.dispatchLoginStepEvent(HabboCommunicationEvent.INIT);
+		if (!parser) return;
 
-        // Register message handlers
-        this.addMessageEvent(new InitDiffieHandshakeMessageEvent(this.onInitDiffieHandshake.bind(this)));
-        this.addMessageEvent(new CompleteDiffieHandshakeMessageEvent(this.onCompleteDiffieHandshake.bind(this)));
-        this.addMessageEvent(new AuthenticationOKMessageEvent(this.onAuthenticationOK.bind(this)));
-        this.addMessageEvent(new PingMessageEvent(this.onPing.bind(this)));
-        this.addMessageEvent(new DisconnectReasonMessageEvent(this.onDisconnectReason.bind(this)));
-        this.addMessageEvent(new GenericErrorMessageEvent(this.onGenericError.bind(this)));
-        this.addMessageEvent(new UniqueMachineIdMessageEvent(this.onUniqueMachineId.bind(this)));
-    }
-
-    dispose(): void {
-        const connection = this._communication.connection as SocketConnection;
-
-        if (connection) {
-            connection.off('connected', this._boundOnConnected);
-            connection.off('disconnected', this._boundOnDisconnected);
-        }
+		// Decrypt prime and generator using RSA
+		const primeDecimal = this._rsa.decryptString(parser.encryptedPrime);
+		const generatorDecimal = this._rsa.decryptString(parser.encryptedGenerator);
 
-        for (const event of this._messageEvents) {
-            this._communication.removeMessageEvent(event);
-        }
+		// Convert decimal strings to hex for DiffieHellman
+		const primeHex = BigInt(primeDecimal).toString(16);
+		const generatorHex = BigInt(generatorDecimal).toString(16);
 
-        this._messageEvents = [];
-        this._keyExchange = null;
+		this._keyExchange = this._communication.createKeyExchange(primeHex, generatorHex);
 
-        this.removeAllListeners();
-    }
+		// Generate random private key and compute public key
+		let bestPublicKey: string | null = null;
+		let attempts = 10;
 
-    private addMessageEvent(event: IMessageEvent): void {
-        this._communication.addMessageEvent(event);
-        this._messageEvents.push(event);
-    }
+		while (attempts > 0)
+		{
+			const privateKey = this.generateRandomHexString(30);
+			this._keyExchange.init(privateKey);
+			const publicKey = this._keyExchange.getPublicKey(10);
 
-    /**
-     * Dispatch login step event to both event emitter and UI bridge
-     * Matches AS3's dispatchLoginStepEvent()
-     */
-    private dispatchLoginStepEvent(step: HabboCommunicationEventType): void {
-        this.emit('loginStep', step);
-        uiBridge.setLoginStep(step);
-    }
+			if (publicKey.length >= 64)
+			{
+				bestPublicKey = publicKey;
+				this._privateKey = privateKey;
+				break;
+			}
 
-    private onConnectionEstablished(): void {
-        const connection = this._communication.connection;
+			if (!bestPublicKey || publicKey.length > bestPublicKey.length)
+			{
+				bestPublicKey = publicKey;
+				this._privateKey = privateKey;
+			}
+			attempts--;
+		}
 
-        if (!connection) {
-            log.error('No connection available');
-            return;
-        }
+		if (bestPublicKey)
+		{
+			this._keyExchange.init(this._privateKey);
+		}
 
-        this.dispatchLoginStepEvent(HabboCommunicationEvent.ESTABLISHED);
+		// Encrypt our public key with RSA before sending
+		const encryptedPublicKey = this._rsa.encryptString(bestPublicKey || '');
+		connection.sendUnencrypted(new CompleteDiffieHandshakeMessageComposer(encryptedPublicKey));
 
-        this._wasDisconnected = false;
-        this._isHandshaking = true;
+		log.debug('DH public key sent');
+	}
 
-        this.dispatchLoginStepEvent(HabboCommunicationEvent.HANDSHAKING);
+	private onCompleteDiffieHandshake(event: IMessageEvent): void
+	{
+		const connection = event.connection;
 
-        log.info('Starting handshake...');
+		if (!connection || !this._keyExchange) return;
 
-        connection.sendUnencrypted(new ClientHelloMessageComposer());
-        connection.sendUnencrypted(new InitDiffieHandshakeMessageComposer());
-    }
+		if (!event) return;
 
-    private onInitDiffieHandshake(event: IMessageEvent): void {
-        const connection = event.connection;
+		const parser = event.parser as CompleteDiffieHandshakeMessageParser;
 
-        if (!connection) return;
+		if (!parser) return;
 
-        if (!event) return;
+		// Decrypt server's public key using RSA
+		const serverPublicKey = this._rsa.decryptString(parser.encryptedPublicKey);
 
-        const parser = event.parser as InitDiffieHandshakeMessageParser;
+		// Generate shared secret
+		this._keyExchange.generateSharedKey(serverPublicKey, 10);
 
-        if (!parser) return;
+		if (!this._keyExchange.isValidServerPublicKey())
+		{
+			log.error('Invalid server public key');
 
-        // Decrypt prime and generator using RSA
-        const primeDecimal = this._rsa.decryptString(parser.encryptedPrime);
-        const generatorDecimal = this._rsa.decryptString(parser.encryptedGenerator);
+			return;
+		}
 
-        // Convert decimal strings to hex for DiffieHellman
-        const primeHex = BigInt(primeDecimal).toString(16);
-        const generatorHex = BigInt(generatorDecimal).toString(16);
+		// Get shared key and initialize RC4
+		const sharedKeyHex = this._keyExchange.getSharedKey(16).toUpperCase();
+		const keyBytes = CryptoTools.hexStringToByteArray(sharedKeyHex);
 
-        this._keyExchange = this._communication.createKeyExchange(primeHex, generatorHex);
+		const clientToServer = this._communication.createEncryption();
 
-        // Generate random private key and compute public key
-        let bestPublicKey: string | null = null;
-        let attempts = 10;
+		clientToServer.init(keyBytes);
 
-        while (attempts > 0) {
-            const privateKey = this.generateRandomHexString(30);
-            this._keyExchange.init(privateKey);
-            const publicKey = this._keyExchange.getPublicKey(10);
+		let serverToClient: IEncryption | null = null;
 
-            if (publicKey.length >= 64) {
-                bestPublicKey = publicKey;
-                this._privateKey = privateKey;
-                break;
-            }
+		if (parser.serverClientEncryption)
+		{
+			serverToClient = this._communication.createEncryption();
 
-            if (!bestPublicKey || publicKey.length > bestPublicKey.length) {
-                bestPublicKey = publicKey;
-                this._privateKey = privateKey;
-            }
-            attempts--;
-        }
+			serverToClient.init(CryptoTools.hexStringToByteArray(sharedKeyHex));
+		}
 
-        if (bestPublicKey) {
-            this._keyExchange.init(this._privateKey);
-        }
+		connection.setEncryption(clientToServer, serverToClient!);
 
-        // Encrypt our public key with RSA before sending
-        const encryptedPublicKey = this._rsa.encryptString(bestPublicKey || '');
-        connection.sendUnencrypted(new CompleteDiffieHandshakeMessageComposer(encryptedPublicKey));
+		this._isHandshaking = false;
 
-        log.debug('DH public key sent');
-    }
+		this.dispatchLoginStepEvent(HabboCommunicationEvent.HANDSHAKED);
 
-    private onCompleteDiffieHandshake(event: IMessageEvent): void {
-        const connection = event.connection;
+		log.success('Encryption enabled');
 
-        if (!connection || !this._keyExchange) return;
+		this.sendConnectionParameters(connection);
+	}
 
-        if (!event) return;
+	private sendConnectionParameters(connection: IMessageEvent['connection']): void
+	{
+		if (!connection) return;
 
-        const parser = event.parser as CompleteDiffieHandshakeMessageParser;
+		connection.send(new ClientHelloMessageComposer());
+		connection.send(new UniqueIDMessageComposer(
+			this.getMachineId(),
+			this.generateFingerprint(),
+			'HTML5/1.0.0'
+		));
 
-        if (!parser) return;
+		const ssoTicket = this._communication.ssoTicket;
 
-        // Decrypt server's public key using RSA
-        const serverPublicKey = this._rsa.decryptString(parser.encryptedPublicKey);
+		if (ssoTicket && ssoTicket.length > 0)
+		{
+			connection.send(new SSOTicketMessageComposer(ssoTicket, this.getTimer()));
 
-        // Generate shared secret
-        this._keyExchange.generateSharedKey(serverPublicKey, 10);
+			log.info('SSO ticket sent');
+		} else
+		{
+			log.warn('No SSO ticket available');
+		}
+	}
 
-        if (!this._keyExchange.isValidServerPublicKey()) {
-            log.error('Invalid server public key');
+	private onAuthenticationOK(event: IMessageEvent): void
+	{
+		const connection = event.connection;
 
-            return;
-        }
+		if (!connection) return;
 
-        // Get shared key and initialize RC4
-        const sharedKeyHex = this._keyExchange.getSharedKey(16).toUpperCase();
-        const keyBytes = CryptoTools.hexStringToByteArray(sharedKeyHex);
+		log.success('Authenticated');
 
-        const clientToServer = this._communication.createEncryption();
+		this.dispatchLoginStepEvent(HabboCommunicationEvent.AUTHENTICATED);
 
-        clientToServer.init(keyBytes);
+		// Notify UI that authentication succeeded
+		uiBridge.setConnectionState('authenticated');
 
-        let serverToClient: IEncryption | null = null;
+		connection.send(new InfoRetrieveMessageComposer());
+		connection.send(new EventLogMessageComposer('Login', 'socket', 'client.auth_ok'));
 
-        if (parser.serverClientEncryption) {
-            serverToClient = this._communication.createEncryption();
+		this.emit('authenticated');
+	}
 
-            serverToClient.init(CryptoTools.hexStringToByteArray(sharedKeyHex));
-        }
+	private onPing(event: IMessageEvent): void
+	{
+		if (!event) return;
 
-        connection.setEncryption(clientToServer, serverToClient!);
+		event.connection?.send(new PongMessageComposer());
+	}
 
-        this._isHandshaking = false;
+	private onDisconnectReason(event: IMessageEvent): void
+	{
+		if (!event) return;
 
-        this.dispatchLoginStepEvent(HabboCommunicationEvent.HANDSHAKED);
+		const parser = event.parser as DisconnectReasonMessageParser;
 
-        log.success('Encryption enabled');
+		if (!parser) return;
 
-        this.sendConnectionParameters(connection);
-    }
+		if (this._isHandshaking)
+		{
+			this.dispatchLoginStepEvent(HabboCommunicationEvent.HANDSHAKE_FAIL);
+		}
 
-    private sendConnectionParameters(connection: IMessageEvent['connection']): void {
-        if (!connection) return;
+		log.warn(`Disconnected: ${parser.reason} - ${parser.reasonText}`);
+		this.emit('disconnected', parser.reason, parser.reasonText);
 
-        connection.send(new ClientHelloMessageComposer());
-        connection.send(new UniqueIDMessageComposer(
-            this.getMachineId(),
-            this.generateFingerprint(),
-            'HTML5/1.0.0'
-        ));
+		this._isHandshaking = false;
+		this._wasDisconnected = true;
+	}
 
-        const ssoTicket = this._communication.ssoTicket;
+	private onGenericError(event: IMessageEvent): void
+	{
+		if (!event) return;
 
-        if (ssoTicket && ssoTicket.length > 0) {
-            connection.send(new SSOTicketMessageComposer(ssoTicket, this.getTimer()));
+		const parser = event.parser as GenericErrorMessageParser;
 
-            log.info('SSO ticket sent');
-        } else {
-            log.warn('No SSO ticket available');
-        }
-    }
+		if (!parser) return;
 
-    private onAuthenticationOK(event: IMessageEvent): void {
-        const connection = event.connection;
+		log.error(`Server error: ${parser.errorCode}`);
+		this.emit('error', parser.errorCode, `Error ${parser.errorCode}`);
+	}
 
-        if (!connection) return;
+	private onUniqueMachineId(_event: IMessageEvent): void
+	{
+		// Machine ID received - stored by server
+	}
 
-        log.success('Authenticated');
+	private onConnectionDisconnected(): void
+	{
+		if (this._isHandshaking)
+		{
+			this.dispatchLoginStepEvent(HabboCommunicationEvent.HANDSHAKE_FAIL);
+		}
 
-        this.dispatchLoginStepEvent(HabboCommunicationEvent.AUTHENTICATED);
+		if (!this._wasDisconnected)
+		{
+			this.emit('disconnected', -3, 'Connection closed');
+		}
+	}
 
-        // Notify UI that authentication succeeded
-        uiBridge.setConnectionState('authenticated');
+	private generateRandomHexString(byteLength: number): string
+	{
+		let result = '';
 
-        connection.send(new InfoRetrieveMessageComposer());
-        connection.send(new EventLogMessageComposer('Login', 'socket', 'client.auth_ok'));
+		for (let i = 0; i < byteLength; i++)
+		{
+			const byte = Math.floor(Math.random() * 255);
 
-        this.emit('authenticated');
-    }
+			result += byte.toString(16).padStart(2, '0');
+		}
 
-    private onPing(event: IMessageEvent): void {
-        if (!event) return;
+		return result;
+	}
 
-        event.connection?.send(new PongMessageComposer());
-    }
+	private getMachineId(): string
+	{
+		let machineId = localStorage.getItem('helium_machine_id');
 
-    private onDisconnectReason(event: IMessageEvent): void {
-        if (!event) return;
+		if (!machineId)
+		{
+			machineId = this.generateRandomHexString(16);
 
-        const parser = event.parser as DisconnectReasonMessageParser;
+			localStorage.setItem('helium_machine_id', machineId);
+		}
 
-        if (!parser) return;
+		return machineId;
+	}
 
-        if (this._isHandshaking) {
-            this.dispatchLoginStepEvent(HabboCommunicationEvent.HANDSHAKE_FAIL);
-        }
+	private generateFingerprint(): string
+	{
+		const canvas = document.createElement('canvas');
+		const ctx = canvas.getContext('2d');
 
-        log.warn(`Disconnected: ${parser.reason} - ${parser.reasonText}`);
-        this.emit('disconnected', parser.reason, parser.reasonText);
+		if (ctx)
+		{
+			ctx.textBaseline = 'top';
+			ctx.font = '14px Arial';
+			ctx.fillText('Helium', 2, 2);
+		}
 
-        this._isHandshaking = false;
-        this._wasDisconnected = true;
-    }
+		const data = [
+			navigator.userAgent,
+			navigator.language,
+			screen.width + 'x' + screen.height,
+			new Date().getTimezoneOffset().toString(),
+			canvas.toDataURL()
+		].join('|');
 
-    private onGenericError(event: IMessageEvent): void {
-        if (!event) return;
+		let hash = 0;
 
-        const parser = event.parser as GenericErrorMessageParser;
+		for (let i = 0; i < data.length; i++)
+		{
+			hash = ((hash << 5) - hash) + data.charCodeAt(i);
+			hash = hash & hash;
+		}
 
-        if (!parser) return;
+		return Math.abs(hash).toString(16);
+	}
 
-        log.error(`Server error: ${parser.errorCode}`);
-        this.emit('error', parser.errorCode, `Error ${parser.errorCode}`);
-    }
-
-    private onUniqueMachineId(_event: IMessageEvent): void {
-        // Machine ID received - stored by server
-    }
-
-    private onConnectionDisconnected(): void {
-        if (this._isHandshaking) {
-            this.dispatchLoginStepEvent(HabboCommunicationEvent.HANDSHAKE_FAIL);
-        }
-
-        if (!this._wasDisconnected) {
-            this.emit('disconnected', -3, 'Connection closed');
-        }
-    }
-
-    private generateRandomHexString(byteLength: number): string {
-        let result = '';
-
-        for (let i = 0; i < byteLength; i++) {
-            const byte = Math.floor(Math.random() * 255);
-
-            result += byte.toString(16).padStart(2, '0');
-        }
-
-        return result;
-    }
-
-    private getMachineId(): string {
-        let machineId = localStorage.getItem('helium_machine_id');
-
-        if (!machineId) {
-            machineId = this.generateRandomHexString(16);
-
-            localStorage.setItem('helium_machine_id', machineId);
-        }
-
-        return machineId;
-    }
-
-    private generateFingerprint(): string {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-
-        if (ctx) {
-            ctx.textBaseline = 'top';
-            ctx.font = '14px Arial';
-            ctx.fillText('Helium', 2, 2);
-        }
-
-        const data = [
-            navigator.userAgent,
-            navigator.language,
-            screen.width + 'x' + screen.height,
-            new Date().getTimezoneOffset().toString(),
-            canvas.toDataURL()
-        ].join('|');
-
-        let hash = 0;
-
-        for (let i = 0; i < data.length; i++) {
-            hash = ((hash << 5) - hash) + data.charCodeAt(i);
-            hash = hash & hash;
-        }
-
-        return Math.abs(hash).toString(16);
-    }
-
-    private getTimer(): number {
-        return Math.floor(performance.now());
-    }
+	private getTimer(): number
+	{
+		return Math.floor(performance.now());
+	}
 }

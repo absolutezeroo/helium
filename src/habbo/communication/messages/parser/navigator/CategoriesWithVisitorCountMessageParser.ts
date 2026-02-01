@@ -7,20 +7,24 @@ import {CategoriesWithVisitorCountData} from '../../incoming/navigator';
  *
  * Based on AS3 CategoriesWithVisitorCountEventParser
  */
-export class CategoriesWithVisitorCountMessageParser implements IMessageParser {
-    private _data: CategoriesWithVisitorCountData | null = null;
+export class CategoriesWithVisitorCountMessageParser implements IMessageParser
+{
+	private _data: CategoriesWithVisitorCountData | null = null;
 
-    get data(): CategoriesWithVisitorCountData | null {
-        return this._data;
-    }
+	get data(): CategoriesWithVisitorCountData | null
+	{
+		return this._data;
+	}
 
-    flush(): boolean {
-        this._data = null;
-        return true;
-    }
+	flush(): boolean
+	{
+		this._data = null;
+		return true;
+	}
 
-    parse(wrapper: IMessageDataWrapper): boolean {
-        this._data = new CategoriesWithVisitorCountData(wrapper);
-        return true;
-    }
+	parse(wrapper: IMessageDataWrapper): boolean
+	{
+		this._data = new CategoriesWithVisitorCountData(wrapper);
+		return true;
+	}
 }

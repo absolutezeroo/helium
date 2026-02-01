@@ -6,13 +6,16 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  *
  * Based on AS3 RoomEventCancelEventParser
  */
-export class RoomEventCancelMessageParser implements IMessageParser {
-    flush(): boolean {
-        return true;
-    }
+export class RoomEventCancelMessageParser implements IMessageParser
+{
+	flush(): boolean
+	{
+		return true;
+	}
 
-    parse(_wrapper: IMessageDataWrapper): boolean {
-        // No data to parse
-        return true;
-    }
+	parse(_wrapper: IMessageDataWrapper): boolean
+	{
+		// No data to parse
+		return true;
+	}
 }

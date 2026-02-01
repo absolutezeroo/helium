@@ -5,13 +5,16 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for successful authentication response
  * Message ID: 2323
  */
-export class AuthenticationOKMessageParser implements IMessageParser {
-    flush(): boolean {
-        return true;
-    }
+export class AuthenticationOKMessageParser implements IMessageParser
+{
+	flush(): boolean
+	{
+		return true;
+	}
 
-    parse(_wrapper: IMessageDataWrapper): boolean {
-        // This message indicates successful authentication
-        return true;
-    }
+	parse(_wrapper: IMessageDataWrapper): boolean
+	{
+		// This message indicates successful authentication
+		return true;
+	}
 }

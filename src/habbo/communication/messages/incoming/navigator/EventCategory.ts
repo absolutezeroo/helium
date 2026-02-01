@@ -5,26 +5,33 @@ import type {IMessageDataWrapper} from '@core/communication';
  *
  * Based on AS3 com.sulake.habbo.communication.messages.incoming.navigator.class_1656
  */
-export class EventCategory {
-    private _categoryId: number = 0;
-    private _categoryName: string = '';
-    private _visible: boolean = false;
+export class EventCategory
+{
+	constructor(wrapper: IMessageDataWrapper)
+	{
+		this._categoryId = wrapper.readInt();
+		this._categoryName = wrapper.readString();
+		this._visible = wrapper.readBoolean();
+	}
 
-    constructor(wrapper: IMessageDataWrapper) {
-        this._categoryId = wrapper.readInt();
-        this._categoryName = wrapper.readString();
-        this._visible = wrapper.readBoolean();
-    }
+	private _categoryId: number = 0;
 
-    get categoryId(): number {
-        return this._categoryId;
-    }
+	get categoryId(): number
+	{
+		return this._categoryId;
+	}
 
-    get categoryName(): string {
-        return this._categoryName;
-    }
+	private _categoryName: string = '';
 
-    get visible(): boolean {
-        return this._visible;
-    }
+	get categoryName(): string
+	{
+		return this._categoryName;
+	}
+
+	private _visible: boolean = false;
+
+	get visible(): boolean
+	{
+		return this._visible;
+	}
 }

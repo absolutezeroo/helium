@@ -6,8 +6,10 @@ import {PingMessageParser} from '../../parser/handshake/PingMessageParser';
  * Event handler for Ping message (keep-alive)
  * Message ID: 658
  */
-export class PingMessageEvent extends MessageEvent {
-    constructor(callback: MessageEventCallback) {
-        super(callback, PingMessageParser);
-    }
+export class PingMessageEvent extends MessageEvent
+{
+	constructor(callback: MessageEventCallback)
+	{
+		super(callback, PingMessageParser);
+	}
 }

@@ -5,8 +5,10 @@ import {AuthenticationOKMessageParser} from '../../parser/handshake/Authenticati
 /**
  * Event handler for AuthenticationOK message
  */
-export class AuthenticationOKMessageEvent extends MessageEvent {
-    constructor(callback: MessageEventCallback) {
-        super(callback, AuthenticationOKMessageParser);
-    }
+export class AuthenticationOKMessageEvent extends MessageEvent
+{
+	constructor(callback: MessageEventCallback)
+	{
+		super(callback, AuthenticationOKMessageParser);
+	}
 }

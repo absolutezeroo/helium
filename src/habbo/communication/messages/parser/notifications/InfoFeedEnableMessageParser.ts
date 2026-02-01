@@ -4,20 +4,24 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for info feed enable message
  */
-export class InfoFeedEnableMessageParser implements IMessageParser {
-    private _enabled: boolean = false;
+export class InfoFeedEnableMessageParser implements IMessageParser
+{
+	private _enabled: boolean = false;
 
-    get enabled(): boolean {
-        return this._enabled;
-    }
+	get enabled(): boolean
+	{
+		return this._enabled;
+	}
 
-    flush(): boolean {
-        this._enabled = false;
-        return true;
-    }
+	flush(): boolean
+	{
+		this._enabled = false;
+		return true;
+	}
 
-    parse(wrapper: IMessageDataWrapper): boolean {
-        this._enabled = wrapper.readBoolean();
-        return true;
-    }
+	parse(wrapper: IMessageDataWrapper): boolean
+	{
+		this._enabled = wrapper.readBoolean();
+		return true;
+	}
 }

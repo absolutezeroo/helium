@@ -6,28 +6,33 @@ import {EventCategory} from '../../incoming/navigator';
  * Parser for user event categories message
  *
  */
-export class UserEventCatsMessageParser implements IMessageParser {
-    private _eventCategories: EventCategory[] = [];
+export class UserEventCatsMessageParser implements IMessageParser
+{
+	private _eventCategories: EventCategory[] = [];
 
-    get eventCategories(): EventCategory[] {
-        return this._eventCategories;
-    }
+	get eventCategories(): EventCategory[]
+	{
+		return this._eventCategories;
+	}
 
-    flush(): boolean {
-        this._eventCategories = [];
+	flush(): boolean
+	{
+		this._eventCategories = [];
 
-        return true;
-    }
+		return true;
+	}
 
-    parse(wrapper: IMessageDataWrapper): boolean {
-        this._eventCategories = [];
+	parse(wrapper: IMessageDataWrapper): boolean
+	{
+		this._eventCategories = [];
 
-        const count = wrapper.readInt();
+		const count = wrapper.readInt();
 
-        for (let i = 0; i < count; i++) {
-            this._eventCategories.push(new EventCategory(wrapper));
-        }
+		for (let i = 0; i < count; i++)
+		{
+			this._eventCategories.push(new EventCategory(wrapper));
+		}
 
-        return true;
-    }
+		return true;
+	}
 }

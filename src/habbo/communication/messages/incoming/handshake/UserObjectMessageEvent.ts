@@ -5,8 +5,10 @@ import {UserObjectMessageParser} from '../../parser/handshake/UserObjectMessageP
 /**
  * Event handler for User object data message
  */
-export class UserObjectMessageEvent extends MessageEvent {
-    constructor(callback: MessageEventCallback) {
-        super(callback, UserObjectMessageParser);
-    }
+export class UserObjectMessageEvent extends MessageEvent
+{
+	constructor(callback: MessageEventCallback)
+	{
+		super(callback, UserObjectMessageParser);
+	}
 }

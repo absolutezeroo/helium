@@ -43,7 +43,7 @@ export class HabboLocalizationManager extends CoreLocalizationManager implements
 	setConfigurationManager(configManager: IHabboConfigurationManager): void
 	{
 		this._configurationManager = configManager;
-        
+
 		this.configureLocalizationLocations();
 	}
 

@@ -6,27 +6,33 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  *
  * Based on AS3 ConvertedRoomIdEventParser
  */
-export class ConvertedRoomIdMessageParser implements IMessageParser {
-    private _globalId: string = '';
-    private _convertedId: number = 0;
+export class ConvertedRoomIdMessageParser implements IMessageParser
+{
+	private _globalId: string = '';
 
-    get globalId(): string {
-        return this._globalId;
-    }
+	get globalId(): string
+	{
+		return this._globalId;
+	}
 
-    get convertedId(): number {
-        return this._convertedId;
-    }
+	private _convertedId: number = 0;
 
-    flush(): boolean {
-        this._globalId = '';
-        this._convertedId = 0;
-        return true;
-    }
+	get convertedId(): number
+	{
+		return this._convertedId;
+	}
 
-    parse(wrapper: IMessageDataWrapper): boolean {
-        this._globalId = wrapper.readString();
-        this._convertedId = wrapper.readInt();
-        return true;
-    }
+	flush(): boolean
+	{
+		this._globalId = '';
+		this._convertedId = 0;
+		return true;
+	}
+
+	parse(wrapper: IMessageDataWrapper): boolean
+	{
+		this._globalId = wrapper.readString();
+		this._convertedId = wrapper.readInt();
+		return true;
+	}
 }

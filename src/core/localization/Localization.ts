@@ -2,9 +2,10 @@ import type {ILocalizable} from './ILocalizable';
 import type {ILocalization} from './ILocalization';
 import type {ICoreLocalizationManager} from './ICoreLocalizationManager';
 
-interface ParameterData {
-    id: string;
-    value: string;
+interface ParameterData
+{
+	id: string;
+	value: string;
 }
 
 /**
@@ -12,145 +13,172 @@ interface ParameterData {
  *
  * Based on AS3 com.sulake.core.localization.Localization
  */
-export class Localization implements ILocalization {
-    private readonly _manager: ICoreLocalizationManager;
-    private readonly _key: string;
-    private _value: string | null;
-    private _parameters: Map<string, ParameterData> | null = null;
-    private _listeners: ILocalizable[] | null = null;
+export class Localization implements ILocalization
+{
+	private readonly _manager: ICoreLocalizationManager;
+	private readonly _key: string;
+	private _parameters: Map<string, ParameterData> | null = null;
+	private _listeners: ILocalizable[] | null = null;
 
-    constructor(manager: ICoreLocalizationManager, key: string, value: string | null = null) {
-        this._manager = manager;
-        this._key = key;
-        this._value = value;
-    }
+	constructor(manager: ICoreLocalizationManager, key: string, value: string | null = null)
+	{
+		this._manager = manager;
+		this._key = key;
+		this._value = value;
+	}
 
-    get isInitialized(): boolean {
-        return this._value !== null;
-    }
+	private _value: string | null;
 
-    get value(): string {
-        return this.fillParameterValues();
-    }
+	get value(): string
+	{
+		return this.fillParameterValues();
+	}
 
-    get raw(): string {
-        return this._value ?? '';
-    }
+	get isInitialized(): boolean
+	{
+		return this._value !== null;
+	}
 
-    setValue(value: string): void {
-        this._value = value;
-        this.updateListeners();
-    }
+	get raw(): string
+	{
+		return this._value ?? '';
+	}
 
-    registerListener(listener: ILocalizable): void {
-        if (!this._listeners) {
-            this._listeners = [];
-        }
+	setValue(value: string): void
+	{
+		this._value = value;
+		this.updateListeners();
+	}
 
-        if (this._listeners.indexOf(listener) === -1) {
-            this._listeners.push(listener);
-        }
+	registerListener(listener: ILocalizable): void
+	{
+		if (!this._listeners)
+		{
+			this._listeners = [];
+		}
 
-        listener.localization = this._manager.interpolate(this.value);
-    }
+		if (this._listeners.indexOf(listener) === -1)
+		{
+			this._listeners.push(listener);
+		}
 
-    removeListener(listener: ILocalizable): void {
-        if (this._listeners) {
-            const index = this._listeners.indexOf(listener);
-            if (index >= 0) {
-                this._listeners.splice(index, 1);
-            }
-        }
-    }
+		listener.localization = this._manager.interpolate(this.value);
+	}
 
-    registerParameter(name: string, value: string, id: string = '%'): void {
-        if (!this._parameters) {
-            this._parameters = new Map();
-        }
+	removeListener(listener: ILocalizable): void
+	{
+		if (this._listeners)
+		{
+			const index = this._listeners.indexOf(listener);
+			if (index >= 0)
+			{
+				this._listeners.splice(index, 1);
+			}
+		}
+	}
 
-        this._parameters.set(name, {
-            id: id,
-            value: value,
-        });
+	registerParameter(name: string, value: string, id: string = '%'): void
+	{
+		if (!this._parameters)
+		{
+			this._parameters = new Map();
+		}
 
-        this.updateListeners();
-    }
+		this._parameters.set(name, {
+			id: id,
+			value: value,
+		});
 
-    updateListeners(): void {
-        const interpolatedValue = this._manager.interpolate(this.value);
+		this.updateListeners();
+	}
 
-        if (this._listeners) {
-            for (const listener of this._listeners) {
-                listener.localization = interpolatedValue;
-            }
-        }
-    }
+	updateListeners(): void
+	{
+		const interpolatedValue = this._manager.interpolate(this.value);
 
-    private fillParameterValues(): string {
-        let result = this._value;
+		if (this._listeners)
+		{
+			for (const listener of this._listeners)
+			{
+				listener.localization = interpolatedValue;
+			}
+		}
+	}
 
-        if (result === null) {
-            return '';
-        }
+	private fillParameterValues(): string
+	{
+		let result = this._value;
 
-        // Fill in registered parameters
-        if (this._parameters) {
-            for (const [paramName, paramData] of this._parameters) {
-                // Simple parameter replacement: %param%
-                const pattern = paramData.id + paramName + paramData.id;
-                const regex = new RegExp(this.escapeRegex(pattern), 'gim');
-                result = result.replace(regex, paramData.value);
+		if (result === null)
+		{
+			return '';
+		}
 
-                // Check for plural forms: %{param|zero|one|many}
-                const lowerResult = result.toLowerCase();
-                const pluralPattern = paramData.id + '{' + paramName;
+		// Fill in registered parameters
+		if (this._parameters)
+		{
+			for (const [paramName, paramData] of this._parameters)
+			{
+				// Simple parameter replacement: %param%
+				const pattern = paramData.id + paramName + paramData.id;
+				const regex = new RegExp(this.escapeRegex(pattern), 'gim');
+				result = result.replace(regex, paramData.value);
 
-                if (lowerResult.indexOf(pluralPattern) >= 0) {
-                    let pluralIndex: number;
-                    const numValue = parseInt(paramData.value, 10);
+				// Check for plural forms: %{param|zero|one|many}
+				const lowerResult = result.toLowerCase();
+				const pluralPattern = paramData.id + '{' + paramName;
 
-                    switch (numValue) {
-                        case 0:
-                            pluralIndex = 1;
-                            break;
-                        case 1:
-                            pluralIndex = 2;
-                            break;
-                        default:
-                            pluralIndex = 3;
-                    }
+				if (lowerResult.indexOf(pluralPattern) >= 0)
+				{
+					let pluralIndex: number;
+					const numValue = parseInt(paramData.value, 10);
 
-                    // Match %{param|zero|one|many}
-                    const pluralRegex = new RegExp(
-                        this.escapeRegex(paramData.id) + '\\{' + paramName + '\\|([^|]*)\\|([^|]*)\\|([^}]*)\\}',
-                        'gim'
-                    );
-                    const doubleIdRegex = new RegExp(this.escapeRegex(paramData.id + paramData.id), 'gim');
+					switch (numValue)
+					{
+						case 0:
+							pluralIndex = 1;
+							break;
+						case 1:
+							pluralIndex = 2;
+							break;
+						default:
+							pluralIndex = 3;
+					}
 
-                    result = result.replace(pluralRegex, '$' + pluralIndex);
-                    result = result.replace(doubleIdRegex, paramData.value);
-                }
-            }
-        }
+					// Match %{param|zero|one|many}
+					const pluralRegex = new RegExp(
+						this.escapeRegex(paramData.id) + '\\{' + paramName + '\\|([^|]*)\\|([^|]*)\\|([^}]*)\\}',
+						'gim'
+					);
+					const doubleIdRegex = new RegExp(this.escapeRegex(paramData.id + paramData.id), 'gim');
 
-        // Handle %%%key%%% references to sub-localizations
-        const subKeyRegex = /%%%([A-Za-z0-9_])+%%%/g;
-        const matches = result.match(subKeyRegex);
+					result = result.replace(pluralRegex, '$' + pluralIndex);
+					result = result.replace(doubleIdRegex, paramData.value);
+				}
+			}
+		}
 
-        if (matches !== null) {
-            for (let i = matches.length - 1; i >= 0; i--) {
-                const match = matches[i];
-                const subKey = match.substring(3, match.length - 3);
-                const fullKey = this._key + '.' + subKey;
-                const subValue = this._manager.getLocalization(fullKey, subKey);
-                result = result.replace(match, subValue);
-            }
-        }
+		// Handle %%%key%%% references to sub-localizations
+		const subKeyRegex = /%%%([A-Za-z0-9_])+%%%/g;
+		const matches = result.match(subKeyRegex);
 
-        return result;
-    }
+		if (matches !== null)
+		{
+			for (let i = matches.length - 1; i >= 0; i--)
+			{
+				const match = matches[i];
+				const subKey = match.substring(3, match.length - 3);
+				const fullKey = this._key + '.' + subKey;
+				const subValue = this._manager.getLocalization(fullKey, subKey);
+				result = result.replace(match, subValue);
+			}
+		}
 
-    private escapeRegex(str: string): string {
-        return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    }
+		return result;
+	}
+
+	private escapeRegex(str: string): string
+	{
+		return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+	}
 }

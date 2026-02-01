@@ -21,6 +21,7 @@ export type HabboComponentFlagsType = typeof HabboComponentFlags;
  * @param flags - Component flags bitmask
  * @returns True if room viewer mode is enabled
  */
-export function isRoomViewerMode(flags: number): boolean {
+export function isRoomViewerMode(flags: number): boolean
+{
 	return (flags & HabboComponentFlags.ROOM_VIEWER_MODE) !== 0;
 }

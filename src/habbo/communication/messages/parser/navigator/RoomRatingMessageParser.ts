@@ -6,27 +6,33 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  *
  * Based on AS3 RoomRatingEventParser
  */
-export class RoomRatingMessageParser implements IMessageParser {
-    private _rating: number = 0;
-    private _canRate: boolean = false;
+export class RoomRatingMessageParser implements IMessageParser
+{
+	private _rating: number = 0;
 
-    get rating(): number {
-        return this._rating;
-    }
+	get rating(): number
+	{
+		return this._rating;
+	}
 
-    get canRate(): boolean {
-        return this._canRate;
-    }
+	private _canRate: boolean = false;
 
-    flush(): boolean {
-        this._rating = 0;
-        this._canRate = false;
-        return true;
-    }
+	get canRate(): boolean
+	{
+		return this._canRate;
+	}
 
-    parse(wrapper: IMessageDataWrapper): boolean {
-        this._rating = wrapper.readInt();
-        this._canRate = wrapper.readBoolean();
-        return true;
-    }
+	flush(): boolean
+	{
+		this._rating = 0;
+		this._canRate = false;
+		return true;
+	}
+
+	parse(wrapper: IMessageDataWrapper): boolean
+	{
+		this._rating = wrapper.readInt();
+		this._canRate = wrapper.readBoolean();
+		return true;
+	}
 }

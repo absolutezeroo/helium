@@ -6,23 +6,31 @@ import {NavigatorSavedSearch} from './NavigatorSavedSearch';
  *
  * Based on AS3 class_1764
  */
-export class NavigatorTopLevelContext {
-    private _searchCode: string = '';
-    private _savedSearches: NavigatorSavedSearch[] = [];
+export class NavigatorTopLevelContext
+{
+	constructor(wrapper: IMessageDataWrapper)
+	{
+		this._searchCode = wrapper.readString();
 
-    constructor(wrapper: IMessageDataWrapper) {
-        this._searchCode = wrapper.readString();
-        const count = wrapper.readInt();
-        for (let i = 0; i < count; i++) {
-            this._savedSearches.push(new NavigatorSavedSearch(wrapper));
-        }
-    }
+		const count = wrapper.readInt();
 
-    get searchCode(): string {
-        return this._searchCode;
-    }
+		for (let i = 0; i < count; i++)
+		{
+			this._savedSearches.push(new NavigatorSavedSearch(wrapper));
+		}
+	}
 
-    get savedSearches(): NavigatorSavedSearch[] {
-        return this._savedSearches;
-    }
+	private _searchCode: string = '';
+
+	get searchCode(): string
+	{
+		return this._searchCode;
+	}
+
+	private _savedSearches: NavigatorSavedSearch[] = [];
+
+	get savedSearches(): NavigatorSavedSearch[]
+	{
+		return this._savedSearches;
+	}
 }

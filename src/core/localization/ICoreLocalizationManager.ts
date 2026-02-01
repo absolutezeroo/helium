@@ -12,10 +12,11 @@ import type {IGameDataResources} from './IGameDataResources';
  * - LOCALIZATION_EVENT_LOCALIZATION_FAILED
  * - "complete" event
  */
-export interface LocalizationManagerEvents {
-    loaded: () => void;
-    failed: () => void;
-    complete: () => void;
+export interface LocalizationManagerEvents
+{
+	loaded: () => void;
+	failed: () => void;
+	complete: () => void;
 }
 
 /**
@@ -23,94 +24,95 @@ export interface LocalizationManagerEvents {
  *
  * Based on AS3 com.sulake.core.localization.ICoreLocalizationManager
  */
-export interface ICoreLocalizationManager extends EventEmitter<LocalizationManagerEvents> {
-    /**
-     * Register a listener for localization updates
-     */
-    registerLocalizationListener(key: string, listener: ILocalizable): boolean;
+export interface ICoreLocalizationManager extends EventEmitter<LocalizationManagerEvents>
+{
+	/**
+	 * Register a listener for localization updates
+	 */
+	registerLocalizationListener(key: string, listener: ILocalizable): boolean;
 
-    /**
-     * Remove a listener for localization updates
-     */
-    removeLocalizationListener(key: string, listener: ILocalizable): boolean;
+	/**
+	 * Remove a listener for localization updates
+	 */
+	removeLocalizationListener(key: string, listener: ILocalizable): boolean;
 
-    /**
-     * Load localization data from a URL
-     */
-    loadLocalizationFromURL(url: string, environmentId: string, acceptEmpty?: boolean): void;
+	/**
+	 * Load localization data from a URL
+	 */
+	loadLocalizationFromURL(url: string, environmentId: string, acceptEmpty?: boolean): void;
 
-    /**
-     * Check if a localization key exists
-     */
-    hasLocalization(key: string): boolean;
+	/**
+	 * Check if a localization key exists
+	 */
+	hasLocalization(key: string): boolean;
 
-    /**
-     * Get a localized string value
-     */
-    getLocalization(key: string, defaultValue?: string): string;
+	/**
+	 * Get a localized string value
+	 */
+	getLocalization(key: string, defaultValue?: string): string;
 
-    /**
-     * Get a property value with parameter substitution
-     */
-    getProperty(key: string, params?: Record<string, string>): string;
+	/**
+	 * Get a property value with parameter substitution
+	 */
+	getProperty(key: string, params?: Record<string, string>): string;
 
-    /**
-     * Update a localization value
-     */
-    updateLocalization(key: string, value: string): void;
+	/**
+	 * Update a localization value
+	 */
+	updateLocalization(key: string, value: string): void;
 
-    /**
-     * Register a parameter for a localization key
-     */
-    registerParameter(key: string, paramName: string, paramValue: string, paramId?: string): string;
+	/**
+	 * Register a parameter for a localization key
+	 */
+	registerParameter(key: string, paramName: string, paramValue: string, paramId?: string): string;
 
-    /**
-     * Get raw localization object
-     */
-    getLocalizationRaw(key: string): ILocalization | undefined;
+	/**
+	 * Get raw localization object
+	 */
+	getLocalizationRaw(key: string): ILocalization | undefined;
 
-    /**
-     * Get all localization keys
-     */
-    getKeys(): string[];
+	/**
+	 * Get all localization keys
+	 */
+	getKeys(): string[];
 
-    /**
-     * Register a localization definition
-     */
-    registerLocalizationDefinition(id: string, name: string, url: string, code: string): void;
+	/**
+	 * Register a localization definition
+	 */
+	registerLocalizationDefinition(id: string, name: string, url: string, code: string): void;
 
-    /**
-     * Activate a localization definition
-     */
-    activateLocalizationDefinition(id: string): boolean;
+	/**
+	 * Activate a localization definition
+	 */
+	activateLocalizationDefinition(id: string): boolean;
 
-    /**
-     * Get all localization definitions
-     */
-    getLocalizationDefinitions(): Map<string, ILocalizationDefinition>;
+	/**
+	 * Get all localization definitions
+	 */
+	getLocalizationDefinitions(): Map<string, ILocalizationDefinition>;
 
-    /**
-     * Get a specific localization definition
-     */
-    getLocalizationDefinition(id: string): ILocalizationDefinition | undefined;
+	/**
+	 * Get a specific localization definition
+	 */
+	getLocalizationDefinition(id: string): ILocalizationDefinition | undefined;
 
-    /**
-     * Get the currently active localization definition
-     */
-    getActiveLocalizationDefinition(): ILocalizationDefinition | undefined;
+	/**
+	 * Get the currently active localization definition
+	 */
+	getActiveLocalizationDefinition(): ILocalizationDefinition | undefined;
 
-    /**
-     * Print all non-existing keys that were requested
-     */
-    printNonExistingKeys(): void;
+	/**
+	 * Print all non-existing keys that were requested
+	 */
+	printNonExistingKeys(): void;
 
-    /**
-     * Get game data resources (hashes)
-     */
-    getGameDataResources(): IGameDataResources | undefined;
+	/**
+	 * Get game data resources (hashes)
+	 */
+	getGameDataResources(): IGameDataResources | undefined;
 
-    /**
-     * Interpolate a string, replacing ${key} with localization values
-     */
-    interpolate(value: string): string;
+	/**
+	 * Interpolate a string, replacing ${key} with localization values
+	 */
+	interpolate(value: string): string;
 }

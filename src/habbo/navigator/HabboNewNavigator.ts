@@ -1,16 +1,16 @@
 import {EventEmitter} from 'eventemitter3';
 import {inject, injectable} from 'inversify';
-import type {IHabboNewNavigator, HabboNewNavigatorEvents} from './IHabboNewNavigator';
+import type {HabboNewNavigatorEvents, IHabboNewNavigator} from './IHabboNewNavigator';
 import type {IHabboNavigator} from './IHabboNavigator';
 import {NavigatorData} from './domain';
 import {NavigatorCache} from './cache';
 import {ContextContainer, SearchContext, SearchContextHistoryManager} from './context';
 import {NewIncomingMessages} from './NewIncomingMessages';
 import type {
-    NavigatorLiftedRoomData,
-    NavigatorSavedSearch,
-    NavigatorSearchResultSet,
-    NavigatorTopLevelContext
+	NavigatorLiftedRoomData,
+	NavigatorSavedSearch,
+	NavigatorSearchResultSet,
+	NavigatorTopLevelContext
 } from '../communication/messages/incoming/newnavigator';
 import type {IHabboCommunicationManager} from '../communication/IHabboCommunicationManager';
 import {TYPES} from '@iid/types';
@@ -19,13 +19,13 @@ import {ViewModeCode} from './view';
 
 // Composers
 import {
-    NavigatorAddCollapsedCategoryMessageComposer,
-    NavigatorAddSavedSearchComposer,
-    NavigatorDeleteSavedSearchComposer,
-    NavigatorRemoveCollapsedCategoryMessageComposer,
-    NavigatorSetSearchCodeViewModeMessageComposer,
-    NewNavigatorInitComposer,
-    NewNavigatorSearchComposer,
+	NavigatorAddCollapsedCategoryMessageComposer,
+	NavigatorAddSavedSearchComposer,
+	NavigatorDeleteSavedSearchComposer,
+	NavigatorRemoveCollapsedCategoryMessageComposer,
+	NavigatorSetSearchCodeViewModeMessageComposer,
+	NewNavigatorInitComposer,
+	NewNavigatorSearchComposer,
 } from '../communication/messages/outgoing/newnavigator';
 import {GetGuestRoomMessageComposer,} from '../communication/messages/outgoing/navigator';
 
@@ -40,283 +40,337 @@ const log = Logger.getLogger('NewNavigator');
  * Based on AS3 com.sulake.habbo.navigator.HabboNewNavigator
  */
 @injectable()
-export class HabboNewNavigator extends EventEmitter<HabboNewNavigatorEvents> implements IHabboNewNavigator {
-    private _communication: IHabboCommunicationManager;
-    private _legacyNavigator: IHabboNavigator;
-    private _incomingMessages: NewIncomingMessages;
-    private _contextContainer: ContextContainer;
-    private _historyManager: SearchContextHistoryManager;
-    private _cache: NavigatorCache;
+export class HabboNewNavigator extends EventEmitter<HabboNewNavigatorEvents> implements IHabboNewNavigator
+{
+	private _communication: IHabboCommunicationManager;
+	private _incomingMessages: NewIncomingMessages;
+	private _isOpen: boolean = false;
+	private _isInitialized: boolean = false;
+	private _noPushToHistoryDueToNavigation: boolean = false;
+	private _lastSearchCode: string = ViewModeCode.OFFICIAL_VIEW;
+	private _lastFiltering: string = '';
 
-    private _isReady: boolean = false;
-    private _isOpen: boolean = false;
-    private _isInitialized: boolean = false;
-    private _currentResults: NavigatorSearchResultSet | null = null;
-    private _collapsedCategories: string[] = [];
-    private _noPushToHistoryDueToNavigation: boolean = false;
-    private _lastSearchCode: string = ViewModeCode.OFFICIAL_VIEW;
-    private _lastFiltering: string = '';
+	constructor(
+		@inject(TYPES.HabboCommunicationManager) communication: IHabboCommunicationManager,
+		@inject(TYPES.NavigatorManager) legacyNavigator: IHabboNavigator
+	)
+	{
+		super();
+		this._communication = communication;
+		this._legacyNavigator = legacyNavigator;
+		this._contextContainer = new ContextContainer();
+		this._historyManager = new SearchContextHistoryManager();
+		this._cache = new NavigatorCache();
 
-    constructor(
-        @inject(TYPES.HabboCommunicationManager) communication: IHabboCommunicationManager,
-        @inject(TYPES.NavigatorManager) legacyNavigator: IHabboNavigator
-    ) {
-        super();
-        this._communication = communication;
-        this._legacyNavigator = legacyNavigator;
-        this._contextContainer = new ContextContainer();
-        this._historyManager = new SearchContextHistoryManager();
-        this._cache = new NavigatorCache();
+		// Create message handler - uses the legacy navigator's data for shared state
+		this._incomingMessages = new NewIncomingMessages(this, communication, this._legacyNavigator.data);
 
-        // Create message handler - uses the legacy navigator's data for shared state
-        this._incomingMessages = new NewIncomingMessages(this, communication, this._legacyNavigator.data);
+		log.info('New Navigator created');
+	}
 
-        log.info('New Navigator created');
-    }
+	private _legacyNavigator: IHabboNavigator;
 
-    /**
-     * Initialize the navigator (send init message to server)
-     * Should be called after connection is established
-     */
-    init(): void {
-        if (this._isInitialized) return;
-        this._isInitialized = true;
+	get legacyNavigator(): IHabboNavigator
+	{
+		return this._legacyNavigator;
+	}
 
-        this.send(new NewNavigatorInitComposer());
-        log.info('New Navigator init message sent');
-    }
+	private _contextContainer: ContextContainer;
 
-    // ========== Properties ==========
+	get contextContainer(): ContextContainer
+	{
+		return this._contextContainer;
+	}
 
-    get isReady(): boolean {
-        return this._isReady;
-    }
+	private _historyManager: SearchContextHistoryManager;
 
-    get legacyNavigator(): IHabboNavigator {
-        return this._legacyNavigator;
-    }
+	get historyManager(): SearchContextHistoryManager
+	{
+		return this._historyManager;
+	}
 
-    /**
-     * Get the navigator data model
-     * Uses legacy navigator's data for shared state
-     */
-    get data(): NavigatorData {
-        return this._legacyNavigator.data;
-    }
+	private _cache: NavigatorCache;
 
-    get contextContainer(): ContextContainer {
-        return this._contextContainer;
-    }
+	get cache(): NavigatorCache
+	{
+		return this._cache;
+	}
 
-    get historyManager(): SearchContextHistoryManager {
-        return this._historyManager;
-    }
+	// ========== Properties ==========
 
-    get cache(): NavigatorCache {
-        return this._cache;
-    }
+	private _isReady: boolean = false;
 
-    get currentResults(): NavigatorSearchResultSet | null {
-        return this._currentResults;
-    }
+	get isReady(): boolean
+	{
+		return this._isReady;
+	}
 
-    get collapsedCategories(): string[] {
-        return this._collapsedCategories;
-    }
+	private _currentResults: NavigatorSearchResultSet | null = null;
 
-    // ========== Initialization ==========
+	get currentResults(): NavigatorSearchResultSet | null
+	{
+		return this._currentResults;
+	}
 
-    initialize(topLevelContexts: NavigatorTopLevelContext[]): void {
-        this._contextContainer.initialize(topLevelContexts);
-        this.data.topLevelContexts = topLevelContexts;
-        this._isReady = true;
-        this.emit('initialized');
-        log.info(`Navigator initialized with ${topLevelContexts.length} contexts`);
-    }
+	private _collapsedCategories: string[] = [];
 
-    // ========== Search Results ==========
+	get collapsedCategories(): string[]
+	{
+		return this._collapsedCategories;
+	}
 
-    onSearchResult(results: NavigatorSearchResultSet): void {
-        this._currentResults = results;
-        this.data.navigatorSearchResultSet = results;
+	/**
+	 * Get the navigator data model
+	 * Uses legacy navigator's data for shared state
+	 */
+	get data(): NavigatorData
+	{
+		return this._legacyNavigator.data;
+	}
 
-        if (!this._noPushToHistoryDueToNavigation) {
-            this._historyManager.addSearchContextAtCurrentOffset(
-                new SearchContext(results.searchCode, results.filteringData)
-            );
-        }
+	/**
+	 * Initialize the navigator (send init message to server)
+	 * Should be called after connection is established
+	 */
+	init(): void
+	{
+		if (this._isInitialized) return;
+		this._isInitialized = true;
 
-        this._cache.put(`${results.searchCode}/${results.filteringData}`, results);
-        this._noPushToHistoryDueToNavigation = false;
+		this.send(new NewNavigatorInitComposer());
+		log.info('New Navigator init message sent');
+	}
 
-        this.emit('searchResults', results);
-        log.debug(`Search results: ${results.blocks.length} blocks`);
-    }
+	// ========== Initialization ==========
 
-    onLiftedRooms(rooms: NavigatorLiftedRoomData[]): void {
-        this.emit('liftedRoomsUpdated', rooms);
-        log.debug(`Lifted rooms: ${rooms.length}`);
-    }
+	initialize(topLevelContexts: NavigatorTopLevelContext[]): void
+	{
+		this._contextContainer.initialize(topLevelContexts);
+		this.data.topLevelContexts = topLevelContexts;
+		this._isReady = true;
+		this.emit('initialized');
+		log.info(`Navigator initialized with ${topLevelContexts.length} contexts`);
+	}
 
-    onSavedSearches(searches: NavigatorSavedSearch[]): void {
-        this._contextContainer.savedSearches = searches;
-        this.emit('savedSearchesUpdated', searches);
-        log.debug(`Saved searches: ${searches.length}`);
-    }
+	// ========== Search Results ==========
 
-    onCollapsedCategories(categories: string[]): void {
-        this._collapsedCategories = categories;
-        log.debug(`Collapsed categories: ${categories.length}`);
-    }
+	onSearchResult(results: NavigatorSearchResultSet): void
+	{
+		this._currentResults = results;
+		this.data.navigatorSearchResultSet = results;
 
-    // ========== Navigation ==========
+		if (!this._noPushToHistoryDueToNavigation)
+		{
+			this._historyManager.addSearchContextAtCurrentOffset(
+				new SearchContext(results.searchCode, results.filteringData)
+			);
+		}
 
-    open(): void {
-        if (this._isOpen) return;
+		this._cache.put(`${results.searchCode}/${results.filteringData}`, results);
+		this._noPushToHistoryDueToNavigation = false;
 
-        // Initialize on first open if not already done
-        if (!this._isInitialized) {
-            this.init();
-        }
+		this.emit('searchResults', results);
+		log.debug(`Search results: ${results.blocks.length} blocks`);
+	}
 
-        this._isOpen = true;
-        this.emit('opened');
-        log.debug('Navigator opened');
-    }
+	onLiftedRooms(rooms: NavigatorLiftedRoomData[]): void
+	{
+		this.emit('liftedRoomsUpdated', rooms);
+		log.debug(`Lifted rooms: ${rooms.length}`);
+	}
 
-    close(): void {
-        if (!this._isOpen) return;
-        this._isOpen = false;
-        this.emit('closed');
-        log.debug('Navigator closed');
-    }
+	onSavedSearches(searches: NavigatorSavedSearch[]): void
+	{
+		this._contextContainer.savedSearches = searches;
+		this.emit('savedSearchesUpdated', searches);
+		log.debug(`Saved searches: ${searches.length}`);
+	}
 
-    toggle(): void {
-        if (this._isOpen) {
-            this.close();
-        } else {
-            this.open();
-        }
-    }
+	onCollapsedCategories(categories: string[]): void
+	{
+		this._collapsedCategories = categories;
+		log.debug(`Collapsed categories: ${categories.length}`);
+	}
 
-    // ========== Search ==========
+	// ========== Navigation ==========
 
-    performSearch(searchCode: string, filtering: string = '', _source: string = ''): void {
-        this._lastSearchCode = searchCode;
-        this._lastFiltering = filtering;
+	open(): void
+	{
+		if (this._isOpen) return;
 
-        // Check cache first
-        const cached = this._cache.getEntry(`${searchCode}/${filtering}`);
-        if (cached) {
-            this.onSearchResult(cached);
-            return;
-        }
+		// Initialize on first open if not already done
+		if (!this._isInitialized)
+		{
+			this.init();
+		}
 
-        this.send(new NewNavigatorSearchComposer(searchCode, filtering));
-        log.debug(`Searching: ${searchCode}, filter: ${filtering}`);
-    }
+		this._isOpen = true;
+		this.emit('opened');
+		log.debug('Navigator opened');
+	}
 
-    performLastSearch(): void {
-        if (this._lastSearchCode) {
-            this._cache.removeEntry(`${this._lastSearchCode}/${this._lastFiltering}`);
-            this.performSearch(this._lastSearchCode, this._lastFiltering);
-        }
-    }
+	close(): void
+	{
+		if (!this._isOpen) return;
+		this._isOpen = false;
+		this.emit('closed');
+		log.debug('Navigator closed');
+	}
 
-    performTagSearch(tag: string): void {
-        let searchTag = tag;
-        if (searchTag.indexOf(' ') !== -1) {
-            searchTag = '"' + searchTag + '"';
-        }
-        this.performSearch(ViewModeCode.HOTEL_VIEW, 'tag:' + searchTag);
-    }
+	toggle(): void
+	{
+		if (this._isOpen)
+		{
+			this.close();
+		} else
+		{
+			this.open();
+		}
+	}
 
-    performTextSearch(text: string): void {
-        this.performSearch(ViewModeCode.HOTEL_VIEW, text);
-    }
+	// ========== Search ==========
 
-    goBack(): void {
-        const context = this._historyManager.getPreviousSearchContextAndGoBack();
-        if (context) {
-            this._noPushToHistoryDueToNavigation = true;
-            this.performSearch(context.searchCode, context.filtering);
-        }
-    }
+	performSearch(searchCode: string, filtering: string = '', _source: string = ''): void
+	{
+		this._lastSearchCode = searchCode;
+		this._lastFiltering = filtering;
 
-    goForward(): void {
-        const context = this._historyManager.getNextSearchContextAndMoveForward();
-        if (context) {
-            this._noPushToHistoryDueToNavigation = true;
-            this.performSearch(context.searchCode, context.filtering);
-        }
-    }
+		// Check cache first
+		const cached = this._cache.getEntry(`${searchCode}/${filtering}`);
+		if (cached)
+		{
+			this.onSearchResult(cached);
+			return;
+		}
 
-    // ========== Room Navigation ==========
+		this.send(new NewNavigatorSearchComposer(searchCode, filtering));
+		log.debug(`Searching: ${searchCode}, filter: ${filtering}`);
+	}
 
-    goToRoom(roomId: number, _source: string = 'mainview'): void {
-        this.send(new GetGuestRoomMessageComposer(roomId, false, true));
-        this.close();
-        log.info(`Going to room: ${roomId}`);
-    }
+	performLastSearch(): void
+	{
+		if (this._lastSearchCode)
+		{
+			this._cache.removeEntry(`${this._lastSearchCode}/${this._lastFiltering}`);
+			this.performSearch(this._lastSearchCode, this._lastFiltering);
+		}
+	}
 
-    goToHomeRoom(): void {
-        const homeRoomId = this.data.homeRoomId;
-        if (homeRoomId > 0) {
-            this.goToRoom(homeRoomId, 'external');
-        }
-    }
+	performTagSearch(tag: string): void
+	{
+		let searchTag = tag;
+		if (searchTag.indexOf(' ') !== -1)
+		{
+			searchTag = '"' + searchTag + '"';
+		}
+		this.performSearch(ViewModeCode.HOTEL_VIEW, 'tag:' + searchTag);
+	}
 
-    // ========== Saved Searches ==========
+	performTextSearch(text: string): void
+	{
+		this.performSearch(ViewModeCode.HOTEL_VIEW, text);
+	}
 
-    addSavedSearch(searchCode: string, filtering: string): void {
-        this.send(new NavigatorAddSavedSearchComposer(searchCode, filtering));
-    }
+	goBack(): void
+	{
+		const context = this._historyManager.getPreviousSearchContextAndGoBack();
+		if (context)
+		{
+			this._noPushToHistoryDueToNavigation = true;
+			this.performSearch(context.searchCode, context.filtering);
+		}
+	}
 
-    deleteSavedSearch(id: number): void {
-        this.send(new NavigatorDeleteSavedSearchComposer(id));
-    }
+	goForward(): void
+	{
+		const context = this._historyManager.getNextSearchContextAndMoveForward();
+		if (context)
+		{
+			this._noPushToHistoryDueToNavigation = true;
+			this.performSearch(context.searchCode, context.filtering);
+		}
+	}
 
-    // ========== Category Collapse ==========
+	// ========== Room Navigation ==========
 
-    addCollapsedCategory(category: string): void {
-        this.send(new NavigatorAddCollapsedCategoryMessageComposer(category));
-        if (!this._collapsedCategories.includes(category)) {
-            this._collapsedCategories.push(category);
-        }
-    }
+	goToRoom(roomId: number, _source: string = 'mainview'): void
+	{
+		this.send(new GetGuestRoomMessageComposer(roomId, false, true));
+		this.close();
+		log.info(`Going to room: ${roomId}`);
+	}
 
-    removeCollapsedCategory(category: string): void {
-        this.send(new NavigatorRemoveCollapsedCategoryMessageComposer(category));
-        const index = this._collapsedCategories.indexOf(category);
-        if (index !== -1) {
-            this._collapsedCategories.splice(index, 1);
-        }
-    }
+	goToHomeRoom(): void
+	{
+		const homeRoomId = this.data.homeRoomId;
+		if (homeRoomId > 0)
+		{
+			this.goToRoom(homeRoomId, 'external');
+		}
+	}
 
-    isCategoryCollapsed(category: string): boolean {
-        return this._collapsedCategories.includes(category);
-    }
+	// ========== Saved Searches ==========
 
-    // ========== View Mode ==========
+	addSavedSearch(searchCode: string, filtering: string): void
+	{
+		this.send(new NavigatorAddSavedSearchComposer(searchCode, filtering));
+	}
 
-    setSearchCodeViewMode(searchCode: string, viewMode: number): void {
-        this.send(new NavigatorSetSearchCodeViewModeMessageComposer(searchCode, viewMode));
-    }
+	deleteSavedSearch(id: number): void
+	{
+		this.send(new NavigatorDeleteSavedSearchComposer(id));
+	}
 
-    // ========== Utility ==========
+	// ========== Category Collapse ==========
 
-    private send(composer: {getMessageArray(): unknown[]; dispose(): void}): void {
-        const connection = this._communication.connection;
-        if (connection) {
-            connection.send(composer);
-        }
-    }
+	addCollapsedCategory(category: string): void
+	{
+		this.send(new NavigatorAddCollapsedCategoryMessageComposer(category));
+		if (!this._collapsedCategories.includes(category))
+		{
+			this._collapsedCategories.push(category);
+		}
+	}
 
-    // ========== Dispose ==========
+	removeCollapsedCategory(category: string): void
+	{
+		this.send(new NavigatorRemoveCollapsedCategoryMessageComposer(category));
+		const index = this._collapsedCategories.indexOf(category);
+		if (index !== -1)
+		{
+			this._collapsedCategories.splice(index, 1);
+		}
+	}
 
-    dispose(): void {
-        this._incomingMessages.dispose();
-        this.removeAllListeners();
-        log.info('New Navigator disposed');
-    }
+	isCategoryCollapsed(category: string): boolean
+	{
+		return this._collapsedCategories.includes(category);
+	}
+
+	// ========== View Mode ==========
+
+	setSearchCodeViewMode(searchCode: string, viewMode: number): void
+	{
+		this.send(new NavigatorSetSearchCodeViewModeMessageComposer(searchCode, viewMode));
+	}
+
+	// ========== Utility ==========
+
+	dispose(): void
+	{
+		this._incomingMessages.dispose();
+		this.removeAllListeners();
+		log.info('New Navigator disposed');
+	}
+
+	// ========== Dispose ==========
+
+	private send(composer: { getMessageArray(): unknown[]; dispose(): void }): void
+	{
+		const connection = this._communication.connection;
+		if (connection)
+		{
+			connection.send(composer);
+		}
+	}
 }

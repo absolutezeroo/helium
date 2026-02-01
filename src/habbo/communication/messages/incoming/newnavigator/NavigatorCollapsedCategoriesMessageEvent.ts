@@ -7,8 +7,10 @@ import {NavigatorCollapsedCategoriesMessageParser} from '../../parser/newnavigat
  *
  * Based on AS3 class_954
  */
-export class NavigatorCollapsedCategoriesMessageEvent extends MessageEvent {
-    constructor(callback: MessageEventCallback) {
-        super(callback, NavigatorCollapsedCategoriesMessageParser);
-    }
+export class NavigatorCollapsedCategoriesMessageEvent extends MessageEvent
+{
+	constructor(callback: MessageEventCallback)
+	{
+		super(callback, NavigatorCollapsedCategoriesMessageParser);
+	}
 }

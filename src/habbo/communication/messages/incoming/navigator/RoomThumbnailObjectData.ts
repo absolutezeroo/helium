@@ -3,30 +3,37 @@
  *
  * Based on AS3 com.sulake.habbo.communication.messages.incoming.navigator.class_1788
  */
-export class RoomThumbnailObjectData {
-    private _pos: number = 0;
-    private _imgId: number = 0;
+export class RoomThumbnailObjectData
+{
+	private _pos: number = 0;
 
-    get pos(): number {
-        return this._pos;
-    }
+	get pos(): number
+	{
+		return this._pos;
+	}
 
-    set pos(value: number) {
-        this._pos = value;
-    }
+	set pos(value: number)
+	{
+		this._pos = value;
+	}
 
-    get imgId(): number {
-        return this._imgId;
-    }
+	private _imgId: number = 0;
 
-    set imgId(value: number) {
-        this._imgId = value;
-    }
+	get imgId(): number
+	{
+		return this._imgId;
+	}
 
-    getCopy(): RoomThumbnailObjectData {
-        const copy = new RoomThumbnailObjectData();
-        copy._pos = this._pos;
-        copy._imgId = this._imgId;
-        return copy;
-    }
+	set imgId(value: number)
+	{
+		this._imgId = value;
+	}
+
+	getCopy(): RoomThumbnailObjectData
+	{
+		const copy = new RoomThumbnailObjectData();
+		copy._pos = this._pos;
+		copy._imgId = this._imgId;
+		return copy;
+	}
 }

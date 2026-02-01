@@ -2,8 +2,9 @@ import 'solid-devtools';
 import {render} from 'solid-js/web';
 import {App} from './App';
 
-export function mountUI(container: HTMLElement): () => void {
-    return render(() => <App/>, container);
+export function mountUI(container: HTMLElement): () => void
+{
+	return render(() => <App/>, container);
 }
 
 export {App} from './App';

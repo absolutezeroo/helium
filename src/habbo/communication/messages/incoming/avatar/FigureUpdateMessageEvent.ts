@@ -6,8 +6,10 @@ import {FigureUpdateMessageParser} from '../../parser/avatar/FigureUpdateMessage
  * Event handler for figure update message
  * Sent when user's avatar appearance changes
  */
-export class FigureUpdateMessageEvent extends MessageEvent {
-    constructor(callback: MessageEventCallback) {
-        super(callback, FigureUpdateMessageParser);
-    }
+export class FigureUpdateMessageEvent extends MessageEvent
+{
+	constructor(callback: MessageEventCallback)
+	{
+		super(callback, FigureUpdateMessageParser);
+	}
 }

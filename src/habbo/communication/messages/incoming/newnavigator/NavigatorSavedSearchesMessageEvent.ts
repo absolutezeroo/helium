@@ -7,8 +7,10 @@ import {NavigatorSavedSearchesMessageParser} from '../../parser/newnavigator';
  *
  * Based on AS3 class_713
  */
-export class NavigatorSavedSearchesMessageEvent extends MessageEvent {
-    constructor(callback: MessageEventCallback) {
-        super(callback, NavigatorSavedSearchesMessageParser);
-    }
+export class NavigatorSavedSearchesMessageEvent extends MessageEvent
+{
+	constructor(callback: MessageEventCallback)
+	{
+		super(callback, NavigatorSavedSearchesMessageParser);
+	}
 }

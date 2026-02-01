@@ -5,20 +5,20 @@ import type {HabboNewNavigator} from './HabboNewNavigator';
 
 // Message events
 import {
-    NavigatorCollapsedCategoriesMessageEvent,
-    NavigatorLiftedRoomsMessageEvent,
-    NavigatorMetaDataMessageEvent,
-    NavigatorSavedSearchesMessageEvent,
-    NavigatorSearchResultSetMessageEvent,
+	NavigatorCollapsedCategoriesMessageEvent,
+	NavigatorLiftedRoomsMessageEvent,
+	NavigatorMetaDataMessageEvent,
+	NavigatorSavedSearchesMessageEvent,
+	NavigatorSearchResultSetMessageEvent,
 } from '../communication/messages/incoming/newnavigator';
 
 // Parsers
 import {
-    NavigatorCollapsedCategoriesMessageParser,
-    NavigatorLiftedRoomsMessageParser,
-    NavigatorMetaDataMessageParser,
-    NavigatorSavedSearchesMessageParser,
-    NavigatorSearchResultSetMessageParser,
+	NavigatorCollapsedCategoriesMessageParser,
+	NavigatorLiftedRoomsMessageParser,
+	NavigatorMetaDataMessageParser,
+	NavigatorSavedSearchesMessageParser,
+	NavigatorSearchResultSetMessageParser,
 } from '../communication/messages/parser/newnavigator';
 
 import {Logger} from '@core/utils/Logger';
@@ -30,111 +30,122 @@ const log = Logger.getLogger('NewNavigator');
  *
  * Based on AS3 com.sulake.habbo.navigator.NewIncomingMessages
  */
-export class NewIncomingMessages {
-    private _navigator: HabboNewNavigator;
-    private _communication: IHabboCommunicationManager;
-    private _data: NavigatorData;
-    private _messageEvents: IMessageEvent[] = [];
+export class NewIncomingMessages
+{
+	private _navigator: HabboNewNavigator;
+	private _communication: IHabboCommunicationManager;
+	private _data: NavigatorData;
+	private _messageEvents: IMessageEvent[] = [];
 
-    constructor(navigator: HabboNewNavigator, communication: IHabboCommunicationManager, data: NavigatorData) {
-        this._navigator = navigator;
-        this._communication = communication;
-        this._data = data;
+	constructor(navigator: HabboNewNavigator, communication: IHabboCommunicationManager, data: NavigatorData)
+	{
+		this._navigator = navigator;
+		this._communication = communication;
+		this._data = data;
 
-        this.addMessageListeners();
-    }
+		this.addMessageListeners();
+	}
 
-    private addMessageListeners(): void {
-        // Navigator metadata (top level contexts)
-        this.addMessageEvent(new NavigatorMetaDataMessageEvent(this.onNavigatorMetaData.bind(this)));
+	dispose(): void
+	{
+		for (const event of this._messageEvents)
+		{
+			this._communication.removeMessageEvent(event);
+		}
 
-        // Search results
-        this.addMessageEvent(new NavigatorSearchResultSetMessageEvent(this.onNavigatorSearchResultSet.bind(this)));
+		this._messageEvents = [];
+	}
 
-        // Saved searches
-        this.addMessageEvent(new NavigatorSavedSearchesMessageEvent(this.onSavedSearches.bind(this)));
+	private addMessageListeners(): void
+	{
+		// Navigator metadata (top level contexts)
+		this.addMessageEvent(new NavigatorMetaDataMessageEvent(this.onNavigatorMetaData.bind(this)));
 
-        // Lifted rooms
-        this.addMessageEvent(new NavigatorLiftedRoomsMessageEvent(this.onLiftedRooms.bind(this)));
+		// Search results
+		this.addMessageEvent(new NavigatorSearchResultSetMessageEvent(this.onNavigatorSearchResultSet.bind(this)));
 
-        // Collapsed categories
-        this.addMessageEvent(new NavigatorCollapsedCategoriesMessageEvent(this.onCollapsedCategories.bind(this)));
-    }
+		// Saved searches
+		this.addMessageEvent(new NavigatorSavedSearchesMessageEvent(this.onSavedSearches.bind(this)));
 
-    private addMessageEvent(event: IMessageEvent): void {
-        this._communication.addMessageEvent(event);
-        this._messageEvents.push(event);
-    }
+		// Lifted rooms
+		this.addMessageEvent(new NavigatorLiftedRoomsMessageEvent(this.onLiftedRooms.bind(this)));
 
-    dispose(): void {
-        for (const event of this._messageEvents) {
-            this._communication.removeMessageEvent(event);
-        }
-        
-        this._messageEvents = [];
-    }
+		// Collapsed categories
+		this.addMessageEvent(new NavigatorCollapsedCategoriesMessageEvent(this.onCollapsedCategories.bind(this)));
+	}
 
-    // ========== Message Handlers ==========
+	private addMessageEvent(event: IMessageEvent): void
+	{
+		this._communication.addMessageEvent(event);
+		this._messageEvents.push(event);
+	}
 
-    private onNavigatorMetaData(event: IMessageEvent): void {
-        if(!event) return;
+	// ========== Message Handlers ==========
 
-        const parser = event.parser as NavigatorMetaDataMessageParser;
+	private onNavigatorMetaData(event: IMessageEvent): void
+	{
+		if (!event) return;
 
-        if(!parser) return;
+		const parser = event.parser as NavigatorMetaDataMessageParser;
 
-        this._navigator.initialize(parser.topLevelContexts);
+		if (!parser) return;
 
-        log.info(`Navigator metadata received: ${parser.topLevelContexts.length} contexts`);
-    }
+		this._navigator.initialize(parser.topLevelContexts);
 
-    private onNavigatorSearchResultSet(event: IMessageEvent): void {
-        if(!event) return;
+		log.info(`Navigator metadata received: ${parser.topLevelContexts.length} contexts`);
+	}
 
-        const parser = event.parser as NavigatorSearchResultSetMessageParser;
+	private onNavigatorSearchResultSet(event: IMessageEvent): void
+	{
+		if (!event) return;
 
-        if(!parser) return;
+		const parser = event.parser as NavigatorSearchResultSetMessageParser;
 
-        if(!parser.searchResult) return;
+		if (!parser) return;
 
-        this._navigator.onSearchResult(parser.searchResult);
+		if (!parser.searchResult) return;
 
-        log.debug(`Search results: ${parser.searchResult.blocks.length} blocks`);
-    }
+		this._navigator.onSearchResult(parser.searchResult);
 
-    private onSavedSearches(event: IMessageEvent): void {
-        if(!event) return;
+		log.debug(`Search results: ${parser.searchResult.blocks.length} blocks`);
+	}
 
-        const parser = event.parser as NavigatorSavedSearchesMessageParser;
+	private onSavedSearches(event: IMessageEvent): void
+	{
+		if (!event) return;
 
-        if(!parser) return;
+		const parser = event.parser as NavigatorSavedSearchesMessageParser;
 
-        this._navigator.onSavedSearches(parser.savedSearches);
+		if (!parser) return;
 
-        log.debug(`Saved searches: ${parser.savedSearches.length}`);
-    }
+		this._navigator.onSavedSearches(parser.savedSearches);
 
-    private onLiftedRooms(event: IMessageEvent): void {
-        if(!event) return;
+		log.debug(`Saved searches: ${parser.savedSearches.length}`);
+	}
 
-        const parser = event.parser as NavigatorLiftedRoomsMessageParser;
+	private onLiftedRooms(event: IMessageEvent): void
+	{
+		if (!event) return;
 
-        if(!parser) return;
+		const parser = event.parser as NavigatorLiftedRoomsMessageParser;
 
-        this._navigator.onLiftedRooms(parser.liftedRooms);
+		if (!parser) return;
 
-        log.debug(`Lifted rooms: ${parser.liftedRooms.length}`);
-    }
+		this._navigator.onLiftedRooms(parser.liftedRooms);
 
-    private onCollapsedCategories(event: IMessageEvent): void {
-        if(!event) return;
+		log.debug(`Lifted rooms: ${parser.liftedRooms.length}`);
+	}
 
-        const parser = event.parser as NavigatorCollapsedCategoriesMessageParser;
+	private onCollapsedCategories(event: IMessageEvent): void
+	{
+		if (!event) return;
 
-        if(!parser) return;
+		const parser = event.parser as NavigatorCollapsedCategoriesMessageParser;
 
-        this._navigator.onCollapsedCategories(parser.collapsedCategories);
+		if (!parser) return;
 
-        log.debug(`Collapsed categories: ${parser.collapsedCategories.length}`);
-    }
+		this._navigator.onCollapsedCategories(parser.collapsedCategories);
+
+		log.debug(`Collapsed categories: ${parser.collapsedCategories.length}`);
+	}
 }

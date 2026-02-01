@@ -6,55 +6,65 @@ import type {IMessageParser} from './IMessageParser';
  * Base implementation of message event
  * Extend this class to create handlers for specific message types
  */
-export class MessageEvent implements IMessageEvent {
-    constructor(callback: MessageEventCallback, parserClass: ParserClass) {
-        this._callback = callback;
-        this._parserClass = parserClass;
-    }
+export class MessageEvent implements IMessageEvent
+{
+	constructor(callback: MessageEventCallback, parserClass: ParserClass)
+	{
+		this._callback = callback;
+		this._parserClass = parserClass;
+	}
 
-    protected _callback: MessageEventCallback;
+	protected _callback: MessageEventCallback;
 
-    get callback(): MessageEventCallback {
-        return this._callback;
-    }
+	get callback(): MessageEventCallback
+	{
+		return this._callback;
+	}
 
-    protected _connection: IConnection | null = null;
+	protected _connection: IConnection | null = null;
 
-    get connection(): IConnection | null {
-        return this._connection;
-    }
+	get connection(): IConnection | null
+	{
+		return this._connection;
+	}
 
-    set connection(value: IConnection | null) {
-        this._connection = value;
-    }
+	set connection(value: IConnection | null)
+	{
+		this._connection = value;
+	}
 
-    protected _parserClass: ParserClass;
+	protected _parserClass: ParserClass;
 
-    get parserClass(): ParserClass {
-        return this._parserClass;
-    }
+	get parserClass(): ParserClass
+	{
+		return this._parserClass;
+	}
 
-    protected _parser: IMessageParser | null = null;
+	protected _parser: IMessageParser | null = null;
 
-    get parser(): IMessageParser | null {
-        return this._parser;
-    }
+	get parser(): IMessageParser | null
+	{
+		return this._parser;
+	}
 
-    set parser(value: IMessageParser | null) {
-        this._parser = value;
-    }
+	set parser(value: IMessageParser | null)
+	{
+		this._parser = value;
+	}
 
-    /**
-     * Get the parser cast to a specific type
-     */
-    getParser<T extends IMessageParser>(): T {
-        return this._parser as T;
-    }
+	/**
+	 * Get the parser cast to a specific type
+	 */
+	getParser<T extends IMessageParser>(): T
+	{
+		return this._parser as T;
+	}
 
-    dispose(): void {
-        this._callback = null!;
-        this._parserClass = null!;
-        this._connection = null;
-        this._parser = null;
-    }
+	dispose(): void
+	{
+		this._callback = null!;
+		this._parserClass = null!;
+		this._connection = null;
+		this._parser = null;
+	}
 }

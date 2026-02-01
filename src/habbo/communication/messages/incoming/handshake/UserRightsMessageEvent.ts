@@ -6,8 +6,10 @@ import {UserRightsMessageParser} from '../../parser/handshake/UserRightsMessageP
  * Event handler for User rights message
  * Message ID: 1416
  */
-export class UserRightsMessageEvent extends MessageEvent {
-    constructor(callback: MessageEventCallback) {
-        super(callback, UserRightsMessageParser);
-    }
+export class UserRightsMessageEvent extends MessageEvent
+{
+	constructor(callback: MessageEventCallback)
+	{
+		super(callback, UserRightsMessageParser);
+	}
 }

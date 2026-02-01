@@ -1,46 +1,55 @@
 import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
-import {OfficialRoomsData, OfficialRoomEntryData, PromotedRoomsData} from '../../incoming/navigator';
+import {OfficialRoomEntryData, OfficialRoomsData, PromotedRoomsData} from '../../incoming/navigator';
 
 /**
  * Parser for official rooms message
  *
  * Based on AS3 OfficialRoomsEventParser
  */
-export class OfficialRoomsMessageParser implements IMessageParser {
-    private _data: OfficialRoomsData | null = null;
-    private _adRoom: OfficialRoomEntryData | null = null;
-    private _promotedRooms: PromotedRoomsData | null = null;
+export class OfficialRoomsMessageParser implements IMessageParser
+{
+	private _data: OfficialRoomsData | null = null;
 
-    get data(): OfficialRoomsData | null {
-        return this._data;
-    }
+	get data(): OfficialRoomsData | null
+	{
+		return this._data;
+	}
 
-    get adRoom(): OfficialRoomEntryData | null {
-        return this._adRoom;
-    }
+	private _adRoom: OfficialRoomEntryData | null = null;
 
-    get promotedRooms(): PromotedRoomsData | null {
-        return this._promotedRooms;
-    }
+	get adRoom(): OfficialRoomEntryData | null
+	{
+		return this._adRoom;
+	}
 
-    flush(): boolean {
-        this._data = null;
-        this._adRoom = null;
-        this._promotedRooms = null;
-        return true;
-    }
+	private _promotedRooms: PromotedRoomsData | null = null;
 
-    parse(wrapper: IMessageDataWrapper): boolean {
-        this._data = new OfficialRoomsData(wrapper);
+	get promotedRooms(): PromotedRoomsData | null
+	{
+		return this._promotedRooms;
+	}
 
-        const adRoomCount = wrapper.readInt();
-        if (adRoomCount > 0) {
-            this._adRoom = new OfficialRoomEntryData(wrapper);
-        }
+	flush(): boolean
+	{
+		this._data = null;
+		this._adRoom = null;
+		this._promotedRooms = null;
+		return true;
+	}
 
-        this._promotedRooms = new PromotedRoomsData(wrapper);
+	parse(wrapper: IMessageDataWrapper): boolean
+	{
+		this._data = new OfficialRoomsData(wrapper);
 
-        return true;
-    }
+		const adRoomCount = wrapper.readInt();
+		if (adRoomCount > 0)
+		{
+			this._adRoom = new OfficialRoomEntryData(wrapper);
+		}
+
+		this._promotedRooms = new PromotedRoomsData(wrapper);
+
+		return true;
+	}
 }

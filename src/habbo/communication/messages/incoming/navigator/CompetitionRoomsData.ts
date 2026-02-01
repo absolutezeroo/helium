@@ -5,31 +5,39 @@ import type {IMessageDataWrapper} from '@core/communication';
  *
  * Based on AS3 class_1665
  */
-export class CompetitionRoomsData {
-    private _goalId: number = 0;
-    private _pageIndex: number = 0;
-    private _pageCount: number = 0;
+export class CompetitionRoomsData
+{
+	constructor(wrapper: IMessageDataWrapper | null, goalId: number = 0, pageIndex: number = 0)
+	{
+		this._goalId = goalId;
+		this._pageIndex = pageIndex;
 
-    constructor(wrapper: IMessageDataWrapper | null, goalId: number = 0, pageIndex: number = 0) {
-        this._goalId = goalId;
-        this._pageIndex = pageIndex;
+		if (wrapper !== null)
+		{
+			this._goalId = wrapper.readInt();
+			this._pageIndex = wrapper.readInt();
+			this._pageCount = wrapper.readInt();
+		}
+	}
 
-        if (wrapper !== null) {
-            this._goalId = wrapper.readInt();
-            this._pageIndex = wrapper.readInt();
-            this._pageCount = wrapper.readInt();
-        }
-    }
+	private _goalId: number = 0;
 
-    get goalId(): number {
-        return this._goalId;
-    }
+	get goalId(): number
+	{
+		return this._goalId;
+	}
 
-    get pageIndex(): number {
-        return this._pageIndex;
-    }
+	private _pageIndex: number = 0;
 
-    get pageCount(): number {
-        return this._pageCount;
-    }
+	get pageIndex(): number
+	{
+		return this._pageIndex;
+	}
+
+	private _pageCount: number = 0;
+
+	get pageCount(): number
+	{
+		return this._pageCount;
+	}
 }

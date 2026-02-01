@@ -7,8 +7,10 @@ import {NavigatorMetaDataMessageParser} from '../../parser/newnavigator';
  *
  * Based on AS3 class_760
  */
-export class NavigatorMetaDataMessageEvent extends MessageEvent {
-    constructor(callback: MessageEventCallback) {
-        super(callback, NavigatorMetaDataMessageParser);
-    }
+export class NavigatorMetaDataMessageEvent extends MessageEvent
+{
+	constructor(callback: MessageEventCallback)
+	{
+		super(callback, NavigatorMetaDataMessageParser);
+	}
 }

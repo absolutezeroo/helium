@@ -6,29 +6,36 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  *
  * Based on AS3 FlatAccessDeniedMessageEventParser
  */
-export class FlatAccessDeniedMessageParser implements IMessageParser {
-    private _flatId: number = 0;
-    private _userName: string | null = null;
+export class FlatAccessDeniedMessageParser implements IMessageParser
+{
+	private _flatId: number = 0;
 
-    get flatId(): number {
-        return this._flatId;
-    }
+	get flatId(): number
+	{
+		return this._flatId;
+	}
 
-    get userName(): string | null {
-        return this._userName;
-    }
+	private _userName: string | null = null;
 
-    flush(): boolean {
-        this._flatId = 0;
-        this._userName = null;
-        return true;
-    }
+	get userName(): string | null
+	{
+		return this._userName;
+	}
 
-    parse(wrapper: IMessageDataWrapper): boolean {
-        this._flatId = wrapper.readInt();
-        if (wrapper.bytesAvailable > 0) {
-            this._userName = wrapper.readString();
-        }
-        return true;
-    }
+	flush(): boolean
+	{
+		this._flatId = 0;
+		this._userName = null;
+		return true;
+	}
+
+	parse(wrapper: IMessageDataWrapper): boolean
+	{
+		this._flatId = wrapper.readInt();
+		if (wrapper.bytesAvailable > 0)
+		{
+			this._userName = wrapper.readString();
+		}
+		return true;
+	}
 }

@@ -4,36 +4,47 @@ import type {NavigatorSavedSearch, NavigatorTopLevelContext} from '../../communi
  * Container for navigator contexts and saved searches
  *
  */
-export class ContextContainer {
-    private _topLevelContexts: Map<string, NavigatorSavedSearch[]> = new Map();
-    private _savedSearches: NavigatorSavedSearch[] = [];
+export class ContextContainer
+{
+	private _topLevelContexts: Map<string, NavigatorSavedSearch[]> = new Map();
 
-    constructor() {}
+	constructor()
+	{
+	}
 
-    hasContextFor(searchCode: string): boolean {
-        return this._topLevelContexts.has(searchCode);
-    }
+	private _savedSearches: NavigatorSavedSearch[] = [];
 
-    initialize(topLevelContexts: NavigatorTopLevelContext[]): void {
-        this._topLevelContexts.clear();
-        for (const context of topLevelContexts) {
-            this._topLevelContexts.set(context.searchCode, context.savedSearches);
-        }
-    }
+	get savedSearches(): NavigatorSavedSearch[]
+	{
+		return this._savedSearches;
+	}
 
-    getTopLevelSearches(): string[] {
-        return Array.from(this._topLevelContexts.keys());
-    }
+	set savedSearches(value: NavigatorSavedSearch[])
+	{
+		this._savedSearches = value;
+	}
 
-    get savedSearches(): NavigatorSavedSearch[] {
-        return this._savedSearches;
-    }
+	hasContextFor(searchCode: string): boolean
+	{
+		return this._topLevelContexts.has(searchCode);
+	}
 
-    set savedSearches(value: NavigatorSavedSearch[]) {
-        this._savedSearches = value;
-    }
+	initialize(topLevelContexts: NavigatorTopLevelContext[]): void
+	{
+		this._topLevelContexts.clear();
+		for (const context of topLevelContexts)
+		{
+			this._topLevelContexts.set(context.searchCode, context.savedSearches);
+		}
+	}
 
-    isReady(): boolean {
-        return this._topLevelContexts.size > 0;
-    }
+	getTopLevelSearches(): string[]
+	{
+		return Array.from(this._topLevelContexts.keys());
+	}
+
+	isReady(): boolean
+	{
+		return this._topLevelContexts.size > 0;
+	}
 }

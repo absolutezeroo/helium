@@ -13,306 +13,367 @@ import type {IWireFormatter} from '../wireformat/IWireFormatter';
 
 const log = Logger.getLogger('Socket');
 
-export interface ConnectionEvents {
-    connected: () => void;
-    disconnected: () => void;
-    error: (error: Error) => void;
-    message: (messageId: number) => void;
+export interface ConnectionEvents
+{
+	connected: () => void;
+	disconnected: () => void;
+	error: (error: Error) => void;
+	message: (messageId: number) => void;
 }
 
-export class SocketConnection extends EventEmitter<ConnectionEvents> implements IConnection {
-    private socket: WebSocket | null = null;
-    private receivedBuffer: ByteArray = new ByteArray();
-    private pendingMessages: ByteArray[] = [];
+export class SocketConnection extends EventEmitter<ConnectionEvents> implements IConnection
+{
+	private socket: WebSocket | null = null;
+	private receivedBuffer: ByteArray = new ByteArray();
+	private pendingMessages: ByteArray[] = [];
 
-    private clientToServerEncryption: IEncryption | null = null;
-    private serverToClientEncryption: IEncryption | null = null;
+	private clientToServerEncryption: IEncryption | null = null;
+	private serverToClientEncryption: IEncryption | null = null;
 
-    private messageRegistry: MessageRegistry = new MessageRegistry();
-    private wireFormatter: IWireFormatter = new WireFormatter();
-    private timeoutId: ReturnType<typeof setTimeout> | null = null;
-    private callback: IConnectionCallback | null;
-    private host: string = '';
-    private port: number = 0;
+	private messageRegistry: MessageRegistry = new MessageRegistry();
+	private wireFormatter: IWireFormatter = new WireFormatter();
+	private timeoutId: ReturnType<typeof setTimeout> | null = null;
+	private callback: IConnectionCallback | null;
+	private host: string = '';
+	private port: number = 0;
 
-    constructor(callback?: IConnectionCallback) {
-        super();
-        this.callback = callback ?? null;
-    }
+	constructor(callback?: IConnectionCallback)
+	{
+		super();
+		this.callback = callback ?? null;
+	}
 
-    private _connected: boolean = false;
+	private _connected: boolean = false;
 
-    get connected(): boolean {
-        return this._connected;
-    }
+	get connected(): boolean
+	{
+		return this._connected;
+	}
 
-    private _disposed: boolean = false;
+	private _disposed: boolean = false;
 
-    get disposed(): boolean {
-        return this._disposed;
-    }
+	get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
-    private _timeout: number = 10000;
+	private _timeout: number = 10000;
 
-    get timeout(): number {
-        return this._timeout;
-    }
+	get timeout(): number
+	{
+		return this._timeout;
+	}
 
-    set timeout(value: number) {
-        this._timeout = value;
-    }
+	set timeout(value: number)
+	{
+		this._timeout = value;
+	}
 
-    init(host: string, port: number = 0): boolean {
-        if (this._disposed) return false;
+	init(host: string, port: number = 0): boolean
+	{
+		if (this._disposed) return false;
 
-        this.host = host;
-        this.port = port;
-        this.callback?.connectionInit?.(host, port);
+		this.host = host;
+		this.port = port;
+		this.callback?.connectionInit?.(host, port);
 
-        let url: string;
-        if (host.startsWith('ws://') || host.startsWith('wss://')) {
-            url = host;
-        } else {
-            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-            url = port > 0 ? `${protocol}//${host}:${port}` : `${protocol}//${host}`;
-        }
+		let url: string;
+		if (host.startsWith('ws://') || host.startsWith('wss://'))
+		{
+			url = host;
+		} else
+		{
+			const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+			url = port > 0 ? `${protocol}//${host}:${port}` : `${protocol}//${host}`;
+		}
 
-        try {
-            this.socket = new WebSocket(url);
-            this.socket.binaryType = 'arraybuffer';
-            this.setupEventListeners();
-            this.startTimeout();
-            return true;
-        } catch (error) {
-            log.error(`WebSocket error: ${(error as Error).message}`);
-            this.callback?.connectionError?.(error as Error);
-            return false;
-        }
-    }
+		try
+		{
+			this.socket = new WebSocket(url);
+			this.socket.binaryType = 'arraybuffer';
+			this.setupEventListeners();
+			this.startTimeout();
+			return true;
+		} catch (error)
+		{
+			log.error(`WebSocket error: ${(error as Error).message}`);
+			this.callback?.connectionError?.(error as Error);
+			return false;
+		}
+	}
 
-    send(composer: IMessageComposer<unknown[]>): boolean {
-        const messageId = this.messageRegistry.getMessageIdForComposer(composer);
-        if (messageId < 0) {
-            log.warn(`Unknown composer: ${composer.constructor.name}`);
-            return false;
-        }
+	send(composer: IMessageComposer<unknown[]>): boolean
+	{
+		const messageId = this.messageRegistry.getMessageIdForComposer(composer);
+		if (messageId < 0)
+		{
+			log.warn(`Unknown composer: ${composer.constructor.name}`);
+			return false;
+		}
 
-        const encoded = this.wireFormatter.encode(messageId, composer.getMessageArray());
+		const encoded = this.wireFormatter.encode(messageId, composer.getMessageArray());
 
-        if (this.clientToServerEncryption) {
-            this.clientToServerEncryption.encipher(encoded);
-        }
+		if (this.clientToServerEncryption)
+		{
+			this.clientToServerEncryption.encipher(encoded);
+		}
 
-        return this.sendRaw(encoded, messageId);
-    }
+		return this.sendRaw(encoded, messageId);
+	}
 
-    sendUnencrypted(composer: IMessageComposer<unknown[]>): boolean {
-        const messageId = this.messageRegistry.getMessageIdForComposer(composer);
-        if (messageId < 0) {
-            log.warn(`Unknown composer: ${composer.constructor.name}`);
-            return false;
-        }
+	sendUnencrypted(composer: IMessageComposer<unknown[]>): boolean
+	{
+		const messageId = this.messageRegistry.getMessageIdForComposer(composer);
+		if (messageId < 0)
+		{
+			log.warn(`Unknown composer: ${composer.constructor.name}`);
+			return false;
+		}
 
-        const encoded = this.wireFormatter.encode(messageId, composer.getMessageArray());
-        return this.sendRaw(encoded, messageId);
-    }
+		const encoded = this.wireFormatter.encode(messageId, composer.getMessageArray());
+		return this.sendRaw(encoded, messageId);
+	}
 
-    setEncryption(clientToServer: IEncryption, serverToClient: IEncryption): void {
-        this.clientToServerEncryption = clientToServer;
-        this.serverToClientEncryption = serverToClient;
-    }
+	setEncryption(clientToServer: IEncryption, serverToClient: IEncryption): void
+	{
+		this.clientToServerEncryption = clientToServer;
+		this.serverToClientEncryption = serverToClient;
+	}
 
-    getServerToClientEncryption(): IEncryption | null {
-        return this.serverToClientEncryption;
-    }
+	getServerToClientEncryption(): IEncryption | null
+	{
+		return this.serverToClientEncryption;
+	}
 
-    getClientToServerEncryption(): IEncryption | null {
-        return this.clientToServerEncryption;
-    }
+	getClientToServerEncryption(): IEncryption | null
+	{
+		return this.clientToServerEncryption;
+	}
 
-    registerMessageClasses(config: IMessageConfiguration): void {
-        this.messageRegistry.registerMessages(config);
-    }
+	registerMessageClasses(config: IMessageConfiguration): void
+	{
+		this.messageRegistry.registerMessages(config);
+	}
 
-    addMessageEvent(event: IMessageEvent): void {
-        this.messageRegistry.registerMessageEvent(event);
-    }
+	addMessageEvent(event: IMessageEvent): void
+	{
+		this.messageRegistry.registerMessageEvent(event);
+	}
 
-    removeMessageEvent(event: IMessageEvent): void {
-        this.messageRegistry.unregisterMessageEvent(event);
-    }
+	removeMessageEvent(event: IMessageEvent): void
+	{
+		this.messageRegistry.unregisterMessageEvent(event);
+	}
 
-    processReceivedData(): void {
-        if (this.receivedBuffer.length === 0) return;
+	processReceivedData(): void
+	{
+		if (this.receivedBuffer.length === 0) return;
 
-        this.receivedBuffer.position = 0;
+		this.receivedBuffer.position = 0;
 
-        try {
-            const messages = this.wireFormatter.splitMessages(this.receivedBuffer, this);
+		try
+		{
+			const messages = this.wireFormatter.splitMessages(this.receivedBuffer, this);
 
-            for (const wrapper of messages) {
-                const messageId = wrapper.getMessageId();
-                const messageName = this.messageRegistry.getIncomingMessageName(messageId);
+			for (const wrapper of messages)
+			{
+				const messageId = wrapper.getMessageId();
+				const messageName = this.messageRegistry.getIncomingMessageName(messageId);
 
-                this.callback?.messageReceived?.(messageId, messageName);
+				this.callback?.messageReceived?.(messageId, messageName);
 
-                this.emit('message', messageId);
+				this.emit('message', messageId);
 
-                const events = this.messageRegistry.getMessageEventsForId(messageId);
+				const events = this.messageRegistry.getMessageEventsForId(messageId);
 
-                if (events && events.length > 0) {
-                    const parser = events[0].parser;
+				if (events && events.length > 0)
+				{
+					const parser = events[0].parser;
 
-                    if (parser) {
-                        try {
-                            parser.flush();
+					if (parser)
+					{
+						try
+						{
+							parser.flush();
 
-                            if (parser.parse(wrapper)) {
-                                for (const event of events) {
-                                    event.connection = this;
-                                    try {
-                                        event.callback(event);
-                                    } catch (error) {
-                                        log.error(`Handler error for ${messageId}: ${(error as Error).message}`);
-                                    }
-                                }
-                            }
-                        } catch (error) {
-                            log.error(`Parse error for ${messageId}: ${(error as Error).message}`);
-                            this.callback?.messageParseError?.(wrapper, error as Error);
-                        }
-                    }
-                }
-            }
-        } catch (error) {
-            log.error(`Process error: ${(error as Error).message}`);
-        }
-    }
+							if (parser.parse(wrapper))
+							{
+								for (const event of events)
+								{
+									event.connection = this;
+									try
+									{
+										event.callback(event);
+									} catch (error)
+									{
+										log.error(`Handler error for ${messageId}: ${(error as Error).message}`);
+									}
+								}
+							}
+						} catch (error)
+						{
+							log.error(`Parse error for ${messageId}: ${(error as Error).message}`);
+							this.callback?.messageParseError?.(wrapper, error as Error);
+						}
+					}
+				}
+			}
+		} catch (error)
+		{
+			log.error(`Process error: ${(error as Error).message}`);
+		}
+	}
 
-    close(): void {
-        this.clearTimeout();
+	close(): void
+	{
+		this.clearTimeout();
 
-        if (this.socket) {
-            if (this.socket.readyState === WebSocket.OPEN) {
-                this.socket.close();
-            }
-            this.socket = null;
-        }
+		if (this.socket)
+		{
+			if (this.socket.readyState === WebSocket.OPEN)
+			{
+				this.socket.close();
+			}
+			this.socket = null;
+		}
 
-        this._connected = false;
-    }
+		this._connected = false;
+	}
 
-    dispose(): void {
-        if (this._disposed) return;
+	dispose(): void
+	{
+		if (this._disposed) return;
 
-        this.close();
-        this.receivedBuffer.clear();
-        this.pendingMessages = [];
-        this.messageRegistry.clear();
-        this.wireFormatter.dispose();
-        this.clientToServerEncryption = null;
-        this.serverToClientEncryption = null;
-        this.callback = null;
-        this.removeAllListeners();
+		this.close();
+		this.receivedBuffer.clear();
+		this.pendingMessages = [];
+		this.messageRegistry.clear();
+		this.wireFormatter.dispose();
+		this.clientToServerEncryption = null;
+		this.serverToClientEncryption = null;
+		this.callback = null;
+		this.removeAllListeners();
 
-        this._disposed = true;
-    }
+		this._disposed = true;
+	}
 
-    private setupEventListeners(): void {
-        if (!this.socket) return;
+	private setupEventListeners(): void
+	{
+		if (!this.socket) return;
 
-        this.socket.onopen = () => {
-            this.clearTimeout();
-            this._connected = true;
-            this.callback?.connectionOpened?.();
-            this.emit('connected');
-            this.flushPendingMessages();
-        };
+		this.socket.onopen = () =>
+		{
+			this.clearTimeout();
+			this._connected = true;
+			this.callback?.connectionOpened?.();
+			this.emit('connected');
+			this.flushPendingMessages();
+		};
 
-        this.socket.onclose = () => {
-            this.clearTimeout();
-            this._connected = false;
-            this.callback?.connectionClosed?.();
-            this.emit('disconnected');
-        };
+		this.socket.onclose = () =>
+		{
+			this.clearTimeout();
+			this._connected = false;
+			this.callback?.connectionClosed?.();
+			this.emit('disconnected');
+		};
 
-        this.socket.onerror = () => {
-            const error = new Error('WebSocket error');
-            this.callback?.connectionError?.(error);
-            this.emit('error', error);
-        };
+		this.socket.onerror = () =>
+		{
+			const error = new Error('WebSocket error');
+			this.callback?.connectionError?.(error);
+			this.emit('error', error);
+		};
 
-        this.socket.onmessage = (event) => {
-            if (!event.data) return;
+		this.socket.onmessage = (event) =>
+		{
+			if (!event.data) return;
 
-            if (event.data instanceof Blob) {
-                const reader = new FileReader();
-                reader.readAsArrayBuffer(event.data);
-                reader.onloadend = () => {
-                    this.onDataReceived(reader.result as ArrayBuffer);
-                };
-            } else if (event.data instanceof ArrayBuffer) {
-                this.onDataReceived(event.data);
-            }
-        };
-    }
+			if (event.data instanceof Blob)
+			{
+				const reader = new FileReader();
+				reader.readAsArrayBuffer(event.data);
+				reader.onloadend = () =>
+				{
+					this.onDataReceived(reader.result as ArrayBuffer);
+				};
+			} else if (event.data instanceof ArrayBuffer)
+			{
+				this.onDataReceived(event.data);
+			}
+		};
+	}
 
-    private onDataReceived(data: ArrayBuffer): void {
-        const bytes = ByteArray.fromArrayBuffer(data);
-        const oldPosition = this.receivedBuffer.position;
-        this.receivedBuffer.position = this.receivedBuffer.length;
-        this.receivedBuffer.writeBytes(bytes);
-        this.receivedBuffer.position = oldPosition;
-    }
+	private onDataReceived(data: ArrayBuffer): void
+	{
+		const bytes = ByteArray.fromArrayBuffer(data);
+		const oldPosition = this.receivedBuffer.position;
+		this.receivedBuffer.position = this.receivedBuffer.length;
+		this.receivedBuffer.writeBytes(bytes);
+		this.receivedBuffer.position = oldPosition;
+	}
 
-    private startTimeout(): void {
-        this.clearTimeout();
-        this.timeoutId = setTimeout(() => {
-            if (!this._connected && this.socket) {
-                this.socket.close();
-                const error = new Error('Connection timeout');
-                this.callback?.connectionError?.(error);
-                this.emit('error', error);
-            }
-        }, this._timeout);
-    }
+	private startTimeout(): void
+	{
+		this.clearTimeout();
+		this.timeoutId = setTimeout(() =>
+		{
+			if (!this._connected && this.socket)
+			{
+				this.socket.close();
+				const error = new Error('Connection timeout');
+				this.callback?.connectionError?.(error);
+				this.emit('error', error);
+			}
+		}, this._timeout);
+	}
 
-    private clearTimeout(): void {
-        if (this.timeoutId) {
-            clearTimeout(this.timeoutId);
-            this.timeoutId = null;
-        }
-    }
+	private clearTimeout(): void
+	{
+		if (this.timeoutId)
+		{
+			clearTimeout(this.timeoutId);
+			this.timeoutId = null;
+		}
+	}
 
-    private sendRaw(data: ByteArray, messageId?: number): boolean {
-        if (!this.socket) return false;
+	private sendRaw(data: ByteArray, messageId?: number): boolean
+	{
+		if (!this.socket) return false;
 
-        if (!this._connected) {
-            this.pendingMessages.push(data.clone());
-            return true;
-        }
+		if (!this._connected)
+		{
+			this.pendingMessages.push(data.clone());
+			return true;
+		}
 
-        if (this.socket.readyState !== WebSocket.OPEN) {
-            return false;
-        }
+		if (this.socket.readyState !== WebSocket.OPEN)
+		{
+			return false;
+		}
 
-        try {
-            this.socket.send(data.toArrayBuffer());
-            if (messageId !== undefined) {
-                const messageName = this.messageRegistry.getOutgoingMessageName(messageId);
-                this.callback?.messageSent?.(messageId, messageName);
-            }
-            return true;
-        } catch (error) {
-            log.error(`Send error: ${(error as Error).message}`);
-            return false;
-        }
-    }
+		try
+		{
+			this.socket.send(data.toArrayBuffer());
+			if (messageId !== undefined)
+			{
+				const messageName = this.messageRegistry.getOutgoingMessageName(messageId);
+				this.callback?.messageSent?.(messageId, messageName);
+			}
+			return true;
+		} catch (error)
+		{
+			log.error(`Send error: ${(error as Error).message}`);
+			return false;
+		}
+	}
 
-    private flushPendingMessages(): void {
-        while (this.pendingMessages.length > 0) {
-            const message = this.pendingMessages.shift()!;
-            this.sendRaw(message);
-        }
-    }
+	private flushPendingMessages(): void
+	{
+		while (this.pendingMessages.length > 0)
+		{
+			const message = this.pendingMessages.shift()!;
+			this.sendRaw(message);
+		}
+	}
 }

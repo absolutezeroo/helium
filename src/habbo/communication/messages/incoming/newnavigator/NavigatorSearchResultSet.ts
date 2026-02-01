@@ -7,54 +7,67 @@ import type {GuestRoomData} from '../navigator/GuestRoomData';
  *
  * Based on AS3 class_1652
  */
-export class NavigatorSearchResultSet {
-    private _searchCode: string = '';
-    private _filteringData: string = '';
-    private _blocks: NavigatorSearchResultBlock[] = [];
+export class NavigatorSearchResultSet
+{
+	constructor(wrapper: IMessageDataWrapper)
+	{
+		this._searchCode = wrapper.readString();
+		this._filteringData = wrapper.readString();
 
-    constructor(wrapper: IMessageDataWrapper) {
-        this._searchCode = wrapper.readString();
-        this._filteringData = wrapper.readString();
+		const count = wrapper.readInt();
+		for (let i = 0; i < count; i++)
+		{
+			this._blocks.push(new NavigatorSearchResultBlock(wrapper));
+		}
+	}
 
-        const count = wrapper.readInt();
-        for (let i = 0; i < count; i++) {
-            this._blocks.push(new NavigatorSearchResultBlock(wrapper));
-        }
-    }
+	private _searchCode: string = '';
 
-    get searchCode(): string {
-        return this._searchCode;
-    }
+	get searchCode(): string
+	{
+		return this._searchCode;
+	}
 
-    get filteringData(): string {
-        return this._filteringData;
-    }
+	private _filteringData: string = '';
 
-    get blocks(): NavigatorSearchResultBlock[] {
-        return this._blocks;
-    }
+	get filteringData(): string
+	{
+		return this._filteringData;
+	}
 
-    /**
-     * Find a guest room across all blocks
-     */
-    findGuestRoom(flatId: number): GuestRoomData | null {
-        for (const block of this._blocks) {
-            const room = block.findGuestRoom(flatId);
-            if (room) {
-                return room;
-            }
-        }
-        return null;
-    }
+	private _blocks: NavigatorSearchResultBlock[] = [];
 
-    /**
-     * Get all rooms from all blocks
-     */
-    getAllRooms(): GuestRoomData[] {
-        const rooms: GuestRoomData[] = [];
-        for (const block of this._blocks) {
-            rooms.push(...block.guestRooms);
-        }
-        return rooms;
-    }
+	get blocks(): NavigatorSearchResultBlock[]
+	{
+		return this._blocks;
+	}
+
+	/**
+	 * Find a guest room across all blocks
+	 */
+	findGuestRoom(flatId: number): GuestRoomData | null
+	{
+		for (const block of this._blocks)
+		{
+			const room = block.findGuestRoom(flatId);
+			if (room)
+			{
+				return room;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Get all rooms from all blocks
+	 */
+	getAllRooms(): GuestRoomData[]
+	{
+		const rooms: GuestRoomData[] = [];
+		for (const block of this._blocks)
+		{
+			rooms.push(...block.guestRooms);
+		}
+		return rooms;
+	}
 }

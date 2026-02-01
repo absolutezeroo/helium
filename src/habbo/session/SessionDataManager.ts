@@ -10,26 +10,26 @@ import {UserObjectMessageEvent} from '../communication/messages/incoming/handsha
 import {UserRightsMessageEvent} from '../communication/messages/incoming/handshake/UserRightsMessageEvent';
 import {NoobnessLevelMessageEvent} from '../communication/messages/incoming/handshake/NoobnessLevelMessageEvent';
 import {
-    IsFirstLoginOfDayMessageEvent
+	IsFirstLoginOfDayMessageEvent
 } from '../communication/messages/incoming/handshake/IsFirstLoginOfDayMessageEvent';
 import {
-    AvailabilityStatusMessageEvent
+	AvailabilityStatusMessageEvent
 } from '../communication/messages/incoming/availability/AvailabilityStatusMessageEvent';
 import {FigureUpdateMessageEvent} from '../communication/messages/incoming/avatar/FigureUpdateMessageEvent';
 import {
-    NavigatorSettingsMessageEvent
+	NavigatorSettingsMessageEvent
 } from '../communication/messages/incoming/navigator/NavigatorSettingsMessageEvent';
 import {FavouritesMessageEvent} from '../communication/messages/incoming/navigator/FavouritesMessageEvent';
 import {ActivityPointsMessageEvent} from '../communication/messages/incoming/notifications/ActivityPointsMessageEvent';
 import {InfoFeedEnableMessageEvent} from '../communication/messages/incoming/notifications/InfoFeedEnableMessageEvent';
 import {
-    AchievementsScoreMessageEvent
+	AchievementsScoreMessageEvent
 } from '../communication/messages/incoming/inventory/AchievementsScoreMessageEvent';
 import {FigureSetIdsMessageEvent} from '../communication/messages/incoming/inventory/FigureSetIdsMessageEvent';
 import {AvatarEffectsMessageEvent} from '../communication/messages/incoming/inventory/AvatarEffectsMessageEvent';
 import {MysteryBoxKeysMessageEvent} from '../communication/messages/incoming/mysterybox/MysteryBoxKeysMessageEvent';
 import {
-    BuildersClubSubscriptionStatusMessageEvent
+	BuildersClubSubscriptionStatusMessageEvent
 } from '../communication/messages/incoming/catalog/BuildersClubSubscriptionStatusMessageEvent';
 
 // Parsers
@@ -37,35 +37,35 @@ import type {UserObjectMessageParser} from '../communication/messages/parser/han
 import type {UserRightsMessageParser} from '../communication/messages/parser/handshake/UserRightsMessageParser';
 import type {NoobnessLevelMessageParser} from '../communication/messages/parser/handshake/NoobnessLevelMessageParser';
 import type {
-    IsFirstLoginOfDayMessageParser
+	IsFirstLoginOfDayMessageParser
 } from '../communication/messages/parser/handshake/IsFirstLoginOfDayMessageParser';
 import type {
-    AvailabilityStatusMessageParser
+	AvailabilityStatusMessageParser
 } from '../communication/messages/parser/availability/AvailabilityStatusMessageParser';
 import type {FigureUpdateMessageParser} from '../communication/messages/parser/avatar/FigureUpdateMessageParser';
 import type {
-    NavigatorSettingsMessageParser
+	NavigatorSettingsMessageParser
 } from '../communication/messages/parser/navigator/NavigatorSettingsMessageParser';
 import type {FavouritesMessageParser} from '../communication/messages/parser/navigator/FavouritesMessageParser';
 import type {
-    ActivityPointsMessageParser
+	ActivityPointsMessageParser
 } from '../communication/messages/parser/notifications/ActivityPointsMessageParser';
 import type {
-    InfoFeedEnableMessageParser
+	InfoFeedEnableMessageParser
 } from '../communication/messages/parser/notifications/InfoFeedEnableMessageParser';
 import type {
-    AchievementsScoreMessageParser
+	AchievementsScoreMessageParser
 } from '../communication/messages/parser/inventory/AchievementsScoreMessageParser';
 import type {FigureSetIdsMessageParser} from '../communication/messages/parser/inventory/FigureSetIdsMessageParser';
 import type {
-    AvatarEffect,
-    AvatarEffectsMessageParser
+	AvatarEffect,
+	AvatarEffectsMessageParser
 } from '../communication/messages/parser/inventory/AvatarEffectsMessageParser';
 import type {
-    MysteryBoxKeysMessageParser
+	MysteryBoxKeysMessageParser
 } from '../communication/messages/parser/mysterybox/MysteryBoxKeysMessageParser';
 import type {
-    BuildersClubSubscriptionStatusMessageParser
+	BuildersClubSubscriptionStatusMessageParser
 } from '../communication/messages/parser/catalog/BuildersClubSubscriptionStatusMessageParser';
 
 const log = Logger.getLogger('Session');
@@ -75,581 +75,639 @@ const log = Logger.getLogger('Session');
  * Manages user session data after authentication
  * Based on AS3 com.sulake.habbo.session.SessionDataManager
  */
-export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> implements ISessionDataManager {
-    private _communication: IHabboCommunicationManager;
-    private _messageEvents: IMessageEvent[] = [];
-    private _disposed: boolean = false;
-    private _customData: string = '';
-    private _isFirstLoginOfDay: boolean = false;
-    // Other
-    private _directMail: boolean = false;
-    // Info feed
-    private _infoFeedEnabled: boolean = false;
-    // Figure sets
-    private _figureSetIds: number[] = [];
-    private _boundFurnitureNames: string[] = [];
-    // Avatar effects
-    private _avatarEffects: AvatarEffect[] = [];
-    // Mystery box
-    private _mysteryBoxColor: string = '';
-    private _mysteryBoxKeyColor: string = '';
-    // Builders club
-    private _buildersClubSecondsLeft: number = 0;
-    private _buildersClubFurniLimit: number = 0;
-    private _buildersClubMaxFurniLimit: number = 0;
-    private _buildersClubSecondsLeftWithGrace: number | null = null;
+export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> implements ISessionDataManager
+{
+	private _communication: IHabboCommunicationManager;
+	private _messageEvents: IMessageEvent[] = [];
+	private _disposed: boolean = false;
+	private _customData: string = '';
+	private _isFirstLoginOfDay: boolean = false;
+	// Other
+	private _directMail: boolean = false;
+	// Info feed
+	private _infoFeedEnabled: boolean = false;
+	// Figure sets
+	private _figureSetIds: number[] = [];
+	private _boundFurnitureNames: string[] = [];
+	// Avatar effects
+	private _avatarEffects: AvatarEffect[] = [];
+	// Mystery box
+	private _mysteryBoxColor: string = '';
+	private _mysteryBoxKeyColor: string = '';
+	// Builders club
+	private _buildersClubSecondsLeft: number = 0;
+	private _buildersClubFurniLimit: number = 0;
+	private _buildersClubMaxFurniLimit: number = 0;
+	private _buildersClubSecondsLeftWithGrace: number | null = null;
+
+	constructor(communication: IHabboCommunicationManager)
+	{
+		super();
+		this._communication = communication;
+		this.registerMessageEvents();
+		log.info('SessionDataManager initialized');
+	}
+
+	// System status
+	private _systemOpen: boolean = false;
+
+	get systemOpen(): boolean
+	{
+		return this._systemOpen;
+	}
+
+	private _systemShutDown: boolean = false;
+
+	get systemShutDown(): boolean
+	{
+		return this._systemShutDown;
+	}
+
+	private _isAuthenticHabbo: boolean = false;
+
+	get isAuthenticHabbo(): boolean
+	{
+		return this._isAuthenticHabbo;
+	}
+
+	// User data
+	private _userId: number = 0;
+
+	get userId(): number
+	{
+		return this._userId;
+	}
+
+	private _userName: string = '';
+
+	get userName(): string
+	{
+		return this._userName;
+	}
+
+	private _realName: string = '';
+
+	get realName(): string
+	{
+		return this._realName;
+	}
+
+	private _figure: string = '';
+
+	get figure(): string
+	{
+		return this._figure;
+	}
+
+	private _gender: string = '';
+
+	get gender(): string
+	{
+		return this._gender;
+	}
+
+	// User status
+	private _clubLevel: number = 0;
+
+	get clubLevel(): number
+	{
+		return this._clubLevel;
+	}
+
+	private _securityLevel: number = 0;
+
+	get securityLevel(): number
+	{
+		return this._securityLevel;
+	}
 
-    constructor(communication: IHabboCommunicationManager) {
-        super();
-        this._communication = communication;
-        this.registerMessageEvents();
-        log.info('SessionDataManager initialized');
-    }
+	private _isAmbassador: boolean = false;
 
-    // System status
-    private _systemOpen: boolean = false;
+	get isAmbassador(): boolean
+	{
+		return this._isAmbassador;
+	}
 
-    get systemOpen(): boolean {
-        return this._systemOpen;
-    }
+	private _noobnessLevel: number = 0;
 
-    private _systemShutDown: boolean = false;
+	get noobnessLevel(): number
+	{
+		return this._noobnessLevel;
+	}
 
-    get systemShutDown(): boolean {
-        return this._systemShutDown;
-    }
+	// Respect
+	private _respectTotal: number = 0;
 
-    private _isAuthenticHabbo: boolean = false;
+	get respectTotal(): number
+	{
+		return this._respectTotal;
+	}
 
-    get isAuthenticHabbo(): boolean {
-        return this._isAuthenticHabbo;
-    }
+	private _respectLeft: number = 0;
 
-    // User data
-    private _userId: number = 0;
+	// ========== Event Handlers ==========
 
-    get userId(): number {
-        return this._userId;
-    }
+	get respectLeft(): number
+	{
+		return this._respectLeft;
+	}
 
-    private _userName: string = '';
+	private _petRespectLeft: number = 0;
 
-    get userName(): string {
-        return this._userName;
-    }
+	get petRespectLeft(): number
+	{
+		return this._petRespectLeft;
+	}
 
-    private _realName: string = '';
+	private _streamPublishingAllowed: boolean = false;
 
-    get realName(): string {
-        return this._realName;
-    }
+	get streamPublishingAllowed(): boolean
+	{
+		return this._streamPublishingAllowed;
+	}
 
-    private _figure: string = '';
+	private _lastAccessDate: string = '';
 
-    get figure(): string {
-        return this._figure;
-    }
+	get lastAccessDate(): string
+	{
+		return this._lastAccessDate;
+	}
 
-    private _gender: string = '';
+	private _nameChangeAllowed: boolean = false;
 
-    get gender(): string {
-        return this._gender;
-    }
+	get nameChangeAllowed(): boolean
+	{
+		return this._nameChangeAllowed;
+	}
 
-    // User status
-    private _clubLevel: number = 0;
+	private _accountSafetyLocked: boolean = false;
 
-    get clubLevel(): number {
-        return this._clubLevel;
-    }
+	get accountSafetyLocked(): boolean
+	{
+		return this._accountSafetyLocked;
+	}
 
-    private _securityLevel: number = 0;
+	// Navigator settings
+	private _homeRoomId: number = 0;
 
-    get securityLevel(): number {
-        return this._securityLevel;
-    }
+	// Navigator settings
+	get homeRoomId(): number
+	{
+		return this._homeRoomId;
+	}
 
-    private _isAmbassador: boolean = false;
+	private _roomIdToEnter: number = 0;
+
+	get roomIdToEnter(): number
+	{
+		return this._roomIdToEnter;
+	}
+
+	// ========== Getters ==========
+
+	private _favouriteRooms: number[] = [];
+
+	get favouriteRooms(): number[]
+	{
+		return this._favouriteRooms;
+	}
+
+	private _favouriteRoomsLimit: number = 30;
+
+	get favouriteRoomsLimit(): number
+	{
+		return this._favouriteRoomsLimit;
+	}
+
+	// Currency
+	private _activityPoints: Map<number, number> = new Map();
+
+	// Currency
+	get activityPoints(): Map<number, number>
+	{
+		return this._activityPoints;
+	}
+
+	private _achievementScore: number = 0;
+
+	get achievementScore(): number
+	{
+		return this._achievementScore;
+	}
+
+	get hasVip(): boolean
+	{
+		return this._clubLevel >= HabboClubLevelEnum.VIP;
+	}
+
+	get hasClub(): boolean
+	{
+		return this._clubLevel >= HabboClubLevelEnum.CLUB;
+	}
+
+	get isNoob(): boolean
+	{
+		return this._noobnessLevel > 0;
+	}
+
+	get isRealNoob(): boolean
+	{
+		return this._noobnessLevel === 2;
+	}
+
+	get safetyLocked(): boolean
+	{
+		return this._accountSafetyLocked;
+	}
+
+	get canChangeName(): boolean
+	{
+		return this._nameChangeAllowed;
+	}
+
+	get motto(): string
+	{
+		return this._customData;
+	}
+
+	get respectsReceived(): number
+	{
+		return this._respectTotal;
+	}
+
+	get respectsRemaining(): number
+	{
+		return this._respectLeft;
+	}
+
+	get respectsPetRemaining(): number
+	{
+		return this._petRespectLeft;
+	}
+
+	// Event emitter access for UIBridge
+	get events(): EventEmitter<SessionDataManagerEvents>
+	{
+		return this;
+	}
+
+	/**
+	 * Check if user has a specific security level
+	 */
+	hasSecurity(level: number): boolean
+	{
+		return this._securityLevel >= level;
+	}
+
+	/**
+	 * Dispose of the session data manager
+	 */
+	dispose(): void
+	{
+		if (this._disposed) return;
+
+		// Remove all message event handlers
+		for (const event of this._messageEvents)
+		{
+			this._communication.removeMessageEvent(event);
+		}
+		this._messageEvents = [];
+
+		this.removeAllListeners();
+		this._disposed = true;
+
+		log.info('SessionDataManager disposed');
+	}
+
+	/**
+	 * Register message event handlers
+	 */
+	private registerMessageEvents(): void
+	{
+		// User data events
+		this.addMessageEvent(new UserObjectMessageEvent(this.onUserObject.bind(this)));
+		this.addMessageEvent(new UserRightsMessageEvent(this.onUserRights.bind(this)));
+		this.addMessageEvent(new NoobnessLevelMessageEvent(this.onNoobnessLevel.bind(this)));
+		this.addMessageEvent(new IsFirstLoginOfDayMessageEvent(this.onIsFirstLoginOfDay.bind(this)));
+
+		// Availability events
+		this.addMessageEvent(new AvailabilityStatusMessageEvent(this.onAvailabilityStatus.bind(this)));
+
+		// Avatar events
+		this.addMessageEvent(new FigureUpdateMessageEvent(this.onFigureUpdate.bind(this)));
+
+		// Navigator events
+		this.addMessageEvent(new NavigatorSettingsMessageEvent(this.onNavigatorSettings.bind(this)));
+		this.addMessageEvent(new FavouritesMessageEvent(this.onFavourites.bind(this)));
+
+		// Notifications events
+		this.addMessageEvent(new ActivityPointsMessageEvent(this.onActivityPoints.bind(this)));
+		this.addMessageEvent(new InfoFeedEnableMessageEvent(this.onInfoFeedEnable.bind(this)));
+
+		// Inventory events
+		this.addMessageEvent(new AchievementsScoreMessageEvent(this.onAchievementsScore.bind(this)));
+		this.addMessageEvent(new FigureSetIdsMessageEvent(this.onFigureSetIds.bind(this)));
+		this.addMessageEvent(new AvatarEffectsMessageEvent(this.onAvatarEffects.bind(this)));
+
+		// Mystery box events
+		this.addMessageEvent(new MysteryBoxKeysMessageEvent(this.onMysteryBoxKeys.bind(this)));
+
+		// Catalog events
+		this.addMessageEvent(new BuildersClubSubscriptionStatusMessageEvent(this.onBuildersClubStatus.bind(this)));
+	}
+
+	/**
+	 * Add a message event handler
+	 */
+	private addMessageEvent(event: IMessageEvent): void
+	{
+		this._communication.addMessageEvent(event);
+		this._messageEvents.push(event);
+	}
+
+	/**
+	 * Handle user object event
+	 * Contains main user data after login
+	 */
+	private onUserObject(event: IMessageEvent): void
+	{
+		if (!event) return;
+
+		const parser = event.parser as UserObjectMessageParser;
+
+		if (!parser) return;
+
+		this._userId = parser.id;
+		this._userName = parser.name;
+		this._realName = parser.realName;
+		this._figure = parser.figure;
+		this._gender = parser.sex;
+		this._customData = parser.customData;
+		this._directMail = parser.directMail;
+		this._respectTotal = parser.respectTotal;
+		this._respectLeft = parser.respectLeft;
+		this._petRespectLeft = parser.petRespectLeft;
+		this._streamPublishingAllowed = parser.streamPublishingAllowed;
+		this._lastAccessDate = parser.lastAccessDate;
+		this._nameChangeAllowed = parser.nameChangeAllowed;
+		this._accountSafetyLocked = parser.accountSafetyLocked;
+
+		log.success(`User loaded: ${this._userName} (ID: ${this._userId})`);
+
+		this.emit('userDataUpdated');
+	}
+
+	/**
+	 * Handle user rights event
+	 * Contains club level and security permissions
+	 */
+	private onUserRights(event: IMessageEvent): void
+	{
+		if (!event) return;
+
+		const parser = event.parser as UserRightsMessageParser;
+
+		if (!parser) return;
+
+		this._clubLevel = parser.clubLevel;
+		this._securityLevel = parser.securityLevel;
+		this._isAmbassador = parser.isAmbassador;
+
+		log.debug(`Rights: Club=${this._clubLevel}, Security=${this._securityLevel}, Ambassador=${this._isAmbassador}`);
+
+		this.emit('userRightsUpdated');
+	}
+
+	/**
+	 * Handle noobness level event
+	 * Indicates if user is new
+	 */
+	private onNoobnessLevel(event: IMessageEvent): void
+	{
+		if (!event) return;
 
-    get isAmbassador(): boolean {
-        return this._isAmbassador;
-    }
+		const parser = event.parser as NoobnessLevelMessageParser;
 
-    private _noobnessLevel: number = 0;
+		if (!parser) return;
 
-    get noobnessLevel(): number {
-        return this._noobnessLevel;
-    }
+		this._noobnessLevel = parser.noobnessLevel;
 
-    // Respect
-    private _respectTotal: number = 0;
+		log.debug(`Noobness level: ${this._noobnessLevel}`);
+	}
 
-    get respectTotal(): number {
-        return this._respectTotal;
-    }
+	/**
+	 * Handle availability status event
+	 * Indicates hotel open/shutdown status
+	 */
+	private onAvailabilityStatus(event: IMessageEvent): void
+	{
+		if (!event) return;
 
-    private _respectLeft: number = 0;
+		const parser = event.parser as AvailabilityStatusMessageParser;
 
-    // ========== Event Handlers ==========
+		if (!parser) return;
 
-    get respectLeft(): number {
-        return this._respectLeft;
-    }
+		this._systemOpen = parser.isOpen;
+		this._systemShutDown = parser.onShutDown;
+		this._isAuthenticHabbo = parser.isAuthenticHabbo;
 
-    private _petRespectLeft: number = 0;
+		log.debug(`Availability: Open=${this._systemOpen}, ShutDown=${this._systemShutDown}`);
 
-    get petRespectLeft(): number {
-        return this._petRespectLeft;
-    }
+		this.emit('availabilityStatusUpdated', this._systemOpen, this._systemShutDown);
+	}
 
-    private _streamPublishingAllowed: boolean = false;
+	/**
+	 * Handle figure update event
+	 * Sent when avatar appearance changes
+	 */
+	private onFigureUpdate(event: IMessageEvent): void
+	{
+		if (!event) return;
 
-    get streamPublishingAllowed(): boolean {
-        return this._streamPublishingAllowed;
-    }
+		const parser = event.parser as FigureUpdateMessageParser;
 
-    private _lastAccessDate: string = '';
+		if (!parser) return;
 
-    get lastAccessDate(): string {
-        return this._lastAccessDate;
-    }
+		this._figure = parser.figure;
+		this._gender = parser.gender;
 
-    private _nameChangeAllowed: boolean = false;
+		log.debug(`Figure updated: ${this._figure}`);
 
-    get nameChangeAllowed(): boolean {
-        return this._nameChangeAllowed;
-    }
+		this.emit('figureUpdated', this._figure, this._gender);
+	}
 
-    private _accountSafetyLocked: boolean = false;
+	/**
+	 * Handle first login of day event
+	 */
+	private onIsFirstLoginOfDay(event: IMessageEvent): void
+	{
+		if (!event) return;
 
-    get accountSafetyLocked(): boolean {
-        return this._accountSafetyLocked;
-    }
+		const parser = event.parser as IsFirstLoginOfDayMessageParser;
 
-    // Navigator settings
-    private _homeRoomId: number = 0;
+		if (!parser) return;
 
-    // Navigator settings
-    get homeRoomId(): number {
-        return this._homeRoomId;
-    }
+		this._isFirstLoginOfDay = parser.isFirstLoginOfDay;
 
-    private _roomIdToEnter: number = 0;
+		log.debug(`First login of day: ${this._isFirstLoginOfDay}`);
+	}
 
-    get roomIdToEnter(): number {
-        return this._roomIdToEnter;
-    }
+	/**
+	 * Handle navigator settings event
+	 */
+	private onNavigatorSettings(event: IMessageEvent): void
+	{
+		if (!event) return;
 
-    // ========== Getters ==========
+		const parser = event.parser as NavigatorSettingsMessageParser;
 
-    private _favouriteRooms: number[] = [];
+		if (!parser) return;
 
-    get favouriteRooms(): number[] {
-        return this._favouriteRooms;
-    }
+		this._homeRoomId = parser.homeRoomId;
+		this._roomIdToEnter = parser.roomIdToEnter;
 
-    private _favouriteRoomsLimit: number = 30;
+		log.debug(`Navigator: HomeRoom=${this._homeRoomId}, RoomToEnter=${this._roomIdToEnter}`);
 
-    get favouriteRoomsLimit(): number {
-        return this._favouriteRoomsLimit;
-    }
+		this.emit('navigatorSettingsUpdated');
+	}
 
-    // Currency
-    private _activityPoints: Map<number, number> = new Map();
+	/**
+	 * Handle favourites event
+	 */
+	private onFavourites(event: IMessageEvent): void
+	{
+		if (!event) return;
 
-    // Currency
-    get activityPoints(): Map<number, number> {
-        return this._activityPoints;
-    }
+		const parser = event.parser as FavouritesMessageParser;
 
-    private _achievementScore: number = 0;
+		if (!parser) return;
 
-    get achievementScore(): number {
-        return this._achievementScore;
-    }
+		this._favouriteRoomsLimit = parser.limit;
+		this._favouriteRooms = [...parser.favouriteRoomIds];
 
-    get hasVip(): boolean {
-        return this._clubLevel >= HabboClubLevelEnum.VIP;
-    }
+		log.debug(`Favourites: ${this._favouriteRooms.length}/${this._favouriteRoomsLimit}`);
 
-    get hasClub(): boolean {
-        return this._clubLevel >= HabboClubLevelEnum.CLUB;
-    }
+		this.emit('favouritesUpdated');
+	}
 
-    get isNoob(): boolean {
-        return this._noobnessLevel > 0;
-    }
+	/**
+	 * Handle activity points event
+	 */
+	private onActivityPoints(event: IMessageEvent): void
+	{
+		if (!event) return;
 
-    get isRealNoob(): boolean {
-        return this._noobnessLevel === 2;
-    }
+		const parser = event.parser as ActivityPointsMessageParser;
 
-    get safetyLocked(): boolean {
-        return this._accountSafetyLocked;
-    }
+		if (!parser) return;
 
-    get canChangeName(): boolean {
-        return this._nameChangeAllowed;
-    }
+		this._activityPoints = new Map(parser.points);
 
-    get motto(): string {
-        return this._customData;
-    }
+		log.debug(`Activity points: ${this._activityPoints.size} types`);
 
-    get respectsReceived(): number {
-        return this._respectTotal;
-    }
+		this.emit('activityPointsUpdated');
+	}
 
-    get respectsRemaining(): number {
-        return this._respectLeft;
-    }
+	/**
+	 * Handle info feed enable event
+	 */
+	private onInfoFeedEnable(event: IMessageEvent): void
+	{
+		if (!event) return;
 
-    get respectsPetRemaining(): number {
-        return this._petRespectLeft;
-    }
+		const parser = event.parser as InfoFeedEnableMessageParser;
 
-    // Event emitter access for UIBridge
-    get events(): EventEmitter<SessionDataManagerEvents> {
-        return this;
-    }
+		if (!parser) return;
 
-    /**
-     * Check if user has a specific security level
-     */
-    hasSecurity(level: number): boolean {
-        return this._securityLevel >= level;
-    }
+		this._infoFeedEnabled = parser.enabled;
 
-    /**
-     * Dispose of the session data manager
-     */
-    dispose(): void {
-        if (this._disposed) return;
+		log.debug(`Info feed enabled: ${this._infoFeedEnabled}`);
+	}
 
-        // Remove all message event handlers
-        for (const event of this._messageEvents) {
-            this._communication.removeMessageEvent(event);
-        }
-        this._messageEvents = [];
+	/**
+	 * Handle achievements score event
+	 */
+	private onAchievementsScore(event: IMessageEvent): void
+	{
+		if (!event) return;
 
-        this.removeAllListeners();
-        this._disposed = true;
+		const parser = event.parser as AchievementsScoreMessageParser;
 
-        log.info('SessionDataManager disposed');
-    }
+		if (!parser) return;
 
-    /**
-     * Register message event handlers
-     */
-    private registerMessageEvents(): void {
-        // User data events
-        this.addMessageEvent(new UserObjectMessageEvent(this.onUserObject.bind(this)));
-        this.addMessageEvent(new UserRightsMessageEvent(this.onUserRights.bind(this)));
-        this.addMessageEvent(new NoobnessLevelMessageEvent(this.onNoobnessLevel.bind(this)));
-        this.addMessageEvent(new IsFirstLoginOfDayMessageEvent(this.onIsFirstLoginOfDay.bind(this)));
+		this._achievementScore = parser.score;
 
-        // Availability events
-        this.addMessageEvent(new AvailabilityStatusMessageEvent(this.onAvailabilityStatus.bind(this)));
+		log.debug(`Achievement score: ${this._achievementScore}`);
 
-        // Avatar events
-        this.addMessageEvent(new FigureUpdateMessageEvent(this.onFigureUpdate.bind(this)));
+		this.emit('achievementScoreUpdated');
+	}
 
-        // Navigator events
-        this.addMessageEvent(new NavigatorSettingsMessageEvent(this.onNavigatorSettings.bind(this)));
-        this.addMessageEvent(new FavouritesMessageEvent(this.onFavourites.bind(this)));
+	/**
+	 * Handle figure set ids event
+	 */
+	private onFigureSetIds(event: IMessageEvent): void
+	{
+		if (!event) return;
 
-        // Notifications events
-        this.addMessageEvent(new ActivityPointsMessageEvent(this.onActivityPoints.bind(this)));
-        this.addMessageEvent(new InfoFeedEnableMessageEvent(this.onInfoFeedEnable.bind(this)));
+		const parser = event.parser as FigureSetIdsMessageParser;
 
-        // Inventory events
-        this.addMessageEvent(new AchievementsScoreMessageEvent(this.onAchievementsScore.bind(this)));
-        this.addMessageEvent(new FigureSetIdsMessageEvent(this.onFigureSetIds.bind(this)));
-        this.addMessageEvent(new AvatarEffectsMessageEvent(this.onAvatarEffects.bind(this)));
+		if (!parser) return;
 
-        // Mystery box events
-        this.addMessageEvent(new MysteryBoxKeysMessageEvent(this.onMysteryBoxKeys.bind(this)));
+		this._figureSetIds = [...parser.figureSetIds];
+		this._boundFurnitureNames = [...parser.boundFurnitureNames];
 
-        // Catalog events
-        this.addMessageEvent(new BuildersClubSubscriptionStatusMessageEvent(this.onBuildersClubStatus.bind(this)));
-    }
+		log.debug(`Figure sets: ${this._figureSetIds.length}, Bound furniture: ${this._boundFurnitureNames.length}`);
+	}
 
-    /**
-     * Add a message event handler
-     */
-    private addMessageEvent(event: IMessageEvent): void {
-        this._communication.addMessageEvent(event);
-        this._messageEvents.push(event);
-    }
+	/**
+	 * Handle avatar effects event
+	 */
+	private onAvatarEffects(event: IMessageEvent): void
+	{
+		if (!event) return;
 
-    /**
-     * Handle user object event
-     * Contains main user data after login
-     */
-    private onUserObject(event: IMessageEvent): void {
-        if (!event) return;
+		const parser = event.parser as AvatarEffectsMessageParser;
 
-        const parser = event.parser as UserObjectMessageParser;
+		if (!parser) return;
 
-        if(!parser) return;
+		this._avatarEffects = [...parser.effects];
 
-        this._userId = parser.id;
-        this._userName = parser.name;
-        this._realName = parser.realName;
-        this._figure = parser.figure;
-        this._gender = parser.sex;
-        this._customData = parser.customData;
-        this._directMail = parser.directMail;
-        this._respectTotal = parser.respectTotal;
-        this._respectLeft = parser.respectLeft;
-        this._petRespectLeft = parser.petRespectLeft;
-        this._streamPublishingAllowed = parser.streamPublishingAllowed;
-        this._lastAccessDate = parser.lastAccessDate;
-        this._nameChangeAllowed = parser.nameChangeAllowed;
-        this._accountSafetyLocked = parser.accountSafetyLocked;
+		log.debug(`Avatar effects: ${this._avatarEffects.length}`);
+	}
 
-        log.success(`User loaded: ${this._userName} (ID: ${this._userId})`);
+	/**
+	 * Handle mystery box keys event
+	 */
+	private onMysteryBoxKeys(event: IMessageEvent): void
+	{
+		if (!event) return;
 
-        this.emit('userDataUpdated');
-    }
+		const parser = event.parser as MysteryBoxKeysMessageParser;
 
-    /**
-     * Handle user rights event
-     * Contains club level and security permissions
-     */
-    private onUserRights(event: IMessageEvent): void {
-        if (!event) return;
+		if (!parser) return;
 
-        const parser = event.parser as UserRightsMessageParser;
+		this._mysteryBoxColor = parser.boxColor;
+		this._mysteryBoxKeyColor = parser.keyColor;
 
-        if(!parser) return;
+		log.debug(`Mystery box: color=${this._mysteryBoxColor}, keyColor=${this._mysteryBoxKeyColor}`);
+	}
 
-        this._clubLevel = parser.clubLevel;
-        this._securityLevel = parser.securityLevel;
-        this._isAmbassador = parser.isAmbassador;
+	/**
+	 * Handle builders club subscription status event
+	 */
+	private onBuildersClubStatus(event: IMessageEvent): void
+	{
+		if (!event) return;
 
-        log.debug(`Rights: Club=${this._clubLevel}, Security=${this._securityLevel}, Ambassador=${this._isAmbassador}`);
+		const parser = event.parser as BuildersClubSubscriptionStatusMessageParser;
 
-        this.emit('userRightsUpdated');
-    }
+		if (!parser) return;
 
-    /**
-     * Handle noobness level event
-     * Indicates if user is new
-     */
-    private onNoobnessLevel(event: IMessageEvent): void {
-        if (!event) return;
+		this._buildersClubSecondsLeft = parser.secondsLeft;
+		this._buildersClubFurniLimit = parser.furniLimit;
+		this._buildersClubMaxFurniLimit = parser.maxFurniLimit;
+		this._buildersClubSecondsLeftWithGrace = parser.secondsLeftWithGrace;
 
-        const parser = event.parser as NoobnessLevelMessageParser;
-
-        if(!parser) return;
-
-        this._noobnessLevel = parser.noobnessLevel;
-
-        log.debug(`Noobness level: ${this._noobnessLevel}`);
-    }
-
-    /**
-     * Handle availability status event
-     * Indicates hotel open/shutdown status
-     */
-    private onAvailabilityStatus(event: IMessageEvent): void {
-        if (!event) return;
-
-        const parser = event.parser as AvailabilityStatusMessageParser;
-
-        if(!parser) return;
-
-        this._systemOpen = parser.isOpen;
-        this._systemShutDown = parser.onShutDown;
-        this._isAuthenticHabbo = parser.isAuthenticHabbo;
-
-        log.debug(`Availability: Open=${this._systemOpen}, ShutDown=${this._systemShutDown}`);
-
-        this.emit('availabilityStatusUpdated', this._systemOpen, this._systemShutDown);
-    }
-
-    /**
-     * Handle figure update event
-     * Sent when avatar appearance changes
-     */
-    private onFigureUpdate(event: IMessageEvent): void {
-        if (!event) return;
-
-        const parser = event.parser as FigureUpdateMessageParser;
-
-        if(!parser) return;
-
-        this._figure = parser.figure;
-        this._gender = parser.gender;
-
-        log.debug(`Figure updated: ${this._figure}`);
-
-        this.emit('figureUpdated', this._figure, this._gender);
-    }
-
-    /**
-     * Handle first login of day event
-     */
-    private onIsFirstLoginOfDay(event: IMessageEvent): void {
-        if (!event) return;
-
-        const parser = event.parser as IsFirstLoginOfDayMessageParser;
-
-        if(!parser) return;
-
-        this._isFirstLoginOfDay = parser.isFirstLoginOfDay;
-
-        log.debug(`First login of day: ${this._isFirstLoginOfDay}`);
-    }
-
-    /**
-     * Handle navigator settings event
-     */
-    private onNavigatorSettings(event: IMessageEvent): void {
-        if (!event) return;
-
-        const parser = event.parser as NavigatorSettingsMessageParser;
-
-        if(!parser) return;
-
-        this._homeRoomId = parser.homeRoomId;
-        this._roomIdToEnter = parser.roomIdToEnter;
-
-        log.debug(`Navigator: HomeRoom=${this._homeRoomId}, RoomToEnter=${this._roomIdToEnter}`);
-
-        this.emit('navigatorSettingsUpdated');
-    }
-
-    /**
-     * Handle favourites event
-     */
-    private onFavourites(event: IMessageEvent): void {
-        if (!event) return;
-
-        const parser = event.parser as FavouritesMessageParser;
-
-        if(!parser) return;
-
-        this._favouriteRoomsLimit = parser.limit;
-        this._favouriteRooms = [...parser.favouriteRoomIds];
-
-        log.debug(`Favourites: ${this._favouriteRooms.length}/${this._favouriteRoomsLimit}`);
-
-        this.emit('favouritesUpdated');
-    }
-
-    /**
-     * Handle activity points event
-     */
-    private onActivityPoints(event: IMessageEvent): void {
-        if (!event) return;
-
-        const parser = event.parser as ActivityPointsMessageParser;
-
-        if(!parser) return;
-
-        this._activityPoints = new Map(parser.points);
-
-        log.debug(`Activity points: ${this._activityPoints.size} types`);
-
-        this.emit('activityPointsUpdated');
-    }
-
-    /**
-     * Handle info feed enable event
-     */
-    private onInfoFeedEnable(event: IMessageEvent): void {
-        if (!event) return;
-
-        const parser = event.parser as InfoFeedEnableMessageParser;
-
-        if(!parser) return;
-
-        this._infoFeedEnabled = parser.enabled;
-
-        log.debug(`Info feed enabled: ${this._infoFeedEnabled}`);
-    }
-
-    /**
-     * Handle achievements score event
-     */
-    private onAchievementsScore(event: IMessageEvent): void {
-        if (!event) return;
-
-        const parser = event.parser as AchievementsScoreMessageParser;
-
-        if(!parser) return;
-
-        this._achievementScore = parser.score;
-
-        log.debug(`Achievement score: ${this._achievementScore}`);
-
-        this.emit('achievementScoreUpdated');
-    }
-
-    /**
-     * Handle figure set ids event
-     */
-    private onFigureSetIds(event: IMessageEvent): void {
-        if (!event) return;
-
-        const parser = event.parser as FigureSetIdsMessageParser;
-
-        if(!parser) return;
-
-        this._figureSetIds = [...parser.figureSetIds];
-        this._boundFurnitureNames = [...parser.boundFurnitureNames];
-
-        log.debug(`Figure sets: ${this._figureSetIds.length}, Bound furniture: ${this._boundFurnitureNames.length}`);
-    }
-
-    /**
-     * Handle avatar effects event
-     */
-    private onAvatarEffects(event: IMessageEvent): void {
-        if (!event) return;
-
-        const parser = event.parser as AvatarEffectsMessageParser;
-
-        if(!parser) return;
-
-        this._avatarEffects = [...parser.effects];
-
-        log.debug(`Avatar effects: ${this._avatarEffects.length}`);
-    }
-
-    /**
-     * Handle mystery box keys event
-     */
-    private onMysteryBoxKeys(event: IMessageEvent): void {
-        if (!event) return;
-
-        const parser = event.parser as MysteryBoxKeysMessageParser;
-
-        if(!parser) return;
-
-        this._mysteryBoxColor = parser.boxColor;
-        this._mysteryBoxKeyColor = parser.keyColor;
-
-        log.debug(`Mystery box: color=${this._mysteryBoxColor}, keyColor=${this._mysteryBoxKeyColor}`);
-    }
-
-    /**
-     * Handle builders club subscription status event
-     */
-    private onBuildersClubStatus(event: IMessageEvent): void {
-        if (!event) return;
-
-        const parser = event.parser as BuildersClubSubscriptionStatusMessageParser;
-
-        if(!parser) return;
-
-        this._buildersClubSecondsLeft = parser.secondsLeft;
-        this._buildersClubFurniLimit = parser.furniLimit;
-        this._buildersClubMaxFurniLimit = parser.maxFurniLimit;
-        this._buildersClubSecondsLeftWithGrace = parser.secondsLeftWithGrace;
-
-        log.debug(`Builders club: ${this._buildersClubSecondsLeft}s left, furni ${this._buildersClubFurniLimit}/${this._buildersClubMaxFurniLimit}`);
-    }
+		log.debug(`Builders club: ${this._buildersClubSecondsLeft}s left, furni ${this._buildersClubFurniLimit}/${this._buildersClubMaxFurniLimit}`);
+	}
 }

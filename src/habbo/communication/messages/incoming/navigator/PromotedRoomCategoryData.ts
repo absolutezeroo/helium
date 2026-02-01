@@ -6,83 +6,106 @@ import {GuestRoomData} from './GuestRoomData';
  *
  * Based on AS3 com.sulake.habbo.communication.messages.incoming.navigator.class_1784
  */
-export class PromotedRoomCategoryData {
-    private _code: string = '';
-    private _leaderFigure: string = '';
-    private _bestRoom: GuestRoomData;
-    private _rooms: GuestRoomData[] = [];
-    private _figurePending: boolean = false;
-    private _open: boolean = false;
-    private _disposed: boolean = false;
+export class PromotedRoomCategoryData
+{
+	constructor(wrapper: IMessageDataWrapper)
+	{
+		this._code = wrapper.readString();
+		this._leaderFigure = wrapper.readString();
 
-    constructor(wrapper: IMessageDataWrapper) {
-        this._code = wrapper.readString();
-        this._leaderFigure = wrapper.readString();
+		const count = wrapper.readInt();
 
-        const count = wrapper.readInt();
+		// First room is the best room
+		this._bestRoom = new GuestRoomData(wrapper);
 
-        // First room is the best room
-        this._bestRoom = new GuestRoomData(wrapper);
+		// Remaining rooms
+		for (let i = 1; i < count; i++)
+		{
+			this._rooms.push(new GuestRoomData(wrapper));
+		}
+	}
 
-        // Remaining rooms
-        for (let i = 1; i < count; i++) {
-            this._rooms.push(new GuestRoomData(wrapper));
-        }
-    }
+	private _code: string = '';
 
-    get code(): string {
-        return this._code;
-    }
+	get code(): string
+	{
+		return this._code;
+	}
 
-    get leaderFigure(): string {
-        return this._leaderFigure;
-    }
+	private _leaderFigure: string = '';
 
-    get bestRoom(): GuestRoomData {
-        return this._bestRoom;
-    }
+	get leaderFigure(): string
+	{
+		return this._leaderFigure;
+	}
 
-    get rooms(): GuestRoomData[] {
-        return this._rooms;
-    }
+	private _bestRoom: GuestRoomData;
 
-    get figurePending(): boolean {
-        return this._figurePending;
-    }
+	get bestRoom(): GuestRoomData
+	{
+		return this._bestRoom;
+	}
 
-    set figurePending(value: boolean) {
-        this._figurePending = value;
-    }
+	private _rooms: GuestRoomData[] = [];
 
-    get open(): boolean {
-        return this._open;
-    }
+	get rooms(): GuestRoomData[]
+	{
+		return this._rooms;
+	}
 
-    set open(value: boolean) {
-        this._open = value;
-    }
+	private _figurePending: boolean = false;
 
-    get disposed(): boolean {
-        return this._disposed;
-    }
+	get figurePending(): boolean
+	{
+		return this._figurePending;
+	}
 
-    toggleOpen(): void {
-        this._open = !this._open;
-    }
+	set figurePending(value: boolean)
+	{
+		this._figurePending = value;
+	}
 
-    dispose(): void {
-        if (this._disposed) {
-            return;
-        }
-        this._disposed = true;
+	private _open: boolean = false;
 
-        if (this._bestRoom) {
-            this._bestRoom.dispose();
-        }
+	get open(): boolean
+	{
+		return this._open;
+	}
 
-        for (const room of this._rooms) {
-            room.dispose();
-        }
-        this._rooms = [];
-    }
+	set open(value: boolean)
+	{
+		this._open = value;
+	}
+
+	private _disposed: boolean = false;
+
+	get disposed(): boolean
+	{
+		return this._disposed;
+	}
+
+	toggleOpen(): void
+	{
+		this._open = !this._open;
+	}
+
+	dispose(): void
+	{
+		if (this._disposed)
+		{
+			return;
+		}
+		this._disposed = true;
+
+		if (this._bestRoom)
+		{
+			this._bestRoom.dispose();
+		}
+
+		for (const room of this._rooms)
+		{
+			room.dispose();
+		}
+		this._rooms = [];
+	}
 }

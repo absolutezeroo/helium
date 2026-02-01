@@ -6,8 +6,10 @@ import {NoobnessLevelMessageParser} from '../../parser/handshake/NoobnessLevelMe
  * Event handler for noobness level message
  * Indicates user's experience level (new user status)
  */
-export class NoobnessLevelMessageEvent extends MessageEvent {
-    constructor(callback: MessageEventCallback) {
-        super(callback, NoobnessLevelMessageParser);
-    }
+export class NoobnessLevelMessageEvent extends MessageEvent
+{
+	constructor(callback: MessageEventCallback)
+	{
+		super(callback, NoobnessLevelMessageParser);
+	}
 }

@@ -5,32 +5,41 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  *
  * Based on AS3 class_1695
  */
-export class NavigatorLiftedRoomData {
-    private _flatId: number;
-    private _areaId: number;
-    private _image: string;
-    private _caption: string;
+export class NavigatorLiftedRoomData
+{
+	constructor(wrapper: IMessageDataWrapper)
+	{
+		this._flatId = wrapper.readInt();
+		this._areaId = wrapper.readInt();
+		this._image = wrapper.readString();
+		this._caption = wrapper.readString();
+	}
 
-    constructor(wrapper: IMessageDataWrapper) {
-        this._flatId = wrapper.readInt();
-        this._areaId = wrapper.readInt();
-        this._image = wrapper.readString();
-        this._caption = wrapper.readString();
-    }
+	private _flatId: number;
 
-    get flatId(): number {
-        return this._flatId;
-    }
+	get flatId(): number
+	{
+		return this._flatId;
+	}
 
-    get areaId(): number {
-        return this._areaId;
-    }
+	private _areaId: number;
 
-    get image(): string {
-        return this._image;
-    }
+	get areaId(): number
+	{
+		return this._areaId;
+	}
 
-    get caption(): string {
-        return this._caption;
-    }
+	private _image: string;
+
+	get image(): string
+	{
+		return this._image;
+	}
+
+	private _caption: string;
+
+	get caption(): string
+	{
+		return this._caption;
+	}
 }

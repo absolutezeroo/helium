@@ -6,20 +6,24 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  *
  * Based on AS3 RoomInfoUpdatedEventParser
  */
-export class RoomInfoUpdatedMessageParser implements IMessageParser {
-    private _flatId: number = 0;
+export class RoomInfoUpdatedMessageParser implements IMessageParser
+{
+	private _flatId: number = 0;
 
-    get flatId(): number {
-        return this._flatId;
-    }
+	get flatId(): number
+	{
+		return this._flatId;
+	}
 
-    flush(): boolean {
-        this._flatId = 0;
-        return true;
-    }
+	flush(): boolean
+	{
+		this._flatId = 0;
+		return true;
+	}
 
-    parse(wrapper: IMessageDataWrapper): boolean {
-        this._flatId = wrapper.readInt();
-        return true;
-    }
+	parse(wrapper: IMessageDataWrapper): boolean
+	{
+		this._flatId = wrapper.readInt();
+		return true;
+	}
 }

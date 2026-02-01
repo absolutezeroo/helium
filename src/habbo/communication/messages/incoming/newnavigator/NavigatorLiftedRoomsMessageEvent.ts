@@ -7,8 +7,10 @@ import {NavigatorLiftedRoomsMessageParser} from '../../parser/newnavigator';
  *
  * Based on AS3 class_348
  */
-export class NavigatorLiftedRoomsMessageEvent extends MessageEvent {
-    constructor(callback: MessageEventCallback) {
-        super(callback, NavigatorLiftedRoomsMessageParser);
-    }
+export class NavigatorLiftedRoomsMessageEvent extends MessageEvent
+{
+	constructor(callback: MessageEventCallback)
+	{
+		super(callback, NavigatorLiftedRoomsMessageParser);
+	}
 }

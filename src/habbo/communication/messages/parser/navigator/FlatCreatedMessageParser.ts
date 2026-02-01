@@ -6,27 +6,33 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  *
  * Based on AS3 FlatCreatedEventParser
  */
-export class FlatCreatedMessageParser implements IMessageParser {
-    private _flatId: number = 0;
-    private _flatName: string = '';
+export class FlatCreatedMessageParser implements IMessageParser
+{
+	private _flatId: number = 0;
 
-    get flatId(): number {
-        return this._flatId;
-    }
+	get flatId(): number
+	{
+		return this._flatId;
+	}
 
-    get flatName(): string {
-        return this._flatName;
-    }
+	private _flatName: string = '';
 
-    flush(): boolean {
-        this._flatId = 0;
-        this._flatName = '';
-        return true;
-    }
+	get flatName(): string
+	{
+		return this._flatName;
+	}
 
-    parse(wrapper: IMessageDataWrapper): boolean {
-        this._flatId = wrapper.readInt();
-        this._flatName = wrapper.readString();
-        return true;
-    }
+	flush(): boolean
+	{
+		this._flatId = 0;
+		this._flatName = '';
+		return true;
+	}
+
+	parse(wrapper: IMessageDataWrapper): boolean
+	{
+		this._flatId = wrapper.readInt();
+		this._flatName = wrapper.readString();
+		return true;
+	}
 }

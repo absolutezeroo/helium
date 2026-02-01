@@ -7,34 +7,43 @@ import {PromotedRoomCategoryData} from './PromotedRoomCategoryData';
  *
  * Based on AS3 com.sulake.habbo.communication.messages.incoming.navigator.class_1691
  */
-export class PromotedRoomsData implements INavigatorSearchResultData {
-    private _entries: PromotedRoomCategoryData[] = [];
-    private _disposed: boolean = false;
+export class PromotedRoomsData implements INavigatorSearchResultData
+{
+	constructor(wrapper: IMessageDataWrapper)
+	{
+		const count = wrapper.readInt();
+		for (let i = 0; i < count; i++)
+		{
+			this._entries.push(new PromotedRoomCategoryData(wrapper));
+		}
+	}
 
-    constructor(wrapper: IMessageDataWrapper) {
-        const count = wrapper.readInt();
-        for (let i = 0; i < count; i++) {
-            this._entries.push(new PromotedRoomCategoryData(wrapper));
-        }
-    }
+	private _entries: PromotedRoomCategoryData[] = [];
 
-    get entries(): PromotedRoomCategoryData[] {
-        return this._entries;
-    }
+	get entries(): PromotedRoomCategoryData[]
+	{
+		return this._entries;
+	}
 
-    get disposed(): boolean {
-        return this._disposed;
-    }
+	private _disposed: boolean = false;
 
-    dispose(): void {
-        if (this._disposed) {
-            return;
-        }
-        this._disposed = true;
+	get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
-        for (const entry of this._entries) {
-            entry.dispose();
-        }
-        this._entries = [];
-    }
+	dispose(): void
+	{
+		if (this._disposed)
+		{
+			return;
+		}
+		this._disposed = true;
+
+		for (const entry of this._entries)
+		{
+			entry.dispose();
+		}
+		this._entries = [];
+	}
 }

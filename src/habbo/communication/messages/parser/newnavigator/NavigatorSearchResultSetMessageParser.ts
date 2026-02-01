@@ -7,20 +7,24 @@ import {NavigatorSearchResultSet} from '../../incoming/newnavigator';
  *
  * Based on AS3 class_1337
  */
-export class NavigatorSearchResultSetMessageParser implements IMessageParser {
-    private _searchResult: NavigatorSearchResultSet | null = null;
+export class NavigatorSearchResultSetMessageParser implements IMessageParser
+{
+	private _searchResult: NavigatorSearchResultSet | null = null;
 
-    get searchResult(): NavigatorSearchResultSet | null {
-        return this._searchResult;
-    }
+	get searchResult(): NavigatorSearchResultSet | null
+	{
+		return this._searchResult;
+	}
 
-    flush(): boolean {
-        this._searchResult = null;
-        return true;
-    }
+	flush(): boolean
+	{
+		this._searchResult = null;
+		return true;
+	}
 
-    parse(wrapper: IMessageDataWrapper): boolean {
-        this._searchResult = new NavigatorSearchResultSet(wrapper);
-        return true;
-    }
+	parse(wrapper: IMessageDataWrapper): boolean
+	{
+		this._searchResult = new NavigatorSearchResultSet(wrapper);
+		return true;
+	}
 }

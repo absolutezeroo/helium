@@ -7,20 +7,24 @@ import {RoomEventData} from '../../incoming/navigator';
  *
  * Based on AS3 RoomEventEventParser
  */
-export class RoomEventMessageParser implements IMessageParser {
-    private _data: RoomEventData | null = null;
+export class RoomEventMessageParser implements IMessageParser
+{
+	private _data: RoomEventData | null = null;
 
-    get data(): RoomEventData | null {
-        return this._data;
-    }
+	get data(): RoomEventData | null
+	{
+		return this._data;
+	}
 
-    flush(): boolean {
-        this._data = null;
-        return true;
-    }
+	flush(): boolean
+	{
+		this._data = null;
+		return true;
+	}
 
-    parse(wrapper: IMessageDataWrapper): boolean {
-        this._data = new RoomEventData(wrapper);
-        return true;
-    }
+	parse(wrapper: IMessageDataWrapper): boolean
+	{
+		this._data = new RoomEventData(wrapper);
+		return true;
+	}
 }

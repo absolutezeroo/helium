@@ -6,10 +6,12 @@ import {CompleteDiffieHandshakeMessageParser} from '../../parser/handshake/Gener
  * Event handler for CompleteDiffieHandshake message
  * Message ID: 3777
  */
-export class CompleteDiffieHandshakeMessageEvent extends MessageEvent {
-    constructor(callback: MessageEventCallback) {
-        super(callback, CompleteDiffieHandshakeMessageParser);
-    }
+export class CompleteDiffieHandshakeMessageEvent extends MessageEvent
+{
+	constructor(callback: MessageEventCallback)
+	{
+		super(callback, CompleteDiffieHandshakeMessageParser);
+	}
 }
 
 // Alias for backwards compatibility

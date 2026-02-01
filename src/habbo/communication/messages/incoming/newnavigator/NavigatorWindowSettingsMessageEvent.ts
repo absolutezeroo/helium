@@ -7,8 +7,10 @@ import {NavigatorWindowSettingsMessageParser} from '../../parser/newnavigator';
  *
  * Based on AS3 class_364
  */
-export class NavigatorWindowSettingsMessageEvent extends MessageEvent {
-    constructor(callback: MessageEventCallback) {
-        super(callback, NavigatorWindowSettingsMessageParser);
-    }
+export class NavigatorWindowSettingsMessageEvent extends MessageEvent
+{
+	constructor(callback: MessageEventCallback)
+	{
+		super(callback, NavigatorWindowSettingsMessageParser);
+	}
 }

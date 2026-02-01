@@ -6,8 +6,10 @@ import {GenericErrorMessageParser} from '../../parser/handshake/GenericErrorMess
  * Event handler for Generic error message
  * Message ID: 598
  */
-export class GenericErrorMessageEvent extends MessageEvent {
-    constructor(callback: MessageEventCallback) {
-        super(callback, GenericErrorMessageParser);
-    }
+export class GenericErrorMessageEvent extends MessageEvent
+{
+	constructor(callback: MessageEventCallback)
+	{
+		super(callback, GenericErrorMessageParser);
+	}
 }

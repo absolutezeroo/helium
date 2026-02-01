@@ -5,20 +5,20 @@ import {RoomThumbnailData} from './RoomThumbnailData';
  * Door mode constants
  */
 export const RoomDoorMode = {
-    OPEN: 0,
-    DOORBELL: 1,
-    PASSWORD: 2,
-    INVISIBLE: 3,
-    NOOBS_ONLY: 4,
+	OPEN: 0,
+	DOORBELL: 1,
+	PASSWORD: 2,
+	INVISIBLE: 3,
+	NOOBS_ONLY: 4,
 } as const;
 
 /**
  * Trade mode constants
  */
 export const RoomTradeMode = {
-    NOT_ALLOWED: 0,
-    RIGHTS_OWNERS: 1,
-    ALLOWED: 2,
+	NOT_ALLOWED: 0,
+	RIGHTS_OWNERS: 1,
+	ALLOWED: 2,
 } as const;
 
 /**
@@ -36,205 +36,269 @@ const ROOM_FLAG_DISPLAY_AD = 32;
  *
  * Based on AS3 com.sulake.habbo.communication.messages.incoming.navigator.class_1675
  */
-export class GuestRoomData {
-    private _flatId: number = 0;
-    private _roomName: string = '';
-    private _ownerId: number = 0;
-    private _ownerName: string = '';
-    private _doorMode: number = 0;
-    private _userCount: number = 0;
-    private _maxUserCount: number = 0;
-    private _description: string = '';
-    private _tradeMode: number = 0;
-    private _score: number = 0;
-    private _ranking: number = 0;
-    private _categoryId: number = 0;
-    private _tags: string[] = [];
-    private _officialRoomPicRef: string | null = null;
-    private _habboGroupId: number = 0;
-    private _groupName: string = '';
-    private _groupBadgeCode: string = '';
-    private _roomAdName: string = '';
-    private _roomAdDescription: string = '';
-    private _roomAdExpiresInMin: number = 0;
-    private _showOwner: boolean = false;
-    private _allowPets: boolean = false;
-    private _displayRoomEntryAd: boolean = false;
-    private _thumbnail: RoomThumbnailData;
-    private _allInRoomMuted: boolean = false;
-    private _canMute: boolean = false;
-    private _disposed: boolean = false;
+export class GuestRoomData
+{
+	constructor(wrapper: IMessageDataWrapper)
+	{
+		this._flatId = wrapper.readInt();
+		this._roomName = wrapper.readString();
+		this._ownerId = wrapper.readInt();
+		this._ownerName = wrapper.readString();
+		this._doorMode = wrapper.readInt();
+		this._userCount = wrapper.readInt();
+		this._maxUserCount = wrapper.readInt();
+		this._description = wrapper.readString();
+		this._tradeMode = wrapper.readInt();
+		this._score = wrapper.readInt();
+		this._ranking = wrapper.readInt();
+		this._categoryId = wrapper.readInt();
 
-    constructor(wrapper: IMessageDataWrapper) {
-        this._flatId = wrapper.readInt();
-        this._roomName = wrapper.readString();
-        this._ownerId = wrapper.readInt();
-        this._ownerName = wrapper.readString();
-        this._doorMode = wrapper.readInt();
-        this._userCount = wrapper.readInt();
-        this._maxUserCount = wrapper.readInt();
-        this._description = wrapper.readString();
-        this._tradeMode = wrapper.readInt();
-        this._score = wrapper.readInt();
-        this._ranking = wrapper.readInt();
-        this._categoryId = wrapper.readInt();
+		const tagCount = wrapper.readInt();
+		for (let i = 0; i < tagCount; i++)
+		{
+			this._tags.push(wrapper.readString());
+		}
 
-        const tagCount = wrapper.readInt();
-        for (let i = 0; i < tagCount; i++) {
-            this._tags.push(wrapper.readString());
-        }
+		const flags = wrapper.readInt();
 
-        const flags = wrapper.readInt();
+		if ((flags & ROOM_FLAG_THUMBNAIL) > 0)
+		{
+			this._officialRoomPicRef = wrapper.readString();
+		}
 
-        if ((flags & ROOM_FLAG_THUMBNAIL) > 0) {
-            this._officialRoomPicRef = wrapper.readString();
-        }
+		if ((flags & ROOM_FLAG_GROUP) > 0)
+		{
+			this._habboGroupId = wrapper.readInt();
+			this._groupName = wrapper.readString();
+			this._groupBadgeCode = wrapper.readString();
+		}
 
-        if ((flags & ROOM_FLAG_GROUP) > 0) {
-            this._habboGroupId = wrapper.readInt();
-            this._groupName = wrapper.readString();
-            this._groupBadgeCode = wrapper.readString();
-        }
+		if ((flags & ROOM_FLAG_PROMOTION) > 0)
+		{
+			this._roomAdName = wrapper.readString();
+			this._roomAdDescription = wrapper.readString();
+			this._roomAdExpiresInMin = wrapper.readInt();
+		}
 
-        if ((flags & ROOM_FLAG_PROMOTION) > 0) {
-            this._roomAdName = wrapper.readString();
-            this._roomAdDescription = wrapper.readString();
-            this._roomAdExpiresInMin = wrapper.readInt();
-        }
+		this._showOwner = (flags & ROOM_FLAG_SHOW_OWNER) > 0;
+		this._allowPets = (flags & ROOM_FLAG_ALLOW_PETS) > 0;
+		this._displayRoomEntryAd = (flags & ROOM_FLAG_DISPLAY_AD) > 0;
 
-        this._showOwner = (flags & ROOM_FLAG_SHOW_OWNER) > 0;
-        this._allowPets = (flags & ROOM_FLAG_ALLOW_PETS) > 0;
-        this._displayRoomEntryAd = (flags & ROOM_FLAG_DISPLAY_AD) > 0;
+		this._thumbnail = new RoomThumbnailData(null);
+		this._thumbnail.setDefaults();
+	}
 
-        this._thumbnail = new RoomThumbnailData(null);
-        this._thumbnail.setDefaults();
-    }
+	private _flatId: number = 0;
 
-    get flatId(): number {
-        return this._flatId;
-    }
+	get flatId(): number
+	{
+		return this._flatId;
+	}
 
-    get roomName(): string {
-        return this._roomName;
-    }
+	private _roomName: string = '';
 
-    set roomName(value: string) {
-        this._roomName = value;
-    }
+	get roomName(): string
+	{
+		return this._roomName;
+	}
 
-    get ownerId(): number {
-        return this._ownerId;
-    }
+	set roomName(value: string)
+	{
+		this._roomName = value;
+	}
 
-    get ownerName(): string {
-        return this._ownerName;
-    }
+	private _ownerId: number = 0;
 
-    get doorMode(): number {
-        return this._doorMode;
-    }
+	get ownerId(): number
+	{
+		return this._ownerId;
+	}
 
-    get userCount(): number {
-        return this._userCount;
-    }
+	private _ownerName: string = '';
 
-    get maxUserCount(): number {
-        return this._maxUserCount;
-    }
+	get ownerName(): string
+	{
+		return this._ownerName;
+	}
 
-    get description(): string {
-        return this._description;
-    }
+	private _doorMode: number = 0;
 
-    get tradeMode(): number {
-        return this._tradeMode;
-    }
+	get doorMode(): number
+	{
+		return this._doorMode;
+	}
 
-    get score(): number {
-        return this._score;
-    }
+	private _userCount: number = 0;
 
-    get ranking(): number {
-        return this._ranking;
-    }
+	get userCount(): number
+	{
+		return this._userCount;
+	}
 
-    get categoryId(): number {
-        return this._categoryId;
-    }
+	private _maxUserCount: number = 0;
 
-    get tags(): string[] {
-        return this._tags;
-    }
+	get maxUserCount(): number
+	{
+		return this._maxUserCount;
+	}
 
-    get officialRoomPicRef(): string | null {
-        return this._officialRoomPicRef;
-    }
+	private _description: string = '';
 
-    get habboGroupId(): number {
-        return this._habboGroupId;
-    }
+	get description(): string
+	{
+		return this._description;
+	}
 
-    get groupName(): string {
-        return this._groupName;
-    }
+	private _tradeMode: number = 0;
 
-    get groupBadgeCode(): string {
-        return this._groupBadgeCode;
-    }
+	get tradeMode(): number
+	{
+		return this._tradeMode;
+	}
 
-    get roomAdName(): string {
-        return this._roomAdName;
-    }
+	private _score: number = 0;
 
-    get roomAdDescription(): string {
-        return this._roomAdDescription;
-    }
+	get score(): number
+	{
+		return this._score;
+	}
 
-    get roomAdExpiresInMin(): number {
-        return this._roomAdExpiresInMin;
-    }
+	private _ranking: number = 0;
 
-    get showOwner(): boolean {
-        return this._showOwner;
-    }
+	get ranking(): number
+	{
+		return this._ranking;
+	}
 
-    get allowPets(): boolean {
-        return this._allowPets;
-    }
+	private _categoryId: number = 0;
 
-    get displayRoomEntryAd(): boolean {
-        return this._displayRoomEntryAd;
-    }
+	get categoryId(): number
+	{
+		return this._categoryId;
+	}
 
-    get thumbnail(): RoomThumbnailData {
-        return this._thumbnail;
-    }
+	private _tags: string[] = [];
 
-    get allInRoomMuted(): boolean {
-        return this._allInRoomMuted;
-    }
+	get tags(): string[]
+	{
+		return this._tags;
+	}
 
-    set allInRoomMuted(value: boolean) {
-        this._allInRoomMuted = value;
-    }
+	private _officialRoomPicRef: string | null = null;
 
-    get canMute(): boolean {
-        return this._canMute;
-    }
+	get officialRoomPicRef(): string | null
+	{
+		return this._officialRoomPicRef;
+	}
 
-    set canMute(value: boolean) {
-        this._canMute = value;
-    }
+	private _habboGroupId: number = 0;
 
-    get disposed(): boolean {
-        return this._disposed;
-    }
+	get habboGroupId(): number
+	{
+		return this._habboGroupId;
+	}
 
-    dispose(): void {
-        if (this._disposed) {
-            return;
-        }
-        this._disposed = true;
-        this._tags = [];
-    }
+	private _groupName: string = '';
+
+	get groupName(): string
+	{
+		return this._groupName;
+	}
+
+	private _groupBadgeCode: string = '';
+
+	get groupBadgeCode(): string
+	{
+		return this._groupBadgeCode;
+	}
+
+	private _roomAdName: string = '';
+
+	get roomAdName(): string
+	{
+		return this._roomAdName;
+	}
+
+	private _roomAdDescription: string = '';
+
+	get roomAdDescription(): string
+	{
+		return this._roomAdDescription;
+	}
+
+	private _roomAdExpiresInMin: number = 0;
+
+	get roomAdExpiresInMin(): number
+	{
+		return this._roomAdExpiresInMin;
+	}
+
+	private _showOwner: boolean = false;
+
+	get showOwner(): boolean
+	{
+		return this._showOwner;
+	}
+
+	private _allowPets: boolean = false;
+
+	get allowPets(): boolean
+	{
+		return this._allowPets;
+	}
+
+	private _displayRoomEntryAd: boolean = false;
+
+	get displayRoomEntryAd(): boolean
+	{
+		return this._displayRoomEntryAd;
+	}
+
+	private _thumbnail: RoomThumbnailData;
+
+	get thumbnail(): RoomThumbnailData
+	{
+		return this._thumbnail;
+	}
+
+	private _allInRoomMuted: boolean = false;
+
+	get allInRoomMuted(): boolean
+	{
+		return this._allInRoomMuted;
+	}
+
+	set allInRoomMuted(value: boolean)
+	{
+		this._allInRoomMuted = value;
+	}
+
+	private _canMute: boolean = false;
+
+	get canMute(): boolean
+	{
+		return this._canMute;
+	}
+
+	set canMute(value: boolean)
+	{
+		this._canMute = value;
+	}
+
+	private _disposed: boolean = false;
+
+	get disposed(): boolean
+	{
+		return this._disposed;
+	}
+
+	dispose(): void
+	{
+		if (this._disposed)
+		{
+			return;
+		}
+		this._disposed = true;
+		this._tags = [];
+	}
 }
