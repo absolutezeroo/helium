@@ -1,4 +1,6 @@
 import {createRoot, createSignal} from 'solid-js';
+import {registerMessageEvent} from '@/ui/hooks';
+import type {NavigatorManagers} from './types';
 import type {
 	EventCategory,
 	FlatCategory,
@@ -22,187 +24,166 @@ import {
 } from '@habbo/communication/messages/incoming/newnavigator';
 
 // Parsers
-import type {
-	NavigatorSettingsMessageParser
-} from '@habbo/communication/messages/parser/navigator/NavigatorSettingsMessageParser';
-import type {
-	UserFlatCatsMessageParser
-} from '@habbo/communication/messages/parser/navigator/UserFlatCatsMessageParser';
-import type {
-	UserEventCatsMessageParser
-} from '@habbo/communication/messages/parser/navigator/UserEventCatsMessageParser';
-import type {
-	GuestRoomSearchResultMessageParser
-} from '@habbo/communication/messages/parser/navigator/GuestRoomSearchResultMessageParser';
-import type {
-	PopularRoomTagsResultMessageParser
-} from '@habbo/communication/messages/parser/navigator/PopularRoomTagsResultMessageParser';
-import type {
-	NavigatorMetaDataMessageParser
-} from '@habbo/communication/messages/parser/newnavigator/NavigatorMetaDataMessageParser';
-import type {
-	NavigatorSearchResultSetMessageParser
-} from '@habbo/communication/messages/parser/newnavigator/NavigatorSearchResultSetMessageParser';
-
-import {registerMessageEvent} from '../../hooks';
+import type {NavigatorSettingsMessageParser} from '@habbo/communication/messages/parser/navigator/NavigatorSettingsMessageParser';
+import type {UserFlatCatsMessageParser} from '@habbo/communication/messages/parser/navigator/UserFlatCatsMessageParser';
+import type {UserEventCatsMessageParser} from '@habbo/communication/messages/parser/navigator/UserEventCatsMessageParser';
+import type {GuestRoomSearchResultMessageParser} from '@habbo/communication/messages/parser/navigator/GuestRoomSearchResultMessageParser';
+import type {PopularRoomTagsResultMessageParser} from '@habbo/communication/messages/parser/navigator/PopularRoomTagsResultMessageParser';
+import type {NavigatorMetaDataMessageParser} from '@habbo/communication/messages/parser/newnavigator/NavigatorMetaDataMessageParser';
+import type {NavigatorSearchResultSetMessageParser} from '@habbo/communication/messages/parser/newnavigator/NavigatorSearchResultSetMessageParser';
 
 /**
- * Navigator store - manages navigator UI and search state
+ * Navigator Feature
  *
- * This store holds ONLY reactive state and message listeners.
- * Actions that require managers are handled by UIBridge.
+ * Manages the room navigator UI state, search functionality, and room navigation.
+ * Combines the legacy HabboNavigator and the newer NewNavigator managers.
+ *
+ * @example
+ * ```typescript
+ * import { navigator } from '@/features';
+ *
+ * // Open/close navigator
+ * navigator.open();
+ * navigator.toggle();
+ *
+ * // Search for rooms
+ * navigator.search('hotel_view');
+ * navigator.searchRooms('my room');
+ *
+ * // Navigate to a room
+ * navigator.goToRoom(123);
+ * navigator.goHome();
+ * ```
  */
-function createNavigatorStore()
+function createNavigatorFeature()
 {
-	// UI state
+	// ========== UI State ==========
 	const [isOpen, setIsOpen] = createSignal(false);
 	const [isRoomInfoOpen, setIsRoomInfoOpen] = createSignal(false);
 	const [isCreateModalOpen, setIsCreateModalOpen] = createSignal(false);
 
-	// Search state
-	const [currentSearchCode, setCurrentSearchCode] = createSignal<string>('');
+	// ========== Search State ==========
+	const [currentSearchCode, setCurrentSearchCode] = createSignal('');
 	const [topLevelContexts, setTopLevelContexts] = createSignal<NavigatorTopLevelContext[]>([]);
-	const [navigatorSearchResults, setNavigatorSearchResults] = createSignal<NavigatorSearchResultSet | null>(null);
+	const [searchResults, setSearchResults] = createSignal<NavigatorSearchResultSet | null>(null);
 	const [legacySearchResults, setLegacySearchResults] = createSignal<GuestRoomSearchResultData | null>(null);
 	const [popularTags, setPopularTags] = createSignal<PopularTagsData | null>(null);
 
-	// Categories
+	// ========== Categories ==========
 	const [flatCategories, setFlatCategories] = createSignal<FlatCategory[]>([]);
 	const [eventCategories, setEventCategories] = createSignal<EventCategory[]>([]);
 
-	// Settings
+	// ========== Settings ==========
 	const [homeRoomId, setHomeRoomId] = createSignal(0);
 
-	// Cleanup functions
-	const cleanupFunctions: Array<() => void> = [];
+	// ========== Manager References ==========
+	let managers: NavigatorManagers = {navigator: null, newNavigator: null};
 
-	// Callback for initial search (set by UIBridge)
-	let onInitialSearchCallback: ((searchCode: string) => void) | null = null;
+	// ========== Cleanup ==========
+	const cleanups: (() => void)[] = [];
 
-	/**
-	 * Initialize message event listeners
-	 */
-	function init(): void
+	// ========== Lifecycle ==========
+
+	function init(mgrs: NavigatorManagers): void
 	{
+		managers = mgrs;
+
 		// Navigator settings (home room)
-		cleanupFunctions.push(
+		cleanups.push(
 			registerMessageEvent(NavigatorSettingsMessageEvent, (_, parser) =>
 			{
 				const p = parser as NavigatorSettingsMessageParser;
-
 				setHomeRoomId(p.homeRoomId);
 			})
 		);
 
 		// Top level contexts (tabs)
-		cleanupFunctions.push(
+		cleanups.push(
 			registerMessageEvent(NavigatorMetaDataMessageEvent, (_, parser) =>
 			{
 				const p = parser as NavigatorMetaDataMessageParser;
-
 				setTopLevelContexts([...p.topLevelContexts]);
 
 				// Auto-select first tab if none selected
 				if (p.topLevelContexts.length > 0 && !currentSearchCode())
 				{
 					const firstSearchCode = p.topLevelContexts[0].searchCode;
-
 					setCurrentSearchCode(firstSearchCode);
-
-					// Trigger initial search via callback
-					onInitialSearchCallback?.(firstSearchCode);
+					managers.newNavigator?.performSearch(firstSearchCode);
 				}
 			})
 		);
 
 		// Flat categories
-		cleanupFunctions.push(
+		cleanups.push(
 			registerMessageEvent(UserFlatCatsMessageEvent, (_, parser) =>
 			{
 				const p = parser as UserFlatCatsMessageParser;
-
 				setFlatCategories(p.nodes.filter((cat) => cat.visible));
 			})
 		);
 
 		// Event categories
-		cleanupFunctions.push(
+		cleanups.push(
 			registerMessageEvent(UserEventCatsMessageEvent, (_, parser) =>
 			{
 				const p = parser as UserEventCatsMessageParser;
-
 				setEventCategories(p.eventCategories.filter((cat) => cat.visible));
 			})
 		);
 
-		// New navigator search results
-		cleanupFunctions.push(
+		// Search results
+		cleanups.push(
 			registerMessageEvent(NavigatorSearchResultSetMessageEvent, (_, parser) =>
 			{
 				const p = parser as NavigatorSearchResultSetMessageParser;
-
-				setNavigatorSearchResults(p.searchResult);
+				setSearchResults(p.searchResult);
 			})
 		);
 
-		// Legacy guest room search results
-		cleanupFunctions.push(
+		// Legacy search results
+		cleanups.push(
 			registerMessageEvent(GuestRoomSearchResultMessageEvent, (_, parser) =>
 			{
 				const p = parser as GuestRoomSearchResultMessageParser;
-
 				setLegacySearchResults(p.data);
 			})
 		);
 
 		// Popular tags
-		cleanupFunctions.push(
+		cleanups.push(
 			registerMessageEvent(PopularRoomTagsResultMessageEvent, (_, parser) =>
 			{
 				const p = parser as PopularRoomTagsResultMessageParser;
-
 				setPopularTags(p.data);
 			})
 		);
 	}
 
-	/**
-	 * Cleanup message event listeners
-	 */
 	function dispose(): void
 	{
-		for (const cleanup of cleanupFunctions)
-		{
-			cleanup();
-		}
-
-		cleanupFunctions.length = 0;
-		onInitialSearchCallback = null;
+		cleanups.forEach(fn => fn());
+		cleanups.length = 0;
+		managers = {navigator: null, newNavigator: null};
 	}
 
-	/**
-	 * Set callback for initial search (called by UIBridge)
-	 */
-	function setOnInitialSearch(callback: ((searchCode: string) => void) | null): void
-	{
-		onInitialSearchCallback = callback;
-	}
+	// ========== UI Actions ==========
 
-	// ========== UI State Setters ==========
-
-	function openNavigator(): void
+	function open(): void
 	{
 		setIsOpen(true);
+		managers.newNavigator?.open();
 	}
 
-	function closeNavigator(): void
+	function close(): void
 	{
 		setIsOpen(false);
+		managers.newNavigator?.close();
 	}
 
-	function toggleNavigator(): void
+	function toggle(): void
 	{
-		setIsOpen((prev) => !prev);
+		isOpen() ? close() : open();
 	}
 
 	function openRoomInfo(): void
@@ -217,12 +198,13 @@ function createNavigatorStore()
 
 	function toggleRoomInfo(): void
 	{
-		setIsRoomInfoOpen((prev) => !prev);
+		setIsRoomInfoOpen(prev => !prev);
 	}
 
 	function openCreateModal(): void
 	{
 		setIsCreateModalOpen(true);
+		managers.navigator?.startRoomCreation();
 	}
 
 	function closeCreateModal(): void
@@ -230,11 +212,37 @@ function createNavigatorStore()
 		setIsCreateModalOpen(false);
 	}
 
-	// ========== State Setters (for UIBridge) ==========
+	// ========== Navigation Actions ==========
 
-	function updateSearchCode(code: string): void
+	function search(code: string, filtering: string = ''): void
 	{
 		setCurrentSearchCode(code);
+		managers.newNavigator?.performSearch(code, filtering);
+	}
+
+	function searchRooms(query: string): void
+	{
+		managers.navigator?.performTextSearch(query);
+	}
+
+	function searchByTag(tag: string): void
+	{
+		managers.navigator?.performTagSearch(tag);
+	}
+
+	function showOwnRooms(): void
+	{
+		managers.navigator?.showOwnRooms();
+	}
+
+	function goToRoom(roomId: number): void
+	{
+		managers.navigator?.goToPrivateRoom(roomId);
+	}
+
+	function goHome(): boolean
+	{
+		return managers.navigator?.goToHomeRoom() ?? false;
 	}
 
 	// ========== Helpers ==========
@@ -244,6 +252,7 @@ function createNavigatorStore()
 		return roomId === homeRoomId();
 	}
 
+	// ========== Public API ==========
 	return {
 		// UI State (reactive)
 		isOpen,
@@ -253,7 +262,7 @@ function createNavigatorStore()
 		// Search State (reactive)
 		currentSearchCode,
 		topLevelContexts,
-		navigatorSearchResults,
+		searchResults,
 		legacySearchResults,
 		popularTags,
 
@@ -264,27 +273,33 @@ function createNavigatorStore()
 		// Settings (reactive)
 		homeRoomId,
 
-		// Lifecycle
-		init,
-		dispose,
-		setOnInitialSearch,
-
-		// UI State Actions (no manager needed)
-		openNavigator,
-		closeNavigator,
-		toggleNavigator,
+		// UI Actions
+		open,
+		close,
+		toggle,
 		openRoomInfo,
 		closeRoomInfo,
 		toggleRoomInfo,
 		openCreateModal,
 		closeCreateModal,
 
-		// State Setters (for UIBridge)
-		updateSearchCode,
+		// Navigation Actions
+		search,
+		searchRooms,
+		searchByTag,
+		showOwnRooms,
+		goToRoom,
+		goHome,
 
 		// Helpers
 		isRoomHome,
+
+		// Lifecycle
+		init,
+		dispose,
 	};
 }
 
-export const navigatorStore = createRoot(createNavigatorStore);
+// ========== Singleton Export ==========
+export const navigator = createRoot(createNavigatorFeature);
+export type Navigator = typeof navigator;

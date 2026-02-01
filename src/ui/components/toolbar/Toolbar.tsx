@@ -1,5 +1,5 @@
 import {Component, For} from 'solid-js';
-import {inventoryStore, navigatorStore, sessionStore} from '../../stores';
+import {navigator, inventory, session} from '@/features';
 
 interface ToolbarIcon
 {
@@ -24,13 +24,7 @@ export const Toolbar: Component = () =>
 		switch (iconId)
 		{
 			case 'navigator':
-				if (navigatorStore.isOpen())
-				{
-					navigatorStore.closeNavigator();
-				} else
-				{
-					navigatorStore.openNavigator();
-				}
+				navigator.toggle();
 				break;
 			case 'hotel':
 				// TODO: Implement hotel view
@@ -41,7 +35,7 @@ export const Toolbar: Component = () =>
 				console.log('Catalog clicked');
 				break;
 			case 'inventory':
-				inventoryStore.toggleInventory();
+				inventory.toggle();
 				break;
 			case 'friends':
 				// TODO: Implement friends
@@ -67,8 +61,8 @@ export const Toolbar: Component = () =>
 					{(icon) => (
 						<button
 							class={`toolbar-icon ${
-								(icon.id === 'navigator' && navigatorStore.isOpen()) ||
-								(icon.id === 'inventory' && inventoryStore.isOpen())
+								(icon.id === 'navigator' && navigator.isOpen()) ||
+								(icon.id === 'inventory' && inventory.isOpen())
 									? 'active'
 									: ''
 							}`}
@@ -84,7 +78,7 @@ export const Toolbar: Component = () =>
 			<div class="toolbar-right">
 				<div class="user-info">
                     <span class="user-credits">
-                        {sessionStore.activityPoints().get(0) || 0} Credits
+                        {session.activityPoints().get(0) || 0} Credits
                     </span>
 				</div>
 			</div>

@@ -7,7 +7,7 @@ import {Logger} from '@core/utils/Logger';
 import {HabboMessages} from './HabboMessages';
 import {IncomingMessages} from './demo/IncomingMessages';
 import {SessionDataManager} from '../session/SessionDataManager';
-import {uiBridge} from '@ui/uiBridge';
+import {connection} from '@/features';
 import type {HabboCommunicationManagerEvents, IHabboCommunicationManager} from './IHabboCommunicationManager';
 import type {ICoreCommunicationManager} from '@core/communication/ICoreCommunicationManager';
 import type {IConnection} from '@core/communication/connection/IConnection';
@@ -207,19 +207,19 @@ export class HabboCommunicationManager extends EventEmitter<HabboCommunicationMa
 	connectionInit(host: string, port: number): void
 	{
 		log.info(`Connecting to ${host}:${port}...`);
-		uiBridge.setConnectionState('connecting');
+		connection.setConnecting();
 	}
 
 	connectionOpened(): void
 	{
 		log.success('Connected to server');
-		uiBridge.setConnectionState('connected');
+		connection.setConnected();
 	}
 
 	connectionClosed(): void
 	{
 		log.info('Connection closed');
-		uiBridge.setConnectionState('disconnected');
+		connection.setDisconnected();
 	}
 
 	connectionError(error: Error): void
@@ -229,7 +229,7 @@ export class HabboCommunicationManager extends EventEmitter<HabboCommunicationMa
 		if (this.connectionAttempt >= this.maxConnectionAttempts &&
 			this.portIndex >= (this.config?.ports.length ?? 0) - 1)
 		{
-			uiBridge.setConnectionState('error', error.message);
+			connection.setError(error.message);
 		}
 		this.tryNextPort();
 	}

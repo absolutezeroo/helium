@@ -1,1 +1,0 @@
-export {navigatorStore} from './navigatorStore';

@@ -1,5 +1,5 @@
 import {Component, createMemo, Show} from 'solid-js';
-import {connectionStore} from './stores';
+import {connection} from '@/features';
 import {LandingView} from './components/landing/LandingView';
 import {Toolbar} from './components/toolbar/Toolbar';
 import {LoadingScreen} from './components/common/LoadingScreen';
@@ -8,11 +8,11 @@ import {Inventory} from './components/inventory';
 
 export const App: Component = () =>
 {
-	const showLanding = createMemo(() => connectionStore.isAuthenticated());
+	const showLanding = createMemo(() => connection.isAuthenticated());
 
 	const showLoading = createMemo(() =>
 	{
-		const state = connectionStore.state();
+		const state = connection.state();
 		return state === 'connecting' || state === 'connected';
 	});
 
@@ -29,11 +29,11 @@ export const App: Component = () =>
 				<Inventory/>
 			</Show>
 
-			<Show when={connectionStore.state() === 'error'}>
+			<Show when={connection.state() === 'error'}>
 				<div class="error-screen">
 					<div class="error-content">
 						<h2>Connection Error</h2>
-						<p>{connectionStore.error()}</p>
+						<p>{connection.error()}</p>
 					</div>
 				</div>
 			</Show>

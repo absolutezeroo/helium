@@ -8,276 +8,305 @@ import type {IHabboNavigator, IHabboNewNavigator} from '@habbo/navigator';
 import {HabboCommunicationManager} from '@habbo/communication/HabboCommunicationManager';
 import {HabboInventory} from '@habbo/inventory/HabboInventory';
 import {Logger} from '@core/utils/Logger';
-import {mountUI, uiBridge} from '@ui/index';
+import {mountUI} from '@ui/index';
+import {
+	config as configFeature,
+	disposeFeatures,
+	initFeatures,
+	inventory as inventoryFeature,
+	localization as localizationFeature,
+	navigator as navigatorFeature,
+} from '@/features';
 import '@ui/styles.css';
 
 const log = Logger.getLogger('Helium');
 
-export class Helium {
-    private _ready = false;
+export class Helium
+{
+	private _ready = false;
+	// Managers
+	private _configurationManager: IHabboConfigurationManager | null = null;
+	private _communicationManager: ICoreCommunicationManager | null = null;
+	private _habboCommunicationManager: HabboCommunicationManager | null = null;
+	// UI
+	private _disposeUI: (() => void) | null = null;
 
-    private _application: Application | null = null;
+	private static _instance: Helium;
 
-    // Managers
-    private _configurationManager: IHabboConfigurationManager | null = null;
-    private _communicationManager: ICoreCommunicationManager | null = null;
-    private _habboCommunicationManager: HabboCommunicationManager | null = null;
+	public static get instance(): Helium
+	{
+		if (!this._instance)
+		{
+			this._instance = new Helium();
+		}
 
-    // UI
-    private _disposeUI: (() => void) | null = null;
+		return this._instance;
+	}
 
-    private static _instance: Helium;
+	private _application: Application | null = null;
 
-    public static get instance(): Helium {
-        if (!this._instance) {
-            this._instance = new Helium();
-        }
+	public get application(): Application
+	{
+		if (!this._application)
+		{
+			throw new Error('[Helium] Not initialized');
+		}
 
-        return this._instance;
-    }
+		return this._application;
+	}
 
+	public get isReady(): boolean
+	{
+		return this._ready;
+	}
 
+	/**
+	 * Get the configuration manager
+	 */
+	public get configuration(): IHabboConfigurationManager
+	{
+		if (!this._configurationManager)
+		{
+			throw new Error('[Helium] Not initialized');
+		}
 
-    public get application(): Application {
-        if (!this._application) {
-            throw new Error('[Helium] Not initialized');
-        }
+		return this._configurationManager;
+	}
 
-        return this._application;
-    }
+	/**
+	 * Get the core communication manager
+	 */
+	public get communication(): ICoreCommunicationManager
+	{
+		if (!this._communicationManager)
+		{
+			throw new Error('[Helium] Not initialized');
+		}
 
-    public get isReady(): boolean {
-        return this._ready;
-    }
+		return this._communicationManager;
+	}
 
-    /**
-     * Get the configuration manager
-     */
-    public get configuration(): IHabboConfigurationManager {
-        if (!this._configurationManager) {
-            throw new Error('[Helium] Not initialized');
-        }
+	/**
+	 * Get the Habbo communication manager
+	 */
+	public get habboCommunication(): HabboCommunicationManager
+	{
+		if (!this._habboCommunicationManager)
+		{
+			throw new Error('[Helium] Not initialized');
+		}
 
-        return this._configurationManager;
-    }
+		return this._habboCommunicationManager;
+	}
 
-    /**
-     * Get the core communication manager
-     */
-    public get communication(): ICoreCommunicationManager {
-        if (!this._communicationManager) {
-            throw new Error('[Helium] Not initialized');
-        }
+	public static async bootstrap(config?: HeliumConfig): Promise<Helium>
+	{
+		const instance = this.instance;
 
-        return this._communicationManager;
-    }
+		await instance.init(config);
 
-    /**
-     * Get the Habbo communication manager
-     */
-    public get habboCommunication(): HabboCommunicationManager {
-        if (!this._habboCommunicationManager) {
-            throw new Error('[Helium] Not initialized');
-        }
+		return instance;
+	}
 
-        return this._habboCommunicationManager;
-    }
+	/**
+	 * Connect to the Habbo server
+	 */
+	public connect(): void
+	{
+		if (!this._habboCommunicationManager)
+		{
+			throw new Error('[Helium] Not initialized');
+		}
 
-    public static async bootstrap(config?: HeliumConfig): Promise<Helium> {
-        const instance = this.instance;
+		log.info('Connecting to server...');
 
-        await instance.init(config);
+		this._habboCommunicationManager.initConnection('habbo');
+	}
 
-        return instance;
-    }
+	/**
+	 * Disconnect from the server
+	 */
+	public disconnect(): void
+	{
+		this._habboCommunicationManager?.disconnect();
+	}
 
-    /**
-     * Connect to the Habbo server
-     */
-    public connect(): void {
-        if (!this._habboCommunicationManager) {
-            throw new Error('[Helium] Not initialized');
-        }
+	public dispose(): void
+	{
+		// Stop update loop
+		this._application?.ticker.remove(this.update, this);
 
-        log.info('Connecting to server...');
+		// Dispose UI
+		if (this._disposeUI)
+		{
+			this._disposeUI();
+			this._disposeUI = null;
+		}
 
-        this._habboCommunicationManager.initConnection('habbo');
-    }
+		// Dispose all features
+		disposeFeatures();
 
-    /**
-     * Disconnect from the server
-     */
-    public disconnect(): void {
-        this._habboCommunicationManager?.disconnect();
-    }
+		// Dispose communication
+		this._communicationManager?.dispose();
 
-    public dispose(): void {
-        // Stop update loop
-        this._application?.ticker.remove(this.update, this);
+		// Dispose PixiJS
+		this._application?.destroy(true);
+		this._application = null;
 
-        // Dispose UI
-        if (this._disposeUI) {
-            this._disposeUI();
-            this._disposeUI = null;
-        }
-        uiBridge.disconnect();
+		this._configurationManager = null;
+		this._communicationManager = null;
+		this._habboCommunicationManager = null;
+		this._ready = false;
+	}
 
-        // Dispose communication
-        this._communicationManager?.dispose();
+	private async init(config?: HeliumConfig): Promise<void>
+	{
+		log.info('Initializing...');
 
-        // Dispose PixiJS
-        this._application?.destroy(true);
-        this._application = null;
+		// Setup IoC container
+		setupContainer();
 
-        this._configurationManager = null;
-        this._communicationManager = null;
-        this._habboCommunicationManager = null;
-        this._ready = false;
-    }
+		// Initialize configuration manager
+		this._configurationManager = container.get<IHabboConfigurationManager>(TYPES.HabboConfigurationManager);
 
-    private async init(config?: HeliumConfig): Promise<void> {
-        log.info('Initializing...');
+		// Set configuration properties
+		if (config?.configuration)
+		{
+			for (const [key, value] of Object.entries(config.configuration))
+			{
+				this._configurationManager.setProperty(key, value);
+			}
+		}
 
-        // Setup IoC container
-        setupContainer();
+		// Set external variables URL if provided
+		if (config?.configurationUrl)
+		{
+			this._configurationManager.setProperty('external.variables.txt', config.configurationUrl);
+		}
 
-        // Initialize configuration manager
-        this._configurationManager = container.get<IHabboConfigurationManager>(TYPES.HabboConfigurationManager);
+		// Load external configuration
+		await this._configurationManager.initConfigurationDownload();
 
-        // Set configuration properties
-        if (config?.configuration) {
-            for (const [key, value] of Object.entries(config.configuration)) {
-                this._configurationManager.setProperty(key, value);
-            }
-        }
+		// Initialize PixiJS application
+		this._application = new Application();
 
-        // Set external variables URL if provided
-        if (config?.configurationUrl) {
-            this._configurationManager.setProperty('external.variables.txt', config.configurationUrl);
-        }
+		await this._application.init({
+			background: config?.background ?? '#000000',
+			resizeTo: config?.resizeTo ?? window,
+			antialias: config?.antialias ?? true,
+			resolution: config?.resolution ?? window.devicePixelRatio,
+			autoDensity: true,
+		});
 
-        // Load external configuration
-        await this._configurationManager.initConfigurationDownload();
+		const target = config?.canvas ?? document.body;
 
-        // Initialize PixiJS application
-        this._application = new Application();
+		target.appendChild(this._application.canvas);
 
-        await this._application.init({
-            background: config?.background ?? '#000000',
-            resizeTo: config?.resizeTo ?? window,
-            antialias: config?.antialias ?? true,
-            resolution: config?.resolution ?? window.devicePixelRatio,
-            autoDensity: true,
-        });
+		// Initialize communication managers
+		this._communicationManager = container.get<ICoreCommunicationManager>(TYPES.CommunicationManager);
+		this._habboCommunicationManager = container.get<HabboCommunicationManager>(TYPES.HabboCommunicationManager);
 
-        const target = config?.canvas ?? document.body;
+		// Configure connection if provided
+		if (config?.connection)
+		{
+			this._habboCommunicationManager.configure(config.connection);
+		}
 
-        target.appendChild(this._application.canvas);
+		// Initialize config feature
+		configFeature.init({configuration: this._configurationManager});
 
-        // Initialize communication managers
-        this._communicationManager = container.get<ICoreCommunicationManager>(TYPES.CommunicationManager);
-        this._habboCommunicationManager = container.get<HabboCommunicationManager>(TYPES.HabboCommunicationManager);
+		// Initialize localization manager and feature
+		const localizationManager = container.get<IHabboLocalizationManager>(TYPES.LocalizationManager);
+		localizationManager.setConfigurationManager(this._configurationManager);
+		localizationManager.setCommunicationManager(this._habboCommunicationManager);
+		localizationFeature.init({localization: localizationManager});
 
-        // Configure connection if provided
-        if (config?.connection) {
-            this._habboCommunicationManager.configure(config.connection);
-        }
+		// Activate default localization if configured
+		if (this._configurationManager.propertyExists('localization.1'))
+		{
+			const locName = this._configurationManager.getProperty('localization.1');
+			localizationManager.activateLocalizationDefinition(locName);
+		}
 
-        // Connect UIBridge to managers
-        uiBridge.connectConfigurationManager(this._configurationManager);
+		// Initialize navigator feature
+		const navigatorManager = container.get<IHabboNavigator>(TYPES.NavigatorManager);
+		const newNavigatorManager = container.get<IHabboNewNavigator>(TYPES.NewNavigatorManager);
+		navigatorFeature.init({navigator: navigatorManager, newNavigator: newNavigatorManager});
 
-        // Initialize localization manager
-        const localizationManager = container.get<IHabboLocalizationManager>(TYPES.LocalizationManager);
-        localizationManager.setConfigurationManager(this._configurationManager);
-        localizationManager.setCommunicationManager(this._habboCommunicationManager);
-        uiBridge.connectLocalizationManager(localizationManager);
+		// Initialize inventory feature
+		const inventoryManager = new HabboInventory(this._habboCommunicationManager);
+		inventoryFeature.init({inventory: inventoryManager});
 
-        // Activate default localization if configured
-        if (this._configurationManager.propertyExists('localization.1')) {
-            const locName = this._configurationManager.getProperty('localization.1');
-            localizationManager.activateLocalizationDefinition(locName);
-        }
+		// Initialize features that only listen to messages (session, room, favourites)
+		initFeatures();
 
-        const sessionDataManager = this._habboCommunicationManager.sessionDataManager;
-        if (sessionDataManager) {
-            uiBridge.connectSessionDataManager(sessionDataManager);
-        }
+		// Mount SolidJS UI
+		const uiContainer = document.createElement('div');
+		uiContainer.id = 'helium-ui';
+		document.body.appendChild(uiContainer);
+		this._disposeUI = mountUI(uiContainer);
 
-        // Connect Navigator to UIBridge
-        const navigator = container.get<IHabboNavigator>(TYPES.NavigatorManager);
-        const newNavigator = container.get<IHabboNewNavigator>(TYPES.NewNavigatorManager);
-        uiBridge.connectNavigator(navigator, newNavigator);
+		// Setup update loop for communication
+		this._application.ticker.add(this.update, this);
 
-        // Connect Inventory to UIBridge
-        const inventory = new HabboInventory(this._habboCommunicationManager);
-        uiBridge.connectInventory(inventory);
+		this._ready = true;
+		log.success('Ready!');
 
-        // Initialize room-related stores
-        uiBridge.initRoomStores();
+		// Auto-connect if configured
+		if (config?.connection?.autoConnect)
+		{
+			this.connect();
+		}
+	}
 
-        // Mount SolidJS UI
-        const uiContainer = document.createElement('div');
-        uiContainer.id = 'helium-ui';
-        document.body.appendChild(uiContainer);
-        this._disposeUI = mountUI(uiContainer);
+	/**
+	 * Main update loop
+	 */
+	private update(ticker: Ticker): void
+	{
+		const deltaTime = ticker.deltaMS;
 
-        // Setup update loop for communication
-        this._application.ticker.add(this.update, this);
-
-        this._ready = true;
-        log.success('Ready!');
-
-        // Auto-connect if configured
-        if (config?.connection?.autoConnect) {
-            this.connect();
-        }
-    }
-
-    /**
-     * Main update loop
-     */
-    private update(ticker: Ticker): void {
-        const deltaTime = ticker.deltaMS;
-
-        // Process communication
-        this._communicationManager?.update(deltaTime);
-    }
+		// Process communication
+		this._communicationManager?.update(deltaTime);
+	}
 }
 
 /**
  * Connection configuration
  */
-export interface ConnectionConfig {
-    /** Server host (can include ws:// or wss://) */
-    host: string;
-    /** Server ports to try */
-    ports: number[];
-    /** SSO ticket for authentication */
-    ssoTicket?: string;
-    /** Auto-connect on initialization */
-    autoConnect?: boolean;
+export interface ConnectionConfig
+{
+	/** Server host (can include ws:// or wss://) */
+	host: string;
+	/** Server ports to try */
+	ports: number[];
+	/** SSO ticket for authentication */
+	ssoTicket?: string;
+	/** Auto-connect on initialization */
+	autoConnect?: boolean;
 }
 
 /**
  * Helium configuration
  */
-export interface HeliumConfig {
-    /** Background color */
-    background?: string;
-    /** Element to resize to */
-    resizeTo?: HTMLElement | Window;
-    /** Enable antialiasing */
-    antialias?: boolean;
-    /** Pixel resolution */
-    resolution?: number;
-    /** Canvas container element */
-    canvas?: HTMLElement;
-    /** Connection configuration */
-    connection?: ConnectionConfig;
-    /** URL to load external configuration from (external_variables.txt) */
-    configurationUrl?: string;
-    /** Configuration object (alternative to URL) */
-    configuration?: Record<string, string>;
+export interface HeliumConfig
+{
+	/** Background color */
+	background?: string;
+	/** Element to resize to */
+	resizeTo?: HTMLElement | Window;
+	/** Enable antialiasing */
+	antialias?: boolean;
+	/** Pixel resolution */
+	resolution?: number;
+	/** Canvas container element */
+	canvas?: HTMLElement;
+	/** Connection configuration */
+	connection?: ConnectionConfig;
+	/** URL to load external configuration from (external_variables.txt) */
+	configurationUrl?: string;
+	/** Configuration object (alternative to URL) */
+	configuration?: Record<string, string>;
 }
 
 export default Helium;

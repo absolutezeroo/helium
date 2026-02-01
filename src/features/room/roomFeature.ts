@@ -1,50 +1,54 @@
 import {createRoot, createSignal} from 'solid-js';
-import type {
-	GuestRoomData,
-	RoomEventData,
-} from '@habbo/communication/messages/incoming/navigator';
+import {registerMessageEvent} from '@/ui/hooks';
+import type {GuestRoomData, RoomEventData} from '@habbo/communication/messages/incoming/navigator';
 import {
 	GetGuestRoomResultMessageEvent,
 	RoomEventCancelMessageEvent,
 	RoomEventMessageEvent,
 	RoomRatingMessageEvent,
 } from '@habbo/communication/messages/incoming/navigator';
-import type {
-	GetGuestRoomResultMessageParser
-} from '@habbo/communication/messages/parser/navigator/GetGuestRoomResultMessageParser';
-import type {
-	RoomRatingMessageParser
-} from '@habbo/communication/messages/parser/navigator/RoomRatingMessageParser';
-import type {
-	RoomEventMessageParser
-} from '@habbo/communication/messages/parser/navigator/RoomEventMessageParser';
-import {registerMessageEvent} from '../../hooks';
+import type {GetGuestRoomResultMessageParser} from '@habbo/communication/messages/parser/navigator/GetGuestRoomResultMessageParser';
+import type {RoomRatingMessageParser} from '@habbo/communication/messages/parser/navigator/RoomRatingMessageParser';
+import type {RoomEventMessageParser} from '@habbo/communication/messages/parser/navigator/RoomEventMessageParser';
 
 /**
- * Room store - manages current room state
+ * Room Feature
  *
- * This store holds data about the room the user is currently in.
- * Used by navigator, toolbar, chat, room info panel, etc.
+ * Tracks the current room the user is in, including room data,
+ * rating, staff pick status, and active events.
+ *
+ * @example
+ * ```typescript
+ * import { room } from '@/features';
+ *
+ * // Check if user is in a room
+ * if (room.isInRoom()) {
+ *   console.log(`In room: ${room.roomName()}`);
+ *   console.log(`Rating: ${room.rating()}`);
+ * }
+ *
+ * // Get current room data
+ * const roomData = room.currentRoom();
+ * ```
  */
-function createRoomStore()
+function createRoomFeature()
 {
-	// Current room data
+	// ========== State ==========
 	const [currentRoom, setCurrentRoom] = createSignal<GuestRoomData | null>(null);
 	const [rating, setRating] = createSignal(0);
 	const [canRate, setCanRate] = createSignal(false);
 	const [isStaffPick, setIsStaffPick] = createSignal(false);
 	const [roomEvent, setRoomEvent] = createSignal<RoomEventData | null>(null);
 
-	// Cleanup functions
-	const cleanupFunctions: Array<() => void> = [];
+	// ========== Cleanup ==========
+	const cleanups: (() => void)[] = [];
 
-	/**
-	 * Initialize message event listeners
-	 */
+	// ========== Lifecycle ==========
+
 	function init(): void
 	{
 		// Room info / entry
-		cleanupFunctions.push(
+		cleanups.push(
 			registerMessageEvent(GetGuestRoomResultMessageEvent, (_, parser) =>
 			{
 				const p = parser as GetGuestRoomResultMessageParser;
@@ -58,7 +62,7 @@ function createRoomStore()
 		);
 
 		// Room rating
-		cleanupFunctions.push(
+		cleanups.push(
 			registerMessageEvent(RoomRatingMessageEvent, (_, parser) =>
 			{
 				const p = parser as RoomRatingMessageParser;
@@ -69,7 +73,7 @@ function createRoomStore()
 		);
 
 		// Room event
-		cleanupFunctions.push(
+		cleanups.push(
 			registerMessageEvent(RoomEventMessageEvent, (_, parser) =>
 			{
 				const p = parser as RoomEventMessageParser;
@@ -79,7 +83,7 @@ function createRoomStore()
 		);
 
 		// Room event cancelled
-		cleanupFunctions.push(
+		cleanups.push(
 			registerMessageEvent(RoomEventCancelMessageEvent, () =>
 			{
 				setRoomEvent(null);
@@ -87,9 +91,12 @@ function createRoomStore()
 		);
 	}
 
-	/**
-	 * Clear current room state (called when exiting room)
-	 */
+	function dispose(): void
+	{
+		cleanups.forEach(fn => fn());
+		cleanups.length = 0;
+	}
+
 	function clear(): void
 	{
 		setCurrentRoom(null);
@@ -99,19 +106,7 @@ function createRoomStore()
 		setRoomEvent(null);
 	}
 
-	/**
-	 * Cleanup message event listeners
-	 */
-	function dispose(): void
-	{
-		for (const cleanup of cleanupFunctions)
-		{
-			cleanup();
-		}
-
-		cleanupFunctions.length = 0;
-	}
-
+	// ========== Public API ==========
 	return {
 		// State (reactive)
 		currentRoom,
@@ -120,11 +115,18 @@ function createRoomStore()
 		isStaffPick,
 		roomEvent,
 
+		// Computed helpers
+		isInRoom: () => currentRoom() !== null,
+		roomId: () => currentRoom()?.flatId ?? 0,
+		roomName: () => currentRoom()?.roomName ?? '',
+
 		// Lifecycle
 		init,
-		clear,
 		dispose,
+		clear,
 	};
 }
 
-export const roomStore = createRoot(createRoomStore);
+// ========== Singleton Export ==========
+export const room = createRoot(createRoomFeature);
+export type Room = typeof room;

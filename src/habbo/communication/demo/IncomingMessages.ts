@@ -40,7 +40,7 @@ import {
 } from '../messages/outgoing/handshake';
 
 import {EventLogMessageComposer} from '../messages/outgoing/tracking';
-import {uiBridge} from "@/ui";
+import {connection} from '@/features';
 
 const log = Logger.getLogger('Handshake');
 
@@ -132,13 +132,13 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
 	}
 
 	/**
-	 * Dispatch login step event to both event emitter and UI bridge
+	 * Dispatch login step event to both event emitter and connection feature
 	 * Matches AS3's dispatchLoginStepEvent()
 	 */
 	private dispatchLoginStepEvent(step: HabboCommunicationEventType): void
 	{
 		this.emit('loginStep', step);
-		uiBridge.setLoginStep(step);
+		connection.setLoginStep(step);
 	}
 
 	private onConnectionEstablished(): void
@@ -302,19 +302,19 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
 
 	private onAuthenticationOK(event: IMessageEvent): void
 	{
-		const connection = event.connection;
+		const conn = event.connection;
 
-		if (!connection) return;
+		if (!conn) return;
 
 		log.success('Authenticated');
 
 		this.dispatchLoginStepEvent(HabboCommunicationEvent.AUTHENTICATED);
 
-		// Notify UI that authentication succeeded
-		uiBridge.setConnectionState('authenticated');
+		// Notify connection feature that authentication succeeded
+		connection.setAuthenticated();
 
-		connection.send(new InfoRetrieveMessageComposer());
-		connection.send(new EventLogMessageComposer('Login', 'socket', 'client.auth_ok'));
+		conn.send(new InfoRetrieveMessageComposer());
+		conn.send(new EventLogMessageComposer('Login', 'socket', 'client.auth_ok'));
 
 		this.emit('authenticated');
 	}

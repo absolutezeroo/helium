@@ -1,7 +1,6 @@
 import type {JSX} from 'solid-js';
 import {createMemo, createSignal} from 'solid-js';
-import {localizationStore, navigatorStore} from '@/ui/stores';
-import {uiBridge} from '@/ui/uiBridge';
+import {navigator, localization} from '@/features';
 import {NavigatorWindow} from './NavigatorWindow';
 import {RoomCreateModal} from './create';
 import type {RoomListRoom} from './rooms';
@@ -9,35 +8,34 @@ import type {Category} from './categories';
 import {mapSearchResultsToListRooms} from './utils';
 
 /**
- * Navigator - Connects the store to NavigatorWindow
+ * Navigator - Connects the feature to NavigatorWindow
  *
- * Store provides reactive state (read-only)
- * UIBridge provides actions (manager calls)
+ * Feature provides reactive state + actions
  */
 export function Navigator(): JSX.Element
 {
 	const [isCreateModalOpen, setIsCreateModalOpen] = createSignal(false);
 
-	// Transform store data for UI
+	// Transform feature data for UI
 	const tabs = createMemo(() =>
-		navigatorStore.topLevelContexts().map(ctx =>
+		navigator.topLevelContexts().map(ctx =>
 		{
 			const locKey = `navigator.toplevelview.${ctx.searchCode}`;
 			const fallback = ctx.searchCode.replace('_view', '').replace(/_/g, ' ');
 			return {
 				id: ctx.searchCode,
-				label: localizationStore.get(locKey, fallback),
+				label: localization.get(locKey, fallback),
 			};
 		})
 	);
 
 	const rooms = createMemo((): RoomListRoom[] =>
-		mapSearchResultsToListRooms(navigatorStore.navigatorSearchResults())
+		mapSearchResultsToListRooms(navigator.searchResults())
 	);
 
 	const categories = createMemo((): Category[] =>
 	{
-		const results = navigatorStore.navigatorSearchResults();
+		const results = navigator.searchResults();
 		if (!results) return [];
 		return results.blocks.map((block, index) => ({
 			id: index,
@@ -46,38 +44,38 @@ export function Navigator(): JSX.Element
 		}));
 	});
 
-	// Handlers - use uiBridge for actions
+	// Handlers - use feature actions
 	const handleTabChange = (searchCode: string) =>
 	{
-		uiBridge.performNavigatorSearch(searchCode);
+		navigator.search(searchCode);
 	};
 
 	const handleSearch = (query: string) =>
 	{
-		uiBridge.searchRooms(query);
+		navigator.searchRooms(query);
 	};
 
 	const handleRefresh = () =>
 	{
-		const code = navigatorStore.currentSearchCode();
+		const code = navigator.currentSearchCode();
 
-		if (code) uiBridge.performNavigatorSearch(code);
+		if (code) navigator.search(code);
 	};
 
 	const handleRoomClick = (roomId: number) =>
 	{
-		uiBridge.goToPrivateRoom(roomId);
+		navigator.goToRoom(roomId);
 	};
 
 	return (
 		<>
 			<NavigatorWindow
-				isOpen={navigatorStore.isOpen()}
+				isOpen={navigator.isOpen()}
 				tabs={tabs()}
-				activeTab={navigatorStore.currentSearchCode()}
+				activeTab={navigator.currentSearchCode()}
 				rooms={rooms()}
 				categories={categories()}
-				onClose={() => uiBridge.closeNavigator()}
+				onClose={() => navigator.close()}
 				onTabChange={handleTabChange}
 				onSearch={handleSearch}
 				onRefresh={handleRefresh}

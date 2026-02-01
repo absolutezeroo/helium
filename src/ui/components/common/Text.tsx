@@ -1,5 +1,5 @@
 import {createMemo, type JSX} from 'solid-js';
-import {localizationStore} from '../../stores';
+import {localization} from '@/features';
 
 export interface TextProps
 {
@@ -31,9 +31,9 @@ export function Text(props: TextProps): JSX.Element
 	{
 		if (props.params)
 		{
-			return localizationStore.getWithParams(props.key, props.params, props.default);
+			return localization.getWithParams(props.key, props.params, props.default);
 		}
-		return localizationStore.get(props.key, props.default);
+		return localization.get(props.key, props.default);
 	});
 
 	const Tag = props.as || 'span';
@@ -54,7 +54,7 @@ export function useLocalization()
 {
 	return (key: string, defaultValue?: string) =>
 	{
-		return localizationStore.get(key, defaultValue);
+		return localization.get(key, defaultValue);
 	};
 }
 
@@ -71,6 +71,6 @@ export function useLocalizationWithParams()
 {
 	return (key: string, params: Record<string, string>, defaultValue?: string) =>
 	{
-		return localizationStore.getWithParams(key, params, defaultValue);
+		return localization.getWithParams(key, params, defaultValue);
 	};
 }

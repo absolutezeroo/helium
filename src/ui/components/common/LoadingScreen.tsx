@@ -1,5 +1,5 @@
 import {Component, Show} from 'solid-js';
-import {connectionStore} from '../../stores';
+import {connection} from '@/features';
 import {HabboCommunicationEvent} from '@habbo/communication/enum';
 
 /**
@@ -17,13 +17,13 @@ export const LoadingScreen: Component = () =>
 {
 	const statusText = () =>
 	{
-		const step = connectionStore.loadingStep();
-		const state = connectionStore.state();
+		const step = connection.loadingStep();
+		const state = connection.state();
 
 		// Handle error state
 		if (state === 'error')
 		{
-			return connectionStore.error() || 'Connection error';
+			return connection.error() || 'Connection error';
 		}
 
 		// Find matching step
@@ -52,7 +52,7 @@ export const LoadingScreen: Component = () =>
 
 	const progress = () =>
 	{
-		const step = connectionStore.loadingStep();
+		const step = connection.loadingStep();
 
 		if (step)
 		{
@@ -64,7 +64,7 @@ export const LoadingScreen: Component = () =>
 		}
 
 		// Fallback
-		const state = connectionStore.state();
+		const state = connection.state();
 		switch (state)
 		{
 			case 'connecting':
@@ -78,7 +78,7 @@ export const LoadingScreen: Component = () =>
 		}
 	};
 
-	const isError = () => connectionStore.state() === 'error';
+	const isError = () => connection.state() === 'error';
 
 	return (
 		<div class="loading-screen">

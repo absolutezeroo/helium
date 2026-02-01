@@ -1,4 +1,4 @@
-import {localizationStore} from '@ui/stores';
+import {localization} from '@/features';
 
 /**
  * Navigator-specific localization keys
@@ -175,7 +175,7 @@ export function useNavigatorLocalization()
 	const t = (key: string, defaultValue?: string): string =>
 	{
 		const fallback = defaultValue ?? DEFAULTS[key] ?? key;
-		return localizationStore.get(key, fallback);
+		return localization.get(key, fallback);
 	};
 
 	/**
@@ -184,7 +184,7 @@ export function useNavigatorLocalization()
 	const tp = (key: string, params: Record<string, string>, defaultValue?: string): string =>
 	{
 		const fallback = defaultValue ?? DEFAULTS[key] ?? key;
-		return localizationStore.getWithParams(key, params, fallback);
+		return localization.getWithParams(key, params, fallback);
 	};
 
 	/**
@@ -192,13 +192,13 @@ export function useNavigatorLocalization()
 	 */
 	const has = (key: string): boolean =>
 	{
-		return localizationStore.has(key);
+		return localization.has(key);
 	};
 
 	/**
 	 * Check if localization is loaded
 	 */
-	const isLoaded = () => localizationStore.isLoaded();
+	const isLoaded = () => localization.isLoaded();
 
 	return {
 		t,

@@ -1,9 +1,9 @@
 import {Component, Show} from 'solid-js';
-import {sessionStore} from '../../stores';
+import {session} from '@/features';
 
 export const LandingView: Component = () =>
 {
-	const userData = () => sessionStore.userData();
+	const userData = () => session.userData();
 
 	return (
 		<div class="landing-view">
