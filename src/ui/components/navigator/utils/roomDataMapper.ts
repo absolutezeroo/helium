@@ -1,4 +1,4 @@
-import type {GuestRoomData, RoomDoorMode} from '@habbo/communication/messages/incoming/navigator';
+import type {GuestRoomData} from '@habbo/communication/messages/incoming/navigator';
 import type {NavigatorSearchResultSet} from '@habbo/communication/messages/incoming/newnavigator';
 import type {RoomListRoom} from '../rooms';
 
@@ -9,11 +9,16 @@ function mapDoorMode(doorMode: number): RoomListRoom['doorMode']
 {
 	switch (doorMode)
 	{
-		case 0: return 'open';
-		case 1: return 'doorbell';
-		case 2: return 'password';
-		case 3: return 'invisible';
-		default: return 'open';
+		case 0:
+			return 'open';
+		case 1:
+			return 'doorbell';
+		case 2:
+			return 'password';
+		case 3:
+			return 'invisible';
+		default:
+			return 'open';
 	}
 }
 

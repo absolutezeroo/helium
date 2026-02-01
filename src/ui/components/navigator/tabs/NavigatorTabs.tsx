@@ -1,8 +1,8 @@
 import type {JSX} from 'solid-js';
-import {For, createSignal, onMount, Show} from 'solid-js';
+import {createSignal, For, onMount, Show} from 'solid-js';
 import clsx from 'clsx';
 import {NavigatorTab} from './NavigatorTab';
-import {NavigatorIcon, type IconName} from '../common';
+import {type IconName, NavigatorIcon} from '../common';
 
 export interface TabDefinition
 {
@@ -64,7 +64,7 @@ export function NavigatorTabs(props: NavigatorTabsProps): JSX.Element
 					class="absolute left-0 z-10 h-full px-2 bg-gradient-to-r from-slate-800 via-slate-800/95 to-transparent hover:from-slate-700 transition-colors"
 					onClick={() => scroll('left')}
 				>
-					<NavigatorIcon name="chevronLeft" size="sm" class="text-slate-300" />
+					<NavigatorIcon name="chevronLeft" size="sm" class="text-slate-300"/>
 				</button>
 			</Show>
 
@@ -96,7 +96,7 @@ export function NavigatorTabs(props: NavigatorTabsProps): JSX.Element
 					class="absolute right-0 z-10 h-full px-1.5 bg-gradient-to-l from-slate-800 via-slate-800/90 to-transparent hover:from-slate-700 transition-colors"
 					onClick={() => scroll('right')}
 				>
-					<NavigatorIcon name="chevronRight" size="sm" class="text-slate-300" />
+					<NavigatorIcon name="chevronRight" size="sm" class="text-slate-300"/>
 				</button>
 			</Show>
 		</div>

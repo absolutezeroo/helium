@@ -1,5 +1,5 @@
 import type {JSX} from 'solid-js';
-import {Show, createSignal, onCleanup} from 'solid-js';
+import {createSignal, onCleanup, Show} from 'solid-js';
 import clsx from 'clsx';
 import {NavigatorIcon} from '../common';
 import {useNavigatorLocalization} from '../hooks';

@@ -1,158 +1,92 @@
 import type {JSX} from 'solid-js';
-import {Show} from 'solid-js';
+import {createMemo, createSignal} from 'solid-js';
+import {localizationStore, navigatorStore} from '@/ui/stores';
 import {NavigatorWindow} from './NavigatorWindow';
-import type {RoomInfoData} from './roominfo';
-import {RoomInfoPanel} from './roominfo';
-import type {RoomCategory, RoomCreateFormData, RoomModel} from './create';
 import {RoomCreateModal} from './create';
-import type {RoomListRoom, RoomListViewMode} from './rooms';
+import type {RoomListRoom} from './rooms';
 import type {Category} from './categories';
-import type {PopularTag} from './search';
-
-export interface NavigatorTab
-{
-	searchCode: string;
-	label: string;
-}
-
-export interface NavigatorProps
-{
-	// State from store
-	isOpen: boolean;
-	isRoomInfoOpen?: boolean;
-	isCreateModalOpen?: boolean;
-	currentSearchCode?: string;
-	tabs?: NavigatorTab[];
-	searchQuery?: string;
-	loading?: boolean;
-
-	// Data from store
-	rooms?: RoomListRoom[];
-	categories?: Category[];
-	popularTags?: PopularTag[];
-	favouriteRoomIds?: Set<number>;
-	selectedRoom?: RoomInfoData | null;
-
-	// Room creation data
-	roomCategories?: RoomCategory[];
-	roomModels?: RoomModel[];
-	createRoomLoading?: boolean;
-	createRoomError?: string;
-
-	// Navigation callbacks
-	onClose?: () => void;
-	onTabChange?: (searchCode: string) => void;
-	onSearch?: (query: string) => void;
-	onClearSearch?: () => void;
-	onTagClick?: (tag: string) => void;
-	onCategoryClick?: (categoryId: number) => void;
-
-	// Room interaction callbacks
-	onRoomClick?: (roomId: number) => void;
-	onRoomEnter?: (roomId: number) => void;
-	onFavouriteToggle?: (roomId: number) => void;
-	onSetHomeRoom?: (roomId: number) => void;
-	onRateRoom?: (roomId: number, rating: number) => void;
-	onEditRoom?: (roomId: number) => void;
-	onDeleteRoom?: (roomId: number) => void;
-	onReportRoom?: (roomId: number) => void;
-	onOwnerClick?: (ownerId: number) => void;
-
-	// Room info panel callbacks
-	onRoomInfoClose?: () => void;
-
-	// Room creation callbacks
-	onOpenCreateModal?: () => void;
-	onCloseCreateModal?: () => void;
-	onCreateRoom?: (data: RoomCreateFormData) => void;
-
-	// Other callbacks
-	onRefresh?: () => void;
-
-	// View options
-	viewMode?: RoomListViewMode;
-	onViewModeChange?: (mode: RoomListViewMode) => void;
-
-	class?: string;
-}
+import {mapSearchResultsToListRooms} from './utils';
 
 /**
- * Main Navigator component - orchestrates all navigator UI
+ * Navigator - Connects the store to NavigatorWindow
  */
-export function Navigator(props: NavigatorProps): JSX.Element
+export function Navigator(): JSX.Element
 {
-	const currentSearchCode = () => props.currentSearchCode ?? '';
-	
-	const tabs = () => props.tabs ?? [];
+	const [isCreateModalOpen, setIsCreateModalOpen] = createSignal(false);
 
-	const rooms = () => props.rooms ?? [];
+	// Transform store data for UI
+	const tabs = createMemo(() =>
+		navigatorStore.topLevelContexts().map(ctx =>
+		{
+			const locKey = `navigator.toplevelview.${ctx.searchCode}`;
+			const fallback = ctx.searchCode.replace('_view', '').replace(/_/g, ' ');
+			return {
+				id: ctx.searchCode,
+				label: localizationStore.get(locKey, fallback),
+			};
+		})
+	);
 
-	const categories = () => props.categories ?? [];
+	const rooms = createMemo((): RoomListRoom[] =>
+		mapSearchResultsToListRooms(navigatorStore.navigatorSearchResults())
+	);
 
-	const popularTags = () => props.popularTags ?? [];
+	const categories = createMemo((): Category[] =>
+	{
+		const results = navigatorStore.navigatorSearchResults();
+		if (!results) return [];
+		return results.blocks.map((block, index) => ({
+			id: index,
+			name: block.text || block.searchCode,
+			roomCount: block.guestRooms.length,
+		}));
+	});
 
-	const roomCategories = () => props.roomCategories ?? [];
+	// Handlers
+	const handleTabChange = (searchCode: string) =>
+	{
+		navigatorStore.performSearch(searchCode);
+	};
 
-	const roomModels = () => props.roomModels ?? [];
+	const handleSearch = (query: string) =>
+	{
+		navigatorStore.searchRooms(query);
+	};
+
+	const handleRefresh = () =>
+	{
+		const code = navigatorStore.currentSearchCode();
+
+		if (code) navigatorStore.performSearch(code);
+	};
+
+	const handleRoomClick = (roomId: number) =>
+	{
+		navigatorStore.goToPrivateRoom(roomId);
+	};
 
 	return (
-		<div class={`relative ${props.class ?? ''}`}>
-			{/* Main Navigator Window */}
+		<>
 			<NavigatorWindow
-				isOpen={props.isOpen}
-				currentSearchCode={currentSearchCode()}
+				isOpen={navigatorStore.isOpen()}
 				tabs={tabs()}
-				searchQuery={props.searchQuery}
-				loading={props.loading}
+				activeTab={navigatorStore.currentSearchCode()}
 				rooms={rooms()}
 				categories={categories()}
-				popularTags={popularTags()}
-				favouriteRoomIds={props.favouriteRoomIds}
-				onClose={props.onClose}
-				onTabChange={props.onTabChange}
-				onSearch={props.onSearch}
-				onClearSearch={props.onClearSearch}
-				onTagClick={props.onTagClick}
-				onCategoryClick={props.onCategoryClick}
-				onRoomClick={props.onRoomClick}
-				onFavouriteClick={props.onFavouriteToggle}
-				onInfoClick={props.onRoomClick}
-				onCreateRoom={props.onOpenCreateModal}
-				onRefresh={props.onRefresh}
-				viewMode={props.viewMode}
-				onViewModeChange={props.onViewModeChange}
+				onClose={() => navigatorStore.closeNavigator()}
+				onTabChange={handleTabChange}
+				onSearch={handleSearch}
+				onRefresh={handleRefresh}
+				onRoomClick={handleRoomClick}
+				onCreateRoom={() => setIsCreateModalOpen(true)}
 			/>
 
-			{/* Room Info Panel (side panel) */}
-			<Show when={props.isRoomInfoOpen && props.selectedRoom}>
-				<div class="absolute top-0 left-full ml-2">
-					<RoomInfoPanel
-						room={props.selectedRoom!}
-						onClose={props.onRoomInfoClose}
-						onOwnerClick={props.onOwnerClick}
-						onTagClick={props.onTagClick}
-						onEnterRoom={props.onRoomEnter}
-						onToggleFavourite={props.onFavouriteToggle}
-						onSetHome={props.onSetHomeRoom}
-						onRate={props.onRateRoom}
-						onEdit={props.onEditRoom}
-						onDelete={props.onDeleteRoom}
-						onReport={props.onReportRoom}
-						class="w-80 h-[600px]"
-					/>
-				</div>
-			</Show>
-
-			{/* Create Room Modal */}
 			<RoomCreateModal
-				isOpen={props.isCreateModalOpen ?? false}
-				categories={roomCategories()}
-				models={roomModels()}
-				loading={props.createRoomLoading}
-				error={props.createRoomError}
-				onSubmit={props.onCreateRoom}
-				onClose={props.onCloseCreateModal}
+				isOpen={isCreateModalOpen()}
+				categories={[]}
+				models={[]}
+				onClose={() => setIsCreateModalOpen(false)}
 			/>
-		</div>
+		</>
 	);
 }

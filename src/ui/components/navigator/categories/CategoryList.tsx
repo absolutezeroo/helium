@@ -3,7 +3,7 @@ import {createSignal, For, Show} from 'solid-js';
 import clsx from 'clsx';
 import {CategoryItem} from './CategoryItem';
 import type {IconName} from '../common';
-import {NavigatorIcon, CategoryItemSkeleton} from '../common';
+import {CategoryItemSkeleton, NavigatorIcon} from '../common';
 
 export interface Category
 {

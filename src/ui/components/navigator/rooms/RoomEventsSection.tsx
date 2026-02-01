@@ -118,7 +118,8 @@ export function RoomEventsSection(props: RoomEventsSectionProps): JSX.Element
 										</Show>
 
 										{/* Room info */}
-										<div class="flex items-center justify-between mt-2 pt-2 border-t border-slate-700/50">
+										<div
+											class="flex items-center justify-between mt-2 pt-2 border-t border-slate-700/50">
 											<div class="flex items-center gap-1.5 text-xs text-slate-400">
 												<NavigatorIcon name="room" size="xs"/>
 												<span class="truncate max-w-[120px]">{event.roomName}</span>

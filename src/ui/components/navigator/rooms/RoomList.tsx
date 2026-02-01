@@ -2,7 +2,7 @@ import type {JSX} from 'solid-js';
 import {createMemo, For, Show} from 'solid-js';
 import {RoomCard} from './RoomCard';
 import {RoomCardCompact} from './RoomCardCompact';
-import {NavigatorIcon, RoomCardSkeleton, RoomCardCompactSkeleton} from '../common';
+import {NavigatorIcon, RoomCardCompactSkeleton, RoomCardSkeleton} from '../common';
 
 export type RoomListViewMode = 'cards' | 'compact' | 'grid';
 

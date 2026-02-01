@@ -127,6 +127,7 @@ function createNavigatorStore()
 			setRoomEvent(data!.roomEventData);
 
 			const contexts = data!.topLevelContexts;
+
 			setTopLevelContexts([...contexts]);
 
 			// Auto-select first tab if none selected and contexts available
@@ -167,10 +168,12 @@ function createNavigatorStore()
 		{
 			navigator.removeAllListeners();
 		}
+
 		if (data)
 		{
 			data.removeAllListeners();
 		}
+
 		navigator = null;
 		newNavigator = null;
 		data = null;
@@ -232,6 +235,7 @@ function createNavigatorStore()
 	function startRoomCreation(): void
 	{
 		setIsCreateModalOpen(true);
+
 		navigator?.startRoomCreation();
 	}
 
@@ -246,6 +250,7 @@ function createNavigatorStore()
 	function performSearch(searchCode: string, filtering: string = ''): void
 	{
 		setCurrentSearchCode(searchCode);
+
 		newNavigator?.performSearch(searchCode, filtering);
 	}
 
