@@ -3,7 +3,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Get official rooms list
  *
- * Based on AS3 GetOfficialRoomsMessageComposer
+ * @see source_as/habbo/communication/messages/outgoing/navigator/GetOfficialRoomsMessageComposer.as
  */
 export class GetOfficialRoomsMessageComposer implements IMessageComposer<ConstructorParameters<typeof GetOfficialRoomsMessageComposer>>
 {

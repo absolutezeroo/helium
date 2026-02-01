@@ -5,7 +5,7 @@ import {FurniListItemParser} from './FurniListItemParser';
 /**
  * Parser for FurniListAddOrUpdate message (item added or updated)
  *
- * Based on AS3 com.sulake.habbo.communication.messages.parser.inventory.furni.FurniListAddOrUpdateEventParser
+ * @see source_as/habbo/communication/messages/parser/inventory/furni/FurniListAddOrUpdateEventParser.as
  */
 export class FurniListAddOrUpdateMessageParser implements IMessageParser
 {

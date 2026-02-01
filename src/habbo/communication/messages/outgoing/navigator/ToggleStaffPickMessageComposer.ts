@@ -3,7 +3,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Toggle staff pick status
  *
- * Based on AS3 ToggleStaffPickMessageComposer
+ * @see source_as/habbo/communication/messages/outgoing/navigator/ToggleStaffPickMessageComposer.as
  */
 export class ToggleStaffPickMessageComposer implements IMessageComposer<ConstructorParameters<typeof ToggleStaffPickMessageComposer>>
 {

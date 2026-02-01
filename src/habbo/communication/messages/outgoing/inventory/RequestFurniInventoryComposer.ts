@@ -1,7 +1,9 @@
-import type {IMessageComposer} from "@/core";
+import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
 
 /**
  * Request furniture inventory from server
+ *
+ * @see source_as/habbo/communication/messages/outgoing/inventory/furni/RequestFurniInventoryComposer.as
  */
 export class RequestFurniInventoryComposer implements IMessageComposer<ConstructorParameters<typeof RequestFurniInventoryComposer>>
 {

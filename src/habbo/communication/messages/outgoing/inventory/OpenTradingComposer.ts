@@ -1,7 +1,9 @@
-import type {IMessageComposer} from "@/core";
+import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
 
 /**
  * Open trading with another user
+ *
+ * @see source_as/habbo/communication/messages/outgoing/inventory/trading/OpenTradingComposer.as
  */
 export class OpenTradingComposer implements IMessageComposer<ConstructorParameters<typeof OpenTradingComposer>>
 {

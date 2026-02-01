@@ -3,6 +3,8 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 
 /**
  * Parser for navigator settings message
+ *
+ * @see source_as/habbo/communication/messages/parser/navigator/NavigatorSettingsEventParser.as
  */
 export class NavigatorSettingsMessageParser implements IMessageParser
 {

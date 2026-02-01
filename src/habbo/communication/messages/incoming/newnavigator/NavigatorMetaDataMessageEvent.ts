@@ -5,7 +5,7 @@ import {NavigatorMetaDataMessageParser} from '../../parser/newnavigator';
 /**
  * Event for navigator metadata (top level contexts)
  *
- * Based on AS3 class_760
+ * @see source_as/habbo/communication/messages/incoming/newnavigator/NavigatorMetaDataMessageEvent.as
  */
 export class NavigatorMetaDataMessageEvent extends MessageEvent
 {

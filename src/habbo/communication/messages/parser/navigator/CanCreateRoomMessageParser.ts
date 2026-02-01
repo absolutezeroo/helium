@@ -12,7 +12,7 @@ export const CanCreateRoomResult = {
 /**
  * Parser for can create room message
  *
- * Based on AS3 CanCreateRoomEventParser
+ * @see source_as/habbo/communication/messages/parser/navigator/CanCreateRoomEventParser.as
  */
 export class CanCreateRoomMessageParser implements IMessageParser
 {

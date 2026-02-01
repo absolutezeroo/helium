@@ -5,7 +5,7 @@ import {PopularTagsData} from '../../incoming/navigator';
 /**
  * Parser for popular room tags result message
  *
- * Based on AS3 PopularRoomTagsResultEventParser
+ * @see source_as/habbo/communication/messages/parser/navigator/PopularRoomTagsResultEventParser.as
  */
 export class PopularRoomTagsResultMessageParser implements IMessageParser
 {

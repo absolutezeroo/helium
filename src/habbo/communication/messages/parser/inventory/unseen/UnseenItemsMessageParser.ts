@@ -3,6 +3,8 @@ import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 
 /**
  * Parser for unseen items message
+ *
+ * @see source_as/habbo/communication/messages/parser/notifications/UnseenItemsEventParser.as
  */
 export class UnseenItemsMessageParser implements IMessageParser
 {

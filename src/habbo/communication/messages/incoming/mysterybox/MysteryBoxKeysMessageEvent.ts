@@ -2,6 +2,11 @@ import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {MysteryBoxKeysMessageParser} from '../../parser/mysterybox/MysteryBoxKeysMessageParser';
 
+/**
+ * Event handler for MysteryBoxKeys message
+ *
+ * @see source_as/habbo/communication/messages/incoming/mysterybox/MysteryBoxKeysMessageEvent.as
+ */
 export class MysteryBoxKeysMessageEvent extends MessageEvent
 {
 	constructor(callback: MessageEventCallback)

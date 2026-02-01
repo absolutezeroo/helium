@@ -5,7 +5,7 @@ import {NavigatorLiftedRoomsMessageParser} from '../../parser/newnavigator';
 /**
  * Event for lifted rooms
  *
- * Based on AS3 class_348
+ * @see source_as/habbo/communication/messages/incoming/newnavigator/NavigatorLiftedRoomsMessageEvent.as
  */
 export class NavigatorLiftedRoomsMessageEvent extends MessageEvent
 {

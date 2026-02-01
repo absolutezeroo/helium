@@ -3,6 +3,8 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 
 /**
  * Parser for activity points (currencies) message
+ *
+ * @see source_as/habbo/communication/messages/parser/notifications/ActivityPointsMessageEventParser.as
  */
 export class ActivityPointsMessageParser implements IMessageParser
 {

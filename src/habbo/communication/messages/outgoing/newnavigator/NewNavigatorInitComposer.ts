@@ -4,6 +4,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Sent when the navigator is initialized to request metadata
  *
+ * @see source_as/habbo/communication/messages/outgoing/newnavigator/NewNavigatorInitComposer.as
  */
 export class NewNavigatorInitComposer implements IMessageComposer<ConstructorParameters<typeof NewNavigatorInitComposer>>
 {

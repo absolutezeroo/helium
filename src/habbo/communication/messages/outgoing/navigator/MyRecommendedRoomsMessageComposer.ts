@@ -3,7 +3,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Get my recommended rooms
  *
- * Based on AS3 MyRecommendedRoomsMessageComposer
+ * @see source_as/habbo/communication/messages/outgoing/navigator/MyRecommendedRoomsMessageComposer.as
  */
 export class MyRecommendedRoomsMessageComposer implements IMessageComposer<ConstructorParameters<typeof MyRecommendedRoomsMessageComposer>>
 {

@@ -5,6 +5,7 @@ import {NavigatorSearchResultSet} from '../../incoming/newnavigator';
 /**
  * Parser for a navigator search result set
  *
+ * @see source_as/habbo/communication/messages/parser/newnavigator/class_1145.as
  */
 export class NavigatorSearchResultSetMessageParser implements IMessageParser
 {

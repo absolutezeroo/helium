@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for collapsed categories message
  *
- * Based on AS3 class_1590
+ * @see source_as/habbo/communication/messages/parser/newnavigator/class_1590.as
  */
 export class NavigatorCollapsedCategoriesMessageParser implements IMessageParser
 {

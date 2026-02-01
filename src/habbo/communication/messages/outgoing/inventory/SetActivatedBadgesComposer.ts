@@ -1,7 +1,9 @@
-import type {IMessageComposer} from "@/core";
+import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
 
 /**
  * Set which badges are worn/active
+ *
+ * @see source_as/habbo/communication/messages/outgoing/inventory/badges/SetActivatedBadgesComposer.as
  */
 export class SetActivatedBadgesComposer implements IMessageComposer<unknown[]>
 {

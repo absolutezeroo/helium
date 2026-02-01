@@ -3,6 +3,8 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Send event log for tracking
  * Message ID: 2297
+ *
+ * @see source_as/habbo/communication/messages/outgoing/tracking/class_955.as (EventLogMessageComposer)
  */
 export class EventLogMessageComposer implements IMessageComposer<ConstructorParameters<typeof EventLogMessageComposer>>
 {

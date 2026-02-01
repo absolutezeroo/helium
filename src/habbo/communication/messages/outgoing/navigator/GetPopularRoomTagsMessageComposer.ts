@@ -3,7 +3,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Get popular room tags
  *
- * Based on AS3 GetPopularRoomTagsMessageComposer
+ * @see source_as/habbo/communication/messages/outgoing/navigator/GetPopularRoomTagsMessageComposer.as
  */
 export class GetPopularRoomTagsMessageComposer implements IMessageComposer<ConstructorParameters<typeof GetPopularRoomTagsMessageComposer>>
 {

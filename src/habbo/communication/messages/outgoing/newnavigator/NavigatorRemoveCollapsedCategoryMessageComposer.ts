@@ -3,6 +3,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Removes a collapsed category from the navigator
  *
+ * @see source_as/habbo/communication/messages/outgoing/newnavigator/NavigatorRemoveCollapsedCategoryMessageComposer.as
  */
 export class NavigatorRemoveCollapsedCategoryMessageComposer implements IMessageComposer<ConstructorParameters<typeof NavigatorRemoveCollapsedCategoryMessageComposer>>
 {

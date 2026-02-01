@@ -4,7 +4,7 @@ import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 /**
  * Parser for FurniListInvalidate message (inventory needs refresh)
  *
- * Based on AS3 com.sulake.habbo.communication.messages.parser.inventory.furni.FurniListInvalidateEventParser
+ * @see source_as/habbo/communication/messages/parser/inventory/furni/FurniListInvalidateEventParser.as
  */
 export class FurniListInvalidateMessageParser implements IMessageParser
 {

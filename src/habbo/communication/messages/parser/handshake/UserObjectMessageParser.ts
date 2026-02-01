@@ -3,6 +3,8 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 
 /**
  * Parser for user object data
+ *
+ * @see source_as/habbo/communication/messages/parser/handshake/UserObjectEventParser.as
  */
 export class UserObjectMessageParser implements IMessageParser
 {

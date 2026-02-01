@@ -5,7 +5,7 @@ import {CategoriesWithVisitorCountData} from '../../incoming/navigator';
 /**
  * Parser for categories with visitor count message
  *
- * Based on AS3 CategoriesWithVisitorCountEventParser
+ * @see source_as/habbo/communication/messages/parser/navigator/CategoriesWithVisitorCountEventParser.as
  */
 export class CategoriesWithVisitorCountMessageParser implements IMessageParser
 {

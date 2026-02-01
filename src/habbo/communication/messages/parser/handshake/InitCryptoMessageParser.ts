@@ -5,6 +5,8 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for InitDiffieHandshake response from server
  * Message ID: 771
  * Contains the encrypted prime and generator for Diffie-Hellman
+ *
+ * @see source_as/habbo/communication/messages/parser/handshake/InitDiffieHandshakeEventParser.as
  */
 export class InitDiffieHandshakeMessageParser implements IMessageParser
 {

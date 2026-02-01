@@ -5,7 +5,7 @@ import {RoomEventData} from '../../incoming/navigator';
 /**
  * Parser for room event message
  *
- * Based on AS3 RoomEventEventParser
+ * @see source_as/habbo/communication/messages/parser/navigator/RoomEventEventParser.as
  */
 export class RoomEventMessageParser implements IMessageParser
 {

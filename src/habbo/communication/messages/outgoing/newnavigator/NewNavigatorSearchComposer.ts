@@ -3,6 +3,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Performs a search in the new navigator
  *
+ * @see source_as/habbo/communication/messages/outgoing/newnavigator/NewNavigatorSearchComposer.as
  */
 export class NewNavigatorSearchComposer implements IMessageComposer<ConstructorParameters<typeof NewNavigatorSearchComposer>>
 {

@@ -3,7 +3,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Search rooms by text
  *
- * Based on AS3 RoomTextSearchMessageComposer
+ * @see source_as/habbo/communication/messages/outgoing/navigator/RoomTextSearchMessageComposer.as
  */
 export class RoomTextSearchMessageComposer implements IMessageComposer<ConstructorParameters<typeof RoomTextSearchMessageComposer>>
 {

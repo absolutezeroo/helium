@@ -16,6 +16,8 @@ export interface PetData
 
 /**
  * Parser for pet inventory message
+ *
+ * @see source_as/habbo/communication/messages/parser/inventory/pets/PetInventoryEventParser.as
  */
 export class PetInventoryMessageParser implements IMessageParser
 {

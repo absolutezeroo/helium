@@ -3,7 +3,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Search my frequent room history
  *
- * Based on AS3 MyFrequentRoomHistorySearchMessageComposer
+ * @see source_as/habbo/communication/messages/outgoing/navigator/MyFrequentRoomHistorySearchMessageComposer.as
  */
 export class MyFrequentRoomHistorySearchMessageComposer implements IMessageComposer<ConstructorParameters<typeof MyFrequentRoomHistorySearchMessageComposer>>
 {

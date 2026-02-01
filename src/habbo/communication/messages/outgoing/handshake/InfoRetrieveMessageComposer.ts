@@ -2,6 +2,8 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 
 /**
  * Request user info after authentication
+ *
+ * @see source_as/habbo/communication/messages/outgoing/handshake/InfoRetrieveMessageComposer.as
  */
 export class InfoRetrieveMessageComposer implements IMessageComposer<ConstructorParameters<typeof InfoRetrieveMessageComposer>>
 {

@@ -3,7 +3,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Search popular rooms
  *
- * Based on AS3 PopularRoomsSearchMessageComposer
+ * @see source_as/habbo/communication/messages/outgoing/navigator/PopularRoomsSearchMessageComposer.as
  */
 export class PopularRoomsSearchMessageComposer implements IMessageComposer<ConstructorParameters<typeof PopularRoomsSearchMessageComposer>>
 {

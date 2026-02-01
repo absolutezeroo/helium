@@ -3,7 +3,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Create a new flat/room
  *
- * Based on AS3 CreateFlatMessageComposer
+ * @see source_as/habbo/communication/messages/outgoing/navigator/CreateFlatMessageComposer.as
  */
 export class CreateFlatMessageComposer implements IMessageComposer<ConstructorParameters<typeof CreateFlatMessageComposer>>
 {

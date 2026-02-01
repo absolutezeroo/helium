@@ -2,6 +2,9 @@ import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {NavigatorSettingsMessageParser} from '../../parser/navigator/NavigatorSettingsMessageParser';
 
+/**
+ * @see source_as/habbo/communication/messages/incoming/navigator/NavigatorSettingsEvent.as
+ */
 export class NavigatorSettingsMessageEvent extends MessageEvent
 {
 	constructor(callback: MessageEventCallback)

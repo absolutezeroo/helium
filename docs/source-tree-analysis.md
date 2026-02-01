@@ -156,29 +156,29 @@ helium/
 
 ## Critical Folders Summary
 
-| Folder | Purpose | Status |
-|--------|---------|--------|
-| `src/Helium.ts` | Main application bootstrap | ✅ Complete |
-| `src/core/communication/` | WebSocket, encryption, messages | ✅ Complete |
+| Folder                     | Purpose                          | Status     |
+|----------------------------|----------------------------------|------------|
+| `src/Helium.ts`            | Main application bootstrap       | ✅ Complete |
+| `src/core/communication/`  | WebSocket, encryption, messages  | ✅ Complete |
 | `src/habbo/communication/` | Habbo protocol, message registry | ✅ Complete |
-| `src/habbo/navigator/` | Room navigation system | ✅ Complete |
-| `src/habbo/session/` | User session management | ✅ Complete |
-| `src/ui/` | SolidJS UI components | ✅ Complete |
-| `src/iid/` | Dependency injection | ✅ Complete |
-| `src/room/` | Room rendering engine | ⏳ Stub |
-| `src/habbo/avatar/` | Avatar system | ⏳ Stub |
-| `src/habbo/catalog/` | Shop/catalog | ⏳ Stub |
+| `src/habbo/navigator/`     | Room navigation system           | ✅ Complete |
+| `src/habbo/session/`       | User session management          | ✅ Complete |
+| `src/ui/`                  | SolidJS UI components            | ✅ Complete |
+| `src/iid/`                 | Dependency injection             | ✅ Complete |
+| `src/room/`                | Room rendering engine            | ⏳ Stub     |
+| `src/habbo/avatar/`        | Avatar system                    | ⏳ Stub     |
+| `src/habbo/catalog/`       | Shop/catalog                     | ⏳ Stub     |
 
 ## File Type Distribution
 
-| Extension | Count | Purpose |
-|-----------|-------|---------|
-| `.ts` | ~260 | TypeScript source |
-| `.tsx` | ~27 | SolidJS components |
-| `.css` | 1 | TailwindCSS styles |
-| `.json` | 3 | Config files |
-| `.html` | 1 | Entry point |
-| `.md` | 2 | Documentation |
+| Extension | Count | Purpose            |
+|-----------|-------|--------------------|
+| `.ts`     | ~260  | TypeScript source  |
+| `.tsx`    | ~27   | SolidJS components |
+| `.css`    | 1     | TailwindCSS styles |
+| `.json`   | 3     | Config files       |
+| `.html`   | 1     | Entry point        |
+| `.md`     | 2     | Documentation      |
 
 ## Entry Points
 

@@ -3,6 +3,8 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 
 /**
  * Parser for info feed enable message
+ *
+ * @see source_as/habbo/communication/messages/parser/notifications/InfoFeedEnableMessageEventParser.as
  */
 export class InfoFeedEnableMessageParser implements IMessageParser
 {

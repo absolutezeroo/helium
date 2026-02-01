@@ -5,7 +5,7 @@ import {FurniListItemParser} from './FurniListItemParser';
 /**
  * Parser for FurniList message (fragmented inventory list)
  *
- * Based on AS3 com.sulake.habbo.communication.messages.parser.inventory.furni.FurniListEventParser
+ * @see source_as/habbo/communication/messages/parser/inventory/furni/FurniListEventParser.as
  */
 export class FurniListMessageParser implements IMessageParser
 {

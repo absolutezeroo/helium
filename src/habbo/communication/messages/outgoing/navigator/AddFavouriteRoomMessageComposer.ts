@@ -3,7 +3,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Add a room to favourites
  *
- * Based on AS3 AddFavouriteRoomMessageComposer
+ * @see source_as/habbo/communication/messages/outgoing/navigator/AddFavouriteRoomMessageComposer.as
  */
 export class AddFavouriteRoomMessageComposer implements IMessageComposer<ConstructorParameters<typeof AddFavouriteRoomMessageComposer>>
 {

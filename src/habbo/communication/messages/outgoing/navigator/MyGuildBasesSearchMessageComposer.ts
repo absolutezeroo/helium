@@ -3,7 +3,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Search my guild bases
  *
- * Based on AS3 MyGuildBasesSearchMessageComposer
+ * @see source_as/habbo/communication/messages/outgoing/navigator/MyGuildBasesSearchMessageComposer.as
  */
 export class MyGuildBasesSearchMessageComposer implements IMessageComposer<ConstructorParameters<typeof MyGuildBasesSearchMessageComposer>>
 {

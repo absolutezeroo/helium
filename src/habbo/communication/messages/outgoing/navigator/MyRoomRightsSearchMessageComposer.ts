@@ -3,7 +3,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Search rooms where I have rights
  *
- * Based on AS3 MyRoomRightsSearchMessageComposer
+ * @see source_as/habbo/communication/messages/outgoing/navigator/MyRoomRightsSearchMessageComposer.as
  */
 export class MyRoomRightsSearchMessageComposer implements IMessageComposer<ConstructorParameters<typeof MyRoomRightsSearchMessageComposer>>
 {

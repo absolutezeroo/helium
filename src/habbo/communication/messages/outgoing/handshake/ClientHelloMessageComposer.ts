@@ -3,6 +3,8 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * First message sent to server to initiate connection
  * Message ID: 4000
+ *
+ * @see source_as/habbo/communication/messages/outgoing/handshake/ClientHelloMessageComposer.as
  */
 export class ClientHelloMessageComposer implements IMessageComposer<ConstructorParameters<typeof ClientHelloMessageComposer>>
 {

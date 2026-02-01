@@ -5,7 +5,7 @@ import {NavigatorSavedSearchesMessageParser} from '../../parser/newnavigator';
 /**
  * Event for saved searches
  *
- * Based on AS3 class_713
+ * @see source_as/habbo/communication/messages/incoming/newnavigator/NavigatorSavedSearchesMessageEvent.as
  */
 export class NavigatorSavedSearchesMessageEvent extends MessageEvent
 {

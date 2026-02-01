@@ -7,6 +7,7 @@ export const TYPES = {
 	Helium: Symbol.for('Helium'),
 	AssetLibrary: Symbol.for('AssetLibrary'),
 	CommunicationManager: Symbol.for('CommunicationManager'),
+	GameDataManager: Symbol.for('GameDataManager'),
 	LocalizationManager: Symbol.for('LocalizationManager'),
 	RuntimeManager: Symbol.for('RuntimeManager'),
 	WindowManager: Symbol.for('WindowManager'),

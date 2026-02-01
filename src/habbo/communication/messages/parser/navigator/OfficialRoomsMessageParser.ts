@@ -5,7 +5,7 @@ import {OfficialRoomEntryData, OfficialRoomsData, PromotedRoomsData} from '../..
 /**
  * Parser for official rooms message
  *
- * Based on AS3 OfficialRoomsEventParser
+ * @see source_as/habbo/communication/messages/parser/navigator/OfficialRoomsEventParser.as
  */
 export class OfficialRoomsMessageParser implements IMessageParser
 {

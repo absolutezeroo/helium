@@ -2,6 +2,8 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 
 /**
  * Adds a saved search to the navigator
+ *
+ * @see source_as/habbo/communication/messages/outgoing/newnavigator/NavigatorAddSavedSearchComposer.as
  */
 export class NavigatorAddSavedSearchComposer implements IMessageComposer<ConstructorParameters<typeof NavigatorAddSavedSearchComposer>>
 {

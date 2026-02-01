@@ -7,7 +7,7 @@ import {Logger} from '@core/utils/Logger';
 import {HabboMessages} from './HabboMessages';
 import {IncomingMessages} from './demo/IncomingMessages';
 import {SessionDataManager} from '../session/SessionDataManager';
-import {uiBridge} from '@ui/UIBridge';
+import {uiBridge} from '@ui/uiBridge';
 import type {HabboCommunicationManagerEvents, IHabboCommunicationManager} from './IHabboCommunicationManager';
 import type {ICoreCommunicationManager} from '@core/communication/ICoreCommunicationManager';
 import type {IConnection} from '@core/communication/connection/IConnection';

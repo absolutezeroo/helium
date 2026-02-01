@@ -4,6 +4,11 @@ import {
 	BuildersClubSubscriptionStatusMessageParser
 } from '../../parser/catalog/BuildersClubSubscriptionStatusMessageParser';
 
+/**
+ * Event handler for BuildersClubSubscriptionStatus message
+ *
+ * @see source_as/habbo/communication/messages/incoming/catalog/BuildersClubSubscriptionStatusMessageEvent.as
+ */
 export class BuildersClubSubscriptionStatusMessageEvent extends MessageEvent
 {
 	constructor(callback: MessageEventCallback)

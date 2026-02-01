@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for flat access denied message
  *
- * Based on AS3 FlatAccessDeniedMessageEventParser
+ * @see source_as/habbo/communication/messages/parser/navigator/FlatAccessDeniedMessageEventParser.as
  */
 export class FlatAccessDeniedMessageParser implements IMessageParser
 {

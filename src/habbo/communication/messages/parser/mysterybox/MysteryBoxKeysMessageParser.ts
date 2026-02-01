@@ -3,6 +3,8 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 
 /**
  * Parser for mystery box keys message
+ *
+ * @see source_as/habbo/communication/messages/parser/mysterybox/MysteryBoxKeysMessageEventParser.as
  */
 export class MysteryBoxKeysMessageParser implements IMessageParser
 {

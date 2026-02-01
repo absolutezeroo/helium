@@ -3,6 +3,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Sets the view mode for a search code in the navigator
  *
+ * @see source_as/habbo/communication/messages/outgoing/newnavigator/NavigatorSetSearchCodeViewModeMessageComposer.as
  */
 export class NavigatorSetSearchCodeViewModeMessageComposer implements IMessageComposer<ConstructorParameters<typeof NavigatorSetSearchCodeViewModeMessageComposer>>
 {

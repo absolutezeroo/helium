@@ -1,6 +1,7 @@
 import type {JSX} from 'solid-js';
 import {createMemo, createSignal} from 'solid-js';
 import {localizationStore, navigatorStore} from '@/ui/stores';
+import {uiBridge} from '@/ui/uiBridge';
 import {NavigatorWindow} from './NavigatorWindow';
 import {RoomCreateModal} from './create';
 import type {RoomListRoom} from './rooms';
@@ -9,6 +10,9 @@ import {mapSearchResultsToListRooms} from './utils';
 
 /**
  * Navigator - Connects the store to NavigatorWindow
+ *
+ * Store provides reactive state (read-only)
+ * UIBridge provides actions (manager calls)
  */
 export function Navigator(): JSX.Element
 {
@@ -42,27 +46,27 @@ export function Navigator(): JSX.Element
 		}));
 	});
 
-	// Handlers
+	// Handlers - use uiBridge for actions
 	const handleTabChange = (searchCode: string) =>
 	{
-		navigatorStore.performSearch(searchCode);
+		uiBridge.performNavigatorSearch(searchCode);
 	};
 
 	const handleSearch = (query: string) =>
 	{
-		navigatorStore.searchRooms(query);
+		uiBridge.searchRooms(query);
 	};
 
 	const handleRefresh = () =>
 	{
 		const code = navigatorStore.currentSearchCode();
 
-		if (code) navigatorStore.performSearch(code);
+		if (code) uiBridge.performNavigatorSearch(code);
 	};
 
 	const handleRoomClick = (roomId: number) =>
 	{
-		navigatorStore.goToPrivateRoom(roomId);
+		uiBridge.goToPrivateRoom(roomId);
 	};
 
 	return (
@@ -73,7 +77,7 @@ export function Navigator(): JSX.Element
 				activeTab={navigatorStore.currentSearchCode()}
 				rooms={rooms()}
 				categories={categories()}
-				onClose={() => navigatorStore.closeNavigator()}
+				onClose={() => uiBridge.closeNavigator()}
 				onTabChange={handleTabChange}
 				onSearch={handleSearch}
 				onRefresh={handleRefresh}

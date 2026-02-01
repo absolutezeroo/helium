@@ -3,7 +3,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Update home room
  *
- * Based on AS3 UpdateHomeRoomMessageComposer
+ * @see source_as/habbo/communication/messages/outgoing/navigator/UpdateHomeRoomMessageComposer.as
  */
 export class UpdateHomeRoomMessageComposer implements IMessageComposer<ConstructorParameters<typeof UpdateHomeRoomMessageComposer>>
 {

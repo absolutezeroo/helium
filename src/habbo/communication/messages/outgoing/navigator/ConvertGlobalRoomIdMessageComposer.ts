@@ -3,7 +3,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Convert global room ID
  *
- * Based on AS3 ConvertGlobalRoomIdMessageComposer
+ * @see source_as/habbo/communication/messages/outgoing/navigator/ConvertGlobalRoomIdMessageComposer.as
  */
 export class ConvertGlobalRoomIdMessageComposer implements IMessageComposer<ConstructorParameters<typeof ConvertGlobalRoomIdMessageComposer>>
 {

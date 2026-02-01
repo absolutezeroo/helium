@@ -2,6 +2,8 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 
 /**
  * Deletes a saved search from the navigator
+ *
+ * @see source_as/habbo/communication/messages/outgoing/newnavigator/NavigatorDeleteSavedSearchComposer.as
  */
 export class NavigatorDeleteSavedSearchComposer implements IMessageComposer<ConstructorParameters<typeof NavigatorDeleteSavedSearchComposer>>
 {

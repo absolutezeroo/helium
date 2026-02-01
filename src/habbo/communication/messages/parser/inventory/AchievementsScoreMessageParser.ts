@@ -3,6 +3,8 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 
 /**
  * Parser for achievements score message
+ *
+ * @see source_as/habbo/communication/messages/parser/inventory/achievements/AchievementsScoreEventParser.as
  */
 export class AchievementsScoreMessageParser implements IMessageParser
 {

@@ -12,6 +12,8 @@ export interface BotData
 
 /**
  * Parser for bot inventory message
+ *
+ * @see source_as/habbo/communication/messages/parser/inventory/bots/BotInventoryEventParser.as
  */
 export class BotInventoryMessageParser implements IMessageParser
 {

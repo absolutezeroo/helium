@@ -1,7 +1,9 @@
-import type {IMessageComposer} from "@/core";
+import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
 
 /**
  * Close trading session
+ *
+ * @see source_as/habbo/communication/messages/outgoing/inventory/trading/CloseTradingComposer.as
  */
 export class CloseTradingComposer implements IMessageComposer<ConstructorParameters<typeof CloseTradingComposer>>
 {

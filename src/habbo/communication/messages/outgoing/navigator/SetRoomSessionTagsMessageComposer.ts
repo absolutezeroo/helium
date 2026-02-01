@@ -3,7 +3,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Set room session tags
  *
- * Based on AS3 SetRoomSessionTagsMessageComposer
+ * @see source_as/habbo/communication/messages/outgoing/navigator/SetRoomSessionTagsMessageComposer.as
  */
 export class SetRoomSessionTagsMessageComposer implements IMessageComposer<ConstructorParameters<typeof SetRoomSessionTagsMessageComposer>>
 {

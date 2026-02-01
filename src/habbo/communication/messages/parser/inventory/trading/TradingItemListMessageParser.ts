@@ -12,6 +12,8 @@ export interface TradingUserItems
 
 /**
  * Parser for trading item list message
+ *
+ * @see source_as/habbo/communication/messages/parser/inventory/trading/TradingItemListEventParser.as
  */
 export class TradingItemListMessageParser implements IMessageParser
 {

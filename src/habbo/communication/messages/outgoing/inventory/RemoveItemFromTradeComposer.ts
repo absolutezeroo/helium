@@ -1,7 +1,9 @@
-import type {IMessageComposer} from "@/core";
+import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
 
 /**
  * Remove item from trade
+ *
+ * @see source_as/habbo/communication/messages/outgoing/inventory/trading/RemoveItemFromTradeComposer.as
  */
 export class RemoveItemFromTradeComposer implements IMessageComposer<ConstructorParameters<typeof RemoveItemFromTradeComposer>>
 {

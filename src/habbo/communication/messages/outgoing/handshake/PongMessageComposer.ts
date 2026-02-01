@@ -2,6 +2,8 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 
 /**
  * Response to server ping (keep-alive)
+ *
+ * @see source_as/habbo/communication/messages/outgoing/handshake/PongMessageComposer.as
  */
 export class PongMessageComposer implements IMessageComposer<ConstructorParameters<typeof PongMessageComposer>>
 {

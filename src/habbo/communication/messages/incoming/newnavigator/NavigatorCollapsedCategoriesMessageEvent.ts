@@ -5,7 +5,7 @@ import {NavigatorCollapsedCategoriesMessageParser} from '../../parser/newnavigat
 /**
  * Event for collapsed categories
  *
- * Based on AS3 class_954
+ * @see source_as/habbo/communication/messages/incoming/newnavigator/NavigatorCollapsedCategoriesMessageEvent.as
  */
 export class NavigatorCollapsedCategoriesMessageEvent extends MessageEvent
 {

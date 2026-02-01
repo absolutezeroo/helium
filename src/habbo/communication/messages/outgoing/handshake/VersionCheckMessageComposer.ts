@@ -3,6 +3,8 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Send client version information
  * Message ID: 2602
+ *
+ * @see source_as/habbo/communication/messages/outgoing/handshake/VersionCheckMessageComposer.as
  */
 export class VersionCheckMessageComposer implements IMessageComposer<ConstructorParameters<typeof VersionCheckMessageComposer>>
 {

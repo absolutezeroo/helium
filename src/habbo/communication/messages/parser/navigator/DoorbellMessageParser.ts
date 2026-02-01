@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for doorbell message
  *
- * Based on AS3 DoorbellMessageEventParser
+ * @see source_as/habbo/communication/messages/parser/navigator/DoorbellMessageEventParser.as
  */
 export class DoorbellMessageParser implements IMessageParser
 {

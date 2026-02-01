@@ -3,6 +3,8 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 
 /**
  * Parser for favourites rooms message
+ *
+ * @see source_as/habbo/communication/messages/parser/navigator/FavouritesEventParser.as
  */
 export class FavouritesMessageParser implements IMessageParser
 {

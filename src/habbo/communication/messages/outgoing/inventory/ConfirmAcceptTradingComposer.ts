@@ -1,7 +1,9 @@
-import type {IMessageComposer} from "@/core";
+import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
 
 /**
  * Confirm accept trading (final confirmation)
+ *
+ * @see source_as/habbo/communication/messages/outgoing/inventory/trading/ConfirmAcceptTradingComposer.as
  */
 export class ConfirmAcceptTradingComposer implements IMessageComposer<ConstructorParameters<typeof ConfirmAcceptTradingComposer>>
 {

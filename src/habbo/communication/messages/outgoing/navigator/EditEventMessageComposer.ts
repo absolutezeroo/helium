@@ -3,7 +3,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Edit a room event
  *
- * Based on AS3 EditEventMessageComposer
+ * @see source_as/habbo/communication/messages/outgoing/navigator/EditEventMessageComposer.as
  */
 export class EditEventMessageComposer implements IMessageComposer<ConstructorParameters<typeof EditEventMessageComposer>>
 {

@@ -5,7 +5,7 @@ import {NavigatorSavedSearch} from '../../incoming/newnavigator';
 /**
  * Parser for saved searches message
  *
- * Based on AS3 class_1264
+ * @see source_as/habbo/communication/messages/parser/newnavigator/class_1264.as
  */
 export class NavigatorSavedSearchesMessageParser implements IMessageParser
 {

@@ -9,6 +9,7 @@
       <excludeFolder url="file://$MODULE_DIR$/source_nitro_react" />
       <excludeFolder url="file://$MODULE_DIR$/source_nitro_renderer" />
       <excludeFolder url="file://$MODULE_DIR$/.idea/codeStyles" />
+      <excludeFolder url="file://$MODULE_DIR$/source_gamedata" />
       <excludeFolder url="file://$MODULE_DIR$/source_nitro_converter" />
     </content>
     <orderEntry type="inheritedJdk" />

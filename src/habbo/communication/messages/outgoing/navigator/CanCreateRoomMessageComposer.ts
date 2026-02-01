@@ -3,7 +3,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Check if user can create a room
  *
- * Based on AS3 CanCreateRoomMessageComposer
+ * @see source_as/habbo/communication/messages/outgoing/navigator/CanCreateRoomMessageComposer.as
  */
 export class CanCreateRoomMessageComposer implements IMessageComposer<ConstructorParameters<typeof CanCreateRoomMessageComposer>>
 {

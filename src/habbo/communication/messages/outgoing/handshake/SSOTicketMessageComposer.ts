@@ -2,6 +2,8 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 
 /**
  * Send SSO ticket for authentication
+ *
+ * @see source_as/habbo/communication/messages/outgoing/handshake/SSOTicketMessageComposer.as
  */
 export class SSOTicketMessageComposer implements IMessageComposer<ConstructorParameters<typeof SSOTicketMessageComposer>>
 {

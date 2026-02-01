@@ -3,7 +3,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Room ad event tab viewed
  *
- * Based on AS3 RoomAdEventTabViewedComposer
+ * @see source_as/habbo/communication/messages/outgoing/navigator/RoomAdEventTabViewedComposer.as
  */
 export class RoomAdEventTabViewedComposer implements IMessageComposer<ConstructorParameters<typeof RoomAdEventTabViewedComposer>>
 {

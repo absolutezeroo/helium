@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for converted room id message
  *
- * Based on AS3 ConvertedRoomIdEventParser
+ * @see source_as/habbo/communication/messages/parser/navigator/ConvertedRoomIdEventParser.as
  */
 export class ConvertedRoomIdMessageParser implements IMessageParser
 {

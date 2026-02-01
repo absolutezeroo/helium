@@ -5,6 +5,7 @@ import {NavigatorTopLevelContext} from '../../incoming/newnavigator';
 /**
  * Parser for navigator metadata message (top level contexts)
  *
+ * @see source_as/habbo/communication/messages/parser/newnavigator/class_1337.as
  */
 export class NavigatorMetaDataMessageParser implements IMessageParser
 {

@@ -5,7 +5,7 @@ import {FlatCategory} from '../../incoming/navigator';
 /**
  * Parser for user flat categories message
  *
- * Based on AS3 UserFlatCatsEventParser
+ * @see source_as/habbo/communication/messages/parser/navigator/UserFlatCatsEventParser.as
  */
 export class UserFlatCatsMessageParser implements IMessageParser
 {

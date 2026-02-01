@@ -5,6 +5,8 @@ import {GenericErrorMessageParser} from '../../parser/handshake/GenericErrorMess
 /**
  * Event handler for Generic error message
  * Message ID: 598
+ *
+ * @see source_as/habbo/communication/messages/incoming/handshake/GenericErrorEvent.as
  */
 export class GenericErrorMessageEvent extends MessageEvent
 {

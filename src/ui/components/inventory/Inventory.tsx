@@ -1,6 +1,7 @@
 import type {JSX} from 'solid-js';
 import {createMemo} from 'solid-js';
 import {inventoryStore} from '@/ui/stores';
+import {uiBridge} from '@/ui/uiBridge';
 import {InventoryCategory} from '@habbo/inventory';
 import {InventoryWindow} from './InventoryWindow';
 import type {InventoryTab} from './tabs';
@@ -9,6 +10,9 @@ import type {BadgeData} from './badges';
 
 /**
  * Inventory - Connects the store to InventoryWindow
+ *
+ * Store provides reactive state (read-only)
+ * UIBridge provides actions (manager calls)
  */
 export function Inventory(): JSX.Element
 {
@@ -89,10 +93,10 @@ export function Inventory(): JSX.Element
 		};
 	});
 
-	// Handlers
+	// Handlers - use uiBridge for actions
 	const handleTabChange = (id: string) =>
 	{
-		inventoryStore.switchCategory(id as typeof InventoryCategory[keyof typeof InventoryCategory]);
+		uiBridge.switchInventoryCategory(id as typeof InventoryCategory[keyof typeof InventoryCategory]);
 	};
 
 	const handleFurniSelect = (id: number) =>
@@ -100,7 +104,7 @@ export function Inventory(): JSX.Element
 		const group = inventoryStore.furniGroups().find(g => g.getFurniIds().includes(id));
 		if (group)
 		{
-			inventoryStore.selectFurniGroup(group);
+			uiBridge.selectFurniGroup(group);
 		}
 	};
 
@@ -115,13 +119,13 @@ export function Inventory(): JSX.Element
 		const badge = inventoryStore.badges().find(b => b.badgeId === badgeId);
 		if (badge)
 		{
-			inventoryStore.selectBadge(badge);
+			uiBridge.selectBadge(badge);
 		}
 	};
 
 	const handleBadgeToggle = (badgeId: string) =>
 	{
-		inventoryStore.toggleBadgeWearing(badgeId);
+		uiBridge.toggleBadgeWearing(badgeId);
 	};
 
 	return (
@@ -135,7 +139,7 @@ export function Inventory(): JSX.Element
 			badges={badges()}
 			activeBadges={activeBadges()}
 			selectedBadge={selectedBadge()}
-			onClose={() => inventoryStore.closeInventory()}
+			onClose={() => uiBridge.closeInventory()}
 			onTabChange={handleTabChange}
 			onFurniSelect={handleFurniSelect}
 			onFurniPlace={handleFurniPlace}

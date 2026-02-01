@@ -3,7 +3,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Forward to some room
  *
- * Based on AS3 ForwardToSomeRoomMessageComposer
+ * @see source_as/habbo/communication/messages/outgoing/navigator/ForwardToSomeRoomMessageComposer.as
  */
 export class ForwardToSomeRoomMessageComposer implements IMessageComposer<ConstructorParameters<typeof ForwardToSomeRoomMessageComposer>>
 {

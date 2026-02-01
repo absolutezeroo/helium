@@ -3,7 +3,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Search rooms with highest score
  *
- * Based on AS3 RoomsWithHighestScoreSearchMessageComposer
+ * @see source_as/habbo/communication/messages/outgoing/navigator/RoomsWithHighestScoreSearchMessageComposer.as
  */
 export class RoomsWithHighestScoreSearchMessageComposer implements IMessageComposer<ConstructorParameters<typeof RoomsWithHighestScoreSearchMessageComposer>>
 {

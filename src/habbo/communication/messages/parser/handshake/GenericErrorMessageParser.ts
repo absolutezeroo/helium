@@ -4,6 +4,8 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for generic error messages
  * Message ID: 598
+ *
+ * @see source_as/habbo/communication/messages/parser/handshake/GenericErrorEventParser.as
  */
 export class GenericErrorMessageParser implements IMessageParser
 {

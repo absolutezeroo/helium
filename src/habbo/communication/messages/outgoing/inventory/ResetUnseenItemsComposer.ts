@@ -1,7 +1,9 @@
-import type {IMessageComposer} from "@/core";
+import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
 
 /**
  * Reset unseen items for a category
+ *
+ * @see source_as/habbo/communication/messages/outgoing/notifications/ResetUnseenItemsComposer.as
  */
 export class ResetUnseenItemsComposer implements IMessageComposer<ConstructorParameters<typeof ResetUnseenItemsComposer>>
 {

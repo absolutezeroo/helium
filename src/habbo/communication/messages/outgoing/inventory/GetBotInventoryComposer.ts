@@ -1,7 +1,9 @@
-import type {IMessageComposer} from "@/core";
+import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
 
 /**
  * Request bot inventory from server
+ *
+ * @see source_as/habbo/communication/messages/outgoing/inventory/bots/GetBotInventoryComposer.as
  */
 export class GetBotInventoryComposer implements IMessageComposer<ConstructorParameters<typeof GetBotInventoryComposer>>
 {

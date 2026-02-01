@@ -3,7 +3,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Get user's event categories
  *
- * Based on AS3 GetUserEventCatsMessageComposer
+ * @see source_as/habbo/communication/messages/outgoing/navigator/GetUserEventCatsMessageComposer.as
  */
 export class GetUserEventCatsMessageComposer implements IMessageComposer<ConstructorParameters<typeof GetUserEventCatsMessageComposer>>
 {

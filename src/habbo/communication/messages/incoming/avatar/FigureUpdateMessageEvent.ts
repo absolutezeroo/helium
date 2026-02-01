@@ -5,6 +5,8 @@ import {FigureUpdateMessageParser} from '../../parser/avatar/FigureUpdateMessage
 /**
  * Event handler for figure update message
  * Sent when user's avatar appearance changes
+ *
+ * @see source_as/habbo/communication/messages/incoming/avatar/FigureUpdateEvent.as
  */
 export class FigureUpdateMessageEvent extends MessageEvent
 {

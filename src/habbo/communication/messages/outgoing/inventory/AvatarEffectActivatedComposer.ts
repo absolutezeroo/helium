@@ -1,7 +1,9 @@
-import type {IMessageComposer} from "@/core";
+import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
 
 /**
  * Activate an avatar effect
+ *
+ * @see source_as/habbo/communication/messages/outgoing/inventory/avatareffect/AvatarEffectActivatedComposer.as
  */
 export class AvatarEffectActivatedComposer implements IMessageComposer<ConstructorParameters<typeof AvatarEffectActivatedComposer>>
 {

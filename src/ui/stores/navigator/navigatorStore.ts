@@ -1,5 +1,4 @@
 import {createRoot, createSignal} from 'solid-js';
-import type {IHabboNavigator, IHabboNewNavigator} from '@habbo/navigator';
 import type {
 	EventCategory,
 	FlatCategory,
@@ -49,6 +48,9 @@ import {registerMessageEvent} from '../../hooks';
 
 /**
  * Navigator store - manages navigator UI and search state
+ *
+ * This store holds ONLY reactive state and message listeners.
+ * Actions that require managers are handled by UIBridge.
  */
 function createNavigatorStore()
 {
@@ -71,21 +73,17 @@ function createNavigatorStore()
 	// Settings
 	const [homeRoomId, setHomeRoomId] = createSignal(0);
 
-	// Navigator references
-	let navigator: IHabboNavigator | null = null;
-	let newNavigator: IHabboNewNavigator | null = null;
-
 	// Cleanup functions
 	const cleanupFunctions: Array<() => void> = [];
 
-	/**
-	 * Connect to navigators and setup message listeners
-	 */
-	function connect(nav: IHabboNavigator, newNav?: IHabboNewNavigator): void
-	{
-		navigator = nav;
-		newNavigator = newNav ?? null;
+	// Callback for initial search (set by UIBridge)
+	let onInitialSearchCallback: ((searchCode: string) => void) | null = null;
 
+	/**
+	 * Initialize message event listeners
+	 */
+	function init(): void
+	{
 		// Navigator settings (home room)
 		cleanupFunctions.push(
 			registerMessageEvent(NavigatorSettingsMessageEvent, (_, parser) =>
@@ -110,7 +108,9 @@ function createNavigatorStore()
 					const firstSearchCode = p.topLevelContexts[0].searchCode;
 
 					setCurrentSearchCode(firstSearchCode);
-					newNavigator?.performSearch(firstSearchCode);
+
+					// Trigger initial search via callback
+					onInitialSearchCallback?.(firstSearchCode);
 				}
 			})
 		);
@@ -167,9 +167,9 @@ function createNavigatorStore()
 	}
 
 	/**
-	 * Disconnect and cleanup
+	 * Cleanup message event listeners
 	 */
-	function disconnect(): void
+	function dispose(): void
 	{
 		for (const cleanup of cleanupFunctions)
 		{
@@ -177,34 +177,32 @@ function createNavigatorStore()
 		}
 
 		cleanupFunctions.length = 0;
-		navigator = null;
-		newNavigator = null;
+		onInitialSearchCallback = null;
 	}
 
-	// ========== UI Actions ==========
+	/**
+	 * Set callback for initial search (called by UIBridge)
+	 */
+	function setOnInitialSearch(callback: ((searchCode: string) => void) | null): void
+	{
+		onInitialSearchCallback = callback;
+	}
+
+	// ========== UI State Setters ==========
 
 	function openNavigator(): void
 	{
 		setIsOpen(true);
-		newNavigator?.open();
 	}
 
 	function closeNavigator(): void
 	{
 		setIsOpen(false);
-		newNavigator?.close();
 	}
 
 	function toggleNavigator(): void
 	{
-		if (isOpen())
-		{
-			closeNavigator();
-		}
-		else
-		{
-			openNavigator();
-		}
+		setIsOpen((prev) => !prev);
 	}
 
 	function openRoomInfo(): void
@@ -225,7 +223,6 @@ function createNavigatorStore()
 	function openCreateModal(): void
 	{
 		setIsCreateModalOpen(true);
-		navigator?.startRoomCreation();
 	}
 
 	function closeCreateModal(): void
@@ -233,71 +230,46 @@ function createNavigatorStore()
 		setIsCreateModalOpen(false);
 	}
 
-	// ========== Navigation Actions ==========
+	// ========== State Setters (for UIBridge) ==========
 
-	function goToHomeRoom(): boolean
+	function updateSearchCode(code: string): void
 	{
-		return navigator?.goToHomeRoom() ?? false;
+		setCurrentSearchCode(code);
 	}
 
-	function goToPrivateRoom(roomId: number): void
-	{
-		navigator?.goToPrivateRoom(roomId);
-	}
+	// ========== Helpers ==========
 
 	function isRoomHome(roomId: number): boolean
 	{
 		return roomId === homeRoomId();
 	}
 
-	// ========== Search Actions ==========
-
-	function performSearch(searchCode: string, filtering: string = ''): void
-	{
-		setCurrentSearchCode(searchCode);
-		newNavigator?.performSearch(searchCode, filtering);
-	}
-
-	function searchRooms(query: string): void
-	{
-		navigator?.performTextSearch(query);
-	}
-
-	function searchByTag(tag: string): void
-	{
-		navigator?.performTagSearch(tag);
-	}
-
-	function showOwnRooms(): void
-	{
-		navigator?.showOwnRooms();
-	}
-
 	return {
-		// UI State
+		// UI State (reactive)
 		isOpen,
 		isRoomInfoOpen,
 		isCreateModalOpen,
 
-		// Search State
+		// Search State (reactive)
 		currentSearchCode,
 		topLevelContexts,
 		navigatorSearchResults,
 		legacySearchResults,
 		popularTags,
 
-		// Categories
+		// Categories (reactive)
 		flatCategories,
 		eventCategories,
 
-		// Settings
+		// Settings (reactive)
 		homeRoomId,
 
-		// Connection
-		connect,
-		disconnect,
+		// Lifecycle
+		init,
+		dispose,
+		setOnInitialSearch,
 
-		// UI Actions
+		// UI State Actions (no manager needed)
 		openNavigator,
 		closeNavigator,
 		toggleNavigator,
@@ -307,16 +279,11 @@ function createNavigatorStore()
 		openCreateModal,
 		closeCreateModal,
 
-		// Navigation Actions
-		goToHomeRoom,
-		goToPrivateRoom,
-		isRoomHome,
+		// State Setters (for UIBridge)
+		updateSearchCode,
 
-		// Search Actions
-		performSearch,
-		searchRooms,
-		searchByTag,
-		showOwnRooms,
+		// Helpers
+		isRoomHome,
 	};
 }
 

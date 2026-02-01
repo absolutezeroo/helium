@@ -3,6 +3,8 @@ import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 
 /**
  * Parser for trading close message
+ *
+ * @see source_as/habbo/communication/messages/parser/inventory/trading/TradingCloseEventParser.as
  */
 export class TradingCloseMessageParser implements IMessageParser
 {

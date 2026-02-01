@@ -5,6 +5,8 @@ import {CompleteDiffieHandshakeMessageParser} from '../../parser/handshake/Gener
 /**
  * Event handler for CompleteDiffieHandshake message
  * Message ID: 3777
+ *
+ * @see source_as/habbo/communication/messages/incoming/handshake/CompleteDiffieHandshakeEvent.as
  */
 export class CompleteDiffieHandshakeMessageEvent extends MessageEvent
 {

@@ -5,6 +5,8 @@ import {NoobnessLevelMessageParser} from '../../parser/handshake/NoobnessLevelMe
 /**
  * Event handler for noobness level message
  * Indicates user's experience level (new user status)
+ *
+ * @see source_as/habbo/communication/messages/incoming/handshake/NoobnessLevelMessageEvent.as
  */
 export class NoobnessLevelMessageEvent extends MessageEvent
 {

@@ -4,6 +4,8 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for figure update message
  * Sent when user's avatar appearance changes
+ *
+ * @see source_as/habbo/communication/messages/parser/avatar/FigureUpdateEventParser.as
  */
 export class FigureUpdateMessageParser implements IMessageParser
 {

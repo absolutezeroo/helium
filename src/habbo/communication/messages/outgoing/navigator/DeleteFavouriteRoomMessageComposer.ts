@@ -3,7 +3,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Remove a room from favourites
  *
- * Based on AS3 DeleteFavouriteRoomMessageComposer
+ * @see source_as/habbo/communication/messages/outgoing/navigator/DeleteFavouriteRoomMessageComposer.as
  */
 export class DeleteFavouriteRoomMessageComposer implements IMessageComposer<ConstructorParameters<typeof DeleteFavouriteRoomMessageComposer>>
 {

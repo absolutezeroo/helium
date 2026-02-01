@@ -3,6 +3,8 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 
 /**
  * Parser for figure set IDs message (clothing)
+ *
+ * @see source_as/habbo/communication/messages/parser/inventory/clothing/FigureSetIdsEventParser.as
  */
 export class FigureSetIdsMessageParser implements IMessageParser
 {

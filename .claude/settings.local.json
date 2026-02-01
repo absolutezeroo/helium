@@ -9,7 +9,11 @@
       "WebFetch(domain:docs.solidjs.com)",
       "WebSearch",
       "WebFetch(domain:bespoyasov.me)",
-      "WebFetch(domain:dev.to)"
+      "WebFetch(domain:dev.to)",
+      "Bash(done)",
+      "Bash(wc:*)",
+      "Bash(xargs:*)",
+      "Bash(npm run build:*)"
     ]
   }
 }

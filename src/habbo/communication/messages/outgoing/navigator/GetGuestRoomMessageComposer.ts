@@ -3,7 +3,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Get guest room information
  *
- * Based on AS3 GetGuestRoomMessageComposer
+ * @see source_as/habbo/communication/messages/outgoing/navigator/GetGuestRoomMessageComposer.as
  */
 export class GetGuestRoomMessageComposer implements IMessageComposer<ConstructorParameters<typeof GetGuestRoomMessageComposer>>
 {

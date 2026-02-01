@@ -2,6 +2,9 @@ import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {OfficialRoomsMessageParser} from '../../parser/navigator/OfficialRoomsMessageParser';
 
+/**
+ * @see source_as/habbo/communication/messages/incoming/navigator/OfficialRoomsEvent.as
+ */
 export class OfficialRoomsMessageEvent extends MessageEvent
 {
 	constructor(callback: MessageEventCallback)

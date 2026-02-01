@@ -2,6 +2,14 @@ import 'reflect-metadata';
 import {Container} from 'inversify';
 import {TYPES} from './types';
 
+// Core Asset
+import {AssetLibrary} from '@core/asset/AssetLibrary';
+import type {IAssetLibrary} from '@core/asset/IAssetLibrary';
+
+// Core GameData
+import {GameDataManager} from '@core/gamedata/GameDataManager';
+import type {IGameDataManager} from '@core/gamedata/IGameDataManager';
+
 // Habbo Configuration
 import {HabboConfigurationManager} from '@habbo/configuration/HabboConfigurationManager';
 import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
@@ -37,6 +45,16 @@ export {container};
 
 export function setupContainer(): Container
 {
+	// Bind Core Asset Library
+	container.bind<IAssetLibrary>(TYPES.AssetLibrary)
+		.to(AssetLibrary)
+		.inSingletonScope();
+
+	// Bind Core GameData Manager
+	container.bind<IGameDataManager>(TYPES.GameDataManager)
+		.to(GameDataManager)
+		.inSingletonScope();
+
 	// Bind Habbo Configuration
 	container.bind<IHabboConfigurationManager>(TYPES.HabboConfigurationManager)
 		.to(HabboConfigurationManager)

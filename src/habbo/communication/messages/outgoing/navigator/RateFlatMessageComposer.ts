@@ -3,7 +3,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Rate a flat/room
  *
- * Based on AS3 RateFlatMessageComposer
+ * @see source_as/habbo/communication/messages/outgoing/navigator/RateFlatMessageComposer.as
  */
 export class RateFlatMessageComposer implements IMessageComposer<ConstructorParameters<typeof RateFlatMessageComposer>>
 {

@@ -5,6 +5,7 @@ _bmad/
 _bmad-output/
 node_modules/
 source_as/
+source_gamedata/
 source_nitro_renderer/
 source_nitro_converter/
 source_nitro_react/

@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for flat created message
  *
- * Based on AS3 FlatCreatedEventParser
+ * @see source_as/habbo/communication/messages/parser/navigator/FlatCreatedEventParser.as
  */
 export class FlatCreatedMessageParser implements IMessageParser
 {
