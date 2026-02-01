@@ -36,22 +36,26 @@ function createConnectionStore()
 			setState('connecting');
 			setError(null);
 		},
+
 		setConnected: () =>
 		{
 			setState('connected');
 			setError(null);
 		},
+
 		setAuthenticated: () =>
 		{
 			setState('authenticated');
 			setLoadingStep(HabboCommunicationEvent.AUTHENTICATED);
 			setError(null);
 		},
+
 		setDisconnected: () =>
 		{
 			setState('disconnected');
 			setLoadingStep(null);
 		},
+
 		setError: (message: string) =>
 		{
 			setState('error');

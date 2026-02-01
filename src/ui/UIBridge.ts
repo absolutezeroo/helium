@@ -1,4 +1,4 @@
-import {configStore, connectionStore, localizationStore, navigatorStore, sessionStore} from './stores';
+import {configStore, connectionStore, favouritesStore, localizationStore, navigatorStore, roomStore, sessionStore} from './stores';
 import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
 import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
 import type {IHabboLocalizationManager} from '@habbo/localization/IHabboLocalizationManager';
@@ -35,6 +35,16 @@ export class UIBridge
 		this._localizationManager = manager;
 
 		localizationStore.connect(manager);
+	}
+
+	/**
+	 * Initialize room-related stores
+	 * Should be called after connection is established
+	 */
+	initRoomStores(): void
+	{
+		roomStore.init();
+		favouritesStore.init();
 	}
 
 	/**
@@ -185,6 +195,10 @@ export class UIBridge
 		}
 
 		this._newNavigator = null;
+
+		// Cleanup room stores
+		roomStore.dispose();
+		favouritesStore.dispose();
 
 		sessionStore.reset();
 		connectionStore.setDisconnected();

@@ -1,6 +1,5 @@
-import {EventEmitter} from 'eventemitter3';
 import {inject, injectable} from 'inversify';
-import type {HabboNewNavigatorEvents, IHabboNewNavigator} from './IHabboNewNavigator';
+import type {IHabboNewNavigator} from './IHabboNewNavigator';
 import type {IHabboNavigator} from './IHabboNavigator';
 import {NavigatorData} from './domain';
 import {NavigatorCache} from './cache';
@@ -37,10 +36,9 @@ const log = Logger.getLogger('NewNavigator');
  * This is the main navigator component that uses HabboNavigator (legacy)
  * for shared data and functionality through delegation.
  *
- * Based on AS3 com.sulake.habbo.navigator.HabboNewNavigator
  */
 @injectable()
-export class HabboNewNavigator extends EventEmitter<HabboNewNavigatorEvents> implements IHabboNewNavigator
+export class HabboNewNavigator implements IHabboNewNavigator
 {
 	private _communication: IHabboCommunicationManager;
 	private _incomingMessages: NewIncomingMessages;
@@ -55,7 +53,6 @@ export class HabboNewNavigator extends EventEmitter<HabboNewNavigatorEvents> imp
 		@inject(TYPES.NavigatorManager) legacyNavigator: IHabboNavigator
 	)
 	{
-		super();
 		this._communication = communication;
 		this._legacyNavigator = legacyNavigator;
 		this._contextContainer = new ContextContainer();
@@ -138,6 +135,7 @@ export class HabboNewNavigator extends EventEmitter<HabboNewNavigatorEvents> imp
 		this._isInitialized = true;
 
 		this.send(new NewNavigatorInitComposer());
+
 		log.info('New Navigator init message sent');
 	}
 
@@ -147,8 +145,9 @@ export class HabboNewNavigator extends EventEmitter<HabboNewNavigatorEvents> imp
 	{
 		this._contextContainer.initialize(topLevelContexts);
 		this.data.topLevelContexts = topLevelContexts;
+
 		this._isReady = true;
-		this.emit('initialized');
+
 		log.info(`Navigator initialized with ${topLevelContexts.length} contexts`);
 	}
 
@@ -167,30 +166,28 @@ export class HabboNewNavigator extends EventEmitter<HabboNewNavigatorEvents> imp
 		}
 
 		this._cache.put(`${results.searchCode}/${results.filteringData}`, results);
+
 		this._noPushToHistoryDueToNavigation = false;
 
-		this.emit('searchResults', results);
-
 		log.debug(`Search results: ${results.blocks.length} blocks`);
-		log.debug(results);
 	}
 
 	onLiftedRooms(rooms: NavigatorLiftedRoomData[]): void
 	{
-		this.emit('liftedRoomsUpdated', rooms);
 		log.debug(`Lifted rooms: ${rooms.length}`);
 	}
 
 	onSavedSearches(searches: NavigatorSavedSearch[]): void
 	{
 		this._contextContainer.savedSearches = searches;
-		this.emit('savedSearchesUpdated', searches);
+
 		log.debug(`Saved searches: ${searches.length}`);
 	}
 
 	onCollapsedCategories(categories: string[]): void
 	{
 		this._collapsedCategories = categories;
+
 		log.debug(`Collapsed categories: ${categories.length}`);
 	}
 
@@ -207,15 +204,16 @@ export class HabboNewNavigator extends EventEmitter<HabboNewNavigatorEvents> imp
 		}
 
 		this._isOpen = true;
-		this.emit('opened');
+
 		log.debug('Navigator opened');
 	}
 
 	close(): void
 	{
 		if (!this._isOpen) return;
+
 		this._isOpen = false;
-		this.emit('closed');
+
 		log.debug('Navigator closed');
 	}
 
@@ -239,6 +237,7 @@ export class HabboNewNavigator extends EventEmitter<HabboNewNavigatorEvents> imp
 
 		// Check cache first
 		const cached = this._cache.getEntry(`${searchCode}/${filtering}`);
+
 		if (cached)
 		{
 			this.onSearchResult(cached);
@@ -246,6 +245,7 @@ export class HabboNewNavigator extends EventEmitter<HabboNewNavigatorEvents> imp
 		}
 
 		this.send(new NewNavigatorSearchComposer(searchCode, filtering));
+
 		log.debug(`Searching: ${searchCode}, filter: ${filtering}`);
 	}
 
@@ -254,6 +254,7 @@ export class HabboNewNavigator extends EventEmitter<HabboNewNavigatorEvents> imp
 		if (this._lastSearchCode)
 		{
 			this._cache.removeEntry(`${this._lastSearchCode}/${this._lastFiltering}`);
+
 			this.performSearch(this._lastSearchCode, this._lastFiltering);
 		}
 	}
@@ -261,10 +262,12 @@ export class HabboNewNavigator extends EventEmitter<HabboNewNavigatorEvents> imp
 	performTagSearch(tag: string): void
 	{
 		let searchTag = tag;
+
 		if (searchTag.indexOf(' ') !== -1)
 		{
 			searchTag = '"' + searchTag + '"';
 		}
+
 		this.performSearch(ViewModeCode.HOTEL_VIEW, 'tag:' + searchTag);
 	}
 
@@ -276,9 +279,11 @@ export class HabboNewNavigator extends EventEmitter<HabboNewNavigatorEvents> imp
 	goBack(): void
 	{
 		const context = this._historyManager.getPreviousSearchContextAndGoBack();
+
 		if (context)
 		{
 			this._noPushToHistoryDueToNavigation = true;
+
 			this.performSearch(context.searchCode, context.filtering);
 		}
 	}
@@ -286,6 +291,7 @@ export class HabboNewNavigator extends EventEmitter<HabboNewNavigatorEvents> imp
 	goForward(): void
 	{
 		const context = this._historyManager.getNextSearchContextAndMoveForward();
+
 		if (context)
 		{
 			this._noPushToHistoryDueToNavigation = true;
@@ -298,13 +304,16 @@ export class HabboNewNavigator extends EventEmitter<HabboNewNavigatorEvents> imp
 	goToRoom(roomId: number, _source: string = 'mainview'): void
 	{
 		this.send(new GetGuestRoomMessageComposer(roomId, false, true));
+
 		this.close();
+
 		log.info(`Going to room: ${roomId}`);
 	}
 
 	goToHomeRoom(): void
 	{
 		const homeRoomId = this.data.homeRoomId;
+
 		if (homeRoomId > 0)
 		{
 			this.goToRoom(homeRoomId, 'external');
@@ -328,6 +337,7 @@ export class HabboNewNavigator extends EventEmitter<HabboNewNavigatorEvents> imp
 	addCollapsedCategory(category: string): void
 	{
 		this.send(new NavigatorAddCollapsedCategoryMessageComposer(category));
+
 		if (!this._collapsedCategories.includes(category))
 		{
 			this._collapsedCategories.push(category);
@@ -337,7 +347,9 @@ export class HabboNewNavigator extends EventEmitter<HabboNewNavigatorEvents> imp
 	removeCollapsedCategory(category: string): void
 	{
 		this.send(new NavigatorRemoveCollapsedCategoryMessageComposer(category));
+
 		const index = this._collapsedCategories.indexOf(category);
+
 		if (index !== -1)
 		{
 			this._collapsedCategories.splice(index, 1);
@@ -361,7 +373,7 @@ export class HabboNewNavigator extends EventEmitter<HabboNewNavigatorEvents> imp
 	dispose(): void
 	{
 		this._incomingMessages.dispose();
-		this.removeAllListeners();
+
 		log.info('New Navigator disposed');
 	}
 
@@ -370,6 +382,7 @@ export class HabboNewNavigator extends EventEmitter<HabboNewNavigatorEvents> imp
 	private send(composer: { getMessageArray(): unknown[]; dispose(): void }): void
 	{
 		const connection = this._communication.connection;
+
 		if (connection)
 		{
 			connection.send(composer);

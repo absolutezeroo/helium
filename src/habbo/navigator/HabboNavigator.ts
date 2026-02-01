@@ -1,6 +1,5 @@
-import {EventEmitter} from 'eventemitter3';
 import {inject, injectable} from 'inversify';
-import type {HabboNavigatorEvents, IHabboNavigator} from './IHabboNavigator';
+import type {IHabboNavigator} from './IHabboNavigator';
 import {NavigatorData} from './domain';
 import {IncomingMessages} from './IncomingMessages';
 import type {CompetitionRoomsData, EventCategory, GuestRoomData} from '../communication/messages/incoming/navigator';
@@ -22,10 +21,9 @@ const log = Logger.getLogger('Navigator');
 
 /**
  * Habbo Navigator component
- *
  */
 @injectable()
-export class HabboNavigator extends EventEmitter<HabboNavigatorEvents> implements IHabboNavigator
+export class HabboNavigator implements IHabboNavigator
 {
 	private _communication: IHabboCommunicationManager;
 	private _incomingMessages: IncomingMessages;
@@ -37,7 +35,6 @@ export class HabboNavigator extends EventEmitter<HabboNavigatorEvents> implement
 		@inject(TYPES.HabboCommunicationManager) communication: IHabboCommunicationManager
 	)
 	{
-		super();
 		this._communication = communication;
 		this._data = new NavigatorData();
 		this._incomingMessages = new IncomingMessages(communication, this._data);
@@ -76,9 +73,12 @@ export class HabboNavigator extends EventEmitter<HabboNavigatorEvents> implement
 		if (this._data.homeRoomId < 1)
 		{
 			log.warn('No home room set');
+
 			return false;
 		}
+
 		this.goToRoom(this._data.homeRoomId, true);
+
 		return true;
 	}
 
@@ -90,11 +90,14 @@ export class HabboNavigator extends EventEmitter<HabboNavigatorEvents> implement
 	goToRoomNetwork(roomId: number, useHomeRoom: boolean): void
 	{
 		this.closeRoomInfo();
+
 		let homeRoomId = 0;
+
 		if (useHomeRoom && this._data.homeRoomId > 0)
 		{
 			homeRoomId = this._data.homeRoomId;
 		}
+
 		// Would call room session manager here
 		log.debug(`Go to room network: ${roomId}, homeRoom=${homeRoomId}`);
 	}
@@ -102,10 +105,12 @@ export class HabboNavigator extends EventEmitter<HabboNavigatorEvents> implement
 	goToRoom(roomId: number, closeNavigator: boolean = true, password: string = ''): void
 	{
 		log.info(`Going to room: ${roomId}`);
+
 		if (closeNavigator)
 		{
 			this.closeNavigator();
 		}
+
 		// Would call room session manager here to actually enter the room
 		this.send(new GetGuestRoomMessageComposer(roomId, true, true));
 	}
@@ -188,24 +193,23 @@ export class HabboNavigator extends EventEmitter<HabboNavigatorEvents> implement
 	startRoomCreation(): void
 	{
 		log.debug('Starting room creation');
-		
-		this.emit('navigatorOpened');
-		// Would open room creation view
 	}
 
 	openNavigator(): void
 	{
 		if (this._isOpen) return;
+
 		this._isOpen = true;
-		this.emit('navigatorOpened');
+
 		log.debug('Navigator opened');
 	}
 
 	closeNavigator(): void
 	{
 		if (!this._isOpen) return;
+
 		this._isOpen = false;
-		this.emit('navigatorClosed');
+
 		log.debug('Navigator closed');
 	}
 
@@ -240,11 +244,11 @@ export class HabboNavigator extends EventEmitter<HabboNavigatorEvents> implement
 	dispose(): void
 	{
 		if (this._disposed) return;
+
 		this._disposed = true;
 
 		this._incomingMessages.dispose();
 		this._data.dispose();
-		this.removeAllListeners();
 
 		log.info('Navigator disposed');
 	}
@@ -252,16 +256,18 @@ export class HabboNavigator extends EventEmitter<HabboNavigatorEvents> implement
 	private openRoomInfo(): void
 	{
 		if (this._isRoomInfoOpen) return;
+
 		this._isRoomInfoOpen = true;
-		this.emit('roomInfoOpened');
+
 		log.debug('Room info opened');
 	}
 
 	private closeRoomInfo(): void
 	{
 		if (!this._isRoomInfoOpen) return;
+
 		this._isRoomInfoOpen = false;
-		this.emit('roomInfoClosed');
+
 		log.debug('Room info closed');
 	}
 
@@ -270,6 +276,7 @@ export class HabboNavigator extends EventEmitter<HabboNavigatorEvents> implement
 	private send(composer: { getMessageArray(): unknown[]; dispose(): void }): void
 	{
 		const connection = this._communication.connection;
+
 		if (connection)
 		{
 			connection.send(composer);

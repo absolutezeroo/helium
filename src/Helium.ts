@@ -207,6 +207,9 @@ export class Helium {
         const newNavigator = container.get<IHabboNewNavigator>(TYPES.NewNavigatorManager);
         uiBridge.connectNavigator(navigator, newNavigator);
 
+        // Initialize room-related stores
+        uiBridge.initRoomStores();
+
         // Mount SolidJS UI
         const uiContainer = document.createElement('div');
         uiContainer.id = 'helium-ui';

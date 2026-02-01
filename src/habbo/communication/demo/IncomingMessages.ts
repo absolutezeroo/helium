@@ -340,6 +340,7 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
 		}
 
 		log.warn(`Disconnected: ${parser.reason} - ${parser.reasonText}`);
+		
 		this.emit('disconnected', parser.reason, parser.reasonText);
 
 		this._isHandshaking = false;
@@ -355,6 +356,7 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
 		if (!parser) return;
 
 		log.error(`Server error: ${parser.errorCode}`);
+
 		this.emit('error', parser.errorCode, `Error ${parser.errorCode}`);
 	}
 

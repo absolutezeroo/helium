@@ -1,24 +1,11 @@
-import type {EventEmitter} from 'eventemitter3';
 import type {EventCategory, GuestRoomData} from '../communication/messages/incoming/navigator';
 import type {NavigatorData} from './domain';
-
-/**
- * Navigator events
- */
-export interface HabboNavigatorEvents
-{
-	initialized: () => void;
-	navigatorOpened: () => void;
-	navigatorClosed: () => void;
-	roomInfoOpened: () => void;
-	roomInfoClosed: () => void;
-}
 
 /**
  * Interface for the Habbo Navigator component
  *
  */
-export interface IHabboNavigator extends EventEmitter<HabboNavigatorEvents>
+export interface IHabboNavigator
 {
 	/**
 	 * Get the navigator data model

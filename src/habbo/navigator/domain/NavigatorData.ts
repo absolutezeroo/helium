@@ -1,4 +1,3 @@
-import {EventEmitter} from 'eventemitter3';
 import type {
 	CategoriesWithVisitorCountData,
 	CompetitionRoomsData,
@@ -19,35 +18,17 @@ import type {
 } from '../../communication/messages/incoming/newnavigator';
 
 /**
- * Navigator data events
- */
-export interface NavigatorDataEvents
-{
-	dataChanged: () => void;
-	favouritesChanged: () => void;
-	roomEntered: (roomData: GuestRoomData) => void;
-	roomExited: () => void;
-	categoriesChanged: () => void;
-	searchResultsChanged: () => void;
-}
-
-/**
  * Navigator data domain model
  *
  * Based on AS3 com.sulake.habbo.navigator.domain.NavigatorData
  */
-export class NavigatorData extends EventEmitter<NavigatorDataEvents>
+export class NavigatorData
 {
 	private _lastMessage: INavigatorSearchResultData | null = null;
 	private _favouriteLimit: number = 0;
 	private _favouriteCount: number = 0;
 	private _favouriteRoomIds: Map<number, boolean> = new Map();
 	private _isLoading: boolean = false;
-
-	constructor()
-	{
-		super();
-	}
 
 	private _roomEventData: RoomEventData | null = null;
 
@@ -59,7 +40,6 @@ export class NavigatorData extends EventEmitter<NavigatorDataEvents>
 	set roomEventData(value: RoomEventData | null)
 	{
 		this._roomEventData = value;
-		this.emit('dataChanged');
 	}
 
 	private _eventMod: boolean = false;
@@ -125,10 +105,11 @@ export class NavigatorData extends EventEmitter<NavigatorDataEvents>
 		{
 			this._enteredGuestRoom.dispose();
 		}
+
 		this._enteredGuestRoom = value;
+
 		if (value)
 		{
-			this.emit('roomEntered', value);
 		}
 	}
 
@@ -182,7 +163,6 @@ export class NavigatorData extends EventEmitter<NavigatorDataEvents>
 	set homeRoomId(value: number)
 	{
 		this._homeRoomId = value;
-		this.emit('dataChanged');
 	}
 
 	// ========== Room Event Data ==========
@@ -239,7 +219,6 @@ export class NavigatorData extends EventEmitter<NavigatorDataEvents>
 	set currentRoomRating(value: number)
 	{
 		this._currentRoomRating = value;
-		this.emit('dataChanged');
 	}
 
 	private _canRate: boolean = false;
@@ -331,7 +310,6 @@ export class NavigatorData extends EventEmitter<NavigatorDataEvents>
 	set topLevelContexts(value: NavigatorTopLevelContext[])
 	{
 		this._topLevelContexts = value;
-		this.emit('dataChanged');
 	}
 
 	private _navigatorSearchResultSet: NavigatorSearchResultSet | null = null;
@@ -344,8 +322,8 @@ export class NavigatorData extends EventEmitter<NavigatorDataEvents>
 	set navigatorSearchResultSet(value: NavigatorSearchResultSet | null)
 	{
 		this._navigatorSearchResultSet = value;
+
 		this._isLoading = false;
-		this.emit('searchResultsChanged');
 	}
 
 	get canAddFavourite(): boolean
@@ -388,13 +366,15 @@ export class NavigatorData extends EventEmitter<NavigatorDataEvents>
 	set guestRoomSearchResults(value: GuestRoomSearchResultData | null)
 	{
 		this.disposeCurrentMessage();
+
 		this._lastMessage = value;
+
 		if (value)
 		{
 			this._adRoom = value.ad;
 		}
+
 		this._isLoading = false;
-		this.emit('searchResultsChanged');
 	}
 
 	get popularTags(): PopularTagsData | null
@@ -405,9 +385,9 @@ export class NavigatorData extends EventEmitter<NavigatorDataEvents>
 	set popularTags(value: PopularTagsData | null)
 	{
 		this.disposeCurrentMessage();
+
 		this._lastMessage = value;
 		this._isLoading = false;
-		this.emit('searchResultsChanged');
 	}
 
 	get officialRooms(): OfficialRoomsData | null
@@ -420,9 +400,9 @@ export class NavigatorData extends EventEmitter<NavigatorDataEvents>
 	set officialRooms(value: OfficialRoomsData | null)
 	{
 		this.disposeCurrentMessage();
+
 		this._lastMessage = value;
 		this._isLoading = false;
-		this.emit('searchResultsChanged');
 	}
 
 	get categoriesWithVisitorData(): CategoriesWithVisitorCountData | null
@@ -433,16 +413,16 @@ export class NavigatorData extends EventEmitter<NavigatorDataEvents>
 	set categoriesWithVisitorData(value: CategoriesWithVisitorCountData | null)
 	{
 		this.disposeCurrentMessage();
+
 		this._lastMessage = value;
 		this._isLoading = false;
-		this.emit('searchResultsChanged');
 	}
 
 	set categories(value: FlatCategory[])
 	{
 		this._allCategories = value;
+
 		this._visibleCategories = value.filter((cat) => cat.visible);
-		this.emit('categoriesChanged');
 	}
 
 	// ========== Favourites ==========
@@ -450,8 +430,8 @@ export class NavigatorData extends EventEmitter<NavigatorDataEvents>
 	set eventCategories(value: EventCategory[])
 	{
 		this._allEventCategories = value;
+
 		this._visibleEventCategories = value.filter((cat) => cat.visible);
-		this.emit('categoriesChanged');
 	}
 
 	onRoomEnter(guestRoomId: number, isOwner: boolean): void
@@ -467,13 +447,14 @@ export class NavigatorData extends EventEmitter<NavigatorDataEvents>
 		{
 			this._roomEventData = null;
 		}
+
 		if (this._enteredGuestRoom !== null)
 		{
 			this._enteredGuestRoom.dispose();
 			this._enteredGuestRoom = null;
 		}
+
 		this._currentRoomOwner = false;
-		this.emit('roomExited');
 	}
 
 	getCategoryById(nodeId: number): FlatCategory | null
@@ -491,11 +472,11 @@ export class NavigatorData extends EventEmitter<NavigatorDataEvents>
 		this._favouriteLimit = limit;
 		this._favouriteCount = roomIds.length;
 		this._favouriteRoomIds.clear();
+
 		for (const roomId of roomIds)
 		{
 			this._favouriteRoomIds.set(roomId, true);
 		}
-		this.emit('favouritesChanged');
 	}
 
 	favouriteChanged(roomId: number, added: boolean): void
@@ -509,7 +490,6 @@ export class NavigatorData extends EventEmitter<NavigatorDataEvents>
 			this._favouriteRoomIds.delete(roomId);
 			this._favouriteCount--;
 		}
-		this.emit('favouritesChanged');
 	}
 
 	// ========== Loading State ==========
@@ -564,22 +544,25 @@ export class NavigatorData extends EventEmitter<NavigatorDataEvents>
 	dispose(): void
 	{
 		this.disposeCurrentMessage();
+
 		if (this._enteredGuestRoom)
 		{
 			this._enteredGuestRoom.dispose();
 			this._enteredGuestRoom = null;
 		}
+
 		if (this._promotedRooms)
 		{
 			this._promotedRooms.dispose();
 			this._promotedRooms = null;
 		}
+
 		this._favouriteRoomIds.clear();
+
 		this._allCategories = [];
 		this._visibleCategories = [];
 		this._allEventCategories = [];
 		this._visibleEventCategories = [];
-		this.removeAllListeners();
 	}
 
 	// ========== Dispose ==========
@@ -590,7 +573,9 @@ export class NavigatorData extends EventEmitter<NavigatorDataEvents>
 		{
 			return;
 		}
+
 		this._lastMessage.dispose();
+
 		this._lastMessage = null;
 	}
 }

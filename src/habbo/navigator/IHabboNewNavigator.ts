@@ -1,4 +1,3 @@
-import type {EventEmitter} from 'eventemitter3';
 import type {IHabboNavigator} from './IHabboNavigator';
 import type {NavigatorData} from './domain';
 import type {ContextContainer, SearchContextHistoryManager} from './context';
@@ -25,9 +24,8 @@ export interface HabboNewNavigatorEvents
 /**
  * New Navigator interface
  *
- * Based on AS3 com.sulake.habbo.navigator.IHabboNewNavigator
  */
-export interface IHabboNewNavigator extends EventEmitter<HabboNewNavigatorEvents>
+export interface IHabboNewNavigator
 {
 	/**
 	 * Check if navigator is ready
