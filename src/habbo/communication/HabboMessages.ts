@@ -58,6 +58,27 @@ import {
 	AchievementsScoreMessageEvent,
 	AvatarEffectsMessageEvent,
 	FigureSetIdsMessageEvent,
+	// Furni
+	FurniListMessageEvent,
+	FurniListAddOrUpdateMessageEvent,
+	FurniListRemoveMessageEvent,
+	FurniListInvalidateMessageEvent,
+	// Badges
+	BadgesMessageEvent,
+	// Pets
+	PetInventoryMessageEvent,
+	// Bots
+	BotInventoryMessageEvent,
+	// Trading
+	TradingOpenMessageEvent,
+	TradingCloseMessageEvent,
+	TradingAcceptMessageEvent,
+	TradingItemListMessageEvent,
+	TradingCompletedMessageEvent,
+	TradingConfirmationMessageEvent,
+	TradingNotOpenMessageEvent,
+	// Unseen
+	UnseenItemsMessageEvent,
 } from './messages/incoming/inventory';
 
 // Incoming Events - Mystery Box
@@ -139,6 +160,26 @@ import {
 	NewNavigatorInitComposer,
 	NewNavigatorSearchComposer,
 } from './messages/outgoing/newnavigator';
+
+// Outgoing Composers - Inventory
+import {
+	RequestFurniInventoryComposer,
+	GetBadgesComposer,
+	SetActivatedBadgesComposer,
+	GetPetInventoryComposer,
+	GetBotInventoryComposer,
+	AvatarEffectActivatedComposer,
+	AvatarEffectSelectedComposer,
+	ResetUnseenItemsComposer,
+	OpenTradingComposer,
+	CloseTradingComposer,
+	AcceptTradingComposer,
+	UnacceptTradingComposer,
+	ConfirmAcceptTradingComposer,
+	ConfirmDeclineTradingComposer,
+	AddItemToTradeComposer,
+	RemoveItemFromTradeComposer,
+} from './messages/outgoing/inventory';
 
 /**
  * Habbo message configuration
@@ -222,6 +263,33 @@ export class HabboMessages implements IMessageConfiguration
 		this._events.set(464, FigureSetIdsMessageEvent);
 		this._events.set(1196, AchievementsScoreMessageEvent);
 		this._events.set(1119, AvatarEffectsMessageEvent);
+
+		// === INVENTORY - FURNI ===
+		this._events.set(3550, FurniListMessageEvent);
+		this._events.set(3595, FurniListAddOrUpdateMessageEvent);
+		this._events.set(3691, FurniListRemoveMessageEvent);
+		this._events.set(2386, FurniListInvalidateMessageEvent);
+
+		// === INVENTORY - BADGES ===
+		this._events.set(1993, BadgesMessageEvent);
+
+		// === INVENTORY - PETS ===
+		this._events.set(2327, PetInventoryMessageEvent);
+
+		// === INVENTORY - BOTS ===
+		this._events.set(2161, BotInventoryMessageEvent);
+
+		// === INVENTORY - TRADING ===
+		this._events.set(1, TradingOpenMessageEvent);
+		this._events.set(308, TradingCloseMessageEvent);
+		this._events.set(1011, TradingAcceptMessageEvent);
+		this._events.set(2807, TradingItemListMessageEvent);
+		this._events.set(1376, TradingCompletedMessageEvent);
+		this._events.set(1564, TradingConfirmationMessageEvent);
+		this._events.set(2498, TradingNotOpenMessageEvent);
+
+		// === INVENTORY - UNSEEN ===
+		this._events.set(1654, UnseenItemsMessageEvent);
 
 		// === MYSTERY BOX ===
 		this._events.set(351, MysteryBoxKeysMessageEvent);
@@ -307,5 +375,25 @@ export class HabboMessages implements IMessageConfiguration
 		this._composers.set(494, NavigatorAddCollapsedCategoryMessageComposer);
 		this._composers.set(141, NavigatorRemoveCollapsedCategoryMessageComposer);
 		this._composers.set(1108, NavigatorSetSearchCodeViewModeMessageComposer);
+
+		// === INVENTORY ===
+		this._composers.set(3181, RequestFurniInventoryComposer);
+		this._composers.set(1047, GetBadgesComposer);
+		this._composers.set(1267, SetActivatedBadgesComposer);
+		this._composers.set(1967, GetPetInventoryComposer);
+		this._composers.set(541, GetBotInventoryComposer);
+		this._composers.set(90, AvatarEffectActivatedComposer);
+		this._composers.set(1393, AvatarEffectSelectedComposer);
+		this._composers.set(3343, ResetUnseenItemsComposer);
+
+		// === INVENTORY - TRADING ===
+		this._composers.set(3040, OpenTradingComposer);
+		this._composers.set(1781, CloseTradingComposer);
+		this._composers.set(1746, AcceptTradingComposer);
+		this._composers.set(1779, UnacceptTradingComposer);
+		this._composers.set(1918, ConfirmAcceptTradingComposer);
+		this._composers.set(1626, ConfirmDeclineTradingComposer);
+		this._composers.set(3472, AddItemToTradeComposer);
+		this._composers.set(1709, RemoveItemFromTradeComposer);
 	}
 }

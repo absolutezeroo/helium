@@ -53,7 +53,9 @@ export class HabboCommunicationManager extends EventEmitter<HabboCommunicationMa
 	)
 	{
 		super();
+		
 		this.communicationManager = communicationManager;
+
 		this.messageConfig = new HabboMessages();
 	}
 
@@ -121,10 +123,12 @@ export class HabboCommunicationManager extends EventEmitter<HabboCommunicationMa
 			if (this.pendingMessageEvents.length > 0)
 			{
 				log.debug(`Flushing ${this.pendingMessageEvents.length} pending message events`);
+
 				for (const event of this.pendingMessageEvents)
 				{
 					this._connection.addMessageEvent(event);
 				}
+
 				this.pendingMessageEvents = [];
 			}
 		}

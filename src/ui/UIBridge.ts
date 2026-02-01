@@ -1,9 +1,40 @@
-import {configStore, connectionStore, favouritesStore, localizationStore, navigatorStore, roomStore, sessionStore} from './stores';
+import {
+	configStore,
+	connectionStore,
+	favouritesStore,
+	inventoryStore,
+	localizationStore,
+	navigatorStore,
+	roomStore,
+	sessionStore
+} from './stores';
 import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
 import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
 import type {IHabboLocalizationManager} from '@habbo/localization/IHabboLocalizationManager';
 import type {IHabboNavigator, IHabboNewNavigator} from '@habbo/navigator';
+import type {IHabboInventory} from '@habbo/inventory';
 import type {HabboCommunicationEventType} from '@habbo/communication/enum';
+import {registerMessageEvent} from './hooks';
+
+// Message Events
+import {UserObjectMessageEvent} from '@habbo/communication/messages/incoming/handshake/UserObjectMessageEvent';
+import {UserRightsMessageEvent} from '@habbo/communication/messages/incoming/handshake/UserRightsMessageEvent';
+import {AvailabilityStatusMessageEvent} from '@habbo/communication/messages/incoming/availability/AvailabilityStatusMessageEvent';
+import {FigureUpdateMessageEvent} from '@habbo/communication/messages/incoming/avatar/FigureUpdateMessageEvent';
+import {NavigatorSettingsMessageEvent} from '@habbo/communication/messages/incoming/navigator/NavigatorSettingsMessageEvent';
+import {FavouritesMessageEvent} from '@habbo/communication/messages/incoming/navigator/FavouritesMessageEvent';
+import {ActivityPointsMessageEvent} from '@habbo/communication/messages/incoming/notifications/ActivityPointsMessageEvent';
+import {AchievementsScoreMessageEvent} from '@habbo/communication/messages/incoming/inventory/AchievementsScoreMessageEvent';
+
+// Parsers
+import type {UserObjectMessageParser} from '@habbo/communication/messages/parser/handshake/UserObjectMessageParser';
+import type {UserRightsMessageParser} from '@habbo/communication/messages/parser/handshake/UserRightsMessageParser';
+import type {AvailabilityStatusMessageParser} from '@habbo/communication/messages/parser/availability/AvailabilityStatusMessageParser';
+import type {FigureUpdateMessageParser} from '@habbo/communication/messages/parser/avatar/FigureUpdateMessageParser';
+import type {NavigatorSettingsMessageParser} from '@habbo/communication/messages/parser/navigator/NavigatorSettingsMessageParser';
+import type {FavouritesMessageParser} from '@habbo/communication/messages/parser/navigator/FavouritesMessageParser';
+import type {ActivityPointsMessageParser} from '@habbo/communication/messages/parser/notifications/ActivityPointsMessageParser';
+import type {AchievementsScoreMessageParser} from '@habbo/communication/messages/parser/inventory/AchievementsScoreMessageParser';
 
 /**
  * Bridge between Habbo managers and SolidJS stores
@@ -16,6 +47,10 @@ export class UIBridge
 	private _localizationManager: IHabboLocalizationManager | null = null;
 	private _navigator: IHabboNavigator | null = null;
 	private _newNavigator: IHabboNewNavigator | null = null;
+	private _inventory: IHabboInventory | null = null;
+
+	// Cleanup functions
+	private _cleanupFunctions: Array<() => void> = [];
 
 	/**
 	 * Connect ConfigurationManager to config store
@@ -39,7 +74,7 @@ export class UIBridge
 
 	/**
 	 * Initialize room-related stores
-	 * Should be called after connection is established
+	 * Should be called after a connection is established
 	 */
 	initRoomStores(): void
 	{
@@ -59,88 +94,130 @@ export class UIBridge
 	}
 
 	/**
+	 * Connect Inventory to the inventory store
+	 */
+	connectInventory(inventory: IHabboInventory): void
+	{
+		this._inventory = inventory;
+
+		inventoryStore.connect(inventory);
+	}
+
+	/**
 	 * Connect SessionDataManager to the session store
 	 */
 	connectSessionDataManager(manager: ISessionDataManager): void
 	{
 		this._sessionDataManager = manager;
 
-		// Listen to user data updates
-		manager.events.on('userDataUpdated', () =>
-		{
-			sessionStore.setUserData({
-				id: manager.userId,
-				name: manager.userName,
-				figure: manager.figure,
-				gender: manager.gender,
-				motto: manager.motto,
-				realName: manager.realName,
-				respectsReceived: manager.respectsReceived,
-				respectsRemaining: manager.respectsRemaining,
-				respectsPetRemaining: manager.respectsPetRemaining,
-				streamPublishingAllowed: manager.streamPublishingAllowed,
-				lastAccessDate: manager.lastAccessDate,
-				canChangeName: manager.canChangeName,
-				safetyLocked: manager.safetyLocked,
-			});
-		});
+		// Listen to user data updates via message events
+		this._cleanupFunctions.push(
+			registerMessageEvent(UserObjectMessageEvent, (_, parser) =>
+			{
+				const p = parser as UserObjectMessageParser;
+
+				sessionStore.setUserData({
+					id: p.id,
+					name: p.name,
+					figure: p.figure,
+					gender: p.sex,
+					motto: p.customData,
+					realName: p.realName,
+					respectsReceived: p.respectTotal,
+					respectsRemaining: p.respectLeft,
+					respectsPetRemaining: p.petRespectLeft,
+					streamPublishingAllowed: p.streamPublishingAllowed,
+					lastAccessDate: p.lastAccessDate,
+					canChangeName: p.nameChangeAllowed,
+					safetyLocked: p.accountSafetyLocked,
+				});
+			})
+		);
 
 		// Listen to figure updates
-		manager.events.on('figureUpdated', (figure: string, gender: string) =>
-		{
-			const current = sessionStore.userData();
-			if (current)
+		this._cleanupFunctions.push(
+			registerMessageEvent(FigureUpdateMessageEvent, (_, parser) =>
 			{
-				sessionStore.setUserData({
-					...current,
-					figure,
-					gender,
-				});
-			}
-		});
+				const p = parser as FigureUpdateMessageParser;
+				const current = sessionStore.userData();
+
+				if (current)
+				{
+					sessionStore.setUserData({
+						...current,
+						figure: p.figure,
+						gender: p.gender,
+					});
+				}
+			})
+		);
 
 		// Listen to availability status updates
-		manager.events.on('availabilityStatusUpdated', (isOpen: boolean, onShutDown: boolean) =>
-		{
-			sessionStore.setAvailability({
-				isOpen,
-				onShutDown,
-				isAuthenticHabbo: manager.isAuthenticHabbo,
-			});
-		});
+		this._cleanupFunctions.push(
+			registerMessageEvent(AvailabilityStatusMessageEvent, (_, parser) =>
+			{
+				const p = parser as AvailabilityStatusMessageParser;
+
+				sessionStore.setAvailability({
+					isOpen: p.isOpen,
+					onShutDown: p.onShutDown,
+					isAuthenticHabbo: p.isAuthenticHabbo,
+				});
+			})
+		);
 
 		// Listen to rights updates
-		manager.events.on('userRightsUpdated', () =>
-		{
-			sessionStore.setClubLevel(manager.clubLevel);
-			sessionStore.setSecurityLevel(manager.securityLevel);
-			sessionStore.setIsAmbassador(manager.isAmbassador);
-		});
+		this._cleanupFunctions.push(
+			registerMessageEvent(UserRightsMessageEvent, (_, parser) =>
+			{
+				const p = parser as UserRightsMessageParser;
+
+				sessionStore.setClubLevel(p.clubLevel);
+				sessionStore.setSecurityLevel(p.securityLevel);
+				sessionStore.setIsAmbassador(p.isAmbassador);
+			})
+		);
 
 		// Listen to navigator settings
-		manager.events.on('navigatorSettingsUpdated', () =>
-		{
-			sessionStore.setHomeRoomId(manager.homeRoomId);
-			sessionStore.setRoomIdToEnter(manager.roomIdToEnter);
-		});
+		this._cleanupFunctions.push(
+			registerMessageEvent(NavigatorSettingsMessageEvent, (_, parser) =>
+			{
+				const p = parser as NavigatorSettingsMessageParser;
+
+				sessionStore.setHomeRoomId(p.homeRoomId);
+				sessionStore.setRoomIdToEnter(p.roomIdToEnter);
+			})
+		);
 
 		// Listen to favourites
-		manager.events.on('favouritesUpdated', () =>
-		{
-			sessionStore.setFavouriteRooms([...manager.favouriteRooms]);
-		});
+		this._cleanupFunctions.push(
+			registerMessageEvent(FavouritesMessageEvent, (_, parser) =>
+			{
+				const p = parser as FavouritesMessageParser;
+
+				sessionStore.setFavouriteRooms([...p.favouriteRoomIds]);
+			})
+		);
 
 		// Listen to activity points
-		manager.events.on('activityPointsUpdated', () =>
-		{
-			sessionStore.setActivityPoints(new Map(manager.activityPoints));
-		});
+		this._cleanupFunctions.push(
+			registerMessageEvent(ActivityPointsMessageEvent, (_, parser) =>
+			{
+				const p = parser as ActivityPointsMessageParser;
+
+				sessionStore.setActivityPoints(new Map(p.points));
+			})
+		);
 
 		// Listen to achievement score
-		manager.events.on('achievementScoreUpdated', () =>
-		{
-			sessionStore.setAchievementScore(manager.achievementScore);
-		});
+		this._cleanupFunctions.push(
+			registerMessageEvent(AchievementsScoreMessageEvent, (_, parser) =>
+			{
+				const p = parser as AchievementsScoreMessageParser;
+
+				sessionStore.setAchievementScore(p.score);
+			})
+		);
 	}
 
 	/**
@@ -170,7 +247,7 @@ export class UIBridge
 	}
 
 	/**
-	 * Set detailed login step from AS3 connection flow
+	 * Set a detailed login step from AS3 connection flow
 	 * Called by IncomingMessages during handshake/authentication
 	 */
 	setLoginStep(step: HabboCommunicationEventType): void
@@ -194,6 +271,19 @@ export class UIBridge
 			this._navigator = null;
 		}
 
+		if (this._inventory)
+		{
+			inventoryStore.disconnect();
+
+			this._inventory = null;
+		}
+
+		for (const cleanup of this._cleanupFunctions)
+		{
+			cleanup();
+		}
+
+		this._cleanupFunctions.length = 0;
 		this._newNavigator = null;
 
 		// Cleanup room stores

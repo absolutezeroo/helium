@@ -8,3 +8,4 @@ export {localizationStore} from './localizationStore';
 export {navigatorStore} from './navigator';
 export {roomStore} from './room';
 export {favouritesStore} from './favourites';
+export {inventoryStore} from './inventory';

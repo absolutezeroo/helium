@@ -4,6 +4,7 @@ import {LandingView} from './components/landing/LandingView';
 import {Toolbar} from './components/toolbar/Toolbar';
 import {LoadingScreen} from './components/common/LoadingScreen';
 import {Navigator} from './components/navigator';
+import {Inventory} from './components/inventory';
 
 export const App: Component = () =>
 {
@@ -25,6 +26,7 @@ export const App: Component = () =>
 				<LandingView/>
 				<Toolbar/>
 				<Navigator/>
+				<Inventory/>
 			</Show>
 
 			<Show when={connectionStore.state() === 'error'}>

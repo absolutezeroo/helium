@@ -1,8 +1,7 @@
-import {EventEmitter} from 'eventemitter3';
 import {Logger} from '@core/utils/Logger';
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
 import type {IHabboCommunicationManager} from '../communication/IHabboCommunicationManager';
-import type {ISessionDataManager, SessionDataManagerEvents} from './ISessionDataManager';
+import type {ISessionDataManager} from './ISessionDataManager';
 import {HabboClubLevelEnum} from './enum';
 
 // Events
@@ -75,7 +74,7 @@ const log = Logger.getLogger('Session');
  * Manages user session data after authentication
  * Based on AS3 com.sulake.habbo.session.SessionDataManager
  */
-export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> implements ISessionDataManager
+export class SessionDataManager implements ISessionDataManager
 {
 	private _communication: IHabboCommunicationManager;
 	private _messageEvents: IMessageEvent[] = [];
@@ -102,9 +101,10 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
 
 	constructor(communication: IHabboCommunicationManager)
 	{
-		super();
 		this._communication = communication;
+
 		this.registerMessageEvents();
+		
 		log.info('SessionDataManager initialized');
 	}
 
@@ -345,12 +345,6 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
 		return this._petRespectLeft;
 	}
 
-	// Event emitter access for UIBridge
-	get events(): EventEmitter<SessionDataManagerEvents>
-	{
-		return this;
-	}
-
 	/**
 	 * Check if user has a specific security level
 	 */
@@ -373,7 +367,6 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
 		}
 		this._messageEvents = [];
 
-		this.removeAllListeners();
 		this._disposed = true;
 
 		log.info('SessionDataManager disposed');
@@ -453,8 +446,6 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
 		this._accountSafetyLocked = parser.accountSafetyLocked;
 
 		log.success(`User loaded: ${this._userName} (ID: ${this._userId})`);
-
-		this.emit('userDataUpdated');
 	}
 
 	/**
@@ -474,8 +465,6 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
 		this._isAmbassador = parser.isAmbassador;
 
 		log.debug(`Rights: Club=${this._clubLevel}, Security=${this._securityLevel}, Ambassador=${this._isAmbassador}`);
-
-		this.emit('userRightsUpdated');
 	}
 
 	/**
@@ -512,8 +501,6 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
 		this._isAuthenticHabbo = parser.isAuthenticHabbo;
 
 		log.debug(`Availability: Open=${this._systemOpen}, ShutDown=${this._systemShutDown}`);
-
-		this.emit('availabilityStatusUpdated', this._systemOpen, this._systemShutDown);
 	}
 
 	/**
@@ -532,8 +519,6 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
 		this._gender = parser.gender;
 
 		log.debug(`Figure updated: ${this._figure}`);
-
-		this.emit('figureUpdated', this._figure, this._gender);
 	}
 
 	/**
@@ -567,8 +552,6 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
 		this._roomIdToEnter = parser.roomIdToEnter;
 
 		log.debug(`Navigator: HomeRoom=${this._homeRoomId}, RoomToEnter=${this._roomIdToEnter}`);
-
-		this.emit('navigatorSettingsUpdated');
 	}
 
 	/**
@@ -586,8 +569,6 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
 		this._favouriteRooms = [...parser.favouriteRoomIds];
 
 		log.debug(`Favourites: ${this._favouriteRooms.length}/${this._favouriteRoomsLimit}`);
-
-		this.emit('favouritesUpdated');
 	}
 
 	/**
@@ -604,8 +585,6 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
 		this._activityPoints = new Map(parser.points);
 
 		log.debug(`Activity points: ${this._activityPoints.size} types`);
-
-		this.emit('activityPointsUpdated');
 	}
 
 	/**
@@ -638,8 +617,6 @@ export class SessionDataManager extends EventEmitter<SessionDataManagerEvents> i
 		this._achievementScore = parser.score;
 
 		log.debug(`Achievement score: ${this._achievementScore}`);
-
-		this.emit('achievementScoreUpdated');
 	}
 
 	/**

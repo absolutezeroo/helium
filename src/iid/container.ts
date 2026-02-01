@@ -24,6 +24,10 @@ import {HabboNewNavigator} from '@habbo/navigator/HabboNewNavigator';
 import type {IHabboNavigator} from '@habbo/navigator/IHabboNavigator';
 import type {IHabboNewNavigator} from '@habbo/navigator/IHabboNewNavigator';
 
+// Habbo Inventory
+import {HabboInventory} from '@habbo/inventory/HabboInventory';
+import type {IHabboInventory} from '@habbo/inventory/IHabboInventory';
+
 const container = new Container({
 	defaultScope: 'Singleton',
 	autoBindInjectable: true,

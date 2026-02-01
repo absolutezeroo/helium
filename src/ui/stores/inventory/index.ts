@@ -1,0 +1,1 @@
+export {inventoryStore} from './inventoryStore';

@@ -5,6 +5,7 @@ function createLocalizationStore()
 {
 	const [isLoaded, setIsLoaded] = createSignal(false);
 	const [languageCode, setLanguageCode] = createSignal('');
+
 	let _manager: IHabboLocalizationManager | null = null;
 
 	return {
@@ -19,6 +20,7 @@ function createLocalizationStore()
 
 			// Check if already loaded
 			const definition = manager.getActiveLocalizationDefinition();
+
 			if (definition)
 			{
 				setLanguageCode(definition.languageCode);
@@ -29,10 +31,12 @@ function createLocalizationStore()
 			manager.on('loaded', () =>
 			{
 				const activeDef = manager.getActiveLocalizationDefinition();
+
 				if (activeDef)
 				{
 					setLanguageCode(activeDef.languageCode);
 				}
+
 				setIsLoaded(true);
 			});
 
@@ -47,6 +51,7 @@ function createLocalizationStore()
 		get: (key: string, defaultValue: string = ''): string =>
 		{
 			if (!_manager) return defaultValue || key;
+
 			return _manager.getLocalization(key, defaultValue);
 		},
 
@@ -68,6 +73,7 @@ function createLocalizationStore()
 		getBadgeName: (badgeId: string): string =>
 		{
 			if (!_manager) return badgeId;
+
 			return _manager.getBadgeName(badgeId);
 		},
 
@@ -75,6 +81,7 @@ function createLocalizationStore()
 		getBadgeDesc: (badgeId: string): string =>
 		{
 			if (!_manager) return '';
+
 			return _manager.getBadgeDesc(badgeId);
 		},
 
@@ -82,6 +89,7 @@ function createLocalizationStore()
 		getAchievementName: (badgeId: string): string =>
 		{
 			if (!_manager) return badgeId;
+
 			return _manager.getAchievementName(badgeId);
 		},
 
@@ -89,6 +97,7 @@ function createLocalizationStore()
 		getAchievementDesc: (badgeId: string, limit: number): string =>
 		{
 			if (!_manager) return '';
+
 			return _manager.getAchievementDesc(badgeId, limit);
 		},
 
@@ -96,6 +105,7 @@ function createLocalizationStore()
 		has: (key: string): boolean =>
 		{
 			if (!_manager) return false;
+
 			return _manager.hasLocalization(key);
 		},
 

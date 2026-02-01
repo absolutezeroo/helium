@@ -6,6 +6,7 @@ import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfig
 import type {IHabboLocalizationManager} from '@habbo/localization/IHabboLocalizationManager';
 import type {IHabboNavigator, IHabboNewNavigator} from '@habbo/navigator';
 import {HabboCommunicationManager} from '@habbo/communication/HabboCommunicationManager';
+import {HabboInventory} from '@habbo/inventory/HabboInventory';
 import {Logger} from '@core/utils/Logger';
 import {mountUI, uiBridge} from '@ui/index';
 import '@ui/styles.css';
@@ -206,6 +207,10 @@ export class Helium {
         const navigator = container.get<IHabboNavigator>(TYPES.NavigatorManager);
         const newNavigator = container.get<IHabboNewNavigator>(TYPES.NewNavigatorManager);
         uiBridge.connectNavigator(navigator, newNavigator);
+
+        // Connect Inventory to UIBridge
+        const inventory = new HabboInventory(this._habboCommunicationManager);
+        uiBridge.connectInventory(inventory);
 
         // Initialize room-related stores
         uiBridge.initRoomStores();

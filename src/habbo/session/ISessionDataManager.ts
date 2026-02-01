@@ -1,29 +1,9 @@
-import {EventEmitter} from 'eventemitter3';
-
-/**
- * Session data manager events
- */
-export interface SessionDataManagerEvents
-{
-	'userDataUpdated': () => void;
-	'figureUpdated': (figure: string, gender: string) => void;
-	'availabilityStatusUpdated': (isOpen: boolean, onShutDown: boolean) => void;
-	'userRightsUpdated': () => void;
-	'navigatorSettingsUpdated': () => void;
-	'favouritesUpdated': () => void;
-	'activityPointsUpdated': () => void;
-	'achievementScoreUpdated': () => void;
-}
-
 /**
  * Interface for session data manager
  * Manages user session data after authentication
  */
-export interface ISessionDataManager extends EventEmitter<SessionDataManagerEvents>
+export interface ISessionDataManager
 {
-	// Event emitter access
-	readonly events: EventEmitter<SessionDataManagerEvents>;
-
 	// System status
 	readonly systemOpen: boolean;
 	readonly systemShutDown: boolean;

@@ -1,5 +1,5 @@
 import {Component, For} from 'solid-js';
-import {navigatorStore, sessionStore} from '../../stores';
+import {inventoryStore, navigatorStore, sessionStore} from '../../stores';
 
 interface ToolbarIcon
 {
@@ -41,8 +41,7 @@ export const Toolbar: Component = () =>
 				console.log('Catalog clicked');
 				break;
 			case 'inventory':
-				// TODO: Implement inventory
-				console.log('Inventory clicked');
+				inventoryStore.toggleInventory();
 				break;
 			case 'friends':
 				// TODO: Implement friends
@@ -67,7 +66,12 @@ export const Toolbar: Component = () =>
 				<For each={icons}>
 					{(icon) => (
 						<button
-							class={`toolbar-icon ${icon.id === 'navigator' && navigatorStore.isOpen() ? 'active' : ''}`}
+							class={`toolbar-icon ${
+								(icon.id === 'navigator' && navigatorStore.isOpen()) ||
+								(icon.id === 'inventory' && inventoryStore.isOpen())
+									? 'active'
+									: ''
+							}`}
 							title={icon.label}
 							onClick={() => handleIconClick(icon.id)}
 						>

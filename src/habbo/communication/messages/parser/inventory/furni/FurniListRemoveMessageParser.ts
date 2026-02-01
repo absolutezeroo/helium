@@ -1,0 +1,31 @@
+import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
+import type {IMessageParser} from '@core/communication/messages/IMessageParser';
+
+/**
+ * Parser for FurniListRemove message (item removed from inventory)
+ *
+ * Based on AS3 com.sulake.habbo.communication.messages.parser.inventory.furni.FurniListRemoveEventParser
+ */
+export class FurniListRemoveMessageParser implements IMessageParser
+{
+	private _itemId: number = 0;
+
+	get itemId(): number
+	{
+		return this._itemId;
+	}
+
+	flush(): boolean
+	{
+		this._itemId = 0;
+
+		return true;
+	}
+
+	parse(wrapper: IMessageDataWrapper): boolean
+	{
+		this._itemId = wrapper.readInt();
+
+		return true;
+	}
+}
