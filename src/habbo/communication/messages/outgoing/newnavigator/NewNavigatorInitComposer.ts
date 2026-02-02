@@ -1,4 +1,4 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 
 /**
@@ -6,12 +6,14 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  *
  * @see source_as/habbo/communication/messages/outgoing/newnavigator/NewNavigatorInitComposer.as
  */
-export class NewNavigatorInitComposer implements IMessageComposer<ConstructorParameters<typeof NewNavigatorInitComposer>>
+export class NewNavigatorInitComposer extends MessageComposer<ConstructorParameters<typeof NewNavigatorInitComposer>>
 {
 	private _data: ConstructorParameters<typeof NewNavigatorInitComposer>;
 
 	constructor()
 	{
+		super();
+
 		this._data = [];
 	}
 
@@ -20,8 +22,4 @@ export class NewNavigatorInitComposer implements IMessageComposer<ConstructorPar
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

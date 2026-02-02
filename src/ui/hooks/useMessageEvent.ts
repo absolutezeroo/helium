@@ -1,7 +1,5 @@
 import {onCleanup, onMount} from 'solid-js';
-import {container} from '@iid/container';
-import {TYPES} from '@iid/types';
-import type {IHabboCommunicationManager} from '@habbo/communication';
+import Helium from '@/Helium';
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
 import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 
@@ -24,7 +22,7 @@ export function registerMessageEvent<T extends IMessageEvent>(
 	handler: (event: T, parser: IMessageParser) => void
 ): () => void
 {
-	const comm = container.get<IHabboCommunicationManager>(TYPES.HabboCommunicationManager);
+	const comm = Helium.instance.habboCommunication;
 
 	const event = new EventClass((evt: T) =>
 	{

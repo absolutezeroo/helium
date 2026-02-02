@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Removes a collapsed category from the navigator
  *
  * @see source_as/habbo/communication/messages/outgoing/newnavigator/NavigatorRemoveCollapsedCategoryMessageComposer.as
  */
-export class NavigatorRemoveCollapsedCategoryMessageComposer implements IMessageComposer<ConstructorParameters<typeof NavigatorRemoveCollapsedCategoryMessageComposer>>
+export class NavigatorRemoveCollapsedCategoryMessageComposer extends MessageComposer<ConstructorParameters<typeof NavigatorRemoveCollapsedCategoryMessageComposer>>
 {
 	private _data: ConstructorParameters<typeof NavigatorRemoveCollapsedCategoryMessageComposer>;
 
 	constructor(category: string)
 	{
+		super();
+
 		this._data = [category];
 	}
 
@@ -19,8 +21,4 @@ export class NavigatorRemoveCollapsedCategoryMessageComposer implements IMessage
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

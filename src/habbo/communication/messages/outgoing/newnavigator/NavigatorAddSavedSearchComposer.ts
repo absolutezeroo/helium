@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Adds a saved search to the navigator
  *
  * @see source_as/habbo/communication/messages/outgoing/newnavigator/NavigatorAddSavedSearchComposer.as
  */
-export class NavigatorAddSavedSearchComposer implements IMessageComposer<ConstructorParameters<typeof NavigatorAddSavedSearchComposer>>
+export class NavigatorAddSavedSearchComposer extends MessageComposer<ConstructorParameters<typeof NavigatorAddSavedSearchComposer>>
 {
 	private _data: ConstructorParameters<typeof NavigatorAddSavedSearchComposer>;
 
 	constructor(searchCode: string, filtering: string)
 	{
+		super();
+
 		this._data = [searchCode, filtering];
 	}
 
@@ -19,8 +21,4 @@ export class NavigatorAddSavedSearchComposer implements IMessageComposer<Constru
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

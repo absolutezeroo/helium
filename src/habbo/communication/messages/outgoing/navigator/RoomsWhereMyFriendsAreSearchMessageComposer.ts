@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Search rooms where my friends are
  *
  * @see source_as/habbo/communication/messages/outgoing/navigator/RoomsWhereMyFriendsAreSearchMessageComposer.as
  */
-export class RoomsWhereMyFriendsAreSearchMessageComposer implements IMessageComposer<ConstructorParameters<typeof RoomsWhereMyFriendsAreSearchMessageComposer>>
+export class RoomsWhereMyFriendsAreSearchMessageComposer extends MessageComposer<ConstructorParameters<typeof RoomsWhereMyFriendsAreSearchMessageComposer>>
 {
 	private _data: ConstructorParameters<typeof RoomsWhereMyFriendsAreSearchMessageComposer>;
 
 	constructor()
 	{
+		super();
+
 		this._data = [];
 	}
 
@@ -19,8 +21,4 @@ export class RoomsWhereMyFriendsAreSearchMessageComposer implements IMessageComp
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

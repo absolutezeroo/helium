@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Select/use an avatar effect
  *
  * @see source_as/habbo/communication/messages/outgoing/inventory/avatareffect/AvatarEffectSelectedComposer.as
  */
-export class AvatarEffectSelectedComposer implements IMessageComposer<ConstructorParameters<typeof AvatarEffectSelectedComposer>>
+export class AvatarEffectSelectedComposer extends MessageComposer<ConstructorParameters<typeof AvatarEffectSelectedComposer>>
 {
 	private _data: ConstructorParameters<typeof AvatarEffectSelectedComposer>;
 
 	constructor(effectType: number)
 	{
+		super();
+
 		this._data = [effectType];
 	}
 
@@ -19,8 +21,4 @@ export class AvatarEffectSelectedComposer implements IMessageComposer<Constructo
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

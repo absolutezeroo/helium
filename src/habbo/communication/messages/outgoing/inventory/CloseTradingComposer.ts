@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Close trading session
  *
  * @see source_as/habbo/communication/messages/outgoing/inventory/trading/CloseTradingComposer.as
  */
-export class CloseTradingComposer implements IMessageComposer<ConstructorParameters<typeof CloseTradingComposer>>
+export class CloseTradingComposer extends MessageComposer<ConstructorParameters<typeof CloseTradingComposer>>
 {
 	private _data: ConstructorParameters<typeof CloseTradingComposer>;
 
 	constructor()
 	{
+		super();
+
 		this._data = [];
 	}
 
@@ -19,8 +21,4 @@ export class CloseTradingComposer implements IMessageComposer<ConstructorParamet
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

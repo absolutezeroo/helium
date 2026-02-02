@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Add item to trade
  *
  * @see source_as/habbo/communication/messages/outgoing/inventory/trading/AddItemToTradeComposer.as
  */
-export class AddItemToTradeComposer implements IMessageComposer<ConstructorParameters<typeof AddItemToTradeComposer>>
+export class AddItemToTradeComposer extends MessageComposer<ConstructorParameters<typeof AddItemToTradeComposer>>
 {
 	private _data: ConstructorParameters<typeof AddItemToTradeComposer>;
 
 	constructor(itemId: number)
 	{
+		super();
+
 		this._data = [itemId];
 	}
 
@@ -19,8 +21,4 @@ export class AddItemToTradeComposer implements IMessageComposer<ConstructorParam
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

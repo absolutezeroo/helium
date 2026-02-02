@@ -1,10 +1,13 @@
+import type {IDisposable} from '@core/runtime/IDisposable';
 import type {IConnection} from './connection/IConnection';
 import type {IConnectionCallback} from './connection/IConnectionCallback';
 
 /**
  * Interface for the core communication manager
+ *
+ * Based on AS3: com.sulake.core.communication.CoreCommunicationManager
  */
-export interface ICoreCommunicationManager
+export interface ICoreCommunicationManager extends IDisposable
 {
 	/**
 	 * Get all active connections
@@ -23,9 +26,4 @@ export interface ICoreCommunicationManager
 	 * Call this from the main update loop
 	 */
 	update(deltaTime: number): void;
-
-	/**
-	 * Clean up resources
-	 */
-	dispose(): void;
 }

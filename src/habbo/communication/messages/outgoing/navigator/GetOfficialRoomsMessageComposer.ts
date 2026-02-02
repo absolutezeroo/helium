@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Get official rooms list
  *
  * @see source_as/habbo/communication/messages/outgoing/navigator/GetOfficialRoomsMessageComposer.as
  */
-export class GetOfficialRoomsMessageComposer implements IMessageComposer<ConstructorParameters<typeof GetOfficialRoomsMessageComposer>>
+export class GetOfficialRoomsMessageComposer extends MessageComposer<ConstructorParameters<typeof GetOfficialRoomsMessageComposer>>
 {
 	private _data: ConstructorParameters<typeof GetOfficialRoomsMessageComposer>;
 
 	constructor(index: number = 0)
 	{
+		super();
+
 		this._data = [index];
 	}
 
@@ -19,8 +21,4 @@ export class GetOfficialRoomsMessageComposer implements IMessageComposer<Constru
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

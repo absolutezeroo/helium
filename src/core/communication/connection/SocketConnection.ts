@@ -19,6 +19,10 @@ export interface ConnectionEvents
 	disconnected: () => void;
 	error: (error: Error) => void;
 	message: (messageId: number) => void;
+	/**
+	 * Emitted after a message is successfully parsed and before handlers are called
+	 */
+	messageEvent: (event: IMessageEvent) => void;
 }
 
 export class SocketConnection extends EventEmitter<ConnectionEvents> implements IConnection
@@ -201,6 +205,10 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 								for (const event of events)
 								{
 									event.connection = this;
+
+									// Emit global event for MessageBus integration
+									this.emit('messageEvent', event);
+
 									try
 									{
 										event.callback(event);

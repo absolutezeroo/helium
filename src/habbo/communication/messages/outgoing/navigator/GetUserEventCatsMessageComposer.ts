@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Get user's event categories
  *
  * @see source_as/habbo/communication/messages/outgoing/navigator/GetUserEventCatsMessageComposer.as
  */
-export class GetUserEventCatsMessageComposer implements IMessageComposer<ConstructorParameters<typeof GetUserEventCatsMessageComposer>>
+export class GetUserEventCatsMessageComposer extends MessageComposer<ConstructorParameters<typeof GetUserEventCatsMessageComposer>>
 {
 	private _data: ConstructorParameters<typeof GetUserEventCatsMessageComposer>;
 
 	constructor()
 	{
+		super();
+
 		this._data = [];
 	}
 
@@ -19,8 +21,4 @@ export class GetUserEventCatsMessageComposer implements IMessageComposer<Constru
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

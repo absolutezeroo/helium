@@ -1,10 +1,9 @@
-import {inject, injectable} from 'inversify';
+import {Component, ComponentDependency, IID_HabboCommunicationManager, type IContext} from '@core/runtime';
 import type {IHabboNavigator} from './IHabboNavigator';
 import {NavigatorData} from './domain';
 import {IncomingMessages} from './IncomingMessages';
 import type {CompetitionRoomsData, EventCategory, GuestRoomData} from '../communication/messages/incoming/navigator';
 import type {IHabboCommunicationManager} from '../communication/IHabboCommunicationManager';
-import {TYPES} from '@iid/types';
 import {Logger} from '@core/utils/Logger';
 
 // Composers
@@ -22,23 +21,33 @@ const log = Logger.getLogger('Navigator');
 /**
  * Habbo Navigator component
  */
-@injectable()
-export class HabboNavigator implements IHabboNavigator
+export class HabboNavigator extends Component implements IHabboNavigator
 {
-	private _communication: IHabboCommunicationManager;
-	private _incomingMessages: IncomingMessages;
+	private _communication: IHabboCommunicationManager | null = null;
+	private _incomingMessages: IncomingMessages | null = null;
 	private _isOpen: boolean = false;
 	private _isRoomInfoOpen: boolean = false;
-	private _disposed: boolean = false;
 
-	constructor(
-		@inject(TYPES.HabboCommunicationManager) communication: IHabboCommunicationManager
-	)
+	constructor(context: IContext)
 	{
-		this._communication = communication;
+		super(context);
 		this._data = new NavigatorData();
-		this._incomingMessages = new IncomingMessages(communication, this._data);
+	}
 
+	protected override get dependencies(): Array<ComponentDependency<any>>
+	{
+		return [
+			new ComponentDependency(
+				IID_HabboCommunicationManager,
+				(manager: IHabboCommunicationManager | null) => { this._communication = manager; },
+				true
+			),
+		];
+	}
+
+	protected override initComponent(): void
+	{
+		this._incomingMessages = new IncomingMessages(this._communication!, this._data);
 		log.info('Navigator initialized');
 	}
 
@@ -241,16 +250,15 @@ export class HabboNavigator implements IHabboNavigator
 		return this._data.isRoomHome(roomId);
 	}
 
-	dispose(): void
+	override dispose(): void
 	{
-		if (this._disposed) return;
+		if (this.disposed) return;
 
-		this._disposed = true;
-
-		this._incomingMessages.dispose();
+		this._incomingMessages?.dispose();
 		this._data.dispose();
 
 		log.info('Navigator disposed');
+		super.dispose();
 	}
 
 	private openRoomInfo(): void
@@ -275,7 +283,7 @@ export class HabboNavigator implements IHabboNavigator
 
 	private send(composer: { getMessageArray(): unknown[]; dispose(): void }): void
 	{
-		const connection = this._communication.connection;
+		const connection = this._communication?.connection;
 
 		if (connection)
 		{

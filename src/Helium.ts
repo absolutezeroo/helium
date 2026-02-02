@@ -1,23 +1,43 @@
-import 'reflect-metadata';
 import {Application, Ticker} from 'pixi.js';
-import {container, setupContainer, TYPES} from './iid';
-import type {ICoreCommunicationManager} from '@core/communication/ICoreCommunicationManager';
-import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
-import type {IHabboLocalizationManager} from '@habbo/localization/IHabboLocalizationManager';
-import type {IHabboNavigator, IHabboNewNavigator} from '@habbo/navigator';
+import {ComponentContext} from '@core/runtime';
+import {AssetLibrary} from '@core/assets/AssetLibrary';
+import {CoreCommunicationManager} from '@core/communication/CoreCommunicationManager';
+import {GameDataManager} from '@core/gamedata/GameDataManager';
+import {HabboConfigurationManager} from '@habbo/configuration/HabboConfigurationManager';
 import {HabboCommunicationManager} from '@habbo/communication/HabboCommunicationManager';
+import {HabboLocalizationManager} from '@habbo/localization/HabboLocalizationManager';
+import {HabboNavigator} from '@habbo/navigator/HabboNavigator';
+import {HabboNewNavigator} from '@habbo/navigator/HabboNewNavigator';
 import {HabboInventory} from '@habbo/inventory/HabboInventory';
 import {Logger} from '@core/utils/Logger';
 import {mountUI} from '@ui/index';
 import {
-	config as configFeature,
-	disposeFeatures,
-	initFeatures,
-	inventory as inventoryFeature,
-	localization as localizationFeature,
-	navigator as navigatorFeature,
-} from '@/features';
+	loggingMiddleware,
+	MessageBus,
+	ModuleRegistry,
+	ModuleId,
+	sessionModule,
+	navigatorModule,
+	connectionModule,
+	roomModule,
+	favouritesModule,
+	configModule,
+	localizationModule,
+	inventoryModule,
+} from '@/modules';
 import '@ui/styles.css';
+
+import type {ICoreCommunicationManager} from '@core/communication/ICoreCommunicationManager';
+import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
+import {IID_AssetLibrary} from "@iid/IIDAssetLibrary";
+import {IID_CoreCommunicationManager} from "@iid/IIDCoreCommunicationManager";
+import {IID_GameDataManager} from "@iid/IIDGameDataManager";
+import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
+import {IID_HabboConfigurationManager} from "@iid/IIDHabboConfigurationManager";
+import {IID_HabboLocalizationManager} from "@iid/IIDHabboLocalizationManager";
+import {IID_HabboNavigator} from "@iid/IIDHabboNavigator";
+import {IID_HabboNewNavigator} from "@iid/IIDHabboNewNavigator";
+import {IID_HabboInventory} from "@iid/IIDHabboInventory";
 
 const log = Logger.getLogger('Helium');
 
@@ -41,6 +61,53 @@ export class Helium
 		}
 
 		return this._instance;
+	}
+
+	// Component Context
+	private _context: ComponentContext | null = null;
+
+	/**
+	 * Get the component context
+	 */
+	public get context(): ComponentContext
+	{
+		if (!this._context)
+		{
+			throw new Error('[Helium] Not initialized');
+		}
+
+		return this._context;
+	}
+
+	// Module System
+	private _messageBus: MessageBus | null = null;
+
+	/**
+	 * Get the message bus
+	 */
+	public get messageBus(): MessageBus
+	{
+		if (!this._messageBus)
+		{
+			throw new Error('[Helium] Not initialized');
+		}
+
+		return this._messageBus;
+	}
+
+	private _moduleRegistry: ModuleRegistry | null = null;
+
+	/**
+	 * Get the module registry
+	 */
+	public get moduleRegistry(): ModuleRegistry
+	{
+		if (!this._moduleRegistry)
+		{
+			throw new Error('[Helium] Not initialized');
+		}
+
+		return this._moduleRegistry;
 	}
 
 	private _application: Application | null = null;
@@ -143,11 +210,15 @@ export class Helium
 			this._disposeUI = null;
 		}
 
-		// Dispose all features
-		disposeFeatures();
+		// Dispose module system
+		this._moduleRegistry?.dispose();
+		this._moduleRegistry = null;
+		this._messageBus?.clear();
+		this._messageBus = null;
 
-		// Dispose communication
-		this._communicationManager?.dispose();
+		// Dispose context (disposes all components)
+		this._context?.dispose();
+		this._context = null;
 
 		// Dispose PixiJS
 		this._application?.destroy(true);
@@ -163,11 +234,30 @@ export class Helium
 	{
 		log.info('Initializing...');
 
-		// Setup IoC container
-		setupContainer();
+		// Create Component Context (replaces Inversify container)
+		this._context = new ComponentContext();
 
-		// Initialize configuration manager
-		this._configurationManager = container.get<IHabboConfigurationManager>(TYPES.HabboConfigurationManager);
+		// ========== Create Core Components ==========
+
+		// Asset Library
+		const assetLibrary = new AssetLibrary(this._context);
+		this._context.attachComponent(assetLibrary, [IID_AssetLibrary]);
+
+		// Game Data Manager
+		const gameDataManager = new GameDataManager(this._context);
+		this._context.attachComponent(gameDataManager, [IID_GameDataManager]);
+
+		// Core Communication Manager
+		const coreCommunicationManager = new CoreCommunicationManager(this._context);
+		this._context.attachComponent(coreCommunicationManager, [IID_CoreCommunicationManager]);
+		this._communicationManager = coreCommunicationManager;
+
+		// ========== Create Habbo Components ==========
+
+		// Configuration Manager
+		const configurationManager = new HabboConfigurationManager(this._context);
+		this._context.attachComponent(configurationManager, [IID_HabboConfigurationManager]);
+		this._configurationManager = configurationManager;
 
 		// Set configuration properties
 		if (config?.configuration)
@@ -202,9 +292,10 @@ export class Helium
 
 		target.appendChild(this._application.canvas);
 
-		// Initialize communication managers
-		this._communicationManager = container.get<ICoreCommunicationManager>(TYPES.CommunicationManager);
-		this._habboCommunicationManager = container.get<HabboCommunicationManager>(TYPES.HabboCommunicationManager);
+		// Habbo Communication Manager (depends on CoreCommunicationManager)
+		const habboCommunicationManager = new HabboCommunicationManager(this._context);
+		this._context.attachComponent(habboCommunicationManager, [IID_HabboCommunicationManager]);
+		this._habboCommunicationManager = habboCommunicationManager;
 
 		// Configure connection if provided
 		if (config?.connection)
@@ -212,14 +303,65 @@ export class Helium
 			this._habboCommunicationManager.configure(config.connection);
 		}
 
-		// Initialize config feature
-		configFeature.init({configuration: this._configurationManager});
+		// ========== Initialize Module System ==========
 
-		// Initialize localization manager and feature
-		const localizationManager = container.get<IHabboLocalizationManager>(TYPES.LocalizationManager);
+		// Create MessageBus
+		this._messageBus = new MessageBus();
+
+		// Add logging middleware in development
+		if (import.meta.env.DEV)
+		{
+			this._messageBus.use(loggingMiddleware);
+		}
+
+		// Create ModuleRegistry
+		this._moduleRegistry = new ModuleRegistry(this._context, this._messageBus);
+
+		// Connect MessageBus to HabboCommunicationManager
+		this._habboCommunicationManager.onMessage((event) =>
+		{
+			this._messageBus!.dispatch(event);
+		});
+
+		// ========== Register Modules (no manager deps) ==========
+		await this._moduleRegistry.register(sessionModule);
+		await this._moduleRegistry.register(connectionModule);
+		await this._moduleRegistry.register(roomModule);
+		await this._moduleRegistry.register(favouritesModule);
+
+		// Wire connection actions to HabboCommunicationManager
+		const connectionActions = this._moduleRegistry.get(ModuleId.Connection).actions;
+		this._habboCommunicationManager.setConnectionActions(connectionActions);
+
+		// ========== Create Remaining Managers ==========
+
+		// Localization Manager
+		const localizationManager = new HabboLocalizationManager(this._context);
+		this._context.attachComponent(localizationManager, [IID_HabboLocalizationManager]);
 		localizationManager.setConfigurationManager(this._configurationManager);
 		localizationManager.setCommunicationManager(this._habboCommunicationManager);
-		localizationFeature.init({localization: localizationManager});
+
+		// Navigator (depends on HabboCommunicationManager)
+		const navigatorManager = new HabboNavigator(this._context);
+		this._context.attachComponent(navigatorManager, [IID_HabboNavigator]);
+
+		// New Navigator (depends on HabboCommunicationManager and HabboNavigator)
+		const newNavigatorManager = new HabboNewNavigator(this._context);
+		this._context.attachComponent(newNavigatorManager, [IID_HabboNewNavigator]);
+
+		// Inventory Manager
+		const inventoryManager = new HabboInventory(this._habboCommunicationManager);
+		// Note: HabboInventory needs to be adapted to Component pattern for full IID support
+		// For now we use a wrapper to expose it via IID
+		this._context.attachComponent(inventoryManager as any, [IID_HabboInventory]);
+
+		// ========== Register Modules (with manager deps) ==========
+		await this._moduleRegistry.register(configModule);
+		await this._moduleRegistry.register(localizationModule);
+		await this._moduleRegistry.register(navigatorModule);
+		await this._moduleRegistry.register(inventoryModule);
+
+		// ========== Final Initialization ==========
 
 		// Activate default localization if configured
 		if (this._configurationManager.propertyExists('localization.1'))
@@ -228,25 +370,13 @@ export class Helium
 			localizationManager.activateLocalizationDefinition(locName);
 		}
 
-		// Initialize navigator feature
-		const navigatorManager = container.get<IHabboNavigator>(TYPES.NavigatorManager);
-		const newNavigatorManager = container.get<IHabboNewNavigator>(TYPES.NewNavigatorManager);
-		navigatorFeature.init({navigator: navigatorManager, newNavigator: newNavigatorManager});
-
-		// Initialize inventory feature
-		const inventoryManager = new HabboInventory(this._habboCommunicationManager);
-		inventoryFeature.init({inventory: inventoryManager});
-
-		// Initialize features that only listen to messages (session, room, favourites)
-		initFeatures();
-
-		// Mount SolidJS UI
+		// Mount SolidJS UI with ModuleRegistry
 		const uiContainer = document.createElement('div');
 		uiContainer.id = 'helium-ui';
 		document.body.appendChild(uiContainer);
-		this._disposeUI = mountUI(uiContainer);
+		this._disposeUI = mountUI(uiContainer, this._moduleRegistry);
 
-		// Setup update loop for communication
+		// Set up update loop for communication
 		this._application.ticker.add(this.update, this);
 
 		this._ready = true;
@@ -265,6 +395,9 @@ export class Helium
 	private update(ticker: Ticker): void
 	{
 		const deltaTime = ticker.deltaMS;
+
+		// Update context (processes all update receivers)
+		this._context?.update(deltaTime);
 
 		// Process communication
 		this._communicationManager?.update(deltaTime);

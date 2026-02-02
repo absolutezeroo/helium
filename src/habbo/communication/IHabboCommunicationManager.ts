@@ -20,8 +20,12 @@ export interface HabboCommunicationManagerEvents
 /**
  * Interface for Habbo-specific communication manager
  */
-export interface IHabboCommunicationManager extends EventEmitter<HabboCommunicationManagerEvents>
+export interface IHabboCommunicationManager
 {
+	/**
+	 * Event emitter for communication events
+	 */
+	readonly events: EventEmitter;
 	/**
 	 * Get the main Habbo connection
 	 */
@@ -74,4 +78,11 @@ export interface IHabboCommunicationManager extends EventEmitter<HabboCommunicat
 	 * Disconnect from the server
 	 */
 	disconnect(): void;
+
+	/**
+	 * Register a global message listener
+	 * Called for ALL incoming messages after parsing
+	 * @returns Unsubscribe function
+	 */
+	onMessage(listener: (event: IMessageEvent) => void): () => void;
 }

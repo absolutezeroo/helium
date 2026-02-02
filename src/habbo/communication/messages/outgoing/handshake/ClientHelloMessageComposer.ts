@@ -1,4 +1,4 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * First message sent to server to initiate connection
@@ -6,7 +6,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  *
  * @see source_as/habbo/communication/messages/outgoing/handshake/ClientHelloMessageComposer.as
  */
-export class ClientHelloMessageComposer implements IMessageComposer<ConstructorParameters<typeof ClientHelloMessageComposer>>
+export class ClientHelloMessageComposer extends MessageComposer<ConstructorParameters<typeof ClientHelloMessageComposer>>
 {
 	private _data: ConstructorParameters<typeof ClientHelloMessageComposer>;
 
@@ -17,6 +17,8 @@ export class ClientHelloMessageComposer implements IMessageComposer<ConstructorP
 		category: number = 4
 	)
 	{
+		super();
+
 		this._data = [releaseVersion, type, platform, category];
 	}
 
@@ -25,8 +27,4 @@ export class ClientHelloMessageComposer implements IMessageComposer<ConstructorP
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

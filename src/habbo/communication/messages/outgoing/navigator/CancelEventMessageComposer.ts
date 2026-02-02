@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Cancel a room event
  *
  * @see source_as/habbo/communication/messages/outgoing/navigator/CancelEventMessageComposer.as
  */
-export class CancelEventMessageComposer implements IMessageComposer<ConstructorParameters<typeof CancelEventMessageComposer>>
+export class CancelEventMessageComposer extends MessageComposer<ConstructorParameters<typeof CancelEventMessageComposer>>
 {
 	private _data: ConstructorParameters<typeof CancelEventMessageComposer>;
 
 	constructor(roomId: number)
 	{
+		super();
+
 		this._data = [roomId];
 	}
 
@@ -19,8 +21,4 @@ export class CancelEventMessageComposer implements IMessageComposer<ConstructorP
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

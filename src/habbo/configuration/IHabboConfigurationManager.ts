@@ -34,8 +34,12 @@ export interface HabboConfigurationManagerEvents
  * - External variables download
  * - Configuration reset
  */
-export interface IHabboConfigurationManager extends ICoreConfiguration, EventEmitter<HabboConfigurationManagerEvents>
+export interface IHabboConfigurationManager extends ICoreConfiguration
 {
+	/**
+	 * Event emitter for configuration events
+	 */
+	readonly events: EventEmitter;
 	/**
 	 * Get the current environment ID
 	 */

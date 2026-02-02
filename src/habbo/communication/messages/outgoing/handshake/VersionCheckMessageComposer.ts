@@ -1,4 +1,4 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Send client version information
@@ -6,7 +6,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  *
  * @see source_as/habbo/communication/messages/outgoing/handshake/VersionCheckMessageComposer.as
  */
-export class VersionCheckMessageComposer implements IMessageComposer<ConstructorParameters<typeof VersionCheckMessageComposer>>
+export class VersionCheckMessageComposer extends MessageComposer<ConstructorParameters<typeof VersionCheckMessageComposer>>
 {
 	private _data: ConstructorParameters<typeof VersionCheckMessageComposer>;
 
@@ -16,9 +16,9 @@ export class VersionCheckMessageComposer implements IMessageComposer<Constructor
 		externalVariablesUrl: string = ''
 	)
 	{
-		this._data = [];
+		super();
 
-		this._data.push(versionId, clientUrl, externalVariablesUrl);
+		this._data = [versionId, clientUrl, externalVariablesUrl];
 	}
 
 	getMessageArray()
@@ -26,8 +26,4 @@ export class VersionCheckMessageComposer implements IMessageComposer<Constructor
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

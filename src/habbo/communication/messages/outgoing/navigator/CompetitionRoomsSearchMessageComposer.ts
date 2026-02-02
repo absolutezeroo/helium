@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Search competition rooms
  *
  * @see source_as/habbo/communication/messages/outgoing/navigator/CompetitionRoomsSearchMessageComposer.as
  */
-export class CompetitionRoomsSearchMessageComposer implements IMessageComposer<ConstructorParameters<typeof CompetitionRoomsSearchMessageComposer>>
+export class CompetitionRoomsSearchMessageComposer extends MessageComposer<ConstructorParameters<typeof CompetitionRoomsSearchMessageComposer>>
 {
 	private _data: ConstructorParameters<typeof CompetitionRoomsSearchMessageComposer>;
 
 	constructor(goalId: number, pageIndex: number)
 	{
+		super();
+
 		this._data = [goalId, pageIndex];
 	}
 
@@ -19,8 +21,4 @@ export class CompetitionRoomsSearchMessageComposer implements IMessageComposer<C
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

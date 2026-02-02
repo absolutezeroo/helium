@@ -1,5 +1,4 @@
-import {injectable} from 'inversify';
-import {EventEmitter} from 'eventemitter3';
+import {Component, type IContext} from '@core/runtime';
 import {Logger} from '@core/utils/Logger';
 import type {ICoreLocalizationManager, LocalizationManagerEvents} from './ICoreLocalizationManager';
 import type {ILocalizable} from './ILocalizable';
@@ -22,8 +21,7 @@ const log = Logger.getLogger('Localization');
  * - Loading from external files
  *
  */
-@injectable()
-export class CoreLocalizationManager extends EventEmitter<LocalizationManagerEvents> implements ICoreLocalizationManager
+export class CoreLocalizationManager extends Component implements ICoreLocalizationManager
 {
 	private static readonly INTERPOLATION_DEPTH_LIMIT = 3;
 
@@ -35,9 +33,14 @@ export class CoreLocalizationManager extends EventEmitter<LocalizationManagerEve
 	protected _activeEnvironmentId: string = '';
 	protected _gameDataResources: GameDataResources | undefined;
 
-	constructor()
+	constructor(context: IContext)
 	{
-		super();
+		super(context);
+	}
+
+	protected override initComponent(): void
+	{
+		log.debug('CoreLocalizationManager initialized');
 	}
 
 	registerLocalizationDefinition(id: string, name: string, url: string, code: string): void
@@ -95,7 +98,7 @@ export class CoreLocalizationManager extends EventEmitter<LocalizationManagerEve
 		{
 			log.warn('Localization hashes URL was null or empty!');
 
-			this.emit('failed');
+			this.events.emit('failed');
 
 			return;
 		}
@@ -133,7 +136,7 @@ export class CoreLocalizationManager extends EventEmitter<LocalizationManagerEve
 					{
 						log.error('No external_texts entry in hashes file');
 
-						this.emit('failed');
+						this.events.emit('failed');
 
 						return;
 					}
@@ -147,14 +150,14 @@ export class CoreLocalizationManager extends EventEmitter<LocalizationManagerEve
 				{
 					log.error(`Failed parsing hashes: ${error}`);
 
-					this.emit('failed');
+					this.events.emit('failed');
 				}
 			})
 			.catch((error) =>
 			{
 				log.error(`Failed to load hashes: ${error.message}`);
 
-				this.emit('failed');
+				this.events.emit('failed');
 			});
 	}
 
@@ -181,7 +184,7 @@ export class CoreLocalizationManager extends EventEmitter<LocalizationManagerEve
 				{
 					log.error('Invalid localization data received');
 
-					this.emit('failed');
+					this.events.emit('failed');
 
 					return;
 				}
@@ -190,13 +193,13 @@ export class CoreLocalizationManager extends EventEmitter<LocalizationManagerEve
 
 				log.success('Localization loaded successfully');
 
-				this.emit('loaded');
+				this.events.emit('loaded');
 			})
 			.catch((error) =>
 			{
 				log.error(`Failed to load localization: ${error.message}`);
 
-				this.emit('failed');
+				this.events.emit('failed');
 			});
 	}
 

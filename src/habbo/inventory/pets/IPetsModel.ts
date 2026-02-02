@@ -1,3 +1,4 @@
+import type {IDisposable} from '@core/runtime/IDisposable';
 import type {Pet} from './Pet';
 
 /**
@@ -5,13 +6,10 @@ import type {Pet} from './Pet';
  *
  * Based on AS3 com.sulake.habbo.inventory.pets.PetsModel (ENGINE only)
  */
-export interface IPetsModel
+export interface IPetsModel extends IDisposable
 {
-	readonly disposed: boolean;
 	readonly isListInitialized: boolean;
 	readonly pets: Map<number, Pet>;
-
-	dispose(): void;
 
 	/**
 	 * Add a single pet

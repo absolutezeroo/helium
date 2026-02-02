@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Send SSO ticket for authentication
  *
  * @see source_as/habbo/communication/messages/outgoing/handshake/SSOTicketMessageComposer.as
  */
-export class SSOTicketMessageComposer implements IMessageComposer<ConstructorParameters<typeof SSOTicketMessageComposer>>
+export class SSOTicketMessageComposer extends MessageComposer<ConstructorParameters<typeof SSOTicketMessageComposer>>
 {
 	private _data: ConstructorParameters<typeof SSOTicketMessageComposer>;
 
 	constructor(ssoTicket: string, time: number = 0)
 	{
+		super();
+
 		this._data = [ssoTicket, time];
 	}
 
@@ -19,8 +21,4 @@ export class SSOTicketMessageComposer implements IMessageComposer<ConstructorPar
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

@@ -1,13 +1,10 @@
-import {inject, injectable} from 'inversify';
-import {EventEmitter} from 'eventemitter3';
-import {TYPES} from '@iid/types';
+import {Component, ComponentDependency, IID_CoreCommunicationManager, type IContext} from '@core/runtime';
 import {ArcFour} from '@habbo/communication/encryption/ArcFour';
 import {DiffieHellman} from '@habbo/communication/encryption/DiffieHellman';
 import {Logger} from '@core/utils/Logger';
 import {HabboMessages} from './HabboMessages';
 import {IncomingMessages} from './demo/IncomingMessages';
 import {SessionDataManager} from '../session/SessionDataManager';
-import {connection} from '@/features';
 import type {HabboCommunicationManagerEvents, IHabboCommunicationManager} from './IHabboCommunicationManager';
 import type {ICoreCommunicationManager} from '@core/communication/ICoreCommunicationManager';
 import type {IConnection} from '@core/communication/connection/IConnection';
@@ -18,6 +15,7 @@ import type {IEncryption} from '@core/communication/encryption/IEncryption';
 import type {IKeyExchange} from '@core/communication/handshake/IKeyExchange';
 import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
 import type {ISessionDataManager} from '../session/ISessionDataManager';
+import type {ConnectionActions} from '@/modules/connection/actions';
 
 const log = Logger.getLogger('Communication');
 
@@ -33,13 +31,12 @@ export interface HabboConnectionConfig
  *
  * Based on AS3: com.sulake.habbo.communication.HabboCommunicationManager
  *
- * Extends EventEmitter to act as the central event dispatcher (context.events in AS3)
- * for communication-related events like AUTHENTICATED, HANDSHAKED, etc.
+ * Uses Component.events as the central event dispatcher for communication-related
+ * events like AUTHENTICATED, HANDSHAKED, etc.
  */
-@injectable()
-export class HabboCommunicationManager extends EventEmitter<HabboCommunicationManagerEvents> implements IHabboCommunicationManager, IConnectionCallback
+export class HabboCommunicationManager extends Component implements IHabboCommunicationManager, IConnectionCallback
 {
-	private communicationManager: ICoreCommunicationManager;
+	private _communicationManager: ICoreCommunicationManager | null = null;
 	private messageConfig: IMessageConfiguration;
 	private incomingMessages: IncomingMessages | null = null;
 	private config: HabboConnectionConfig | null = null;
@@ -47,16 +44,55 @@ export class HabboCommunicationManager extends EventEmitter<HabboCommunicationMa
 	private connectionAttempt: number = 1;
 	private maxConnectionAttempts: number = 2;
 	private pendingMessageEvents: IMessageEvent[] = [];
+	private _connectionActions: ConnectionActions | null = null;
 
-	constructor(
-		@inject(TYPES.CommunicationManager) communicationManager: ICoreCommunicationManager
-	)
+	constructor(context: IContext)
 	{
-		super();
-		
-		this.communicationManager = communicationManager;
-
+		super(context);
 		this.messageConfig = new HabboMessages();
+	}
+
+	protected override get dependencies(): Array<ComponentDependency<any>>
+	{
+		return [
+			new ComponentDependency(
+				IID_CoreCommunicationManager,
+				(manager: ICoreCommunicationManager | null) => { this._communicationManager = manager; },
+				true
+			),
+		];
+	}
+
+	protected override initComponent(): void
+	{
+		log.debug('HabboCommunicationManager initialized');
+	}
+
+	private get communicationManager(): ICoreCommunicationManager
+	{
+		if (!this._communicationManager)
+		{
+			throw new Error('CommunicationManager not available');
+		}
+		return this._communicationManager;
+	}
+
+	/**
+	 * Set connection actions for state updates
+	 * Called by Helium after module registration
+	 */
+	setConnectionActions(actions: ConnectionActions): void
+	{
+		this._connectionActions = actions;
+	}
+
+	private get connectionActions(): ConnectionActions
+	{
+		if (!this._connectionActions)
+		{
+			throw new Error('Connection actions not set. Call setConnectionActions() first.');
+		}
+		return this._connectionActions;
 	}
 
 	private _sessionDataManager: SessionDataManager | null = null;
@@ -149,10 +185,10 @@ export class HabboCommunicationManager extends EventEmitter<HabboCommunicationMa
 
 		// Forward events from IncomingMessages to this manager
 		// This acts as context.events in AS3 for other components to listen
-		this.incomingMessages.on('loginStep', (step) => this.emit('loginStep', step));
-		this.incomingMessages.on('authenticated', () => this.emit('authenticated'));
-		this.incomingMessages.on('disconnected', (reason, reasonText) => this.emit('disconnected', reason, reasonText));
-		this.incomingMessages.on('error', (code, message) => this.emit('error', code, message));
+		this.incomingMessages.on('loginStep', (step) => this.events.emit('loginStep', step));
+		this.incomingMessages.on('authenticated', () => this.events.emit('authenticated'));
+		this.incomingMessages.on('disconnected', (reason, reasonText) => this.events.emit('disconnected', reason, reasonText));
+		this.incomingMessages.on('error', (code, message) => this.events.emit('error', code, message));
 
 		this.portIndex = -1;
 		this.connectionAttempt = 1;
@@ -203,23 +239,51 @@ export class HabboCommunicationManager extends EventEmitter<HabboCommunicationMa
 		this._connection?.close();
 	}
 
+	onMessage(listener: (event: IMessageEvent) => void): () => void
+	{
+		if (!this._connection)
+		{
+			// Buffer listener until connection is ready
+			const bufferedListener = listener;
+			const checkConnection = () =>
+			{
+				if (this._connection)
+				{
+					this._connection.on('messageEvent', bufferedListener);
+				}
+			};
+			// Check on next tick in case connection is created soon
+			setTimeout(checkConnection, 0);
+			return () =>
+			{
+				this._connection?.off('messageEvent', bufferedListener);
+			};
+		}
+
+		this._connection.on('messageEvent', listener);
+		return () =>
+		{
+			this._connection?.off('messageEvent', listener);
+		};
+	}
+
 	// IConnectionCallback
 	connectionInit(host: string, port: number): void
 	{
 		log.info(`Connecting to ${host}:${port}...`);
-		connection.setConnecting();
+		this.connectionActions.setConnecting();
 	}
 
 	connectionOpened(): void
 	{
 		log.success('Connected to server');
-		connection.setConnected();
+		this.connectionActions.setConnected();
 	}
 
 	connectionClosed(): void
 	{
 		log.info('Connection closed');
-		connection.setDisconnected();
+		this.connectionActions.setDisconnected();
 	}
 
 	connectionError(error: Error): void
@@ -229,7 +293,7 @@ export class HabboCommunicationManager extends EventEmitter<HabboCommunicationMa
 		if (this.connectionAttempt >= this.maxConnectionAttempts &&
 			this.portIndex >= (this.config?.ports.length ?? 0) - 1)
 		{
-			connection.setError(error.message);
+			this.connectionActions.setError(error.message);
 		}
 		this.tryNextPort();
 	}

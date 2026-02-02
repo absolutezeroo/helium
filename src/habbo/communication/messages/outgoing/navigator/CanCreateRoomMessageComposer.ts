@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Check if user can create a room
  *
  * @see source_as/habbo/communication/messages/outgoing/navigator/CanCreateRoomMessageComposer.as
  */
-export class CanCreateRoomMessageComposer implements IMessageComposer<ConstructorParameters<typeof CanCreateRoomMessageComposer>>
+export class CanCreateRoomMessageComposer extends MessageComposer<ConstructorParameters<typeof CanCreateRoomMessageComposer>>
 {
 	private _data: ConstructorParameters<typeof CanCreateRoomMessageComposer>;
 
 	constructor()
 	{
+		super();
+
 		this._data = [];
 	}
 
@@ -19,8 +21,4 @@ export class CanCreateRoomMessageComposer implements IMessageComposer<Constructo
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

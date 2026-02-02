@@ -14,6 +14,13 @@ export class MessageEvent implements IMessageEvent
 		this._parserClass = parserClass;
 	}
 
+	protected _disposed: boolean = false;
+
+	get disposed(): boolean
+	{
+		return this._disposed;
+	}
+
 	protected _callback: MessageEventCallback;
 
 	get callback(): MessageEventCallback
@@ -62,6 +69,9 @@ export class MessageEvent implements IMessageEvent
 
 	dispose(): void
 	{
+		if (this._disposed) return;
+		this._disposed = true;
+
 		this._callback = null!;
 		this._parserClass = null!;
 		this._connection = null;

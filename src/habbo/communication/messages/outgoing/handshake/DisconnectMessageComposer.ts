@@ -1,4 +1,4 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Request to disconnect from server
@@ -6,12 +6,14 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  *
  * @see source_as/habbo/communication/messages/outgoing/handshake/DisconnectMessageComposer.as
  */
-export class DisconnectMessageComposer implements IMessageComposer<ConstructorParameters<typeof DisconnectMessageComposer>>
+export class DisconnectMessageComposer extends MessageComposer<ConstructorParameters<typeof DisconnectMessageComposer>>
 {
 	private _data: ConstructorParameters<typeof DisconnectMessageComposer>;
 
 	constructor()
 	{
+		super();
+
 		this._data = [];
 	}
 
@@ -20,8 +22,4 @@ export class DisconnectMessageComposer implements IMessageComposer<ConstructorPa
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Request badges from server
  *
  * @see source_as/habbo/communication/messages/outgoing/inventory/badges/GetBadgesComposer.as
  */
-export class GetBadgesComposer implements IMessageComposer<ConstructorParameters<typeof GetBadgesComposer>>
+export class GetBadgesComposer extends MessageComposer<ConstructorParameters<typeof GetBadgesComposer>>
 {
 	private _data: ConstructorParameters<typeof GetBadgesComposer>;
 
 	constructor()
 	{
+		super();
+
 		this._data = [];
 	}
 
@@ -19,8 +21,4 @@ export class GetBadgesComposer implements IMessageComposer<ConstructorParameters
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Room ad event tab viewed
  *
  * @see source_as/habbo/communication/messages/outgoing/navigator/RoomAdEventTabViewedComposer.as
  */
-export class RoomAdEventTabViewedComposer implements IMessageComposer<ConstructorParameters<typeof RoomAdEventTabViewedComposer>>
+export class RoomAdEventTabViewedComposer extends MessageComposer<ConstructorParameters<typeof RoomAdEventTabViewedComposer>>
 {
 	private _data: ConstructorParameters<typeof RoomAdEventTabViewedComposer>;
 
 	constructor()
 	{
+		super();
+
 		this._data = [];
 	}
 
@@ -19,8 +21,4 @@ export class RoomAdEventTabViewedComposer implements IMessageComposer<Constructo
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

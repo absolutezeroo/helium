@@ -1,5 +1,5 @@
 import {Component, For} from 'solid-js';
-import {navigator, inventory, session} from '@/features';
+import {useModule, useActions, ModuleId} from '../../bridge';
 
 interface ToolbarIcon
 {
@@ -10,6 +10,13 @@ interface ToolbarIcon
 
 export const Toolbar: Component = () =>
 {
+	const {state: navigator} = useModule(ModuleId.Navigator);
+	const {state: inventory} = useModule(ModuleId.Inventory);
+	const {state: session} = useModule(ModuleId.Session);
+
+	const navActions = useActions(ModuleId.Navigator);
+	const invActions = useActions(ModuleId.Inventory);
+
 	const icons: ToolbarIcon[] = [
 		{id: 'hotel', label: 'Hotel View', icon: '🏨'},
 		{id: 'navigator', label: 'Navigator', icon: '🧭'},
@@ -24,7 +31,7 @@ export const Toolbar: Component = () =>
 		switch (iconId)
 		{
 			case 'navigator':
-				navigator.toggle();
+				navActions.toggle();
 				break;
 			case 'hotel':
 				// TODO: Implement hotel view
@@ -35,7 +42,7 @@ export const Toolbar: Component = () =>
 				console.log('Catalog clicked');
 				break;
 			case 'inventory':
-				inventory.toggle();
+				invActions.toggle();
 				break;
 			case 'friends':
 				// TODO: Implement friends
@@ -61,8 +68,8 @@ export const Toolbar: Component = () =>
 					{(icon) => (
 						<button
 							class={`toolbar-icon ${
-								(icon.id === 'navigator' && navigator.isOpen()) ||
-								(icon.id === 'inventory' && inventory.isOpen())
+								(icon.id === 'navigator' && navigator.isOpen) ||
+								(icon.id === 'inventory' && inventory.isOpen)
 									? 'active'
 									: ''
 							}`}
@@ -78,7 +85,7 @@ export const Toolbar: Component = () =>
 			<div class="toolbar-right">
 				<div class="user-info">
                     <span class="user-credits">
-                        {session.activityPoints().get(0) || 0} Credits
+                        {session.activityPoints.get(0) || 0} Credits
                     </span>
 				</div>
 			</div>

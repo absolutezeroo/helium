@@ -16,6 +16,13 @@ export class WireFormatter implements IWireFormatter
 	/** Maximum message data size (256KB) */
 	private static readonly MAX_DATA_SIZE = 262144;
 
+	private _disposed: boolean = false;
+
+	get disposed(): boolean
+	{
+		return this._disposed;
+	}
+
 	/**
 	 * Encode a message for sending
 	 * Format: [4 bytes length][2 bytes messageId][...data]
@@ -142,7 +149,8 @@ export class WireFormatter implements IWireFormatter
 
 	dispose(): void
 	{
-		// Nothing to dispose
+		if (this._disposed) return;
+		this._disposed = true;
 	}
 
 	/**

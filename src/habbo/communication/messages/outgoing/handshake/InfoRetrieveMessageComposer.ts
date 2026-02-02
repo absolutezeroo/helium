@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Request user info after authentication
  *
  * @see source_as/habbo/communication/messages/outgoing/handshake/InfoRetrieveMessageComposer.as
  */
-export class InfoRetrieveMessageComposer implements IMessageComposer<ConstructorParameters<typeof InfoRetrieveMessageComposer>>
+export class InfoRetrieveMessageComposer extends MessageComposer<ConstructorParameters<typeof InfoRetrieveMessageComposer>>
 {
 	private _data: ConstructorParameters<typeof InfoRetrieveMessageComposer>;
 
 	constructor()
 	{
+		super();
+
 		this._data = [];
 	}
 
@@ -19,8 +21,4 @@ export class InfoRetrieveMessageComposer implements IMessageComposer<Constructor
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

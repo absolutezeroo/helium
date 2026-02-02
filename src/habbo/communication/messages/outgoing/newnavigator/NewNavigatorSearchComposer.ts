@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Performs a search in the new navigator
  *
  * @see source_as/habbo/communication/messages/outgoing/newnavigator/NewNavigatorSearchComposer.as
  */
-export class NewNavigatorSearchComposer implements IMessageComposer<ConstructorParameters<typeof NewNavigatorSearchComposer>>
+export class NewNavigatorSearchComposer extends MessageComposer<ConstructorParameters<typeof NewNavigatorSearchComposer>>
 {
 	private _data: ConstructorParameters<typeof NewNavigatorSearchComposer>;
 
 	constructor(searchCode: string, filtering: string)
 	{
+		super();
+
 		this._data = [searchCode, filtering];
 	}
 
@@ -19,8 +21,4 @@ export class NewNavigatorSearchComposer implements IMessageComposer<ConstructorP
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

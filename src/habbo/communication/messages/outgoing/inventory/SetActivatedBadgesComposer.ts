@@ -1,19 +1,21 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Set which badges are worn/active
  *
  * @see source_as/habbo/communication/messages/outgoing/inventory/badges/SetActivatedBadgesComposer.as
  */
-export class SetActivatedBadgesComposer implements IMessageComposer<unknown[]>
+export class SetActivatedBadgesComposer extends MessageComposer<unknown[]>
 {
 	private _data: unknown[];
 
 	constructor(...badgeIds: string[])
 	{
-		// Build the data array in constructor: slot1, badge1, slot2, badge2, ...
+		super();
+
 		this._data = [];
 
+		// Build the data array in constructor: slot1, badge1, slot2, badge2, ...
 		for (let i = 0; i < 5; i++)
 		{
 			this._data.push(i + 1); // slot number (1-5)
@@ -26,8 +28,4 @@ export class SetActivatedBadgesComposer implements IMessageComposer<unknown[]>
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

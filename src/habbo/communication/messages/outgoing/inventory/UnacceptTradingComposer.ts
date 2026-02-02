@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Unaccept the current trade offer
  *
  * @see source_as/habbo/communication/messages/outgoing/inventory/trading/UnacceptTradingComposer.as
  */
-export class UnacceptTradingComposer implements IMessageComposer<ConstructorParameters<typeof UnacceptTradingComposer>>
+export class UnacceptTradingComposer extends MessageComposer<ConstructorParameters<typeof UnacceptTradingComposer>>
 {
 	private _data: ConstructorParameters<typeof UnacceptTradingComposer>;
 
 	constructor()
 	{
+		super();
+
 		this._data = [];
 	}
 
@@ -19,8 +21,4 @@ export class UnacceptTradingComposer implements IMessageComposer<ConstructorPara
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

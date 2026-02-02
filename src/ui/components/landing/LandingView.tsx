@@ -1,14 +1,14 @@
 import {Component, Show} from 'solid-js';
-import {session} from '@/features';
+import {useModule, ModuleId} from '../../bridge';
 
 export const LandingView: Component = () =>
 {
-	const userData = () => session.userData();
+	const {state: session} = useModule(ModuleId.Session);
 
 	return (
 		<div class="landing-view">
 			<div class="landing-content">
-				<Show when={userData()}>
+				<Show when={session.userData}>
 					{(user) => (
 						<div class="welcome-section">
 							<h2>Welcome back, {user().name}!</h2>

@@ -1,3 +1,4 @@
+import type {IDisposable} from '@core/runtime/IDisposable';
 import type {IEncryption} from '../encryption/IEncryption';
 import type {IMessageComposer} from '../messages/IMessageComposer';
 import type {IMessageEvent} from '../messages/IMessageEvent';
@@ -5,17 +6,15 @@ import type {IMessageConfiguration} from '../messages/IMessageConfiguration';
 
 /**
  * Interface for network connections
+ *
+ * Based on AS3: com.sulake.core.communication.connection.IConnection
  */
-export interface IConnection
+export interface IConnection extends IDisposable
 {
 	/**
 	 * Whether the connection is currently established
 	 */
 	readonly connected: boolean;
-	/**
-	 * Whether the connection has been disposed
-	 */
-	readonly disposed: boolean;
 	/**
 	 * Connection timeout in milliseconds
 	 */
@@ -86,7 +85,12 @@ export interface IConnection
 	close(): void;
 
 	/**
-	 * Clean up resources
+	 * Subscribe to messageEvent
 	 */
-	dispose(): void;
+	on(event: 'messageEvent', listener: (event: IMessageEvent) => void): this;
+
+	/**
+	 * Unsubscribe from messageEvent
+	 */
+	off(event: 'messageEvent', listener: (event: IMessageEvent) => void): this;
 }

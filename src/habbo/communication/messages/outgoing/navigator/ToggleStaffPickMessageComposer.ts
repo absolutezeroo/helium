@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Toggle staff pick status
  *
  * @see source_as/habbo/communication/messages/outgoing/navigator/ToggleStaffPickMessageComposer.as
  */
-export class ToggleStaffPickMessageComposer implements IMessageComposer<ConstructorParameters<typeof ToggleStaffPickMessageComposer>>
+export class ToggleStaffPickMessageComposer extends MessageComposer<ConstructorParameters<typeof ToggleStaffPickMessageComposer>>
 {
 	private _data: ConstructorParameters<typeof ToggleStaffPickMessageComposer>;
 
 	constructor(roomId: number, picked: boolean)
 	{
+		super();
+
 		this._data = [roomId, picked];
 	}
 
@@ -19,8 +21,4 @@ export class ToggleStaffPickMessageComposer implements IMessageComposer<Construc
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

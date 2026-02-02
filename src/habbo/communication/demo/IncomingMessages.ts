@@ -8,6 +8,7 @@ import {SocketConnection} from '@core/communication/connection/SocketConnection'
 import {Logger} from '@core/utils/Logger';
 import type {IHabboCommunicationManager} from '../IHabboCommunicationManager';
 import {HabboCommunicationEvent, type HabboCommunicationEventType} from '../enum';
+import type {ConnectionActions} from '@/modules/connection/actions';
 
 // Events
 import {
@@ -40,7 +41,6 @@ import {
 } from '../messages/outgoing/handshake';
 
 import {EventLogMessageComposer} from '../messages/outgoing/tracking';
-import {connection} from '@/features';
 
 const log = Logger.getLogger('Handshake');
 
@@ -67,6 +67,7 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
 	private _isHandshaking: boolean = false;
 	private _wasDisconnected: boolean = false;
 	private _rsa: RSA;
+	private _connectionActions: ConnectionActions | null = null;
 
 	private _boundOnConnected: () => void;
 	private _boundOnDisconnected: () => void;
@@ -104,6 +105,14 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
 		this.addMessageEvent(new UniqueMachineIdMessageEvent(this.onUniqueMachineId.bind(this)));
 	}
 
+	/**
+	 * Set connection actions for state updates
+	 */
+	setConnectionActions(actions: ConnectionActions): void
+	{
+		this._connectionActions = actions;
+	}
+
 	dispose(): void
 	{
 		const connection = this._communication.connection as SocketConnection;
@@ -132,13 +141,13 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
 	}
 
 	/**
-	 * Dispatch login step event to both event emitter and connection feature
+	 * Dispatch login step event to both event emitter and connection module
 	 * Matches AS3's dispatchLoginStepEvent()
 	 */
 	private dispatchLoginStepEvent(step: HabboCommunicationEventType): void
 	{
 		this.emit('loginStep', step);
-		connection.setLoginStep(step);
+		this._connectionActions?.setLoginStep(step);
 	}
 
 	private onConnectionEstablished(): void
@@ -310,8 +319,8 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
 
 		this.dispatchLoginStepEvent(HabboCommunicationEvent.AUTHENTICATED);
 
-		// Notify connection feature that authentication succeeded
-		connection.setAuthenticated();
+		// Notify connection module that authentication succeeded
+		this._connectionActions?.setAuthenticated();
 
 		conn.send(new InfoRetrieveMessageComposer());
 		conn.send(new EventLogMessageComposer('Login', 'socket', 'client.auth_ok'));
@@ -340,7 +349,7 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
 		}
 
 		log.warn(`Disconnected: ${parser.reason} - ${parser.reasonText}`);
-		
+
 		this.emit('disconnected', parser.reason, parser.reasonText);
 
 		this._isHandshaking = false;

@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Search popular rooms
  *
  * @see source_as/habbo/communication/messages/outgoing/navigator/PopularRoomsSearchMessageComposer.as
  */
-export class PopularRoomsSearchMessageComposer implements IMessageComposer<ConstructorParameters<typeof PopularRoomsSearchMessageComposer>>
+export class PopularRoomsSearchMessageComposer extends MessageComposer<ConstructorParameters<typeof PopularRoomsSearchMessageComposer>>
 {
 	private _data: ConstructorParameters<typeof PopularRoomsSearchMessageComposer>;
 
 	constructor(category: string, index: number)
 	{
+		super();
+
 		this._data = [category, index];
 	}
 
@@ -19,8 +21,4 @@ export class PopularRoomsSearchMessageComposer implements IMessageComposer<Const
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

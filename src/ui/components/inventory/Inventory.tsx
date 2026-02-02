@@ -1,6 +1,6 @@
 import type {JSX} from 'solid-js';
 import {createMemo} from 'solid-js';
-import {inventory} from '@/features';
+import {useModule, useActions, ModuleId} from '../../bridge';
 import {InventoryCategory} from '@habbo/inventory';
 import {InventoryWindow} from './InventoryWindow';
 import type {InventoryTab} from './tabs';
@@ -8,24 +8,27 @@ import type {FurniGridItem} from './furni';
 import type {BadgeData} from './badges';
 
 /**
- * Inventory - Connects the feature to InventoryWindow
+ * Inventory - Connects the module to InventoryWindow
  *
- * Feature provides reactive state + actions
+ * Module provides reactive state + actions
  */
 export function Inventory(): JSX.Element
 {
+	const {state: inventory} = useModule(ModuleId.Inventory);
+	const invActions = useActions(ModuleId.Inventory);
+
 	// Define tabs (reactive)
 	const tabs = createMemo((): InventoryTab[] => [
-		{id: 'furni', label: 'Furniture', icon: 'furni', unseenCount: inventory.furniUnseenCount()},
-		{id: 'badges', label: 'Badges', icon: 'badges', unseenCount: inventory.badgesUnseenCount()},
-		{id: 'pets', label: 'Pets', icon: 'pets', unseenCount: inventory.petsUnseenCount()},
-		{id: 'bots', label: 'Bots', icon: 'bots', unseenCount: inventory.botsUnseenCount()},
+		{id: 'furni', label: 'Furniture', icon: 'furni', unseenCount: inventory.furniUnseenCount},
+		{id: 'badges', label: 'Badges', icon: 'badges', unseenCount: inventory.badgesUnseenCount},
+		{id: 'pets', label: 'Pets', icon: 'pets', unseenCount: inventory.petsUnseenCount},
+		{id: 'bots', label: 'Bots', icon: 'bots', unseenCount: inventory.botsUnseenCount},
 	]);
 
-	// Transform feature data to UI format
+	// Transform module data to UI format
 	const furniItems = createMemo((): FurniGridItem[] =>
 	{
-		return inventory.furniGroups().map((group) => ({
+		return inventory.furniGroups.map((group) => ({
 			id: group.getFurniIds()[0] ?? 0,
 			type: group.type,
 			name: group.name || `Furni #${group.type}`,
@@ -38,7 +41,7 @@ export function Inventory(): JSX.Element
 
 	const selectedFurni = createMemo((): FurniGridItem | null =>
 	{
-		const group = inventory.selectedFurniGroup();
+		const group = inventory.selectedFurniGroup;
 		if (!group) return null;
 
 		return {
@@ -54,7 +57,7 @@ export function Inventory(): JSX.Element
 
 	const badges = createMemo((): BadgeData[] =>
 	{
-		return inventory.badges().map((badge) => ({
+		return inventory.badges.map((badge) => ({
 			badgeId: badge.badgeId,
 			name: badge.name,
 			description: badge.description,
@@ -66,7 +69,7 @@ export function Inventory(): JSX.Element
 
 	const activeBadges = createMemo((): BadgeData[] =>
 	{
-		return inventory.activeBadges().map((badge) => ({
+		return inventory.activeBadges.map((badge) => ({
 			badgeId: badge.badgeId,
 			name: badge.name,
 			description: badge.description,
@@ -78,7 +81,7 @@ export function Inventory(): JSX.Element
 
 	const selectedBadge = createMemo((): BadgeData | null =>
 	{
-		const badge = inventory.selectedBadge();
+		const badge = inventory.selectedBadge;
 		if (!badge) return null;
 
 		return {
@@ -91,18 +94,18 @@ export function Inventory(): JSX.Element
 		};
 	});
 
-	// Handlers - use feature actions
+	// Handlers - use module actions
 	const handleTabChange = (id: string) =>
 	{
-		inventory.switchCategory(id as typeof InventoryCategory[keyof typeof InventoryCategory]);
+		invActions.switchCategory(id as typeof InventoryCategory[keyof typeof InventoryCategory]);
 	};
 
 	const handleFurniSelect = (id: number) =>
 	{
-		const group = inventory.furniGroups().find(g => g.getFurniIds().includes(id));
+		const group = inventory.furniGroups.find(g => g.getFurniIds().includes(id));
 		if (group)
 		{
-			inventory.selectFurniGroup(group);
+			invActions.selectFurniGroup(group);
 		}
 	};
 
@@ -114,30 +117,30 @@ export function Inventory(): JSX.Element
 
 	const handleBadgeSelect = (badgeId: string) =>
 	{
-		const badge = inventory.badges().find(b => b.badgeId === badgeId);
+		const badge = inventory.badges.find(b => b.badgeId === badgeId);
 		if (badge)
 		{
-			inventory.selectBadge(badge);
+			invActions.selectBadge(badge);
 		}
 	};
 
 	const handleBadgeToggle = (badgeId: string) =>
 	{
-		inventory.toggleBadgeWearing(badgeId);
+		invActions.toggleBadgeWearing(badgeId);
 	};
 
 	return (
 		<InventoryWindow
-			isOpen={inventory.isOpen()}
-			activeTab={inventory.currentCategory()}
+			isOpen={inventory.isOpen}
+			activeTab={inventory.currentCategory}
 			tabs={tabs()}
-			loading={inventory.isLoading()}
+			loading={inventory.isLoading}
 			furniItems={furniItems()}
 			selectedFurni={selectedFurni()}
 			badges={badges()}
 			activeBadges={activeBadges()}
 			selectedBadge={selectedBadge()}
-			onClose={() => inventory.close()}
+			onClose={() => invActions.close()}
 			onTabChange={handleTabChange}
 			onFurniSelect={handleFurniSelect}
 			onFurniPlace={handleFurniPlace}

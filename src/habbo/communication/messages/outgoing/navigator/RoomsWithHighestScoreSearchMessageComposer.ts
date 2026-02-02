@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Search rooms with highest score
  *
  * @see source_as/habbo/communication/messages/outgoing/navigator/RoomsWithHighestScoreSearchMessageComposer.as
  */
-export class RoomsWithHighestScoreSearchMessageComposer implements IMessageComposer<ConstructorParameters<typeof RoomsWithHighestScoreSearchMessageComposer>>
+export class RoomsWithHighestScoreSearchMessageComposer extends MessageComposer<ConstructorParameters<typeof RoomsWithHighestScoreSearchMessageComposer>>
 {
 	private _data: ConstructorParameters<typeof RoomsWithHighestScoreSearchMessageComposer>;
 
 	constructor(categoryId: number)
 	{
+		super();
+
 		this._data = [categoryId];
 	}
 
@@ -19,8 +21,4 @@ export class RoomsWithHighestScoreSearchMessageComposer implements IMessageCompo
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

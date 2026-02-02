@@ -1,4 +1,4 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Request to start Diffie-Hellman key exchange
@@ -6,12 +6,14 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  *
  * @see source_as/habbo/communication/messages/outgoing/handshake/InitDiffieHandshakeMessageComposer.as
  */
-export class InitDiffieHandshakeMessageComposer implements IMessageComposer<ConstructorParameters<typeof InitDiffieHandshakeMessageComposer>>
+export class InitDiffieHandshakeMessageComposer extends MessageComposer<ConstructorParameters<typeof InitDiffieHandshakeMessageComposer>>
 {
 	private _data: ConstructorParameters<typeof InitDiffieHandshakeMessageComposer>;
 
 	constructor()
 	{
+		super();
+
 		this._data = [];
 	}
 
@@ -20,8 +22,4 @@ export class InitDiffieHandshakeMessageComposer implements IMessageComposer<Cons
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

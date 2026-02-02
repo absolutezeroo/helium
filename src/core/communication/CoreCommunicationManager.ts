@@ -1,4 +1,4 @@
-import {injectable} from 'inversify';
+import {Component, type IContext} from '@core/runtime';
 import {SocketConnection} from './connection/SocketConnection';
 import type {ICoreCommunicationManager} from './ICoreCommunicationManager';
 import type {IConnection} from './connection/IConnection';
@@ -8,12 +8,19 @@ import type {IConnectionCallback} from './connection/IConnectionCallback';
  * Core communication manager
  * Manages all network connections and their lifecycle
  */
-@injectable()
-export class CoreCommunicationManager implements ICoreCommunicationManager
+export class CoreCommunicationManager extends Component implements ICoreCommunicationManager
 {
-	private _disposed: boolean = false;
-
 	private _connections: IConnection[] = [];
+
+	constructor(context: IContext)
+	{
+		super(context);
+	}
+
+	protected override initComponent(): void
+	{
+		// No initialization needed
+	}
 
 	/**
 	 * Get all active connections
@@ -28,7 +35,7 @@ export class CoreCommunicationManager implements ICoreCommunicationManager
 	 */
 	createConnection(callback?: IConnectionCallback): IConnection
 	{
-		if (this._disposed)
+		if (this.disposed)
 		{
 			throw new Error('CommunicationManager has been disposed');
 		}
@@ -44,7 +51,7 @@ export class CoreCommunicationManager implements ICoreCommunicationManager
 	 */
 	update(_deltaTime: number): void
 	{
-		if (this._disposed) return;
+		if (this.disposed) return;
 
 		// Process each connection and remove disposed ones
 		for (let i = this._connections.length - 1; i >= 0; i--)
@@ -77,9 +84,9 @@ export class CoreCommunicationManager implements ICoreCommunicationManager
 	/**
 	 * Clean up all connections
 	 */
-	dispose(): void
+	override dispose(): void
 	{
-		if (this._disposed) return;
+		if (this.disposed) return;
 
 		for (const connection of this._connections)
 		{
@@ -87,6 +94,6 @@ export class CoreCommunicationManager implements ICoreCommunicationManager
 		}
 
 		this._connections = [];
-		this._disposed = true;
+		super.dispose();
 	}
 }

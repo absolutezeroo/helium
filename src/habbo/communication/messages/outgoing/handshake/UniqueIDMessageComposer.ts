@@ -1,4 +1,4 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Send unique machine/device identification
@@ -6,7 +6,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  *
  * @see source_as/habbo/communication/messages/outgoing/handshake/UniqueIDMessageComposer.as
  */
-export class UniqueIDMessageComposer implements IMessageComposer<ConstructorParameters<typeof UniqueIDMessageComposer>>
+export class UniqueIDMessageComposer extends MessageComposer<ConstructorParameters<typeof UniqueIDMessageComposer>>
 {
 	private _data: ConstructorParameters<typeof UniqueIDMessageComposer>;
 
@@ -16,9 +16,9 @@ export class UniqueIDMessageComposer implements IMessageComposer<ConstructorPara
 		flashVersion: string = ''
 	)
 	{
-		this._data = [];
+		super();
 
-		this._data.push(machineId, fingerprint, flashVersion);
+		this._data = [machineId, fingerprint, flashVersion];
 	}
 
 	getMessageArray()
@@ -26,8 +26,4 @@ export class UniqueIDMessageComposer implements IMessageComposer<ConstructorPara
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

@@ -1,4 +1,4 @@
-import {localization} from '@/features';
+import {useActions, ModuleId} from '../../../bridge';
 
 /**
  * Navigator-specific localization keys
@@ -169,6 +169,8 @@ const DEFAULTS: Record<string, string> = {
  */
 export function useNavigatorLocalization()
 {
+	const localization = useActions(ModuleId.Localization);
+
 	/**
 	 * Get a localized string with fallback to default
 	 */
@@ -198,7 +200,7 @@ export function useNavigatorLocalization()
 	/**
 	 * Check if localization is loaded
 	 */
-	const isLoaded = () => localization.isLoaded();
+	const isLoaded = () => true; // Always return true since we use defaults
 
 	return {
 		t,

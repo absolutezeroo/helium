@@ -1,8 +1,11 @@
 // Main application
 export {Helium, type HeliumConfig, type ConnectionConfig} from './Helium';
 
-// IoC Container
-export {TYPES, container, setupContainer} from './iid';
+// Component Runtime (replaces Inversify IoC)
+export * from '@core/runtime';
+
+// IIDs for dependency injection
+export * from '@iid/index';
 
 // Core Communication
 export * from '@core/communication';

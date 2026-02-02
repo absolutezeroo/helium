@@ -1,11 +1,11 @@
-import {injectable} from 'inversify';
+import type {IContext} from '@core/runtime';
 import {Logger} from '@core/utils/Logger';
 import {CoreLocalizationManager} from '@core/localization';
 import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
 import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommunicationManager';
 import type {IHabboLocalizationManager} from './IHabboLocalizationManager';
 import {BadgeBaseAndLevel} from './BadgeBaseAndLevel';
-import {HabboCommunicationEvent} from '@habbo/communication/enum';
+import {HabboCommunicationEvent, type HabboCommunicationEventType} from '@habbo/communication/enum';
 
 const log = Logger.getLogger('HabboLocalization');
 
@@ -15,7 +15,6 @@ const log = Logger.getLogger('HabboLocalization');
  *
  * Based on AS3 com.sulake.habbo.localization.HabboLocalizationManager
  */
-@injectable()
 export class HabboLocalizationManager extends CoreLocalizationManager implements IHabboLocalizationManager
 {
 	private static readonly ROMAN_NUMERALS: string[] = [
@@ -32,9 +31,15 @@ export class HabboLocalizationManager extends CoreLocalizationManager implements
 	private _communicationManager: IHabboCommunicationManager | null = null;
 	private _skipExternals: boolean = false;
 
-	constructor()
+	constructor(context: IContext)
 	{
-		super();
+		super(context);
+	}
+
+	protected override initComponent(): void
+	{
+		super.initComponent();
+		log.debug('HabboLocalizationManager initialized');
 	}
 
 	/**
@@ -56,11 +61,11 @@ export class HabboLocalizationManager extends CoreLocalizationManager implements
 
 		if (this._skipExternals)
 		{
-			this.emit('complete');
+			this.events.emit('complete');
 		} else
 		{
 			// Listen for AUTHENTICATED event to trigger localization loading
-			this._communicationManager.on('loginStep', (step) =>
+			this._communicationManager.events.on('loginStep', (step: HabboCommunicationEventType) =>
 			{
 				if (step === HabboCommunicationEvent.AUTHENTICATED)
 				{
@@ -239,13 +244,13 @@ export class HabboLocalizationManager extends CoreLocalizationManager implements
 
 		this._isLocalizationInitialized = true;
 
-		this.once('loaded', () =>
+		this.events.once('loaded', () =>
 		{
 			this._isLocalizationInitialized = false;
 			log.success('Localizations ready');
 		});
 
-		this.once('failed', () =>
+		this.events.once('failed', () =>
 		{
 			this._isLocalizationInitialized = false;
 			log.error('Failed loading localization data');

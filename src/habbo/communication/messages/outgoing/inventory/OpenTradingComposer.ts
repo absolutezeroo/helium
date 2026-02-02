@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Open trading with another user
  *
  * @see source_as/habbo/communication/messages/outgoing/inventory/trading/OpenTradingComposer.as
  */
-export class OpenTradingComposer implements IMessageComposer<ConstructorParameters<typeof OpenTradingComposer>>
+export class OpenTradingComposer extends MessageComposer<ConstructorParameters<typeof OpenTradingComposer>>
 {
 	private _data: ConstructorParameters<typeof OpenTradingComposer>;
 
 	constructor(userId: number)
 	{
+		super();
+
 		this._data = [userId];
 	}
 
@@ -19,8 +21,4 @@ export class OpenTradingComposer implements IMessageComposer<ConstructorParamete
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

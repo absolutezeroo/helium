@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Request bot inventory from server
  *
  * @see source_as/habbo/communication/messages/outgoing/inventory/bots/GetBotInventoryComposer.as
  */
-export class GetBotInventoryComposer implements IMessageComposer<ConstructorParameters<typeof GetBotInventoryComposer>>
+export class GetBotInventoryComposer extends MessageComposer<ConstructorParameters<typeof GetBotInventoryComposer>>
 {
 	private _data: ConstructorParameters<typeof GetBotInventoryComposer>;
 
 	constructor()
 	{
+		super();
+
 		this._data = [];
 	}
 
@@ -19,8 +21,4 @@ export class GetBotInventoryComposer implements IMessageComposer<ConstructorPara
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

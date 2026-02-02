@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Search room ads
  *
  * @see source_as/habbo/communication/messages/outgoing/navigator/RoomAdSearchMessageComposer.as
  */
-export class RoomAdSearchMessageComposer implements IMessageComposer<ConstructorParameters<typeof RoomAdSearchMessageComposer>>
+export class RoomAdSearchMessageComposer extends MessageComposer<ConstructorParameters<typeof RoomAdSearchMessageComposer>>
 {
 	private _data: ConstructorParameters<typeof RoomAdSearchMessageComposer>;
 
 	constructor(categoryId: number, index: number)
 	{
+		super();
+
 		this._data = [categoryId, index];
 	}
 
@@ -19,8 +21,4 @@ export class RoomAdSearchMessageComposer implements IMessageComposer<Constructor
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

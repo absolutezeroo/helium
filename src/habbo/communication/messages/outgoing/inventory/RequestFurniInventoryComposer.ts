@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Request furniture inventory from server
  *
  * @see source_as/habbo/communication/messages/outgoing/inventory/furni/RequestFurniInventoryComposer.as
  */
-export class RequestFurniInventoryComposer implements IMessageComposer<ConstructorParameters<typeof RequestFurniInventoryComposer>>
+export class RequestFurniInventoryComposer extends MessageComposer<ConstructorParameters<typeof RequestFurniInventoryComposer>>
 {
 	private _data: ConstructorParameters<typeof RequestFurniInventoryComposer>;
 
 	constructor()
 	{
+		super();
+
 		this._data = [];
 	}
 
@@ -19,8 +21,4 @@ export class RequestFurniInventoryComposer implements IMessageComposer<Construct
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

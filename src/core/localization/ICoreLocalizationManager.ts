@@ -1,4 +1,4 @@
-import {EventEmitter} from 'eventemitter3';
+import type {EventEmitter} from 'eventemitter3';
 import type {ILocalizable} from './ILocalizable';
 import type {ILocalization} from './ILocalization';
 import type {ILocalizationDefinition} from './ILocalizationDefinition';
@@ -24,8 +24,12 @@ export interface LocalizationManagerEvents
  *
  * Based on AS3 com.sulake.core.localization.ICoreLocalizationManager
  */
-export interface ICoreLocalizationManager extends EventEmitter<LocalizationManagerEvents>
+export interface ICoreLocalizationManager
 {
+	/**
+	 * Event emitter for localization events
+	 */
+	readonly events: EventEmitter;
 	/**
 	 * Register a listener for localization updates
 	 */

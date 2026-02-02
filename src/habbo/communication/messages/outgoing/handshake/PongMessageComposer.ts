@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Response to server ping (keep-alive)
  *
  * @see source_as/habbo/communication/messages/outgoing/handshake/PongMessageComposer.as
  */
-export class PongMessageComposer implements IMessageComposer<ConstructorParameters<typeof PongMessageComposer>>
+export class PongMessageComposer extends MessageComposer<ConstructorParameters<typeof PongMessageComposer>>
 {
 	private _data: ConstructorParameters<typeof PongMessageComposer>;
 
 	constructor()
 	{
+		super();
+
 		this._data = [];
 	}
 
@@ -19,8 +21,4 @@ export class PongMessageComposer implements IMessageComposer<ConstructorParamete
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

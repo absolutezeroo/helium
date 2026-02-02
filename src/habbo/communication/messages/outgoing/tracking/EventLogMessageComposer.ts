@@ -1,4 +1,4 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Send event log for tracking
@@ -6,7 +6,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  *
  * @see source_as/habbo/communication/messages/outgoing/tracking/class_955.as (EventLogMessageComposer)
  */
-export class EventLogMessageComposer implements IMessageComposer<ConstructorParameters<typeof EventLogMessageComposer>>
+export class EventLogMessageComposer extends MessageComposer<ConstructorParameters<typeof EventLogMessageComposer>>
 {
 	private _data: ConstructorParameters<typeof EventLogMessageComposer>;
 
@@ -18,6 +18,8 @@ export class EventLogMessageComposer implements IMessageComposer<ConstructorPara
 		extraInt: number = 0
 	)
 	{
+		super();
+
 		this._data = [category, type, action, extraString, extraInt];
 	}
 
@@ -26,8 +28,4 @@ export class EventLogMessageComposer implements IMessageComposer<ConstructorPara
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

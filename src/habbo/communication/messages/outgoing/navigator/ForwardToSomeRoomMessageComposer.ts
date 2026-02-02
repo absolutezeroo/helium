@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Forward to some room
  *
  * @see source_as/habbo/communication/messages/outgoing/navigator/ForwardToSomeRoomMessageComposer.as
  */
-export class ForwardToSomeRoomMessageComposer implements IMessageComposer<ConstructorParameters<typeof ForwardToSomeRoomMessageComposer>>
+export class ForwardToSomeRoomMessageComposer extends MessageComposer<ConstructorParameters<typeof ForwardToSomeRoomMessageComposer>>
 {
 	private _data: ConstructorParameters<typeof ForwardToSomeRoomMessageComposer>;
 
 	constructor(roomType: string)
 	{
+		super();
+
 		this._data = [roomType];
 	}
 
@@ -19,8 +21,4 @@ export class ForwardToSomeRoomMessageComposer implements IMessageComposer<Constr
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

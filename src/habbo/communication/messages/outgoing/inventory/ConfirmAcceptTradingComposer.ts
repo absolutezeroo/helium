@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Confirm accept trading (final confirmation)
  *
  * @see source_as/habbo/communication/messages/outgoing/inventory/trading/ConfirmAcceptTradingComposer.as
  */
-export class ConfirmAcceptTradingComposer implements IMessageComposer<ConstructorParameters<typeof ConfirmAcceptTradingComposer>>
+export class ConfirmAcceptTradingComposer extends MessageComposer<ConstructorParameters<typeof ConfirmAcceptTradingComposer>>
 {
 	private _data: ConstructorParameters<typeof ConfirmAcceptTradingComposer>;
 
 	constructor()
 	{
+		super();
+
 		this._data = [];
 	}
 
@@ -19,8 +21,4 @@ export class ConfirmAcceptTradingComposer implements IMessageComposer<Constructo
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

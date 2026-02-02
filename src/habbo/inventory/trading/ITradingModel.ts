@@ -1,3 +1,4 @@
+import type {IDisposable} from '@core/runtime/IDisposable';
 import type {TradingStateType} from './TradingState';
 import type {TradingUser} from './TradingUser';
 import type {GroupItem} from '../items/GroupItem';
@@ -7,15 +8,12 @@ import type {GroupItem} from '../items/GroupItem';
  *
  * Based on AS3 com.sulake.habbo.inventory.trading.TradingModel (ENGINE only)
  */
-export interface ITradingModel
+export interface ITradingModel extends IDisposable
 {
-	readonly disposed: boolean;
 	readonly isRunning: boolean;
 	readonly state: TradingStateType;
 	readonly ownUser: TradingUser | null;
 	readonly otherUser: TradingUser | null;
-
-	dispose(): void;
 
 	/**
 	 * Start a trading session

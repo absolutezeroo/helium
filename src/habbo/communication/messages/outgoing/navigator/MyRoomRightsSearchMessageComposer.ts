@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Search rooms where I have rights
  *
  * @see source_as/habbo/communication/messages/outgoing/navigator/MyRoomRightsSearchMessageComposer.as
  */
-export class MyRoomRightsSearchMessageComposer implements IMessageComposer<ConstructorParameters<typeof MyRoomRightsSearchMessageComposer>>
+export class MyRoomRightsSearchMessageComposer extends MessageComposer<ConstructorParameters<typeof MyRoomRightsSearchMessageComposer>>
 {
 	private _data: ConstructorParameters<typeof MyRoomRightsSearchMessageComposer>;
 
 	constructor()
 	{
+		super();
+
 		this._data = [];
 	}
 
@@ -19,8 +21,4 @@ export class MyRoomRightsSearchMessageComposer implements IMessageComposer<Const
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

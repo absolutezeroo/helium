@@ -1,4 +1,4 @@
-export * from './asset';
+export * from './assets';
 export * from './communication';
 export * from './gamedata';
 export * from './localization';

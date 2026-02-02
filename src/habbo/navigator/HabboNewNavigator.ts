@@ -1,4 +1,10 @@
-import {inject, injectable} from 'inversify';
+import {
+	Component,
+	ComponentDependency,
+	IID_HabboCommunicationManager,
+	IID_HabboNavigator,
+	type IContext
+} from '@core/runtime';
 import type {IHabboNewNavigator} from './IHabboNewNavigator';
 import type {IHabboNavigator} from './IHabboNavigator';
 import {NavigatorData} from './domain';
@@ -12,7 +18,6 @@ import type {
 	NavigatorTopLevelContext
 } from '../communication/messages/incoming/newnavigator';
 import type {IHabboCommunicationManager} from '../communication/IHabboCommunicationManager';
-import {TYPES} from '@iid/types';
 import {Logger} from '@core/utils/Logger';
 import {ViewModeCode} from './view';
 
@@ -37,39 +42,52 @@ const log = Logger.getLogger('NewNavigator');
  * for shared data and functionality through delegation.
  *
  */
-@injectable()
-export class HabboNewNavigator implements IHabboNewNavigator
+export class HabboNewNavigator extends Component implements IHabboNewNavigator
 {
-	private _communication: IHabboCommunicationManager;
-	private _incomingMessages: NewIncomingMessages;
+	private _communication: IHabboCommunicationManager | null = null;
+	private _incomingMessages: NewIncomingMessages | null = null;
 	private _isOpen: boolean = false;
 	private _isInitialized: boolean = false;
 	private _noPushToHistoryDueToNavigation: boolean = false;
 	private _lastSearchCode: string = ViewModeCode.OFFICIAL_VIEW;
 	private _lastFiltering: string = '';
 
-	constructor(
-		@inject(TYPES.HabboCommunicationManager) communication: IHabboCommunicationManager,
-		@inject(TYPES.NavigatorManager) legacyNavigator: IHabboNavigator
-	)
+	constructor(context: IContext)
 	{
-		this._communication = communication;
-		this._legacyNavigator = legacyNavigator;
+		super(context);
 		this._contextContainer = new ContextContainer();
 		this._historyManager = new SearchContextHistoryManager();
 		this._cache = new NavigatorCache();
+	}
 
+	protected override get dependencies(): Array<ComponentDependency<any>>
+	{
+		return [
+			new ComponentDependency(
+				IID_HabboCommunicationManager,
+				(manager: IHabboCommunicationManager | null) => { this._communication = manager; },
+				true
+			),
+			new ComponentDependency(
+				IID_HabboNavigator,
+				(nav: IHabboNavigator | null) => { this._legacyNavigator = nav; },
+				true
+			),
+		];
+	}
+
+	protected override initComponent(): void
+	{
 		// Create message handler - uses the legacy navigator's data for shared state
-		this._incomingMessages = new NewIncomingMessages(this, communication, this._legacyNavigator.data);
-
+		this._incomingMessages = new NewIncomingMessages(this, this._communication!, this._legacyNavigator!.data);
 		log.info('New Navigator created');
 	}
 
-	private _legacyNavigator: IHabboNavigator;
+	private _legacyNavigator: IHabboNavigator | null = null;
 
 	get legacyNavigator(): IHabboNavigator
 	{
-		return this._legacyNavigator;
+		return this._legacyNavigator!;
 	}
 
 	private _contextContainer: ContextContainer;
@@ -122,7 +140,7 @@ export class HabboNewNavigator implements IHabboNewNavigator
 	 */
 	get data(): NavigatorData
 	{
-		return this._legacyNavigator.data;
+		return this._legacyNavigator!.data;
 	}
 
 	/**
@@ -370,18 +388,21 @@ export class HabboNewNavigator implements IHabboNewNavigator
 
 	// ========== Utility ==========
 
-	dispose(): void
+	override dispose(): void
 	{
-		this._incomingMessages.dispose();
+		if (this.disposed) return;
+
+		this._incomingMessages?.dispose();
 
 		log.info('New Navigator disposed');
+		super.dispose();
 	}
 
 	// ========== Dispose ==========
 
 	private send(composer: { getMessageArray(): unknown[]; dispose(): void }): void
 	{
-		const connection = this._communication.connection;
+		const connection = this._communication?.connection;
 
 		if (connection)
 		{

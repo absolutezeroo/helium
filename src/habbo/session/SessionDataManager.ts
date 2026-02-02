@@ -104,7 +104,7 @@ export class SessionDataManager implements ISessionDataManager
 		this._communication = communication;
 
 		this.registerMessageEvents();
-		
+
 		log.info('SessionDataManager initialized');
 	}
 
@@ -365,6 +365,7 @@ export class SessionDataManager implements ISessionDataManager
 		{
 			this._communication.removeMessageEvent(event);
 		}
+
 		this._messageEvents = [];
 
 		this._disposed = true;

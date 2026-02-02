@@ -1,5 +1,4 @@
-import {injectable} from 'inversify';
-import {EventEmitter} from 'eventemitter3';
+import {Component, type IContext} from '@core/runtime';
 import {Logger} from '@core/utils/Logger';
 import type {
 	IEffectData,
@@ -33,9 +32,18 @@ export interface GameDataEvents
  * @see source_nitro_renderer/nitro/session/SessionDataManager.ts
  * @see source_nitro_renderer/nitro/session/furniture/FurnitureDataLoader.ts
  */
-@injectable()
-export class GameDataManager extends EventEmitter<GameDataEvents> implements IGameDataManager
+export class GameDataManager extends Component implements IGameDataManager
 {
+	constructor(context: IContext)
+	{
+		super(context);
+	}
+
+	protected override initComponent(): void
+	{
+		log.debug('GameDataManager initialized');
+	}
+
 	private _floorItems: Map<number, IFurnitureData> = new Map();
 	private _wallItems: Map<number, IFurnitureData> = new Map();
 	private _furnitureByClassName: Map<string, IFurnitureData> = new Map();
@@ -67,7 +75,7 @@ export class GameDataManager extends EventEmitter<GameDataEvents> implements IGa
 			await Promise.all(promises);
 
 			this._isLoaded = true;
-			this.emit('ready');
+			this.events.emit('ready');
 			log.success('Game data loaded successfully');
 
 			return true;
@@ -75,7 +83,7 @@ export class GameDataManager extends EventEmitter<GameDataEvents> implements IGa
 		catch (error)
 		{
 			log.error('Failed to load game data:', error);
-			this.emit('error', error as Error);
+			this.events.emit('error', error as Error);
 			return false;
 		}
 	}
@@ -102,7 +110,7 @@ export class GameDataManager extends EventEmitter<GameDataEvents> implements IGa
 		}
 
 		log.info(`Loaded ${this._floorItems.size} floor items, ${this._wallItems.size} wall items`);
-		this.emit('furnitureLoaded');
+		this.events.emit('furnitureLoaded');
 	}
 
 	private parseFloorItems(items: unknown[]): void
@@ -238,7 +246,7 @@ export class GameDataManager extends EventEmitter<GameDataEvents> implements IGa
 		}
 
 		log.info(`Loaded ${this._effects.size} effects`);
-		this.emit('effectsLoaded');
+		this.events.emit('effectsLoaded');
 	}
 
 	private async loadProductData(url: string): Promise<void>
@@ -267,7 +275,7 @@ export class GameDataManager extends EventEmitter<GameDataEvents> implements IGa
 		}
 
 		log.info(`Loaded ${this._products.size} products`);
-		this.emit('productsLoaded');
+		this.events.emit('productsLoaded');
 	}
 
 	getFurnitureData(id: number): IFurnitureData | null

@@ -1,11 +1,11 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Create a new flat/room
  *
  * @see source_as/habbo/communication/messages/outgoing/navigator/CreateFlatMessageComposer.as
  */
-export class CreateFlatMessageComposer implements IMessageComposer<ConstructorParameters<typeof CreateFlatMessageComposer>>
+export class CreateFlatMessageComposer extends MessageComposer<ConstructorParameters<typeof CreateFlatMessageComposer>>
 {
 	private _data: ConstructorParameters<typeof CreateFlatMessageComposer>;
 
@@ -18,6 +18,8 @@ export class CreateFlatMessageComposer implements IMessageComposer<ConstructorPa
 		tradeMode: number
 	)
 	{
+		super();
+
 		this._data = [roomName, roomDescription, roomModel, categoryId, maxUsers, tradeMode];
 	}
 
@@ -26,8 +28,4 @@ export class CreateFlatMessageComposer implements IMessageComposer<ConstructorPa
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

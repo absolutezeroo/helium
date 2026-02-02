@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Search my guild bases
  *
  * @see source_as/habbo/communication/messages/outgoing/navigator/MyGuildBasesSearchMessageComposer.as
  */
-export class MyGuildBasesSearchMessageComposer implements IMessageComposer<ConstructorParameters<typeof MyGuildBasesSearchMessageComposer>>
+export class MyGuildBasesSearchMessageComposer extends MessageComposer<ConstructorParameters<typeof MyGuildBasesSearchMessageComposer>>
 {
 	private _data: ConstructorParameters<typeof MyGuildBasesSearchMessageComposer>;
 
 	constructor()
 	{
+		super();
+
 		this._data = [];
 	}
 
@@ -19,8 +21,4 @@ export class MyGuildBasesSearchMessageComposer implements IMessageComposer<Const
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

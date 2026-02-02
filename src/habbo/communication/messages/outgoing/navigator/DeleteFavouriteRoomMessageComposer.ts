@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Remove a room from favourites
  *
  * @see source_as/habbo/communication/messages/outgoing/navigator/DeleteFavouriteRoomMessageComposer.as
  */
-export class DeleteFavouriteRoomMessageComposer implements IMessageComposer<ConstructorParameters<typeof DeleteFavouriteRoomMessageComposer>>
+export class DeleteFavouriteRoomMessageComposer extends MessageComposer<ConstructorParameters<typeof DeleteFavouriteRoomMessageComposer>>
 {
 	private _data: ConstructorParameters<typeof DeleteFavouriteRoomMessageComposer>;
 
 	constructor(roomId: number)
 	{
+		super();
+
 		this._data = [roomId];
 	}
 
@@ -19,8 +21,4 @@ export class DeleteFavouriteRoomMessageComposer implements IMessageComposer<Cons
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }

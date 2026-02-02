@@ -1,5 +1,4 @@
-import {injectable} from 'inversify';
-import {EventEmitter} from 'eventemitter3';
+import {Component, type IContext} from '@core/runtime';
 import {Logger} from '@core/utils/Logger';
 import type {HabboConfigurationManagerEvents, IHabboConfigurationManager} from './IHabboConfigurationManager';
 
@@ -18,8 +17,7 @@ const log = Logger.getLogger('Configuration');
  * - External variables download
  * - Gamedata hashes loading
  */
-@injectable()
-export class HabboConfigurationManager extends EventEmitter<HabboConfigurationManagerEvents> implements IHabboConfigurationManager
+export class HabboConfigurationManager extends Component implements IHabboConfigurationManager
 {
 	private static readonly INTERPOLATION_DEPTH_LIMIT: number = 3;
 	private static readonly REPLACE_CHAR: string = '%';
@@ -29,9 +27,13 @@ export class HabboConfigurationManager extends EventEmitter<HabboConfigurationMa
 	private _isConfigLoaded: boolean = false;
 	private _isConfigReadOnly: boolean = false;
 
-	constructor()
+	constructor(context: IContext)
 	{
-		super();
+		super(context);
+	}
+
+	protected override initComponent(): void
+	{
 		this.resetAll();
 	}
 
@@ -265,7 +267,7 @@ export class HabboConfigurationManager extends EventEmitter<HabboConfigurationMa
 
 			log.error(`Configuration download error: ${err.message}`);
 
-			this.emit('configurationError', err);
+			this.events.emit('configurationError', err);
 		}
 	}
 
@@ -407,7 +409,7 @@ export class HabboConfigurationManager extends EventEmitter<HabboConfigurationMa
 
 	private configurationsLoaded(): void
 	{
-		this.emit('configurationLoaded');
+		this.events.emit('configurationLoaded');
 		this.configurationsComplete();
 	}
 
@@ -422,6 +424,6 @@ export class HabboConfigurationManager extends EventEmitter<HabboConfigurationMa
 
 		log.success('Configuration loaded');
 
-		this.emit('complete');
+		this.events.emit('complete');
 	}
 }

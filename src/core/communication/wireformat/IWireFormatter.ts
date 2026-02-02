@@ -1,11 +1,14 @@
+import type {IDisposable} from '@core/runtime/IDisposable';
 import {ByteArray} from '../util/ByteArray';
 import type {IMessageDataWrapper} from '../messages/IMessageDataWrapper';
 import type {IConnection} from '../connection/IConnection';
 
 /**
  * Interface for message encoding/decoding
+ *
+ * Based on AS3: com.sulake.core.communication.wireformat.IWireFormatter
  */
-export interface IWireFormatter
+export interface IWireFormatter extends IDisposable
 {
 	/**
 	 * Encode a message for sending
@@ -22,9 +25,4 @@ export interface IWireFormatter
 	 * @returns Array of parsed message wrappers
 	 */
 	splitMessages(buffer: ByteArray, connection: IConnection): IMessageDataWrapper[];
-
-	/**
-	 * Clean up resources
-	 */
-	dispose(): void;
 }

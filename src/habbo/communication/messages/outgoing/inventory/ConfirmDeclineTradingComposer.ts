@@ -1,16 +1,18 @@
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
  * Decline trading after confirmation stage
  *
  * @see source_as/habbo/communication/messages/outgoing/inventory/trading/ConfirmDeclineTradingComposer.as
  */
-export class ConfirmDeclineTradingComposer implements IMessageComposer<ConstructorParameters<typeof ConfirmDeclineTradingComposer>>
+export class ConfirmDeclineTradingComposer extends MessageComposer<ConstructorParameters<typeof ConfirmDeclineTradingComposer>>
 {
 	private _data: ConstructorParameters<typeof ConfirmDeclineTradingComposer>;
 
 	constructor()
 	{
+		super();
+
 		this._data = [];
 	}
 
@@ -19,8 +21,4 @@ export class ConfirmDeclineTradingComposer implements IMessageComposer<Construct
 		return this._data;
 	}
 
-	dispose(): void
-	{
-		return;
-	}
 }
