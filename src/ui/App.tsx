@@ -5,6 +5,7 @@ import {Toolbar} from './components/toolbar/Toolbar';
 import {LoadingScreen} from './components/common/LoadingScreen';
 import {Navigator} from './components/navigator';
 import {Inventory} from './components/inventory';
+import {Room} from './components/room';
 
 export const App: Component = () =>
 {
@@ -28,6 +29,7 @@ export const App: Component = () =>
 				<Toolbar/>
 				<Navigator/>
 				<Inventory/>
+				<Room/>
 			</Show>
 
 			<Show when={connection.state === 'error'}>

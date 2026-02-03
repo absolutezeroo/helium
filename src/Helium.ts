@@ -7,6 +7,7 @@ import {HabboLocalizationManager} from '@habbo/localization/HabboLocalizationMan
 import {HabboNavigator} from '@habbo/navigator/HabboNavigator';
 import {HabboNewNavigator} from '@habbo/navigator/HabboNewNavigator';
 import {HabboInventory} from '@habbo/inventory/HabboInventory';
+import {RoomEngine, RoomMessageHandler} from '@habbo/room';
 import {Logger} from '@core/utils/Logger';
 import {mountUI} from '@ui/index';
 import {
@@ -33,6 +34,7 @@ import {IID_HabboLocalizationManager} from '@iid/IIDHabboLocalizationManager';
 import {IID_HabboNavigator} from '@iid/IIDHabboNavigator';
 import {IID_HabboNewNavigator} from '@iid/IIDHabboNewNavigator';
 import {IID_HabboInventory} from '@iid/IIDHabboInventory';
+import {IID_RoomEngine} from '@iid/IIDRoomEngine';
 
 const log = Logger.getLogger('Helium');
 
@@ -89,6 +91,8 @@ export class Helium
 	private _navigator: HabboNavigator | null = null;
 	private _newNavigator: HabboNewNavigator | null = null;
 	private _inventory: HabboInventory | null = null;
+	private _roomEngine: RoomEngine | null = null;
+	private _roomMessageHandler: RoomMessageHandler | null = null;
 
 	// Module system
 	private _messageBus: MessageBus | null = null;
@@ -213,6 +217,13 @@ export class Helium
 		// Inventory
 		this._inventory = new HabboInventory(ctx);
 		ctx.attachComponent(this._inventory, [IID_HabboInventory]);
+
+		// Room Engine
+		this._roomEngine = new RoomEngine(ctx);
+		ctx.attachComponent(this._roomEngine, [IID_RoomEngine]);
+
+		// Room Message Handler - bridges communication to room engine
+		this._roomMessageHandler = new RoomMessageHandler(this._roomEngine);
 	}
 
 	/**
@@ -297,6 +308,12 @@ export class Helium
 
 		log.info('Connecting to server...');
 		this._habboCommunicationManager.initConnection('habbo');
+
+		// Connect RoomMessageHandler to the connection
+		if (this._roomMessageHandler && this._habboCommunicationManager.connection)
+		{
+			this._roomMessageHandler.connection = this._habboCommunicationManager.connection;
+		}
 	}
 
 	/**
@@ -338,6 +355,10 @@ export class Helium
 		this._navigator = null;
 		this._newNavigator = null;
 		this._inventory = null;
+		this._roomMessageHandler?.dispose();
+		this._roomMessageHandler = null;
+		this._roomEngine?.dispose();
+		this._roomEngine = null;
 
 		this._ready = false;
 	}
@@ -436,6 +457,19 @@ export class Helium
 		}
 
 		return this._moduleRegistry;
+	}
+
+	/**
+	 * Get the room engine
+	 */
+	get roomEngine(): RoomEngine
+	{
+		if (!this._roomEngine)
+		{
+			throw new Error('[Helium] Not initialized');
+		}
+
+		return this._roomEngine;
 	}
 }
 

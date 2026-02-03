@@ -1,5 +1,6 @@
 import {defineModule} from '../core/defineModule';
 import type {RoomState} from './types';
+import {createInitialRoomState} from './types';
 import type {RoomActions} from './actions';
 import {handlers} from './handlers';
 import {createActions} from './actions';
@@ -7,8 +8,11 @@ import {createActions} from './actions';
 /**
  * Room Module
  *
- * Tracks the current room the user is in, including room data,
- * rating, staff pick status, and active events.
+ * Tracks the current room the user is in, including:
+ * - Room data (name, owner, rating, etc.)
+ * - Session state (created, started, ended)
+ * - Users in the room (users, pets, bots)
+ * - Permissions (owner, controller level)
  *
  * @example
  * ```typescript
@@ -17,8 +21,12 @@ import {createActions} from './actions';
  * // Check if user is in a room
  * if (actions.isInRoom()) {
  *   console.log(`In room: ${actions.roomName()}`);
- *   console.log(`Rating: ${state.rating}`);
+ *   console.log(`Users: ${actions.getUserCount()}`);
+ *   console.log(`Is owner: ${actions.isOwner()}`);
  * }
+ *
+ * // Get all human users
+ * const users = actions.getHumanUsers();
  * ```
  */
 export const roomModule = defineModule({
@@ -28,19 +36,14 @@ export const roomModule = defineModule({
 
 	managerIIDs: {},
 
-	initialState: {
-		currentRoom: null,
-		rating: 0,
-		canRate: false,
-		isStaffPick: false,
-		roomEvent: null,
-	} satisfies RoomState,
+	initialState: createInitialRoomState(),
 
 	handlers,
 	actions: createActions,
 });
 
-export type {RoomState} from './types';
+export type {RoomState, RoomUserData, RoomSessionState, RoomUserTypeValue} from './types';
+export {RoomUserType} from './types';
 export type {RoomActions} from './actions';
 
 // Declaration merging for type-safe module access

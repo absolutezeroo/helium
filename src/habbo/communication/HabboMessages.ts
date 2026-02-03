@@ -87,6 +87,40 @@ import {MysteryBoxKeysMessageEvent,} from './messages/incoming/mysterybox';
 // Incoming Events - Catalog
 import {BuildersClubSubscriptionStatusMessageEvent,} from './messages/incoming/catalog';
 
+// Incoming Events - Room Session
+import {
+	RoomReadyMessageEvent,
+	FlatAccessibleMessageEvent,
+	CloseConnectionMessageEvent,
+} from './messages/incoming/room/session';
+
+// Incoming Events - Room Permissions
+import {
+	YouAreControllerMessageEvent,
+	YouAreOwnerMessageEvent,
+} from './messages/incoming/room/permissions';
+
+// Incoming Events - Room Engine
+import {
+	FloorHeightMapMessageEvent,
+	HeightMapMessageEvent,
+	HeightMapUpdateMessageEvent,
+	ObjectsMessageEvent,
+	ObjectAddMessageEvent,
+	ObjectUpdateMessageEvent,
+	ObjectRemoveMessageEvent,
+	ObjectDataUpdateMessageEvent,
+	ItemsMessageEvent,
+	ItemAddMessageEvent,
+	ItemUpdateMessageEvent,
+	ItemRemoveMessageEvent,
+	UsersMessageEvent,
+	UserUpdateMessageEvent,
+	UserRemoveMessageEvent,
+	SlideObjectBundleMessageEvent,
+	RoomEntryInfoMessageEvent,
+} from './messages/incoming/room/engine';
+
 // Incoming Events - New Navigator
 import {
 	NavigatorCollapsedCategoriesMessageEvent,
@@ -307,6 +341,34 @@ export class HabboMessages implements IMessageConfiguration
 		this._events.set(1310, NavigatorLiftedRoomsMessageEvent);
 		this._events.set(1396, NavigatorCollapsedCategoriesMessageEvent);
 		this._events.set(3658, NavigatorWindowSettingsMessageEvent);
+
+		// === ROOM SESSION ===
+		this._events.set(3024, RoomReadyMessageEvent);
+		this._events.set(431, FlatAccessibleMessageEvent);
+		this._events.set(2893, CloseConnectionMessageEvent);
+
+		// === ROOM PERMISSIONS ===
+		this._events.set(3116, YouAreControllerMessageEvent);
+		this._events.set(3915, YouAreOwnerMessageEvent);
+
+		// === ROOM ENGINE ===
+		this._events.set(1270, FloorHeightMapMessageEvent);
+		this._events.set(3492, HeightMapMessageEvent);
+		this._events.set(2948, HeightMapUpdateMessageEvent);
+		this._events.set(2791, RoomEntryInfoMessageEvent);
+		this._events.set(1572, ObjectsMessageEvent);
+		this._events.set(3122, ObjectAddMessageEvent);
+		this._events.set(3075, ObjectUpdateMessageEvent);
+		this._events.set(3233, ObjectRemoveMessageEvent);
+		this._events.set(3007, ObjectDataUpdateMessageEvent);
+		this._events.set(3514, ItemsMessageEvent);
+		this._events.set(684, ItemAddMessageEvent);
+		this._events.set(2101, ItemUpdateMessageEvent);
+		this._events.set(1093, ItemRemoveMessageEvent);
+		this._events.set(2846, UsersMessageEvent);
+		this._events.set(3911, UserUpdateMessageEvent);
+		this._events.set(2193, UserRemoveMessageEvent);
+		this._events.set(1661, SlideObjectBundleMessageEvent);
 	}
 
 	/**

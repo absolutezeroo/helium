@@ -12,6 +12,7 @@ export type {IRoomInstanceContainer} from './IRoomInstanceContainer';
 export type {IRoomObjectFactory} from './IRoomObjectFactory';
 export type {IRoomObjectManager} from './IRoomObjectManager';
 export type {IRoomContentLoader} from './IRoomContentLoader';
+export type {IRoomManagerListener} from './IRoomManagerListener';
 
 // Classes
 export {RoomInstance} from './RoomInstance';

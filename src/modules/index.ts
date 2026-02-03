@@ -59,8 +59,8 @@ export type {NavigatorState, NavigatorActions, NavigatorManagers} from './naviga
 export {connectionModule} from './connection';
 export type {ConnectionState, ConnectionStateType, LoadingStep, ConnectionActions} from './connection';
 
-export {roomModule} from './room';
-export type {RoomState, RoomActions} from './room';
+export {roomModule, RoomUserType} from './room';
+export type {RoomState, RoomActions, RoomUserData, RoomSessionState, RoomUserTypeValue} from './room';
 
 export {favouritesModule} from './favourites';
 export type {FavouritesState, FavouritesActions} from './favourites';

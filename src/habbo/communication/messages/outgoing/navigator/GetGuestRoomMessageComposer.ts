@@ -5,15 +5,16 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
  *
  * @see source_as/habbo/communication/messages/outgoing/navigator/GetGuestRoomMessageComposer.as
  */
-export class GetGuestRoomMessageComposer extends MessageComposer<ConstructorParameters<typeof GetGuestRoomMessageComposer>>
+export class GetGuestRoomMessageComposer extends MessageComposer<[number, number, number]>
 {
-	private _data: ConstructorParameters<typeof GetGuestRoomMessageComposer>;
+	private _data: [number, number, number];
 
 	constructor(roomId: number, enterRoom: boolean, roomForward: boolean)
 	{
 		super();
 
-		this._data = [roomId, enterRoom, roomForward];
+		// AS3 pushes booleans as 1 or 0 (ints)
+		this._data = [roomId, enterRoom ? 1 : 0, roomForward ? 1 : 0];
 	}
 
 	getMessageArray()

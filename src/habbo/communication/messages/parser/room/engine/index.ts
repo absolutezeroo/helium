@@ -12,3 +12,4 @@ export {ObjectUpdateMessageParser} from './ObjectUpdateMessageParser';
 export {UserRemoveMessageParser} from './UserRemoveMessageParser';
 export {UsersMessageParser} from './UsersMessageParser';
 export {UserUpdateMessageParser, type IUserUpdate} from './UserUpdateMessageParser';
+export {RoomEntryInfoMessageParser} from './RoomEntryInfoMessageParser';
