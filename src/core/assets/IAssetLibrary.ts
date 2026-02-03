@@ -1,119 +1,41 @@
-import type {Texture} from 'pixi.js';
-import type {IDisposable} from '@core/runtime/IDisposable';
+import type {IDisposable} from '@core/runtime';
+import type {IAsset} from './IAsset';
+import type {AssetTypeDeclaration} from './AssetTypeDeclaration';
+import type {AssetLoaderStruct} from './AssetLoaderStruct';
 
 /**
- * Asset data structure from .nitro bundle JSON
+ * IAssetLibrary Interface
  *
- * @see source_nitro_renderer/api/asset/IAssetData.ts
- */
-export interface IAssetData
-{
-	name: string;
-	type?: string;
-	spritesheet?: ISpritesheetData;
-	assets?: Record<string, IAssetInfo>;
-	aliases?: Record<string, IAssetAlias>;
-}
-
-export interface ISpritesheetData
-{
-	meta: {
-		image: string;
-		size: {w: number; h: number};
-		scale: number;
-	};
-	frames: Record<string, IFrameData>;
-}
-
-export interface IFrameData
-{
-	frame: {x: number; y: number; w: number; h: number};
-	rotated: boolean;
-	trimmed: boolean;
-	spriteSourceSize: {x: number; y: number; w: number; h: number};
-	sourceSize: {w: number; h: number};
-}
-
-export interface IAssetInfo
-{
-	name: string;
-	x?: number;
-	y?: number;
-	flipH?: boolean;
-	flipV?: boolean;
-	source?: string;
-}
-
-export interface IAssetAlias
-{
-	link: string;
-	flipH?: boolean;
-	flipV?: boolean;
-}
-
-/**
- * Graphic asset for rendering
- */
-export interface IGraphicAsset
-{
-	name: string;
-	texture: Texture;
-	x: number;
-	y: number;
-	flipH: boolean;
-	flipV: boolean;
-}
-
-/**
- * Collection of related assets from a single bundle
- */
-export interface IAssetCollection extends IDisposable
-{
-	name: string;
-	textures: Map<string, Texture>;
-	getAsset(name: string): IGraphicAsset | null;
-	getTexture(name: string): Texture | null;
-}
-
-/**
- * Asset library for managing .nitro bundles and textures
+ * Based on AS3: com.sulake.core.assets.IAssetLibrary
  *
- * @see source_nitro_renderer/api/asset/IAssetManager.ts
+ * A library that manages a collection of assets.
  */
-export interface IAssetLibrary
+export interface IAssetLibrary extends IDisposable
 {
-	/**
-	 * Get a texture by name
-	 */
-	getTexture(name: string): Texture | null;
+	readonly url: string;
+	readonly name: string;
+	readonly isReady: boolean;
+	readonly numAssets: number;
+	readonly manifest: object | null;
+	readonly nameArray: string[];
 
-	/**
-	 * Store a texture by name
-	 */
-	setTexture(name: string, texture: Texture): void;
+	loadFromUrl(url: string, isReady?: boolean): Promise<void>;
+	loadFromResource(manifest: object, resourceData: unknown): boolean;
+	unload(): void;
+	loadAssetFromFile(name: string, url: string, mimeType?: string, id?: number): AssetLoaderStruct;
 
-	/**
-	 * Get a graphic asset by name (searches all collections)
-	 */
-	getAsset(name: string): IGraphicAsset | null;
+	getAssetByName(name: string): IAsset | null;
+	getAssetByContent(content: unknown): IAsset | null;
+	getAssetByIndex(index: number): IAsset | null;
+	getAssetIndex(asset: IAsset): number;
+	hasAsset(name: string): boolean;
 
-	/**
-	 * Get a collection by name
-	 */
-	getCollection(name: string): IAssetCollection | null;
+	setAsset(name: string, asset: IAsset, overwrite?: boolean): boolean;
+	createAsset(name: string, declaration: AssetTypeDeclaration): IAsset | null;
+	removeAsset(asset: IAsset): IAsset | null;
 
-	/**
-	 * Download and parse a .nitro bundle from URL
-	 */
-	downloadAsset(url: string): Promise<boolean>;
-
-	/**
-	 * Download multiple assets
-	 */
-	downloadAssets(urls: string[]): Promise<boolean>;
-
-	/**
-	 * All loaded collections
-	 */
-	readonly collections: Map<string, IAssetCollection>;
+	registerAssetTypeDeclaration(declaration: AssetTypeDeclaration, isShared?: boolean): boolean;
+	getAssetTypeDeclarationByMimeType(mimeType: string, checkShared?: boolean): AssetTypeDeclaration | null;
+	getAssetTypeDeclarationByClass(assetClass: new (...args: unknown[]) => IAsset, checkShared?: boolean): AssetTypeDeclaration | null;
+	getAssetTypeDeclarationByFileName(fileName: string, checkShared?: boolean): AssetTypeDeclaration | null;
 }

@@ -3,6 +3,7 @@ import {getIIDName, type IID} from './IID';
 import type {IDisposable} from './IDisposable';
 import type {IContext, InterfaceCallback} from './IContext';
 import type {ComponentDependency} from './ComponentDependency';
+import type {IAssetLibrary, IAsset, AssetLoaderStruct} from '@core/assets';
 
 /**
  * Component Events
@@ -90,12 +91,14 @@ export class Component implements IDisposable
 	private _requiredDependenciesCount: number = 1; // Start at 1, decremented after all deps queued
 	private _pendingDependencies: Set<string> = new Set();
 	private _constructionComplete: boolean = false;
+	private _assets: IAssetLibrary | null = null;
 
-	constructor(context: IContext, flags: number = 0)
+	constructor(context: IContext, flags: number = 0, assetLibrary: IAssetLibrary | null = null)
 	{
 		this._context = context;
 		this._flags = flags;
 		this._events = new EventEmitter();
+		this._assets = assetLibrary;
 
 		// Allow null context for ComponentContext (CONTEXT flag), which sets itself as context after super()
 		if (!this._context && !(flags & ComponentFlags.CONTEXT))
@@ -178,6 +181,48 @@ export class Component implements IDisposable
 		return this._events;
 	}
 
+	// ========== Asset Library ==========
+
+	/**
+	 * The asset library for this component
+	 */
+	get assets(): IAssetLibrary | null
+	{
+		return this._assets;
+	}
+
+	/**
+	 * Find an asset by name
+	 */
+	findAssetByName(name: string): IAsset | null
+	{
+		return this._assets?.getAssetByName(name) ?? null;
+	}
+
+	/**
+	 * Remove an asset
+	 */
+	removeAsset(asset: IAsset): IAsset | null
+	{
+		return this._assets?.removeAsset(asset) ?? null;
+	}
+
+	/**
+	 * Load an asset from a file URL
+	 */
+	loadAssetFromFile(name: string, url: string, mimeType?: string, id: number = -1): AssetLoaderStruct | null
+	{
+		return this._assets?.loadAssetFromFile(name, url, mimeType, id) ?? null;
+	}
+
+	/**
+	 * Check if an asset exists
+	 */
+	hasAsset(name: string): boolean
+	{
+		return this._assets?.hasAsset(name) ?? false;
+	}
+
 	// ========== Dependency Declaration ==========
 
 	/**
@@ -227,6 +272,13 @@ export class Component implements IDisposable
 
 		// Clear events
 		this._events.removeAllListeners();
+
+		// Dispose assets
+		if (this._assets)
+		{
+			this._assets.dispose();
+			this._assets = null;
+		}
 
 		this._disposed = true;
 	}

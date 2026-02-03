@@ -3,6 +3,7 @@ import type {IID} from './IID';
 import type {IDisposable} from './IDisposable';
 import type {ICoreConfiguration} from './ICoreConfiguration';
 import type {Component} from './Component';
+import type {IAssetLibrary} from '@core/assets/IAssetLibrary';
 
 /**
  * Queue callback for interface resolution
@@ -36,6 +37,11 @@ export interface IContext extends IDisposable
 	 * Configuration manager
 	 */
 	configuration: ICoreConfiguration | null;
+
+	/**
+	 * Asset library for this context
+	 */
+	readonly assets: IAssetLibrary | null;
 
 	/**
 	 * Request an interface from the context.

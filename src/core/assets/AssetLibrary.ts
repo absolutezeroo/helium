@@ -1,161 +1,753 @@
-import {Spritesheet, Texture} from 'pixi.js';
+import {EventEmitter} from 'eventemitter3';
 import {Component, type IContext} from '@core/runtime';
-import {Logger} from '@core/utils/Logger';
-import {AssetCollection} from './AssetCollection';
-import type {IAssetCollection, IAssetData, IAssetLibrary, IGraphicAsset} from './IAssetLibrary';
-import {NitroBundle} from './NitroBundle';
+import type {IAsset} from './IAsset';
+import type {IAssetLibrary} from './IAssetLibrary';
+import type {IAssetLoader} from './loaders/IAssetLoader';
+import {AssetTypeDeclaration, type AssetClass, type AssetLoaderClass} from './AssetTypeDeclaration';
+import {AssetLoaderStruct} from './AssetLoaderStruct';
+import {AssetLoaderEvent, AssetLoaderEventType} from './loaders/AssetLoaderEvent';
 
-const log = Logger.getLogger('AssetLibrary');
+// Import default asset types
+import {UnknownAsset} from './UnknownAsset';
+import {TextAsset} from './TextAsset';
+import {XmlAsset} from './XmlAsset';
+import {BitmapDataAsset} from './BitmapDataAsset';
+import {SoundAsset} from './SoundAsset';
+import {NitroAsset} from './NitroAsset';
+
+// Import default loaders
+import {BinaryFileLoader} from './loaders/BinaryFileLoader';
+import {TextFileLoader} from './loaders/TextFileLoader';
+import {BitmapFileLoader} from './loaders/BitmapFileLoader';
+import {SoundFileLoader} from './loaders/SoundFileLoader';
+import {NitroBundleLoader} from './loaders/NitroBundleLoader';
 
 /**
- * Asset library for managing .nitro bundles and textures
+ * Asset library events
+ */
+export const AssetLibraryEvents = {
+	READY: 'AssetLibraryReady',
+	LOADED: 'AssetLibraryLoaded',
+	UNLOADED: 'AssetLibraryUnloaded',
+	LOAD_ERROR: 'AssetLibraryLoadError',
+} as const;
+
+/**
+ * AssetLibrary
  *
- * Handles downloading, parsing, and caching of game assets in the .nitro format.
- * The .nitro format is a binary container with deflate-compressed JSON metadata
- * and PNG textures.
+ * Based on AS3: com.sulake.core.assets.AssetLibrary
  *
- * @see source_nitro_renderer/api/asset/AssetManager.ts
+ * A library that manages a collection of assets. Provides:
+ * - Type registration (MIME type → Asset class → Loader class)
+ * - Asset storage and retrieval by name, content, or index
+ * - Loading assets from files
+ * - Automatic type detection by file extension
  */
 export class AssetLibrary extends Component implements IAssetLibrary
 {
-	private _textures: Map<string, Texture> = new Map();
-	private _collections: Map<string, IAssetCollection> = new Map();
+	/**
+	 * Shared type registry (global, across all libraries)
+	 */
+	private static _sharedTypesByMime: Map<string, AssetTypeDeclaration> = new Map();
 
-	constructor(context: IContext)
+	/**
+	 * Whether the shared types have been initialized
+	 */
+	private static _sharedTypesInitialized: boolean = false;
+
+	/**
+	 * Instance counter for debugging
+	 */
+	private static _instanceCount: number = 0;
+
+	/**
+	 * All library instances (for debugging)
+	 */
+	private static _libraryRefs: AssetLibrary[] = [];
+
+	private readonly _libraryEvents: EventEmitter = new EventEmitter();
+	private readonly _name: string;
+	private readonly _assetMap: Map<string, IAsset> = new Map();
+	private readonly _assetNameArray: string[] = [];
+	private readonly _pendingLoads: Map<string, AssetLoaderStruct> = new Map();
+	private readonly _localTypesByMime: Map<string, AssetTypeDeclaration> = new Map();
+
+	private _url: string = '';
+	private _manifest: object | null = null;
+	private _isReady: boolean = false;
+
+	constructor(context: IContext, name: string = 'AssetLibrary')
 	{
 		super(context);
-	}
 
-	protected override initComponent(): void
-	{
-		log.debug('AssetLibrary initialized');
-	}
+		this._name = name;
 
-	getTexture(name: string): Texture | null
-	{
-		return this._textures.get(name) ?? null;
-	}
-
-	setTexture(name: string, texture: Texture): void
-	{
-		if (!name || !texture) return;
-		this._textures.set(name, texture);
-	}
-
-	getAsset(name: string): IGraphicAsset | null
-	{
-		for (const collection of this._collections.values())
+		// Initialize shared types on first library creation
+		if (!AssetLibrary._sharedTypesInitialized)
 		{
-			const asset = collection.getAsset(name);
-			if (asset) return asset;
+			this.initializeSharedTypes();
+		}
+
+		AssetLibrary._instanceCount++;
+		AssetLibrary._libraryRefs.push(this);
+	}
+
+	/**
+	 * Get the number of library instances
+	 */
+	static get numInstances(): number
+	{
+		return AssetLibrary._instanceCount;
+	}
+
+	/**
+	 * Get all library instances
+	 */
+	static get libraryRefs(): AssetLibrary[]
+	{
+		return AssetLibrary._libraryRefs;
+	}
+
+	/**
+	 * Library-level event emitter
+	 */
+	get libraryEvents(): EventEmitter
+	{
+		return this._libraryEvents;
+	}
+
+	/**
+	 * The URL this library was loaded from
+	 */
+	get url(): string
+	{
+		return this._url;
+	}
+
+	/**
+	 * The name of this library
+	 */
+	get name(): string
+	{
+		return this._name;
+	}
+
+	/**
+	 * Whether the library is ready
+	 */
+	get isReady(): boolean
+	{
+		return this._isReady;
+	}
+
+	/**
+	 * Number of assets in this library
+	 */
+	get numAssets(): number
+	{
+		return this._assetMap.size;
+	}
+
+	/**
+	 * The manifest object
+	 */
+	get manifest(): object | null
+	{
+		return this._manifest ?? {};
+	}
+
+	/**
+	 * Array of all asset names
+	 */
+	get nameArray(): string[]
+	{
+		return [...this._assetNameArray];
+	}
+
+	/**
+	 * Initialize the default shared type registrations
+	 */
+	private initializeSharedTypes(): void
+	{
+		// Binary/Unknown
+		this.registerAssetTypeDeclaration(
+			new AssetTypeDeclaration('application/octet-stream', UnknownAsset as AssetClass, BinaryFileLoader as unknown as AssetLoaderClass),
+			true
+		);
+
+		// Text
+		this.registerAssetTypeDeclaration(
+			new AssetTypeDeclaration('text/plain', TextAsset as AssetClass, TextFileLoader as unknown as AssetLoaderClass, 'txt'),
+			true
+		);
+
+		// XML / HTML
+		this.registerAssetTypeDeclaration(
+			new AssetTypeDeclaration('text/xml', XmlAsset as AssetClass, TextFileLoader as unknown as AssetLoaderClass, 'xml'),
+			true
+		);
+		this.registerAssetTypeDeclaration(
+			new AssetTypeDeclaration('text/html', XmlAsset as AssetClass, TextFileLoader as unknown as AssetLoaderClass, 'htm', 'html'),
+			true
+		);
+
+		// Images
+		this.registerAssetTypeDeclaration(
+			new AssetTypeDeclaration('image/png', BitmapDataAsset as AssetClass, BitmapFileLoader as unknown as AssetLoaderClass, 'png'),
+			true
+		);
+		this.registerAssetTypeDeclaration(
+			new AssetTypeDeclaration('image/jpeg', BitmapDataAsset as AssetClass, BitmapFileLoader as unknown as AssetLoaderClass, 'jpg', 'jpeg'),
+			true
+		);
+		this.registerAssetTypeDeclaration(
+			new AssetTypeDeclaration('image/gif', BitmapDataAsset as AssetClass, BitmapFileLoader as unknown as AssetLoaderClass, 'gif'),
+			true
+		);
+
+		// Audio
+		this.registerAssetTypeDeclaration(
+			new AssetTypeDeclaration('audio/mpeg', SoundAsset as AssetClass, SoundFileLoader as unknown as AssetLoaderClass, 'mp3'),
+			true
+		);
+
+		// Nitro bundle (our custom format)
+		this.registerAssetTypeDeclaration(
+			new AssetTypeDeclaration('application/x-nitro-bundle', NitroAsset as AssetClass, NitroBundleLoader as unknown as AssetLoaderClass, 'nitro'),
+			true
+		);
+
+		AssetLibrary._sharedTypesInitialized = true;
+	}
+
+	/**
+	 * Dispose of this library
+	 */
+	override dispose(): void
+	{
+		if (!this.disposed)
+		{
+			this.unload();
+
+			// Remove from global refs
+			const index = AssetLibrary._libraryRefs.indexOf(this);
+
+			if (index >= 0)
+			{
+				AssetLibrary._libraryRefs.splice(index, 1);
+			}
+
+			AssetLibrary._instanceCount--;
+
+			this._libraryEvents.removeAllListeners();
+
+			super.dispose();
+		}
+	}
+
+	// ========== Loading ==========
+
+	/**
+	 * Load the library from a URL
+	 */
+	async loadFromUrl(url: string, isReady: boolean = true): Promise<void>
+	{
+		// If already loaded from this URL, just emit ready
+		if (this._url === url && this._isReady)
+		{
+			this._libraryEvents.emit(AssetLibraryEvents.READY);
+			return;
+		}
+
+		this._url = url;
+
+		try
+		{
+			const response = await fetch(url);
+
+			if (!response.ok)
+			{
+				throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+			}
+
+			// Try to parse as JSON (for manifest-based libraries)
+			const contentType = response.headers.get('content-type') || '';
+
+			if (contentType.includes('application/json') || url.endsWith('.json'))
+			{
+				this._manifest = await response.json();
+			}
+
+			this._isReady = isReady;
+			this._libraryEvents.emit(AssetLibraryEvents.LOADED);
+			this._libraryEvents.emit(AssetLibraryEvents.READY);
+		}
+		catch (error)
+		{
+			console.error(`[AssetLibrary] Failed to load from ${url}:`, error);
+			this._isReady = false;
+			this._libraryEvents.emit(AssetLibraryEvents.LOAD_ERROR);
+			throw error;
+		}
+	}
+
+	/**
+	 * Load assets from a resource manifest
+	 */
+	loadFromResource(manifest: object, _resourceData: unknown): boolean
+	{
+		this._manifest = manifest;
+		this._isReady = true;
+		return true;
+	}
+
+	/**
+	 * Unload all assets
+	 */
+	unload(): void
+	{
+		// Dispose pending loaders
+		for (const [, loader] of this._pendingLoads)
+		{
+			loader.assetLoader?.dispose();
+			loader.dispose();
+		}
+
+		this._pendingLoads.clear();
+
+		// Dispose all assets
+		for (const [, asset] of this._assetMap)
+		{
+			asset.dispose();
+		}
+
+		this._assetMap.clear();
+		this._assetNameArray.length = 0;
+
+		this._isReady = false;
+		this._url = '';
+
+		this._libraryEvents.emit(AssetLibraryEvents.UNLOADED);
+	}
+
+	/**
+	 * Load a single asset from a file
+	 */
+	loadAssetFromFile(name: string, url: string, mimeType?: string, id: number = -1): AssetLoaderStruct
+	{
+		// Check if asset already exists
+		if (this.getAssetByName(name))
+		{
+			throw new Error(`Asset with name ${name} already exists`);
+		}
+
+		// Check if we're already loading this URL
+		const existingLoader = this._pendingLoads.get(url);
+
+		if (existingLoader && existingLoader.assetName === name)
+		{
+			return existingLoader;
+		}
+
+		// Get type declaration
+		let declaration: AssetTypeDeclaration | null;
+
+		if (mimeType)
+		{
+			declaration = this.getAssetTypeDeclarationByMimeType(mimeType, true);
+
+			if (!declaration)
+			{
+				throw new Error(`Asset type declaration for MIME type ${mimeType} not found`);
+			}
+		}
+		else
+		{
+			declaration = this.solveTypeDeclarationFromUrl(url);
+
+			if (!declaration)
+			{
+				throw new Error(`Couldn't solve asset type for file ${url}`);
+			}
+		}
+
+		// Create loader
+		if (!declaration.loaderClass)
+		{
+			throw new Error(`No loader class defined for MIME type ${declaration.mimeType}`);
+		}
+
+		const loader = new declaration.loaderClass(declaration.mimeType, url, id);
+
+		// Create struct to track loading
+		const struct = new AssetLoaderStruct(name, loader);
+		this._pendingLoads.set(url, struct);
+
+		// Listen for load events
+		loader.events.on(AssetLoaderEventType.COMPLETE, (event: AssetLoaderEvent) =>
+			this.handleAssetLoadEvent(event, loader, struct, declaration!)
+		);
+
+		loader.events.on(AssetLoaderEventType.ERROR, (event: AssetLoaderEvent) =>
+			this.handleAssetLoadEvent(event, loader, struct, declaration!)
+		);
+
+		loader.events.on(AssetLoaderEventType.PROGRESS, (event: AssetLoaderEvent) =>
+		{
+			struct.dispatchEvent(new AssetLoaderEvent(event.type, event.status));
+		});
+
+		return struct;
+	}
+
+	/**
+	 * Handle asset loader events
+	 */
+	private handleAssetLoadEvent(
+		event: AssetLoaderEvent,
+		loader: IAssetLoader,
+		struct: AssetLoaderStruct,
+		declaration: AssetTypeDeclaration
+	): void
+	{
+		let shouldCleanup = false;
+
+		if (event.type === AssetLoaderEventType.COMPLETE)
+		{
+			try
+			{
+				// Create asset from loaded content
+				const asset = new declaration.assetClass(declaration, loader.url);
+
+				// For NitroBundleLoader, pass the loader itself to preserve textures/spritesheet
+				if (loader instanceof NitroBundleLoader)
+				{
+					asset.setUnknownContent(loader);
+				}
+				else
+				{
+					asset.setUnknownContent(loader.content);
+				}
+
+				// Store the asset
+				if (!this._assetMap.has(struct.assetName))
+				{
+					this._assetNameArray.push(struct.assetName);
+				}
+
+				this._assetMap.set(struct.assetName, asset);
+
+				struct.dispatchEvent(new AssetLoaderEvent(AssetLoaderEventType.COMPLETE, event.status));
+			}
+			catch (error)
+			{
+				console.error('[AssetLibrary] Error creating asset:', error);
+				struct.dispatchEvent(new AssetLoaderEvent(AssetLoaderEventType.ERROR, event.status));
+			}
+
+			shouldCleanup = true;
+		}
+		else if (event.type === AssetLoaderEventType.ERROR)
+		{
+			struct.dispatchEvent(new AssetLoaderEvent(AssetLoaderEventType.ERROR, event.status));
+			shouldCleanup = true;
+		}
+
+		// Cleanup
+		if (shouldCleanup && !this.disposed)
+		{
+			this._pendingLoads.delete(loader.url);
+			struct.dispose();
+		}
+	}
+
+	// ========== Asset Retrieval ==========
+
+	/**
+	 * Get an asset by name
+	 */
+	getAssetByName(name: string): IAsset | null
+	{
+		return this._assetMap.get(name) ?? null;
+	}
+
+	/**
+	 * Get an asset by its content
+	 */
+	getAssetByContent(content: unknown): IAsset | null
+	{
+		for (const [, asset] of this._assetMap)
+		{
+			if (asset.content === content)
+			{
+				return asset;
+			}
 		}
 
 		return null;
 	}
 
-	getCollection(name: string): IAssetCollection | null
+	/**
+	 * Get an asset by index
+	 */
+	getAssetByIndex(index: number): IAsset | null
 	{
-		return this._collections.get(name) ?? null;
-	}
-
-	async downloadAsset(url: string): Promise<boolean>
-	{
-		return this.downloadAssets([url]);
-	}
-
-	async downloadAssets(urls: string[]): Promise<boolean>
-	{
-		if (!urls?.length) return true;
-
-		try
+		if (index < 0 || index >= this._assetNameArray.length)
 		{
-			for (const url of urls)
+			return null;
+		}
+
+		return this.getAssetByName(this._assetNameArray[index]);
+	}
+
+	/**
+	 * Get the index of an asset
+	 */
+	getAssetIndex(asset: IAsset): number
+	{
+		for (const [name, a] of this._assetMap)
+		{
+			if (a === asset)
 			{
-				const response = await fetch(url);
+				return this._assetNameArray.indexOf(name);
+			}
+		}
 
-				if (!response.ok)
-				{
-					log.warn(`Failed to download asset: ${url} (${response.status})`);
-					continue;
-				}
+		return -1;
+	}
 
-				const contentType = response.headers.get('Content-Type') ?? 'application/octet-stream';
+	/**
+	 * Check if an asset exists
+	 */
+	hasAsset(name: string): boolean
+	{
+		return this._assetMap.has(name);
+	}
 
-				if (contentType === 'application/octet-stream')
-				{
-					// .nitro bundle
-					const buffer = await response.arrayBuffer();
-					await this.processNitroBundle(buffer);
-				}
-				else if (contentType.startsWith('image/'))
-				{
-					// Direct image
-					const buffer = await response.arrayBuffer();
-					const base64 = this.arrayBufferToBase64(new Uint8Array(buffer));
-					const dataUrl = `data:${contentType};base64,${base64}`;
-					const texture = Texture.from(dataUrl);
+	// ========== Asset Management ==========
 
-					this.setTexture(url, texture);
-				}
+	/**
+	 * Store an asset
+	 */
+	setAsset(name: string, asset: IAsset, overwrite: boolean = true): boolean
+	{
+		const exists = this._assetMap.has(name);
+
+		if ((overwrite || !exists) && asset)
+		{
+			if (!exists)
+			{
+				this._assetNameArray.push(name);
 			}
 
+			this._assetMap.set(name, asset);
 			return true;
 		}
-		catch (error)
-		{
-			log.error('Failed to download assets:', error);
-			return false;
-		}
+
+		return false;
 	}
 
-	private async processNitroBundle(buffer: ArrayBuffer): Promise<void>
+	/**
+	 * Create a new asset of the specified type
+	 */
+	createAsset(name: string, declaration: AssetTypeDeclaration): IAsset | null
 	{
-		const bundle = new NitroBundle(buffer);
-		const data = bundle.jsonData;
-		const texture = bundle.texture;
-
-		if (!data)
+		if (this.hasAsset(name) || !declaration)
 		{
-			log.warn('Nitro bundle has no JSON data');
-			return;
+			return null;
 		}
 
-		// Create spritesheet if we have texture and spritesheet data
-		let spritesheet: Spritesheet | null = null;
+		const asset = new declaration.assetClass(declaration);
 
-		if (texture && data.spritesheet)
+		if (!this.setAsset(name, asset))
 		{
-			spritesheet = new Spritesheet(texture, data.spritesheet);
-			await spritesheet.parse();
+			asset.dispose();
+			return null;
 		}
 
-		// Create and store collection
-		const collection = new AssetCollection(data, spritesheet);
-
-		// Store all textures from collection
-		for (const [name, tex] of collection.textures)
-		{
-			this.setTexture(name, tex);
-		}
-
-		this._collections.set(collection.name, collection);
+		return asset;
 	}
 
-	private arrayBufferToBase64(buffer: Uint8Array): string
+	/**
+	 * Remove an asset
+	 */
+	removeAsset(asset: IAsset): IAsset | null
 	{
-		let binary = '';
-		const len = buffer.byteLength;
+		if (!asset) return null;
 
-		for (let i = 0; i < len; i++)
+		for (const [name, a] of this._assetMap)
 		{
-			binary += String.fromCharCode(buffer[i]);
+			if (a === asset)
+			{
+				const index = this._assetNameArray.indexOf(name);
+
+				if (index >= 0)
+				{
+					this._assetNameArray.splice(index, 1);
+				}
+
+				this._assetMap.delete(name);
+				return asset;
+			}
 		}
 
-		return btoa(binary);
+		return null;
 	}
 
-	get collections(): Map<string, IAssetCollection>
+	// ========== Type Registry ==========
+
+	/**
+	 * Register an asset type declaration
+	 */
+	registerAssetTypeDeclaration(declaration: AssetTypeDeclaration, isShared: boolean = true): boolean
 	{
-		return this._collections;
+		const registry = isShared ? AssetLibrary._sharedTypesByMime : this._localTypesByMime;
+
+		if (registry.has(declaration.mimeType))
+		{
+			// Allow re-registration (update)
+			console.warn(`[AssetLibrary] Updating type declaration for ${declaration.mimeType}`);
+		}
+
+		registry.set(declaration.mimeType, declaration);
+		return true;
+	}
+
+	/**
+	 * Get a type declaration by MIME type
+	 */
+	getAssetTypeDeclarationByMimeType(mimeType: string, checkShared: boolean = true): AssetTypeDeclaration | null
+	{
+		if (checkShared)
+		{
+			const shared = AssetLibrary._sharedTypesByMime.get(mimeType);
+
+			if (shared)
+			{
+				return shared;
+			}
+		}
+
+		return this._localTypesByMime.get(mimeType) ?? null;
+	}
+
+	/**
+	 * Get a type declaration by asset class
+	 */
+	getAssetTypeDeclarationByClass(assetClass: new (...args: unknown[]) => IAsset, checkShared: boolean = true): AssetTypeDeclaration | null
+	{
+		if (checkShared)
+		{
+			for (const [, decl] of AssetLibrary._sharedTypesByMime)
+			{
+				if (decl.assetClass === assetClass)
+				{
+					return decl;
+				}
+			}
+		}
+
+		for (const [, decl] of this._localTypesByMime)
+		{
+			if (decl.assetClass === assetClass)
+			{
+				return decl;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Get a type declaration by file extension
+	 */
+	getAssetTypeDeclarationByFileName(fileName: string, checkShared: boolean = true): AssetTypeDeclaration | null
+	{
+		// Extract extension
+		let ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+
+		// Remove query string
+		const queryIndex = ext.indexOf('?');
+
+		if (queryIndex >= 0)
+		{
+			ext = ext.substring(0, queryIndex);
+		}
+
+		ext = ext.toLowerCase();
+
+		if (checkShared)
+		{
+			for (const [, decl] of AssetLibrary._sharedTypesByMime)
+			{
+				if (decl.matchesExtension(ext))
+				{
+					return decl;
+				}
+			}
+		}
+
+		for (const [, decl] of this._localTypesByMime)
+		{
+			if (decl.matchesExtension(ext))
+			{
+				return decl;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Solve type declaration from URL
+	 */
+	private solveTypeDeclarationFromUrl(url: string): AssetTypeDeclaration | null
+	{
+		// Remove query string
+		let cleanUrl = url;
+		const queryIndex = cleanUrl.indexOf('?');
+
+		if (queryIndex >= 0)
+		{
+			cleanUrl = cleanUrl.substring(0, queryIndex);
+		}
+
+		// Extract extension
+		const lastDot = cleanUrl.lastIndexOf('.');
+
+		if (lastDot === -1)
+		{
+			return null;
+		}
+
+		const ext = cleanUrl.substring(lastDot + 1).toLowerCase();
+
+		// Check local types first
+		for (const [, decl] of this._localTypesByMime)
+		{
+			if (decl.matchesExtension(ext))
+			{
+				return decl;
+			}
+		}
+
+		// Check shared types
+		for (const [, decl] of AssetLibrary._sharedTypesByMime)
+		{
+			if (decl.matchesExtension(ext))
+			{
+				return decl;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * String representation
+	 */
+	override toString(): string
+	{
+		return `[AssetLibrary ${this._name} assets=${this._assetMap.size}]`;
 	}
 }

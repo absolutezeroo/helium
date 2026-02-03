@@ -1,5 +1,5 @@
 import {createIID} from "@core/runtime/IID";
-import type {IAssetLibrary} from '@core/assets/IAssetLibrary';
+import type {IAssetLibrary} from '@core/assets';
 
 
 /**

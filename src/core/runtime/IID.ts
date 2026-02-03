@@ -31,5 +31,6 @@ export function createIID<T>(name: string): IID<T>
 export function getIIDName(iid: IID): string
 {
 	const description = iid.description ?? '';
+	
 	return description.startsWith('IID:') ? description.slice(4) : description;
 }
