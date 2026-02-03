@@ -4,3 +4,4 @@ export * from './gamedata';
 export * from './localization';
 export * from './runtime';
 export * from './utils';
+export * from './HeliumCore';

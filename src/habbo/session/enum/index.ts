@@ -3,3 +3,4 @@ export * from './RoomControllerLevelEnum';
 export * from './RoomTradingLevelEnum';
 export * from './GenericErrorEnum';
 export * from './TalentEnum';
+export * from './UIFlagsEnum';

@@ -1,9 +1,10 @@
-import {Component, ComponentDependency, IID_HabboCommunicationManager, type IContext} from '@core/runtime';
+import {Component, ComponentDependency, type IContext, IID_HabboCommunicationManager} from '@core/runtime';
 import {Logger} from '@core/utils/Logger';
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
+import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
 import type {IHabboCommunicationManager} from '../communication/IHabboCommunicationManager';
 import type {ISessionDataManager} from './ISessionDataManager';
-import {HabboClubLevelEnum} from './enum';
+import {HabboClubLevelEnum, UIFlagsEnum} from './enum';
 
 // Events
 import {UserObjectMessageEvent} from '../communication/messages/incoming/handshake/UserObjectMessageEvent';
@@ -68,6 +69,20 @@ import type {
 	BuildersClubSubscriptionStatusMessageParser
 } from '../communication/messages/parser/catalog/BuildersClubSubscriptionStatusMessageParser';
 
+// Composers
+import {RespectUserMessageComposer} from '../communication/messages/outgoing/room/RespectUserMessageComposer';
+import {RespectPetMessageComposer} from '../communication/messages/outgoing/room/RespectPetMessageComposer';
+
+// Sub-managers
+import type {IUserDataManager} from './IUserDataManager';
+import type {IPerkManager} from './IPerkManager';
+import type {IIgnoredUsersManager} from './IIgnoredUsersManager';
+import type {IHabboGroupInfoManager} from './IHabboGroupInfoManager';
+import {UserDataManager} from './UserDataManager';
+import {PerkManager} from './PerkManager';
+import {IgnoredUsersManager} from './IgnoredUsersManager';
+import {HabboGroupInfoManager} from './HabboGroupInfoManager';
+
 const log = Logger.getLogger('Session');
 
 /**
@@ -80,203 +95,331 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	private _communication: IHabboCommunicationManager | null = null;
 	private _messageEvents: IMessageEvent[] = [];
 	private _customData: string = '';
-	private _isFirstLoginOfDay: boolean = false;
 	private _directMail: boolean = false;
-	private _infoFeedEnabled: boolean = false;
-	private _figureSetIds: number[] = [];
-	private _boundFurnitureNames: string[] = [];
-	private _avatarEffects: AvatarEffect[] = [];
-	private _mysteryBoxColor: string = '';
 	private _mysteryBoxKeyColor: string = '';
-	private _buildersClubSecondsLeft: number = 0;
-	private _buildersClubFurniLimit: number = 0;
-	private _buildersClubMaxFurniLimit: number = 0;
-	private _buildersClubSecondsLeftWithGrace: number | null = null;
-
-	// System status
-	private _systemOpen: boolean = false;
-	private _systemShutDown: boolean = false;
-	private _isAuthenticHabbo: boolean = false;
-
-	// User data
-	private _userId: number = 0;
-	private _userName: string = '';
-	private _realName: string = '';
-	private _figure: string = '';
-	private _gender: string = '';
-
-	// User status
-	private _clubLevel: number = 0;
-	private _securityLevel: number = 0;
-	private _isAmbassador: boolean = false;
-	private _noobnessLevel: number = 0;
-
-	// Respect
-	private _respectTotal: number = 0;
-	private _respectLeft: number = 0;
-	private _petRespectLeft: number = 0;
-	private _streamPublishingAllowed: boolean = false;
-	private _lastAccessDate: string = '';
-	private _nameChangeAllowed: boolean = false;
-	private _accountSafetyLocked: boolean = false;
-
-	// Navigator settings
-	private _homeRoomId: number = 0;
-	private _roomIdToEnter: number = 0;
-	private _favouriteRooms: number[] = [];
-	private _favouriteRoomsLimit: number = 30;
-
-	// Currency
-	private _activityPoints: Map<number, number> = new Map();
-	private _achievementScore: number = 0;
 
 	constructor(context: IContext)
 	{
 		super(context);
 	}
 
-	protected override get dependencies(): Array<ComponentDependency<any>>
+	// Sub-managers
+	private _userDataManager: UserDataManager | null = null;
+
+	get userDataManager(): IUserDataManager
 	{
-		return [
-			new ComponentDependency(
-				IID_HabboCommunicationManager,
-				(manager: IHabboCommunicationManager | null) => { this._communication = manager; },
-				true
-			),
-		];
+		return this._userDataManager!;
 	}
 
-	protected override initComponent(): void
+	private _perkManager: PerkManager | null = null;
+
+	get perkManager(): IPerkManager
 	{
-		this.registerMessageEvents();
-		log.info('SessionDataManager initialized');
+		return this._perkManager!;
 	}
 
-	// ========== Getters ==========
+	private _ignoredUsersManager: IgnoredUsersManager | null = null;
+
+	get ignoredUsersManager(): IIgnoredUsersManager
+	{
+		return this._ignoredUsersManager!;
+	}
+
+	private _groupInfoManager: HabboGroupInfoManager | null = null;
+
+	get groupInfoManager(): IHabboGroupInfoManager
+	{
+		return this._groupInfoManager!;
+	}
+
+	// System status
+	private _systemOpen: boolean = false;
 
 	get systemOpen(): boolean
 	{
 		return this._systemOpen;
 	}
 
+	private _systemShutDown: boolean = false;
+
 	get systemShutDown(): boolean
 	{
 		return this._systemShutDown;
 	}
+
+	private _isAuthenticHabbo: boolean = false;
 
 	get isAuthenticHabbo(): boolean
 	{
 		return this._isAuthenticHabbo;
 	}
 
+	// User data
+	private _userId: number = 0;
+
 	get userId(): number
 	{
 		return this._userId;
 	}
+
+	private _userName: string = '';
 
 	get userName(): string
 	{
 		return this._userName;
 	}
 
+	private _realName: string = '';
+
 	get realName(): string
 	{
 		return this._realName;
 	}
+
+	private _figure: string = '';
 
 	get figure(): string
 	{
 		return this._figure;
 	}
 
+	private _gender: string = '';
+
 	get gender(): string
 	{
 		return this._gender;
 	}
+
+	// User status
+	private _clubLevel: number = 0;
 
 	get clubLevel(): number
 	{
 		return this._clubLevel;
 	}
 
+	private _securityLevel: number = 0;
+
 	get securityLevel(): number
 	{
 		return this._securityLevel;
 	}
+
+	private _topSecurityLevel: number = 0;
+
+	get topSecurityLevel(): number
+	{
+		return this._topSecurityLevel;
+	}
+
+	private _isAmbassador: boolean = false;
 
 	get isAmbassador(): boolean
 	{
 		return this._isAmbassador;
 	}
 
+	private _noobnessLevel: number = 0;
+
 	get noobnessLevel(): number
 	{
 		return this._noobnessLevel;
 	}
+
+	// Respect
+	private _respectTotal: number = 0;
 
 	get respectTotal(): number
 	{
 		return this._respectTotal;
 	}
 
+	private _respectLeft: number = 0;
+
 	get respectLeft(): number
 	{
 		return this._respectLeft;
 	}
+
+	private _petRespectLeft: number = 0;
 
 	get petRespectLeft(): number
 	{
 		return this._petRespectLeft;
 	}
 
-	get streamPublishingAllowed(): boolean
-	{
-		return this._streamPublishingAllowed;
-	}
-
-	get lastAccessDate(): string
-	{
-		return this._lastAccessDate;
-	}
-
-	get nameChangeAllowed(): boolean
-	{
-		return this._nameChangeAllowed;
-	}
+	// Safety & Verification
+	private _accountSafetyLocked: boolean = false;
 
 	get accountSafetyLocked(): boolean
 	{
 		return this._accountSafetyLocked;
 	}
 
+	private _nameChangeAllowed: boolean = false;
+
+	get nameChangeAllowed(): boolean
+	{
+		return this._nameChangeAllowed;
+	}
+
+	private _isEmailVerified: boolean = false;
+
+	get isEmailVerified(): boolean
+	{
+		return this._isEmailVerified;
+	}
+
+	// Stream & Access
+	private _streamPublishingAllowed: boolean = false;
+
+	get streamPublishingAllowed(): boolean
+	{
+		return this._streamPublishingAllowed;
+	}
+
+	private _lastAccessDate: string = '';
+
+	get lastAccessDate(): string
+	{
+		return this._lastAccessDate;
+	}
+
+	private _isFirstLoginOfDay: boolean = false;
+
+	get isFirstLoginOfDay(): boolean
+	{
+		return this._isFirstLoginOfDay;
+	}
+
+	// Navigator settings
+	private _homeRoomId: number = 0;
+
 	get homeRoomId(): number
 	{
 		return this._homeRoomId;
 	}
+
+	private _roomIdToEnter: number = 0;
 
 	get roomIdToEnter(): number
 	{
 		return this._roomIdToEnter;
 	}
 
+	private _favouriteRooms: number[] = [];
+
 	get favouriteRooms(): number[]
 	{
 		return this._favouriteRooms;
 	}
+
+	private _favouriteRoomsLimit: number = 30;
 
 	get favouriteRoomsLimit(): number
 	{
 		return this._favouriteRoomsLimit;
 	}
 
+	// Currency & Achievements
+	private _activityPoints: Map<number, number> = new Map();
+
 	get activityPoints(): Map<number, number>
 	{
 		return this._activityPoints;
 	}
 
+	private _achievementScore: number = 0;
+
 	get achievementScore(): number
 	{
 		return this._achievementScore;
+	}
+
+	// UI Preferences
+	private _uiFlags: number = 0;
+
+	get uiFlags(): number
+	{
+		return this._uiFlags;
+	}
+
+	private _isRoomCameraFollowDisabled: boolean = false;
+
+	get isRoomCameraFollowDisabled(): boolean
+	{
+		return this._isRoomCameraFollowDisabled;
+	}
+
+	private _infoFeedEnabled: boolean = false;
+
+	get infoFeedEnabled(): boolean
+	{
+		return this._infoFeedEnabled;
+	}
+
+	// Figure & Effects
+	private _figureSetIds: number[] = [];
+
+	get figureSetIds(): number[]
+	{
+		return this._figureSetIds;
+	}
+
+	private _boundFurnitureNames: string[] = [];
+
+	get boundFurnitureNames(): string[]
+	{
+		return this._boundFurnitureNames;
+	}
+
+	private _avatarEffects: AvatarEffect[] = [];
+
+	get avatarEffects(): AvatarEffect[]
+	{
+		return this._avatarEffects;
+	}
+
+	// Mystery Box
+	private _mysteryBoxColor: string = '';
+
+	get mysteryBoxColor(): string
+	{
+		return this._mysteryBoxColor;
+	}
+
+	// Builders Club
+	private _buildersClubSecondsLeft: number = 0;
+
+	get buildersClubSecondsLeft(): number
+	{
+		return this._buildersClubSecondsLeft;
+	}
+
+	private _buildersClubFurniLimit: number = 0;
+
+	get buildersClubFurniLimit(): number
+	{
+		return this._buildersClubFurniLimit;
+	}
+
+	private _buildersClubMaxFurniLimit: number = 0;
+
+	get buildersClubMaxFurniLimit(): number
+	{
+		return this._buildersClubMaxFurniLimit;
+	}
+
+	private _buildersClubSecondsLeftWithGrace: number | null = null;
+
+	get buildersClubSecondsLeftWithGrace(): number | null
+	{
+		return this._buildersClubSecondsLeftWithGrace;
+	}
+
+	get motto(): string
+	{
+		return this._customData;
 	}
 
 	get hasVip(): boolean
@@ -299,19 +442,14 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		return this._noobnessLevel === 2;
 	}
 
-	get safetyLocked(): boolean
+	get isAnyRoomController(): boolean
 	{
-		return this._accountSafetyLocked;
+		return this._securityLevel >= 5;
 	}
 
 	get canChangeName(): boolean
 	{
 		return this._nameChangeAllowed;
-	}
-
-	get motto(): string
-	{
-		return this._customData;
 	}
 
 	get respectsReceived(): number
@@ -329,12 +467,101 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		return this._petRespectLeft;
 	}
 
+	get safetyLocked(): boolean
+	{
+		return this._accountSafetyLocked;
+	}
+
+	get mysteryKeyColor(): string
+	{
+		return this._mysteryBoxKeyColor;
+	}
+
+	protected override get dependencies(): Array<ComponentDependency<any>>
+	{
+		return [
+			new ComponentDependency(
+				IID_HabboCommunicationManager,
+				(manager: IHabboCommunicationManager | null) =>
+				{
+					this._communication = manager;
+				},
+				true
+			),
+		];
+	}
+
 	/**
-	 * Check if user has a specific security level
+	 * Check if a user has a specific security level
 	 */
 	hasSecurity(level: number): boolean
 	{
 		return this._securityLevel >= level;
+	}
+
+	/**
+	 * Send a message to the server
+	 */
+	send(composer: IMessageComposer<unknown[]>): void
+	{
+		this._communication?.connection?.send(composer);
+	}
+
+	/**
+	 * Give respect to a user
+	 */
+	giveRespect(userId: number): void
+	{
+		if (userId >= 0 && this._respectLeft > 0)
+		{
+			this.send(new RespectUserMessageComposer(userId));
+			this._respectLeft--;
+		}
+	}
+
+	/**
+	 * Give respect to a pet
+	 */
+	givePetRespect(petId: number): void
+	{
+		if (petId >= 0 && this._petRespectLeft > 0)
+		{
+			this.send(new RespectPetMessageComposer(petId));
+			this._petRespectLeft--;
+		}
+	}
+
+	/**
+	 * Called when giving respect fails - restore the counter
+	 */
+	giveRespectFailed(): void
+	{
+		this._respectLeft++;
+	}
+
+	/**
+	 * Set room camera follow the disabled preference
+	 */
+	setRoomCameraFollowDisabled(disabled: boolean): void
+	{
+		this._isRoomCameraFollowDisabled = disabled;
+		// Note: In AS3 this also sends a message to save preference
+	}
+
+	/**
+	 * Set friend bar state UI flag
+	 */
+	setFriendBarState(open: boolean): void
+	{
+		this.setUIFlag(UIFlagsEnum.FRIEND_BAR_OPEN, open);
+	}
+
+	/**
+	 * Set room tools state UI flag
+	 */
+	setRoomToolsState(open: boolean): void
+	{
+		this.setUIFlag(UIFlagsEnum.ROOM_TOOLS_OPEN, open);
 	}
 
 	/**
@@ -343,6 +570,17 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	override dispose(): void
 	{
 		if (this.disposed) return;
+
+		// Dispose sub-managers
+		this._userDataManager?.dispose();
+		this._perkManager?.dispose();
+		this._ignoredUsersManager?.dispose();
+		this._groupInfoManager?.dispose();
+
+		this._userDataManager = null;
+		this._perkManager = null;
+		this._ignoredUsersManager = null;
+		this._groupInfoManager = null;
 
 		// Remove all message event handlers
 		for (const event of this._messageEvents)
@@ -353,7 +591,42 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		this._messageEvents = [];
 
 		log.info('SessionDataManager disposed');
+
 		super.dispose();
+	}
+
+	protected override initComponent(): void
+	{
+		// Initialize sub-managers
+		const sendCallback = this.send.bind(this);
+
+		this._userDataManager = new UserDataManager(sendCallback);
+		this._perkManager = new PerkManager(this._communication);
+		this._ignoredUsersManager = new IgnoredUsersManager(this._communication, sendCallback);
+		this._groupInfoManager = new HabboGroupInfoManager(this._communication, sendCallback);
+
+		this.registerMessageEvents();
+
+		log.info('SessionDataManager initialized');
+	}
+
+	/**
+	 * Set a UI flag
+	 */
+	private setUIFlag(flag: number, enabled: boolean): void
+	{
+		if (enabled)
+		{
+			if (this._uiFlags & flag) return;
+
+			this._uiFlags |= flag;
+		} else
+		{
+			if (!(this._uiFlags & flag)) return;
+
+			this._uiFlags &= ~flag;
+		}
+		// Note: In AS3 this sends SetUIFlagsMessageComposer
 	}
 
 	/**
@@ -402,8 +675,6 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		this._messageEvents.push(event);
 	}
 
-	// ========== Event Handlers ==========
-
 	private onUserObject(event: IMessageEvent): void
 	{
 		if (!event) return;
@@ -441,6 +712,9 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		this._clubLevel = parser.clubLevel;
 		this._securityLevel = parser.securityLevel;
 		this._isAmbassador = parser.isAmbassador;
+
+		// Track the highest security level ever seen
+		this._topSecurityLevel = Math.max(this._topSecurityLevel, parser.securityLevel);
 
 		log.debug(`Rights: Club=${this._clubLevel}, Security=${this._securityLevel}, Ambassador=${this._isAmbassador}`);
 	}
