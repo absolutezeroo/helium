@@ -8,12 +8,18 @@ This document categorizes all AS3 session files into **ENGINE** (business logic 
 
 ## Summary
 
-| Category | Count | Done | Description                                                                                         |
-|----------|-------|------|-----------------------------------------------------------------------------------------------------|
-| ENGINE   | 77    | 7    | Session management, user data, room sessions, permissions, handlers, events, furniture/product data |
-| VIEW     | 0     | N/A  | No UI components found in session module                                                            |
+| Category | Count | Done     | Partial | Description                                                                                         |
+|----------|-------|----------|---------|-----------------------------------------------------------------------------------------------------|
+| ENGINE   | 77    | 10       | 8       | Session management, user data, room sessions, permissions, handlers, events, furniture/product data |
+| VIEW     | 0     | N/A      | N/A     | No UI components found in session module                                                            |
 
-**Progress: ~9% ENGINE files implemented (SessionDataManager + Interface + 5 Enums)**
+**Progress: ~19% ENGINE files implemented**
+- ⚠️ SessionDataManager + ISessionDataManager (partial - user data, respect, UI flags, sub-managers; **missing**: FurnitureData, ProductData, BadgeImageManager, vault/rewards, NFT styles)
+- ✅ UserData + IUserData + UserDataManager + IUserDataManager
+- ⚠️ PerkManager + IPerkManager (partial - structure done, messages TODO)
+- ⚠️ IgnoredUsersManager + IIgnoredUsersManager (partial - structure done, messages TODO)
+- ⚠️ HabboGroupInfoManager + IHabboGroupInfoManager (partial - structure done, messages TODO)
+- ✅ 6 Enums (HabboClubLevel, UIFlags, RoomControllerLevel, RoomTradingLevel, GenericError, Talent)
 
 ---
 
@@ -21,48 +27,48 @@ This document categorizes all AS3 session files into **ENGINE** (business logic 
 
 ### Core Session Management
 
-| AS3 File                        | Purpose                                                                                                        | Status                             |
-|---------------------------------|----------------------------------------------------------------------------------------------------------------|------------------------------------|
-| `session/SessionDataManager.as` | Main session data manager - user info, badges, furniture data, product data, club level, perks, respect system | ✅ Done (Partial - basic user data) |
-| `session/RoomSessionManager.as` | Manages room sessions lifecycle - create, start, dispose sessions, handles room navigation                     | TODO                               |
-| `session/RoomSession.as`        | Individual room session - chat, actions, permissions, pets, polls, user data manager                           | TODO                               |
-| `session/UserDataManager.as`    | Manages user data within a room - lookup by ID/index/name, badges, figure updates                              | TODO                               |
-| `session/UserData.as`           | User data model - name, figure, type, group info, pet properties, bot skills                                   | TODO                               |
+| AS3 File                        | Purpose                                                                                                        | Status                                                                                                    |
+|---------------------------------|----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| `session/SessionDataManager.as` | Main session data manager - user info, badges, furniture data, product data, club level, perks, respect system | ⚠️ Partial (user data, respect, UI flags, sub-managers done; FurnitureData, ProductData, badges TODO)     |
+| `session/RoomSessionManager.as` | Manages room sessions lifecycle - create, start, dispose sessions, handles room navigation                     | TODO                                                                                                      |
+| `session/RoomSession.as`        | Individual room session - chat, actions, permissions, pets, polls, user data manager                           | TODO                                                                                                      |
+| `session/UserDataManager.as`    | Manages user data within a room - lookup by ID/index/name, badges, figure updates                              | ✅ Done                                                                                                    |
+| `session/UserData.as`           | User data model - name, figure, type, group info, pet properties, bot skills                                   | ✅ Done                                                                                                    |
 
 ### Interfaces
 
-| AS3 File                          | Purpose                                                                            | Status |
-|-----------------------------------|------------------------------------------------------------------------------------|--------|
-| `session/ISessionDataManager.as`  | Interface for session data manager - user info, badges, furniture, products, perks | ✅ Done |
-| `session/IRoomSessionManager.as`  | Interface for room session manager - gotoRoom, start/dispose sessions              | TODO   |
-| `session/IRoomSession.as`         | Interface for room session - chat, actions, permissions, pet controls              | TODO   |
-| `session/IRoomHandlerListener.as` | Interface for room handler callbacks - session updates, events                     | TODO   |
-| `session/IPetInfo.as`             | Interface for pet information - stats, breeding, ownership                         | TODO   |
-| `session/class_3490.as`           | Interface for user data (IUserData) - room object properties, figure, group        | TODO   |
-| `session/class_3525.as`           | Interface for user data manager (IUserDataManager) - user lookup and updates       | TODO   |
+| AS3 File                          | Purpose                                                                            | Status  |
+|-----------------------------------|------------------------------------------------------------------------------------|---------|
+| `session/ISessionDataManager.as`  | Interface for session data manager - user info, badges, furniture, products, perks | ✅ Done  |
+| `session/IRoomSessionManager.as`  | Interface for room session manager - gotoRoom, start/dispose sessions              | TODO    |
+| `session/IRoomSession.as`         | Interface for room session - chat, actions, permissions, pet controls              | TODO    |
+| `session/IRoomHandlerListener.as` | Interface for room handler callbacks - session updates, events                     | TODO    |
+| `session/IPetInfo.as`             | Interface for pet information - stats, breeding, ownership                         | TODO    |
+| `session/class_3490.as`           | Interface for user data (IUserData) - room object properties, figure, group        | ✅ Done  |
+| `session/class_3525.as`           | Interface for user data manager (IUserDataManager) - user lookup and updates       | ✅ Done  |
 
 ### Sub-Managers
 
-| AS3 File                           | Purpose                                            | Status |
-|------------------------------------|----------------------------------------------------|--------|
-| `session/BadgeImageManager.as`     | Loads and caches badge images from server          | TODO   |
-| `session/BadgeInfo.as`             | Badge image data wrapper with placeholder flag     | TODO   |
-| `session/HabboGroupInfoManager.as` | Manages group badge information for rooms          | TODO   |
-| `session/IgnoredUsersManager.as`   | Manages user ignore list - ignore/unignore users   | TODO   |
-| `session/PerkManager.as`           | Manages user perks and permissions                 | TODO   |
-| `session/PetInfo.as`               | Pet information model - stats, breeding, wellbeing | TODO   |
+| AS3 File                           | Purpose                                            | Status                                            |
+|------------------------------------|----------------------------------------------------|---------------------------------------------------|
+| `session/BadgeImageManager.as`     | Loads and caches badge images from server          | TODO                                              |
+| `session/BadgeInfo.as`             | Badge image data wrapper with placeholder flag     | TODO                                              |
+| `session/HabboGroupInfoManager.as` | Manages group badge information for rooms          | ⚠️ Partial (structure done, messages TODO)        |
+| `session/IgnoredUsersManager.as`   | Manages user ignore list - ignore/unignore users   | ⚠️ Partial (structure done, messages TODO)        |
+| `session/PerkManager.as`           | Manages user perks and permissions                 | ⚠️ Partial (structure done, messages TODO)        |
+| `session/PetInfo.as`               | Pet information model - stats, breeding, wellbeing | TODO                                              |
 
 ### Enums and Constants
 
-| AS3 File                                  | Purpose                                                           | Status |
-|-------------------------------------------|-------------------------------------------------------------------|--------|
-| `session/HabboClubLevelEnum.as`           | Club membership levels: NO_CLUB, CLUB, VIP                        | ✅ Done |
-| `session/class_3428.as`                   | UI flags enum: FRIEND_BAR_OPEN, ROOM_TOOLS_OPEN                   | TODO   |
-| `session/class_3430.as`                   | Security level enum: NONE to SUPER_USER (0-9)                     | TODO   |
-| `session/enum/GenericErrorEnum.as`        | Error codes: KICKED_BY_OWNER, STRIP_LOCKED_FOR_TRADING            | ✅ Done |
-| `session/enum/RoomControllerLevelEnum.as` | Room permission levels: NOT_CONTROLLER to MODERATOR               | ✅ Done |
-| `session/enum/RoomTradingLevelEnum.as`    | Trading modes: NO_TRADING, ROOM_CONTROLLER_REQUIRED, FREE_TRADING | ✅ Done |
-| `session/talent/TalentEnum.as`            | Talent tracks: HELPER, CITIZENSHIP                                | ✅ Done |
+| AS3 File                                  | Purpose                                                           | Status  |
+|-------------------------------------------|-------------------------------------------------------------------|---------|
+| `session/HabboClubLevelEnum.as`           | Club membership levels: NO_CLUB, CLUB, VIP                        | ✅ Done  |
+| `session/class_3428.as`                   | UI flags enum: FRIEND_BAR_OPEN, ROOM_TOOLS_OPEN                   | ✅ Done  |
+| `session/class_3430.as`                   | Security level enum: NONE to SUPER_USER (0-9)                     | TODO    |
+| `session/enum/GenericErrorEnum.as`        | Error codes: KICKED_BY_OWNER, STRIP_LOCKED_FOR_TRADING            | ✅ Done  |
+| `session/enum/RoomControllerLevelEnum.as` | Room permission levels: NOT_CONTROLLER to MODERATOR               | ✅ Done  |
+| `session/enum/RoomTradingLevelEnum.as`    | Trading modes: NO_TRADING, ROOM_CONTROLLER_REQUIRED, FREE_TRADING | ✅ Done  |
+| `session/talent/TalentEnum.as`            | Talent tracks: HELPER, CITIZENSHIP                                | ✅ Done  |
 
 ### Message Handlers
 
@@ -153,21 +159,23 @@ This document categorizes all AS3 session files into **ENGINE** (business logic 
 ### Session Hierarchy
 
 ```
-SessionDataManager (global user session)
-    |-- BadgeImageManager (badge loading)
-    |-- HabboGroupInfoManager (group badges)
-    |-- IgnoredUsersManager (ignore list)
-    |-- PerkManager (user perks)
-    |-- FurnitureDataParser (furniture definitions)
-    |-- ProductDataParser (product definitions)
+SessionDataManager (global user session)                    ⚠️ PARTIAL
+    |-- UserDataManager (users in room)                     ✅ DONE
+    |-- PerkManager (user perks)                            ⚠️ PARTIAL (no messages)
+    |-- IgnoredUsersManager (ignore list)                   ⚠️ PARTIAL (no messages)
+    |-- HabboGroupInfoManager (group badges)                ⚠️ PARTIAL (no messages)
+    |-- BadgeImageManager (badge loading)                   ❌ TODO
+    |-- FurnitureDataParser (furniture definitions)         ❌ TODO
+    |-- ProductDataParser (product definitions)             ❌ TODO
 
-RoomSessionManager (room session lifecycle)
-    |-- RoomSession (active room)
-    |   |-- UserDataManager (users in room)
-    |   |-- Message Handlers (12 handlers)
+RoomSessionManager (room session lifecycle)                 ❌ TODO
+    |-- RoomSession (active room)                           ❌ TODO
+    |   |-- Message Handlers (12 handlers)                  ❌ TODO
     |
-    |-- Event Dispatcher (34 event types)
+    |-- Event Dispatcher (34 event types)                   ❌ TODO
 ```
+
+**Legend:** ✅ Done | ⚠️ Partial | ❌ TODO
 
 ### Key Data Flows
 
@@ -196,12 +204,91 @@ RoomSessionManager (room session lifecycle)
 
 ### Critical Classes for Port
 
-1. **SessionDataManager** - Central hub for user data, must port first
-2. **RoomSessionManager** - Room lifecycle, depends on handlers
-3. **RoomSession** - Room actions/state, used by all room features
-4. **UserDataManager** - User lookup in rooms, used everywhere
-5. **All Handlers** - Process server messages, emit events
-6. **All Events** - Data transfer objects for UI layer
+1. **SessionDataManager** - Central hub for user data ⚠️ PARTIAL (basic user data done, FurniData/ProductData/Badges TODO)
+2. **UserDataManager** - User lookup in rooms ✅ DONE
+3. **PerkManager** - User permissions ⚠️ PARTIAL (structure done, messages TODO)
+4. **IgnoredUsersManager** - Ignore list ⚠️ PARTIAL (structure done, messages TODO)
+5. **HabboGroupInfoManager** - Group badges ⚠️ PARTIAL (structure done, messages TODO)
+6. **FurnitureDataParser** - Furniture definitions - TODO (required by SessionDataManager)
+7. **ProductDataParser** - Product definitions - TODO (required by SessionDataManager)
+8. **BadgeImageManager** - Badge images - TODO (required by SessionDataManager)
+9. **RoomSessionManager** - Room lifecycle, depends on handlers - TODO
+10. **RoomSession** - Room actions/state, used by all room features - TODO
+11. **All Handlers** - Process server messages, emit events - TODO
+12. **All Events** - Data transfer objects for UI layer - TODO
+
+---
+
+## TypeScript Implementation Mapping
+
+| AS3 File                           | TypeScript File                                         | Notes                                        |
+|------------------------------------|---------------------------------------------------------|----------------------------------------------|
+| `SessionDataManager.as`            | `src/habbo/session/SessionDataManager.ts`               | ⚠️ Partial (see missing features below)      |
+| `ISessionDataManager.as`           | `src/habbo/session/ISessionDataManager.ts`              | ⚠️ Partial interface                         |
+| `UserData.as`                      | `src/habbo/session/UserData.ts`                         | Full implementation               |
+| `class_3490.as` (IUserData)        | `src/habbo/session/IUserData.ts`                        | Full interface                    |
+| `UserDataManager.as`               | `src/habbo/session/UserDataManager.ts`                  | Full implementation               |
+| `class_3525.as` (IUserDataManager) | `src/habbo/session/IUserDataManager.ts`                 | Full interface                    |
+| `PerkManager.as`                   | `src/habbo/session/PerkManager.ts`                      | Structure only, messages TODO     |
+| *(no AS3 interface)*               | `src/habbo/session/IPerkManager.ts`                     | Custom interface                  |
+| `IgnoredUsersManager.as`           | `src/habbo/session/IgnoredUsersManager.ts`              | Structure only, messages TODO     |
+| *(no AS3 interface)*               | `src/habbo/session/IIgnoredUsersManager.ts`             | Custom interface                  |
+| `HabboGroupInfoManager.as`         | `src/habbo/session/HabboGroupInfoManager.ts`            | Structure only, messages TODO     |
+| *(no AS3 interface)*               | `src/habbo/session/IHabboGroupInfoManager.ts`           | Custom interface                  |
+| `HabboClubLevelEnum.as`            | `src/habbo/session/enum/HabboClubLevelEnum.ts`          | Full implementation               |
+| `class_3428.as` (UIFlags)          | `src/habbo/session/enum/UIFlagsEnum.ts`                 | Full implementation               |
+| `GenericErrorEnum.as`              | `src/habbo/session/enum/GenericErrorEnum.ts`            | Full implementation               |
+| `RoomControllerLevelEnum.as`       | `src/habbo/session/enum/RoomControllerLevelEnum.ts`     | Full implementation               |
+| `RoomTradingLevelEnum.as`          | `src/habbo/session/enum/RoomTradingLevelEnum.ts`        | Full implementation               |
+| `TalentEnum.as`                    | `src/habbo/session/enum/TalentEnum.ts`                  | Full implementation               |
+
+---
+
+## SessionDataManager - Missing Features
+
+The following AS3 features are **NOT YET implemented** in `SessionDataManager.ts`:
+
+### Data Parsers (Major)
+- `FurnitureDataParser` - Parsing furniture definitions from server
+- `ProductDataParser` - Parsing product data from server
+- `BadgeImageManager` - Loading and caching badge images
+- `_floorItems`, `_wallItems` Maps - Furniture data storage
+- `_furniDataListeners`, `_productDataListeners` - Async data loading callbacks
+
+### Methods Missing
+| Method                           | Purpose                                      |
+|----------------------------------|----------------------------------------------|
+| `getBadgeImage()`                | Get badge bitmap                             |
+| `getBadgeSmallImage()`           | Get small badge bitmap                       |
+| `getGroupBadgeImage()`           | Get group badge bitmap                       |
+| `getProductData()`               | Get product by type                          |
+| `getFloorItemData()`             | Get floor item by ID                         |
+| `getWallItemData()`              | Get wall item by ID                          |
+| `getFloorItemDataByName()`       | Get floor item by classname                  |
+| `getWallItemDataByName()`        | Get wall item by classname                   |
+| `getFurniData()`                 | Get all furniture data                       |
+| `refreshFurniData()`             | Reload furniture data                        |
+| `loadProductData()`              | Load product data async                      |
+| `getCreditVaultStatus()`         | Request vault status                         |
+| `withdrawCreditVault()`          | Withdraw from vault                          |
+| `getIncomeRewardStatus()`        | Get income rewards                           |
+| `claimReward()`                  | Claim income reward                          |
+| `giveStarGem()`                  | Give star gem to user                        |
+| `hasNftChatStyle()`              | Check NFT chat style ownership               |
+| `pickAllFurniture()`             | Room owner: pick all furniture               |
+| `ejectAllFurniture()`            | Room owner: eject all furniture              |
+| `ejectPets()`                    | Room owner: eject all pets                   |
+| `resetScores()`                  | Room owner: reset scores                     |
+| `sendSpecialCommandMessage()`    | Send chat command                            |
+| `openHabboHomePage()`            | Open user profile                            |
+
+### Properties Missing
+- `roomSessionManager` - Reference to room session manager
+- `windowManager` - Reference to window manager
+- `localization` - Reference to localization manager
+- `perksReady` - Whether perks have loaded
+- `currentTalentTrack` - Current talent track (helper/citizenship)
+- `nftChatStyles` - User's NFT chat styles
 
 ---
 

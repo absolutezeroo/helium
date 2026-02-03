@@ -6,6 +6,74 @@ This document categorizes all AS3 room files into **ENGINE** (business logic we 
 
 ---
 
+## Implementation Progress
+
+| Phase | Description | Files | Status |
+|-------|-------------|-------|--------|
+| Phase 1 | Core Infrastructure (`src/room/`) | ~25 | ✅ DONE |
+| Phase 2 | Room Instance & Manager | ~15 | ✅ DONE |
+| Phase 3 | Object System & Factories | ~25 | ✅ DONE |
+| Phase 4 | Message Handlers | ~40 | ✅ DONE |
+| Phase 5 | Furniture Logic | ~25 | ✅ DONE |
+| Phase 6 | Avatar & Pet Logic | ~25 | 🔄 TODO |
+| Phase 7 | Room Engine Core | ~20 | 🔄 TODO |
+
+**Total Progress: ~130/175 files (~74%)**
+
+### Phase 4 Details - Message Handlers
+
+| Component | Files | Status |
+|-----------|-------|--------|
+| **Data Classes** | | |
+| FurnitureFloorData | 1 | ✅ DONE |
+| FurnitureWallData | 1 | ✅ DONE |
+| RoomUserData | 1 | ✅ DONE |
+| SlideObjectData | 1 | ✅ DONE |
+| AreaHideMessageData | 1 | ✅ DONE |
+| **Parsers** | | |
+| FurnitureDataParser | 1 | ✅ DONE |
+| WallDataParser | 1 | ✅ DONE |
+| RoomReadyMessageParser | 1 | ✅ DONE |
+| HeightMapMessageParser | 1 | ✅ DONE |
+| FloorHeightMapMessageParser | 1 | ✅ DONE |
+| ObjectsMessageParser | 1 | ✅ DONE |
+| ObjectAddMessageParser | 1 | ✅ DONE |
+| ObjectRemoveMessageParser | 1 | ✅ DONE |
+| ObjectUpdateMessageParser | 1 | ✅ DONE |
+| ItemsMessageParser | 1 | ✅ DONE |
+| ItemAddMessageParser | 1 | ✅ DONE |
+| ItemRemoveMessageParser | 1 | ✅ DONE |
+| ItemUpdateMessageParser | 1 | ✅ DONE |
+| UsersMessageParser | 1 | ✅ DONE |
+| UserUpdateMessageParser | 1 | ✅ DONE |
+| UserRemoveMessageParser | 1 | ✅ DONE |
+| SlideObjectBundleMessageParser | 1 | ✅ DONE |
+| **Message Events** | | |
+| RoomReadyMessageEvent | 1 | ✅ DONE |
+| HeightMapMessageEvent | 1 | ✅ DONE |
+| FloorHeightMapMessageEvent | 1 | ✅ DONE |
+| ObjectsMessageEvent | 1 | ✅ DONE |
+| ObjectAddMessageEvent | 1 | ✅ DONE |
+| ObjectRemoveMessageEvent | 1 | ✅ DONE |
+| ObjectUpdateMessageEvent | 1 | ✅ DONE |
+| ItemsMessageEvent | 1 | ✅ DONE |
+| ItemAddMessageEvent | 1 | ✅ DONE |
+| ItemRemoveMessageEvent | 1 | ✅ DONE |
+| ItemUpdateMessageEvent | 1 | ✅ DONE |
+| UsersMessageEvent | 1 | ✅ DONE |
+| UserUpdateMessageEvent | 1 | ✅ DONE |
+| UserRemoveMessageEvent | 1 | ✅ DONE |
+| SlideObjectBundleMessageEvent | 1 | ✅ DONE |
+| ObjectDataUpdateMessageEvent | 1 | ✅ DONE |
+| HeightMapUpdateMessageEvent | 1 | ✅ DONE |
+| ObjectDataUpdateMessageParser | 1 | ✅ DONE |
+| HeightMapUpdateMessageParser | 1 | ✅ DONE |
+| **Core Handler** | | |
+| RoomMessageHandler | 1 | ✅ DONE |
+| IRoomCreator | 1 | ✅ DONE |
+
+---
+
 ## Summary
 
 | Category | Count | Description                                                                   |
@@ -26,13 +94,13 @@ Core room engine orchestration and interfaces.
 | AS3 File                    | Purpose                                                                 | Status |
 |-----------------------------|-------------------------------------------------------------------------|--------|
 | `RoomEngine.as`             | Main room engine component - manages rooms, objects, rendering, updates | TODO   |
-| `IRoomEngine.as`            | Interface defining room engine capabilities                             | TODO   |
+| `IRoomEngine.as`            | Interface defining room engine capabilities                             | ✅ DONE |
 | `IRoomEngineServices.as`    | Services interface for room engine                                      | TODO   |
 | `RoomMessageHandler.as`     | Handles all incoming server messages for rooms                          | TODO   |
 | `RoomObjectEventHandler.as` | Processes room object events (clicks, hover, etc.)                      | TODO   |
-| `RoomObjectFactory.as`      | Factory for creating room object logic instances                        | TODO   |
-| `RoomContentLoader.as`      | Loads furniture, pet, and room assets dynamically                       | TODO   |
-| `RoomVariableEnum.as`       | Constants for room-level variables                                      | TODO   |
+| `RoomObjectFactory.as`      | Factory for creating room object logic instances                        | ✅ DONE |
+| `RoomContentLoader.as`      | Loads furniture, pet, and room assets dynamically                       | ✅ DONE (stub) |
+| `RoomVariableEnum.as`       | Constants for room-level variables                                      | ✅ DONE |
 | `AssetCallbackInfo.as`      | Asset loading callback information                                      | TODO   |
 | `PetColorResult.as`         | Pet color calculation result data                                       | TODO   |
 | `class_3499.as`             | Image result data class                                                 | TODO   |
@@ -48,11 +116,11 @@ Core abstractions for room system.
 | `IRoomAreaSelectionManager.as` | Interface for room area selection      | TODO   |
 | `IRoomContentListener.as`      | Listener for content loading events    | TODO   |
 | `IRoomCreator.as`              | Interface for room creation            | TODO   |
-| `IRoomEngine.as`               | Main room engine interface             | TODO   |
+| `IRoomEngine.as`               | Main room engine interface             | ✅ DONE |
 | `IRoomEngineServices.as`       | Room engine services interface         | TODO   |
 | `IRoomObjectCreator.as`        | Interface for object creation          | TODO   |
 | `ISelectedRoomObjectData.as`   | Interface for selected object data     | TODO   |
-| `IStuffData.as`                | Interface for furniture data           | TODO   |
+| `IStuffData.as`                | Interface for furniture data           | ✅ DONE |
 
 ### enum/ (1 file)
 
@@ -92,7 +160,7 @@ Room engine events - internal communication between room components.
 | `RoomObjectFloorHoleEvent.as`            | Floor hole add/remove event         | TODO   |
 | `RoomObjectFurnitureActionEvent.as`      | Furniture action event              | TODO   |
 | `RoomObjectHSLColorEnableEvent.as`       | HSL color enable for object         | TODO   |
-| `RoomObjectMoveEvent.as`                 | Object movement event               | TODO   |
+| `RoomObjectMoveEvent.as`                 | Object movement event               | ✅ DONE |
 | `RoomObjectPlaySoundIdEvent.as`          | Play sound by ID event              | TODO   |
 | `RoomObjectRoomAdEvent.as`               | Room ad interaction event           | TODO   |
 | `RoomObjectSamplePlaybackEvent.as`       | Sample playback for object          | TODO   |
@@ -133,12 +201,12 @@ Room object update messages - data transfer for object updates.
 | `RoomObjectAvatarTypingUpdateMessage.as`        | Avatar typing indicator    | TODO   |
 | `RoomObjectAvatarUpdateMessage.as`              | General avatar update      | TODO   |
 | `RoomObjectAvatarUseObjectUpdateMessage.as`     | Avatar using object        | TODO   |
-| `RoomObjectDataUpdateMessage.as`                | Object data update         | TODO   |
+| `RoomObjectDataUpdateMessage.as`                | Object data update         | ✅ DONE |
 | `RoomObjectGroupBadgeUpdateMessage.as`          | Group badge update         | TODO   |
-| `RoomObjectHeightUpdateMessage.as`              | Object height update       | TODO   |
+| `RoomObjectHeightUpdateMessage.as`              | Object height update       | ✅ DONE |
 | `RoomObjectItemDataUpdateMessage.as`            | Item data update           | TODO   |
 | `RoomObjectModelDataUpdateMessage.as`           | Model data update          | TODO   |
-| `RoomObjectMoveUpdateMessage.as`                | Object movement update     | TODO   |
+| `RoomObjectMoveUpdateMessage.as`                | Object movement update     | ✅ DONE |
 | `RoomObjectRoomAdUpdateMessage.as`              | Room ad update             | TODO   |
 | `RoomObjectRoomColorUpdateMessage.as`           | Room color update          | TODO   |
 | `RoomObjectRoomFloorHoleUpdateMessage.as`       | Floor hole update          | TODO   |
@@ -148,7 +216,7 @@ Room object update messages - data transfer for object updates.
 | `RoomObjectRoomUpdateMessage.as`                | General room update        | TODO   |
 | `RoomObjectSelectedMessage.as`                  | Object selection message   | TODO   |
 | `RoomObjectTileCursorUpdateMessage.as`          | Tile cursor update         | TODO   |
-| `RoomObjectUpdateStateMessage.as`               | Object state update        | TODO   |
+| `RoomObjectUpdateStateMessage.as`               | Object state update        | ✅ DONE |
 | `RoomObjectVisibilityUpdateMessage.as`          | Object visibility update   | TODO   |
 
 ---
@@ -160,12 +228,12 @@ Room object core types, enums, and parsers.
 | AS3 File                            | Purpose                                                 | Status |
 |-------------------------------------|---------------------------------------------------------|--------|
 | `RoomFloorHole.as`                  | Floor hole data structure                               | TODO   |
-| `RoomObjectCategoryEnum.as`         | Object category constants (room, furniture, user, etc.) | TODO   |
-| `RoomObjectLogicEnum.as`            | Logic type constants                                    | TODO   |
+| `RoomObjectCategoryEnum.as`         | Object category constants (room, furniture, user, etc.) | ✅ DONE |
+| `RoomObjectLogicEnum.as`            | Logic type constants                                    | ✅ DONE |
 | `RoomObjectOperationEnum.as`        | Operation type constants                                | TODO   |
-| `RoomObjectTypeEnum.as`             | Object type constants                                   | TODO   |
-| `RoomObjectUserTypes.as`            | User type constants (user, pet, bot)                    | TODO   |
-| `RoomObjectVariableEnum.as`         | Object variable name constants                          | TODO   |
+| `RoomObjectTypeEnum.as`             | Object type constants                                   | ✅ DONE |
+| `RoomObjectUserTypes.as`            | User type constants (user, pet, bot)                    | ✅ DONE |
+| `RoomObjectVariableEnum.as`         | Object variable name constants                          | ✅ DONE |
 | `RoomObjectVisualizationEnum.as`    | Visualization type constants                            | TODO   |
 | `RoomObjectVisualizationFactory.as` | Factory for creating visualizations                     | TODO   |
 | `RoomPlaneBitmapMaskData.as`        | Plane bitmap mask data                                  | TODO   |
@@ -183,17 +251,17 @@ Furniture data types (StuffData variants).
 
 | AS3 File                  | Purpose                            | Status |
 |---------------------------|------------------------------------|--------|
-| `StuffDataBase.as`        | Base class for furniture data      | TODO   |
-| `LegacyStuffData.as`      | Legacy string-based furniture data | TODO   |
-| `MapStuffData.as`         | Key-value map furniture data       | TODO   |
-| `StringArrayStuffData.as` | String array furniture data        | TODO   |
-| `IntArrayStuffData.as`    | Integer array furniture data       | TODO   |
-| `HighScoreStuffData.as`   | High score furniture data          | TODO   |
-| `HighScoreData.as`        | High score entry data              | TODO   |
-| `CrackableStuffData.as`   | Crackable furniture data           | TODO   |
-| `EmptyStuffData.as`       | Empty furniture data               | TODO   |
-| `VoteResultStuffData.as`  | Vote result furniture data         | TODO   |
-| `class_1697.as`           | StuffData factory                  | TODO   |
+| `StuffDataBase.as`        | Base class for furniture data      | ✅ DONE |
+| `LegacyStuffData.as`      | Legacy string-based furniture data | ✅ DONE |
+| `MapStuffData.as`         | Key-value map furniture data       | ✅ DONE |
+| `StringArrayStuffData.as` | String array furniture data        | ✅ DONE |
+| `IntArrayStuffData.as`    | Integer array furniture data       | ✅ DONE |
+| `HighScoreStuffData.as`   | High score furniture data          | ✅ DONE |
+| `HighScoreData.as`        | High score entry data              | ✅ DONE (in HighScoreStuffData) |
+| `CrackableStuffData.as`   | Crackable furniture data           | ✅ DONE |
+| `EmptyStuffData.as`       | Empty furniture data               | ✅ DONE |
+| `VoteResultStuffData.as`  | Vote result furniture data         | ✅ DONE |
+| `class_1697.as`           | StuffData factory                  | ✅ DONE (StuffDataFactory) |
 | `class_1776.as`           | Unknown data class                 | TODO   |
 | `class_1778.as`           | Unknown data class                 | TODO   |
 
@@ -205,7 +273,7 @@ Base object logic classes.
 
 | AS3 File               | Purpose                                       | Status |
 |------------------------|-----------------------------------------------|--------|
-| `MovingObjectLogic.as` | Base class for moving objects (interpolation) | TODO   |
+| `MovingObjectLogic.as` | Base class for moving objects (interpolation) | ✅ DONE |
 | `AvatarLogic.as`       | Avatar behavior logic (user/bot/pet base)     | TODO   |
 | `PetLogic.as`          | Pet-specific behavior logic                   | TODO   |
 
@@ -550,6 +618,44 @@ Room utility classes.
 | `class_3498.as`               | Unknown utility                    | TODO   |
 | `class_3500.as`               | Unknown utility                    | TODO   |
 | `class_3513.as`               | Unknown utility                    | TODO   |
+
+---
+
+## Core Room Infrastructure (src/room/)
+
+These files are in `src/room/` (not habbo-specific).
+
+| File | Purpose | Status |
+|------|---------|--------|
+| `IRoomInstance.ts` | Room instance interface | ✅ DONE |
+| `RoomInstance.ts` | Room instance implementation | ✅ DONE |
+| `IRoomObjectManager.ts` | Object manager interface | ✅ DONE |
+| `RoomObjectManager.ts` | Object manager implementation | ✅ DONE |
+| `IRoomObjectFactory.ts` | Factory interface | ✅ DONE |
+| `IRoomInstanceContainer.ts` | Container interface | ✅ DONE |
+| `IRoomContentLoader.ts` | Content loader interface | ✅ DONE |
+| **utils/** | | |
+| `IVector3d.ts` | 3D vector interface | ✅ DONE |
+| `Vector3d.ts` | 3D vector implementation | ✅ DONE |
+| `IRoomGeometry.ts` | Geometry interface | ✅ DONE |
+| `RoomGeometry.ts` | Isometric projection | ✅ DONE |
+| `ColorConverter.ts` | Color utilities | ✅ DONE |
+| **object/** | | |
+| `IRoomObject.ts` | Room object interface | ✅ DONE |
+| `IRoomObjectController.ts` | Controller interface | ✅ DONE |
+| `RoomObject.ts` | Room object implementation | ✅ DONE |
+| `IRoomObjectModel.ts` | Model interface (read) | ✅ DONE |
+| `IRoomObjectModelController.ts` | Model interface (write) | ✅ DONE |
+| `RoomObjectModel.ts` | Model implementation | ✅ DONE |
+| **object/logic/** | | |
+| `IRoomObjectEventHandler.ts` | Event handler interface | ✅ DONE |
+| `IRoomObjectMouseHandler.ts` | Mouse handler interface | ✅ DONE |
+| `ObjectLogicBase.ts` | Base logic class | ✅ DONE |
+| **events/** | | |
+| `RoomObjectEvent.ts` | Base object event | ✅ DONE |
+| `RoomSpriteMouseEvent.ts` | Mouse event | ✅ DONE |
+| **messages/** | | |
+| `RoomObjectUpdateMessage.ts` | Base update message | ✅ DONE |
 
 ---
 

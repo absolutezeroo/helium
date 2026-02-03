@@ -1,0 +1,16 @@
+/**
+ * HeightMapUpdateMessageEvent
+ *
+ * Based on AS3: com.sulake.habbo.communication.messages.incoming.room.engine.HeightMapUpdateMessageEvent
+ */
+import {MessageEvent} from '@core/communication/messages/MessageEvent';
+import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import {HeightMapUpdateMessageParser} from '../../../parser/room/engine/HeightMapUpdateMessageParser';
+
+export class HeightMapUpdateMessageEvent extends MessageEvent
+{
+	constructor(callback: MessageEventCallback)
+	{
+		super(callback, HeightMapUpdateMessageParser);
+	}
+}
