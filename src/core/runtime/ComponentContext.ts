@@ -149,6 +149,16 @@ export class ComponentContext extends Component implements IContext
 			return;
 		}
 
+		// Check if this is a proper Component with registerInterface
+		const isProperComponent = typeof component.registerInterface === 'function';
+
+		if (!isProperComponent)
+		{
+			console.warn(`[ComponentContext] Object does not extend Component, skipping interface registration:`, component);
+			// Still store it for basic lookup, but can't use full Component features
+			return;
+		}
+
 		this._attachedComponents.push(component);
 
 		// Register interfaces

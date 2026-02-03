@@ -1,7 +1,6 @@
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
-import type {IHabboCommunicationManager} from '../communication/IHabboCommunicationManager';
-import type {NavigatorData} from './domain';
 import type {HabboNewNavigator} from './HabboNewNavigator';
+import type {NavigatorData} from './domain';
 
 // Message events
 import {
@@ -33,24 +32,25 @@ const log = Logger.getLogger('NewNavigator');
 export class NewIncomingMessages
 {
 	private _navigator: HabboNewNavigator;
-	private _communication: IHabboCommunicationManager;
-	private _data: NavigatorData;
 	private _messageEvents: IMessageEvent[] = [];
 
-	constructor(navigator: HabboNewNavigator, communication: IHabboCommunicationManager, data: NavigatorData)
+	constructor(navigator: HabboNewNavigator)
 	{
 		this._navigator = navigator;
-		this._communication = communication;
-		this._data = data;
 
 		this.addMessageListeners();
+	}
+
+	get data(): NavigatorData
+	{
+		return this._navigator.data;
 	}
 
 	dispose(): void
 	{
 		for (const event of this._messageEvents)
 		{
-			this._communication.removeMessageEvent(event);
+			this._navigator.communication.removeMessageEvent(event);
 		}
 
 		this._messageEvents = [];
@@ -76,7 +76,7 @@ export class NewIncomingMessages
 
 	private addMessageEvent(event: IMessageEvent): void
 	{
-		this._communication.addMessageEvent(event);
+		this._navigator.communication.addMessageEvent(event);
 		this._messageEvents.push(event);
 	}
 
@@ -91,8 +91,6 @@ export class NewIncomingMessages
 		if (!parser) return;
 
 		this._navigator.initialize(parser.topLevelContexts);
-
-		log.info(`Navigator metadata received: ${parser.topLevelContexts.length} contexts`);
 	}
 
 	private onNavigatorSearchResultSet(event: IMessageEvent): void
@@ -106,8 +104,6 @@ export class NewIncomingMessages
 		if (!parser.searchResult) return;
 
 		this._navigator.onSearchResult(parser.searchResult);
-
-		log.debug(`Search results: ${parser.searchResult.blocks.length} blocks`);
 	}
 
 	private onSavedSearches(event: IMessageEvent): void
@@ -119,8 +115,6 @@ export class NewIncomingMessages
 		if (!parser) return;
 
 		this._navigator.onSavedSearches(parser.savedSearches);
-
-		log.debug(`Saved searches: ${parser.savedSearches.length}`);
 	}
 
 	private onLiftedRooms(event: IMessageEvent): void
@@ -132,8 +126,6 @@ export class NewIncomingMessages
 		if (!parser) return;
 
 		this._navigator.onLiftedRooms(parser.liftedRooms);
-
-		log.debug(`Lifted rooms: ${parser.liftedRooms.length}`);
 	}
 
 	private onCollapsedCategories(event: IMessageEvent): void
@@ -145,7 +137,5 @@ export class NewIncomingMessages
 		if (!parser) return;
 
 		this._navigator.onCollapsedCategories(parser.collapsedCategories);
-
-		log.debug(`Collapsed categories: ${parser.collapsedCategories.length}`);
 	}
 }

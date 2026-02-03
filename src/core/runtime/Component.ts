@@ -89,6 +89,7 @@ export class Component implements IDisposable
 	private readonly _cleanupFunctions: Array<() => void> = [];
 	private _requiredDependenciesCount: number = 1; // Start at 1, decremented after all deps queued
 	private _pendingDependencies: Set<string> = new Set();
+	private _constructionComplete: boolean = false;
 
 	constructor(context: IContext, flags: number = 0)
 	{
@@ -96,7 +97,8 @@ export class Component implements IDisposable
 		this._flags = flags;
 		this._events = new EventEmitter();
 
-		if (!this._context)
+		// Allow null context for ComponentContext (CONTEXT flag), which sets itself as context after super()
+		if (!this._context && !(flags & ComponentFlags.CONTEXT))
 		{
 			throw new Error(`[Component] IContext not provided to ${this.constructor.name}`);
 		}
@@ -123,6 +125,9 @@ export class Component implements IDisposable
 
 		// All dependencies have been queued
 		this.onAllDependenciesQueued();
+
+		// Mark construction as complete (subclass field initializers have NOT run yet, but will before microtask)
+		this._constructionComplete = true;
 	}
 
 	protected _flags: number = 0;
@@ -449,38 +454,55 @@ export class Component implements IDisposable
 	{
 		return (iid: IID<T>, instance: T) =>
 		{
-			if (this._disposed) return;
-
-			// Call setter
-			if (dep.setter)
+			// If called during construction (before field initializers run),
+			// defer to a microtask. Otherwise field initializers will overwrite
+			// the value we set here.
+			if (!this._constructionComplete)
 			{
-				dep.setter(instance);
+				queueMicrotask(() => this.applyDependency(dep, iid, instance));
+				return;
 			}
 
-			// Attach event listeners
-			if (dep.eventListeners && instance && typeof (instance as any).events === 'object')
-			{
-				const emitter = (instance as any).events as EventEmitter;
-
-				for (const listener of dep.eventListeners)
-				{
-					emitter.on(listener.type, listener.callback);
-				}
-			}
-
-			// Create cleanup function
-			this._cleanupFunctions.push(
-				this.createCleanupFunction(dep, instance)
-			);
-
-			// Track required dependency resolution
-			if (dep.required)
-			{
-				const iidName = getIIDName(dep.identifier);
-				this._pendingDependencies.delete(iidName);
-				this.onAllDependenciesQueued(iidName);
-			}
+			this.applyDependency(dep, iid, instance);
 		};
+	}
+
+	/**
+	 * Apply a resolved dependency
+	 */
+	private applyDependency<T>(dep: ComponentDependency<T>, iid: IID<T>, instance: T): void
+	{
+		if (this._disposed) return;
+
+		// Call setter
+		if (dep.setter)
+		{
+			dep.setter(instance);
+		}
+
+		// Attach event listeners
+		if (dep.eventListeners && instance && typeof (instance as any).events === 'object')
+		{
+			const emitter = (instance as any).events as EventEmitter;
+
+			for (const listener of dep.eventListeners)
+			{
+				emitter.on(listener.type, listener.callback);
+			}
+		}
+
+		// Create cleanup function
+		this._cleanupFunctions.push(
+			this.createCleanupFunction(dep, instance)
+		);
+
+		// Track required dependency resolution
+		if (dep.required)
+		{
+			const iidName = getIIDName(dep.identifier);
+			this._pendingDependencies.delete(iidName);
+			this.onAllDependenciesQueued(iidName);
+		}
 	}
 
 	/**
@@ -517,6 +539,7 @@ export class Component implements IDisposable
 
 	/**
 	 * Called when all dependencies have been queued or when a required dependency resolves
+	 * @param resolvedIidName Name of the resolved dependency (for debugging)
 	 */
 	private onAllDependenciesQueued(resolvedIidName: string = ''): void
 	{
@@ -524,14 +547,39 @@ export class Component implements IDisposable
 
 		if (this._requiredDependenciesCount === 0)
 		{
-			try
+			// If construction isn't complete yet, defer initComponent to allow
+			// subclass field initializers to complete. In JS/TS, field initializers
+			// run AFTER the parent constructor, so we must wait.
+			// Note: Dependencies can resolve synchronously during constructor if the
+			// provider is already available, which is why we check _constructionComplete.
+			if (!this._constructionComplete)
 			{
-				this.initComponent();
-				this.unlock();
-			} catch (e)
+				queueMicrotask(() =>
+				{
+					if (this._disposed) return;
+
+					try
+					{
+						this.initComponent();
+						this.unlock();
+					} catch (e)
+					{
+						console.error(`[Component] Error in initComponent for ${this.constructor.name}:`, e);
+						throw e;
+					}
+				});
+			} else
 			{
-				console.error(`[Component] Error in initComponent for ${this.constructor.name}:`, e);
-				throw e;
+				// Construction is complete - fields are initialized, call synchronously
+				try
+				{
+					this.initComponent();
+					this.unlock();
+				} catch (e)
+				{
+					console.error(`[Component] Error in initComponent for ${this.constructor.name}:`, e);
+					throw e;
+				}
 			}
 		}
 	}

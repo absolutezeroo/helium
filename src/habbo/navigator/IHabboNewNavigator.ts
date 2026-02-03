@@ -2,24 +2,7 @@ import type {IHabboNavigator} from './IHabboNavigator';
 import type {NavigatorData} from './domain';
 import type {ContextContainer, SearchContextHistoryManager} from './context';
 import type {NavigatorCache} from './cache';
-import type {
-	NavigatorLiftedRoomData,
-	NavigatorSavedSearch,
-	NavigatorSearchResultSet
-} from '../communication/messages/incoming/newnavigator';
-
-/**
- * New Navigator events
- */
-export interface HabboNewNavigatorEvents
-{
-	initialized: () => void;
-	opened: () => void;
-	closed: () => void;
-	searchResults: (results: NavigatorSearchResultSet) => void;
-	liftedRoomsUpdated: (rooms: NavigatorLiftedRoomData[]) => void;
-	savedSearchesUpdated: (searches: NavigatorSavedSearch[]) => void;
-}
+import type {NavigatorSearchResultSet} from '../communication/messages/incoming/newnavigator';
 
 /**
  * New Navigator interface

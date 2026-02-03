@@ -1,4 +1,4 @@
-import {Component, ComponentDependency, IID_HabboCommunicationManager, type IContext} from '@core/runtime';
+import {Component, ComponentDependency, type IContext, IID_HabboCommunicationManager} from '@core/runtime';
 import type {IHabboNavigator} from './IHabboNavigator';
 import {NavigatorData} from './domain';
 import {IncomingMessages} from './IncomingMessages';
@@ -15,6 +15,7 @@ import {
 	RemoveOwnRoomRightsRoomMessageComposer,
 	RoomTextSearchMessageComposer,
 } from '../communication/messages/outgoing/navigator';
+import type {IMessageComposer} from "@/core";
 
 const log = Logger.getLogger('Navigator');
 
@@ -23,7 +24,6 @@ const log = Logger.getLogger('Navigator');
  */
 export class HabboNavigator extends Component implements IHabboNavigator
 {
-	private _communication: IHabboCommunicationManager | null = null;
 	private _incomingMessages: IncomingMessages | null = null;
 	private _isOpen: boolean = false;
 	private _isRoomInfoOpen: boolean = false;
@@ -34,31 +34,25 @@ export class HabboNavigator extends Component implements IHabboNavigator
 		this._data = new NavigatorData();
 	}
 
-	protected override get dependencies(): Array<ComponentDependency<any>>
-	{
-		return [
-			new ComponentDependency(
-				IID_HabboCommunicationManager,
-				(manager: IHabboCommunicationManager | null) => { this._communication = manager; },
-				true
-			),
-		];
-	}
+	private _communication: IHabboCommunicationManager | null = null;
 
-	protected override initComponent(): void
+	get communication(): IHabboCommunicationManager
 	{
-		this._incomingMessages = new IncomingMessages(this._communication!, this._data);
-		log.info('Navigator initialized');
+		if (!this._communication)
+		{
+			throw new Error('[HabboNavigator] Communication not available');
+		}
+		return this._communication;
 	}
 
 	private _data: NavigatorData;
-
-	// ========== Properties ==========
 
 	get data(): NavigatorData
 	{
 		return this._data;
 	}
+
+	// ========== Properties ==========
 
 	get homeRoomId(): number
 	{
@@ -75,7 +69,19 @@ export class HabboNavigator extends Component implements IHabboNavigator
 		return this._data.visibleEventCategories;
 	}
 
-	// ========== Navigation Methods ==========
+	protected override get dependencies(): Array<ComponentDependency<any>>
+	{
+		return [
+			new ComponentDependency(
+				IID_HabboCommunicationManager,
+				(manager: IHabboCommunicationManager | null) =>
+				{
+					this._communication = manager;
+				},
+				true
+			),
+		];
+	}
 
 	goToHomeRoom(): boolean
 	{
@@ -90,6 +96,8 @@ export class HabboNavigator extends Component implements IHabboNavigator
 
 		return true;
 	}
+
+	// ========== Navigation Methods ==========
 
 	goToPrivateRoom(roomId: number): void
 	{
@@ -124,8 +132,6 @@ export class HabboNavigator extends Component implements IHabboNavigator
 		this.send(new GetGuestRoomMessageComposer(roomId, true, true));
 	}
 
-	// ========== Search Methods ==========
-
 	performTagSearch(tag: string): void
 	{
 		let searchTag = tag;
@@ -139,6 +145,8 @@ export class HabboNavigator extends Component implements IHabboNavigator
 
 		log.debug(`Tag search: ${searchTag}`);
 	}
+
+	// ========== Search Methods ==========
 
 	performTextSearch(searchText: string): void
 	{
@@ -182,8 +190,6 @@ export class HabboNavigator extends Component implements IHabboNavigator
 		log.debug('Showing own rooms');
 	}
 
-	// ========== Room Rights ==========
-
 	hasRoomRightsButIsNotOwner(roomId: number): boolean
 	{
 		// Would check with room session manager
@@ -192,17 +198,19 @@ export class HabboNavigator extends Component implements IHabboNavigator
 		return false;
 	}
 
+	// ========== Room Rights ==========
+
 	removeRoomRights(roomId: number): void
 	{
 		this.send(new RemoveOwnRoomRightsRoomMessageComposer(roomId));
 	}
 
-	// ========== UI Methods ==========
-
 	startRoomCreation(): void
 	{
 		log.debug('Starting room creation');
 	}
+
+	// ========== UI Methods ==========
 
 	openNavigator(): void
 	{
@@ -243,12 +251,12 @@ export class HabboNavigator extends Component implements IHabboNavigator
 		return this._data.isRoomFavourite(roomId);
 	}
 
-	// ========== Utility Methods ==========
-
 	isRoomHome(roomId: number): boolean
 	{
 		return this._data.isRoomHome(roomId);
 	}
+
+	// ========== Utility Methods ==========
 
 	override dispose(): void
 	{
@@ -259,6 +267,12 @@ export class HabboNavigator extends Component implements IHabboNavigator
 
 		log.info('Navigator disposed');
 		super.dispose();
+	}
+
+	protected override initComponent(): void
+	{
+		this._incomingMessages = new IncomingMessages(this);
+		log.info('Navigator initialized');
 	}
 
 	private openRoomInfo(): void
@@ -281,7 +295,7 @@ export class HabboNavigator extends Component implements IHabboNavigator
 
 	// ========== Dispose ==========
 
-	private send(composer: { getMessageArray(): unknown[]; dispose(): void }): void
+	private send(composer: IMessageComposer<unknown[]>): void
 	{
 		const connection = this._communication?.connection;
 

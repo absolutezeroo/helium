@@ -350,10 +350,8 @@ export class Helium
 		this._context.attachComponent(newNavigatorManager, [IID_HabboNewNavigator]);
 
 		// Inventory Manager
-		const inventoryManager = new HabboInventory(this._habboCommunicationManager);
-		// Note: HabboInventory needs to be adapted to Component pattern for full IID support
-		// For now we use a wrapper to expose it via IID
-		this._context.attachComponent(inventoryManager as any, [IID_HabboInventory]);
+		const inventoryManager = new HabboInventory(this._context);
+		this._context.attachComponent(inventoryManager, [IID_HabboInventory]);
 
 		// ========== Register Modules (with manager deps) ==========
 		await this._moduleRegistry.register(configModule);

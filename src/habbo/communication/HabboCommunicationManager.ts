@@ -1,11 +1,11 @@
-import {Component, ComponentDependency, IID_CoreCommunicationManager, type IContext} from '@core/runtime';
+import {Component, ComponentDependency, type IContext, IID_CoreCommunicationManager} from '@core/runtime';
 import {ArcFour} from '@habbo/communication/encryption/ArcFour';
 import {DiffieHellman} from '@habbo/communication/encryption/DiffieHellman';
 import {Logger} from '@core/utils/Logger';
 import {HabboMessages} from './HabboMessages';
 import {IncomingMessages} from './demo/IncomingMessages';
 import {SessionDataManager} from '../session/SessionDataManager';
-import type {HabboCommunicationManagerEvents, IHabboCommunicationManager} from './IHabboCommunicationManager';
+import type {IHabboCommunicationManager} from './IHabboCommunicationManager';
 import type {ICoreCommunicationManager} from '@core/communication/ICoreCommunicationManager';
 import type {IConnection} from '@core/communication/connection/IConnection';
 import type {IConnectionCallback} from '@core/communication/connection/IConnectionCallback';
@@ -36,7 +36,6 @@ export interface HabboConnectionConfig
  */
 export class HabboCommunicationManager extends Component implements IHabboCommunicationManager, IConnectionCallback
 {
-	private _communicationManager: ICoreCommunicationManager | null = null;
 	private messageConfig: IMessageConfiguration;
 	private incomingMessages: IncomingMessages | null = null;
 	private config: HabboConnectionConfig | null = null;
@@ -44,55 +43,11 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 	private connectionAttempt: number = 1;
 	private maxConnectionAttempts: number = 2;
 	private pendingMessageEvents: IMessageEvent[] = [];
-	private _connectionActions: ConnectionActions | null = null;
 
 	constructor(context: IContext)
 	{
 		super(context);
 		this.messageConfig = new HabboMessages();
-	}
-
-	protected override get dependencies(): Array<ComponentDependency<any>>
-	{
-		return [
-			new ComponentDependency(
-				IID_CoreCommunicationManager,
-				(manager: ICoreCommunicationManager | null) => { this._communicationManager = manager; },
-				true
-			),
-		];
-	}
-
-	protected override initComponent(): void
-	{
-		log.debug('HabboCommunicationManager initialized');
-	}
-
-	private get communicationManager(): ICoreCommunicationManager
-	{
-		if (!this._communicationManager)
-		{
-			throw new Error('CommunicationManager not available');
-		}
-		return this._communicationManager;
-	}
-
-	/**
-	 * Set connection actions for state updates
-	 * Called by Helium after module registration
-	 */
-	setConnectionActions(actions: ConnectionActions): void
-	{
-		this._connectionActions = actions;
-	}
-
-	private get connectionActions(): ConnectionActions
-	{
-		if (!this._connectionActions)
-		{
-			throw new Error('Connection actions not set. Call setConnectionActions() first.');
-		}
-		return this._connectionActions;
 	}
 
 	private _sessionDataManager: SessionDataManager | null = null;
@@ -129,6 +84,51 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 	get messages(): IMessageConfiguration
 	{
 		return this.messageConfig;
+	}
+
+	protected override get dependencies(): Array<ComponentDependency<any>>
+	{
+		return [
+			new ComponentDependency(
+				IID_CoreCommunicationManager,
+				(manager: ICoreCommunicationManager | null) =>
+				{
+					this._communicationManager = manager;
+				},
+				true
+			),
+		];
+	}
+
+	private _communicationManager: ICoreCommunicationManager | null = null;
+
+	private get communicationManager(): ICoreCommunicationManager
+	{
+		if (!this._communicationManager)
+		{
+			throw new Error('CommunicationManager not available');
+		}
+		return this._communicationManager;
+	}
+
+	private _connectionActions: ConnectionActions | null = null;
+
+	private get connectionActions(): ConnectionActions
+	{
+		if (!this._connectionActions)
+		{
+			throw new Error('Connection actions not set. Call setConnectionActions() first.');
+		}
+		return this._connectionActions;
+	}
+
+	/**
+	 * Set connection actions for state updates
+	 * Called by Helium after module registration
+	 */
+	setConnectionActions(actions: ConnectionActions): void
+	{
+		this._connectionActions = actions;
 	}
 
 	configure(config: HabboConnectionConfig): void
@@ -181,7 +181,13 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 
 		// Create new instances
 		this.incomingMessages = new IncomingMessages(this);
-		this._sessionDataManager = new SessionDataManager(this);
+
+		if (this._connectionActions)
+		{
+			this.incomingMessages.setConnectionActions(this._connectionActions);
+		}
+
+		this._sessionDataManager = new SessionDataManager(this.context);
 
 		// Forward events from IncomingMessages to this manager
 		// This acts as context.events in AS3 for other components to listen
@@ -311,6 +317,11 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 	messageParseError(message: IMessageDataWrapper, error: Error): void
 	{
 		log.error(`Failed to parse message ${message.getMessageId()}: ${error.message}`);
+	}
+
+	protected override initComponent(): void
+	{
+		log.debug('HabboCommunicationManager initialized');
 	}
 
 	private tryNextPort(): void

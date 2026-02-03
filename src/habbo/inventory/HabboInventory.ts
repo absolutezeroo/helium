@@ -1,3 +1,4 @@
+import {Component, ComponentDependency, IID_HabboCommunicationManager, type IContext} from '@core/runtime';
 import type {IHabboInventory, InventoryCategoryType} from './IHabboInventory';
 import type {IFurniModel} from './furni/IFurniModel';
 import type {IBadgesModel} from './badges/IBadgesModel';
@@ -15,12 +16,15 @@ import {BotsModel} from './bots/BotsModel';
 import {TradingModel} from './trading/TradingModel';
 import {Purse} from './purse/Purse';
 import {UnseenItemTracker} from './UnseenItemTracker';
+import {Logger} from '@core/utils/Logger';
 import {
-	RequestFurniInventoryComposer,
 	GetBadgesComposer,
-	GetPetInventoryComposer,
 	GetBotInventoryComposer,
+	GetPetInventoryComposer,
+	RequestFurniInventoryComposer,
 } from '../communication/messages/outgoing/inventory';
+
+const log = Logger.getLogger('Inventory');
 
 /**
  * Main inventory controller
@@ -28,14 +32,13 @@ import {
  * Based on AS3 com.sulake.habbo.inventory.HabboInventory (ENGINE only)
  * UI is handled by SolidJS stores
  */
-export class HabboInventory implements IHabboInventory
+export class HabboInventory extends Component implements IHabboInventory
 {
-	private _disposed: boolean = false;
+	private _communication: IHabboCommunicationManager | null = null;
+	private _initializedCategories: Set<string> = new Set();
 	private _isInitialized: boolean = false;
 	private _currentCategory: InventoryCategoryType | null = null;
-	private _initializedCategories: Set<string> = new Set();
-
-	private _communication: IHabboCommunicationManager;
+	private _hasRoomSession: boolean = false;
 
 	private _furniModel!: FurniModel;
 	private _badgesModel!: BadgesModel;
@@ -43,24 +46,32 @@ export class HabboInventory implements IHabboInventory
 	private _petsModel!: PetsModel;
 	private _botsModel!: BotsModel;
 	private _tradingModel!: TradingModel;
-	private _purse: Purse;
-	private _unseenItemTracker: UnseenItemTracker;
+	private _purse: Purse = new Purse();
+	private _unseenItemTracker: UnseenItemTracker | null = null;
 
-	private _hasRoomSession: boolean = false;
-
-	constructor(communication: IHabboCommunicationManager)
+	constructor(context: IContext)
 	{
-		this._communication = communication;
-		this._purse = new Purse();
-		this._unseenItemTracker = new UnseenItemTracker(communication);
+		super(context);
+	}
+
+	protected override get dependencies(): Array<ComponentDependency<any>>
+	{
+		return [
+			new ComponentDependency(
+				IID_HabboCommunicationManager,
+				(manager: IHabboCommunicationManager | null) => { this._communication = manager; },
+				true
+			),
+		];
+	}
+
+	protected override initComponent(): void
+	{
+		this._unseenItemTracker = new UnseenItemTracker(this._communication!);
+		log.info('Inventory initialized');
 	}
 
 	// ========== Properties ==========
-
-	get disposed(): boolean
-	{
-		return this._disposed;
-	}
 
 	get isInitialized(): boolean
 	{
@@ -109,7 +120,7 @@ export class HabboInventory implements IHabboInventory
 
 	get unseenItemTracker(): UnseenItemTracker
 	{
-		return this._unseenItemTracker;
+		return this._unseenItemTracker!;
 	}
 
 	get hasRoomSession(): boolean
@@ -124,9 +135,9 @@ export class HabboInventory implements IHabboInventory
 
 	// ========== Lifecycle ==========
 
-	dispose(): void
+	override dispose(): void
 	{
-		if (this._disposed) return;
+		if (this.disposed) return;
 
 		this._furniModel?.dispose();
 		this._badgesModel?.dispose();
@@ -137,7 +148,9 @@ export class HabboInventory implements IHabboInventory
 		this._unseenItemTracker?.dispose();
 
 		this._initializedCategories.clear();
-		this._disposed = true;
+
+		log.info('Inventory disposed');
+		super.dispose();
 	}
 
 	init(): void
@@ -216,21 +229,21 @@ export class HabboInventory implements IHabboInventory
 
 	requestFurni(): void
 	{
-		this._communication.connection?.send(new RequestFurniInventoryComposer());
+		this._communication?.connection?.send(new RequestFurniInventoryComposer());
 	}
 
 	requestBadges(): void
 	{
-		this._communication.connection?.send(new GetBadgesComposer());
+		this._communication?.connection?.send(new GetBadgesComposer());
 	}
 
 	requestPets(): void
 	{
-		this._communication.connection?.send(new GetPetInventoryComposer());
+		this._communication?.connection?.send(new GetPetInventoryComposer());
 	}
 
 	requestBots(): void
 	{
-		this._communication.connection?.send(new GetBotInventoryComposer());
+		this._communication?.connection?.send(new GetBotInventoryComposer());
 	}
 }

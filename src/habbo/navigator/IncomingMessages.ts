@@ -1,5 +1,5 @@
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
-import type {IHabboCommunicationManager} from '../communication/IHabboCommunicationManager';
+import type {HabboNavigator} from './HabboNavigator';
 import type {NavigatorData} from './domain';
 
 // Message events
@@ -61,23 +61,26 @@ const log = Logger.getLogger('Navigator');
  */
 export class IncomingMessages
 {
-	private _communication: IHabboCommunicationManager;
-	private _data: NavigatorData;
+	private _navigator: HabboNavigator;
 	private _messageEvents: IMessageEvent[] = [];
 
-	constructor(communication: IHabboCommunicationManager, data: NavigatorData)
+	constructor(navigator: HabboNavigator)
 	{
-		this._communication = communication;
-		this._data = data;
+		this._navigator = navigator;
 
 		this.registerEvents();
+	}
+
+	get data(): NavigatorData
+	{
+		return this._navigator.data;
 	}
 
 	dispose(): void
 	{
 		for (const event of this._messageEvents)
 		{
-			this._communication.removeMessageEvent(event);
+			this._navigator.communication.removeMessageEvent(event);
 		}
 
 		this._messageEvents = [];
@@ -125,7 +128,7 @@ export class IncomingMessages
 
 	private addMessageEvent(event: IMessageEvent): void
 	{
-		this._communication.addMessageEvent(event);
+		this._navigator.communication.addMessageEvent(event);
 		this._messageEvents.push(event);
 	}
 
@@ -139,8 +142,8 @@ export class IncomingMessages
 
 		if (!parser) return;
 
-		this._data.homeRoomId = parser.homeRoomId;
-		this._data.settingsReceived = true;
+		this.data.homeRoomId = parser.homeRoomId;
+		this.data.settingsReceived = true;
 
 		log.debug(`Navigator settings received: homeRoomId=${parser.homeRoomId}`);
 	}
@@ -153,7 +156,7 @@ export class IncomingMessages
 
 		if (!parser) return;
 
-		this._data.onFavourites(parser.limit, parser.favouriteRoomIds);
+		this.data.onFavourites(parser.limit, parser.favouriteRoomIds);
 
 		log.debug(`Favourites received: ${parser.favouriteRoomIds.length} rooms`);
 	}
@@ -166,7 +169,7 @@ export class IncomingMessages
 
 		if (!parser) return;
 
-		this._data.favouriteChanged(parser.flatId, parser.added);
+		this.data.favouriteChanged(parser.flatId, parser.added);
 
 		log.debug(`Favourite changed: roomId=${parser.flatId}, added=${parser.added}`);
 	}
@@ -181,8 +184,8 @@ export class IncomingMessages
 
 		if (!parser.data) return;
 
-		this._data.enteredGuestRoom = parser.data;
-		this._data.currentRoomIsStaffPick = parser.staffPick;
+		this.data.enteredGuestRoom = parser.data;
+		this.data.currentRoomIsStaffPick = parser.staffPick;
 
 		log.debug(`Guest room result: ${parser.data.roomName} (${parser.data.flatId})`);
 	}
@@ -207,8 +210,8 @@ export class IncomingMessages
 
 		if (!parser) return;
 
-		this._data.currentRoomRating = parser.rating;
-		this._data.canRate = parser.canRate;
+		this.data.currentRoomRating = parser.rating;
+		this.data.canRate = parser.canRate;
 
 		log.debug(`Room rating: ${parser.rating}, canRate=${parser.canRate}`);
 	}
@@ -223,7 +226,7 @@ export class IncomingMessages
 
 		if (!parser.data) return;
 
-		this._data.guestRoomSearchResults = parser.data;
+		this.data.guestRoomSearchResults = parser.data;
 
 		log.debug(`Guest room search results: ${parser.data.rooms.length} rooms`);
 	}
@@ -238,7 +241,7 @@ export class IncomingMessages
 
 		if (!parser.data) return;
 
-		this._data.popularTags = parser.data;
+		this.data.popularTags = parser.data;
 
 		log.debug(`Popular tags received: ${parser.data.tags.length} tags`);
 	}
@@ -251,9 +254,9 @@ export class IncomingMessages
 
 		if (parser.data)
 		{
-			this._data.officialRooms = parser.data;
-			this._data.adRoom = parser.adRoom;
-			this._data.promotedRooms = parser.promotedRooms;
+			this.data.officialRooms = parser.data;
+			this.data.adRoom = parser.adRoom;
+			this.data.promotedRooms = parser.promotedRooms;
 
 			log.debug(`Official rooms received: ${parser.data.entries.length} entries`);
 		}
@@ -269,7 +272,7 @@ export class IncomingMessages
 
 		if (!parser.data) return;
 
-		this._data.categoriesWithVisitorData = parser.data;
+		this.data.categoriesWithVisitorData = parser.data;
 
 		log.debug('Categories with visitor count received');
 	}
@@ -282,7 +285,7 @@ export class IncomingMessages
 
 		if (!parser) return;
 
-		this._data.categories = parser.nodes;
+		this.data.categories = parser.nodes;
 
 		log.debug(`User flat categories received: ${parser.nodes.length} categories`);
 	}
@@ -295,7 +298,7 @@ export class IncomingMessages
 
 		if (!parser) return;
 
-		this._data.eventCategories = parser.eventCategories;
+		this.data.eventCategories = parser.eventCategories;
 
 		log.debug(`User event categories received: ${parser.eventCategories.length} categories`);
 	}
@@ -332,7 +335,7 @@ export class IncomingMessages
 
 		if (!parser) return;
 
-		this._data.createdFlatId = parser.flatId;
+		this.data.createdFlatId = parser.flatId;
 
 		log.info(`Flat created: ${parser.flatName} (${parser.flatId})`);
 	}
@@ -347,14 +350,14 @@ export class IncomingMessages
 
 		if (!parser.data) return;
 
-		this._data.roomEventData = parser.data;
+		this.data.roomEventData = parser.data;
 
 		log.debug(`Room event: ${parser.data.eventName}`);
 	}
 
 	private onRoomEventCancel(_event: IMessageEvent): void
 	{
-		this._data.roomEventData = null;
+		this.data.roomEventData = null;
 
 		log.debug('Room event cancelled');
 	}
@@ -405,7 +408,7 @@ export class IncomingMessages
 
 		if (!parser.data) return;
 
-		this._data.competitionRoomsData = parser.data;
+		this.data.competitionRoomsData = parser.data;
 
 		log.debug(`Competition rooms data: goal=${parser.data.goalId}, page=${parser.data.pageIndex}`);
 	}

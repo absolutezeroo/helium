@@ -5,7 +5,7 @@ export * from './events';
 export * from './lift';
 export * from './view';
 export type {IHabboNavigator} from './IHabboNavigator';
-export type {IHabboNewNavigator, HabboNewNavigatorEvents} from './IHabboNewNavigator';
+export type {IHabboNewNavigator} from './IHabboNewNavigator';
 export {HabboNavigator} from './HabboNavigator';
 export {HabboNewNavigator} from './HabboNewNavigator';
 export {IncomingMessages} from './IncomingMessages';

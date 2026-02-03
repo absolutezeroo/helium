@@ -29,7 +29,6 @@ export type InventoryCategoryType = typeof InventoryCategory[keyof typeof Invent
  */
 export interface IHabboInventory
 {
-	readonly disposed: boolean;
 	readonly isInitialized: boolean;
 	readonly currentCategory: InventoryCategoryType | null;
 
@@ -47,8 +46,6 @@ export interface IHabboInventory
 
 	// Room session state
 	hasRoomSession: boolean;
-
-	dispose(): void;
 
 	/**
 	 * Initialize all models
