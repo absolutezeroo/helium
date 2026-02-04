@@ -11,6 +11,8 @@ import {
 	NavigatorSearchResultSetMessageEvent,
 } from '../communication/messages/incoming/newnavigator';
 
+import {RoomEntryInfoMessageEvent} from '../communication/messages/incoming/room/engine/RoomEntryInfoMessageEvent';
+
 // Parsers
 import {
 	NavigatorCollapsedCategoriesMessageParser,
@@ -19,6 +21,11 @@ import {
 	NavigatorSavedSearchesMessageParser,
 	NavigatorSearchResultSetMessageParser,
 } from '../communication/messages/parser/newnavigator';
+
+import {RoomEntryInfoMessageParser} from '../communication/messages/parser/room/engine/RoomEntryInfoMessageParser';
+
+// Composers
+import {GetGuestRoomMessageComposer} from '../communication/messages/outgoing/navigator';
 
 import {Logger} from '@core/utils/Logger';
 
@@ -72,6 +79,9 @@ export class NewIncomingMessages
 
 		// Collapsed categories
 		this.addMessageEvent(new NavigatorCollapsedCategoriesMessageEvent(this.onCollapsedCategories.bind(this)));
+
+		// Room entry - triggers actual room entry
+		this.addMessageEvent(new RoomEntryInfoMessageEvent(this.onRoomEntryInfo.bind(this)));
 	}
 
 	private addMessageEvent(event: IMessageEvent): void
@@ -137,5 +147,28 @@ export class NewIncomingMessages
 		if (!parser) return;
 
 		this._navigator.onCollapsedCategories(parser.collapsedCategories);
+	}
+
+	/**
+	 * Room entry info received - now we can actually enter the room
+	 * Send GetGuestRoomMessageComposer with enterRoom=true
+	 */
+	private onRoomEntryInfo(event: IMessageEvent): void
+	{
+		if (!event) return;
+
+		const parser = event.parser as RoomEntryInfoMessageParser;
+
+		if (!parser) return;
+
+		log.debug(`Room entry info: roomId=${parser.guestRoomId}, owner=${parser.owner}`);
+
+		// Send the second GetGuestRoomMessage with enterRoom=true to get full room data
+		const connection = this._navigator.communication.connection;
+
+		if (connection)
+		{
+			connection.send(new GetGuestRoomMessageComposer(parser.guestRoomId, true, false));
+		}
 	}
 }

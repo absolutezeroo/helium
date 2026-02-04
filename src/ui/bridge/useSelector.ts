@@ -27,13 +27,13 @@ import type {RegisteredModuleId, ModuleStateMap} from '@/modules/core';
  */
 export function useSelector<K extends RegisteredModuleId, T>(
 	moduleId: K,
-	selector: (state: ModuleStateMap[K]) => T
+	selector: (state: Readonly<ModuleStateMap[K]>) => T
 ): Accessor<T>
 {
 	const {state} = useModule(moduleId);
 
 	// createMemo only recalculates if the selector result changes
-	return createMemo(() => selector(state));
+	return createMemo(() => selector(state()));
 }
 
 /**
@@ -49,7 +49,7 @@ export function useSelector<K extends RegisteredModuleId, T>(
  * // Usage: isOpen(), currentTab()
  * ```
  */
-export function useSelectors<K extends RegisteredModuleId, T extends Record<string, (state: ModuleStateMap[K]) => unknown>>(
+export function useSelectors<K extends RegisteredModuleId, T extends Record<string, (state: Readonly<ModuleStateMap[K]>) => unknown>>(
 	moduleId: K,
 	selectors: T
 ): {[P in keyof T]: Accessor<ReturnType<T[P]>>}
@@ -60,7 +60,7 @@ export function useSelectors<K extends RegisteredModuleId, T extends Record<stri
 
 	for (const key in selectors)
 	{
-		result[key] = createMemo(() => selectors[key](state)) as Accessor<ReturnType<T[typeof key]>>;
+		result[key] = createMemo(() => selectors[key](state())) as Accessor<ReturnType<T[typeof key]>>;
 	}
 
 	return result;

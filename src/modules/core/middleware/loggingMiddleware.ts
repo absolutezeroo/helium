@@ -2,9 +2,11 @@ import type {Middleware} from './types';
 
 /**
  * Logging middleware for development
+ * Note: Logging full parser objects can cause stack overflow in DevTools
  */
 export const loggingMiddleware: Middleware = (context, next) =>
 {
+	// Log event name only to avoid DevTools serialization issues
 	console.log(
 		`%c[Message] ${context.eventName}`,
 		'color: #888; font-weight: bold;',

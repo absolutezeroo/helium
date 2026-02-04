@@ -68,8 +68,8 @@ export const Toolbar: Component = () =>
 					{(icon) => (
 						<button
 							class={`toolbar-icon ${
-								(icon.id === 'navigator' && navigator.isOpen) ||
-								(icon.id === 'inventory' && inventory.isOpen)
+								(icon.id === 'navigator' && navigator().isOpen) ||
+								(icon.id === 'inventory' && inventory().isOpen)
 									? 'active'
 									: ''
 							}`}
@@ -85,7 +85,7 @@ export const Toolbar: Component = () =>
 			<div class="toolbar-right">
 				<div class="user-info">
                     <span class="user-credits">
-                        {session.activityPoints.get(0) || 0} Credits
+                        {session().activityPoints.get(0) ?? 0} Credits
                     </span>
 				</div>
 			</div>

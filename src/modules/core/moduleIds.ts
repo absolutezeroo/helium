@@ -46,9 +46,10 @@ export type RegisteredModuleId = keyof ModuleStateMap & keyof ModuleActionsMap;
 
 /**
  * Type helper for useModule
+ * Note: state is a getter function to preserve Map/class instances
  */
 export interface ModuleAPI<K extends RegisteredModuleId>
 {
-	state: ModuleStateMap[K];
+	state: () => Readonly<ModuleStateMap[K]>;
 	actions: ModuleActionsMap[K];
 }

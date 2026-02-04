@@ -15,34 +15,34 @@ export const RoomUserList: Component = () =>
 
 	// Separate users by type
 	const humanUsers = createMemo(() =>
-		Object.values(state.users).filter(u => u.type === RoomUserType.USER)
+		Object.values(state().users).filter(u => u.type === RoomUserType.USER)
 	);
 
 	const pets = createMemo(() =>
-		Object.values(state.users).filter(u => u.type === RoomUserType.PET)
+		Object.values(state().users).filter(u => u.type === RoomUserType.PET)
 	);
 
 	const bots = createMemo(() =>
-		Object.values(state.users).filter(
+		Object.values(state().users).filter(
 			u => u.type === RoomUserType.BOT || u.type === RoomUserType.RENTABLE_BOT
 		)
 	);
 
 	const ownUser = createMemo(() =>
 	{
-		if (state.ownUserRoomIndex < 0) return null;
-		return state.users[state.ownUserRoomIndex] ?? null;
+		if (state().ownUserRoomIndex < 0) return null;
+		return state().users[state().ownUserRoomIndex] ?? null;
 	});
 
 	return (
 		<Show when={actions.isInRoom()}>
 			<div class="room-user-list">
 				<div class="room-user-list-header">
-					<h3>Room Users ({Object.keys(state.users).length})</h3>
-					<Show when={state.isRoomOwner}>
+					<h3>Room Users ({Object.keys(state().users).length})</h3>
+					<Show when={state().isRoomOwner}>
 						<span class="owner-badge">Owner</span>
 					</Show>
-					<Show when={!state.isRoomOwner && state.roomControllerLevel > 0}>
+					<Show when={!state().isRoomOwner && state().roomControllerLevel > 0}>
 						<span class="rights-badge">Rights</span>
 					</Show>
 				</div>
@@ -61,7 +61,7 @@ export const RoomUserList: Component = () =>
 						<h4>Users ({humanUsers().length})</h4>
 						<For each={humanUsers()}>
 							{(user) => (
-								<Show when={user.roomIndex !== state.ownUserRoomIndex}>
+								<Show when={user.roomIndex !== state().ownUserRoomIndex}>
 									<UserListItem user={user} isOwn={false} />
 								</Show>
 							)}

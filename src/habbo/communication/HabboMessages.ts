@@ -57,27 +57,21 @@ import {ActivityPointsMessageEvent, InfoFeedEnableMessageEvent,} from './message
 import {
 	AchievementsScoreMessageEvent,
 	AvatarEffectsMessageEvent,
-	FigureSetIdsMessageEvent,
-	// Furni
-	FurniListMessageEvent,
-	FurniListAddOrUpdateMessageEvent,
-	FurniListRemoveMessageEvent,
-	FurniListInvalidateMessageEvent,
-	// Badges
 	BadgesMessageEvent,
-	// Pets
-	PetInventoryMessageEvent,
-	// Bots
 	BotInventoryMessageEvent,
-	// Trading
-	TradingOpenMessageEvent,
-	TradingCloseMessageEvent,
+	FigureSetIdsMessageEvent,
+	FurniListAddOrUpdateMessageEvent,
+	FurniListInvalidateMessageEvent,
+	FurniListMessageEvent,
+	FurniListRemoveMessageEvent,
+	PetInventoryMessageEvent,
 	TradingAcceptMessageEvent,
-	TradingItemListMessageEvent,
+	TradingCloseMessageEvent,
 	TradingCompletedMessageEvent,
 	TradingConfirmationMessageEvent,
+	TradingItemListMessageEvent,
 	TradingNotOpenMessageEvent,
-	// Unseen
+	TradingOpenMessageEvent,
 	UnseenItemsMessageEvent,
 } from './messages/incoming/inventory';
 
@@ -89,36 +83,37 @@ import {BuildersClubSubscriptionStatusMessageEvent,} from './messages/incoming/c
 
 // Incoming Events - Room Session
 import {
-	RoomReadyMessageEvent,
-	FlatAccessibleMessageEvent,
 	CloseConnectionMessageEvent,
+	FlatAccessibleMessageEvent,
+	OpenConnectionMessageEvent,
+	RoomReadyMessageEvent,
 } from './messages/incoming/room/session';
 
+// Incoming Events - Room Layout
+import {RoomEntryTileMessageEvent,} from './messages/incoming/room/layout';
+
 // Incoming Events - Room Permissions
-import {
-	YouAreControllerMessageEvent,
-	YouAreOwnerMessageEvent,
-} from './messages/incoming/room/permissions';
+import {YouAreControllerMessageEvent, YouAreOwnerMessageEvent,} from './messages/incoming/room/permissions';
 
 // Incoming Events - Room Engine
 import {
 	FloorHeightMapMessageEvent,
 	HeightMapMessageEvent,
 	HeightMapUpdateMessageEvent,
-	ObjectsMessageEvent,
-	ObjectAddMessageEvent,
-	ObjectUpdateMessageEvent,
-	ObjectRemoveMessageEvent,
-	ObjectDataUpdateMessageEvent,
-	ItemsMessageEvent,
 	ItemAddMessageEvent,
-	ItemUpdateMessageEvent,
 	ItemRemoveMessageEvent,
+	ItemsMessageEvent,
+	ItemUpdateMessageEvent,
+	ObjectAddMessageEvent,
+	ObjectDataUpdateMessageEvent,
+	ObjectRemoveMessageEvent,
+	ObjectsMessageEvent,
+	ObjectUpdateMessageEvent,
+	RoomEntryInfoMessageEvent,
+	SlideObjectBundleMessageEvent,
+	UserRemoveMessageEvent,
 	UsersMessageEvent,
 	UserUpdateMessageEvent,
-	UserRemoveMessageEvent,
-	SlideObjectBundleMessageEvent,
-	RoomEntryInfoMessageEvent,
 } from './messages/incoming/room/engine';
 
 // Incoming Events - New Navigator
@@ -197,22 +192,22 @@ import {
 
 // Outgoing Composers - Inventory
 import {
-	RequestFurniInventoryComposer,
-	GetBadgesComposer,
-	SetActivatedBadgesComposer,
-	GetPetInventoryComposer,
-	GetBotInventoryComposer,
+	AcceptTradingComposer,
+	AddItemToTradeComposer,
 	AvatarEffectActivatedComposer,
 	AvatarEffectSelectedComposer,
-	ResetUnseenItemsComposer,
-	OpenTradingComposer,
 	CloseTradingComposer,
-	AcceptTradingComposer,
-	UnacceptTradingComposer,
 	ConfirmAcceptTradingComposer,
 	ConfirmDeclineTradingComposer,
-	AddItemToTradeComposer,
+	GetBadgesComposer,
+	GetBotInventoryComposer,
+	GetPetInventoryComposer,
+	OpenTradingComposer,
 	RemoveItemFromTradeComposer,
+	RequestFurniInventoryComposer,
+	ResetUnseenItemsComposer,
+	SetActivatedBadgesComposer,
+	UnacceptTradingComposer,
 } from './messages/outgoing/inventory';
 
 /**
@@ -344,6 +339,7 @@ export class HabboMessages implements IMessageConfiguration
 
 		// === ROOM SESSION ===
 		this._events.set(3024, RoomReadyMessageEvent);
+		this._events.set(327, OpenConnectionMessageEvent);
 		this._events.set(431, FlatAccessibleMessageEvent);
 		this._events.set(2893, CloseConnectionMessageEvent);
 
@@ -355,6 +351,7 @@ export class HabboMessages implements IMessageConfiguration
 		this._events.set(1270, FloorHeightMapMessageEvent);
 		this._events.set(3492, HeightMapMessageEvent);
 		this._events.set(2948, HeightMapUpdateMessageEvent);
+		this._events.set(1580, RoomEntryTileMessageEvent);
 		this._events.set(2791, RoomEntryInfoMessageEvent);
 		this._events.set(1572, ObjectsMessageEvent);
 		this._events.set(3122, ObjectAddMessageEvent);
@@ -368,7 +365,7 @@ export class HabboMessages implements IMessageConfiguration
 		this._events.set(2846, UsersMessageEvent);
 		this._events.set(3911, UserUpdateMessageEvent);
 		this._events.set(2193, UserRemoveMessageEvent);
-		this._events.set(1661, SlideObjectBundleMessageEvent);
+		this._events.set(1661, SlideObjectBundleMessageEvent)
 	}
 
 	/**

@@ -8,7 +8,7 @@ export const LandingView: Component = () =>
 	return (
 		<div class="landing-view">
 			<div class="landing-content">
-				<Show when={session.userData}>
+				<Show when={session().userData}>
 					{(user) => (
 						<div class="welcome-section">
 							<h2>Welcome back, {user().name}!</h2>

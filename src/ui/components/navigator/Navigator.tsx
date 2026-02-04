@@ -23,7 +23,7 @@ export function Navigator(): JSX.Element
 
 	// Transform module data for UI
 	const tabs = createMemo(() =>
-		navigator.topLevelContexts.map(ctx =>
+		navigator().topLevelContexts.map(ctx =>
 		{
 			const locKey = `navigator.toplevelview.${ctx.searchCode}`;
 			const fallback = ctx.searchCode.replace('_view', '').replace(/_/g, ' ');
@@ -35,12 +35,12 @@ export function Navigator(): JSX.Element
 	);
 
 	const rooms = createMemo((): RoomListRoom[] =>
-		mapSearchResultsToListRooms(navigator.searchResults)
+		mapSearchResultsToListRooms(navigator().searchResults)
 	);
 
 	const categories = createMemo((): Category[] =>
 	{
-		const results = navigator.searchResults;
+		const results = navigator().searchResults;
 		if (!results) return [];
 		return results.blocks.map((block, index) => ({
 			id: index,
@@ -62,7 +62,7 @@ export function Navigator(): JSX.Element
 
 	const handleRefresh = () =>
 	{
-		const code = navigator.currentSearchCode;
+		const code = navigator().currentSearchCode;
 
 		if (code) navActions.search(code);
 	};
@@ -75,9 +75,9 @@ export function Navigator(): JSX.Element
 	return (
 		<>
 			<NavigatorWindow
-				isOpen={navigator.isOpen}
+				isOpen={navigator().isOpen}
 				tabs={tabs()}
-				activeTab={navigator.currentSearchCode}
+				activeTab={navigator().currentSearchCode}
 				rooms={rooms()}
 				categories={categories()}
 				onClose={() => navActions.close()}

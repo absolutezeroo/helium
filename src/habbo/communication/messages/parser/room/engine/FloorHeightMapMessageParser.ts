@@ -15,36 +15,41 @@ export class FloorHeightMapMessageParser implements IMessageParser
 
 	private _tiles: number[][] = [];
 	private _width: number = 0;
-	private _height: number = 0;
-	private _scale: number = 0;
-	private _text: string = '';
-	private _fixedWallsHeight: number = -1;
-	private _areaHideData: AreaHideMessageData[] = [];
-
-	get text(): string
-	{
-		return this._text;
-	}
 
 	get width(): number
 	{
 		return this._width;
 	}
 
+	private _height: number = 0;
+
 	get height(): number
 	{
 		return this._height;
 	}
+
+	private _scale: number = 0;
 
 	get scale(): number
 	{
 		return this._scale;
 	}
 
+	private _text: string = '';
+
+	get text(): string
+	{
+		return this._text;
+	}
+
+	private _fixedWallsHeight: number = -1;
+
 	get fixedWallsHeight(): number
 	{
 		return this._fixedWallsHeight;
 	}
+
+	private _areaHideData: AreaHideMessageData[] = [];
 
 	get areaHideData(): AreaHideMessageData[]
 	{
@@ -59,6 +64,7 @@ export class FloorHeightMapMessageParser implements IMessageParser
 		}
 
 		const row = this._tiles[y];
+
 		return row[x];
 	}
 
@@ -70,6 +76,7 @@ export class FloorHeightMapMessageParser implements IMessageParser
 		this._text = '';
 		this._fixedWallsHeight = -1;
 		this._areaHideData = [];
+		
 		return true;
 	}
 
@@ -84,80 +91,41 @@ export class FloorHeightMapMessageParser implements IMessageParser
 		this._fixedWallsHeight = wrapper.readInt();
 		this._text = wrapper.readString();
 
-		const rows = this._text.split('\r');
-		let rowCount = rows.length;
+		// Split and filter empty trailing row
+		const rows = this._text.split('\r').filter((row, i, arr) =>
+			!(i === arr.length - 1 && row === '')
+		);
 
-		// Remove trailing empty row
-		if (rowCount > 0 && rows[rowCount - 1] === '')
-		{
-			rowCount--;
-		}
-
-		// Find max width
-		let maxWidth = 0;
-
-		for (let i = 0; i < rowCount; i++)
-		{
-			const row = rows[i];
-
-			if (row.length > maxWidth)
-			{
-				maxWidth = row.length;
-			}
-		}
-
-		// Initialize tile array
-		this._tiles = [];
-
-		for (let y = 0; y < rowCount; y++)
-		{
-			const row: number[] = [];
-
-			for (let x = 0; x < maxWidth; x++)
-			{
-				row.push(FloorHeightMapMessageParser.TILE_BLOCKED);
-			}
-
-			this._tiles.push(row);
-		}
+		const rowCount = rows.length;
+		const maxWidth = Math.max(0, ...rows.map(row => row.length));
 
 		this._width = maxWidth;
 		this._height = rowCount;
-
-		// Parse tile heights
-		for (let y = 0; y < rowCount; y++)
-		{
-			const row = this._tiles[y];
-			const rowStr = rows[y];
-
-			if (rowStr.length > 0)
-			{
-				for (let x = 0; x < rowStr.length; x++)
-				{
-					const char = rowStr.charAt(x);
-
-					if (char !== 'x' && char !== 'X')
-					{
-						row[x] = parseInt(char, 36);
-					}
-					else
-					{
-						row[x] = FloorHeightMapMessageParser.TILE_BLOCKED;
-					}
-				}
-			}
-		}
-
 		this._scale = isSmallScale ? 32 : 64;
 
+		// Parse tiles in single pass: map each row string to number array
+		const blocked = FloorHeightMapMessageParser.TILE_BLOCKED;
+
+		this._tiles = rows.map(rowStr =>
+		{
+			const row = new Array<number>(maxWidth).fill(blocked);
+
+			for (let x = 0; x < rowStr.length; x++)
+			{
+				const char = rowStr.charAt(x);
+				row[x] = (char === 'x' || char === 'X') ? blocked : parseInt(char, 36);
+			}
+
+			return row;
+		});
+
 		// Parse area hide data
-		this._areaHideData = [];
 		const areaHideCount = wrapper.readInt();
 
-		for (let i = 0; i < areaHideCount; i++)
-		{
-			this._areaHideData.push(new AreaHideMessageData(wrapper));
-		}
+		this._areaHideData = Array.from(
+			{length: areaHideCount},
+			() => new AreaHideMessageData(wrapper)
+		);
 
 		return true;
 	}

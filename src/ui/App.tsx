@@ -11,11 +11,11 @@ export const App: Component = () =>
 {
 	const {state: connection} = useModule(ModuleId.Connection);
 
-	const showLanding = createMemo(() => connection.state === 'authenticated');
+	const showLanding = createMemo(() => connection().state === 'authenticated');
 
 	const showLoading = createMemo(() =>
 	{
-		return connection.state === 'connecting' || connection.state === 'connected';
+		return connection().state === 'connecting' || connection().state === 'connected';
 	});
 
 	return (
@@ -32,11 +32,11 @@ export const App: Component = () =>
 				<Room/>
 			</Show>
 
-			<Show when={connection.state === 'error'}>
+			<Show when={connection().state === 'error'}>
 				<div class="error-screen">
 					<div class="error-content">
 						<h2>Connection Error</h2>
-						<p>{connection.error}</p>
+						<p>{connection().error}</p>
 					</div>
 				</div>
 			</Show>
