@@ -112,12 +112,12 @@ export class RoomSessionHandler extends BaseHandler
 		const userName = parser.userName;
 		if (userName !== null && userName.length > 0)
 		{
-			if (this.listener && this.listener.events)
+			if (this.listener && this.listener.sessionEvents)
 			{
 				const session = this.listener.getSession(parser.flatId);
 				if (session !== null)
 				{
-					this.listener.events.emit(
+					this.listener.sessionEvents.emit(
 						RoomSessionDoorbellEvent.RSDE_ACCEPTED,
 						new RoomSessionDoorbellEvent(RoomSessionDoorbellEvent.RSDE_ACCEPTED, session, userName)
 					);
@@ -167,12 +167,12 @@ export class RoomSessionHandler extends BaseHandler
 				this.listener.sessionUpdate(parser.flatId, RoomSessionHandlerState.RS_DISCONNECTED);
 			}
 		}
-		else if (this.listener && this.listener.events)
+		else if (this.listener && this.listener.sessionEvents)
 		{
 			const session = this.listener.getSession(parser.flatId);
 			if (session !== null)
 			{
-				this.listener.events.emit(
+				this.listener.sessionEvents.emit(
 					RoomSessionDoorbellEvent.RSDE_REJECTED,
 					new RoomSessionDoorbellEvent(RoomSessionDoorbellEvent.RSDE_REJECTED, session, userName)
 				);

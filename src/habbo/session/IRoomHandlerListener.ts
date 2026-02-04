@@ -31,7 +31,7 @@ export interface IRoomHandlerListener
 	getSession(roomId: number): IRoomSession | null;
 
 	/**
-	 * Get the event emitter for dispatching events
+	 * Get the event emitter for dispatching session events
 	 */
-	readonly events: EventEmitter;
+	readonly sessionEvents: EventEmitter;
 }

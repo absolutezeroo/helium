@@ -125,12 +125,6 @@ export class Component implements IDisposable
 			this.injectDependency(dep);
 		}
 
-		// Debug logging
-		if (deps.length > 0)
-		{
-			console.debug(`[Component] ${this.constructor.name}: queued ${deps.length} dependencies, required pending: [${Array.from(this._pendingDependencies).join(', ')}]`);
-		}
-
 		// All dependencies have been queued
 		this.onAllDependenciesQueued();
 
@@ -475,6 +469,7 @@ export class Component implements IDisposable
 		if (this._locked)
 		{
 			this._locked = false;
+
 			this._events.emit(ComponentEvents.UNLOCKED, this);
 		}
 	}
@@ -485,6 +480,7 @@ export class Component implements IDisposable
 	private injectDependency(dep: ComponentDependency): void
 	{
 		const callback = this.createDependencyCallback(dep);
+
 		this.queueInterface(dep.identifier, callback);
 	}
 
@@ -586,12 +582,6 @@ export class Component implements IDisposable
 	{
 		this._requiredDependenciesCount--;
 
-		// Debug logging
-		if (resolvedIidName)
-		{
-			console.debug(`[Component] ${this.constructor.name}: dependency resolved: ${resolvedIidName}, remaining: ${this._requiredDependenciesCount}, pending: [${Array.from(this._pendingDependencies).join(', ')}]`);
-		}
-
 		if (this._requiredDependenciesCount === 0)
 		{
 			// If construction isn't complete yet, defer initComponent to allow
@@ -621,6 +611,7 @@ export class Component implements IDisposable
 				try
 				{
 					this.initComponent();
+
 					this.unlock();
 				} catch (e)
 				{

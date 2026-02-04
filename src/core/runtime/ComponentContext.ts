@@ -144,6 +144,7 @@ export class ComponentContext extends Component implements IContext
 		if (this._attachedComponents.includes(component))
 		{
 			console.warn(`[ComponentContext] Component ${component} already attached`);
+
 			return;
 		}
 
@@ -195,6 +196,7 @@ export class ComponentContext extends Component implements IContext
 		if (index > -1)
 		{
 			this._attachedComponents.splice(index, 1);
+
 			component.events.off(ComponentEvents.UNLOCKED);
 		}
 	}
@@ -263,7 +265,9 @@ export class ComponentContext extends Component implements IContext
 	error(message: string, fatal: boolean = false, code: number = -1, error?: Error): void
 	{
 		this._lastError = message;
+
 		console.error(`[ComponentContext] Error: ${message}`, error);
+
 		this.events.emit(ComponentEvents.ERROR, {message, fatal, code, error});
 	}
 
@@ -273,7 +277,9 @@ export class ComponentContext extends Component implements IContext
 	warning(message: string): void
 	{
 		this._lastWarning = message;
+
 		console.warn(`[ComponentContext] Warning: ${message}`);
+
 		this.events.emit(ComponentEvents.WARNING, message);
 	}
 
@@ -283,6 +289,7 @@ export class ComponentContext extends Component implements IContext
 	debug(message: string): void
 	{
 		this._lastDebug = message;
+
 		this.events.emit(ComponentEvents.DEBUG, message);
 	}
 
@@ -297,6 +304,7 @@ export class ComponentContext extends Component implements IContext
 		while (this._attachedComponents.length > 0)
 		{
 			const component = this._attachedComponents.pop();
+
 			component?.dispose();
 		}
 
@@ -392,6 +400,7 @@ export class ComponentContext extends Component implements IContext
 		if (!instance)
 		{
 			this.error(`Interface ${getIIDName(iid)} still unavailable!`, false, 6);
+
 			return;
 		}
 

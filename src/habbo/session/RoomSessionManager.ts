@@ -64,7 +64,7 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 		return this._initialized && this.allRequiredDependenciesInjected;
 	}
 
-	get events(): EventEmitter
+	get sessionEvents(): EventEmitter
 	{
 		return this._sessionEvents;
 	}
