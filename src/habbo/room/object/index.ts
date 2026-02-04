@@ -10,3 +10,8 @@ export {RoomObjectVariableEnum} from './RoomObjectVariableEnum';
 export {RoomObjectLogicEnum} from './RoomObjectLogicEnum';
 export * from './data';
 export * from './logic';
+export * from './RoomPlaneParser';
+export * from './RoomPlaneData';
+export * from './RoomWallData';
+export * from './RoomFloorHole';
+export * from './RoomPlaneMaskData';

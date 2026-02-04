@@ -45,6 +45,7 @@ import {RoomObjectAvatarCarryObjectUpdateMessage} from './messages/RoomObjectAva
 import {RoomObjectAvatarSignUpdateMessage} from './messages/RoomObjectAvatarSignUpdateMessage';
 import {RoomObjectAvatarOwnMessage} from './messages/RoomObjectAvatarOwnMessage';
 import type {IVector3d} from '@room/utils/IVector3d';
+import type {RoomPlaneParser} from './object/RoomPlaneParser';
 
 // Room identifier prefix
 const ROOM_ID_PREFIX = 'room_';
@@ -903,7 +904,7 @@ export class RoomEngine extends Component implements
 		}
 	}
 
-	initializeRoom(roomId: number, data: unknown): void
+	initializeRoom(roomId: number, planeParser: RoomPlaneParser | null): void
 	{
 		// Create room instance if it doesn't exist
 		let room = this.getRoomInstance(roomId);
@@ -916,6 +917,52 @@ export class RoomEngine extends Component implements
 		if (!room)
 		{
 			return;
+		}
+
+		// If we have plane data, store it for rendering
+		if (planeParser !== null)
+		{
+			console.log(`[RoomEngine] Initializing room ${roomId} with ${planeParser.planeCount} planes`);
+
+			// Store plane parser data on room model for later use by visualization
+			const roomObject = room.getObject(OBJECT_ID_ROOM, RoomObjectCategoryEnum.OBJECT_CATEGORY_ROOM) as IRoomObjectController;
+
+			if (roomObject)
+			{
+				const model = roomObject.getModelController();
+
+				if (model)
+				{
+					// Store plane parser reference for visualization
+					model.setNumber(RoomObjectVariableEnum.ROOM_PLANE_COUNT, planeParser.planeCount, true);
+					model.setNumber(RoomObjectVariableEnum.ROOM_FLOOR_HEIGHT, planeParser.floorHeight, true);
+					model.setNumber(RoomObjectVariableEnum.ROOM_WALL_HEIGHT, planeParser.wallHeight, true);
+
+					// Store plane data for each plane
+					for (let i = 0; i < planeParser.planeCount; i++)
+					{
+						const loc = planeParser.getPlaneLocation(i);
+						const leftSide = planeParser.getPlaneLeftSide(i);
+						const rightSide = planeParser.getPlaneRightSide(i);
+						const type = planeParser.getPlaneType(i);
+
+						if (loc && leftSide && rightSide)
+						{
+							// Store plane data in model for visualization to use
+							model.setNumber(`plane_${i}_type`, type, true);
+							model.setNumber(`plane_${i}_loc_x`, loc.x, true);
+							model.setNumber(`plane_${i}_loc_y`, loc.y, true);
+							model.setNumber(`plane_${i}_loc_z`, loc.z, true);
+							model.setNumber(`plane_${i}_left_x`, leftSide.x, true);
+							model.setNumber(`plane_${i}_left_y`, leftSide.y, true);
+							model.setNumber(`plane_${i}_left_z`, leftSide.z, true);
+							model.setNumber(`plane_${i}_right_x`, rightSide.x, true);
+							model.setNumber(`plane_${i}_right_y`, rightSide.y, true);
+							model.setNumber(`plane_${i}_right_z`, rightSide.z, true);
+						}
+					}
+				}
+			}
 		}
 
 		this.setActiveRoom(roomId);

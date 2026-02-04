@@ -77,6 +77,9 @@ import type {RoomUserData} from '../communication/messages/incoming/room/engine/
 import {GetFurnitureAliasesMessageComposer} from '../communication/messages/outgoing/room/engine/GetFurnitureAliasesMessageComposer';
 import {GetHeightMapMessageComposer} from '../communication/messages/outgoing/room/engine/GetHeightMapMessageComposer';
 
+// Room Object
+import {RoomPlaneParser} from './object/RoomPlaneParser';
+
 export class RoomMessageHandler
 {
 	public static readonly EFFECT_NONE = 0;
@@ -87,10 +90,12 @@ export class RoomMessageHandler
 	private _currentRoomId: number = 0;
 	private _ownUserId: number = -1;
 	private _initialConnection: boolean = true;
+	private _planeParser: RoomPlaneParser;
 
 	constructor(roomCreator: IRoomCreator)
 	{
 		this._roomCreator = roomCreator;
+		this._planeParser = new RoomPlaneParser();
 	}
 
 	private _connection: IConnection | null = null;
@@ -284,13 +289,34 @@ export class RoomMessageHandler
 			return;
 		}
 
-		// Initialize room from floor height map
-		console.log(`[RoomMessageHandler] Floor height map received: ${parser.width}x${parser.height}, scale: ${parser.scale}`);
+		const width = parser.width;
+		const height = parser.height;
 
-		// Initialize room
+		console.log(`[RoomMessageHandler] Floor height map received: ${width}x${height}, scale: ${parser.scale}`);
+
+		// Reset and initialize plane parser
+		this._planeParser.reset();
+		this._planeParser.initializeTileMap(width, height);
+
+		// Set tile heights from parser data
+		for (let y = 0; y < height; y++)
+		{
+			for (let x = 0; x < width; x++)
+			{
+				const tileHeight = parser.getTileHeight(x, y);
+				this._planeParser.setTileHeight(x, y, tileHeight);
+			}
+		}
+
+		// Initialize from tile data (generates floor/wall planes)
+		this._planeParser.initializeFromTileData(parser.fixedWallsHeight);
+
+		console.log(`[RoomMessageHandler] Plane parser generated ${this._planeParser.planeCount} planes`);
+
+		// Initialize room with plane parser data
 		if (this._roomCreator !== null)
 		{
-			this._roomCreator.initializeRoom(this._currentRoomId, null);
+			this._roomCreator.initializeRoom(this._currentRoomId, this._planeParser);
 		}
 	}
 

@@ -8,6 +8,7 @@
  */
 import type {IVector3d} from '@room/utils/IVector3d';
 import type {IStuffData} from './object/data/IStuffData';
+import type {RoomPlaneParser} from './object/RoomPlaneParser';
 
 export interface IRoomCreator
 {
@@ -24,7 +25,7 @@ export interface IRoomCreator
 	/**
 	 * Initialize a room with configuration data.
 	 */
-	initializeRoom(roomId: number, data: unknown): void;
+	initializeRoom(roomId: number, planeParser: RoomPlaneParser | null): void;
 
 	/**
 	 * Add floor furniture to a room.
