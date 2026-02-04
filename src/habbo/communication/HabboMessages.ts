@@ -98,6 +98,7 @@ import {YouAreControllerMessageEvent, YouAreOwnerMessageEvent,} from './messages
 // Incoming Events - Room Engine
 import {
 	FloorHeightMapMessageEvent,
+	FurnitureAliasesMessageEvent,
 	HeightMapMessageEvent,
 	HeightMapUpdateMessageEvent,
 	ItemAddMessageEvent,
@@ -192,6 +193,9 @@ import {
 
 // Outgoing Composers - Room Session
 import {OpenFlatConnectionMessageComposer,} from './messages/outgoing/room/session';
+
+// Outgoing Composers - Room Engine
+import {GetFurnitureAliasesMessageComposer, GetHeightMapMessageComposer,} from './messages/outgoing/room/engine';
 
 // Outgoing Composers - Inventory
 import {
@@ -352,6 +356,7 @@ export class HabboMessages implements IMessageConfiguration
 
 		// === ROOM ENGINE ===
 		this._events.set(1270, FloorHeightMapMessageEvent);
+		this._events.set(382, FurnitureAliasesMessageEvent);
 		this._events.set(3492, HeightMapMessageEvent);
 		this._events.set(2948, HeightMapUpdateMessageEvent);
 		this._events.set(1580, RoomEntryTileMessageEvent);
@@ -440,6 +445,10 @@ export class HabboMessages implements IMessageConfiguration
 
 		// === ROOM SESSION ===
 		this._composers.set(2729, OpenFlatConnectionMessageComposer);
+
+		// === ROOM ENGINE ===
+		this._composers.set(2064, GetFurnitureAliasesMessageComposer);
+		this._composers.set(1935, GetHeightMapMessageComposer);
 
 		// === INVENTORY ===
 		this._composers.set(3181, RequestFurniInventoryComposer);

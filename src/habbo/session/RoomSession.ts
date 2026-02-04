@@ -1,6 +1,7 @@
 import type {IConnection} from '@core/communication/connection/IConnection';
 import type {IRoomSession, RoomSessionStateType} from './IRoomSession';
 import {RoomSessionState} from './IRoomSession';
+import type {RoomModerationSettings} from '../communication/messages/incoming/navigator';
 import {
 	OpenFlatConnectionMessageComposer,
 	QuitMessageComposer,
@@ -160,6 +161,18 @@ export class RoomSession implements IRoomSession
 		this._tradeMode = value;
 	}
 
+	private _doorMode: number = 0;
+
+	get doorMode(): number
+	{
+		return this._doorMode;
+	}
+
+	set doorMode(value: number)
+	{
+		this._doorMode = value;
+	}
+
 	private _isSpectatorMode: boolean = false;
 
 	get isSpectatorMode(): boolean
@@ -182,6 +195,18 @@ export class RoomSession implements IRoomSession
 	set arePetsAllowed(value: boolean)
 	{
 		this._arePetsAllowed = value;
+	}
+
+	private _roomModerationSettings: RoomModerationSettings | null = null;
+
+	get roomModerationSettings(): RoomModerationSettings | null
+	{
+		return this._roomModerationSettings;
+	}
+
+	set roomModerationSettings(value: RoomModerationSettings | null)
+	{
+		this._roomModerationSettings = value;
 	}
 
 	private _isUserDecorating: boolean = false;

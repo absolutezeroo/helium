@@ -1,4 +1,5 @@
 import type {IConnection} from '@core/communication/connection/IConnection';
+import type {RoomModerationSettings} from '../communication/messages/incoming/navigator';
 
 /**
  * Room session state constants
@@ -36,8 +37,10 @@ export interface IRoomSession
 	roomControllerLevel: number;
 	isGuildRoom: boolean;
 	tradeMode: number;
+	doorMode: number;
 	isSpectatorMode: boolean;
 	arePetsAllowed: boolean;
+	roomModerationSettings: RoomModerationSettings | null;
 	isUserDecorating: boolean;
 	isGameSession: boolean;
 

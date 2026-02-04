@@ -2,6 +2,7 @@
  * Room Engine Message Events
  */
 export {FloorHeightMapMessageEvent} from './FloorHeightMapMessageEvent';
+export {FurnitureAliasesMessageEvent} from './FurnitureAliasesMessageEvent';
 export {HeightMapMessageEvent} from './HeightMapMessageEvent';
 export {HeightMapUpdateMessageEvent} from './HeightMapUpdateMessageEvent';
 export {ObjectsMessageEvent} from './ObjectsMessageEvent';

@@ -182,10 +182,40 @@ export class IncomingMessages
 
 		if (!parser.data) return;
 
-		this.data.enteredGuestRoom = parser.data;
-		this.data.currentRoomIsStaffPick = parser.staffPick;
+		// Handle room forwarding (when server tells us to enter a room)
+		if (parser.roomForward)
+		{
+			const doorMode = parser.data.doorMode;
 
-		log.debug(`Guest room result: ${parser.data.roomName} (${parser.data.flatId})`);
+			// Door mode: 0=open, 1=doorbell, 2=password, 3=invisible, 4=noobs_only
+			if (doorMode === 1)
+			{
+				// Doorbell - would need to show doorbell UI
+				// For now, just enter the room
+				log.debug(`Room requires doorbell: ${parser.data.flatId}`);
+				this._navigator.goToRoom(parser.data.flatId, false);
+			}
+			else if (doorMode === 2)
+			{
+				// Password protected - would need to show password input
+				// For now, just enter without password
+				log.debug(`Room requires password: ${parser.data.flatId}`);
+				this._navigator.goToRoom(parser.data.flatId, false);
+			}
+			else
+			{
+				// Open room or other modes - enter directly
+				this._navigator.goToRoom(parser.data.flatId, false);
+			}
+		}
+		else
+		{
+			// Just viewing room info, not entering
+			this.data.enteredGuestRoom = parser.data;
+			this.data.currentRoomIsStaffPick = parser.staffPick;
+		}
+
+		log.debug(`Guest room result: ${parser.data.roomName} (${parser.data.flatId}), forward=${parser.roomForward}`);
 	}
 
 	private onRoomInfoUpdated(event: IMessageEvent): void

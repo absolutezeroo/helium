@@ -9,17 +9,17 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
  * the server will respond with room data messages (HeightMap, FloorHeightMap,
  * Objects, Users, etc.)
  */
-export class OpenFlatConnectionMessageComposer extends MessageComposer<[number, string]>
+export class OpenFlatConnectionMessageComposer extends MessageComposer<ConstructorParameters<typeof OpenFlatConnectionMessageComposer>>
 {
-	private _data: [number, string];
+	private _data: ConstructorParameters<typeof OpenFlatConnectionMessageComposer>;
 
-	constructor(roomId: number, password: string = '')
+	constructor(roomId: number, password: string = '', unknown: number = -1)
 	{
 		super();
-		this._data = [roomId, password];
+		this._data = [roomId, password, unknown];
 	}
 
-	getMessageArray(): [number, string]
+	getMessageArray()
 	{
 		return this._data;
 	}

@@ -66,6 +66,7 @@ export class RoomEngine extends Component implements
 	private _roomData: Map<string, unknown>;
 	private _activeRoomId: number = -1;
 	private _ownUserIds: Map<number, number>;
+	private _roomObjectAliases: Map<string, string>;
 
 	constructor(context: IContext)
 	{
@@ -73,6 +74,7 @@ export class RoomEngine extends Component implements
 		this._roomObjectFactory = new RoomObjectFactory();
 		this._roomData = new Map();
 		this._ownUserIds = new Map();
+		this._roomObjectAliases = new Map();
 
 		// Listen to object events from factory
 		this._roomObjectFactory.addObjectEventListener(this.onRoomObjectEvent.bind(this));
@@ -1256,6 +1258,25 @@ export class RoomEngine extends Component implements
 		{
 			this._roomManager.removeObjectUpdateCategory(category);
 		}
+	}
+
+	/**
+	 * Set a furniture type alias.
+	 * Maps a furniture type name to an alias name.
+	 * Based on AS3: com.sulake.habbo.room.RoomEngine.setRoomObjectAlias
+	 */
+	setRoomObjectAlias(name: string, alias: string): void
+	{
+		this._roomObjectAliases.set(name, alias);
+	}
+
+	/**
+	 * Get the alias for a furniture type name.
+	 * Returns the alias if set, otherwise returns the original name.
+	 */
+	getRoomObjectAlias(name: string): string
+	{
+		return this._roomObjectAliases.get(name) ?? name;
 	}
 
 	private getRoomIdentifier(roomId: number): string

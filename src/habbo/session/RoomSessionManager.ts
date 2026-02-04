@@ -11,6 +11,9 @@ import {RoomSessionEvent} from './events/RoomSessionEvent';
 import {BaseHandler} from './handler/BaseHandler';
 import {RoomSessionHandler, RoomSessionHandlerState} from './handler/RoomSessionHandler';
 import {RoomPermissionsHandler} from './handler/RoomPermissionsHandler';
+import {RoomDataHandler} from './handler/RoomDataHandler';
+import {RoomChatHandler} from './handler/RoomChatHandler';
+import {RoomUsersHandler} from './handler/RoomUsersHandler';
 import {RoomEngineEvent} from '../room/events/RoomEngineEvent';
 import {Logger} from '@core/utils/Logger';
 import type {IRoomEngine} from '@habbo/room';
@@ -343,10 +346,9 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 		// Create handlers - they register message events on construction
 		this._handlers.push(new RoomSessionHandler(connection, this));
 		this._handlers.push(new RoomPermissionsHandler(connection, this));
-		// TODO: Add other handlers as incoming message events are implemented
-		// this._handlers.push(new RoomChatHandler(connection, this));
-		// this._handlers.push(new RoomUsersHandler(connection, this));
-		// this._handlers.push(new RoomDataHandler(connection, this));
+		this._handlers.push(new RoomDataHandler(connection, this));
+		this._handlers.push(new RoomChatHandler(connection, this));
+		this._handlers.push(new RoomUsersHandler(connection, this));
 
 		log.debug(`Created ${this._handlers.length} handlers`);
 	}

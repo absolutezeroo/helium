@@ -187,4 +187,10 @@ export interface IRoomCreator
 	 * Set the own user ID for a room.
 	 */
 	setOwnUserId(roomId: number, roomIndex: number): void;
+
+	/**
+	 * Set a furniture type alias.
+	 * Maps a furniture type name to an alias name.
+	 */
+	setRoomObjectAlias(name: string, alias: string): void;
 }

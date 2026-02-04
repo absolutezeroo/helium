@@ -17,6 +17,9 @@ import {RoomReadyMessageEvent} from '../communication/messages/incoming/room/ses
 import type {RoomReadyMessageParser} from '../communication/messages/parser/room/session/RoomReadyMessageParser';
 
 // Message Events - Room Engine
+import {
+	FurnitureAliasesMessageEvent
+} from '../communication/messages/incoming/room/engine/FurnitureAliasesMessageEvent';
 import {HeightMapMessageEvent} from '../communication/messages/incoming/room/engine/HeightMapMessageEvent';
 import {FloorHeightMapMessageEvent} from '../communication/messages/incoming/room/engine/FloorHeightMapMessageEvent';
 import {HeightMapUpdateMessageEvent} from '../communication/messages/incoming/room/engine/HeightMapUpdateMessageEvent';
@@ -63,9 +66,16 @@ import type {UserRemoveMessageParser} from '../communication/messages/parser/roo
 import type {
 	SlideObjectBundleMessageParser
 } from '../communication/messages/parser/room/engine/SlideObjectBundleMessageParser';
+import type {
+	FurnitureAliasesMessageParser
+} from '../communication/messages/parser/room/engine/FurnitureAliasesMessageParser';
 import type {FurnitureFloorData} from '../communication/messages/incoming/room/engine/FurnitureFloorData';
 import type {FurnitureWallData} from '../communication/messages/incoming/room/engine/FurnitureWallData';
 import type {RoomUserData} from '../communication/messages/incoming/room/engine/RoomUserData';
+
+// Outgoing Composers
+import {GetFurnitureAliasesMessageComposer} from '../communication/messages/outgoing/room/engine/GetFurnitureAliasesMessageComposer';
+import {GetHeightMapMessageComposer} from '../communication/messages/outgoing/room/engine/GetHeightMapMessageComposer';
 
 export class RoomMessageHandler
 {
@@ -98,6 +108,7 @@ export class RoomMessageHandler
 
 			// Register message events
 			connection.addMessageEvent(new RoomReadyMessageEvent(this.onRoomReady.bind(this)));
+			connection.addMessageEvent(new FurnitureAliasesMessageEvent(this.onFurnitureAliases.bind(this)));
 			connection.addMessageEvent(new HeightMapMessageEvent(this.onHeightMap.bind(this)));
 			connection.addMessageEvent(new FloorHeightMapMessageEvent(this.onFloorHeightMap.bind(this)));
 			connection.addMessageEvent(new HeightMapUpdateMessageEvent(this.onHeightMapUpdate.bind(this)));
@@ -169,9 +180,61 @@ export class RoomMessageHandler
 			this._roomCreator.setWorldType(parser.roomId, roomType);
 		}
 
-		// Request height map on subsequent connections
-		// On first connection, furniture aliases are requested first
-		this._initialConnection = false;
+		// Request furniture aliases on first connection, height map on subsequent
+		// Based on AS3: com.sulake.habbo.room.RoomMessageHandler.onRoomReady
+		if (this._initialConnection)
+		{
+			event.connection.send(new GetFurnitureAliasesMessageComposer());
+			this._initialConnection = false;
+		}
+		else
+		{
+			event.connection.send(new GetHeightMapMessageComposer());
+		}
+	}
+
+	/**
+	 * Handle furniture aliases from server.
+	 * Based on AS3: com.sulake.habbo.room.RoomMessageHandler.onFurnitureAliases
+	 */
+	private onFurnitureAliases(event: IMessageEvent): void
+	{
+		if (this._roomCreator === null || event.connection === null)
+		{
+			return;
+		}
+
+		const aliasesEvent = event as FurnitureAliasesMessageEvent;
+
+		if (aliasesEvent === null)
+		{
+			return;
+		}
+
+		const parser = aliasesEvent.parser as FurnitureAliasesMessageParser;
+
+		if (parser === null)
+		{
+			return;
+		}
+
+		const count = parser.aliasCount;
+
+		console.log(`[RoomMessageHandler] Received ${count} furniture aliases`);
+
+		for (let i = 0; i < count; i++)
+		{
+			const name = parser.getName(i);
+			const alias = parser.getAlias(i);
+
+			if (name !== null && alias !== null)
+			{
+				this._roomCreator.setRoomObjectAlias(name, alias);
+			}
+		}
+
+		// Now request height map - AS3 flow
+		event.connection.send(new GetHeightMapMessageComposer());
 	}
 
 	private onHeightMap(event: IMessageEvent): void
