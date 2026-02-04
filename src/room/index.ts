@@ -9,6 +9,7 @@
 // Interfaces
 export type {IRoomInstance} from './IRoomInstance';
 export type {IRoomInstanceContainer} from './IRoomInstanceContainer';
+export type {IRoomManager} from './IRoomManager';
 export type {IRoomObjectFactory} from './IRoomObjectFactory';
 export type {IRoomObjectManager} from './IRoomObjectManager';
 export type {IRoomContentLoader} from './IRoomContentLoader';
@@ -16,6 +17,7 @@ export type {IRoomManagerListener} from './IRoomManagerListener';
 
 // Classes
 export {RoomInstance} from './RoomInstance';
+export {RoomManager, RoomManagerState} from './RoomManager';
 export {RoomObjectManager} from './RoomObjectManager';
 
 // Sub-modules

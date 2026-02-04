@@ -5,20 +5,22 @@
  *
  * Main room engine implementation. Orchestrates room rendering,
  * object management, and event handling.
+ *
+ * IMPORTANT: RoomEngine depends on IRoomManager for room instance management.
+ * It does NOT manage rooms directly - that's RoomManager's responsibility.
  */
-import {Component, type IContext, type IUpdateReceiver} from '@core/runtime';
+import {Component, ComponentDependency, type IContext, type IUpdateReceiver} from '@core/runtime';
 import type {IConnection} from '@core/communication/connection/IConnection';
 import type {IRoomEngine} from './IRoomEngine';
 import type {IRoomCreator} from './IRoomCreator';
 import type {IRoomEngineServices} from './IRoomEngineServices';
 import type {IRoomContentListener} from './IRoomContentListener';
 import type {IRoomInstance} from '@room/IRoomInstance';
-import type {IRoomInstanceContainer} from '@room/IRoomInstanceContainer';
+import type {IRoomManager} from '@room/IRoomManager';
 import type {IRoomManagerListener} from '@room/IRoomManagerListener';
 import type {IRoomObject} from '@room/object/IRoomObject';
 import type {IRoomObjectController} from '@room/object/IRoomObjectController';
-import type {IRoomObjectManager} from '@room/IRoomObjectManager';
-import {RoomInstance} from '@room/RoomInstance';
+import {IID_RoomManager} from '@iid/IIDRoomManager';
 import {RoomObjectCategoryEnum} from './object/RoomObjectCategoryEnum';
 import {RoomObjectLogicEnum} from './object/RoomObjectLogicEnum';
 import {RoomObjectUserTypes} from './object/RoomObjectUserTypes';
@@ -54,15 +56,13 @@ const OBJECT_ID_SELECTION_ARROW = -3;
 
 export class RoomEngine extends Component implements
 	IRoomEngine,
+	IRoomManagerListener,
 	IRoomCreator,
 	IRoomEngineServices,
-	IRoomManagerListener,
-	IRoomContentListener,
-	IRoomInstanceContainer,
-	IUpdateReceiver
+	IUpdateReceiver,
+	IRoomContentListener
 {
 	private _roomObjectFactory: RoomObjectFactory;
-	private _rooms: Map<string, IRoomInstance>;
 	private _roomData: Map<string, unknown>;
 	private _activeRoomId: number = -1;
 	private _ownUserIds: Map<number, number>;
@@ -71,12 +71,18 @@ export class RoomEngine extends Component implements
 	{
 		super(context);
 		this._roomObjectFactory = new RoomObjectFactory();
-		this._rooms = new Map();
 		this._roomData = new Map();
 		this._ownUserIds = new Map();
 
 		// Listen to object events from factory
 		this._roomObjectFactory.addObjectEventListener(this.onRoomObjectEvent.bind(this));
+	}
+
+	private _roomManager: IRoomManager | null = null;
+
+	get roomManager(): IRoomManager | null
+	{
+		return this._roomManager;
 	}
 
 	private _connection: IConnection | null = null;
@@ -103,6 +109,26 @@ export class RoomEngine extends Component implements
 	get isGameMode(): boolean
 	{
 		return this._isGameMode;
+	}
+
+	protected override get dependencies(): Array<ComponentDependency<any>>
+	{
+		return [
+			new ComponentDependency(
+				IID_RoomManager,
+				(manager: IRoomManager | null) =>
+				{
+					this._roomManager = manager;
+
+					if (manager)
+					{
+						// Set the object factory on room manager
+						(manager as any).setObjectFactory?.(this._roomObjectFactory);
+					}
+				},
+				true // Required dependency
+			),
+		];
 	}
 
 	getRoom(roomId: number): IRoomInstance | null
@@ -201,7 +227,7 @@ export class RoomEngine extends Component implements
 	{
 		if (success)
 		{
-			this.events.emit('roomManagerInitialized');
+			this.events.emit(RoomEngineEvent.REE_ENGINE_INITIALIZED);
 		}
 	}
 
@@ -225,54 +251,35 @@ export class RoomEngine extends Component implements
 		this.events.emit('iconLoaded', typeId, type, success);
 	}
 
-	createRoomObject(roomId: string, objectId: number, type: string, category: number): IRoomObject | null
+	createRoomInstance(roomId: number): IRoomInstance | null
 	{
-		const room = this._rooms.get(roomId);
+		if (!this._roomManager)
+		{
+			console.warn('[RoomEngine] RoomManager not available');
+			return null;
+		}
+
+		const roomIdStr = this.getRoomIdentifier(roomId);
+
+		// Check if room already exists
+		let room = this._roomManager.getRoom(roomIdStr);
+
+		if (room)
+		{
+			return room;
+		}
+
+		// Create via RoomManager
+		room = this._roomManager.createRoom(roomIdStr, null);
 
 		if (!room)
 		{
 			return null;
 		}
 
-		const object = room.createRoomObject(objectId, type, category);
-
-		if (object)
-		{
-			const logic = this._roomObjectFactory.createRoomObjectLogic(type);
-
-			if (logic)
-			{
-				(object as IRoomObjectController).setEventHandler(logic);
-
-				logic.object = object as IRoomObjectController;
-			}
-		}
-
-		return object;
-	}
-
-	createRoomObjectManager(): IRoomObjectManager
-	{
-		return this._roomObjectFactory.createRoomObjectManager();
-	}
-
-	createRoomInstance(roomId: number): IRoomInstance | null
-	{
-		const roomIdStr = this.getRoomIdentifier(roomId);
-
-		if (this._rooms.has(roomIdStr))
-		{
-			return this._rooms.get(roomIdStr) ?? null;
-		}
-
-		const room = new RoomInstance(roomIdStr, this);
-
-		this._rooms.set(roomIdStr, room);
-
-		// Create room object
+		// Create room object and tile cursor
+		// These go through RoomManager.createRoomObject which handles the internal creation
 		room.createRoomObject(OBJECT_ID_ROOM, OBJECT_TYPE_ROOM, RoomObjectCategoryEnum.OBJECT_CATEGORY_ROOM);
-
-		// Create tile cursor
 		room.createRoomObject(OBJECT_ID_TILE_CURSOR, OBJECT_TYPE_TILE_CURSOR, RoomObjectCategoryEnum.OBJECT_CATEGORY_ROOM);
 
 		return room;
@@ -280,14 +287,13 @@ export class RoomEngine extends Component implements
 
 	disposeRoomInstance(roomId: number): void
 	{
-		const roomIdStr = this.getRoomIdentifier(roomId);
-		const room = this._rooms.get(roomIdStr);
-
-		if (room)
+		if (!this._roomManager)
 		{
-			room.dispose();
-			this._rooms.delete(roomIdStr);
+			return;
 		}
+
+		const roomIdStr = this.getRoomIdentifier(roomId);
+		this._roomManager.disposeRoom(roomIdStr);
 
 		this._roomData.delete(roomIdStr);
 		this._ownUserIds.delete(roomId);
@@ -297,8 +303,13 @@ export class RoomEngine extends Component implements
 
 	getRoomInstance(roomId: number): IRoomInstance | null
 	{
+		if (!this._roomManager)
+		{
+			return null;
+		}
+
 		const roomIdStr = this.getRoomIdentifier(roomId);
-		return this._rooms.get(roomIdStr) ?? null;
+		return this._roomManager.getRoom(roomIdStr);
 	}
 
 	setActiveRoom(roomId: number): void
@@ -310,8 +321,6 @@ export class RoomEngine extends Component implements
 	{
 		return this._activeRoomId;
 	}
-
-	// Object management
 
 	addRoomObjectUser(
 		roomId: number,
@@ -343,20 +352,12 @@ export class RoomEngine extends Component implements
 			logicType = RoomObjectLogicEnum.PET;
 		}
 
+		// Create object via RoomManager (room.createRoomObject delegates to container)
 		const object = room.createRoomObject(id, logicType, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER);
 
 		if (!object)
 		{
 			return false;
-		}
-
-		// Set up logic
-		const logic = this._roomObjectFactory.createRoomObjectLogic(logicType);
-
-		if (logic)
-		{
-			(object as IRoomObjectController).setEventHandler(logic);
-			logic.object = object as IRoomObjectController;
 		}
 
 		(object as IRoomObjectController).setLocation(location);
@@ -400,15 +401,6 @@ export class RoomEngine extends Component implements
 		if (!object)
 		{
 			return false;
-		}
-
-		// Set up logic
-		const logic = this._roomObjectFactory.createRoomObjectLogic(logicType);
-
-		if (logic)
-		{
-			(object as IRoomObjectController).setEventHandler(logic);
-			logic.object = object as IRoomObjectController;
 		}
 
 		(object as IRoomObjectController).setLocation(location);
@@ -468,15 +460,6 @@ export class RoomEngine extends Component implements
 		if (!object)
 		{
 			return false;
-		}
-
-		// Set up logic
-		const logic = this._roomObjectFactory.createRoomObjectLogic(logicType);
-
-		if (logic)
-		{
-			(object as IRoomObjectController).setEventHandler(logic);
-			logic.object = object as IRoomObjectController;
 		}
 
 		(object as IRoomObjectController).setLocation(location);
@@ -542,8 +525,6 @@ export class RoomEngine extends Component implements
 
 		return success;
 	}
-
-	// User updates
 
 	updateRoomObjectUser(
 		roomId: number,
@@ -841,14 +822,12 @@ export class RoomEngine extends Component implements
 		return true;
 	}
 
-	// Rendering / IUpdateReceiver
-
 	update(time: number): void
 	{
-		// Update all rooms
-		for (const room of this._rooms.values())
+		// Delegate update to RoomManager
+		if (this._roomManager)
 		{
-			room.update();
+			this._roomManager.update(time);
 		}
 	}
 
@@ -884,8 +863,6 @@ export class RoomEngine extends Component implements
 
 		this.events.emit(RoomEngineEvent.REE_INITIALIZED, new RoomEngineEvent(RoomEngineEvent.REE_INITIALIZED, roomId));
 	}
-
-	// Room data
 
 	getRoomOwnObjectId(roomId: number): number
 	{
@@ -995,21 +972,11 @@ export class RoomEngine extends Component implements
 			return false;
 		}
 
-		const logicType = RoomObjectLogicEnum.FURNITURE_MULTISTATE;
-
 		const object = room.createRoomObject(id, className, RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE);
 
 		if (!object)
 		{
 			return false;
-		}
-
-		const logic = this._roomObjectFactory.createRoomObjectLogic(logicType);
-
-		if (logic)
-		{
-			(object as IRoomObjectController).setEventHandler(logic);
-			logic.object = object as IRoomObjectController;
 		}
 
 		(object as IRoomObjectController).setLocation(location);
@@ -1275,7 +1242,21 @@ export class RoomEngine extends Component implements
 		this.setRoomObjectUserOwnUser(roomId, roomIndex);
 	}
 
-	// Private methods
+	addObjectUpdateCategory(category: number): void
+	{
+		if (this._roomManager)
+		{
+			this._roomManager.addObjectUpdateCategory(category);
+		}
+	}
+
+	removeObjectUpdateCategory(category: number): void
+	{
+		if (this._roomManager)
+		{
+			this._roomManager.removeObjectUpdateCategory(category);
+		}
+	}
 
 	private getRoomIdentifier(roomId: number): string
 	{

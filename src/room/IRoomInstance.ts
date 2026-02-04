@@ -9,6 +9,8 @@ import type {IRoomObject} from './object/IRoomObject';
 
 export interface IRoomInstance
 {
+	readonly id: string;
+
 	getNumber(key: string): number;
 	setNumber(key: string, value: number, immutable?: boolean): void;
 	getString(key: string): string;
@@ -16,6 +18,9 @@ export interface IRoomInstance
 
 	dispose(): void;
 	update(): void;
+
+	addObjectUpdateCategory(category: number): void;
+	removeObjectUpdateCategory(category: number): void;
 
 	createRoomObject(id: number, type: string, category: number): IRoomObject | null;
 	getObject(id: number, category: number): IRoomObject | null;

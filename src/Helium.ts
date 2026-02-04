@@ -8,6 +8,7 @@ import {HabboNavigator} from '@habbo/navigator/HabboNavigator';
 import {HabboNewNavigator} from '@habbo/navigator/HabboNewNavigator';
 import {HabboInventory} from '@habbo/inventory/HabboInventory';
 import {RoomEngine, RoomMessageHandler} from '@habbo/room';
+import {RoomManager} from '@room/RoomManager';
 import {RoomSessionManager} from '@habbo/session/RoomSessionManager';
 import {Logger} from '@core/utils/Logger';
 import {mountUI} from '@ui/index';
@@ -36,6 +37,7 @@ import {IID_HabboNavigator} from '@iid/IIDHabboNavigator';
 import {IID_HabboNewNavigator} from '@iid/IIDHabboNewNavigator';
 import {IID_HabboInventory} from '@iid/IIDHabboInventory';
 import {IID_RoomEngine} from '@iid/IIDRoomEngine';
+import {IID_RoomManager} from '@iid/IIDRoomManager';
 import {IID_RoomSessionManager} from '@iid/IIDRoomSessionManager';
 
 const log = Logger.getLogger('Helium');
@@ -93,6 +95,7 @@ export class Helium
 	private _navigator: HabboNavigator | null = null;
 	private _newNavigator: HabboNewNavigator | null = null;
 	private _inventory: HabboInventory | null = null;
+	private _roomManager: RoomManager | null = null;
 	private _roomMessageHandler: RoomMessageHandler | null = null;
 	private _roomSessionManager: RoomSessionManager | null = null;
 	// UI
@@ -308,6 +311,8 @@ export class Helium
 		this._roomMessageHandler = null;
 		this._roomEngine?.dispose();
 		this._roomEngine = null;
+		this._roomManager?.dispose();
+		this._roomManager = null;
 
 		this._ready = false;
 	}
@@ -402,7 +407,11 @@ export class Helium
 		this._inventory = new HabboInventory(ctx);
 		ctx.attachComponent(this._inventory, [IID_HabboInventory]);
 
-		// Room Engine
+		// Room Manager (must be registered before RoomEngine)
+		this._roomManager = new RoomManager(ctx);
+		ctx.attachComponent(this._roomManager, [IID_RoomManager]);
+
+		// Room Engine (depends on RoomManager via IID_RoomManager)
 		this._roomEngine = new RoomEngine(ctx);
 		ctx.attachComponent(this._roomEngine, [IID_RoomEngine]);
 
