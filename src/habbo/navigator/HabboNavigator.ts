@@ -278,6 +278,7 @@ export class HabboNavigator extends Component implements IHabboNavigator
 	protected override initComponent(): void
 	{
 		this._incomingMessages = new IncomingMessages(this);
+
 		log.info('Navigator initialized');
 	}
 

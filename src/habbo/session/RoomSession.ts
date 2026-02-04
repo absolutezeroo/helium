@@ -1,7 +1,35 @@
 import type {IConnection} from '@core/communication/connection/IConnection';
 import type {IRoomSession, RoomSessionStateType} from './IRoomSession';
 import {RoomSessionState} from './IRoomSession';
-import {OpenFlatConnectionMessageComposer} from '../communication/messages/outgoing/room/session';
+import {
+	OpenFlatConnectionMessageComposer,
+	QuitMessageComposer,
+	ChatMessageComposer,
+	ShoutMessageComposer,
+	WhisperMessageComposer,
+	StartTypingMessageComposer,
+	CancelTypingMessageComposer,
+	AvatarExpressionMessageComposer,
+	SignMessageComposer,
+	DanceMessageComposer,
+	ChangePostureMessageComposer,
+	KickUserMessageComposer,
+	BanUserWithDurationMessageComposer,
+	MuteUserMessageComposer,
+	UnmuteUserMessageComposer,
+	AssignRightsMessageComposer,
+	RemoveRightsMessageComposer,
+	LetUserInMessageComposer,
+} from '../communication/messages/outgoing/room';
+
+/**
+ * Ban duration types
+ */
+export const BanDuration = {
+	HOUR: 'RWUAM_BAN_USER_HOUR',
+	DAY: 'RWUAM_BAN_USER_DAY',
+	PERMANENT: 'RWUAM_BAN_USER_PERM',
+} as const;
 
 /**
  * Room session implementation
@@ -47,6 +75,18 @@ export class RoomSession implements IRoomSession
 	set roomPassword(value: string)
 	{
 		this._roomPassword = value;
+	}
+
+	private _roomResources: string = '';
+
+	get roomResources(): string
+	{
+		return this._roomResources;
+	}
+
+	set roomResources(value: string)
+	{
+		this._roomResources = value;
 	}
 
 	private _state: RoomSessionStateType = RoomSessionState.CREATED;
@@ -168,6 +208,8 @@ export class RoomSession implements IRoomSession
 		this._isGameSession = value;
 	}
 
+	private _chatTrackingId: number = 0;
+
 	/**
 	 * Start the room session
 	 * Sends OpenFlatConnectionMessageComposer to the server
@@ -213,8 +255,7 @@ export class RoomSession implements IRoomSession
 			return;
 		}
 
-		// TODO: Send QuitMessageComposer
-		// this._connection.send(new QuitMessageComposer());
+		this._connection.send(new QuitMessageComposer());
 	}
 
 	/**
@@ -226,93 +267,120 @@ export class RoomSession implements IRoomSession
 		this._state = RoomSessionState.ENDED;
 	}
 
-	sendChatMessage(message: string, _styleId: number = 0): void
+	sendChatMessage(message: string, styleId: number = 0): void
 	{
 		if (this._connection === null) return;
-		// TODO: Send ChatMessageComposer
+		this._connection.send(new ChatMessageComposer(message, styleId, this._chatTrackingId++));
 	}
 
-	sendShoutMessage(message: string, _styleId: number = 0): void
+	sendShoutMessage(message: string, styleId: number = 0): void
 	{
 		if (this._connection === null) return;
-		// TODO: Send ShoutMessageComposer
+		this._connection.send(new ShoutMessageComposer(message, styleId));
 	}
 
-	sendWhisperMessage(recipientName: string, message: string, _styleId: number = 0): void
+	sendWhisperMessage(recipientName: string, message: string, styleId: number = 0): void
 	{
 		if (this._connection === null) return;
-		// TODO: Send WhisperMessageComposer
+		// Note: WhisperMessageComposer takes message, styleId, targetUserId
+		// But the interface takes recipientName - we need to resolve this
+		// For now, sending with -1 as userId - would need UserDataManager to resolve
+		this._connection.send(new WhisperMessageComposer(message, styleId, -1));
 	}
 
 	sendChatTypingMessage(isTyping: boolean): void
 	{
 		if (this._connection === null) return;
-		// TODO: Send StartTypingMessageComposer or CancelTypingMessageComposer
+
+		if (isTyping)
+		{
+			this._connection.send(new StartTypingMessageComposer());
+		}
+		else
+		{
+			this._connection.send(new CancelTypingMessageComposer());
+		}
 	}
 
 	sendAvatarExpressionMessage(expressionId: number): void
 	{
 		if (this._connection === null) return;
-		// TODO: Send AvatarExpressionMessageComposer
+		this._connection.send(new AvatarExpressionMessageComposer(expressionId));
 	}
 
 	sendSignMessage(signId: number): void
 	{
 		if (this._connection === null) return;
-		// TODO: Send SignMessageComposer
+		this._connection.send(new SignMessageComposer(signId));
 	}
 
 	sendDanceMessage(danceId: number): void
 	{
 		if (this._connection === null) return;
-		// TODO: Send DanceMessageComposer
+		this._connection.send(new DanceMessageComposer(danceId));
 	}
 
 	sendChangePostureMessage(posture: number): void
 	{
 		if (this._connection === null) return;
-		// TODO: Send ChangePostureMessageComposer
+		this._connection.send(new ChangePostureMessageComposer(posture));
 	}
 
 	kickUser(userId: number): void
 	{
 		if (this._connection === null) return;
-		// TODO: Send KickUserMessageComposer
+		this._connection.send(new KickUserMessageComposer(userId));
 	}
 
 	banUserWithDuration(userId: number, duration: string): void
 	{
 		if (this._connection === null) return;
-		// TODO: Send BanUserWithDurationMessageComposer
+
+		let banType: number;
+		switch (duration)
+		{
+			case BanDuration.HOUR:
+				banType = 1;
+				break;
+			case BanDuration.DAY:
+				banType = 2;
+				break;
+			case BanDuration.PERMANENT:
+			default:
+				banType = 0;
+				break;
+		}
+
+		this._connection.send(new BanUserWithDurationMessageComposer(userId, banType, this._roomId));
 	}
 
 	muteUser(userId: number, minutes: number): void
 	{
 		if (this._connection === null) return;
-		// TODO: Send MuteUserMessageComposer
+		this._connection.send(new MuteUserMessageComposer(userId, minutes, this._roomId));
 	}
 
 	unmuteUser(userId: number): void
 	{
 		if (this._connection === null) return;
-		// TODO: Send UnmuteUserMessageComposer
+		this._connection.send(new UnmuteUserMessageComposer(userId, this._roomId));
 	}
 
 	assignRights(userId: number): void
 	{
 		if (this._connection === null) return;
-		// TODO: Send AssignRightsMessageComposer
+		this._connection.send(new AssignRightsMessageComposer(userId));
 	}
 
 	removeRights(userId: number): void
 	{
 		if (this._connection === null) return;
-		// TODO: Send RemoveRightsMessageComposer
+		this._connection.send(new RemoveRightsMessageComposer([userId]));
 	}
 
 	letUserIn(userName: string, allow: boolean): void
 	{
 		if (this._connection === null) return;
-		// TODO: Send LetUserInMessageComposer
+		this._connection.send(new LetUserInMessageComposer(userName, allow));
 	}
 }

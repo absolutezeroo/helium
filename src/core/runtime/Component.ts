@@ -125,6 +125,12 @@ export class Component implements IDisposable
 			this.injectDependency(dep);
 		}
 
+		// Debug logging
+		if (deps.length > 0)
+		{
+			console.debug(`[Component] ${this.constructor.name}: queued ${deps.length} dependencies, required pending: [${Array.from(this._pendingDependencies).join(', ')}]`);
+		}
+
 		// All dependencies have been queued
 		this.onAllDependenciesQueued();
 
@@ -579,6 +585,12 @@ export class Component implements IDisposable
 	private onAllDependenciesQueued(resolvedIidName: string = ''): void
 	{
 		this._requiredDependenciesCount--;
+
+		// Debug logging
+		if (resolvedIidName)
+		{
+			console.debug(`[Component] ${this.constructor.name}: dependency resolved: ${resolvedIidName}, remaining: ${this._requiredDependenciesCount}, pending: [${Array.from(this._pendingDependencies).join(', ')}]`);
+		}
 
 		if (this._requiredDependenciesCount === 0)
 		{

@@ -1,5 +1,6 @@
 import {EventEmitter} from 'eventemitter3';
 import {Component, ComponentDependency, type IContext, IID_HabboCommunicationManager} from '@core/runtime';
+import {IID_RoomEngine} from '@iid/IIDRoomEngine';
 import type {IHabboCommunicationManager} from '../communication/IHabboCommunicationManager';
 import type {IRoomSessionManager} from './IRoomSessionManager';
 import type {IRoomHandlerListener} from './IRoomHandlerListener';
@@ -9,7 +10,10 @@ import {RoomSession} from './RoomSession';
 import {RoomSessionEvent} from './events/RoomSessionEvent';
 import {BaseHandler} from './handler/BaseHandler';
 import {RoomSessionHandler, RoomSessionHandlerState} from './handler/RoomSessionHandler';
+import {RoomPermissionsHandler} from './handler/RoomPermissionsHandler';
+import {RoomEngineEvent} from '../room/events/RoomEngineEvent';
 import {Logger} from '@core/utils/Logger';
+import type {IRoomEngine} from '@habbo/room';
 
 const log = Logger.getLogger('RoomSessionManager');
 
@@ -31,9 +35,11 @@ const log = Logger.getLogger('RoomSessionManager');
 export class RoomSessionManager extends Component implements IRoomSessionManager, IRoomHandlerListener
 {
 	private _communication: IHabboCommunicationManager | null = null;
+	private _roomEngine: IRoomEngine | null = null;
 	private _handlers: BaseHandler[] = [];
 	private _sessions: Map<string, RoomSession> = new Map();
 	private _pendingSession: RoomSession | null = null;
+	private _sessionEvents: EventEmitter = new EventEmitter();
 
 	constructor(context: IContext)
 	{
@@ -48,9 +54,6 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 	}
 
 	private _initialized: boolean = false;
-	private _sessionEvents: EventEmitter = new EventEmitter();
-
-	// ========== IRoomSessionManager ==========
 
 	/**
 	 * Whether the manager is fully initialized
@@ -77,19 +80,32 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 				},
 				true
 			),
-			// TODO: Add IRoomEngine dependency with event listener for REE_ENGINE_INITIALIZED
+			new ComponentDependency(
+				IID_RoomEngine,
+				(engine: IRoomEngine | null) =>
+				{
+					this._roomEngine = engine;
+				},
+				false, // Not required
+				[
+					{
+						type: RoomEngineEvent.REE_ENGINE_INITIALIZED,
+						callback: this.onRoomEngineInitialized.bind(this),
+					},
+				]
+			),
 		];
 	}
 
 	/**
 	 * Go to a room - creates and starts a new room session
 	 */
-	gotoRoom(roomId: number, password: string = '', _roomResources: string = ''): boolean
+	gotoRoom(roomId: number, password: string = '', roomResources: string = ''): boolean
 	{
 		const session = new RoomSession();
 		session.roomId = roomId;
 		session.roomPassword = password;
-		// session.roomResources = roomResources; // TODO: Add to RoomSession
+		session.roomResources = roomResources;
 
 		return this.createSession(session);
 	}
@@ -163,7 +179,11 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 
 			session.dispose();
 
-			// TODO: roomEngine.purgeRoomContent()
+			// Dispose room engine content if requested
+			if (disposeEngine && this._roomEngine)
+			{
+				this._roomEngine.disposeRoomInstance(roomId);
+			}
 
 			log.info(`Room session disposed: ${roomId}`);
 		}
@@ -260,7 +280,7 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 		log.debug(`Session reinitialize: ${oldRoomId} -> ${newRoomId}`);
 	}
 
-	// ========== Component Lifecycle ==========
+	// ========== Event Handlers ==========
 
 	override dispose(): void
 	{
@@ -287,6 +307,8 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 		log.info('RoomSessionManager disposed');
 	}
 
+	// ========== Component Lifecycle ==========
+
 	protected override initComponent(): void
 	{
 		this.createHandlers();
@@ -294,6 +316,17 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 		this.executePendingSessionRequest();
 
 		log.info('RoomSessionManager initialized');
+	}
+
+	/**
+	 * Called when room engine is initialized
+	 */
+	private onRoomEngineInitialized(..._args: unknown[]): void
+	{
+		log.debug('Room engine initialized');
+
+		// Execute any pending session requests now that engine is ready
+		this.executePendingSessionRequest();
 	}
 
 	// ========== Private Methods ==========
@@ -309,10 +342,10 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 
 		// Create handlers - they register message events on construction
 		this._handlers.push(new RoomSessionHandler(connection, this));
-		// TODO: Add other handlers as they are implemented
+		this._handlers.push(new RoomPermissionsHandler(connection, this));
+		// TODO: Add other handlers as incoming message events are implemented
 		// this._handlers.push(new RoomChatHandler(connection, this));
 		// this._handlers.push(new RoomUsersHandler(connection, this));
-		// this._handlers.push(new RoomPermissionsHandler(connection, this));
 		// this._handlers.push(new RoomDataHandler(connection, this));
 
 		log.debug(`Created ${this._handlers.length} handlers`);
@@ -359,6 +392,7 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 		if (this.initialized && this._pendingSession !== null)
 		{
 			this.createSession(this._pendingSession);
+
 			this._pendingSession = null;
 		}
 	}
@@ -379,7 +413,6 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 
 	private getRoomIdentifier(roomId: number): string
 	{
-		// AS3 uses a hardcoded key, we'll use room ID for flexibility
 		return `room_${roomId}`;
 	}
 }

@@ -28,6 +28,7 @@ export interface IRoomSession
 	// Connection
 	connection: IConnection | null;
 	roomPassword: string;
+	roomResources: string;
 
 	// Session state
 	ownUserRoomId: number;

@@ -47,10 +47,13 @@ export interface ConnectionConfig
 {
 	/** Server host (can include ws:// or wss://) */
 	host: string;
+
 	/** Server ports to try */
 	ports: number[];
+
 	/** SSO ticket for authentication */
 	ssoTicket?: string;
+
 	/** Auto-connect on initialization */
 	autoConnect?: boolean;
 }
@@ -62,8 +65,10 @@ export interface HeliumConfig extends HeliumCoreConfig
 {
 	/** Connection configuration */
 	connection?: ConnectionConfig;
+
 	/** URL to load external configuration from (external_variables.txt) */
 	configurationUrl?: string;
+
 	/** Configuration object (alternative to URL) */
 	configuration?: Record<string, string>;
 }
@@ -233,7 +238,9 @@ export class Helium
 	public static async bootstrap(config?: HeliumConfig): Promise<Helium>
 	{
 		const instance = this.instance;
+
 		await instance.init(config);
+
 		return instance;
 	}
 
@@ -248,6 +255,7 @@ export class Helium
 		}
 
 		log.info('Connecting to server...');
+
 		this._habboCommunicationManager.initConnection('habbo');
 
 		// Connect RoomMessageHandler to the connection
@@ -467,8 +475,11 @@ export class Helium
 	private mountUI(): void
 	{
 		const uiContainer = document.createElement('div');
+
 		uiContainer.id = 'helium-ui';
+
 		document.body.appendChild(uiContainer);
+		
 		this._disposeUI = mountUI(uiContainer, this._moduleRegistry!);
 	}
 }
