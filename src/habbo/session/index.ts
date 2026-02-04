@@ -19,5 +19,8 @@ export * from './HabboGroupInfoManager';
 // Room session
 export * from './IRoomSession';
 export * from './IRoomSessionManager';
+export * from './IRoomHandlerListener';
 export * from './RoomSession';
 export * from './RoomSessionManager';
+export * from './events';
+export * from './handler';

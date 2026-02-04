@@ -25,9 +25,19 @@ export interface IRoomSessionManager
 	 *
 	 * @param roomId Room ID to enter
 	 * @param password Room password (optional)
+	 * @param roomResources Room resources (optional)
 	 * @returns True if session was created
 	 */
-	gotoRoom(roomId: number, password?: string): boolean;
+	gotoRoom(roomId: number, password?: string, roomResources?: string): boolean;
+
+	/**
+	 * Go to a room via network (for room forwarding)
+	 *
+	 * @param roomId Room ID
+	 * @param homeRoomId Home room ID
+	 * @returns True if session was created
+	 */
+	gotoRoomNetwork(roomId: number, homeRoomId: number): boolean;
 
 	/**
 	 * Start an existing session

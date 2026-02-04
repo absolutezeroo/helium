@@ -10,10 +10,37 @@ Helium is a modern Habbo client renderer built with TypeScript, PixiJS v8, Solid
 
 **The `source_as/` folder contains the original ActionScript 3 Habbo client code. This is the ABSOLUTE source of truth.**
 
-- NEVER invent code without first understanding how AS3 implements it
-- ALWAYS read the corresponding AS3 files before implementing features
-- Follow AS3 patterns and data structures exactly
-- When in doubt, consult `source_as/habbo/` for the correct implementation
+### MANDATORY RULES (NO EXCEPTIONS)
+
+1. **NEVER invent code** - Always read the AS3 source FIRST before implementing anything
+2. **ALWAYS follow AS3 structure** - Class names, method names, interfaces, inheritance chains must match
+3. **NEVER simplify the architecture** - If AS3 has handlers, interfaces, or delegation patterns, implement them
+4. **CHECK interfaces and implementations** - If AS3 class implements `IRoomHandlerListener`, so must ours
+5. **PRESERVE relationships** - If AS3 has `RoomSessionManager` creating handlers that call back via `IRoomHandlerListener`, replicate exactly
+6. **READ the full AS3 file** - Check all methods, properties, interfaces, imports, and inheritance
+
+### Before Writing ANY Code
+
+```
+1. Find the AS3 source file: source_as/habbo/<module>/<ClassName>.as
+2. Read the entire file including:
+   - Class declaration (extends, implements)
+   - All imports (reveals dependencies)
+   - All methods and their implementations
+   - All properties
+3. Check related interfaces: I<ClassName>.as
+4. Check handler/listener patterns: source_as/habbo/<module>/handler/
+5. Only then start implementing
+```
+
+### Common Mistakes to AVOID
+
+- ❌ Creating a simplified version without reading AS3
+- ❌ Skipping interfaces that AS3 implements
+- ❌ Ignoring handler/listener patterns
+- ❌ Not checking what events AS3 dispatches
+- ❌ Not implementing all methods from interfaces
+- ✅ Read AS3 → Understand → Implement exactly
 
 ## Architecture Documentation
 

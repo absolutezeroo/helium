@@ -188,6 +188,22 @@ export class RoomSession implements IRoomSession
 	}
 
 	/**
+	 * Reset the session with a new room ID
+	 * Called when session is reinitialized (e.g., room forwarding)
+	 */
+	reset(newRoomId: number): void
+	{
+		if (newRoomId !== this._roomId)
+		{
+			this._roomId = newRoomId;
+			this._isRoomOwner = false;
+			this._roomControllerLevel = 0;
+			this._tradeMode = 0;
+			this._isSpectatorMode = false;
+		}
+	}
+
+	/**
 	 * Quit the current room session
 	 */
 	quit(): void
