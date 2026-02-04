@@ -1,4 +1,4 @@
-import {Component, ComponentDependency, IID_HabboCommunicationManager, type IContext} from '@core/runtime';
+import {Component, ComponentDependency, type IContext, IID_HabboCommunicationManager} from '@core/runtime';
 import type {IHabboInventory, InventoryCategoryType} from './IHabboInventory';
 import type {IFurniModel} from './furni/IFurniModel';
 import type {IBadgesModel} from './badges/IBadgesModel';
@@ -36,22 +36,92 @@ export class HabboInventory extends Component implements IHabboInventory
 {
 	private _communication: IHabboCommunicationManager | null = null;
 	private _initializedCategories: Set<string> = new Set();
-	private _isInitialized: boolean = false;
-	private _currentCategory: InventoryCategoryType | null = null;
-	private _hasRoomSession: boolean = false;
-
-	private _furniModel!: FurniModel;
-	private _badgesModel!: BadgesModel;
-	private _effectsModel!: EffectsModel;
-	private _petsModel!: PetsModel;
-	private _botsModel!: BotsModel;
-	private _tradingModel!: TradingModel;
-	private _purse: Purse = new Purse();
-	private _unseenItemTracker: UnseenItemTracker | null = null;
 
 	constructor(context: IContext)
 	{
 		super(context);
+	}
+
+	private _isInitialized: boolean = false;
+
+	get isInitialized(): boolean
+	{
+		return this._isInitialized;
+	}
+
+	private _currentCategory: InventoryCategoryType | null = null;
+
+	get currentCategory(): InventoryCategoryType | null
+	{
+		return this._currentCategory;
+	}
+
+	private _hasRoomSession: boolean = false;
+
+	get hasRoomSession(): boolean
+	{
+		return this._hasRoomSession;
+	}
+
+	set hasRoomSession(value: boolean)
+	{
+		this._hasRoomSession = value;
+	}
+
+	private _furniModel!: FurniModel;
+
+	get furniModel(): IFurniModel
+	{
+		return this._furniModel;
+	}
+
+	private _badgesModel!: BadgesModel;
+
+	get badgesModel(): IBadgesModel
+	{
+		return this._badgesModel;
+	}
+
+	private _effectsModel!: EffectsModel;
+
+	get effectsModel(): IEffectsModel
+	{
+		return this._effectsModel;
+	}
+
+	private _petsModel!: PetsModel;
+
+	get petsModel(): IPetsModel
+	{
+		return this._petsModel;
+	}
+
+	private _botsModel!: BotsModel;
+
+	get botsModel(): IBotsModel
+	{
+		return this._botsModel;
+	}
+
+	private _tradingModel!: TradingModel;
+
+	get tradingModel(): ITradingModel
+	{
+		return this._tradingModel;
+	}
+
+	private _purse: Purse = new Purse();
+
+	get purse(): IPurse
+	{
+		return this._purse;
+	}
+
+	private _unseenItemTracker: UnseenItemTracker | null = null;
+
+	get unseenItemTracker(): UnseenItemTracker
+	{
+		return this._unseenItemTracker!;
 	}
 
 	protected override get dependencies(): Array<ComponentDependency<any>>
@@ -64,76 +134,6 @@ export class HabboInventory extends Component implements IHabboInventory
 			),
 		];
 	}
-
-	protected override initComponent(): void
-	{
-		this._unseenItemTracker = new UnseenItemTracker(this._communication!);
-		log.info('Inventory initialized');
-	}
-
-	// ========== Properties ==========
-
-	get isInitialized(): boolean
-	{
-		return this._isInitialized;
-	}
-
-	get currentCategory(): InventoryCategoryType | null
-	{
-		return this._currentCategory;
-	}
-
-	get furniModel(): IFurniModel
-	{
-		return this._furniModel;
-	}
-
-	get badgesModel(): IBadgesModel
-	{
-		return this._badgesModel;
-	}
-
-	get effectsModel(): IEffectsModel
-	{
-		return this._effectsModel;
-	}
-
-	get petsModel(): IPetsModel
-	{
-		return this._petsModel;
-	}
-
-	get botsModel(): IBotsModel
-	{
-		return this._botsModel;
-	}
-
-	get tradingModel(): ITradingModel
-	{
-		return this._tradingModel;
-	}
-
-	get purse(): IPurse
-	{
-		return this._purse;
-	}
-
-	get unseenItemTracker(): UnseenItemTracker
-	{
-		return this._unseenItemTracker!;
-	}
-
-	get hasRoomSession(): boolean
-	{
-		return this._hasRoomSession;
-	}
-
-	set hasRoomSession(value: boolean)
-	{
-		this._hasRoomSession = value;
-	}
-
-	// ========== Lifecycle ==========
 
 	override dispose(): void
 	{
@@ -166,8 +166,6 @@ export class HabboInventory extends Component implements IHabboInventory
 
 		this._isInitialized = true;
 	}
-
-	// ========== Category ==========
 
 	switchCategory(category: InventoryCategoryType): void
 	{
@@ -202,8 +200,6 @@ export class HabboInventory extends Component implements IHabboInventory
 		return this._initializedCategories.has(category);
 	}
 
-	// ========== Club Status ==========
-
 	setClubStatus(
 		periods: number,
 		days: number,
@@ -225,8 +221,6 @@ export class HabboInventory extends Component implements IHabboInventory
 		this._purse.minutesSinceLastModified = minutesSinceLastModified;
 	}
 
-	// ========== Request Methods ==========
-
 	requestFurni(): void
 	{
 		this._communication?.connection?.send(new RequestFurniInventoryComposer());
@@ -245,5 +239,11 @@ export class HabboInventory extends Component implements IHabboInventory
 	requestBots(): void
 	{
 		this._communication?.connection?.send(new GetBotInventoryComposer());
+	}
+
+	protected override initComponent(): void
+	{
+		this._unseenItemTracker = new UnseenItemTracker(this._communication!);
+		log.info('Inventory initialized');
 	}
 }

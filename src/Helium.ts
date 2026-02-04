@@ -8,21 +8,22 @@ import {HabboNavigator} from '@habbo/navigator/HabboNavigator';
 import {HabboNewNavigator} from '@habbo/navigator/HabboNewNavigator';
 import {HabboInventory} from '@habbo/inventory/HabboInventory';
 import {RoomEngine, RoomMessageHandler} from '@habbo/room';
+import {RoomSessionManager} from '@habbo/session/RoomSessionManager';
 import {Logger} from '@core/utils/Logger';
 import {mountUI} from '@ui/index';
 import {
+	configModule,
+	connectionModule,
+	favouritesModule,
+	inventoryModule,
+	localizationModule,
 	loggingMiddleware,
 	MessageBus,
-	ModuleRegistry,
 	ModuleId,
-	sessionModule,
+	ModuleRegistry,
 	navigatorModule,
-	connectionModule,
 	roomModule,
-	favouritesModule,
-	configModule,
-	localizationModule,
-	inventoryModule,
+	sessionModule,
 } from '@/modules';
 import '@ui/styles.css';
 
@@ -35,6 +36,7 @@ import {IID_HabboNavigator} from '@iid/IIDHabboNavigator';
 import {IID_HabboNewNavigator} from '@iid/IIDHabboNewNavigator';
 import {IID_HabboInventory} from '@iid/IIDHabboInventory';
 import {IID_RoomEngine} from '@iid/IIDRoomEngine';
+import {IID_RoomSessionManager} from '@iid/IIDRoomSessionManager';
 
 const log = Logger.getLogger('Helium');
 
@@ -79,11 +81,6 @@ export interface HeliumConfig extends HeliumCoreConfig
  */
 export class Helium
 {
-	private static _instance: Helium;
-
-	// Core layer
-	private _core: HeliumCore | null = null;
-
 	// Habbo managers
 	private _configurationManager: HabboConfigurationManager | null = null;
 	private _habboCommunicationManager: HabboCommunicationManager | null = null;
@@ -91,18 +88,14 @@ export class Helium
 	private _navigator: HabboNavigator | null = null;
 	private _newNavigator: HabboNewNavigator | null = null;
 	private _inventory: HabboInventory | null = null;
-	private _roomEngine: RoomEngine | null = null;
 	private _roomMessageHandler: RoomMessageHandler | null = null;
-
-	// Module system
-	private _messageBus: MessageBus | null = null;
-	private _moduleRegistry: ModuleRegistry | null = null;
-
+	private _roomSessionManager: RoomSessionManager | null = null;
 	// UI
 	private _disposeUI: (() => void) | null = null;
-
 	// State
 	private _ready: boolean = false;
+
+	private static _instance: Helium;
 
 	/**
 	 * Get the singleton instance
@@ -117,6 +110,123 @@ export class Helium
 		return this._instance;
 	}
 
+	// Core layer
+	private _core: HeliumCore | null = null;
+
+	/**
+	 * Get the core layer
+	 */
+	get core(): HeliumCore
+	{
+		if (!this._core)
+		{
+			throw new Error('[Helium] Not initialized');
+		}
+
+		return this._core;
+	}
+
+	private _roomEngine: RoomEngine | null = null;
+
+	/**
+	 * Get the room engine
+	 */
+	get roomEngine(): RoomEngine
+	{
+		if (!this._roomEngine)
+		{
+			throw new Error('[Helium] Not initialized');
+		}
+
+		return this._roomEngine;
+	}
+
+	// Module system
+	private _messageBus: MessageBus | null = null;
+
+	/**
+	 * Get the message bus
+	 */
+	get messageBus(): MessageBus
+	{
+		if (!this._messageBus)
+		{
+			throw new Error('[Helium] Not initialized');
+		}
+
+		return this._messageBus;
+	}
+
+	private _moduleRegistry: ModuleRegistry | null = null;
+
+	/**
+	 * Get the module registry
+	 */
+	get moduleRegistry(): ModuleRegistry
+	{
+		if (!this._moduleRegistry)
+		{
+			throw new Error('[Helium] Not initialized');
+		}
+
+		return this._moduleRegistry;
+	}
+
+	get isReady(): boolean
+	{
+		return this._ready;
+	}
+
+	/**
+	 * Get the component context (shortcut to core.context)
+	 */
+	get context(): ComponentContext
+	{
+		return this.core.context;
+	}
+
+	/**
+	 * Get the PixiJS application (shortcut to core.application)
+	 */
+	get application(): Application
+	{
+		return this.core.application;
+	}
+
+	/**
+	 * Get the core communication manager (shortcut to core.communication)
+	 */
+	get communication(): ICoreCommunicationManager
+	{
+		return this.core.communication;
+	}
+
+	/**
+	 * Get the configuration manager
+	 */
+	get configuration(): IHabboConfigurationManager
+	{
+		if (!this._configurationManager)
+		{
+			throw new Error('[Helium] Not initialized');
+		}
+
+		return this._configurationManager;
+	}
+
+	/**
+	 * Get the Habbo communication manager
+	 */
+	get habboCommunication(): HabboCommunicationManager
+	{
+		if (!this._habboCommunicationManager)
+		{
+			throw new Error('[Helium] Not initialized');
+		}
+
+		return this._habboCommunicationManager;
+	}
+
 	/**
 	 * Bootstrap the application
 	 */
@@ -128,26 +238,88 @@ export class Helium
 	}
 
 	/**
+	 * Connect to the Habbo server
+	 */
+	public connect(): void
+	{
+		if (!this._habboCommunicationManager)
+		{
+			throw new Error('[Helium] Not initialized');
+		}
+
+		log.info('Connecting to server...');
+		this._habboCommunicationManager.initConnection('habbo');
+
+		// Connect RoomMessageHandler to the connection
+		if (this._roomMessageHandler && this._habboCommunicationManager.connection)
+		{
+			this._roomMessageHandler.connection = this._habboCommunicationManager.connection;
+		}
+	}
+
+	/**
+	 * Disconnect from the server
+	 */
+	public disconnect(): void
+	{
+		this._habboCommunicationManager?.disconnect();
+	}
+
+	/**
+	 * Dispose the application
+	 */
+	public dispose(): void
+	{
+		log.info('Disposing Helium...');
+
+		// Dispose UI
+		if (this._disposeUI)
+		{
+			this._disposeUI();
+			this._disposeUI = null;
+		}
+
+		// Dispose module system
+		this._moduleRegistry?.dispose();
+		this._moduleRegistry = null;
+		this._messageBus?.clear();
+		this._messageBus = null;
+
+		// Dispose core (disposes all components via context)
+		this._core?.dispose();
+		this._core = null;
+
+		// Clear references
+		this._configurationManager = null;
+		this._habboCommunicationManager = null;
+		this._localizationManager = null;
+		this._navigator = null;
+		this._newNavigator = null;
+		this._inventory = null;
+		this._roomMessageHandler?.dispose();
+		this._roomMessageHandler = null;
+		this._roomEngine?.dispose();
+		this._roomEngine = null;
+
+		this._ready = false;
+	}
+
+	/**
 	 * Initialize the application
 	 */
 	private async init(config?: HeliumConfig): Promise<void>
 	{
 		log.info('Initializing Helium...');
 
-		// ========== 1. Initialize Core Layer ==========
 		this._core = new HeliumCore();
 		await this._core.init(config);
 
-		// ========== 2. Initialize Habbo Managers ==========
 		await this.initHabboManagers(config);
 
-		// ========== 3. Initialize Module System ==========
 		this.initModuleSystem();
 
-		// ========== 4. Register Modules ==========
 		await this.registerModules();
 
-		// ========== 5. Final Setup ==========
 		this.initLocalization();
 		this.mountUI();
 
@@ -205,6 +377,10 @@ export class Helium
 		ctx.attachComponent(this._localizationManager, [IID_HabboLocalizationManager]);
 		this._localizationManager.setConfigurationManager(this._configurationManager);
 		this._localizationManager.setCommunicationManager(this._habboCommunicationManager);
+
+		// Room Session Manager
+		this._roomSessionManager = new RoomSessionManager(ctx);
+		ctx.attachComponent(this._roomSessionManager, [IID_RoomSessionManager]);
 
 		// Navigator (legacy)
 		this._navigator = new HabboNavigator(ctx);
@@ -294,182 +470,6 @@ export class Helium
 		uiContainer.id = 'helium-ui';
 		document.body.appendChild(uiContainer);
 		this._disposeUI = mountUI(uiContainer, this._moduleRegistry!);
-	}
-
-	/**
-	 * Connect to the Habbo server
-	 */
-	public connect(): void
-	{
-		if (!this._habboCommunicationManager)
-		{
-			throw new Error('[Helium] Not initialized');
-		}
-
-		log.info('Connecting to server...');
-		this._habboCommunicationManager.initConnection('habbo');
-
-		// Connect RoomMessageHandler to the connection
-		if (this._roomMessageHandler && this._habboCommunicationManager.connection)
-		{
-			this._roomMessageHandler.connection = this._habboCommunicationManager.connection;
-		}
-	}
-
-	/**
-	 * Disconnect from the server
-	 */
-	public disconnect(): void
-	{
-		this._habboCommunicationManager?.disconnect();
-	}
-
-	/**
-	 * Dispose the application
-	 */
-	public dispose(): void
-	{
-		log.info('Disposing Helium...');
-
-		// Dispose UI
-		if (this._disposeUI)
-		{
-			this._disposeUI();
-			this._disposeUI = null;
-		}
-
-		// Dispose module system
-		this._moduleRegistry?.dispose();
-		this._moduleRegistry = null;
-		this._messageBus?.clear();
-		this._messageBus = null;
-
-		// Dispose core (disposes all components via context)
-		this._core?.dispose();
-		this._core = null;
-
-		// Clear references
-		this._configurationManager = null;
-		this._habboCommunicationManager = null;
-		this._localizationManager = null;
-		this._navigator = null;
-		this._newNavigator = null;
-		this._inventory = null;
-		this._roomMessageHandler?.dispose();
-		this._roomMessageHandler = null;
-		this._roomEngine?.dispose();
-		this._roomEngine = null;
-
-		this._ready = false;
-	}
-
-	// ========== Getters ==========
-
-	get isReady(): boolean
-	{
-		return this._ready;
-	}
-
-	/**
-	 * Get the core layer
-	 */
-	get core(): HeliumCore
-	{
-		if (!this._core)
-		{
-			throw new Error('[Helium] Not initialized');
-		}
-
-		return this._core;
-	}
-
-	/**
-	 * Get the component context (shortcut to core.context)
-	 */
-	get context(): ComponentContext
-	{
-		return this.core.context;
-	}
-
-	/**
-	 * Get the PixiJS application (shortcut to core.application)
-	 */
-	get application(): Application
-	{
-		return this.core.application;
-	}
-
-	/**
-	 * Get the core communication manager (shortcut to core.communication)
-	 */
-	get communication(): ICoreCommunicationManager
-	{
-		return this.core.communication;
-	}
-
-	/**
-	 * Get the configuration manager
-	 */
-	get configuration(): IHabboConfigurationManager
-	{
-		if (!this._configurationManager)
-		{
-			throw new Error('[Helium] Not initialized');
-		}
-
-		return this._configurationManager;
-	}
-
-	/**
-	 * Get the Habbo communication manager
-	 */
-	get habboCommunication(): HabboCommunicationManager
-	{
-		if (!this._habboCommunicationManager)
-		{
-			throw new Error('[Helium] Not initialized');
-		}
-
-		return this._habboCommunicationManager;
-	}
-
-	/**
-	 * Get the message bus
-	 */
-	get messageBus(): MessageBus
-	{
-		if (!this._messageBus)
-		{
-			throw new Error('[Helium] Not initialized');
-		}
-
-		return this._messageBus;
-	}
-
-	/**
-	 * Get the module registry
-	 */
-	get moduleRegistry(): ModuleRegistry
-	{
-		if (!this._moduleRegistry)
-		{
-			throw new Error('[Helium] Not initialized');
-		}
-
-		return this._moduleRegistry;
-	}
-
-	/**
-	 * Get the room engine
-	 */
-	get roomEngine(): RoomEngine
-	{
-		if (!this._roomEngine)
-		{
-			throw new Error('[Helium] Not initialized');
-		}
-
-		return this._roomEngine;
 	}
 }
 

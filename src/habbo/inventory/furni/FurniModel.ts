@@ -36,8 +36,6 @@ export class FurniModel implements IFurniModel
 		return this._isListInitialized;
 	}
 
-	// ========== Properties ==========
-
 	private _furniData: GroupItem[] = [];
 
 	get furniData(): GroupItem[]
@@ -52,8 +50,6 @@ export class FurniModel implements IFurniModel
 		return this._showingRentedFurni;
 	}
 
-	// ========== Lifecycle ==========
-
 	dispose(): void
 	{
 		if (this._disposed) return;
@@ -67,8 +63,6 @@ export class FurniModel implements IFurniModel
 		this._categorySelections.clear();
 		this._disposed = true;
 	}
-
-	// ========== Insert/Update/Remove ==========
 
 	insertFurniture(items: Map<number, FurnitureItemData>): {
 		addedCount: number;
@@ -200,8 +194,6 @@ export class FurniModel implements IFurniModel
 		this._isListInitialized = false;
 	}
 
-	// ========== Selection ==========
-
 	getSelectedItem(): GroupItem | null
 	{
 		for (const groupItem of this._furniData)
@@ -251,8 +243,6 @@ export class FurniModel implements IFurniModel
 		this._categorySelections.set(this._currentCategory, groupItem);
 	}
 
-	// ========== Lookup ==========
-
 	getItemById(itemId: number): GroupItem | null
 	{
 		for (const groupItem of this._furniData)
@@ -283,8 +273,6 @@ export class FurniModel implements IFurniModel
 
 		return null;
 	}
-
-	// ========== Locks ==========
 
 	updateItemLocks(lockedRefIds: number[]): void
 	{
@@ -331,16 +319,12 @@ export class FurniModel implements IFurniModel
 		}
 	}
 
-	// ========== Category ==========
-
 	categorySwitch(category: 'furni' | 'rentables'): void
 	{
 		this._currentCategory = category;
 		this._showingRentedFurni = category === 'rentables';
 		this.updateCategorySelection();
 	}
-
-	// ========== Unseen Items ==========
 
 	resetUnseenItems(): number[]
 	{
@@ -380,8 +364,6 @@ export class FurniModel implements IFurniModel
 			}
 		}
 	}
-
-	// ========== Private Methods ==========
 
 	private getAllStripIds(): Set<number>
 	{

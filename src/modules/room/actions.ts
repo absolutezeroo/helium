@@ -1,6 +1,6 @@
 import type {ActionContext} from '../core/types';
 import type {RoomState, RoomUserData, RoomUserTypeValue} from './types';
-import {RoomUserType, createInitialRoomState} from './types';
+import {createInitialRoomState, RoomUserType} from './types';
 
 // Room module has no managers - it's purely reactive to server messages
 type Managers = Record<string, never>;
@@ -17,8 +17,6 @@ export function createActions(ctx: ActionContext<RoomState, Managers>)
 		{
 			updateState(createInitialRoomState());
 		},
-
-		// ========== Computed helpers ==========
 
 		/**
 		 * Check if user is currently in a room
@@ -51,8 +49,6 @@ export function createActions(ctx: ActionContext<RoomState, Managers>)
 		{
 			return getState().currentRoom?.roomName ?? '';
 		},
-
-		// ========== User helpers ==========
 
 		/**
 		 * Get all users in the room
@@ -127,8 +123,6 @@ export function createActions(ctx: ActionContext<RoomState, Managers>)
 			return Object.keys(getState().users).length;
 		},
 
-		// ========== Permission helpers ==========
-
 		/**
 		 * Check if user is room owner
 		 */
@@ -152,8 +146,6 @@ export function createActions(ctx: ActionContext<RoomState, Managers>)
 		{
 			return getState().roomControllerLevel;
 		},
-
-		// ========== State setters for RoomEngine integration ==========
 
 		/**
 		 * Set own user room index (called by RoomEngine)

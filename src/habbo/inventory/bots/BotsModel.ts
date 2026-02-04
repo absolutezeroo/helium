@@ -9,31 +9,25 @@ import {Bot} from './Bot';
 export class BotsModel implements IBotsModel
 {
 	private _disposed: boolean = false;
-	private _isListInitialized: boolean = false;
-	private _bots: Map<number, Bot> = new Map();
-
-	constructor()
-	{
-	}
-
-	// ========== Properties ==========
 
 	get disposed(): boolean
 	{
 		return this._disposed;
 	}
 
+	private _isListInitialized: boolean = false;
+
 	get isListInitialized(): boolean
 	{
 		return this._isListInitialized;
 	}
 
+	private _bots: Map<number, Bot> = new Map();
+
 	get bots(): Map<number, Bot>
 	{
 		return this._bots;
 	}
-
-	// ========== Lifecycle ==========
 
 	dispose(): void
 	{
@@ -47,8 +41,6 @@ export class BotsModel implements IBotsModel
 		this._bots.clear();
 		this._disposed = true;
 	}
-
-	// ========== Add/Update/Remove ==========
 
 	addBot(bot: Bot): boolean
 	{
@@ -120,8 +112,6 @@ export class BotsModel implements IBotsModel
 		return null;
 	}
 
-	// ========== Getters ==========
-
 	getBotById(id: number): Bot | null
 	{
 		return this._bots.get(id) ?? null;
@@ -131,8 +121,6 @@ export class BotsModel implements IBotsModel
 	{
 		return Array.from(this._bots.values());
 	}
-
-	// ========== Selection ==========
 
 	getSelectedBot(): Bot | null
 	{
@@ -166,8 +154,6 @@ export class BotsModel implements IBotsModel
 			bot.isSelected = false;
 		}
 	}
-
-	// ========== Unseen ==========
 
 	resetUnseenItems(): number[]
 	{

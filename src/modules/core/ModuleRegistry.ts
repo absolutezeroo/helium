@@ -203,11 +203,24 @@ export class ModuleRegistry
 		};
 
 		// Function to update state
+		// Note: notify is deferred to avoid stack overflow during message processing
+		let pendingNotify = false;
+
 		const updateState = (partial: Partial<S>) =>
 		{
 			state = {...state, ...partial};
 			this.states.set(id, state);
-			this.notify(id, state);
+
+			// Batch multiple updates into a single notification
+			if (!pendingNotify)
+			{
+				pendingNotify = true;
+				queueMicrotask(() =>
+				{
+					pendingNotify = false;
+					this.notify(id, state);
+				});
+			}
 		};
 
 		// Create context for actions

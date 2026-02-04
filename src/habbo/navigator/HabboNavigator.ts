@@ -1,5 +1,7 @@
 import {Component, ComponentDependency, type IContext, IID_HabboCommunicationManager} from '@core/runtime';
+import {IID_RoomSessionManager} from '@iid/IIDRoomSessionManager';
 import type {IHabboNavigator} from './IHabboNavigator';
+import type {IRoomSessionManager} from '../session/IRoomSessionManager';
 import {NavigatorData} from './domain';
 import {IncomingMessages} from './IncomingMessages';
 import type {CompetitionRoomsData, EventCategory, GuestRoomData} from '../communication/messages/incoming/navigator';
@@ -27,6 +29,7 @@ export class HabboNavigator extends Component implements IHabboNavigator
 	private _incomingMessages: IncomingMessages | null = null;
 	private _isOpen: boolean = false;
 	private _isRoomInfoOpen: boolean = false;
+	private _roomSessionManager: IRoomSessionManager | null = null;
 
 	constructor(context: IContext)
 	{
@@ -51,8 +54,6 @@ export class HabboNavigator extends Component implements IHabboNavigator
 	{
 		return this._data;
 	}
-
-	// ========== Properties ==========
 
 	get homeRoomId(): number
 	{
@@ -80,6 +81,14 @@ export class HabboNavigator extends Component implements IHabboNavigator
 				},
 				true
 			),
+			new ComponentDependency(
+				IID_RoomSessionManager,
+				(manager: IRoomSessionManager | null) =>
+				{
+					this._roomSessionManager = manager;
+				},
+				true
+			),
 		];
 	}
 
@@ -96,8 +105,6 @@ export class HabboNavigator extends Component implements IHabboNavigator
 
 		return true;
 	}
-
-	// ========== Navigation Methods ==========
 
 	goToPrivateRoom(roomId: number): void
 	{
@@ -128,8 +135,15 @@ export class HabboNavigator extends Component implements IHabboNavigator
 			this.closeNavigator();
 		}
 
-		// Would call room session manager here to actually enter the room
-		this.send(new GetGuestRoomMessageComposer(roomId, true, true));
+		if (!this._roomSessionManager)
+		{
+			log.error('RoomSessionManager not available');
+			return;
+		}
+
+		// Use RoomSessionManager to enter the room
+		// This will send OpenFlatConnectionMessageComposer via RoomSession.start()
+		this._roomSessionManager.gotoRoom(roomId, password);
 	}
 
 	performTagSearch(tag: string): void
@@ -145,8 +159,6 @@ export class HabboNavigator extends Component implements IHabboNavigator
 
 		log.debug(`Tag search: ${searchTag}`);
 	}
-
-	// ========== Search Methods ==========
 
 	performTextSearch(searchText: string): void
 	{
@@ -198,8 +210,6 @@ export class HabboNavigator extends Component implements IHabboNavigator
 		return false;
 	}
 
-	// ========== Room Rights ==========
-
 	removeRoomRights(roomId: number): void
 	{
 		this.send(new RemoveOwnRoomRightsRoomMessageComposer(roomId));
@@ -209,8 +219,6 @@ export class HabboNavigator extends Component implements IHabboNavigator
 	{
 		log.debug('Starting room creation');
 	}
-
-	// ========== UI Methods ==========
 
 	openNavigator(): void
 	{
@@ -256,8 +264,6 @@ export class HabboNavigator extends Component implements IHabboNavigator
 		return this._data.isRoomHome(roomId);
 	}
 
-	// ========== Utility Methods ==========
-
 	override dispose(): void
 	{
 		if (this.disposed) return;
@@ -292,8 +298,6 @@ export class HabboNavigator extends Component implements IHabboNavigator
 
 		log.debug('Room info closed');
 	}
-
-	// ========== Dispose ==========
 
 	private send(composer: IMessageComposer<unknown[]>): void
 	{

@@ -9,31 +9,25 @@ import {Pet} from './Pet';
 export class PetsModel implements IPetsModel
 {
 	private _disposed: boolean = false;
-	private _isListInitialized: boolean = false;
-	private _pets: Map<number, Pet> = new Map();
-
-	constructor()
-	{
-	}
-
-	// ========== Properties ==========
 
 	get disposed(): boolean
 	{
 		return this._disposed;
 	}
 
+	private _isListInitialized: boolean = false;
+
 	get isListInitialized(): boolean
 	{
 		return this._isListInitialized;
 	}
 
+	private _pets: Map<number, Pet> = new Map();
+
 	get pets(): Map<number, Pet>
 	{
 		return this._pets;
 	}
-
-	// ========== Lifecycle ==========
 
 	dispose(): void
 	{
@@ -47,8 +41,6 @@ export class PetsModel implements IPetsModel
 		this._pets.clear();
 		this._disposed = true;
 	}
-
-	// ========== Add/Update/Remove ==========
 
 	addPet(pet: Pet): boolean
 	{
@@ -120,8 +112,6 @@ export class PetsModel implements IPetsModel
 		return null;
 	}
 
-	// ========== Getters ==========
-
 	getPetById(id: number): Pet | null
 	{
 		return this._pets.get(id) ?? null;
@@ -131,8 +121,6 @@ export class PetsModel implements IPetsModel
 	{
 		return Array.from(this._pets.values());
 	}
-
-	// ========== Selection ==========
 
 	getSelectedPet(): Pet | null
 	{
@@ -166,8 +154,6 @@ export class PetsModel implements IPetsModel
 			pet.isSelected = false;
 		}
 	}
-
-	// ========== Unseen ==========
 
 	resetUnseenItems(): number[]
 	{

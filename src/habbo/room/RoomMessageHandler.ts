@@ -24,7 +24,9 @@ import {ObjectsMessageEvent} from '../communication/messages/incoming/room/engin
 import {ObjectAddMessageEvent} from '../communication/messages/incoming/room/engine/ObjectAddMessageEvent';
 import {ObjectUpdateMessageEvent} from '../communication/messages/incoming/room/engine/ObjectUpdateMessageEvent';
 import {ObjectRemoveMessageEvent} from '../communication/messages/incoming/room/engine/ObjectRemoveMessageEvent';
-import {ObjectDataUpdateMessageEvent} from '../communication/messages/incoming/room/engine/ObjectDataUpdateMessageEvent';
+import {
+	ObjectDataUpdateMessageEvent
+} from '../communication/messages/incoming/room/engine/ObjectDataUpdateMessageEvent';
 import {ItemsMessageEvent} from '../communication/messages/incoming/room/engine/ItemsMessageEvent';
 import {ItemAddMessageEvent} from '../communication/messages/incoming/room/engine/ItemAddMessageEvent';
 import {ItemUpdateMessageEvent} from '../communication/messages/incoming/room/engine/ItemUpdateMessageEvent';
@@ -32,17 +34,25 @@ import {ItemRemoveMessageEvent} from '../communication/messages/incoming/room/en
 import {UsersMessageEvent} from '../communication/messages/incoming/room/engine/UsersMessageEvent';
 import {UserUpdateMessageEvent} from '../communication/messages/incoming/room/engine/UserUpdateMessageEvent';
 import {UserRemoveMessageEvent} from '../communication/messages/incoming/room/engine/UserRemoveMessageEvent';
-import {SlideObjectBundleMessageEvent} from '../communication/messages/incoming/room/engine/SlideObjectBundleMessageEvent';
+import {
+	SlideObjectBundleMessageEvent
+} from '../communication/messages/incoming/room/engine/SlideObjectBundleMessageEvent';
 
 // Parsers
 import type {HeightMapMessageParser} from '../communication/messages/parser/room/engine/HeightMapMessageParser';
-import type {FloorHeightMapMessageParser} from '../communication/messages/parser/room/engine/FloorHeightMapMessageParser';
-import type {HeightMapUpdateMessageParser} from '../communication/messages/parser/room/engine/HeightMapUpdateMessageParser';
+import type {
+	FloorHeightMapMessageParser
+} from '../communication/messages/parser/room/engine/FloorHeightMapMessageParser';
+import type {
+	HeightMapUpdateMessageParser
+} from '../communication/messages/parser/room/engine/HeightMapUpdateMessageParser';
 import type {ObjectsMessageParser} from '../communication/messages/parser/room/engine/ObjectsMessageParser';
 import type {ObjectAddMessageParser} from '../communication/messages/parser/room/engine/ObjectAddMessageParser';
 import type {ObjectUpdateMessageParser} from '../communication/messages/parser/room/engine/ObjectUpdateMessageParser';
 import type {ObjectRemoveMessageParser} from '../communication/messages/parser/room/engine/ObjectRemoveMessageParser';
-import type {ObjectDataUpdateMessageParser} from '../communication/messages/parser/room/engine/ObjectDataUpdateMessageParser';
+import type {
+	ObjectDataUpdateMessageParser
+} from '../communication/messages/parser/room/engine/ObjectDataUpdateMessageParser';
 import type {ItemsMessageParser} from '../communication/messages/parser/room/engine/ItemsMessageParser';
 import type {ItemAddMessageParser} from '../communication/messages/parser/room/engine/ItemAddMessageParser';
 import type {ItemUpdateMessageParser} from '../communication/messages/parser/room/engine/ItemUpdateMessageParser';
@@ -50,7 +60,9 @@ import type {ItemRemoveMessageParser} from '../communication/messages/parser/roo
 import type {UsersMessageParser} from '../communication/messages/parser/room/engine/UsersMessageParser';
 import type {UserUpdateMessageParser} from '../communication/messages/parser/room/engine/UserUpdateMessageParser';
 import type {UserRemoveMessageParser} from '../communication/messages/parser/room/engine/UserRemoveMessageParser';
-import type {SlideObjectBundleMessageParser} from '../communication/messages/parser/room/engine/SlideObjectBundleMessageParser';
+import type {
+	SlideObjectBundleMessageParser
+} from '../communication/messages/parser/room/engine/SlideObjectBundleMessageParser';
 import type {FurnitureFloorData} from '../communication/messages/incoming/room/engine/FurnitureFloorData';
 import type {FurnitureWallData} from '../communication/messages/incoming/room/engine/FurnitureWallData';
 import type {RoomUserData} from '../communication/messages/incoming/room/engine/RoomUserData';
@@ -61,8 +73,6 @@ export class RoomMessageHandler
 	public static readonly EFFECT_ROOM_SHAKE = 1;
 	public static readonly EFFECT_ROOM_ROTATE = 2;
 	public static readonly EFFECT_ROOM_DISCO = 3;
-
-	private _connection: IConnection | null = null;
 	private _roomCreator: IRoomCreator | null = null;
 	private _currentRoomId: number = 0;
 	private _ownUserId: number = -1;
@@ -72,6 +82,8 @@ export class RoomMessageHandler
 	{
 		this._roomCreator = roomCreator;
 	}
+
+	private _connection: IConnection | null = null;
 
 	set connection(connection: IConnection | null)
 	{
@@ -120,6 +132,7 @@ export class RoomMessageHandler
 				this._roomCreator.disposeRoom(this._currentRoomId);
 			}
 		}
+
 		this._currentRoomId = roomId;
 	}
 
@@ -131,12 +144,14 @@ export class RoomMessageHandler
 	private onRoomReady(event: IMessageEvent): void
 	{
 		const roomReadyEvent = event as RoomReadyMessageEvent;
+
 		if (roomReadyEvent === null || event.connection === null)
 		{
 			return;
 		}
 
 		const parser = roomReadyEvent.getParser() as RoomReadyMessageParser;
+
 		if (parser === null)
 		{
 			return;
@@ -148,6 +163,7 @@ export class RoomMessageHandler
 		}
 
 		const roomType = parser.roomType;
+
 		if (this._roomCreator !== null)
 		{
 			this._roomCreator.setWorldType(parser.roomId, roomType);
@@ -161,6 +177,7 @@ export class RoomMessageHandler
 	private onHeightMap(event: IMessageEvent): void
 	{
 		const heightMapEvent = event as HeightMapMessageEvent;
+
 		if (heightMapEvent === null)
 		{
 			return;
@@ -172,6 +189,7 @@ export class RoomMessageHandler
 		}
 
 		const parser = heightMapEvent.getParser() as HeightMapMessageParser;
+
 		if (parser === null)
 		{
 			return;
@@ -185,6 +203,7 @@ export class RoomMessageHandler
 	private onFloorHeightMap(event: IMessageEvent): void
 	{
 		const floorEvent = event as FloorHeightMapMessageEvent;
+
 		if (floorEvent === null)
 		{
 			return;
@@ -196,6 +215,7 @@ export class RoomMessageHandler
 		}
 
 		const parser = floorEvent.getParser() as FloorHeightMapMessageParser;
+
 		if (parser === null)
 		{
 			return;
@@ -214,6 +234,7 @@ export class RoomMessageHandler
 	private onHeightMapUpdate(event: IMessageEvent): void
 	{
 		const updateEvent = event as HeightMapUpdateMessageEvent;
+
 		if (updateEvent === null)
 		{
 			return;
@@ -225,6 +246,7 @@ export class RoomMessageHandler
 		}
 
 		const parser = updateEvent.getParser() as HeightMapUpdateMessageParser;
+
 		if (parser === null)
 		{
 			return;
@@ -244,21 +266,25 @@ export class RoomMessageHandler
 	private onObjects(event: IMessageEvent): void
 	{
 		const objectsEvent = event as ObjectsMessageEvent;
+
 		if (objectsEvent === null)
 		{
 			return;
 		}
 
 		const parser = objectsEvent.getParser() as ObjectsMessageParser;
+
 		if (parser === null)
 		{
 			return;
 		}
 
 		const count = parser.objectCount;
+
 		for (let i = 0; i < count; i++)
 		{
 			const data = parser.getObject(i);
+
 			if (data !== null)
 			{
 				this.addFloorFurniture(this._currentRoomId, data);
@@ -269,18 +295,21 @@ export class RoomMessageHandler
 	private onObjectAdd(event: IMessageEvent): void
 	{
 		const addEvent = event as ObjectAddMessageEvent;
+
 		if (addEvent === null)
 		{
 			return;
 		}
 
 		const parser = addEvent.getParser() as ObjectAddMessageParser;
+
 		if (parser === null)
 		{
 			return;
 		}
 
 		const data = parser.object;
+
 		if (data !== null)
 		{
 			this.addFloorFurniture(this._currentRoomId, data);
@@ -290,6 +319,7 @@ export class RoomMessageHandler
 	private onObjectUpdate(event: IMessageEvent): void
 	{
 		const updateEvent = event as ObjectUpdateMessageEvent;
+
 		if (updateEvent === null)
 		{
 			return;
@@ -301,16 +331,19 @@ export class RoomMessageHandler
 		}
 
 		const parser = updateEvent.getParser() as ObjectUpdateMessageParser;
+
 		if (parser === null)
 		{
 			return;
 		}
 
 		const data = parser.object;
+
 		if (data !== null)
 		{
 			const location: IVector3d = new Vector3d(data.x, data.y, data.z);
 			const direction: IVector3d = new Vector3d(data.dir);
+
 			this._roomCreator.updateObjectFurniture(
 				this._currentRoomId,
 				data.id,
@@ -326,6 +359,7 @@ export class RoomMessageHandler
 	private onObjectRemove(event: IMessageEvent): void
 	{
 		const removeEvent = event as ObjectRemoveMessageEvent;
+
 		if (removeEvent === null)
 		{
 			return;
@@ -337,6 +371,7 @@ export class RoomMessageHandler
 		}
 
 		const parser = removeEvent.getParser() as ObjectRemoveMessageParser;
+
 		if (parser === null)
 		{
 			return;
@@ -352,6 +387,7 @@ export class RoomMessageHandler
 	private onObjectDataUpdate(event: IMessageEvent): void
 	{
 		const dataEvent = event as ObjectDataUpdateMessageEvent;
+
 		if (dataEvent === null)
 		{
 			return;
@@ -363,6 +399,7 @@ export class RoomMessageHandler
 		}
 
 		const parser = dataEvent.getParser() as ObjectDataUpdateMessageParser;
+
 		if (parser === null)
 		{
 			return;
@@ -381,21 +418,25 @@ export class RoomMessageHandler
 	private onItems(event: IMessageEvent): void
 	{
 		const itemsEvent = event as ItemsMessageEvent;
+
 		if (itemsEvent === null)
 		{
 			return;
 		}
 
 		const parser = itemsEvent.getParser() as ItemsMessageParser;
+
 		if (parser === null)
 		{
 			return;
 		}
 
 		const count = parser.itemCount;
+
 		for (let i = 0; i < count; i++)
 		{
 			const data = parser.getItem(i);
+
 			if (data !== null)
 			{
 				this.addWallItem(this._currentRoomId, data);
@@ -406,18 +447,21 @@ export class RoomMessageHandler
 	private onItemAdd(event: IMessageEvent): void
 	{
 		const addEvent = event as ItemAddMessageEvent;
+
 		if (addEvent === null)
 		{
 			return;
 		}
 
 		const parser = addEvent.getParser() as ItemAddMessageParser;
+
 		if (parser === null)
 		{
 			return;
 		}
 
 		const data = parser.data;
+
 		if (data !== null)
 		{
 			this.addWallItem(this._currentRoomId, data);
@@ -427,6 +471,7 @@ export class RoomMessageHandler
 	private onItemUpdate(event: IMessageEvent): void
 	{
 		const updateEvent = event as ItemUpdateMessageEvent;
+
 		if (updateEvent === null)
 		{
 			return;
@@ -438,12 +483,14 @@ export class RoomMessageHandler
 		}
 
 		const parser = updateEvent.getParser() as ItemUpdateMessageParser;
+
 		if (parser === null)
 		{
 			return;
 		}
 
 		const data = parser.data;
+
 		if (data !== null)
 		{
 			// TODO: Calculate location from wall coordinates
@@ -461,6 +508,7 @@ export class RoomMessageHandler
 	private onItemRemove(event: IMessageEvent): void
 	{
 		const removeEvent = event as ItemRemoveMessageEvent;
+
 		if (removeEvent === null)
 		{
 			return;
@@ -472,6 +520,7 @@ export class RoomMessageHandler
 		}
 
 		const parser = removeEvent.getParser() as ItemRemoveMessageParser;
+
 		if (parser === null)
 		{
 			return;
@@ -487,6 +536,7 @@ export class RoomMessageHandler
 	private onUsers(event: IMessageEvent): void
 	{
 		const usersEvent = event as UsersMessageEvent;
+
 		if (usersEvent === null)
 		{
 			return;
@@ -498,6 +548,7 @@ export class RoomMessageHandler
 		}
 
 		const parser = usersEvent.getParser() as UsersMessageParser;
+
 		if (parser === null)
 		{
 			return;
@@ -506,6 +557,7 @@ export class RoomMessageHandler
 		for (let i = 0; i < parser.userCount; i++)
 		{
 			const data = parser.getUser(i);
+
 			if (data !== null)
 			{
 				this.addUser(this._currentRoomId, data);
@@ -516,6 +568,7 @@ export class RoomMessageHandler
 	private onUserUpdate(event: IMessageEvent): void
 	{
 		const updateEvent = event as UserUpdateMessageEvent;
+
 		if (updateEvent === null)
 		{
 			return;
@@ -527,6 +580,7 @@ export class RoomMessageHandler
 		}
 
 		const parser = updateEvent.getParser() as UserUpdateMessageParser;
+
 		if (parser === null)
 		{
 			return;
@@ -535,6 +589,7 @@ export class RoomMessageHandler
 		for (let i = 0; i < parser.userCount; i++)
 		{
 			const data = parser.getUser(i);
+
 			if (data !== null)
 			{
 				const location: IVector3d = new Vector3d(data.x, data.y, data.z);
@@ -544,12 +599,15 @@ export class RoomMessageHandler
 				// Actions format: "mv x,y,z" or "sit 0.5" etc.
 				let target: IVector3d | null = null;
 				const actions = data.actions.split('/');
+
 				for (const action of actions)
 				{
 					const parts = action.split(' ');
+
 					if (parts[0] === 'mv' && parts.length > 1)
 					{
 						const coords = parts[1].split(',');
+
 						if (coords.length >= 3)
 						{
 							target = new Vector3d(
@@ -578,6 +636,7 @@ export class RoomMessageHandler
 	private onUserRemove(event: IMessageEvent): void
 	{
 		const removeEvent = event as UserRemoveMessageEvent;
+
 		if (removeEvent === null)
 		{
 			return;
@@ -589,6 +648,7 @@ export class RoomMessageHandler
 		}
 
 		const parser = removeEvent.getParser() as UserRemoveMessageParser;
+
 		if (parser === null)
 		{
 			return;
@@ -600,6 +660,7 @@ export class RoomMessageHandler
 	private onSlideUpdate(event: IMessageEvent): void
 	{
 		const slideEvent = event as SlideObjectBundleMessageEvent;
+
 		if (slideEvent === null)
 		{
 			return;
@@ -611,6 +672,7 @@ export class RoomMessageHandler
 		}
 
 		const parser = slideEvent.getParser() as SlideObjectBundleMessageParser;
+
 		if (parser === null)
 		{
 			return;

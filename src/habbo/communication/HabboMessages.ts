@@ -190,6 +190,9 @@ import {
 	NewNavigatorSearchComposer,
 } from './messages/outgoing/newnavigator';
 
+// Outgoing Composers - Room Session
+import {OpenFlatConnectionMessageComposer,} from './messages/outgoing/room/session';
+
 // Outgoing Composers - Inventory
 import {
 	AcceptTradingComposer,
@@ -434,6 +437,9 @@ export class HabboMessages implements IMessageConfiguration
 		this._composers.set(494, NavigatorAddCollapsedCategoryMessageComposer);
 		this._composers.set(141, NavigatorRemoveCollapsedCategoryMessageComposer);
 		this._composers.set(1108, NavigatorSetSearchCodeViewModeMessageComposer);
+
+		// === ROOM SESSION ===
+		this._composers.set(2729, OpenFlatConnectionMessageComposer);
 
 		// === INVENTORY ===
 		this._composers.set(3181, RequestFurniInventoryComposer);

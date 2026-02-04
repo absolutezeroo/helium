@@ -12,18 +12,15 @@ import type {IHabboGroupInfoManager} from './IHabboGroupInfoManager';
  */
 export interface ISessionDataManager
 {
-	// ========== Sub-managers ==========
 	readonly userDataManager: IUserDataManager;
 	readonly perkManager: IPerkManager;
 	readonly ignoredUsersManager: IIgnoredUsersManager;
 	readonly groupInfoManager: IHabboGroupInfoManager;
 
-	// ========== System status ==========
 	readonly systemOpen: boolean;
 	readonly systemShutDown: boolean;
 	readonly isAuthenticHabbo: boolean;
 
-	// ========== User identification ==========
 	readonly userId: number;
 	readonly userName: string;
 	readonly realName: string;
@@ -31,14 +28,12 @@ export interface ISessionDataManager
 	readonly gender: string;
 	readonly motto: string;
 
-	// ========== User status ==========
 	readonly clubLevel: number;
 	readonly securityLevel: number;
 	readonly topSecurityLevel: number;
 	readonly isAmbassador: boolean;
 	readonly noobnessLevel: number;
 
-	// ========== Permissions ==========
 	readonly hasVip: boolean;
 	readonly hasClub: boolean;
 	readonly isNoob: boolean;
@@ -47,7 +42,6 @@ export interface ISessionDataManager
 	readonly nameChangeAllowed: boolean;
 	readonly canChangeName: boolean;
 
-	// ========== Respect ==========
 	readonly respectTotal: number;
 	readonly respectLeft: number;
 	readonly petRespectLeft: number;
@@ -55,47 +49,37 @@ export interface ISessionDataManager
 	readonly respectsRemaining: number;
 	readonly respectsPetRemaining: number;
 
-	// ========== Safety & Verification ==========
 	readonly accountSafetyLocked: boolean;
 	readonly safetyLocked: boolean;
 	readonly isEmailVerified: boolean;
 
-	// ========== Stream & Access ==========
 	readonly streamPublishingAllowed: boolean;
 	readonly lastAccessDate: string;
 	readonly isFirstLoginOfDay: boolean;
 
-	// ========== Navigator settings ==========
 	readonly homeRoomId: number;
 	readonly roomIdToEnter: number;
 	readonly favouriteRooms: number[];
 	readonly favouriteRoomsLimit: number;
 
-	// ========== Currency & Achievements ==========
 	readonly activityPoints: Map<number, number>;
 	readonly achievementScore: number;
 
-	// ========== UI Preferences ==========
 	readonly uiFlags: number;
 	readonly isRoomCameraFollowDisabled: boolean;
 	readonly infoFeedEnabled: boolean;
 
-	// ========== Figure & Effects ==========
 	readonly figureSetIds: number[];
 	readonly boundFurnitureNames: string[];
 	readonly avatarEffects: AvatarEffect[];
 
-	// ========== Mystery Box ==========
 	readonly mysteryBoxColor: string;
 	readonly mysteryKeyColor: string;
 
-	// ========== Builders Club ==========
 	readonly buildersClubSecondsLeft: number;
 	readonly buildersClubFurniLimit: number;
 	readonly buildersClubMaxFurniLimit: number;
 	readonly buildersClubSecondsLeftWithGrace: number | null;
-
-	// ========== Methods ==========
 
 	/**
 	 * Check if user has at least the given security level

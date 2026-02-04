@@ -18,11 +18,8 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 {
 	protected readonly _libraries: IAssetLibrary[] = [];
 	protected readonly _pendingLibraries: IAssetLibrary[] = [];
-	protected _binLibrary: AssetLibrary | null = null;
 	protected readonly _collectionEvents: EventEmitter = new EventEmitter();
-
 	private readonly _name: string;
-	private _manifest: object | null = null;
 	private _libraryCounter: number = 0;
 
 	constructor(context: IContext, name: string = 'AssetLibraryCollection')
@@ -31,18 +28,14 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 		this._name = name;
 	}
 
-	/**
-	 * Get the bin library (lazy creation)
-	 */
-	private get binLibrary(): AssetLibrary
-	{
-		if (!this._binLibrary)
-		{
-			this._binLibrary = new AssetLibrary(this.context, 'bin');
-			this._libraries.unshift(this._binLibrary);
-		}
+	private _manifest: object | null = null;
 
-		return this._binLibrary;
+	/**
+	 * The manifest (builds a combined manifest)
+	 */
+	get manifest(): object | null
+	{
+		return this._manifest ?? {};
 	}
 
 	/**
@@ -93,14 +86,6 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 	}
 
 	/**
-	 * The manifest (builds a combined manifest)
-	 */
-	get manifest(): object | null
-	{
-		return this._manifest ?? {};
-	}
-
-	/**
 	 * Combined array of all asset names
 	 */
 	get nameArray(): string[]
@@ -113,6 +98,22 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 		}
 
 		return names;
+	}
+
+	protected _binLibrary: AssetLibrary | null = null;
+
+	/**
+	 * Get the bin library (lazy creation)
+	 */
+	private get binLibrary(): AssetLibrary
+	{
+		if (!this._binLibrary)
+		{
+			this._binLibrary = new AssetLibrary(this.context, 'bin');
+			this._libraries.unshift(this._binLibrary);
+		}
+
+		return this._binLibrary;
 	}
 
 	/**
@@ -142,8 +143,6 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 			super.dispose();
 		}
 	}
-
-	// ========== Loading ==========
 
 	/**
 	 * Load a library from a URL and add it to the collection
@@ -223,8 +222,6 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 	{
 		return this.binLibrary.loadAssetFromFile(name, url, mimeType, id);
 	}
-
-	// ========== Library Management ==========
 
 	/**
 	 * Check if a library exists by name
@@ -313,8 +310,6 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 			this._libraries.splice(index, 1);
 		}
 	}
-
-	// ========== Asset Retrieval ==========
 
 	/**
 	 * Get an asset by name (searches all libraries)
@@ -432,8 +427,6 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 		return false;
 	}
 
-	// ========== Asset Management ==========
-
 	/**
 	 * Set an asset (delegates to bin library)
 	 */
@@ -467,8 +460,6 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 
 		return null;
 	}
-
-	// ========== Type Registry ==========
 
 	/**
 	 * Register a type declaration (delegates to bin library)

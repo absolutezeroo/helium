@@ -68,8 +68,6 @@ export class ComponentContext extends Component implements IContext
 
 	private _configuration: ICoreConfiguration | null = null;
 
-	// ========== IContext Implementation ==========
-
 	/**
 	 * Configuration manager
 	 */
@@ -334,8 +332,6 @@ export class ComponentContext extends Component implements IContext
 	{
 		return this._attachedComponents;
 	}
-
-	// ========== Private Methods ==========
 
 	/**
 	 * Add a callback to the interface queue

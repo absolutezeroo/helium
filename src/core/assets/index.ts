@@ -32,21 +32,17 @@
  * @module core/assets
  */
 
-// ========== Interfaces ==========
 export type {IAsset} from './IAsset';
 export type {ILazyAsset} from './ILazyAsset';
 export type {IAssetLoader} from './loaders/IAssetLoader';
 export {AssetLoaderErrorCodes} from './loaders/IAssetLoader';
 export type {IAssetLibrary} from './IAssetLibrary';
 
-// ========== Type Declaration ==========
 export {AssetTypeDeclaration} from './AssetTypeDeclaration';
 export type {AssetClass, AssetLoaderClass} from './AssetTypeDeclaration';
 
-// ========== Asset Loader Struct ==========
 export {AssetLoaderStruct} from './AssetLoaderStruct';
 
-// ========== Asset Types ==========
 export {UnknownAsset} from './UnknownAsset';
 export {TextAsset} from './TextAsset';
 export {XmlAsset} from './XmlAsset';
@@ -55,7 +51,6 @@ export type {Point, Rectangle} from './BitmapDataAsset';
 export {SoundAsset} from './SoundAsset';
 export {NitroAsset} from './NitroAsset';
 
-// ========== Loaders ==========
 export {AssetLoaderEvent, AssetLoaderEventType} from './loaders/AssetLoaderEvent';
 export {BaseFileLoader} from './loaders/BaseFileLoader';
 export {BinaryFileLoader} from './loaders/BinaryFileLoader';
@@ -65,6 +60,5 @@ export {SoundFileLoader} from './loaders/SoundFileLoader';
 export {NitroBundleLoader} from './loaders/NitroBundleLoader';
 export type {IAssetData, ISpritesheetData, IFrameInfo, IAssetInfo, IAssetAlias} from './loaders/NitroBundleLoader';
 
-// ========== Libraries ==========
 export {AssetLibrary, AssetLibraryEvents} from './AssetLibrary';
 export {AssetLibraryCollection} from './AssetLibraryCollection';

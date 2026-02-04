@@ -1,4 +1,4 @@
-import type {IBadgesModel, BadgeData, BadgeFilterType} from './IBadgesModel';
+import type {BadgeData, BadgeFilterType, IBadgesModel} from './IBadgesModel';
 import {BadgeFilter} from './IBadgesModel';
 import {Badge} from './Badge';
 
@@ -10,17 +10,11 @@ import {Badge} from './Badge';
 export class BadgesModel implements IBadgesModel
 {
 	private static readonly MAX_ACTIVE_BADGE_COUNT = 5;
-
-	private _disposed: boolean = false;
 	private _allBadges: Badge[] = [];
 	private _activeBadges: Badge[] = [];
 	private _badgeSlots: Map<string, number> = new Map();
 
-	constructor()
-	{
-	}
-
-	// ========== Properties ==========
+	private _disposed: boolean = false;
 
 	get disposed(): boolean
 	{
@@ -32,8 +26,6 @@ export class BadgesModel implements IBadgesModel
 		return BadgesModel.MAX_ACTIVE_BADGE_COUNT;
 	}
 
-	// ========== Lifecycle ==========
-
 	dispose(): void
 	{
 		if (this._disposed) return;
@@ -41,8 +33,6 @@ export class BadgesModel implements IBadgesModel
 		this.resetBadges();
 		this._disposed = true;
 	}
-
-	// ========== Initialize ==========
 
 	initBadges(
 		badges: BadgeData[],
@@ -184,8 +174,6 @@ export class BadgesModel implements IBadgesModel
 		return badge;
 	}
 
-	// ========== Getters ==========
-
 	getBadges(filter: BadgeFilterType = BadgeFilter.ALL): Badge[]
 	{
 		switch (filter)
@@ -238,8 +226,6 @@ export class BadgesModel implements IBadgesModel
 
 		return inactive[index];
 	}
-
-	// ========== Selection ==========
 
 	getSelectedBadge(filter: BadgeFilterType = BadgeFilter.ALL): Badge | null
 	{
@@ -296,8 +282,6 @@ export class BadgesModel implements IBadgesModel
 		}
 	}
 
-	// ========== Unseen ==========
-
 	resetUnseenItems(): string[]
 	{
 		const resetIds: string[] = [];
@@ -342,14 +326,10 @@ export class BadgesModel implements IBadgesModel
 		}
 	}
 
-	// ========== Save ==========
-
 	getActiveBadgeIds(): string[]
 	{
 		return this._activeBadges.map(b => b.badgeId);
 	}
-
-	// ========== Private ==========
 
 	private resetBadges(): void
 	{

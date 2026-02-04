@@ -1,7 +1,7 @@
 import type {ActionContext} from '../core/types';
 import type {InventoryState} from './types';
 import type {IHabboInventory} from '@habbo/inventory/IHabboInventory';
-import type {Badge, Bot, Effect, InventoryCategoryType, Pet, GroupItem} from '@habbo/inventory';
+import type {Badge, Bot, Effect, GroupItem, InventoryCategoryType, Pet} from '@habbo/inventory';
 import {InventoryCategory} from '@habbo/inventory';
 
 /**
@@ -15,8 +15,6 @@ export interface InventoryManagers
 export function createActions(ctx: ActionContext<InventoryState, InventoryManagers>)
 {
 	const {getState, updateState, managers} = ctx;
-
-	// ========== Internal Helpers ==========
 
 	function updateUnseenCounts(): void
 	{
@@ -55,8 +53,6 @@ export function createActions(ctx: ActionContext<InventoryState, InventoryManage
 	}
 
 	return {
-		// ========== UI Actions ==========
-
 		/**
 		 * Open inventory
 		 */
@@ -195,8 +191,6 @@ export function createActions(ctx: ActionContext<InventoryState, InventoryManage
 			}
 		},
 
-		// ========== Furni Actions ==========
-
 		/**
 		 * Select a furniture group
 		 */
@@ -205,8 +199,6 @@ export function createActions(ctx: ActionContext<InventoryState, InventoryManage
 			managers.inventory.furniModel.selectItem(group);
 			updateState({selectedFurniGroup: group});
 		},
-
-		// ========== Badge Actions ==========
 
 		/**
 		 * Select a badge
@@ -233,8 +225,6 @@ export function createActions(ctx: ActionContext<InventoryState, InventoryManage
 				});
 			}
 		},
-
-		// ========== Effect Actions ==========
 
 		/**
 		 * Select an effect
@@ -269,8 +259,6 @@ export function createActions(ctx: ActionContext<InventoryState, InventoryManage
 			});
 		},
 
-		// ========== Pet Actions ==========
-
 		/**
 		 * Select a pet
 		 */
@@ -280,8 +268,6 @@ export function createActions(ctx: ActionContext<InventoryState, InventoryManage
 			updateState({selectedPet: pet});
 		},
 
-		// ========== Bot Actions ==========
-
 		/**
 		 * Select a bot
 		 */
@@ -290,8 +276,6 @@ export function createActions(ctx: ActionContext<InventoryState, InventoryManage
 			managers.inventory.botsModel.selectBot(bot.id);
 			updateState({selectedBot: bot});
 		},
-
-		// ========== Internal ==========
 
 		/**
 		 * Update unseen counts (called after message processing)

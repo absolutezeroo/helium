@@ -137,8 +137,6 @@ export class NavigatorData
 		this._createdFlatId = value;
 	}
 
-	// ========== Room Entry/Exit ==========
-
 	private _hotRoomPopupOpen: boolean = false;
 
 	get hotRoomPopupOpen(): boolean
@@ -153,8 +151,6 @@ export class NavigatorData
 
 	private _homeRoomId: number = 0;
 
-	// ========== Entered Room ==========
-
 	get homeRoomId(): number
 	{
 		return this._homeRoomId;
@@ -165,16 +161,12 @@ export class NavigatorData
 		this._homeRoomId = value;
 	}
 
-	// ========== Room Event Data ==========
-
 	private _settingsReceived: boolean = false;
 
 	get settingsReceived(): boolean
 	{
 		return this._settingsReceived;
 	}
-
-	// ========== Search Results ==========
 
 	set settingsReceived(value: boolean)
 	{
@@ -223,8 +215,6 @@ export class NavigatorData
 
 	private _canRate: boolean = false;
 
-	// ========== Ad Room ==========
-
 	get canRate(): boolean
 	{
 		return this._canRate;
@@ -235,16 +225,12 @@ export class NavigatorData
 		this._canRate = value;
 	}
 
-	// ========== Promoted Rooms ==========
-
 	private _currentRoomIsStaffPick: boolean = false;
 
 	get currentRoomIsStaffPick(): boolean
 	{
 		return this._currentRoomIsStaffPick;
 	}
-
-	// ========== Basic Properties ==========
 
 	set currentRoomIsStaffPick(value: boolean)
 	{
@@ -361,8 +347,6 @@ export class NavigatorData
 		return this._lastMessage as GuestRoomSearchResultData | null;
 	}
 
-	// ========== Categories ==========
-
 	set guestRoomSearchResults(value: GuestRoomSearchResultData | null)
 	{
 		this.disposeCurrentMessage();
@@ -395,8 +379,6 @@ export class NavigatorData
 		return this._lastMessage as OfficialRoomsData | null;
 	}
 
-	// ========== Event Categories ==========
-
 	set officialRooms(value: OfficialRoomsData | null)
 	{
 		this.disposeCurrentMessage();
@@ -424,8 +406,6 @@ export class NavigatorData
 
 		this._visibleCategories = value.filter((cat) => cat.visible);
 	}
-
-	// ========== Favourites ==========
 
 	set eventCategories(value: EventCategory[])
 	{
@@ -492,8 +472,6 @@ export class NavigatorData
 		}
 	}
 
-	// ========== Loading State ==========
-
 	isCurrentRoomFavourite(): boolean
 	{
 		if (!this._enteredGuestRoom)
@@ -512,8 +490,6 @@ export class NavigatorData
 		return this._homeRoomId === this._enteredGuestRoom.flatId;
 	}
 
-	// ========== Competition Rooms ==========
-
 	isRoomFavourite(roomId: number): boolean
 	{
 		return this._favouriteRoomIds.has(roomId);
@@ -523,8 +499,6 @@ export class NavigatorData
 	{
 		return this._favouriteCount >= this._favouriteLimit;
 	}
-
-	// ========== New Navigator Data ==========
 
 	isRoomHome(roomId: number): boolean
 	{
@@ -564,8 +538,6 @@ export class NavigatorData
 		this._allEventCategories = [];
 		this._visibleEventCategories = [];
 	}
-
-	// ========== Dispose ==========
 
 	private disposeCurrentMessage(): void
 	{

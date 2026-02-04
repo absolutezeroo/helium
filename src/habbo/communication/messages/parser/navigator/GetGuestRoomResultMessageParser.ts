@@ -67,19 +67,24 @@ export class GetGuestRoomResultMessageParser implements IMessageParser
 		this._data = null;
 		this._roomModerationSettings = null;
 		this._chatSettings = null;
+
 		return true;
 	}
 
 	parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._enterRoom = wrapper.readBoolean();
+
 		this._data = new GuestRoomData(wrapper);
+
 		this._roomForward = wrapper.readBoolean();
 		this._staffPick = wrapper.readBoolean();
 		this._isGroupMember = wrapper.readBoolean();
 
 		const allInRoomMuted = wrapper.readBoolean();
+
 		this._roomModerationSettings = new RoomModerationSettings(wrapper);
+
 		this._data.allInRoomMuted = allInRoomMuted;
 		this._data.canMute = wrapper.readBoolean();
 

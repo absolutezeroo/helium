@@ -5,15 +5,6 @@
  */
 export class Purse
 {
-	private _clubDays: number = 0;
-	private _clubPeriods: number = 0;
-	private _clubPastPeriods: number = 0;
-	private _clubHasEverBeenMember: boolean = false;
-	private _isVIP: boolean = false;
-	private _minutesUntilExpiration: number = 0;
-	private _clubIsExpiring: boolean = false;
-	private _citizenshipVipIsExpiring: boolean = false;
-	private _minutesSinceLastModified: number = -1;
 	private _lastUpdateTime: number = 0;
 
 	constructor()
@@ -21,7 +12,7 @@ export class Purse
 		this._lastUpdateTime = Date.now();
 	}
 
-	// ========== Club Days ==========
+	private _clubDays: number = 0;
 
 	get clubDays(): number
 	{
@@ -34,7 +25,7 @@ export class Purse
 		this._clubDays = Math.max(0, value);
 	}
 
-	// ========== Club Periods ==========
+	private _clubPeriods: number = 0;
 
 	get clubPeriods(): number
 	{
@@ -47,7 +38,7 @@ export class Purse
 		this._clubPeriods = Math.max(0, value);
 	}
 
-	// ========== Club Past Periods ==========
+	private _clubPastPeriods: number = 0;
 
 	get clubPastPeriods(): number
 	{
@@ -60,7 +51,7 @@ export class Purse
 		this._clubPastPeriods = Math.max(0, value);
 	}
 
-	// ========== Ever Been Member ==========
+	private _clubHasEverBeenMember: boolean = false;
 
 	get clubHasEverBeenMember(): boolean
 	{
@@ -73,7 +64,7 @@ export class Purse
 		this._clubHasEverBeenMember = value;
 	}
 
-	// ========== VIP Status ==========
+	private _isVIP: boolean = false;
 
 	get isVIP(): boolean
 	{
@@ -86,7 +77,7 @@ export class Purse
 		this._isVIP = value;
 	}
 
-	// ========== Expiration ==========
+	private _minutesUntilExpiration: number = 0;
 
 	/**
 	 * Get minutes until expiration
@@ -106,6 +97,8 @@ export class Purse
 		this._minutesUntilExpiration = value;
 	}
 
+	private _clubIsExpiring: boolean = false;
+
 	get clubIsExpiring(): boolean
 	{
 		return this._clubIsExpiring;
@@ -115,6 +108,8 @@ export class Purse
 	{
 		this._clubIsExpiring = value;
 	}
+
+	private _citizenshipVipIsExpiring: boolean = false;
 
 	get citizenshipVipIsExpiring(): boolean
 	{
@@ -126,7 +121,7 @@ export class Purse
 		this._citizenshipVipIsExpiring = value;
 	}
 
-	// ========== Last Modified ==========
+	private _minutesSinceLastModified: number = -1;
 
 	get minutesSinceLastModified(): number
 	{
@@ -138,8 +133,6 @@ export class Purse
 		this._lastUpdateTime = Date.now();
 		this._minutesSinceLastModified = value;
 	}
-
-	// ========== Utility ==========
 
 	/**
 	 * Check if user has active club subscription

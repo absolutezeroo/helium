@@ -5,8 +5,10 @@ import {
 	IID_HabboCommunicationManager,
 	IID_HabboNavigator
 } from '@core/runtime';
+import {IID_RoomSessionManager} from '@iid/IIDRoomSessionManager';
 import type {IHabboNewNavigator} from './IHabboNewNavigator';
 import type {IHabboNavigator} from './IHabboNavigator';
+import type {IRoomSessionManager} from '../session/IRoomSessionManager';
 import {NavigatorData} from './domain';
 import {NavigatorCache} from './cache';
 import {ContextContainer, SearchContext, SearchContextHistoryManager} from './context';
@@ -31,7 +33,6 @@ import {
 	NewNavigatorInitComposer,
 	NewNavigatorSearchComposer,
 } from '../communication/messages/outgoing/newnavigator';
-import {GetGuestRoomMessageComposer,} from '../communication/messages/outgoing/navigator';
 import type {IMessageComposer} from "@/core";
 
 const log = Logger.getLogger('NewNavigator');
@@ -45,7 +46,6 @@ const log = Logger.getLogger('NewNavigator');
  */
 export class HabboNewNavigator extends Component implements IHabboNewNavigator
 {
-	private _communication: IHabboCommunicationManager | null = null;
 	private _incomingMessages: NewIncomingMessages | null = null;
 	private _isOpen: boolean = false;
 	private _isInitialized: boolean = false;
@@ -56,10 +56,24 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	constructor(context: IContext)
 	{
 		super(context);
-		
+
 		this._contextContainer = new ContextContainer();
 		this._historyManager = new SearchContextHistoryManager();
 		this._cache = new NavigatorCache();
+	}
+
+	private _communication: IHabboCommunicationManager | null = null;
+
+	/**
+	 * Get the communication manager
+	 */
+	get communication(): IHabboCommunicationManager
+	{
+		if (!this._communication)
+		{
+			throw new Error('[HabboNewNavigator] Communication not available');
+		}
+		return this._communication;
 	}
 
 	private _legacyNavigator: IHabboNavigator | null = null;
@@ -68,6 +82,8 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	{
 		return this._legacyNavigator!;
 	}
+
+	private _roomSessionManager: IRoomSessionManager | null = null;
 
 	private _contextContainer: ContextContainer;
 
@@ -97,8 +113,6 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		return this._isReady;
 	}
 
-	// ========== Properties ==========
-
 	private _currentResults: NavigatorSearchResultSet | null = null;
 
 	get currentResults(): NavigatorSearchResultSet | null
@@ -111,18 +125,6 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	get collapsedCategories(): string[]
 	{
 		return this._collapsedCategories;
-	}
-
-	/**
-	 * Get the communication manager
-	 */
-	get communication(): IHabboCommunicationManager
-	{
-		if (!this._communication)
-		{
-			throw new Error('[HabboNewNavigator] Communication not available');
-		}
-		return this._communication;
 	}
 
 	/**
@@ -153,6 +155,14 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 				},
 				true
 			),
+			new ComponentDependency(
+				IID_RoomSessionManager,
+				(manager: IRoomSessionManager | null) =>
+				{
+					this._roomSessionManager = manager;
+				},
+				true
+			),
 		];
 	}
 
@@ -180,8 +190,6 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		log.info(`Navigator initialized with ${topLevelContexts.length} contexts`);
 	}
 
-	// ========== Initialization ==========
-
 	onSearchResult(results: NavigatorSearchResultSet): void
 	{
 		this._currentResults = results;
@@ -200,8 +208,6 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 
 		log.debug(`Search results: ${results.blocks.length} blocks`);
 	}
-
-	// ========== Search Results ==========
 
 	onLiftedRooms(rooms: NavigatorLiftedRoomData[]): void
 	{
@@ -236,8 +242,6 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 
 		log.debug('Navigator opened');
 	}
-
-	// ========== Navigation ==========
 
 	close(): void
 	{
@@ -277,8 +281,6 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 
 		log.debug(`Searching: ${searchCode}, filter: ${filtering}`);
 	}
-
-	// ========== Search ==========
 
 	performLastSearch(): void
 	{
@@ -331,16 +333,22 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		}
 	}
 
-	goToRoom(roomId: number, _source: string = 'mainview'): void
+	goToRoom(roomId: number, _source: string = 'mainview', password: string = ''): void
 	{
-		this.send(new GetGuestRoomMessageComposer(roomId, false, true));
+		if (!this._roomSessionManager)
+		{
+			log.error('RoomSessionManager not available');
+			return;
+		}
+
+		// Use RoomSessionManager to enter the room
+		// This will send OpenFlatConnectionMessageComposer via RoomSession.start()
+		this._roomSessionManager.gotoRoom(roomId, password);
 
 		this.close();
 
 		log.info(`Going to room: ${roomId}`);
 	}
-
-	// ========== Room Navigation ==========
 
 	goToHomeRoom(): void
 	{
@@ -357,8 +365,6 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		this.send(new NavigatorAddSavedSearchComposer(searchCode, filtering));
 	}
 
-	// ========== Saved Searches ==========
-
 	deleteSavedSearch(id: number): void
 	{
 		this.send(new NavigatorDeleteSavedSearchComposer(id));
@@ -373,8 +379,6 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 			this._collapsedCategories.push(category);
 		}
 	}
-
-	// ========== Category Collapse ==========
 
 	removeCollapsedCategory(category: string): void
 	{
@@ -398,8 +402,6 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		this.send(new NavigatorSetSearchCodeViewModeMessageComposer(searchCode, viewMode));
 	}
 
-	// ========== View Mode ==========
-
 	override dispose(): void
 	{
 		if (this.disposed) return;
@@ -411,8 +413,6 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		super.dispose();
 	}
 
-	// ========== Utility ==========
-
 	protected override initComponent(): void
 	{
 		// Create message handler - accesses communication and data via this navigator
@@ -420,8 +420,6 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 
 		log.info('New Navigator created');
 	}
-
-	// ========== Dispose ==========
 
 	private send(composer: IMessageComposer<unknown[]>): void
 	{

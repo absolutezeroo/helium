@@ -5,62 +5,45 @@
  */
 export class Effect
 {
-	private _type: number = 0;
-	private _subType: number = 0;
-	private _duration: number = 0;
-	private _secondsLeft: number = 0;
-	private _amountInInventory: number = 1;
-	private _isPermanent: boolean = false;
-	private _isActive: boolean = false;
-	private _isInUse: boolean = false;
-	private _isSelected: boolean = false;
 	private _activationTimestamp: number = 0;
 
-	constructor()
-	{
-	}
-
-	// ========== Getters ==========
+	private _type: number = 0;
 
 	get type(): number
 	{
 		return this._type;
 	}
 
+	set type(value: number)
+	{
+		this._type = value;
+	}
+
+	private _subType: number = 0;
+
 	get subType(): number
 	{
 		return this._subType;
 	}
+
+	set subType(value: number)
+	{
+		this._subType = value;
+	}
+
+	private _duration: number = 0;
 
 	get duration(): number
 	{
 		return this._duration;
 	}
 
-	get amountInInventory(): number
+	set duration(value: number)
 	{
-		return this._amountInInventory;
+		this._duration = value;
 	}
 
-	get isPermanent(): boolean
-	{
-		return this._isPermanent;
-	}
-
-	get isActive(): boolean
-	{
-		return this._isActive;
-	}
-
-	get isInUse(): boolean
-	{
-		return this._isInUse;
-	}
-
-	get isSelected(): boolean
-	{
-		return this._isSelected;
-	}
+	private _secondsLeft: number = 0;
 
 	/**
 	 * Get seconds remaining
@@ -79,26 +62,16 @@ export class Effect
 		return this._secondsLeft;
 	}
 
-	// ========== Setters ==========
-
-	set type(value: number)
-	{
-		this._type = value;
-	}
-
-	set subType(value: number)
-	{
-		this._subType = value;
-	}
-
-	set duration(value: number)
-	{
-		this._duration = value;
-	}
-
 	set secondsLeft(value: number)
 	{
 		this._secondsLeft = value;
+	}
+
+	private _amountInInventory: number = 1;
+
+	get amountInInventory(): number
+	{
+		return this._amountInInventory;
 	}
 
 	set amountInInventory(value: number)
@@ -106,9 +79,23 @@ export class Effect
 		this._amountInInventory = value;
 	}
 
+	private _isPermanent: boolean = false;
+
+	get isPermanent(): boolean
+	{
+		return this._isPermanent;
+	}
+
 	set isPermanent(value: boolean)
 	{
 		this._isPermanent = value;
+	}
+
+	private _isActive: boolean = false;
+
+	get isActive(): boolean
+	{
+		return this._isActive;
 	}
 
 	set isActive(value: boolean)
@@ -121,17 +108,29 @@ export class Effect
 		this._isActive = value;
 	}
 
+	private _isInUse: boolean = false;
+
+	get isInUse(): boolean
+	{
+		return this._isInUse;
+	}
+
 	set isInUse(value: boolean)
 	{
 		this._isInUse = value;
+	}
+
+	private _isSelected: boolean = false;
+
+	get isSelected(): boolean
+	{
+		return this._isSelected;
 	}
 
 	set isSelected(value: boolean)
 	{
 		this._isSelected = value;
 	}
-
-	// ========== Methods ==========
 
 	/**
 	 * Called when one effect instance expires

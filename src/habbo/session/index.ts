@@ -15,3 +15,9 @@ export * from './IIgnoredUsersManager';
 export * from './IgnoredUsersManager';
 export * from './IHabboGroupInfoManager';
 export * from './HabboGroupInfoManager';
+
+// Room session
+export * from './IRoomSession';
+export * from './IRoomSessionManager';
+export * from './RoomSession';
+export * from './RoomSessionManager';

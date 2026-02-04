@@ -90,8 +90,6 @@ export class NewIncomingMessages
 		this._messageEvents.push(event);
 	}
 
-	// ========== Message Handlers ==========
-
 	private onNavigatorMetaData(event: IMessageEvent): void
 	{
 		if (!event) return;

@@ -12,16 +12,6 @@ import {FurnitureCategory} from '../enum';
 export class GroupItem
 {
 	private _items: Map<number, FurnitureItem> = new Map();
-	private _type: number;
-	private _category: number;
-	private _stuffData: IStuffData | null;
-	private _extra: number;
-	private _isLocked: boolean = false;
-	private _isSelected: boolean = false;
-	private _hasUnseenItems: boolean = false;
-	private _name: string = '';
-	private _description: string = '';
-	private _selectedItemIndex: number = -1;
 
 	constructor(
 		type: number,
@@ -36,27 +26,35 @@ export class GroupItem
 		this._extra = extra;
 	}
 
-	// ========== Properties ==========
+	private _type: number;
 
 	get type(): number
 	{
 		return this._type;
 	}
 
+	private _category: number;
+
 	get category(): number
 	{
 		return this._category;
 	}
+
+	private _stuffData: IStuffData | null;
 
 	get stuffData(): IStuffData | null
 	{
 		return this._stuffData;
 	}
 
+	private _extra: number;
+
 	get extra(): number
 	{
 		return this._extra;
 	}
+
+	private _isLocked: boolean = false;
 
 	get isLocked(): boolean
 	{
@@ -68,6 +66,8 @@ export class GroupItem
 		this._isLocked = value;
 	}
 
+	private _isSelected: boolean = false;
+
 	get isSelected(): boolean
 	{
 		return this._isSelected;
@@ -77,6 +77,8 @@ export class GroupItem
 	{
 		this._isSelected = value;
 	}
+
+	private _hasUnseenItems: boolean = false;
 
 	get hasUnseenItems(): boolean
 	{
@@ -88,6 +90,8 @@ export class GroupItem
 		this._hasUnseenItems = value;
 	}
 
+	private _name: string = '';
+
 	get name(): string
 	{
 		return this._name;
@@ -98,6 +102,8 @@ export class GroupItem
 		this._name = value;
 	}
 
+	private _description: string = '';
+
 	get description(): string
 	{
 		return this._description;
@@ -106,6 +112,28 @@ export class GroupItem
 	set description(value: string)
 	{
 		this._description = value;
+	}
+
+	private _selectedItemIndex: number = -1;
+
+	get selectedItemIndex(): number
+	{
+		if (this._selectedItemIndex >= this._items.size)
+		{
+			this._selectedItemIndex = Math.max(0, this._items.size - 1);
+		}
+
+		return this._selectedItemIndex;
+	}
+
+	set selectedItemIndex(value: number)
+	{
+		if (value >= this._items.size)
+		{
+			value = 0;
+		}
+
+		this._selectedItemIndex = value;
 	}
 
 	get isWallItem(): boolean
@@ -135,28 +163,6 @@ export class GroupItem
 
 		return item?.isRented ?? false;
 	}
-
-	get selectedItemIndex(): number
-	{
-		if (this._selectedItemIndex >= this._items.size)
-		{
-			this._selectedItemIndex = Math.max(0, this._items.size - 1);
-		}
-
-		return this._selectedItemIndex;
-	}
-
-	set selectedItemIndex(value: number)
-	{
-		if (value >= this._items.size)
-		{
-			value = 0;
-		}
-
-		this._selectedItemIndex = value;
-	}
-
-	// ========== Stack Operations ==========
 
 	/**
 	 * Add an item to the group
@@ -254,8 +260,6 @@ export class GroupItem
 		this._items.set(itemId, item);
 	}
 
-	// ========== Count Methods ==========
-
 	/**
 	 * Get total item count
 	 * For POST_IT items, returns sum of quantities
@@ -338,8 +342,6 @@ export class GroupItem
 		return count;
 	}
 
-	// ========== Lock Management ==========
-
 	/**
 	 * Lock an item by ID
 	 */
@@ -395,8 +397,6 @@ export class GroupItem
 			item.locked = shouldBeLocked;
 		}
 	}
-
-	// ========== Trade Methods ==========
 
 	/**
 	 * Get one item available for trade
@@ -487,8 +487,6 @@ export class GroupItem
 
 		return null;
 	}
-
-	// ========== Utility Methods ==========
 
 	/**
 	 * Get all furniture IDs in this group

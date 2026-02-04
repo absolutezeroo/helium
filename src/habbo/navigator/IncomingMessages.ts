@@ -132,8 +132,6 @@ export class IncomingMessages
 		this._messageEvents.push(event);
 	}
 
-	// ========== Message Handlers ==========
-
 	private onNavigatorSettings(event: IMessageEvent): void
 	{
 		if (!event) return;

@@ -118,8 +118,6 @@ export class ByteArray
 		}
 	}
 
-	// ==================== WRITE METHODS ====================
-
 	writeByte(value: number): void
 	{
 		this.ensureCapacity(1);
@@ -256,8 +254,6 @@ export class ByteArray
 			this._length = this._position;
 		}
 	}
-
-	// ==================== READ METHODS ====================
 
 	readByte(): number
 	{
@@ -410,8 +406,6 @@ export class ByteArray
 
 		this._position += length;
 	}
-
-	// ==================== UTILITY METHODS ====================
 
 	/**
 	 * Clear the byte array

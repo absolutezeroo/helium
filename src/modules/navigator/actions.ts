@@ -17,8 +17,6 @@ export function createActions(ctx: ActionContext<NavigatorState, NavigatorManage
 	const {getState, updateState, managers} = ctx;
 
 	return {
-		// ========== UI Actions ==========
-
 		/**
 		 * Open the navigator window
 		 */
@@ -101,8 +99,6 @@ export function createActions(ctx: ActionContext<NavigatorState, NavigatorManage
 			updateState({isCreateModalOpen: false});
 		},
 
-		// ========== Navigation Actions ==========
-
 		/**
 		 * Perform a search
 		 */
@@ -153,8 +149,6 @@ export function createActions(ctx: ActionContext<NavigatorState, NavigatorManage
 		{
 			return managers.navigator.goToHomeRoom();
 		},
-
-		// ========== Helpers ==========
 
 		/**
 		 * Check if a room is the user's home room

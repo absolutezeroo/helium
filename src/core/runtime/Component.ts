@@ -3,7 +3,7 @@ import {getIIDName, type IID} from './IID';
 import type {IDisposable} from './IDisposable';
 import type {IContext, InterfaceCallback} from './IContext';
 import type {ComponentDependency} from './ComponentDependency';
-import type {IAssetLibrary, IAsset, AssetLoaderStruct} from '@core/assets';
+import type {AssetLoaderStruct, IAsset, IAssetLibrary} from '@core/assets';
 
 /**
  * Component Events
@@ -91,7 +91,6 @@ export class Component implements IDisposable
 	private _requiredDependenciesCount: number = 1; // Start at 1, decremented after all deps queued
 	private _pendingDependencies: Set<string> = new Set();
 	private _constructionComplete: boolean = false;
-	private _assets: IAssetLibrary | null = null;
 
 	constructor(context: IContext, flags: number = 0, assetLibrary: IAssetLibrary | null = null)
 	{
@@ -133,6 +132,16 @@ export class Component implements IDisposable
 		this._constructionComplete = true;
 	}
 
+	private _assets: IAssetLibrary | null = null;
+
+	/**
+	 * The asset library for this component
+	 */
+	get assets(): IAssetLibrary | null
+	{
+		return this._assets;
+	}
+
 	protected _flags: number = 0;
 
 	/**
@@ -144,8 +153,6 @@ export class Component implements IDisposable
 	}
 
 	private _disposed: boolean = false;
-
-	// ========== Public Properties ==========
 
 	/**
 	 * Whether the component has been disposed
@@ -181,14 +188,21 @@ export class Component implements IDisposable
 		return this._events;
 	}
 
-	// ========== Asset Library ==========
+	/**
+	 * Override this to declare component dependencies.
+	 * Called during construction.
+	 */
+	protected get dependencies(): ComponentDependency<any>[]
+	{
+		return [];
+	}
 
 	/**
-	 * The asset library for this component
+	 * Whether all required dependencies have been injected
 	 */
-	get assets(): IAssetLibrary | null
+	protected get allRequiredDependenciesInjected(): boolean
 	{
-		return this._assets;
+		return this._requiredDependenciesCount === 0;
 	}
 
 	/**
@@ -222,27 +236,6 @@ export class Component implements IDisposable
 	{
 		return this._assets?.hasAsset(name) ?? false;
 	}
-
-	// ========== Dependency Declaration ==========
-
-	/**
-	 * Override this to declare component dependencies.
-	 * Called during construction.
-	 */
-	protected get dependencies(): ComponentDependency<any>[]
-	{
-		return [];
-	}
-
-	/**
-	 * Whether all required dependencies have been injected
-	 */
-	protected get allRequiredDependenciesInjected(): boolean
-	{
-		return this._requiredDependenciesCount === 0;
-	}
-
-	// ========== Lifecycle ==========
 
 	/**
 	 * Dispose of this component
@@ -326,8 +319,6 @@ export class Component implements IDisposable
 		return this._context.queueInterface(iid, callback);
 	}
 
-	// ========== Interface Resolution ==========
-
 	/**
 	 * Release a reference to an interface
 	 */
@@ -388,8 +379,6 @@ export class Component implements IDisposable
 		return this._context.configuration?.propertyExists(key) ?? false;
 	}
 
-	// ========== Configuration Shortcuts ==========
-
 	/**
 	 * Get a configuration property
 	 */
@@ -433,8 +422,6 @@ export class Component implements IDisposable
 		}
 	}
 
-	// ========== Update Receiver ==========
-
 	/**
 	 * Remove this component from update receivers
 	 */
@@ -453,8 +440,6 @@ export class Component implements IDisposable
 	{
 		return `[Component ${this.constructor.name}]`;
 	}
-
-	// ========== Protected Lock/Unlock ==========
 
 	/**
 	 * Called when all required dependencies have been injected.
@@ -475,8 +460,6 @@ export class Component implements IDisposable
 			this._locked = true;
 		}
 	}
-
-	// ========== Private Methods ==========
 
 	/**
 	 * Unlock the component (all dependencies resolved)

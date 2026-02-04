@@ -1,12 +1,10 @@
-import type {Badge, Bot, Effect, InventoryCategoryType, Pet, GroupItem} from '@habbo/inventory';
+import type {Badge, Bot, Effect, GroupItem, InventoryCategoryType, Pet} from '@habbo/inventory';
 
 /**
  * Inventory module state
  */
 export interface InventoryState
 {
-	// ========== UI State ==========
-
 	/** Whether the inventory window is open */
 	isOpen: boolean;
 
@@ -16,8 +14,6 @@ export interface InventoryState
 	/** Whether data is currently loading */
 	isLoading: boolean;
 
-	// ========== Furniture State ==========
-
 	/** Furniture groups */
 	furniGroups: GroupItem[];
 
@@ -26,8 +22,6 @@ export interface InventoryState
 
 	/** Unseen furniture count */
 	furniUnseenCount: number;
-
-	// ========== Badges State ==========
 
 	/** All badges */
 	badges: Badge[];
@@ -41,15 +35,11 @@ export interface InventoryState
 	/** Unseen badges count */
 	badgesUnseenCount: number;
 
-	// ========== Effects State ==========
-
 	/** All effects */
 	effects: Effect[];
 
 	/** Selected effect */
 	selectedEffect: Effect | null;
-
-	// ========== Pets State ==========
 
 	/** All pets */
 	pets: Pet[];
@@ -59,8 +49,6 @@ export interface InventoryState
 
 	/** Unseen pets count */
 	petsUnseenCount: number;
-
-	// ========== Bots State ==========
 
 	/** All bots */
 	bots: Bot[];

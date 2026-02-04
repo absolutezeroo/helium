@@ -1,9 +1,9 @@
 import type {ITradingModel} from './ITradingModel';
 import type {TradingStateType} from './TradingState';
+import {MAX_ITEMS_TO_TRADE, TradingState} from './TradingState';
 import type {TradingUser} from './TradingUser';
-import type {GroupItem} from '../items/GroupItem';
-import {TradingState, MAX_ITEMS_TO_TRADE} from './TradingState';
 import {createTradingUser} from './TradingUser';
+import type {GroupItem} from '../items/GroupItem';
 
 /**
  * Manages trading session data
@@ -13,42 +13,37 @@ import {createTradingUser} from './TradingUser';
 export class TradingModel implements ITradingModel
 {
 	private _disposed: boolean = false;
-	private _state: TradingStateType = TradingState.READY;
-	private _ownUser: TradingUser | null = null;
-	private _otherUser: TradingUser | null = null;
-
-	constructor()
-	{
-	}
-
-	// ========== Properties ==========
 
 	get disposed(): boolean
 	{
 		return this._disposed;
 	}
 
-	get isRunning(): boolean
-	{
-		return this._state !== TradingState.READY;
-	}
+	private _state: TradingStateType = TradingState.READY;
 
 	get state(): TradingStateType
 	{
 		return this._state;
 	}
 
+	private _ownUser: TradingUser | null = null;
+
 	get ownUser(): TradingUser | null
 	{
 		return this._ownUser;
 	}
+
+	private _otherUser: TradingUser | null = null;
 
 	get otherUser(): TradingUser | null
 	{
 		return this._otherUser;
 	}
 
-	// ========== Lifecycle ==========
+	get isRunning(): boolean
+	{
+		return this._state !== TradingState.READY;
+	}
 
 	dispose(): void
 	{
@@ -57,8 +52,6 @@ export class TradingModel implements ITradingModel
 		this.close();
 		this._disposed = true;
 	}
-
-	// ========== Trading Session ==========
 
 	startTrading(
 		ownUserId: number,
@@ -107,38 +100,6 @@ export class TradingModel implements ITradingModel
 
 		return false;
 	}
-
-	private isValidTransition(from: TradingStateType, to: TradingStateType): boolean
-	{
-		switch (from)
-		{
-			case TradingState.READY:
-				return to === TradingState.RUNNING || to === TradingState.COMPLETED;
-
-			case TradingState.RUNNING:
-				return to === TradingState.COUNTDOWN || to === TradingState.CANCELLED;
-
-			case TradingState.COUNTDOWN:
-				return to === TradingState.CONFIRMING || to === TradingState.CANCELLED || to === TradingState.RUNNING;
-
-			case TradingState.CONFIRMING:
-				return to === TradingState.CONFIRMED || to === TradingState.COMPLETED || to === TradingState.CANCELLED;
-
-			case TradingState.CONFIRMED:
-				return to === TradingState.COMPLETED || to === TradingState.CANCELLED;
-
-			case TradingState.COMPLETED:
-				return to === TradingState.READY;
-
-			case TradingState.CANCELLED:
-				return to === TradingState.READY || to === TradingState.RUNNING;
-
-			default:
-				return false;
-		}
-	}
-
-	// ========== Item Lists ==========
 
 	updateItemLists(
 		firstUserId: number,
@@ -189,8 +150,6 @@ export class TradingModel implements ITradingModel
 		}
 	}
 
-	// ========== Item Queries ==========
-
 	getOwnItemIdsInTrade(): number[]
 	{
 		const ids: number[] = [];
@@ -233,5 +192,35 @@ export class TradingModel implements ITradingModel
 	hasItemType(itemKey: string): boolean
 	{
 		return this._ownUser?.items.has(itemKey) ?? false;
+	}
+
+	private isValidTransition(from: TradingStateType, to: TradingStateType): boolean
+	{
+		switch (from)
+		{
+			case TradingState.READY:
+				return to === TradingState.RUNNING || to === TradingState.COMPLETED;
+
+			case TradingState.RUNNING:
+				return to === TradingState.COUNTDOWN || to === TradingState.CANCELLED;
+
+			case TradingState.COUNTDOWN:
+				return to === TradingState.CONFIRMING || to === TradingState.CANCELLED || to === TradingState.RUNNING;
+
+			case TradingState.CONFIRMING:
+				return to === TradingState.CONFIRMED || to === TradingState.COMPLETED || to === TradingState.CANCELLED;
+
+			case TradingState.CONFIRMED:
+				return to === TradingState.COMPLETED || to === TradingState.CANCELLED;
+
+			case TradingState.COMPLETED:
+				return to === TradingState.READY;
+
+			case TradingState.CANCELLED:
+				return to === TradingState.READY || to === TradingState.RUNNING;
+
+			default:
+				return false;
+		}
 	}
 }

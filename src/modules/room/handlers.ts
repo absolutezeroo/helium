@@ -3,15 +3,20 @@ import type {RoomState, RoomUserData as ModuleRoomUserData} from './types';
 import {createInitialRoomState} from './types';
 
 // Parser types
-import type {GetGuestRoomResultMessageParser} from '@habbo/communication/messages/parser/navigator/GetGuestRoomResultMessageParser';
+import type {
+	GetGuestRoomResultMessageParser
+} from '@habbo/communication/messages/parser/navigator/GetGuestRoomResultMessageParser';
 import type {RoomRatingMessageParser} from '@habbo/communication/messages/parser/navigator/RoomRatingMessageParser';
 import type {RoomEventMessageParser} from '@habbo/communication/messages/parser/navigator/RoomEventMessageParser';
 import type {RoomReadyMessageParser} from '@habbo/communication/messages/parser/room/session/RoomReadyMessageParser';
-import type {YouAreControllerMessageParser} from '@habbo/communication/messages/parser/room/permissions/YouAreControllerMessageParser';
-import type {YouAreOwnerMessageParser} from '@habbo/communication/messages/parser/room/permissions/YouAreOwnerMessageParser';
+import type {
+	YouAreControllerMessageParser
+} from '@habbo/communication/messages/parser/room/permissions/YouAreControllerMessageParser';
 import type {UsersMessageParser} from '@habbo/communication/messages/parser/room/engine/UsersMessageParser';
 import type {UserRemoveMessageParser} from '@habbo/communication/messages/parser/room/engine/UserRemoveMessageParser';
-import type {RoomEntryInfoMessageParser} from '@habbo/communication/messages/parser/room/engine/RoomEntryInfoMessageParser';
+import type {
+	RoomEntryInfoMessageParser
+} from '@habbo/communication/messages/parser/room/engine/RoomEntryInfoMessageParser';
 
 // Data types
 import type {RoomUserData as ParserRoomUserData} from '@habbo/communication/messages/incoming/room/engine/RoomUserData';
@@ -46,8 +51,6 @@ function convertUserData(data: ParserRoomUserData): ModuleRoomUserData
 }
 
 export const handlers: MessageHandlers<RoomState> = {
-
-	// ========== ROOM INFO ==========
 
 	/**
 	 * Room info / entry
@@ -88,8 +91,6 @@ export const handlers: MessageHandlers<RoomState> = {
 		roomEvent: null,
 	}),
 
-	// ========== ROOM SESSION ==========
-
 	/**
 	 * Room ready - session started
 	 */
@@ -118,8 +119,6 @@ export const handlers: MessageHandlers<RoomState> = {
 	 */
 	FlatAccessibleMessageEvent: (): Partial<RoomState> => ({}),
 
-	// ========== PERMISSIONS ==========
-
 	/**
 	 * You are controller (have rights)
 	 */
@@ -133,8 +132,6 @@ export const handlers: MessageHandlers<RoomState> = {
 	YouAreOwnerMessageEvent: (): Partial<RoomState> => ({
 		isRoomOwner: true,
 	}),
-
-	// ========== USERS ==========
 
 	/**
 	 * Users entered room

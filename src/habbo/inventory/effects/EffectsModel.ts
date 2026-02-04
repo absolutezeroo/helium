@@ -1,4 +1,4 @@
-import type {IEffectsModel, EffectFilterType} from './IEffectsModel';
+import type {EffectFilterType, IEffectsModel} from './IEffectsModel';
 import {EffectFilter} from './IEffectsModel';
 import {Effect} from './Effect';
 
@@ -9,27 +9,21 @@ import {Effect} from './Effect';
  */
 export class EffectsModel implements IEffectsModel
 {
-	private _disposed: boolean = false;
 	private _effects: Effect[] = [];
-	private _lastActivatedEffect: number = -1;
 
-	constructor()
-	{
-	}
-
-	// ========== Properties ==========
+	private _disposed: boolean = false;
 
 	get disposed(): boolean
 	{
 		return this._disposed;
 	}
 
+	private _lastActivatedEffect: number = -1;
+
 	get lastActivatedEffect(): number
 	{
 		return this._lastActivatedEffect;
 	}
-
-	// ========== Lifecycle ==========
 
 	dispose(): void
 	{
@@ -43,8 +37,6 @@ export class EffectsModel implements IEffectsModel
 		this._effects = [];
 		this._disposed = true;
 	}
-
-	// ========== Add/Get ==========
 
 	addEffect(effect: Effect): boolean
 	{
@@ -104,8 +96,6 @@ export class EffectsModel implements IEffectsModel
 
 		return effects[index];
 	}
-
-	// ========== Activation ==========
 
 	setEffectActivated(type: number): Effect | null
 	{
@@ -167,21 +157,6 @@ export class EffectsModel implements IEffectsModel
 	{
 		this.stopUsingAllEffectsInternal(true);
 	}
-
-	private stopUsingAllEffectsInternal(clearLastActivated: boolean): void
-	{
-		for (const effect of this._effects)
-		{
-			effect.isInUse = false;
-		}
-
-		if (clearLastActivated)
-		{
-			this._lastActivatedEffect = -1;
-		}
-	}
-
-	// ========== Selection ==========
 
 	toggleEffectSelected(type: number): Effect | null
 	{
@@ -245,8 +220,6 @@ export class EffectsModel implements IEffectsModel
 		return null;
 	}
 
-	// ========== Expiration ==========
-
 	setEffectExpired(type: number): boolean
 	{
 		this._lastActivatedEffect = -1;
@@ -268,6 +241,29 @@ export class EffectsModel implements IEffectsModel
 		return true;
 	}
 
+	reactivateLastEffect(): number
+	{
+		if (this._lastActivatedEffect !== -1)
+		{
+			return this.useEffect(this._lastActivatedEffect);
+		}
+
+		return -1;
+	}
+
+	private stopUsingAllEffectsInternal(clearLastActivated: boolean): void
+	{
+		for (const effect of this._effects)
+		{
+			effect.isInUse = false;
+		}
+
+		if (clearLastActivated)
+		{
+			this._lastActivatedEffect = -1;
+		}
+	}
+
 	private removeEffect(type: number): void
 	{
 		for (let i = 0; i < this._effects.length; i++)
@@ -281,17 +277,5 @@ export class EffectsModel implements IEffectsModel
 				return;
 			}
 		}
-	}
-
-	// ========== Reactivation ==========
-
-	reactivateLastEffect(): number
-	{
-		if (this._lastActivatedEffect !== -1)
-		{
-			return this.useEffect(this._lastActivatedEffect);
-		}
-
-		return -1;
 	}
 }

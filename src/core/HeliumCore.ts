@@ -46,15 +46,80 @@ export interface HeliumCoreConfig
  */
 export class HeliumCore
 {
-	private _disposed: boolean = false;
 	private _ready: boolean = false;
+
+	private _disposed: boolean = false;
+
+	get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
 	// Core components
 	private _context: ComponentContext | null = null;
+
+	get context(): ComponentContext
+	{
+		if (!this._context)
+		{
+			throw new Error('[HeliumCore] Not initialized');
+		}
+
+		return this._context;
+	}
+
 	private _application: Application | null = null;
+
+	get application(): Application
+	{
+		if (!this._application)
+		{
+			throw new Error('[HeliumCore] Not initialized');
+		}
+
+		return this._application;
+	}
+
 	private _assets: AssetLibrary | null = null;
+
+	get assets(): IAssetLibrary
+	{
+		if (!this._assets)
+		{
+			throw new Error('[HeliumCore] Not initialized');
+		}
+
+		return this._assets;
+	}
+
 	private _gameData: GameDataManager | null = null;
+
+	get gameData(): IGameDataManager
+	{
+		if (!this._gameData)
+		{
+			throw new Error('[HeliumCore] Not initialized');
+		}
+
+		return this._gameData;
+	}
+
 	private _communication: CoreCommunicationManager | null = null;
+
+	get communication(): ICoreCommunicationManager
+	{
+		if (!this._communication)
+		{
+			throw new Error('[HeliumCore] Not initialized');
+		}
+
+		return this._communication;
+	}
+
+	get isReady(): boolean
+	{
+		return this._ready;
+	}
 
 	/**
 	 * Initialize the core layer
@@ -111,22 +176,6 @@ export class HeliumCore
 	}
 
 	/**
-	 * Main update loop - updates context and communication
-	 */
-	private update(ticker: Ticker): void
-	{
-		if (this._disposed) return;
-
-		const deltaTime = ticker.deltaMS;
-
-		// Update context (processes all update receivers)
-		this._context?.update(deltaTime);
-
-		// Process communication queue
-		this._communication?.update(deltaTime);
-	}
-
-	/**
 	 * Dispose the core layer
 	 */
 	dispose(): void
@@ -155,65 +204,19 @@ export class HeliumCore
 		this._ready = false;
 	}
 
-	// ========== Getters ==========
-
-	get isReady(): boolean
+	/**
+	 * Main update loop - updates context and communication
+	 */
+	private update(ticker: Ticker): void
 	{
-		return this._ready;
-	}
+		if (this._disposed) return;
 
-	get disposed(): boolean
-	{
-		return this._disposed;
-	}
+		const deltaTime = ticker.deltaMS;
 
-	get context(): ComponentContext
-	{
-		if (!this._context)
-		{
-			throw new Error('[HeliumCore] Not initialized');
-		}
+		// Update context (processes all update receivers)
+		this._context?.update(deltaTime);
 
-		return this._context;
-	}
-
-	get application(): Application
-	{
-		if (!this._application)
-		{
-			throw new Error('[HeliumCore] Not initialized');
-		}
-
-		return this._application;
-	}
-
-	get assets(): IAssetLibrary
-	{
-		if (!this._assets)
-		{
-			throw new Error('[HeliumCore] Not initialized');
-		}
-
-		return this._assets;
-	}
-
-	get gameData(): IGameDataManager
-	{
-		if (!this._gameData)
-		{
-			throw new Error('[HeliumCore] Not initialized');
-		}
-
-		return this._gameData;
-	}
-
-	get communication(): ICoreCommunicationManager
-	{
-		if (!this._communication)
-		{
-			throw new Error('[HeliumCore] Not initialized');
-		}
-
-		return this._communication;
+		// Process communication queue
+		this._communication?.update(deltaTime);
 	}
 }
