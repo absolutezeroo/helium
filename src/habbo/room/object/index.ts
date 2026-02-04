@@ -15,3 +15,7 @@ export * from './RoomPlaneData';
 export * from './RoomWallData';
 export * from './RoomFloorHole';
 export * from './RoomPlaneMaskData';
+
+// Visualization
+export {RoomPlane} from './visualization/room/RoomPlane';
+export {RoomVisualization} from './visualization/room/RoomVisualization';

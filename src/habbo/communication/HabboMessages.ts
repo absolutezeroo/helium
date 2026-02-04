@@ -117,6 +117,25 @@ import {
 	UserUpdateMessageEvent,
 } from './messages/incoming/room/engine';
 
+// Incoming Events - Room Chat
+import {
+	ChatMessageEvent,
+	ShoutMessageEvent,
+	WhisperMessageEvent,
+	UserTypingMessageEvent,
+} from './messages/incoming/room/chat';
+
+// Incoming Events - Room Action
+import {
+	AvatarEffectMessageEvent,
+	CarryObjectMessageEvent,
+	DanceMessageEvent,
+	ExpressionMessageEvent,
+	SleepMessageEvent,
+	UseObjectMessageEvent,
+	UserChangeMessageEvent,
+} from './messages/incoming/room/action';
+
 // Incoming Events - New Navigator
 import {
 	NavigatorCollapsedCategoriesMessageEvent,
@@ -196,6 +215,13 @@ import {OpenFlatConnectionMessageComposer,} from './messages/outgoing/room/sessi
 
 // Outgoing Composers - Room Engine
 import {GetFurnitureAliasesMessageComposer, GetHeightMapMessageComposer,} from './messages/outgoing/room/engine';
+
+// Outgoing Composers - Room Chat
+import {
+	ChatMessageComposer,
+	ShoutMessageComposer,
+	WhisperMessageComposer,
+} from './messages/outgoing/room/chat';
 
 // Outgoing Composers - Inventory
 import {
@@ -373,7 +399,22 @@ export class HabboMessages implements IMessageConfiguration
 		this._events.set(2846, UsersMessageEvent);
 		this._events.set(3911, UserUpdateMessageEvent);
 		this._events.set(2193, UserRemoveMessageEvent);
-		this._events.set(1661, SlideObjectBundleMessageEvent)
+		this._events.set(1661, SlideObjectBundleMessageEvent);
+
+		// === ROOM CHAT ===
+		this._events.set(1632, ChatMessageEvent);
+		this._events.set(3554, ShoutMessageEvent);
+		this._events.set(2834, WhisperMessageEvent);
+		this._events.set(1780, UserTypingMessageEvent);
+
+		// === ROOM ACTION ===
+		this._events.set(3855, ExpressionMessageEvent);
+		this._events.set(558, DanceMessageEvent);
+		this._events.set(1767, AvatarEffectMessageEvent);
+		this._events.set(807, SleepMessageEvent);
+		this._events.set(1299, CarryObjectMessageEvent);
+		this._events.set(2675, UseObjectMessageEvent);
+		this._events.set(2680, UserChangeMessageEvent);
 	}
 
 	/**
@@ -449,6 +490,11 @@ export class HabboMessages implements IMessageConfiguration
 		// === ROOM ENGINE ===
 		this._composers.set(2064, GetFurnitureAliasesMessageComposer);
 		this._composers.set(1935, GetHeightMapMessageComposer);
+
+		// === ROOM CHAT ===
+		this._composers.set(2057, ChatMessageComposer);
+		this._composers.set(380, ShoutMessageComposer);
+		this._composers.set(2065, WhisperMessageComposer);
 
 		// === INVENTORY ===
 		this._composers.set(3181, RequestFurniInventoryComposer);

@@ -54,11 +54,28 @@ export const handlers: MessageHandlers<RoomState> = {
 
 	/**
 	 * Room info / entry
+	 *
+	 * Based on AS3: com.sulake.habbo.navigator.IncomingMessages.onRoomInfo
+	 *
+	 * - enterRoom=true: Actually entering the room, set currentRoom
+	 * - roomForward=true: Server forwarding to room, set currentRoom (modern emulators)
+	 * - neither: Just viewing room info (don't set currentRoom)
 	 */
 	GetGuestRoomResultMessageEvent: (parser: GetGuestRoomResultMessageParser): Partial<RoomState> =>
 	{
 		if (parser.enterRoom && parser.data)
 		{
+			// Case 1: Actually entering the room
+			return {
+				currentRoom: parser.data,
+				isStaffPick: parser.staffPick,
+				sessionState: 'created',
+			};
+		}
+		else if (parser.roomForward && parser.data)
+		{
+			// Case 2: Room forwarding - we're entering via forward
+			// Modern emulators don't send a second GetGuestRoomResult with enterRoom=true
 			return {
 				currentRoom: parser.data,
 				isStaffPick: parser.staffPick,
@@ -66,6 +83,7 @@ export const handlers: MessageHandlers<RoomState> = {
 			};
 		}
 
+		// Case 3: Just viewing room info, don't set currentRoom
 		return {};
 	},
 

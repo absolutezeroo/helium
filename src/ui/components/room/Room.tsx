@@ -11,10 +11,12 @@ import {RoomUserList} from './RoomUserList';
  */
 export const Room: Component = () =>
 {
-	const {actions} = useModule(ModuleId.Room);
+	const {state} = useModule(ModuleId.Room);
 
+	// Use state() signal directly for reactivity
+	// actions.isInRoom() is NOT reactive - it returns a static value
 	return (
-		<Show when={actions.isInRoom()}>
+		<Show when={state().currentRoom !== null}>
 			<div class="room-ui">
 				<div class="room-sidebar">
 					<RoomSessionPanel/>

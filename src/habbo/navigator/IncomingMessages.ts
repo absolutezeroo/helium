@@ -182,23 +182,30 @@ export class IncomingMessages
 
 		if (!parser.data) return;
 
-		// Handle room forwarding (when server tells us to enter a room)
-		if (parser.roomForward)
+		// Based on AS3: com.sulake.habbo.navigator.IncomingMessages.onRoomInfo
+		if (parser.enterRoom)
 		{
+			// Case 1: Actually entering the room
+			this.data.enteredGuestRoom = parser.data;
+			this.data.currentRoomIsStaffPick = parser.staffPick;
+		}
+		else if (parser.roomForward)
+		{
+			// Case 2: Room forwarding - check door mode
 			const doorMode = parser.data.doorMode;
 
 			// Door mode: 0=open, 1=doorbell, 2=password, 3=invisible, 4=noobs_only
 			if (doorMode === 1)
 			{
 				// Doorbell - would need to show doorbell UI
-				// For now, just enter the room
+				// TODO: _navigator.doorbell.show(parser.data)
 				log.debug(`Room requires doorbell: ${parser.data.flatId}`);
 				this._navigator.goToRoom(parser.data.flatId, false);
 			}
 			else if (doorMode === 2)
 			{
 				// Password protected - would need to show password input
-				// For now, just enter without password
+				// TODO: _navigator.passwordInput.show(parser.data)
 				log.debug(`Room requires password: ${parser.data.flatId}`);
 				this._navigator.goToRoom(parser.data.flatId, false);
 			}
@@ -207,15 +214,20 @@ export class IncomingMessages
 				// Open room or other modes - enter directly
 				this._navigator.goToRoom(parser.data.flatId, false);
 			}
+
+			// Store room data for modern emulators that don't send a second GetGuestRoomResult
+			// AS3 would get this from a subsequent enterRoom=true response
+			this.data.enteredGuestRoom = parser.data;
+			this.data.currentRoomIsStaffPick = parser.staffPick;
 		}
 		else
 		{
-			// Just viewing room info, not entering
+			// Case 3: Just viewing room info, not entering
 			this.data.enteredGuestRoom = parser.data;
 			this.data.currentRoomIsStaffPick = parser.staffPick;
 		}
 
-		log.debug(`Guest room result: ${parser.data.roomName} (${parser.data.flatId}), forward=${parser.roomForward}`);
+		log.debug(`Guest room result: ${parser.data.roomName} (${parser.data.flatId}), enterRoom=${parser.enterRoom}, forward=${parser.roomForward}`);
 	}
 
 	private onRoomInfoUpdated(event: IMessageEvent): void

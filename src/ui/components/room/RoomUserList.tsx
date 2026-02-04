@@ -11,7 +11,7 @@ import type {RoomUserData} from '@/modules';
  */
 export const RoomUserList: Component = () =>
 {
-	const {state, actions} = useModule(ModuleId.Room);
+	const {state} = useModule(ModuleId.Room);
 
 	// Separate users by type
 	const humanUsers = createMemo(() =>
@@ -34,8 +34,9 @@ export const RoomUserList: Component = () =>
 		return state().users[state().ownUserRoomIndex] ?? null;
 	});
 
+	// Use state() signal directly for reactivity
 	return (
-		<Show when={actions.isInRoom()}>
+		<Show when={state().currentRoom !== null}>
 			<div class="room-user-list">
 				<div class="room-user-list-header">
 					<h3>Room Users ({Object.keys(state().users).length})</h3>

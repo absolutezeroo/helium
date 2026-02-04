@@ -19,6 +19,9 @@ export {RoomObjectFactory} from './RoomObjectFactory';
 export {RoomContentLoader} from './RoomContentLoader';
 export {RoomMessageHandler} from './RoomMessageHandler';
 
+// Renderer
+export {RoomRenderingCanvas} from './renderer/RoomRenderingCanvas';
+
 // Sub-modules
 export * from './events';
 export * from './messages';

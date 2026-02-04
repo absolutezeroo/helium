@@ -177,6 +177,28 @@ export interface IRoomCreator
 	): boolean;
 
 	/**
+	 * Update user action (expression, dance, sleep, typing, carry, use object).
+	 * Based on AS3: updateObjectUserAction
+	 */
+	updateObjectUserAction(
+		roomId: number,
+		roomIndex: number,
+		action: string,
+		value: number
+	): boolean;
+
+	/**
+	 * Update user effect.
+	 * Based on AS3: updateObjectUserEffect
+	 */
+	updateObjectUserEffect(
+		roomId: number,
+		roomIndex: number,
+		effectId: number,
+		delayMilliSeconds: number
+	): boolean;
+
+	/**
 	 * Dispose user.
 	 */
 	disposeObjectUser(

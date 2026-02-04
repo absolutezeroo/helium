@@ -415,6 +415,9 @@ export class Helium
 		this._roomEngine = new RoomEngine(ctx);
 		ctx.attachComponent(this._roomEngine, [IID_RoomEngine]);
 
+		// Set PixiJS stage on room engine for rendering
+		this._roomEngine.setStage(this._core!.application.stage);
+
 		// Room Message Handler - bridges communication to room engine
 		this._roomMessageHandler = new RoomMessageHandler(this._roomEngine);
 	}

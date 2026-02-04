@@ -9,6 +9,7 @@
  * IMPORTANT: RoomEngine depends on IRoomManager for room instance management.
  * It does NOT manage rooms directly - that's RoomManager's responsibility.
  */
+import type {Application, Container} from 'pixi.js';
 import {Component, ComponentDependency, type IContext, type IUpdateReceiver} from '@core/runtime';
 import type {IConnection} from '@core/communication/connection/IConnection';
 import type {IRoomEngine} from './IRoomEngine';
@@ -20,6 +21,7 @@ import type {IRoomManager} from '@room/IRoomManager';
 import type {IRoomManagerListener} from '@room/IRoomManagerListener';
 import type {IRoomObject} from '@room/object/IRoomObject';
 import type {IRoomObjectController} from '@room/object/IRoomObjectController';
+import type {IRoomObjectSpriteVisualization} from '@room/object/visualization/IRoomObjectSpriteVisualization';
 import {IID_RoomManager} from '@iid/IIDRoomManager';
 import {RoomObjectCategoryEnum} from './object/RoomObjectCategoryEnum';
 import {RoomObjectLogicEnum} from './object/RoomObjectLogicEnum';
@@ -28,6 +30,7 @@ import {RoomObjectVariableEnum} from './object/RoomObjectVariableEnum';
 import {RoomEngineEvent} from './events/RoomEngineEvent';
 import {RoomEngineObjectEvent} from './events/RoomEngineObjectEvent';
 import {RoomObjectFactory} from './RoomObjectFactory';
+import {RoomRenderingCanvas} from './renderer/RoomRenderingCanvas';
 import type {IStuffData} from './object/data/IStuffData';
 
 // Messages
@@ -68,6 +71,9 @@ export class RoomEngine extends Component implements
 	private _activeRoomId: number = -1;
 	private _ownUserIds: Map<number, number>;
 	private _roomObjectAliases: Map<string, string>;
+	private _renderingCanvases: Map<number, RoomRenderingCanvas> = new Map();
+	private _roomVisualizations: Map<string, IRoomObjectSpriteVisualization> = new Map();
+	private _pixiStage: Container | null = null;
 
 	constructor(context: IContext)
 	{
@@ -300,6 +306,26 @@ export class RoomEngine extends Component implements
 
 		this._roomData.delete(roomIdStr);
 		this._ownUserIds.delete(roomId);
+
+		// Clean up visualizations for this room
+		const keysToDelete: string[] = [];
+
+		for (const [key, visualization] of this._roomVisualizations)
+		{
+			if (key.startsWith(`${roomId}_`))
+			{
+				visualization.dispose();
+				keysToDelete.push(key);
+			}
+		}
+
+		for (const key of keysToDelete)
+		{
+			this._roomVisualizations.delete(key);
+		}
+
+		// Dispose rendering canvas
+		this.disposeRenderingCanvas(roomId);
 
 		this.events.emit(RoomEngineEvent.REE_DISPOSED, new RoomEngineEvent(RoomEngineEvent.REE_DISPOSED, roomId));
 	}
@@ -832,6 +858,12 @@ export class RoomEngine extends Component implements
 		{
 			this._roomManager.update(time);
 		}
+
+		// Update visualizations for active room
+		if (this._activeRoomId >= 0)
+		{
+			this.updateRoomVisualizations(this._activeRoomId, time);
+		}
 	}
 
 	initializeRoomVisuals(
@@ -962,6 +994,14 @@ export class RoomEngine extends Component implements
 						}
 					}
 				}
+			}
+
+			// Create room visualization
+			const roomVisualization = this.createVisualizationForObject(roomId, OBJECT_ID_ROOM, OBJECT_TYPE_ROOM);
+
+			if (roomVisualization)
+			{
+				console.log(`[RoomEngine] Created room visualization for room ${roomId}`);
 			}
 		}
 
@@ -1278,6 +1318,81 @@ export class RoomEngine extends Component implements
 		return this.updateRoomObjectUserFigure(roomId, roomIndex, figure, sex, subType ?? null, isRiding ?? false);
 	}
 
+	/**
+	 * Update user action (expression, dance, sleep, typing, carry, use object).
+	 * Based on AS3: RoomEngine.updateObjectUserAction
+	 */
+	updateObjectUserAction(
+		roomId: number,
+		roomIndex: number,
+		action: string,
+		value: number
+	): boolean
+	{
+		const roomInstance = this.getRoomInstance(roomId);
+
+		if (roomInstance === null)
+		{
+			return false;
+		}
+
+		const roomObject = roomInstance.getObject(roomIndex, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER);
+
+		if (roomObject === null)
+		{
+			return false;
+		}
+
+		const model = (roomObject as IRoomObjectController).getModelController();
+
+		if (model === null)
+		{
+			return false;
+		}
+
+		model.setNumber(action, value);
+
+		return true;
+	}
+
+	/**
+	 * Update user effect.
+	 * Based on AS3: RoomEngine.updateObjectUserEffect
+	 */
+	updateObjectUserEffect(
+		roomId: number,
+		roomIndex: number,
+		effectId: number,
+		_delayMilliSeconds: number
+	): boolean
+	{
+		const roomInstance = this.getRoomInstance(roomId);
+
+		if (roomInstance === null)
+		{
+			return false;
+		}
+
+		const roomObject = roomInstance.getObject(roomIndex, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER);
+
+		if (roomObject === null)
+		{
+			return false;
+		}
+
+		const model = (roomObject as IRoomObjectController).getModelController();
+
+		if (model === null)
+		{
+			return false;
+		}
+
+		// Set the effect - delay handling would be done by visualization layer
+		model.setNumber(RoomObjectVariableEnum.AVATAR_EFFECT, effectId);
+
+		return true;
+	}
+
 	disposeObjectUser(
 		roomId: number,
 		roomIndex: number
@@ -1335,5 +1450,129 @@ export class RoomEngine extends Component implements
 	{
 		// Forward object events
 		this.events.emit('roomObjectEvent', event);
+	}
+
+	/**
+	 * Set the PixiJS stage for rendering
+	 */
+	setStage(stage: Container): void
+	{
+		this._pixiStage = stage;
+	}
+
+	/**
+	 * Get or create a rendering canvas for a room
+	 */
+	getRenderingCanvas(roomId: number, canvasId: number = 1): RoomRenderingCanvas | null
+	{
+		const key = roomId * 1000 + canvasId;
+
+		if (!this._renderingCanvases.has(key))
+		{
+			// Create new rendering canvas
+			const canvas = new RoomRenderingCanvas(canvasId, 800, 600, 64);
+
+			this._renderingCanvases.set(key, canvas);
+
+			// Add to PixiJS stage if available
+			if (this._pixiStage)
+			{
+				this._pixiStage.addChild(canvas.container);
+			}
+		}
+
+		return this._renderingCanvases.get(key) ?? null;
+	}
+
+	/**
+	 * Dispose a rendering canvas for a room
+	 */
+	disposeRenderingCanvas(roomId: number, canvasId: number = 1): void
+	{
+		const key = roomId * 1000 + canvasId;
+		const canvas = this._renderingCanvases.get(key);
+
+		if (canvas)
+		{
+			// Remove from PixiJS stage
+			if (this._pixiStage && canvas.container.parent === this._pixiStage)
+			{
+				this._pixiStage.removeChild(canvas.container);
+			}
+
+			canvas.dispose();
+			this._renderingCanvases.delete(key);
+		}
+	}
+
+	/**
+	 * Create and add a visualization for a room object
+	 */
+	private createVisualizationForObject(roomId: number, objectId: number, type: string): IRoomObjectSpriteVisualization | null
+	{
+		const visualization = this._roomObjectFactory.createRoomObjectVisualization(type);
+
+		if (visualization === null)
+		{
+			return null;
+		}
+
+		// Check if visualization is sprite-based
+		const spriteVisualization = visualization as IRoomObjectSpriteVisualization;
+
+		if (!('container' in spriteVisualization))
+		{
+			return null;
+		}
+
+		const room = this.getRoomInstance(roomId);
+
+		if (!room)
+		{
+			return null;
+		}
+
+		const object = room.getObject(objectId, this.getRoomObjectCategory(type));
+
+		if (object)
+		{
+			spriteVisualization.object = object;
+		}
+
+		// Store visualization
+		const key = `${roomId}_${objectId}_${type}`;
+		this._roomVisualizations.set(key, spriteVisualization);
+
+		// Add to rendering canvas
+		const canvas = this.getRenderingCanvas(roomId);
+
+		if (canvas)
+		{
+			canvas.addVisualization(spriteVisualization.container, 0);
+		}
+
+		return spriteVisualization;
+	}
+
+	/**
+	 * Update visualizations for a room
+	 */
+	private updateRoomVisualizations(roomId: number, time: number): void
+	{
+		const canvas = this.getRenderingCanvas(roomId);
+
+		if (!canvas)
+		{
+			return;
+		}
+
+		// Update all visualizations for this room
+		for (const [key, visualization] of this._roomVisualizations)
+		{
+			if (key.startsWith(`${roomId}_`))
+			{
+				visualization.update(canvas.geometry, time, false, false);
+			}
+		}
 	}
 }

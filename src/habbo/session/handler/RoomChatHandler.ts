@@ -3,6 +3,14 @@ import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
 import type {IRoomHandlerListener} from '../IRoomHandlerListener';
 import {BaseHandler} from './BaseHandler';
 
+// Message events
+import {ChatMessageEvent} from '../../communication/messages/incoming/room/chat/ChatMessageEvent';
+import {ShoutMessageEvent} from '../../communication/messages/incoming/room/chat/ShoutMessageEvent';
+import {WhisperMessageEvent} from '../../communication/messages/incoming/room/chat/WhisperMessageEvent';
+
+// Parsers
+import type {ChatMessageEventParser} from '../../communication/messages/parser/room/chat/ChatMessageEventParser';
+
 // Events
 import {RoomSessionChatEvent} from '../events/RoomSessionChatEvent';
 
@@ -13,13 +21,6 @@ import {RoomSessionChatEvent} from '../events/RoomSessionChatEvent';
  *
  * Handles chat messages (ChatMessageEvent, WhisperMessageEvent, ShoutMessageEvent)
  * and dispatches RoomSessionChatEvent.
- *
- * TODO: Chat message events need to be implemented first:
- * - ChatMessageEvent
- * - WhisperMessageEvent
- * - ShoutMessageEvent
- * - RespectNotificationMessageEvent
- * - FloodControlMessageEvent
  */
 export class RoomChatHandler extends BaseHandler
 {
@@ -34,10 +35,12 @@ export class RoomChatHandler extends BaseHandler
 			return;
 		}
 
-		// TODO: Register message events when they are implemented
-		// this.addMessageEvent(connection, new ChatMessageEvent(this.onRoomChat.bind(this)));
-		// this.addMessageEvent(connection, new WhisperMessageEvent(this.onRoomWhisper.bind(this)));
-		// this.addMessageEvent(connection, new ShoutMessageEvent(this.onRoomShout.bind(this)));
+		// Register chat message events
+		this.addMessageEvent(connection, new ChatMessageEvent(this.onRoomChat.bind(this)));
+		this.addMessageEvent(connection, new WhisperMessageEvent(this.onRoomWhisper.bind(this)));
+		this.addMessageEvent(connection, new ShoutMessageEvent(this.onRoomShout.bind(this)));
+
+		// TODO: Register additional message events when implemented
 		// this.addMessageEvent(connection, new RespectNotificationMessageEvent(this.onRespectNotification.bind(this)));
 		// this.addMessageEvent(connection, new FloodControlMessageEvent(this.onFloodControl.bind(this)));
 	}
@@ -98,61 +101,102 @@ export class RoomChatHandler extends BaseHandler
 		}
 	}
 
-	// Note: The following handlers will be implemented when the message events are added
+	/**
+	 * Handle normal chat message
+	 */
+	private onRoomChat(event: IMessageEvent): void
+	{
+		const chatEvent = event as ChatMessageEvent;
+		if (chatEvent === null)
+		{
+			return;
+		}
 
-	// private onRoomChat(event: IMessageEvent): void
-	// {
-	//     const parser = event.parser as ChatMessageEventParser;
-	//     this.dispatchChatEvent(
-	//         parser.userId,
-	//         parser.text,
-	//         RoomSessionChatEvent.CHAT_TYPE_SPEAK,
-	//         parser.styleId,
-	//         parser.links
-	//     );
-	// }
+		const parser = chatEvent.parser as ChatMessageEventParser;
+		if (parser === null)
+		{
+			return;
+		}
 
-	// private onRoomWhisper(event: IMessageEvent): void
-	// {
-	//     const parser = event.parser as ChatMessageEventParser;
-	//     this.dispatchChatEvent(
-	//         parser.userId,
-	//         parser.text,
-	//         RoomSessionChatEvent.CHAT_TYPE_WHISPER,
-	//         parser.styleId,
-	//         parser.links
-	//     );
-	// }
+		// Convert links array to string array if present
+		let links: string[] | null = null;
+		if (parser.links !== null)
+		{
+			links = parser.links.map(link => link.displayText);
+		}
 
-	// private onRoomShout(event: IMessageEvent): void
-	// {
-	//     const parser = event.parser as ChatMessageEventParser;
-	//     this.dispatchChatEvent(
-	//         parser.userId,
-	//         parser.text,
-	//         RoomSessionChatEvent.CHAT_TYPE_SHOUT,
-	//         parser.styleId,
-	//         parser.links
-	//     );
-	// }
+		this.dispatchChatEvent(
+			parser.userId,
+			parser.text,
+			RoomSessionChatEvent.CHAT_TYPE_SPEAK,
+			parser.styleId,
+			links
+		);
+	}
 
-	// private onFloodControl(event: IMessageEvent): void
-	// {
-	//     const parser = event.parser as FloodControlMessageEventParser;
-	//     const session = this.listener.getSession(this.roomId);
-	//     if (session && this.listener.sessionEvents)
-	//     {
-	//         this.listener.sessionEvents.emit(
-	//             RoomSessionChatEvent.RSCE_FLOOD_EVENT,
-	//             new RoomSessionChatEvent(
-	//                 RoomSessionChatEvent.RSCE_FLOOD_EVENT,
-	//                 session,
-	//                 -1,
-	//                 parser.seconds.toString(),
-	//                 0,
-	//                 0
-	//             )
-	//         );
-	//     }
-	// }
+	/**
+	 * Handle whisper message
+	 */
+	private onRoomWhisper(event: IMessageEvent): void
+	{
+		const whisperEvent = event as WhisperMessageEvent;
+		if (whisperEvent === null)
+		{
+			return;
+		}
+
+		const parser = whisperEvent.parser as ChatMessageEventParser;
+		if (parser === null)
+		{
+			return;
+		}
+
+		// Convert links array to string array if present
+		let links: string[] | null = null;
+		if (parser.links !== null)
+		{
+			links = parser.links.map(link => link.displayText);
+		}
+
+		this.dispatchChatEvent(
+			parser.userId,
+			parser.text,
+			RoomSessionChatEvent.CHAT_TYPE_WHISPER,
+			parser.styleId,
+			links
+		);
+	}
+
+	/**
+	 * Handle shout message
+	 */
+	private onRoomShout(event: IMessageEvent): void
+	{
+		const shoutEvent = event as ShoutMessageEvent;
+		if (shoutEvent === null)
+		{
+			return;
+		}
+
+		const parser = shoutEvent.parser as ChatMessageEventParser;
+		if (parser === null)
+		{
+			return;
+		}
+
+		// Convert links array to string array if present
+		let links: string[] | null = null;
+		if (parser.links !== null)
+		{
+			links = parser.links.map(link => link.displayText);
+		}
+
+		this.dispatchChatEvent(
+			parser.userId,
+			parser.text,
+			RoomSessionChatEvent.CHAT_TYPE_SHOUT,
+			parser.styleId,
+			links
+		);
+	}
 }

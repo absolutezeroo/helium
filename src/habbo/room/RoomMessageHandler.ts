@@ -41,6 +41,18 @@ import {
 	SlideObjectBundleMessageEvent
 } from '../communication/messages/incoming/room/engine/SlideObjectBundleMessageEvent';
 
+// Message Events - Room Chat
+import {UserTypingMessageEvent} from '../communication/messages/incoming/room/chat/UserTypingMessageEvent';
+
+// Message Events - Room Action
+import {ExpressionMessageEvent} from '../communication/messages/incoming/room/action/ExpressionMessageEvent';
+import {DanceMessageEvent} from '../communication/messages/incoming/room/action/DanceMessageEvent';
+import {AvatarEffectMessageEvent} from '../communication/messages/incoming/room/action/AvatarEffectMessageEvent';
+import {SleepMessageEvent} from '../communication/messages/incoming/room/action/SleepMessageEvent';
+import {CarryObjectMessageEvent} from '../communication/messages/incoming/room/action/CarryObjectMessageEvent';
+import {UseObjectMessageEvent} from '../communication/messages/incoming/room/action/UseObjectMessageEvent';
+import {UserChangeMessageEvent} from '../communication/messages/incoming/room/action/UserChangeMessageEvent';
+
 // Parsers
 import type {HeightMapMessageParser} from '../communication/messages/parser/room/engine/HeightMapMessageParser';
 import type {
@@ -72,6 +84,21 @@ import type {
 import type {FurnitureFloorData} from '../communication/messages/incoming/room/engine/FurnitureFloorData';
 import type {FurnitureWallData} from '../communication/messages/incoming/room/engine/FurnitureWallData';
 import type {RoomUserData} from '../communication/messages/incoming/room/engine/RoomUserData';
+
+// Parsers - Room Chat
+import type {UserTypingMessageEventParser} from '../communication/messages/parser/room/chat/UserTypingMessageEventParser';
+
+// Parsers - Room Action
+import type {ExpressionMessageEventParser} from '../communication/messages/parser/room/action/ExpressionMessageEventParser';
+import type {DanceMessageEventParser} from '../communication/messages/parser/room/action/DanceMessageEventParser';
+import type {AvatarEffectMessageEventParser} from '../communication/messages/parser/room/action/AvatarEffectMessageEventParser';
+import type {SleepMessageEventParser} from '../communication/messages/parser/room/action/SleepMessageEventParser';
+import type {CarryObjectMessageEventParser} from '../communication/messages/parser/room/action/CarryObjectMessageEventParser';
+import type {UseObjectMessageEventParser} from '../communication/messages/parser/room/action/UseObjectMessageEventParser';
+import type {UserChangeMessageEventParser} from '../communication/messages/parser/room/action/UserChangeMessageEventParser';
+
+// Room Object Variables
+import {RoomObjectVariableEnum} from './object/RoomObjectVariableEnum';
 
 // Outgoing Composers
 import {GetFurnitureAliasesMessageComposer} from '../communication/messages/outgoing/room/engine/GetFurnitureAliasesMessageComposer';
@@ -130,6 +157,16 @@ export class RoomMessageHandler
 			connection.addMessageEvent(new UserUpdateMessageEvent(this.onUserUpdate.bind(this)));
 			connection.addMessageEvent(new UserRemoveMessageEvent(this.onUserRemove.bind(this)));
 			connection.addMessageEvent(new SlideObjectBundleMessageEvent(this.onSlideUpdate.bind(this)));
+
+			// Avatar action events
+			connection.addMessageEvent(new UserTypingMessageEvent(this.onTypingStatus.bind(this)));
+			connection.addMessageEvent(new ExpressionMessageEvent(this.onExpression.bind(this)));
+			connection.addMessageEvent(new DanceMessageEvent(this.onDance.bind(this)));
+			connection.addMessageEvent(new AvatarEffectMessageEvent(this.onAvatarEffect.bind(this)));
+			connection.addMessageEvent(new SleepMessageEvent(this.onAvatarSleep.bind(this)));
+			connection.addMessageEvent(new CarryObjectMessageEvent(this.onCarryObject.bind(this)));
+			connection.addMessageEvent(new UseObjectMessageEvent(this.onUseObject.bind(this)));
+			connection.addMessageEvent(new UserChangeMessageEvent(this.onUserChange.bind(this)));
 		}
 	}
 
@@ -900,6 +937,254 @@ export class RoomMessageHandler
 			data.sex,
 			data.subType,
 			data.isRiding
+		);
+	}
+
+	/**
+	 * Handle user typing status update.
+	 * Based on AS3: com.sulake.habbo.room.RoomMessageHandler.onTypingStatus
+	 */
+	private onTypingStatus(event: IMessageEvent): void
+	{
+		const typingEvent = event as UserTypingMessageEvent;
+
+		if (typingEvent === null)
+		{
+			return;
+		}
+
+		const parser = typingEvent.getParser() as UserTypingMessageEventParser;
+
+		if (parser === null)
+		{
+			return;
+		}
+
+		const value = parser.isTyping ? 1 : 0;
+
+		this._roomCreator?.updateObjectUserAction(
+			this._currentRoomId,
+			parser.userId,
+			RoomObjectVariableEnum.AVATAR_IS_TYPING,
+			value
+		);
+	}
+
+	/**
+	 * Handle user expression update.
+	 * Based on AS3: com.sulake.habbo.room.RoomMessageHandler.onExpression
+	 */
+	private onExpression(event: IMessageEvent): void
+	{
+		const expressionEvent = event as ExpressionMessageEvent;
+
+		if (expressionEvent === null)
+		{
+			return;
+		}
+
+		if (this._roomCreator === null)
+		{
+			return;
+		}
+
+		const parser = expressionEvent.getParser() as ExpressionMessageEventParser;
+
+		if (parser === null)
+		{
+			return;
+		}
+
+		this._roomCreator.updateObjectUserAction(
+			this._currentRoomId,
+			parser.userId,
+			RoomObjectVariableEnum.AVATAR_EXPRESSION,
+			parser.expressionType
+		);
+	}
+
+	/**
+	 * Handle user dance update.
+	 * Based on AS3: com.sulake.habbo.room.RoomMessageHandler.onDance
+	 */
+	private onDance(event: IMessageEvent): void
+	{
+		const danceEvent = event as DanceMessageEvent;
+
+		if (danceEvent === null || danceEvent.getParser() === null)
+		{
+			return;
+		}
+
+		if (this._roomCreator === null)
+		{
+			return;
+		}
+
+		const parser = danceEvent.getParser() as DanceMessageEventParser;
+
+		this._roomCreator.updateObjectUserAction(
+			this._currentRoomId,
+			parser.userId,
+			RoomObjectVariableEnum.AVATAR_DANCE,
+			parser.danceStyle
+		);
+	}
+
+	/**
+	 * Handle avatar effect update.
+	 * Based on AS3: com.sulake.habbo.room.RoomMessageHandler.onAvatarEffect
+	 */
+	private onAvatarEffect(event: IMessageEvent): void
+	{
+		const effectEvent = event as AvatarEffectMessageEvent;
+
+		if (effectEvent === null || effectEvent.getParser() === null)
+		{
+			return;
+		}
+
+		if (this._roomCreator === null)
+		{
+			return;
+		}
+
+		const parser = effectEvent.getParser() as AvatarEffectMessageEventParser;
+
+		this._roomCreator.updateObjectUserEffect(
+			this._currentRoomId,
+			parser.userId,
+			parser.effectId,
+			parser.delayMilliSeconds
+		);
+	}
+
+	/**
+	 * Handle avatar sleep status update.
+	 * Based on AS3: com.sulake.habbo.room.RoomMessageHandler.onAvatarSleep
+	 */
+	private onAvatarSleep(event: IMessageEvent): void
+	{
+		const sleepEvent = event as SleepMessageEvent;
+
+		if (sleepEvent === null || sleepEvent.getParser() === null)
+		{
+			return;
+		}
+
+		if (this._roomCreator === null)
+		{
+			return;
+		}
+
+		const parser = sleepEvent.getParser() as SleepMessageEventParser;
+
+		const value = parser.sleeping ? 1 : 0;
+
+		this._roomCreator.updateObjectUserAction(
+			this._currentRoomId,
+			parser.userId,
+			RoomObjectVariableEnum.AVATAR_SLEEP,
+			value
+		);
+	}
+
+	/**
+	 * Handle carry object update.
+	 * Based on AS3: com.sulake.habbo.room.RoomMessageHandler.onCarryObject
+	 */
+	private onCarryObject(event: IMessageEvent): void
+	{
+		if (this._roomCreator === null)
+		{
+			return;
+		}
+
+		const carryEvent = event as CarryObjectMessageEvent;
+
+		if (carryEvent === null)
+		{
+			return;
+		}
+
+		const parser = carryEvent.getParser() as CarryObjectMessageEventParser;
+
+		if (parser === null)
+		{
+			return;
+		}
+
+		this._roomCreator.updateObjectUserAction(
+			this._currentRoomId,
+			parser.userId,
+			RoomObjectVariableEnum.AVATAR_CARRY_OBJECT,
+			parser.itemType
+		);
+	}
+
+	/**
+	 * Handle use object update.
+	 * Based on AS3: com.sulake.habbo.room.RoomMessageHandler.onUseObject
+	 */
+	private onUseObject(event: IMessageEvent): void
+	{
+		if (this._roomCreator === null)
+		{
+			return;
+		}
+
+		const useEvent = event as UseObjectMessageEvent;
+
+		if (useEvent === null)
+		{
+			return;
+		}
+
+		const parser = useEvent.getParser() as UseObjectMessageEventParser;
+
+		if (parser === null)
+		{
+			return;
+		}
+
+		this._roomCreator.updateObjectUserAction(
+			this._currentRoomId,
+			parser.userId,
+			RoomObjectVariableEnum.AVATAR_USE_OBJECT,
+			parser.itemType
+		);
+	}
+
+	/**
+	 * Handle user figure change.
+	 * Based on AS3: com.sulake.habbo.room.RoomMessageHandler.onUserChange
+	 */
+	private onUserChange(event: IMessageEvent): void
+	{
+		const changeEvent = event as UserChangeMessageEvent;
+
+		if (changeEvent === null)
+		{
+			return;
+		}
+
+		if (this._roomCreator === null)
+		{
+			return;
+		}
+
+		const parser = changeEvent.getParser() as UserChangeMessageEventParser;
+
+		if (parser === null)
+		{
+			return;
+		}
+
+		this._roomCreator.updateObjectUserFigure(
+			this._currentRoomId,
+			parser.id,
+			parser.figure,
+			parser.sex
 		);
 	}
 }

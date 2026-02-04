@@ -3,12 +3,13 @@
  *
  * Based on AS3: com.sulake.habbo.room.RoomObjectFactory
  *
- * Factory for creating room object logic instances based on logic type.
+ * Factory for creating room object logic and visualization instances based on type.
  */
 import {EventEmitter} from 'eventemitter3';
 import type {IRoomObjectFactory} from '@room/IRoomObjectFactory';
 import type {IRoomObjectEventHandler} from '@room/object/logic/IRoomObjectEventHandler';
 import type {IRoomObjectManager} from '@room/IRoomObjectManager';
+import type {IRoomObjectVisualization} from '@room/object/visualization/IRoomObjectVisualization';
 import {RoomObjectManager} from '@room/RoomObjectManager';
 import {RoomObjectLogicEnum} from './object/RoomObjectLogicEnum';
 import {MovingObjectLogic} from './object/logic/MovingObjectLogic';
@@ -32,6 +33,9 @@ import {FurnitureJukeboxLogic} from './object/logic/furniture/FurnitureJukeboxLo
 // Room Logic
 import {RoomLogic} from './object/logic/room/RoomLogic';
 import {RoomTileCursorLogic} from './object/logic/room/RoomTileCursorLogic';
+
+// Visualizations
+import {RoomVisualization} from './object/visualization/room/RoomVisualization';
 
 type LogicConstructor = new () => IRoomObjectEventHandler;
 
@@ -199,6 +203,30 @@ export class RoomObjectFactory implements IRoomObjectFactory
 	createRoomObjectManager(): IRoomObjectManager
 	{
 		return new RoomObjectManager();
+	}
+
+	/**
+	 * Create a visualization for a room object type
+	 */
+	createRoomObjectVisualization(type: string): IRoomObjectVisualization | null
+	{
+		switch (type)
+		{
+			case RoomObjectLogicEnum.ROOM:
+				return new RoomVisualization();
+
+			// TODO: Add more visualization types
+			// case RoomObjectLogicEnum.USER:
+			// case RoomObjectLogicEnum.BOT:
+			// 	return new AvatarVisualization();
+
+			// case RoomObjectLogicEnum.FURNITURE_BASIC:
+			// case RoomObjectLogicEnum.FURNITURE_MULTISTATE:
+			// 	return new FurnitureVisualization();
+
+			default:
+				return null;
+		}
 	}
 
 	private addTrackedEventType(eventType: string): void

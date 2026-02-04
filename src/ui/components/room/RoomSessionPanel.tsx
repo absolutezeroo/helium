@@ -12,10 +12,11 @@ import {useModule, ModuleId} from '../../bridge';
  */
 export const RoomSessionPanel: Component = () =>
 {
-	const {state, actions} = useModule(ModuleId.Room);
+	const {state} = useModule(ModuleId.Room);
 
+	// Use state() signal directly for reactivity
 	return (
-		<Show when={actions.isInRoom()}>
+		<Show when={state().currentRoom !== null}>
 			<div class="room-session-panel">
 				{/* Room header */}
 				<div class="room-session-header">
