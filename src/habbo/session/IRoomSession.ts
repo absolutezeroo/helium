@@ -62,24 +62,35 @@ export interface IRoomSession
 
 	// Chat methods
 	sendChatMessage(message: string, styleId?: number): void;
+
 	sendShoutMessage(message: string, styleId?: number): void;
+
 	sendWhisperMessage(recipientName: string, message: string, styleId?: number): void;
+
 	sendChatTypingMessage(isTyping: boolean): void;
 
 	// Avatar methods
 	sendAvatarExpressionMessage(expressionId: number): void;
+
 	sendSignMessage(signId: number): void;
+
 	sendDanceMessage(danceId: number): void;
+
 	sendChangePostureMessage(posture: number): void;
 
 	// Moderation methods
 	kickUser(userId: number): void;
+
 	banUserWithDuration(userId: number, duration: string): void;
+
 	muteUser(userId: number, minutes: number): void;
+
 	unmuteUser(userId: number): void;
 
 	// Rights methods
 	assignRights(userId: number): void;
+
 	removeRights(userId: number): void;
+
 	letUserIn(userName: string, allow: boolean): void;
 }

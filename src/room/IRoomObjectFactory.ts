@@ -15,8 +15,12 @@ export interface IRoomObjectFactory
 	readonly events: EventEmitter;
 
 	addObjectEventListener(callback: (event: unknown) => void): void;
+
 	removeObjectEventListener(callback: (event: unknown) => void): void;
+
 	createRoomObjectLogic(type: string): IRoomObjectEventHandler | null;
+
 	createRoomObjectVisualization(type: string): IRoomObjectVisualization | null;
+
 	createRoomObjectManager(): IRoomObjectManager;
 }

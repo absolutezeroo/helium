@@ -9,13 +9,13 @@ import {RoomObjectUpdateMessage} from '@room/messages/RoomObjectUpdateMessage';
 
 export class RoomObjectAvatarMutedUpdateMessage extends RoomObjectUpdateMessage
 {
-	private _isMuted: boolean;
-
 	constructor(isMuted: boolean)
 	{
 		super(null, null);
 		this._isMuted = isMuted;
 	}
+
+	private _isMuted: boolean;
 
 	get isMuted(): boolean
 	{

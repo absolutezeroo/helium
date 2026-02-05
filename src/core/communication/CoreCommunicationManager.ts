@@ -10,17 +10,12 @@ import type {IConnectionCallback} from './connection/IConnectionCallback';
  */
 export class CoreCommunicationManager extends Component implements ICoreCommunicationManager
 {
-	private _connections: IConnection[] = [];
-
 	constructor(context: IContext)
 	{
 		super(context);
 	}
 
-	protected override initComponent(): void
-	{
-		// No initialization needed
-	}
+	private _connections: IConnection[] = [];
 
 	/**
 	 * Get all active connections
@@ -95,5 +90,10 @@ export class CoreCommunicationManager extends Component implements ICoreCommunic
 
 		this._connections = [];
 		super.dispose();
+	}
+
+	protected override initComponent(): void
+	{
+		// No initialization needed
 	}
 }

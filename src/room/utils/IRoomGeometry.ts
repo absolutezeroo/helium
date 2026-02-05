@@ -23,13 +23,22 @@ export interface IRoomGeometry
 	z_scale: number;
 
 	getCoordinatePosition(vector: IVector3d): IVector3d | null;
+
 	getScreenPoint(vector: IVector3d): Point | null;
+
 	getScreenPosition(vector: IVector3d): IVector3d | null;
+
 	getPlanePosition(point: Point, loc: IVector3d, leftSide: IVector3d, rightSide: IVector3d): Point | null;
+
 	setDisplacement(location: IVector3d, displacement: IVector3d): void;
+
 	adjustLocation(location: IVector3d, z: number): void;
+
 	performZoom(): void;
+
 	performZoomOut(): void;
+
 	performZoomIn(): void;
+
 	isZoomedIn(): boolean;
 }

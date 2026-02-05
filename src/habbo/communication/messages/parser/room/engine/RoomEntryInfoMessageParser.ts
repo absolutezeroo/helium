@@ -9,12 +9,13 @@ import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 export class RoomEntryInfoMessageParser implements IMessageParser
 {
 	private _guestRoomId: number = 0;
-	private _owner: boolean = false;
 
 	public get guestRoomId(): number
 	{
 		return this._guestRoomId;
 	}
+
+	private _owner: boolean = false;
 
 	public get owner(): boolean
 	{

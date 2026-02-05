@@ -491,7 +491,7 @@ export class Helium
 		uiContainer.id = 'helium-ui';
 
 		document.body.appendChild(uiContainer);
-		
+
 		this._disposeUI = mountUI(uiContainer, this._moduleRegistry!);
 	}
 }

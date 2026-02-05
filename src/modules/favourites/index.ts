@@ -1,8 +1,8 @@
 import {defineModule} from '../core/defineModule';
 import type {FavouritesState} from './types';
 import type {FavouritesActions} from './actions';
-import {handlers} from './handlers';
 import {createActions} from './actions';
+import {handlers} from './handlers';
 
 /**
  * Favourites Module
@@ -43,11 +43,15 @@ export type {FavouritesState} from './types';
 export type {FavouritesActions} from './actions';
 
 // Declaration merging for type-safe module access
-declare module '../core/moduleIds' {
-	interface ModuleStateMap {
+declare module '../core/moduleIds'
+{
+	interface ModuleStateMap
+	{
 		'favourites': FavouritesState;
 	}
-	interface ModuleActionsMap {
+
+	interface ModuleActionsMap
+	{
 		'favourites': FavouritesActions;
 	}
 }

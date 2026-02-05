@@ -14,18 +14,20 @@ import {FurnitureDataParser} from './FurnitureDataParser';
 export class ObjectDataUpdateMessageParser implements IMessageParser
 {
 	private _id: number = 0;
-	private _state: number = 0;
-	private _data: IStuffData = new LegacyStuffData();
 
 	get id(): number
 	{
 		return this._id;
 	}
 
+	private _state: number = 0;
+
 	get state(): number
 	{
 		return this._state;
 	}
+
+	private _data: IStuffData = new LegacyStuffData();
 
 	get data(): IStuffData
 	{

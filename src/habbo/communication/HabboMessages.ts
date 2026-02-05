@@ -121,8 +121,8 @@ import {
 import {
 	ChatMessageEvent,
 	ShoutMessageEvent,
-	WhisperMessageEvent,
 	UserTypingMessageEvent,
+	WhisperMessageEvent,
 } from './messages/incoming/room/chat';
 
 // Incoming Events - Room Action
@@ -217,11 +217,7 @@ import {OpenFlatConnectionMessageComposer,} from './messages/outgoing/room/sessi
 import {GetFurnitureAliasesMessageComposer, GetHeightMapMessageComposer,} from './messages/outgoing/room/engine';
 
 // Outgoing Composers - Room Chat
-import {
-	ChatMessageComposer,
-	ShoutMessageComposer,
-	WhisperMessageComposer,
-} from './messages/outgoing/room/chat';
+import {ChatMessageComposer, ShoutMessageComposer, WhisperMessageComposer,} from './messages/outgoing/room/chat';
 
 // Outgoing Composers - Inventory
 import {

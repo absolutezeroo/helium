@@ -6,17 +6,11 @@
  * Data class for sliding object (roller) movement.
  */
 import type {IVector3d} from '@room/utils/IVector3d';
-import {Vector3d} from '@room/utils/Vector3d';
 
 export class SlideObjectData
 {
 	public static readonly MOVE_TYPE_MOVE = 'mv';
 	public static readonly MOVE_TYPE_SLIDE = 'sld';
-
-	private _id: number;
-	private _loc: IVector3d;
-	private _target: IVector3d;
-	private _moveType: string | null;
 	private _readOnly: boolean = false;
 
 	constructor(id: number, loc: IVector3d, target: IVector3d, moveType: string | null = null)
@@ -27,10 +21,14 @@ export class SlideObjectData
 		this._moveType = moveType;
 	}
 
+	private _id: number;
+
 	get id(): number
 	{
 		return this._id;
 	}
+
+	private _loc: IVector3d;
 
 	get loc(): IVector3d
 	{
@@ -45,6 +43,8 @@ export class SlideObjectData
 		}
 	}
 
+	private _target: IVector3d;
+
 	get target(): IVector3d
 	{
 		return this._target;
@@ -57,6 +57,8 @@ export class SlideObjectData
 			this._target = value;
 		}
 	}
+
+	private _moveType: string | null;
 
 	get moveType(): string | null
 	{

@@ -10,11 +10,30 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 
 export class HeightMapMessageParser implements IMessageParser
 {
-	private _stackingBlockedMaskBit: number = 16384;
 	private _tileHeightMask: number = 16383;
 	private _data: number[] = [];
+
+	private _stackingBlockedMaskBit: number = 16384;
+
+	set stackingBlockedMaskBit(value: number)
+	{
+		this._stackingBlockedMaskBit = 1 << value;
+		this._tileHeightMask = this._stackingBlockedMaskBit - 1;
+	}
+
 	private _width: number = 0;
+
+	get width(): number
+	{
+		return this._width;
+	}
+
 	private _height: number = 0;
+
+	get height(): number
+	{
+		return this._height;
+	}
 
 	static decodeTileHeight(value: number, mask: number): number
 	{
@@ -29,22 +48,6 @@ export class HeightMapMessageParser implements IMessageParser
 	static decodeIsRoomTile(value: number): boolean
 	{
 		return value !== -1;
-	}
-
-	get width(): number
-	{
-		return this._width;
-	}
-
-	get height(): number
-	{
-		return this._height;
-	}
-
-	set stackingBlockedMaskBit(value: number)
-	{
-		this._stackingBlockedMaskBit = 1 << value;
-		this._tileHeightMask = this._stackingBlockedMaskBit - 1;
 	}
 
 	decodeTileHeight(value: number): number

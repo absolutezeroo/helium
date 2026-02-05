@@ -9,12 +9,13 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 export class DanceMessageEventParser implements IMessageParser
 {
 	private _userId: number = 0;
-	private _danceStyle: number = 0;
 
 	get userId(): number
 	{
 		return this._userId;
 	}
+
+	private _danceStyle: number = 0;
 
 	get danceStyle(): number
 	{

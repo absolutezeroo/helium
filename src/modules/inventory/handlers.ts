@@ -1,15 +1,23 @@
-import type {MessageHandlers, HandlerContext} from '../core/types';
+import type {HandlerContext, MessageHandlers} from '../core/types';
 import type {InventoryState} from './types';
 import type {InventoryManagers} from './actions';
-import {InventoryCategory, FurnitureItem, PetFigureData} from '@habbo/inventory';
+import {FurnitureItem, InventoryCategory, PetFigureData} from '@habbo/inventory';
 
 // Parser types
 import type {FurniListMessageParser} from '@habbo/communication/messages/parser/inventory/furni/FurniListMessageParser';
-import type {FurniListAddOrUpdateMessageParser} from '@habbo/communication/messages/parser/inventory/furni/FurniListAddOrUpdateMessageParser';
-import type {FurniListRemoveMessageParser} from '@habbo/communication/messages/parser/inventory/furni/FurniListRemoveMessageParser';
+import type {
+	FurniListAddOrUpdateMessageParser
+} from '@habbo/communication/messages/parser/inventory/furni/FurniListAddOrUpdateMessageParser';
+import type {
+	FurniListRemoveMessageParser
+} from '@habbo/communication/messages/parser/inventory/furni/FurniListRemoveMessageParser';
 import type {BadgesMessageParser} from '@habbo/communication/messages/parser/inventory/badges/BadgesMessageParser';
-import type {PetInventoryMessageParser} from '@habbo/communication/messages/parser/inventory/pets/PetInventoryMessageParser';
-import type {BotInventoryMessageParser} from '@habbo/communication/messages/parser/inventory/bots/BotInventoryMessageParser';
+import type {
+	PetInventoryMessageParser
+} from '@habbo/communication/messages/parser/inventory/pets/PetInventoryMessageParser';
+import type {
+	BotInventoryMessageParser
+} from '@habbo/communication/messages/parser/inventory/bots/BotInventoryMessageParser';
 
 type Ctx = HandlerContext<InventoryState, InventoryManagers>;
 
@@ -49,7 +57,10 @@ export const handlers: MessageHandlers<InventoryState, InventoryManagers> = {
 	/**
 	 * Furniture added or updated
 	 */
-	FurniListAddOrUpdateMessageEvent: (parser: FurniListAddOrUpdateMessageParser, _state, {managers, updateState}: Ctx) =>
+	FurniListAddOrUpdateMessageEvent: (parser: FurniListAddOrUpdateMessageParser, _state, {
+		managers,
+		updateState
+	}: Ctx) =>
 	{
 		const inv = managers.inventory;
 

@@ -9,11 +9,6 @@ import type {IVector3d} from './IVector3d';
 
 export class Vector3d implements IVector3d
 {
-	private _x: number;
-	private _y: number;
-	private _z: number;
-	private _length: number = NaN;
-
 	constructor(x: number = 0, y: number = 0, z: number = 0)
 	{
 		this._x = x;
@@ -21,7 +16,58 @@ export class Vector3d implements IVector3d
 		this._z = z;
 	}
 
+	private _x: number;
+
+	get x(): number
+	{
+		return this._x;
+	}
+
+	set x(value: number)
+	{
+		this._x = value;
+		this._length = NaN;
+	}
+
+	private _y: number;
+
 	// Static utility methods
+
+	get y(): number
+	{
+		return this._y;
+	}
+
+	set y(value: number)
+	{
+		this._y = value;
+		this._length = NaN;
+	}
+
+	private _z: number;
+
+	get z(): number
+	{
+		return this._z;
+	}
+
+	set z(value: number)
+	{
+		this._z = value;
+		this._length = NaN;
+	}
+
+	private _length: number = NaN;
+
+	get length(): number
+	{
+		if (isNaN(this._length))
+		{
+			this._length = Math.sqrt(this._x * this._x + this._y * this._y + this._z * this._z);
+		}
+
+		return this._length;
+	}
 
 	static sum(a: IVector3d | null, b: IVector3d | null): Vector3d | null
 	{
@@ -32,6 +78,8 @@ export class Vector3d implements IVector3d
 
 		return new Vector3d(a.x + b.x, a.y + b.y, a.z + b.z);
 	}
+
+	// Instance properties
 
 	static dif(a: IVector3d | null, b: IVector3d | null): Vector3d | null
 	{
@@ -119,51 +167,6 @@ export class Vector3d implements IVector3d
 		}
 
 		return a.x === b.x && a.y === b.y && a.z === b.z;
-	}
-
-	// Instance properties
-
-	get x(): number
-	{
-		return this._x;
-	}
-
-	set x(value: number)
-	{
-		this._x = value;
-		this._length = NaN;
-	}
-
-	get y(): number
-	{
-		return this._y;
-	}
-
-	set y(value: number)
-	{
-		this._y = value;
-		this._length = NaN;
-	}
-
-	get z(): number
-	{
-		return this._z;
-	}
-
-	set z(value: number)
-	{
-		this._z = value;
-		this._length = NaN;
-	}
-
-	get length(): number
-	{
-		if (isNaN(this._length))
-		{
-			this._length = Math.sqrt(this._x * this._x + this._y * this._y + this._z * this._z);
-		}
-
-		return this._length;
 	}
 
 	// Instance methods

@@ -12,23 +12,25 @@ import {Vector3d} from '@room/utils/Vector3d';
 
 export class SlideObjectBundleMessageParser implements IMessageParser
 {
-	private _id: number = -1;
 	private _objects: SlideObjectData[] = [];
-	private _avatar: SlideObjectData | null = null;
+
+	private _id: number = -1;
 
 	get id(): number
 	{
 		return this._id;
 	}
 
-	get objectList(): SlideObjectData[]
-	{
-		return this._objects;
-	}
+	private _avatar: SlideObjectData | null = null;
 
 	get avatar(): SlideObjectData | null
 	{
 		return this._avatar;
+	}
+
+	get objectList(): SlideObjectData[]
+	{
+		return this._objects;
 	}
 
 	flush(): boolean

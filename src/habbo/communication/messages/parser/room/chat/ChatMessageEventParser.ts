@@ -18,36 +18,41 @@ export interface ChatLink
 export class ChatMessageEventParser implements IMessageParser
 {
 	private _userId: number = 0;
-	private _text: string = '';
-	private _gesture: number = 0;
-	private _styleId: number = 0;
-	private _links: ChatLink[] | null = null;
-	private _trackingId: number = -1;
 
 	get userId(): number
 	{
 		return this._userId;
 	}
 
+	private _text: string = '';
+
 	get text(): string
 	{
 		return this._text;
 	}
+
+	private _gesture: number = 0;
 
 	get gesture(): number
 	{
 		return this._gesture;
 	}
 
+	private _styleId: number = 0;
+
 	get styleId(): number
 	{
 		return this._styleId;
 	}
 
+	private _links: ChatLink[] | null = null;
+
 	get links(): ChatLink[] | null
 	{
 		return this._links;
 	}
+
+	private _trackingId: number = -1;
 
 	get trackingId(): number
 	{

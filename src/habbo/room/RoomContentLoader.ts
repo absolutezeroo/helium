@@ -33,11 +33,11 @@ export class RoomContentLoader implements IRoomContentLoader
 		'tile_cursor',
 		'selection_arrow'
 	];
-
-	private _disposed: boolean = false;
 	private _floorItems: Map<string, number> = new Map();
 	private _wallItems: Map<string, number> = new Map();
 	private _pets: Map<string, number> = new Map();
+
+	private _disposed: boolean = false;
 
 	get disposed(): boolean
 	{

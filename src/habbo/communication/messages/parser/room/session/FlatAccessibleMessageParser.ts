@@ -9,12 +9,13 @@ import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 export class FlatAccessibleMessageParser implements IMessageParser
 {
 	private _flatId: number = 0;
-	private _userName: string | null = null;
 
 	public get flatId(): number
 	{
 		return this._flatId;
 	}
+
+	private _userName: string | null = null;
 
 	public get userName(): string | null
 	{

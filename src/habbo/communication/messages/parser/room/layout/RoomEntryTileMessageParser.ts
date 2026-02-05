@@ -11,18 +11,20 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 export class RoomEntryTileMessageParser implements IMessageParser
 {
 	private _x: number = 0;
-	private _y: number = 0;
-	private _dir: number = 0;
 
 	get x(): number
 	{
 		return this._x;
 	}
 
+	private _y: number = 0;
+
 	get y(): number
 	{
 		return this._y;
 	}
+
+	private _dir: number = 0;
 
 	get dir(): number
 	{

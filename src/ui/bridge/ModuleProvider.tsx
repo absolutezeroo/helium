@@ -1,5 +1,5 @@
-import {createContext, useContext, onCleanup} from 'solid-js';
 import type {ParentComponent} from 'solid-js';
+import {createContext, onCleanup, useContext} from 'solid-js';
 import type {ModuleRegistry} from '@/modules/core';
 
 const ModuleRegistryContext = createContext<ModuleRegistry>();

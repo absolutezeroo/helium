@@ -18,12 +18,13 @@ export interface TradingUserItems
 export class TradingItemListMessageParser implements IMessageParser
 {
 	private _userOneItems: TradingUserItems | null = null;
-	private _userTwoItems: TradingUserItems | null = null;
 
 	get userOneItems(): TradingUserItems | null
 	{
 		return this._userOneItems;
 	}
+
+	private _userTwoItems: TradingUserItems | null = null;
 
 	get userTwoItems(): TradingUserItems | null
 	{

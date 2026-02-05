@@ -9,7 +9,6 @@ import {BinaryFileLoader} from './BinaryFileLoader';
  */
 export class SoundFileLoader extends BinaryFileLoader
 {
-	private _audioBuffer: AudioBuffer | null = null;
 	private _audioContext: AudioContext | null = null;
 
 	constructor(mimeType: string, url?: string, id: number = -1)
@@ -17,18 +16,20 @@ export class SoundFileLoader extends BinaryFileLoader
 		super(mimeType, url, id);
 	}
 
-	/**
-	 * The loaded content
-	 */
-	override get content(): unknown
-	{
-		return this._audioBuffer;
-	}
+	private _audioBuffer: AudioBuffer | null = null;
 
 	/**
 	 * The decoded audio buffer
 	 */
 	get audioBuffer(): AudioBuffer | null
+	{
+		return this._audioBuffer;
+	}
+
+	/**
+	 * The loaded content
+	 */
+	override get content(): unknown
 	{
 		return this._audioBuffer;
 	}

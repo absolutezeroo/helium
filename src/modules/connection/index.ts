@@ -49,11 +49,15 @@ export type {ConnectionState, ConnectionStateType, LoadingStep} from './types';
 export type {ConnectionActions} from './actions';
 
 // Declaration merging for type-safe module access
-declare module '../core/moduleIds' {
-	interface ModuleStateMap {
+declare module '../core/moduleIds'
+{
+	interface ModuleStateMap
+	{
 		'connection': ConnectionState;
 	}
-	interface ModuleActionsMap {
+
+	interface ModuleActionsMap
+	{
 		'connection': ConnectionActions;
 	}
 }

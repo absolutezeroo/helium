@@ -16,7 +16,6 @@ import type {IRoomObjectEventHandler} from './IRoomObjectEventHandler';
 export class ObjectLogicBase implements IRoomObjectEventHandler
 {
 	private _eventDispatcher: EventEmitter | null = null;
-	private _object: IRoomObjectController | null = null;
 
 	get eventDispatcher(): EventEmitter | null
 	{
@@ -28,29 +27,11 @@ export class ObjectLogicBase implements IRoomObjectEventHandler
 		this._eventDispatcher = value;
 	}
 
-	getEventTypes(): string[]
+	private _object: IRoomObjectController | null = null;
+
+	get object(): IRoomObjectController | null
 	{
-		return [];
-	}
-
-	protected getAllEventTypes(baseTypes: string[], additionalTypes: string[]): string[]
-	{
-		const result = baseTypes.slice();
-
-		for (const type of additionalTypes)
-		{
-			if (result.indexOf(type) < 0)
-			{
-				result.push(type);
-			}
-		}
-
-		return result;
-	}
-
-	dispose(): void
-	{
-		this._object = null;
+		return this._object;
 	}
 
 	set object(value: IRoomObjectController | null)
@@ -69,17 +50,31 @@ export class ObjectLogicBase implements IRoomObjectEventHandler
 		{
 			this.dispose();
 			this._object = null;
-		}
-		else
+		} else
 		{
 			this._object = value;
 			this._object.setEventHandler(this);
 		}
 	}
 
-	get object(): IRoomObjectController | null
+	get widget(): string | null
 	{
-		return this._object;
+		return null;
+	}
+
+	get contextMenu(): string | null
+	{
+		return null;
+	}
+
+	getEventTypes(): string[]
+	{
+		return [];
+	}
+
+	dispose(): void
+	{
+		this._object = null;
 	}
 
 	mouseEvent(_event: RoomSpriteMouseEvent, _geometry: IRoomGeometry): void
@@ -126,13 +121,18 @@ export class ObjectLogicBase implements IRoomObjectEventHandler
 		// Override in subclass
 	}
 
-	get widget(): string | null
+	protected getAllEventTypes(baseTypes: string[], additionalTypes: string[]): string[]
 	{
-		return null;
-	}
+		const result = baseTypes.slice();
 
-	get contextMenu(): string | null
-	{
-		return null;
+		for (const type of additionalTypes)
+		{
+			if (result.indexOf(type) < 0)
+			{
+				result.push(type);
+			}
+		}
+
+		return result;
 	}
 }

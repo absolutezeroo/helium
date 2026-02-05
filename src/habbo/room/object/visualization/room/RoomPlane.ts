@@ -19,44 +19,22 @@ export class RoomPlane
 	public static readonly TYPE_WALL: number = 1;
 	public static readonly TYPE_FLOOR: number = 2;
 	public static readonly TYPE_LANDSCAPE: number = 3;
-
-	private _disposed: boolean = false;
 	private _randomSeed: number = 0;
 	private _origin: Vector3d;
-	private _location: Vector3d;
-	private _leftSide: Vector3d;
-	private _rightSide: Vector3d;
-	private _normal: Vector3d;
 	private _secondaryNormals: Vector3d[] = [];
 	private _geometryUpdateId: number = -1;
-	private _type: number = 0;
 	private _isVisible: boolean = false;
-	private _canBeVisible: boolean = true;
-	private _hasTexture: boolean = true;
-	private _id: string | null = null;
-	private _uniqueId: number;
 	private _textureOffsetU: number = 0;
 	private _textureOffsetV: number = 0;
 	private _textureMaxU: number = 0;
 	private _textureMaxV: number = 0;
 	private _useMask: boolean = false;
-
-	private _offset: {x: number; y: number} = {x: 0, y: 0};
-	private _relativeDepth: number = 0;
-	private _color: number = 0;
-	private _extraDepth: number = 0;
-
 	private _cornerA: Vector3d;
 	private _cornerB: Vector3d;
 	private _cornerC: Vector3d;
 	private _cornerD: Vector3d;
-
 	private _width: number = 0;
 	private _height: number = 0;
-
-	private _graphics: Graphics;
-
-	private _isHighlighter: boolean = false;
 
 	constructor(
 		origin: IVector3d,
@@ -123,56 +101,49 @@ export class RoomPlane
 		this._graphics.label = `RoomPlane_${this._uniqueId}_type${type}`;
 	}
 
-	dispose(): void
-	{
-		if (this._disposed)
-		{
-			return;
-		}
-
-		this._graphics.destroy();
-		this._disposed = true;
-	}
+	private _disposed: boolean = false;
 
 	get disposed(): boolean
 	{
 		return this._disposed;
 	}
 
-	get graphics(): Graphics
+	private _location: Vector3d;
+
+	get location(): IVector3d
 	{
-		return this._graphics;
+		return this._location;
 	}
+
+	private _leftSide: Vector3d;
+
+	get leftSide(): IVector3d
+	{
+		return this._leftSide;
+	}
+
+	private _rightSide: Vector3d;
+
+	get rightSide(): IVector3d
+	{
+		return this._rightSide;
+	}
+
+	private _normal: Vector3d;
 
 	get normal(): IVector3d
 	{
 		return this._normal;
 	}
 
-	get offset(): {x: number; y: number}
+	private _type: number = 0;
+
+	get type(): number
 	{
-		return this._offset;
+		return this._type;
 	}
 
-	get relativeDepth(): number
-	{
-		return this._relativeDepth + this._extraDepth;
-	}
-
-	get color(): number
-	{
-		return this._color;
-	}
-
-	set color(value: number)
-	{
-		this._color = value;
-	}
-
-	set extraDepth(value: number)
-	{
-		this._extraDepth = value;
-	}
+	private _canBeVisible: boolean = true;
 
 	get canBeVisible(): boolean
 	{
@@ -184,30 +155,7 @@ export class RoomPlane
 		this._canBeVisible = value;
 	}
 
-	get visible(): boolean
-	{
-		return this._isVisible && this._canBeVisible;
-	}
-
-	get type(): number
-	{
-		return this._type;
-	}
-
-	get leftSide(): IVector3d
-	{
-		return this._leftSide;
-	}
-
-	get rightSide(): IVector3d
-	{
-		return this._rightSide;
-	}
-
-	get location(): IVector3d
-	{
-		return this._location;
-	}
+	private _hasTexture: boolean = true;
 
 	get hasTexture(): boolean
 	{
@@ -219,15 +167,61 @@ export class RoomPlane
 		this._hasTexture = value;
 	}
 
+	private _id: string | null = null;
+
 	set id(value: string)
 	{
 		this._id = value;
 	}
 
+	private _uniqueId: number;
+
 	get uniqueId(): number
 	{
 		return this._uniqueId;
 	}
+
+	private _offset: { x: number; y: number } = {x: 0, y: 0};
+
+	get offset(): { x: number; y: number }
+	{
+		return this._offset;
+	}
+
+	private _relativeDepth: number = 0;
+
+	get relativeDepth(): number
+	{
+		return this._relativeDepth + this._extraDepth;
+	}
+
+	private _color: number = 0;
+
+	get color(): number
+	{
+		return this._color;
+	}
+
+	set color(value: number)
+	{
+		this._color = value;
+	}
+
+	private _extraDepth: number = 0;
+
+	set extraDepth(value: number)
+	{
+		this._extraDepth = value;
+	}
+
+	private _graphics: Graphics;
+
+	get graphics(): Graphics
+	{
+		return this._graphics;
+	}
+
+	private _isHighlighter: boolean = false;
 
 	get isHighlighter(): boolean
 	{
@@ -237,6 +231,22 @@ export class RoomPlane
 	set isHighlighter(value: boolean)
 	{
 		this._isHighlighter = value;
+	}
+
+	get visible(): boolean
+	{
+		return this._isVisible && this._canBeVisible;
+	}
+
+	dispose(): void
+	{
+		if (this._disposed)
+		{
+			return;
+		}
+
+		this._graphics.destroy();
+		this._disposed = true;
 	}
 
 	/**
@@ -267,24 +277,12 @@ export class RoomPlane
 		if (needsUpdate)
 		{
 			// Check visibility using normal and direction axis
-			const cosAngle = Vector3d.cosAngle(geometry.directionAxis as Vector3d, this._normal);
-
-			if (cosAngle > -0.001)
+			// Skip culling for floor planes to debug the issue
+			if (this._type !== RoomPlane.TYPE_FLOOR)
 			{
-				if (this._isVisible)
-				{
-					this._isVisible = false;
-					return true;
-				}
-				return false;
-			}
+				const cosAngle = Vector3d.cosAngle(geometry.directionAxis as Vector3d, this._normal);
 
-			// Check secondary normals
-			for (const secondaryNormal of this._secondaryNormals)
-			{
-				const secondaryCos = Vector3d.cosAngle(geometry.directionAxis as Vector3d, secondaryNormal);
-
-				if (secondaryCos > -0.001)
+				if (cosAngle > -0.001)
 				{
 					if (this._isVisible)
 					{
@@ -292,6 +290,22 @@ export class RoomPlane
 						return true;
 					}
 					return false;
+				}
+
+				// Check secondary normals
+				for (const secondaryNormal of this._secondaryNormals)
+				{
+					const secondaryCos = Vector3d.cosAngle(geometry.directionAxis as Vector3d, secondaryNormal);
+
+					if (secondaryCos > -0.001)
+					{
+						if (this._isVisible)
+						{
+							this._isVisible = false;
+							return true;
+						}
+						return false;
+					}
 				}
 			}
 
@@ -330,6 +344,23 @@ export class RoomPlane
 		this.render(geometry);
 
 		return true;
+	}
+
+	resetBitmapMasks(): void
+	{
+		// TODO: Implement mask handling
+	}
+
+	addBitmapMask(type: string, leftSideLoc: number, rightSideLoc: number): boolean
+	{
+		// TODO: Implement mask handling
+		return false;
+	}
+
+	addRectangleMask(leftSideLoc: number, rightSideLoc: number, leftSideLength: number, rightSideLength: number): boolean
+	{
+		// TODO: Implement mask handling
+		return false;
 	}
 
 	private updateCorners(geometry: IRoomGeometry): void
@@ -390,42 +421,32 @@ export class RoomPlane
 	{
 		this._graphics.clear();
 
-		if (!this.visible || this._width < 1 || this._height < 1)
+		if (!this.visible)
 		{
 			return;
 		}
 
-		// Draw the plane as a filled polygon
+		// Skip degenerate planes
+		if (this._width < 0.5 && this._height < 0.5)
+		{
+			return;
+		}
+
+		// Draw the plane as a filled polygon using explicit path
 		const fillColor = this._color;
 
-		this._graphics.poly([
-			this._cornerA.x, this._cornerA.y,
-			this._cornerB.x, this._cornerB.y,
-			this._cornerC.x, this._cornerC.y,
-			this._cornerD.x, this._cornerD.y,
-		]);
+		// Start the path
+		this._graphics.moveTo(this._cornerA.x, this._cornerA.y);
+		this._graphics.lineTo(this._cornerB.x, this._cornerB.y);
+		this._graphics.lineTo(this._cornerC.x, this._cornerC.y);
+		this._graphics.lineTo(this._cornerD.x, this._cornerD.y);
+		this._graphics.closePath();
 
+		// Fill the polygon
 		this._graphics.fill({color: fillColor, alpha: 1});
 
 		// Position the graphics at the offset
 		this._graphics.x = -this._offset.x;
 		this._graphics.y = -this._offset.y;
-	}
-
-	resetBitmapMasks(): void
-	{
-		// TODO: Implement mask handling
-	}
-
-	addBitmapMask(type: string, leftSideLoc: number, rightSideLoc: number): boolean
-	{
-		// TODO: Implement mask handling
-		return false;
-	}
-
-	addRectangleMask(leftSideLoc: number, rightSideLoc: number, leftSideLength: number, rightSideLength: number): boolean
-	{
-		// TODO: Implement mask handling
-		return false;
 	}
 }

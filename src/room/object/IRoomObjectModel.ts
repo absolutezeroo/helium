@@ -9,14 +9,21 @@
 export interface IRoomObjectModel
 {
 	hasNumber(key: string): boolean;
+
 	hasNumberArray(key: string): boolean;
+
 	hasString(key: string): boolean;
+
 	hasStringArray(key: string): boolean;
 
 	getNumber(key: string): number;
+
 	getString(key: string): string;
+
 	getNumberArray(key: string): number[] | null;
+
 	getStringArray(key: string): string[] | null;
+
 	getStringToStringMap(key: string): Map<string, string>;
 
 	getUpdateID(): number;

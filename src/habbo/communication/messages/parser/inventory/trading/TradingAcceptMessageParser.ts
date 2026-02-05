@@ -9,12 +9,13 @@ import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 export class TradingAcceptMessageParser implements IMessageParser
 {
 	private _userId: number = 0;
-	private _accepted: boolean = false;
 
 	get userId(): number
 	{
 		return this._userId;
 	}
+
+	private _accepted: boolean = false;
 
 	get accepted(): boolean
 	{

@@ -22,18 +22,20 @@ export interface PetData
 export class PetInventoryMessageParser implements IMessageParser
 {
 	private _totalFragments: number = 1;
-	private _fragmentNo: number = 0;
-	private _pets: PetData[] = [];
 
 	get totalFragments(): number
 	{
 		return this._totalFragments;
 	}
 
+	private _fragmentNo: number = 0;
+
 	get fragmentNo(): number
 	{
 		return this._fragmentNo;
 	}
+
+	private _pets: PetData[] = [];
 
 	get pets(): PetData[]
 	{

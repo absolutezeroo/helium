@@ -9,28 +9,7 @@ import type {FurnitureItemData} from './FurnitureItemData';
  */
 export class FurnitureItem implements IFurnitureItem
 {
-	private _id: number;
-	private _ref: number;
-	private _type: number;
-	private _category: number;
-	private _stuffData: IStuffData | null;
-	private _extra: number;
-	private _recyclable: boolean;
-	private _tradeable: boolean;
-	private _groupable: boolean;
-	private _sellable: boolean;
-	private _isWallItem: boolean;
-	private _isRented: boolean;
-	private _secondsToExpiration: number;
 	private _expirationTimeStamp: number;
-	private _hasRentPeriodStarted: boolean;
-	private _locked: boolean = false;
-	private _flatId: number;
-	private _slotId: string;
-	private _songId: number;
-	private _creationDay: number;
-	private _creationMonth: number;
-	private _creationYear: number;
 
 	constructor(data: FurnitureItemData)
 	{
@@ -57,25 +36,35 @@ export class FurnitureItem implements IFurnitureItem
 		this._creationYear = data.creationYear;
 	}
 
+	private _id: number;
+
 	get id(): number
 	{
 		return this._id;
 	}
+
+	private _ref: number;
 
 	get ref(): number
 	{
 		return this._ref;
 	}
 
+	private _type: number;
+
 	get type(): number
 	{
 		return this._type;
 	}
 
+	private _category: number;
+
 	get category(): number
 	{
 		return this._category;
 	}
+
+	private _stuffData: IStuffData | null;
 
 	get stuffData(): IStuffData | null
 	{
@@ -87,40 +76,56 @@ export class FurnitureItem implements IFurnitureItem
 		this._stuffData = value;
 	}
 
+	private _extra: number;
+
 	get extra(): number
 	{
 		return this._extra;
 	}
+
+	private _recyclable: boolean;
 
 	get recyclable(): boolean
 	{
 		return this._recyclable;
 	}
 
+	private _tradeable: boolean;
+
 	get tradeable(): boolean
 	{
 		return this._tradeable;
 	}
+
+	private _groupable: boolean;
 
 	get groupable(): boolean
 	{
 		return this._groupable;
 	}
 
+	private _sellable: boolean;
+
 	get sellable(): boolean
 	{
 		return this._sellable;
 	}
+
+	private _isWallItem: boolean;
 
 	get isWallItem(): boolean
 	{
 		return this._isWallItem;
 	}
 
+	private _isRented: boolean;
+
 	get isRented(): boolean
 	{
 		return this._isRented;
 	}
+
+	private _secondsToExpiration: number;
 
 	/**
 	 * Get seconds until expiration
@@ -144,10 +149,14 @@ export class FurnitureItem implements IFurnitureItem
 		return this._secondsToExpiration;
 	}
 
+	private _hasRentPeriodStarted: boolean;
+
 	get hasRentPeriodStarted(): boolean
 	{
 		return this._hasRentPeriodStarted;
 	}
+
+	private _locked: boolean = false;
 
 	get locked(): boolean
 	{
@@ -159,30 +168,42 @@ export class FurnitureItem implements IFurnitureItem
 		this._locked = value;
 	}
 
+	private _flatId: number;
+
 	get flatId(): number
 	{
 		return this._flatId;
 	}
+
+	private _slotId: string;
 
 	get slotId(): string
 	{
 		return this._slotId;
 	}
 
+	private _songId: number;
+
 	get songId(): number
 	{
 		return this._songId;
 	}
+
+	private _creationDay: number;
 
 	get creationDay(): number
 	{
 		return this._creationDay;
 	}
 
+	private _creationMonth: number;
+
 	get creationMonth(): number
 	{
 		return this._creationMonth;
 	}
+
+	private _creationYear: number;
 
 	get creationYear(): number
 	{

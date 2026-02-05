@@ -80,36 +80,8 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 
 		this._planeContainer = new Container();
 		this._planeContainer.label = 'RoomVisualization_Planes';
+		this._planeContainer.sortableChildren = true;
 		this.container.addChild(this._planeContainer);
-	}
-
-	override dispose(): void
-	{
-		this.resetRoomPlanes();
-		this._planes = [];
-		this._planeIndexMap.clear();
-		this._visiblePlanes = [];
-		this._visiblePlaneSpriteNumbers = [];
-
-		this._planeContainer.destroy({children: true});
-
-		super.dispose();
-	}
-
-	protected override reset(): void
-	{
-		super.reset();
-		this._floorType = null;
-		this._wallType = null;
-		this._landscapeType = null;
-		this._geometryUpdateId = -1;
-		this._geometryScale = 0;
-	}
-
-	override initialize(data: IRoomObjectVisualizationData): boolean
-	{
-		this.reset();
-		return true;
 	}
 
 	get floorRelativeDepth(): number
@@ -125,6 +97,25 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 	get planeCount(): number
 	{
 		return this._planes.length;
+	}
+
+	override dispose(): void
+	{
+		this.resetRoomPlanes();
+		this._planes = [];
+		this._planeIndexMap.clear();
+		this._visiblePlanes = [];
+		this._visiblePlaneSpriteNumbers = [];
+
+		this._planeContainer.destroy({children: true});
+
+		super.dispose();
+	}
+
+	override initialize(data: IRoomObjectVisualizationData): boolean
+	{
+		this.reset();
+		return true;
 	}
 
 	override update(geometry: IRoomGeometry, time: number, update: boolean, skipUpdate: boolean): void
@@ -191,6 +182,16 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 		this._lastUpdateTime = time;
 	}
 
+	protected override reset(): void
+	{
+		super.reset();
+		this._floorType = null;
+		this._wallType = null;
+		this._landscapeType = null;
+		this._geometryUpdateId = -1;
+		this._geometryScale = 0;
+	}
+
 	protected initializeRoomPlanes(): void
 	{
 		if (this._initialized)
@@ -223,129 +224,6 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 		this.createPlanesAndSprites(planeCount, model, roomObject);
 	}
 
-	private createPlanesAndSprites(planeCount: number, model: unknown, roomObject: IRoomObject): void
-	{
-		const modelAccessor = model as {getNumber(key: string): number};
-
-		for (let i = 0; i < planeCount; i++)
-		{
-			const type = modelAccessor.getNumber(`plane_${i}_type`);
-			const locX = modelAccessor.getNumber(`plane_${i}_loc_x`);
-			const locY = modelAccessor.getNumber(`plane_${i}_loc_y`);
-			const locZ = modelAccessor.getNumber(`plane_${i}_loc_z`);
-			const leftX = modelAccessor.getNumber(`plane_${i}_left_x`);
-			const leftY = modelAccessor.getNumber(`plane_${i}_left_y`);
-			const leftZ = modelAccessor.getNumber(`plane_${i}_left_z`);
-			const rightX = modelAccessor.getNumber(`plane_${i}_right_x`);
-			const rightY = modelAccessor.getNumber(`plane_${i}_right_y`);
-			const rightZ = modelAccessor.getNumber(`plane_${i}_right_z`);
-
-			// Skip if data is missing
-			if (isNaN(locX) || isNaN(locY) || isNaN(locZ))
-			{
-				continue;
-			}
-
-			const location = new Vector3d(locX, locY, locZ);
-			const leftSide = new Vector3d(leftX, leftY, leftZ);
-			const rightSide = new Vector3d(rightX, rightY, rightZ);
-			const origin = roomObject.getLocation();
-
-			const normal = Vector3d.crossProduct(leftSide, rightSide);
-			const secondaryNormals: IVector3d[] = [];
-
-			// Determine plane type and color
-			let planeType: number;
-			let color: number;
-
-			if (type === RoomPlaneData.PLANE_FLOOR)
-			{
-				planeType = RoomPlane.TYPE_FLOOR;
-
-				// Determine floor color based on normal
-				if (normal !== null && normal.z !== 0)
-				{
-					color = RoomVisualization.FLOOR_COLOR_TOP;
-				}
-				else if (normal !== null && normal.x !== 0)
-				{
-					color = RoomVisualization.FLOOR_COLOR_RIGHT;
-				}
-				else
-				{
-					color = RoomVisualization.FLOOR_COLOR_LEFT;
-				}
-			}
-			else if (type === RoomPlaneData.PLANE_WALL)
-			{
-				planeType = RoomPlane.TYPE_WALL;
-
-				// Determine wall color based on normal
-				if (normal !== null && normal.x === 0 && normal.y === 0)
-				{
-					color = RoomVisualization.WALL_COLOR_BOTTOM;
-				}
-				else if (normal !== null && normal.y > 0)
-				{
-					color = RoomVisualization.WALL_COLOR_TOP;
-				}
-				else if (normal !== null && normal.y === 0)
-				{
-					color = RoomVisualization.WALL_COLOR_SIDE;
-				}
-				else
-				{
-					color = RoomVisualization.WALL_COLOR_BOTTOM;
-				}
-			}
-			else if (type === RoomPlaneData.PLANE_LANDSCAPE)
-			{
-				planeType = RoomPlane.TYPE_LANDSCAPE;
-
-				if (normal !== null && normal.y > 0)
-				{
-					color = RoomVisualization.LANDSCAPE_COLOR_TOP;
-				}
-				else if (normal !== null && normal.y === 0)
-				{
-					color = RoomVisualization.LANDSCAPE_COLOR_SIDE;
-				}
-				else
-				{
-					color = RoomVisualization.LANDSCAPE_COLOR_BOTTOM;
-				}
-			}
-			else
-			{
-				continue;
-			}
-
-			const randomSeed = Math.floor(Math.random() * 10000);
-
-			const plane = new RoomPlane(
-				origin,
-				location,
-				leftSide,
-				rightSide,
-				planeType,
-				true,
-				secondaryNormals.length > 0 ? secondaryNormals : null,
-				randomSeed
-			);
-
-			plane.color = color;
-
-			this._planeIndexMap.set(i, this._planes.length);
-			this._planes.push(plane);
-
-			// Add the plane's graphics to the container
-			this._planeContainer.addChild(plane.graphics);
-		}
-
-		this._initialized = true;
-		this.defineSprites();
-	}
-
 	protected defineSprites(startIndex: number = 0): void
 	{
 		const count = this._planes.length;
@@ -361,8 +239,7 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 				if (plane.type === RoomPlane.TYPE_WALL && (plane.leftSide.length < 1 || plane.rightSide.length < 1))
 				{
 					sprite.alphaTolerance = 256;
-				}
-				else
+				} else
 				{
 					sprite.alphaTolerance = 128;
 				}
@@ -370,12 +247,10 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 				if (plane.type === RoomPlane.TYPE_WALL)
 				{
 					sprite.tag = `plane.wall@${i + 1}`;
-				}
-				else if (plane.type === RoomPlane.TYPE_FLOOR)
+				} else if (plane.type === RoomPlane.TYPE_FLOOR)
 				{
 					sprite.tag = `plane.floor@${i + 1}`;
-				}
-				else
+				} else
 				{
 					sprite.tag = `plane@${i + 1}`;
 				}
@@ -446,6 +321,10 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 								}
 							}
 
+							// Update PixiJS zIndex for proper rendering order
+							// Higher depth = further back, so we negate it for zIndex
+							plane.graphics.zIndex = -depth;
+
 							this.updateSprite(sprite, plane, `plane ${spriteIndex} ${geometry.scale}`, depth);
 						}
 
@@ -465,8 +344,7 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 						this._visiblePlanes.push(plane);
 						this._visiblePlaneSpriteNumbers.push(i);
 					}
-				}
-				else
+				} else
 				{
 					sprite.planeId = 0;
 
@@ -480,6 +358,135 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 		}
 
 		return updated;
+	}
+
+	private createPlanesAndSprites(planeCount: number, model: unknown, roomObject: IRoomObject): void
+	{
+		const modelAccessor = model as { getNumber(key: string): number };
+
+		for (let i = 0; i < planeCount; i++)
+		{
+			const type = modelAccessor.getNumber(`plane_${i}_type`);
+			const locX = modelAccessor.getNumber(`plane_${i}_loc_x`);
+			const locY = modelAccessor.getNumber(`plane_${i}_loc_y`);
+			const locZ = modelAccessor.getNumber(`plane_${i}_loc_z`);
+			const leftX = modelAccessor.getNumber(`plane_${i}_left_x`);
+			const leftY = modelAccessor.getNumber(`plane_${i}_left_y`);
+			const leftZ = modelAccessor.getNumber(`plane_${i}_left_z`);
+			const rightX = modelAccessor.getNumber(`plane_${i}_right_x`);
+			const rightY = modelAccessor.getNumber(`plane_${i}_right_y`);
+			const rightZ = modelAccessor.getNumber(`plane_${i}_right_z`);
+
+			// Skip if data is missing
+			if (isNaN(locX) || isNaN(locY) || isNaN(locZ))
+			{
+				continue;
+			}
+
+			const location = new Vector3d(locX, locY, locZ);
+			const leftSide = new Vector3d(leftX, leftY, leftZ);
+			const rightSide = new Vector3d(rightX, rightY, rightZ);
+			const origin = roomObject.getLocation();
+
+			const normal = Vector3d.crossProduct(leftSide, rightSide);
+
+			// Read secondary normals from model
+			const secondaryNormals: IVector3d[] = [];
+			const secNormalCount = modelAccessor.getNumber(`plane_${i}_sec_normal_count`);
+			if (!isNaN(secNormalCount) && secNormalCount > 0)
+			{
+				for (let j = 0; j < secNormalCount; j++)
+				{
+					const secX = modelAccessor.getNumber(`plane_${i}_sec_normal_${j}_x`);
+					const secY = modelAccessor.getNumber(`plane_${i}_sec_normal_${j}_y`);
+					const secZ = modelAccessor.getNumber(`plane_${i}_sec_normal_${j}_z`);
+					if (!isNaN(secX) && !isNaN(secY) && !isNaN(secZ))
+					{
+						secondaryNormals.push(new Vector3d(secX, secY, secZ));
+					}
+				}
+			}
+
+			// Determine plane type and color
+			let planeType: number;
+			let color: number;
+
+			if (type === RoomPlaneData.PLANE_FLOOR)
+			{
+				planeType = RoomPlane.TYPE_FLOOR;
+
+				// Determine floor color based on normal
+				if (normal !== null && normal.z !== 0)
+				{
+					color = RoomVisualization.FLOOR_COLOR_TOP;
+				} else if (normal !== null && normal.x !== 0)
+				{
+					color = RoomVisualization.FLOOR_COLOR_RIGHT;
+				} else
+				{
+					color = RoomVisualization.FLOOR_COLOR_LEFT;
+				}
+			} else if (type === RoomPlaneData.PLANE_WALL)
+			{
+				planeType = RoomPlane.TYPE_WALL;
+
+				// Determine wall color based on normal
+				if (normal !== null && normal.x === 0 && normal.y === 0)
+				{
+					color = RoomVisualization.WALL_COLOR_BOTTOM;
+				} else if (normal !== null && normal.y > 0)
+				{
+					color = RoomVisualization.WALL_COLOR_TOP;
+				} else if (normal !== null && normal.y === 0)
+				{
+					color = RoomVisualization.WALL_COLOR_SIDE;
+				} else
+				{
+					color = RoomVisualization.WALL_COLOR_BOTTOM;
+				}
+			} else if (type === RoomPlaneData.PLANE_LANDSCAPE)
+			{
+				planeType = RoomPlane.TYPE_LANDSCAPE;
+
+				if (normal !== null && normal.y > 0)
+				{
+					color = RoomVisualization.LANDSCAPE_COLOR_TOP;
+				} else if (normal !== null && normal.y === 0)
+				{
+					color = RoomVisualization.LANDSCAPE_COLOR_SIDE;
+				} else
+				{
+					color = RoomVisualization.LANDSCAPE_COLOR_BOTTOM;
+				}
+			} else
+			{
+				continue;
+			}
+
+			const randomSeed = Math.floor(Math.random() * 10000);
+
+			const plane = new RoomPlane(
+				origin,
+				location,
+				leftSide,
+				rightSide,
+				planeType,
+				true,
+				secondaryNormals.length > 0 ? secondaryNormals : null,
+				randomSeed
+			);
+
+			plane.color = color;
+
+			this._planeIndexMap.set(i, this._planes.length);
+			this._planes.push(plane);
+
+			// Add the plane's graphics to the container
+			this._planeContainer.addChild(plane.graphics);
+		}
+
+		this._initialized = true;
+		this.defineSprites();
 	}
 
 	private updateSprite(sprite: IRoomObjectSprite, plane: RoomPlane, name: string, depth: number): void
@@ -503,9 +510,9 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 
 			if (direction !== null &&
 				(direction.x !== this._geometryDirX ||
-				 direction.y !== this._geometryDirY ||
-				 direction.z !== this._geometryDirZ ||
-				 geometry.scale !== this._geometryScale))
+					direction.y !== this._geometryDirY ||
+					direction.z !== this._geometryDirZ ||
+					geometry.scale !== this._geometryScale))
 			{
 				this._geometryDirX = direction.x;
 				this._geometryDirY = direction.y;

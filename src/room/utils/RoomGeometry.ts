@@ -5,7 +5,7 @@
  *
  * Handles isometric room projection and coordinate transformations.
  */
-import type {Point, IRoomGeometry} from './IRoomGeometry';
+import type {IRoomGeometry, Point} from './IRoomGeometry';
 import type {IVector3d} from './IVector3d';
 import {Vector3d} from './Vector3d';
 
@@ -13,27 +13,18 @@ export class RoomGeometry implements IRoomGeometry
 {
 	public static readonly SCALE_ZOOMED_IN: number = 64;
 	public static readonly SCALE_ZOOMED_OUT: number = 32;
-
-	private _updateId: number = 0;
 	private _x: Vector3d;
 	private _y: Vector3d;
 	private _z: Vector3d;
-	private _directionAxis: Vector3d;
 	private _locationCache: Vector3d;
 	private _directionCache: Vector3d;
 	private _depth: Vector3d;
-
-	private _scale: number = 1;
 	private _xScale: number = 1;
 	private _yScale: number = 1;
 	private _zScale: number = 1;
 	private _xScaleInternal: number = 1;
 	private _yScaleInternal: number = 1;
 	private _zScaleInternal: number = 1;
-
-	private _location: Vector3d | null = null;
-	private _direction: Vector3d | null = null;
-
 	private _depthMin: number = -500;
 	private _depthMax: number = 500;
 	private _displacements: Map<string, Vector3d> = new Map();
@@ -62,47 +53,34 @@ export class RoomGeometry implements IRoomGeometry
 		if (depthDirection !== null)
 		{
 			this.setDepthVector(depthDirection);
-		}
-		else
+		} else
 		{
 			this.setDepthVector(direction);
 		}
 	}
 
-	static getIntersectionVector(
-		origin: IVector3d,
-		direction: IVector3d,
-		planeOrigin: IVector3d,
-		planeNormal: IVector3d
-	): IVector3d | null
-	{
-		const denom = Vector3d.dotProduct(direction, planeNormal);
-
-		if (Math.abs(denom) < 0.00001)
-		{
-			return null;
-		}
-
-		const diff = Vector3d.dif(origin, planeOrigin);
-		const t = -Vector3d.dotProduct(planeNormal, diff!) / denom;
-
-		return Vector3d.sum(origin, Vector3d.product(direction, t)!);
-	}
+	private _updateId: number = 0;
 
 	get updateId(): number
 	{
 		return this._updateId;
 	}
 
-	get scale(): number
-	{
-		return this._scale / Math.sqrt(0.5);
-	}
+	private _directionAxis: Vector3d;
 
 	get directionAxis(): IVector3d
 	{
 		return this._directionAxis;
 	}
+
+	private _scale: number = 1;
+
+	get scale(): number
+	{
+		return this._scale / Math.sqrt(0.5);
+	}
+
+	private _location: Vector3d | null = null;
 
 	get location(): IVector3d
 	{
@@ -113,6 +91,8 @@ export class RoomGeometry implements IRoomGeometry
 
 		return this._locationCache;
 	}
+
+	private _direction: Vector3d | null = null;
 
 	get direction(): IVector3d
 	{
@@ -144,6 +124,260 @@ export class RoomGeometry implements IRoomGeometry
 			this._zScale = value * this._zScaleInternal;
 			this._updateId++;
 		}
+	}
+
+	static getIntersectionVector(
+		origin: IVector3d,
+		direction: IVector3d,
+		planeOrigin: IVector3d,
+		planeNormal: IVector3d
+	): IVector3d | null
+	{
+		const denom = Vector3d.dotProduct(direction, planeNormal);
+
+		if (Math.abs(denom) < 0.00001)
+		{
+			return null;
+		}
+
+		const diff = Vector3d.dif(origin, planeOrigin);
+		const t = -Vector3d.dotProduct(planeNormal, diff!) / denom;
+
+		return Vector3d.sum(origin, Vector3d.product(direction, t)!);
+	}
+
+	dispose(): void
+	{
+		this._displacements.clear();
+	}
+
+	setDisplacement(location: IVector3d, displacement: IVector3d): void
+	{
+		if (location === null || displacement === null)
+		{
+			return;
+		}
+
+		const key = `${Math.round(location.x)}_${Math.round(location.y)}_${Math.round(location.z)}`;
+
+		const vector = new Vector3d();
+
+		vector.assign(displacement);
+
+		this._displacements.set(key, vector);
+		this._updateId++;
+	}
+
+	setDepthVector(direction: IVector3d): void
+	{
+		const yAxis = new Vector3d(0, 1, 0);
+		const zAxis = new Vector3d(0, 0, 1);
+		const xAxis = new Vector3d(1, 0, 0);
+
+		const angleX = direction.x / 180 * Math.PI;
+		const angleY = direction.y / 180 * Math.PI;
+		const angleZ = direction.z / 180 * Math.PI;
+
+		const cosX = Math.cos(angleX);
+		const sinX = Math.sin(angleX);
+
+		const rotatedY = Vector3d.sum(Vector3d.product(yAxis, cosX), Vector3d.product(xAxis, -sinX))!;
+		const rotatedZ = new Vector3d(zAxis.x, zAxis.y, zAxis.z);
+		const rotatedX = Vector3d.sum(Vector3d.product(yAxis, sinX), Vector3d.product(xAxis, cosX))!;
+
+		const cosY = Math.cos(angleY);
+		const sinY = Math.sin(angleY);
+
+		const finalY = new Vector3d(rotatedY.x, rotatedY.y, rotatedY.z);
+		const finalZ2 = Vector3d.sum(Vector3d.product(rotatedZ, cosY), Vector3d.product(rotatedX, sinY))!;
+		const finalX2 = Vector3d.sum(Vector3d.product(rotatedZ, -sinY), Vector3d.product(rotatedX, cosY))!;
+
+		if (angleZ !== 0)
+		{
+			const cosZ = Math.cos(angleZ);
+			const sinZ = Math.sin(angleZ);
+
+			Vector3d.sum(Vector3d.product(finalY, cosZ), Vector3d.product(finalZ2, sinZ));
+			Vector3d.sum(Vector3d.product(finalY, -sinZ), Vector3d.product(finalZ2, cosZ));
+
+			const finalX3 = new Vector3d(finalX2.x, finalX2.y, finalX2.z);
+
+			this._depth.assign(finalX3);
+		} else
+		{
+			this._depth.assign(finalX2);
+		}
+
+		this._updateId++;
+	}
+
+	adjustLocation(location: IVector3d, z: number): void
+	{
+		if (location === null || this._z === null)
+		{
+			return;
+		}
+
+		const offset = Vector3d.product(this._z, -z)!;
+		const newLocation = new Vector3d(
+			location.x + offset.x,
+			location.y + offset.y,
+			location.z + offset.z
+		);
+
+		this.setLocation(newLocation);
+	}
+
+	getCoordinatePosition(vector: IVector3d): IVector3d | null
+	{
+		if (vector === null)
+		{
+			return null;
+		}
+
+		const projX = Vector3d.scalarProjection(vector, this._x);
+		const projY = Vector3d.scalarProjection(vector, this._y);
+		const projZ = Vector3d.scalarProjection(vector, this._z);
+
+		return new Vector3d(projX, projY, projZ);
+	}
+
+	getScreenPosition(vector: IVector3d): IVector3d | null
+	{
+		const diff = Vector3d.dif(vector, this._location);
+
+		if (diff === null)
+		{
+			return null;
+		}
+
+		diff.x *= this._xScale;
+		diff.y *= this._yScale;
+		diff.z *= this._zScale;
+
+		const depthProj = Vector3d.scalarProjection(diff, this._depth);
+
+		if (depthProj < this._depthMin || depthProj > this._depthMax)
+		{
+			return null;
+		}
+
+		let screenX = Vector3d.scalarProjection(diff, this._x);
+		let screenY = -Vector3d.scalarProjection(diff, this._y);
+
+		screenX *= this._scale;
+		screenY *= this._scale;
+
+		const displacement = this.getDisplacement(vector);
+		let finalDepth = depthProj;
+
+		if (displacement !== null)
+		{
+			const diffWithDisp = Vector3d.dif(vector, this._location)!;
+
+			diffWithDisp.add(displacement);
+			diffWithDisp.x *= this._xScale;
+			diffWithDisp.y *= this._yScale;
+			diffWithDisp.z *= this._zScale;
+			finalDepth = Vector3d.scalarProjection(diffWithDisp, this._depth);
+		}
+
+		diff.x = screenX;
+		diff.y = screenY;
+		diff.z = finalDepth;
+
+		return diff;
+	}
+
+	getScreenPoint(vector: IVector3d): Point | null
+	{
+		const screenPos = this.getScreenPosition(vector);
+
+		if (screenPos === null)
+		{
+			return null;
+		}
+
+		return {x: screenPos.x, y: screenPos.y};
+	}
+
+	getPlanePosition(point: Point, loc: IVector3d, leftSide: IVector3d, rightSide: IVector3d): Point | null
+	{
+		const screenX = point.x / this._scale;
+		const screenY = -point.y / this._scale;
+
+		const screenVec = Vector3d.product(this._x, screenX)!;
+
+		screenVec.add(Vector3d.product(this._y, screenY));
+
+		const origin = new Vector3d(
+			this._location!.x * this._xScale,
+			this._location!.y * this._yScale,
+			this._location!.z * this._zScale
+		);
+		origin.add(screenVec);
+
+		const direction = this._z;
+
+		const scaledLoc = new Vector3d(
+			loc.x * this._xScale,
+			loc.y * this._yScale,
+			loc.z * this._zScale
+		);
+
+		const scaledLeft = new Vector3d(
+			leftSide.x * this._xScale,
+			leftSide.y * this._yScale,
+			leftSide.z * this._zScale
+		);
+
+		const scaledRight = new Vector3d(
+			rightSide.x * this._xScale,
+			rightSide.y * this._yScale,
+			rightSide.z * this._zScale
+		);
+
+		const normal = Vector3d.crossProduct(scaledLeft, scaledRight);
+
+		const intersection = RoomGeometry.getIntersectionVector(origin, direction, scaledLoc, normal!) as Vector3d | null;
+
+		if (intersection !== null)
+		{
+			intersection.sub(scaledLoc);
+
+			const planeX = Vector3d.scalarProjection(intersection, leftSide) / scaledLeft.length * leftSide.length;
+			const planeY = Vector3d.scalarProjection(intersection, rightSide) / scaledRight.length * rightSide.length;
+
+			return {x: planeX, y: planeY};
+		}
+
+		return null;
+	}
+
+	performZoom(): void
+	{
+		if (this.isZoomedIn())
+		{
+			this.setScale(32);
+		} else
+		{
+			this.setScale(64);
+		}
+	}
+
+	isZoomedIn(): boolean
+	{
+		return this.scale === 64;
+	}
+
+	performZoomOut(): void
+	{
+		this.setScale(32);
+	}
+
+	performZoomIn(): void
+	{
+		this.setScale(64);
 	}
 
 	private setScale(value: number): void
@@ -248,8 +482,7 @@ export class RoomGeometry implements IRoomGeometry
 			this._y.assign(finalZ3);
 			this._z.assign(finalX3);
 			this._directionAxis.assign(this._z);
-		}
-		else
+		} else
 		{
 			this._x.assign(finalY);
 			this._y.assign(finalZ2);
@@ -258,241 +491,10 @@ export class RoomGeometry implements IRoomGeometry
 		}
 	}
 
-	dispose(): void
-	{
-		this._displacements.clear();
-	}
-
-	setDisplacement(location: IVector3d, displacement: IVector3d): void
-	{
-		if (location === null || displacement === null)
-		{
-			return;
-		}
-
-		const key = `${Math.round(location.x)}_${Math.round(location.y)}_${Math.round(location.z)}`;
-
-		const vector = new Vector3d();
-		vector.assign(displacement);
-		this._displacements.set(key, vector);
-		this._updateId++;
-	}
-
 	private getDisplacement(location: IVector3d): IVector3d | null
 	{
 		const key = `${Math.round(location.x)}_${Math.round(location.y)}_${Math.round(location.z)}`;
 
 		return this._displacements.get(key) ?? null;
-	}
-
-	setDepthVector(direction: IVector3d): void
-	{
-		const yAxis = new Vector3d(0, 1, 0);
-		const zAxis = new Vector3d(0, 0, 1);
-		const xAxis = new Vector3d(1, 0, 0);
-
-		const angleX = direction.x / 180 * Math.PI;
-		const angleY = direction.y / 180 * Math.PI;
-		const angleZ = direction.z / 180 * Math.PI;
-
-		const cosX = Math.cos(angleX);
-		const sinX = Math.sin(angleX);
-
-		const rotatedY = Vector3d.sum(Vector3d.product(yAxis, cosX), Vector3d.product(xAxis, -sinX))!;
-		const rotatedZ = new Vector3d(zAxis.x, zAxis.y, zAxis.z);
-		const rotatedX = Vector3d.sum(Vector3d.product(yAxis, sinX), Vector3d.product(xAxis, cosX))!;
-
-		const cosY = Math.cos(angleY);
-		const sinY = Math.sin(angleY);
-
-		const finalY = new Vector3d(rotatedY.x, rotatedY.y, rotatedY.z);
-		const finalZ2 = Vector3d.sum(Vector3d.product(rotatedZ, cosY), Vector3d.product(rotatedX, sinY))!;
-		const finalX2 = Vector3d.sum(Vector3d.product(rotatedZ, -sinY), Vector3d.product(rotatedX, cosY))!;
-
-		if (angleZ !== 0)
-		{
-			const cosZ = Math.cos(angleZ);
-			const sinZ = Math.sin(angleZ);
-
-			Vector3d.sum(Vector3d.product(finalY, cosZ), Vector3d.product(finalZ2, sinZ));
-			Vector3d.sum(Vector3d.product(finalY, -sinZ), Vector3d.product(finalZ2, cosZ));
-			const finalX3 = new Vector3d(finalX2.x, finalX2.y, finalX2.z);
-
-			this._depth.assign(finalX3);
-		}
-		else
-		{
-			this._depth.assign(finalX2);
-		}
-
-		this._updateId++;
-	}
-
-	adjustLocation(location: IVector3d, z: number): void
-	{
-		if (location === null || this._z === null)
-		{
-			return;
-		}
-
-		const offset = Vector3d.product(this._z, -z)!;
-		const newLocation = new Vector3d(
-			location.x + offset.x,
-			location.y + offset.y,
-			location.z + offset.z
-		);
-
-		this.setLocation(newLocation);
-	}
-
-	getCoordinatePosition(vector: IVector3d): IVector3d | null
-	{
-		if (vector === null)
-		{
-			return null;
-		}
-
-		const projX = Vector3d.scalarProjection(vector, this._x);
-		const projY = Vector3d.scalarProjection(vector, this._y);
-		const projZ = Vector3d.scalarProjection(vector, this._z);
-
-		return new Vector3d(projX, projY, projZ);
-	}
-
-	getScreenPosition(vector: IVector3d): IVector3d | null
-	{
-		const diff = Vector3d.dif(vector, this._location);
-
-		if (diff === null)
-		{
-			return null;
-		}
-
-		diff.x *= this._xScale;
-		diff.y *= this._yScale;
-		diff.z *= this._zScale;
-
-		const depthProj = Vector3d.scalarProjection(diff, this._depth);
-
-		if (depthProj < this._depthMin || depthProj > this._depthMax)
-		{
-			return null;
-		}
-
-		let screenX = Vector3d.scalarProjection(diff, this._x);
-		let screenY = -Vector3d.scalarProjection(diff, this._y);
-
-		screenX *= this._scale;
-		screenY *= this._scale;
-
-		const displacement = this.getDisplacement(vector);
-		let finalDepth = depthProj;
-
-		if (displacement !== null)
-		{
-			const diffWithDisp = Vector3d.dif(vector, this._location)!;
-			diffWithDisp.add(displacement);
-			diffWithDisp.x *= this._xScale;
-			diffWithDisp.y *= this._yScale;
-			diffWithDisp.z *= this._zScale;
-			finalDepth = Vector3d.scalarProjection(diffWithDisp, this._depth);
-		}
-
-		diff.x = screenX;
-		diff.y = screenY;
-		diff.z = finalDepth;
-
-		return diff;
-	}
-
-	getScreenPoint(vector: IVector3d): Point | null
-	{
-		const screenPos = this.getScreenPosition(vector);
-
-		if (screenPos === null)
-		{
-			return null;
-		}
-
-		return {x: screenPos.x, y: screenPos.y};
-	}
-
-	getPlanePosition(point: Point, loc: IVector3d, leftSide: IVector3d, rightSide: IVector3d): Point | null
-	{
-		const screenX = point.x / this._scale;
-		const screenY = -point.y / this._scale;
-
-		const screenVec = Vector3d.product(this._x, screenX)!;
-		screenVec.add(Vector3d.product(this._y, screenY));
-
-		const origin = new Vector3d(
-			this._location!.x * this._xScale,
-			this._location!.y * this._yScale,
-			this._location!.z * this._zScale
-		);
-		origin.add(screenVec);
-
-		const direction = this._z;
-
-		const scaledLoc = new Vector3d(
-			loc.x * this._xScale,
-			loc.y * this._yScale,
-			loc.z * this._zScale
-		);
-
-		const scaledLeft = new Vector3d(
-			leftSide.x * this._xScale,
-			leftSide.y * this._yScale,
-			leftSide.z * this._zScale
-		);
-
-		const scaledRight = new Vector3d(
-			rightSide.x * this._xScale,
-			rightSide.y * this._yScale,
-			rightSide.z * this._zScale
-		);
-
-		const normal = Vector3d.crossProduct(scaledLeft, scaledRight);
-
-		const intersection = RoomGeometry.getIntersectionVector(origin, direction, scaledLoc, normal!) as Vector3d | null;
-
-		if (intersection !== null)
-		{
-			intersection.sub(scaledLoc);
-
-			const planeX = Vector3d.scalarProjection(intersection, leftSide) / scaledLeft.length * leftSide.length;
-			const planeY = Vector3d.scalarProjection(intersection, rightSide) / scaledRight.length * rightSide.length;
-
-			return {x: planeX, y: planeY};
-		}
-
-		return null;
-	}
-
-	performZoom(): void
-	{
-		if (this.isZoomedIn())
-		{
-			this.setScale(32);
-		}
-		else
-		{
-			this.setScale(64);
-		}
-	}
-
-	isZoomedIn(): boolean
-	{
-		return this.scale === 64;
-	}
-
-	performZoomOut(): void
-	{
-		this.setScale(32);
-	}
-
-	performZoomIn(): void
-	{
-		this.setScale(64);
 	}
 }

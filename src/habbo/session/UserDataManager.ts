@@ -1,6 +1,6 @@
 import type {IUserDataManager} from './IUserDataManager';
 import type {IUserData} from './IUserData';
-import {UserData, UserDataType} from './UserData';
+import {UserDataType} from './UserData';
 import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
 
 /**
@@ -13,12 +13,13 @@ export class UserDataManager implements IUserDataManager
 	private _usersByRoomIndex: Map<number, IUserData> = new Map();
 	private _userBadges: Map<number, string[]> = new Map();
 	private _sendCallback: ((composer: IMessageComposer<unknown[]>) => void) | null = null;
-	private _disposed: boolean = false;
 
 	constructor(sendCallback?: (composer: IMessageComposer<unknown[]>) => void)
 	{
 		this._sendCallback = sendCallback ?? null;
 	}
+
+	private _disposed: boolean = false;
 
 	get disposed(): boolean
 	{

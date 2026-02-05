@@ -12,23 +12,36 @@ export interface IRoomInstance
 	readonly id: string;
 
 	getNumber(key: string): number;
+
 	setNumber(key: string, value: number, immutable?: boolean): void;
+
 	getString(key: string): string;
+
 	setString(key: string, value: string, immutable?: boolean): void;
 
 	dispose(): void;
+
 	update(): void;
 
 	addObjectUpdateCategory(category: number): void;
+
 	removeObjectUpdateCategory(category: number): void;
 
 	createRoomObject(id: number, type: string, category: number): IRoomObject | null;
+
 	getObject(id: number, category: number): IRoomObject | null;
+
 	getObjects(category: number): IRoomObject[];
+
 	disposeObject(id: number, category: number): boolean;
+
 	getObjectCount(category: number): number;
+
 	getObjectWithIndexAndType(index: number, type: string, category: number): IRoomObject | null;
+
 	getObjectCountForType(type: string, category: number): number;
+
 	getObjectWithIndex(index: number, category: number): IRoomObject | null;
+
 	disposeObjects(category: number): number;
 }

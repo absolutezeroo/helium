@@ -19,10 +19,16 @@ export interface IRoomObjectEventHandler extends IRoomObjectMouseHandler
 	readonly contextMenu: string | null;
 
 	dispose(): void;
+
 	initialize(data: unknown): void;
+
 	tearDown(): void;
+
 	update(time: number): void;
+
 	processUpdateMessage(message: RoomObjectUpdateMessage): void;
+
 	useObject(): void;
+
 	getEventTypes(): string[];
 }

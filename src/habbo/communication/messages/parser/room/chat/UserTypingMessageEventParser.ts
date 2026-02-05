@@ -9,12 +9,13 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 export class UserTypingMessageEventParser implements IMessageParser
 {
 	private _userId: number = 0;
-	private _isTyping: boolean = false;
 
 	get userId(): number
 	{
 		return this._userId;
 	}
+
+	private _isTyping: boolean = false;
 
 	get isTyping(): boolean
 	{

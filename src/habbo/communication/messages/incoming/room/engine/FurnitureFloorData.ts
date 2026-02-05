@@ -10,24 +10,6 @@ import {LegacyStuffData} from '@habbo/room/object/data/LegacyStuffData';
 
 export class FurnitureFloorData
 {
-	private _id: number;
-	private _x: number = 0;
-	private _y: number = 0;
-	private _z: number = 0;
-	private _dir: number = 0;
-	private _sizeX: number = 0;
-	private _sizeY: number = 0;
-	private _sizeZ: number = 0;
-	private _type: number = 0;
-	private _state: number = 0;
-	private _data: IStuffData;
-	private _extra: number = -1;
-	private _usagePolicy: number = 0;
-	private _ownerId: number = 0;
-	private _ownerName: string = '';
-	private _expiryTime: number = 0;
-	private _staticClass: string | null = null;
-	private _trustedSender: boolean = false;
 	private _readOnly: boolean = false;
 
 	constructor(id: number)
@@ -36,10 +18,14 @@ export class FurnitureFloorData
 		this._data = new LegacyStuffData();
 	}
 
+	private _id: number;
+
 	get id(): number
 	{
 		return this._id;
 	}
+
+	private _x: number = 0;
 
 	get x(): number
 	{
@@ -51,6 +37,8 @@ export class FurnitureFloorData
 		if (!this._readOnly) this._x = value;
 	}
 
+	private _y: number = 0;
+
 	get y(): number
 	{
 		return this._y;
@@ -60,6 +48,8 @@ export class FurnitureFloorData
 	{
 		if (!this._readOnly) this._y = value;
 	}
+
+	private _z: number = 0;
 
 	get z(): number
 	{
@@ -71,6 +61,8 @@ export class FurnitureFloorData
 		if (!this._readOnly) this._z = value;
 	}
 
+	private _dir: number = 0;
+
 	get dir(): number
 	{
 		return this._dir;
@@ -80,6 +72,8 @@ export class FurnitureFloorData
 	{
 		if (!this._readOnly) this._dir = value;
 	}
+
+	private _sizeX: number = 0;
 
 	get sizeX(): number
 	{
@@ -91,6 +85,8 @@ export class FurnitureFloorData
 		if (!this._readOnly) this._sizeX = value;
 	}
 
+	private _sizeY: number = 0;
+
 	get sizeY(): number
 	{
 		return this._sizeY;
@@ -100,6 +96,8 @@ export class FurnitureFloorData
 	{
 		if (!this._readOnly) this._sizeY = value;
 	}
+
+	private _sizeZ: number = 0;
 
 	get sizeZ(): number
 	{
@@ -111,6 +109,8 @@ export class FurnitureFloorData
 		if (!this._readOnly) this._sizeZ = value;
 	}
 
+	private _type: number = 0;
+
 	get type(): number
 	{
 		return this._type;
@@ -120,6 +120,8 @@ export class FurnitureFloorData
 	{
 		if (!this._readOnly) this._type = value;
 	}
+
+	private _state: number = 0;
 
 	get state(): number
 	{
@@ -131,6 +133,8 @@ export class FurnitureFloorData
 		if (!this._readOnly) this._state = value;
 	}
 
+	private _data: IStuffData;
+
 	get data(): IStuffData
 	{
 		return this._data;
@@ -140,6 +144,8 @@ export class FurnitureFloorData
 	{
 		if (!this._readOnly) this._data = value;
 	}
+
+	private _extra: number = -1;
 
 	get extra(): number
 	{
@@ -151,6 +157,8 @@ export class FurnitureFloorData
 		if (!this._readOnly) this._extra = value;
 	}
 
+	private _usagePolicy: number = 0;
+
 	get usagePolicy(): number
 	{
 		return this._usagePolicy;
@@ -160,6 +168,8 @@ export class FurnitureFloorData
 	{
 		this._usagePolicy = value;
 	}
+
+	private _ownerId: number = 0;
 
 	get ownerId(): number
 	{
@@ -171,6 +181,8 @@ export class FurnitureFloorData
 		this._ownerId = value;
 	}
 
+	private _ownerName: string = '';
+
 	get ownerName(): string
 	{
 		return this._ownerName;
@@ -180,6 +192,8 @@ export class FurnitureFloorData
 	{
 		this._ownerName = value;
 	}
+
+	private _expiryTime: number = 0;
 
 	get expiryTime(): number
 	{
@@ -191,6 +205,8 @@ export class FurnitureFloorData
 		if (!this._readOnly) this._expiryTime = value;
 	}
 
+	private _staticClass: string | null = null;
+
 	get staticClass(): string | null
 	{
 		return this._staticClass;
@@ -200,6 +216,8 @@ export class FurnitureFloorData
 	{
 		if (!this._readOnly) this._staticClass = value;
 	}
+
+	private _trustedSender: boolean = false;
 
 	get trustedSender(): boolean
 	{

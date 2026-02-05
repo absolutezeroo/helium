@@ -15,7 +15,10 @@ export interface IRoomObjectSpriteVisualization extends IRoomObjectVisualization
 	container: Container;
 
 	getSprite(index: number): IRoomObjectSprite | null;
+
 	getSpriteList(): IRoomObjectSprite[] | null;
+
 	getUpdateID(): number;
+
 	getInstanceId(): number;
 }

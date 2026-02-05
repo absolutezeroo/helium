@@ -9,13 +9,13 @@ import {RoomObjectUpdateMessage} from '@room/messages/RoomObjectUpdateMessage';
 
 export class RoomObjectAvatarDirectionUpdateMessage extends RoomObjectUpdateMessage
 {
-	private _dirHead: number;
-
 	constructor(dirHead: number)
 	{
 		super(null, null);
 		this._dirHead = dirHead;
 	}
+
+	private _dirHead: number;
 
 	get dirHead(): number
 	{

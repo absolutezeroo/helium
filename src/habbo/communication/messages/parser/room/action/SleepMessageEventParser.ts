@@ -9,12 +9,13 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 export class SleepMessageEventParser implements IMessageParser
 {
 	private _userId: number = 0;
-	private _sleeping: boolean = false;
 
 	get userId(): number
 	{
 		return this._userId;
 	}
+
+	private _sleeping: boolean = false;
 
 	get sleeping(): boolean
 	{

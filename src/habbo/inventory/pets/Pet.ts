@@ -7,13 +7,6 @@ import type {PetFigureData} from './PetFigureData';
  */
 export class Pet
 {
-	private _id: number;
-	private _name: string;
-	private _figureData: PetFigureData;
-	private _level: number;
-	private _isSelected: boolean = false;
-	private _isUnseen: boolean = false;
-
 	constructor(
 		id: number,
 		name: string,
@@ -27,19 +20,56 @@ export class Pet
 		this._level = level;
 	}
 
+	private _id: number;
+
 	get id(): number
 	{
 		return this._id;
 	}
+
+	private _name: string;
 
 	get name(): string
 	{
 		return this._name;
 	}
 
+	private _figureData: PetFigureData;
+
 	get figureData(): PetFigureData
 	{
 		return this._figureData;
+	}
+
+	private _level: number;
+
+	get level(): number
+	{
+		return this._level;
+	}
+
+	private _isSelected: boolean = false;
+
+	get isSelected(): boolean
+	{
+		return this._isSelected;
+	}
+
+	set isSelected(value: boolean)
+	{
+		this._isSelected = value;
+	}
+
+	private _isUnseen: boolean = false;
+
+	get isUnseen(): boolean
+	{
+		return this._isUnseen;
+	}
+
+	set isUnseen(value: boolean)
+	{
+		this._isUnseen = value;
 	}
 
 	get typeId(): number
@@ -70,31 +100,6 @@ export class Pet
 	get figureString(): string
 	{
 		return this._figureData.figureString;
-	}
-
-	get level(): number
-	{
-		return this._level;
-	}
-
-	get isSelected(): boolean
-	{
-		return this._isSelected;
-	}
-
-	set isSelected(value: boolean)
-	{
-		this._isSelected = value;
-	}
-
-	get isUnseen(): boolean
-	{
-		return this._isUnseen;
-	}
-
-	set isUnseen(value: boolean)
-	{
-		this._isUnseen = value;
 	}
 
 	dispose(): void

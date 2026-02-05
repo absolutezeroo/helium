@@ -10,10 +10,6 @@ import type {IVector3d} from '@room/utils/IVector3d';
 
 export class RoomObjectAvatarUpdateMessage extends RoomObjectUpdateMessage
 {
-	private _dirHead: number;
-	private _canStandUp: boolean;
-	private _baseY: number;
-
 	constructor(
 		location: IVector3d | null,
 		direction: IVector3d | null,
@@ -28,15 +24,21 @@ export class RoomObjectAvatarUpdateMessage extends RoomObjectUpdateMessage
 		this._baseY = baseY;
 	}
 
+	private _dirHead: number;
+
 	get dirHead(): number
 	{
 		return this._dirHead;
 	}
 
+	private _canStandUp: boolean;
+
 	get canStandUp(): boolean
 	{
 		return this._canStandUp;
 	}
+
+	private _baseY: number;
 
 	get baseY(): number
 	{

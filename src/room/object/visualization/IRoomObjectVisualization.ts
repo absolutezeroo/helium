@@ -12,11 +12,15 @@ import type {IRoomObjectVisualizationData} from './IRoomObjectVisualizationData'
 export interface IRoomObjectVisualization
 {
 	object: IRoomObject | null;
-	readonly boundingRectangle: {x: number; y: number; width: number; height: number};
+	readonly boundingRectangle: { x: number; y: number; width: number; height: number };
 
 	dispose(): void;
+
 	initialize(data: IRoomObjectVisualizationData): boolean;
+
 	update(geometry: IRoomGeometry, time: number, update: boolean, skipUpdate: boolean): void;
+
 	getInstanceId(): number;
+
 	getUpdateID(): number;
 }

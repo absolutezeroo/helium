@@ -12,7 +12,18 @@ export class CrackableStuffData extends StuffDataBase
 
 	private _state: string = '';
 	private _hits: number = 0;
+
+	get hits(): number
+	{
+		return this._hits;
+	}
+
 	private _target: number = 0;
+
+	get target(): number
+	{
+		return this._target;
+	}
 
 	override initializeFromIncomingMessage(wrapper: IMessageDataWrapper): void
 	{
@@ -26,15 +37,5 @@ export class CrackableStuffData extends StuffDataBase
 	override getLegacyString(): string
 	{
 		return this._state;
-	}
-
-	get hits(): number
-	{
-		return this._hits;
-	}
-
-	get target(): number
-	{
-		return this._target;
 	}
 }

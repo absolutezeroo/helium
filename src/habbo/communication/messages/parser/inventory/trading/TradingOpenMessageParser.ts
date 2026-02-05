@@ -9,24 +9,27 @@ import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 export class TradingOpenMessageParser implements IMessageParser
 {
 	private _userOneId: number = 0;
-	private _userOneCanTrade: boolean = false;
-	private _userTwoId: number = 0;
-	private _userTwoCanTrade: boolean = false;
 
 	get userOneId(): number
 	{
 		return this._userOneId;
 	}
 
+	private _userOneCanTrade: boolean = false;
+
 	get userOneCanTrade(): boolean
 	{
 		return this._userOneCanTrade;
 	}
 
+	private _userTwoId: number = 0;
+
 	get userTwoId(): number
 	{
 		return this._userTwoId;
 	}
+
+	private _userTwoCanTrade: boolean = false;
 
 	get userTwoCanTrade(): boolean
 	{

@@ -174,8 +174,7 @@ export class GroupItem
 		if (!existing)
 		{
 			this._items.set(item.id, item);
-		}
-		else
+		} else
 		{
 			existing.locked = false;
 		}

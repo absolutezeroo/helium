@@ -1,5 +1,5 @@
 import {Component, For} from 'solid-js';
-import {useModule, useActions, ModuleId} from '../../bridge';
+import {ModuleId, useActions, useModule} from '../../bridge';
 
 interface ToolbarIcon
 {

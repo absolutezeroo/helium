@@ -84,7 +84,7 @@ export class PetLogic extends MovingObjectLogic
 		const config = data as {
 			model?: {
 				directions?: {
-					direction?: Array<{id: number}>;
+					direction?: Array<{ id: number }>;
 				};
 			};
 		};
@@ -213,7 +213,14 @@ export class PetLogic extends MovingObjectLogic
 		}
 	}
 
-	override mouseEvent(event: {type: string; eventId?: string; altKey?: boolean; ctrlKey?: boolean; shiftKey?: boolean; buttonDown?: boolean}, geometry: IRoomGeometry | null): void
+	override mouseEvent(event: {
+		type: string;
+		eventId?: string;
+		altKey?: boolean;
+		ctrlKey?: boolean;
+		shiftKey?: boolean;
+		buttonDown?: boolean
+	}, geometry: IRoomGeometry | null): void
 	{
 		if (this.object === null || event === null)
 		{
@@ -346,7 +353,7 @@ export class PetLogic extends MovingObjectLogic
 		}
 	}
 
-	private debugMouseEvent(event: {altKey?: boolean; ctrlKey?: boolean}): void
+	private debugMouseEvent(event: { altKey?: boolean; ctrlKey?: boolean }): void
 	{
 		const model = this.object?.getModelController();
 		if (!model)
@@ -366,21 +373,18 @@ export class PetLogic extends MovingObjectLogic
 			{
 				this._directionIndex = 0;
 			}
-		}
-		else if (event.altKey && !event.ctrlKey)
+		} else if (event.altKey && !event.ctrlKey)
 		{
 			// Cycle postures
 			this._debugPostureIndex++;
 			model.setNumber('figure_posture', this._debugPostureIndex);
 			model.setNumber('figure_gesture', NaN);
-		}
-		else if (event.ctrlKey && !event.altKey)
+		} else if (event.ctrlKey && !event.altKey)
 		{
 			// Cycle gestures
 			this._debugGestureIndex++;
 			model.setNumber('figure_gesture', this._debugGestureIndex);
-		}
-		else
+		} else
 		{
 			// Adjust head direction delta
 			this._headDirectionDelta += 45;

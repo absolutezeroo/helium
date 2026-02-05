@@ -21,8 +21,25 @@ export class HighScoreStuffData extends StuffDataBase
 
 	private _state: string = '';
 	private _scoreType: number = 0;
+
+	get scoreType(): number
+	{
+		return this._scoreType;
+	}
+
 	private _clearType: number = 0;
+
+	get clearType(): number
+	{
+		return this._clearType;
+	}
+
 	private _entries: HighScoreEntry[] = [];
+
+	get entries(): HighScoreEntry[]
+	{
+		return this._entries;
+	}
 
 	override initializeFromIncomingMessage(wrapper: IMessageDataWrapper): void
 	{
@@ -52,20 +69,5 @@ export class HighScoreStuffData extends StuffDataBase
 	override getLegacyString(): string
 	{
 		return this._state;
-	}
-
-	get scoreType(): number
-	{
-		return this._scoreType;
-	}
-
-	get clearType(): number
-	{
-		return this._clearType;
-	}
-
-	get entries(): HighScoreEntry[]
-	{
-		return this._entries;
 	}
 }

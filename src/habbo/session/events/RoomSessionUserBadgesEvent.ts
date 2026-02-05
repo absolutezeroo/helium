@@ -10,9 +10,6 @@ export class RoomSessionUserBadgesEvent extends RoomSessionEvent
 {
 	public static readonly RSUBE_BADGES = 'RSUBE_BADGES';
 
-	private _userId: number;
-	private _badges: string[];
-
 	constructor(session: IRoomSession, userId: number, badges: string[])
 	{
 		super(RoomSessionUserBadgesEvent.RSUBE_BADGES, session);
@@ -20,10 +17,14 @@ export class RoomSessionUserBadgesEvent extends RoomSessionEvent
 		this._badges = badges;
 	}
 
+	private _userId: number;
+
 	get userId(): number
 	{
 		return this._userId;
 	}
+
+	private _badges: string[];
 
 	get badges(): string[]
 	{

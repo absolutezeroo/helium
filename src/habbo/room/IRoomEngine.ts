@@ -18,13 +18,18 @@ export interface IRoomEngine extends IDisposable
 
 	// Room lifecycle
 	createRoomInstance(roomId: number): IRoomInstance | null;
+
 	disposeRoomInstance(roomId: number): void;
+
 	getRoomInstance(roomId: number): IRoomInstance | null;
+
 	setActiveRoom(roomId: number): void;
+
 	getActiveRoomId(): number;
 
 	// Object management
 	addRoomObjectUser(roomId: number, id: number, location: IVector3d, direction: IVector3d, type: string): boolean;
+
 	addRoomObjectFurniture(
 		roomId: number,
 		id: number,
@@ -39,6 +44,7 @@ export interface IRoomEngine extends IDisposable
 		ownerName: string | null,
 		synchronize?: boolean
 	): boolean;
+
 	addRoomObjectWallItem(
 		roomId: number,
 		id: number,
@@ -52,6 +58,7 @@ export interface IRoomEngine extends IDisposable
 	): boolean;
 
 	getRoomObject(roomId: number, objectId: number, category: number): IRoomObject | null;
+
 	disposeRoomObject(roomId: number, objectId: number, category: number): boolean;
 
 	// User updates
@@ -65,6 +72,7 @@ export interface IRoomEngine extends IDisposable
 		canStandUp: boolean,
 		baseY: number
 	): boolean;
+
 	updateRoomObjectUserFigure(
 		roomId: number,
 		objectId: number,
@@ -73,22 +81,34 @@ export interface IRoomEngine extends IDisposable
 		clubLevel: string | null,
 		isRiding: boolean
 	): boolean;
+
 	updateRoomObjectUserPosture(roomId: number, objectId: number, posture: string, parameter: string): boolean;
+
 	updateRoomObjectUserGesture(roomId: number, objectId: number, gesture: number): boolean;
+
 	updateRoomObjectUserEffect(roomId: number, objectId: number, effect: number, delay?: number): boolean;
+
 	updateRoomObjectUserChat(roomId: number, objectId: number, numberOfWords: number): boolean;
+
 	updateRoomObjectUserTyping(roomId: number, objectId: number, isTyping: boolean): boolean;
+
 	updateRoomObjectUserDance(roomId: number, objectId: number, danceStyle: number): boolean;
+
 	updateRoomObjectUserSleep(roomId: number, objectId: number, isSleeping: boolean): boolean;
+
 	updateRoomObjectUserCarryObject(roomId: number, objectId: number, itemType: number): boolean;
+
 	updateRoomObjectUserSign(roomId: number, objectId: number, signType: number): boolean;
+
 	setRoomObjectUserOwnUser(roomId: number, objectId: number): boolean;
 
 	// Rendering
 	update(time: number): void;
+
 	initializeRoomVisuals(roomId: number, floorType: string, wallType: string, landscapeType: string, worldType: number): void;
 
 	// Room data
 	getRoomOwnObjectId(roomId: number): number;
+
 	setRoomOwnObjectId(roomId: number, objectId: number): void;
 }

@@ -28,7 +28,6 @@ export class PerkManager extends EventEmitter implements IPerkManager
 {
 	private _communication: IHabboCommunicationManager | null = null;
 	private _perks: Map<string, PerkAllowance> = new Map();
-	private _isReady: boolean = false;
 	private _messageEvents: IMessageEvent[] = [];
 
 	constructor(communication: IHabboCommunicationManager | null)
@@ -38,14 +37,16 @@ export class PerkManager extends EventEmitter implements IPerkManager
 		this.registerMessageEvents();
 	}
 
-	get disposed(): boolean
-	{
-		return this._communication === null;
-	}
+	private _isReady: boolean = false;
 
 	get isReady(): boolean
 	{
 		return this._isReady;
+	}
+
+	get disposed(): boolean
+	{
+		return this._communication === null;
 	}
 
 	isPerkAllowed(perkCode: string): boolean

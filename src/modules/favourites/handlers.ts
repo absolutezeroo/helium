@@ -3,7 +3,9 @@ import type {FavouritesState} from './types';
 
 // Parser types
 import type {FavouritesMessageParser} from '@habbo/communication/messages/parser/navigator/FavouritesMessageParser';
-import type {FavouriteChangedMessageParser} from '@habbo/communication/messages/parser/navigator/FavouriteChangedMessageParser';
+import type {
+	FavouriteChangedMessageParser
+} from '@habbo/communication/messages/parser/navigator/FavouriteChangedMessageParser';
 
 export const handlers: MessageHandlers<FavouritesState> = {
 
@@ -25,8 +27,7 @@ export const handlers: MessageHandlers<FavouritesState> = {
 		if (parser.added)
 		{
 			currentIds.add(parser.flatId);
-		}
-		else
+		} else
 		{
 			currentIds.delete(parser.flatId);
 		}

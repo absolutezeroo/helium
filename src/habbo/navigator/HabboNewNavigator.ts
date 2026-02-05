@@ -52,6 +52,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	private _noPushToHistoryDueToNavigation: boolean = false;
 	private _lastSearchCode: string = ViewModeCode.OFFICIAL_VIEW;
 	private _lastFiltering: string = '';
+	private _roomSessionManager: IRoomSessionManager | null = null;
 
 	constructor(context: IContext)
 	{
@@ -82,8 +83,6 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	{
 		return this._legacyNavigator!;
 	}
-
-	private _roomSessionManager: IRoomSessionManager | null = null;
 
 	private _contextContainer: ContextContainer;
 

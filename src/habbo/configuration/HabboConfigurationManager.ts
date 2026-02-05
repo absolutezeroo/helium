@@ -1,6 +1,6 @@
 import {Component, type IContext} from '@core/runtime';
 import {Logger} from '@core/utils/Logger';
-import type {HabboConfigurationManagerEvents, IHabboConfigurationManager} from './IHabboConfigurationManager';
+import type {IHabboConfigurationManager} from './IHabboConfigurationManager';
 
 const log = Logger.getLogger('Configuration');
 
@@ -30,11 +30,6 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 	constructor(context: IContext)
 	{
 		super(context);
-	}
-
-	protected override initComponent(): void
-	{
-		this.resetAll();
 	}
 
 	private _environmentId: string = '';
@@ -269,6 +264,11 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 
 			this.events.emit('configurationError', err);
 		}
+	}
+
+	protected override initComponent(): void
+	{
+		this.resetAll();
 	}
 
 	private updateEnvironmentVariables(): void

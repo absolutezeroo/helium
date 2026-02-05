@@ -1,5 +1,5 @@
 import {createMemo, type JSX} from 'solid-js';
-import {useActions, ModuleId} from '../../bridge';
+import {ModuleId, useActions} from '../../bridge';
 
 export interface TextProps
 {

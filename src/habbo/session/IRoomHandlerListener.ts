@@ -12,6 +12,11 @@ import type {IRoomSession} from './IRoomSession';
 export interface IRoomHandlerListener
 {
 	/**
+	 * Get the event emitter for dispatching session events
+	 */
+	readonly sessionEvents: EventEmitter;
+
+	/**
 	 * Called when a session state changes
 	 * @param roomId The room ID
 	 * @param type The update type (RS_CONNECTED, RS_READY, RS_DISCONNECTED)
@@ -29,9 +34,4 @@ export interface IRoomHandlerListener
 	 * Get a session by room ID
 	 */
 	getSession(roomId: number): IRoomSession | null;
-
-	/**
-	 * Get the event emitter for dispatching session events
-	 */
-	readonly sessionEvents: EventEmitter;
 }

@@ -11,36 +11,6 @@ export class RoomUserData
 	public static readonly USER_TYPE_PET = 2;
 	public static readonly USER_TYPE_OLD_BOT = 3;
 	public static readonly USER_TYPE_BOT = 4;
-
-	private _roomIndex: number;
-	private _x: number = 0;
-	private _y: number = 0;
-	private _z: number = 0;
-	private _dir: number = 0;
-	private _name: string = '';
-	private _custom: string = '';
-	private _figure: string = '';
-	private _sex: string = 'M';
-	private _webID: number = 0;
-	private _userType: number = 1;
-	private _groupID: string = '';
-	private _groupStatus: number = 0;
-	private _groupName: string = '';
-	private _achievementScore: number = 0;
-	private _isModerator: boolean = false;
-	private _subType: string = '';
-	private _ownerId: number = 0;
-	private _ownerName: string = '';
-	private _rarityLevel: number = 0;
-	private _hasSaddle: boolean = false;
-	private _isRiding: boolean = false;
-	private _canBreed: boolean = false;
-	private _canHarvest: boolean = false;
-	private _canRevive: boolean = false;
-	private _hasBreedingPermission: boolean = false;
-	private _petLevel: number = 0;
-	private _petPosture: string = '';
-	private _botSkills: number[] = [];
 	private _readOnly: boolean = false;
 
 	constructor(roomIndex: number)
@@ -48,10 +18,14 @@ export class RoomUserData
 		this._roomIndex = roomIndex;
 	}
 
+	private _roomIndex: number;
+
 	get roomIndex(): number
 	{
 		return this._roomIndex;
 	}
+
+	private _x: number = 0;
 
 	get x(): number
 	{
@@ -63,6 +37,8 @@ export class RoomUserData
 		if (!this._readOnly) this._x = value;
 	}
 
+	private _y: number = 0;
+
 	get y(): number
 	{
 		return this._y;
@@ -72,6 +48,8 @@ export class RoomUserData
 	{
 		if (!this._readOnly) this._y = value;
 	}
+
+	private _z: number = 0;
 
 	get z(): number
 	{
@@ -83,6 +61,8 @@ export class RoomUserData
 		if (!this._readOnly) this._z = value;
 	}
 
+	private _dir: number = 0;
+
 	get dir(): number
 	{
 		return this._dir;
@@ -92,6 +72,8 @@ export class RoomUserData
 	{
 		if (!this._readOnly) this._dir = value;
 	}
+
+	private _name: string = '';
 
 	get name(): string
 	{
@@ -103,6 +85,8 @@ export class RoomUserData
 		if (!this._readOnly) this._name = value;
 	}
 
+	private _custom: string = '';
+
 	get custom(): string
 	{
 		return this._custom;
@@ -112,6 +96,8 @@ export class RoomUserData
 	{
 		if (!this._readOnly) this._custom = value;
 	}
+
+	private _figure: string = '';
 
 	get figure(): string
 	{
@@ -123,6 +109,8 @@ export class RoomUserData
 		if (!this._readOnly) this._figure = value;
 	}
 
+	private _sex: string = 'M';
+
 	get sex(): string
 	{
 		return this._sex;
@@ -132,6 +120,8 @@ export class RoomUserData
 	{
 		if (!this._readOnly) this._sex = value;
 	}
+
+	private _webID: number = 0;
 
 	get webID(): number
 	{
@@ -143,6 +133,8 @@ export class RoomUserData
 		if (!this._readOnly) this._webID = value;
 	}
 
+	private _userType: number = 1;
+
 	get userType(): number
 	{
 		return this._userType;
@@ -152,6 +144,8 @@ export class RoomUserData
 	{
 		if (!this._readOnly) this._userType = value;
 	}
+
+	private _groupID: string = '';
 
 	get groupID(): string
 	{
@@ -163,6 +157,8 @@ export class RoomUserData
 		if (!this._readOnly) this._groupID = value;
 	}
 
+	private _groupStatus: number = 0;
+
 	get groupStatus(): number
 	{
 		return this._groupStatus;
@@ -172,6 +168,8 @@ export class RoomUserData
 	{
 		if (!this._readOnly) this._groupStatus = value;
 	}
+
+	private _groupName: string = '';
 
 	get groupName(): string
 	{
@@ -183,6 +181,8 @@ export class RoomUserData
 		if (!this._readOnly) this._groupName = value;
 	}
 
+	private _achievementScore: number = 0;
+
 	get achievementScore(): number
 	{
 		return this._achievementScore;
@@ -192,6 +192,8 @@ export class RoomUserData
 	{
 		if (!this._readOnly) this._achievementScore = value;
 	}
+
+	private _isModerator: boolean = false;
 
 	get isModerator(): boolean
 	{
@@ -203,6 +205,8 @@ export class RoomUserData
 		if (!this._readOnly) this._isModerator = value;
 	}
 
+	private _subType: string = '';
+
 	get subType(): string
 	{
 		return this._subType;
@@ -212,6 +216,8 @@ export class RoomUserData
 	{
 		if (!this._readOnly) this._subType = value;
 	}
+
+	private _ownerId: number = 0;
 
 	get ownerId(): number
 	{
@@ -223,6 +229,8 @@ export class RoomUserData
 		if (!this._readOnly) this._ownerId = value;
 	}
 
+	private _ownerName: string = '';
+
 	get ownerName(): string
 	{
 		return this._ownerName;
@@ -232,6 +240,8 @@ export class RoomUserData
 	{
 		if (!this._readOnly) this._ownerName = value;
 	}
+
+	private _rarityLevel: number = 0;
 
 	get rarityLevel(): number
 	{
@@ -243,6 +253,8 @@ export class RoomUserData
 		if (!this._readOnly) this._rarityLevel = value;
 	}
 
+	private _hasSaddle: boolean = false;
+
 	get hasSaddle(): boolean
 	{
 		return this._hasSaddle;
@@ -252,6 +264,8 @@ export class RoomUserData
 	{
 		if (!this._readOnly) this._hasSaddle = value;
 	}
+
+	private _isRiding: boolean = false;
 
 	get isRiding(): boolean
 	{
@@ -263,6 +277,8 @@ export class RoomUserData
 		if (!this._readOnly) this._isRiding = value;
 	}
 
+	private _canBreed: boolean = false;
+
 	get canBreed(): boolean
 	{
 		return this._canBreed;
@@ -272,6 +288,8 @@ export class RoomUserData
 	{
 		if (!this._readOnly) this._canBreed = value;
 	}
+
+	private _canHarvest: boolean = false;
 
 	get canHarvest(): boolean
 	{
@@ -283,6 +301,8 @@ export class RoomUserData
 		if (!this._readOnly) this._canHarvest = value;
 	}
 
+	private _canRevive: boolean = false;
+
 	get canRevive(): boolean
 	{
 		return this._canRevive;
@@ -292,6 +312,8 @@ export class RoomUserData
 	{
 		if (!this._readOnly) this._canRevive = value;
 	}
+
+	private _hasBreedingPermission: boolean = false;
 
 	get hasBreedingPermission(): boolean
 	{
@@ -303,6 +325,8 @@ export class RoomUserData
 		if (!this._readOnly) this._hasBreedingPermission = value;
 	}
 
+	private _petLevel: number = 0;
+
 	get petLevel(): number
 	{
 		return this._petLevel;
@@ -313,6 +337,8 @@ export class RoomUserData
 		if (!this._readOnly) this._petLevel = value;
 	}
 
+	private _petPosture: string = '';
+
 	get petPosture(): string
 	{
 		return this._petPosture;
@@ -322,6 +348,8 @@ export class RoomUserData
 	{
 		if (!this._readOnly) this._petPosture = value;
 	}
+
+	private _botSkills: number[] = [];
 
 	get botSkills(): number[]
 	{

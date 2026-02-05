@@ -11,9 +11,7 @@ import type {AssetTypeDeclaration} from './AssetTypeDeclaration';
  */
 export class XmlAsset implements ILazyAsset
 {
-	private _disposed: boolean = false;
 	private _unknown: unknown = null;
-	private _content: Document | null = null;
 	private readonly _declaration: AssetTypeDeclaration;
 	private readonly _url: string;
 
@@ -23,10 +21,14 @@ export class XmlAsset implements ILazyAsset
 		this._url = url;
 	}
 
-	get url(): string
+	private _disposed: boolean = false;
+
+	get disposed(): boolean
 	{
-		return this._url;
+		return this._disposed;
 	}
+
+	private _content: Document | null = null;
 
 	get content(): Document | null
 	{
@@ -38,9 +40,9 @@ export class XmlAsset implements ILazyAsset
 		return this._content;
 	}
 
-	get disposed(): boolean
+	get url(): string
 	{
-		return this._disposed;
+		return this._url;
 	}
 
 	get declaration(): AssetTypeDeclaration
@@ -77,30 +79,25 @@ export class XmlAsset implements ILazyAsset
 		if (typeof this._unknown === 'string')
 		{
 			xmlString = this._unknown;
-		}
-		else if (this._unknown instanceof ArrayBuffer)
+		} else if (this._unknown instanceof ArrayBuffer)
 		{
 			const decoder = new TextDecoder('utf-8');
 			xmlString = decoder.decode(this._unknown);
-		}
-		else if (this._unknown instanceof Uint8Array)
+		} else if (this._unknown instanceof Uint8Array)
 		{
 			const decoder = new TextDecoder('utf-8');
 			xmlString = decoder.decode(this._unknown);
-		}
-		else if (this._unknown instanceof Document)
+		} else if (this._unknown instanceof Document)
 		{
 			this._content = this._unknown;
 			this._unknown = null;
 			return;
-		}
-		else if (this._unknown instanceof XmlAsset)
+		} else if (this._unknown instanceof XmlAsset)
 		{
 			this._content = this._unknown._content;
 			this._unknown = null;
 			return;
-		}
-		else
+		} else
 		{
 			xmlString = String(this._unknown);
 		}

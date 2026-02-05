@@ -15,6 +15,8 @@ export interface IAsset extends IDisposable
 	readonly declaration: AssetTypeDeclaration;
 
 	setUnknownContent(content: unknown): void;
+
 	setFromOtherAsset(asset: IAsset): void;
+
 	setParamsDesc(params: Map<string, string>): void;
 }

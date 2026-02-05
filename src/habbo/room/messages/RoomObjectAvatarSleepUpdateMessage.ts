@@ -9,13 +9,13 @@ import {RoomObjectUpdateMessage} from '@room/messages/RoomObjectUpdateMessage';
 
 export class RoomObjectAvatarSleepUpdateMessage extends RoomObjectUpdateMessage
 {
-	private _isSleeping: boolean;
-
 	constructor(isSleeping: boolean)
 	{
 		super(null, null);
 		this._isSleeping = isSleeping;
 	}
+
+	private _isSleeping: boolean;
 
 	get isSleeping(): boolean
 	{

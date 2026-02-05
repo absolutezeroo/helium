@@ -12,11 +12,18 @@ import type {IRoomObject} from './object/IRoomObject';
 export interface IRoomContentLoader extends IDisposable
 {
 	getPlaceHolderType(type: string): string;
+
 	getPlaceHolderTypes(): string[];
+
 	getContentType(type: string): string;
+
 	hasInternalContent(type: string): boolean;
+
 	loadObjectContent(type: string, events: EventEmitter): boolean;
+
 	getVisualizationType(type: string): string | null;
+
 	getLogicType(type: string): string | null;
+
 	roomObjectCreated(object: IRoomObject, roomId: string): void;
 }

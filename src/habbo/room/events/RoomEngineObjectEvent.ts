@@ -17,9 +17,6 @@ export class RoomEngineObjectEvent extends RoomEngineEvent
 	public static readonly REOE_OBJECT_REQUEST_MOVE = 'REOE_OBJECT_REQUEST_MOVE';
 	public static readonly REOE_OBJECT_REQUEST_ROTATE = 'REOE_OBJECT_REQUEST_ROTATE';
 
-	private _objectId: number;
-	private _category: number;
-
 	constructor(type: string, roomId: number, objectId: number, category: number)
 	{
 		super(type, roomId);
@@ -27,10 +24,14 @@ export class RoomEngineObjectEvent extends RoomEngineEvent
 		this._category = category;
 	}
 
+	private _objectId: number;
+
 	get objectId(): number
 	{
 		return this._objectId;
 	}
+
+	private _category: number;
 
 	get category(): number
 	{

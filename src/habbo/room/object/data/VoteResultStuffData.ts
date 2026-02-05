@@ -19,6 +19,11 @@ export class VoteResultStuffData extends StuffDataBase implements IStuffData
 	private _state: string = '';
 	private _result: number = 0;
 
+	get result(): number
+	{
+		return this._result;
+	}
+
 	override initializeFromIncomingMessage(wrapper: IMessageDataWrapper): void
 	{
 		this._state = wrapper.readString();
@@ -49,10 +54,5 @@ export class VoteResultStuffData extends StuffDataBase implements IStuffData
 	override compare(data: IStuffData): boolean
 	{
 		return this._state === data.getLegacyString();
-	}
-
-	get result(): number
-	{
-		return this._result;
 	}
 }

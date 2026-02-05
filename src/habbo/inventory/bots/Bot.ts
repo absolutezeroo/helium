@@ -5,14 +5,6 @@
  */
 export class Bot
 {
-	private _id: number;
-	private _name: string;
-	private _motto: string;
-	private _figure: string;
-	private _gender: string;
-	private _isSelected: boolean = false;
-	private _isUnseen: boolean = false;
-
 	constructor(
 		id: number,
 		name: string,
@@ -28,30 +20,42 @@ export class Bot
 		this._gender = gender;
 	}
 
+	private _id: number;
+
 	get id(): number
 	{
 		return this._id;
 	}
+
+	private _name: string;
 
 	get name(): string
 	{
 		return this._name;
 	}
 
+	private _motto: string;
+
 	get motto(): string
 	{
 		return this._motto;
 	}
+
+	private _figure: string;
 
 	get figure(): string
 	{
 		return this._figure;
 	}
 
+	private _gender: string;
+
 	get gender(): string
 	{
 		return this._gender;
 	}
+
+	private _isSelected: boolean = false;
 
 	get isSelected(): boolean
 	{
@@ -62,6 +66,8 @@ export class Bot
 	{
 		this._isSelected = value;
 	}
+
+	private _isUnseen: boolean = false;
 
 	get isUnseen(): boolean
 	{

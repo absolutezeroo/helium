@@ -86,22 +86,36 @@ import type {FurnitureWallData} from '../communication/messages/incoming/room/en
 import type {RoomUserData} from '../communication/messages/incoming/room/engine/RoomUserData';
 
 // Parsers - Room Chat
-import type {UserTypingMessageEventParser} from '../communication/messages/parser/room/chat/UserTypingMessageEventParser';
+import type {
+	UserTypingMessageEventParser
+} from '../communication/messages/parser/room/chat/UserTypingMessageEventParser';
 
 // Parsers - Room Action
-import type {ExpressionMessageEventParser} from '../communication/messages/parser/room/action/ExpressionMessageEventParser';
+import type {
+	ExpressionMessageEventParser
+} from '../communication/messages/parser/room/action/ExpressionMessageEventParser';
 import type {DanceMessageEventParser} from '../communication/messages/parser/room/action/DanceMessageEventParser';
-import type {AvatarEffectMessageEventParser} from '../communication/messages/parser/room/action/AvatarEffectMessageEventParser';
+import type {
+	AvatarEffectMessageEventParser
+} from '../communication/messages/parser/room/action/AvatarEffectMessageEventParser';
 import type {SleepMessageEventParser} from '../communication/messages/parser/room/action/SleepMessageEventParser';
-import type {CarryObjectMessageEventParser} from '../communication/messages/parser/room/action/CarryObjectMessageEventParser';
-import type {UseObjectMessageEventParser} from '../communication/messages/parser/room/action/UseObjectMessageEventParser';
-import type {UserChangeMessageEventParser} from '../communication/messages/parser/room/action/UserChangeMessageEventParser';
+import type {
+	CarryObjectMessageEventParser
+} from '../communication/messages/parser/room/action/CarryObjectMessageEventParser';
+import type {
+	UseObjectMessageEventParser
+} from '../communication/messages/parser/room/action/UseObjectMessageEventParser';
+import type {
+	UserChangeMessageEventParser
+} from '../communication/messages/parser/room/action/UserChangeMessageEventParser';
 
 // Room Object Variables
 import {RoomObjectVariableEnum} from './object/RoomObjectVariableEnum';
 
 // Outgoing Composers
-import {GetFurnitureAliasesMessageComposer} from '../communication/messages/outgoing/room/engine/GetFurnitureAliasesMessageComposer';
+import {
+	GetFurnitureAliasesMessageComposer
+} from '../communication/messages/outgoing/room/engine/GetFurnitureAliasesMessageComposer';
 import {GetHeightMapMessageComposer} from '../communication/messages/outgoing/room/engine/GetHeightMapMessageComposer';
 
 // Room Object
@@ -228,8 +242,7 @@ export class RoomMessageHandler
 		{
 			event.connection.send(new GetFurnitureAliasesMessageComposer());
 			this._initialConnection = false;
-		}
-		else
+		} else
 		{
 			event.connection.send(new GetHeightMapMessageComposer());
 		}
@@ -854,8 +867,7 @@ export class RoomMessageHandler
 				data.data,
 				data.extra
 			);
-		}
-		else
+		} else
 		{
 			this._roomCreator.addObjectFurniture(
 				roomId,

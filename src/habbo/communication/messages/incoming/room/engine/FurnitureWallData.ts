@@ -7,22 +7,6 @@
  */
 export class FurnitureWallData
 {
-	private _id: number;
-	private _type: number;
-	private _isOldFormat: boolean;
-	private _wallX: number = 0;
-	private _wallY: number = 0;
-	private _localX: number = 0;
-	private _localY: number = 0;
-	private _y: number = 0;
-	private _z: number = 0;
-	private _dir: string = '';
-	private _state: number = 0;
-	private _data: string = '';
-	private _usagePolicy: number = 0;
-	private _ownerId: number = 0;
-	private _ownerName: string = '';
-	private _secondsToExpiration: number = 0;
 	private _readOnly: boolean = false;
 
 	constructor(id: number, type: number, isOldFormat: boolean)
@@ -32,10 +16,14 @@ export class FurnitureWallData
 		this._isOldFormat = isOldFormat;
 	}
 
+	private _id: number;
+
 	get id(): number
 	{
 		return this._id;
 	}
+
+	private _type: number;
 
 	get type(): number
 	{
@@ -50,10 +38,14 @@ export class FurnitureWallData
 		}
 	}
 
+	private _isOldFormat: boolean;
+
 	get isOldFormat(): boolean
 	{
 		return this._isOldFormat;
 	}
+
+	private _wallX: number = 0;
 
 	get wallX(): number
 	{
@@ -68,6 +60,8 @@ export class FurnitureWallData
 		}
 	}
 
+	private _wallY: number = 0;
+
 	get wallY(): number
 	{
 		return this._wallY;
@@ -80,6 +74,8 @@ export class FurnitureWallData
 			this._wallY = value;
 		}
 	}
+
+	private _localX: number = 0;
 
 	get localX(): number
 	{
@@ -94,6 +90,8 @@ export class FurnitureWallData
 		}
 	}
 
+	private _localY: number = 0;
+
 	get localY(): number
 	{
 		return this._localY;
@@ -106,6 +104,8 @@ export class FurnitureWallData
 			this._localY = value;
 		}
 	}
+
+	private _y: number = 0;
 
 	get y(): number
 	{
@@ -120,6 +120,8 @@ export class FurnitureWallData
 		}
 	}
 
+	private _z: number = 0;
+
 	get z(): number
 	{
 		return this._z;
@@ -132,6 +134,8 @@ export class FurnitureWallData
 			this._z = value;
 		}
 	}
+
+	private _dir: string = '';
 
 	get dir(): string
 	{
@@ -146,6 +150,8 @@ export class FurnitureWallData
 		}
 	}
 
+	private _state: number = 0;
+
 	get state(): number
 	{
 		return this._state;
@@ -158,6 +164,8 @@ export class FurnitureWallData
 			this._state = value;
 		}
 	}
+
+	private _data: string = '';
 
 	get data(): string
 	{
@@ -172,6 +180,8 @@ export class FurnitureWallData
 		}
 	}
 
+	private _usagePolicy: number = 0;
+
 	get usagePolicy(): number
 	{
 		return this._usagePolicy;
@@ -184,6 +194,8 @@ export class FurnitureWallData
 			this._usagePolicy = value;
 		}
 	}
+
+	private _ownerId: number = 0;
 
 	get ownerId(): number
 	{
@@ -198,6 +210,8 @@ export class FurnitureWallData
 		}
 	}
 
+	private _ownerName: string = '';
+
 	get ownerName(): string
 	{
 		return this._ownerName;
@@ -210,6 +224,8 @@ export class FurnitureWallData
 			this._ownerName = value;
 		}
 	}
+
+	private _secondsToExpiration: number = 0;
 
 	get secondsToExpiration(): number
 	{

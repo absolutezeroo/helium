@@ -5,17 +5,31 @@ import {BaseHandler} from './BaseHandler';
 import {RoomSessionDoorbellEvent} from '../events/RoomSessionDoorbellEvent';
 
 // Message events
-import {OpenConnectionMessageEvent} from '../../communication/messages/incoming/room/session/OpenConnectionMessageEvent';
-import {FlatAccessibleMessageEvent} from '../../communication/messages/incoming/room/session/FlatAccessibleMessageEvent';
+import {
+	OpenConnectionMessageEvent
+} from '../../communication/messages/incoming/room/session/OpenConnectionMessageEvent';
+import {
+	FlatAccessibleMessageEvent
+} from '../../communication/messages/incoming/room/session/FlatAccessibleMessageEvent';
 import {RoomReadyMessageEvent} from '../../communication/messages/incoming/room/session/RoomReadyMessageEvent';
-import {CloseConnectionMessageEvent} from '../../communication/messages/incoming/room/session/CloseConnectionMessageEvent';
-import {FlatAccessDeniedMessageEvent} from '../../communication/messages/incoming/navigator/FlatAccessDeniedMessageEvent';
+import {
+	CloseConnectionMessageEvent
+} from '../../communication/messages/incoming/room/session/CloseConnectionMessageEvent';
+import {
+	FlatAccessDeniedMessageEvent
+} from '../../communication/messages/incoming/navigator/FlatAccessDeniedMessageEvent';
 
 // Parsers
-import type {OpenConnectionMessageParser} from '../../communication/messages/parser/room/session/OpenConnectionMessageParser';
-import type {FlatAccessibleMessageParser} from '../../communication/messages/parser/room/session/FlatAccessibleMessageParser';
+import type {
+	OpenConnectionMessageParser
+} from '../../communication/messages/parser/room/session/OpenConnectionMessageParser';
+import type {
+	FlatAccessibleMessageParser
+} from '../../communication/messages/parser/room/session/FlatAccessibleMessageParser';
 import type {RoomReadyMessageParser} from '../../communication/messages/parser/room/session/RoomReadyMessageParser';
-import type {FlatAccessDeniedMessageParser} from '../../communication/messages/parser/navigator/FlatAccessDeniedMessageParser';
+import type {
+	FlatAccessDeniedMessageParser
+} from '../../communication/messages/parser/navigator/FlatAccessDeniedMessageParser';
 
 import {Logger} from '@core/utils/Logger';
 
@@ -166,8 +180,7 @@ export class RoomSessionHandler extends BaseHandler
 			{
 				this.listener.sessionUpdate(parser.flatId, RoomSessionHandlerState.RS_DISCONNECTED);
 			}
-		}
-		else if (this.listener && this.listener.sessionEvents)
+		} else if (this.listener && this.listener.sessionEvents)
 		{
 			const session = this.listener.getSession(parser.flatId);
 			if (session !== null)

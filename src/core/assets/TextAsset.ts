@@ -10,8 +10,6 @@ import type {AssetTypeDeclaration} from './AssetTypeDeclaration';
  */
 export class TextAsset implements IAsset
 {
-	private _disposed: boolean = false;
-	private _content: string = '';
 	private readonly _declaration: AssetTypeDeclaration;
 	private readonly _url: string;
 
@@ -21,19 +19,23 @@ export class TextAsset implements IAsset
 		this._url = url;
 	}
 
-	get url(): string
+	private _disposed: boolean = false;
+
+	get disposed(): boolean
 	{
-		return this._url;
+		return this._disposed;
 	}
+
+	private _content: string = '';
 
 	get content(): string
 	{
 		return this._content;
 	}
 
-	get disposed(): boolean
+	get url(): string
 	{
-		return this._disposed;
+		return this._url;
 	}
 
 	get declaration(): AssetTypeDeclaration

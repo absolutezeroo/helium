@@ -10,18 +10,20 @@ import {FurniListItemParser} from './FurniListItemParser';
 export class FurniListMessageParser implements IMessageParser
 {
 	private _totalFragments: number = 0;
-	private _fragmentNo: number = 0;
-	private _items: Map<number, FurniListItemParser> = new Map();
 
 	get totalFragments(): number
 	{
 		return this._totalFragments;
 	}
 
+	private _fragmentNo: number = 0;
+
 	get fragmentNo(): number
 	{
 		return this._fragmentNo;
 	}
+
+	private _items: Map<number, FurniListItemParser> = new Map();
 
 	get items(): Map<number, FurniListItemParser>
 	{

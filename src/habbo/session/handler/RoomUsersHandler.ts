@@ -15,7 +15,6 @@ import type {UserRemoveMessageParser} from '../../communication/messages/parser/
 // Events
 import {RoomSessionUserDataUpdateEvent} from '../events/RoomSessionUserDataUpdateEvent';
 import {RoomSessionDoorbellEvent} from '../events/RoomSessionDoorbellEvent';
-import {RoomSessionDanceEvent} from '../events/RoomSessionDanceEvent';
 
 /**
  * Room users handler

@@ -9,18 +9,20 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 export class AvatarEffectMessageEventParser implements IMessageParser
 {
 	private _userId: number = 0;
-	private _effectId: number = 0;
-	private _delayMilliSeconds: number = 0;
 
 	get userId(): number
 	{
 		return this._userId;
 	}
 
+	private _effectId: number = 0;
+
 	get effectId(): number
 	{
 		return this._effectId;
 	}
+
+	private _delayMilliSeconds: number = 0;
 
 	get delayMilliSeconds(): number
 	{

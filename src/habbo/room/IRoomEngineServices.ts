@@ -28,8 +28,11 @@ export interface IRoomEngineServices
 
 	// Object access
 	getRoomObjectCategory(type: string): number;
+
 	getRoomObject(roomId: number, objectId: number, category: number): IRoomObject | null;
+
 	getRoomObjectWithIndex(roomId: number, index: number, category: number): IRoomObject | null;
+
 	getRoomObjectCount(roomId: number, category: number): number;
 
 	// Tile cursor
@@ -40,6 +43,7 @@ export interface IRoomEngineServices
 
 	// Game state
 	getIsPlayingGame(roomId: number): boolean;
+
 	getActiveRoomIsPlayingGame(): boolean;
 
 	// Area selection
@@ -47,5 +51,6 @@ export interface IRoomEngineServices
 
 	// Movement
 	isMoveBlocked(): boolean;
+
 	isWhereYouClickWhereYouGo(): boolean;
 }

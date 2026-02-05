@@ -1,5 +1,5 @@
 import type {IID} from '@core/runtime';
-import type {RegisteredModuleId, ModuleStateMap, ModuleActionsMap} from './moduleIds';
+import type {ModuleActionsMap, ModuleStateMap, RegisteredModuleId} from './moduleIds';
 import type {MessageBus} from './MessageBus';
 
 /**

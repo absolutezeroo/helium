@@ -1,6 +1,6 @@
 import {defineModule} from '../core/defineModule';
 import type {LocalizationState} from './types';
-import type {LocalizationManagers, LocalizationActions} from './actions';
+import type {LocalizationActions, LocalizationManagers} from './actions';
 import {createActions} from './actions';
 import {IID_HabboLocalizationManager} from '@iid/IIDHabboLocalizationManager';
 
@@ -77,11 +77,15 @@ export type {LocalizationState} from './types';
 export type {LocalizationActions, LocalizationManagers} from './actions';
 
 // Declaration merging for type-safe module access
-declare module '../core/moduleIds' {
-	interface ModuleStateMap {
+declare module '../core/moduleIds'
+{
+	interface ModuleStateMap
+	{
 		'localization': LocalizationState;
 	}
-	interface ModuleActionsMap {
+
+	interface ModuleActionsMap
+	{
 		'localization': LocalizationActions;
 	}
 }

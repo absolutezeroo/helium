@@ -42,11 +42,17 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 	private _handlers: BaseHandler[] = [];
 	private _sessions: Map<string, RoomSession> = new Map();
 	private _pendingSession: RoomSession | null = null;
-	private _sessionEvents: EventEmitter = new EventEmitter();
 
 	constructor(context: IContext)
 	{
 		super(context);
+	}
+
+	private _sessionEvents: EventEmitter = new EventEmitter();
+
+	get sessionEvents(): EventEmitter
+	{
+		return this._sessionEvents;
 	}
 
 	private _sessionStarting: boolean = false;
@@ -65,11 +71,6 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 	get initialized(): boolean
 	{
 		return this._initialized && this.allRequiredDependenciesInjected;
-	}
-
-	get sessionEvents(): EventEmitter
-	{
-		return this._sessionEvents;
 	}
 
 	protected override get dependencies(): Array<ComponentDependency<any>>

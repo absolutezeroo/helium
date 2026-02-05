@@ -36,12 +36,6 @@ export class HabboLocalizationManager extends CoreLocalizationManager implements
 		super(context);
 	}
 
-	protected override initComponent(): void
-	{
-		super.initComponent();
-		log.debug('HabboLocalizationManager initialized');
-	}
-
 	/**
 	 * Set the configuration manager reference
 	 */
@@ -260,6 +254,12 @@ export class HabboLocalizationManager extends CoreLocalizationManager implements
 		const environmentId = this._configurationManager.getProperty('environment.id');
 
 		super.loadLocalizationFromURL(hashesUrl, environmentId);
+	}
+
+	protected override initComponent(): void
+	{
+		super.initComponent();
+		log.debug('HabboLocalizationManager initialized');
 	}
 
 	/**

@@ -16,8 +16,6 @@ export abstract class StuffDataBase implements IStuffData
 	protected static readonly UNIQUE_SERIAL_FLAG = 256;
 
 	private _flags: number = 0;
-	private _uniqueSerialNumber: number = 0;
-	private _uniqueSeriesSize: number = 0;
 
 	get flags(): number
 	{
@@ -29,6 +27,8 @@ export abstract class StuffDataBase implements IStuffData
 		this._flags = value;
 	}
 
+	private _uniqueSerialNumber: number = 0;
+
 	get uniqueSerialNumber(): number
 	{
 		return this._uniqueSerialNumber;
@@ -38,6 +38,8 @@ export abstract class StuffDataBase implements IStuffData
 	{
 		this._uniqueSerialNumber = value;
 	}
+
+	private _uniqueSeriesSize: number = 0;
 
 	get uniqueSeriesSize(): number
 	{
@@ -99,8 +101,7 @@ export abstract class StuffDataBase implements IStuffData
 			const json = JSON.parse(this.getLegacyString());
 
 			return String(json[key] ?? '');
-		}
-		catch
+		} catch
 		{
 			return '';
 		}

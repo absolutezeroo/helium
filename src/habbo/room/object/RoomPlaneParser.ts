@@ -8,33 +8,23 @@
 import {Vector3d} from '@room/utils/Vector3d';
 import type {IVector3d} from '@room/utils/IVector3d';
 import {RoomPlaneData} from './RoomPlaneData';
-import {RoomWallData, type Point} from './RoomWallData';
+import {type Point, RoomWallData} from './RoomWallData';
 import {RoomFloorHole} from './RoomFloorHole';
 
 export class RoomPlaneParser
 {
+	public static readonly TILE_BLOCKED: number = -110;
+	public static readonly TILE_HOLE: number = -100;
 	private static readonly FLOOR_THICKNESS: number = 0.25;
 	private static readonly WALL_THICKNESS: number = 0.25;
 	private static readonly MAX_WALL_ADDITIONAL_HEIGHT: number = 20;
-
-	public static readonly TILE_BLOCKED: number = -110;
-	public static readonly TILE_HOLE: number = -100;
-
 	private _tileMatrix: number[][] = [];
 	private _tileMatrixOriginal: number[][] = [];
 	private _width: number = 0;
 	private _height: number = 0;
-	private _minX: number = 0;
-	private _maxX: number = 0;
-	private _minY: number = 0;
-	private _maxY: number = 0;
 	private _planes: RoomPlaneData[] = [];
 	private _highlightPlanes: RoomPlaneData[] = [];
-	private _wallHeight: number = 3.6;
-	private _wallThicknessMultiplier: number = 1;
-	private _floorThicknessMultiplier: number = 1;
 	private _fixedWallHeight: number = -1;
-	private _floorHeight: number = 0;
 	private _floorHoles: Map<number, RoomFloorHole> = new Map();
 	private _floorHolesInverted: Map<number, RoomFloorHole> = new Map();
 	private _floorHoleMatrix: boolean[][] = [];
@@ -52,6 +42,98 @@ export class RoomPlaneParser
 		this._floorThicknessMultiplier = 1;
 		this._floorHoles = new Map();
 		this._floorHolesInverted = new Map();
+	}
+
+	private _minX: number = 0;
+
+	get minX(): number
+	{
+		return this._minX;
+	}
+
+	private _maxX: number = 0;
+
+	get maxX(): number
+	{
+		return this._maxX;
+	}
+
+	private _minY: number = 0;
+
+	get minY(): number
+	{
+		return this._minY;
+	}
+
+	private _maxY: number = 0;
+
+	get maxY(): number
+	{
+		return this._maxY;
+	}
+
+	private _wallHeight: number = 3.6;
+
+	get wallHeight(): number
+	{
+		if (this._fixedWallHeight !== -1) return this._fixedWallHeight + 3.6;
+		return this._wallHeight;
+	}
+
+	set wallHeight(value: number)
+	{
+		if (value < 0) value = 0;
+		this._wallHeight = value;
+	}
+
+	private _wallThicknessMultiplier: number = 1;
+
+	get wallThicknessMultiplier(): number
+	{
+		return this._wallThicknessMultiplier;
+	}
+
+	set wallThicknessMultiplier(value: number)
+	{
+		if (value < 0) value = 0;
+		this._wallThicknessMultiplier = value;
+	}
+
+	private _floorThicknessMultiplier: number = 1;
+
+	get floorThicknessMultiplier(): number
+	{
+		return this._floorThicknessMultiplier;
+	}
+
+	set floorThicknessMultiplier(value: number)
+	{
+		if (value < 0) value = 0;
+		this._floorThicknessMultiplier = value;
+	}
+
+	private _floorHeight: number = 0;
+
+	// Getters
+	get floorHeight(): number
+	{
+		if (this._fixedWallHeight !== -1) return this._fixedWallHeight;
+		return this._floorHeight;
+	}
+
+	get tileMapWidth(): number
+	{
+		return this._width;
+	}
+
+	get tileMapHeight(): number
+	{
+		return this._height;
+	}
+
+	get planeCount(): number
+	{
+		return this._planes.length;
 	}
 
 	// Static helper methods
@@ -102,8 +184,7 @@ export class RoomPlaneParser
 			if (foundX === -1)
 			{
 				firstValidX.push(row.length + 1);
-			}
-			else
+			} else
 			{
 				firstValidX.push(foundX);
 			}
@@ -149,8 +230,7 @@ export class RoomPlaneParser
 							result[resultY + dy][resultX + dx] = tileHeight < 0 ? tileHeight : tileHeight * 4;
 						}
 					}
-				}
-				else
+				} else
 				{
 					// Handle corner tiles with height variations
 					const baseHeight = (tileHeight & 255) * 4;
@@ -247,82 +327,6 @@ export class RoomPlaneParser
 		}
 	}
 
-	// Getters
-	get floorHeight(): number
-	{
-		if (this._fixedWallHeight !== -1) return this._fixedWallHeight;
-		return this._floorHeight;
-	}
-
-	get minX(): number
-	{
-		return this._minX;
-	}
-
-	get maxX(): number
-	{
-		return this._maxX;
-	}
-
-	get minY(): number
-	{
-		return this._minY;
-	}
-
-	get maxY(): number
-	{
-		return this._maxY;
-	}
-
-	get tileMapWidth(): number
-	{
-		return this._width;
-	}
-
-	get tileMapHeight(): number
-	{
-		return this._height;
-	}
-
-	get planeCount(): number
-	{
-		return this._planes.length;
-	}
-
-	get wallHeight(): number
-	{
-		if (this._fixedWallHeight !== -1) return this._fixedWallHeight + 3.6;
-		return this._wallHeight;
-	}
-
-	set wallHeight(value: number)
-	{
-		if (value < 0) value = 0;
-		this._wallHeight = value;
-	}
-
-	get wallThicknessMultiplier(): number
-	{
-		return this._wallThicknessMultiplier;
-	}
-
-	set wallThicknessMultiplier(value: number)
-	{
-		if (value < 0) value = 0;
-		this._wallThicknessMultiplier = value;
-	}
-
-	get floorThicknessMultiplier(): number
-	{
-		return this._floorThicknessMultiplier;
-	}
-
-	set floorThicknessMultiplier(value: number)
-	{
-		if (value < 0) value = 0;
-		this._floorThicknessMultiplier = value;
-	}
-
 	// Public methods
 	dispose(): void
 	{
@@ -399,8 +403,7 @@ export class RoomPlaneParser
 				if (x > this._maxX) this._maxX = x;
 				if (y < this._minY) this._minY = y;
 				if (y > this._maxY) this._maxY = y;
-			}
-			else
+			} else
 			{
 				// Update bounds if tile became blocked
 				if (x === this._minX || x === this._maxX)
@@ -563,6 +566,26 @@ export class RoomPlaneParser
 		return RoomPlaneData.PLANE_UNDEFINED;
 	}
 
+	getPlaneSecondaryNormals(index: number): IVector3d[]
+	{
+		const plane = this.getPlane(index);
+		if (plane === null)
+		{
+			return [];
+		}
+
+		const result: IVector3d[] = [];
+		for (let i = 0; i < plane.secondaryNormalCount; i++)
+		{
+			const normal = plane.getSecondaryNormal(i);
+			if (normal !== null)
+			{
+				result.push(normal);
+			}
+		}
+		return result;
+	}
+
 	addFloorHole(id: number, x: number, y: number, width: number, height: number, invert: boolean = false): void
 	{
 		const hole = new RoomFloorHole(x, y, width, height);
@@ -570,8 +593,7 @@ export class RoomPlaneParser
 		if (invert)
 		{
 			this._floorHolesInverted.set(id, hole);
-		}
-		else
+		} else
 		{
 			this._floorHoles.set(id, hole);
 		}
@@ -648,8 +670,7 @@ export class RoomPlaneParser
 			if (width > 0)
 			{
 				width = Math.min(width, row.length);
-			}
-			else
+			} else
 			{
 				width = row.length;
 			}
@@ -732,8 +753,7 @@ export class RoomPlaneParser
 				direction = (direction - 1 + 4) % 4;
 				length += 1;
 				isLeftTurn = true;
-			}
-			else
+			} else
 			{
 				direction = (direction + 1) % 4;
 				length -= 1;
@@ -874,8 +894,7 @@ export class RoomPlaneParser
 				if (wallData.getLeftTurn(i))
 				{
 					leftTurnCount++;
-				}
-				else if (leftTurnCount > 0)
+				} else if (leftTurnCount > 0)
 				{
 					leftTurnCount--;
 				}
@@ -930,8 +949,7 @@ export class RoomPlaneParser
 							break;
 						}
 						holeCount++;
-					}
-					else if (holeCount > 0)
+					} else if (holeCount > 0)
 					{
 						wallData.moveCorner(i, holeCount);
 						break;
@@ -998,8 +1016,7 @@ export class RoomPlaneParser
 						return i;
 					}
 				}
-			}
-			else if (start.y === end.y)
+			} else if (start.y === end.y)
 			{
 				if (corner.y === start.y && wallEnd.y === start.y)
 				{
@@ -1069,8 +1086,7 @@ export class RoomPlaneParser
 				{
 					nextDirection = originalWallData.getDirection((originalIndex + 1) % originalCount);
 					prevDirection = originalWallData.getDirection((originalIndex - 1 + originalCount) % originalCount);
-				}
-				else
+				} else
 				{
 					nextDirection = wallData.getDirection((i + 1) % count);
 					prevDirection = wallData.getDirection((i - 1 + count) % count);
@@ -1081,8 +1097,7 @@ export class RoomPlaneParser
 				if ((nextDirection - direction + 4) % 4 === 3)
 				{
 					cornerNormal = RoomWallData.WALL_NORMAL_VECTORS[nextDirection];
-				}
-				else if ((direction - prevDirection + 4) % 4 === 3)
+				} else if ((direction - prevDirection + 4) % 4 === 3)
 				{
 					cornerNormal = RoomWallData.WALL_NORMAL_VECTORS[prevDirection];
 				}

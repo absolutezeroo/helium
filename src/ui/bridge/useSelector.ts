@@ -1,7 +1,7 @@
-import {createMemo} from 'solid-js';
 import type {Accessor} from 'solid-js';
+import {createMemo} from 'solid-js';
 import {useModule} from './useModule';
-import type {RegisteredModuleId, ModuleStateMap} from '@/modules/core';
+import type {ModuleStateMap, RegisteredModuleId} from '@/modules/core';
 
 /**
  * Hook to select a part of the module state
@@ -52,11 +52,11 @@ export function useSelector<K extends RegisteredModuleId, T>(
 export function useSelectors<K extends RegisteredModuleId, T extends Record<string, (state: Readonly<ModuleStateMap[K]>) => unknown>>(
 	moduleId: K,
 	selectors: T
-): {[P in keyof T]: Accessor<ReturnType<T[P]>>}
+): { [P in keyof T]: Accessor<ReturnType<T[P]>> }
 {
 	const {state} = useModule(moduleId);
 
-	const result = {} as {[P in keyof T]: Accessor<ReturnType<T[P]>>};
+	const result = {} as { [P in keyof T]: Accessor<ReturnType<T[P]>> };
 
 	for (const key in selectors)
 	{

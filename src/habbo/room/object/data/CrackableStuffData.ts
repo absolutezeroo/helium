@@ -18,7 +18,18 @@ export class CrackableStuffData extends StuffDataBase implements IStuffData
 
 	private _state: string = '';
 	private _hits: number = 0;
+
+	get hits(): number
+	{
+		return this._hits;
+	}
+
 	private _target: number = 0;
+
+	get target(): number
+	{
+		return this._target;
+	}
 
 	override initializeFromIncomingMessage(wrapper: IMessageDataWrapper): void
 	{
@@ -49,15 +60,5 @@ export class CrackableStuffData extends StuffDataBase implements IStuffData
 	override compare(data: IStuffData): boolean
 	{
 		return this._state === data.getLegacyString();
-	}
-
-	get hits(): number
-	{
-		return this._hits;
-	}
-
-	get target(): number
-	{
-		return this._target;
 	}
 }

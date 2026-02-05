@@ -11,30 +11,34 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 export class UserChangeMessageEventParser implements IMessageParser
 {
 	private _id: number = 0;
-	private _figure: string = '';
-	private _sex: string = '';
-	private _customInfo: string = '';
-	private _achievementScore: number = 0;
 
 	get id(): number
 	{
 		return this._id;
 	}
 
+	private _figure: string = '';
+
 	get figure(): string
 	{
 		return this._figure;
 	}
+
+	private _sex: string = '';
 
 	get sex(): string
 	{
 		return this._sex;
 	}
 
+	private _customInfo: string = '';
+
 	get customInfo(): string
 	{
 		return this._customInfo;
 	}
+
+	private _achievementScore: number = 0;
 
 	get achievementScore(): number
 	{

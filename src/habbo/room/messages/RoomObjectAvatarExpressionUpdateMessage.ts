@@ -9,13 +9,13 @@ import {RoomObjectUpdateMessage} from '@room/messages/RoomObjectUpdateMessage';
 
 export class RoomObjectAvatarExpressionUpdateMessage extends RoomObjectUpdateMessage
 {
-	private _expressionType: number;
-
 	constructor(expressionType: number)
 	{
 		super(null, null);
 		this._expressionType = expressionType;
 	}
+
+	private _expressionType: number;
 
 	get expressionType(): number
 	{

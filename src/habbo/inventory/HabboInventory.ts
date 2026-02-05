@@ -129,7 +129,10 @@ export class HabboInventory extends Component implements IHabboInventory
 		return [
 			new ComponentDependency(
 				IID_HabboCommunicationManager,
-				(manager: IHabboCommunicationManager | null) => { this._communication = manager; },
+				(manager: IHabboCommunicationManager | null) =>
+				{
+					this._communication = manager;
+				},
 				true
 			),
 		];

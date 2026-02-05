@@ -10,12 +10,6 @@ export class RoomSessionUserFigureUpdateEvent extends RoomSessionEvent
 {
 	public static readonly RSUFE_FIGURE_UPDATE = 'RSUFE_FIGURE_UPDATE';
 
-	private _roomIndex: number;
-	private _figure: string;
-	private _sex: string;
-	private _customInfo: string;
-	private _achievementScore: number;
-
 	constructor(
 		session: IRoomSession,
 		roomIndex: number,
@@ -33,25 +27,35 @@ export class RoomSessionUserFigureUpdateEvent extends RoomSessionEvent
 		this._achievementScore = achievementScore;
 	}
 
+	private _roomIndex: number;
+
 	get roomIndex(): number
 	{
 		return this._roomIndex;
 	}
+
+	private _figure: string;
 
 	get figure(): string
 	{
 		return this._figure;
 	}
 
+	private _sex: string;
+
 	get sex(): string
 	{
 		return this._sex;
 	}
 
+	private _customInfo: string;
+
 	get customInfo(): string
 	{
 		return this._customInfo;
 	}
+
+	private _achievementScore: number;
 
 	get achievementScore(): number
 	{

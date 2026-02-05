@@ -15,24 +15,27 @@ export interface BadgeData
 export class BadgesMessageParser implements IMessageParser
 {
 	private _totalFragments: number = 1;
-	private _fragmentNo: number = 0;
-	private _badges: BadgeData[] = [];
-	private _activeBadgeIds: string[] = [];
 
 	get totalFragments(): number
 	{
 		return this._totalFragments;
 	}
 
+	private _fragmentNo: number = 0;
+
 	get fragmentNo(): number
 	{
 		return this._fragmentNo;
 	}
 
+	private _badges: BadgeData[] = [];
+
 	get badges(): BadgeData[]
 	{
 		return this._badges;
 	}
+
+	private _activeBadgeIds: string[] = [];
 
 	get activeBadgeIds(): string[]
 	{

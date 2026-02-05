@@ -30,6 +30,7 @@ export interface ICoreLocalizationManager
 	 * Event emitter for localization events
 	 */
 	readonly events: EventEmitter;
+
 	/**
 	 * Register a listener for localization updates
 	 */

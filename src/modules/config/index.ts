@@ -1,6 +1,6 @@
 import {defineModule} from '../core/defineModule';
 import type {ConfigState} from './types';
-import type {ConfigManagers, ConfigActions} from './actions';
+import type {ConfigActions, ConfigManagers} from './actions';
 import {createActions} from './actions';
 import {IID_HabboConfigurationManager} from '@iid/IIDHabboConfigurationManager';
 
@@ -58,11 +58,15 @@ export type {ConfigState} from './types';
 export type {ConfigActions, ConfigManagers} from './actions';
 
 // Declaration merging for type-safe module access
-declare module '../core/moduleIds' {
-	interface ModuleStateMap {
+declare module '../core/moduleIds'
+{
+	interface ModuleStateMap
+	{
 		'config': ConfigState;
 	}
-	interface ModuleActionsMap {
+
+	interface ModuleActionsMap
+	{
 		'config': ConfigActions;
 	}
 }

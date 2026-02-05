@@ -9,7 +9,6 @@ import {BaseFileLoader} from './BaseFileLoader';
  */
 export class BinaryFileLoader extends BaseFileLoader
 {
-	protected _data: ArrayBuffer | null = null;
 	protected _abortController: AbortController | null = null;
 
 	constructor(mimeType: string, url?: string, id: number = -1)
@@ -17,18 +16,20 @@ export class BinaryFileLoader extends BaseFileLoader
 		super(mimeType, url, id);
 	}
 
-	/**
-	 * The loaded content
-	 */
-	get content(): unknown
-	{
-		return this._data;
-	}
+	protected _data: ArrayBuffer | null = null;
 
 	/**
 	 * The loaded data as ArrayBuffer
 	 */
 	get data(): ArrayBuffer | null
+	{
+		return this._data;
+	}
+
+	/**
+	 * The loaded content
+	 */
+	get content(): unknown
 	{
 		return this._data;
 	}
@@ -94,8 +95,7 @@ export class BinaryFileLoader extends BaseFileLoader
 				if (error.name === 'TypeError' && error.message.includes('network'))
 				{
 					this.handleLoadEvent('ioError');
-				}
-				else
+				} else
 				{
 					this.handleLoadEvent('securityError');
 				}

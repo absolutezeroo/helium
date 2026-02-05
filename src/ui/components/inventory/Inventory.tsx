@@ -1,6 +1,6 @@
 import type {JSX} from 'solid-js';
 import {createMemo} from 'solid-js';
-import {useModule, useActions, ModuleId} from '../../bridge';
+import {ModuleId, useActions, useModule} from '../../bridge';
 import {InventoryCategory} from '@habbo/inventory';
 import {InventoryWindow} from './InventoryWindow';
 import type {InventoryTab} from './tabs';

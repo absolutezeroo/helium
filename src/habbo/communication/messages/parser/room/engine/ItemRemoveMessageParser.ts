@@ -11,12 +11,13 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 export class ItemRemoveMessageParser implements IMessageParser
 {
 	private _itemId: number = 0;
-	private _pickerId: number = -1;
 
 	get itemId(): number
 	{
 		return this._itemId;
 	}
+
+	private _pickerId: number = -1;
 
 	get pickerId(): number
 	{

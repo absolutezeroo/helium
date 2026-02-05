@@ -1,7 +1,7 @@
-import {Component, For, Show, createMemo} from 'solid-js';
-import {useModule, ModuleId} from '../../bridge';
-import {RoomUserType} from '@/modules';
+import {Component, createMemo, For, Show} from 'solid-js';
+import {ModuleId, useModule} from '../../bridge';
 import type {RoomUserData} from '@/modules';
+import {RoomUserType} from '@/modules';
 
 /**
  * RoomUserList
@@ -52,7 +52,7 @@ export const RoomUserList: Component = () =>
 				<Show when={ownUser()}>
 					<div class="room-user-list-section">
 						<h4>You</h4>
-						<UserListItem user={ownUser()!} isOwn={true} />
+						<UserListItem user={ownUser()!} isOwn={true}/>
 					</div>
 				</Show>
 
@@ -63,7 +63,7 @@ export const RoomUserList: Component = () =>
 						<For each={humanUsers()}>
 							{(user) => (
 								<Show when={user.roomIndex !== state().ownUserRoomIndex}>
-									<UserListItem user={user} isOwn={false} />
+									<UserListItem user={user} isOwn={false}/>
 								</Show>
 							)}
 						</For>
@@ -75,7 +75,7 @@ export const RoomUserList: Component = () =>
 					<div class="room-user-list-section">
 						<h4>Pets ({pets().length})</h4>
 						<For each={pets()}>
-							{(pet) => <UserListItem user={pet} isOwn={false} />}
+							{(pet) => <UserListItem user={pet} isOwn={false}/>}
 						</For>
 					</div>
 				</Show>
@@ -85,7 +85,7 @@ export const RoomUserList: Component = () =>
 					<div class="room-user-list-section">
 						<h4>Bots ({bots().length})</h4>
 						<For each={bots()}>
-							{(bot) => <UserListItem user={bot} isOwn={false} />}
+							{(bot) => <UserListItem user={bot} isOwn={false}/>}
 						</For>
 					</div>
 				</Show>

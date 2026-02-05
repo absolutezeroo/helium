@@ -12,6 +12,11 @@ export class IntArrayStuffData extends StuffDataBase
 
 	private _data: number[] = [];
 
+	get data(): number[]
+	{
+		return this._data;
+	}
+
 	override initializeFromIncomingMessage(wrapper: IMessageDataWrapper): void
 	{
 		const count = wrapper.readInt();
@@ -32,10 +37,5 @@ export class IntArrayStuffData extends StuffDataBase
 	getValue(index: number): number | undefined
 	{
 		return this._data[index];
-	}
-
-	get data(): number[]
-	{
-		return this._data;
 	}
 }

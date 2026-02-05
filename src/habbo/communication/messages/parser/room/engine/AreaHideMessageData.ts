@@ -9,14 +9,6 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 
 export class AreaHideMessageData
 {
-	private _furniId: number;
-	private _on: boolean;
-	private _rootX: number;
-	private _rootY: number;
-	private _width: number;
-	private _length: number;
-	private _invert: boolean;
-
 	constructor(wrapper: IMessageDataWrapper)
 	{
 		this._furniId = wrapper.readInt();
@@ -28,35 +20,49 @@ export class AreaHideMessageData
 		this._invert = wrapper.readBoolean();
 	}
 
+	private _furniId: number;
+
 	get furniId(): number
 	{
 		return this._furniId;
 	}
+
+	private _on: boolean;
 
 	get on(): boolean
 	{
 		return this._on;
 	}
 
+	private _rootX: number;
+
 	get rootX(): number
 	{
 		return this._rootX;
 	}
+
+	private _rootY: number;
 
 	get rootY(): number
 	{
 		return this._rootY;
 	}
 
+	private _width: number;
+
 	get width(): number
 	{
 		return this._width;
 	}
 
+	private _length: number;
+
 	get length(): number
 	{
 		return this._length;
 	}
+
+	private _invert: boolean;
 
 	get invert(): boolean
 	{

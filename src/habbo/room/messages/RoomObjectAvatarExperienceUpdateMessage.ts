@@ -9,13 +9,13 @@ import {RoomObjectUpdateMessage} from '@room/messages/RoomObjectUpdateMessage';
 
 export class RoomObjectAvatarExperienceUpdateMessage extends RoomObjectUpdateMessage
 {
-	private _gainedExperience: number;
-
 	constructor(gainedExperience: number)
 	{
 		super(null, null);
 		this._gainedExperience = gainedExperience;
 	}
+
+	private _gainedExperience: number;
 
 	get gainedExperience(): number
 	{

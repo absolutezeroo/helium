@@ -18,16 +18,6 @@ export class RoomObjectMouseEvent extends RoomObjectEvent
 	public static readonly ROE_MOUSE_ENTER = 'ROE_MOUSE_ENTER';
 	public static readonly ROE_MOUSE_LEAVE = 'ROE_MOUSE_LEAVE';
 
-	private _eventId: string;
-	private _altKey: boolean;
-	private _ctrlKey: boolean;
-	private _shiftKey: boolean;
-	private _buttonDown: boolean;
-	private _localX: number = 0;
-	private _localY: number = 0;
-	private _spriteOffsetX: number = 0;
-	private _spriteOffsetY: number = 0;
-
 	constructor(
 		type: string,
 		object: IRoomObject | null,
@@ -46,30 +36,42 @@ export class RoomObjectMouseEvent extends RoomObjectEvent
 		this._buttonDown = buttonDown;
 	}
 
+	private _eventId: string;
+
 	get eventId(): string
 	{
 		return this._eventId;
 	}
+
+	private _altKey: boolean;
 
 	get altKey(): boolean
 	{
 		return this._altKey;
 	}
 
+	private _ctrlKey: boolean;
+
 	get ctrlKey(): boolean
 	{
 		return this._ctrlKey;
 	}
+
+	private _shiftKey: boolean;
 
 	get shiftKey(): boolean
 	{
 		return this._shiftKey;
 	}
 
+	private _buttonDown: boolean;
+
 	get buttonDown(): boolean
 	{
 		return this._buttonDown;
 	}
+
+	private _localX: number = 0;
 
 	get localX(): number
 	{
@@ -81,6 +83,8 @@ export class RoomObjectMouseEvent extends RoomObjectEvent
 		this._localX = value;
 	}
 
+	private _localY: number = 0;
+
 	get localY(): number
 	{
 		return this._localY;
@@ -91,6 +95,8 @@ export class RoomObjectMouseEvent extends RoomObjectEvent
 		this._localY = value;
 	}
 
+	private _spriteOffsetX: number = 0;
+
 	get spriteOffsetX(): number
 	{
 		return this._spriteOffsetX;
@@ -100,6 +106,8 @@ export class RoomObjectMouseEvent extends RoomObjectEvent
 	{
 		this._spriteOffsetX = value;
 	}
+
+	private _spriteOffsetY: number = 0;
 
 	get spriteOffsetY(): number
 	{

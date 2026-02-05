@@ -10,25 +10,25 @@ import {BinaryFileLoader} from './BinaryFileLoader';
  */
 export class BitmapFileLoader extends BinaryFileLoader
 {
-	private _texture: Texture | null = null;
-
 	constructor(mimeType: string, url?: string, id: number = -1)
 	{
 		super(mimeType, url, id);
+	}
+
+	private _texture: Texture | null = null;
+
+	/**
+	 * The loaded texture
+	 */
+	get texture(): Texture | null
+	{
+		return this._texture;
 	}
 
 	/**
 	 * The loaded content
 	 */
 	override get content(): unknown
-	{
-		return this._texture;
-	}
-
-	/**
-	 * The loaded texture
-	 */
-	get texture(): Texture | null
 	{
 		return this._texture;
 	}

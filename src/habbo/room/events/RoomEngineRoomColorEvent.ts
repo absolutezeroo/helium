@@ -11,10 +11,6 @@ export class RoomEngineRoomColorEvent extends RoomEngineEvent
 {
 	public static readonly RERCE_ROOM_COLOR = 'RERCE_ROOM_COLOR';
 
-	private _color: number;
-	private _light: number;
-	private _backgroundOnly: boolean;
-
 	constructor(roomId: number, color: number, light: number, backgroundOnly: boolean)
 	{
 		super(RoomEngineRoomColorEvent.RERCE_ROOM_COLOR, roomId);
@@ -23,15 +19,21 @@ export class RoomEngineRoomColorEvent extends RoomEngineEvent
 		this._backgroundOnly = backgroundOnly;
 	}
 
+	private _color: number;
+
 	get color(): number
 	{
 		return this._color;
 	}
 
+	private _light: number;
+
 	get light(): number
 	{
 		return this._light;
 	}
+
+	private _backgroundOnly: boolean;
 
 	get backgroundOnly(): boolean
 	{

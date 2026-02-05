@@ -11,24 +11,27 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 export class ObjectRemoveMessageParser implements IMessageParser
 {
 	private _objectId: number = 0;
-	private _isExpired: boolean = false;
-	private _pickerId: number = 0;
-	private _delay: number = 0;
 
 	get objectId(): number
 	{
 		return this._objectId;
 	}
 
+	private _isExpired: boolean = false;
+
 	get isExpired(): boolean
 	{
 		return this._isExpired;
 	}
 
+	private _pickerId: number = 0;
+
 	get pickerId(): number
 	{
 		return this._pickerId;
 	}
+
+	private _delay: number = 0;
 
 	get delay(): number
 	{

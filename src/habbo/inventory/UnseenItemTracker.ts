@@ -174,7 +174,7 @@ export class UnseenItemTracker
 	private sendUpdateEvent(): void
 	{
 		const categoryCounts = new Map<number, number>();
-		
+
 		let inventoryCount = 0;
 
 		for (const category of INVENTORY_CATEGORIES)

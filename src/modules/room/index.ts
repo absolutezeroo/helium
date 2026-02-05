@@ -2,8 +2,8 @@ import {defineModule} from '../core/defineModule';
 import type {RoomState} from './types';
 import {createInitialRoomState} from './types';
 import type {RoomActions} from './actions';
-import {handlers} from './handlers';
 import {createActions} from './actions';
+import {handlers} from './handlers';
 
 /**
  * Room Module
@@ -47,11 +47,15 @@ export {RoomUserType} from './types';
 export type {RoomActions} from './actions';
 
 // Declaration merging for type-safe module access
-declare module '../core/moduleIds' {
-	interface ModuleStateMap {
+declare module '../core/moduleIds'
+{
+	interface ModuleStateMap
+	{
 		'room': RoomState;
 	}
-	interface ModuleActionsMap {
+
+	interface ModuleActionsMap
+	{
 		'room': RoomActions;
 	}
 }

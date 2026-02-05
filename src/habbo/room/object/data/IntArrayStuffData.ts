@@ -18,6 +18,11 @@ export class IntArrayStuffData extends StuffDataBase implements IStuffData
 
 	private _data: number[] = [];
 
+	get length(): number
+	{
+		return this._data.length;
+	}
+
 	override initializeFromIncomingMessage(wrapper: IMessageDataWrapper): void
 	{
 		this._data = [];
@@ -70,10 +75,5 @@ export class IntArrayStuffData extends StuffDataBase implements IStuffData
 		}
 
 		return 0;
-	}
-
-	get length(): number
-	{
-		return this._data.length;
 	}
 }

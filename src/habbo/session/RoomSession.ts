@@ -3,24 +3,24 @@ import type {IRoomSession, RoomSessionStateType} from './IRoomSession';
 import {RoomSessionState} from './IRoomSession';
 import type {RoomModerationSettings} from '../communication/messages/incoming/navigator';
 import {
+	AssignRightsMessageComposer,
+	AvatarExpressionMessageComposer,
+	BanUserWithDurationMessageComposer,
+	CancelTypingMessageComposer,
+	ChangePostureMessageComposer,
+	ChatMessageComposer,
+	DanceMessageComposer,
+	KickUserMessageComposer,
+	LetUserInMessageComposer,
+	MuteUserMessageComposer,
 	OpenFlatConnectionMessageComposer,
 	QuitMessageComposer,
-	ChatMessageComposer,
-	ShoutMessageComposer,
-	WhisperMessageComposer,
-	StartTypingMessageComposer,
-	CancelTypingMessageComposer,
-	AvatarExpressionMessageComposer,
-	SignMessageComposer,
-	DanceMessageComposer,
-	ChangePostureMessageComposer,
-	KickUserMessageComposer,
-	BanUserWithDurationMessageComposer,
-	MuteUserMessageComposer,
-	UnmuteUserMessageComposer,
-	AssignRightsMessageComposer,
 	RemoveRightsMessageComposer,
-	LetUserInMessageComposer,
+	ShoutMessageComposer,
+	SignMessageComposer,
+	StartTypingMessageComposer,
+	UnmuteUserMessageComposer,
+	WhisperMessageComposer,
 } from '../communication/messages/outgoing/room';
 
 /**
@@ -42,6 +42,8 @@ export const BanDuration = {
  */
 export class RoomSession implements IRoomSession
 {
+	private _chatTrackingId: number = 0;
+
 	private _connection: IConnection | null = null;
 
 	get connection(): IConnection | null
@@ -233,8 +235,6 @@ export class RoomSession implements IRoomSession
 		this._isGameSession = value;
 	}
 
-	private _chatTrackingId: number = 0;
-
 	/**
 	 * Start the room session
 	 * Sends OpenFlatConnectionMessageComposer to the server
@@ -320,8 +320,7 @@ export class RoomSession implements IRoomSession
 		if (isTyping)
 		{
 			this._connection.send(new StartTypingMessageComposer());
-		}
-		else
+		} else
 		{
 			this._connection.send(new CancelTypingMessageComposer());
 		}

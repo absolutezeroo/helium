@@ -12,10 +12,6 @@ export class RoomSessionEvent
 	public static readonly RSE_ENDED = 'RSE_ENDED';
 	public static readonly SESSION_ROOM_DATA = 'RSE_ROOM_DATA';
 
-	private _type: string;
-	private _session: IRoomSession;
-	private _openLandingPage: boolean;
-
 	constructor(type: string, session: IRoomSession, openLandingPage: boolean = true)
 	{
 		this._type = type;
@@ -23,15 +19,21 @@ export class RoomSessionEvent
 		this._openLandingPage = openLandingPage;
 	}
 
+	private _type: string;
+
 	get type(): string
 	{
 		return this._type;
 	}
 
+	private _session: IRoomSession;
+
 	get session(): IRoomSession
 	{
 		return this._session;
 	}
+
+	private _openLandingPage: boolean;
 
 	get openLandingPage(): boolean
 	{

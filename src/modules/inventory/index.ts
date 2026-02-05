@@ -1,8 +1,8 @@
 import {defineModule} from '../core/defineModule';
 import type {InventoryState} from './types';
-import type {InventoryManagers, InventoryActions} from './actions';
-import {handlers} from './handlers';
+import type {InventoryActions, InventoryManagers} from './actions';
 import {createActions} from './actions';
+import {handlers} from './handlers';
 import {IID_HabboInventory} from '@iid/IIDHabboInventory';
 import {InventoryCategory} from '@habbo/inventory';
 
@@ -88,11 +88,15 @@ export type {InventoryState} from './types';
 export type {InventoryActions, InventoryManagers} from './actions';
 
 // Declaration merging for type-safe module access
-declare module '../core/moduleIds' {
-	interface ModuleStateMap {
+declare module '../core/moduleIds'
+{
+	interface ModuleStateMap
+	{
 		'inventory': InventoryState;
 	}
-	interface ModuleActionsMap {
+
+	interface ModuleActionsMap
+	{
 		'inventory': InventoryActions;
 	}
 }

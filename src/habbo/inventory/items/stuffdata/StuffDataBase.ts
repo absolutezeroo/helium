@@ -10,8 +10,6 @@ import {StuffDataFlags} from './StuffDataType';
 export abstract class StuffDataBase implements IStuffData
 {
 	private _flags: number = 0;
-	private _uniqueSerialNumber: number = 0;
-	private _uniqueSeriesSize: number = 0;
 
 	get flags(): number
 	{
@@ -23,6 +21,8 @@ export abstract class StuffDataBase implements IStuffData
 		this._flags = value;
 	}
 
+	private _uniqueSerialNumber: number = 0;
+
 	get uniqueSerialNumber(): number
 	{
 		return this._uniqueSerialNumber;
@@ -32,6 +32,8 @@ export abstract class StuffDataBase implements IStuffData
 	{
 		this._uniqueSerialNumber = value;
 	}
+
+	private _uniqueSeriesSize: number = 0;
 
 	get uniqueSeriesSize(): number
 	{
@@ -76,8 +78,7 @@ export abstract class StuffDataBase implements IStuffData
 			const data = JSON.parse(this.getLegacyString());
 
 			return String(data[key] ?? '');
-		}
-		catch
+		} catch
 		{
 			return null;
 		}

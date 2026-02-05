@@ -9,12 +9,13 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 export class ExpressionMessageEventParser implements IMessageParser
 {
 	private _userId: number = 0;
-	private _expressionType: number = -1;
 
 	get userId(): number
 	{
 		return this._userId;
 	}
+
+	private _expressionType: number = -1;
 
 	get expressionType(): number
 	{

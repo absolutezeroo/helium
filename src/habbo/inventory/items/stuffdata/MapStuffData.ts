@@ -14,6 +14,11 @@ export class MapStuffData extends StuffDataBase
 
 	private _data: Map<string, string> = new Map();
 
+	get data(): Map<string, string>
+	{
+		return this._data;
+	}
+
 	override get rarityLevel(): number
 	{
 		const rarity = this._data.get(MapStuffData.RARITY_KEY);
@@ -49,10 +54,5 @@ export class MapStuffData extends StuffDataBase
 	setValue(key: string, value: string): void
 	{
 		this._data.set(key, value);
-	}
-
-	get data(): Map<string, string>
-	{
-		return this._data;
 	}
 }

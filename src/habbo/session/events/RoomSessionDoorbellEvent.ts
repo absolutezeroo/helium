@@ -12,13 +12,13 @@ export class RoomSessionDoorbellEvent extends RoomSessionEvent
 	public static readonly RSDE_REJECTED = 'RSDE_REJECTED';
 	public static readonly RSDE_ACCEPTED = 'RSDE_ACCEPTED';
 
-	private _userName: string;
-
 	constructor(type: string, session: IRoomSession, userName: string, openLandingPage: boolean = false)
 	{
 		super(type, session, openLandingPage);
 		this._userName = userName;
 	}
+
+	private _userName: string;
 
 	get userName(): string
 	{

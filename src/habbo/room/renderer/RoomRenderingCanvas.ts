@@ -13,16 +13,6 @@ import {Vector3d} from '@room/utils/Vector3d';
 
 export class RoomRenderingCanvas
 {
-	private _id: number;
-	private _container: Container;
-	private _geometry: RoomGeometry;
-	private _width: number = 0;
-	private _height: number = 0;
-	private _screenOffsetX: number = 0;
-	private _screenOffsetY: number = 0;
-	private _scale: number = 1;
-	private _disposed: boolean = false;
-
 	constructor(id: number, width: number, height: number, scale: number)
 	{
 		this._id = id;
@@ -40,6 +30,84 @@ export class RoomRenderingCanvas
 			new Vector3d(-135, 30, 0),  // Direction (rotation angles)
 			new Vector3d(0, 0, 0)        // Location
 		);
+
+		// Initialize container position
+		this.updateContainerPosition();
+	}
+
+	private _id: number;
+
+	get id(): number
+	{
+		return this._id;
+	}
+
+	private _container: Container;
+
+	get container(): Container
+	{
+		return this._container;
+	}
+
+	private _geometry: RoomGeometry;
+
+	get geometry(): IRoomGeometry
+	{
+		return this._geometry;
+	}
+
+	private _width: number = 0;
+
+	get width(): number
+	{
+		return this._width;
+	}
+
+	private _height: number = 0;
+
+	get height(): number
+	{
+		return this._height;
+	}
+
+	private _screenOffsetX: number = 0;
+
+	get screenOffsetX(): number
+	{
+		return this._screenOffsetX;
+	}
+
+	set screenOffsetX(value: number)
+	{
+		this._screenOffsetX = value;
+		this.updateContainerPosition();
+	}
+
+	private _screenOffsetY: number = 0;
+
+	get screenOffsetY(): number
+	{
+		return this._screenOffsetY;
+	}
+
+	set screenOffsetY(value: number)
+	{
+		this._screenOffsetY = value;
+		this.updateContainerPosition();
+	}
+
+	private _scale: number = 1;
+
+	get scale(): number
+	{
+		return this._scale;
+	}
+
+	private _disposed: boolean = false;
+
+	get disposed(): boolean
+	{
+		return this._disposed;
 	}
 
 	dispose(): void
@@ -54,70 +122,17 @@ export class RoomRenderingCanvas
 		this._disposed = true;
 	}
 
-	get disposed(): boolean
-	{
-		return this._disposed;
-	}
-
-	get id(): number
-	{
-		return this._id;
-	}
-
-	get container(): Container
-	{
-		return this._container;
-	}
-
-	get geometry(): IRoomGeometry
-	{
-		return this._geometry;
-	}
-
-	get width(): number
-	{
-		return this._width;
-	}
-
-	get height(): number
-	{
-		return this._height;
-	}
-
-	get screenOffsetX(): number
-	{
-		return this._screenOffsetX;
-	}
-
-	set screenOffsetX(value: number)
-	{
-		this._screenOffsetX = value;
-		this.updateContainerPosition();
-	}
-
-	get screenOffsetY(): number
-	{
-		return this._screenOffsetY;
-	}
-
-	set screenOffsetY(value: number)
-	{
-		this._screenOffsetY = value;
-		this.updateContainerPosition();
-	}
-
-	get scale(): number
-	{
-		return this._scale;
-	}
-
 	initialize(width: number, height: number): void
 	{
 		this._width = width;
 		this._height = height;
+		this.updateContainerPosition();
 	}
 
-	setScale(scale: number, point: {x: number; y: number} | null = null, offsetPoint: {x: number; y: number} | null = null): void
+	setScale(scale: number, point: { x: number; y: number } | null = null, offsetPoint: {
+		x: number;
+		y: number
+	} | null = null): void
 	{
 		if (scale < 16)
 		{
@@ -151,12 +166,6 @@ export class RoomRenderingCanvas
 		this.updateContainerPosition();
 	}
 
-	private updateContainerPosition(): void
-	{
-		this._container.x = this._screenOffsetX + this._width / 2;
-		this._container.y = this._screenOffsetY + this._height / 3;
-	}
-
 	render(time: number, skipOffset: boolean = false): void
 	{
 		// Rendering is handled by PixiJS automatically
@@ -187,5 +196,11 @@ export class RoomRenderingCanvas
 		{
 			this._container.removeChild(container);
 		}
+	}
+
+	private updateContainerPosition(): void
+	{
+		this._container.x = this._screenOffsetX + this._width / 2;
+		this._container.y = this._screenOffsetY + this._height / 3;
 	}
 }

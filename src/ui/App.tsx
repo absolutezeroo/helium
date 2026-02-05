@@ -1,5 +1,5 @@
 import {Component, createMemo, Show} from 'solid-js';
-import {useModule, ModuleId} from './bridge';
+import {ModuleId, useModule} from './bridge';
 import {LandingView} from './components/landing/LandingView';
 import {Toolbar} from './components/toolbar/Toolbar';
 import {LoadingScreen} from './components/common/LoadingScreen';

@@ -20,15 +20,10 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 {
 	protected static readonly LAYER_SEPARATOR: string = '_';
 	protected static readonly ICON_LAYER_ID: string = '_icon_';
-
-	private _sprites: RoomObjectSprite[] = [];
-	private _object: IRoomObject | null = null;
-	private _container: Container;
-
 	protected _scale: number = -1;
 	protected _updateModelCounter: number = -1;
 	protected _direction: number = -1;
-
+	private _sprites: RoomObjectSprite[] = [];
 	private _instanceId: number;
 	private _updateId: number = 0;
 
@@ -37,6 +32,75 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 		this._instanceId = visualizationInstanceCounter++;
 		this._container = new Container();
 		this._container.label = `RoomObjectVisualization_${this._instanceId}`;
+	}
+
+	private _object: IRoomObject | null = null;
+
+	get object(): IRoomObject | null
+	{
+		return this._object;
+	}
+
+	set object(value: IRoomObject | null)
+	{
+		this._object = value;
+	}
+
+	private _container: Container;
+
+	get container(): Container
+	{
+		return this._container;
+	}
+
+	get spriteCount(): number
+	{
+		return this._sprites.length;
+	}
+
+	/**
+	 * Get the bounding rectangle of all visible sprites
+	 */
+	get boundingRectangle(): { x: number; y: number; width: number; height: number }
+	{
+		let left = 0;
+		let top = 0;
+		let right = 0;
+		let bottom = 0;
+		let first = true;
+
+		for (let i = 0; i < this._sprites.length; i++)
+		{
+			const sprite = this._sprites[i];
+
+			if (sprite !== null && sprite.visible && sprite.texture !== null)
+			{
+				const x = sprite.offsetX;
+				const y = sprite.offsetY;
+
+				if (first)
+				{
+					left = x;
+					top = y;
+					right = x + sprite.width;
+					bottom = y + sprite.height;
+					first = false;
+				} else
+				{
+					if (x < left) left = x;
+					if (y < top) top = y;
+					if (x + sprite.width > right) right = x + sprite.width;
+					if (y + sprite.height > bottom) bottom = y + sprite.height;
+				}
+			}
+		}
+
+		return {
+			x: left,
+			y: top,
+			width: right - left,
+			height: bottom - top,
+		};
 	}
 
 	dispose(): void
@@ -62,11 +126,6 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 		this._container.destroy({children: true});
 	}
 
-	get container(): Container
-	{
-		return this._container;
-	}
-
 	getUpdateID(): number
 	{
 		return this._updateId;
@@ -75,6 +134,64 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 	getInstanceId(): number
 	{
 		return this._instanceId;
+	}
+
+	addSprite(): IRoomObjectSprite
+	{
+		return this.addSpriteAt(this._sprites.length);
+	}
+
+	addSpriteAt(index: number): IRoomObjectSprite
+	{
+		const sprite = new RoomObjectSprite();
+
+		if (index >= this._sprites.length)
+		{
+			this._sprites.push(sprite);
+		} else
+		{
+			this._sprites.splice(index, 0, sprite);
+		}
+
+		return sprite;
+	}
+
+	removeSprite(sprite: IRoomObjectSprite): void
+	{
+		const index = this._sprites.indexOf(sprite as RoomObjectSprite);
+
+		if (index === -1)
+		{
+			throw new Error('Trying to remove non-existing sprite!');
+		}
+
+		this._sprites.splice(index, 1);
+		(sprite as RoomObjectSprite).dispose();
+	}
+
+	getSprite(index: number): IRoomObjectSprite | null
+	{
+		if (index >= 0 && index < this._sprites.length)
+		{
+			return this._sprites[index];
+		}
+
+		return null;
+	}
+
+	update(geometry: IRoomGeometry, time: number, update: boolean, skipUpdate: boolean): void
+	{
+		// Override in subclasses
+	}
+
+	getSpriteList(): IRoomObjectSprite[] | null
+	{
+		return null;
+	}
+
+	initialize(data: IRoomObjectVisualizationData): boolean
+	{
+		return false;
 	}
 
 	protected createSprites(count: number): void
@@ -100,70 +217,6 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 		}
 	}
 
-	addSprite(): IRoomObjectSprite
-	{
-		return this.addSpriteAt(this._sprites.length);
-	}
-
-	addSpriteAt(index: number): IRoomObjectSprite
-	{
-		const sprite = new RoomObjectSprite();
-
-		if (index >= this._sprites.length)
-		{
-			this._sprites.push(sprite);
-		}
-		else
-		{
-			this._sprites.splice(index, 0, sprite);
-		}
-
-		return sprite;
-	}
-
-	removeSprite(sprite: IRoomObjectSprite): void
-	{
-		const index = this._sprites.indexOf(sprite as RoomObjectSprite);
-
-		if (index === -1)
-		{
-			throw new Error('Trying to remove non-existing sprite!');
-		}
-
-		this._sprites.splice(index, 1);
-		(sprite as RoomObjectSprite).dispose();
-	}
-
-	get spriteCount(): number
-	{
-		return this._sprites.length;
-	}
-
-	getSprite(index: number): IRoomObjectSprite | null
-	{
-		if (index >= 0 && index < this._sprites.length)
-		{
-			return this._sprites[index];
-		}
-
-		return null;
-	}
-
-	get object(): IRoomObject | null
-	{
-		return this._object;
-	}
-
-	set object(value: IRoomObject | null)
-	{
-		this._object = value;
-	}
-
-	update(geometry: IRoomGeometry, time: number, update: boolean, skipUpdate: boolean): void
-	{
-		// Override in subclasses
-	}
-
 	protected increaseUpdateId(): void
 	{
 		this._updateId++;
@@ -174,61 +227,5 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 		this._scale = 0xFFFFFFFF;
 		this._updateModelCounter = 0xFFFFFFFF;
 		this._direction = -1;
-	}
-
-	getSpriteList(): IRoomObjectSprite[] | null
-	{
-		return null;
-	}
-
-	initialize(data: IRoomObjectVisualizationData): boolean
-	{
-		return false;
-	}
-
-	/**
-	 * Get the bounding rectangle of all visible sprites
-	 */
-	get boundingRectangle(): {x: number; y: number; width: number; height: number}
-	{
-		let left = 0;
-		let top = 0;
-		let right = 0;
-		let bottom = 0;
-		let first = true;
-
-		for (let i = 0; i < this._sprites.length; i++)
-		{
-			const sprite = this._sprites[i];
-
-			if (sprite !== null && sprite.visible && sprite.texture !== null)
-			{
-				const x = sprite.offsetX;
-				const y = sprite.offsetY;
-
-				if (first)
-				{
-					left = x;
-					top = y;
-					right = x + sprite.width;
-					bottom = y + sprite.height;
-					first = false;
-				}
-				else
-				{
-					if (x < left) left = x;
-					if (y < top) top = y;
-					if (x + sprite.width > right) right = x + sprite.width;
-					if (y + sprite.height > bottom) bottom = y + sprite.height;
-				}
-			}
-		}
-
-		return {
-			x: left,
-			y: top,
-			width: right - left,
-			height: bottom - top,
-		};
 	}
 }

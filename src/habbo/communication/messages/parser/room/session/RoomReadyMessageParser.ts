@@ -11,12 +11,13 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 export class RoomReadyMessageParser implements IMessageParser
 {
 	private _roomType: string = '';
-	private _roomId: number = 0;
 
 	get roomType(): string
 	{
 		return this._roomType;
 	}
+
+	private _roomId: number = 0;
 
 	get roomId(): number
 	{

@@ -1,4 +1,4 @@
-import {useActions, ModuleId} from '../../../bridge';
+import {ModuleId, useActions} from '../../../bridge';
 
 /**
  * Navigator-specific localization keys

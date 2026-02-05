@@ -1,6 +1,6 @@
 import type {JSX} from 'solid-js';
 import {createMemo, createSignal} from 'solid-js';
-import {useModule, useActions, ModuleId} from '../../bridge';
+import {ModuleId, useActions, useModule} from '../../bridge';
 import {NavigatorWindow} from './NavigatorWindow';
 import {RoomCreateModal} from './create';
 import type {RoomListRoom} from './rooms';

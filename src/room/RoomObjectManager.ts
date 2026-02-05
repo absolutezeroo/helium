@@ -13,8 +13,19 @@ import {RoomObject} from './object/RoomObject';
 
 export class RoomObjectManager implements IRoomObjectManager
 {
-	private _objects: Map<string, IRoomObjectController> = new Map();
 	private _objectsByType: Map<string, Map<string, IRoomObjectController>> = new Map();
+
+	private _objects: Map<string, IRoomObjectController> = new Map();
+
+	get objects(): IRoomObject[]
+	{
+		return Array.from(this._objects.values());
+	}
+
+	get objectCount(): number
+	{
+		return this._objects.size;
+	}
 
 	dispose(): void
 	{
@@ -30,44 +41,9 @@ export class RoomObjectManager implements IRoomObjectManager
 		return this.addObject(String(id), type, object);
 	}
 
-	private addObject(idKey: string, type: string, object: IRoomObjectController): IRoomObjectController | null
-	{
-		if (this._objects.has(idKey))
-		{
-			object.dispose();
-
-			return null;
-		}
-
-		this._objects.set(idKey, object);
-
-		const typeMap = this.getObjectsForType(type, true)!;
-		typeMap.set(idKey, object);
-
-		return object;
-	}
-
-	private getObjectsForType(type: string, createIfMissing: boolean = true): Map<string, IRoomObjectController> | null
-	{
-		let typeMap = this._objectsByType.get(type);
-
-		if (typeMap === undefined && createIfMissing)
-		{
-			typeMap = new Map();
-			this._objectsByType.set(type, typeMap);
-		}
-
-		return typeMap ?? null;
-	}
-
 	getObject(id: number): IRoomObject | null
 	{
 		return this._objects.get(String(id)) ?? null;
-	}
-
-	get objects(): IRoomObject[]
-	{
-		return Array.from(this._objects.values());
 	}
 
 	getObjectByIndex(index: number): IRoomObject | null
@@ -80,11 +56,6 @@ export class RoomObjectManager implements IRoomObjectManager
 		}
 
 		return null;
-	}
-
-	get objectCount(): number
-	{
-		return this._objects.size;
 	}
 
 	getObjectCountForType(type: string): number
@@ -155,5 +126,35 @@ export class RoomObjectManager implements IRoomObjectManager
 		}
 
 		this._objectsByType.clear();
+	}
+
+	private addObject(idKey: string, type: string, object: IRoomObjectController): IRoomObjectController | null
+	{
+		if (this._objects.has(idKey))
+		{
+			object.dispose();
+
+			return null;
+		}
+
+		this._objects.set(idKey, object);
+
+		const typeMap = this.getObjectsForType(type, true)!;
+		typeMap.set(idKey, object);
+
+		return object;
+	}
+
+	private getObjectsForType(type: string, createIfMissing: boolean = true): Map<string, IRoomObjectController> | null
+	{
+		let typeMap = this._objectsByType.get(type);
+
+		if (typeMap === undefined && createIfMissing)
+		{
+			typeMap = new Map();
+			this._objectsByType.set(type, typeMap);
+		}
+
+		return typeMap ?? null;
 	}
 }

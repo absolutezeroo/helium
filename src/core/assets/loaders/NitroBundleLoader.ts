@@ -85,6 +85,11 @@ export interface IAssetAlias
  */
 export class NitroBundleLoader extends BinaryFileLoader
 {
+	/**
+	 * Whether ownership of textures has been transferred to an asset
+	 */
+	private _ownershipTransferred: boolean = false;
+
 	constructor(mimeType: string, url?: string, id: number = -1)
 	{
 		super(mimeType, url, id);
@@ -139,11 +144,6 @@ export class NitroBundleLoader extends BinaryFileLoader
 	}
 
 	/**
-	 * Whether ownership of textures has been transferred to an asset
-	 */
-	private _ownershipTransferred: boolean = false;
-
-	/**
 	 * Get a texture by name
 	 */
 	getTexture(name: string): Texture | null
@@ -178,16 +178,14 @@ export class NitroBundleLoader extends BinaryFileLoader
 				{
 					this._spritesheet.destroy(true);
 					this._spritesheet = null;
-				}
-				else if (this._baseTexture)
+				} else if (this._baseTexture)
 				{
 					this._baseTexture.destroy(true);
 				}
 
 				this._baseTexture = null;
 				this._textures.clear();
-			}
-			else
+			} else
 			{
 				// Clear references without destroying
 				this._spritesheet = null;

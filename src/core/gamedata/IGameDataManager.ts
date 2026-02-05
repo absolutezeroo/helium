@@ -114,6 +114,23 @@ export interface IFigureMapPart
 export interface IGameDataManager
 {
 	/**
+	 * Check if game data is loaded
+	 */
+	readonly isLoaded: boolean;
+	/**
+	 * All floor furniture items
+	 */
+	readonly floorItems: Map<number, IFurnitureData>;
+	/**
+	 * All wall furniture items
+	 */
+	readonly wallItems: Map<number, IFurnitureData>;
+	/**
+	 * All effects
+	 */
+	readonly effects: Map<string, IEffectData>;
+
+	/**
 	 * Load all game data from URLs
 	 */
 	loadGameData(urls: IGameDataUrls): Promise<boolean>;
@@ -137,26 +154,6 @@ export interface IGameDataManager
 	 * Get product data by code
 	 */
 	getProductData(code: string): IProductData | null;
-
-	/**
-	 * Check if game data is loaded
-	 */
-	readonly isLoaded: boolean;
-
-	/**
-	 * All floor furniture items
-	 */
-	readonly floorItems: Map<number, IFurnitureData>;
-
-	/**
-	 * All wall furniture items
-	 */
-	readonly wallItems: Map<number, IFurnitureData>;
-
-	/**
-	 * All effects
-	 */
-	readonly effects: Map<string, IEffectData>;
 }
 
 /**

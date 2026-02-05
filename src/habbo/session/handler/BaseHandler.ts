@@ -11,10 +11,6 @@ import type {IRoomHandlerListener} from '../IRoomHandlerListener';
  */
 export class BaseHandler
 {
-	private _connection: IConnection | null;
-	private _listener: IRoomHandlerListener;
-	private _disposed: boolean = false;
-
 	/**
 	 * The current room ID being handled.
 	 * Updated by RoomSessionManager.updateHandlers()
@@ -27,26 +23,32 @@ export class BaseHandler
 		this._listener = listener;
 	}
 
-	dispose(): void
-	{
-		this._connection = null;
-		// @ts-expect-error - Nullifying for disposal
-		this._listener = null;
-		this._disposed = true;
-	}
-
-	get disposed(): boolean
-	{
-		return this._disposed;
-	}
+	private _connection: IConnection | null;
 
 	get connection(): IConnection | null
 	{
 		return this._connection;
 	}
 
+	private _listener: IRoomHandlerListener;
+
 	get listener(): IRoomHandlerListener
 	{
 		return this._listener;
+	}
+
+	private _disposed: boolean = false;
+
+	get disposed(): boolean
+	{
+		return this._disposed;
+	}
+
+	dispose(): void
+	{
+		this._connection = null;
+		// @ts-expect-error - Nullifying for disposal
+		this._listener = null;
+		this._disposed = true;
 	}
 }

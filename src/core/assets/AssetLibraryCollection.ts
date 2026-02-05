@@ -171,8 +171,7 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 			{
 				this._collectionEvents.emit(AssetLibraryEvents.LOADED);
 			}
-		}
-		catch (error)
+		} catch (error)
 		{
 			// Remove from pending on error
 			const index = this._pendingLibraries.indexOf(library);

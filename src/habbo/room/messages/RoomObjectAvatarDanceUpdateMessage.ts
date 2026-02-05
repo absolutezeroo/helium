@@ -9,13 +9,13 @@ import {RoomObjectUpdateMessage} from '@room/messages/RoomObjectUpdateMessage';
 
 export class RoomObjectAvatarDanceUpdateMessage extends RoomObjectUpdateMessage
 {
-	private _danceStyle: number;
-
 	constructor(danceStyle: number)
 	{
 		super(null, null);
 		this._danceStyle = danceStyle;
 	}
+
+	private _danceStyle: number;
 
 	get danceStyle(): number
 	{

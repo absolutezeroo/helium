@@ -9,12 +9,13 @@ import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 export class TradingCloseMessageParser implements IMessageParser
 {
 	private _userId: number = 0;
-	private _reason: number = 0;
 
 	get userId(): number
 	{
 		return this._userId;
 	}
+
+	private _reason: number = 0;
 
 	get reason(): number
 	{

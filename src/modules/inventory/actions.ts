@@ -66,8 +66,7 @@ export function createActions(ctx: ActionContext<InventoryState, InventoryManage
 				const actions = createActions(ctx);
 
 				actions.switchCategory(category);
-			}
-			else if (!managers.inventory.isCategoryInitialized(InventoryCategory.FURNI))
+			} else if (!managers.inventory.isCategoryInitialized(InventoryCategory.FURNI))
 			{
 				updateState({isLoading: true});
 				managers.inventory.requestFurni();
@@ -94,8 +93,7 @@ export function createActions(ctx: ActionContext<InventoryState, InventoryManage
 			{
 				resetUnseenForCategory(state.currentCategory);
 				updateState({isOpen: false});
-			}
-			else
+			} else
 			{
 				updateState({isOpen: true});
 
@@ -126,8 +124,7 @@ export function createActions(ctx: ActionContext<InventoryState, InventoryManage
 					{
 						updateState({isLoading: true});
 						inv.requestFurni();
-					}
-					else
+					} else
 					{
 						updateState({
 							furniGroups: [...inv.furniModel.furniData],
@@ -141,8 +138,7 @@ export function createActions(ctx: ActionContext<InventoryState, InventoryManage
 					{
 						updateState({isLoading: true});
 						inv.requestBadges();
-					}
-					else
+					} else
 					{
 						updateState({
 							badges: [...inv.badgesModel.getBadges()],
@@ -164,8 +160,7 @@ export function createActions(ctx: ActionContext<InventoryState, InventoryManage
 					{
 						updateState({isLoading: true});
 						inv.requestPets();
-					}
-					else
+					} else
 					{
 						updateState({
 							pets: [...inv.petsModel.getPetsArray()],
@@ -179,8 +174,7 @@ export function createActions(ctx: ActionContext<InventoryState, InventoryManage
 					{
 						updateState({isLoading: true});
 						inv.requestBots();
-					}
-					else
+					} else
 					{
 						updateState({
 							bots: [...inv.botsModel.getBotsArray()],

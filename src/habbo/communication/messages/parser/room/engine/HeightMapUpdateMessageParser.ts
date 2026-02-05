@@ -12,26 +12,29 @@ export class HeightMapUpdateMessageParser implements IMessageParser
 {
 	private _wrapper: IMessageDataWrapper | null = null;
 	private _count: number = 0;
-	private _x: number = 0;
-	private _y: number = 0;
 	private _value: number = 0;
-	private _stackingBlockedMaskBit: number = 16384;
 	private _stackingHeightMask: number = 16383;
 
-	set stackingBlockedMaskBit(value: number)
-	{
-		this._stackingBlockedMaskBit = 1 << value;
-		this._stackingHeightMask = this._stackingBlockedMaskBit - 1;
-	}
+	private _x: number = 0;
 
 	get x(): number
 	{
 		return this._x;
 	}
 
+	private _y: number = 0;
+
 	get y(): number
 	{
 		return this._y;
+	}
+
+	private _stackingBlockedMaskBit: number = 16384;
+
+	set stackingBlockedMaskBit(value: number)
+	{
+		this._stackingBlockedMaskBit = 1 << value;
+		this._stackingHeightMask = this._stackingBlockedMaskBit - 1;
 	}
 
 	get tileHeight(): number
@@ -47,6 +50,25 @@ export class HeightMapUpdateMessageParser implements IMessageParser
 	get isRoomTile(): boolean
 	{
 		return HeightMapUpdateMessageParser.decodeIsRoomTile(this._value);
+	}
+
+	static decodeTileHeight(value: number, mask: number): number
+	{
+		if (value < 0)
+		{
+			return -1;
+		}
+		return (value & mask) / 256;
+	}
+
+	static decodeIsStackingBlocked(value: number, maskBit: number): boolean
+	{
+		return (value & maskBit) !== 0;
+	}
+
+	static decodeIsRoomTile(value: number): boolean
+	{
+		return value >= 0;
 	}
 
 	/**
@@ -86,24 +108,5 @@ export class HeightMapUpdateMessageParser implements IMessageParser
 		this._count = wrapper.readByte();
 
 		return true;
-	}
-
-	static decodeTileHeight(value: number, mask: number): number
-	{
-		if (value < 0)
-		{
-			return -1;
-		}
-		return (value & mask) / 256;
-	}
-
-	static decodeIsStackingBlocked(value: number, maskBit: number): boolean
-	{
-		return (value & maskBit) !== 0;
-	}
-
-	static decodeIsRoomTile(value: number): boolean
-	{
-		return value >= 0;
 	}
 }

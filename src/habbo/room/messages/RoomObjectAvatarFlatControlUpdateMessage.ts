@@ -9,13 +9,13 @@ import {RoomObjectUpdateMessage} from '@room/messages/RoomObjectUpdateMessage';
 
 export class RoomObjectAvatarFlatControlUpdateMessage extends RoomObjectUpdateMessage
 {
-	private _rawData: string;
-
 	constructor(rawData: string)
 	{
 		super(null, null);
 		this._rawData = rawData;
 	}
+
+	private _rawData: string;
 
 	get rawData(): string
 	{

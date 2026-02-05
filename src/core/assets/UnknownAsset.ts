@@ -10,8 +10,6 @@ import type {AssetTypeDeclaration} from './AssetTypeDeclaration';
  */
 export class UnknownAsset implements IAsset
 {
-	private _disposed: boolean = false;
-	private _content: unknown = null;
 	private readonly _declaration: AssetTypeDeclaration;
 	private readonly _url: string;
 
@@ -21,19 +19,23 @@ export class UnknownAsset implements IAsset
 		this._url = url;
 	}
 
-	get url(): string
+	private _disposed: boolean = false;
+
+	get disposed(): boolean
 	{
-		return this._url;
+		return this._disposed;
 	}
+
+	private _content: unknown = null;
 
 	get content(): unknown
 	{
 		return this._content;
 	}
 
-	get disposed(): boolean
+	get url(): string
 	{
-		return this._disposed;
+		return this._url;
 	}
 
 	get declaration(): AssetTypeDeclaration

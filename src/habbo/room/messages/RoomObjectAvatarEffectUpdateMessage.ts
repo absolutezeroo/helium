@@ -9,9 +9,6 @@ import {RoomObjectUpdateMessage} from '@room/messages/RoomObjectUpdateMessage';
 
 export class RoomObjectAvatarEffectUpdateMessage extends RoomObjectUpdateMessage
 {
-	private _effect: number;
-	private _delayMilliSeconds: number;
-
 	constructor(effect: number, delayMilliSeconds: number = 0)
 	{
 		super(null, null);
@@ -19,10 +16,14 @@ export class RoomObjectAvatarEffectUpdateMessage extends RoomObjectUpdateMessage
 		this._delayMilliSeconds = delayMilliSeconds;
 	}
 
+	private _effect: number;
+
 	get effect(): number
 	{
 		return this._effect;
 	}
+
+	private _delayMilliSeconds: number;
 
 	get delayMilliSeconds(): number
 	{

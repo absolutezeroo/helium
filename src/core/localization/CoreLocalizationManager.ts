@@ -1,6 +1,6 @@
 import {Component, type IContext} from '@core/runtime';
 import {Logger} from '@core/utils/Logger';
-import type {ICoreLocalizationManager, LocalizationManagerEvents} from './ICoreLocalizationManager';
+import type {ICoreLocalizationManager} from './ICoreLocalizationManager';
 import type {ILocalizable} from './ILocalizable';
 import type {ILocalization} from './ILocalization';
 import type {ILocalizationDefinition} from './ILocalizationDefinition';
@@ -36,11 +36,6 @@ export class CoreLocalizationManager extends Component implements ICoreLocalizat
 	constructor(context: IContext)
 	{
 		super(context);
-	}
-
-	protected override initComponent(): void
-	{
-		log.debug('CoreLocalizationManager initialized');
 	}
 
 	registerLocalizationDefinition(id: string, name: string, url: string, code: string): void
@@ -366,6 +361,11 @@ export class CoreLocalizationManager extends Component implements ICoreLocalizat
 		}
 
 		return result;
+	}
+
+	protected override initComponent(): void
+	{
+		log.debug('CoreLocalizationManager initialized');
 	}
 
 	protected parseLocalizationData(data: string): Map<string, string>

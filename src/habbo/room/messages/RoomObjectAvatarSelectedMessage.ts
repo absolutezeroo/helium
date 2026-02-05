@@ -9,13 +9,13 @@ import {RoomObjectUpdateMessage} from '@room/messages/RoomObjectUpdateMessage';
 
 export class RoomObjectAvatarSelectedMessage extends RoomObjectUpdateMessage
 {
-	private _selected: boolean;
-
 	constructor(selected: boolean)
 	{
 		super(null, null);
 		this._selected = selected;
 	}
+
+	private _selected: boolean;
 
 	get selected(): boolean
 	{

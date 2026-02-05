@@ -71,8 +71,7 @@ export const handlers: MessageHandlers<RoomState> = {
 				isStaffPick: parser.staffPick,
 				sessionState: 'created',
 			};
-		}
-		else if (parser.roomForward && parser.data)
+		} else if (parser.roomForward && parser.data)
 		{
 			// Case 2: Room forwarding - we're entering via forward
 			// Modern emulators don't send a second GetGuestRoomResult with enterRoom=true

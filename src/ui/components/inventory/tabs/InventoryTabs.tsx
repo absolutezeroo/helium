@@ -1,8 +1,8 @@
 import type {JSX} from 'solid-js';
 import {For} from 'solid-js';
 import clsx from 'clsx';
-import {InventoryIcon} from '../common';
 import type {InventoryIconName} from '../common';
+import {InventoryIcon} from '../common';
 
 export interface InventoryTab
 {
@@ -39,7 +39,8 @@ export function InventoryTabs(props: InventoryTabsProps): JSX.Element
 						<InventoryIcon name={tab.icon} size="sm"/>
 						<span>{tab.label}</span>
 						{tab.unseenCount && tab.unseenCount > 0 && (
-							<span class="absolute -top-1 -right-1 min-w-[18px] h-[18px] flex items-center justify-center px-1 text-xs font-bold bg-red-500 text-white rounded-full">
+							<span
+								class="absolute -top-1 -right-1 min-w-[18px] h-[18px] flex items-center justify-center px-1 text-xs font-bold bg-red-500 text-white rounded-full">
 								{tab.unseenCount > 99 ? '99+' : tab.unseenCount}
 							</span>
 						)}

@@ -5,13 +5,6 @@
  */
 export class Badge
 {
-	private _badgeId: string;
-	private _name: string;
-	private _description: string;
-	private _isInUse: boolean = false;
-	private _isSelected: boolean = false;
-	private _isUnseen: boolean = false;
-
 	constructor(
 		badgeId: string,
 		name: string,
@@ -25,20 +18,28 @@ export class Badge
 		this._isUnseen = isUnseen;
 	}
 
+	private _badgeId: string;
+
 	get badgeId(): string
 	{
 		return this._badgeId;
 	}
+
+	private _name: string;
 
 	get name(): string
 	{
 		return this._name;
 	}
 
+	private _description: string;
+
 	get description(): string
 	{
 		return this._description;
 	}
+
+	private _isInUse: boolean = false;
 
 	get isInUse(): boolean
 	{
@@ -50,6 +51,8 @@ export class Badge
 		this._isInUse = value;
 	}
 
+	private _isSelected: boolean = false;
+
 	get isSelected(): boolean
 	{
 		return this._isSelected;
@@ -59,6 +62,8 @@ export class Badge
 	{
 		this._isSelected = value;
 	}
+
+	private _isUnseen: boolean = false;
 
 	get isUnseen(): boolean
 	{

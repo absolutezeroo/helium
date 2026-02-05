@@ -9,13 +9,13 @@ import {RoomObjectUpdateMessage} from '@room/messages/RoomObjectUpdateMessage';
 
 export class RoomObjectAvatarPetGestureUpdateMessage extends RoomObjectUpdateMessage
 {
-	private _gesture: string;
-
 	constructor(gesture: string)
 	{
 		super(null, null);
 		this._gesture = gesture;
 	}
+
+	private _gesture: string;
 
 	get gesture(): string
 	{

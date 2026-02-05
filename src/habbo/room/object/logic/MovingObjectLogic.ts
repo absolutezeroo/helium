@@ -23,8 +23,11 @@ export class MovingObjectLogic extends ObjectLogicBase
 	private _location: Vector3d = new Vector3d();
 	private _liftAmount: number = 0;
 	private _changeTime: number = 0;
-	private _moveUpdateInterval: number = 500;
-	private _lastUpdateTime: number = 0;
+
+	override get object(): IRoomObjectController | null
+	{
+		return super.object;
+	}
 
 	override set object(value: IRoomObjectController | null)
 	{
@@ -36,15 +39,7 @@ export class MovingObjectLogic extends ObjectLogicBase
 		}
 	}
 
-	override get object(): IRoomObjectController | null
-	{
-		return super.object;
-	}
-
-	protected get lastUpdateTime(): number
-	{
-		return this._lastUpdateTime;
-	}
+	private _moveUpdateInterval: number = 500;
 
 	protected set moveUpdateInterval(value: number)
 	{
@@ -54,6 +49,13 @@ export class MovingObjectLogic extends ObjectLogicBase
 		}
 
 		this._moveUpdateInterval = value;
+	}
+
+	private _lastUpdateTime: number = 0;
+
+	protected get lastUpdateTime(): number
+	{
+		return this._lastUpdateTime;
 	}
 
 	override dispose(): void
@@ -130,8 +132,7 @@ export class MovingObjectLogic extends ObjectLogicBase
 					this._liftAmount = offset.z;
 					model.setNumber('furniture_lift_amount', this._liftAmount);
 				}
-			}
-			else if (this._liftAmount !== 0)
+			} else if (this._liftAmount !== 0)
 			{
 				this._liftAmount = 0;
 				model.setNumber('furniture_lift_amount', this._liftAmount);
@@ -157,8 +158,7 @@ export class MovingObjectLogic extends ObjectLogicBase
 				MovingObjectLogic._helperVector.assign(this._delta);
 				MovingObjectLogic._helperVector.mul(elapsed / this._moveUpdateInterval);
 				MovingObjectLogic._helperVector.add(this._location);
-			}
-			else
+			} else
 			{
 				MovingObjectLogic._helperVector.assign(this._location);
 			}

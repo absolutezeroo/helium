@@ -1,12 +1,6 @@
 import {Component, type IContext} from '@core/runtime';
 import {Logger} from '@core/utils/Logger';
-import type {
-	IEffectData,
-	IFurnitureData,
-	IGameDataManager,
-	IGameDataUrls,
-	IProductData,
-} from './IGameDataManager';
+import type {IEffectData, IFurnitureData, IGameDataManager, IGameDataUrls, IProductData,} from './IGameDataManager';
 import {FurnitureType} from './IGameDataManager';
 
 const log = Logger.getLogger('GameData');
@@ -34,22 +28,41 @@ export interface GameDataEvents
  */
 export class GameDataManager extends Component implements IGameDataManager
 {
+	private _furnitureByClassName: Map<string, IFurnitureData> = new Map();
+	private _products: Map<string, IProductData> = new Map();
+
 	constructor(context: IContext)
 	{
 		super(context);
 	}
 
-	protected override initComponent(): void
+	private _floorItems: Map<number, IFurnitureData> = new Map();
+
+	get floorItems(): Map<number, IFurnitureData>
 	{
-		log.debug('GameDataManager initialized');
+		return this._floorItems;
 	}
 
-	private _floorItems: Map<number, IFurnitureData> = new Map();
 	private _wallItems: Map<number, IFurnitureData> = new Map();
-	private _furnitureByClassName: Map<string, IFurnitureData> = new Map();
+
+	get wallItems(): Map<number, IFurnitureData>
+	{
+		return this._wallItems;
+	}
+
 	private _effects: Map<string, IEffectData> = new Map();
-	private _products: Map<string, IProductData> = new Map();
+
+	get effects(): Map<string, IEffectData>
+	{
+		return this._effects;
+	}
+
 	private _isLoaded = false;
+
+	get isLoaded(): boolean
+	{
+		return this._isLoaded;
+	}
 
 	async loadGameData(urls: IGameDataUrls): Promise<boolean>
 	{
@@ -79,13 +92,37 @@ export class GameDataManager extends Component implements IGameDataManager
 			log.success('Game data loaded successfully');
 
 			return true;
-		}
-		catch (error)
+		} catch (error)
 		{
 			log.error('Failed to load game data:', error);
 			this.events.emit('error', error as Error);
 			return false;
 		}
+	}
+
+	getFurnitureData(id: number): IFurnitureData | null
+	{
+		return this._floorItems.get(id) ?? this._wallItems.get(id) ?? null;
+	}
+
+	getFurnitureDataByClassName(className: string): IFurnitureData | null
+	{
+		return this._furnitureByClassName.get(className) ?? null;
+	}
+
+	getEffectData(id: string): IEffectData | null
+	{
+		return this._effects.get(id) ?? null;
+	}
+
+	getProductData(code: string): IProductData | null
+	{
+		return this._products.get(code) ?? null;
+	}
+
+	protected override initComponent(): void
+	{
+		log.debug('GameDataManager initialized');
 	}
 
 	private async loadFurnitureData(url: string): Promise<void>
@@ -201,7 +238,7 @@ export class GameDataManager extends Component implements IGameDataManager
 
 		if (!partcolors || typeof partcolors !== 'object') return colors;
 
-		const pc = partcolors as {color?: unknown[]};
+		const pc = partcolors as { color?: unknown[] };
 		if (!pc.color) return colors;
 
 		for (const color of pc.color)
@@ -276,45 +313,5 @@ export class GameDataManager extends Component implements IGameDataManager
 
 		log.info(`Loaded ${this._products.size} products`);
 		this.events.emit('productsLoaded');
-	}
-
-	getFurnitureData(id: number): IFurnitureData | null
-	{
-		return this._floorItems.get(id) ?? this._wallItems.get(id) ?? null;
-	}
-
-	getFurnitureDataByClassName(className: string): IFurnitureData | null
-	{
-		return this._furnitureByClassName.get(className) ?? null;
-	}
-
-	getEffectData(id: string): IEffectData | null
-	{
-		return this._effects.get(id) ?? null;
-	}
-
-	getProductData(code: string): IProductData | null
-	{
-		return this._products.get(code) ?? null;
-	}
-
-	get isLoaded(): boolean
-	{
-		return this._isLoaded;
-	}
-
-	get floorItems(): Map<number, IFurnitureData>
-	{
-		return this._floorItems;
-	}
-
-	get wallItems(): Map<number, IFurnitureData>
-	{
-		return this._wallItems;
-	}
-
-	get effects(): Map<string, IEffectData>
-	{
-		return this._effects;
 	}
 }

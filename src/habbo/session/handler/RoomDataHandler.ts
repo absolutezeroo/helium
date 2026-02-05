@@ -4,10 +4,14 @@ import type {IRoomHandlerListener} from '../IRoomHandlerListener';
 import {BaseHandler} from './BaseHandler';
 
 // Message events
-import {GetGuestRoomResultMessageEvent} from '../../communication/messages/incoming/navigator/GetGuestRoomResultMessageEvent';
+import {
+	GetGuestRoomResultMessageEvent
+} from '../../communication/messages/incoming/navigator/GetGuestRoomResultMessageEvent';
 
 // Parsers
-import type {GetGuestRoomResultMessageParser} from '../../communication/messages/parser/navigator/GetGuestRoomResultMessageParser';
+import type {
+	GetGuestRoomResultMessageParser
+} from '../../communication/messages/parser/navigator/GetGuestRoomResultMessageParser';
 
 // Events
 import {RoomSessionEvent} from '../events/RoomSessionEvent';

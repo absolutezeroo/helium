@@ -17,45 +17,13 @@ export const UserDataType = {
 export class UserData implements IUserData
 {
 	private readonly _roomObjectId: number;
-	private _type: number = 0;
-	private _webID: number = 0;
-
-	private _name: string = '';
-	private _figure: string = '';
-	private _sex: string = '';
-	private _custom: string = '';
-	private _achievementScore: number = 0;
-
-	private _groupID: string = '';
-	private _groupName: string = '';
-	private _groupStatus: number = 0;
-
-	private _ownerId: number = 0;
-	private _ownerName: string = '';
-
-	private _petLevel: number = 0;
-	private _rarityLevel: number = 0;
-	private _hasSaddle: boolean = false;
-	private _isRiding: boolean = false;
-	private _canBreed: boolean = false;
-	private _canHarvest: boolean = false;
-	private _canRevive: boolean = false;
-	private _hasBreedingPermission: boolean = false;
-
-	private _botSkills: number[] = [];
-	private _botSkillData: unknown[] = [];
-
-	private _isModerator: boolean = false;
 
 	constructor(roomObjectId: number)
 	{
 		this._roomObjectId = roomObjectId;
 	}
 
-	get roomObjectId(): number
-	{
-		return this._roomObjectId;
-	}
+	private _type: number = 0;
 
 	get type(): number
 	{
@@ -67,6 +35,8 @@ export class UserData implements IUserData
 		this._type = value;
 	}
 
+	private _webID: number = 0;
+
 	get webID(): number
 	{
 		return this._webID;
@@ -76,6 +46,8 @@ export class UserData implements IUserData
 	{
 		this._webID = value;
 	}
+
+	private _name: string = '';
 
 	get name(): string
 	{
@@ -87,6 +59,8 @@ export class UserData implements IUserData
 		this._name = value;
 	}
 
+	private _figure: string = '';
+
 	get figure(): string
 	{
 		return this._figure;
@@ -96,6 +70,8 @@ export class UserData implements IUserData
 	{
 		this._figure = value;
 	}
+
+	private _sex: string = '';
 
 	get sex(): string
 	{
@@ -107,6 +83,8 @@ export class UserData implements IUserData
 		this._sex = value;
 	}
 
+	private _custom: string = '';
+
 	get custom(): string
 	{
 		return this._custom;
@@ -116,6 +94,8 @@ export class UserData implements IUserData
 	{
 		this._custom = value;
 	}
+
+	private _achievementScore: number = 0;
 
 	get achievementScore(): number
 	{
@@ -127,6 +107,8 @@ export class UserData implements IUserData
 		this._achievementScore = value;
 	}
 
+	private _groupID: string = '';
+
 	get groupID(): string
 	{
 		return this._groupID;
@@ -136,6 +118,8 @@ export class UserData implements IUserData
 	{
 		this._groupID = value;
 	}
+
+	private _groupName: string = '';
 
 	get groupName(): string
 	{
@@ -147,6 +131,8 @@ export class UserData implements IUserData
 		this._groupName = value;
 	}
 
+	private _groupStatus: number = 0;
+
 	get groupStatus(): number
 	{
 		return this._groupStatus;
@@ -156,6 +142,8 @@ export class UserData implements IUserData
 	{
 		this._groupStatus = value;
 	}
+
+	private _ownerId: number = 0;
 
 	get ownerId(): number
 	{
@@ -167,6 +155,8 @@ export class UserData implements IUserData
 		this._ownerId = value;
 	}
 
+	private _ownerName: string = '';
+
 	get ownerName(): string
 	{
 		return this._ownerName;
@@ -176,6 +166,8 @@ export class UserData implements IUserData
 	{
 		this._ownerName = value;
 	}
+
+	private _petLevel: number = 0;
 
 	get petLevel(): number
 	{
@@ -187,6 +179,8 @@ export class UserData implements IUserData
 		this._petLevel = value;
 	}
 
+	private _rarityLevel: number = 0;
+
 	get rarityLevel(): number
 	{
 		return this._rarityLevel;
@@ -196,6 +190,8 @@ export class UserData implements IUserData
 	{
 		this._rarityLevel = value;
 	}
+
+	private _hasSaddle: boolean = false;
 
 	get hasSaddle(): boolean
 	{
@@ -207,6 +203,8 @@ export class UserData implements IUserData
 		this._hasSaddle = value;
 	}
 
+	private _isRiding: boolean = false;
+
 	get isRiding(): boolean
 	{
 		return this._isRiding;
@@ -216,6 +214,8 @@ export class UserData implements IUserData
 	{
 		this._isRiding = value;
 	}
+
+	private _canBreed: boolean = false;
 
 	get canBreed(): boolean
 	{
@@ -227,6 +227,8 @@ export class UserData implements IUserData
 		this._canBreed = value;
 	}
 
+	private _canHarvest: boolean = false;
+
 	get canHarvest(): boolean
 	{
 		return this._canHarvest;
@@ -236,6 +238,8 @@ export class UserData implements IUserData
 	{
 		this._canHarvest = value;
 	}
+
+	private _canRevive: boolean = false;
 
 	get canRevive(): boolean
 	{
@@ -247,6 +251,8 @@ export class UserData implements IUserData
 		this._canRevive = value;
 	}
 
+	private _hasBreedingPermission: boolean = false;
+
 	get hasBreedingPermission(): boolean
 	{
 		return this._hasBreedingPermission;
@@ -256,6 +262,8 @@ export class UserData implements IUserData
 	{
 		this._hasBreedingPermission = value;
 	}
+
+	private _botSkills: number[] = [];
 
 	get botSkills(): number[]
 	{
@@ -267,6 +275,8 @@ export class UserData implements IUserData
 		this._botSkills = value;
 	}
 
+	private _botSkillData: unknown[] = [];
+
 	get botSkillData(): unknown[]
 	{
 		return this._botSkillData;
@@ -277,6 +287,8 @@ export class UserData implements IUserData
 		this._botSkillData = value;
 	}
 
+	private _isModerator: boolean = false;
+
 	get isModerator(): boolean
 	{
 		return this._isModerator;
@@ -285,5 +297,10 @@ export class UserData implements IUserData
 	set isModerator(value: boolean)
 	{
 		this._isModerator = value;
+	}
+
+	get roomObjectId(): number
+	{
+		return this._roomObjectId;
 	}
 }

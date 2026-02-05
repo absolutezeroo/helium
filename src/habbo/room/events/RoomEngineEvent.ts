@@ -12,19 +12,20 @@ export class RoomEngineEvent
 	public static readonly REE_ENGINE_INITIALIZED = 'REE_ENGINE_INITIALIZED';
 	public static readonly REE_ROOM_ZOOMED = 'REE_ROOM_ZOOMED';
 
-	private _type: string;
-	private _roomId: number;
-
 	constructor(type: string, roomId: number)
 	{
 		this._type = type;
 		this._roomId = roomId;
 	}
 
+	private _type: string;
+
 	get type(): string
 	{
 		return this._type;
 	}
+
+	private _roomId: number;
 
 	get roomId(): number
 	{

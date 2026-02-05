@@ -53,6 +53,18 @@ export class TextFileLoader extends BinaryFileLoader
 	}
 
 	/**
+	 * Dispose of this loader
+	 */
+	override dispose(): void
+	{
+		if (!this._disposed)
+		{
+			this._textContent = null;
+			super.dispose();
+		}
+	}
+
+	/**
 	 * Override to decode content after loading
 	 */
 	protected override handleLoadEvent(type: string, httpStatus?: number): void
@@ -80,23 +92,10 @@ export class TextFileLoader extends BinaryFileLoader
 		{
 			const decoder = new TextDecoder('utf-8');
 			this._textContent = decoder.decode(this._data);
-		}
-		catch (e)
+		} catch (e)
 		{
 			console.error('[TextFileLoader] Error decoding content:', e);
 			this._textContent = '';
-		}
-	}
-
-	/**
-	 * Dispose of this loader
-	 */
-	override dispose(): void
-	{
-		if (!this._disposed)
-		{
-			this._textContent = null;
-			super.dispose();
 		}
 	}
 }

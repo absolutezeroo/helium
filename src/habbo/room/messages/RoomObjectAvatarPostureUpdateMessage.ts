@@ -9,9 +9,6 @@ import {RoomObjectUpdateMessage} from '@room/messages/RoomObjectUpdateMessage';
 
 export class RoomObjectAvatarPostureUpdateMessage extends RoomObjectUpdateMessage
 {
-	private _postureType: string;
-	private _parameter: string;
-
 	constructor(postureType: string, parameter: string = '')
 	{
 		super(null, null);
@@ -19,10 +16,14 @@ export class RoomObjectAvatarPostureUpdateMessage extends RoomObjectUpdateMessag
 		this._parameter = parameter;
 	}
 
+	private _postureType: string;
+
 	get postureType(): string
 	{
 		return this._postureType;
 	}
+
+	private _parameter: string;
 
 	get parameter(): string
 	{

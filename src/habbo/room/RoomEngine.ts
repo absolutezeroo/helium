@@ -9,7 +9,7 @@
  * IMPORTANT: RoomEngine depends on IRoomManager for room instance management.
  * It does NOT manage rooms directly - that's RoomManager's responsibility.
  */
-import type {Application, Container} from 'pixi.js';
+import type {Container} from 'pixi.js';
 import {Component, ComponentDependency, type IContext, type IUpdateReceiver} from '@core/runtime';
 import type {IConnection} from '@core/communication/connection/IConnection';
 import type {IRoomEngine} from './IRoomEngine';
@@ -58,8 +58,7 @@ const OBJECT_ID_TILE_CURSOR = -2;
 const OBJECT_TYPE_TILE_CURSOR = 'tile_cursor';
 const OBJECT_ID_SELECTION_ARROW = -3;
 
-export class RoomEngine extends Component implements
-	IRoomEngine,
+export class RoomEngine extends Component implements IRoomEngine,
 	IRoomManagerListener,
 	IRoomCreator,
 	IRoomEngineServices,
@@ -371,12 +370,10 @@ export class RoomEngine extends Component implements
 		if (type === RoomObjectUserTypes.BOT)
 		{
 			logicType = RoomObjectLogicEnum.BOT;
-		}
-		else if (type === RoomObjectUserTypes.RENTABLE_BOT)
+		} else if (type === RoomObjectUserTypes.RENTABLE_BOT)
 		{
 			logicType = RoomObjectLogicEnum.RENTABLE_BOT;
-		}
-		else if (type === RoomObjectUserTypes.PET)
+		} else if (type === RoomObjectUserTypes.PET)
 		{
 			logicType = RoomObjectLogicEnum.PET;
 		}
@@ -991,6 +988,17 @@ export class RoomEngine extends Component implements
 							model.setNumber(`plane_${i}_right_x`, rightSide.x, true);
 							model.setNumber(`plane_${i}_right_y`, rightSide.y, true);
 							model.setNumber(`plane_${i}_right_z`, rightSide.z, true);
+
+							// Store secondary normals
+							const secNormals = planeParser.getPlaneSecondaryNormals(i);
+							model.setNumber(`plane_${i}_sec_normal_count`, secNormals.length, true);
+							for (let j = 0; j < secNormals.length; j++)
+							{
+								const secNormal = secNormals[j];
+								model.setNumber(`plane_${i}_sec_normal_${j}_x`, secNormal.x, true);
+								model.setNumber(`plane_${i}_sec_normal_${j}_y`, secNormal.y, true);
+								model.setNumber(`plane_${i}_sec_normal_${j}_z`, secNormal.z, true);
+							}
 						}
 					}
 				}
@@ -1441,17 +1449,6 @@ export class RoomEngine extends Component implements
 		return this._roomObjectAliases.get(name) ?? name;
 	}
 
-	private getRoomIdentifier(roomId: number): string
-	{
-		return `${ROOM_ID_PREFIX}${roomId}`;
-	}
-
-	private onRoomObjectEvent(event: unknown): void
-	{
-		// Forward object events
-		this.events.emit('roomObjectEvent', event);
-	}
-
 	/**
 	 * Set the PixiJS stage for rendering
 	 */
@@ -1469,8 +1466,12 @@ export class RoomEngine extends Component implements
 
 		if (!this._renderingCanvases.has(key))
 		{
+			// Use actual window dimensions
+			const width = window.innerWidth;
+			const height = window.innerHeight;
+
 			// Create new rendering canvas
-			const canvas = new RoomRenderingCanvas(canvasId, 800, 600, 64);
+			const canvas = new RoomRenderingCanvas(canvasId, width, height, 64);
 
 			this._renderingCanvases.set(key, canvas);
 
@@ -1479,6 +1480,17 @@ export class RoomEngine extends Component implements
 			{
 				this._pixiStage.addChild(canvas.container);
 			}
+
+			// Listen for window resize to update canvas dimensions
+			const onResize = () =>
+			{
+				canvas.initialize(window.innerWidth, window.innerHeight);
+			};
+
+			window.addEventListener('resize', onResize);
+
+			// Store resize handler reference for cleanup (use the canvas container)
+			(canvas as any)._resizeHandler = onResize;
 		}
 
 		return this._renderingCanvases.get(key) ?? null;
@@ -1494,6 +1506,14 @@ export class RoomEngine extends Component implements
 
 		if (canvas)
 		{
+			// Remove resize handler if attached
+			const resizeHandler = (canvas as any)._resizeHandler;
+
+			if (resizeHandler)
+			{
+				window.removeEventListener('resize', resizeHandler);
+			}
+
 			// Remove from PixiJS stage
 			if (this._pixiStage && canvas.container.parent === this._pixiStage)
 			{
@@ -1503,6 +1523,69 @@ export class RoomEngine extends Component implements
 			canvas.dispose();
 			this._renderingCanvases.delete(key);
 		}
+	}
+
+	/**
+	 * Dispose the room engine
+	 */
+	override dispose(): void
+	{
+		// Unregister from update loop
+		this.removeUpdateReceiver(this);
+
+		// Dispose all rendering canvases
+		for (const [key, canvas] of this._renderingCanvases)
+		{
+			const resizeHandler = (canvas as any)._resizeHandler;
+
+			if (resizeHandler)
+			{
+				window.removeEventListener('resize', resizeHandler);
+			}
+
+			if (this._pixiStage && canvas.container.parent === this._pixiStage)
+			{
+				this._pixiStage.removeChild(canvas.container);
+			}
+
+			canvas.dispose();
+		}
+
+		this._renderingCanvases.clear();
+
+		// Dispose all visualizations
+		for (const visualization of this._roomVisualizations.values())
+		{
+			visualization.dispose();
+		}
+
+		this._roomVisualizations.clear();
+
+		// Clear stage reference
+		this._pixiStage = null;
+
+		super.dispose();
+	}
+
+	/**
+	 * Called when all dependencies are resolved.
+	 * Register for updates to drive the rendering loop.
+	 */
+	protected override initComponent(): void
+	{
+		// Register to receive update calls from the context
+		this.registerUpdateReceiver(this, 10);
+	}
+
+	private getRoomIdentifier(roomId: number): string
+	{
+		return `${ROOM_ID_PREFIX}${roomId}`;
+	}
+
+	private onRoomObjectEvent(event: unknown): void
+	{
+		// Forward object events
+		this.events.emit('roomObjectEvent', event);
 	}
 
 	/**

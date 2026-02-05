@@ -14,13 +14,6 @@ export class RoomPlaneData
 	public static readonly PLANE_WALL: number = 2;
 	public static readonly PLANE_LANDSCAPE: number = 3;
 	public static readonly PLANE_BILLBOARD: number = 4;
-
-	private _type: number;
-	private _loc: Vector3d;
-	private _leftSide: Vector3d;
-	private _rightSide: Vector3d;
-	private _normal: Vector3d | null = null;
-	private _normalDirection: Vector3d | null = null;
 	private _secondaryNormals: Vector3d[] = [];
 	private _masks: RoomPlaneMaskData[] = [];
 
@@ -60,12 +53,10 @@ export class RoomPlaneData
 
 					angleY = 360 + (Math.atan2(dy, dx) / Math.PI * 180);
 					if (angleY >= 360) angleY -= 360;
-				}
-				else if (this._normal.z < 0)
+				} else if (this._normal.z < 0)
 				{
 					angleY = 90;
-				}
-				else
+				} else
 				{
 					angleY = 270;
 				}
@@ -89,30 +80,42 @@ export class RoomPlaneData
 		}
 	}
 
+	private _type: number;
+
 	get type(): number
 	{
 		return this._type;
 	}
+
+	private _loc: Vector3d;
 
 	get loc(): IVector3d
 	{
 		return this._loc;
 	}
 
+	private _leftSide: Vector3d;
+
 	get leftSide(): IVector3d
 	{
 		return this._leftSide;
 	}
+
+	private _rightSide: Vector3d;
 
 	get rightSide(): IVector3d
 	{
 		return this._rightSide;
 	}
 
+	private _normal: Vector3d | null = null;
+
 	get normal(): IVector3d | null
 	{
 		return this._normal;
 	}
+
+	private _normalDirection: Vector3d | null = null;
 
 	get normalDirection(): IVector3d | null
 	{

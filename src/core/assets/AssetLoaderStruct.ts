@@ -13,14 +13,32 @@ import type {IAssetLoader} from './loaders/IAssetLoader';
 export class AssetLoaderStruct implements IDisposable
 {
 	private readonly _events: EventEmitter = new EventEmitter();
-	private _assetLoader: IAssetLoader | null;
 	private readonly _assetName: string;
-	private _disposed: boolean = false;
 
 	constructor(assetName: string, assetLoader: IAssetLoader)
 	{
 		this._assetName = assetName;
 		this._assetLoader = assetLoader;
+	}
+
+	private _assetLoader: IAssetLoader | null;
+
+	/**
+	 * The loader for this asset
+	 */
+	get assetLoader(): IAssetLoader | null
+	{
+		return this._assetLoader;
+	}
+
+	private _disposed: boolean = false;
+
+	/**
+	 * Whether this struct has been disposed
+	 */
+	get disposed(): boolean
+	{
+		return this._disposed;
 	}
 
 	/**
@@ -32,27 +50,11 @@ export class AssetLoaderStruct implements IDisposable
 	}
 
 	/**
-	 * The loader for this asset
-	 */
-	get assetLoader(): IAssetLoader | null
-	{
-		return this._assetLoader;
-	}
-
-	/**
 	 * Event emitter for this struct
 	 */
 	get events(): EventEmitter
 	{
 		return this._events;
-	}
-
-	/**
-	 * Whether this struct has been disposed
-	 */
-	get disposed(): boolean
-	{
-		return this._disposed;
 	}
 
 	/**

@@ -298,7 +298,7 @@ export class GuestRoomData
 		{
 			return;
 		}
-		
+
 		this._disposed = true;
 		this._tags = [];
 	}

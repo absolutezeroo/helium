@@ -1,5 +1,5 @@
 import {Component, Show} from 'solid-js';
-import {useModule, ModuleId} from '../../bridge';
+import {ModuleId, useModule} from '../../bridge';
 import {HabboCommunicationEvent} from '@habbo/communication/enum';
 
 /**

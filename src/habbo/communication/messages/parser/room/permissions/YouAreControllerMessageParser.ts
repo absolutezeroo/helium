@@ -9,12 +9,13 @@ import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 export class YouAreControllerMessageParser implements IMessageParser
 {
 	private _flatId: number = 0;
-	private _roomControllerLevel: number = 0;
 
 	public get flatId(): number
 	{
 		return this._flatId;
 	}
+
+	private _roomControllerLevel: number = 0;
 
 	public get roomControllerLevel(): number
 	{

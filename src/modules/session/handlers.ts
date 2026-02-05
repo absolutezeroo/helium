@@ -1,15 +1,23 @@
 import type {MessageHandlers} from '../core/types';
-import type {SessionState, UserData, AvailabilityStatus} from './types';
+import type {AvailabilityStatus, SessionState, UserData} from './types';
 
 // Parser types
 import type {UserObjectMessageParser} from '@habbo/communication/messages/parser/handshake/UserObjectMessageParser';
 import type {UserRightsMessageParser} from '@habbo/communication/messages/parser/handshake/UserRightsMessageParser';
 import type {FigureUpdateMessageParser} from '@habbo/communication/messages/parser/avatar/FigureUpdateMessageParser';
-import type {NavigatorSettingsMessageParser} from '@habbo/communication/messages/parser/navigator/NavigatorSettingsMessageParser';
+import type {
+	NavigatorSettingsMessageParser
+} from '@habbo/communication/messages/parser/navigator/NavigatorSettingsMessageParser';
 import type {FavouritesMessageParser} from '@habbo/communication/messages/parser/navigator/FavouritesMessageParser';
-import type {ActivityPointsMessageParser} from '@habbo/communication/messages/parser/notifications/ActivityPointsMessageParser';
-import type {AchievementsScoreMessageParser} from '@habbo/communication/messages/parser/inventory/AchievementsScoreMessageParser';
-import type {AvailabilityStatusMessageParser} from '@habbo/communication/messages/parser/availability/AvailabilityStatusMessageParser';
+import type {
+	ActivityPointsMessageParser
+} from '@habbo/communication/messages/parser/notifications/ActivityPointsMessageParser';
+import type {
+	AchievementsScoreMessageParser
+} from '@habbo/communication/messages/parser/inventory/AchievementsScoreMessageParser';
+import type {
+	AvailabilityStatusMessageParser
+} from '@habbo/communication/messages/parser/availability/AvailabilityStatusMessageParser';
 
 export const handlers: MessageHandlers<SessionState> = {
 

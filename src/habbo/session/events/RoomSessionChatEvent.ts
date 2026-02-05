@@ -24,13 +24,6 @@ export class RoomSessionChatEvent extends RoomSessionEvent
 	public static readonly CHAT_TYPE_PET_SPEED = 9;
 	public static readonly CHAT_TYPE_MUTE_REMAINING = 10;
 
-	private _userId: number;
-	private _text: string;
-	private _chatType: number;
-	private _styleId: number;
-	private _links: string[] | null;
-	private _extraParam: number;
-
 	constructor(
 		type: string,
 		session: IRoomSession,
@@ -51,30 +44,42 @@ export class RoomSessionChatEvent extends RoomSessionEvent
 		this._extraParam = extraParam;
 	}
 
+	private _userId: number;
+
 	get userId(): number
 	{
 		return this._userId;
 	}
+
+	private _text: string;
 
 	get text(): string
 	{
 		return this._text;
 	}
 
+	private _chatType: number;
+
 	get chatType(): number
 	{
 		return this._chatType;
 	}
+
+	private _styleId: number;
 
 	get styleId(): number
 	{
 		return this._styleId;
 	}
 
+	private _links: string[] | null;
+
 	get links(): string[] | null
 	{
 		return this._links;
 	}
+
+	private _extraParam: number;
 
 	get extraParam(): number
 	{

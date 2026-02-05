@@ -76,7 +76,7 @@ export class FloorHeightMapMessageParser implements IMessageParser
 		this._text = '';
 		this._fixedWallsHeight = -1;
 		this._areaHideData = [];
-		
+
 		return true;
 	}
 

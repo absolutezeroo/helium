@@ -65,8 +65,7 @@ export class BadgesModel implements IBadgesModel
 			if (isUnseen)
 			{
 				this._allBadges.unshift(badge);
-			}
-			else
+			} else
 			{
 				this._allBadges.push(badge);
 			}
@@ -97,14 +96,12 @@ export class BadgesModel implements IBadgesModel
 				if (isInUse)
 				{
 					this.startWearingBadge(badge);
-				}
-				else
+				} else
 				{
 					this.stopWearingBadge(badge);
 				}
 			}
-		}
-		else
+		} else
 		{
 			// Create new badge
 			const isUnseen = false; // Will be updated by store
@@ -116,8 +113,7 @@ export class BadgesModel implements IBadgesModel
 			if (isUnseen)
 			{
 				this._allBadges.unshift(badge);
-			}
-			else
+			} else
 			{
 				this._allBadges.push(badge);
 			}
@@ -159,8 +155,7 @@ export class BadgesModel implements IBadgesModel
 		if (badge.isInUse)
 		{
 			this.stopWearingBadge(badge);
-		}
-		else
+		} else
 		{
 			// Check if we can add more active badges
 			if (this._activeBadges.length >= BadgesModel.MAX_ACTIVE_BADGE_COUNT)

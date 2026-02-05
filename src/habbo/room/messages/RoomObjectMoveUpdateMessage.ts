@@ -10,10 +10,6 @@ import type {IVector3d} from '@room/utils/IVector3d';
 
 export class RoomObjectMoveUpdateMessage extends RoomObjectUpdateMessage
 {
-	private _targetLoc: IVector3d | null;
-	private _animationTime: number;
-	private _skipPositionUpdate: boolean;
-
 	constructor(
 		location: IVector3d | null,
 		direction: IVector3d | null,
@@ -28,15 +24,21 @@ export class RoomObjectMoveUpdateMessage extends RoomObjectUpdateMessage
 		this._skipPositionUpdate = skipPositionUpdate;
 	}
 
+	private _targetLoc: IVector3d | null;
+
 	get targetLoc(): IVector3d | null
 	{
 		return this._targetLoc;
 	}
 
+	private _animationTime: number;
+
 	get animationTime(): number
 	{
 		return this._animationTime;
 	}
+
+	private _skipPositionUpdate: boolean;
 
 	get skipPositionUpdate(): boolean
 	{

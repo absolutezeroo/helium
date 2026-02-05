@@ -10,9 +10,6 @@ export class RoomSessionDanceEvent extends RoomSessionEvent
 {
 	public static readonly RSDE_DANCE = 'RSDE_DANCE';
 
-	private _userId: number;
-	private _danceStyle: number;
-
 	constructor(session: IRoomSession, userId: number, danceStyle: number)
 	{
 		super(RoomSessionDanceEvent.RSDE_DANCE, session);
@@ -20,10 +17,14 @@ export class RoomSessionDanceEvent extends RoomSessionEvent
 		this._danceStyle = danceStyle;
 	}
 
+	private _userId: number;
+
 	get userId(): number
 	{
 		return this._userId;
 	}
+
+	private _danceStyle: number;
 
 	get danceStyle(): number
 	{

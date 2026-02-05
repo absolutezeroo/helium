@@ -13,6 +13,11 @@ export class VoteResultStuffData extends StuffDataBase
 	private _state: string = '';
 	private _result: number = 0;
 
+	get result(): number
+	{
+		return this._result;
+	}
+
 	override initializeFromIncomingMessage(wrapper: IMessageDataWrapper): void
 	{
 		this._state = wrapper.readString();
@@ -24,10 +29,5 @@ export class VoteResultStuffData extends StuffDataBase
 	override getLegacyString(): string
 	{
 		return this._state;
-	}
-
-	get result(): number
-	{
-		return this._result;
 	}
 }

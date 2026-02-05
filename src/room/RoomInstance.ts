@@ -14,11 +14,9 @@ import type {IRoomObjectManager} from './IRoomObjectManager';
 
 export class RoomInstance implements IRoomInstance
 {
-	private _id: string;
 	private _container: IRoomInstanceContainer | null;
 	private _managers: Map<string, IRoomObjectManager> = new Map();
 	private _updateCategories: number[] = [];
-
 	private _numbers: Map<string, number> = new Map();
 	private _strings: Map<string, string> = new Map();
 	private _immutableNumbers: string[] = [];
@@ -29,6 +27,8 @@ export class RoomInstance implements IRoomInstance
 		this._id = id;
 		this._container = container;
 	}
+
+	private _id: string;
 
 	get id(): string
 	{
@@ -286,6 +286,26 @@ export class RoomInstance implements IRoomInstance
 		return Array.from(this._managers.keys()).map(k => parseInt(k, 10));
 	}
 
+	hasUninitializedObjects(): boolean
+	{
+		for (const manager of this._managers.values())
+		{
+			const count = manager.objectCount;
+
+			for (let i = 0; i < count; i++)
+			{
+				const object = manager.getObjectByIndex(i);
+
+				if (object && !object.isInitialized())
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 	protected createObjectManager(category: number): IRoomObjectManager | null
 	{
 		const key = String(category);
@@ -328,26 +348,6 @@ export class RoomInstance implements IRoomInstance
 			manager.dispose();
 
 			return true;
-		}
-
-		return false;
-	}
-
-	hasUninitializedObjects(): boolean
-	{
-		for (const manager of this._managers.values())
-		{
-			const count = manager.objectCount;
-
-			for (let i = 0; i < count; i++)
-			{
-				const object = manager.getObjectByIndex(i);
-
-				if (object && !object.isInitialized())
-				{
-					return true;
-				}
-			}
 		}
 
 		return false;

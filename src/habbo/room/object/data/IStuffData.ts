@@ -17,9 +17,14 @@ export interface IStuffData
 	readonly rarityLevel: number;
 
 	initializeFromIncomingMessage(wrapper: IMessageDataWrapper): void;
+
 	initializeFromRoomObjectModel(model: IRoomObjectModel): void;
+
 	writeRoomObjectModel(model: IRoomObjectModelController): void;
+
 	getLegacyString(): string;
+
 	getJSONValue(key: string): string;
+
 	compare(data: IStuffData): boolean;
 }

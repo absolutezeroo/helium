@@ -14,46 +14,12 @@ let spriteInstanceCounter = 0;
 
 export class RoomObjectSprite implements IRoomObjectSprite
 {
-	private _texture: Texture | null = null;
-	private _assetName: string = '';
-	private _libraryAssetName: string = '';
-	private _assetPosture: string | null = null;
-	private _assetGesture: string | null = null;
-	private _visible: boolean = true;
-	private _tag: string = '';
-	private _alpha: number = 255;
-	private _color: number = 0xFFFFFF;
-	private _blendMode: string = 'normal';
-	private _flipH: boolean = false;
-	private _flipV: boolean = false;
-	private _direction: number = 0;
-	private _offsetX: number = 0;
-	private _offsetY: number = 0;
-	private _width: number = 0;
-	private _height: number = 0;
-	private _relativeDepth: number = 0;
-	private _varyingDepth: boolean = false;
-	private _alphaTolerance: number = 128;
-	private _clickHandling: boolean = false;
-	private _skipMouseHandling: boolean = false;
-	private _updateId: number = 0;
-	private _filters: unknown[] | null = null;
-	protected _spriteType: number = RoomObjectSpriteType.DEFAULT;
-	private _objectType: string | null = null;
-	private _instanceId: number;
-	private _planeId: number = 0;
-
 	constructor()
 	{
 		this._instanceId = spriteInstanceCounter++;
 	}
 
-	dispose(): void
-	{
-		this._texture = null;
-		this._width = 0;
-		this._height = 0;
-	}
+	private _texture: Texture | null = null;
 
 	// Texture
 	get texture(): Texture | null
@@ -78,6 +44,8 @@ export class RoomObjectSprite implements IRoomObjectSprite
 		this._updateId++;
 	}
 
+	private _assetName: string = '';
+
 	// Asset name
 	get assetName(): string
 	{
@@ -95,6 +63,8 @@ export class RoomObjectSprite implements IRoomObjectSprite
 		this._updateId++;
 	}
 
+	private _libraryAssetName: string = '';
+
 	// Library asset name
 	get libraryAssetName(): string
 	{
@@ -105,6 +75,8 @@ export class RoomObjectSprite implements IRoomObjectSprite
 	{
 		this._libraryAssetName = value;
 	}
+
+	private _assetPosture: string | null = null;
 
 	// Asset posture
 	get assetPosture(): string | null
@@ -117,6 +89,8 @@ export class RoomObjectSprite implements IRoomObjectSprite
 		this._assetPosture = value;
 	}
 
+	private _assetGesture: string | null = null;
+
 	// Asset gesture
 	get assetGesture(): string | null
 	{
@@ -127,6 +101,8 @@ export class RoomObjectSprite implements IRoomObjectSprite
 	{
 		this._assetGesture = value;
 	}
+
+	private _visible: boolean = true;
 
 	// Visible
 	get visible(): boolean
@@ -145,6 +121,8 @@ export class RoomObjectSprite implements IRoomObjectSprite
 		this._updateId++;
 	}
 
+	private _tag: string = '';
+
 	// Tag
 	get tag(): string
 	{
@@ -161,6 +139,8 @@ export class RoomObjectSprite implements IRoomObjectSprite
 		this._tag = value;
 		this._updateId++;
 	}
+
+	private _alpha: number = 255;
 
 	// Alpha
 	get alpha(): number
@@ -181,6 +161,8 @@ export class RoomObjectSprite implements IRoomObjectSprite
 		this._updateId++;
 	}
 
+	private _color: number = 0xFFFFFF;
+
 	// Color
 	get color(): number
 	{
@@ -200,6 +182,8 @@ export class RoomObjectSprite implements IRoomObjectSprite
 		this._updateId++;
 	}
 
+	private _blendMode: string = 'normal';
+
 	// Blend mode
 	get blendMode(): string
 	{
@@ -217,22 +201,7 @@ export class RoomObjectSprite implements IRoomObjectSprite
 		this._updateId++;
 	}
 
-	// Filters
-	get filters(): unknown[] | null
-	{
-		return this._filters;
-	}
-
-	set filters(value: unknown[] | null)
-	{
-		if (value === this._filters)
-		{
-			return;
-		}
-
-		this._filters = value;
-		this._updateId++;
-	}
+	private _flipH: boolean = false;
 
 	// Flip H
 	get flipH(): boolean
@@ -251,6 +220,8 @@ export class RoomObjectSprite implements IRoomObjectSprite
 		this._updateId++;
 	}
 
+	private _flipV: boolean = false;
+
 	// Flip V
 	get flipV(): boolean
 	{
@@ -268,6 +239,8 @@ export class RoomObjectSprite implements IRoomObjectSprite
 		this._updateId++;
 	}
 
+	private _direction: number = 0;
+
 	// Direction
 	get direction(): number
 	{
@@ -278,6 +251,8 @@ export class RoomObjectSprite implements IRoomObjectSprite
 	{
 		this._direction = value;
 	}
+
+	private _offsetX: number = 0;
 
 	// Offset X
 	get offsetX(): number
@@ -296,6 +271,8 @@ export class RoomObjectSprite implements IRoomObjectSprite
 		this._updateId++;
 	}
 
+	private _offsetY: number = 0;
+
 	// Offset Y
 	get offsetY(): number
 	{
@@ -313,17 +290,23 @@ export class RoomObjectSprite implements IRoomObjectSprite
 		this._updateId++;
 	}
 
+	private _width: number = 0;
+
 	// Width (read-only)
 	get width(): number
 	{
 		return this._width;
 	}
 
+	private _height: number = 0;
+
 	// Height (read-only)
 	get height(): number
 	{
 		return this._height;
 	}
+
+	private _relativeDepth: number = 0;
 
 	// Relative depth
 	get relativeDepth(): number
@@ -342,6 +325,8 @@ export class RoomObjectSprite implements IRoomObjectSprite
 		this._updateId++;
 	}
 
+	private _varyingDepth: boolean = false;
+
 	// Varying depth
 	get varyingDepth(): boolean
 	{
@@ -359,67 +344,7 @@ export class RoomObjectSprite implements IRoomObjectSprite
 		this._updateId++;
 	}
 
-	// Click handling
-	get clickHandling(): boolean
-	{
-		return this._clickHandling;
-	}
-
-	set clickHandling(value: boolean)
-	{
-		if (value === this._clickHandling)
-		{
-			return;
-		}
-
-		this._clickHandling = value;
-		this._updateId++;
-	}
-
-	// Skip mouse handling
-	get skipMouseHandling(): boolean
-	{
-		return this._skipMouseHandling;
-	}
-
-	set skipMouseHandling(value: boolean)
-	{
-		this._skipMouseHandling = value;
-	}
-
-	// Instance ID (read-only)
-	get instanceId(): number
-	{
-		return this._instanceId;
-	}
-
-	// Update ID (read-only)
-	get updateId(): number
-	{
-		return this._updateId;
-	}
-
-	// Sprite type
-	get spriteType(): number
-	{
-		return this._spriteType;
-	}
-
-	set spriteType(value: number)
-	{
-		this._spriteType = value;
-	}
-
-	// Object type
-	get objectType(): string | null
-	{
-		return this._objectType;
-	}
-
-	set objectType(value: string | null)
-	{
-		this._objectType = value;
-	}
+	private _alphaTolerance: number = 128;
 
 	// Alpha tolerance
 	get alphaTolerance(): number
@@ -438,6 +363,101 @@ export class RoomObjectSprite implements IRoomObjectSprite
 		this._updateId++;
 	}
 
+	private _clickHandling: boolean = false;
+
+	// Click handling
+	get clickHandling(): boolean
+	{
+		return this._clickHandling;
+	}
+
+	set clickHandling(value: boolean)
+	{
+		if (value === this._clickHandling)
+		{
+			return;
+		}
+
+		this._clickHandling = value;
+		this._updateId++;
+	}
+
+	private _skipMouseHandling: boolean = false;
+
+	// Skip mouse handling
+	get skipMouseHandling(): boolean
+	{
+		return this._skipMouseHandling;
+	}
+
+	set skipMouseHandling(value: boolean)
+	{
+		this._skipMouseHandling = value;
+	}
+
+	private _updateId: number = 0;
+
+	// Update ID (read-only)
+	get updateId(): number
+	{
+		return this._updateId;
+	}
+
+	private _filters: unknown[] | null = null;
+
+	// Filters
+	get filters(): unknown[] | null
+	{
+		return this._filters;
+	}
+
+	set filters(value: unknown[] | null)
+	{
+		if (value === this._filters)
+		{
+			return;
+		}
+
+		this._filters = value;
+		this._updateId++;
+	}
+
+	protected _spriteType: number = RoomObjectSpriteType.DEFAULT;
+
+	// Sprite type
+	get spriteType(): number
+	{
+		return this._spriteType;
+	}
+
+	set spriteType(value: number)
+	{
+		this._spriteType = value;
+	}
+
+	private _objectType: string | null = null;
+
+	// Object type
+	get objectType(): string | null
+	{
+		return this._objectType;
+	}
+
+	set objectType(value: string | null)
+	{
+		this._objectType = value;
+	}
+
+	private _instanceId: number;
+
+	// Instance ID (read-only)
+	get instanceId(): number
+	{
+		return this._instanceId;
+	}
+
+	private _planeId: number = 0;
+
 	// Plane ID
 	get planeId(): number
 	{
@@ -447,5 +467,12 @@ export class RoomObjectSprite implements IRoomObjectSprite
 	set planeId(value: number)
 	{
 		this._planeId = value;
+	}
+
+	dispose(): void
+	{
+		this._texture = null;
+		this._width = 0;
+		this._height = 0;
 	}
 }

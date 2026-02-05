@@ -9,19 +9,20 @@ import type {IRoomObject} from '../object/IRoomObject';
 
 export class RoomObjectEvent
 {
-	private _type: string;
-	private _object: IRoomObject | null;
-
 	constructor(type: string, object: IRoomObject | null)
 	{
 		this._type = type;
 		this._object = object;
 	}
 
+	private _type: string;
+
 	get type(): string
 	{
 		return this._type;
 	}
+
+	private _object: IRoomObject | null;
 
 	get object(): IRoomObject | null
 	{

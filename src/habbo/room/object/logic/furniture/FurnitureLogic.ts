@@ -37,26 +37,22 @@ export class FurnitureLogic extends MovingObjectLogic
 	private _locationOffset: Vector3d = new Vector3d();
 	private _directions: number[] = [];
 	private _widget: string | null = null;
-	private _contextMenu: string | null = null;
 
 	override get widget(): string | null
 	{
 		return this._widget;
 	}
 
-	protected set widgetType(value: string | null)
-	{
-		this._widget = value;
-	}
+	private _contextMenu: string | null = null;
 
 	override get contextMenu(): string | null
 	{
 		return this._contextMenu;
 	}
 
-	protected set contextMenuType(value: string | null)
+	override get object(): IRoomObjectController | null
 	{
-		this._contextMenu = value;
+		return super.object;
 	}
 
 	override set object(value: IRoomObjectController | null)
@@ -69,9 +65,14 @@ export class FurnitureLogic extends MovingObjectLogic
 		}
 	}
 
-	override get object(): IRoomObjectController | null
+	protected set widgetType(value: string | null)
 	{
-		return super.object;
+		this._widget = value;
+	}
+
+	protected set contextMenuType(value: string | null)
+	{
+		this._contextMenu = value;
 	}
 
 	override getEventTypes(): string[]
@@ -433,8 +434,7 @@ export class FurnitureLogic extends MovingObjectLogic
 				this._bounceStep = 1;
 				this._storedRotateMessage = message;
 				return;
-			}
-			else if (message.dir !== null)
+			} else if (message.dir !== null)
 			{
 				this.object?.setDirection(message.dir);
 			}
@@ -443,33 +443,6 @@ export class FurnitureLogic extends MovingObjectLogic
 		}
 
 		super.processUpdateMessage(message);
-	}
-
-	protected override getLocationOffset(): IVector3d | null
-	{
-		if (this._bounceStep > 0)
-		{
-			this._locationOffset.x = 0;
-			this._locationOffset.y = 0;
-
-			if (this._bounceStep <= FurnitureLogic.BOUNCE_STEPS / 2)
-			{
-				this._locationOffset.z = FurnitureLogic.BOUNCE_STEP_HEIGHT * this._bounceStep;
-			}
-			else if (this._bounceStep <= FurnitureLogic.BOUNCE_STEPS)
-			{
-				if (this._storedRotateMessage !== null)
-				{
-					super.processUpdateMessage(this._storedRotateMessage);
-					this._storedRotateMessage = null;
-				}
-				this._locationOffset.z = FurnitureLogic.BOUNCE_STEP_HEIGHT * (FurnitureLogic.BOUNCE_STEPS - this._bounceStep);
-			}
-
-			return this._locationOffset;
-		}
-
-		return null;
 	}
 
 	override update(time: number): void
@@ -500,6 +473,32 @@ export class FurnitureLogic extends MovingObjectLogic
 		}
 
 		super.tearDown();
+	}
+
+	protected override getLocationOffset(): IVector3d | null
+	{
+		if (this._bounceStep > 0)
+		{
+			this._locationOffset.x = 0;
+			this._locationOffset.y = 0;
+
+			if (this._bounceStep <= FurnitureLogic.BOUNCE_STEPS / 2)
+			{
+				this._locationOffset.z = FurnitureLogic.BOUNCE_STEP_HEIGHT * this._bounceStep;
+			} else if (this._bounceStep <= FurnitureLogic.BOUNCE_STEPS)
+			{
+				if (this._storedRotateMessage !== null)
+				{
+					super.processUpdateMessage(this._storedRotateMessage);
+					this._storedRotateMessage = null;
+				}
+				this._locationOffset.z = FurnitureLogic.BOUNCE_STEP_HEIGHT * (FurnitureLogic.BOUNCE_STEPS - this._bounceStep);
+			}
+
+			return this._locationOffset;
+		}
+
+		return null;
 	}
 
 	protected getAdClickUrl(model: { getString(key: string): string | null }): string | null

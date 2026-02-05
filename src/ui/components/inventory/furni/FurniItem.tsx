@@ -34,13 +34,15 @@ export function FurniItem(props: FurniItemProps): JSX.Element
 			{/* Placeholder for furni image */}
 			<div class="w-10 h-10 bg-slate-600/50 rounded flex items-center justify-center">
 				<svg class="w-6 h-6 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+						  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
 				</svg>
 			</div>
 
 			{/* Count badge */}
 			<Show when={props.count > 1}>
-				<span class="absolute bottom-1 right-1 min-w-[16px] h-[16px] flex items-center justify-center px-1 text-[10px] font-bold bg-slate-800 text-slate-300 rounded">
+				<span
+					class="absolute bottom-1 right-1 min-w-[16px] h-[16px] flex items-center justify-center px-1 text-[10px] font-bold bg-slate-800 text-slate-300 rounded">
 					{props.count > 99 ? '99+' : props.count}
 				</span>
 			</Show>
@@ -54,7 +56,8 @@ export function FurniItem(props: FurniItemProps): JSX.Element
 			<Show when={props.isLocked}>
 				<div class="absolute inset-0 flex items-center justify-center bg-slate-900/50 rounded-lg">
 					<svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+							  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
 					</svg>
 				</div>
 			</Show>

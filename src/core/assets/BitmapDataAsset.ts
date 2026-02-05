@@ -33,18 +33,9 @@ export interface Rectangle
  */
 export class BitmapDataAsset implements ILazyAsset
 {
-	private static _instances: number = 0;
-	private static _allocatedByteCount: number = 0;
-
 	public name: string = '';
-
-	private _disposed: boolean = false;
 	private _unknown: unknown = null;
 	private _bitmap: Texture | null = null;
-	private _offset: Point = {x: 0, y: 0};
-	private _rectangle: Rectangle | null = null;
-	private _flipH: boolean = false;
-	private _flipV: boolean = false;
 	private readonly _declaration: AssetTypeDeclaration;
 	private readonly _url: string;
 
@@ -55,50 +46,35 @@ export class BitmapDataAsset implements ILazyAsset
 		BitmapDataAsset._instances++;
 	}
 
+	private static _instances: number = 0;
+
 	static get instances(): number
 	{
 		return BitmapDataAsset._instances;
 	}
+
+	private static _allocatedByteCount: number = 0;
 
 	static get allocatedByteCount(): number
 	{
 		return BitmapDataAsset._allocatedByteCount;
 	}
 
-	get url(): string
+	private _disposed: boolean = false;
+
+	get disposed(): boolean
 	{
-		return this._url;
+		return this._disposed;
 	}
 
-	get flipH(): boolean
-	{
-		return this._flipH;
-	}
-
-	get flipV(): boolean
-	{
-		return this._flipV;
-	}
+	private _offset: Point = {x: 0, y: 0};
 
 	get offset(): Point
 	{
 		return this._offset;
 	}
 
-	get content(): Texture | null
-	{
-		if (!this._bitmap)
-		{
-			this.prepareLazyContent();
-		}
-
-		return this._bitmap;
-	}
-
-	get disposed(): boolean
-	{
-		return this._disposed;
-	}
+	private _rectangle: Rectangle | null = null;
 
 	get rectangle(): Rectangle | null
 	{
@@ -113,6 +89,35 @@ export class BitmapDataAsset implements ILazyAsset
 		}
 
 		return this._rectangle;
+	}
+
+	private _flipH: boolean = false;
+
+	get flipH(): boolean
+	{
+		return this._flipH;
+	}
+
+	private _flipV: boolean = false;
+
+	get flipV(): boolean
+	{
+		return this._flipV;
+	}
+
+	get url(): string
+	{
+		return this._url;
+	}
+
+	get content(): Texture | null
+	{
+		if (!this._bitmap)
+		{
+			this.prepareLazyContent();
+		}
+
+		return this._bitmap;
 	}
 
 	get declaration(): AssetTypeDeclaration
@@ -132,8 +137,7 @@ export class BitmapDataAsset implements ILazyAsset
 				{
 					BitmapDataAsset._allocatedByteCount -= this._bitmap.width * this._bitmap.height * 4;
 					this._bitmap.destroy(true);
-				}
-				catch (_e)
+				} catch (_e)
 				{
 				}
 			}

@@ -11,5 +11,6 @@ export {RoomObject} from './RoomObject';
 export {RoomObjectModel} from './RoomObjectModel';
 
 // Sub-modules
+export * from './enum';
 export * from './logic';
 export * from './visualization';
