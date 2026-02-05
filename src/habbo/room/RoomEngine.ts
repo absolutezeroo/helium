@@ -49,6 +49,9 @@ import {RoomObjectAvatarSignUpdateMessage} from './messages/RoomObjectAvatarSign
 import {RoomObjectAvatarOwnMessage} from './messages/RoomObjectAvatarOwnMessage';
 import type {IVector3d} from '@room/utils/IVector3d';
 import type {RoomPlaneParser} from './object/RoomPlaneParser';
+import {Logger} from "@/core";
+
+const log = Logger.getLogger('RoomEngine');
 
 // Room identifier prefix
 const ROOM_ID_PREFIX = 'room_';
@@ -951,7 +954,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		// If we have plane data, store it for rendering
 		if (planeParser !== null)
 		{
-			console.log(`[RoomEngine] Initializing room ${roomId} with ${planeParser.planeCount} planes`);
+			log.debug(`[RoomEngine] Initializing room ${roomId} with ${planeParser.planeCount} planes`);
 
 			// Store plane parser data on room model for later use by visualization
 			const roomObject = room.getObject(OBJECT_ID_ROOM, RoomObjectCategoryEnum.OBJECT_CATEGORY_ROOM) as IRoomObjectController;
@@ -1009,7 +1012,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 
 			if (roomVisualization)
 			{
-				console.log(`[RoomEngine] Created room visualization for room ${roomId}`);
+				log.debug(`[RoomEngine] Created room visualization for room ${roomId}`);
 			}
 		}
 

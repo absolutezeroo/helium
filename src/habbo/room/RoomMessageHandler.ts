@@ -120,6 +120,9 @@ import {GetHeightMapMessageComposer} from '../communication/messages/outgoing/ro
 
 // Room Object
 import {RoomPlaneParser} from './object/RoomPlaneParser';
+import {Logger} from "@/core";
+
+const log = Logger.getLogger('RoomMessageHandler');
 
 export class RoomMessageHandler
 {
@@ -275,7 +278,7 @@ export class RoomMessageHandler
 
 		const count = parser.aliasCount;
 
-		console.log(`[RoomMessageHandler] Received ${count} furniture aliases`);
+		log.debug(`[RoomMessageHandler] Received ${count} furniture aliases`);
 
 		for (let i = 0; i < count; i++)
 		{
@@ -315,7 +318,7 @@ export class RoomMessageHandler
 
 		// Process height map data
 		// This creates the stacking height map used for furniture placement
-		console.log(`[RoomMessageHandler] Height map received: ${parser.width}x${parser.height}`);
+		log.debug(`[RoomMessageHandler] Height map received: ${parser.width}x${parser.height}`);
 	}
 
 	private onFloorHeightMap(event: IMessageEvent): void
@@ -342,8 +345,6 @@ export class RoomMessageHandler
 		const width = parser.width;
 		const height = parser.height;
 
-		console.log(`[RoomMessageHandler] Floor height map received: ${width}x${height}, scale: ${parser.scale}`);
-
 		// Reset and initialize plane parser
 		this._planeParser.reset();
 		this._planeParser.initializeTileMap(width, height);
@@ -360,8 +361,6 @@ export class RoomMessageHandler
 
 		// Initialize from tile data (generates floor/wall planes)
 		this._planeParser.initializeFromTileData(parser.fixedWallsHeight);
-
-		console.log(`[RoomMessageHandler] Plane parser generated ${this._planeParser.planeCount} planes`);
 
 		// Initialize room with plane parser data
 		if (this._roomCreator !== null)

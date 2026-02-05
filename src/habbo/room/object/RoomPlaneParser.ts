@@ -868,7 +868,13 @@ export class RoomPlaneParser
 
 	private checkWallHiding(wallData: RoomWallData, originalWallData: RoomWallData | null): void
 	{
-		this.hidePeninsulaWallChains(wallData);
+		// AS3: hidePeninsulaWallChains uses param2 (originalWallData), NOT wallData
+		// This is important because originalWallData has the original wall structure
+		// before floor holes are applied
+		if (originalWallData !== null)
+		{
+			this.hidePeninsulaWallChains(originalWallData);
+		}
 		this.updateWallsNextToHoles(wallData);
 
 		if (originalWallData !== null)

@@ -17,6 +17,9 @@ import {RoomPlane} from './RoomPlane';
 import {Vector3d} from '@room/utils/Vector3d';
 import type {IVector3d} from '@room/utils/IVector3d';
 import {RoomPlaneData} from '@habbo/room/object/RoomPlaneData';
+import {Logger} from "@/core";
+
+const log = Logger.getLogger('RoomVisualization');
 
 export class RoomVisualization extends RoomObjectSpriteVisualization
 {
@@ -203,6 +206,7 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 
 		if (roomObject === null)
 		{
+			log.debug('[RoomVisualization] No room object');
 			return;
 		}
 
@@ -210,6 +214,7 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 
 		if (model === null)
 		{
+			log.debug('[RoomVisualization] No model');
 			return;
 		}
 
@@ -218,10 +223,13 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 
 		if (isNaN(planeCount) || planeCount <= 0)
 		{
+			log.debug('[RoomVisualization] Invalid plane count');
 			return;
 		}
 
 		this.createPlanesAndSprites(planeCount, model, roomObject);
+
+		log.debug(`[RoomVisualization] Created ${this._planes.length} planes`);
 	}
 
 	protected defineSprites(startIndex: number = 0): void
@@ -393,6 +401,7 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 			// Read secondary normals from model
 			const secondaryNormals: IVector3d[] = [];
 			const secNormalCount = modelAccessor.getNumber(`plane_${i}_sec_normal_count`);
+
 			if (!isNaN(secNormalCount) && secNormalCount > 0)
 			{
 				for (let j = 0; j < secNormalCount; j++)
@@ -400,6 +409,7 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 					const secX = modelAccessor.getNumber(`plane_${i}_sec_normal_${j}_x`);
 					const secY = modelAccessor.getNumber(`plane_${i}_sec_normal_${j}_y`);
 					const secZ = modelAccessor.getNumber(`plane_${i}_sec_normal_${j}_z`);
+
 					if (!isNaN(secX) && !isNaN(secY) && !isNaN(secZ))
 					{
 						secondaryNormals.push(new Vector3d(secX, secY, secZ));
@@ -486,6 +496,7 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 		}
 
 		this._initialized = true;
+
 		this.defineSprites();
 	}
 
@@ -540,6 +551,7 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 		this._planeIndexMap.clear();
 		this._initialized = false;
 		this._updateCount++;
+
 		this.reset();
 	}
 }

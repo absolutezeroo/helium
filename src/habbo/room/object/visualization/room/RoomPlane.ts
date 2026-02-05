@@ -19,6 +19,7 @@ export class RoomPlane
 	public static readonly TYPE_WALL: number = 1;
 	public static readonly TYPE_FLOOR: number = 2;
 	public static readonly TYPE_LANDSCAPE: number = 3;
+
 	private _randomSeed: number = 0;
 	private _origin: Vector3d;
 	private _secondaryNormals: Vector3d[] = [];
@@ -276,13 +277,25 @@ export class RoomPlane
 
 		if (needsUpdate)
 		{
-			// Check visibility using normal and direction axis
-			// Skip culling for floor planes to debug the issue
-			if (this._type !== RoomPlane.TYPE_FLOOR)
-			{
-				const cosAngle = Vector3d.cosAngle(geometry.directionAxis as Vector3d, this._normal);
+			// Check visibility using normal and direction axis (AS3: lines 383-400)
+			const cosAngle = Vector3d.cosAngle(geometry.directionAxis as Vector3d, this._normal);
 
-				if (cosAngle > -0.001)
+			if (cosAngle > -0.001)
+			{
+				if (this._isVisible)
+				{
+					this._isVisible = false;
+					return true;
+				}
+				return false;
+			}
+
+			// Check secondary normals
+			for (const secondaryNormal of this._secondaryNormals)
+			{
+				const secondaryCos = Vector3d.cosAngle(geometry.directionAxis as Vector3d, secondaryNormal);
+
+				if (secondaryCos > -0.001)
 				{
 					if (this._isVisible)
 					{
@@ -291,28 +304,12 @@ export class RoomPlane
 					}
 					return false;
 				}
-
-				// Check secondary normals
-				for (const secondaryNormal of this._secondaryNormals)
-				{
-					const secondaryCos = Vector3d.cosAngle(geometry.directionAxis as Vector3d, secondaryNormal);
-
-					if (secondaryCos > -0.001)
-					{
-						if (this._isVisible)
-						{
-							this._isVisible = false;
-							return true;
-						}
-						return false;
-					}
-				}
 			}
 
-			// Update corner positions
+			// Update corner positions (transforms to local space)
 			this.updateCorners(geometry);
 
-			// Calculate depth
+			// Calculate depth (AS3: lines 404-412)
 			const originScreen = geometry.getScreenPosition(this._origin);
 			const originZ = originScreen !== null ? originScreen.z : 0;
 
@@ -365,7 +362,7 @@ export class RoomPlane
 
 	private updateCorners(geometry: IRoomGeometry): void
 	{
-		// Calculate corner positions in screen space
+		// Calculate corner positions in screen space (AS3: lines 673-676)
 		const aPos = geometry.getScreenPosition(this._location);
 		const bPos = geometry.getScreenPosition(Vector3d.sum(this._location, this._rightSide)!);
 		const cPos = geometry.getScreenPosition(Vector3d.sum(Vector3d.sum(this._location, this._leftSide)!, this._rightSide)!);
@@ -376,7 +373,7 @@ export class RoomPlane
 		if (cPos !== null) this._cornerC.assign(cPos);
 		if (dPos !== null) this._cornerD.assign(dPos);
 
-		// Calculate offset
+		// Calculate offset from room origin (AS3: line 677)
 		const offsetPoint = geometry.getScreenPoint(this._origin);
 		if (offsetPoint !== null)
 		{
@@ -384,7 +381,7 @@ export class RoomPlane
 			this._offset.y = Math.round(offsetPoint.y);
 		}
 
-		// Round corner positions
+		// Round corner positions (AS3: lines 678-687)
 		this._cornerA.x = Math.round(this._cornerA.x);
 		this._cornerA.y = Math.round(this._cornerA.y);
 		this._cornerB.x = Math.round(this._cornerB.x);
@@ -394,16 +391,20 @@ export class RoomPlane
 		this._cornerD.x = Math.round(this._cornerD.x);
 		this._cornerD.y = Math.round(this._cornerD.y);
 
-		// Calculate bounding box
+		// Calculate bounding box (AS3: lines 688-691)
 		const minX = Math.min(this._cornerA.x, this._cornerB.x, this._cornerC.x, this._cornerD.x);
 		const maxX = Math.max(this._cornerA.x, this._cornerB.x, this._cornerC.x, this._cornerD.x);
 		const minY = Math.min(this._cornerA.y, this._cornerB.y, this._cornerC.y, this._cornerD.y);
 		const maxY = Math.max(this._cornerA.y, this._cornerB.y, this._cornerC.y, this._cornerD.y);
 
-		// Adjust coordinates relative to bounding box
+		// Calculate dimensions (AS3: lines 692, 698, 704-705)
+		this._width = maxX - minX;
+		this._height = maxY - minY;
+
+		// Transform corners AND offset to local space (AS3: lines 693-703)
+		// This is CRITICAL - AS3 subtracts minX/minY from ALL corners and offset
 		this._offset.x -= minX;
 		this._offset.y -= minY;
-
 		this._cornerA.x -= minX;
 		this._cornerA.y -= minY;
 		this._cornerB.x -= minX;
@@ -412,9 +413,6 @@ export class RoomPlane
 		this._cornerC.y -= minY;
 		this._cornerD.x -= minX;
 		this._cornerD.y -= minY;
-
-		this._width = maxX - minX;
-		this._height = maxY - minY;
 	}
 
 	private render(geometry: IRoomGeometry): void
@@ -432,20 +430,20 @@ export class RoomPlane
 			return;
 		}
 
-		// Draw the plane as a filled polygon using explicit path
-		const fillColor = this._color;
-
-		// Start the path
-		this._graphics.moveTo(this._cornerA.x, this._cornerA.y);
-		this._graphics.lineTo(this._cornerB.x, this._cornerB.y);
-		this._graphics.lineTo(this._cornerC.x, this._cornerC.y);
-		this._graphics.lineTo(this._cornerD.x, this._cornerD.y);
-		this._graphics.closePath();
-
-		// Fill the polygon
-		this._graphics.fill({color: fillColor, alpha: 1});
+		// Draw the plane as a filled polygon using PixiJS v8 poly() method
+		// Corners are in LOCAL space (0 to width/height) after updateCorners transformation
+		this._graphics
+			.poly([
+				this._cornerA.x, this._cornerA.y,
+				this._cornerB.x, this._cornerB.y,
+				this._cornerC.x, this._cornerC.y,
+				this._cornerD.x, this._cornerD.y
+			])
+			.fill({color: this._color});
 
 		// Position the graphics at the offset
+		// offset = screenPoint(_origin) - minX/minY
+		// So -offset = minX - screenPoint(_origin), which positions the plane relative to the room origin
 		this._graphics.x = -this._offset.x;
 		this._graphics.y = -this._offset.y;
 	}

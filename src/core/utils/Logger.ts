@@ -184,7 +184,9 @@ export class Logger
 	outgoing(messageId: number, messageName?: string): void
 	{
 		if (this._config.level > LogLevel.DEBUG) return;
+
 		const name = messageName ? ` (${messageName})` : '';
+
 		console.log(
 			`%c→ %c[${this._name}]%c Sent: %c${messageId}${name}`,
 			'color: #2196F3; font-weight: bold',
@@ -231,6 +233,7 @@ export class Logger
 		if (this._config.showTimestamp)
 		{
 			const time = new Date().toISOString().substring(11, 23);
+
 			format += `%c${time} `;
 			parts.push('color: #888');
 		}
