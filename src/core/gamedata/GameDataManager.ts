@@ -150,11 +150,10 @@ export class GameDataManager extends Component implements IGameDataManager
 		this.events.emit('furnitureLoaded');
 	}
 
-	private parseFloorItems(items: unknown[]): void
+	private parseFloorItems(items: Record<string, unknown>[]): void
 	{
-		for (const item of items)
+		for (const furni of items)
 		{
-			const furni = item as Record<string, unknown>; // cast: type assertion required
 			if (!furni) continue;
 
 			const colors = this.parseColors(furni.partcolors);
@@ -193,11 +192,10 @@ export class GameDataManager extends Component implements IGameDataManager
 		}
 	}
 
-	private parseWallItems(items: unknown[]): void
+	private parseWallItems(items: Record<string, unknown>[]): void
 	{
-		for (const item of items)
+		for (const furni of items)
 		{
-			const furni = item as Record<string, unknown>; // cast: type assertion required
 			if (!furni) continue;
 
 			const furniture: IFurnitureData = {

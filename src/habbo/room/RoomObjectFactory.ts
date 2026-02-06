@@ -7,6 +7,7 @@
  */
 import {EventEmitter} from 'eventemitter3';
 import type {IRoomObjectFactory} from '@room/IRoomObjectFactory';
+import type {RoomObjectEvent} from '@room/events/RoomObjectEvent';
 import type {IRoomObjectEventHandler} from '@room/object/logic/IRoomObjectEventHandler';
 import type {IRoomObjectManager} from '@room/IRoomObjectManager';
 import type {IRoomObjectVisualization} from '@room/object/visualization/IRoomObjectVisualization';
@@ -43,7 +44,7 @@ export class RoomObjectFactory implements IRoomObjectFactory
 {
 	private _registeredTypes: Map<string, boolean>;
 	private _trackedEventTypes: Map<string, boolean>;
-	private _objectEventListeners: Array<(event: unknown) => void>;
+	private _objectEventListeners: Array<(event: RoomObjectEvent) => void>;
 
 	constructor()
 	{
@@ -60,7 +61,7 @@ export class RoomObjectFactory implements IRoomObjectFactory
 		return this._events;
 	}
 
-	public addObjectEventListener(callback: (event: unknown) => void): void
+	public addObjectEventListener(callback: (event: RoomObjectEvent) => void): void
 	{
 		if (this._objectEventListeners.indexOf(callback) < 0)
 		{
@@ -76,7 +77,7 @@ export class RoomObjectFactory implements IRoomObjectFactory
 		}
 	}
 
-	public removeObjectEventListener(callback: (event: unknown) => void): void
+	public removeObjectEventListener(callback: (event: RoomObjectEvent) => void): void
 	{
 		const index = this._objectEventListeners.indexOf(callback);
 

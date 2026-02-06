@@ -72,10 +72,6 @@ export class MessageEvent implements IMessageEvent
 		if (this._disposed) return;
 		this._disposed = true;
 
-		// TS-009: Intentional null assignment for disposal - fields are non-nullable by type
-		// but must be cleared to release references. The `_disposed` flag guards access.
-		this._callback = null as unknown as MessageEventCallback; // cast: disposal null assignment
-		this._parserClass = null as unknown as ParserClass; // cast: disposal null assignment
 		this._connection = null;
 		this._parser = null;
 	}

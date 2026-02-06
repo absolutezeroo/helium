@@ -15,8 +15,8 @@ import {RoomObjectMouseEvent} from '@room/events/RoomObjectMouseEvent';
 import {RoomObjectStateChangeEvent} from '@habbo/room/events/RoomObjectStateChangeEvent';
 import {RoomObjectWidgetRequestEvent} from '@habbo/room/events/RoomObjectWidgetRequestEvent';
 import {RoomObjectRoomAdEvent} from '@habbo/room/events/RoomObjectRoomAdEvent';
-import type {RoomObjectDataUpdateMessage} from '@habbo/room/messages/RoomObjectDataUpdateMessage';
-import type {RoomObjectHeightUpdateMessage} from '@habbo/room/messages/RoomObjectHeightUpdateMessage';
+import {RoomObjectDataUpdateMessage} from '@habbo/room/messages/RoomObjectDataUpdateMessage';
+import {RoomObjectHeightUpdateMessage} from '@habbo/room/messages/RoomObjectHeightUpdateMessage';
 import {MovingObjectLogic} from '../MovingObjectLogic';
 
 export class FurnitureLogic extends MovingObjectLogic
@@ -399,19 +399,15 @@ export class FurnitureLogic extends MovingObjectLogic
 			return;
 		}
 
-		// Check for data update message
-		const dataMessage = message as unknown as RoomObjectDataUpdateMessage; // cast: intermediate unknown assertion
-		if ('state' in message && 'data' in message && typeof (message as RoomObjectDataUpdateMessage).state === 'number')
+		if (message instanceof RoomObjectDataUpdateMessage)
 		{
-			this.handleDataUpdateMessage(dataMessage);
+			this.handleDataUpdateMessage(message);
 			return;
 		}
 
-		// Check for height update message
-		const heightMessage = message as unknown as RoomObjectHeightUpdateMessage; // cast: intermediate unknown assertion
-		if ('height' in message && typeof (message as RoomObjectHeightUpdateMessage).height === 'number')
+		if (message instanceof RoomObjectHeightUpdateMessage)
 		{
-			this.handleHeightUpdateMessage(heightMessage);
+			this.handleHeightUpdateMessage(message);
 			return;
 		}
 

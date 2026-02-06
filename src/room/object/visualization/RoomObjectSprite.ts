@@ -6,7 +6,7 @@
  * Represents a single visual sprite element in a room object visualization.
  * Tracks property changes via updateId for efficient rendering.
  */
-import type {Texture} from 'pixi.js';
+import type {Filter, Texture} from 'pixi.js';
 import type {IRoomObjectSprite} from './IRoomObjectSprite';
 import {RoomObjectSpriteType} from '../enum/RoomObjectSpriteType';
 
@@ -403,15 +403,15 @@ export class RoomObjectSprite implements IRoomObjectSprite
 		return this._updateId;
 	}
 
-	private _filters: unknown[] | null = null;
+	private _filters: Filter[] | null = null;
 
 	// Filters
-	get filters(): unknown[] | null
+	get filters(): Filter[] | null
 	{
 		return this._filters;
 	}
 
-	set filters(value: unknown[] | null)
+	set filters(value: Filter[] | null)
 	{
 		if (value === this._filters)
 		{

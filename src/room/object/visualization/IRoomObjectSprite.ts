@@ -5,7 +5,7 @@
  *
  * Interface for individual sprite elements in room object visualizations.
  */
-import type {Texture} from 'pixi.js';
+import type {Filter, Texture} from 'pixi.js';
 
 export interface IRoomObjectSprite
 {
@@ -19,7 +19,7 @@ export interface IRoomObjectSprite
 	alpha: number;
 	color: number;
 	blendMode: string;
-	filters: unknown[] | null;
+	filters: Filter[] | null;
 	flipH: boolean;
 	flipV: boolean;
 	direction: number;

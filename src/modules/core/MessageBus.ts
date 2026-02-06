@@ -1,4 +1,5 @@
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
+import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 import { Logger } from '@core/utils/Logger';
 import type {Middleware, IMiddlewareContext} from './middleware/types';
 
@@ -8,7 +9,7 @@ import type {Middleware, IMiddlewareContext} from './middleware/types';
  */
 export class MessageBus
 {
-	private handlers = new Map<string, Set<(parser: unknown) => void>>();
+	private handlers = new Map<string, Set<(parser: IMessageParser) => void>>();
 	private middlewares: Middleware[] = [];
 
 	/**
@@ -26,7 +27,7 @@ export class MessageBus
 	 * @param handler Function called with the parser
 	 * @returns Unsubscribe function
 	 */
-	public on(eventName: string, handler: (parser: unknown) => void): () => void
+	public on(eventName: string, handler: (parser: IMessageParser) => void): () => void
 	{
 		if (!this.handlers.has(eventName))
 		{
@@ -41,7 +42,7 @@ export class MessageBus
 	/**
 	 * Remove a handler
 	 */
-	public off(eventName: string, handler: (parser: unknown) => void): void
+	public off(eventName: string, handler: (parser: IMessageParser) => void): void
 	{
 		this.handlers.get(eventName)?.delete(handler);
 	}
@@ -116,7 +117,7 @@ export class MessageBus
 		}
 	}
 
-	private executeHandlers(eventName: string, parser: unknown): void
+	private executeHandlers(eventName: string, parser: IMessageParser): void
 	{
 		const handlers = this.handlers.get(eventName);
 

@@ -10,6 +10,7 @@
  * It does NOT manage rooms directly - that's RoomManager's responsibility.
  */
 import type {Container} from 'pixi.js';
+import type {RoomObjectEvent} from '@room/events/RoomObjectEvent';
 import {Component, ComponentDependency, type IContext, type IUpdateReceiver} from '@core/runtime';
 import type {IConnection} from '@core/communication/connection/IConnection';
 import type {IRoomInstance} from '@room/IRoomInstance';
@@ -1568,7 +1569,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return `${ROOM_ID_PREFIX}${roomId}`;
 	}
 
-	private onRoomObjectEvent(event: unknown): void
+	private onRoomObjectEvent(event: RoomObjectEvent): void
 	{
 		// Forward object events
 		this.events.emit('roomObjectEvent', event);

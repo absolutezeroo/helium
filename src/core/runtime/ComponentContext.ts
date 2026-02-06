@@ -54,15 +54,11 @@ export class ComponentContext extends Component implements IContext
 
 	constructor(parentContext?: IContext)
 	{
-		// Pass self as context if no parent, otherwise pass parent
-		// Note: We need to construct Component with a valid context
-		// For root context, we'll set it up specially
-		super(parentContext ?? (null as unknown as IContext), ComponentFlags.CONTEXT); // cast: intermediate unknown assertion
+		super(parentContext ?? null, ComponentFlags.CONTEXT);
 
 		// For root context, we are our own context
 		if (!parentContext)
 		{
-			// @ts-ignore - Accessing private field for root context setup
 			this._context = this;
 		}
 	}

@@ -6,6 +6,7 @@
  * Factory interface for creating room object logic, visualization and managers.
  */
 import type {EventEmitter} from 'eventemitter3';
+import type {RoomObjectEvent} from './events/RoomObjectEvent';
 import type {IRoomObjectEventHandler} from './object/logic/IRoomObjectEventHandler';
 import type {IRoomObjectManager} from './IRoomObjectManager';
 import type {IRoomObjectVisualization} from './object/visualization/IRoomObjectVisualization';
@@ -14,9 +15,9 @@ export interface IRoomObjectFactory
 {
 	readonly events: EventEmitter;
 
-	addObjectEventListener(callback: (event: unknown) => void): void;
+	addObjectEventListener(callback: (event: RoomObjectEvent) => void): void;
 
-	removeObjectEventListener(callback: (event: unknown) => void): void;
+	removeObjectEventListener(callback: (event: RoomObjectEvent) => void): void;
 
 	createRoomObjectLogic(type: string): IRoomObjectEventHandler | null;
 

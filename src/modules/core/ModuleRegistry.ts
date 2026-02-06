@@ -11,7 +11,7 @@ import type {MessageBus} from './MessageBus';
 export class ModuleRegistry
 {
 	private modules = new Map<string, ILoadedModule>();
-	private definitions = new Map<string, IModuleDefinition>();
+	private definitions = new Map<string, Pick<IModuleDefinition, 'onDispose'>>();
 	private states = new Map<string, object>();
 	private subscribers = new Map<string, Set<StateListener>>();
 	private handlerCleanups = new Map<string, Array<() => void>>();
@@ -51,7 +51,7 @@ export class ModuleRegistry
 			let state: S = {...initialState};
 
 			this.states.set(id, state);
-			this.definitions.set(id, definition as unknown as IModuleDefinition); // cast: intermediate unknown assertion
+			this.definitions.set(id, definition);
 
 			// 2. Resolve managers via IID (async)
 			const managerKeys = Object.keys(managerIIDs) as (keyof M)[];

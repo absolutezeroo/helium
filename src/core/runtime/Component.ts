@@ -85,7 +85,7 @@ export class Component implements IDisposable
 	protected _lastError: string = '';
 	protected _lastWarning: string = '';
 	protected _lastDebug: string = '';
-	private readonly _context: IContext;
+	protected _context!: IContext;
 	private readonly _events: EventEmitter;
 	private readonly _interfaces: Map<symbol, IInterfaceStruct> = new Map();
 	private readonly _cleanupFunctions: Array<() => void> = [];
@@ -93,18 +93,20 @@ export class Component implements IDisposable
 	private _pendingDependencies: Set<string> = new Set();
 	private _constructionComplete: boolean = false;
 
-	constructor(context: IContext, flags: number = 0, assetLibrary: IAssetLibrary | null = null)
+	constructor(context: IContext | null, flags: number = 0, assetLibrary: IAssetLibrary | null = null)
 	{
-		this._context = context;
-		this._flags = flags;
-		this._events = new EventEmitter();
-		this._assets = assetLibrary;
-
-		// Allow null context for ComponentContext (CONTEXT flag), which sets itself as context after super()
-		if (!this._context && !(flags & ComponentFlags.CONTEXT))
+		if (context)
+		{
+			this._context = context;
+		}
+		else if (!(flags & ComponentFlags.CONTEXT))
 		{
 			throw new Error(`[Component] IContext not provided to ${this.constructor.name}`);
 		}
+
+		this._flags = flags;
+		this._events = new EventEmitter();
+		this._assets = assetLibrary;
 
 		// Get dependencies and set up injection
 		const deps = this.dependencies;

@@ -591,49 +591,49 @@ export class AssetLibrary extends Component implements IAssetLibrary
 	{
 		// Binary/Unknown
 		this.registerAssetTypeDeclaration(
-			new AssetTypeDeclaration('application/octet-stream', UnknownAsset as AssetClass, BinaryFileLoader as unknown as AssetLoaderClass), // cast: intermediate unknown assertion
+			new AssetTypeDeclaration('application/octet-stream', UnknownAsset, BinaryFileLoader),
 			true
 		);
 
 		// Text
 		this.registerAssetTypeDeclaration(
-			new AssetTypeDeclaration('text/plain', TextAsset as AssetClass, TextFileLoader as unknown as AssetLoaderClass, 'txt'), // cast: intermediate unknown assertion
+			new AssetTypeDeclaration('text/plain', TextAsset, TextFileLoader, 'txt'),
 			true
 		);
 
 		// XML / HTML
 		this.registerAssetTypeDeclaration(
-			new AssetTypeDeclaration('text/xml', XmlAsset as AssetClass, TextFileLoader as unknown as AssetLoaderClass, 'xml'), // cast: intermediate unknown assertion
+			new AssetTypeDeclaration('text/xml', XmlAsset, TextFileLoader, 'xml'),
 			true
 		);
 		this.registerAssetTypeDeclaration(
-			new AssetTypeDeclaration('text/html', XmlAsset as AssetClass, TextFileLoader as unknown as AssetLoaderClass, 'htm', 'html'), // cast: intermediate unknown assertion
+			new AssetTypeDeclaration('text/html', XmlAsset, TextFileLoader, 'htm', 'html'),
 			true
 		);
 
 		// Images
 		this.registerAssetTypeDeclaration(
-			new AssetTypeDeclaration('image/png', BitmapDataAsset as AssetClass, BitmapFileLoader as unknown as AssetLoaderClass, 'png'), // cast: intermediate unknown assertion
+			new AssetTypeDeclaration('image/png', BitmapDataAsset, BitmapFileLoader, 'png'),
 			true
 		);
 		this.registerAssetTypeDeclaration(
-			new AssetTypeDeclaration('image/jpeg', BitmapDataAsset as AssetClass, BitmapFileLoader as unknown as AssetLoaderClass, 'jpg', 'jpeg'), // cast: intermediate unknown assertion
+			new AssetTypeDeclaration('image/jpeg', BitmapDataAsset, BitmapFileLoader, 'jpg', 'jpeg'),
 			true
 		);
 		this.registerAssetTypeDeclaration(
-			new AssetTypeDeclaration('image/gif', BitmapDataAsset as AssetClass, BitmapFileLoader as unknown as AssetLoaderClass, 'gif'), // cast: intermediate unknown assertion
+			new AssetTypeDeclaration('image/gif', BitmapDataAsset, BitmapFileLoader, 'gif'),
 			true
 		);
 
 		// Audio
 		this.registerAssetTypeDeclaration(
-			new AssetTypeDeclaration('audio/mpeg', SoundAsset as AssetClass, SoundFileLoader as unknown as AssetLoaderClass, 'mp3'), // cast: intermediate unknown assertion
+			new AssetTypeDeclaration('audio/mpeg', SoundAsset, SoundFileLoader, 'mp3'),
 			true
 		);
 
 		// Nitro bundle (our custom format)
 		this.registerAssetTypeDeclaration(
-			new AssetTypeDeclaration('application/x-nitro-bundle', NitroAsset as AssetClass, NitroBundleLoader as unknown as AssetLoaderClass, 'nitro'), // cast: intermediate unknown assertion
+			new AssetTypeDeclaration('application/x-nitro-bundle', NitroAsset, NitroBundleLoader, 'nitro'),
 			true
 		);
 
