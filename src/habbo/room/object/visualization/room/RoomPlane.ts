@@ -653,9 +653,12 @@ export class RoomPlane
 				this._cornerB.x, this._cornerB.y,
 				this._cornerC.x, this._cornerC.y,
 				this._cornerD.x, this._cornerD.y
-			]);
+			])
+			.fill(this._color);
 
 		// Apply rectangle masks as cutouts (door openings in walls)
+		// PixiJS v8: .cut() attaches the current path as a hole to the PREVIOUS fill instruction.
+		// So .fill() must come BEFORE .cut().
 		if (this._rectangleMasks.length > 0)
 		{
 			const leftLen = this._leftSide.length;
@@ -671,8 +674,6 @@ export class RoomPlane
 				}
 			}
 		}
-
-		this._graphics.fill(this._color);
 
 		this._graphics.x = -this._offset.x;
 		this._graphics.y = -this._offset.y;

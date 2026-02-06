@@ -1,44 +1,27 @@
 import type {JSX} from 'solid-js';
-import {createSignal, For, onMount, Show} from 'solid-js';
+import {createMemo, createSignal, For, Show} from 'solid-js';
 import clsx from 'clsx';
+import {ModuleId, useActions, useModule} from '../../bridge';
+import {useLocalization} from '@/ui/components/common';
+import {useDraggable} from '@/ui/hooks';
 import {NavigatorHeader, NavigatorIcon} from './common';
-import type {TabDefinition} from './tabs';
-import {NavigatorTabs} from './tabs';
-import {NavigatorSearch} from './search';
-import type {NavigatorBlockData, RoomListViewMode} from './rooms';
-import {NavigatorBlockSection} from './rooms';
-import {useDraggable} from '../../hooks/useDraggable';
-import {useNavigatorLocalization} from './hooks';
-
-export interface NavigatorWindowProps
-{
-	isOpen: boolean;
-	tabs: TabDefinition[];
-	activeTab: string;
-	blocks: NavigatorBlockData[];
-	loading?: boolean;
-
-	onClose?: () => void;
-	onTabChange?: (id: string) => void;
-	onSearch?: (query: string) => void;
-	onRoomClick?: (roomId: number) => void;
-	onRefresh?: () => void;
-	onCreateRoom?: () => void;
-}
+import {NavigatorTabsView, NavigatorSearchView, NavigatorSearchResultView} from './views';
+import type {NavigatorBlockData, RoomListViewMode} from './views';
+import {mapSearchResultsToBlocks} from './utils';
 
 /**
- * NavigatorWindow - Pure UI component for the navigator window.
- * Displays search results grouped by collapsible blocks (like Habbo's navigator).
+ * NavigatorView - Main navigator component.
+ * Connects to the module and renders the navigator window.
  */
-export function NavigatorWindow(props: NavigatorWindowProps): JSX.Element
+export function NavigatorView(): JSX.Element
 {
-	const {t, keys} = useNavigatorLocalization();
+	const t = useLocalization();
+	const {state: navigator} = useModule(ModuleId.Navigator);
+	const navActions = useActions(ModuleId.Navigator);
+	const locActions = useActions(ModuleId.Localization);
 
 	const [viewMode, setViewMode] = createSignal<RoomListViewMode>('compact');
 	const [searchQuery, setSearchQuery] = createSignal('');
-
-	let windowRef: HTMLDivElement | undefined;
-	let headerRef: HTMLDivElement | undefined;
 
 	const draggable = useDraggable({
 		initialPosition: {
@@ -49,39 +32,58 @@ export function NavigatorWindow(props: NavigatorWindowProps): JSX.Element
 		viewportPadding: 20,
 	});
 
-	onMount(() =>
-	{
-		if (windowRef)
+	// Derived state
+	const tabs = createMemo(() =>
+		navigator().topLevelContexts.map(ctx =>
 		{
-			draggable.bindDragTarget(windowRef);
+			const locKey = `navigator.toplevelview.${ctx.searchCode}`;
+			const fallback = ctx.searchCode.replace('_view', '').replace(/_/g, ' ');
+			return {
+				id: ctx.searchCode,
+				label: locActions.get(locKey, fallback),
+			};
+		})
+	);
 
-			if (headerRef) draggable.bindDragHandle(headerRef);
-		}
-	});
+	const blocks = createMemo((): NavigatorBlockData[] =>
+		mapSearchResultsToBlocks(navigator().searchResults)
+	);
 
 	const isSearching = () => searchQuery().length > 0;
 
-	const totalRoomCount = () =>
-		props.blocks.reduce((sum, block) => sum + block.rooms.length, 0);
+	// Handlers
+	const handleTabChange = (searchCode: string) =>
+	{
+		navActions.search(searchCode);
+	};
 
 	const handleSearch = (query: string) =>
 	{
 		setSearchQuery(query);
-
-		if (query.trim()) props.onSearch?.(query);
+		if (query.trim()) navActions.searchRooms(query);
 	};
 
 	const handleClearSearch = () =>
 	{
 		setSearchQuery('');
+		handleTabChange(navigator().currentSearchCode);
+	};
 
-		props.onTabChange?.(props.activeTab);
+	const handleRefresh = () =>
+	{
+		const code = navigator().currentSearchCode;
+		if (code) navActions.search(code);
+	};
+
+	const handleRoomClick = (roomId: number) =>
+	{
+		navActions.goToRoom(roomId);
 	};
 
 	return (
-		<Show when={props.isOpen}>
+		<Show when={navigator().isOpen}>
 			<div
-				ref={windowRef}
+				ref={(el) => draggable.bindDragTarget(el)}
 				class={clsx(
 					'fixed z-50 flex flex-col w-[480px] h-[600px]',
 					'bg-slate-900 border border-slate-700',
@@ -90,26 +92,25 @@ export function NavigatorWindow(props: NavigatorWindowProps): JSX.Element
 				)}
 			>
 				{/* Header */}
-				<div ref={headerRef}>
+				<div ref={(el) => draggable.bindDragHandle(el)}>
 					<NavigatorHeader
-						title={t(keys.TITLE)}
+						title={t('navigator.title', 'Navigator')}
 						icon="compass"
-						onClose={props.onClose}
+						onClose={() => navActions.close()}
 					>
 						<div class="flex items-center gap-1">
 							<button
 								type="button"
 								class="p-1.5 rounded text-slate-400 hover:text-slate-200 hover:bg-slate-700/50"
-								onClick={props.onRefresh}
-								title={t(keys.ACTION_REFRESH)}
+								onClick={handleRefresh}
+								title={t('navigator.action.refresh', 'Refresh')}
 							>
 								<NavigatorIcon name="refresh" size="sm"/>
 							</button>
 							<button
 								type="button"
 								class="p-1.5 rounded text-slate-400 hover:text-slate-200 hover:bg-slate-700/50"
-								onClick={props.onCreateRoom}
-								title={t(keys.CREATE_TITLE)}
+								title={t('navigator.create.title', 'Create room')}
 							>
 								<NavigatorIcon name="plus" size="sm"/>
 							</button>
@@ -118,20 +119,20 @@ export function NavigatorWindow(props: NavigatorWindowProps): JSX.Element
 				</div>
 
 				{/* Tabs */}
-				<NavigatorTabs
-					tabs={props.tabs}
-					activeTab={isSearching() ? '' : props.activeTab}
-					onTabChange={(id) => props.onTabChange?.(id)}
+				<NavigatorTabsView
+					tabs={tabs()}
+					activeTab={isSearching() ? '' : navigator().currentSearchCode}
+					onTabChange={handleTabChange}
 				/>
 
 				{/* Search + view controls */}
 				<div class="flex items-center gap-2 px-4 py-2.5 border-b border-slate-700/50 bg-slate-800/20">
 					<div class="flex-1">
-						<NavigatorSearch
+						<NavigatorSearchView
 							value={searchQuery()}
 							onSearch={handleSearch}
 							onClear={handleClearSearch}
-							placeholder={t(keys.SEARCH_PLACEHOLDER)}
+							placeholder={t('navigator.search.placeholder', 'Search rooms...')}
 						/>
 					</div>
 
@@ -164,31 +165,22 @@ export function NavigatorWindow(props: NavigatorWindowProps): JSX.Element
 					</div>
 				</div>
 
-				{/* Content - blocks with collapsible sections */}
+				{/* Content - collapsible block sections */}
 				<div class="flex-1 overflow-y-auto">
-					{/* Loading state */}
-					<Show when={props.loading}>
-						<div class="p-4 text-center text-sm text-slate-400">
-							Loading...
-						</div>
-					</Show>
-
-					{/* Empty state */}
-					<Show when={!props.loading && props.blocks.length === 0}>
+					<Show when={blocks().length === 0}>
 						<div class="flex flex-col items-center justify-center py-12 text-center">
 							<NavigatorIcon name="room" size="xl" class="text-slate-600 mb-2"/>
-							<p class="text-slate-400 text-sm">No rooms found</p>
+							<p class="text-slate-400 text-sm">{t('navigator.search.noresults', 'No rooms found')}</p>
 						</div>
 					</Show>
 
-					{/* Block sections */}
-					<Show when={!props.loading && props.blocks.length > 0}>
-						<For each={props.blocks}>
+					<Show when={blocks().length > 0}>
+						<For each={blocks()}>
 							{(block) => (
-								<NavigatorBlockSection
+								<NavigatorSearchResultView
 									block={block}
 									displayMode={viewMode()}
-									onRoomClick={props.onRoomClick}
+									onRoomClick={handleRoomClick}
 								/>
 							)}
 						</For>

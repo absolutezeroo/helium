@@ -1,10 +1,10 @@
 import type {JSX} from 'solid-js';
 import {createSignal, For, Show} from 'solid-js';
 import clsx from 'clsx';
-import {NavigatorIcon} from '../common';
-import {RoomCard} from './RoomCard';
-import {RoomCardCompact} from './RoomCardCompact';
-import type {RoomListRoom, RoomListViewMode} from './RoomList';
+import {NavigatorIcon} from '../../common';
+import type {RoomListRoom, RoomListViewMode} from './NavigatorSearchResultItemView';
+import {NavigatorSearchResultItemCompactView, NavigatorSearchResultItemView,} from './NavigatorSearchResultItemView';
+import {useLocalization} from '@/ui/components/common';
 
 export interface NavigatorBlockData
 {
@@ -16,7 +16,7 @@ export interface NavigatorBlockData
 	rooms: RoomListRoom[];
 }
 
-export interface NavigatorBlockSectionProps
+export interface NavigatorSearchResultViewProps
 {
 	block: NavigatorBlockData;
 	displayMode?: RoomListViewMode;
@@ -26,17 +26,22 @@ export interface NavigatorBlockSectionProps
 }
 
 /**
- * A collapsible section for a navigator search result block.
- * Matches the Habbo layout where each category (e.g., "Official", "Room bundles")
- * is a collapsible section containing its rooms.
+ * Collapsible section for a navigator search result block.
+ * Each block (e.g. "Official", "Room bundles") is rendered as one of these.
  */
-export function NavigatorBlockSection(props: NavigatorBlockSectionProps): JSX.Element
+export function NavigatorSearchResultView(props: NavigatorSearchResultViewProps): JSX.Element
 {
+	const t = useLocalization();
 	const [isExpanded, setIsExpanded] = createSignal(!props.block.forceClosed);
 
 	const displayMode = () => props.displayMode ?? 'compact';
 
-	const title = () => props.block.text || props.block.searchCode;
+	const title = () =>
+	{
+		const text = props.block.text || props.block.searchCode;
+
+		return t(text);
+	};
 
 	const containerClass = () =>
 	{
@@ -53,7 +58,7 @@ export function NavigatorBlockSection(props: NavigatorBlockSectionProps): JSX.El
 
 	return (
 		<div class="border-b border-slate-700/50 last:border-b-0">
-			{/* Block header - collapsible */}
+			{/* Block header */}
 			<button
 				type="button"
 				class={clsx(
@@ -83,7 +88,7 @@ export function NavigatorBlockSection(props: NavigatorBlockSectionProps): JSX.El
 				/>
 			</button>
 
-			{/* Block content - rooms */}
+			{/* Rooms */}
 			<Show when={isExpanded() && props.block.rooms.length > 0}>
 				<div class={containerClass()}>
 					<For each={props.block.rooms}>
@@ -91,35 +96,15 @@ export function NavigatorBlockSection(props: NavigatorBlockSectionProps): JSX.El
 							<Show
 								when={displayMode() !== 'compact'}
 								fallback={
-									<RoomCardCompact
-										id={room.id}
-										name={room.name}
-										ownerName={room.ownerName}
-										userCount={room.userCount}
-										maxUserCount={room.maxUserCount}
-										isFavourite={room.isFavourite}
-										isGroupRoom={room.isGroupRoom}
-										doorMode={room.doorMode}
+									<NavigatorSearchResultItemCompactView
+										room={room}
 										onClick={props.onRoomClick}
 										onFavouriteClick={props.onFavouriteClick}
 									/>
 								}
 							>
-								<RoomCard
-									id={room.id}
-									name={room.name}
-									ownerName={room.ownerName}
-									description={room.description}
-									userCount={room.userCount}
-									maxUserCount={room.maxUserCount}
-									thumbnail={room.thumbnail}
-									tags={room.tags}
-									isFavourite={room.isFavourite}
-									isGroupRoom={room.isGroupRoom}
-									isStaffPick={room.isStaffPick}
-									doorMode={room.doorMode}
-									score={room.score}
-									categoryId={room.categoryId}
+								<NavigatorSearchResultItemView
+									room={room}
 									onClick={props.onRoomClick}
 									onFavouriteClick={props.onFavouriteClick}
 									onInfoClick={props.onInfoClick}
@@ -130,10 +115,10 @@ export function NavigatorBlockSection(props: NavigatorBlockSectionProps): JSX.El
 				</div>
 			</Show>
 
-			{/* Empty block when expanded */}
+			{/* Empty state */}
 			<Show when={isExpanded() && props.block.rooms.length === 0}>
 				<div class="px-4 py-3 text-xs text-slate-500 text-center">
-					No rooms
+					{t('navigator.search.noresults', 'No rooms')}
 				</div>
 			</Show>
 		</div>

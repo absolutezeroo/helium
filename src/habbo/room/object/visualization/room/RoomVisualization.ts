@@ -505,12 +505,15 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 	/**
 	 * Apply door masks to wall planes at the entrance position.
 	 *
-	 * In AS3, RoomEngine sends RoomObjectRoomMaskUpdateMessage to add "door"/"hole"
-	 * bitmap masks to floor/landscape planes, and rectangle masks cut wall planes.
-	 * The setDisplacement() on geometry also affects depth sorting at the door position.
+	 * AS3 approach (RoomVisualization.updatePlaneMasks):
+	 * 1. For each mask, compute diff = maskPos - plane.location
+	 * 2. Check normalDist = |scalarProjection(diff, plane.normal)| < 0.01
+	 *    (the door position must be ON the wall surface)
+	 * 3. Compute leftSideLoc and rightSideLoc via scalar projections
+	 * 4. Add bitmap mask to the plane
 	 *
-	 * For flat-color rendering, we add rectangle masks to the wall plane at the door
-	 * position to create a visual opening. The entrance floor tile stays visible.
+	 * For flat-color rendering, we use rectangle masks instead of bitmap masks
+	 * to create a rectangular cutout in the wall at the door position.
 	 */
 	private applyDoorMasks(): void
 	{
@@ -520,20 +523,16 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 		const doorX = model.getNumber(RoomObjectVariableEnum.ROOM_DOOR_X);
 		const doorY = model.getNumber(RoomObjectVariableEnum.ROOM_DOOR_Y);
 		const doorZ = model.getNumber(RoomObjectVariableEnum.ROOM_DOOR_Z);
-		const doorDir = model.getNumber(RoomObjectVariableEnum.ROOM_DOOR_DIR);
 
 		if (isNaN(doorX) || isNaN(doorY) || isNaN(doorZ)) return;
 
-		// 3D position of the door (at the entrance tile)
 		const doorPos = new Vector3d(doorX, doorY, doorZ);
 
-		// Find wall planes that overlap with the door position and add rectangle masks.
-		// The door position is at the entrance tile, which is OUTSIDE the wall.
-		// We filter walls by their normal direction matching the door direction,
-		// then project the door position onto the wall's leftSide to find the cut location.
 		for (let i = 0; i < this._planes.length; i++)
 		{
 			const plane = this._planes[i];
+
+			// AS3: masks apply to wall (type 1) and landscape (type 3) planes
 			if (plane.type !== RoomPlane.TYPE_WALL) continue;
 
 			const leftSide = plane.leftSide as Vector3d;
@@ -541,38 +540,37 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 			const leftLen = leftSide.length;
 			const rightLen = rightSide.length;
 
-			// Skip thin edge/thickness planes — only target main wall faces
+			// Skip thin edge/thickness planes
 			if (leftLen < 1 || rightLen < 1) continue;
 
 			const normal = plane.normal as Vector3d;
-
-			// Filter by wall orientation matching door direction:
-			// dir=90 → door on left wall → wall normal has significant X component
-			// dir=180 → door on top wall → wall normal has significant Y component
-			if (doorDir === 90 && Math.abs(normal.x) < 0.5) continue;
-			if (doorDir === 180 && Math.abs(normal.y) < 0.5) continue;
-
 			const loc = plane.location as Vector3d;
 			const diff = Vector3d.dif(doorPos, loc)!;
 
-			// Project door position onto wall's leftSide to find where the door is along the wall
-			const leftProj = Vector3d.scalarProjection(diff, leftSide);
+			// AS3: check if door position is ON the wall surface
+			// normalDist = perpendicular distance from door to the wall plane
+			const normalDist = Math.abs(Vector3d.scalarProjection(diff, normal));
+			if (normalDist > 0.5) continue;
 
-			// Door must be within the wall span
-			if (leftProj < -0.5 || leftProj > leftLen + 0.5) continue;
+			// Project door position onto wall axes
+			const leftSideLoc = Vector3d.scalarProjection(diff, leftSide);
+			const rightSideLoc = Vector3d.scalarProjection(diff, rightSide);
 
-			// Add rectangle mask: one tile wide, full wall height
-			const maskLeftStart = Math.max(0, leftProj - 0.5);
-			const maskLeftEnd = Math.min(leftLen, leftProj + 0.5);
+			// Door must be within the wall span along leftSide
+			if (leftSideLoc < -0.5 || leftSideLoc > leftLen + 0.5) continue;
+
+			// Rectangle mask: 1 tile wide, full wall height from door base
+			const maskLeftStart = Math.max(0, leftSideLoc - 0.5);
+			const maskLeftEnd = Math.min(leftLen, leftSideLoc + 0.5);
 			const maskLeftLength = maskLeftEnd - maskLeftStart;
 
 			if (maskLeftLength > 0.01)
 			{
 				plane.addRectangleMask(
 					maskLeftStart,
-					0,
+					rightSideLoc,
 					maskLeftLength,
-					rightLen
+					rightLen - rightSideLoc
 				);
 			}
 		}

@@ -1,7 +1,7 @@
 import type {GuestRoomData} from '@habbo/communication/messages/incoming/navigator';
 import type {NavigatorSearchResultSet} from '@habbo/communication/messages/incoming/newnavigator';
-import type {RoomListRoom} from '../rooms';
-import type {NavigatorBlockData} from '../rooms/NavigatorBlockSection';
+import type {RoomListRoom} from '../views/search/NavigatorSearchResultItemView';
+import type {NavigatorBlockData} from '../views/search/NavigatorSearchResultView';
 
 /**
  * Map door mode number to string type

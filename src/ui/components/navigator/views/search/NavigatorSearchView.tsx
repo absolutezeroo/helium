@@ -1,9 +1,9 @@
 import type {JSX} from 'solid-js';
 import {createSignal} from 'solid-js';
 import clsx from 'clsx';
-import {NavigatorIcon} from '../common';
+import {NavigatorIcon} from '../../common';
 
-export interface NavigatorSearchProps
+export interface NavigatorSearchViewProps
 {
 	placeholder?: string;
 	value?: string;
@@ -13,10 +13,7 @@ export interface NavigatorSearchProps
 	class?: string;
 }
 
-/**
- * Navigator search input with search/clear buttons
- */
-export function NavigatorSearch(props: NavigatorSearchProps): JSX.Element
+export function NavigatorSearchView(props: NavigatorSearchViewProps): JSX.Element
 {
 	const [localValue, setLocalValue] = createSignal(props.value ?? '');
 
@@ -54,12 +51,10 @@ export function NavigatorSearch(props: NavigatorSearchProps): JSX.Element
 			class={clsx('relative flex items-center', props.class)}
 			onSubmit={handleSubmit}
 		>
-			{/* Search icon */}
 			<div class="absolute left-3.5 pointer-events-none flex items-center justify-center">
 				<NavigatorIcon name="search" size="sm" class="text-slate-500"/>
 			</div>
 
-			{/* Input */}
 			<input
 				type="text"
 				value={localValue()}
@@ -77,9 +72,7 @@ export function NavigatorSearch(props: NavigatorSearchProps): JSX.Element
 				)}
 			/>
 
-			{/* Action buttons */}
 			<div class="absolute right-2.5 flex items-center gap-1.5">
-				{/* Clear button */}
 				{localValue() && (
 					<button
 						type="button"
@@ -91,7 +84,6 @@ export function NavigatorSearch(props: NavigatorSearchProps): JSX.Element
 					</button>
 				)}
 
-				{/* Search button */}
 				<button
 					type="submit"
 					class={clsx(

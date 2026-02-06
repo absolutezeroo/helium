@@ -1007,18 +1007,18 @@ export class RoomEngine extends Component implements IRoomEngine,
 					// Store door position if detected (AS3: <doors> XML element)
 					if (doorX !== undefined && doorDir !== undefined)
 					{
-						model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_X, doorDir === 90 ? doorX - 0.5 : doorX, true);
-						model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_Y, doorDir === 180 ? doorY! - 0.5 : doorY!, true);
+						model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_X, doorX, true);
+						model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_Y, doorY!, true);
 						model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_Z, doorZ!, true);
 						model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_DIR, doorDir, true);
 
 						// Set displacement on room geometry for door depth sorting
-						// AS3: geometry.setDisplacement(doorPos, displacement)
+						// AS3: displacement position uses -0.5 offset in door direction
 						const canvas = this.getRenderingCanvas(roomId);
 
 						if (canvas?.geometry)
 						{
-							const doorPos = new Vector3d(
+							const displacementPos = new Vector3d(
 								doorDir === 90 ? doorX - 0.5 : doorX,
 								doorDir === 180 ? doorY! - 0.5 : doorY!,
 								doorZ!
@@ -1031,7 +1031,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 
 							if (displacement)
 							{
-								canvas.geometry.setDisplacement(doorPos, displacement);
+								canvas.geometry.setDisplacement(displacementPos, displacement);
 							}
 						}
 					}

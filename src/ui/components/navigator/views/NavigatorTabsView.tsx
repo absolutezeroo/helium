@@ -1,8 +1,8 @@
 import type {JSX} from 'solid-js';
 import {createSignal, For, onMount, Show} from 'solid-js';
 import clsx from 'clsx';
-import {NavigatorTab} from './NavigatorTab';
-import {type IconName, NavigatorIcon} from '../common';
+import type {IconName} from '../common';
+import {NavigatorIcon} from '../common';
 
 export interface TabDefinition
 {
@@ -13,7 +13,7 @@ export interface TabDefinition
 	disabled?: boolean;
 }
 
-export interface NavigatorTabsProps
+export interface NavigatorTabsViewProps
 {
 	tabs: TabDefinition[];
 	activeTab: string;
@@ -21,10 +21,56 @@ export interface NavigatorTabsProps
 	class?: string;
 }
 
-/**
- * Navigator tabs container - manages multiple tabs with horizontal scroll
- */
-export function NavigatorTabs(props: NavigatorTabsProps): JSX.Element
+function NavigatorTab(props: {
+	id: string;
+	label: string;
+	icon?: IconName;
+	badge?: number | string;
+	disabled?: boolean;
+	isActive: boolean;
+	onClick: (tabId: string) => void;
+}): JSX.Element
+{
+	return (
+		<button
+			type="button"
+			onClick={() => !props.disabled && props.onClick(props.id)}
+			disabled={props.disabled}
+			class={clsx(
+				'relative flex items-center gap-1.5 px-3 py-1.5',
+				'text-xs font-medium whitespace-nowrap',
+				'rounded-md transition-all duration-150 flex-shrink-0',
+				props.isActive
+					? 'text-amber-400 bg-amber-500/15 border border-amber-500/30'
+					: 'text-slate-400 bg-slate-700/30 border border-transparent hover:text-slate-200 hover:bg-slate-700/50 hover:border-slate-600/50',
+				props.disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
+			)}
+		>
+			<Show when={props.icon}>
+				<NavigatorIcon
+					name={props.icon!}
+					size="sm"
+					class={props.isActive ? 'text-amber-400' : 'text-slate-400'}
+				/>
+			</Show>
+			<span class="capitalize">{props.label}</span>
+			<Show when={props.badge !== undefined}>
+				<span
+					class={clsx(
+						'ml-1 px-1.5 py-0.5 text-xs font-bold rounded-full',
+						props.isActive
+							? 'bg-amber-400/20 text-amber-300'
+							: 'bg-slate-600 text-slate-300'
+					)}
+				>
+					{props.badge}
+				</span>
+			</Show>
+		</button>
+	);
+}
+
+export function NavigatorTabsView(props: NavigatorTabsViewProps): JSX.Element
 {
 	let scrollContainerRef: HTMLDivElement | undefined;
 	const [canScrollLeft, setCanScrollLeft] = createSignal(false);
@@ -48,16 +94,14 @@ export function NavigatorTabs(props: NavigatorTabsProps): JSX.Element
 	const scroll = (direction: 'left' | 'right') =>
 	{
 		if (!scrollContainerRef) return;
-		const scrollAmount = 150;
 		scrollContainerRef.scrollBy({
-			left: direction === 'left' ? -scrollAmount : scrollAmount,
+			left: direction === 'left' ? -150 : 150,
 			behavior: 'smooth',
 		});
 	};
 
 	return (
 		<div class={clsx('relative flex items-center border-b border-slate-700/50 bg-slate-800/30', props.class)}>
-			{/* Scroll left button */}
 			<Show when={canScrollLeft()}>
 				<button
 					type="button"
@@ -68,7 +112,6 @@ export function NavigatorTabs(props: NavigatorTabsProps): JSX.Element
 				</button>
 			</Show>
 
-			{/* Tabs container */}
 			<div
 				ref={scrollContainerRef}
 				class="flex items-center gap-2 px-3 py-2 overflow-x-auto"
@@ -89,7 +132,6 @@ export function NavigatorTabs(props: NavigatorTabsProps): JSX.Element
 				</For>
 			</div>
 
-			{/* Scroll right button */}
 			<Show when={canScrollRight()}>
 				<button
 					type="button"
