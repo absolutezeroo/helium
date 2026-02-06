@@ -6,7 +6,13 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "audit": "tsx scripts/convergence-audit/runner.ts audit src/",
+    "audit:file": "tsx scripts/convergence-audit/runner.ts audit",
+    "audit:validate": "tsx scripts/convergence-audit/runner.ts validate src/",
+    "audit:converge": "tsx scripts/convergence-audit/runner.ts converge src/",
+    "audit:prompt": "tsx scripts/convergence-audit/runner.ts prompt",
+    "audit:summary": "tsx scripts/convergence-audit/runner.ts summary"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
@@ -24,6 +30,7 @@
     "@babel/plugin-transform-class-properties": "^7.28.6",
     "@types/node": "^22.10.0",
     "@types/pako": "^2.0.3",
+    "tsx": "^4.21.0",
     "typescript": "^5.7.2",
     "vite": "^6.0.0",
     "vite-plugin-babel": "^1.4.1",
