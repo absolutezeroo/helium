@@ -25,10 +25,12 @@ export class RoomRenderingCanvas
 		this._container.sortableChildren = true;
 
 		// Create geometry with default direction (isometric view)
+		// Location (11, 11, 5) is the center point of the view - matches Nitro
 		this._geometry = new RoomGeometry(
 			scale,
-			new Vector3d(-135, 30, 0),  // Direction (rotation angles)
-			new Vector3d(0, 0, 0)        // Location
+			new Vector3d(-135, 30, 0),   // Direction (rotation angles)
+			new Vector3d(11, 11, 5),     // Location (view center)
+			new Vector3d(-135, 0.5, 0)   // Depth direction
 		);
 
 		// Initialize container position
@@ -155,7 +157,8 @@ export class RoomRenderingCanvas
 		this._geometry = new RoomGeometry(
 			scale,
 			new Vector3d(-135, 30, 0),
-			new Vector3d(0, 0, 0)
+			new Vector3d(11, 11, 5),
+			new Vector3d(-135, 0.5, 0)
 		);
 	}
 

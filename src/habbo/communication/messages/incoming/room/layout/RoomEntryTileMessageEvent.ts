@@ -15,9 +15,4 @@ export class RoomEntryTileMessageEvent extends MessageEvent
 	{
 		super(callback, RoomEntryTileMessageParser);
 	}
-
-	get parser(): RoomEntryTileMessageParser
-	{
-		return this._parser as RoomEntryTileMessageParser;
-	}
 }

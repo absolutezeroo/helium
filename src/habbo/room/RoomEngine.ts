@@ -936,7 +936,14 @@ export class RoomEngine extends Component implements IRoomEngine,
 		}
 	}
 
-	initializeRoom(roomId: number, planeParser: RoomPlaneParser | null): void
+	initializeRoom(
+		roomId: number,
+		planeParser: RoomPlaneParser | null,
+		doorX?: number,
+		doorY?: number,
+		doorZ?: number,
+		doorDir?: number
+	): void
 	{
 		// Create room instance if it doesn't exist
 		let room = this.getRoomInstance(roomId);
@@ -956,7 +963,6 @@ export class RoomEngine extends Component implements IRoomEngine,
 		{
 			log.debug(`[RoomEngine] Initializing room ${roomId} with ${planeParser.planeCount} planes`);
 
-			// Store plane parser data on room model for later use by visualization
 			const roomObject = room.getObject(OBJECT_ID_ROOM, RoomObjectCategoryEnum.OBJECT_CATEGORY_ROOM) as IRoomObjectController;
 
 			if (roomObject)
@@ -965,44 +971,21 @@ export class RoomEngine extends Component implements IRoomEngine,
 
 				if (model)
 				{
-					// Store plane parser reference for visualization
-					model.setNumber(RoomObjectVariableEnum.ROOM_PLANE_COUNT, planeParser.planeCount, true);
+					// Store the RoomPlaneParser reference in the model
+					// (equivalent of AS3 model.setString("room_plane_xml", xml))
+					model.setObject(RoomObjectVariableEnum.ROOM_PLANE_PARSER, planeParser);
+
+					// Store dimensions for compatibility
 					model.setNumber(RoomObjectVariableEnum.ROOM_FLOOR_HEIGHT, planeParser.floorHeight, true);
 					model.setNumber(RoomObjectVariableEnum.ROOM_WALL_HEIGHT, planeParser.wallHeight, true);
 
-					// Store plane data for each plane
-					for (let i = 0; i < planeParser.planeCount; i++)
+					// Store door position if detected (AS3: <doors> XML element)
+					if (doorX !== undefined && doorDir !== undefined)
 					{
-						const loc = planeParser.getPlaneLocation(i);
-						const leftSide = planeParser.getPlaneLeftSide(i);
-						const rightSide = planeParser.getPlaneRightSide(i);
-						const type = planeParser.getPlaneType(i);
-
-						if (loc && leftSide && rightSide)
-						{
-							// Store plane data in model for visualization to use
-							model.setNumber(`plane_${i}_type`, type, true);
-							model.setNumber(`plane_${i}_loc_x`, loc.x, true);
-							model.setNumber(`plane_${i}_loc_y`, loc.y, true);
-							model.setNumber(`plane_${i}_loc_z`, loc.z, true);
-							model.setNumber(`plane_${i}_left_x`, leftSide.x, true);
-							model.setNumber(`plane_${i}_left_y`, leftSide.y, true);
-							model.setNumber(`plane_${i}_left_z`, leftSide.z, true);
-							model.setNumber(`plane_${i}_right_x`, rightSide.x, true);
-							model.setNumber(`plane_${i}_right_y`, rightSide.y, true);
-							model.setNumber(`plane_${i}_right_z`, rightSide.z, true);
-
-							// Store secondary normals
-							const secNormals = planeParser.getPlaneSecondaryNormals(i);
-							model.setNumber(`plane_${i}_sec_normal_count`, secNormals.length, true);
-							for (let j = 0; j < secNormals.length; j++)
-							{
-								const secNormal = secNormals[j];
-								model.setNumber(`plane_${i}_sec_normal_${j}_x`, secNormal.x, true);
-								model.setNumber(`plane_${i}_sec_normal_${j}_y`, secNormal.y, true);
-								model.setNumber(`plane_${i}_sec_normal_${j}_z`, secNormal.z, true);
-							}
-						}
+						model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_X, doorDir === 90 ? doorX - 0.5 : doorX, true);
+						model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_Y, doorDir === 180 ? doorY! - 0.5 : doorY!, true);
+						model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_Z, doorZ!, true);
+						model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_DIR, doorDir, true);
 					}
 				}
 			}

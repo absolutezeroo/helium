@@ -14,7 +14,6 @@ export const RoomSessionPanel: Component = () =>
 {
 	const {state} = useModule(ModuleId.Room);
 
-	// Use state() signal directly for reactivity
 	return (
 		<Show when={state().currentRoom !== null}>
 			<div class="room-session-panel">

@@ -4,7 +4,8 @@
  * Based on AS3: com.sulake.habbo.room.object.visualization.room.RoomPlane
  *
  * Handles rendering of individual room planes (floor tiles, walls, landscape).
- * Calculates screen positions from 3D coordinates and renders using PixiJS Graphics.
+ * Uses Graphics to draw quads directly. Texture rendering via rasterizers
+ * will be added later when AS3 rasterizers are ported.
  */
 import {Graphics} from 'pixi.js';
 import {Vector3d} from '@room/utils/Vector3d';
@@ -36,6 +37,8 @@ export class RoomPlane
 	private _cornerD: Vector3d;
 	private _width: number = 0;
 	private _height: number = 0;
+
+	private _graphics: Graphics;
 
 	constructor(
 		origin: IVector3d,
@@ -215,9 +218,7 @@ export class RoomPlane
 		this._extraDepth = value;
 	}
 
-	private _graphics: Graphics;
-
-	get graphics(): Graphics
+	get displayObject(): Graphics
 	{
 		return this._graphics;
 	}
@@ -309,7 +310,7 @@ export class RoomPlane
 			// Update corner positions (transforms to local space)
 			this.updateCorners(geometry);
 
-			// Calculate depth (AS3: lines 404-412)
+			// Calculate depth
 			const originScreen = geometry.getScreenPosition(this._origin);
 			const originZ = originScreen !== null ? originScreen.z : 0;
 
@@ -360,9 +361,18 @@ export class RoomPlane
 		return false;
 	}
 
+	/**
+	 * Update corner positions in screen space
+	 * Based on AS3 RoomPlane.updateCorners()
+	 *
+	 * Corner mapping:
+	 * A = location
+	 * B = location + rightSide
+	 * C = location + leftSide + rightSide
+	 * D = location + leftSide
+	 */
 	private updateCorners(geometry: IRoomGeometry): void
 	{
-		// Calculate corner positions in screen space (AS3: lines 673-676)
 		const aPos = geometry.getScreenPosition(this._location);
 		const bPos = geometry.getScreenPosition(Vector3d.sum(this._location, this._rightSide)!);
 		const cPos = geometry.getScreenPosition(Vector3d.sum(Vector3d.sum(this._location, this._leftSide)!, this._rightSide)!);
@@ -373,7 +383,7 @@ export class RoomPlane
 		if (cPos !== null) this._cornerC.assign(cPos);
 		if (dPos !== null) this._cornerD.assign(dPos);
 
-		// Calculate offset from room origin (AS3: line 677)
+		// Calculate offset from room origin
 		const offsetPoint = geometry.getScreenPoint(this._origin);
 		if (offsetPoint !== null)
 		{
@@ -381,7 +391,7 @@ export class RoomPlane
 			this._offset.y = Math.round(offsetPoint.y);
 		}
 
-		// Round corner positions (AS3: lines 678-687)
+		// Round corner positions
 		this._cornerA.x = Math.round(this._cornerA.x);
 		this._cornerA.y = Math.round(this._cornerA.y);
 		this._cornerB.x = Math.round(this._cornerB.x);
@@ -391,47 +401,50 @@ export class RoomPlane
 		this._cornerD.x = Math.round(this._cornerD.x);
 		this._cornerD.y = Math.round(this._cornerD.y);
 
-		// Calculate bounding box (AS3: lines 688-691)
+		// Calculate bounding box
 		const minX = Math.min(this._cornerA.x, this._cornerB.x, this._cornerC.x, this._cornerD.x);
 		const maxX = Math.max(this._cornerA.x, this._cornerB.x, this._cornerC.x, this._cornerD.x);
 		const minY = Math.min(this._cornerA.y, this._cornerB.y, this._cornerC.y, this._cornerD.y);
 		const maxY = Math.max(this._cornerA.y, this._cornerB.y, this._cornerC.y, this._cornerD.y);
 
-		// Calculate dimensions (AS3: lines 692, 698, 704-705)
+		// Transform offset and corners to local space
+		this._offset.x = this._offset.x - minX;
+		this._offset.y = this._offset.y - minY;
+
+		this._cornerA.x = this._cornerA.x - minX;
+		this._cornerA.y = this._cornerA.y - minY;
+		this._cornerB.x = this._cornerB.x - minX;
+		this._cornerB.y = this._cornerB.y - minY;
+		this._cornerC.x = this._cornerC.x - minX;
+		this._cornerC.y = this._cornerC.y - minY;
+		this._cornerD.x = this._cornerD.x - minX;
+		this._cornerD.y = this._cornerD.y - minY;
+
+		// Calculate dimensions
 		this._width = maxX - minX;
 		this._height = maxY - minY;
-
-		// Transform corners AND offset to local space (AS3: lines 693-703)
-		// This is CRITICAL - AS3 subtracts minX/minY from ALL corners and offset
-		this._offset.x -= minX;
-		this._offset.y -= minY;
-		this._cornerA.x -= minX;
-		this._cornerA.y -= minY;
-		this._cornerB.x -= minX;
-		this._cornerB.y -= minY;
-		this._cornerC.x -= minX;
-		this._cornerC.y -= minY;
-		this._cornerD.x -= minX;
-		this._cornerD.y -= minY;
 	}
 
+	/**
+	 * Render the plane using Graphics polygon fill.
+	 * Texture rendering via rasterizers will be added later.
+	 */
 	private render(geometry: IRoomGeometry): void
 	{
-		this._graphics.clear();
-
 		if (!this.visible)
 		{
+			this._graphics.visible = false;
 			return;
 		}
 
-		// Skip degenerate planes
-		if (this._width < 0.5 && this._height < 0.5)
+		if (this._width < 1 || this._height < 1)
 		{
+			this._graphics.visible = false;
 			return;
 		}
 
-		// Draw the plane as a filled polygon using PixiJS v8 poly() method
-		// Corners are in LOCAL space (0 to width/height) after updateCorners transformation
+		this._graphics.clear();
+
 		this._graphics
 			.poly([
 				this._cornerA.x, this._cornerA.y,
@@ -439,12 +452,10 @@ export class RoomPlane
 				this._cornerC.x, this._cornerC.y,
 				this._cornerD.x, this._cornerD.y
 			])
-			.fill({color: this._color});
+			.fill(this._color);
 
-		// Position the graphics at the offset
-		// offset = screenPoint(_origin) - minX/minY
-		// So -offset = minX - screenPoint(_origin), which positions the plane relative to the room origin
 		this._graphics.x = -this._offset.x;
 		this._graphics.y = -this._offset.y;
+		this._graphics.visible = true;
 	}
 }

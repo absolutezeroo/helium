@@ -140,6 +140,7 @@ export const RoomObjectVariableEnum = {
 	SESSION_URL_PREFIX: 'session_url_prefix',
 
 	// Room variables
+	ROOM_PLANE_PARSER: 'room_plane_parser',
 	ROOM_PLANE_XML: 'room_plane_xml',
 	ROOM_PLANE_MASK_XML: 'room_plane_mask_xml',
 	ROOM_FLOOR_TYPE: 'room_floor_type',

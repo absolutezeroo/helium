@@ -17,27 +17,29 @@ import {RoomPlane} from './RoomPlane';
 import {Vector3d} from '@room/utils/Vector3d';
 import type {IVector3d} from '@room/utils/IVector3d';
 import {RoomPlaneData} from '@habbo/room/object/RoomPlaneData';
+import {RoomObjectVariableEnum} from '@habbo/room/object/RoomObjectVariableEnum';
+import type {RoomPlaneParser} from '@habbo/room/object/RoomPlaneParser';
 import {Logger} from "@/core";
 
 const log = Logger.getLogger('RoomVisualization');
 
 export class RoomVisualization extends RoomObjectSpriteVisualization
 {
-	// Floor colors (AS3 constants)
-	public static readonly FLOOR_COLOR_TOP: number = 0x989865;
-	public static readonly FLOOR_COLOR_LEFT: number = 0x838357;
-	public static readonly FLOOR_COLOR_RIGHT: number = 0x666644;
+	// Floor colors (AS3: RoomVisualization.as lines 26-28)
+	public static readonly FLOOR_COLOR_TOP: number = 0xFFFFFF;    // 16777215 (const_650)
+	public static readonly FLOOR_COLOR_LEFT: number = 0xDDDDDD;   // 14540253 (const_802)
+	public static readonly FLOOR_COLOR_RIGHT: number = 0xBBBBBB;  // 12303291 (FLOOR_COLOR_RIGHT)
 
-	// Wall colors (AS3 constants)
-	public static readonly WALL_COLOR_TOP: number = 0xB6B6C8;
-	public static readonly WALL_COLOR_SIDE: number = 0x9696A8;
-	public static readonly WALL_COLOR_BOTTOM: number = 0x7C7C8C;
-	public static readonly WALL_COLOR_BORDER: number = 0x999999;
+	// Wall colors (AS3: RoomVisualization.as lines 30-33)
+	public static readonly WALL_COLOR_TOP: number = 0xFFFFFF;     // 16777215 (const_1167, normal.y > 0)
+	public static readonly WALL_COLOR_SIDE: number = 0xCCCCCC;    // 13421772 (WALL_COLOR_SIDE)
+	public static readonly WALL_COLOR_BOTTOM: number = 0x999999;  // 10066329 (WALL_COLOR_BOTTOM)
+	public static readonly WALL_COLOR_BORDER: number = 0x999999;  // 10066329 (WALL_COLOR_BORDER)
 
-	// Landscape colors
-	public static readonly LANDSCAPE_COLOR_TOP: number = 0xFFFFFF;
-	public static readonly LANDSCAPE_COLOR_SIDE: number = 0xCCCCCC;
-	public static readonly LANDSCAPE_COLOR_BOTTOM: number = 0x999999;
+	// Landscape colors (AS3: RoomVisualization.as lines 35-37)
+	public static readonly LANDSCAPE_COLOR_TOP: number = 0xFFFFFF;   // 16777215
+	public static readonly LANDSCAPE_COLOR_SIDE: number = 0xCCCCCC;  // 13421772
+	public static readonly LANDSCAPE_COLOR_BOTTOM: number = 0x999999; // 10066329
 
 	private static readonly ROOM_DEPTH_OFFSET: number = 1000;
 	private static readonly UPDATE_INTERVAL: number = 250;
@@ -188,6 +190,7 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 	protected override reset(): void
 	{
 		super.reset();
+
 		this._floorType = null;
 		this._wallType = null;
 		this._landscapeType = null;
@@ -195,6 +198,11 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 		this._geometryScale = 0;
 	}
 
+	/**
+	 * Initialize room planes from the RoomPlaneParser stored in the model.
+	 * AS3 equivalent: reads "room_plane_xml" string from model, parses it with own RoomPlaneParser.
+	 * Helium: reads the RoomPlaneParser object reference directly from the model.
+	 */
 	protected initializeRoomPlanes(): void
 	{
 		if (this._initialized)
@@ -202,32 +210,21 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 			return;
 		}
 
-		const roomObject = this.object;
-
-		if (roomObject === null)
+		const model = this.object?.getModel();
+		if (!model)
 		{
-			log.debug('[RoomVisualization] No room object');
 			return;
 		}
 
-		const model = roomObject.getModel();
+		// Read the RoomPlaneParser from the model (equivalent of AS3 "room_plane_xml")
+		const planeParser = model.getObject(RoomObjectVariableEnum.ROOM_PLANE_PARSER) as RoomPlaneParser | null;
 
-		if (model === null)
+		if (!planeParser || planeParser.planeCount <= 0)
 		{
-			log.debug('[RoomVisualization] No model');
 			return;
 		}
 
-		// Get plane data from room model
-		const planeCount = model.getNumber('room_plane_count');
-
-		if (isNaN(planeCount) || planeCount <= 0)
-		{
-			log.debug('[RoomVisualization] Invalid plane count');
-			return;
-		}
-
-		this.createPlanesAndSprites(planeCount, model, roomObject);
+		this.createPlanesAndSprites(planeParser);
 
 		log.debug(`[RoomVisualization] Created ${this._planes.length} planes`);
 	}
@@ -330,8 +327,7 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 							}
 
 							// Update PixiJS zIndex for proper rendering order
-							// Higher depth = further back, so we negate it for zIndex
-							plane.graphics.zIndex = -depth;
+							plane.displayObject.zIndex = -depth;
 
 							this.updateSprite(sprite, plane, `plane ${spriteIndex} ${geometry.scale}`, depth);
 						}
@@ -368,64 +364,38 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 		return updated;
 	}
 
-	private createPlanesAndSprites(planeCount: number, model: unknown, roomObject: IRoomObject): void
+	/**
+	 * Create planes from the RoomPlaneParser data.
+	 * Based on AS3: RoomVisualization.createPlanesAndSprites() lines 569-700
+	 */
+	private createPlanesAndSprites(planeParser: RoomPlaneParser): void
 	{
-		const modelAccessor = model as { getNumber(key: string): number };
+		const origin = this.object!.getLocation();
+		const randomSeed = Math.floor(Math.random() * 10000);
 
-		for (let i = 0; i < planeCount; i++)
+		for (let i = 0; i < planeParser.planeCount; i++)
 		{
-			const type = modelAccessor.getNumber(`plane_${i}_type`);
-			const locX = modelAccessor.getNumber(`plane_${i}_loc_x`);
-			const locY = modelAccessor.getNumber(`plane_${i}_loc_y`);
-			const locZ = modelAccessor.getNumber(`plane_${i}_loc_z`);
-			const leftX = modelAccessor.getNumber(`plane_${i}_left_x`);
-			const leftY = modelAccessor.getNumber(`plane_${i}_left_y`);
-			const leftZ = modelAccessor.getNumber(`plane_${i}_left_z`);
-			const rightX = modelAccessor.getNumber(`plane_${i}_right_x`);
-			const rightY = modelAccessor.getNumber(`plane_${i}_right_y`);
-			const rightZ = modelAccessor.getNumber(`plane_${i}_right_z`);
+			const location = planeParser.getPlaneLocation(i);
+			const leftSide = planeParser.getPlaneLeftSide(i);
+			const rightSide = planeParser.getPlaneRightSide(i);
+			const type = planeParser.getPlaneType(i);
+			const secondaryNormals = planeParser.getPlaneSecondaryNormals(i);
 
-			// Skip if data is missing
-			if (isNaN(locX) || isNaN(locY) || isNaN(locZ))
+			if (!location || !leftSide || !rightSide)
 			{
 				continue;
 			}
 
-			const location = new Vector3d(locX, locY, locZ);
-			const leftSide = new Vector3d(leftX, leftY, leftZ);
-			const rightSide = new Vector3d(rightX, rightY, rightZ);
-			const origin = roomObject.getLocation();
-
 			const normal = Vector3d.crossProduct(leftSide, rightSide);
 
-			// Read secondary normals from model
-			const secondaryNormals: IVector3d[] = [];
-			const secNormalCount = modelAccessor.getNumber(`plane_${i}_sec_normal_count`);
-
-			if (!isNaN(secNormalCount) && secNormalCount > 0)
-			{
-				for (let j = 0; j < secNormalCount; j++)
-				{
-					const secX = modelAccessor.getNumber(`plane_${i}_sec_normal_${j}_x`);
-					const secY = modelAccessor.getNumber(`plane_${i}_sec_normal_${j}_y`);
-					const secZ = modelAccessor.getNumber(`plane_${i}_sec_normal_${j}_z`);
-
-					if (!isNaN(secX) && !isNaN(secY) && !isNaN(secZ))
-					{
-						secondaryNormals.push(new Vector3d(secX, secY, secZ));
-					}
-				}
-			}
-
-			// Determine plane type and color
 			let planeType: number;
 			let color: number;
 
+			// Map type and color according to AS3 createPlanesAndSprites (lines 607-668)
 			if (type === RoomPlaneData.PLANE_FLOOR)
 			{
 				planeType = RoomPlane.TYPE_FLOOR;
 
-				// Determine floor color based on normal
 				if (normal !== null && normal.z !== 0)
 				{
 					color = RoomVisualization.FLOOR_COLOR_TOP;
@@ -440,7 +410,6 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 			{
 				planeType = RoomPlane.TYPE_WALL;
 
-				// Determine wall color based on normal
 				if (normal !== null && normal.x === 0 && normal.y === 0)
 				{
 					color = RoomVisualization.WALL_COLOR_BOTTOM;
@@ -473,8 +442,6 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 				continue;
 			}
 
-			const randomSeed = Math.floor(Math.random() * 10000);
-
 			const plane = new RoomPlane(
 				origin,
 				location,
@@ -488,11 +455,19 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 
 			plane.color = color;
 
+			// Thin walls without texture (AS3 lines 624-626)
+			if (planeType === RoomPlane.TYPE_WALL)
+			{
+				if (leftSide.length < 1 || rightSide.length < 1)
+				{
+					plane.hasTexture = false;
+				}
+			}
+
 			this._planeIndexMap.set(i, this._planes.length);
 			this._planes.push(plane);
 
-			// Add the plane's graphics to the container
-			this._planeContainer.addChild(plane.graphics);
+			this._planeContainer.addChild(plane.displayObject);
 		}
 
 		this._initialized = true;

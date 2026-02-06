@@ -19,4 +19,6 @@ export interface IRoomObjectModelController extends IRoomObjectModel
 	setStringArray(key: string, value: string[], immutable?: boolean): void;
 
 	setStringToStringMap(key: string, value: Map<string, string>, immutable?: boolean): void;
+
+	setObject(key: string, value: unknown, immutable?: boolean): void;
 }

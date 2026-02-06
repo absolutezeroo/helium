@@ -24,8 +24,16 @@ export interface IRoomCreator
 
 	/**
 	 * Initialize a room with configuration data.
+	 * Door parameters are passed when a door is detected from the height map.
 	 */
-	initializeRoom(roomId: number, planeParser: RoomPlaneParser | null): void;
+	initializeRoom(
+		roomId: number,
+		planeParser: RoomPlaneParser | null,
+		doorX?: number,
+		doorY?: number,
+		doorZ?: number,
+		doorDir?: number
+	): void;
 
 	/**
 	 * Add floor furniture to a room.

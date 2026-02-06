@@ -13,8 +13,6 @@ export const Room: Component = () =>
 {
 	const {state} = useModule(ModuleId.Room);
 
-	// Use state() signal directly for reactivity
-	// actions.isInRoom() is NOT reactive - it returns a static value
 	return (
 		<Show when={state().currentRoom !== null}>
 			<div class="room-ui">

@@ -10,8 +10,19 @@ import {Room} from './components/room';
 export const App: Component = () =>
 {
 	const {state: connection} = useModule(ModuleId.Connection);
+	const {state: room} = useModule(ModuleId.Room);
 
-	const showLanding = createMemo(() => connection().state === 'authenticated');
+	const isAuthenticated = createMemo(() => connection().state === 'authenticated');
+
+	// Show landing view when authenticated AND not in a room
+	const showLanding = createMemo(() =>
+		isAuthenticated() && room().currentRoom === null
+	);
+
+	// Show room view when in a room (currentRoom is set or session is active)
+	const isInRoom = createMemo(() =>
+		isAuthenticated() && room().currentRoom !== null
+	);
 
 	const showLoading = createMemo(() =>
 	{
@@ -24,11 +35,18 @@ export const App: Component = () =>
 				<LoadingScreen/>
 			</Show>
 
-			<Show when={showLanding()}>
-				<LandingView/>
+			<Show when={isAuthenticated()}>
+				{/* Landing view - hidden when in a room */}
+				<Show when={showLanding()}>
+					<LandingView/>
+				</Show>
+
+				{/* Always show toolbar, navigator, inventory when authenticated */}
 				<Toolbar/>
 				<Navigator/>
 				<Inventory/>
+
+				{/* Room UI - shown when in a room */}
 				<Room/>
 			</Show>
 

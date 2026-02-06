@@ -744,9 +744,13 @@ export class RoomPlaneParser
 			}
 
 			const nextPoint = extractors[direction](currentPoint, includeHoles);
+
 			if (nextPoint === null) return null;
 
 			let length = Math.abs(nextPoint.x - currentPoint.x) + Math.abs(nextPoint.y - currentPoint.y);
+
+			// Save the travel direction BEFORE updating it for the next segment
+			const travelDirection = direction;
 
 			if (currentPoint.x === nextPoint.x || currentPoint.y === nextPoint.y)
 			{
@@ -759,7 +763,8 @@ export class RoomPlaneParser
 				length -= 1;
 			}
 
-			wallData.addWall(currentPoint, direction, length, isBorder, isLeftTurn);
+			// Use the SAVED travelDirection, not the updated direction
+			wallData.addWall(currentPoint, travelDirection, length, isBorder, isLeftTurn);
 
 			if (nextPoint.x === startPoint.x && nextPoint.y === startPoint.y &&
 				(nextPoint.x !== currentPoint.x || nextPoint.y !== currentPoint.y))
@@ -771,6 +776,7 @@ export class RoomPlaneParser
 		}
 
 		if (wallData.count === 0) return null;
+
 		return wallData;
 	}
 

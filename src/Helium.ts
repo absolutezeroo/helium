@@ -477,6 +477,7 @@ export class Helium
 		if (this._configurationManager!.propertyExists('localization.1'))
 		{
 			const locName = this._configurationManager!.getProperty('localization.1');
+
 			this._localizationManager!.activateLocalizationDefinition(locName);
 		}
 	}

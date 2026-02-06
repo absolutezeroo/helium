@@ -26,5 +26,7 @@ export interface IRoomObjectModel
 
 	getStringToStringMap(key: string): Map<string, string>;
 
+	getObject(key: string): unknown;
+
 	getUpdateID(): number;
 }

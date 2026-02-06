@@ -118,6 +118,14 @@ import {
 } from '../communication/messages/outgoing/room/engine/GetFurnitureAliasesMessageComposer';
 import {GetHeightMapMessageComposer} from '../communication/messages/outgoing/room/engine/GetHeightMapMessageComposer';
 
+// Room Entry Tile
+import {
+	RoomEntryTileMessageEvent
+} from '../communication/messages/incoming/room/layout/RoomEntryTileMessageEvent';
+import type {
+	RoomEntryTileMessageParser
+} from '../communication/messages/parser/room/layout/RoomEntryTileMessageParser';
+
 // Room Object
 import {RoomPlaneParser} from './object/RoomPlaneParser';
 import {Logger} from "@/core";
@@ -135,6 +143,7 @@ export class RoomMessageHandler
 	private _ownUserId: number = -1;
 	private _initialConnection: boolean = true;
 	private _planeParser: RoomPlaneParser;
+	private _entryTileEvent: RoomEntryTileMessageEvent | null = null;
 
 	constructor(roomCreator: IRoomCreator)
 	{
@@ -174,6 +183,9 @@ export class RoomMessageHandler
 			connection.addMessageEvent(new UserUpdateMessageEvent(this.onUserUpdate.bind(this)));
 			connection.addMessageEvent(new UserRemoveMessageEvent(this.onUserRemove.bind(this)));
 			connection.addMessageEvent(new SlideObjectBundleMessageEvent(this.onSlideUpdate.bind(this)));
+
+			// Room layout events
+			connection.addMessageEvent(new RoomEntryTileMessageEvent(this.onEntryTileData.bind(this)));
 
 			// Avatar action events
 			connection.addMessageEvent(new UserTypingMessageEvent(this.onTypingStatus.bind(this)));
@@ -321,6 +333,19 @@ export class RoomMessageHandler
 		log.debug(`[RoomMessageHandler] Height map received: ${parser.width}x${parser.height}`);
 	}
 
+	/**
+	 * Handle entry tile data (arrives BEFORE FloorHeightMap).
+	 * Based on AS3: RoomMessageHandler.onEntryTileData
+	 */
+	private onEntryTileData(event: IMessageEvent): void
+	{
+		this._entryTileEvent = event as RoomEntryTileMessageEvent;
+	}
+
+	/**
+	 * Handle floor height map data. Detects door position and generates planes.
+	 * Based on AS3: RoomMessageHandler.onFloorHeightMap (lines 540-627)
+	 */
 	private onFloorHeightMap(event: IMessageEvent): void
 	{
 		const floorEvent = event as FloorHeightMapMessageEvent;
@@ -349,23 +374,95 @@ export class RoomMessageHandler
 		this._planeParser.reset();
 		this._planeParser.initializeTileMap(width, height);
 
-		// Set tile heights from parser data
+		// Get entry tile data if available (arrives before FloorHeightMap)
+		let entryTileParser: RoomEntryTileMessageParser | null = null;
+
+		if (this._entryTileEvent !== null)
+		{
+			entryTileParser = this._entryTileEvent.getParser() as RoomEntryTileMessageParser;
+		}
+
+		// Door detection variables (AS3 lines 567-570)
+		let doorX: number = -1;
+		let doorY: number = -1;
+		let doorZ: number = 0;
+		let doorDir: number = 0;
+
+		// Scan tiles: detect door and set heights (AS3 lines 579-596)
 		for (let y = 0; y < height; y++)
 		{
 			for (let x = 0; x < width; x++)
 			{
 				const tileHeight = parser.getTileHeight(x, y);
+
+				// Door detection: check if tile is on the border and has 3 blocked neighbors
+				// AS3 condition: (y > 0 && y < height-1 || x > 0 && x < width-1) && height != -110
+				if ((y > 0 && y < height - 1 || x > 0 && x < width - 1) && tileHeight !== -110)
+				{
+					// If we have entry tile data, only check that specific tile
+					if (entryTileParser === null || (x === entryTileParser.x && y === entryTileParser.y))
+					{
+						// Pattern 1: top + left + bottom blocked → door direction 90 (facing right)
+						if (parser.getTileHeight(x, y - 1) === -110
+							&& parser.getTileHeight(x - 1, y) === -110
+							&& parser.getTileHeight(x, y + 1) === -110)
+						{
+							doorX = x + 0.5;
+							doorY = y;
+							doorZ = tileHeight;
+							doorDir = 90;
+						}
+
+						// Pattern 2: top + left + right blocked → door direction 180 (facing down)
+						if (parser.getTileHeight(x, y - 1) === -110
+							&& parser.getTileHeight(x - 1, y) === -110
+							&& parser.getTileHeight(x + 1, y) === -110)
+						{
+							doorX = x;
+							doorY = y + 0.5;
+							doorZ = tileHeight;
+							doorDir = 180;
+						}
+					}
+				}
+
 				this._planeParser.setTileHeight(x, y, tileHeight);
 			}
 		}
 
-		// Initialize from tile data (generates floor/wall planes)
+		const doorFound = doorX >= 0 && doorY >= 0;
+
+		// Set door tile height BEFORE initializeFromTileData (AS3 line 598)
+		if (doorFound)
+		{
+			this._planeParser.setTileHeight(Math.floor(doorX), Math.floor(doorY), doorZ);
+		}
+
+		// Generate floor/wall planes
 		this._planeParser.initializeFromTileData(parser.fixedWallsHeight);
 
-		// Initialize room with plane parser data
+		// Set door tile height AFTER with wallHeight added (AS3 line 601)
+		if (doorFound)
+		{
+			this._planeParser.setTileHeight(
+				Math.floor(doorX), Math.floor(doorY),
+				doorZ + this._planeParser.wallHeight
+			);
+
+			log.debug(`[RoomMessageHandler] Door detected at (${doorX}, ${doorY}, ${doorZ}) dir=${doorDir}`);
+		}
+
+		// Initialize room with plane parser data and door info
 		if (this._roomCreator !== null)
 		{
-			this._roomCreator.initializeRoom(this._currentRoomId, this._planeParser);
+			this._roomCreator.initializeRoom(
+				this._currentRoomId,
+				this._planeParser,
+				doorFound ? doorX : undefined,
+				doorFound ? doorY : undefined,
+				doorFound ? doorZ : undefined,
+				doorFound ? doorDir : undefined
+			);
 		}
 	}
 
