@@ -1,8 +1,8 @@
-import type {JSX} from 'solid-js';
-import {Show} from 'solid-js';
+import {JSX, Show} from 'solid-js';
 import clsx from 'clsx';
 import type {IconName} from '../common';
 import {NavigatorIcon} from '../common';
+import {useLocalization} from "@/ui";
 
 export interface CategoryItemProps
 {
@@ -26,6 +26,7 @@ export interface CategoryItemProps
  */
 export function CategoryItem(props: CategoryItemProps): JSX.Element
 {
+	const t = useLocalization();
 	const depth = () => props.depth ?? 0;
 	const paddingLeft = () => `${depth() * 16 + 12}px`;
 
@@ -82,7 +83,7 @@ export function CategoryItem(props: CategoryItemProps): JSX.Element
 
 				{/* Name */}
 				<span class="flex-1 truncate text-sm">
-					{props.name}
+					{t(props.name)}
 				</span>
 
 				{/* Room count */}

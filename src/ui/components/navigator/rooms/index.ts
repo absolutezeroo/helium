@@ -4,6 +4,8 @@ export {RoomCardCompact} from './RoomCardCompact';
 export type {RoomCardCompactProps} from './RoomCardCompact';
 export {RoomList} from './RoomList';
 export type {RoomListProps, RoomListRoom, RoomListViewMode} from './RoomList';
+export {NavigatorBlockSection} from './NavigatorBlockSection';
+export type {NavigatorBlockData, NavigatorBlockSectionProps} from './NavigatorBlockSection';
 export {LiftedRoomsSection} from './LiftedRoomsSection';
 export type {LiftedRoomsSectionProps, LiftedRoom} from './LiftedRoomsSection';
 export {RoomEventsSection} from './RoomEventsSection';

@@ -177,6 +177,7 @@ export function useNavigatorLocalization()
 	const t = (key: string, defaultValue?: string): string =>
 	{
 		const fallback = defaultValue ?? DEFAULTS[key] ?? key;
+
 		return localization.get(key, fallback);
 	};
 
@@ -186,6 +187,7 @@ export function useNavigatorLocalization()
 	const tp = (key: string, params: Record<string, string>, defaultValue?: string): string =>
 	{
 		const fallback = defaultValue ?? DEFAULTS[key] ?? key;
+
 		return localization.getWithParams(key, params, fallback);
 	};
 

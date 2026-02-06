@@ -433,13 +433,19 @@ export class RoomMessageHandler
 		const doorFound = doorX >= 0 && doorY >= 0;
 
 		// Set door tile height BEFORE initializeFromTileData (AS3 line 598)
+		const doorTileX = Math.floor(doorX);
+		const doorTileY = Math.floor(doorY);
+
 		if (doorFound)
 		{
-			this._planeParser.setTileHeight(Math.floor(doorX), Math.floor(doorY), doorZ);
+			this._planeParser.setTileHeight(doorTileX, doorTileY, doorZ);
 		}
 
-		// Generate floor/wall planes
-		this._planeParser.initializeFromTileData(parser.fixedWallsHeight);
+		// Generate floor/wall planes, passing explicit door tile position
+		this._planeParser.initializeFromTileData(
+			parser.fixedWallsHeight,
+			doorFound ? {x: doorTileX, y: doorTileY} : undefined
+		);
 
 		// Set door tile height AFTER with wallHeight added (AS3 line 601)
 		if (doorFound)

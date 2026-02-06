@@ -19,6 +19,7 @@ import type {IVector3d} from '@room/utils/IVector3d';
 import {RoomPlaneData} from '@habbo/room/object/RoomPlaneData';
 import {RoomObjectVariableEnum} from '@habbo/room/object/RoomObjectVariableEnum';
 import type {RoomPlaneParser} from '@habbo/room/object/RoomPlaneParser';
+import {RoomVisualizationData} from './RoomVisualizationData';
 import {Logger} from "@/core";
 
 const log = Logger.getLogger('RoomVisualization');
@@ -72,6 +73,8 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 	private _geometryDirZ: number = 0;
 	private _geometryScale: number = 0;
 
+	private _visualizationData: RoomVisualizationData | null = null;
+
 	private _planeContainer: Container;
 
 	constructor()
@@ -120,6 +123,12 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 	override initialize(data: IRoomObjectVisualizationData): boolean
 	{
 		this.reset();
+
+		if (data instanceof RoomVisualizationData)
+		{
+			this._visualizationData = data;
+		}
+
 		return true;
 	}
 
@@ -367,6 +376,7 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 	/**
 	 * Create planes from the RoomPlaneParser data.
 	 * Based on AS3: RoomVisualization.createPlanesAndSprites() lines 569-700
+	 * + AS3: RoomEngine.createRoom() door mask application (lines 3044-3076)
 	 */
 	private createPlanesAndSprites(planeParser: RoomPlaneParser): void
 	{
@@ -455,6 +465,19 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 
 			plane.color = color;
 
+			// Assign rasterizer from visualization data
+			if (this._visualizationData !== null)
+			{
+				if (planeType === RoomPlane.TYPE_FLOOR)
+				{
+					plane.rasterizer = this._visualizationData.floorRasterizer;
+				}
+				else if (planeType === RoomPlane.TYPE_WALL)
+				{
+					plane.rasterizer = this._visualizationData.wallRasterizer;
+				}
+			}
+
 			// Thin walls without texture (AS3 lines 624-626)
 			if (planeType === RoomPlane.TYPE_WALL)
 			{
@@ -470,9 +493,89 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 			this._planeContainer.addChild(plane.displayObject);
 		}
 
+		// Apply door masks to floor planes
+		// Based on AS3 RoomEngine.createRoom() lines 3044-3076
+		this.applyDoorMasks();
+
 		this._initialized = true;
 
 		this.defineSprites();
+	}
+
+	/**
+	 * Apply door masks to wall planes at the entrance position.
+	 *
+	 * In AS3, RoomEngine sends RoomObjectRoomMaskUpdateMessage to add "door"/"hole"
+	 * bitmap masks to floor/landscape planes, and rectangle masks cut wall planes.
+	 * The setDisplacement() on geometry also affects depth sorting at the door position.
+	 *
+	 * For flat-color rendering, we add rectangle masks to the wall plane at the door
+	 * position to create a visual opening. The entrance floor tile stays visible.
+	 */
+	private applyDoorMasks(): void
+	{
+		const model = this.object?.getModel();
+		if (!model) return;
+
+		const doorX = model.getNumber(RoomObjectVariableEnum.ROOM_DOOR_X);
+		const doorY = model.getNumber(RoomObjectVariableEnum.ROOM_DOOR_Y);
+		const doorZ = model.getNumber(RoomObjectVariableEnum.ROOM_DOOR_Z);
+		const doorDir = model.getNumber(RoomObjectVariableEnum.ROOM_DOOR_DIR);
+
+		if (isNaN(doorX) || isNaN(doorY) || isNaN(doorZ)) return;
+
+		// 3D position of the door (at the entrance tile)
+		const doorPos = new Vector3d(doorX, doorY, doorZ);
+
+		// Find wall planes that overlap with the door position and add rectangle masks.
+		// The door position is at the entrance tile, which is OUTSIDE the wall.
+		// We filter walls by their normal direction matching the door direction,
+		// then project the door position onto the wall's leftSide to find the cut location.
+		for (let i = 0; i < this._planes.length; i++)
+		{
+			const plane = this._planes[i];
+			if (plane.type !== RoomPlane.TYPE_WALL) continue;
+
+			const leftSide = plane.leftSide as Vector3d;
+			const rightSide = plane.rightSide as Vector3d;
+			const leftLen = leftSide.length;
+			const rightLen = rightSide.length;
+
+			// Skip thin edge/thickness planes — only target main wall faces
+			if (leftLen < 1 || rightLen < 1) continue;
+
+			const normal = plane.normal as Vector3d;
+
+			// Filter by wall orientation matching door direction:
+			// dir=90 → door on left wall → wall normal has significant X component
+			// dir=180 → door on top wall → wall normal has significant Y component
+			if (doorDir === 90 && Math.abs(normal.x) < 0.5) continue;
+			if (doorDir === 180 && Math.abs(normal.y) < 0.5) continue;
+
+			const loc = plane.location as Vector3d;
+			const diff = Vector3d.dif(doorPos, loc)!;
+
+			// Project door position onto wall's leftSide to find where the door is along the wall
+			const leftProj = Vector3d.scalarProjection(diff, leftSide);
+
+			// Door must be within the wall span
+			if (leftProj < -0.5 || leftProj > leftLen + 0.5) continue;
+
+			// Add rectangle mask: one tile wide, full wall height
+			const maskLeftStart = Math.max(0, leftProj - 0.5);
+			const maskLeftEnd = Math.min(leftLen, leftProj + 0.5);
+			const maskLeftLength = maskLeftEnd - maskLeftStart;
+
+			if (maskLeftLength > 0.01)
+			{
+				plane.addRectangleMask(
+					maskLeftStart,
+					0,
+					maskLeftLength,
+					rightLen
+				);
+			}
+		}
 	}
 
 	private updateSprite(sprite: IRoomObjectSprite, plane: RoomPlane, name: string, depth: number): void

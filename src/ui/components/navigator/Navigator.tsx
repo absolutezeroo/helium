@@ -3,9 +3,8 @@ import {createMemo, createSignal} from 'solid-js';
 import {ModuleId, useActions, useModule} from '../../bridge';
 import {NavigatorWindow} from './NavigatorWindow';
 import {RoomCreateModal} from './create';
-import type {RoomListRoom} from './rooms';
-import type {Category} from './categories';
-import {mapSearchResultsToListRooms} from './utils';
+import type {NavigatorBlockData} from './rooms';
+import {mapSearchResultsToBlocks} from './utils';
 
 /**
  * Navigator - Connects the module to NavigatorWindow
@@ -34,20 +33,10 @@ export function Navigator(): JSX.Element
 		})
 	);
 
-	const rooms = createMemo((): RoomListRoom[] =>
-		mapSearchResultsToListRooms(navigator().searchResults)
+	// Map search results into blocks (grouped by category)
+	const blocks = createMemo((): NavigatorBlockData[] =>
+		mapSearchResultsToBlocks(navigator().searchResults)
 	);
-
-	const categories = createMemo((): Category[] =>
-	{
-		const results = navigator().searchResults;
-		if (!results) return [];
-		return results.blocks.map((block, index) => ({
-			id: index,
-			name: block.text || block.searchCode,
-			roomCount: block.guestRooms.length,
-		}));
-	});
 
 	// Handlers - use module actions
 	const handleTabChange = (searchCode: string) =>
@@ -78,8 +67,7 @@ export function Navigator(): JSX.Element
 				isOpen={navigator().isOpen}
 				tabs={tabs()}
 				activeTab={navigator().currentSearchCode}
-				rooms={rooms()}
-				categories={categories()}
+				blocks={blocks()}
 				onClose={() => navActions.close()}
 				onTabChange={handleTabChange}
 				onSearch={handleSearch}

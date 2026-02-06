@@ -73,6 +73,9 @@ export interface HeliumConfig extends HeliumCoreConfig
 
 	/** Configuration object (alternative to URL) */
 	configuration?: Record<string, string>;
+
+	/** Allow arbitrary configuration properties at the top level */
+	[key: string]: unknown;
 }
 
 /**
@@ -357,7 +360,18 @@ export class Helium
 		this._configurationManager = new HabboConfigurationManager(ctx);
 		ctx.attachComponent(this._configurationManager, [IID_HabboConfigurationManager]);
 
-		// Set configuration properties from config object
+		// Set external variables URL if provided (must be set before download)
+		if (config?.configurationUrl)
+		{
+			this._configurationManager.setProperty('external.variables.txt', config.configurationUrl);
+		}
+
+		// Load external configuration (blocks until loaded)
+		// NOTE: initComponent() → resetAll() fires as a microtask during the fetch,
+		// clearing _configurationData. Properties must be set AFTER this completes.
+		await this._configurationManager.initConfigurationDownload();
+
+		// Set configuration properties from config object (after download so resetAll doesn't clear them)
 		if (config?.configuration)
 		{
 			for (const [key, value] of Object.entries(config.configuration))
@@ -366,14 +380,20 @@ export class Helium
 			}
 		}
 
-		// Set external variables URL if provided
-		if (config?.configurationUrl)
+		// Also pick up top-level string properties as configuration overrides
+		// (allows setting 'flash.client.url' etc. directly in the config)
+		if (config)
 		{
-			this._configurationManager.setProperty('external.variables.txt', config.configurationUrl);
-		}
+			const reservedKeys = new Set(['background', 'resizeTo', 'antialias', 'resolution', 'canvas', 'connection', 'configurationUrl', 'configuration']);
 
-		// Load external configuration (blocks until loaded)
-		await this._configurationManager.initConfigurationDownload();
+			for (const [key, value] of Object.entries(config))
+			{
+				if (!reservedKeys.has(key) && typeof value === 'string')
+				{
+					this._configurationManager.setProperty(key, value);
+				}
+			}
+		}
 
 		// Habbo Communication Manager (depends on CoreCommunicationManager from core)
 		this._habboCommunicationManager = new HabboCommunicationManager(ctx);
@@ -412,7 +432,7 @@ export class Helium
 		ctx.attachComponent(this._roomManager, [IID_RoomManager]);
 
 		// Room Engine (depends on RoomManager via IID_RoomManager)
-		this._roomEngine = new RoomEngine(ctx);
+		this._roomEngine = new RoomEngine(ctx, this._core!.assets);
 		ctx.attachComponent(this._roomEngine, [IID_RoomEngine]);
 
 		// Set PixiJS stage on room engine for rendering

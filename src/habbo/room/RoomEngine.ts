@@ -11,6 +11,7 @@
  */
 import type {Container} from 'pixi.js';
 import {Component, ComponentDependency, type IContext, type IUpdateReceiver} from '@core/runtime';
+import type {IAssetLibrary} from '@core/assets/IAssetLibrary';
 import type {IConnection} from '@core/communication/connection/IConnection';
 import type {IRoomEngine} from './IRoomEngine';
 import type {IRoomCreator} from './IRoomCreator';
@@ -48,8 +49,16 @@ import {RoomObjectAvatarCarryObjectUpdateMessage} from './messages/RoomObjectAva
 import {RoomObjectAvatarSignUpdateMessage} from './messages/RoomObjectAvatarSignUpdateMessage';
 import {RoomObjectAvatarOwnMessage} from './messages/RoomObjectAvatarOwnMessage';
 import type {IVector3d} from '@room/utils/IVector3d';
+import {Vector3d} from '@room/utils/Vector3d';
 import type {RoomPlaneParser} from './object/RoomPlaneParser';
 import {Logger} from "@/core";
+import {RoomVisualizationData} from './object/visualization/room/RoomVisualizationData';
+import type {IAssetRoomVisualizationData} from './object/visualization/room/rasterizer/basic/PlaneRasterizerTypes';
+import type {NitroAsset} from '@core/assets/NitroAsset';
+import {AssetLoaderEvent, AssetLoaderEventType} from '@core/assets/loaders/AssetLoaderEvent';
+import {IID_HabboConfigurationManager} from '@iid/IIDHabboConfigurationManager';
+import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
+import {Texture} from 'pixi.js';
 
 const log = Logger.getLogger('RoomEngine');
 
@@ -76,10 +85,12 @@ export class RoomEngine extends Component implements IRoomEngine,
 	private _renderingCanvases: Map<number, RoomRenderingCanvas> = new Map();
 	private _roomVisualizations: Map<string, IRoomObjectSpriteVisualization> = new Map();
 	private _pixiStage: Container | null = null;
+	private _roomVisualizationData: RoomVisualizationData | null = null;
+	private _configurationManager: IHabboConfigurationManager | null = null;
 
-	constructor(context: IContext)
+	constructor(context: IContext, assetLibrary: IAssetLibrary | null = null)
 	{
-		super(context);
+		super(context, 0, assetLibrary);
 		this._roomObjectFactory = new RoomObjectFactory();
 		this._roomData = new Map();
 		this._ownUserIds = new Map();
@@ -138,6 +149,20 @@ export class RoomEngine extends Component implements IRoomEngine,
 					}
 				},
 				true // Required dependency
+			),
+			new ComponentDependency(
+				IID_HabboConfigurationManager,
+				(config: IHabboConfigurationManager | null) =>
+				{
+					this._configurationManager = config;
+
+					// Load room content once the config manager is available
+					if (config)
+					{
+						this.loadRoomContent();
+					}
+				},
+				false // Optional - room can render with flat colors without textures
 			),
 		];
 	}
@@ -986,6 +1011,29 @@ export class RoomEngine extends Component implements IRoomEngine,
 						model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_Y, doorDir === 180 ? doorY! - 0.5 : doorY!, true);
 						model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_Z, doorZ!, true);
 						model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_DIR, doorDir, true);
+
+						// Set displacement on room geometry for door depth sorting
+						// AS3: geometry.setDisplacement(doorPos, displacement)
+						const canvas = this.getRenderingCanvas(roomId);
+
+						if (canvas?.geometry)
+						{
+							const doorPos = new Vector3d(
+								doorDir === 90 ? doorX - 0.5 : doorX,
+								doorDir === 180 ? doorY! - 0.5 : doorY!,
+								doorZ!
+							);
+
+							let displacement: IVector3d | null = null;
+
+							if (doorDir === 90) displacement = new Vector3d(-2000, 0, 0);
+							if (doorDir === 180) displacement = new Vector3d(0, -2000, 0);
+
+							if (displacement)
+							{
+								canvas.geometry.setDisplacement(doorPos, displacement);
+							}
+						}
 					}
 				}
 			}
@@ -1563,6 +1611,155 @@ export class RoomEngine extends Component implements IRoomEngine,
 		this.registerUpdateReceiver(this, 10);
 	}
 
+	/**
+	 * Load the room content bundle (.nitro) containing floor/wall textures.
+	 * Based on AS3: RoomContentLoader loading room assets.
+	 */
+	private loadRoomContent(): void
+	{
+		const assetName = 'room';
+
+		// Check if already loaded
+		if (this.hasAsset(assetName))
+		{
+			this.onRoomContentReady();
+			return;
+		}
+
+		// Build URL from configuration using generic.asset.url template
+		// e.g. generic.asset.url = "${asset.url}/bundled/generic/%libname%.nitro"
+		let url = '';
+
+		if (this._configurationManager)
+		{
+			url = this._configurationManager.getProperty('generic.asset.url', {libname: assetName});
+		}
+
+		if (!url)
+		{
+			log.warn('[RoomEngine] Cannot load room content - no generic.asset.url configured');
+			return;
+		}
+
+		log.debug(`[RoomEngine] Loading room content from: ${url}`);
+
+		const loader = this.loadAssetFromFile(assetName, url);
+
+		if (loader)
+		{
+			loader.events.on('event', (event: AssetLoaderEvent) =>
+			{
+				if (event.type === AssetLoaderEventType.COMPLETE)
+				{
+					this.onRoomContentReady();
+				}
+				else if (event.type === AssetLoaderEventType.ERROR)
+				{
+					log.warn('[RoomEngine] Failed to load room content bundle');
+				}
+			});
+		}
+	}
+
+	/**
+	 * Process loaded room content bundle and create RoomVisualizationData.
+	 */
+	private onRoomContentReady(): void
+	{
+		const asset = this.findAssetByName('room') as NitroAsset | null;
+
+		if (!asset) return;
+
+		const jsonData = asset.jsonData;
+
+		if (!jsonData) return;
+
+		// Extract room visualization data from bundle JSON
+		// The room.nitro bundle contains a "roomVisualization" key with floor/wall/landscape data
+		const vizData = (jsonData as Record<string, unknown>).roomVisualization as IAssetRoomVisualizationData | undefined;
+
+		if (!vizData)
+		{
+			log.warn('[RoomEngine] Room bundle has no roomVisualization data');
+			return;
+		}
+
+		// Create RoomVisualizationData and initialize with JSON config
+		this._roomVisualizationData = new RoomVisualizationData();
+		this._roomVisualizationData.initialize(vizData);
+
+		// Convert PixiJS textures to HTMLCanvasElement for the rasterizer system
+		const canvasTextures = new Map<string, HTMLCanvasElement>();
+		const textures: Map<string, Texture> = asset.textures;
+
+		if (textures)
+		{
+			for (const [name, texture] of textures)
+			{
+				const canvas = this.pixiTextureToCanvas(texture);
+
+				if (canvas !== null)
+				{
+					canvasTextures.set(name, canvas);
+				}
+			}
+		}
+
+		this._roomVisualizationData.initializeAssetCollection(canvasTextures);
+
+		log.debug(`[RoomEngine] Room visualization data initialized with ${canvasTextures.size} textures`);
+	}
+
+	/**
+	 * Convert a PixiJS Texture to an HTMLCanvasElement.
+	 * Extracts the frame region from the spritesheet source image.
+	 */
+	private pixiTextureToCanvas(texture: Texture): HTMLCanvasElement | null
+	{
+		try
+		{
+			const frame = texture.frame;
+
+			if (frame.width < 1 || frame.height < 1) return null;
+
+			const canvas = document.createElement('canvas');
+			canvas.width = frame.width;
+			canvas.height = frame.height;
+			const ctx = canvas.getContext('2d');
+
+			if (!ctx) return null;
+
+			const source = texture.source?.resource;
+
+			if (source instanceof HTMLImageElement || source instanceof HTMLCanvasElement)
+			{
+				ctx.drawImage(
+					source,
+					frame.x, frame.y, frame.width, frame.height,
+					0, 0, frame.width, frame.height
+				);
+				return canvas;
+			}
+
+			// ImageBitmap support
+			if (typeof ImageBitmap !== 'undefined' && source instanceof ImageBitmap)
+			{
+				ctx.drawImage(
+					source,
+					frame.x, frame.y, frame.width, frame.height,
+					0, 0, frame.width, frame.height
+				);
+				return canvas;
+			}
+
+			return null;
+		}
+		catch
+		{
+			return null;
+		}
+	}
+
 	private getRoomIdentifier(roomId: number): string
 	{
 		return `${ROOM_ID_PREFIX}${roomId}`;
@@ -1606,6 +1803,12 @@ export class RoomEngine extends Component implements IRoomEngine,
 		if (object)
 		{
 			spriteVisualization.object = object;
+		}
+
+		// Initialize room visualization with texture data (rasterizers)
+		if (type === OBJECT_TYPE_ROOM && this._roomVisualizationData !== null)
+		{
+			spriteVisualization.initialize(this._roomVisualizationData);
 		}
 
 		// Store visualization

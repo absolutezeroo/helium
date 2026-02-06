@@ -1,23 +1,21 @@
 import type {JSX} from 'solid-js';
-import {createSignal, onMount, Show} from 'solid-js';
+import {createSignal, For, onMount, Show} from 'solid-js';
 import clsx from 'clsx';
 import {NavigatorHeader, NavigatorIcon} from './common';
 import type {TabDefinition} from './tabs';
 import {NavigatorTabs} from './tabs';
 import {NavigatorSearch} from './search';
-import type {RoomListRoom, RoomListViewMode} from './rooms';
-import {RoomList} from './rooms';
-import type {Category} from './categories';
-import {CategoryList} from './categories';
-import {useDraggable, useNavigatorLocalization} from './hooks';
+import type {NavigatorBlockData, RoomListViewMode} from './rooms';
+import {NavigatorBlockSection} from './rooms';
+import {useDraggable} from '../../hooks/useDraggable';
+import {useNavigatorLocalization} from './hooks';
 
 export interface NavigatorWindowProps
 {
 	isOpen: boolean;
 	tabs: TabDefinition[];
 	activeTab: string;
-	rooms: RoomListRoom[];
-	categories: Category[];
+	blocks: NavigatorBlockData[];
 	loading?: boolean;
 
 	onClose?: () => void;
@@ -29,15 +27,15 @@ export interface NavigatorWindowProps
 }
 
 /**
- * NavigatorWindow - Pure UI component for the navigator window
+ * NavigatorWindow - Pure UI component for the navigator window.
+ * Displays search results grouped by collapsible blocks (like Habbo's navigator).
  */
 export function NavigatorWindow(props: NavigatorWindowProps): JSX.Element
 {
 	const {t, keys} = useNavigatorLocalization();
 
-	const [viewMode, setViewMode] = createSignal<RoomListViewMode>('cards');
+	const [viewMode, setViewMode] = createSignal<RoomListViewMode>('compact');
 	const [searchQuery, setSearchQuery] = createSignal('');
-	const [showCategories, setShowCategories] = createSignal(true);
 
 	let windowRef: HTMLDivElement | undefined;
 	let headerRef: HTMLDivElement | undefined;
@@ -62,6 +60,9 @@ export function NavigatorWindow(props: NavigatorWindowProps): JSX.Element
 	});
 
 	const isSearching = () => searchQuery().length > 0;
+
+	const totalRoomCount = () =>
+		props.blocks.reduce((sum, block) => sum + block.rooms.length, 0);
 
 	const handleSearch = (query: string) =>
 	{
@@ -123,93 +124,75 @@ export function NavigatorWindow(props: NavigatorWindowProps): JSX.Element
 					onTabChange={(id) => props.onTabChange?.(id)}
 				/>
 
-				{/* Search */}
-				<div class="px-4 py-3 border-b border-slate-700/50 bg-slate-800/20">
-					<NavigatorSearch
-						value={searchQuery()}
-						onSearch={handleSearch}
-						onClear={handleClearSearch}
-						placeholder={t(keys.SEARCH_PLACEHOLDER)}
-					/>
+				{/* Search + view controls */}
+				<div class="flex items-center gap-2 px-4 py-2.5 border-b border-slate-700/50 bg-slate-800/20">
+					<div class="flex-1">
+						<NavigatorSearch
+							value={searchQuery()}
+							onSearch={handleSearch}
+							onClear={handleClearSearch}
+							placeholder={t(keys.SEARCH_PLACEHOLDER)}
+						/>
+					</div>
+
+					{/* View mode toggle */}
+					<div class="flex items-center gap-1 bg-slate-800/60 rounded-lg p-1 flex-shrink-0">
+						<button
+							type="button"
+							class={clsx(
+								'p-1.5 rounded-md transition-colors',
+								viewMode() === 'cards'
+									? 'bg-amber-500/20 text-amber-400'
+									: 'text-slate-400 hover:text-slate-200'
+							)}
+							onClick={() => setViewMode('cards')}
+						>
+							<NavigatorIcon name="grid" size="sm"/>
+						</button>
+						<button
+							type="button"
+							class={clsx(
+								'p-1.5 rounded-md transition-colors',
+								viewMode() === 'compact'
+									? 'bg-amber-500/20 text-amber-400'
+									: 'text-slate-400 hover:text-slate-200'
+							)}
+							onClick={() => setViewMode('compact')}
+						>
+							<NavigatorIcon name="list" size="sm"/>
+						</button>
+					</div>
 				</div>
 
-				{/* Content */}
-				<div class="flex-1 flex overflow-hidden">
-					{/* Categories sidebar */}
-					<Show when={showCategories() && !isSearching()}>
-						<div class="w-52 border-r border-slate-700/30 overflow-y-auto bg-slate-800/20">
-							<CategoryList
-								categories={props.categories}
-								loading={props.loading}
-								class="py-2"
-							/>
+				{/* Content - blocks with collapsible sections */}
+				<div class="flex-1 overflow-y-auto">
+					{/* Loading state */}
+					<Show when={props.loading}>
+						<div class="p-4 text-center text-sm text-slate-400">
+							Loading...
 						</div>
 					</Show>
 
-					{/* Main content */}
-					<div class="flex-1 flex flex-col overflow-hidden">
-						{/* View controls */}
-						<div
-							class="flex items-center justify-between px-4 py-2.5 border-b border-slate-700/30 bg-slate-800/30">
-							<div class="flex items-center gap-3">
-								<Show when={!isSearching()}>
-									<button
-										type="button"
-										class={clsx(
-											'p-1.5 rounded-md transition-colors',
-											showCategories()
-												? 'text-amber-400 bg-amber-500/10'
-												: 'text-slate-400 hover:text-slate-200 hover:bg-slate-700/50'
-										)}
-										onClick={() => setShowCategories(!showCategories())}
-									>
-										<NavigatorIcon name="menu" size="sm"/>
-									</button>
-								</Show>
-								<span class="text-xs text-slate-500 font-medium">
-									{props.rooms.length} rooms
-								</span>
-							</div>
-
-							{/* View mode toggle */}
-							<div class="flex items-center gap-1 bg-slate-800/60 rounded-lg p-1">
-								<button
-									type="button"
-									class={clsx(
-										'p-1.5 rounded-md transition-colors',
-										viewMode() === 'cards'
-											? 'bg-amber-500/20 text-amber-400'
-											: 'text-slate-400 hover:text-slate-200'
-									)}
-									onClick={() => setViewMode('cards')}
-								>
-									<NavigatorIcon name="grid" size="sm"/>
-								</button>
-								<button
-									type="button"
-									class={clsx(
-										'p-1.5 rounded-md transition-colors',
-										viewMode() === 'compact'
-											? 'bg-amber-500/20 text-amber-400'
-											: 'text-slate-400 hover:text-slate-200'
-									)}
-									onClick={() => setViewMode('compact')}
-								>
-									<NavigatorIcon name="list" size="sm"/>
-								</button>
-							</div>
+					{/* Empty state */}
+					<Show when={!props.loading && props.blocks.length === 0}>
+						<div class="flex flex-col items-center justify-center py-12 text-center">
+							<NavigatorIcon name="room" size="xl" class="text-slate-600 mb-2"/>
+							<p class="text-slate-400 text-sm">No rooms found</p>
 						</div>
+					</Show>
 
-						{/* Room list */}
-						<div class="flex-1 overflow-y-auto p-4">
-							<RoomList
-								rooms={props.rooms}
-								viewMode={viewMode()}
-								loading={props.loading}
-								onRoomClick={props.onRoomClick}
-							/>
-						</div>
-					</div>
+					{/* Block sections */}
+					<Show when={!props.loading && props.blocks.length > 0}>
+						<For each={props.blocks}>
+							{(block) => (
+								<NavigatorBlockSection
+									block={block}
+									displayMode={viewMode()}
+									onRoomClick={props.onRoomClick}
+								/>
+							)}
+						</For>
+					</Show>
 				</div>
 			</div>
 		</Show>

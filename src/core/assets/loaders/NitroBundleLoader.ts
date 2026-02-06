@@ -1,4 +1,5 @@
 import {Assets, Spritesheet, Texture} from 'pixi.js';
+import {inflate} from 'pako';
 import {BinaryFileLoader} from './BinaryFileLoader';
 
 /**
@@ -307,7 +308,15 @@ export class NitroBundleLoader extends BinaryFileLoader
 	}
 
 	/**
-	 * Extract files from the nitro bundle binary format
+	 * Extract files from the nitro bundle binary format.
+	 *
+	 * Based on Nitro NitroBundle.ts:
+	 * - 2 bytes: file count (int16, big-endian)
+	 * - For each file:
+	 *   - 2 bytes: filename length (int16, big-endian)
+	 *   - N bytes: filename (UTF-8)
+	 *   - 4 bytes: compressed data length (int32, big-endian)
+	 *   - N bytes: zlib-compressed file data
 	 */
 	private extractFiles(data: ArrayBuffer): Array<{ name: string; data: Uint8Array }>
 	{
@@ -316,15 +325,15 @@ export class NitroBundleLoader extends BinaryFileLoader
 
 		let offset = 0;
 
-		// Read number of files (4 bytes, big-endian)
-		const numFiles = view.getUint32(offset, false);
+		// Read number of files (2 bytes, big-endian int16)
+		let numFiles = view.getInt16(offset, false);
 
-		offset += 4;
+		offset += 2;
 
-		for (let i = 0; i < numFiles; i++)
+		while (numFiles > 0)
 		{
-			// Read filename length (2 bytes, big-endian)
-			const nameLength = view.getUint16(offset, false);
+			// Read filename length (2 bytes, big-endian int16)
+			const nameLength = view.getInt16(offset, false);
 
 			offset += 2;
 
@@ -334,17 +343,20 @@ export class NitroBundleLoader extends BinaryFileLoader
 
 			offset += nameLength;
 
-			// Read file data length (4 bytes, big-endian)
-			const dataLength = view.getUint32(offset, false);
+			// Read compressed data length (4 bytes, big-endian int32)
+			const dataLength = view.getInt32(offset, false);
 
 			offset += 4;
 
-			// Read file data
-			const fileData = new Uint8Array(data, offset, dataLength);
+			// Read compressed data and decompress with zlib
+			const compressedData = new Uint8Array(data, offset, dataLength);
+			const fileData = inflate(compressedData);
 
 			offset += dataLength;
 
 			files.push({name, data: fileData});
+
+			numFiles--;
 		}
 
 		return files;

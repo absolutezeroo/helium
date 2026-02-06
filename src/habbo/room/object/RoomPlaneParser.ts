@@ -467,7 +467,7 @@ export class RoomPlaneParser
 		return this._tileMatrix[y][x];
 	}
 
-	initializeFromTileData(fixedWallsHeight: number = -1): boolean
+	initializeFromTileData(fixedWallsHeight: number = -1, doorTile?: { x: number; y: number }): boolean
 	{
 		this._fixedWallHeight = fixedWallsHeight;
 
@@ -480,7 +480,8 @@ export class RoomPlaneParser
 			}
 		}
 
-		const entranceTile = RoomPlaneParser.findEntranceTile(this._tileMatrix);
+		// Use explicit door tile if provided, otherwise auto-detect from heightmap shape
+		const entranceTile = doorTile ?? RoomPlaneParser.findEntranceTile(this._tileMatrix);
 
 		// Apply floor holes
 		for (let y = 0; y < this._height; y++)
@@ -680,7 +681,7 @@ export class RoomPlaneParser
 
 		// Find starting point for wall tracing
 		let startX = this.minX;
-		let startY = this.minY;
+		let startY: number;
 
 		for (startY = this.minY; startY <= this.maxY; startY++)
 		{
@@ -1222,14 +1223,14 @@ export class RoomPlaneParser
 			const thicknessVector = new Vector3d(0, 0, floorThickness);
 			const bottomLoc = Vector3d.dif(loc, thicknessVector)!;
 
-			// Top edge (front)
-			if (addTop)
+			// AS3 param6: addBottom edge
+			if (addBottom)
 			{
 				this.addPlane(RoomPlaneData.PLANE_FLOOR, bottomLoc, leftSide, thicknessVector, null, isHighlight);
 			}
 
-			// Bottom edge (back)
-			if (addBottom)
+			// AS3 param7: addTop edge
+			if (addTop)
 			{
 				this.addPlane(
 					RoomPlaneData.PLANE_FLOOR,
@@ -1241,8 +1242,8 @@ export class RoomPlaneParser
 				);
 			}
 
-			// Left edge
-			if (addLeft)
+			// AS3 param4: addRight edge
+			if (addRight)
 			{
 				this.addPlane(
 					RoomPlaneData.PLANE_FLOOR,
@@ -1254,8 +1255,8 @@ export class RoomPlaneParser
 				);
 			}
 
-			// Right edge
-			if (addRight)
+			// AS3 param5: addLeft edge
+			if (addLeft)
 			{
 				this.addPlane(
 					RoomPlaneData.PLANE_FLOOR,

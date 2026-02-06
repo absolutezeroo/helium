@@ -48,7 +48,7 @@ export class GameDataResources implements IGameDataResources
 					resources._externalVariablesUrl = entry.url;
 					resources._externalVariablesHash = entry.hash;
 					break;
-				case 'habbo_avatar_actions':
+				case 'furni_data':
 					resources._furniDataUrl = entry.url;
 					resources._furniDataHash = entry.hash;
 					break;

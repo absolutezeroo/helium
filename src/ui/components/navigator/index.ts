@@ -32,13 +32,15 @@ export {NavigatorTab, NavigatorTabs} from './tabs';
 export type {NavigatorTabProps, NavigatorTabsProps, TabDefinition} from './tabs';
 
 // Room components
-export {RoomCard, RoomCardCompact, RoomList, LiftedRoomsSection, RoomEventsSection} from './rooms';
+export {RoomCard, RoomCardCompact, RoomList, NavigatorBlockSection, LiftedRoomsSection, RoomEventsSection} from './rooms';
 export type {
 	RoomCardProps,
 	RoomCardCompactProps,
 	RoomListProps,
 	RoomListRoom,
 	RoomListViewMode,
+	NavigatorBlockData,
+	NavigatorBlockSectionProps,
 	LiftedRoomsSectionProps,
 	LiftedRoom,
 	RoomEventsSectionProps,
@@ -94,8 +96,8 @@ export type {
 } from './modals';
 
 // Hooks
-export {useDraggable} from './hooks/useDraggable';
-export type {DraggablePosition, UseDraggableOptions, UseDraggableReturn} from './hooks/useDraggable';
+export {useDraggable} from '../../hooks/useDraggable';
+export type {DraggablePosition, UseDraggableOptions, UseDraggableReturn} from '../../hooks/useDraggable';
 export {useNavigatorLocalization, NAV_KEYS} from './hooks/useLocalization';
 
 // Utils
@@ -103,4 +105,5 @@ export {
 	mapGuestRoomToListRoom,
 	mapGuestRoomsToListRooms,
 	mapSearchResultsToListRooms,
+	mapSearchResultsToBlocks,
 } from './utils';

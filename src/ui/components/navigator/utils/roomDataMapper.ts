@@ -1,6 +1,7 @@
 import type {GuestRoomData} from '@habbo/communication/messages/incoming/navigator';
 import type {NavigatorSearchResultSet} from '@habbo/communication/messages/incoming/newnavigator';
 import type {RoomListRoom} from '../rooms';
+import type {NavigatorBlockData} from '../rooms/NavigatorBlockSection';
 
 /**
  * Map door mode number to string type
@@ -70,5 +71,27 @@ export function mapSearchResultsToListRooms(
 	if (!results) return [];
 
 	const allRooms = results.getAllRooms();
+
 	return mapGuestRoomsToListRooms(allRooms, favouriteIds);
+}
+
+/**
+ * Convert NavigatorSearchResultSet into NavigatorBlockData[] for grouped display.
+ * Each block becomes a collapsible section in the UI.
+ */
+export function mapSearchResultsToBlocks(
+	results: NavigatorSearchResultSet | null,
+	favouriteIds?: Set<number>
+): NavigatorBlockData[]
+{
+	if (!results) return [];
+
+	return results.blocks.map(block => ({
+		searchCode: block.searchCode,
+		text: block.text,
+		actionAllowed: block.actionAllowed,
+		forceClosed: block.forceClosed,
+		viewMode: block.viewMode,
+		rooms: mapGuestRoomsToListRooms(block.guestRooms, favouriteIds),
+	}));
 }
