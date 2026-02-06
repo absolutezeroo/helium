@@ -1,4 +1,4 @@
-import type {BadgeData, BadgeFilterType, IBadgesModel} from './IBadgesModel';
+import type {IBadgeData, BadgeFilterType, IBadgesModel} from './IBadgesModel';
 import {BadgeFilter} from './IBadgesModel';
 import {Badge} from './Badge';
 
@@ -26,7 +26,7 @@ export class BadgesModel implements IBadgesModel
 		return BadgesModel.MAX_ACTIVE_BADGE_COUNT;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (this._disposed) return;
 
@@ -34,8 +34,8 @@ export class BadgesModel implements IBadgesModel
 		this._disposed = true;
 	}
 
-	initBadges(
-		badges: BadgeData[],
+	public initBadges(
+		badges: IBadgeData[],
 		getName: (id: string) => string,
 		getDesc: (id: string) => string
 	): void
@@ -72,7 +72,7 @@ export class BadgesModel implements IBadgesModel
 		}
 	}
 
-	updateBadge(
+	public updateBadge(
 		badgeId: string,
 		isInUse: boolean,
 		slotId: number,
@@ -127,7 +127,7 @@ export class BadgesModel implements IBadgesModel
 		return badge;
 	}
 
-	removeBadge(badgeId: string): boolean
+	public removeBadge(badgeId: string): boolean
 	{
 		for (let i = 0; i < this._allBadges.length; i++)
 		{
@@ -146,7 +146,7 @@ export class BadgesModel implements IBadgesModel
 		return false;
 	}
 
-	toggleBadgeWearing(badgeId: string): Badge | null
+	public toggleBadgeWearing(badgeId: string): Badge | null
 	{
 		const badge = this.getBadge(badgeId);
 
@@ -169,7 +169,7 @@ export class BadgesModel implements IBadgesModel
 		return badge;
 	}
 
-	getBadges(filter: BadgeFilterType = BadgeFilter.ALL): Badge[]
+	public getBadges(filter: BadgeFilterType = BadgeFilter.ALL): Badge[]
 	{
 		switch (filter)
 		{
@@ -187,7 +187,7 @@ export class BadgesModel implements IBadgesModel
 		}
 	}
 
-	getBadge(badgeId: string): Badge | null
+	public getBadge(badgeId: string): Badge | null
 	{
 		for (const badge of this._allBadges)
 		{
@@ -200,7 +200,7 @@ export class BadgesModel implements IBadgesModel
 		return null;
 	}
 
-	getBadgeFromActive(index: number): Badge | null
+	public getBadgeFromActive(index: number): Badge | null
 	{
 		if (index < 0 || index >= this._activeBadges.length)
 		{
@@ -210,7 +210,7 @@ export class BadgesModel implements IBadgesModel
 		return this._activeBadges[index];
 	}
 
-	getBadgeFromInactive(index: number): Badge | null
+	public getBadgeFromInactive(index: number): Badge | null
 	{
 		const inactive = this.getBadges(BadgeFilter.INACTIVE);
 
@@ -222,7 +222,7 @@ export class BadgesModel implements IBadgesModel
 		return inactive[index];
 	}
 
-	getSelectedBadge(filter: BadgeFilterType = BadgeFilter.ALL): Badge | null
+	public getSelectedBadge(filter: BadgeFilterType = BadgeFilter.ALL): Badge | null
 	{
 		const badges = this.getBadges(filter);
 
@@ -237,7 +237,7 @@ export class BadgesModel implements IBadgesModel
 		return null;
 	}
 
-	setBadgeSelected(badgeId: string): void
+	public setBadgeSelected(badgeId: string): void
 	{
 		for (const badge of this._allBadges)
 		{
@@ -245,7 +245,7 @@ export class BadgesModel implements IBadgesModel
 		}
 	}
 
-	forceSelection(): void
+	public forceSelection(): void
 	{
 		if (this.getSelectedBadge() !== null)
 		{
@@ -269,7 +269,7 @@ export class BadgesModel implements IBadgesModel
 		}
 	}
 
-	removeSelections(): void
+	public removeSelections(): void
 	{
 		for (const badge of this._allBadges)
 		{
@@ -277,7 +277,7 @@ export class BadgesModel implements IBadgesModel
 		}
 	}
 
-	resetUnseenItems(): string[]
+	public resetUnseenItems(): string[]
 	{
 		const resetIds: string[] = [];
 
@@ -293,7 +293,7 @@ export class BadgesModel implements IBadgesModel
 		return resetIds;
 	}
 
-	updateUnseenItems(unseenIds: number[]): void
+	public updateUnseenItems(unseenIds: number[]): void
 	{
 		// Badge unseen tracking uses slot IDs
 		const unseenSlots = new Set(unseenIds);
@@ -321,7 +321,7 @@ export class BadgesModel implements IBadgesModel
 		}
 	}
 
-	getActiveBadgeIds(): string[]
+	public getActiveBadgeIds(): string[]
 	{
 		return this._activeBadges.map(b => b.badgeId);
 	}

@@ -1,10 +1,10 @@
 import type {JSX} from 'solid-js';
 import {createSignal, For, onMount, Show} from 'solid-js';
 import clsx from 'clsx';
-import {NavigatorTab} from './NavigatorTab';
+import {INavigatorTab} from './NavigatorTab';
 import {type IconName, NavigatorIcon} from '../common';
 
-export interface TabDefinition
+export interface ITabDefinition
 {
 	id: string;
 	label: string;
@@ -13,9 +13,9 @@ export interface TabDefinition
 	disabled?: boolean;
 }
 
-export interface NavigatorTabsProps
+export interface INavigatorTabsProps
 {
-	tabs: TabDefinition[];
+	tabs: ITabDefinition[];
 	activeTab: string;
 	onTabChange: (tabId: string) => void;
 	class?: string;
@@ -24,7 +24,7 @@ export interface NavigatorTabsProps
 /**
  * Navigator tabs container - manages multiple tabs with horizontal scroll
  */
-export function NavigatorTabs(props: NavigatorTabsProps): JSX.Element
+export function NavigatorTabs(props: INavigatorTabsProps): JSX.Element
 {
 	let scrollContainerRef: HTMLDivElement | undefined;
 	const [canScrollLeft, setCanScrollLeft] = createSignal(false);
@@ -76,7 +76,7 @@ export function NavigatorTabs(props: NavigatorTabsProps): JSX.Element
 			>
 				<For each={props.tabs}>
 					{(tab) => (
-						<NavigatorTab
+						<INavigatorTab
 							id={tab.id}
 							label={tab.label}
 							icon={tab.icon}

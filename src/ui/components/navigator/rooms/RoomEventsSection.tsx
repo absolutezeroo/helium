@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import {NavigatorIcon, Skeleton} from '../common';
 import {useNavigatorLocalization} from '../hooks';
 
-export interface RoomEvent
+export interface IRoomEvent
 {
 	id: number;
 	roomId: number;
@@ -18,9 +18,9 @@ export interface RoomEvent
 	eventCategory?: number;
 }
 
-export interface RoomEventsSectionProps
+export interface IRoomEventsSectionProps
 {
-	events: RoomEvent[];
+	events: IRoomEvent[];
 	loading?: boolean;
 	expanded?: boolean;
 	onEventClick?: (roomId: number) => void;
@@ -31,7 +31,7 @@ export interface RoomEventsSectionProps
 /**
  * Room events section - displays active room events/promotions
  */
-export function RoomEventsSection(props: RoomEventsSectionProps): JSX.Element
+export function RoomEventsSection(props: IRoomEventsSectionProps): JSX.Element
 {
 	const {t, keys} = useNavigatorLocalization();
 

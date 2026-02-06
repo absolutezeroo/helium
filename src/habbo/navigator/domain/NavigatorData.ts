@@ -344,7 +344,7 @@ export class NavigatorData
 
 	get guestRoomSearchResults(): GuestRoomSearchResultData | null
 	{
-		return this._lastMessage as GuestRoomSearchResultData | null;
+		return this._lastMessage as GuestRoomSearchResultData | null; // cast: type assertion required
 	}
 
 	set guestRoomSearchResults(value: GuestRoomSearchResultData | null)
@@ -363,7 +363,7 @@ export class NavigatorData
 
 	get popularTags(): PopularTagsData | null
 	{
-		return this._lastMessage as PopularTagsData | null;
+		return this._lastMessage as PopularTagsData | null; // cast: type assertion required
 	}
 
 	set popularTags(value: PopularTagsData | null)
@@ -376,7 +376,7 @@ export class NavigatorData
 
 	get officialRooms(): OfficialRoomsData | null
 	{
-		return this._lastMessage as OfficialRoomsData | null;
+		return this._lastMessage as OfficialRoomsData | null; // cast: type assertion required
 	}
 
 	set officialRooms(value: OfficialRoomsData | null)
@@ -389,7 +389,7 @@ export class NavigatorData
 
 	get categoriesWithVisitorData(): CategoriesWithVisitorCountData | null
 	{
-		return this._lastMessage as CategoriesWithVisitorCountData | null;
+		return this._lastMessage as CategoriesWithVisitorCountData | null; // cast: type assertion required
 	}
 
 	set categoriesWithVisitorData(value: CategoriesWithVisitorCountData | null)
@@ -414,14 +414,14 @@ export class NavigatorData
 		this._visibleEventCategories = value.filter((cat) => cat.visible);
 	}
 
-	onRoomEnter(guestRoomId: number, isOwner: boolean): void
+	public onRoomEnter(guestRoomId: number, isOwner: boolean): void
 	{
 		this._enteredGuestRoom = null;
 		this._currentRoomOwner = isOwner;
 		this._currentRoomId = guestRoomId;
 	}
 
-	onRoomExit(): void
+	public onRoomExit(): void
 	{
 		if (this._roomEventData !== null)
 		{
@@ -437,17 +437,17 @@ export class NavigatorData
 		this._currentRoomOwner = false;
 	}
 
-	getCategoryById(nodeId: number): FlatCategory | null
+	public getCategoryById(nodeId: number): FlatCategory | null
 	{
 		return this._allCategories.find((cat) => cat.nodeId === nodeId) || null;
 	}
 
-	getEventCategoryById(categoryId: number): EventCategory | null
+	public getEventCategoryById(categoryId: number): EventCategory | null
 	{
 		return this._allEventCategories.find((cat) => cat.categoryId === categoryId) || null;
 	}
 
-	onFavourites(limit: number, roomIds: number[]): void
+	public onFavourites(limit: number, roomIds: number[]): void
 	{
 		this._favouriteLimit = limit;
 		this._favouriteCount = roomIds.length;
@@ -459,7 +459,7 @@ export class NavigatorData
 		}
 	}
 
-	favouriteChanged(roomId: number, added: boolean): void
+	public favouriteChanged(roomId: number, added: boolean): void
 	{
 		if (added)
 		{
@@ -472,7 +472,7 @@ export class NavigatorData
 		}
 	}
 
-	isCurrentRoomFavourite(): boolean
+	public isCurrentRoomFavourite(): boolean
 	{
 		if (!this._enteredGuestRoom)
 		{
@@ -481,7 +481,7 @@ export class NavigatorData
 		return this._favouriteRoomIds.has(this._enteredGuestRoom.flatId);
 	}
 
-	isCurrentRoomHome(): boolean
+	public isCurrentRoomHome(): boolean
 	{
 		if (!this._enteredGuestRoom)
 		{
@@ -490,32 +490,32 @@ export class NavigatorData
 		return this._homeRoomId === this._enteredGuestRoom.flatId;
 	}
 
-	isRoomFavourite(roomId: number): boolean
+	public isRoomFavourite(roomId: number): boolean
 	{
 		return this._favouriteRoomIds.has(roomId);
 	}
 
-	isFavouritesFull(): boolean
+	public isFavouritesFull(): boolean
 	{
 		return this._favouriteCount >= this._favouriteLimit;
 	}
 
-	isRoomHome(roomId: number): boolean
+	public isRoomHome(roomId: number): boolean
 	{
 		return roomId === this._homeRoomId;
 	}
 
-	startLoading(): void
+	public startLoading(): void
 	{
 		this._isLoading = true;
 	}
 
-	isLoading(): boolean
+	public isLoading(): boolean
 	{
 		return this._isLoading;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		this.disposeCurrentMessage();
 

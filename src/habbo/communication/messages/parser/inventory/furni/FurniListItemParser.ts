@@ -1,6 +1,6 @@
 import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
 import type {IStuffData} from '@habbo/inventory/items/IStuffData';
-import type {FurnitureItemData} from '@habbo/inventory/items/FurnitureItemData';
+import type {IFurnitureItemData} from '@habbo/inventory/items/FurnitureItemData';
 import {StuffDataFactory} from '@habbo/inventory/items/stuffdata';
 
 /**
@@ -150,9 +150,9 @@ export class FurniListItemParser
 	}
 
 	/**
-	 * Convert to FurnitureItemData for creating FurnitureItem
+	 * Convert to IFurnitureItemData for creating FurnitureItem
 	 */
-	toFurnitureItemData(): FurnitureItemData
+	public toFurnitureItemData(): IFurnitureItemData
 	{
 		return {
 			itemId: this._itemId,
@@ -194,7 +194,7 @@ export class FurniListItemParser
 		this._isGroupable = wrapper.readBoolean();
 		this._isSellable = wrapper.readBoolean();
 		this._secondsToExpiration = wrapper.readInt();
-		this._expirationTimeStamp = Date.now();
+		this._expirationTimeStamp = performance.now();
 
 		if (this._secondsToExpiration > -1)
 		{

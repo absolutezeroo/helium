@@ -24,6 +24,9 @@ export class MovingObjectLogic extends ObjectLogicBase
 	private _liftAmount: number = 0;
 	private _changeTime: number = 0;
 
+	// Pre-allocated event reused each frame to avoid hot-path allocations (PF-001)
+	private readonly _slideAnimationEvent: RoomObjectMoveEvent = new RoomObjectMoveEvent(RoomObjectMoveEvent.ROME_SLIDE_ANIMATION, null);
+
 	override get object(): IRoomObjectController | null
 	{
 		return super.object;
@@ -72,7 +75,7 @@ export class MovingObjectLogic extends ObjectLogicBase
 
 		super.processUpdateMessage(message);
 
-		const moveMessage = message as RoomObjectMoveUpdateMessage;
+		const moveMessage = message as RoomObjectMoveUpdateMessage; // cast: type assertion required
 
 		if (moveMessage && moveMessage.skipPositionUpdate)
 		{
@@ -102,7 +105,7 @@ export class MovingObjectLogic extends ObjectLogicBase
 			{
 				const targetLoc = moveMessage.targetLoc;
 
-				this.moveUpdateInterval = isNaN(moveMessage.animationTime!) ? 500 : moveMessage.animationTime!;
+				this.moveUpdateInterval = isNaN(moveMessage.animationTime) ? 500 : moveMessage.animationTime;
 				this._changeTime = this._lastUpdateTime;
 
 				this._delta.assign(targetLoc);
@@ -182,7 +185,7 @@ export class MovingObjectLogic extends ObjectLogicBase
 
 			if (this.eventDispatcher)
 			{
-				this.eventDispatcher.emit(RoomObjectMoveEvent.ROME_SLIDE_ANIMATION, new RoomObjectMoveEvent(RoomObjectMoveEvent.ROME_SLIDE_ANIMATION, this.object));
+				this.eventDispatcher.emit(RoomObjectMoveEvent.ROME_SLIDE_ANIMATION, this._slideAnimationEvent.reinit(RoomObjectMoveEvent.ROME_SLIDE_ANIMATION, this.object));
 			}
 		}
 

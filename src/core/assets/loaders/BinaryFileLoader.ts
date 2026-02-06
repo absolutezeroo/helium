@@ -45,7 +45,7 @@ export class BinaryFileLoader extends BaseFileLoader
 	/**
 	 * Load content from a URL
 	 */
-	load(url: string): void
+	public load(url: string): void
 	{
 		this._url = url;
 		this._data = null;
@@ -105,7 +105,7 @@ export class BinaryFileLoader extends BaseFileLoader
 	/**
 	 * Dispose of this loader
 	 */
-	dispose(): void
+	public dispose(): void
 	{
 		if (!this._disposed)
 		{

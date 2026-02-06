@@ -1,10 +1,10 @@
-import type {ActionContext} from '../core/types';
-import type {FavouritesState} from './types';
+import type {IActionContext} from '../core/types';
+import type {IFavouritesState} from './types';
 
 // Favourites module has no managers - it's purely reactive to server messages
 type Managers = Record<string, never>;
 
-export function createActions(ctx: ActionContext<FavouritesState, Managers>)
+export function createActions(ctx: IActionContext<IFavouritesState, Managers>)
 {
 	const {getState} = ctx;
 

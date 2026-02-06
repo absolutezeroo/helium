@@ -51,17 +51,17 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 		this._useHttps = value;
 	}
 
-	isInitialized(): boolean
+	public isInitialized(): boolean
 	{
 		return this._isConfigLoaded;
 	}
 
-	propertyExists(key: string): boolean
+	public propertyExists(key: string): boolean
 	{
 		return this._configurationData.has(key);
 	}
 
-	getProperty(key: string, params?: Record<string, string>): string
+	public getProperty(key: string, params?: Record<string, string>): string
 	{
 		let value = this._configurationData.get(key) ?? '';
 
@@ -88,7 +88,7 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 		return value;
 	}
 
-	setProperty(key: string, value: string, persistent: boolean = false, logIt: boolean = false): void
+	public setProperty(key: string, value: string, persistent: boolean = false, logIt: boolean = false): void
 	{
 		if (logIt && !this._configurationData.has(key))
 		{
@@ -107,13 +107,13 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 		}
 	}
 
-	getBoolean(key: string): boolean
+	public getBoolean(key: string): boolean
 	{
 		const value = this._configurationData.get(key);
 		return value !== undefined && (value === '1' || value.toLowerCase() === 'true');
 	}
 
-	getInteger(key: string, defaultValue: number): number
+	public getInteger(key: string, defaultValue: number): number
 	{
 		const value = this._configurationData.get(key);
 
@@ -127,7 +127,7 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 		return isNaN(parsed) ? defaultValue : parsed;
 	}
 
-	interpolate(value: string): string
+	public interpolate(value: string): string
 	{
 		if (!value)
 		{

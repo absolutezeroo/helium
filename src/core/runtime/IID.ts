@@ -22,7 +22,7 @@ export type IID<T = unknown> = symbol & { __type?: T };
  */
 export function createIID<T>(name: string): IID<T>
 {
-	return Symbol.for(`IID:${name}`) as IID<T>;
+	return Symbol.for(`IID:${name}`) as IID<T>; // cast: type assertion required
 }
 
 /**

@@ -240,7 +240,7 @@ export class RoomPlane
 		return this._isVisible && this._canBeVisible;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (this._disposed)
 		{
@@ -254,7 +254,7 @@ export class RoomPlane
 	/**
 	 * Update the plane based on room geometry
 	 */
-	update(geometry: IRoomGeometry, time: number): boolean
+	public update(geometry: IRoomGeometry, time: number): boolean
 	{
 		if (geometry === null || this._disposed)
 		{
@@ -279,7 +279,7 @@ export class RoomPlane
 		if (needsUpdate)
 		{
 			// Check visibility using normal and direction axis (AS3: lines 383-400)
-			const cosAngle = Vector3d.cosAngle(geometry.directionAxis as Vector3d, this._normal);
+			const cosAngle = Vector3d.cosAngle(geometry.directionAxis as Vector3d, this._normal); // cast: type assertion required
 
 			if (cosAngle > -0.001)
 			{
@@ -294,7 +294,7 @@ export class RoomPlane
 			// Check secondary normals
 			for (const secondaryNormal of this._secondaryNormals)
 			{
-				const secondaryCos = Vector3d.cosAngle(geometry.directionAxis as Vector3d, secondaryNormal);
+				const secondaryCos = Vector3d.cosAngle(geometry.directionAxis as Vector3d, secondaryNormal); // cast: type assertion required
 
 				if (secondaryCos > -0.001)
 				{
@@ -344,18 +344,18 @@ export class RoomPlane
 		return true;
 	}
 
-	resetBitmapMasks(): void
+	public resetBitmapMasks(): void
 	{
 		// TODO: Implement mask handling
 	}
 
-	addBitmapMask(type: string, leftSideLoc: number, rightSideLoc: number): boolean
+	public addBitmapMask(type: string, leftSideLoc: number, rightSideLoc: number): boolean
 	{
 		// TODO: Implement mask handling
 		return false;
 	}
 
-	addRectangleMask(leftSideLoc: number, rightSideLoc: number, leftSideLength: number, rightSideLength: number): boolean
+	public addRectangleMask(leftSideLoc: number, rightSideLoc: number, leftSideLength: number, rightSideLength: number): boolean
 	{
 		// TODO: Implement mask handling
 		return false;

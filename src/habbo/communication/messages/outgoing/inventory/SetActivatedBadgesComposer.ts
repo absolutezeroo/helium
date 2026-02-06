@@ -23,7 +23,7 @@ export class SetActivatedBadgesComposer extends MessageComposer<unknown[]>
 		}
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

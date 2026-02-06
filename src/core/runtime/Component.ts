@@ -1,9 +1,10 @@
 import {EventEmitter} from 'eventemitter3';
+import type {AssetLoaderStruct, IAsset, IAssetLibrary} from '@core/assets';
+import { Logger } from '@core/utils/Logger';
 import {getIIDName, type IID} from './IID';
 import type {IDisposable} from './IDisposable';
 import type {IContext, InterfaceCallback} from './IContext';
 import type {ComponentDependency} from './ComponentDependency';
-import type {AssetLoaderStruct, IAsset, IAssetLibrary} from '@core/assets';
 
 /**
  * Component Events
@@ -30,7 +31,7 @@ export const ComponentFlags = {
 /**
  * Interface struct for tracking provided interfaces
  */
-interface InterfaceStruct<T = unknown>
+interface IInterfaceStruct<T = unknown>
 {
 	iid: IID<T>;
 	instance: unknown;
@@ -86,7 +87,7 @@ export class Component implements IDisposable
 	protected _lastDebug: string = '';
 	private readonly _context: IContext;
 	private readonly _events: EventEmitter;
-	private readonly _interfaces: Map<symbol, InterfaceStruct> = new Map();
+	private readonly _interfaces: Map<symbol, IInterfaceStruct> = new Map();
 	private readonly _cleanupFunctions: Array<() => void> = [];
 	private _requiredDependenciesCount: number = 1; // Start at 1, decremented after all deps queued
 	private _pendingDependencies: Set<string> = new Set();
@@ -192,7 +193,7 @@ export class Component implements IDisposable
 	 * Override this to declare component dependencies.
 	 * Called during construction.
 	 */
-	protected get dependencies(): ComponentDependency<any>[]
+	protected get dependencies(): ComponentDependency<any>[] // cast: required for covariant dependency arrays
 	{
 		return [];
 	}
@@ -208,7 +209,7 @@ export class Component implements IDisposable
 	/**
 	 * Find an asset by name
 	 */
-	findAssetByName(name: string): IAsset | null
+	public findAssetByName(name: string): IAsset | null
 	{
 		return this._assets?.getAssetByName(name) ?? null;
 	}
@@ -216,7 +217,7 @@ export class Component implements IDisposable
 	/**
 	 * Remove an asset
 	 */
-	removeAsset(asset: IAsset): IAsset | null
+	public removeAsset(asset: IAsset): IAsset | null
 	{
 		return this._assets?.removeAsset(asset) ?? null;
 	}
@@ -224,7 +225,7 @@ export class Component implements IDisposable
 	/**
 	 * Load an asset from a file URL
 	 */
-	loadAssetFromFile(name: string, url: string, mimeType?: string, id: number = -1): AssetLoaderStruct | null
+	public loadAssetFromFile(name: string, url: string, mimeType?: string, id: number = -1): AssetLoaderStruct | null
 	{
 		return this._assets?.loadAssetFromFile(name, url, mimeType, id) ?? null;
 	}
@@ -232,7 +233,7 @@ export class Component implements IDisposable
 	/**
 	 * Check if an asset exists
 	 */
-	hasAsset(name: string): boolean
+	public hasAsset(name: string): boolean
 	{
 		return this._assets?.hasAsset(name) ?? false;
 	}
@@ -240,7 +241,7 @@ export class Component implements IDisposable
 	/**
 	 * Dispose of this component
 	 */
-	dispose(): void
+	public dispose(): void
 	{
 		if (this._disposed) return;
 
@@ -252,7 +253,7 @@ export class Component implements IDisposable
 				cleanup();
 			} catch (e)
 			{
-				console.error('[Component] Cleanup error:', e);
+				Logger.error('[Component] Cleanup error:', e);
 			}
 		}
 		this._cleanupFunctions.length = 0;
@@ -279,7 +280,7 @@ export class Component implements IDisposable
 	/**
 	 * Purge cached data (override in subclass if needed)
 	 */
-	purge(): void
+	public purge(): void
 	{
 		// Override in subclass
 	}
@@ -287,7 +288,7 @@ export class Component implements IDisposable
 	/**
 	 * Request an interface from the context
 	 */
-	queueInterface<T>(iid: IID<T>, callback?: InterfaceCallback<T>): T | null
+	public queueInterface<T>(iid: IID<T>, callback?: InterfaceCallback<T>): T | null
 	{
 		// Check if we provide this interface ourselves
 		const struct = this._interfaces.get(iid);
@@ -305,7 +306,7 @@ export class Component implements IDisposable
 			}
 
 			struct.references++;
-			const instance = struct.instance as T;
+			const instance = struct.instance as T; // cast: type assertion required
 
 			if (callback)
 			{
@@ -322,7 +323,7 @@ export class Component implements IDisposable
 	/**
 	 * Release a reference to an interface
 	 */
-	release(iid: IID): number
+	public release(iid: IID): number
 	{
 		if (this._disposed) return 0;
 
@@ -354,7 +355,7 @@ export class Component implements IDisposable
 	/**
 	 * Register an interface that this component provides
 	 */
-	registerInterface<T>(iid: IID<T>, instance: T): void
+	public registerInterface<T>(iid: IID<T>, instance: T): void
 	{
 		this._interfaces.set(iid, {
 			iid,
@@ -366,7 +367,7 @@ export class Component implements IDisposable
 	/**
 	 * Get all interfaces this component provides
 	 */
-	getProvidedInterfaces(): IID[]
+	public getProvidedInterfaces(): IID[]
 	{
 		return Array.from(this._interfaces.keys());
 	}
@@ -374,7 +375,7 @@ export class Component implements IDisposable
 	/**
 	 * Check if a configuration property exists
 	 */
-	propertyExists(key: string): boolean
+	public propertyExists(key: string): boolean
 	{
 		return this._context.configuration?.propertyExists(key) ?? false;
 	}
@@ -382,7 +383,7 @@ export class Component implements IDisposable
 	/**
 	 * Get a configuration property
 	 */
-	getProperty(key: string, params?: Record<string, string>): string
+	public getProperty(key: string, params?: Record<string, string>): string
 	{
 		return this._context.configuration?.getProperty(key, params) ?? '';
 	}
@@ -390,7 +391,7 @@ export class Component implements IDisposable
 	/**
 	 * Set a configuration property
 	 */
-	setProperty(key: string, value: string, persistent?: boolean, log?: boolean): void
+	public setProperty(key: string, value: string, persistent?: boolean, log?: boolean): void
 	{
 		this._context.configuration?.setProperty(key, value, persistent, log);
 	}
@@ -398,7 +399,7 @@ export class Component implements IDisposable
 	/**
 	 * Get a boolean configuration property
 	 */
-	getBoolean(key: string): boolean
+	public getBoolean(key: string): boolean
 	{
 		return this._context.configuration?.getBoolean(key) ?? false;
 	}
@@ -406,7 +407,7 @@ export class Component implements IDisposable
 	/**
 	 * Get an integer configuration property
 	 */
-	getInteger(key: string, defaultValue: number): number
+	public getInteger(key: string, defaultValue: number): number
 	{
 		return this._context.configuration?.getInteger(key, defaultValue) ?? defaultValue;
 	}
@@ -414,7 +415,7 @@ export class Component implements IDisposable
 	/**
 	 * Register this component to receive updates
 	 */
-	registerUpdateReceiver(receiver: { update: (dt: number) => void; disposed?: boolean }, priority: number): void
+	public registerUpdateReceiver(receiver: { update: (dt: number) => void; disposed?: boolean }, priority: number): void
 	{
 		if (!this._disposed)
 		{
@@ -425,7 +426,7 @@ export class Component implements IDisposable
 	/**
 	 * Remove this component from update receivers
 	 */
-	removeUpdateReceiver(receiver: { update: (dt: number) => void; disposed?: boolean }): void
+	public removeUpdateReceiver(receiver: { update: (dt: number) => void; disposed?: boolean }): void
 	{
 		if (!this._disposed)
 		{
@@ -436,7 +437,7 @@ export class Component implements IDisposable
 	/**
 	 * String representation
 	 */
-	toString(): string
+	public toString(): string
 	{
 		return `[Component ${this.constructor.name}]`;
 	}
@@ -518,9 +519,9 @@ export class Component implements IDisposable
 		}
 
 		// Attach event listeners
-		if (dep.eventListeners && instance && typeof (instance as any).events === 'object')
+		if (dep.eventListeners && instance && typeof (instance as any).events === 'object') // cast: required for dynamic property access
 		{
-			const emitter = (instance as any).events as EventEmitter;
+			const emitter = (instance as any).events as EventEmitter; // cast: required for dynamic property access
 
 			for (const listener of dep.eventListeners)
 			{
@@ -550,9 +551,9 @@ export class Component implements IDisposable
 		return () =>
 		{
 			// Remove event listeners
-			if (dep.eventListeners && instance && typeof (instance as any).events === 'object')
+			if (dep.eventListeners && instance && typeof (instance as any).events === 'object') // cast: required for dynamic property access
 			{
-				const emitter = (instance as any).events as EventEmitter;
+				const emitter = (instance as any).events as EventEmitter; // cast: required for dynamic property access
 
 				for (const listener of dep.eventListeners)
 				{
@@ -567,9 +568,9 @@ export class Component implements IDisposable
 			}
 
 			// Release interface
-			if (instance && typeof (instance as any).release === 'function')
+			if (instance && typeof (instance as any).release === 'function') // cast: required for dynamic property access
 			{
-				(instance as any).release(dep.identifier);
+				(instance as any).release(dep.identifier); // cast: required for dynamic property access
 			}
 		};
 	}
@@ -601,7 +602,7 @@ export class Component implements IDisposable
 						this.unlock();
 					} catch (e)
 					{
-						console.error(`[Component] Error in initComponent for ${this.constructor.name}:`, e);
+						Logger.error(`[Component] Error in initComponent for ${this.constructor.name}:`, e);
 						throw e;
 					}
 				});
@@ -615,7 +616,7 @@ export class Component implements IDisposable
 					this.unlock();
 				} catch (e)
 				{
-					console.error(`[Component] Error in initComponent for ${this.constructor.name}:`, e);
+					Logger.error(`[Component] Error in initComponent for ${this.constructor.name}:`, e);
 					throw e;
 				}
 			}

@@ -17,7 +17,7 @@ export class NewNavigatorInitComposer extends MessageComposer<ConstructorParamet
 		this._data = [];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

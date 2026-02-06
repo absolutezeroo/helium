@@ -16,7 +16,7 @@ export class ResetUnseenItemsComposer extends MessageComposer<ConstructorParamet
 		this._data = [category, itemIds.length, ...itemIds];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

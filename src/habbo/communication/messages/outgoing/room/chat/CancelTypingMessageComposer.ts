@@ -12,7 +12,7 @@ export class CancelTypingMessageComposer extends MessageComposer<[]>
 		super();
 	}
 
-	getMessageArray(): []
+	public getMessageArray(): []
 	{
 		return [];
 	}

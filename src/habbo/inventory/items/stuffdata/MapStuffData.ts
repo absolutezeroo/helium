@@ -46,12 +46,12 @@ export class MapStuffData extends StuffDataBase
 		return this._data.get(MapStuffData.STATE_KEY) ?? '';
 	}
 
-	getValue(key: string): string | undefined
+	public getValue(key: string): string | undefined
 	{
 		return this._data.get(key);
 	}
 
-	setValue(key: string, value: string): void
+	public setValue(key: string, value: string): void
 	{
 		this._data.set(key, value);
 	}

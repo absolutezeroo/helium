@@ -1,7 +1,7 @@
 import type {Accessor} from 'solid-js';
 import {createMemo} from 'solid-js';
+import type {IModuleStateMap, RegisteredModuleId} from '@/modules/core';
 import {useModule} from './useModule';
-import type {ModuleStateMap, RegisteredModuleId} from '@/modules/core';
 
 /**
  * Hook to select a part of the module state
@@ -27,7 +27,7 @@ import type {ModuleStateMap, RegisteredModuleId} from '@/modules/core';
  */
 export function useSelector<K extends RegisteredModuleId, T>(
 	moduleId: K,
-	selector: (state: Readonly<ModuleStateMap[K]>) => T
+	selector: (state: Readonly<IModuleStateMap[K]>) => T
 ): Accessor<T>
 {
 	const {state} = useModule(moduleId);
@@ -49,7 +49,7 @@ export function useSelector<K extends RegisteredModuleId, T>(
  * // Usage: isOpen(), currentTab()
  * ```
  */
-export function useSelectors<K extends RegisteredModuleId, T extends Record<string, (state: Readonly<ModuleStateMap[K]>) => unknown>>(
+export function useSelectors<K extends RegisteredModuleId, T extends Record<string, (state: Readonly<IModuleStateMap[K]>) => unknown>>(
 	moduleId: K,
 	selectors: T
 ): { [P in keyof T]: Accessor<ReturnType<T[P]>> }
@@ -60,7 +60,7 @@ export function useSelectors<K extends RegisteredModuleId, T extends Record<stri
 
 	for (const key in selectors)
 	{
-		result[key] = createMemo(() => selectors[key](state())) as Accessor<ReturnType<T[typeof key]>>;
+		result[key] = createMemo(() => selectors[key](state())) as Accessor<ReturnType<T[typeof key]>>; // cast: type assertion required
 	}
 
 	return result;

@@ -1,10 +1,10 @@
 export {RoomCard} from './RoomCard';
-export type {RoomCardProps} from './RoomCard';
+export type {IRoomCardProps} from './RoomCard';
 export {RoomCardCompact} from './RoomCardCompact';
-export type {RoomCardCompactProps} from './RoomCardCompact';
+export type {IRoomCardCompactProps} from './RoomCardCompact';
 export {RoomList} from './RoomList';
-export type {RoomListProps, RoomListRoom, RoomListViewMode} from './RoomList';
+export type {IRoomListProps, IRoomListRoom, RoomListViewMode} from './RoomList';
 export {LiftedRoomsSection} from './LiftedRoomsSection';
-export type {LiftedRoomsSectionProps, LiftedRoom} from './LiftedRoomsSection';
+export type {ILiftedRoomsSectionProps, ILiftedRoom} from './LiftedRoomsSection';
 export {RoomEventsSection} from './RoomEventsSection';
-export type {RoomEventsSectionProps, RoomEvent} from './RoomEventsSection';
+export type {IRoomEventsSectionProps, IRoomEvent} from './RoomEventsSection';

@@ -16,7 +16,7 @@ export class NewNavigatorSearchComposer extends MessageComposer<ConstructorParam
 		this._data = [searchCode, filtering];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

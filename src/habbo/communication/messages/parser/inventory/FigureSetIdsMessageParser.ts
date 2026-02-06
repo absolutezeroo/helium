@@ -22,14 +22,14 @@ export class FigureSetIdsMessageParser implements IMessageParser
 		return this._boundFurnitureNames;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._figureSetIds = [];
 		this._boundFurnitureNames = [];
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		let count = wrapper.readInt();
 		for (let i = 0; i < count; i++)

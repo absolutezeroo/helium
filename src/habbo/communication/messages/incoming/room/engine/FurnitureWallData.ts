@@ -240,7 +240,7 @@ export class FurnitureWallData
 		}
 	}
 
-	setReadOnly(): void
+	public setReadOnly(): void
 	{
 		this._readOnly = true;
 	}

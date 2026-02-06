@@ -17,7 +17,7 @@ export class GetGuestRoomMessageComposer extends MessageComposer<[number, number
 		this._data = [roomId, enterRoom ? 1 : 0, roomForward ? 1 : 0];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

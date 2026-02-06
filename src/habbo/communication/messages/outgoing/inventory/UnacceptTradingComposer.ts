@@ -16,7 +16,7 @@ export class UnacceptTradingComposer extends MessageComposer<ConstructorParamete
 		this._data = [];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

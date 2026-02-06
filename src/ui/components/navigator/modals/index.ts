@@ -1,2 +1,2 @@
-export {DoorbellModal, type DoorbellModalProps, type DoorbellStatus} from './DoorbellModal';
-export {PasswordModal, type PasswordModalProps} from './PasswordModal';
+export {DoorbellModal, type IDoorbellModalProps, type DoorbellStatus} from './DoorbellModal';
+export {PasswordModal, type IPasswordModalProps} from './PasswordModal';

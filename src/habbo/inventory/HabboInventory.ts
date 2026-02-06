@@ -1,4 +1,5 @@
 import {Component, ComponentDependency, type IContext, IID_HabboCommunicationManager} from '@core/runtime';
+import {Logger} from '@core/utils/Logger';
 import type {IHabboInventory, InventoryCategoryType} from './IHabboInventory';
 import type {IFurniModel} from './furni/IFurniModel';
 import type {IBadgesModel} from './badges/IBadgesModel';
@@ -16,7 +17,6 @@ import {BotsModel} from './bots/BotsModel';
 import {TradingModel} from './trading/TradingModel';
 import {Purse} from './purse/Purse';
 import {UnseenItemTracker} from './UnseenItemTracker';
-import {Logger} from '@core/utils/Logger';
 import {
 	GetBadgesComposer,
 	GetBotInventoryComposer,
@@ -121,7 +121,11 @@ export class HabboInventory extends Component implements IHabboInventory
 
 	get unseenItemTracker(): UnseenItemTracker
 	{
-		return this._unseenItemTracker!;
+		if (!this._unseenItemTracker)
+		{
+			throw new Error('UnseenItemTracker not initialized');
+		}
+		return this._unseenItemTracker;
 	}
 
 	protected override get dependencies(): Array<ComponentDependency<any>>
@@ -156,7 +160,7 @@ export class HabboInventory extends Component implements IHabboInventory
 		super.dispose();
 	}
 
-	init(): void
+	public init(): void
 	{
 		if (this._isInitialized) return;
 
@@ -170,7 +174,7 @@ export class HabboInventory extends Component implements IHabboInventory
 		this._isInitialized = true;
 	}
 
-	switchCategory(category: InventoryCategoryType): void
+	public switchCategory(category: InventoryCategoryType): void
 	{
 		if (!this._isInitialized)
 		{
@@ -186,7 +190,7 @@ export class HabboInventory extends Component implements IHabboInventory
 		}
 	}
 
-	setCategoryInitialized(category: string): boolean
+	public setCategoryInitialized(category: string): boolean
 	{
 		if (this._initializedCategories.has(category))
 		{
@@ -198,12 +202,12 @@ export class HabboInventory extends Component implements IHabboInventory
 		return true;
 	}
 
-	isCategoryInitialized(category: string): boolean
+	public isCategoryInitialized(category: string): boolean
 	{
 		return this._initializedCategories.has(category);
 	}
 
-	setClubStatus(
+	public setClubStatus(
 		periods: number,
 		days: number,
 		hasEverBeenMember: boolean,
@@ -224,29 +228,33 @@ export class HabboInventory extends Component implements IHabboInventory
 		this._purse.minutesSinceLastModified = minutesSinceLastModified;
 	}
 
-	requestFurni(): void
+	public requestFurni(): void
 	{
 		this._communication?.connection?.send(new RequestFurniInventoryComposer());
 	}
 
-	requestBadges(): void
+	public requestBadges(): void
 	{
 		this._communication?.connection?.send(new GetBadgesComposer());
 	}
 
-	requestPets(): void
+	public requestPets(): void
 	{
 		this._communication?.connection?.send(new GetPetInventoryComposer());
 	}
 
-	requestBots(): void
+	public requestBots(): void
 	{
 		this._communication?.connection?.send(new GetBotInventoryComposer());
 	}
 
 	protected override initComponent(): void
 	{
-		this._unseenItemTracker = new UnseenItemTracker(this._communication!);
+		if (!this._communication)
+		{
+			throw new Error('Communication manager not available for inventory initialization');
+		}
+		this._unseenItemTracker = new UnseenItemTracker(this._communication);
 		log.info('Inventory initialized');
 	}
 }

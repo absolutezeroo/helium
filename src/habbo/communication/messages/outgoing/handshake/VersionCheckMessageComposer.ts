@@ -11,9 +11,9 @@ export class VersionCheckMessageComposer extends MessageComposer<ConstructorPara
 	private _data: ConstructorParameters<typeof VersionCheckMessageComposer>;
 
 	constructor(
-		versionId: number = 0,
-		clientUrl: string = '',
-		externalVariablesUrl: string = ''
+		public versionId: number = 0,
+		public clientUrl: string = '',
+		public externalVariablesUrl: string = ''
 	)
 	{
 		super();
@@ -21,7 +21,7 @@ export class VersionCheckMessageComposer extends MessageComposer<ConstructorPara
 		this._data = [versionId, clientUrl, externalVariablesUrl];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

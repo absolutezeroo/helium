@@ -8,13 +8,14 @@
  */
 import type {IConnection} from '@core/communication/connection/IConnection';
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
-import type {IRoomCreator} from './IRoomCreator';
 import {Vector3d} from '@room/utils/Vector3d';
 import type {IVector3d} from '@room/utils/IVector3d';
-
-// Message Events - Room Session
+import {Logger} from "@/core";
+import type {IRoomCreator} from './IRoomCreator';
 import {RoomReadyMessageEvent} from '../communication/messages/incoming/room/session/RoomReadyMessageEvent';
 import type {RoomReadyMessageParser} from '../communication/messages/parser/room/session/RoomReadyMessageParser';
+
+// Message Events - Room Session
 
 // Message Events - Room Engine
 import {
@@ -83,7 +84,7 @@ import type {
 } from '../communication/messages/parser/room/engine/FurnitureAliasesMessageParser';
 import type {FurnitureFloorData} from '../communication/messages/incoming/room/engine/FurnitureFloorData';
 import type {FurnitureWallData} from '../communication/messages/incoming/room/engine/FurnitureWallData';
-import type {RoomUserData} from '../communication/messages/incoming/room/engine/RoomUserData';
+import type {IRoomUserData} from '../communication/messages/incoming/room/engine/RoomUserData';
 
 // Parsers - Room Chat
 import type {
@@ -128,7 +129,6 @@ import type {
 
 // Room Object
 import {RoomPlaneParser} from './object/RoomPlaneParser';
-import {Logger} from "@/core";
 
 const log = Logger.getLogger('RoomMessageHandler');
 
@@ -199,13 +199,13 @@ export class RoomMessageHandler
 		}
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		this._connection = null;
 		this._roomCreator = null;
 	}
 
-	setCurrentRoom(roomId: number): void
+	public setCurrentRoom(roomId: number): void
 	{
 		if (this._currentRoomId !== 0)
 		{
@@ -218,21 +218,21 @@ export class RoomMessageHandler
 		this._currentRoomId = roomId;
 	}
 
-	resetCurrentRoom(): void
+	public resetCurrentRoom(): void
 	{
 		this._currentRoomId = 0;
 	}
 
 	private onRoomReady(event: IMessageEvent): void
 	{
-		const roomReadyEvent = event as RoomReadyMessageEvent;
+		const roomReadyEvent = event as RoomReadyMessageEvent; // cast: event type assertion
 
 		if (roomReadyEvent === null || event.connection === null)
 		{
 			return;
 		}
 
-		const parser = roomReadyEvent.getParser() as RoomReadyMessageParser;
+		const parser = roomReadyEvent.getParser() as RoomReadyMessageParser; // cast: event type assertion
 
 		if (parser === null)
 		{
@@ -274,14 +274,14 @@ export class RoomMessageHandler
 			return;
 		}
 
-		const aliasesEvent = event as FurnitureAliasesMessageEvent;
+		const aliasesEvent = event as FurnitureAliasesMessageEvent; // cast: event type assertion
 
 		if (aliasesEvent === null)
 		{
 			return;
 		}
 
-		const parser = aliasesEvent.parser as FurnitureAliasesMessageParser;
+		const parser = aliasesEvent.parser as FurnitureAliasesMessageParser; // cast: event type assertion
 
 		if (parser === null)
 		{
@@ -309,7 +309,7 @@ export class RoomMessageHandler
 
 	private onHeightMap(event: IMessageEvent): void
 	{
-		const heightMapEvent = event as HeightMapMessageEvent;
+		const heightMapEvent = event as HeightMapMessageEvent; // cast: event type assertion
 
 		if (heightMapEvent === null)
 		{
@@ -321,7 +321,7 @@ export class RoomMessageHandler
 			return;
 		}
 
-		const parser = heightMapEvent.getParser() as HeightMapMessageParser;
+		const parser = heightMapEvent.getParser() as HeightMapMessageParser; // cast: event type assertion
 
 		if (parser === null)
 		{
@@ -339,7 +339,7 @@ export class RoomMessageHandler
 	 */
 	private onEntryTileData(event: IMessageEvent): void
 	{
-		this._entryTileEvent = event as RoomEntryTileMessageEvent;
+		this._entryTileEvent = event as RoomEntryTileMessageEvent; // cast: event type assertion
 	}
 
 	/**
@@ -348,7 +348,7 @@ export class RoomMessageHandler
 	 */
 	private onFloorHeightMap(event: IMessageEvent): void
 	{
-		const floorEvent = event as FloorHeightMapMessageEvent;
+		const floorEvent = event as FloorHeightMapMessageEvent; // cast: event type assertion
 
 		if (floorEvent === null)
 		{
@@ -360,7 +360,7 @@ export class RoomMessageHandler
 			return;
 		}
 
-		const parser = floorEvent.getParser() as FloorHeightMapMessageParser;
+		const parser = floorEvent.getParser() as FloorHeightMapMessageParser; // cast: event type assertion
 
 		if (parser === null)
 		{
@@ -379,7 +379,7 @@ export class RoomMessageHandler
 
 		if (this._entryTileEvent !== null)
 		{
-			entryTileParser = this._entryTileEvent.getParser() as RoomEntryTileMessageParser;
+			entryTileParser = this._entryTileEvent.getParser() as RoomEntryTileMessageParser; // cast: event type assertion
 		}
 
 		// Door detection variables (AS3 lines 567-570)
@@ -468,7 +468,7 @@ export class RoomMessageHandler
 
 	private onHeightMapUpdate(event: IMessageEvent): void
 	{
-		const updateEvent = event as HeightMapUpdateMessageEvent;
+		const updateEvent = event as HeightMapUpdateMessageEvent; // cast: event type assertion
 
 		if (updateEvent === null)
 		{
@@ -480,7 +480,7 @@ export class RoomMessageHandler
 			return;
 		}
 
-		const parser = updateEvent.getParser() as HeightMapUpdateMessageParser;
+		const parser = updateEvent.getParser() as HeightMapUpdateMessageParser; // cast: event type assertion
 
 		if (parser === null)
 		{
@@ -500,14 +500,14 @@ export class RoomMessageHandler
 
 	private onObjects(event: IMessageEvent): void
 	{
-		const objectsEvent = event as ObjectsMessageEvent;
+		const objectsEvent = event as ObjectsMessageEvent; // cast: event type assertion
 
 		if (objectsEvent === null)
 		{
 			return;
 		}
 
-		const parser = objectsEvent.getParser() as ObjectsMessageParser;
+		const parser = objectsEvent.getParser() as ObjectsMessageParser; // cast: event type assertion
 
 		if (parser === null)
 		{
@@ -529,14 +529,14 @@ export class RoomMessageHandler
 
 	private onObjectAdd(event: IMessageEvent): void
 	{
-		const addEvent = event as ObjectAddMessageEvent;
+		const addEvent = event as ObjectAddMessageEvent; // cast: event type assertion
 
 		if (addEvent === null)
 		{
 			return;
 		}
 
-		const parser = addEvent.getParser() as ObjectAddMessageParser;
+		const parser = addEvent.getParser() as ObjectAddMessageParser; // cast: event type assertion
 
 		if (parser === null)
 		{
@@ -553,7 +553,7 @@ export class RoomMessageHandler
 
 	private onObjectUpdate(event: IMessageEvent): void
 	{
-		const updateEvent = event as ObjectUpdateMessageEvent;
+		const updateEvent = event as ObjectUpdateMessageEvent; // cast: event type assertion
 
 		if (updateEvent === null)
 		{
@@ -565,7 +565,7 @@ export class RoomMessageHandler
 			return;
 		}
 
-		const parser = updateEvent.getParser() as ObjectUpdateMessageParser;
+		const parser = updateEvent.getParser() as ObjectUpdateMessageParser; // cast: event type assertion
 
 		if (parser === null)
 		{
@@ -593,7 +593,7 @@ export class RoomMessageHandler
 
 	private onObjectRemove(event: IMessageEvent): void
 	{
-		const removeEvent = event as ObjectRemoveMessageEvent;
+		const removeEvent = event as ObjectRemoveMessageEvent; // cast: event type assertion
 
 		if (removeEvent === null)
 		{
@@ -605,7 +605,7 @@ export class RoomMessageHandler
 			return;
 		}
 
-		const parser = removeEvent.getParser() as ObjectRemoveMessageParser;
+		const parser = removeEvent.getParser() as ObjectRemoveMessageParser; // cast: event type assertion
 
 		if (parser === null)
 		{
@@ -621,7 +621,7 @@ export class RoomMessageHandler
 
 	private onObjectDataUpdate(event: IMessageEvent): void
 	{
-		const dataEvent = event as ObjectDataUpdateMessageEvent;
+		const dataEvent = event as ObjectDataUpdateMessageEvent; // cast: event type assertion
 
 		if (dataEvent === null)
 		{
@@ -633,7 +633,7 @@ export class RoomMessageHandler
 			return;
 		}
 
-		const parser = dataEvent.getParser() as ObjectDataUpdateMessageParser;
+		const parser = dataEvent.getParser() as ObjectDataUpdateMessageParser; // cast: event type assertion
 
 		if (parser === null)
 		{
@@ -652,14 +652,14 @@ export class RoomMessageHandler
 
 	private onItems(event: IMessageEvent): void
 	{
-		const itemsEvent = event as ItemsMessageEvent;
+		const itemsEvent = event as ItemsMessageEvent; // cast: event type assertion
 
 		if (itemsEvent === null)
 		{
 			return;
 		}
 
-		const parser = itemsEvent.getParser() as ItemsMessageParser;
+		const parser = itemsEvent.getParser() as ItemsMessageParser; // cast: event type assertion
 
 		if (parser === null)
 		{
@@ -681,14 +681,14 @@ export class RoomMessageHandler
 
 	private onItemAdd(event: IMessageEvent): void
 	{
-		const addEvent = event as ItemAddMessageEvent;
+		const addEvent = event as ItemAddMessageEvent; // cast: event type assertion
 
 		if (addEvent === null)
 		{
 			return;
 		}
 
-		const parser = addEvent.getParser() as ItemAddMessageParser;
+		const parser = addEvent.getParser() as ItemAddMessageParser; // cast: event type assertion
 
 		if (parser === null)
 		{
@@ -705,7 +705,7 @@ export class RoomMessageHandler
 
 	private onItemUpdate(event: IMessageEvent): void
 	{
-		const updateEvent = event as ItemUpdateMessageEvent;
+		const updateEvent = event as ItemUpdateMessageEvent; // cast: event type assertion
 
 		if (updateEvent === null)
 		{
@@ -717,7 +717,7 @@ export class RoomMessageHandler
 			return;
 		}
 
-		const parser = updateEvent.getParser() as ItemUpdateMessageParser;
+		const parser = updateEvent.getParser() as ItemUpdateMessageParser; // cast: event type assertion
 
 		if (parser === null)
 		{
@@ -742,7 +742,7 @@ export class RoomMessageHandler
 
 	private onItemRemove(event: IMessageEvent): void
 	{
-		const removeEvent = event as ItemRemoveMessageEvent;
+		const removeEvent = event as ItemRemoveMessageEvent; // cast: event type assertion
 
 		if (removeEvent === null)
 		{
@@ -754,7 +754,7 @@ export class RoomMessageHandler
 			return;
 		}
 
-		const parser = removeEvent.getParser() as ItemRemoveMessageParser;
+		const parser = removeEvent.getParser() as ItemRemoveMessageParser; // cast: event type assertion
 
 		if (parser === null)
 		{
@@ -770,7 +770,7 @@ export class RoomMessageHandler
 
 	private onUsers(event: IMessageEvent): void
 	{
-		const usersEvent = event as UsersMessageEvent;
+		const usersEvent = event as UsersMessageEvent; // cast: event type assertion
 
 		if (usersEvent === null)
 		{
@@ -782,7 +782,7 @@ export class RoomMessageHandler
 			return;
 		}
 
-		const parser = usersEvent.getParser() as UsersMessageParser;
+		const parser = usersEvent.getParser() as UsersMessageParser; // cast: event type assertion
 
 		if (parser === null)
 		{
@@ -802,7 +802,7 @@ export class RoomMessageHandler
 
 	private onUserUpdate(event: IMessageEvent): void
 	{
-		const updateEvent = event as UserUpdateMessageEvent;
+		const updateEvent = event as UserUpdateMessageEvent; // cast: event type assertion
 
 		if (updateEvent === null)
 		{
@@ -814,7 +814,7 @@ export class RoomMessageHandler
 			return;
 		}
 
-		const parser = updateEvent.getParser() as UserUpdateMessageParser;
+		const parser = updateEvent.getParser() as UserUpdateMessageParser; // cast: event type assertion
 
 		if (parser === null)
 		{
@@ -870,7 +870,7 @@ export class RoomMessageHandler
 
 	private onUserRemove(event: IMessageEvent): void
 	{
-		const removeEvent = event as UserRemoveMessageEvent;
+		const removeEvent = event as UserRemoveMessageEvent; // cast: event type assertion
 
 		if (removeEvent === null)
 		{
@@ -882,7 +882,7 @@ export class RoomMessageHandler
 			return;
 		}
 
-		const parser = removeEvent.getParser() as UserRemoveMessageParser;
+		const parser = removeEvent.getParser() as UserRemoveMessageParser; // cast: event type assertion
 
 		if (parser === null)
 		{
@@ -894,7 +894,7 @@ export class RoomMessageHandler
 
 	private onSlideUpdate(event: IMessageEvent): void
 	{
-		const slideEvent = event as SlideObjectBundleMessageEvent;
+		const slideEvent = event as SlideObjectBundleMessageEvent; // cast: event type assertion
 
 		if (slideEvent === null)
 		{
@@ -906,7 +906,7 @@ export class RoomMessageHandler
 			return;
 		}
 
-		const parser = slideEvent.getParser() as SlideObjectBundleMessageParser;
+		const parser = slideEvent.getParser() as SlideObjectBundleMessageParser; // cast: event type assertion
 
 		if (parser === null)
 		{
@@ -1011,7 +1011,7 @@ export class RoomMessageHandler
 		);
 	}
 
-	private addUser(roomId: number, data: RoomUserData): void
+	private addUser(roomId: number, data: IRoomUserData): void
 	{
 		if (data === null || this._roomCreator === null)
 		{
@@ -1054,14 +1054,14 @@ export class RoomMessageHandler
 	 */
 	private onTypingStatus(event: IMessageEvent): void
 	{
-		const typingEvent = event as UserTypingMessageEvent;
+		const typingEvent = event as UserTypingMessageEvent; // cast: event type assertion
 
 		if (typingEvent === null)
 		{
 			return;
 		}
 
-		const parser = typingEvent.getParser() as UserTypingMessageEventParser;
+		const parser = typingEvent.getParser() as UserTypingMessageEventParser; // cast: event type assertion
 
 		if (parser === null)
 		{
@@ -1084,7 +1084,7 @@ export class RoomMessageHandler
 	 */
 	private onExpression(event: IMessageEvent): void
 	{
-		const expressionEvent = event as ExpressionMessageEvent;
+		const expressionEvent = event as ExpressionMessageEvent; // cast: event type assertion
 
 		if (expressionEvent === null)
 		{
@@ -1096,7 +1096,7 @@ export class RoomMessageHandler
 			return;
 		}
 
-		const parser = expressionEvent.getParser() as ExpressionMessageEventParser;
+		const parser = expressionEvent.getParser() as ExpressionMessageEventParser; // cast: event type assertion
 
 		if (parser === null)
 		{
@@ -1117,7 +1117,7 @@ export class RoomMessageHandler
 	 */
 	private onDance(event: IMessageEvent): void
 	{
-		const danceEvent = event as DanceMessageEvent;
+		const danceEvent = event as DanceMessageEvent; // cast: event type assertion
 
 		if (danceEvent === null || danceEvent.getParser() === null)
 		{
@@ -1129,7 +1129,7 @@ export class RoomMessageHandler
 			return;
 		}
 
-		const parser = danceEvent.getParser() as DanceMessageEventParser;
+		const parser = danceEvent.getParser() as DanceMessageEventParser; // cast: event type assertion
 
 		this._roomCreator.updateObjectUserAction(
 			this._currentRoomId,
@@ -1145,7 +1145,7 @@ export class RoomMessageHandler
 	 */
 	private onAvatarEffect(event: IMessageEvent): void
 	{
-		const effectEvent = event as AvatarEffectMessageEvent;
+		const effectEvent = event as AvatarEffectMessageEvent; // cast: event type assertion
 
 		if (effectEvent === null || effectEvent.getParser() === null)
 		{
@@ -1157,7 +1157,7 @@ export class RoomMessageHandler
 			return;
 		}
 
-		const parser = effectEvent.getParser() as AvatarEffectMessageEventParser;
+		const parser = effectEvent.getParser() as AvatarEffectMessageEventParser; // cast: event type assertion
 
 		this._roomCreator.updateObjectUserEffect(
 			this._currentRoomId,
@@ -1173,7 +1173,7 @@ export class RoomMessageHandler
 	 */
 	private onAvatarSleep(event: IMessageEvent): void
 	{
-		const sleepEvent = event as SleepMessageEvent;
+		const sleepEvent = event as SleepMessageEvent; // cast: event type assertion
 
 		if (sleepEvent === null || sleepEvent.getParser() === null)
 		{
@@ -1185,7 +1185,7 @@ export class RoomMessageHandler
 			return;
 		}
 
-		const parser = sleepEvent.getParser() as SleepMessageEventParser;
+		const parser = sleepEvent.getParser() as SleepMessageEventParser; // cast: event type assertion
 
 		const value = parser.sleeping ? 1 : 0;
 
@@ -1208,14 +1208,14 @@ export class RoomMessageHandler
 			return;
 		}
 
-		const carryEvent = event as CarryObjectMessageEvent;
+		const carryEvent = event as CarryObjectMessageEvent; // cast: event type assertion
 
 		if (carryEvent === null)
 		{
 			return;
 		}
 
-		const parser = carryEvent.getParser() as CarryObjectMessageEventParser;
+		const parser = carryEvent.getParser() as CarryObjectMessageEventParser; // cast: event type assertion
 
 		if (parser === null)
 		{
@@ -1241,14 +1241,14 @@ export class RoomMessageHandler
 			return;
 		}
 
-		const useEvent = event as UseObjectMessageEvent;
+		const useEvent = event as UseObjectMessageEvent; // cast: event type assertion
 
 		if (useEvent === null)
 		{
 			return;
 		}
 
-		const parser = useEvent.getParser() as UseObjectMessageEventParser;
+		const parser = useEvent.getParser() as UseObjectMessageEventParser; // cast: event type assertion
 
 		if (parser === null)
 		{
@@ -1269,7 +1269,7 @@ export class RoomMessageHandler
 	 */
 	private onUserChange(event: IMessageEvent): void
 	{
-		const changeEvent = event as UserChangeMessageEvent;
+		const changeEvent = event as UserChangeMessageEvent; // cast: event type assertion
 
 		if (changeEvent === null)
 		{
@@ -1281,7 +1281,7 @@ export class RoomMessageHandler
 			return;
 		}
 
-		const parser = changeEvent.getParser() as UserChangeMessageEventParser;
+		const parser = changeEvent.getParser() as UserChangeMessageEventParser; // cast: event type assertion
 
 		if (parser === null)
 		{

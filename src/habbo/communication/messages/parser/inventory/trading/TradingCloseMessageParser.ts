@@ -22,12 +22,12 @@ export class TradingCloseMessageParser implements IMessageParser
 		return this._reason;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._userId = wrapper.readInt();
 		this._reason = wrapper.readInt();

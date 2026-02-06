@@ -36,7 +36,7 @@ export class BuildersClubSubscriptionStatusMessageParser implements IMessagePars
 		return this._secondsLeftWithGrace;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._secondsLeft = 0;
 		this._furniLimit = 0;
@@ -45,7 +45,7 @@ export class BuildersClubSubscriptionStatusMessageParser implements IMessagePars
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._secondsLeft = wrapper.readInt();
 		this._furniLimit = wrapper.readInt();

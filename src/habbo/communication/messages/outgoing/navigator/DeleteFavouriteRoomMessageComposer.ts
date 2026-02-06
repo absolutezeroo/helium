@@ -16,7 +16,7 @@ export class DeleteFavouriteRoomMessageComposer extends MessageComposer<Construc
 		this._data = [roomId];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

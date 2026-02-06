@@ -2,22 +2,22 @@ import type {JSX} from 'solid-js';
 import {createSignal, onMount, Show} from 'solid-js';
 import clsx from 'clsx';
 import {NavigatorHeader, NavigatorIcon} from './common';
-import type {TabDefinition} from './tabs';
+import type {ITabDefinition} from './tabs';
 import {NavigatorTabs} from './tabs';
 import {NavigatorSearch} from './search';
-import type {RoomListRoom, RoomListViewMode} from './rooms';
+import type {IRoomListRoom, RoomListViewMode} from './rooms';
 import {RoomList} from './rooms';
-import type {Category} from './categories';
+import type {ICategory} from './categories';
 import {CategoryList} from './categories';
 import {useDraggable, useNavigatorLocalization} from './hooks';
 
-export interface NavigatorWindowProps
+export interface INavigatorWindowProps
 {
 	isOpen: boolean;
-	tabs: TabDefinition[];
+	tabs: ITabDefinition[];
 	activeTab: string;
-	rooms: RoomListRoom[];
-	categories: Category[];
+	rooms: IRoomListRoom[];
+	categories: ICategory[];
 	loading?: boolean;
 
 	onClose?: () => void;
@@ -31,7 +31,7 @@ export interface NavigatorWindowProps
 /**
  * NavigatorWindow - Pure UI component for the navigator window
  */
-export function NavigatorWindow(props: NavigatorWindowProps): JSX.Element
+export function NavigatorWindow(props: INavigatorWindowProps): JSX.Element
 {
 	const {t, keys} = useNavigatorLocalization();
 

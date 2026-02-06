@@ -171,14 +171,14 @@ export class Vector3d implements IVector3d
 
 	// Instance methods
 
-	negate(): void
+	public negate(): void
 	{
 		this._x = -this._x;
 		this._y = -this._y;
 		this._z = -this._z;
 	}
 
-	add(v: IVector3d | null): void
+	public add(v: IVector3d | null): void
 	{
 		if (v === null)
 		{
@@ -191,7 +191,7 @@ export class Vector3d implements IVector3d
 		this._length = NaN;
 	}
 
-	sub(v: IVector3d | null): void
+	public sub(v: IVector3d | null): void
 	{
 		if (v === null)
 		{
@@ -204,7 +204,7 @@ export class Vector3d implements IVector3d
 		this._length = NaN;
 	}
 
-	mul(scalar: number): void
+	public mul(scalar: number): void
 	{
 		this._x *= scalar;
 		this._y *= scalar;
@@ -212,7 +212,7 @@ export class Vector3d implements IVector3d
 		this._length = NaN;
 	}
 
-	div(scalar: number): void
+	public div(scalar: number): void
 	{
 		if (scalar !== 0)
 		{
@@ -223,7 +223,7 @@ export class Vector3d implements IVector3d
 		}
 	}
 
-	assign(v: IVector3d | null): void
+	public assign(v: IVector3d | null): void
 	{
 		if (v === null)
 		{
@@ -236,7 +236,7 @@ export class Vector3d implements IVector3d
 		this._length = NaN;
 	}
 
-	toString(): string
+	public toString(): string
 	{
 		return `(${this._x},${this._y},${this._z})`;
 	}

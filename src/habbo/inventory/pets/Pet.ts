@@ -102,7 +102,7 @@ export class Pet
 		return this._figureData.figureString;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		// Nothing to clean up
 	}

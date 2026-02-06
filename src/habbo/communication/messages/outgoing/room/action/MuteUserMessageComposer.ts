@@ -15,7 +15,7 @@ export class MuteUserMessageComposer extends MessageComposer<[number, number, nu
 		this._data = [userId, minutes, roomId];
 	}
 
-	getMessageArray(): [number, number, number]
+	public getMessageArray(): [number, number, number]
 	{
 		return this._data;
 	}

@@ -50,7 +50,7 @@ export class NavigatorWindowSettingsMessageParser implements IMessageParser
 		return this._resultsMode;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._windowX = 0;
 		this._windowY = 0;
@@ -61,7 +61,7 @@ export class NavigatorWindowSettingsMessageParser implements IMessageParser
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._windowX = wrapper.readInt();
 		this._windowY = wrapper.readInt();

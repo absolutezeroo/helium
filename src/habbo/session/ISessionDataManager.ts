@@ -1,5 +1,5 @@
 import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
-import type {AvatarEffect} from '../communication/messages/parser/inventory/AvatarEffectsMessageParser';
+import type {IAvatarEffect} from '../communication/messages/parser/inventory/AvatarEffectsMessageParser';
 import type {IUserDataManager} from './IUserDataManager';
 import type {IPerkManager} from './IPerkManager';
 import type {IIgnoredUsersManager} from './IIgnoredUsersManager';
@@ -71,7 +71,7 @@ export interface ISessionDataManager
 
 	readonly figureSetIds: number[];
 	readonly boundFurnitureNames: string[];
-	readonly avatarEffects: AvatarEffect[];
+	readonly avatarEffects: IAvatarEffect[];
 
 	readonly mysteryBoxColor: string;
 	readonly mysteryKeyColor: string;

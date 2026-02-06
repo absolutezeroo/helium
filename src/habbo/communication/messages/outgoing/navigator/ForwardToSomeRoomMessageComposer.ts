@@ -16,7 +16,7 @@ export class ForwardToSomeRoomMessageComposer extends MessageComposer<Constructo
 		this._data = [roomType];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

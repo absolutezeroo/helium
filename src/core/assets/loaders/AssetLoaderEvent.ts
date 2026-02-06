@@ -76,7 +76,7 @@ export class AssetLoaderEvent
 	/**
 	 * Create a clone of this event
 	 */
-	clone(): AssetLoaderEvent
+	public clone(): AssetLoaderEvent
 	{
 		return new AssetLoaderEvent(this._type, this._status);
 	}
@@ -84,7 +84,7 @@ export class AssetLoaderEvent
 	/**
 	 * String representation
 	 */
-	toString(): string
+	public toString(): string
 	{
 		return `[AssetLoaderEvent type=${this._type} status=${this._status}]`;
 	}

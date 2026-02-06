@@ -1,4 +1,5 @@
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
+import {Logger} from '@core/utils/Logger';
 import type {HabboNavigator} from './HabboNavigator';
 import type {NavigatorData} from './domain';
 
@@ -51,8 +52,6 @@ import {
 	UserFlatCatsMessageParser,
 } from '../communication/messages/parser/navigator';
 
-import {Logger} from '@core/utils/Logger';
-
 const log = Logger.getLogger('Navigator');
 
 /**
@@ -76,7 +75,7 @@ export class IncomingMessages
 		return this._navigator.data;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		for (const event of this._messageEvents)
 		{
@@ -136,7 +135,7 @@ export class IncomingMessages
 	{
 		if (!event) return;
 
-		const parser = event.parser as NavigatorSettingsMessageParser;
+		const parser = event.parser as NavigatorSettingsMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -150,7 +149,7 @@ export class IncomingMessages
 	{
 		if (!event) return;
 
-		const parser = event.parser as FavouritesMessageParser;
+		const parser = event.parser as FavouritesMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -163,7 +162,7 @@ export class IncomingMessages
 	{
 		if (!event) return;
 
-		const parser = event.parser as FavouriteChangedMessageParser;
+		const parser = event.parser as FavouriteChangedMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -176,7 +175,7 @@ export class IncomingMessages
 	{
 		if (!event) return;
 
-		const parser = event.parser as GetGuestRoomResultMessageParser;
+		const parser = event.parser as GetGuestRoomResultMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -230,7 +229,7 @@ export class IncomingMessages
 	{
 		if (!event) return;
 
-		const parser = event.parser as RoomInfoUpdatedMessageParser;
+		const parser = event.parser as RoomInfoUpdatedMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -242,7 +241,7 @@ export class IncomingMessages
 	{
 		if (!event) return;
 
-		const parser = event.parser as RoomRatingMessageParser;
+		const parser = event.parser as RoomRatingMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -256,7 +255,7 @@ export class IncomingMessages
 	{
 		if (!event) return;
 
-		const parser = event.parser as GuestRoomSearchResultMessageParser;
+		const parser = event.parser as GuestRoomSearchResultMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -271,7 +270,7 @@ export class IncomingMessages
 	{
 		if (!event) return;
 
-		const parser = event.parser as PopularRoomTagsResultMessageParser;
+		const parser = event.parser as PopularRoomTagsResultMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -286,7 +285,7 @@ export class IncomingMessages
 	{
 		if (!event) return;
 
-		const parser = event.parser as OfficialRoomsMessageParser;
+		const parser = event.parser as OfficialRoomsMessageParser; // cast: event type assertion
 
 		if (parser.data)
 		{
@@ -302,7 +301,7 @@ export class IncomingMessages
 	{
 		if (!event) return;
 
-		const parser = event.parser as CategoriesWithVisitorCountMessageParser;
+		const parser = event.parser as CategoriesWithVisitorCountMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -317,7 +316,7 @@ export class IncomingMessages
 	{
 		if (!event) return;
 
-		const parser = event.parser as UserFlatCatsMessageParser;
+		const parser = event.parser as UserFlatCatsMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -330,7 +329,7 @@ export class IncomingMessages
 	{
 		if (!event) return;
 
-		const parser = event.parser as UserEventCatsMessageParser;
+		const parser = event.parser as UserEventCatsMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -343,7 +342,7 @@ export class IncomingMessages
 	{
 		if (!event) return;
 
-		const parser = event.parser as CanCreateRoomMessageParser;
+		const parser = event.parser as CanCreateRoomMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -355,7 +354,7 @@ export class IncomingMessages
 	{
 		if (!event) return;
 
-		const parser = event.parser as CanCreateRoomEventMessageParser;
+		const parser = event.parser as CanCreateRoomEventMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -367,7 +366,7 @@ export class IncomingMessages
 	{
 		if (!event) return;
 
-		const parser = event.parser as FlatCreatedMessageParser;
+		const parser = event.parser as FlatCreatedMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -380,7 +379,7 @@ export class IncomingMessages
 	{
 		if (!event) return;
 
-		const parser = event.parser as RoomEventMessageParser;
+		const parser = event.parser as RoomEventMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -402,7 +401,7 @@ export class IncomingMessages
 	{
 		if (!event) return;
 
-		const parser = event.parser as DoorbellMessageParser;
+		const parser = event.parser as DoorbellMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -414,7 +413,7 @@ export class IncomingMessages
 	{
 		if (!event) return;
 
-		const parser = event.parser as FlatAccessDeniedMessageParser;
+		const parser = event.parser as FlatAccessDeniedMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -426,7 +425,7 @@ export class IncomingMessages
 	{
 		if (!event) return;
 
-		const parser = event.parser as ConvertedRoomIdMessageParser;
+		const parser = event.parser as ConvertedRoomIdMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -438,7 +437,7 @@ export class IncomingMessages
 	{
 		if (!event) return;
 
-		const parser = event.parser as CompetitionRoomsDataMessageParser;
+		const parser = event.parser as CompetitionRoomsDataMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 

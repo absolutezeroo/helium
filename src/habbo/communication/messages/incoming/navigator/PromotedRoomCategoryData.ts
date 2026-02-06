@@ -84,12 +84,12 @@ export class PromotedRoomCategoryData
 		return this._disposed;
 	}
 
-	toggleOpen(): void
+	public toggleOpen(): void
 	{
 		this._open = !this._open;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (this._disposed)
 		{

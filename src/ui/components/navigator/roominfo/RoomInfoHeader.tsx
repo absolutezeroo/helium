@@ -2,7 +2,7 @@ import type {JSX} from 'solid-js';
 import {Show} from 'solid-js';
 import {NavigatorIcon} from '../common';
 
-export interface RoomInfoHeaderProps
+export interface IRoomInfoHeaderProps
 {
 	name: string;
 	ownerName: string;
@@ -18,7 +18,7 @@ export interface RoomInfoHeaderProps
 /**
  * Room info header - displays room name, owner, and thumbnail
  */
-export function RoomInfoHeader(props: RoomInfoHeaderProps): JSX.Element
+export function RoomInfoHeader(props: IRoomInfoHeaderProps): JSX.Element
 {
 	const handleOwnerClick = () =>
 	{

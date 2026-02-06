@@ -15,7 +15,7 @@ export class LetUserInMessageComposer extends MessageComposer<[string, boolean]>
 		this._data = [userName, allow];
 	}
 
-	getMessageArray(): [string, boolean]
+	public getMessageArray(): [string, boolean]
 	{
 		return this._data;
 	}

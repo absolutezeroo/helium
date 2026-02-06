@@ -16,7 +16,7 @@ export class MyFrequentRoomHistorySearchMessageComposer extends MessageComposer<
 		this._data = [];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

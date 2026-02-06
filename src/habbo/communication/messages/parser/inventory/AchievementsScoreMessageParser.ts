@@ -15,13 +15,13 @@ export class AchievementsScoreMessageParser implements IMessageParser
 		return this._score;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._score = 0;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._score = wrapper.readInt();
 		return true;

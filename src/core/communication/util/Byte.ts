@@ -11,7 +11,7 @@ export class Byte
 		this.value = value & 0xFF;
 	}
 
-	toString(): string
+	public toString(): string
 	{
 		return `Byte(${this.value})`;
 	}

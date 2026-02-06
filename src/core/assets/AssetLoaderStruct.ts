@@ -60,7 +60,7 @@ export class AssetLoaderStruct implements IDisposable
 	/**
 	 * Dispose of this struct and its loader
 	 */
-	dispose(): void
+	public dispose(): void
 	{
 		if (!this._disposed)
 		{
@@ -78,7 +78,7 @@ export class AssetLoaderStruct implements IDisposable
 	/**
 	 * Dispatch an event
 	 */
-	dispatchEvent(event: unknown): void
+	public dispatchEvent(event: unknown): void
 	{
 		if (!this._disposed)
 		{
@@ -89,7 +89,7 @@ export class AssetLoaderStruct implements IDisposable
 	/**
 	 * Add an event listener
 	 */
-	addEventListener(type: string, callback: (...args: unknown[]) => void): void
+	public addEventListener(type: string, callback: (...args: unknown[]) => void): void
 	{
 		this._events.on(type, callback);
 	}
@@ -97,7 +97,7 @@ export class AssetLoaderStruct implements IDisposable
 	/**
 	 * Remove an event listener
 	 */
-	removeEventListener(type: string, callback: (...args: unknown[]) => void): void
+	public removeEventListener(type: string, callback: (...args: unknown[]) => void): void
 	{
 		this._events.off(type, callback);
 	}

@@ -1,15 +1,15 @@
 import type {IGameDataResources} from './IGameDataResources';
 
-interface HashEntry
+interface IHashEntry
 {
 	name: string;
 	url: string;
 	hash: string;
 }
 
-interface HashesData
+interface IHashesData
 {
-	hashes: HashEntry[];
+	hashes: IHashEntry[];
 }
 
 /**
@@ -33,7 +33,13 @@ export class GameDataResources implements IGameDataResources
 	 */
 	static parse(data: string): GameDataResources
 	{
-		const parsed: HashesData = JSON.parse(data);
+		let parsed: IHashesData;
+		try {
+  			parsed = JSON.parse(data);
+		} catch (_parseError: unknown) {
+		  // SC-005: JSON.parse validation
+		  throw new Error(`Invalid JSON: ${(_parseError as Error).message}`); // cast: type assertion required
+		}
 		const resources = new GameDataResources();
 
 		for (const entry of parsed.hashes)
@@ -62,7 +68,7 @@ export class GameDataResources implements IGameDataResources
 		return resources;
 	}
 
-	isValid(): boolean
+	public isValid(): boolean
 	{
 		return !!(
 			this._externalTextsUrl &&
@@ -76,42 +82,42 @@ export class GameDataResources implements IGameDataResources
 		);
 	}
 
-	getExternalTextsUrl(): string
+	public getExternalTextsUrl(): string
 	{
 		return this._externalTextsUrl;
 	}
 
-	getExternalTextsHash(): string
+	public getExternalTextsHash(): string
 	{
 		return this._externalTextsHash;
 	}
 
-	getExternalVariablesUrl(): string
+	public getExternalVariablesUrl(): string
 	{
 		return this._externalVariablesUrl;
 	}
 
-	getExternalVariablesHash(): string
+	public getExternalVariablesHash(): string
 	{
 		return this._externalVariablesHash;
 	}
 
-	getFurniDataUrl(): string
+	public getFurniDataUrl(): string
 	{
 		return this._furniDataUrl;
 	}
 
-	getFurniDataHash(): string
+	public getFurniDataHash(): string
 	{
 		return this._furniDataHash;
 	}
 
-	getProductDataUrl(): string
+	public getProductDataUrl(): string
 	{
 		return this._productDataUrl;
 	}
 
-	getProductDataHash(): string
+	public getProductDataHash(): string
 	{
 		return this._productDataHash;
 	}

@@ -15,13 +15,13 @@ export class NavigatorCollapsedCategoriesMessageParser implements IMessageParser
 		return this._collapsedCategories;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._collapsedCategories = [];
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		const count = wrapper.readInt();
 		for (let i = 0; i < count; i++)

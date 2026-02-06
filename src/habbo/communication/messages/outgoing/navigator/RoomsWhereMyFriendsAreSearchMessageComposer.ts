@@ -16,7 +16,7 @@ export class RoomsWhereMyFriendsAreSearchMessageComposer extends MessageComposer
 		this._data = [];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

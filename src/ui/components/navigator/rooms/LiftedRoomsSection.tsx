@@ -5,7 +5,7 @@ import {NavigatorIcon, RoomCardCompactSkeleton} from '../common';
 import {RoomCardCompact} from './RoomCardCompact';
 import {useNavigatorLocalization} from '../hooks';
 
-export interface LiftedRoom
+export interface ILiftedRoom
 {
 	id: number;
 	name: string;
@@ -16,9 +16,9 @@ export interface LiftedRoom
 	description?: string;
 }
 
-export interface LiftedRoomsSectionProps
+export interface ILiftedRoomsSectionProps
 {
-	rooms: LiftedRoom[];
+	rooms: ILiftedRoom[];
 	loading?: boolean;
 	expanded?: boolean;
 	onRoomClick?: (roomId: number) => void;
@@ -29,7 +29,7 @@ export interface LiftedRoomsSectionProps
 /**
  * Lifted/Promoted rooms section - displays rooms that have been promoted
  */
-export function LiftedRoomsSection(props: LiftedRoomsSectionProps): JSX.Element
+export function LiftedRoomsSection(props: ILiftedRoomsSectionProps): JSX.Element
 {
 	const {t, keys} = useNavigatorLocalization();
 

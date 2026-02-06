@@ -3,7 +3,7 @@ import {For, Show} from 'solid-js';
 import clsx from 'clsx';
 import {BadgeItem} from './BadgeItem';
 
-export interface BadgeData
+export interface IBadgeData
 {
 	badgeId: string;
 	name?: string;
@@ -13,17 +13,17 @@ export interface BadgeData
 	isUnseen?: boolean;
 }
 
-export interface BadgesViewProps
+export interface IBadgesViewProps
 {
-	badges: BadgeData[];
-	activeBadges: BadgeData[];
-	selectedBadge: BadgeData | null;
+	badges: IBadgeData[];
+	activeBadges: IBadgeData[];
+	selectedBadge: IBadgeData | null;
 	loading?: boolean;
 	onBadgeSelect?: (badgeId: string) => void;
 	onBadgeToggle?: (badgeId: string) => void;
 }
 
-export function BadgesView(props: BadgesViewProps): JSX.Element
+export function BadgesView(props: IBadgesViewProps): JSX.Element
 {
 	return (
 		<div class="flex flex-col h-full">
@@ -109,10 +109,10 @@ export function BadgesView(props: BadgesViewProps): JSX.Element
 					<div class="flex items-center justify-between">
 						<div>
 							<h4 class="text-sm font-semibold text-white">
-								{props.selectedBadge!.name ?? props.selectedBadge!.badgeId}
+								{props.selectedBadge?.name ?? props.selectedBadge?.badgeId}
 							</h4>
-							<Show when={props.selectedBadge!.description}>
-								<p class="text-xs text-slate-400">{props.selectedBadge!.description}</p>
+							<Show when={props.selectedBadge?.description}>
+								<p class="text-xs text-slate-400">{props.selectedBadge?.description}</p>
 							</Show>
 						</div>
 						<button
@@ -120,13 +120,13 @@ export function BadgesView(props: BadgesViewProps): JSX.Element
 							class={clsx(
 								'py-1.5 px-3 rounded-lg text-sm font-medium',
 								'transition-colors',
-								props.selectedBadge!.isActive
+								props.selectedBadge?.isActive
 									? 'bg-red-500/20 text-red-400 hover:bg-red-500/30'
 									: 'bg-green-500/20 text-green-400 hover:bg-green-500/30'
 							)}
 							onClick={() => props.onBadgeToggle?.(props.selectedBadge!.badgeId)}
 						>
-							{props.selectedBadge!.isActive ? 'Remove' : 'Wear'}
+							{props.selectedBadge?.isActive ? 'Remove' : 'Wear'}
 						</button>
 					</div>
 				</div>

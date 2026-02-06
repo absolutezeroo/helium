@@ -12,7 +12,7 @@ import type {
 /**
  * Navigator module state
  */
-export interface NavigatorState
+export interface INavigatorState
 {
 	/** Whether the navigator window is open */
 	isOpen: boolean;

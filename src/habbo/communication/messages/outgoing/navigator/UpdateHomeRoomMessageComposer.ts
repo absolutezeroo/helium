@@ -16,7 +16,7 @@ export class UpdateHomeRoomMessageComposer extends MessageComposer<ConstructorPa
 		this._data = [roomId];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

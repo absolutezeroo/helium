@@ -5,7 +5,7 @@
  *
  * Handles isometric room projection and coordinate transformations.
  */
-import type {IRoomGeometry, Point} from './IRoomGeometry';
+import type {IRoomGeometry, IPoint} from './IRoomGeometry';
 import type {IVector3d} from './IVector3d';
 import {Vector3d} from './Vector3d';
 
@@ -141,17 +141,23 @@ export class RoomGeometry implements IRoomGeometry
 		}
 
 		const diff = Vector3d.dif(origin, planeOrigin);
-		const t = -Vector3d.dotProduct(planeNormal, diff!) / denom;
 
-		return Vector3d.sum(origin, Vector3d.product(direction, t)!);
+		if (!diff)
+		{
+			return null;
+		}
+
+		const t = -Vector3d.dotProduct(planeNormal, diff) / denom;
+
+		return Vector3d.sum(origin, Vector3d.product(direction, t));
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		this._displacements.clear();
 	}
 
-	setDisplacement(location: IVector3d, displacement: IVector3d): void
+	public setDisplacement(location: IVector3d, displacement: IVector3d): void
 	{
 		if (location === null || displacement === null)
 		{
@@ -168,7 +174,7 @@ export class RoomGeometry implements IRoomGeometry
 		this._updateId++;
 	}
 
-	setDepthVector(direction: IVector3d): void
+	public setDepthVector(direction: IVector3d): void
 	{
 		const yAxis = new Vector3d(0, 1, 0);
 		const zAxis = new Vector3d(0, 0, 1);
@@ -211,7 +217,7 @@ export class RoomGeometry implements IRoomGeometry
 		this._updateId++;
 	}
 
-	adjustLocation(location: IVector3d, z: number): void
+	public adjustLocation(location: IVector3d, z: number): void
 	{
 		if (location === null || this._z === null)
 		{
@@ -228,7 +234,7 @@ export class RoomGeometry implements IRoomGeometry
 		this.setLocation(newLocation);
 	}
 
-	getCoordinatePosition(vector: IVector3d): IVector3d | null
+	public getCoordinatePosition(vector: IVector3d): IVector3d | null
 	{
 		if (vector === null)
 		{
@@ -242,7 +248,7 @@ export class RoomGeometry implements IRoomGeometry
 		return new Vector3d(projX, projY, projZ);
 	}
 
-	getScreenPosition(vector: IVector3d): IVector3d | null
+	public getScreenPosition(vector: IVector3d): IVector3d | null
 	{
 		const diff = Vector3d.dif(vector, this._location);
 
@@ -289,7 +295,7 @@ export class RoomGeometry implements IRoomGeometry
 		return diff;
 	}
 
-	getScreenPoint(vector: IVector3d): Point | null
+	public getScreenPoint(vector: IVector3d): IPoint | null
 	{
 		const screenPos = this.getScreenPosition(vector);
 
@@ -301,7 +307,7 @@ export class RoomGeometry implements IRoomGeometry
 		return {x: screenPos.x, y: screenPos.y};
 	}
 
-	getPlanePosition(point: Point, loc: IVector3d, leftSide: IVector3d, rightSide: IVector3d): Point | null
+	public getPlanePosition(point: IPoint, loc: IVector3d, leftSide: IVector3d, rightSide: IVector3d): IPoint | null
 	{
 		const screenX = point.x / this._scale;
 		const screenY = -point.y / this._scale;
@@ -311,9 +317,9 @@ export class RoomGeometry implements IRoomGeometry
 		screenVec.add(Vector3d.product(this._y, screenY));
 
 		const origin = new Vector3d(
-			this._location!.x * this._xScale,
-			this._location!.y * this._yScale,
-			this._location!.z * this._zScale
+			this._location!.x * this._xScale, // non-null: initialized in constructor
+			this._location!.y * this._yScale, // non-null: initialized in constructor
+			this._location!.z * this._zScale  // non-null: initialized in constructor
 		);
 		origin.add(screenVec);
 
@@ -339,7 +345,12 @@ export class RoomGeometry implements IRoomGeometry
 
 		const normal = Vector3d.crossProduct(scaledLeft, scaledRight);
 
-		const intersection = RoomGeometry.getIntersectionVector(origin, direction, scaledLoc, normal!) as Vector3d | null;
+		if (!normal)
+		{
+			return null;
+		}
+
+		const intersection = RoomGeometry.getIntersectionVector(origin, direction, scaledLoc, normal) as Vector3d | null; // cast: type assertion required
 
 		if (intersection !== null)
 		{
@@ -354,7 +365,7 @@ export class RoomGeometry implements IRoomGeometry
 		return null;
 	}
 
-	performZoom(): void
+	public performZoom(): void
 	{
 		if (this.isZoomedIn())
 		{
@@ -365,17 +376,17 @@ export class RoomGeometry implements IRoomGeometry
 		}
 	}
 
-	isZoomedIn(): boolean
+	public isZoomedIn(): boolean
 	{
 		return this.scale === 64;
 	}
 
-	performZoomOut(): void
+	public performZoomOut(): void
 	{
 		this.setScale(32);
 	}
 
-	performZoomIn(): void
+	public performZoomIn(): void
 	{
 		this.setScale(64);
 	}

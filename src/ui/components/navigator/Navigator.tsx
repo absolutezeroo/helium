@@ -1,10 +1,11 @@
 import type {JSX} from 'solid-js';
 import {createMemo, createSignal} from 'solid-js';
+import type {NavigatorTopLevelContext, NavigatorSearchResultBlock} from '@habbo/communication/messages/incoming/newnavigator';
 import {ModuleId, useActions, useModule} from '../../bridge';
 import {NavigatorWindow} from './NavigatorWindow';
 import {RoomCreateModal} from './create';
-import type {RoomListRoom} from './rooms';
-import type {Category} from './categories';
+import type {IRoomListRoom} from './rooms';
+import type {ICategory} from './categories';
 import {mapSearchResultsToListRooms} from './utils';
 
 /**
@@ -23,7 +24,7 @@ export function Navigator(): JSX.Element
 
 	// Transform module data for UI
 	const tabs = createMemo(() =>
-		navigator().topLevelContexts.map(ctx =>
+		navigator().topLevelContexts.map((ctx: NavigatorTopLevelContext) =>
 		{
 			const locKey = `navigator.toplevelview.${ctx.searchCode}`;
 			const fallback = ctx.searchCode.replace('_view', '').replace(/_/g, ' ');
@@ -34,15 +35,15 @@ export function Navigator(): JSX.Element
 		})
 	);
 
-	const rooms = createMemo((): RoomListRoom[] =>
+	const rooms = createMemo((): IRoomListRoom[] =>
 		mapSearchResultsToListRooms(navigator().searchResults)
 	);
 
-	const categories = createMemo((): Category[] =>
+	const categories = createMemo((): ICategory[] =>
 	{
 		const results = navigator().searchResults;
 		if (!results) return [];
-		return results.blocks.map((block, index) => ({
+		return results.blocks.map((block: NavigatorSearchResultBlock, index: number) => ({
 			id: index,
 			name: block.text || block.searchCode,
 			roomCount: block.guestRooms.length,

@@ -23,7 +23,7 @@ export type RoomUserTypeValue = typeof RoomUserType[keyof typeof RoomUserType];
  * Room user data
  * Based on AS3: com.sulake.habbo.session.class_3490 (IRoomUserData)
  */
-export interface RoomUserData
+export interface IRoomUserData
 {
 	/** Room index (unique per room session) */
 	roomIndex: number;
@@ -70,7 +70,7 @@ export interface RoomUserData
 /**
  * Room module state
  */
-export interface RoomState
+export interface IRoomState
 {
 	// === Room Info ===
 	/** Current room data */
@@ -112,7 +112,7 @@ export interface RoomState
 
 	// === Users ===
 	/** All users in room (by room index) */
-	users: Record<number, RoomUserData>;
+	users: Record<number, IRoomUserData>;
 
 	/** User badges cache (userId -> badges) */
 	userBadges: Record<number, string[]>;
@@ -121,7 +121,7 @@ export interface RoomState
 /**
  * Create initial room state
  */
-export function createInitialRoomState(): RoomState
+export function createInitialRoomState(): IRoomState
 {
 	return {
 		currentRoom: null,

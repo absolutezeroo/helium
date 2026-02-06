@@ -1,5 +1,6 @@
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
-import type {Middleware, MiddlewareContext} from './middleware/types';
+import { Logger } from '@core/utils/Logger';
+import type {Middleware, IMiddlewareContext} from './middleware/types';
 
 /**
  * Central bus for server messages
@@ -13,7 +14,7 @@ export class MessageBus
 	/**
 	 * Add a middleware to the chain
 	 */
-	use(middleware: Middleware): this
+	public use(middleware: Middleware): this
 	{
 		this.middlewares.push(middleware);
 		return this;
@@ -25,7 +26,7 @@ export class MessageBus
 	 * @param handler Function called with the parser
 	 * @returns Unsubscribe function
 	 */
-	on(eventName: string, handler: (parser: unknown) => void): () => void
+	public on(eventName: string, handler: (parser: unknown) => void): () => void
 	{
 		if (!this.handlers.has(eventName))
 		{
@@ -40,7 +41,7 @@ export class MessageBus
 	/**
 	 * Remove a handler
 	 */
-	off(eventName: string, handler: (parser: unknown) => void): void
+	public off(eventName: string, handler: (parser: unknown) => void): void
 	{
 		this.handlers.get(eventName)?.delete(handler);
 	}
@@ -49,7 +50,7 @@ export class MessageBus
 	 * Dispatch a message to all registered handlers
 	 * Middlewares are executed first
 	 */
-	dispatch(event: IMessageEvent): void
+	public dispatch(event: IMessageEvent): void
 	{
 		const parser = event.parser;
 
@@ -57,7 +58,7 @@ export class MessageBus
 
 		const eventName = event.constructor.name;
 
-		const context: MiddlewareContext = {
+		const context: IMiddlewareContext = {
 			eventName,
 			event,
 			parser,
@@ -74,7 +75,7 @@ export class MessageBus
 	/**
 	 * Returns the number of handlers registered for an event
 	 */
-	handlerCount(eventName: string): number
+	public handlerCount(eventName: string): number
 	{
 		return this.handlers.get(eventName)?.size ?? 0;
 	}
@@ -82,13 +83,13 @@ export class MessageBus
 	/**
 	 * Remove all handlers
 	 */
-	clear(): void
+	public clear(): void
 	{
 		this.handlers.clear();
 	}
 
 	private executeMiddlewareChain(
-		context: MiddlewareContext,
+		context: IMiddlewareContext,
 		index: number,
 		done: () => void
 	): void
@@ -109,7 +110,7 @@ export class MessageBus
 			});
 		} catch (error)
 		{
-			console.error(`[MessageBus] Middleware error:`, error);
+			Logger.error(`[MessageBus] Middleware error:`, error);
 
 			this.executeMiddlewareChain(context, index + 1, done);
 		}
@@ -128,7 +129,7 @@ export class MessageBus
 				handler(parser);
 			} catch (error)
 			{
-				console.error(`[MessageBus] Handler error for ${eventName}:`, error);
+				Logger.error(`[MessageBus] Handler error for ${eventName}:`, error);
 			}
 		});
 	}

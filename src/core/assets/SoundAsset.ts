@@ -43,7 +43,7 @@ export class SoundAsset implements IAsset
 		return this._declaration;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (!this._disposed)
 		{
@@ -52,7 +52,7 @@ export class SoundAsset implements IAsset
 		}
 	}
 
-	setUnknownContent(content: unknown): void
+	public setUnknownContent(content: unknown): void
 	{
 		if (content instanceof AudioBuffer)
 		{
@@ -67,7 +67,7 @@ export class SoundAsset implements IAsset
 		}
 	}
 
-	setFromOtherAsset(asset: IAsset): void
+	public setFromOtherAsset(asset: IAsset): void
 	{
 		if (asset instanceof SoundAsset)
 		{
@@ -78,7 +78,7 @@ export class SoundAsset implements IAsset
 		throw new Error('Provided asset is not of type SoundAsset');
 	}
 
-	setParamsDesc(_params: Map<string, string>): void
+	public setParamsDesc(_params: Map<string, string>): void
 	{
 	}
 }

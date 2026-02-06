@@ -6,7 +6,7 @@ export {CoreCommunicationManager} from './CoreCommunicationManager';
 export type {IConnection} from './connection/IConnection';
 export type {IConnectionCallback} from './connection/IConnectionCallback';
 export {SocketConnection} from './connection/SocketConnection';
-export type {ConnectionEvents} from './connection/SocketConnection';
+export type {IConnectionEvents} from './connection/SocketConnection';
 
 // Messages
 export type {IMessageDataWrapper} from './messages/IMessageDataWrapper';

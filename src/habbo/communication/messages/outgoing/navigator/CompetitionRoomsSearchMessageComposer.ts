@@ -16,7 +16,7 @@ export class CompetitionRoomsSearchMessageComposer extends MessageComposer<Const
 		this._data = [goalId, pageIndex];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

@@ -4,7 +4,7 @@ import type {ModuleRegistry} from '@/modules/core';
 
 const ModuleRegistryContext = createContext<ModuleRegistry>();
 
-interface ModuleProviderProps
+interface IModuleProviderProps
 {
 	registry: ModuleRegistry;
 }
@@ -26,7 +26,7 @@ interface ModuleProviderProps
  * }
  * ```
  */
-export const ModuleProvider: ParentComponent<ModuleProviderProps> = (props) =>
+export const ModuleProvider: ParentComponent<IModuleProviderProps> = (props) =>
 {
 	onCleanup(() =>
 	{

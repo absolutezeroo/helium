@@ -16,7 +16,7 @@ export class MyRoomHistorySearchMessageComposer extends MessageComposer<Construc
 		this._data = [];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

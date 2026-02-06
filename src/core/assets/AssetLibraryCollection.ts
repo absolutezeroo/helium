@@ -147,7 +147,7 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 	/**
 	 * Load a library from a URL and add it to the collection
 	 */
-	async loadFromUrl(url: string, isReady: boolean = false): Promise<void>
+	public async loadFromUrl(url: string, isReady: boolean = false): Promise<void>
 	{
 		const library = new AssetLibrary(this.context, `lib-${this._libraryCounter++}`);
 		this._pendingLibraries.push(library);
@@ -189,7 +189,7 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 	/**
 	 * Load from resource (delegates to bin library)
 	 */
-	loadFromResource(manifest: object, resourceData: unknown): boolean
+	public loadFromResource(manifest: object, resourceData: unknown): boolean
 	{
 		return this.binLibrary.loadFromResource(manifest, resourceData);
 	}
@@ -197,7 +197,7 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 	/**
 	 * Unload all libraries
 	 */
-	unload(): void
+	public unload(): void
 	{
 		while (this._pendingLibraries.length > 0)
 		{
@@ -217,7 +217,7 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 	/**
 	 * Load an asset from file (delegates to bin library)
 	 */
-	loadAssetFromFile(name: string, url: string, mimeType?: string, id?: number): AssetLoaderStruct
+	public loadAssetFromFile(name: string, url: string, mimeType?: string, id?: number): AssetLoaderStruct
 	{
 		return this.binLibrary.loadAssetFromFile(name, url, mimeType, id);
 	}
@@ -225,7 +225,7 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 	/**
 	 * Check if a library exists by name
 	 */
-	hasAssetLibrary(name: string): boolean
+	public hasAssetLibrary(name: string): boolean
 	{
 		for (const lib of this._libraries)
 		{
@@ -241,7 +241,7 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 	/**
 	 * Get a library by name
 	 */
-	getAssetLibraryByName(name: string): IAssetLibrary | null
+	public getAssetLibraryByName(name: string): IAssetLibrary | null
 	{
 		for (const lib of this._libraries)
 		{
@@ -257,7 +257,7 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 	/**
 	 * Get a library by URL
 	 */
-	getAssetLibraryByUrl(url: string): IAssetLibrary | null
+	public getAssetLibraryByUrl(url: string): IAssetLibrary | null
 	{
 		for (const lib of this._libraries)
 		{
@@ -273,7 +273,7 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 	/**
 	 * Get a library by partial URL match
 	 */
-	getAssetLibraryByPartialUrl(partialUrl: string): IAssetLibrary | null
+	public getAssetLibraryByPartialUrl(partialUrl: string): IAssetLibrary | null
 	{
 		for (const lib of this._libraries)
 		{
@@ -289,7 +289,7 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 	/**
 	 * Add a library to the collection
 	 */
-	addAssetLibrary(library: IAssetLibrary): void
+	public addAssetLibrary(library: IAssetLibrary): void
 	{
 		if (!this._libraries.includes(library))
 		{
@@ -300,7 +300,7 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 	/**
 	 * Remove a library from the collection
 	 */
-	removeAssetLibrary(library: IAssetLibrary): void
+	public removeAssetLibrary(library: IAssetLibrary): void
 	{
 		const index = this._libraries.indexOf(library);
 
@@ -313,7 +313,7 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 	/**
 	 * Get an asset by name (searches all libraries)
 	 */
-	getAssetByName(name: string): IAsset | null
+	public getAssetByName(name: string): IAsset | null
 	{
 		for (const lib of this._libraries)
 		{
@@ -331,7 +331,7 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 	/**
 	 * Get all assets with a given name (from all libraries)
 	 */
-	getAssetsByName(name: string): IAsset[]
+	public getAssetsByName(name: string): IAsset[]
 	{
 		const assets: IAsset[] = [];
 
@@ -351,7 +351,7 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 	/**
 	 * Get an asset by content
 	 */
-	getAssetByContent(content: unknown): IAsset | null
+	public getAssetByContent(content: unknown): IAsset | null
 	{
 		for (const lib of this._libraries)
 		{
@@ -369,7 +369,7 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 	/**
 	 * Get an asset by index
 	 */
-	getAssetByIndex(index: number): IAsset | null
+	public getAssetByIndex(index: number): IAsset | null
 	{
 		let current = 0;
 
@@ -391,7 +391,7 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 	/**
 	 * Get the index of an asset
 	 */
-	getAssetIndex(asset: IAsset): number
+	public getAssetIndex(asset: IAsset): number
 	{
 		let offset = 0;
 
@@ -413,7 +413,7 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 	/**
 	 * Check if an asset exists
 	 */
-	hasAsset(name: string): boolean
+	public hasAsset(name: string): boolean
 	{
 		for (const lib of this._libraries)
 		{
@@ -429,7 +429,7 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 	/**
 	 * Set an asset (delegates to bin library)
 	 */
-	setAsset(name: string, asset: IAsset, overwrite?: boolean): boolean
+	public setAsset(name: string, asset: IAsset, overwrite?: boolean): boolean
 	{
 		return this.binLibrary.setAsset(name, asset, overwrite);
 	}
@@ -437,7 +437,7 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 	/**
 	 * Create an asset (delegates to bin library)
 	 */
-	createAsset(name: string, declaration: AssetTypeDeclaration): IAsset | null
+	public createAsset(name: string, declaration: AssetTypeDeclaration): IAsset | null
 	{
 		return this.binLibrary.createAsset(name, declaration);
 	}
@@ -445,7 +445,7 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 	/**
 	 * Remove an asset
 	 */
-	removeAsset(asset: IAsset): IAsset | null
+	public removeAsset(asset: IAsset): IAsset | null
 	{
 		for (const lib of this._libraries)
 		{
@@ -463,7 +463,7 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 	/**
 	 * Register a type declaration (delegates to bin library)
 	 */
-	registerAssetTypeDeclaration(declaration: AssetTypeDeclaration, isShared?: boolean): boolean
+	public registerAssetTypeDeclaration(declaration: AssetTypeDeclaration, isShared?: boolean): boolean
 	{
 		return this.binLibrary.registerAssetTypeDeclaration(declaration, isShared);
 	}
@@ -471,7 +471,7 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 	/**
 	 * Get type declaration by MIME type
 	 */
-	getAssetTypeDeclarationByMimeType(mimeType: string, checkShared: boolean = true): AssetTypeDeclaration | null
+	public getAssetTypeDeclarationByMimeType(mimeType: string, checkShared: boolean = true): AssetTypeDeclaration | null
 	{
 		if (checkShared)
 		{
@@ -494,7 +494,7 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 	/**
 	 * Get type declaration by asset class
 	 */
-	getAssetTypeDeclarationByClass(assetClass: new (...args: unknown[]) => IAsset, checkShared: boolean = true): AssetTypeDeclaration | null
+	public getAssetTypeDeclarationByClass(assetClass: new (...args: unknown[]) => IAsset, checkShared: boolean = true): AssetTypeDeclaration | null
 	{
 		if (checkShared)
 		{
@@ -517,7 +517,7 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 	/**
 	 * Get type declaration by filename
 	 */
-	getAssetTypeDeclarationByFileName(fileName: string, checkShared: boolean = true): AssetTypeDeclaration | null
+	public getAssetTypeDeclarationByFileName(fileName: string, checkShared: boolean = true): AssetTypeDeclaration | null
 	{
 		if (checkShared)
 		{
@@ -540,7 +540,7 @@ export class AssetLibraryCollection extends Component implements IAssetLibrary
 	/**
 	 * Get all manifests from all libraries
 	 */
-	getManifests(): object[]
+	public getManifests(): object[]
 	{
 		const manifests: object[] = [];
 

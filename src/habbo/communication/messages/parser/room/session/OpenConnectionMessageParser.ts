@@ -17,13 +17,13 @@ export class OpenConnectionMessageParser implements IMessageParser
 		return this._flatId;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._flatId = 0;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		if (wrapper === null)
 		{

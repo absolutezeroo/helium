@@ -20,17 +20,17 @@ export class LiftDataContainer
 		return this._liftedRooms;
 	}
 
-	setImageLibraryBaseUrl(url: string): void
+	public setImageLibraryBaseUrl(url: string): void
 	{
 		this._imageLibraryBaseUrl = url;
 	}
 
-	setLiftedRooms(rooms: NavigatorLiftedRoomData[]): void
+	public setLiftedRooms(rooms: NavigatorLiftedRoomData[]): void
 	{
 		this._liftedRooms = rooms;
 	}
 
-	getUrlForLiftImageAtIndex(index: number): string
+	public getUrlForLiftImageAtIndex(index: number): string
 	{
 		if (index < 0 || index > this._liftedRooms.length - 1)
 		{

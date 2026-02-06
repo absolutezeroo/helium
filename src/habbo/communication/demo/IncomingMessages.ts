@@ -6,9 +6,9 @@ import {CryptoTools} from '@core/communication/encryption/CryptoTools';
 import {RSA} from '@core/communication/encryption/RSA';
 import {SocketConnection} from '@core/communication/connection/SocketConnection';
 import {Logger} from '@core/utils/Logger';
+import type {ConnectionActions} from '@/modules/connection/actions';
 import type {IHabboCommunicationManager} from '../IHabboCommunicationManager';
 import {HabboCommunicationEvent, type HabboCommunicationEventType} from '../enum';
-import type {ConnectionActions} from '@/modules/connection/actions';
 
 // Events
 import {
@@ -47,7 +47,7 @@ const log = Logger.getLogger('Handshake');
 /**
  * Events emitted by IncomingMessages
  */
-export interface IncomingMessagesEvents
+export interface IIncomingMessagesEvents
 {
 	'loginStep': (step: HabboCommunicationEventType) => void;
 	'authenticated': () => void;
@@ -58,7 +58,7 @@ export interface IncomingMessagesEvents
 /**
  * Handles incoming messages during connection/handshake
  */
-export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
+export class IncomingMessages extends EventEmitter<IIncomingMessagesEvents>
 {
 	private _communication: IHabboCommunicationManager;
 	private _messageEvents: IMessageEvent[] = [];
@@ -78,7 +78,7 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
 		this._communication = communication;
 		this._rsa = new RSA();
 
-		const connection = this._communication.connection as SocketConnection;
+		const connection = this._communication.connection as SocketConnection; // cast: type assertion required
 
 		if (!connection)
 		{
@@ -108,14 +108,14 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
 	/**
 	 * Set connection actions for state updates
 	 */
-	setConnectionActions(actions: ConnectionActions): void
+	public setConnectionActions(actions: ConnectionActions): void
 	{
 		this._connectionActions = actions;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
-		const connection = this._communication.connection as SocketConnection;
+		const connection = this._communication.connection as SocketConnection; // cast: type assertion required
 
 		if (connection)
 		{
@@ -181,7 +181,7 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
 
 		if (!event) return;
 
-		const parser = event.parser as InitDiffieHandshakeMessageParser;
+		const parser = event.parser as InitDiffieHandshakeMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -240,7 +240,7 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
 
 		if (!event) return;
 
-		const parser = event.parser as CompleteDiffieHandshakeMessageParser;
+		const parser = event.parser as CompleteDiffieHandshakeMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -274,7 +274,12 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
 			serverToClient.init(CryptoTools.hexStringToByteArray(sharedKeyHex));
 		}
 
-		connection.setEncryption(clientToServer, serverToClient!);
+		if (!serverToClient)
+		{
+			throw new Error('Server-to-client encryption is required but was not created');
+		}
+
+		connection.setEncryption(clientToServer, serverToClient);
 
 		this._isHandshaking = false;
 
@@ -339,7 +344,7 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
 	{
 		if (!event) return;
 
-		const parser = event.parser as DisconnectReasonMessageParser;
+		const parser = event.parser as DisconnectReasonMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -360,7 +365,7 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
 	{
 		if (!event) return;
 
-		const parser = event.parser as GenericErrorMessageParser;
+		const parser = event.parser as GenericErrorMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 

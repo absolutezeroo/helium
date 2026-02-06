@@ -59,7 +59,7 @@ import type {
 } from '../communication/messages/parser/inventory/AchievementsScoreMessageParser';
 import type {FigureSetIdsMessageParser} from '../communication/messages/parser/inventory/FigureSetIdsMessageParser';
 import type {
-	AvatarEffect,
+	IAvatarEffect,
 	AvatarEffectsMessageParser
 } from '../communication/messages/parser/inventory/AvatarEffectsMessageParser';
 import type {
@@ -108,28 +108,44 @@ export class SessionDataManager extends Component implements ISessionDataManager
 
 	get userDataManager(): IUserDataManager
 	{
-		return this._userDataManager!;
+		if (!this._userDataManager)
+		{
+			throw new Error('UserDataManager not initialized');
+		}
+		return this._userDataManager;
 	}
 
 	private _perkManager: PerkManager | null = null;
 
 	get perkManager(): IPerkManager
 	{
-		return this._perkManager!;
+		if (!this._perkManager)
+		{
+			throw new Error('PerkManager not initialized');
+		}
+		return this._perkManager;
 	}
 
 	private _ignoredUsersManager: IgnoredUsersManager | null = null;
 
 	get ignoredUsersManager(): IIgnoredUsersManager
 	{
-		return this._ignoredUsersManager!;
+		if (!this._ignoredUsersManager)
+		{
+			throw new Error('IgnoredUsersManager not initialized');
+		}
+		return this._ignoredUsersManager;
 	}
 
 	private _groupInfoManager: HabboGroupInfoManager | null = null;
 
 	get groupInfoManager(): IHabboGroupInfoManager
 	{
-		return this._groupInfoManager!;
+		if (!this._groupInfoManager)
+		{
+			throw new Error('HabboGroupInfoManager not initialized');
+		}
+		return this._groupInfoManager;
 	}
 
 	// System status
@@ -373,9 +389,9 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		return this._boundFurnitureNames;
 	}
 
-	private _avatarEffects: AvatarEffect[] = [];
+	private _avatarEffects: IAvatarEffect[] = [];
 
-	get avatarEffects(): AvatarEffect[]
+	get avatarEffects(): IAvatarEffect[]
 	{
 		return this._avatarEffects;
 	}
@@ -494,7 +510,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	/**
 	 * Check if a user has a specific security level
 	 */
-	hasSecurity(level: number): boolean
+	public hasSecurity(level: number): boolean
 	{
 		return this._securityLevel >= level;
 	}
@@ -502,7 +518,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	/**
 	 * Send a message to the server
 	 */
-	send(composer: IMessageComposer<unknown[]>): void
+	public send(composer: IMessageComposer<unknown[]>): void
 	{
 		this._communication?.connection?.send(composer);
 	}
@@ -510,7 +526,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	/**
 	 * Give respect to a user
 	 */
-	giveRespect(userId: number): void
+	public giveRespect(userId: number): void
 	{
 		if (userId >= 0 && this._respectLeft > 0)
 		{
@@ -522,7 +538,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	/**
 	 * Give respect to a pet
 	 */
-	givePetRespect(petId: number): void
+	public givePetRespect(petId: number): void
 	{
 		if (petId >= 0 && this._petRespectLeft > 0)
 		{
@@ -534,7 +550,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	/**
 	 * Called when giving respect fails - restore the counter
 	 */
-	giveRespectFailed(): void
+	public giveRespectFailed(): void
 	{
 		this._respectLeft++;
 	}
@@ -542,7 +558,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	/**
 	 * Set room camera follow the disabled preference
 	 */
-	setRoomCameraFollowDisabled(disabled: boolean): void
+	public setRoomCameraFollowDisabled(disabled: boolean): void
 	{
 		this._isRoomCameraFollowDisabled = disabled;
 		// Note: In AS3 this also sends a message to save preference
@@ -551,7 +567,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	/**
 	 * Set friend bar state UI flag
 	 */
-	setFriendBarState(open: boolean): void
+	public setFriendBarState(open: boolean): void
 	{
 		this.setUIFlag(UIFlagsEnum.FRIEND_BAR_OPEN, open);
 	}
@@ -559,7 +575,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	/**
 	 * Set room tools state UI flag
 	 */
-	setRoomToolsState(open: boolean): void
+	public setRoomToolsState(open: boolean): void
 	{
 		this.setUIFlag(UIFlagsEnum.ROOM_TOOLS_OPEN, open);
 	}
@@ -671,7 +687,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	 */
 	private addMessageEvent(event: IMessageEvent): void
 	{
-		this._communication!.addMessageEvent(event);
+		this._communication?.addMessageEvent(event);
 		this._messageEvents.push(event);
 	}
 
@@ -679,7 +695,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	{
 		if (!event) return;
 
-		const parser = event.parser as UserObjectMessageParser;
+		const parser = event.parser as UserObjectMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -705,7 +721,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	{
 		if (!event) return;
 
-		const parser = event.parser as UserRightsMessageParser;
+		const parser = event.parser as UserRightsMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -723,7 +739,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	{
 		if (!event) return;
 
-		const parser = event.parser as NoobnessLevelMessageParser;
+		const parser = event.parser as NoobnessLevelMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -736,7 +752,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	{
 		if (!event) return;
 
-		const parser = event.parser as AvailabilityStatusMessageParser;
+		const parser = event.parser as AvailabilityStatusMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -751,7 +767,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	{
 		if (!event) return;
 
-		const parser = event.parser as FigureUpdateMessageParser;
+		const parser = event.parser as FigureUpdateMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -765,7 +781,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	{
 		if (!event) return;
 
-		const parser = event.parser as IsFirstLoginOfDayMessageParser;
+		const parser = event.parser as IsFirstLoginOfDayMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -778,7 +794,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	{
 		if (!event) return;
 
-		const parser = event.parser as NavigatorSettingsMessageParser;
+		const parser = event.parser as NavigatorSettingsMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -792,7 +808,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	{
 		if (!event) return;
 
-		const parser = event.parser as FavouritesMessageParser;
+		const parser = event.parser as FavouritesMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -806,7 +822,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	{
 		if (!event) return;
 
-		const parser = event.parser as ActivityPointsMessageParser;
+		const parser = event.parser as ActivityPointsMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -819,7 +835,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	{
 		if (!event) return;
 
-		const parser = event.parser as InfoFeedEnableMessageParser;
+		const parser = event.parser as InfoFeedEnableMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -832,7 +848,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	{
 		if (!event) return;
 
-		const parser = event.parser as AchievementsScoreMessageParser;
+		const parser = event.parser as AchievementsScoreMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -845,7 +861,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	{
 		if (!event) return;
 
-		const parser = event.parser as FigureSetIdsMessageParser;
+		const parser = event.parser as FigureSetIdsMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -859,7 +875,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	{
 		if (!event) return;
 
-		const parser = event.parser as AvatarEffectsMessageParser;
+		const parser = event.parser as AvatarEffectsMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -872,7 +888,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	{
 		if (!event) return;
 
-		const parser = event.parser as MysteryBoxKeysMessageParser;
+		const parser = event.parser as MysteryBoxKeysMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -886,7 +902,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	{
 		if (!event) return;
 
-		const parser = event.parser as BuildersClubSubscriptionStatusMessageParser;
+		const parser = event.parser as BuildersClubSubscriptionStatusMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 

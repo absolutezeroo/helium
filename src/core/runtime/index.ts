@@ -53,7 +53,7 @@ export type {IContext, IUpdateReceiver, InterfaceCallback} from './IContext';
 
 // Component Dependency
 export {ComponentDependency} from './ComponentDependency';
-export type {DependencyEventListener} from './ComponentDependency';
+export type {IDependencyEventListener} from './ComponentDependency';
 
 // Component
 export {Component, ComponentEvents, ComponentFlags} from './Component';

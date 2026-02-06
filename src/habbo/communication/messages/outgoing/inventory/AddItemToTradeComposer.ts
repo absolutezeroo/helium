@@ -16,7 +16,7 @@ export class AddItemToTradeComposer extends MessageComposer<ConstructorParameter
 		this._data = [itemId];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

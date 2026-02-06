@@ -1,15 +1,15 @@
 import {createSignal, onCleanup, onMount} from 'solid-js';
 
-export interface DraggablePosition
+export interface IDraggablePosition
 {
 	x: number;
 	y: number;
 }
 
-export interface UseDraggableOptions
+export interface IUseDraggableOptions
 {
 	/** Initial position */
-	initialPosition?: DraggablePosition;
+	initialPosition?: IDraggablePosition;
 	/** Element to use as drag handle (if not provided, entire element is draggable) */
 	handleSelector?: string;
 	/** Constrain to viewport bounds */
@@ -18,10 +18,10 @@ export interface UseDraggableOptions
 	viewportPadding?: number;
 }
 
-export interface UseDraggableReturn
+export interface IUseDraggableReturn
 {
-	position: () => DraggablePosition;
-	setPosition: (pos: DraggablePosition) => void;
+	position: () => IDraggablePosition;
+	setPosition: (pos: IDraggablePosition) => void;
 	isDragging: () => boolean;
 	bindDragTarget: (el: HTMLElement) => void;
 	bindDragHandle: (el: HTMLElement) => void;
@@ -31,7 +31,7 @@ export interface UseDraggableReturn
 /**
  * Hook for making elements draggable
  */
-export function useDraggable(options: UseDraggableOptions = {}): UseDraggableReturn
+export function useDraggable(options: IUseDraggableOptions = {}): IUseDraggableReturn
 {
 	const {
 		initialPosition = {x: 0, y: 0},
@@ -39,15 +39,15 @@ export function useDraggable(options: UseDraggableOptions = {}): UseDraggableRet
 		viewportPadding = 20,
 	} = options;
 
-	const [position, setPosition] = createSignal<DraggablePosition>(initialPosition);
+	const [position, setPosition] = createSignal<IDraggablePosition>(initialPosition);
 	const [isDragging, setIsDragging] = createSignal(false);
 
 	let targetElement: HTMLElement | null = null;
 	let handleElement: HTMLElement | null = null;
-	let dragStart: DraggablePosition | null = null;
-	let positionStart: DraggablePosition | null = null;
+	let dragStart: IDraggablePosition | null = null;
+	let positionStart: IDraggablePosition | null = null;
 
-	const constrainPosition = (pos: DraggablePosition): DraggablePosition =>
+	const constrainPosition = (pos: IDraggablePosition): IDraggablePosition =>
 	{
 		if (!constrainToViewport || !targetElement) return pos;
 
@@ -67,7 +67,7 @@ export function useDraggable(options: UseDraggableOptions = {}): UseDraggableRet
 		if (e.button !== 0) return;
 
 		// Prevent dragging on interactive elements
-		const target = e.target as HTMLElement;
+		const target = e.target as HTMLElement; // cast: type assertion required
 		if (target.closest('button, input, select, textarea, a, [data-no-drag]'))
 		{
 			return;

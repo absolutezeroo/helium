@@ -1,8 +1,8 @@
-import {defineModule} from '../core/defineModule';
-import type {LocalizationState} from './types';
-import type {LocalizationActions, LocalizationManagers} from './actions';
-import {createActions} from './actions';
 import {IID_HabboLocalizationManager} from '@iid/IIDHabboLocalizationManager';
+import {defineModule} from '../core/defineModule';
+import type {ILocalizationState} from './types';
+import type {LocalizationActions, ILocalizationManagers} from './actions';
+import {createActions} from './actions';
 
 /**
  * Localization Module
@@ -31,12 +31,12 @@ export const localizationModule = defineModule({
 
 	managerIIDs: {
 		localization: IID_HabboLocalizationManager,
-	} satisfies Record<keyof LocalizationManagers, unknown>,
+	} satisfies Record<keyof ILocalizationManagers, unknown>,
 
 	initialState: {
-		isLoaded: false as boolean,
+		isLoaded: false as boolean, // cast: type assertion required
 		languageCode: '',
-	} satisfies LocalizationState,
+	} satisfies ILocalizationState,
 
 	handlers: {},
 
@@ -73,18 +73,18 @@ export const localizationModule = defineModule({
 	},
 });
 
-export type {LocalizationState} from './types';
-export type {LocalizationActions, LocalizationManagers} from './actions';
+export type {ILocalizationState} from './types';
+export type {LocalizationActions, ILocalizationManagers} from './actions';
 
 // Declaration merging for type-safe module access
 declare module '../core/moduleIds'
 {
-	interface ModuleStateMap
+	interface IModuleStateMap
 	{
-		'localization': LocalizationState;
+		'localization': ILocalizationState;
 	}
 
-	interface ModuleActionsMap
+	interface IModuleActionsMap
 	{
 		'localization': LocalizationActions;
 	}

@@ -239,7 +239,7 @@ export class RoomSession implements IRoomSession
 	 * Start the room session
 	 * Sends OpenFlatConnectionMessageComposer to the server
 	 */
-	start(): boolean
+	public start(): boolean
 	{
 		if (this._state !== RoomSessionState.CREATED || this._connection === null)
 		{
@@ -258,7 +258,7 @@ export class RoomSession implements IRoomSession
 	 * Reset the session with a new room ID
 	 * Called when session is reinitialized (e.g., room forwarding)
 	 */
-	reset(newRoomId: number): void
+	public reset(newRoomId: number): void
 	{
 		if (newRoomId !== this._roomId)
 		{
@@ -273,7 +273,7 @@ export class RoomSession implements IRoomSession
 	/**
 	 * Quit the current room session
 	 */
-	quit(): void
+	public quit(): void
 	{
 		if (this._connection === null)
 		{
@@ -286,25 +286,25 @@ export class RoomSession implements IRoomSession
 	/**
 	 * Dispose the session and clean up resources
 	 */
-	dispose(): void
+	public dispose(): void
 	{
 		this._connection = null;
 		this._state = RoomSessionState.ENDED;
 	}
 
-	sendChatMessage(message: string, styleId: number = 0): void
+	public sendChatMessage(message: string, styleId: number = 0): void
 	{
 		if (this._connection === null) return;
 		this._connection.send(new ChatMessageComposer(message, styleId, this._chatTrackingId++));
 	}
 
-	sendShoutMessage(message: string, styleId: number = 0): void
+	public sendShoutMessage(message: string, styleId: number = 0): void
 	{
 		if (this._connection === null) return;
 		this._connection.send(new ShoutMessageComposer(message, styleId));
 	}
 
-	sendWhisperMessage(recipientName: string, message: string, styleId: number = 0): void
+	public sendWhisperMessage(recipientName: string, message: string, styleId: number = 0): void
 	{
 		if (this._connection === null) return;
 		// Note: WhisperMessageComposer takes message, styleId, targetUserId
@@ -313,7 +313,7 @@ export class RoomSession implements IRoomSession
 		this._connection.send(new WhisperMessageComposer(message, styleId, -1));
 	}
 
-	sendChatTypingMessage(isTyping: boolean): void
+	public sendChatTypingMessage(isTyping: boolean): void
 	{
 		if (this._connection === null) return;
 
@@ -326,37 +326,37 @@ export class RoomSession implements IRoomSession
 		}
 	}
 
-	sendAvatarExpressionMessage(expressionId: number): void
+	public sendAvatarExpressionMessage(expressionId: number): void
 	{
 		if (this._connection === null) return;
 		this._connection.send(new AvatarExpressionMessageComposer(expressionId));
 	}
 
-	sendSignMessage(signId: number): void
+	public sendSignMessage(signId: number): void
 	{
 		if (this._connection === null) return;
 		this._connection.send(new SignMessageComposer(signId));
 	}
 
-	sendDanceMessage(danceId: number): void
+	public sendDanceMessage(danceId: number): void
 	{
 		if (this._connection === null) return;
 		this._connection.send(new DanceMessageComposer(danceId));
 	}
 
-	sendChangePostureMessage(posture: number): void
+	public sendChangePostureMessage(posture: number): void
 	{
 		if (this._connection === null) return;
 		this._connection.send(new ChangePostureMessageComposer(posture));
 	}
 
-	kickUser(userId: number): void
+	public kickUser(userId: number): void
 	{
 		if (this._connection === null) return;
 		this._connection.send(new KickUserMessageComposer(userId));
 	}
 
-	banUserWithDuration(userId: number, duration: string): void
+	public banUserWithDuration(userId: number, duration: string): void
 	{
 		if (this._connection === null) return;
 
@@ -378,31 +378,31 @@ export class RoomSession implements IRoomSession
 		this._connection.send(new BanUserWithDurationMessageComposer(userId, banType, this._roomId));
 	}
 
-	muteUser(userId: number, minutes: number): void
+	public muteUser(userId: number, minutes: number): void
 	{
 		if (this._connection === null) return;
 		this._connection.send(new MuteUserMessageComposer(userId, minutes, this._roomId));
 	}
 
-	unmuteUser(userId: number): void
+	public unmuteUser(userId: number): void
 	{
 		if (this._connection === null) return;
 		this._connection.send(new UnmuteUserMessageComposer(userId, this._roomId));
 	}
 
-	assignRights(userId: number): void
+	public assignRights(userId: number): void
 	{
 		if (this._connection === null) return;
 		this._connection.send(new AssignRightsMessageComposer(userId));
 	}
 
-	removeRights(userId: number): void
+	public removeRights(userId: number): void
 	{
 		if (this._connection === null) return;
 		this._connection.send(new RemoveRightsMessageComposer([userId]));
 	}
 
-	letUserIn(userName: string, allow: boolean): void
+	public letUserIn(userName: string, allow: boolean): void
 	{
 		if (this._connection === null) return;
 		this._connection.send(new LetUserInMessageComposer(userName, allow));

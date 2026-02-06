@@ -22,14 +22,14 @@ export class FavouritesMessageParser implements IMessageParser
 		return this._favouriteRoomIds;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._limit = 0;
 		this._favouriteRoomIds = [];
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._limit = wrapper.readInt();
 		const count = wrapper.readInt();

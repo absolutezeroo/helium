@@ -28,7 +28,7 @@ export class CoreCommunicationManager extends Component implements ICoreCommunic
 	/**
 	 * Create a new connection
 	 */
-	createConnection(callback?: IConnectionCallback): IConnection
+	public createConnection(callback?: IConnectionCallback): IConnection
 	{
 		if (this.disposed)
 		{
@@ -44,7 +44,7 @@ export class CoreCommunicationManager extends Component implements ICoreCommunic
 	/**
 	 * Update all connections (call from main update loop)
 	 */
-	update(_deltaTime: number): void
+	public update(_deltaTime: number): void
 	{
 		if (this.disposed) return;
 
@@ -67,7 +67,7 @@ export class CoreCommunicationManager extends Component implements ICoreCommunic
 	/**
 	 * Remove a connection
 	 */
-	removeConnection(connection: IConnection): void
+	public removeConnection(connection: IConnection): void
 	{
 		const index = this._connections.indexOf(connection);
 		if (index !== -1)

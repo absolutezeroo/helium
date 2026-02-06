@@ -30,4 +30,4 @@ export {useActions} from './useActions';
 
 // Re-export ModuleId for convenience
 export {ModuleId} from '@/modules/core';
-export type {ModuleStateMap, ModuleActionsMap, ModuleAPI} from '@/modules/core';
+export type {IModuleStateMap, IModuleActionsMap, IModuleAPI} from '@/modules/core';

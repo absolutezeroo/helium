@@ -2,7 +2,7 @@ import type {JSX} from 'solid-js';
 import clsx from 'clsx';
 import {type IconName, NavigatorIcon} from './NavigatorIcon';
 
-export interface NavigatorButtonProps
+export interface INavigatorButtonProps
 {
 	children?: JSX.Element;
 	type?: 'button' | 'submit' | 'reset';
@@ -41,7 +41,7 @@ const iconSizes: Record<string, 'sm' | 'md' | 'lg'> = {
 /**
  * Navigator button component
  */
-export function NavigatorButton(props: NavigatorButtonProps): JSX.Element
+export function NavigatorButton(props: INavigatorButtonProps): JSX.Element
 {
 	const variant = () => variantClasses[props.variant ?? 'secondary'];
 	const size = () => sizeClasses[props.size ?? 'md'];
@@ -100,7 +100,7 @@ export function NavigatorButton(props: NavigatorButtonProps): JSX.Element
 /**
  * Icon-only button variant
  */
-export interface IconButtonProps
+export interface IIconButtonProps
 {
 	icon: IconName;
 	size?: 'sm' | 'md' | 'lg';
@@ -117,7 +117,7 @@ const iconButtonSizes = {
 	lg: 'p-2',
 };
 
-export function IconButton(props: IconButtonProps): JSX.Element
+export function IconButton(props: IIconButtonProps): JSX.Element
 {
 	const variant = () => variantClasses[props.variant ?? 'ghost'];
 	const size = () => iconButtonSizes[props.size ?? 'md'];

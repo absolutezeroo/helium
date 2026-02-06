@@ -1,11 +1,11 @@
-import type {ActionContext} from '../core/types';
-import type {RoomState, RoomUserData, RoomUserTypeValue} from './types';
+import type {IActionContext} from '../core/types';
+import type {IRoomState, IRoomUserData, RoomUserTypeValue} from './types';
 import {createInitialRoomState, RoomUserType} from './types';
 
 // Room module has no managers - it's purely reactive to server messages
 type Managers = Record<string, never>;
 
-export function createActions(ctx: ActionContext<RoomState, Managers>)
+export function createActions(ctx: IActionContext<IRoomState, Managers>)
 {
 	const {getState, updateState} = ctx;
 
@@ -53,7 +53,7 @@ export function createActions(ctx: ActionContext<RoomState, Managers>)
 		/**
 		 * Get all users in the room
 		 */
-		getUsers: (): RoomUserData[] =>
+		getUsers: (): IRoomUserData[] =>
 		{
 			return Object.values(getState().users);
 		},
@@ -61,7 +61,7 @@ export function createActions(ctx: ActionContext<RoomState, Managers>)
 		/**
 		 * Get users by type
 		 */
-		getUsersByType: (type: RoomUserTypeValue): RoomUserData[] =>
+		getUsersByType: (type: RoomUserTypeValue): IRoomUserData[] =>
 		{
 			return Object.values(getState().users).filter(u => u.type === type);
 		},
@@ -69,7 +69,7 @@ export function createActions(ctx: ActionContext<RoomState, Managers>)
 		/**
 		 * Get only human users (no pets/bots)
 		 */
-		getHumanUsers: (): RoomUserData[] =>
+		getHumanUsers: (): IRoomUserData[] =>
 		{
 			return Object.values(getState().users).filter(u => u.type === RoomUserType.USER);
 		},
@@ -77,7 +77,7 @@ export function createActions(ctx: ActionContext<RoomState, Managers>)
 		/**
 		 * Get user by room index
 		 */
-		getUserByIndex: (roomIndex: number): RoomUserData | undefined =>
+		getUserByIndex: (roomIndex: number): IRoomUserData | undefined =>
 		{
 			return getState().users[roomIndex];
 		},
@@ -85,7 +85,7 @@ export function createActions(ctx: ActionContext<RoomState, Managers>)
 		/**
 		 * Get user by web ID
 		 */
-		getUserById: (webId: number): RoomUserData | undefined =>
+		getUserById: (webId: number): IRoomUserData | undefined =>
 		{
 			return Object.values(getState().users).find(u => u.webId === webId);
 		},
@@ -93,7 +93,7 @@ export function createActions(ctx: ActionContext<RoomState, Managers>)
 		/**
 		 * Get user by name
 		 */
-		getUserByName: (name: string): RoomUserData | undefined =>
+		getUserByName: (name: string): IRoomUserData | undefined =>
 		{
 			return Object.values(getState().users).find(
 				u => u.name.toLowerCase() === name.toLowerCase()
@@ -103,7 +103,7 @@ export function createActions(ctx: ActionContext<RoomState, Managers>)
 		/**
 		 * Get own user in room
 		 */
-		getOwnUser: (): RoomUserData | undefined =>
+		getOwnUser: (): IRoomUserData | undefined =>
 		{
 			const ownIndex = getState().ownUserRoomIndex;
 

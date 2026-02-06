@@ -7,8 +7,8 @@
  */
 import type {IRoomGeometry} from '@room/utils/IRoomGeometry';
 import {RoomSpriteMouseEvent} from '@room/events/RoomSpriteMouseEvent';
+import {RoomObjectFurnitureActionEvent} from '@habbo/room/events/RoomObjectFurnitureActionEvent';
 import {FurnitureLogic} from './FurnitureLogic';
-import {RoomObjectFurnitureActionEvent} from '../../../events/RoomObjectFurnitureActionEvent';
 
 export class FurnitureMultiStateLogic extends FurnitureLogic
 {

@@ -129,7 +129,7 @@ export abstract class BaseFileLoader implements IAssetLoader
 	/**
 	 * Dispose of this loader
 	 */
-	dispose(): void
+	public dispose(): void
 	{
 		if (!this._disposed)
 		{

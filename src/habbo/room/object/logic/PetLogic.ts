@@ -31,7 +31,11 @@ export class PetLogic extends MovingObjectLogic
 
 	// Selection state
 	private _selected = false;
-	private _lastLocation: Vector3d | null = null;
+	// Pre-allocated to avoid hot-path allocations (PF-001)
+	private readonly _lastLocation: Vector3d = new Vector3d();
+	private _hasLastLocation = false;
+	// Pre-allocated event reused each frame to avoid hot-path allocations (PF-001)
+	private readonly _positionChangedEvent: RoomObjectMoveEvent = new RoomObjectMoveEvent(RoomObjectMoveEvent.ROME_POSITION_CHANGED, null);
 
 	// Debug mode
 	private _debugMode = false;
@@ -71,7 +75,7 @@ export class PetLogic extends MovingObjectLogic
 
 		this._directions = [];
 		super.dispose();
-		this._lastLocation = null;
+		this._hasLastLocation = false;
 	}
 
 	override initialize(data: unknown): void
@@ -154,7 +158,7 @@ export class PetLogic extends MovingObjectLogic
 			if (message instanceof RoomObjectAvatarChatUpdateMessage)
 			{
 				model.setNumber('figure_talk', 1);
-				this._talkEndTime = Date.now() + message.numberOfWords * 1000;
+				this._talkEndTime = performance.now() + message.numberOfWords * 1000;
 				return;
 			}
 
@@ -162,7 +166,7 @@ export class PetLogic extends MovingObjectLogic
 			if (message instanceof RoomObjectAvatarPetGestureUpdateMessage)
 			{
 				model.setString('figure_gesture', message.gesture);
-				this._gestureEndTime = Date.now() + 3000;
+				this._gestureEndTime = performance.now() + 3000;
 				return;
 			}
 
@@ -178,14 +182,14 @@ export class PetLogic extends MovingObjectLogic
 		if (message instanceof RoomObjectAvatarSelectedMessage)
 		{
 			this._selected = message.selected;
-			this._lastLocation = null;
+			this._hasLastLocation = false;
 			return;
 		}
 
 		// Experience gain
 		if (message instanceof RoomObjectAvatarExperienceUpdateMessage)
 		{
-			model.setNumber('figure_experience_timestamp', Date.now());
+			model.setNumber('figure_experience_timestamp', performance.now());
 			model.setNumber('figure_gained_experience', message.gainedExperience);
 			return;
 		}
@@ -295,20 +299,15 @@ export class PetLogic extends MovingObjectLogic
 			{
 				const location = this.object.getLocation();
 
-				if (this._lastLocation === null ||
+				if (!this._hasLastLocation ||
 					this._lastLocation.x !== location.x ||
 					this._lastLocation.y !== location.y ||
 					this._lastLocation.z !== location.z)
 				{
-					if (this._lastLocation === null)
-					{
-						this._lastLocation = new Vector3d();
-					}
-
+					this._hasLastLocation = true;
 					this._lastLocation.assign(location);
 
-					const event = new RoomObjectMoveEvent(RoomObjectMoveEvent.ROME_POSITION_CHANGED, this.object);
-					this.eventDispatcher.emit(event.type, event);
+					this.eventDispatcher.emit(this._positionChangedEvent.type, this._positionChangedEvent.reinit(RoomObjectMoveEvent.ROME_POSITION_CHANGED, this.object));
 				}
 			}
 		}
@@ -326,7 +325,7 @@ export class PetLogic extends MovingObjectLogic
 
 	private updateActions(time: number, model: IRoomObjectModelController): void
 	{
-		const now = Date.now();
+		const now = performance.now();
 
 		// Gesture timeout
 		if (this._gestureEndTime > 0 && now > this._gestureEndTime)

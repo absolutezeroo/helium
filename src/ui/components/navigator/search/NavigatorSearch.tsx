@@ -3,7 +3,7 @@ import {createSignal} from 'solid-js';
 import clsx from 'clsx';
 import {NavigatorIcon} from '../common';
 
-export interface NavigatorSearchProps
+export interface INavigatorSearchProps
 {
 	placeholder?: string;
 	value?: string;
@@ -16,13 +16,13 @@ export interface NavigatorSearchProps
 /**
  * Navigator search input with search/clear buttons
  */
-export function NavigatorSearch(props: NavigatorSearchProps): JSX.Element
+export function NavigatorSearch(props: INavigatorSearchProps): JSX.Element
 {
 	const [localValue, setLocalValue] = createSignal(props.value ?? '');
 
 	const handleInput = (e: InputEvent) =>
 	{
-		const target = e.target as HTMLInputElement;
+		const target = e.target as HTMLInputElement; // cast: type assertion required
 		setLocalValue(target.value);
 	};
 

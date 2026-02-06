@@ -24,14 +24,14 @@ export class RoomReadyMessageParser implements IMessageParser
 		return this._roomId;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._roomType = '';
 		this._roomId = 0;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._roomType = wrapper.readString();
 		this._roomId = wrapper.readInt();

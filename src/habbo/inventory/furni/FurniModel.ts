@@ -1,6 +1,6 @@
 import type {IFurniModel} from './IFurniModel';
 import type {IStuffData} from '../items/IStuffData';
-import type {FurnitureItemData} from '../items/FurnitureItemData';
+import type {IFurnitureItemData} from '../items/FurnitureItemData';
 import {GroupItem} from '../items/GroupItem';
 import {FurnitureItem} from '../items/FurnitureItem';
 import {FurnitureCategory} from '../enum';
@@ -50,7 +50,7 @@ export class FurniModel implements IFurniModel
 		return this._showingRentedFurni;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (this._disposed) return;
 
@@ -64,7 +64,7 @@ export class FurniModel implements IFurniModel
 		this._disposed = true;
 	}
 
-	insertFurniture(items: Map<number, FurnitureItemData>): {
+	insertFurniture(items: Map<number, IFurnitureItemData>): {
 		addedCount: number;
 		removedCount: number;
 		isFirstLoad: boolean;
@@ -153,7 +153,7 @@ export class FurniModel implements IFurniModel
 		return result;
 	}
 
-	removeFurni(itemId: number): GroupItem | null
+	public removeFurni(itemId: number): GroupItem | null
 	{
 		for (let i = 0; i < this._furniData.length; i++)
 		{
@@ -183,7 +183,7 @@ export class FurniModel implements IFurniModel
 		return null;
 	}
 
-	clearFurniList(): void
+	public clearFurniList(): void
 	{
 		for (const group of this._furniData)
 		{
@@ -194,7 +194,7 @@ export class FurniModel implements IFurniModel
 		this._isListInitialized = false;
 	}
 
-	getSelectedItem(): GroupItem | null
+	public getSelectedItem(): GroupItem | null
 	{
 		for (const groupItem of this._furniData)
 		{
@@ -207,7 +207,7 @@ export class FurniModel implements IFurniModel
 		return null;
 	}
 
-	removeSelections(): void
+	public removeSelections(): void
 	{
 		for (const groupItem of this._furniData)
 		{
@@ -215,7 +215,7 @@ export class FurniModel implements IFurniModel
 		}
 	}
 
-	selectFirstItem(): GroupItem | null
+	public selectFirstItem(): GroupItem | null
 	{
 		this.removeSelections();
 
@@ -235,7 +235,7 @@ export class FurniModel implements IFurniModel
 		return null;
 	}
 
-	selectItem(groupItem: GroupItem): void
+	public selectItem(groupItem: GroupItem): void
 	{
 		this.removeSelections();
 		groupItem.isSelected = true;
@@ -243,7 +243,7 @@ export class FurniModel implements IFurniModel
 		this._categorySelections.set(this._currentCategory, groupItem);
 	}
 
-	getItemById(itemId: number): GroupItem | null
+	public getItemById(itemId: number): GroupItem | null
 	{
 		for (const groupItem of this._furniData)
 		{
@@ -256,12 +256,12 @@ export class FurniModel implements IFurniModel
 		return null;
 	}
 
-	getItemWithStripId(stripId: number): GroupItem | null
+	public getItemWithStripId(stripId: number): GroupItem | null
 	{
 		return this.getItemById(stripId);
 	}
 
-	getGroupItemByItemTypeId(typeId: number, isWallItem: boolean): GroupItem | null
+	public getGroupItemByItemTypeId(typeId: number, isWallItem: boolean): GroupItem | null
 	{
 		for (const groupItem of this._furniData)
 		{
@@ -274,7 +274,7 @@ export class FurniModel implements IFurniModel
 		return null;
 	}
 
-	updateItemLocks(lockedRefIds: number[]): void
+	public updateItemLocks(lockedRefIds: number[]): void
 	{
 		if (lockedRefIds.length === 0)
 		{
@@ -289,7 +289,7 @@ export class FurniModel implements IFurniModel
 		}
 	}
 
-	addLockTo(itemId: number): void
+	public addLockTo(itemId: number): void
 	{
 		for (const groupItem of this._furniData)
 		{
@@ -300,7 +300,7 @@ export class FurniModel implements IFurniModel
 		}
 	}
 
-	removeLockFrom(itemId: number): void
+	public removeLockFrom(itemId: number): void
 	{
 		for (const groupItem of this._furniData)
 		{
@@ -311,7 +311,7 @@ export class FurniModel implements IFurniModel
 		}
 	}
 
-	removeAllLocks(): void
+	public removeAllLocks(): void
 	{
 		for (const groupItem of this._furniData)
 		{
@@ -319,14 +319,14 @@ export class FurniModel implements IFurniModel
 		}
 	}
 
-	categorySwitch(category: 'furni' | 'rentables'): void
+	public categorySwitch(category: 'furni' | 'rentables'): void
 	{
 		this._currentCategory = category;
 		this._showingRentedFurni = category === 'rentables';
 		this.updateCategorySelection();
 	}
 
-	resetUnseenItems(): number[]
+	public resetUnseenItems(): number[]
 	{
 		const resetIds: number[] = [];
 
@@ -342,7 +342,7 @@ export class FurniModel implements IFurniModel
 		return resetIds;
 	}
 
-	updateUnseenItems(unseenIds: number[]): void
+	public updateUnseenItems(unseenIds: number[]): void
 	{
 		if (unseenIds.length === 0) return;
 

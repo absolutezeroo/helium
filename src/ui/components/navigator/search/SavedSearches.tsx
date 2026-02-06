@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import {NavigatorIcon} from '../common';
 import {useNavigatorLocalization} from '../hooks';
 
-export interface SavedSearch
+export interface ISavedSearch
 {
 	id: number;
 	searchCode: string;
@@ -12,12 +12,12 @@ export interface SavedSearch
 	localization?: string;
 }
 
-export interface SavedSearchesProps
+export interface ISavedSearchesProps
 {
-	searches: SavedSearch[];
+	searches: ISavedSearch[];
 	loading?: boolean;
 	expanded?: boolean;
-	onSearchClick?: (search: SavedSearch) => void;
+	onSearchClick?: (search: ISavedSearch) => void;
 	onDeleteSearch?: (id: number) => void;
 	onSaveCurrentSearch?: () => void;
 	onToggleExpand?: () => void;
@@ -27,12 +27,12 @@ export interface SavedSearchesProps
 /**
  * Saved searches panel - displays user's saved navigator searches
  */
-export function SavedSearches(props: SavedSearchesProps): JSX.Element
+export function SavedSearches(props: ISavedSearchesProps): JSX.Element
 {
 	const {t, keys} = useNavigatorLocalization();
 	const [hoveredId, setHoveredId] = createSignal<number | null>(null);
 
-	const handleSearchClick = (search: SavedSearch) =>
+	const handleSearchClick = (search: ISavedSearch) =>
 	{
 		props.onSearchClick?.(search);
 	};

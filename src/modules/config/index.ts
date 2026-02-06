@@ -1,8 +1,8 @@
-import {defineModule} from '../core/defineModule';
-import type {ConfigState} from './types';
-import type {ConfigActions, ConfigManagers} from './actions';
-import {createActions} from './actions';
 import {IID_HabboConfigurationManager} from '@iid/IIDHabboConfigurationManager';
+import {defineModule} from '../core/defineModule';
+import type {IConfigState} from './types';
+import type {ConfigActions, IConfigManagers} from './actions';
+import {createActions} from './actions';
 
 /**
  * Config Module
@@ -28,11 +28,11 @@ export const configModule = defineModule({
 
 	managerIIDs: {
 		configuration: IID_HabboConfigurationManager,
-	} satisfies Record<keyof ConfigManagers, unknown>,
+	} satisfies Record<keyof IConfigManagers, unknown>,
 
 	initialState: {
-		isLoaded: false as boolean,
-	} satisfies ConfigState,
+		isLoaded: false as boolean, // cast: type assertion required
+	} satisfies IConfigState,
 
 	handlers: {},
 
@@ -54,18 +54,18 @@ export const configModule = defineModule({
 	},
 });
 
-export type {ConfigState} from './types';
-export type {ConfigActions, ConfigManagers} from './actions';
+export type {IConfigState} from './types';
+export type {ConfigActions, IConfigManagers} from './actions';
 
 // Declaration merging for type-safe module access
 declare module '../core/moduleIds'
 {
-	interface ModuleStateMap
+	interface IModuleStateMap
 	{
-		'config': ConfigState;
+		'config': IConfigState;
 	}
 
-	interface ModuleActionsMap
+	interface IModuleActionsMap
 	{
 		'config': ConfigActions;
 	}

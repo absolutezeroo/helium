@@ -32,26 +32,26 @@ export {defineModule} from './defineModule';
 export {ModuleId} from './moduleIds';
 
 export type {
-	ModuleDefinition,
-	LoadedModule,
-	ActionContext,
-	ModuleContext,
+	IModuleDefinition,
+	ILoadedModule,
+	IActionContext,
+	IModuleContext,
 	MessageHandlers,
-	HandlerContext,
+	IHandlerContext,
 	StateListener,
-	DependencyAccessor,
+	IDependencyAccessor,
 	ManagerIIDMap,
 } from './types';
 
 export type {
-	ModuleId as ModuleIdType,
-	ModuleStateMap,
-	ModuleActionsMap,
-	ModuleAPI,
+	ModuleId as ModuleIdType, // cast: type assertion required
+	IModuleStateMap,
+	IModuleActionsMap,
+	IModuleAPI,
 	RegisteredModuleId,
 } from './moduleIds';
 
-export type {Middleware, MiddlewareContext} from './middleware/types';
+export type {Middleware, IMiddlewareContext} from './middleware/types';
 
 export {
 	loggingMiddleware,

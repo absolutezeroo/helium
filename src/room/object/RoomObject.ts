@@ -54,7 +54,7 @@ export class RoomObject implements IRoomObjectController
 		this._instanceId = RoomObject._instanceCounter++;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		this._avatarLibraryAssetName = null;
 		this.setVisualization(null);
@@ -66,56 +66,56 @@ export class RoomObject implements IRoomObjectController
 		}
 	}
 
-	setInitialized(value: boolean): void
+	public setInitialized(value: boolean): void
 	{
 		this._initialized = value;
 	}
 
-	isInitialized(): boolean
+	public isInitialized(): boolean
 	{
 		return this._initialized;
 	}
 
-	getId(): number
+	public getId(): number
 	{
 		return this._id;
 	}
 
-	getInstanceId(): number
+	public getInstanceId(): number
 	{
 		return this._instanceId;
 	}
 
-	getType(): string
+	public getType(): string
 	{
 		return this._type;
 	}
 
-	getLocation(): IVector3d
+	public getLocation(): IVector3d
 	{
 		this._locationCache.assign(this._location);
 
 		return this._locationCache;
 	}
 
-	getDirection(): IVector3d
+	public getDirection(): IVector3d
 	{
 		this._directionCache.assign(this._direction);
 
 		return this._directionCache;
 	}
 
-	getModel(): IRoomObjectModel
+	public getModel(): IRoomObjectModel
 	{
 		return this._model;
 	}
 
-	getModelController(): IRoomObjectModelController
+	public getModelController(): IRoomObjectModelController
 	{
 		return this._model;
 	}
 
-	getState(index: number): number
+	public getState(index: number): number
 	{
 		if (index >= 0 && index < this._states.length)
 		{
@@ -125,12 +125,12 @@ export class RoomObject implements IRoomObjectController
 		return -1;
 	}
 
-	getVisualization(): IRoomObjectVisualization | null
+	public getVisualization(): IRoomObjectVisualization | null
 	{
 		return this._visualization;
 	}
 
-	setLocation(location: IVector3d): void
+	public setLocation(location: IVector3d): void
 	{
 		if (location === null)
 		{
@@ -146,7 +146,7 @@ export class RoomObject implements IRoomObjectController
 		}
 	}
 
-	setDirection(direction: IVector3d): void
+	public setDirection(direction: IVector3d): void
 	{
 		if (direction === null)
 		{
@@ -162,7 +162,7 @@ export class RoomObject implements IRoomObjectController
 		}
 	}
 
-	setState(state: number, index: number): boolean
+	public setState(state: number, index: number): boolean
 	{
 		if (index >= 0 && index < this._states.length)
 		{
@@ -178,7 +178,7 @@ export class RoomObject implements IRoomObjectController
 		return false;
 	}
 
-	setVisualization(visualization: IRoomObjectVisualization | null): void
+	public setVisualization(visualization: IRoomObjectVisualization | null): void
 	{
 		if (visualization !== this._visualization)
 		{
@@ -196,7 +196,7 @@ export class RoomObject implements IRoomObjectController
 		}
 	}
 
-	setEventHandler(handler: IRoomObjectEventHandler | null): void
+	public setEventHandler(handler: IRoomObjectEventHandler | null): void
 	{
 		if (handler === this._eventHandler)
 		{
@@ -219,22 +219,22 @@ export class RoomObject implements IRoomObjectController
 		}
 	}
 
-	getEventHandler(): IRoomObjectEventHandler | null
+	public getEventHandler(): IRoomObjectEventHandler | null
 	{
 		return this._eventHandler;
 	}
 
-	getUpdateID(): number
+	public getUpdateID(): number
 	{
 		return this._updateID;
 	}
 
-	getMouseHandler(): IRoomObjectMouseHandler | null
+	public getMouseHandler(): IRoomObjectMouseHandler | null
 	{
 		return this.getEventHandler();
 	}
 
-	getAvatarLibraryAssetName(): string
+	public getAvatarLibraryAssetName(): string
 	{
 		if (!this._avatarLibraryAssetName)
 		{
@@ -244,7 +244,7 @@ export class RoomObject implements IRoomObjectController
 		return this._avatarLibraryAssetName;
 	}
 
-	tearDown(): void
+	public tearDown(): void
 	{
 		if (this._eventHandler)
 		{

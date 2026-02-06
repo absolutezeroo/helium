@@ -3,9 +3,9 @@ import {Logger} from '@core/utils/Logger';
 import {CoreLocalizationManager} from '@core/localization';
 import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
 import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommunicationManager';
+import {HabboCommunicationEvent, type HabboCommunicationEventType} from '@habbo/communication/enum';
 import type {IHabboLocalizationManager} from './IHabboLocalizationManager';
 import {BadgeBaseAndLevel} from './BadgeBaseAndLevel';
-import {HabboCommunicationEvent, type HabboCommunicationEventType} from '@habbo/communication/enum';
 
 const log = Logger.getLogger('HabboLocalization');
 
@@ -39,7 +39,7 @@ export class HabboLocalizationManager extends CoreLocalizationManager implements
 	/**
 	 * Set the configuration manager reference
 	 */
-	setConfigurationManager(configManager: IHabboConfigurationManager): void
+	public setConfigurationManager(configManager: IHabboConfigurationManager): void
 	{
 		this._configurationManager = configManager;
 
@@ -49,7 +49,7 @@ export class HabboLocalizationManager extends CoreLocalizationManager implements
 	/**
 	 * Set the communication manager reference
 	 */
-	setCommunicationManager(commManager: IHabboCommunicationManager): void
+	public setCommunicationManager(commManager: IHabboCommunicationManager): void
 	{
 		this._communicationManager = commManager;
 
@@ -69,7 +69,7 @@ export class HabboLocalizationManager extends CoreLocalizationManager implements
 		}
 	}
 
-	loadDefaultEmbedLocalizations(language: string, fallback: boolean = true): boolean
+	public loadDefaultEmbedLocalizations(language: string, fallback: boolean = true): boolean
 	{
 		// In TypeScript version, embedded localizations would be imported modules
 		// For now, we log and return false as external loading is preferred
@@ -84,7 +84,7 @@ export class HabboLocalizationManager extends CoreLocalizationManager implements
 		return false;
 	}
 
-	getLocalizationWithParams(key: string, defaultValue: string = '', ...params: string[]): string
+	public getLocalizationWithParams(key: string, defaultValue: string = '', ...params: string[]): string
 	{
 		if (params && params.length > 0)
 		{
@@ -97,7 +97,7 @@ export class HabboLocalizationManager extends CoreLocalizationManager implements
 		return this.getLocalization(key, defaultValue);
 	}
 
-	getLocalizationWithParamMap(key: string, defaultValue: string = '', paramMap?: Map<string, string>): string
+	public getLocalizationWithParamMap(key: string, defaultValue: string = '', paramMap?: Map<string, string>): string
 	{
 		if (paramMap)
 		{
@@ -110,12 +110,12 @@ export class HabboLocalizationManager extends CoreLocalizationManager implements
 		return this.getLocalization(key, defaultValue);
 	}
 
-	getExternalVariablesUrl(): string
+	public getExternalVariablesUrl(): string
 	{
 		return this._externalVariablesUrl;
 	}
 
-	getExternalVariablesHash(): string
+	public getExternalVariablesHash(): string
 	{
 		return this._externalVariablesHash;
 	}
@@ -131,7 +131,7 @@ export class HabboLocalizationManager extends CoreLocalizationManager implements
 		return this.interpolate(localization);
 	}
 
-	getAchievementName(badgeId: string): string
+	public getAchievementName(badgeId: string): string
 	{
 		const badgeInfo = new BadgeBaseAndLevel(badgeId);
 
@@ -148,7 +148,7 @@ export class HabboLocalizationManager extends CoreLocalizationManager implements
 		return localization ?? '';
 	}
 
-	getAchievementDesc(badgeId: string, limit: number): string
+	public getAchievementDesc(badgeId: string, limit: number): string
 	{
 		const badgeInfo = new BadgeBaseAndLevel(badgeId);
 
@@ -165,7 +165,7 @@ export class HabboLocalizationManager extends CoreLocalizationManager implements
 		return this.getLocalization(localizationKey);
 	}
 
-	getAchievementInstruction(badgeId: string): string
+	public getAchievementInstruction(badgeId: string): string
 	{
 		const badgeInfo = new BadgeBaseAndLevel(badgeId);
 
@@ -177,13 +177,13 @@ export class HabboLocalizationManager extends CoreLocalizationManager implements
 		return localization ?? '';
 	}
 
-	getBadgeBaseName(badgeId: string): string
+	public getBadgeBaseName(badgeId: string): string
 	{
 		const badgeInfo = new BadgeBaseAndLevel(badgeId);
 		return badgeInfo.base;
 	}
 
-	getBadgeName(badgeId: string): string
+	public getBadgeName(badgeId: string): string
 	{
 		const badgeInfo = new BadgeBaseAndLevel(badgeId);
 
@@ -196,7 +196,7 @@ export class HabboLocalizationManager extends CoreLocalizationManager implements
 		return this.getLocalization(localizationKey);
 	}
 
-	getBadgeDesc(badgeId: string): string
+	public getBadgeDesc(badgeId: string): string
 	{
 		const badgeInfo = new BadgeBaseAndLevel(badgeId);
 
@@ -211,19 +211,19 @@ export class HabboLocalizationManager extends CoreLocalizationManager implements
 		return localizationKey === localization ? '' : localization;
 	}
 
-	getPreviousLevelBadgeId(badgeId: string): string
+	public getPreviousLevelBadgeId(badgeId: string): string
 	{
 		const badgeInfo = new BadgeBaseAndLevel(badgeId);
 		badgeInfo.level--;
 		return badgeInfo.badgeId;
 	}
 
-	setBadgePointLimit(badgeId: string, limit: number): void
+	public setBadgePointLimit(badgeId: string, limit: number): void
 	{
 		this._badgePointLimits.set(badgeId, limit);
 	}
 
-	requestLocalizationInit(): void
+	public requestLocalizationInit(): void
 	{
 		if (this._isLocalizationInitialized)
 		{
@@ -285,12 +285,12 @@ export class HabboLocalizationManager extends CoreLocalizationManager implements
 
 		let index = 1;
 
-		while (this._configurationManager.propertyExists('localization.' + index))
+		while (this._configurationManager.propertyExists(`localization.${index}`))
 		{
-			const localizationName = this._configurationManager.getProperty('localization.' + index);
-			const localizationCode = this._configurationManager.getProperty('localization.' + index + '.code');
-			const localizationDisplayName = this._configurationManager.getProperty('localization.' + index + '.name');
-			const localizationUrl = this._configurationManager.getProperty('localization.' + index + '.url');
+			const localizationName = this._configurationManager.getProperty(`localization.${index}`);
+			const localizationCode = this._configurationManager.getProperty(`localization.${index}.code`);
+			const localizationDisplayName = this._configurationManager.getProperty(`localization.${index}.name`);
+			const localizationUrl = this._configurationManager.getProperty(`localization.${index}.url`);
 
 			super.registerLocalizationDefinition(localizationName, localizationDisplayName, localizationUrl, localizationCode);
 

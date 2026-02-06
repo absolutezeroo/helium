@@ -18,7 +18,7 @@ export class FurnitureAliasesMessageParser implements IMessageParser
 		return this._names.length;
 	}
 
-	getName(index: number): string | null
+	public getName(index: number): string | null
 	{
 		if (index < 0 || index >= this._names.length)
 		{
@@ -28,7 +28,7 @@ export class FurnitureAliasesMessageParser implements IMessageParser
 		return this._names[index];
 	}
 
-	getAlias(index: number): string | null
+	public getAlias(index: number): string | null
 	{
 		if (index < 0 || index >= this._aliases.length)
 		{
@@ -38,14 +38,14 @@ export class FurnitureAliasesMessageParser implements IMessageParser
 		return this._aliases[index];
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._names = [];
 		this._aliases = [];
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		if (wrapper === null)
 		{

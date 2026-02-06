@@ -15,13 +15,13 @@ export class RoomInfoUpdatedMessageParser implements IMessageParser
 		return this._flatId;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._flatId = 0;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._flatId = wrapper.readInt();
 		return true;

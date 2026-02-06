@@ -16,7 +16,7 @@ export class SSOTicketMessageComposer extends MessageComposer<ConstructorParamet
 		this._data = [ssoTicket, time];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

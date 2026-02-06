@@ -16,7 +16,7 @@ export class NavigatorAddCollapsedCategoryMessageComposer extends MessageCompose
 		this._data = [category];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

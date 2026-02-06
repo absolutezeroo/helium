@@ -16,7 +16,7 @@ export class AddFavouriteRoomMessageComposer extends MessageComposer<Constructor
 		this._data = [roomId];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

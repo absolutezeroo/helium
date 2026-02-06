@@ -16,7 +16,7 @@ export class AvatarEffectActivatedComposer extends MessageComposer<ConstructorPa
 		this._data = [effectType];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

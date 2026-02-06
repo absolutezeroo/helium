@@ -15,7 +15,7 @@ export function checkNM001(ctx: AuditContext): Violation[] {
 
     if (trimmed.startsWith('//') || trimmed.startsWith('*') || trimmed.startsWith('/*')) continue;
 
-    const match = /\bclass\s+([A-Za-z_$]\w*)/.exec(line);
+    const match = /^\s*(?:export\s+)?(?:abstract\s+)?class\s+([A-Za-z_$]\w*)/.exec(line);
     if (match) {
       const name = match[1];
       // PascalCase: starts with uppercase, no underscores (except leading _), no all-caps
@@ -45,7 +45,8 @@ export function checkNM002(ctx: AuditContext): Violation[] {
 
     if (trimmed.startsWith('//') || trimmed.startsWith('*') || trimmed.startsWith('/*')) continue;
 
-    const match = /\binterface\s+([A-Za-z_$]\w*)/.exec(line);
+    // Only match actual interface declarations, not the word "interface" in strings/errors
+    const match = /^\s*(?:export\s+)?interface\s+([A-Za-z_$]\w*)/.exec(line);
     if (match) {
       const name = match[1];
       if (!name.startsWith('I') || (name.length > 1 && name[1] !== name[1].toUpperCase())) {

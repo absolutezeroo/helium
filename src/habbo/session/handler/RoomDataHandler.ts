@@ -62,13 +62,13 @@ export class RoomDataHandler extends BaseHandler
 
 	private onRoomResult(event: IMessageEvent): void
 	{
-		const resultEvent = event as GetGuestRoomResultMessageEvent;
+		const resultEvent = event as GetGuestRoomResultMessageEvent; // cast: event type assertion
 		if (resultEvent === null)
 		{
 			return;
 		}
 
-		const parser = resultEvent.parser as GetGuestRoomResultMessageParser;
+		const parser = resultEvent.parser as GetGuestRoomResultMessageParser; // cast: event type assertion
 		if (parser === null)
 		{
 			return;

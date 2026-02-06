@@ -2,7 +2,7 @@ import type {JSX} from 'solid-js';
 import {For, Show} from 'solid-js';
 import {NavigatorIcon} from '../common';
 
-export interface RoomInfoDetailsProps
+export interface IRoomInfoDetailsProps
 {
 	description?: string;
 	userCount: number;
@@ -20,7 +20,7 @@ export interface RoomInfoDetailsProps
 /**
  * Room info details - displays room description, stats, and tags
  */
-export function RoomInfoDetails(props: RoomInfoDetailsProps): JSX.Element
+export function RoomInfoDetails(props: IRoomInfoDetailsProps): JSX.Element
 {
 	const getOccupancyColor = () =>
 	{
@@ -91,7 +91,7 @@ export function RoomInfoDetails(props: RoomInfoDetailsProps): JSX.Element
 				</Show>
 			</div>
 
-			{/* Category */}
+			{/* ICategory */}
 			<Show when={props.categoryName}>
 				<div class="flex items-center gap-2 text-sm">
 					<span class="text-slate-400">Category:</span>

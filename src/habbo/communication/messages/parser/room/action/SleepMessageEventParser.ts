@@ -22,14 +22,14 @@ export class SleepMessageEventParser implements IMessageParser
 		return this._sleeping;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._userId = 0;
 		this._sleeping = false;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		if (wrapper === null)
 		{

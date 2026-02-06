@@ -30,7 +30,7 @@ export class AvailabilityStatusMessageParser implements IMessageParser
 		return this._isAuthenticHabbo;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._isOpen = false;
 		this._onShutDown = false;
@@ -38,7 +38,7 @@ export class AvailabilityStatusMessageParser implements IMessageParser
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._isOpen = wrapper.readBoolean();
 		this._onShutDown = wrapper.readBoolean();

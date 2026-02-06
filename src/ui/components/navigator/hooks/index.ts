@@ -1,2 +1,2 @@
-export {useDraggable, type DraggablePosition, type UseDraggableOptions, type UseDraggableReturn} from './useDraggable';
+export {useDraggable, type IDraggablePosition, type IUseDraggableOptions, type IUseDraggableReturn} from './useDraggable';
 export {useNavigatorLocalization, NAV_KEYS} from './useLocalization';

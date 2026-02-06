@@ -1,16 +1,16 @@
-import type {ActionContext} from '../core/types';
-import type {LocalizationState} from './types';
 import type {IHabboLocalizationManager} from '@habbo/localization/IHabboLocalizationManager';
+import type {IActionContext} from '../core/types';
+import type {ILocalizationState} from './types';
 
 /**
  * Localization manager dependencies
  */
-export interface LocalizationManagers
+export interface ILocalizationManagers
 {
 	localization: IHabboLocalizationManager;
 }
 
-export function createActions(ctx: ActionContext<LocalizationState, LocalizationManagers>)
+export function createActions(ctx: IActionContext<ILocalizationState, ILocalizationManagers>)
 {
 	const {managers} = ctx;
 

@@ -16,7 +16,7 @@ export class MyFavouriteRoomsSearchMessageComposer extends MessageComposer<Const
 		this._data = [];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

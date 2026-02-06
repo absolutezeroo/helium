@@ -1,6 +1,3 @@
-import type {MessageHandlers} from '../core/types';
-import type {NavigatorState} from './types';
-
 // Parser types
 import type {
 	NavigatorSettingsMessageParser
@@ -21,23 +18,25 @@ import type {
 import type {
 	NavigatorSearchResultSetMessageParser
 } from '@habbo/communication/messages/parser/newnavigator/NavigatorSearchResultSetMessageParser';
+import type {MessageHandlers} from '../core/types';
+import type {INavigatorState} from './types';
 
-export const handlers: MessageHandlers<NavigatorState> = {
+export const handlers: MessageHandlers<INavigatorState> = {
 
 	/**
 	 * Navigator settings received (home room, etc.)
 	 */
-	NavigatorSettingsMessageEvent: (parser: NavigatorSettingsMessageParser): Partial<NavigatorState> => ({
+	NavigatorSettingsMessageEvent: (parser: NavigatorSettingsMessageParser): Partial<INavigatorState> => ({
 		homeRoomId: parser.homeRoomId,
 	}),
 
 	/**
 	 * Top level contexts (navigation tabs) received
 	 */
-	NavigatorMetaDataMessageEvent: (parser: NavigatorMetaDataMessageParser, state): Partial<NavigatorState> =>
+	NavigatorMetaDataMessageEvent: (parser: NavigatorMetaDataMessageParser, state): Partial<INavigatorState> =>
 	{
 		const contexts = [...parser.topLevelContexts];
-		const update: Partial<NavigatorState> = {
+		const update: Partial<INavigatorState> = {
 			topLevelContexts: contexts,
 		};
 
@@ -53,35 +52,35 @@ export const handlers: MessageHandlers<NavigatorState> = {
 	/**
 	 * Flat categories (room categories) received
 	 */
-	UserFlatCatsMessageEvent: (parser: UserFlatCatsMessageParser): Partial<NavigatorState> => ({
+	UserFlatCatsMessageEvent: (parser: UserFlatCatsMessageParser): Partial<INavigatorState> => ({
 		flatCategories: parser.nodes.filter((cat) => cat.visible),
 	}),
 
 	/**
 	 * Event categories received
 	 */
-	UserEventCatsMessageEvent: (parser: UserEventCatsMessageParser): Partial<NavigatorState> => ({
+	UserEventCatsMessageEvent: (parser: UserEventCatsMessageParser): Partial<INavigatorState> => ({
 		eventCategories: parser.eventCategories.filter((cat) => cat.visible),
 	}),
 
 	/**
 	 * New navigator search results received
 	 */
-	NavigatorSearchResultSetMessageEvent: (parser: NavigatorSearchResultSetMessageParser): Partial<NavigatorState> => ({
+	NavigatorSearchResultSetMessageEvent: (parser: NavigatorSearchResultSetMessageParser): Partial<INavigatorState> => ({
 		searchResults: parser.searchResult,
 	}),
 
 	/**
 	 * Legacy navigator search results received
 	 */
-	GuestRoomSearchResultMessageEvent: (parser: GuestRoomSearchResultMessageParser): Partial<NavigatorState> => ({
+	GuestRoomSearchResultMessageEvent: (parser: GuestRoomSearchResultMessageParser): Partial<INavigatorState> => ({
 		legacySearchResults: parser.data,
 	}),
 
 	/**
 	 * Popular room tags received
 	 */
-	PopularRoomTagsResultMessageEvent: (parser: PopularRoomTagsResultMessageParser): Partial<NavigatorState> => ({
+	PopularRoomTagsResultMessageEvent: (parser: PopularRoomTagsResultMessageParser): Partial<INavigatorState> => ({
 		popularTags: parser.data,
 	}),
 };

@@ -1,10 +1,10 @@
-import type {ActionContext} from '../core/types';
-import type {SessionState} from './types';
+import type {IActionContext} from '../core/types';
+import type {ISessionState} from './types';
 
 // Session module has no managers - it's purely reactive to server messages
 type Managers = Record<string, never>;
 
-export function createActions(ctx: ActionContext<SessionState, Managers>)
+export function createActions(ctx: IActionContext<ISessionState, Managers>)
 {
 	const {getState, updateState} = ctx;
 

@@ -21,22 +21,22 @@ export class MessageDataWrapper implements IMessageDataWrapper
 		return this.data.bytesAvailable;
 	}
 
-	getMessageId(): number
+	public getMessageId(): number
 	{
 		return this.messageId;
 	}
 
-	readString(): string
+	public readString(): string
 	{
 		return this.data.readUTF();
 	}
 
-	readInt(): number
+	public readInt(): number
 	{
 		return this.data.readInt();
 	}
 
-	readLong(): number
+	public readLong(): number
 	{
 		// Read as two 32-bit unsigned integers (big-endian)
 		const high = this.data.readUnsignedInt();
@@ -64,27 +64,27 @@ export class MessageDataWrapper implements IMessageDataWrapper
 		return high * 0x100000000 + low;
 	}
 
-	readBoolean(): boolean
+	public readBoolean(): boolean
 	{
 		return this.data.readBoolean();
 	}
 
-	readShort(): number
+	public readShort(): number
 	{
 		return this.data.readShort();
 	}
 
-	readByte(): number
+	public readByte(): number
 	{
 		return this.data.readByte();
 	}
 
-	readFloat(): number
+	public readFloat(): number
 	{
 		return this.data.readFloat();
 	}
 
-	readDouble(): number
+	public readDouble(): number
 	{
 		return this.data.readDouble();
 	}

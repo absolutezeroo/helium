@@ -6,7 +6,7 @@ import {NavigatorIcon, RoomCardCompactSkeleton, RoomCardSkeleton} from '../commo
 
 export type RoomListViewMode = 'cards' | 'compact' | 'grid';
 
-export interface RoomListRoom
+export interface IRoomListRoom
 {
 	id: number;
 	name: string;
@@ -24,9 +24,9 @@ export interface RoomListRoom
 	categoryId?: number;
 }
 
-export interface RoomListProps
+export interface IRoomListProps
 {
-	rooms: RoomListRoom[];
+	rooms: IRoomListRoom[];
 	viewMode?: RoomListViewMode;
 	emptyMessage?: string;
 	loading?: boolean;
@@ -39,7 +39,7 @@ export interface RoomListProps
 /**
  * Room list component - displays a list of rooms with different view modes
  */
-export function RoomList(props: RoomListProps): JSX.Element
+export function RoomList(props: IRoomListProps): JSX.Element
 {
 	const viewMode = () => props.viewMode ?? 'cards';
 

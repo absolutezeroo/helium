@@ -106,7 +106,7 @@ export class UserObjectMessageParser implements IMessageParser
 		return this._accountSafetyLocked;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._id = 0;
 		this._name = '';
@@ -125,7 +125,7 @@ export class UserObjectMessageParser implements IMessageParser
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._id = wrapper.readInt();
 		this._name = wrapper.readString();

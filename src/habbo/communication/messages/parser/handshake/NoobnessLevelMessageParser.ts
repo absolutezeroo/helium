@@ -16,13 +16,13 @@ export class NoobnessLevelMessageParser implements IMessageParser
 		return this._noobnessLevel;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._noobnessLevel = 0;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._noobnessLevel = wrapper.readInt();
 		return true;

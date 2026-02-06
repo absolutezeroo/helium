@@ -16,7 +16,7 @@ export class GuildBaseSearchMessageComposer extends MessageComposer<ConstructorP
 		this._data = [guildId];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

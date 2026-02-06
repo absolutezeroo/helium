@@ -1,6 +1,8 @@
 import {EventEmitter} from 'eventemitter3';
 import {Component, ComponentDependency, type IContext, IID_HabboCommunicationManager} from '@core/runtime';
 import {IID_RoomEngine} from '@iid/IIDRoomEngine';
+import {Logger} from '@core/utils/Logger';
+import type {IRoomEngine} from '@habbo/room';
 import type {IHabboCommunicationManager} from '../communication/IHabboCommunicationManager';
 import type {IRoomSessionManager} from './IRoomSessionManager';
 import type {IRoomHandlerListener} from './IRoomHandlerListener';
@@ -15,8 +17,6 @@ import {RoomDataHandler} from './handler/RoomDataHandler';
 import {RoomChatHandler} from './handler/RoomChatHandler';
 import {RoomUsersHandler} from './handler/RoomUsersHandler';
 import {RoomEngineEvent} from '../room/events/RoomEngineEvent';
-import {Logger} from '@core/utils/Logger';
-import type {IRoomEngine} from '@habbo/room';
 
 const log = Logger.getLogger('RoomSessionManager');
 
@@ -104,7 +104,7 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 	/**
 	 * Go to a room - creates and starts a new room session
 	 */
-	gotoRoom(roomId: number, password: string = '', roomResources: string = ''): boolean
+	public gotoRoom(roomId: number, password: string = '', roomResources: string = ''): boolean
 	{
 		const session = new RoomSession();
 		session.roomId = roomId;
@@ -117,7 +117,7 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 	/**
 	 * Go to a room via network (for room forwarding)
 	 */
-	gotoRoomNetwork(roomId: number, _homeRoomId: number): boolean
+	public gotoRoomNetwork(roomId: number, _homeRoomId: number): boolean
 	{
 		const session = new RoomSession();
 		session.roomId = 1;
@@ -130,14 +130,14 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 	/**
 	 * Start an existing session
 	 */
-	startSession(session: IRoomSession): boolean
+	public startSession(session: IRoomSession): boolean
 	{
 		if (session.state === RoomSessionState.STARTED)
 		{
 			return false;
 		}
 
-		if ((session as RoomSession).isGameSession)
+		if ((session as RoomSession).isGameSession) // cast: type assertion required
 		{
 			return true;
 		}
@@ -162,7 +162,7 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 	/**
 	 * Get an active session by room ID
 	 */
-	getSession(roomId: number): IRoomSession | null
+	public getSession(roomId: number): IRoomSession | null
 	{
 		const key = this.getRoomIdentifier(roomId);
 		return this._sessions.get(key) ?? null;
@@ -171,7 +171,7 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 	/**
 	 * Dispose a session
 	 */
-	disposeSession(roomId: number, disposeEngine: boolean = true): void
+	public disposeSession(roomId: number, disposeEngine: boolean = true): void
 	{
 		const key = this.getRoomIdentifier(roomId);
 		const session = this._sessions.get(key);
@@ -196,7 +196,7 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 	/**
 	 * Start a game session
 	 */
-	startGameSession(): void
+	public startGameSession(): void
 	{
 		const session = new RoomSession();
 		session.roomId = 1;
@@ -218,7 +218,7 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 	/**
 	 * Dispose the game session
 	 */
-	disposeGameSession(): void
+	public disposeGameSession(): void
 	{
 		const key = this.getRoomIdentifier(1);
 		const session = this._sessions.get(key);
@@ -234,7 +234,7 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 	/**
 	 * Called by handlers when session state changes
 	 */
-	sessionUpdate(roomId: number, type: string): void
+	public sessionUpdate(roomId: number, type: string): void
 	{
 		const session = this.getSession(roomId);
 
@@ -258,7 +258,7 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 	/**
 	 * Called by handlers when session needs reinitialization
 	 */
-	sessionReinitialize(oldRoomId: number, newRoomId: number): void
+	public sessionReinitialize(oldRoomId: number, newRoomId: number): void
 	{
 		const oldKey = this.getRoomIdentifier(oldRoomId);
 		const session = this._sessions.get(oldKey);

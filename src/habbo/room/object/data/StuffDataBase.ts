@@ -63,7 +63,7 @@ export abstract class StuffDataBase implements IStuffData
 		return isNaN(value) ? -1 : Math.floor(value);
 	}
 
-	initializeFromIncomingMessage(wrapper: IMessageDataWrapper): void
+	public initializeFromIncomingMessage(wrapper: IMessageDataWrapper): void
 	{
 		if ((this._flags & StuffDataBase.UNIQUE_SERIAL_FLAG) > 0)
 		{
@@ -72,33 +72,39 @@ export abstract class StuffDataBase implements IStuffData
 		}
 	}
 
-	initializeFromRoomObjectModel(model: IRoomObjectModel): void
+	public initializeFromRoomObjectModel(model: IRoomObjectModel): void
 	{
 		this._uniqueSerialNumber = model.getNumber(RoomObjectVariableEnum.FURNITURE_UNIQUE_SERIAL_NUMBER);
 		this._uniqueSeriesSize = model.getNumber(RoomObjectVariableEnum.FURNITURE_UNIQUE_EDITION_SIZE);
 	}
 
-	writeRoomObjectModel(model: IRoomObjectModelController): void
+	public writeRoomObjectModel(model: IRoomObjectModelController): void
 	{
 		model.setNumber(RoomObjectVariableEnum.FURNITURE_UNIQUE_SERIAL_NUMBER, this._uniqueSerialNumber);
 		model.setNumber(RoomObjectVariableEnum.FURNITURE_UNIQUE_EDITION_SIZE, this._uniqueSeriesSize);
 	}
 
-	getLegacyString(): string
+	public getLegacyString(): string
 	{
 		return '';
 	}
 
-	compare(_data: IStuffData): boolean
+	public compare(_data: IStuffData): boolean
 	{
 		return false;
 	}
 
-	getJSONValue(key: string): string
+	public getJSONValue(key: string): string
 	{
 		try
 		{
-			const json = JSON.parse(this.getLegacyString());
+			let json: Record<string, unknown>;
+			try {
+  				json = JSON.parse(this.getLegacyString());
+			} catch (_parseError: unknown) {
+			  // SC-005: JSON.parse validation
+			  throw new Error(`Invalid JSON: ${(_parseError as Error).message}`); // cast: type assertion required
+			}
 
 			return String(json[key] ?? '');
 		} catch

@@ -1,6 +1,6 @@
 import {createSignal, onCleanup, onMount} from 'solid-js';
+import type {IModuleActionsMap, IModuleAPI, IModuleStateMap, RegisteredModuleId} from '@/modules/core';
 import {useModuleRegistry} from './ModuleProvider';
-import type {ModuleActionsMap, ModuleAPI, ModuleStateMap, RegisteredModuleId} from '@/modules/core';
 
 /**
  * Main hook to consume a module in the UI
@@ -30,14 +30,14 @@ import type {ModuleActionsMap, ModuleAPI, ModuleStateMap, RegisteredModuleId} fr
  * }
  * ```
  */
-export function useModule<K extends RegisteredModuleId>(moduleId: K): ModuleAPI<K>
+export function useModule<K extends RegisteredModuleId>(moduleId: K): IModuleAPI<K>
 {
 	const registry = useModuleRegistry();
 	const module = registry.get(moduleId);
 
 	// Use createSignal with equals: false to always trigger updates
-	const [state, setState] = createSignal<Readonly<ModuleStateMap[K]>>(
-		module.getState() as ModuleStateMap[K],
+	const [state, setState] = createSignal<Readonly<IModuleStateMap[K]>>(
+		module.getState() as IModuleStateMap[K], // cast: type assertion required
 		{equals: false}
 	);
 
@@ -46,7 +46,7 @@ export function useModule<K extends RegisteredModuleId>(moduleId: K): ModuleAPI<
 		const unsubscribe = registry.subscribe(moduleId, (newState) =>
 		{
 			// Use function form to avoid type issues with Solid's setter overloads
-			setState(() => newState as ModuleStateMap[K]);
+			setState(() => newState as IModuleStateMap[K]); // cast: type assertion required
 		});
 
 		onCleanup(unsubscribe);
@@ -54,6 +54,6 @@ export function useModule<K extends RegisteredModuleId>(moduleId: K): ModuleAPI<
 
 	return {
 		state,
-		actions: module.actions as ModuleActionsMap[K],
+		actions: module.actions as IModuleActionsMap[K], // cast: type assertion required
 	};
 }

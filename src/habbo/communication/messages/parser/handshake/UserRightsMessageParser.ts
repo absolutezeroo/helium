@@ -30,7 +30,7 @@ export class UserRightsMessageParser implements IMessageParser
 		return this._isAmbassador;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._clubLevel = 0;
 		this._securityLevel = 0;
@@ -38,7 +38,7 @@ export class UserRightsMessageParser implements IMessageParser
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		if (wrapper.bytesAvailable >= 4)
 		{

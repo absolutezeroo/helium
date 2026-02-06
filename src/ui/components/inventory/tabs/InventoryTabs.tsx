@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import type {InventoryIconName} from '../common';
 import {InventoryIcon} from '../common';
 
-export interface InventoryTab
+export interface IInventoryTab
 {
 	id: string;
 	label: string;
@@ -12,14 +12,14 @@ export interface InventoryTab
 	unseenCount?: number;
 }
 
-export interface InventoryTabsProps
+export interface IInventoryTabsProps
 {
-	tabs: InventoryTab[];
+	tabs: IInventoryTab[];
 	activeTab: string;
 	onTabChange?: (id: string) => void;
 }
 
-export function InventoryTabs(props: InventoryTabsProps): JSX.Element
+export function InventoryTabs(props: IInventoryTabsProps): JSX.Element
 {
 	return (
 		<div class="flex items-center gap-1 px-2 py-2 bg-slate-800/50 border-b border-slate-700/50 overflow-x-auto">

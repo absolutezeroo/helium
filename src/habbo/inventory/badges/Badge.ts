@@ -75,7 +75,7 @@ export class Badge
 		this._isUnseen = value;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		// Nothing to clean up for ENGINE-only version
 	}

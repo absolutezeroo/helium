@@ -15,13 +15,13 @@ export class InfoFeedEnableMessageParser implements IMessageParser
 		return this._enabled;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._enabled = false;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._enabled = wrapper.readBoolean();
 		return true;

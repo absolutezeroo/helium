@@ -1,11 +1,11 @@
 /**
- * RoomUserData
+ * IRoomUserData
  *
  * Based on AS3: com.sulake.habbo.communication.messages.incoming.room.engine.class_1668
  *
  * Data structure for room users (avatars, pets, bots).
  */
-export class RoomUserData
+export class IRoomUserData
 {
 	public static readonly USER_TYPE_USER = 1;
 	public static readonly USER_TYPE_PET = 2;
@@ -361,7 +361,7 @@ export class RoomUserData
 		if (!this._readOnly) this._botSkills = value;
 	}
 
-	setReadOnly(): void
+	public setReadOnly(): void
 	{
 		this._readOnly = true;
 	}

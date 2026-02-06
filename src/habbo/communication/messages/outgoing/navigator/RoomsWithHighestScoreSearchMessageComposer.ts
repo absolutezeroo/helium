@@ -16,7 +16,7 @@ export class RoomsWithHighestScoreSearchMessageComposer extends MessageComposer<
 		this._data = [categoryId];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

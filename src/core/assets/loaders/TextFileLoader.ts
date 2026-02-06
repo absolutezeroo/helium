@@ -1,3 +1,4 @@
+import { Logger } from '@core/utils/Logger';
 import {BinaryFileLoader} from './BinaryFileLoader';
 
 /**
@@ -94,7 +95,7 @@ export class TextFileLoader extends BinaryFileLoader
 			this._textContent = decoder.decode(this._data);
 		} catch (e)
 		{
-			console.error('[TextFileLoader] Error decoding content:', e);
+			Logger.error('[TextFileLoader] Error decoding content:', e);
 			this._textContent = '';
 		}
 	}

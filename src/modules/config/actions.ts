@@ -1,16 +1,16 @@
-import type {ActionContext} from '../core/types';
-import type {ConfigState} from './types';
 import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
+import type {IActionContext} from '../core/types';
+import type {IConfigState} from './types';
 
 /**
  * Config manager dependencies
  */
-export interface ConfigManagers
+export interface IConfigManagers
 {
 	configuration: IHabboConfigurationManager;
 }
 
-export function createActions(ctx: ActionContext<ConfigState, ConfigManagers>)
+export function createActions(ctx: IActionContext<IConfigState, IConfigManagers>)
 {
 	const {updateState, managers} = ctx;
 

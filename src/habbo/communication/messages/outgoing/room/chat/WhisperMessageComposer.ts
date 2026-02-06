@@ -15,7 +15,7 @@ export class WhisperMessageComposer extends MessageComposer<[string, number, num
 		this._data = [message, styleId, targetUserId];
 	}
 
-	getMessageArray(): [string, number, number]
+	public getMessageArray(): [string, number, number]
 	{
 		return this._data;
 	}

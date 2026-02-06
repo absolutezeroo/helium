@@ -67,7 +67,7 @@ export class IntArrayStuffData extends StuffDataBase implements IStuffData
 		return this.getLegacyString() === data.getLegacyString();
 	}
 
-	getValue(index: number): number
+	public getValue(index: number): number
 	{
 		if (index >= 0 && index < this._data.length)
 		{

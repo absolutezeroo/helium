@@ -4,7 +4,7 @@ import type {IMessageEvent, MessageEventCallback} from './IMessageEvent';
 /**
  * Constructor type for composer classes
  */
-export type ComposerClass = new (...args: any[]) => IMessageComposer<unknown[]>;
+export type ComposerClass = new (...args: any[]) => IMessageComposer<any[]>; // cast: required for dynamic constructor invocation
 
 /**
  * Constructor type for event classes

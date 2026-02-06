@@ -1,17 +1,17 @@
 import type {JSX} from 'solid-js';
 import {Show} from 'solid-js';
 import {NavigatorHeader} from '../common';
-import type {RoomCategory, RoomCreateFormData, RoomModel} from './RoomCreateForm';
+import type {IRoomCategory, IRoomCreateFormData, IRoomModel} from './RoomCreateForm';
 import {RoomCreateForm} from './RoomCreateForm';
 
-export interface RoomCreateModalProps
+export interface IRoomCreateModalProps
 {
 	isOpen: boolean;
-	categories: RoomCategory[];
-	models: RoomModel[];
+	categories: IRoomCategory[];
+	models: IRoomModel[];
 	loading?: boolean;
 	error?: string;
-	onSubmit?: (data: RoomCreateFormData) => void;
+	onSubmit?: (data: IRoomCreateFormData) => void;
 	onClose?: () => void;
 	class?: string;
 }
@@ -19,7 +19,7 @@ export interface RoomCreateModalProps
 /**
  * Room create modal - modal dialog for creating a new room
  */
-export function RoomCreateModal(props: RoomCreateModalProps): JSX.Element
+export function RoomCreateModal(props: IRoomCreateModalProps): JSX.Element
 {
 	const handleBackdropClick = (e: MouseEvent) =>
 	{

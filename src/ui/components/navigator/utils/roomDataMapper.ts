@@ -1,11 +1,11 @@
 import type {GuestRoomData} from '@habbo/communication/messages/incoming/navigator';
 import type {NavigatorSearchResultSet} from '@habbo/communication/messages/incoming/newnavigator';
-import type {RoomListRoom} from '../rooms';
+import type {IRoomListRoom} from '../rooms';
 
 /**
  * Map door mode number to string type
  */
-function mapDoorMode(doorMode: number): RoomListRoom['doorMode']
+function mapDoorMode(doorMode: number): IRoomListRoom['doorMode']
 {
 	switch (doorMode)
 	{
@@ -23,9 +23,9 @@ function mapDoorMode(doorMode: number): RoomListRoom['doorMode']
 }
 
 /**
- * Convert a GuestRoomData to RoomListRoom format for UI display
+ * Convert a GuestRoomData to IRoomListRoom format for UI display
  */
-export function mapGuestRoomToListRoom(room: GuestRoomData, isFavourite?: boolean): RoomListRoom
+export function mapGuestRoomToListRoom(room: GuestRoomData, isFavourite?: boolean): IRoomListRoom
 {
 	return {
 		id: room.flatId,
@@ -46,12 +46,12 @@ export function mapGuestRoomToListRoom(room: GuestRoomData, isFavourite?: boolea
 }
 
 /**
- * Convert an array of GuestRoomData to RoomListRoom[]
+ * Convert an array of GuestRoomData to IRoomListRoom[]
  */
 export function mapGuestRoomsToListRooms(
 	rooms: GuestRoomData[],
 	favouriteIds?: Set<number>
-): RoomListRoom[]
+): IRoomListRoom[]
 {
 	return rooms.map(room => mapGuestRoomToListRoom(
 		room,
@@ -60,12 +60,12 @@ export function mapGuestRoomsToListRooms(
 }
 
 /**
- * Extract all rooms from NavigatorSearchResultSet and convert to RoomListRoom[]
+ * Extract all rooms from NavigatorSearchResultSet and convert to IRoomListRoom[]
  */
 export function mapSearchResultsToListRooms(
 	results: NavigatorSearchResultSet | null,
 	favouriteIds?: Set<number>
-): RoomListRoom[]
+): IRoomListRoom[]
 {
 	if (!results) return [];
 

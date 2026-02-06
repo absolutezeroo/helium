@@ -2,7 +2,7 @@ import type {JSX} from 'solid-js';
 import {Show} from 'solid-js';
 import clsx from 'clsx';
 
-export interface FurniDetailsProps
+export interface IFurniDetailsProps
 {
 	name: string;
 	description?: string;
@@ -16,7 +16,7 @@ export interface FurniDetailsProps
 	onSell?: () => void;
 }
 
-export function FurniDetails(props: FurniDetailsProps): JSX.Element
+export function FurniDetails(props: IFurniDetailsProps): JSX.Element
 {
 	return (
 		<div class="flex flex-col h-full bg-slate-800/30 border-t border-slate-700/50">

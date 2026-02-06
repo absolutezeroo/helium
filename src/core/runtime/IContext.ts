@@ -1,9 +1,9 @@
 import type {EventEmitter} from 'eventemitter3';
+import type {IAssetLibrary} from '@core/assets/IAssetLibrary';
 import type {IID} from './IID';
 import type {IDisposable} from './IDisposable';
 import type {ICoreConfiguration} from './ICoreConfiguration';
 import type {Component} from './Component';
-import type {IAssetLibrary} from '@core/assets/IAssetLibrary';
 
 /**
  * Queue callback for interface resolution

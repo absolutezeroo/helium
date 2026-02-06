@@ -22,14 +22,14 @@ export class DanceMessageEventParser implements IMessageParser
 		return this._danceStyle;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._userId = 0;
 		this._danceStyle = 0;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		if (wrapper === null)
 		{

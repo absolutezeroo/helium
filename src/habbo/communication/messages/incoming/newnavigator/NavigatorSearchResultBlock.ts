@@ -80,7 +80,7 @@ export class NavigatorSearchResultBlock
 		return this._guestRooms;
 	}
 
-	findGuestRoom(flatId: number): GuestRoomData | null
+	public findGuestRoom(flatId: number): GuestRoomData | null
 	{
 		for (const room of this._guestRooms)
 		{

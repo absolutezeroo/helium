@@ -24,7 +24,7 @@ export class LegacyStuffData extends StuffDataBase
 		return this._data;
 	}
 
-	setString(value: string): void
+	public setString(value: string): void
 	{
 		this._data = value;
 	}

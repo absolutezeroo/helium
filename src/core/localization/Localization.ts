@@ -2,7 +2,7 @@ import type {ILocalizable} from './ILocalizable';
 import type {ILocalization} from './ILocalization';
 import type {ICoreLocalizationManager} from './ICoreLocalizationManager';
 
-interface ParameterData
+interface IParameterData
 {
 	id: string;
 	value: string;
@@ -17,7 +17,7 @@ export class Localization implements ILocalization
 {
 	private readonly _manager: ICoreLocalizationManager;
 	private readonly _key: string;
-	private _parameters: Map<string, ParameterData> | null = null;
+	private _parameters: Map<string, IParameterData> | null = null;
 	private _listeners: ILocalizable[] | null = null;
 
 	constructor(manager: ICoreLocalizationManager, key: string, value: string | null = null)
@@ -44,13 +44,13 @@ export class Localization implements ILocalization
 		return this._value ?? '';
 	}
 
-	setValue(value: string): void
+	public setValue(value: string): void
 	{
 		this._value = value;
 		this.updateListeners();
 	}
 
-	registerListener(listener: ILocalizable): void
+	public registerListener(listener: ILocalizable): void
 	{
 		if (!this._listeners)
 		{
@@ -65,7 +65,7 @@ export class Localization implements ILocalization
 		listener.localization = this._manager.interpolate(this.value);
 	}
 
-	removeListener(listener: ILocalizable): void
+	public removeListener(listener: ILocalizable): void
 	{
 		if (this._listeners)
 		{
@@ -77,7 +77,7 @@ export class Localization implements ILocalization
 		}
 	}
 
-	registerParameter(name: string, value: string, id: string = '%'): void
+	public registerParameter(name: string, value: string, id: string = '%'): void
 	{
 		if (!this._parameters)
 		{
@@ -92,7 +92,7 @@ export class Localization implements ILocalization
 		this.updateListeners();
 	}
 
-	updateListeners(): void
+	public updateListeners(): void
 	{
 		const interpolatedValue = this._manager.interpolate(this.value);
 
@@ -120,13 +120,13 @@ export class Localization implements ILocalization
 			for (const [paramName, paramData] of this._parameters)
 			{
 				// Simple parameter replacement: %param%
-				const pattern = paramData.id + paramName + paramData.id;
+				const pattern = `${paramData.id}${paramName}${paramData.id}`;
 				const regex = new RegExp(this.escapeRegex(pattern), 'gim');
 				result = result.replace(regex, paramData.value);
 
 				// Check for plural forms: %{param|zero|one|many}
 				const lowerResult = result.toLowerCase();
-				const pluralPattern = paramData.id + '{' + paramName;
+				const pluralPattern = `${paramData.id}{${paramName}`;
 
 				if (lowerResult.indexOf(pluralPattern) >= 0)
 				{
@@ -146,13 +146,12 @@ export class Localization implements ILocalization
 					}
 
 					// Match %{param|zero|one|many}
-					const pluralRegex = new RegExp(
-						this.escapeRegex(paramData.id) + '\\{' + paramName + '\\|([^|]*)\\|([^|]*)\\|([^}]*)\\}',
-						'gim'
-					);
-					const doubleIdRegex = new RegExp(this.escapeRegex(paramData.id + paramData.id), 'gim');
+					const pluralPattern = `${this.escapeRegex(paramData.id)}\\{${paramName}\\|([^|]*)\\|([^|]*)\\|([^}]*)\\}`;
+					const pluralRegex = new RegExp(pluralPattern, 'gim');
+					const doubleIdPattern = this.escapeRegex(`${paramData.id}${paramData.id}`);
+					const doubleIdRegex = new RegExp(doubleIdPattern, 'gim');
 
-					result = result.replace(pluralRegex, '$' + pluralIndex);
+					result = result.replace(pluralRegex, `$${pluralIndex}`);
 					result = result.replace(doubleIdRegex, paramData.value);
 				}
 			}
@@ -168,7 +167,7 @@ export class Localization implements ILocalization
 			{
 				const match = matches[i];
 				const subKey = match.substring(3, match.length - 3);
-				const fullKey = this._key + '.' + subKey;
+				const fullKey = `${this._key}.${subKey}`;
 				const subValue = this._manager.getLocalization(fullKey, subKey);
 				result = result.replace(match, subValue);
 			}

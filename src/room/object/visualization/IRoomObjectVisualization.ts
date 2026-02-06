@@ -5,8 +5,8 @@
  *
  * Base interface for room object visualizations.
  */
-import type {IRoomObject} from '../IRoomObject';
 import type {IRoomGeometry} from '@room/utils/IRoomGeometry';
+import type {IRoomObject} from '../IRoomObject';
 import type {IRoomObjectVisualizationData} from './IRoomObjectVisualizationData';
 
 export interface IRoomObjectVisualization

@@ -16,7 +16,7 @@ export class CancelEventMessageComposer extends MessageComposer<ConstructorParam
 		this._data = [roomId];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

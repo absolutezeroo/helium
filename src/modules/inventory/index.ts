@@ -1,10 +1,10 @@
-import {defineModule} from '../core/defineModule';
-import type {InventoryState} from './types';
-import type {InventoryActions, InventoryManagers} from './actions';
-import {createActions} from './actions';
-import {handlers} from './handlers';
 import {IID_HabboInventory} from '@iid/IIDHabboInventory';
 import {InventoryCategory} from '@habbo/inventory';
+import {defineModule} from '../core/defineModule';
+import type {IInventoryState} from './types';
+import type {InventoryActions, IInventoryManagers} from './actions';
+import {createActions} from './actions';
+import {handlers} from './handlers';
 
 /**
  * Inventory Module
@@ -35,7 +35,7 @@ export const inventoryModule = defineModule({
 
 	managerIIDs: {
 		inventory: IID_HabboInventory,
-	} satisfies Record<keyof InventoryManagers, unknown>,
+	} satisfies Record<keyof IInventoryManagers, unknown>,
 
 	initialState: {
 		// UI State
@@ -67,7 +67,7 @@ export const inventoryModule = defineModule({
 		bots: [],
 		selectedBot: null,
 		botsUnseenCount: 0,
-	} satisfies InventoryState,
+	} satisfies IInventoryState,
 
 	handlers,
 	actions: createActions,
@@ -84,18 +84,18 @@ export const inventoryModule = defineModule({
 	},
 });
 
-export type {InventoryState} from './types';
-export type {InventoryActions, InventoryManagers} from './actions';
+export type {IInventoryState} from './types';
+export type {InventoryActions, IInventoryManagers} from './actions';
 
 // Declaration merging for type-safe module access
 declare module '../core/moduleIds'
 {
-	interface ModuleStateMap
+	interface IModuleStateMap
 	{
-		'inventory': InventoryState;
+		'inventory': IInventoryState;
 	}
 
-	interface ModuleActionsMap
+	interface IModuleActionsMap
 	{
 		'inventory': InventoryActions;
 	}

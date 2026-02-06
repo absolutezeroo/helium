@@ -67,32 +67,32 @@ export class ObjectLogicBase implements IRoomObjectEventHandler
 		return null;
 	}
 
-	getEventTypes(): string[]
+	public getEventTypes(): string[]
 	{
 		return [];
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		this._object = null;
 	}
 
-	mouseEvent(_event: RoomSpriteMouseEvent, _geometry: IRoomGeometry): void
+	public mouseEvent(_event: RoomSpriteMouseEvent, _geometry: IRoomGeometry): void
 	{
 		// Override in subclass
 	}
 
-	initialize(_data: unknown): void
+	public initialize(_data: unknown): void
 	{
 		// Override in subclass
 	}
 
-	update(_time: number): void
+	public update(_time: number): void
 	{
 		// Override in subclass
 	}
 
-	processUpdateMessage(message: RoomObjectUpdateMessage): void
+	public processUpdateMessage(message: RoomObjectUpdateMessage): void
 	{
 		if (message !== null)
 		{
@@ -111,12 +111,12 @@ export class ObjectLogicBase implements IRoomObjectEventHandler
 		}
 	}
 
-	useObject(): void
+	public useObject(): void
 	{
 		// Override in subclass
 	}
 
-	tearDown(): void
+	public tearDown(): void
 	{
 		// Override in subclass
 	}

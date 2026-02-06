@@ -22,14 +22,14 @@ export class UserTypingMessageEventParser implements IMessageParser
 		return this._isTyping;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._userId = 0;
 		this._isTyping = false;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		if (wrapper === null)
 		{

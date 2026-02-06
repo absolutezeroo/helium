@@ -8,7 +8,7 @@
 import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
 
-export interface ChatLink
+export interface IChatLink
 {
 	url: string;
 	displayText: string;
@@ -45,9 +45,9 @@ export class ChatMessageEventParser implements IMessageParser
 		return this._styleId;
 	}
 
-	private _links: ChatLink[] | null = null;
+	private _links: IChatLink[] | null = null;
 
-	get links(): ChatLink[] | null
+	get links(): IChatLink[] | null
 	{
 		return this._links;
 	}
@@ -59,7 +59,7 @@ export class ChatMessageEventParser implements IMessageParser
 		return this._trackingId;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._userId = 0;
 		this._text = '';
@@ -70,7 +70,7 @@ export class ChatMessageEventParser implements IMessageParser
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		if (wrapper === null)
 		{

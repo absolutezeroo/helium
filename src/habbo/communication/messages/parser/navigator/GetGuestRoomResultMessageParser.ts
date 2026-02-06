@@ -58,7 +58,7 @@ export class GetGuestRoomResultMessageParser implements IMessageParser
 		return this._chatSettings;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._enterRoom = false;
 		this._roomForward = false;
@@ -71,7 +71,7 @@ export class GetGuestRoomResultMessageParser implements IMessageParser
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._enterRoom = wrapper.readBoolean();
 

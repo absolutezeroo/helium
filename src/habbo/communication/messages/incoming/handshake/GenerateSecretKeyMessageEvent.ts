@@ -17,4 +17,4 @@ export class CompleteDiffieHandshakeMessageEvent extends MessageEvent
 }
 
 // Alias for backwards compatibility
-export {CompleteDiffieHandshakeMessageEvent as GenerateSecretKeyMessageEvent};
+export {CompleteDiffieHandshakeMessageEvent as GenerateSecretKeyMessageEvent}; // cast: event type assertion

@@ -16,14 +16,14 @@ export class UserEventCatsMessageParser implements IMessageParser
 		return this._eventCategories;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._eventCategories = [];
 
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._eventCategories = [];
 

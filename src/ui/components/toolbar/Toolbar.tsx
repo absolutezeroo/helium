@@ -1,7 +1,8 @@
 import {Component, For} from 'solid-js';
+import { Logger } from '@core/utils/Logger';
 import {ModuleId, useActions, useModule} from '../../bridge';
 
-interface ToolbarIcon
+interface IToolbarIcon
 {
 	id: string;
 	label: string;
@@ -17,7 +18,7 @@ export const Toolbar: Component = () =>
 	const navActions = useActions(ModuleId.Navigator);
 	const invActions = useActions(ModuleId.Inventory);
 
-	const icons: ToolbarIcon[] = [
+	const icons: IToolbarIcon[] = [
 		{id: 'hotel', label: 'Hotel View', icon: '🏨'},
 		{id: 'navigator', label: 'Navigator', icon: '🧭'},
 		{id: 'catalog', label: 'Catalog', icon: '🛒'},
@@ -35,25 +36,25 @@ export const Toolbar: Component = () =>
 				break;
 			case 'hotel':
 				// TODO: Implement hotel view
-				console.log('Hotel view clicked');
+				Logger.log('Hotel view clicked');
 				break;
 			case 'catalog':
 				// TODO: Implement catalog
-				console.log('Catalog clicked');
+				Logger.log('Catalog clicked');
 				break;
 			case 'inventory':
 				invActions.toggle();
 				break;
 			case 'friends':
 				// TODO: Implement friends
-				console.log('Friends clicked');
+				Logger.log('Friends clicked');
 				break;
 			case 'me':
 				// TODO: Implement me menu
-				console.log('Me menu clicked');
+				Logger.log('Me menu clicked');
 				break;
 			default:
-				console.log('Toolbar icon clicked:', iconId);
+				Logger.log('Toolbar icon clicked:', iconId);
 		}
 	};
 

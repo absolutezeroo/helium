@@ -81,13 +81,13 @@ export class RoomUsersHandler extends BaseHandler
 	 */
 	private onUsers(event: IMessageEvent): void
 	{
-		const usersEvent = event as UsersMessageEvent;
+		const usersEvent = event as UsersMessageEvent; // cast: event type assertion
 		if (usersEvent === null)
 		{
 			return;
 		}
 
-		const parser = usersEvent.parser as UsersMessageParser;
+		const parser = usersEvent.parser as UsersMessageParser; // cast: event type assertion
 		if (parser === null)
 		{
 			return;
@@ -107,7 +107,7 @@ export class RoomUsersHandler extends BaseHandler
 			const userData = parser.getUser(i);
 			if (userData !== null)
 			{
-				// TODO: Create UserData objects and add to session.userDataManager
+				// TODO: Create IUserData objects and add to session.userDataManager
 				// For now, just collect the raw data
 				addedUsers.push({
 					roomIndex: userData.roomIndex,
@@ -135,13 +135,13 @@ export class RoomUsersHandler extends BaseHandler
 	 */
 	private onUserRemove(event: IMessageEvent): void
 	{
-		const removeEvent = event as UserRemoveMessageEvent;
+		const removeEvent = event as UserRemoveMessageEvent; // cast: event type assertion
 		if (removeEvent === null)
 		{
 			return;
 		}
 
-		const parser = removeEvent.parser as UserRemoveMessageParser;
+		const parser = removeEvent.parser as UserRemoveMessageParser; // cast: event type assertion
 		if (parser === null)
 		{
 			return;
@@ -162,13 +162,13 @@ export class RoomUsersHandler extends BaseHandler
 	 */
 	private onDoorbell(event: IMessageEvent): void
 	{
-		const doorbellEvent = event as DoorbellMessageEvent;
+		const doorbellEvent = event as DoorbellMessageEvent; // cast: event type assertion
 		if (doorbellEvent === null)
 		{
 			return;
 		}
 
-		const userName = (doorbellEvent.parser as any)?.userName;
+		const userName = (doorbellEvent.parser as any).userName; // cast: required for dynamic property access
 		if (!userName || userName === '')
 		{
 			return;

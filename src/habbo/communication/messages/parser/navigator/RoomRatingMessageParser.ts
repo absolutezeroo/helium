@@ -22,14 +22,14 @@ export class RoomRatingMessageParser implements IMessageParser
 		return this._canRate;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._rating = 0;
 		this._canRate = false;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._rating = wrapper.readInt();
 		this._canRate = wrapper.readBoolean();

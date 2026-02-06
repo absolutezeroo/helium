@@ -7,7 +7,7 @@
  */
 import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
-import {FurnitureFloorData} from '../../../incoming/room/engine/FurnitureFloorData';
+import {FurnitureFloorData} from '@habbo/communication/messages/incoming/room/engine/FurnitureFloorData';
 import {FurnitureDataParser} from './FurnitureDataParser';
 
 export class ObjectsMessageParser implements IMessageParser
@@ -19,7 +19,7 @@ export class ObjectsMessageParser implements IMessageParser
 		return this._objects.length;
 	}
 
-	getObject(index: number): FurnitureFloorData | null
+	public getObject(index: number): FurnitureFloorData | null
 	{
 		if (index < 0 || index >= this._objects.length)
 		{
@@ -36,13 +36,13 @@ export class ObjectsMessageParser implements IMessageParser
 		return data;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._objects = [];
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		if (wrapper === null)
 		{

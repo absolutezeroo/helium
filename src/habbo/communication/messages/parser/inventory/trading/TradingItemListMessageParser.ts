@@ -2,7 +2,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 import {FurniListItemParser} from '../furni/FurniListItemParser';
 
-export interface TradingUserItems
+export interface ITradingUserItems
 {
 	userId: number;
 	items: FurniListItemParser[];
@@ -17,28 +17,28 @@ export interface TradingUserItems
  */
 export class TradingItemListMessageParser implements IMessageParser
 {
-	private _userOneItems: TradingUserItems | null = null;
+	private _userOneItems: ITradingUserItems | null = null;
 
-	get userOneItems(): TradingUserItems | null
+	get userOneItems(): ITradingUserItems | null
 	{
 		return this._userOneItems;
 	}
 
-	private _userTwoItems: TradingUserItems | null = null;
+	private _userTwoItems: ITradingUserItems | null = null;
 
-	get userTwoItems(): TradingUserItems | null
+	get userTwoItems(): ITradingUserItems | null
 	{
 		return this._userTwoItems;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._userOneItems = null;
 		this._userTwoItems = null;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._userOneItems = this.parseUserItems(wrapper);
 		this._userTwoItems = this.parseUserItems(wrapper);
@@ -46,7 +46,7 @@ export class TradingItemListMessageParser implements IMessageParser
 		return true;
 	}
 
-	private parseUserItems(wrapper: IMessageDataWrapper): TradingUserItems
+	private parseUserItems(wrapper: IMessageDataWrapper): ITradingUserItems
 	{
 		const userId = wrapper.readInt();
 		const items: FurniListItemParser[] = [];

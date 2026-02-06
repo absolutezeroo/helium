@@ -63,7 +63,7 @@ export class GuestRoomSearchResultData implements INavigatorSearchResultData
 		return this._disposed;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (this._disposed)
 		{

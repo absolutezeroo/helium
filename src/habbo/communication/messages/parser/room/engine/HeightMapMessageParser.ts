@@ -50,17 +50,17 @@ export class HeightMapMessageParser implements IMessageParser
 		return value !== -1;
 	}
 
-	decodeTileHeight(value: number): number
+	public decodeTileHeight(value: number): number
 	{
 		return HeightMapMessageParser.decodeTileHeight(value, this._tileHeightMask);
 	}
 
-	decodeIsStackingBlocked(value: number): boolean
+	public decodeIsStackingBlocked(value: number): boolean
 	{
 		return HeightMapMessageParser.decodeIsStackingBlocked(value, this._stackingBlockedMaskBit);
 	}
 
-	getTileHeight(x: number, y: number): number
+	public getTileHeight(x: number, y: number): number
 	{
 		if (x < 0 || x >= this._width || y < 0 || y >= this._height)
 		{
@@ -70,7 +70,7 @@ export class HeightMapMessageParser implements IMessageParser
 		return this.decodeTileHeight(this._data[y * this._width + x]);
 	}
 
-	getStackingBlocked(x: number, y: number): boolean
+	public getStackingBlocked(x: number, y: number): boolean
 	{
 		if (x < 0 || x >= this._width || y < 0 || y >= this._height)
 		{
@@ -80,7 +80,7 @@ export class HeightMapMessageParser implements IMessageParser
 		return this.decodeIsStackingBlocked(this._data[y * this._width + x]);
 	}
 
-	isRoomTile(x: number, y: number): boolean
+	public isRoomTile(x: number, y: number): boolean
 	{
 		if (x < 0 || x >= this._width || y < 0 || y >= this._height)
 		{
@@ -90,7 +90,7 @@ export class HeightMapMessageParser implements IMessageParser
 		return HeightMapMessageParser.decodeIsRoomTile(this._data[y * this._width + x]);
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._data = [];
 		this._width = 0;
@@ -98,7 +98,7 @@ export class HeightMapMessageParser implements IMessageParser
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		if (wrapper === null)
 		{

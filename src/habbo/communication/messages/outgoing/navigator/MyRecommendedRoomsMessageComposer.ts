@@ -16,7 +16,7 @@ export class MyRecommendedRoomsMessageComposer extends MessageComposer<Construct
 		this._data = [];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

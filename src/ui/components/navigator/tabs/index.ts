@@ -1,4 +1,4 @@
-export {NavigatorTab} from './NavigatorTab';
-export type {NavigatorTabProps} from './NavigatorTab';
+export {INavigatorTab} from './NavigatorTab';
+export type {INavigatorTabProps} from './NavigatorTab';
 export {NavigatorTabs} from './NavigatorTabs';
-export type {NavigatorTabsProps, TabDefinition} from './NavigatorTabs';
+export type {INavigatorTabsProps, ITabDefinition} from './NavigatorTabs';

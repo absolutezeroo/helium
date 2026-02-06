@@ -5,7 +5,7 @@
  */
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
-import {SlideObjectBundleMessageParser} from '../../../parser/room/engine/SlideObjectBundleMessageParser';
+import {SlideObjectBundleMessageParser} from '@habbo/communication/messages/parser/room/engine/SlideObjectBundleMessageParser';
 
 export class SlideObjectBundleMessageEvent extends MessageEvent
 {

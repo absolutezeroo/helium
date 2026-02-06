@@ -16,7 +16,7 @@ export class SetRoomSessionTagsMessageComposer extends MessageComposer<Construct
 		this._data = [tag1, tag2];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

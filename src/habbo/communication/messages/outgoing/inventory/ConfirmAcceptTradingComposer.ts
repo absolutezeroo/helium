@@ -16,7 +16,7 @@ export class ConfirmAcceptTradingComposer extends MessageComposer<ConstructorPar
 		this._data = [];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

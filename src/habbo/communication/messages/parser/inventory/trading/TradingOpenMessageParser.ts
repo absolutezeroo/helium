@@ -36,12 +36,12 @@ export class TradingOpenMessageParser implements IMessageParser
 		return this._userTwoCanTrade;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._userOneId = wrapper.readInt();
 		this._userOneCanTrade = wrapper.readInt() === 1;

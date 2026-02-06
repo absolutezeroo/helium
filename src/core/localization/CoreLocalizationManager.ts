@@ -38,7 +38,7 @@ export class CoreLocalizationManager extends Component implements ICoreLocalizat
 		super(context);
 	}
 
-	registerLocalizationDefinition(id: string, name: string, url: string, code: string): void
+	public registerLocalizationDefinition(id: string, name: string, url: string, code: string): void
 	{
 		if (!this._definitions.has(id))
 		{
@@ -47,7 +47,7 @@ export class CoreLocalizationManager extends Component implements ICoreLocalizat
 		}
 	}
 
-	activateLocalizationDefinition(id: string): boolean
+	public activateLocalizationDefinition(id: string): boolean
 	{
 		const definition = this._definitions.get(id);
 
@@ -63,22 +63,22 @@ export class CoreLocalizationManager extends Component implements ICoreLocalizat
 		return false;
 	}
 
-	getLocalizationDefinitions(): Map<string, ILocalizationDefinition>
+	public getLocalizationDefinitions(): Map<string, ILocalizationDefinition>
 	{
 		return this._definitions;
 	}
 
-	getLocalizationDefinition(id: string): ILocalizationDefinition | undefined
+	public getLocalizationDefinition(id: string): ILocalizationDefinition | undefined
 	{
 		return this._definitions.get(id);
 	}
 
-	getActiveLocalizationDefinition(): ILocalizationDefinition | undefined
+	public getActiveLocalizationDefinition(): ILocalizationDefinition | undefined
 	{
 		return this.getLocalizationDefinition(this._activeDefinitionId);
 	}
 
-	getActiveEnvironmentId(): string
+	public getActiveEnvironmentId(): string
 	{
 		return this._activeEnvironmentId;
 	}
@@ -87,7 +87,7 @@ export class CoreLocalizationManager extends Component implements ICoreLocalizat
 	 * Load localization from hashes URL (AS3 flow)
 	 * First loads hashes.json, then loads external_texts from constructed URL
 	 */
-	loadLocalizationFromURL(hashesUrl: string, environmentId: string, acceptEmpty: boolean = false): void
+	public loadLocalizationFromURL(hashesUrl: string, environmentId: string, acceptEmpty: boolean = false): void
 	{
 		if (!hashesUrl || hashesUrl === '')
 		{
@@ -159,7 +159,7 @@ export class CoreLocalizationManager extends Component implements ICoreLocalizat
 	/**
 	 * Load external texts directly from URL (for definitions)
 	 */
-	loadExternalTexts(url: string, acceptEmpty: boolean = false): void
+	public loadExternalTexts(url: string, acceptEmpty: boolean = false): void
 	{
 		this._acceptEmptyMap.set(url, acceptEmpty);
 
@@ -198,12 +198,12 @@ export class CoreLocalizationManager extends Component implements ICoreLocalizat
 			});
 	}
 
-	hasLocalization(key: string): boolean
+	public hasLocalization(key: string): boolean
 	{
 		return this._localizations.has(key);
 	}
 
-	getLocalization(key: string, defaultValue: string = ''): string
+	public getLocalization(key: string, defaultValue: string = ''): string
 	{
 		const localization = this._localizations.get(key);
 
@@ -216,7 +216,7 @@ export class CoreLocalizationManager extends Component implements ICoreLocalizat
 		return localization.value;
 	}
 
-	getProperty(key: string, params?: Record<string, string>): string
+	public getProperty(key: string, params?: Record<string, string>): string
 	{
 		let value = this.getLocalization(key);
 
@@ -231,7 +231,7 @@ export class CoreLocalizationManager extends Component implements ICoreLocalizat
 		return value;
 	}
 
-	updateLocalization(key: string, value: string): void
+	public updateLocalization(key: string, value: string): void
 	{
 		let localization = this._localizations.get(key);
 
@@ -246,7 +246,7 @@ export class CoreLocalizationManager extends Component implements ICoreLocalizat
 		}
 	}
 
-	registerLocalizationListener(key: string, listener: ILocalizable): boolean
+	public registerLocalizationListener(key: string, listener: ILocalizable): boolean
 	{
 		let localization = this._localizations.get(key);
 
@@ -263,7 +263,7 @@ export class CoreLocalizationManager extends Component implements ICoreLocalizat
 		return true;
 	}
 
-	removeLocalizationListener(key: string, listener: ILocalizable): boolean
+	public removeLocalizationListener(key: string, listener: ILocalizable): boolean
 	{
 		const localization = this._localizations.get(key);
 
@@ -275,7 +275,7 @@ export class CoreLocalizationManager extends Component implements ICoreLocalizat
 		return true;
 	}
 
-	registerParameter(key: string, paramName: string, paramValue: string, paramId: string = '%'): string
+	public registerParameter(key: string, paramName: string, paramValue: string, paramId: string = '%'): string
 	{
 		let localization = this._localizations.get(key);
 
@@ -291,17 +291,17 @@ export class CoreLocalizationManager extends Component implements ICoreLocalizat
 		return localization.value;
 	}
 
-	getLocalizationRaw(key: string): ILocalization | undefined
+	public getLocalizationRaw(key: string): ILocalization | undefined
 	{
 		return this._localizations.get(key);
 	}
 
-	getKeys(): string[]
+	public getKeys(): string[]
 	{
 		return Array.from(this._localizations.keys());
 	}
 
-	printNonExistingKeys(): void
+	public printNonExistingKeys(): void
 	{
 		if (this._nonExistingKeys.length > 0)
 		{
@@ -314,12 +314,12 @@ export class CoreLocalizationManager extends Component implements ICoreLocalizat
 		}
 	}
 
-	getGameDataResources(): IGameDataResources | undefined
+	public getGameDataResources(): IGameDataResources | undefined
 	{
 		return this._gameDataResources;
 	}
 
-	interpolate(value: string): string
+	public interpolate(value: string): string
 	{
 		if (!value)
 		{
@@ -347,7 +347,7 @@ export class CoreLocalizationManager extends Component implements ICoreLocalizat
 				if (localization)
 				{
 					replacements++;
-					result = result.replace('${' + match[i] + '}', localization.value);
+					result = result.replace(`\${${match[i]}}`, localization.value);
 				}
 			}
 
@@ -403,7 +403,13 @@ export class CoreLocalizationManager extends Component implements ICoreLocalizat
 	{
 		try
 		{
-			const json = JSON.parse(data);
+			let json: Record<string, unknown>;
+			try {
+  			json = JSON.parse(data);
+			} catch (_parseError: unknown) {
+			  // SC-005: JSON.parse validation
+			  throw new Error(`Invalid JSON: ${(_parseError as Error).message}`); // cast: type assertion required
+			}
 
 			for (const [key, value] of Object.entries(json))
 			{

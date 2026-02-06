@@ -16,7 +16,7 @@ export class GetBadgesComposer extends MessageComposer<ConstructorParameters<typ
 		this._data = [];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

@@ -1,7 +1,7 @@
 /**
  * Favourites module state
  */
-export interface FavouritesState
+export interface IFavouritesState
 {
 	/** Maximum number of favourite rooms allowed */
 	limit: number;

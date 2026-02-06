@@ -16,7 +16,7 @@ export class RemoveItemFromTradeComposer extends MessageComposer<ConstructorPara
 		this._data = [itemId];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

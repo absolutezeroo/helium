@@ -12,7 +12,7 @@ export class GetHeightMapMessageComposer extends MessageComposer<[]>
 {
 	private _data: [] = [];
 
-	getMessageArray(): []
+	public getMessageArray(): []
 	{
 		return this._data;
 	}

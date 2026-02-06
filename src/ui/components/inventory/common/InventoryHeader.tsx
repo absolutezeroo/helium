@@ -1,14 +1,14 @@
 import type {JSX} from 'solid-js';
 import clsx from 'clsx';
 
-export interface InventoryHeaderProps
+export interface IInventoryHeaderProps
 {
 	title: string;
 	onClose?: () => void;
 	children?: JSX.Element;
 }
 
-export function InventoryHeader(props: InventoryHeaderProps): JSX.Element
+export function InventoryHeader(props: IInventoryHeaderProps): JSX.Element
 {
 	return (
 		<div

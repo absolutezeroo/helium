@@ -12,12 +12,12 @@ import type {IVector3d} from '@room/utils/IVector3d';
 import {Vector3d} from '@room/utils/Vector3d';
 import {RoomSpriteMouseEvent} from '@room/events/RoomSpriteMouseEvent';
 import {RoomObjectMouseEvent} from '@room/events/RoomObjectMouseEvent';
+import {RoomObjectStateChangeEvent} from '@habbo/room/events/RoomObjectStateChangeEvent';
+import {RoomObjectWidgetRequestEvent} from '@habbo/room/events/RoomObjectWidgetRequestEvent';
+import {RoomObjectRoomAdEvent} from '@habbo/room/events/RoomObjectRoomAdEvent';
+import type {RoomObjectDataUpdateMessage} from '@habbo/room/messages/RoomObjectDataUpdateMessage';
+import type {RoomObjectHeightUpdateMessage} from '@habbo/room/messages/RoomObjectHeightUpdateMessage';
 import {MovingObjectLogic} from '../MovingObjectLogic';
-import {RoomObjectStateChangeEvent} from '../../../events/RoomObjectStateChangeEvent';
-import {RoomObjectWidgetRequestEvent} from '../../../events/RoomObjectWidgetRequestEvent';
-import {RoomObjectRoomAdEvent} from '../../../events/RoomObjectRoomAdEvent';
-import type {RoomObjectDataUpdateMessage} from '../../../messages/RoomObjectDataUpdateMessage';
-import type {RoomObjectHeightUpdateMessage} from '../../../messages/RoomObjectHeightUpdateMessage';
 
 export class FurnitureLogic extends MovingObjectLogic
 {
@@ -400,7 +400,7 @@ export class FurnitureLogic extends MovingObjectLogic
 		}
 
 		// Check for data update message
-		const dataMessage = message as unknown as RoomObjectDataUpdateMessage;
+		const dataMessage = message as unknown as RoomObjectDataUpdateMessage; // cast: intermediate unknown assertion
 		if ('state' in message && 'data' in message && typeof (message as RoomObjectDataUpdateMessage).state === 'number')
 		{
 			this.handleDataUpdateMessage(dataMessage);
@@ -408,7 +408,7 @@ export class FurnitureLogic extends MovingObjectLogic
 		}
 
 		// Check for height update message
-		const heightMessage = message as unknown as RoomObjectHeightUpdateMessage;
+		const heightMessage = message as unknown as RoomObjectHeightUpdateMessage; // cast: intermediate unknown assertion
 		if ('height' in message && typeof (message as RoomObjectHeightUpdateMessage).height === 'number')
 		{
 			this.handleHeightUpdateMessage(heightMessage);

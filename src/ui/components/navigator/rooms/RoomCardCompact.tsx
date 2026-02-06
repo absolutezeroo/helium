@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import type {IconName} from '../common';
 import {NavigatorIcon} from '../common';
 
-export interface RoomCardCompactProps
+export interface IRoomCardCompactProps
 {
 	id: number;
 	name: string;
@@ -22,7 +22,7 @@ export interface RoomCardCompactProps
 /**
  * Compact room card - minimal display for lists
  */
-export function RoomCardCompact(props: RoomCardCompactProps): JSX.Element
+export function RoomCardCompact(props: IRoomCardCompactProps): JSX.Element
 {
 	const handleClick = () =>
 	{

@@ -89,7 +89,7 @@ export class ByteArray
 	/**
 	 * Access byte at index
 	 */
-	getByte(index: number): number
+	public getByte(index: number): number
 	{
 		if (index < 0 || index >= this._length)
 		{
@@ -101,7 +101,7 @@ export class ByteArray
 	/**
 	 * Set byte at index
 	 */
-	setByte(index: number, value: number): void
+	public setByte(index: number, value: number): void
 	{
 		if (index < 0)
 		{
@@ -118,7 +118,7 @@ export class ByteArray
 		}
 	}
 
-	writeByte(value: number): void
+	public writeByte(value: number): void
 	{
 		this.ensureCapacity(1);
 		this.view.setInt8(this._position, value);
@@ -129,7 +129,7 @@ export class ByteArray
 		}
 	}
 
-	writeUnsignedByte(value: number): void
+	public writeUnsignedByte(value: number): void
 	{
 		this.ensureCapacity(1);
 		this.view.setUint8(this._position, value);
@@ -140,7 +140,7 @@ export class ByteArray
 		}
 	}
 
-	writeShort(value: number): void
+	public writeShort(value: number): void
 	{
 		this.ensureCapacity(2);
 		this.view.setInt16(this._position, value, false); // Big-endian
@@ -151,7 +151,7 @@ export class ByteArray
 		}
 	}
 
-	writeUnsignedShort(value: number): void
+	public writeUnsignedShort(value: number): void
 	{
 		this.ensureCapacity(2);
 		this.view.setUint16(this._position, value, false);
@@ -162,7 +162,7 @@ export class ByteArray
 		}
 	}
 
-	writeInt(value: number): void
+	public writeInt(value: number): void
 	{
 		this.ensureCapacity(4);
 		this.view.setInt32(this._position, value, false);
@@ -173,7 +173,7 @@ export class ByteArray
 		}
 	}
 
-	writeUnsignedInt(value: number): void
+	public writeUnsignedInt(value: number): void
 	{
 		this.ensureCapacity(4);
 		this.view.setUint32(this._position, value, false);
@@ -184,7 +184,7 @@ export class ByteArray
 		}
 	}
 
-	writeFloat(value: number): void
+	public writeFloat(value: number): void
 	{
 		this.ensureCapacity(4);
 		this.view.setFloat32(this._position, value, false);
@@ -195,7 +195,7 @@ export class ByteArray
 		}
 	}
 
-	writeDouble(value: number): void
+	public writeDouble(value: number): void
 	{
 		this.ensureCapacity(8);
 		this.view.setFloat64(this._position, value, false);
@@ -206,7 +206,7 @@ export class ByteArray
 		}
 	}
 
-	writeBoolean(value: boolean): void
+	public writeBoolean(value: boolean): void
 	{
 		this.writeByte(value ? 1 : 0);
 	}
@@ -214,7 +214,7 @@ export class ByteArray
 	/**
 	 * Write UTF-8 string with length prefix (2 bytes)
 	 */
-	writeUTF(value: string): void
+	public writeUTF(value: string): void
 	{
 		const encoder = new TextEncoder();
 		const encoded = encoder.encode(value);
@@ -225,7 +225,7 @@ export class ByteArray
 	/**
 	 * Write UTF-8 string without length prefix
 	 */
-	writeUTFBytes(value: string): void
+	public writeUTFBytes(value: string): void
 	{
 		const encoder = new TextEncoder();
 		const encoded = encoder.encode(value);
@@ -235,7 +235,7 @@ export class ByteArray
 	/**
 	 * Write bytes from another ByteArray
 	 */
-	writeBytes(source: ByteArray, offset: number = 0, length: number = 0): void
+	public writeBytes(source: ByteArray, offset: number = 0, length: number = 0): void
 	{
 		if (length === 0)
 		{
@@ -255,7 +255,7 @@ export class ByteArray
 		}
 	}
 
-	readByte(): number
+	public readByte(): number
 	{
 		if (this.bytesAvailable < 1)
 		{
@@ -266,7 +266,7 @@ export class ByteArray
 		return value;
 	}
 
-	readUnsignedByte(): number
+	public readUnsignedByte(): number
 	{
 		if (this.bytesAvailable < 1)
 		{
@@ -277,7 +277,7 @@ export class ByteArray
 		return value;
 	}
 
-	readShort(): number
+	public readShort(): number
 	{
 		if (this.bytesAvailable < 2)
 		{
@@ -288,7 +288,7 @@ export class ByteArray
 		return value;
 	}
 
-	readUnsignedShort(): number
+	public readUnsignedShort(): number
 	{
 		if (this.bytesAvailable < 2)
 		{
@@ -299,7 +299,7 @@ export class ByteArray
 		return value;
 	}
 
-	readInt(): number
+	public readInt(): number
 	{
 		if (this.bytesAvailable < 4)
 		{
@@ -310,7 +310,7 @@ export class ByteArray
 		return value;
 	}
 
-	readUnsignedInt(): number
+	public readUnsignedInt(): number
 	{
 		if (this.bytesAvailable < 4)
 		{
@@ -321,7 +321,7 @@ export class ByteArray
 		return value;
 	}
 
-	readFloat(): number
+	public readFloat(): number
 	{
 		if (this.bytesAvailable < 4)
 		{
@@ -332,7 +332,7 @@ export class ByteArray
 		return value;
 	}
 
-	readDouble(): number
+	public readDouble(): number
 	{
 		if (this.bytesAvailable < 8)
 		{
@@ -343,7 +343,7 @@ export class ByteArray
 		return value;
 	}
 
-	readBoolean(): boolean
+	public readBoolean(): boolean
 	{
 		return this.readByte() !== 0;
 	}
@@ -351,7 +351,7 @@ export class ByteArray
 	/**
 	 * Read UTF-8 string with length prefix (2 bytes)
 	 */
-	readUTF(): string
+	public readUTF(): string
 	{
 		const length = this.readUnsignedShort();
 		return this.readUTFBytes(length);
@@ -360,7 +360,7 @@ export class ByteArray
 	/**
 	 * Read UTF-8 string of specified length
 	 */
-	readUTFBytes(length: number): string
+	public readUTFBytes(length: number): string
 	{
 		if (this.bytesAvailable < length)
 		{
@@ -377,7 +377,7 @@ export class ByteArray
 	/**
 	 * Read bytes into target ByteArray
 	 */
-	readBytes(target: ByteArray, offset: number = 0, length: number = 0): void
+	public readBytes(target: ByteArray, offset: number = 0, length: number = 0): void
 	{
 		if (length === 0)
 		{
@@ -410,7 +410,7 @@ export class ByteArray
 	/**
 	 * Clear the byte array
 	 */
-	clear(): void
+	public clear(): void
 	{
 		this._position = 0;
 		this._length = 0;
@@ -419,7 +419,7 @@ export class ByteArray
 	/**
 	 * Get a copy of the data as Uint8Array
 	 */
-	toUint8Array(): Uint8Array
+	public toUint8Array(): Uint8Array
 	{
 		return new Uint8Array(this.buffer.slice(0, this._length));
 	}
@@ -427,7 +427,7 @@ export class ByteArray
 	/**
 	 * Get the underlying ArrayBuffer (trimmed to length)
 	 */
-	toArrayBuffer(): ArrayBuffer
+	public toArrayBuffer(): ArrayBuffer
 	{
 		return this.buffer.slice(0, this._length);
 	}
@@ -435,7 +435,7 @@ export class ByteArray
 	/**
 	 * Clone this ByteArray
 	 */
-	clone(): ByteArray
+	public clone(): ByteArray
 	{
 		const clone = new ByteArray(this._length);
 		const sourceArray = new Uint8Array(this.buffer, 0, this._length);

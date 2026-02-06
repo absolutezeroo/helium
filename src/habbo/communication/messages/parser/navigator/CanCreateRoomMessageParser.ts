@@ -30,14 +30,14 @@ export class CanCreateRoomMessageParser implements IMessageParser
 		return this._roomLimit;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._resultCode = 0;
 		this._roomLimit = 0;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._resultCode = wrapper.readInt();
 		this._roomLimit = wrapper.readInt();

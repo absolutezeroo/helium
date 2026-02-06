@@ -3,7 +3,7 @@ import {Show} from 'solid-js';
 import clsx from 'clsx';
 import {type IconName, NavigatorIcon} from '../common';
 
-export interface NavigatorTabProps
+export interface INavigatorTabProps
 {
 	id: string;
 	label: string;
@@ -17,7 +17,7 @@ export interface NavigatorTabProps
 /**
  * Individual navigator tab button
  */
-export function NavigatorTab(props: NavigatorTabProps): JSX.Element
+export function INavigatorTab(props: INavigatorTabProps): JSX.Element
 {
 	const handleClick = () =>
 	{

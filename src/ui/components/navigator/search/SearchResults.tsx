@@ -1,12 +1,12 @@
 import type {JSX} from 'solid-js';
 import {createMemo, Show} from 'solid-js';
-import type {RoomListRoom, RoomListViewMode} from '../rooms';
+import type {IRoomListRoom, RoomListViewMode} from '../rooms';
 import {RoomList} from '../rooms';
 import {NavigatorIcon} from '../common';
 
-export interface SearchResultsProps
+export interface ISearchResultsProps
 {
-	rooms: RoomListRoom[];
+	rooms: IRoomListRoom[];
 	query?: string;
 	totalCount?: number;
 	loading?: boolean;
@@ -22,7 +22,7 @@ export interface SearchResultsProps
 /**
  * Search results component - displays search results with query info
  */
-export function SearchResults(props: SearchResultsProps): JSX.Element
+export function SearchResults(props: ISearchResultsProps): JSX.Element
 {
 	const resultText = createMemo(() =>
 	{

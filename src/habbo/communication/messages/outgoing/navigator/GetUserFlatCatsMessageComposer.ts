@@ -16,7 +16,7 @@ export class GetUserFlatCatsMessageComposer extends MessageComposer<ConstructorP
 		this._data = [];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

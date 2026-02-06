@@ -29,7 +29,7 @@ export class PetsModel implements IPetsModel
 		return this._pets;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (this._disposed) return;
 
@@ -42,7 +42,7 @@ export class PetsModel implements IPetsModel
 		this._disposed = true;
 	}
 
-	addPet(pet: Pet): boolean
+	public addPet(pet: Pet): boolean
 	{
 		if (this._pets.has(pet.id))
 		{
@@ -97,7 +97,7 @@ export class PetsModel implements IPetsModel
 		return {added, removed};
 	}
 
-	removePet(id: number): Pet | null
+	public removePet(id: number): Pet | null
 	{
 		const pet = this._pets.get(id);
 
@@ -112,17 +112,17 @@ export class PetsModel implements IPetsModel
 		return null;
 	}
 
-	getPetById(id: number): Pet | null
+	public getPetById(id: number): Pet | null
 	{
 		return this._pets.get(id) ?? null;
 	}
 
-	getPetsArray(): Pet[]
+	public getPetsArray(): Pet[]
 	{
 		return Array.from(this._pets.values());
 	}
 
-	getSelectedPet(): Pet | null
+	public getSelectedPet(): Pet | null
 	{
 		for (const pet of this._pets.values())
 		{
@@ -135,7 +135,7 @@ export class PetsModel implements IPetsModel
 		return null;
 	}
 
-	selectPet(id: number): void
+	public selectPet(id: number): void
 	{
 		this.removeSelections();
 
@@ -147,7 +147,7 @@ export class PetsModel implements IPetsModel
 		}
 	}
 
-	removeSelections(): void
+	public removeSelections(): void
 	{
 		for (const pet of this._pets.values())
 		{
@@ -155,7 +155,7 @@ export class PetsModel implements IPetsModel
 		}
 	}
 
-	resetUnseenItems(): number[]
+	public resetUnseenItems(): number[]
 	{
 		const resetIds: number[] = [];
 
@@ -171,7 +171,7 @@ export class PetsModel implements IPetsModel
 		return resetIds;
 	}
 
-	updateUnseenItems(unseenIds: number[]): void
+	public updateUnseenItems(unseenIds: number[]): void
 	{
 		const unseenSet = new Set(unseenIds);
 
@@ -181,7 +181,7 @@ export class PetsModel implements IPetsModel
 		}
 	}
 
-	isUnseen(id: number): boolean
+	public isUnseen(id: number): boolean
 	{
 		return this._pets.get(id)?.isUnseen ?? false;
 	}

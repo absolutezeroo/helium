@@ -5,8 +5,8 @@
  *
  * Logic for dice furniture.
  */
+import {RoomObjectStateChangeEvent} from '@habbo/room/events/RoomObjectStateChangeEvent';
 import {FurnitureLogic} from './FurnitureLogic';
-import {RoomObjectStateChangeEvent} from '../../../events/RoomObjectStateChangeEvent';
 
 export class FurnitureDiceLogic extends FurnitureLogic
 {

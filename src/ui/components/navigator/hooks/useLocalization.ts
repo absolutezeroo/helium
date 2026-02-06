@@ -1,4 +1,4 @@
-import {ModuleId, useActions} from '../../../bridge';
+import {ModuleId, useActions} from '@ui/bridge';
 
 /**
  * Navigator-specific localization keys
@@ -124,7 +124,7 @@ const DEFAULTS: Record<string, string> = {
 	[NAV_KEYS.ROOM_FAVOURITE_ADD]: 'Add to favourites',
 	[NAV_KEYS.ROOM_FAVOURITE_REMOVE]: 'Remove from favourites',
 	[NAV_KEYS.ROOM_HOME]: 'Home Room',
-	[NAV_KEYS.ROOM_HOME_SET]: 'Set as home room',
+	[NAV_KEYS.ROOM_HOME_SET]: 'Set as home room', // cast: type assertion required
 	[NAV_KEYS.ROOM_HOME_CURRENT]: 'Current home room',
 	[NAV_KEYS.LIFTED_ROOMS_TITLE]: 'Promoted Rooms',
 	[NAV_KEYS.LIFTED_ROOMS_EMPTY]: 'No promoted rooms',

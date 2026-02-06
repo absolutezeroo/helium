@@ -2,7 +2,7 @@ import type {JSX} from 'solid-js';
 import {For, Show} from 'solid-js';
 import {FurniItem} from './FurniItem';
 
-export interface FurniGridItem
+export interface IFurniGridItem
 {
 	id: number;
 	type: number;
@@ -13,15 +13,15 @@ export interface FurniGridItem
 	isLocked?: boolean;
 }
 
-export interface FurniGridProps
+export interface IFurniGridProps
 {
-	items: FurniGridItem[];
+	items: IFurniGridItem[];
 	loading?: boolean;
 	onItemSelect?: (id: number) => void;
 	onItemPlace?: (id: number) => void;
 }
 
-export function FurniGrid(props: FurniGridProps): JSX.Element
+export function FurniGrid(props: IFurniGridProps): JSX.Element
 {
 	return (
 		<div class="h-full overflow-y-auto p-2">

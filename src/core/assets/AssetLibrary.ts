@@ -1,26 +1,27 @@
 import {EventEmitter} from 'eventemitter3';
 import {Component, type IContext} from '@core/runtime';
+import { Logger } from '@core/utils/Logger';
 import type {IAsset} from './IAsset';
 import type {IAssetLibrary} from './IAssetLibrary';
 import type {IAssetLoader} from './loaders/IAssetLoader';
 import {type AssetClass, type AssetLoaderClass, AssetTypeDeclaration} from './AssetTypeDeclaration';
 import {AssetLoaderStruct} from './AssetLoaderStruct';
 import {AssetLoaderEvent, AssetLoaderEventType} from './loaders/AssetLoaderEvent';
-
-// Import default asset types
 import {UnknownAsset} from './UnknownAsset';
 import {TextAsset} from './TextAsset';
 import {XmlAsset} from './XmlAsset';
 import {BitmapDataAsset} from './BitmapDataAsset';
 import {SoundAsset} from './SoundAsset';
 import {NitroAsset} from './NitroAsset';
-
-// Import default loaders
 import {BinaryFileLoader} from './loaders/BinaryFileLoader';
 import {TextFileLoader} from './loaders/TextFileLoader';
 import {BitmapFileLoader} from './loaders/BitmapFileLoader';
 import {SoundFileLoader} from './loaders/SoundFileLoader';
 import {NitroBundleLoader} from './loaders/NitroBundleLoader';
+
+// Import default asset types
+
+// Import default loaders
 
 /**
  * Asset library events
@@ -193,7 +194,7 @@ export class AssetLibrary extends Component implements IAssetLibrary
 	/**
 	 * Load the library from a URL
 	 */
-	async loadFromUrl(url: string, isReady: boolean = true): Promise<void>
+	public async loadFromUrl(url: string, isReady: boolean = true): Promise<void>
 	{
 		// If already loaded from this URL, just emit ready
 		if (this._url === url && this._isReady)
@@ -226,7 +227,7 @@ export class AssetLibrary extends Component implements IAssetLibrary
 			this._libraryEvents.emit(AssetLibraryEvents.READY);
 		} catch (error)
 		{
-			console.error(`[AssetLibrary] Failed to load from ${url}:`, error);
+			Logger.error(`[AssetLibrary] Failed to load from ${url}:`, error);
 			this._isReady = false;
 			this._libraryEvents.emit(AssetLibraryEvents.LOAD_ERROR);
 			throw error;
@@ -236,7 +237,7 @@ export class AssetLibrary extends Component implements IAssetLibrary
 	/**
 	 * Load assets from a resource manifest
 	 */
-	loadFromResource(manifest: object, _resourceData: unknown): boolean
+	public loadFromResource(manifest: object, _resourceData: unknown): boolean
 	{
 		this._manifest = manifest;
 		this._isReady = true;
@@ -246,7 +247,7 @@ export class AssetLibrary extends Component implements IAssetLibrary
 	/**
 	 * Unload all assets
 	 */
-	unload(): void
+	public unload(): void
 	{
 		// Dispose pending loaders
 		for (const [, loader] of this._pendingLoads)
@@ -275,7 +276,7 @@ export class AssetLibrary extends Component implements IAssetLibrary
 	/**
 	 * Load a single asset from a file
 	 */
-	loadAssetFromFile(name: string, url: string, mimeType?: string, id: number = -1): AssetLoaderStruct
+	public loadAssetFromFile(name: string, url: string, mimeType?: string, id: number = -1): AssetLoaderStruct
 	{
 		// Check if asset already exists
 		if (this.getAssetByName(name))
@@ -325,12 +326,15 @@ export class AssetLibrary extends Component implements IAssetLibrary
 		this._pendingLoads.set(url, struct);
 
 		// Listen for load events
+		// declaration is guaranteed non-null here: validated by the null checks above
+		const resolvedDeclaration = declaration;
+
 		loader.events.on(AssetLoaderEventType.COMPLETE, (event: AssetLoaderEvent) =>
-			this.handleAssetLoadEvent(event, loader, struct, declaration!)
+			this.handleAssetLoadEvent(event, loader, struct, resolvedDeclaration)
 		);
 
 		loader.events.on(AssetLoaderEventType.ERROR, (event: AssetLoaderEvent) =>
-			this.handleAssetLoadEvent(event, loader, struct, declaration!)
+			this.handleAssetLoadEvent(event, loader, struct, resolvedDeclaration)
 		);
 
 		loader.events.on(AssetLoaderEventType.PROGRESS, (event: AssetLoaderEvent) =>
@@ -344,7 +348,7 @@ export class AssetLibrary extends Component implements IAssetLibrary
 	/**
 	 * Get an asset by name
 	 */
-	getAssetByName(name: string): IAsset | null
+	public getAssetByName(name: string): IAsset | null
 	{
 		return this._assetMap.get(name) ?? null;
 	}
@@ -352,7 +356,7 @@ export class AssetLibrary extends Component implements IAssetLibrary
 	/**
 	 * Get an asset by its content
 	 */
-	getAssetByContent(content: unknown): IAsset | null
+	public getAssetByContent(content: unknown): IAsset | null
 	{
 		for (const [, asset] of this._assetMap)
 		{
@@ -368,7 +372,7 @@ export class AssetLibrary extends Component implements IAssetLibrary
 	/**
 	 * Get an asset by index
 	 */
-	getAssetByIndex(index: number): IAsset | null
+	public getAssetByIndex(index: number): IAsset | null
 	{
 		if (index < 0 || index >= this._assetNameArray.length)
 		{
@@ -381,7 +385,7 @@ export class AssetLibrary extends Component implements IAssetLibrary
 	/**
 	 * Get the index of an asset
 	 */
-	getAssetIndex(asset: IAsset): number
+	public getAssetIndex(asset: IAsset): number
 	{
 		for (const [name, a] of this._assetMap)
 		{
@@ -397,7 +401,7 @@ export class AssetLibrary extends Component implements IAssetLibrary
 	/**
 	 * Check if an asset exists
 	 */
-	hasAsset(name: string): boolean
+	public hasAsset(name: string): boolean
 	{
 		return this._assetMap.has(name);
 	}
@@ -405,7 +409,7 @@ export class AssetLibrary extends Component implements IAssetLibrary
 	/**
 	 * Store an asset
 	 */
-	setAsset(name: string, asset: IAsset, overwrite: boolean = true): boolean
+	public setAsset(name: string, asset: IAsset, overwrite: boolean = true): boolean
 	{
 		const exists = this._assetMap.has(name);
 
@@ -426,7 +430,7 @@ export class AssetLibrary extends Component implements IAssetLibrary
 	/**
 	 * Create a new asset of the specified type
 	 */
-	createAsset(name: string, declaration: AssetTypeDeclaration): IAsset | null
+	public createAsset(name: string, declaration: AssetTypeDeclaration): IAsset | null
 	{
 		if (this.hasAsset(name) || !declaration)
 		{
@@ -447,7 +451,7 @@ export class AssetLibrary extends Component implements IAssetLibrary
 	/**
 	 * Remove an asset
 	 */
-	removeAsset(asset: IAsset): IAsset | null
+	public removeAsset(asset: IAsset): IAsset | null
 	{
 		if (!asset) return null;
 
@@ -473,14 +477,14 @@ export class AssetLibrary extends Component implements IAssetLibrary
 	/**
 	 * Register an asset type declaration
 	 */
-	registerAssetTypeDeclaration(declaration: AssetTypeDeclaration, isShared: boolean = true): boolean
+	public registerAssetTypeDeclaration(declaration: AssetTypeDeclaration, isShared: boolean = true): boolean
 	{
 		const registry = isShared ? AssetLibrary._sharedTypesByMime : this._localTypesByMime;
 
 		if (registry.has(declaration.mimeType))
 		{
 			// Allow re-registration (update)
-			console.warn(`[AssetLibrary] Updating type declaration for ${declaration.mimeType}`);
+			Logger.warn(`[AssetLibrary] Updating type declaration for ${declaration.mimeType}`);
 		}
 
 		registry.set(declaration.mimeType, declaration);
@@ -490,7 +494,7 @@ export class AssetLibrary extends Component implements IAssetLibrary
 	/**
 	 * Get a type declaration by MIME type
 	 */
-	getAssetTypeDeclarationByMimeType(mimeType: string, checkShared: boolean = true): AssetTypeDeclaration | null
+	public getAssetTypeDeclarationByMimeType(mimeType: string, checkShared: boolean = true): AssetTypeDeclaration | null
 	{
 		if (checkShared)
 		{
@@ -508,7 +512,7 @@ export class AssetLibrary extends Component implements IAssetLibrary
 	/**
 	 * Get a type declaration by asset class
 	 */
-	getAssetTypeDeclarationByClass(assetClass: new (...args: unknown[]) => IAsset, checkShared: boolean = true): AssetTypeDeclaration | null
+	public getAssetTypeDeclarationByClass(assetClass: new (...args: unknown[]) => IAsset, checkShared: boolean = true): AssetTypeDeclaration | null
 	{
 		if (checkShared)
 		{
@@ -535,7 +539,7 @@ export class AssetLibrary extends Component implements IAssetLibrary
 	/**
 	 * Get a type declaration by file extension
 	 */
-	getAssetTypeDeclarationByFileName(fileName: string, checkShared: boolean = true): AssetTypeDeclaration | null
+	public getAssetTypeDeclarationByFileName(fileName: string, checkShared: boolean = true): AssetTypeDeclaration | null
 	{
 		// Extract extension
 		let ext = fileName.substring(fileName.lastIndexOf('.') + 1);
@@ -587,49 +591,49 @@ export class AssetLibrary extends Component implements IAssetLibrary
 	{
 		// Binary/Unknown
 		this.registerAssetTypeDeclaration(
-			new AssetTypeDeclaration('application/octet-stream', UnknownAsset as AssetClass, BinaryFileLoader as unknown as AssetLoaderClass),
+			new AssetTypeDeclaration('application/octet-stream', UnknownAsset as AssetClass, BinaryFileLoader as unknown as AssetLoaderClass), // cast: intermediate unknown assertion
 			true
 		);
 
 		// Text
 		this.registerAssetTypeDeclaration(
-			new AssetTypeDeclaration('text/plain', TextAsset as AssetClass, TextFileLoader as unknown as AssetLoaderClass, 'txt'),
+			new AssetTypeDeclaration('text/plain', TextAsset as AssetClass, TextFileLoader as unknown as AssetLoaderClass, 'txt'), // cast: intermediate unknown assertion
 			true
 		);
 
 		// XML / HTML
 		this.registerAssetTypeDeclaration(
-			new AssetTypeDeclaration('text/xml', XmlAsset as AssetClass, TextFileLoader as unknown as AssetLoaderClass, 'xml'),
+			new AssetTypeDeclaration('text/xml', XmlAsset as AssetClass, TextFileLoader as unknown as AssetLoaderClass, 'xml'), // cast: intermediate unknown assertion
 			true
 		);
 		this.registerAssetTypeDeclaration(
-			new AssetTypeDeclaration('text/html', XmlAsset as AssetClass, TextFileLoader as unknown as AssetLoaderClass, 'htm', 'html'),
+			new AssetTypeDeclaration('text/html', XmlAsset as AssetClass, TextFileLoader as unknown as AssetLoaderClass, 'htm', 'html'), // cast: intermediate unknown assertion
 			true
 		);
 
 		// Images
 		this.registerAssetTypeDeclaration(
-			new AssetTypeDeclaration('image/png', BitmapDataAsset as AssetClass, BitmapFileLoader as unknown as AssetLoaderClass, 'png'),
+			new AssetTypeDeclaration('image/png', BitmapDataAsset as AssetClass, BitmapFileLoader as unknown as AssetLoaderClass, 'png'), // cast: intermediate unknown assertion
 			true
 		);
 		this.registerAssetTypeDeclaration(
-			new AssetTypeDeclaration('image/jpeg', BitmapDataAsset as AssetClass, BitmapFileLoader as unknown as AssetLoaderClass, 'jpg', 'jpeg'),
+			new AssetTypeDeclaration('image/jpeg', BitmapDataAsset as AssetClass, BitmapFileLoader as unknown as AssetLoaderClass, 'jpg', 'jpeg'), // cast: intermediate unknown assertion
 			true
 		);
 		this.registerAssetTypeDeclaration(
-			new AssetTypeDeclaration('image/gif', BitmapDataAsset as AssetClass, BitmapFileLoader as unknown as AssetLoaderClass, 'gif'),
+			new AssetTypeDeclaration('image/gif', BitmapDataAsset as AssetClass, BitmapFileLoader as unknown as AssetLoaderClass, 'gif'), // cast: intermediate unknown assertion
 			true
 		);
 
 		// Audio
 		this.registerAssetTypeDeclaration(
-			new AssetTypeDeclaration('audio/mpeg', SoundAsset as AssetClass, SoundFileLoader as unknown as AssetLoaderClass, 'mp3'),
+			new AssetTypeDeclaration('audio/mpeg', SoundAsset as AssetClass, SoundFileLoader as unknown as AssetLoaderClass, 'mp3'), // cast: intermediate unknown assertion
 			true
 		);
 
 		// Nitro bundle (our custom format)
 		this.registerAssetTypeDeclaration(
-			new AssetTypeDeclaration('application/x-nitro-bundle', NitroAsset as AssetClass, NitroBundleLoader as unknown as AssetLoaderClass, 'nitro'),
+			new AssetTypeDeclaration('application/x-nitro-bundle', NitroAsset as AssetClass, NitroBundleLoader as unknown as AssetLoaderClass, 'nitro'), // cast: intermediate unknown assertion
 			true
 		);
 
@@ -675,7 +679,7 @@ export class AssetLibrary extends Component implements IAssetLibrary
 				struct.dispatchEvent(new AssetLoaderEvent(AssetLoaderEventType.COMPLETE, event.status));
 			} catch (error)
 			{
-				console.error('[AssetLibrary] Error creating asset:', error);
+				Logger.error('[AssetLibrary] Error creating asset:', error);
 				struct.dispatchEvent(new AssetLoaderEvent(AssetLoaderEventType.ERROR, event.status));
 			}
 

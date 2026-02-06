@@ -1,5 +1,5 @@
 import {defineModule} from '../core/defineModule';
-import type {SessionState} from './types';
+import type {ISessionState} from './types';
 import {handlers} from './handlers';
 import {createActions, SessionActions} from './actions';
 
@@ -47,24 +47,24 @@ export const sessionModule = defineModule({
 		homeRoomId: 0,
 		roomIdToEnter: 0,
 		favouriteRooms: [],
-	} satisfies SessionState,
+	} satisfies ISessionState,
 
 	handlers,
 	actions: createActions,
 });
 
-export type {SessionState, UserData, AvailabilityStatus} from './types';
+export type {ISessionState, IUserData, IAvailabilityStatus} from './types';
 export type {SessionActions} from './actions';
 
 // Declaration merging for type-safe module access
 declare module '../core/moduleIds'
 {
-	interface ModuleStateMap
+	interface IModuleStateMap
 	{
-		'session': SessionState;
+		'session': ISessionState;
 	}
 
-	interface ModuleActionsMap
+	interface IModuleActionsMap
 	{
 		'session': SessionActions;
 	}

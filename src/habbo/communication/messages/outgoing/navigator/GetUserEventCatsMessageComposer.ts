@@ -16,7 +16,7 @@ export class GetUserEventCatsMessageComposer extends MessageComposer<Constructor
 		this._data = [];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

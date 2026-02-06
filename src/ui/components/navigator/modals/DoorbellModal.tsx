@@ -6,7 +6,7 @@ import {useNavigatorLocalization} from '../hooks';
 
 export type DoorbellStatus = 'waiting' | 'accepted' | 'denied' | 'no_answer';
 
-export interface DoorbellModalProps
+export interface IDoorbellModalProps
 {
 	isOpen: boolean;
 	roomName: string;
@@ -19,7 +19,7 @@ export interface DoorbellModalProps
 /**
  * Doorbell modal - shown when waiting for room entry approval
  */
-export function DoorbellModal(props: DoorbellModalProps): JSX.Element
+export function DoorbellModal(props: IDoorbellModalProps): JSX.Element
 {
 	const {t, keys} = useNavigatorLocalization();
 	const [dots, setDots] = createSignal('');

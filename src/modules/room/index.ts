@@ -1,5 +1,5 @@
 import {defineModule} from '../core/defineModule';
-import type {RoomState} from './types';
+import type {IRoomState} from './types';
 import {createInitialRoomState} from './types';
 import type {RoomActions} from './actions';
 import {createActions} from './actions';
@@ -42,19 +42,19 @@ export const roomModule = defineModule({
 	actions: createActions,
 });
 
-export type {RoomState, RoomUserData, RoomSessionState, RoomUserTypeValue} from './types';
+export type {IRoomState, IRoomUserData, RoomSessionState, RoomUserTypeValue} from './types';
 export {RoomUserType} from './types';
 export type {RoomActions} from './actions';
 
 // Declaration merging for type-safe module access
 declare module '../core/moduleIds'
 {
-	interface ModuleStateMap
+	interface IModuleStateMap
 	{
-		'room': RoomState;
+		'room': IRoomState;
 	}
 
-	interface ModuleActionsMap
+	interface IModuleActionsMap
 	{
 		'room': RoomActions;
 	}

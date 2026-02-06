@@ -8,7 +8,7 @@
 import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
 import type {IStuffData} from '@habbo/room/object/data/IStuffData';
 import {StuffDataFactory} from '@habbo/room/object/data/StuffDataFactory';
-import {FurnitureFloorData} from '../../../incoming/room/engine/FurnitureFloorData';
+import {FurnitureFloorData} from '@habbo/communication/messages/incoming/room/engine/FurnitureFloorData';
 
 export class FurnitureDataParser
 {
@@ -30,13 +30,18 @@ export class FurnitureDataParser
 		data.z = parseFloat(wrapper.readString());
 		data.sizeZ = parseFloat(wrapper.readString());
 		data.extra = wrapper.readInt();
-		data.data = FurnitureDataParser.parseStuffData(wrapper);
+		const stuffData = FurnitureDataParser.parseStuffData(wrapper);
 
-		const state = parseFloat(data.data.getLegacyString());
-
-		if (!isNaN(state))
+		if (stuffData)
 		{
-			data.state = parseInt(data.data.getLegacyString(), 10);
+			data.data = stuffData;
+
+			const state = parseFloat(stuffData.getLegacyString());
+
+			if (!isNaN(state))
+			{
+				data.state = parseInt(stuffData.getLegacyString(), 10);
+			}
 		}
 
 		data.expiryTime = wrapper.readInt();
@@ -51,7 +56,7 @@ export class FurnitureDataParser
 		return data;
 	}
 
-	static parseStuffData(wrapper: IMessageDataWrapper): IStuffData
+	static parseStuffData(wrapper: IMessageDataWrapper): IStuffData | null
 	{
 		const typeFlags = wrapper.readInt();
 		const stuffData = StuffDataFactory.getStuffDataForType(typeFlags);
@@ -61,6 +66,6 @@ export class FurnitureDataParser
 			stuffData.initializeFromIncomingMessage(wrapper);
 		}
 
-		return stuffData!;
+		return stuffData;
 	}
 }

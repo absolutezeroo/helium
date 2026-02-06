@@ -16,7 +16,7 @@ export class EditEventMessageComposer extends MessageComposer<ConstructorParamet
 		this._data = [categoryId, eventName, eventDescription];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

@@ -145,12 +145,12 @@ export class OfficialRoomEntryData
 		return 0;
 	}
 
-	toggleOpen(): void
+	public toggleOpen(): void
 	{
 		this._open = !this._open;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (this._disposed)
 		{

@@ -12,7 +12,7 @@ export class QuitMessageComposer extends MessageComposer<[]>
 		super();
 	}
 
-	getMessageArray(): []
+	public getMessageArray(): []
 	{
 		return [];
 	}

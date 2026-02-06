@@ -27,26 +27,26 @@ export class RoomObjectManager implements IRoomObjectManager
 		return this._objects.size;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		this.reset();
 		this._objects.clear();
 		this._objectsByType.clear();
 	}
 
-	createObject(id: number, stateCount: number, type: string): IRoomObjectController | null
+	public createObject(id: number, stateCount: number, type: string): IRoomObjectController | null
 	{
 		const object = new RoomObject(id, stateCount, type);
 
 		return this.addObject(String(id), type, object);
 	}
 
-	getObject(id: number): IRoomObject | null
+	public getObject(id: number): IRoomObject | null
 	{
 		return this._objects.get(String(id)) ?? null;
 	}
 
-	getObjectByIndex(index: number): IRoomObject | null
+	public getObjectByIndex(index: number): IRoomObject | null
 	{
 		const values = Array.from(this._objects.values());
 
@@ -58,7 +58,7 @@ export class RoomObjectManager implements IRoomObjectManager
 		return null;
 	}
 
-	getObjectCountForType(type: string): number
+	public getObjectCountForType(type: string): number
 	{
 		const typeMap = this.getObjectsForType(type, false);
 
@@ -70,7 +70,7 @@ export class RoomObjectManager implements IRoomObjectManager
 		return 0;
 	}
 
-	getObjectWithIndexAndType(index: number, type: string): IRoomObjectController | null
+	public getObjectWithIndexAndType(index: number, type: string): IRoomObjectController | null
 	{
 		const typeMap = this.getObjectsForType(type, false);
 
@@ -87,10 +87,10 @@ export class RoomObjectManager implements IRoomObjectManager
 		return null;
 	}
 
-	disposeObject(id: number): boolean
+	public disposeObject(id: number): boolean
 	{
 		const idKey = String(id);
-		const object = this._objects.get(idKey) as RoomObject | undefined;
+		const object = this._objects.get(idKey) as RoomObject | undefined; // cast: type assertion required
 
 		if (object !== undefined)
 		{
@@ -111,7 +111,7 @@ export class RoomObjectManager implements IRoomObjectManager
 		return false;
 	}
 
-	reset(): void
+	public reset(): void
 	{
 		for (const object of this._objects.values())
 		{

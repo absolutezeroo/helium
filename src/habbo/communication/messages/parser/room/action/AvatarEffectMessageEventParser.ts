@@ -29,7 +29,7 @@ export class AvatarEffectMessageEventParser implements IMessageParser
 		return this._delayMilliSeconds;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._userId = 0;
 		this._effectId = 0;
@@ -37,7 +37,7 @@ export class AvatarEffectMessageEventParser implements IMessageParser
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		if (wrapper === null)
 		{

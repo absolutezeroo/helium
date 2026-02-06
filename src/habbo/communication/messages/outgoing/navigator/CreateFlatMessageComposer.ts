@@ -10,12 +10,12 @@ export class CreateFlatMessageComposer extends MessageComposer<ConstructorParame
 	private _data: ConstructorParameters<typeof CreateFlatMessageComposer>;
 
 	constructor(
-		roomName: string,
-		roomDescription: string,
-		roomModel: string,
-		categoryId: number,
-		maxUsers: number,
-		tradeMode: number
+		public roomName: string,
+		public roomDescription: string,
+		public roomModel: string,
+		public categoryId: number,
+		public maxUsers: number,
+		public tradeMode: number
 	)
 	{
 		super();
@@ -23,7 +23,7 @@ export class CreateFlatMessageComposer extends MessageComposer<ConstructorParame
 		this._data = [roomName, roomDescription, roomModel, categoryId, maxUsers, tradeMode];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

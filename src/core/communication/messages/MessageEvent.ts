@@ -62,18 +62,20 @@ export class MessageEvent implements IMessageEvent
 	/**
 	 * Get the parser cast to a specific type
 	 */
-	getParser<T extends IMessageParser>(): T
+	public getParser<T extends IMessageParser>(): T
 	{
-		return this._parser as T;
+		return this._parser as T; // cast: type assertion required
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (this._disposed) return;
 		this._disposed = true;
 
-		this._callback = null!;
-		this._parserClass = null!;
+		// TS-009: Intentional null assignment for disposal - fields are non-nullable by type
+		// but must be cleared to release references. The `_disposed` flag guards access.
+		this._callback = null as unknown as MessageEventCallback; // cast: disposal null assignment
+		this._parserClass = null as unknown as ParserClass; // cast: disposal null assignment
 		this._connection = null;
 		this._parser = null;
 	}

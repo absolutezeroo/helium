@@ -17,7 +17,7 @@ export class InitDiffieHandshakeMessageComposer extends MessageComposer<Construc
 		this._data = [];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

@@ -11,11 +11,11 @@ export class EventLogMessageComposer extends MessageComposer<ConstructorParamete
 	private _data: ConstructorParameters<typeof EventLogMessageComposer>;
 
 	constructor(
-		category: string,
-		type: string,
-		action: string,
-		extraString: string = '',
-		extraInt: number = 0
+		public category: string,
+		public type: string,
+		public action: string,
+		public extraString: string = '',
+		public extraInt: number = 0
 	)
 	{
 		super();
@@ -23,7 +23,7 @@ export class EventLogMessageComposer extends MessageComposer<ConstructorParamete
 		this._data = [category, type, action, extraString, extraInt];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

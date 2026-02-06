@@ -25,7 +25,7 @@ export class EffectsModel implements IEffectsModel
 		return this._lastActivatedEffect;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (this._disposed) return;
 
@@ -38,7 +38,7 @@ export class EffectsModel implements IEffectsModel
 		this._disposed = true;
 	}
 
-	addEffect(effect: Effect): boolean
+	public addEffect(effect: Effect): boolean
 	{
 		const existing = this.getEffect(effect.type);
 
@@ -54,7 +54,7 @@ export class EffectsModel implements IEffectsModel
 		return true;
 	}
 
-	getEffect(type: number): Effect | null
+	public getEffect(type: number): Effect | null
 	{
 		for (const effect of this._effects)
 		{
@@ -67,7 +67,7 @@ export class EffectsModel implements IEffectsModel
 		return null;
 	}
 
-	getEffects(filter: EffectFilterType = EffectFilter.ALL): Effect[]
+	public getEffects(filter: EffectFilterType = EffectFilter.ALL): Effect[]
 	{
 		if (filter === EffectFilter.ALL)
 		{
@@ -85,7 +85,7 @@ export class EffectsModel implements IEffectsModel
 		});
 	}
 
-	getItemInIndex(index: number, filter: EffectFilterType = EffectFilter.ALL): Effect | null
+	public getItemInIndex(index: number, filter: EffectFilterType = EffectFilter.ALL): Effect | null
 	{
 		const effects = this.getEffects(filter);
 
@@ -97,7 +97,7 @@ export class EffectsModel implements IEffectsModel
 		return effects[index];
 	}
 
-	setEffectActivated(type: number): Effect | null
+	public setEffectActivated(type: number): Effect | null
 	{
 		const effect = this.getEffect(type);
 
@@ -110,7 +110,7 @@ export class EffectsModel implements IEffectsModel
 		return effect;
 	}
 
-	useEffect(type: number): number
+	public useEffect(type: number): number
 	{
 		this.stopUsingAllEffectsInternal(false);
 
@@ -137,7 +137,7 @@ export class EffectsModel implements IEffectsModel
 		return -1;
 	}
 
-	stopUsingEffect(type: number): boolean
+	public stopUsingEffect(type: number): boolean
 	{
 		const effect = this.getEffect(type);
 
@@ -153,12 +153,12 @@ export class EffectsModel implements IEffectsModel
 		return false;
 	}
 
-	stopUsingAllEffects(): void
+	public stopUsingAllEffects(): void
 	{
 		this.stopUsingAllEffectsInternal(true);
 	}
 
-	toggleEffectSelected(type: number): Effect | null
+	public toggleEffectSelected(type: number): Effect | null
 	{
 		const effect = this.getEffect(type);
 
@@ -176,7 +176,7 @@ export class EffectsModel implements IEffectsModel
 		return effect;
 	}
 
-	setEffectSelected(type: number): void
+	public setEffectSelected(type: number): void
 	{
 		const effect = this.getEffect(type);
 
@@ -186,7 +186,7 @@ export class EffectsModel implements IEffectsModel
 		effect.isSelected = true;
 	}
 
-	setEffectDeselected(type: number): void
+	public setEffectDeselected(type: number): void
 	{
 		const effect = this.getEffect(type);
 
@@ -196,7 +196,7 @@ export class EffectsModel implements IEffectsModel
 		}
 	}
 
-	setAllEffectsDeselected(): void
+	public setAllEffectsDeselected(): void
 	{
 		for (const effect of this._effects)
 		{
@@ -204,7 +204,7 @@ export class EffectsModel implements IEffectsModel
 		}
 	}
 
-	getSelectedEffect(filter: EffectFilterType = EffectFilter.ALL): Effect | null
+	public getSelectedEffect(filter: EffectFilterType = EffectFilter.ALL): Effect | null
 	{
 		const effects = this.getEffects(filter);
 
@@ -219,7 +219,7 @@ export class EffectsModel implements IEffectsModel
 		return null;
 	}
 
-	setEffectExpired(type: number): boolean
+	public setEffectExpired(type: number): boolean
 	{
 		this._lastActivatedEffect = -1;
 
@@ -240,7 +240,7 @@ export class EffectsModel implements IEffectsModel
 		return true;
 	}
 
-	reactivateLastEffect(): number
+	public reactivateLastEffect(): number
 	{
 		if (this._lastActivatedEffect !== -1)
 		{

@@ -27,7 +27,7 @@ export class WireFormatter implements IWireFormatter
 	 * Encode a message for sending
 	 * Format: [4 bytes length][2 bytes messageId][...data]
 	 */
-	encode(messageId: number, messageArray: unknown[]): ByteArray
+	public encode(messageId: number, messageArray: unknown[]): ByteArray
 	{
 		const message = new ByteArray();
 
@@ -55,7 +55,7 @@ export class WireFormatter implements IWireFormatter
 	/**
 	 * Split received data into individual messages
 	 */
-	splitMessages(buffer: ByteArray, connection: IConnection): IMessageDataWrapper[]
+	public splitMessages(buffer: ByteArray, connection: IConnection): IMessageDataWrapper[]
 	{
 		const messages: IMessageDataWrapper[] = [];
 		const encryption = connection.getServerToClientEncryption();
@@ -147,7 +147,7 @@ export class WireFormatter implements IWireFormatter
 		return messages;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (this._disposed) return;
 		this._disposed = true;

@@ -16,13 +16,13 @@ export class CompetitionRoomsDataMessageParser implements IMessageParser
 		return this._data;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._data = null;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._data = new CompetitionRoomsData(wrapper);
 		return true;

@@ -1,5 +1,6 @@
 import type {IConnection} from '@core/communication/connection/IConnection';
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
+import {Logger} from '@core/utils/Logger';
 import type {IRoomHandlerListener} from '../IRoomHandlerListener';
 import {BaseHandler} from './BaseHandler';
 import {RoomSessionDoorbellEvent} from '../events/RoomSessionDoorbellEvent';
@@ -30,8 +31,6 @@ import type {RoomReadyMessageParser} from '../../communication/messages/parser/r
 import type {
 	FlatAccessDeniedMessageParser
 } from '../../communication/messages/parser/navigator/FlatAccessDeniedMessageParser';
-
-import {Logger} from '@core/utils/Logger';
 
 const log = Logger.getLogger('RoomSessionHandler');
 
@@ -99,7 +98,7 @@ export class RoomSessionHandler extends BaseHandler
 	{
 		if (!event) return;
 
-		const parser = event.parser as OpenConnectionMessageParser;
+		const parser = event.parser as OpenConnectionMessageParser; // cast: event type assertion
 		if (parser === null)
 		{
 			return;
@@ -117,7 +116,7 @@ export class RoomSessionHandler extends BaseHandler
 	{
 		if (!event) return;
 
-		const parser = event.parser as FlatAccessibleMessageParser;
+		const parser = event.parser as FlatAccessibleMessageParser; // cast: event type assertion
 		if (parser === null)
 		{
 			return;
@@ -146,7 +145,7 @@ export class RoomSessionHandler extends BaseHandler
 	{
 		if (!event) return;
 
-		const parser = event.parser as RoomReadyMessageParser;
+		const parser = event.parser as RoomReadyMessageParser; // cast: event type assertion
 		if (parser === null)
 		{
 			return;
@@ -167,7 +166,7 @@ export class RoomSessionHandler extends BaseHandler
 	{
 		if (!event) return;
 
-		const parser = event.parser as FlatAccessDeniedMessageParser;
+		const parser = event.parser as FlatAccessDeniedMessageParser; // cast: event type assertion
 		if (parser === null)
 		{
 			return;

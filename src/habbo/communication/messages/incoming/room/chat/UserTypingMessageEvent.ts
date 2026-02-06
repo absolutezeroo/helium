@@ -5,7 +5,7 @@
  */
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
-import {UserTypingMessageEventParser} from '../../../parser/room/chat/UserTypingMessageEventParser';
+import {UserTypingMessageEventParser} from '@habbo/communication/messages/parser/room/chat/UserTypingMessageEventParser';
 
 export class UserTypingMessageEvent extends MessageEvent
 {

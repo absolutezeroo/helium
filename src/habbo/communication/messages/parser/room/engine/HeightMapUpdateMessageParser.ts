@@ -75,7 +75,7 @@ export class HeightMapUpdateMessageParser implements IMessageParser
 	 * Move to next tile in the update batch.
 	 * Returns false when no more tiles.
 	 */
-	next(): boolean
+	public next(): boolean
 	{
 		if (this._count === 0 || this._wrapper === null)
 		{
@@ -90,14 +90,14 @@ export class HeightMapUpdateMessageParser implements IMessageParser
 		return true;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._count = 0;
 		this._wrapper = null;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		if (wrapper === null)
 		{

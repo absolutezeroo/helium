@@ -1,7 +1,7 @@
 import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
 import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 
-export interface BotData
+export interface IBotData
 {
 	id: number;
 	name: string;
@@ -17,20 +17,20 @@ export interface BotData
  */
 export class BotInventoryMessageParser implements IMessageParser
 {
-	private _bots: BotData[] = [];
+	private _bots: IBotData[] = [];
 
-	get bots(): BotData[]
+	get bots(): IBotData[]
 	{
 		return this._bots;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._bots = [];
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		const count = wrapper.readInt();
 

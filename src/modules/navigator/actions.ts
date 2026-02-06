@@ -1,18 +1,18 @@
-import type {ActionContext} from '../core/types';
-import type {NavigatorState} from './types';
 import type {IHabboNavigator} from '@habbo/navigator/IHabboNavigator';
 import type {IHabboNewNavigator} from '@habbo/navigator/IHabboNewNavigator';
+import type {IActionContext} from '../core/types';
+import type {INavigatorState} from './types';
 
 /**
  * Navigator manager dependencies
  */
-export interface NavigatorManagers
+export interface INavigatorManagers
 {
 	navigator: IHabboNavigator;
 	newNavigator: IHabboNewNavigator;
 }
 
-export function createActions(ctx: ActionContext<NavigatorState, NavigatorManagers>)
+export function createActions(ctx: IActionContext<INavigatorState, INavigatorManagers>)
 {
 	const {getState, updateState, managers} = ctx;
 

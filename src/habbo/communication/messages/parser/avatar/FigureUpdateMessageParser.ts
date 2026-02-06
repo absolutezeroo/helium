@@ -23,14 +23,14 @@ export class FigureUpdateMessageParser implements IMessageParser
 		return this._gender;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._figure = '';
 		this._gender = '';
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._figure = wrapper.readString();
 		this._gender = wrapper.readString();

@@ -22,14 +22,14 @@ export class FlatCreatedMessageParser implements IMessageParser
 		return this._flatName;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._flatId = 0;
 		this._flatName = '';
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._flatId = wrapper.readInt();
 		this._flatName = wrapper.readString();

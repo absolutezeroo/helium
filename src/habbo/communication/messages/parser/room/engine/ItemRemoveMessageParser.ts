@@ -24,14 +24,14 @@ export class ItemRemoveMessageParser implements IMessageParser
 		return this._pickerId;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._itemId = 0;
 		this._pickerId = -1;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		if (wrapper === null)
 		{

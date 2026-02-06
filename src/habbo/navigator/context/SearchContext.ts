@@ -24,7 +24,7 @@ export class SearchContext
 		return this._filtering;
 	}
 
-	toString(): string
+	public toString(): string
 	{
 		return `${this._searchCode} : ${this._filtering}`;
 	}

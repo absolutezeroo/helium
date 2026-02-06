@@ -22,14 +22,14 @@ export class MysteryBoxKeysMessageParser implements IMessageParser
 		return this._keyColor;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._boxColor = '';
 		this._keyColor = '';
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._boxColor = wrapper.readString();
 		this._keyColor = wrapper.readString();

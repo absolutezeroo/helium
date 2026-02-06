@@ -6,6 +6,8 @@ import {
 	IID_HabboNavigator
 } from '@core/runtime';
 import {IID_RoomSessionManager} from '@iid/IIDRoomSessionManager';
+import {Logger} from '@core/utils/Logger';
+import type {IMessageComposer} from "@/core";
 import type {IHabboNewNavigator} from './IHabboNewNavigator';
 import type {IHabboNavigator} from './IHabboNavigator';
 import type {IRoomSessionManager} from '../session/IRoomSessionManager';
@@ -20,7 +22,6 @@ import type {
 	NavigatorTopLevelContext
 } from '../communication/messages/incoming/newnavigator';
 import type {IHabboCommunicationManager} from '../communication/IHabboCommunicationManager';
-import {Logger} from '@core/utils/Logger';
 import {ViewModeCode} from './view';
 
 // Composers
@@ -33,7 +34,6 @@ import {
 	NewNavigatorInitComposer,
 	NewNavigatorSearchComposer,
 } from '../communication/messages/outgoing/newnavigator';
-import type {IMessageComposer} from "@/core";
 
 const log = Logger.getLogger('NewNavigator');
 
@@ -81,7 +81,11 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 
 	get legacyNavigator(): IHabboNavigator
 	{
-		return this._legacyNavigator!;
+		if (!this._legacyNavigator)
+		{
+			throw new Error('Legacy navigator not initialized');
+		}
+		return this._legacyNavigator;
 	}
 
 	private _contextContainer: ContextContainer;
@@ -132,7 +136,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	 */
 	get data(): NavigatorData
 	{
-		return this._legacyNavigator!.data;
+		return this.legacyNavigator.data;
 	}
 
 	protected override get dependencies(): Array<ComponentDependency<any>>
@@ -169,7 +173,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	 * Initialize the navigator (send init message to server)
 	 * Should be called after connection is established
 	 */
-	init(): void
+	public init(): void
 	{
 		if (this._isInitialized) return;
 		this._isInitialized = true;
@@ -179,7 +183,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		log.info('New Navigator init message sent');
 	}
 
-	initialize(topLevelContexts: NavigatorTopLevelContext[]): void
+	public initialize(topLevelContexts: NavigatorTopLevelContext[]): void
 	{
 		this._contextContainer.initialize(topLevelContexts);
 		this.data.topLevelContexts = topLevelContexts;
@@ -189,7 +193,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		log.info(`Navigator initialized with ${topLevelContexts.length} contexts`);
 	}
 
-	onSearchResult(results: NavigatorSearchResultSet): void
+	public onSearchResult(results: NavigatorSearchResultSet): void
 	{
 		this._currentResults = results;
 		this.data.navigatorSearchResultSet = results;
@@ -208,26 +212,26 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		log.debug(`Search results: ${results.blocks.length} blocks`);
 	}
 
-	onLiftedRooms(rooms: NavigatorLiftedRoomData[]): void
+	public onLiftedRooms(rooms: NavigatorLiftedRoomData[]): void
 	{
 		log.debug(`Lifted rooms: ${rooms.length}`);
 	}
 
-	onSavedSearches(searches: NavigatorSavedSearch[]): void
+	public onSavedSearches(searches: NavigatorSavedSearch[]): void
 	{
 		this._contextContainer.savedSearches = searches;
 
 		log.debug(`Saved searches: ${searches.length}`);
 	}
 
-	onCollapsedCategories(categories: string[]): void
+	public onCollapsedCategories(categories: string[]): void
 	{
 		this._collapsedCategories = categories;
 
 		log.debug(`Collapsed categories: ${categories.length}`);
 	}
 
-	open(): void
+	public open(): void
 	{
 		if (this._isOpen) return;
 
@@ -242,7 +246,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		log.debug('Navigator opened');
 	}
 
-	close(): void
+	public close(): void
 	{
 		if (!this._isOpen) return;
 
@@ -251,7 +255,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		log.debug('Navigator closed');
 	}
 
-	toggle(): void
+	public toggle(): void
 	{
 		if (this._isOpen)
 		{
@@ -262,7 +266,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		}
 	}
 
-	performSearch(searchCode: string, filtering: string = '', _source: string = ''): void
+	public performSearch(searchCode: string, filtering: string = '', _source: string = ''): void
 	{
 		this._lastSearchCode = searchCode;
 		this._lastFiltering = filtering;
@@ -281,7 +285,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		log.debug(`Searching: ${searchCode}, filter: ${filtering}`);
 	}
 
-	performLastSearch(): void
+	public performLastSearch(): void
 	{
 		if (this._lastSearchCode)
 		{
@@ -291,7 +295,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		}
 	}
 
-	performTagSearch(tag: string): void
+	public performTagSearch(tag: string): void
 	{
 		let searchTag = tag;
 
@@ -303,12 +307,12 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		this.performSearch(ViewModeCode.HOTEL_VIEW, 'tag:' + searchTag);
 	}
 
-	performTextSearch(text: string): void
+	public performTextSearch(text: string): void
 	{
 		this.performSearch(ViewModeCode.HOTEL_VIEW, text);
 	}
 
-	goBack(): void
+	public goBack(): void
 	{
 		const context = this._historyManager.getPreviousSearchContextAndGoBack();
 
@@ -320,7 +324,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		}
 	}
 
-	goForward(): void
+	public goForward(): void
 	{
 		const context = this._historyManager.getNextSearchContextAndMoveForward();
 
@@ -332,7 +336,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		}
 	}
 
-	goToRoom(roomId: number, _source: string = 'mainview', password: string = ''): void
+	public goToRoom(roomId: number, _source: string = 'mainview', password: string = ''): void
 	{
 		if (!this._roomSessionManager)
 		{
@@ -349,7 +353,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		log.info(`Going to room: ${roomId}`);
 	}
 
-	goToHomeRoom(): void
+	public goToHomeRoom(): void
 	{
 		const homeRoomId = this.data.homeRoomId;
 
@@ -359,17 +363,17 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		}
 	}
 
-	addSavedSearch(searchCode: string, filtering: string): void
+	public addSavedSearch(searchCode: string, filtering: string): void
 	{
 		this.send(new NavigatorAddSavedSearchComposer(searchCode, filtering));
 	}
 
-	deleteSavedSearch(id: number): void
+	public deleteSavedSearch(id: number): void
 	{
 		this.send(new NavigatorDeleteSavedSearchComposer(id));
 	}
 
-	addCollapsedCategory(category: string): void
+	public addCollapsedCategory(category: string): void
 	{
 		this.send(new NavigatorAddCollapsedCategoryMessageComposer(category));
 
@@ -379,7 +383,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		}
 	}
 
-	removeCollapsedCategory(category: string): void
+	public removeCollapsedCategory(category: string): void
 	{
 		this.send(new NavigatorRemoveCollapsedCategoryMessageComposer(category));
 
@@ -391,12 +395,12 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		}
 	}
 
-	isCategoryCollapsed(category: string): boolean
+	public isCategoryCollapsed(category: string): boolean
 	{
 		return this._collapsedCategories.includes(category);
 	}
 
-	setSearchCodeViewMode(searchCode: string, viewMode: number): void
+	public setSearchCodeViewMode(searchCode: string, viewMode: number): void
 	{
 		this.send(new NavigatorSetSearchCodeViewModeMessageComposer(searchCode, viewMode));
 	}

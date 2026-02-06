@@ -11,9 +11,9 @@ export class UniqueIDMessageComposer extends MessageComposer<ConstructorParamete
 	private _data: ConstructorParameters<typeof UniqueIDMessageComposer>;
 
 	constructor(
-		machineId: string = '',
-		fingerprint: string = '',
-		flashVersion: string = ''
+		public machineId: string = '',
+		public fingerprint: string = '',
+		public flashVersion: string = ''
 	)
 	{
 		super();
@@ -21,7 +21,7 @@ export class UniqueIDMessageComposer extends MessageComposer<ConstructorParamete
 		this._data = [machineId, fingerprint, flashVersion];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

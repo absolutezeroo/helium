@@ -5,7 +5,7 @@ import {RoomInfoDetails} from './RoomInfoDetails';
 import {RoomInfoActions} from './RoomInfoActions';
 import {NavigatorHeader} from '../common';
 
-export interface RoomInfoData
+export interface IRoomInfoData
 {
 	id: number;
 	name: string;
@@ -31,9 +31,9 @@ export interface RoomInfoData
 	canDelete?: boolean;
 }
 
-export interface RoomInfoPanelProps
+export interface IRoomInfoPanelProps
 {
-	room: RoomInfoData | null;
+	room: IRoomInfoData | null;
 	loading?: boolean;
 	onClose?: () => void;
 	onOwnerClick?: (ownerId: number) => void;
@@ -51,7 +51,7 @@ export interface RoomInfoPanelProps
 /**
  * Complete room info panel - combines header, details, and actions
  */
-export function RoomInfoPanel(props: RoomInfoPanelProps): JSX.Element
+export function RoomInfoPanel(props: IRoomInfoPanelProps): JSX.Element
 {
 	return (
 		<div
@@ -92,38 +92,38 @@ export function RoomInfoPanel(props: RoomInfoPanelProps): JSX.Element
 					<div class="space-y-6">
 						{/* Header section */}
 						<RoomInfoHeader
-							name={props.room!.name}
-							ownerName={props.room!.ownerName}
-							ownerId={props.room!.ownerId}
-							thumbnail={props.room!.thumbnail}
-							isGroupRoom={props.room!.isGroupRoom}
-							isStaffPick={props.room!.isStaffPick}
-							doorMode={props.room!.doorMode}
+							name={props.room?.name ?? ''}
+							ownerName={props.room?.ownerName ?? ''}
+							ownerId={props.room?.ownerId}
+							thumbnail={props.room?.thumbnail}
+							isGroupRoom={props.room?.isGroupRoom}
+							isStaffPick={props.room?.isStaffPick}
+							doorMode={props.room?.doorMode}
 							onOwnerClick={props.onOwnerClick}
 						/>
 
 						{/* Details section */}
 						<RoomInfoDetails
-							description={props.room!.description}
-							userCount={props.room!.userCount}
-							maxUserCount={props.room!.maxUserCount}
-							score={props.room!.score}
-							categoryName={props.room!.categoryName}
-							tags={props.room!.tags}
-							tradeMode={props.room!.tradeMode}
-							allowPets={props.room!.allowPets}
-							allowPetsEating={props.room!.allowPetsEating}
+							description={props.room?.description}
+							userCount={props.room?.userCount ?? 0}
+							maxUserCount={props.room?.maxUserCount ?? 0}
+							score={props.room?.score}
+							categoryName={props.room?.categoryName}
+							tags={props.room?.tags}
+							tradeMode={props.room?.tradeMode}
+							allowPets={props.room?.allowPets}
+							allowPetsEating={props.room?.allowPetsEating}
 							onTagClick={props.onTagClick}
 						/>
 
 						{/* Actions section */}
 						<RoomInfoActions
-							roomId={props.room!.id}
-							isFavourite={props.room!.isFavourite}
-							isHome={props.room!.isHome}
-							canRate={props.room!.canRate}
-							canEdit={props.room!.canEdit}
-							canDelete={props.room!.canDelete}
+							roomId={props.room?.id ?? 0}
+							isFavourite={props.room?.isFavourite}
+							isHome={props.room?.isHome}
+							canRate={props.room?.canRate}
+							canEdit={props.room?.canEdit}
+							canDelete={props.room?.canDelete}
 							onEnterRoom={props.onEnterRoom}
 							onToggleFavourite={props.onToggleFavourite}
 							onSetHome={props.onSetHome}

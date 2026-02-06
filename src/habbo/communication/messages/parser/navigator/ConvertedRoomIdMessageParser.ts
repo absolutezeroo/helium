@@ -22,14 +22,14 @@ export class ConvertedRoomIdMessageParser implements IMessageParser
 		return this._convertedId;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._globalId = '';
 		this._convertedId = 0;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._globalId = wrapper.readString();
 		this._convertedId = wrapper.readInt();

@@ -1,2 +1,2 @@
-export type {Middleware, MiddlewareContext} from './types';
+export type {Middleware, IMiddlewareContext} from './types';
 export {loggingMiddleware, timingMiddleware, createFilteredLoggingMiddleware} from './loggingMiddleware';

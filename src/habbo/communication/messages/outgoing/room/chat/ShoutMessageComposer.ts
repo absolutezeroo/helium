@@ -15,7 +15,7 @@ export class ShoutMessageComposer extends MessageComposer<[string, number]>
 		this._data = [message, styleId];
 	}
 
-	getMessageArray(): [string, number]
+	public getMessageArray(): [string, number]
 	{
 		return this._data;
 	}

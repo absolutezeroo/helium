@@ -1,5 +1,5 @@
 import {Application} from 'pixi.js';
-import {HeliumCore, HeliumCoreConfig} from '@core/HeliumCore';
+import {HeliumCore, IHeliumCoreConfig} from '@core/HeliumCore';
 import {ComponentContext} from '@core/runtime';
 import {HabboConfigurationManager} from '@habbo/configuration/HabboConfigurationManager';
 import {HabboCommunicationManager} from '@habbo/communication/HabboCommunicationManager';
@@ -45,7 +45,7 @@ const log = Logger.getLogger('Helium');
 /**
  * Connection configuration
  */
-export interface ConnectionConfig
+export interface IConnectionConfig
 {
 	/** Server host (can include ws:// or wss://) */
 	host: string;
@@ -63,10 +63,10 @@ export interface ConnectionConfig
 /**
  * Helium configuration
  */
-export interface HeliumConfig extends HeliumCoreConfig
+export interface IHeliumConfig extends IHeliumCoreConfig
 {
 	/** Connection configuration */
-	connection?: ConnectionConfig;
+	connection?: IConnectionConfig;
 
 	/** URL to load external configuration from (external_variables.txt) */
 	configurationUrl?: string;
@@ -238,7 +238,7 @@ export class Helium
 	/**
 	 * Bootstrap the application
 	 */
-	public static async bootstrap(config?: HeliumConfig): Promise<Helium>
+	public static async bootstrap(config?: IHeliumConfig): Promise<Helium>
 	{
 		const instance = this.instance;
 
@@ -320,7 +320,7 @@ export class Helium
 	/**
 	 * Initialize the application
 	 */
-	private async init(config?: HeliumConfig): Promise<void>
+	private async init(config?: IHeliumConfig): Promise<void>
 	{
 		log.info('Initializing Helium...');
 
@@ -349,9 +349,9 @@ export class Helium
 	/**
 	 * Initialize Habbo-specific managers
 	 */
-	private async initHabboManagers(config?: HeliumConfig): Promise<void>
+	private async initHabboManagers(config?: IHeliumConfig): Promise<void>
 	{
-		const ctx = this._core!.context;
+		const ctx = this._core!.context; // non-null: initialized before this code runs
 
 		// Configuration Manager (must be first - other managers depend on it)
 		this._configurationManager = new HabboConfigurationManager(ctx);
@@ -416,7 +416,7 @@ export class Helium
 		ctx.attachComponent(this._roomEngine, [IID_RoomEngine]);
 
 		// Set PixiJS stage on room engine for rendering
-		this._roomEngine.setStage(this._core!.application.stage);
+		this._roomEngine.setStage(this._core!.application.stage); // non-null: initialized before this code runs
 
 		// Room Message Handler - bridges communication to room engine
 		this._roomMessageHandler = new RoomMessageHandler(this._roomEngine);
@@ -437,12 +437,12 @@ export class Helium
 		}
 
 		// Create ModuleRegistry
-		this._moduleRegistry = new ModuleRegistry(this._core!.context, this._messageBus);
+		this._moduleRegistry = new ModuleRegistry(this._core!.context, this._messageBus); // non-null: initialized before this code runs
 
 		// Connect MessageBus to HabboCommunicationManager
-		this._habboCommunicationManager!.onMessage((event) =>
+		this._habboCommunicationManager?.onMessage((event) =>
 		{
-			this._messageBus!.dispatch(event);
+			this._messageBus?.dispatch(event);
 		});
 	}
 
@@ -452,20 +452,20 @@ export class Helium
 	private async registerModules(): Promise<void>
 	{
 		// Modules without manager dependencies
-		await this._moduleRegistry!.register(sessionModule);
-		await this._moduleRegistry!.register(connectionModule);
-		await this._moduleRegistry!.register(roomModule);
-		await this._moduleRegistry!.register(favouritesModule);
+		await this._moduleRegistry?.register(sessionModule);
+		await this._moduleRegistry?.register(connectionModule);
+		await this._moduleRegistry?.register(roomModule);
+		await this._moduleRegistry?.register(favouritesModule);
 
 		// Wire connection actions to HabboCommunicationManager
-		const connectionActions = this._moduleRegistry!.get(ModuleId.Connection).actions;
-		this._habboCommunicationManager!.setConnectionActions(connectionActions);
+		const connectionActions = this._moduleRegistry!.get(ModuleId.Connection).actions; // non-null: initialized before this code runs
+		this._habboCommunicationManager?.setConnectionActions(connectionActions);
 
 		// Modules with manager dependencies
-		await this._moduleRegistry!.register(configModule);
-		await this._moduleRegistry!.register(localizationModule);
-		await this._moduleRegistry!.register(navigatorModule);
-		await this._moduleRegistry!.register(inventoryModule);
+		await this._moduleRegistry?.register(configModule);
+		await this._moduleRegistry?.register(localizationModule);
+		await this._moduleRegistry?.register(navigatorModule);
+		await this._moduleRegistry?.register(inventoryModule);
 	}
 
 	/**
@@ -474,11 +474,11 @@ export class Helium
 	private initLocalization(): void
 	{
 		// Activate default localization if configured
-		if (this._configurationManager!.propertyExists('localization.1'))
+		if (this._configurationManager?.propertyExists('localization.1'))
 		{
-			const locName = this._configurationManager!.getProperty('localization.1');
+			const locName = this._configurationManager?.getProperty('localization.1');
 
-			this._localizationManager!.activateLocalizationDefinition(locName);
+			this._localizationManager?.activateLocalizationDefinition(locName);
 		}
 	}
 
@@ -493,7 +493,12 @@ export class Helium
 
 		document.body.appendChild(uiContainer);
 
-		this._disposeUI = mountUI(uiContainer, this._moduleRegistry!);
+		if (!this._moduleRegistry)
+		{
+			throw new Error('Module registry not initialized');
+		}
+
+		this._disposeUI = mountUI(uiContainer, this._moduleRegistry);
 	}
 }
 

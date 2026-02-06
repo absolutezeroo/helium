@@ -15,7 +15,7 @@ export class UnmuteUserMessageComposer extends MessageComposer<[number, number]>
 		this._data = [userId, roomId];
 	}
 
-	getMessageArray(): [number, number]
+	public getMessageArray(): [number, number]
 	{
 		return this._data;
 	}

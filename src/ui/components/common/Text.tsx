@@ -1,7 +1,7 @@
 import {createMemo, type JSX} from 'solid-js';
 import {ModuleId, useActions} from '../../bridge';
 
-export interface TextProps
+export interface ITextProps
 {
 	/** Localization key */
 	key: string;
@@ -25,7 +25,7 @@ export interface TextProps
  * <Text key="error.message" default="An error occurred" />
  * ```
  */
-export function Text(props: TextProps): JSX.Element
+export function Text(props: ITextProps): JSX.Element
 {
 	const localization = useActions(ModuleId.Localization);
 

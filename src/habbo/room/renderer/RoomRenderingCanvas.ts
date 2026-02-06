@@ -112,7 +112,7 @@ export class RoomRenderingCanvas
 		return this._disposed;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (this._disposed)
 		{
@@ -124,7 +124,7 @@ export class RoomRenderingCanvas
 		this._disposed = true;
 	}
 
-	initialize(width: number, height: number): void
+	public initialize(width: number, height: number): void
 	{
 		this._width = width;
 		this._height = height;
@@ -162,20 +162,20 @@ export class RoomRenderingCanvas
 		);
 	}
 
-	setScreenOffset(x: number, y: number): void
+	public setScreenOffset(x: number, y: number): void
 	{
 		this._screenOffsetX = x;
 		this._screenOffsetY = y;
 		this.updateContainerPosition();
 	}
 
-	render(time: number, skipOffset: boolean = false): void
+	public render(time: number, skipOffset: boolean = false): void
 	{
 		// Rendering is handled by PixiJS automatically
 		// This method can be used for any per-frame updates if needed
 	}
 
-	handleMouseEvent(x: number, y: number, type: string): boolean
+	public handleMouseEvent(x: number, y: number, type: string): boolean
 	{
 		// TODO: Implement mouse event handling for object interaction
 		return false;
@@ -184,7 +184,7 @@ export class RoomRenderingCanvas
 	/**
 	 * Add a visualization container to the canvas
 	 */
-	addVisualization(container: Container, zIndex: number = 0): void
+	public addVisualization(container: Container, zIndex: number = 0): void
 	{
 		container.zIndex = zIndex;
 		this._container.addChild(container);
@@ -193,7 +193,7 @@ export class RoomRenderingCanvas
 	/**
 	 * Remove a visualization container from the canvas
 	 */
-	removeVisualization(container: Container): void
+	public removeVisualization(container: Container): void
 	{
 		if (this._container.children.includes(container))
 		{

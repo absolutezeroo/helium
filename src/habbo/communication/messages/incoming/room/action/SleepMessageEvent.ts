@@ -5,7 +5,7 @@
  */
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
-import {SleepMessageEventParser} from '../../../parser/room/action/SleepMessageEventParser';
+import {SleepMessageEventParser} from '@habbo/communication/messages/parser/room/action/SleepMessageEventParser';
 
 export class SleepMessageEvent extends MessageEvent
 {

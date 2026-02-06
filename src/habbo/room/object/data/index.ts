@@ -11,6 +11,6 @@ export {StringArrayStuffData} from './StringArrayStuffData';
 export {IntArrayStuffData} from './IntArrayStuffData';
 export {EmptyStuffData} from './EmptyStuffData';
 export {VoteResultStuffData} from './VoteResultStuffData';
-export {HighScoreStuffData, type HighScoreEntry} from './HighScoreStuffData';
+export {HighScoreStuffData, type IHighScoreEntry} from './HighScoreStuffData';
 export {CrackableStuffData} from './CrackableStuffData';
 export {StuffDataFactory} from './StuffDataFactory';

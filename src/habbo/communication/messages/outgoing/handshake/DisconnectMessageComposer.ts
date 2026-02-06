@@ -17,7 +17,7 @@ export class DisconnectMessageComposer extends MessageComposer<ConstructorParame
 		this._data = [];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

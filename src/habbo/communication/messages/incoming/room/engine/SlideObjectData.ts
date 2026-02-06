@@ -73,7 +73,7 @@ export class SlideObjectData
 		}
 	}
 
-	setReadOnly(): void
+	public setReadOnly(): void
 	{
 		this._readOnly = true;
 	}

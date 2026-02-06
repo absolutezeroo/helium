@@ -35,7 +35,7 @@ export class RoomInstance implements IRoomInstance
 		return this._id;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		for (const manager of this._managers.values())
 		{
@@ -51,12 +51,12 @@ export class RoomInstance implements IRoomInstance
 		this._immutableStrings = [];
 	}
 
-	getNumber(key: string): number
+	public getNumber(key: string): number
 	{
 		return this._numbers.get(key) ?? NaN;
 	}
 
-	setNumber(key: string, value: number, immutable: boolean = false): void
+	public setNumber(key: string, value: number, immutable: boolean = false): void
 	{
 		if (this._immutableNumbers.indexOf(key) >= 0)
 		{
@@ -74,12 +74,12 @@ export class RoomInstance implements IRoomInstance
 		}
 	}
 
-	getString(key: string): string
+	public getString(key: string): string
 	{
 		return this._strings.get(key) ?? '';
 	}
 
-	setString(key: string, value: string, immutable: boolean = false): void
+	public setString(key: string, value: string, immutable: boolean = false): void
 	{
 		if (this._immutableStrings.indexOf(key) >= 0)
 		{
@@ -97,7 +97,7 @@ export class RoomInstance implements IRoomInstance
 		}
 	}
 
-	addObjectUpdateCategory(category: number): void
+	public addObjectUpdateCategory(category: number): void
 	{
 		const index = this._updateCategories.indexOf(category);
 
@@ -109,7 +109,7 @@ export class RoomInstance implements IRoomInstance
 		this._updateCategories.push(category);
 	}
 
-	removeObjectUpdateCategory(category: number): void
+	public removeObjectUpdateCategory(category: number): void
 	{
 		const index = this._updateCategories.indexOf(category);
 
@@ -119,7 +119,7 @@ export class RoomInstance implements IRoomInstance
 		}
 	}
 
-	update(): void
+	public update(): void
 	{
 		const time = performance.now();
 
@@ -132,7 +132,7 @@ export class RoomInstance implements IRoomInstance
 			{
 				for (let j = manager.objectCount - 1; j >= 0; j--)
 				{
-					const object = manager.getObjectByIndex(j) as IRoomObjectController | null;
+					const object = manager.getObjectByIndex(j) as IRoomObjectController | null; // cast: type assertion required
 
 					if (object !== null)
 					{
@@ -148,7 +148,7 @@ export class RoomInstance implements IRoomInstance
 		}
 	}
 
-	createRoomObject(id: number, type: string, category: number): IRoomObject | null
+	public createRoomObject(id: number, type: string, category: number): IRoomObject | null
 	{
 		if (this._container !== null)
 		{
@@ -158,7 +158,7 @@ export class RoomInstance implements IRoomInstance
 		return null;
 	}
 
-	createObjectInternal(id: number, stateCount: number, type: string, category: number): IRoomObject | null
+	public createObjectInternal(id: number, stateCount: number, type: string, category: number): IRoomObject | null
 	{
 		const manager = this.createObjectManager(category);
 
@@ -170,7 +170,7 @@ export class RoomInstance implements IRoomInstance
 		return null;
 	}
 
-	getObject(id: number, category: number): IRoomObject | null
+	public getObject(id: number, category: number): IRoomObject | null
 	{
 		const manager = this.getObjectManager(category);
 
@@ -182,14 +182,14 @@ export class RoomInstance implements IRoomInstance
 		return null;
 	}
 
-	getObjects(category: number): IRoomObject[]
+	public getObjects(category: number): IRoomObject[]
 	{
 		const manager = this.getObjectManager(category);
 
 		return manager ? manager.objects : [];
 	}
 
-	getObjectWithIndex(index: number, category: number): IRoomObject | null
+	public getObjectWithIndex(index: number, category: number): IRoomObject | null
 	{
 		const manager = this.getObjectManager(category);
 
@@ -201,7 +201,7 @@ export class RoomInstance implements IRoomInstance
 		return null;
 	}
 
-	getObjectCount(category: number): number
+	public getObjectCount(category: number): number
 	{
 		const manager = this.getObjectManager(category);
 
@@ -213,7 +213,7 @@ export class RoomInstance implements IRoomInstance
 		return 0;
 	}
 
-	getObjectWithIndexAndType(index: number, type: string, category: number): IRoomObject | null
+	public getObjectWithIndexAndType(index: number, type: string, category: number): IRoomObject | null
 	{
 		const manager = this.getObjectManager(category);
 
@@ -225,7 +225,7 @@ export class RoomInstance implements IRoomInstance
 		return null;
 	}
 
-	getObjectCountForType(type: string, category: number): number
+	public getObjectCountForType(type: string, category: number): number
 	{
 		const manager = this.getObjectManager(category);
 
@@ -237,7 +237,7 @@ export class RoomInstance implements IRoomInstance
 		return 0;
 	}
 
-	disposeObject(id: number, category: number): boolean
+	public disposeObject(id: number, category: number): boolean
 	{
 		const manager = this.getObjectManager(category);
 
@@ -256,7 +256,7 @@ export class RoomInstance implements IRoomInstance
 		return false;
 	}
 
-	disposeObjects(category: number): number
+	public disposeObjects(category: number): number
 	{
 		const manager = this.getObjectManager(category);
 		let count = 0;
@@ -267,7 +267,7 @@ export class RoomInstance implements IRoomInstance
 
 			for (let i = 0; i < count; i++)
 			{
-				const object = manager.getObjectByIndex(i) as IRoomObjectController | null;
+				const object = manager.getObjectByIndex(i) as IRoomObjectController | null; // cast: type assertion required
 
 				if (object !== null)
 				{
@@ -281,12 +281,12 @@ export class RoomInstance implements IRoomInstance
 		return count;
 	}
 
-	getObjectManagerIds(): number[]
+	public getObjectManagerIds(): number[]
 	{
 		return Array.from(this._managers.keys()).map(k => parseInt(k, 10));
 	}
 
-	hasUninitializedObjects(): boolean
+	public hasUninitializedObjects(): boolean
 	{
 		for (const manager of this._managers.values())
 		{

@@ -16,7 +16,7 @@ export abstract class MessageComposer<T extends unknown[] = unknown[]> implement
 
 	abstract getMessageArray(): T;
 
-	dispose(): void
+	public dispose(): void
 	{
 		this._disposed = true;
 	}

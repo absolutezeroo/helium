@@ -23,17 +23,17 @@ export type ModuleId = ModuleIdType;
  * Extended by each module via declaration merging
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface ModuleStateMap
+export interface IModuleStateMap
 {
 	// Extended by each module via declaration merging
-	// Example: 'session': SessionState;
+	// Example: 'session': ISessionState;
 }
 
 /**
  * Mapping Module ID -> Actions type
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface ModuleActionsMap
+export interface IModuleActionsMap
 {
 	// Extended by each module via declaration merging
 	// Example: 'session': SessionActions;
@@ -42,14 +42,14 @@ export interface ModuleActionsMap
 /**
  * Valid module keys that have been registered via declaration merging
  */
-export type RegisteredModuleId = keyof ModuleStateMap & keyof ModuleActionsMap;
+export type RegisteredModuleId = keyof IModuleStateMap & keyof IModuleActionsMap;
 
 /**
  * Type helper for useModule
  * Note: state is a getter function to preserve Map/class instances
  */
-export interface ModuleAPI<K extends RegisteredModuleId>
+export interface IModuleAPI<K extends RegisteredModuleId>
 {
-	state: () => Readonly<ModuleStateMap[K]>;
-	actions: ModuleActionsMap[K];
+	state: () => Readonly<IModuleStateMap[K]>;
+	actions: IModuleActionsMap[K];
 }

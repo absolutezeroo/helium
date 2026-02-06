@@ -1,21 +1,22 @@
 import {Texture} from 'pixi.js';
+import { Logger } from '@core/utils/Logger';
 import type {ILazyAsset} from './ILazyAsset';
 import type {IAsset} from './IAsset';
 import type {AssetTypeDeclaration} from './AssetTypeDeclaration';
 
 /**
- * Point structure for offset
+ * IPoint structure for offset
  */
-export interface Point
+export interface IPoint
 {
 	x: number;
 	y: number;
 }
 
 /**
- * Rectangle structure for region
+ * IRectangle structure for region
  */
-export interface Rectangle
+export interface IRectangle
 {
 	x: number;
 	y: number;
@@ -67,16 +68,16 @@ export class BitmapDataAsset implements ILazyAsset
 		return this._disposed;
 	}
 
-	private _offset: Point = {x: 0, y: 0};
+	private _offset: IPoint = {x: 0, y: 0};
 
-	get offset(): Point
+	get offset(): IPoint
 	{
 		return this._offset;
 	}
 
-	private _rectangle: Rectangle | null = null;
+	private _rectangle: IRectangle | null = null;
 
-	get rectangle(): Rectangle | null
+	get rectangle(): IRectangle | null
 	{
 		if (!this._rectangle && this._bitmap)
 		{
@@ -125,7 +126,7 @@ export class BitmapDataAsset implements ILazyAsset
 		return this._declaration;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (!this._disposed)
 		{
@@ -149,7 +150,7 @@ export class BitmapDataAsset implements ILazyAsset
 		}
 	}
 
-	setUnknownContent(content: unknown): void
+	public setUnknownContent(content: unknown): void
 	{
 		if (content === null)
 		{
@@ -170,7 +171,7 @@ export class BitmapDataAsset implements ILazyAsset
 		this._unknown = content;
 	}
 
-	prepareLazyContent(): void
+	public prepareLazyContent(): void
 	{
 		if (this._unknown === null)
 		{
@@ -216,11 +217,11 @@ export class BitmapDataAsset implements ILazyAsset
 			return;
 		}
 
-		console.warn('[BitmapDataAsset] Unknown content type:', typeof this._unknown);
+		Logger.warn('[BitmapDataAsset] Unknown content type:', typeof this._unknown);
 		this._unknown = null;
 	}
 
-	setFromOtherAsset(asset: IAsset): void
+	public setFromOtherAsset(asset: IAsset): void
 	{
 		if (asset instanceof BitmapDataAsset)
 		{
@@ -232,7 +233,7 @@ export class BitmapDataAsset implements ILazyAsset
 		throw new Error('Provided asset should be of type BitmapDataAsset');
 	}
 
-	setParamsDesc(params: Map<string, string>): void
+	public setParamsDesc(params: Map<string, string>): void
 	{
 		for (const [key, value] of params)
 		{

@@ -16,13 +16,13 @@ export class NavigatorSavedSearchesMessageParser implements IMessageParser
 		return this._savedSearches;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._savedSearches = [];
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		const count = wrapper.readInt();
 		for (let i = 0; i < count; i++)

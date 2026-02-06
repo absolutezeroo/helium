@@ -16,7 +16,7 @@ export class RoomAdEventTabAdClickedComposer extends MessageComposer<Constructor
 		this._data = [roomId, adName, adId];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

@@ -45,7 +45,7 @@ export class NavigatorSearchResultSet
 	/**
 	 * Find a guest room across all blocks
 	 */
-	findGuestRoom(flatId: number): GuestRoomData | null
+	public findGuestRoom(flatId: number): GuestRoomData | null
 	{
 		for (const block of this._blocks)
 		{
@@ -63,7 +63,7 @@ export class NavigatorSearchResultSet
 	/**
 	 * Get all rooms from all blocks
 	 */
-	getAllRooms(): GuestRoomData[]
+	public getAllRooms(): GuestRoomData[]
 	{
 		const rooms: GuestRoomData[] = [];
 

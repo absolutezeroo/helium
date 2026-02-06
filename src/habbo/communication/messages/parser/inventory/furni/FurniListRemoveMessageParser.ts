@@ -15,14 +15,14 @@ export class FurniListRemoveMessageParser implements IMessageParser
 		return this._itemId;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._itemId = 0;
 
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._itemId = wrapper.readInt();
 

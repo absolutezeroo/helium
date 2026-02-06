@@ -44,7 +44,7 @@ export class RoomContentLoader implements IRoomContentLoader
 		return this._disposed;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		this._floorItems.clear();
 		this._wallItems.clear();
@@ -52,7 +52,7 @@ export class RoomContentLoader implements IRoomContentLoader
 		this._disposed = true;
 	}
 
-	getObjectCategory(type: string): number
+	public getObjectCategory(type: string): number
 	{
 		if (type === null)
 		{
@@ -97,7 +97,7 @@ export class RoomContentLoader implements IRoomContentLoader
 		return RoomObjectCategoryEnum.MINIMUM;
 	}
 
-	getPlaceHolderType(type: string): string
+	public getPlaceHolderType(type: string): string
 	{
 		if (this._floorItems.has(type))
 		{
@@ -117,17 +117,17 @@ export class RoomContentLoader implements IRoomContentLoader
 		return RoomContentLoader.PLACE_HOLDER_DEFAULT;
 	}
 
-	getPlaceHolderTypes(): string[]
+	public getPlaceHolderTypes(): string[]
 	{
 		return RoomContentLoader.PLACE_HOLDER_TYPES;
 	}
 
-	getContentType(type: string): string
+	public getContentType(type: string): string
 	{
 		return type;
 	}
 
-	hasInternalContent(type: string): boolean
+	public hasInternalContent(type: string): boolean
 	{
 		type = getVisualizationType(type);
 
@@ -139,27 +139,27 @@ export class RoomContentLoader implements IRoomContentLoader
 		return false;
 	}
 
-	loadObjectContent(_type: string, _events: EventEmitter): boolean
+	public loadObjectContent(_type: string, _events: EventEmitter): boolean
 	{
 		// TODO: Implement asset loading
 		return false;
 	}
 
-	getVisualizationType(_type: string): string | null
+	public getVisualizationType(_type: string): string | null
 	{
 		// TODO: Implement when asset system is ready
 		return null;
 	}
 
-	getLogicType(_type: string): string | null
+	public getLogicType(_type: string): string | null
 	{
 		// TODO: Implement when asset system is ready
 		return null;
 	}
 
-	roomObjectCreated(object: IRoomObject, roomId: string): void
+	public roomObjectCreated(object: IRoomObject, roomId: string): void
 	{
-		const controller = object as IRoomObjectController;
+		const controller = object as IRoomObjectController; // cast: type assertion required
 
 		if (controller && controller.getModelController())
 		{
@@ -167,17 +167,17 @@ export class RoomContentLoader implements IRoomContentLoader
 		}
 	}
 
-	setActiveObjectType(typeId: number, type: string): void
+	public setActiveObjectType(typeId: number, type: string): void
 	{
 		this._floorItems.set(type, typeId);
 	}
 
-	setWallItemType(typeId: number, type: string): void
+	public setWallItemType(typeId: number, type: string): void
 	{
 		this._wallItems.set(type, typeId);
 	}
 
-	setPetType(typeId: number, type: string): void
+	public setPetType(typeId: number, type: string): void
 	{
 		this._pets.set(type, typeId);
 	}

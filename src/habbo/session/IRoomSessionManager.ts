@@ -1,5 +1,5 @@
-import type {IRoomSession} from './IRoomSession';
 import type {EventEmitter} from 'eventemitter3';
+import type {IRoomSession} from './IRoomSession';
 
 /**
  * Room session manager interface

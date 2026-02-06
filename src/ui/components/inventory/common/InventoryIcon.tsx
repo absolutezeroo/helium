@@ -6,7 +6,7 @@ export type InventoryIconName =
 	| 'trading' | 'search' | 'close' | 'grid' | 'list'
 	| 'place' | 'recycle' | 'sell' | 'use' | 'unseen';
 
-export interface InventoryIconProps
+export interface IInventoryIconProps
 {
 	name: InventoryIconName;
 	size?: 'xs' | 'sm' | 'md' | 'lg';
@@ -20,7 +20,7 @@ const sizeClasses = {
 	lg: 'w-6 h-6',
 };
 
-export function InventoryIcon(props: InventoryIconProps): JSX.Element
+export function InventoryIcon(props: IInventoryIconProps): JSX.Element
 {
 	const sizeClass = () => sizeClasses[props.size ?? 'md'];
 

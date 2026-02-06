@@ -13,13 +13,13 @@ import type {IRoomObjectSprite} from '@room/object/visualization/IRoomObjectSpri
 import type {IRoomObjectVisualizationData} from '@room/object/visualization/IRoomObjectVisualizationData';
 import {RoomObjectSpriteVisualization} from '@room/object/visualization/RoomObjectSpriteVisualization';
 import {RoomObjectSpriteType} from '@room/object/enum/RoomObjectSpriteType';
-import {RoomPlane} from './RoomPlane';
 import {Vector3d} from '@room/utils/Vector3d';
 import type {IVector3d} from '@room/utils/IVector3d';
 import {RoomPlaneData} from '@habbo/room/object/RoomPlaneData';
 import {RoomObjectVariableEnum} from '@habbo/room/object/RoomObjectVariableEnum';
 import type {RoomPlaneParser} from '@habbo/room/object/RoomPlaneParser';
 import {Logger} from "@/core";
+import {RoomPlane} from './RoomPlane';
 
 const log = Logger.getLogger('RoomVisualization');
 
@@ -217,7 +217,7 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 		}
 
 		// Read the RoomPlaneParser from the model (equivalent of AS3 "room_plane_xml")
-		const planeParser = model.getObject(RoomObjectVariableEnum.ROOM_PLANE_PARSER) as RoomPlaneParser | null;
+		const planeParser = model.getObject(RoomObjectVariableEnum.ROOM_PLANE_PARSER) as RoomPlaneParser | null; // cast: type assertion required
 
 		if (!planeParser || planeParser.planeCount <= 0)
 		{
@@ -370,7 +370,7 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 	 */
 	private createPlanesAndSprites(planeParser: RoomPlaneParser): void
 	{
-		const origin = this.object!.getLocation();
+		const origin = this.object!.getLocation(); // non-null: object always set before plane creation
 		const randomSeed = Math.floor(Math.random() * 10000);
 
 		for (let i = 0; i < planeParser.planeCount; i++)

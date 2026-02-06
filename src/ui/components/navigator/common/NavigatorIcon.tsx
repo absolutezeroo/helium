@@ -1,6 +1,6 @@
 import type {JSX} from 'solid-js';
 
-export interface NavigatorIconProps
+export interface INavigatorIconProps
 {
 	name: IconName;
 	size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
@@ -144,7 +144,7 @@ const iconPaths: Record<IconName, string> = {
 /**
  * Navigator icon component
  */
-export function NavigatorIcon(props: NavigatorIconProps): JSX.Element
+export function NavigatorIcon(props: INavigatorIconProps): JSX.Element
 {
 	const size = () => sizeClasses[props.size ?? 'md'];
 

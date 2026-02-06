@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import {NavigatorIcon} from '../common';
 import {useNavigatorLocalization} from '../hooks';
 
-export interface PasswordModalProps
+export interface IPasswordModalProps
 {
 	isOpen: boolean;
 	roomName: string;
@@ -19,7 +19,7 @@ export interface PasswordModalProps
 /**
  * Password modal - shown when entering a password-protected room
  */
-export function PasswordModal(props: PasswordModalProps): JSX.Element
+export function PasswordModal(props: IPasswordModalProps): JSX.Element
 {
 	const {t, keys} = useNavigatorLocalization();
 	const [password, setPassword] = createSignal('');

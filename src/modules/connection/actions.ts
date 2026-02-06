@@ -1,11 +1,11 @@
-import type {ActionContext} from '../core/types';
-import type {ConnectionState, ConnectionStateType, LoadingStep} from './types';
 import {HabboCommunicationEvent, type HabboCommunicationEventType} from '@habbo/communication/enum';
+import type {IActionContext} from '../core/types';
+import type {IConnectionState, ConnectionStateType, LoadingStep} from './types';
 
 // Connection module has no managers - it's controlled by HabboCommunicationManager
 type Managers = Record<string, never>;
 
-export function createActions(ctx: ActionContext<ConnectionState, Managers>)
+export function createActions(ctx: IActionContext<IConnectionState, Managers>)
 {
 	const {getState, updateState} = ctx;
 
@@ -91,7 +91,7 @@ export function createActions(ctx: ActionContext<ConnectionState, Managers>)
 					newState = 'error';
 					updateState({
 						state: 'error',
-						loadingStep: step as LoadingStep,
+						loadingStep: step as LoadingStep, // cast: type assertion required
 						error: 'Handshake failed',
 					});
 					return;
@@ -99,7 +99,7 @@ export function createActions(ctx: ActionContext<ConnectionState, Managers>)
 
 			updateState({
 				state: newState,
-				loadingStep: step as LoadingStep,
+				loadingStep: step as LoadingStep, // cast: type assertion required
 			});
 		},
 

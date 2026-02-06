@@ -23,5 +23,5 @@ export {RoomEntryInfoMessageEvent} from './RoomEntryInfoMessageEvent';
 // Data types
 export {FurnitureFloorData} from './FurnitureFloorData';
 export {FurnitureWallData} from './FurnitureWallData';
-export {RoomUserData} from './RoomUserData';
+export {IRoomUserData} from './RoomUserData';
 export {SlideObjectData} from './SlideObjectData';

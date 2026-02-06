@@ -22,14 +22,14 @@ export class CanCreateRoomEventMessageParser implements IMessageParser
 		return this._errorCode;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._canCreateEvent = false;
 		this._errorCode = 0;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._canCreateEvent = wrapper.readBoolean();
 		this._errorCode = wrapper.readInt();

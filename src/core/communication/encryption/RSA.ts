@@ -24,7 +24,7 @@ export class RSA
 	 * Encrypt data with the public key
 	 * Used to encrypt our DH public key before sending to server
 	 */
-	encrypt(data: Uint8Array): Uint8Array
+	public encrypt(data: Uint8Array): Uint8Array
 	{
 		// Convert data to BigInt
 		const dataInt = this.bytesToBigInt(data);
@@ -40,7 +40,7 @@ export class RSA
 	 * Verify (decrypt with public key) signed data from server
 	 * Used to decrypt the prime and generator received from server
 	 */
-	verify(signature: Uint8Array): Uint8Array
+	public verify(signature: Uint8Array): Uint8Array
 	{
 		// Convert signature to BigInt
 		const sigInt = this.bytesToBigInt(signature);
@@ -56,7 +56,7 @@ export class RSA
 	 * Decrypt a hex string and return the decrypted string value
 	 * This matches the server's DecryptBigInteger behavior
 	 */
-	decryptString(hexString: string): string
+	public decryptString(hexString: string): string
 	{
 		const bytes = this.hexToBytes(hexString);
 		const decrypted = this.verify(bytes);
@@ -69,7 +69,7 @@ export class RSA
 	 * Encrypt a string and return as hex
 	 * This matches the server's EncryptBigInteger behavior
 	 */
-	encryptString(value: string): string
+	public encryptString(value: string): string
 	{
 		const bytes = new TextEncoder().encode(value);
 		const padded = this.addPKCS1Padding(bytes);

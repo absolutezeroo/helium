@@ -7,7 +7,7 @@
  */
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
-import {RoomEntryInfoMessageParser} from '../../../parser/room/engine/RoomEntryInfoMessageParser';
+import {RoomEntryInfoMessageParser} from '@habbo/communication/messages/parser/room/engine/RoomEntryInfoMessageParser';
 
 export class RoomEntryInfoMessageEvent extends MessageEvent
 {

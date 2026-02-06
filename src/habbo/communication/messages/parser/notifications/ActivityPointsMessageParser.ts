@@ -15,13 +15,13 @@ export class ActivityPointsMessageParser implements IMessageParser
 		return this._points;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._points = new Map();
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		const count = wrapper.readInt();
 		for (let i = 0; i < count; i++)

@@ -12,7 +12,7 @@ export class StartTypingMessageComposer extends MessageComposer<[]>
 		super();
 	}
 
-	getMessageArray(): []
+	public getMessageArray(): []
 	{
 		return [];
 	}

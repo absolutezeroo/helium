@@ -29,7 +29,7 @@ export class BotsModel implements IBotsModel
 		return this._bots;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (this._disposed) return;
 
@@ -42,7 +42,7 @@ export class BotsModel implements IBotsModel
 		this._disposed = true;
 	}
 
-	addBot(bot: Bot): boolean
+	public addBot(bot: Bot): boolean
 	{
 		if (this._bots.has(bot.id))
 		{
@@ -97,7 +97,7 @@ export class BotsModel implements IBotsModel
 		return {added, removed};
 	}
 
-	removeBot(id: number): Bot | null
+	public removeBot(id: number): Bot | null
 	{
 		const bot = this._bots.get(id);
 
@@ -112,17 +112,17 @@ export class BotsModel implements IBotsModel
 		return null;
 	}
 
-	getBotById(id: number): Bot | null
+	public getBotById(id: number): Bot | null
 	{
 		return this._bots.get(id) ?? null;
 	}
 
-	getBotsArray(): Bot[]
+	public getBotsArray(): Bot[]
 	{
 		return Array.from(this._bots.values());
 	}
 
-	getSelectedBot(): Bot | null
+	public getSelectedBot(): Bot | null
 	{
 		for (const bot of this._bots.values())
 		{
@@ -135,7 +135,7 @@ export class BotsModel implements IBotsModel
 		return null;
 	}
 
-	selectBot(id: number): void
+	public selectBot(id: number): void
 	{
 		this.removeSelections();
 
@@ -147,7 +147,7 @@ export class BotsModel implements IBotsModel
 		}
 	}
 
-	removeSelections(): void
+	public removeSelections(): void
 	{
 		for (const bot of this._bots.values())
 		{
@@ -155,7 +155,7 @@ export class BotsModel implements IBotsModel
 		}
 	}
 
-	resetUnseenItems(): number[]
+	public resetUnseenItems(): number[]
 	{
 		const resetIds: number[] = [];
 
@@ -171,7 +171,7 @@ export class BotsModel implements IBotsModel
 		return resetIds;
 	}
 
-	updateUnseenItems(unseenIds: number[]): void
+	public updateUnseenItems(unseenIds: number[]): void
 	{
 		const unseenSet = new Set(unseenIds);
 
@@ -181,7 +181,7 @@ export class BotsModel implements IBotsModel
 		}
 	}
 
-	isUnseen(id: number): boolean
+	public isUnseen(id: number): boolean
 	{
 		return this._bots.get(id)?.isUnseen ?? false;
 	}

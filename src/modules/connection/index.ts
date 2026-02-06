@@ -1,5 +1,5 @@
 import {defineModule} from '../core/defineModule';
-import type {ConnectionState} from './types';
+import type {IConnectionState} from './types';
 import type {ConnectionActions} from './actions';
 import {createActions} from './actions';
 
@@ -35,28 +35,28 @@ export const connectionModule = defineModule({
 	managerIIDs: {},
 
 	initialState: {
-		state: 'disconnected' as ConnectionState['state'],
-		loadingStep: null as ConnectionState['loadingStep'],
-		error: null as ConnectionState['error'],
-	} satisfies ConnectionState,
+		state: 'disconnected' as IConnectionState['state'], // cast: type assertion required
+		loadingStep: null as IConnectionState['loadingStep'],
+		error: null as IConnectionState['error'], // cast: type assertion required
+	} satisfies IConnectionState,
 
 	handlers: {},
 
 	actions: createActions,
 });
 
-export type {ConnectionState, ConnectionStateType, LoadingStep} from './types';
+export type {IConnectionState, ConnectionStateType, LoadingStep} from './types';
 export type {ConnectionActions} from './actions';
 
 // Declaration merging for type-safe module access
 declare module '../core/moduleIds'
 {
-	interface ModuleStateMap
+	interface IModuleStateMap
 	{
-		'connection': ConnectionState;
+		'connection': IConnectionState;
 	}
 
-	interface ModuleActionsMap
+	interface IModuleActionsMap
 	{
 		'connection': ConnectionActions;
 	}

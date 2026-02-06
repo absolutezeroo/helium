@@ -1,7 +1,7 @@
+import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
 import type {IUserDataManager} from './IUserDataManager';
 import type {IUserData} from './IUserData';
 import {UserDataType} from './UserData';
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
 
 /**
  * Room user data manager
@@ -26,7 +26,7 @@ export class UserDataManager implements IUserDataManager
 		return this._disposed;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (this._disposed) return;
 
@@ -37,12 +37,12 @@ export class UserDataManager implements IUserDataManager
 		this._disposed = true;
 	}
 
-	getUserData(webId: number): IUserData | null
+	public getUserData(webId: number): IUserData | null
 	{
 		return this.getUserDataByType(webId, UserDataType.USER);
 	}
 
-	getUserDataByType(webId: number, type: number): IUserData | null
+	public getUserDataByType(webId: number, type: number): IUserData | null
 	{
 		const typeMap = this._usersByTypeAndWebId.get(type);
 
@@ -54,12 +54,12 @@ export class UserDataManager implements IUserDataManager
 		return null;
 	}
 
-	getUserDataByIndex(roomIndex: number): IUserData | null
+	public getUserDataByIndex(roomIndex: number): IUserData | null
 	{
 		return this._usersByRoomIndex.get(roomIndex) ?? null;
 	}
 
-	getUserDataByName(name: string): IUserData | null
+	public getUserDataByName(name: string): IUserData | null
 	{
 		for (const userData of this._usersByRoomIndex.values())
 		{
@@ -72,17 +72,17 @@ export class UserDataManager implements IUserDataManager
 		return null;
 	}
 
-	getPetUserData(webId: number): IUserData | null
+	public getPetUserData(webId: number): IUserData | null
 	{
 		return this.getUserDataByType(webId, UserDataType.PET);
 	}
 
-	getRentableBotUserData(webId: number): IUserData | null
+	public getRentableBotUserData(webId: number): IUserData | null
 	{
 		return this.getUserDataByType(webId, UserDataType.RENTABLE_BOT);
 	}
 
-	getUserBadges(userId: number): string[]
+	public getUserBadges(userId: number): string[]
 	{
 		// TODO: Send GetSelectedBadgesMessageComposer when implemented
 		// if (this._sendCallback)
@@ -95,7 +95,7 @@ export class UserDataManager implements IUserDataManager
 		return badges ?? [];
 	}
 
-	setUserData(userData: IUserData): void
+	public setUserData(userData: IUserData): void
 	{
 		if (!userData) return;
 
@@ -118,13 +118,13 @@ export class UserDataManager implements IUserDataManager
 		this._usersByRoomIndex.set(userData.roomObjectId, userData);
 	}
 
-	setUserBadges(userId: number, badges: string[]): void
+	public setUserBadges(userId: number, badges: string[]): void
 	{
 		this._userBadges.delete(userId);
 		this._userBadges.set(userId, badges);
 	}
 
-	removeUserDataByRoomIndex(roomIndex: number): void
+	public removeUserDataByRoomIndex(roomIndex: number): void
 	{
 		const userData = this._usersByRoomIndex.get(roomIndex);
 
@@ -141,7 +141,7 @@ export class UserDataManager implements IUserDataManager
 		}
 	}
 
-	updateFigure(roomIndex: number, figure: string, sex: string, hasSaddle: boolean, isRiding: boolean): void
+	public updateFigure(roomIndex: number, figure: string, sex: string, hasSaddle: boolean, isRiding: boolean): void
 	{
 		const userData = this.getUserDataByIndex(roomIndex);
 
@@ -154,7 +154,7 @@ export class UserDataManager implements IUserDataManager
 		}
 	}
 
-	updatePetLevel(roomIndex: number, level: number): void
+	public updatePetLevel(roomIndex: number, level: number): void
 	{
 		const userData = this.getUserDataByIndex(roomIndex);
 
@@ -164,7 +164,7 @@ export class UserDataManager implements IUserDataManager
 		}
 	}
 
-	updatePetBreedingStatus(roomIndex: number, canBreed: boolean, canHarvest: boolean, canRevive: boolean, hasBreedingPermission: boolean): void
+	public updatePetBreedingStatus(roomIndex: number, canBreed: boolean, canHarvest: boolean, canRevive: boolean, hasBreedingPermission: boolean): void
 	{
 		const userData = this.getUserDataByIndex(roomIndex);
 
@@ -177,7 +177,7 @@ export class UserDataManager implements IUserDataManager
 		}
 	}
 
-	updateCustom(roomIndex: number, custom: string): void
+	public updateCustom(roomIndex: number, custom: string): void
 	{
 		const userData = this.getUserDataByIndex(roomIndex);
 
@@ -187,7 +187,7 @@ export class UserDataManager implements IUserDataManager
 		}
 	}
 
-	updateAchievementScore(roomIndex: number, score: number): void
+	public updateAchievementScore(roomIndex: number, score: number): void
 	{
 		const userData = this.getUserDataByIndex(roomIndex);
 
@@ -197,7 +197,7 @@ export class UserDataManager implements IUserDataManager
 		}
 	}
 
-	updateNameByIndex(roomIndex: number, name: string): void
+	public updateNameByIndex(roomIndex: number, name: string): void
 	{
 		const userData = this.getUserDataByIndex(roomIndex);
 
@@ -207,7 +207,7 @@ export class UserDataManager implements IUserDataManager
 		}
 	}
 
-	requestPetInfo(webId: number): void
+	public requestPetInfo(webId: number): void
 	{
 		const petData = this.getPetUserData(webId);
 
@@ -218,7 +218,7 @@ export class UserDataManager implements IUserDataManager
 		}
 	}
 
-	getAllUserIds(): number[]
+	public getAllUserIds(): number[]
 	{
 		const userIds: number[] = [];
 

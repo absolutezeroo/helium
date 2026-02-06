@@ -7,7 +7,7 @@
  */
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
-import {OpenConnectionMessageParser} from '../../../parser/room/session/OpenConnectionMessageParser';
+import {OpenConnectionMessageParser} from '@habbo/communication/messages/parser/room/session/OpenConnectionMessageParser';
 
 export class OpenConnectionMessageEvent extends MessageEvent
 {
@@ -18,6 +18,6 @@ export class OpenConnectionMessageEvent extends MessageEvent
 
 	get parser(): OpenConnectionMessageParser
 	{
-		return this._parser as OpenConnectionMessageParser;
+		return this._parser as OpenConnectionMessageParser; // cast: type assertion required
 	}
 }

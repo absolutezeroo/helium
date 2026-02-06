@@ -5,7 +5,7 @@
  */
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
-import {ObjectsMessageParser} from '../../../parser/room/engine/ObjectsMessageParser';
+import {ObjectsMessageParser} from '@habbo/communication/messages/parser/room/engine/ObjectsMessageParser';
 
 export class ObjectsMessageEvent extends MessageEvent
 {

@@ -17,7 +17,7 @@ const log = Logger.getLogger('HeliumCore');
 /**
  * HeliumCore configuration options
  */
-export interface HeliumCoreConfig
+export interface IHeliumCoreConfig
 {
 	/** Background color */
 	background?: string;
@@ -124,7 +124,7 @@ export class HeliumCore
 	/**
 	 * Initialize the core layer
 	 */
-	async init(config?: HeliumCoreConfig): Promise<void>
+	public async init(config?: IHeliumCoreConfig): Promise<void>
 	{
 		if (this._ready)
 		{
@@ -178,7 +178,7 @@ export class HeliumCore
 	/**
 	 * Dispose the core layer
 	 */
-	dispose(): void
+	public dispose(): void
 	{
 		if (this._disposed) return;
 

@@ -69,15 +69,8 @@ export class PetFigureData
 	 */
 	get figureString(): string
 	{
-		let result = `${this._typeId} ${this._paletteId} ${this._color}`;
+		const parts: Array<string | number> = [this._typeId, this._paletteId, this._color, this._customPartCount, ...this._customParts];
 
-		result += ` ${this._customPartCount}`;
-
-		for (const part of this._customParts)
-		{
-			result += ` ${part}`;
-		}
-
-		return result;
+		return parts.join(' ');
 	}
 }

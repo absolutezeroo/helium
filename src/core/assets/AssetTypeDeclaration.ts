@@ -88,7 +88,7 @@ export class AssetTypeDeclaration
 	 * Check if a file extension matches this type
 	 * @param extension The extension to check (without dot)
 	 */
-	matchesExtension(extension: string): boolean
+	public matchesExtension(extension: string): boolean
 	{
 		return this._fileTypes.includes(extension.toLowerCase());
 	}

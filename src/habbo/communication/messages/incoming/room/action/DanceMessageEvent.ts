@@ -5,7 +5,7 @@
  */
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
-import {DanceMessageEventParser} from '../../../parser/room/action/DanceMessageEventParser';
+import {DanceMessageEventParser} from '@habbo/communication/messages/parser/room/action/DanceMessageEventParser';
 
 export class DanceMessageEvent extends MessageEvent
 {

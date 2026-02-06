@@ -43,7 +43,7 @@ export class UnknownAsset implements IAsset
 		return this._declaration;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (!this._disposed)
 		{
@@ -52,21 +52,21 @@ export class UnknownAsset implements IAsset
 		}
 	}
 
-	setUnknownContent(content: unknown): void
+	public setUnknownContent(content: unknown): void
 	{
 		this._content = content;
 	}
 
-	setFromOtherAsset(asset: IAsset): void
+	public setFromOtherAsset(asset: IAsset): void
 	{
 		this._content = asset.content;
 	}
 
-	setParamsDesc(_params: Map<string, string>): void
+	public setParamsDesc(_params: Map<string, string>): void
 	{
 	}
 
-	toString(): string
+	public toString(): string
 	{
 		return `[UnknownAsset: ${this._content}]`;
 	}

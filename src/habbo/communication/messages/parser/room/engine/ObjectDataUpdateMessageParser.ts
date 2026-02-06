@@ -34,14 +34,14 @@ export class ObjectDataUpdateMessageParser implements IMessageParser
 		return this._data;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._state = 0;
 		this._data = new LegacyStuffData();
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		if (wrapper === null)
 		{
@@ -51,7 +51,9 @@ export class ObjectDataUpdateMessageParser implements IMessageParser
 		const idStr = wrapper.readString();
 		this._id = parseInt(idStr, 10);
 
-		this._data = FurnitureDataParser.parseStuffData(wrapper);
+		const parsedData = FurnitureDataParser.parseStuffData(wrapper);
+		if (!parsedData) throw new Error('Failed to parse stuff data');
+		this._data = parsedData;
 
 		const stateNum = parseFloat(this._data.getLegacyString());
 		if (!isNaN(stateNum))

@@ -22,14 +22,14 @@ export class FlatAccessDeniedMessageParser implements IMessageParser
 		return this._userName;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._flatId = 0;
 		this._userName = null;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._flatId = wrapper.readInt();
 		if (wrapper.bytesAvailable > 0)

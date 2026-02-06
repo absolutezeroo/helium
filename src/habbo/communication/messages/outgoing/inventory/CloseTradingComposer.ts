@@ -16,7 +16,7 @@ export class CloseTradingComposer extends MessageComposer<ConstructorParameters<
 		this._data = [];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

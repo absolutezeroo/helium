@@ -1,7 +1,7 @@
 import type {JSX} from 'solid-js';
 import clsx from 'clsx';
 
-export interface ProgressBarProps
+export interface IProgressBarProps
 {
 	value: number;
 	max: number;
@@ -14,7 +14,7 @@ export interface ProgressBarProps
 /**
  * Progress bar component with automatic color based on fill percentage
  */
-export function ProgressBar(props: ProgressBarProps): JSX.Element
+export function ProgressBar(props: IProgressBarProps): JSX.Element
 {
 	const percentage = () => Math.min(100, Math.max(0, (props.value / props.max) * 100));
 

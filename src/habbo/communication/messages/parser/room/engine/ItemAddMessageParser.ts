@@ -7,7 +7,7 @@
  */
 import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
-import {FurnitureWallData} from '../../../incoming/room/engine/FurnitureWallData';
+import {FurnitureWallData} from '@habbo/communication/messages/incoming/room/engine/FurnitureWallData';
 import {WallDataParser} from './WallDataParser';
 
 export class ItemAddMessageParser implements IMessageParser
@@ -23,13 +23,13 @@ export class ItemAddMessageParser implements IMessageParser
 		return this._data;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._data = null;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		if (wrapper === null)
 		{

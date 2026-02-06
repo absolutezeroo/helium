@@ -29,7 +29,7 @@ export class RoomThumbnailObjectData
 		this._imgId = value;
 	}
 
-	getCopy(): RoomThumbnailObjectData
+	public getCopy(): RoomThumbnailObjectData
 	{
 		const copy = new RoomThumbnailObjectData();
 		copy._pos = this._pos;

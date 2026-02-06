@@ -16,7 +16,7 @@ export class NavigatorDeleteSavedSearchComposer extends MessageComposer<Construc
 		this._data = [searchId];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

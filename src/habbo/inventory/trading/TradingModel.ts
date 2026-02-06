@@ -1,7 +1,7 @@
 import type {ITradingModel} from './ITradingModel';
 import type {TradingStateType} from './TradingState';
 import {MAX_ITEMS_TO_TRADE, TradingState} from './TradingState';
-import type {TradingUser} from './TradingUser';
+import type {ITradingUser} from './TradingUser';
 import {createTradingUser} from './TradingUser';
 import type {GroupItem} from '../items/GroupItem';
 
@@ -26,16 +26,16 @@ export class TradingModel implements ITradingModel
 		return this._state;
 	}
 
-	private _ownUser: TradingUser | null = null;
+	private _ownUser: ITradingUser | null = null;
 
-	get ownUser(): TradingUser | null
+	get ownUser(): ITradingUser | null
 	{
 		return this._ownUser;
 	}
 
-	private _otherUser: TradingUser | null = null;
+	private _otherUser: ITradingUser | null = null;
 
-	get otherUser(): TradingUser | null
+	get otherUser(): ITradingUser | null
 	{
 		return this._otherUser;
 	}
@@ -45,7 +45,7 @@ export class TradingModel implements ITradingModel
 		return this._state !== TradingState.READY;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (this._disposed) return;
 
@@ -53,7 +53,7 @@ export class TradingModel implements ITradingModel
 		this._disposed = true;
 	}
 
-	startTrading(
+	public startTrading(
 		ownUserId: number,
 		ownUserName: string,
 		ownUserCanTrade: boolean,
@@ -67,7 +67,7 @@ export class TradingModel implements ITradingModel
 		this._state = TradingState.RUNNING;
 	}
 
-	close(): boolean
+	public close(): boolean
 	{
 		if (this._state === TradingState.READY)
 		{
@@ -81,7 +81,7 @@ export class TradingModel implements ITradingModel
 		return true;
 	}
 
-	setState(newState: TradingStateType): boolean
+	public setState(newState: TradingStateType): boolean
 	{
 		if (this._state === newState)
 		{
@@ -101,7 +101,7 @@ export class TradingModel implements ITradingModel
 		return false;
 	}
 
-	updateItemLists(
+	public updateItemLists(
 		firstUserId: number,
 		firstUserItems: Map<string, GroupItem>,
 		firstUserNumItems: number,
@@ -137,7 +137,7 @@ export class TradingModel implements ITradingModel
 		this._otherUser.accepts = false;
 	}
 
-	setUserAccepts(userId: number, accepts: boolean): void
+	public setUserAccepts(userId: number, accepts: boolean): void
 	{
 		if (this._ownUser?.userId === userId)
 		{
@@ -148,7 +148,7 @@ export class TradingModel implements ITradingModel
 		}
 	}
 
-	getOwnItemIdsInTrade(): number[]
+	public getOwnItemIdsInTrade(): number[]
 	{
 		const ids: number[] = [];
 
@@ -172,7 +172,7 @@ export class TradingModel implements ITradingModel
 		return ids;
 	}
 
-	canAddMoreItems(): boolean
+	public canAddMoreItems(): boolean
 	{
 		if (this._ownUser?.accepts)
 		{
@@ -187,7 +187,7 @@ export class TradingModel implements ITradingModel
 		return this._ownUser.items.size < MAX_ITEMS_TO_TRADE;
 	}
 
-	hasItemType(itemKey: string): boolean
+	public hasItemType(itemKey: string): boolean
 	{
 		return this._ownUser?.items.has(itemKey) ?? false;
 	}

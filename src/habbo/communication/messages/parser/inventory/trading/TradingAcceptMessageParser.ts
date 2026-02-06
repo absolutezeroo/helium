@@ -22,12 +22,12 @@ export class TradingAcceptMessageParser implements IMessageParser
 		return this._accepted;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._userId = wrapper.readInt();
 		this._accepted = wrapper.readInt() === 1;

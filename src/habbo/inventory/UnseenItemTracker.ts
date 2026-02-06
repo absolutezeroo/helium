@@ -19,7 +19,7 @@ export class UnseenItemTracker
 	/**
 	 * Check if an item is unseen
 	 */
-	isUnseen(category: number, itemId: number): boolean
+	public isUnseen(category: number, itemId: number): boolean
 	{
 		const items = this._unseenItems.get(category);
 
@@ -29,7 +29,7 @@ export class UnseenItemTracker
 	/**
 	 * Get all unseen item IDs for a category
 	 */
-	getIds(category: number): number[]
+	public getIds(category: number): number[]
 	{
 		const items = this._unseenItems.get(category);
 
@@ -39,7 +39,7 @@ export class UnseenItemTracker
 	/**
 	 * Get count of unseen items in a category
 	 */
-	getCount(category: number): number
+	public getCount(category: number): number
 	{
 		return this._unseenItems.get(category)?.size ?? 0;
 	}
@@ -47,7 +47,7 @@ export class UnseenItemTracker
 	/**
 	 * Get total count of all unseen inventory items
 	 */
-	getTotalInventoryCount(): number
+	public getTotalInventoryCount(): number
 	{
 		let total = 0;
 
@@ -62,7 +62,7 @@ export class UnseenItemTracker
 	/**
 	 * Add unseen items to a category
 	 */
-	addItems(category: number, itemIds: number[]): void
+	public addItems(category: number, itemIds: number[]): void
 	{
 		if (!itemIds?.length)
 		{
@@ -88,7 +88,7 @@ export class UnseenItemTracker
 	/**
 	 * Remove a single unseen item
 	 */
-	removeUnseen(category: number, itemId: number): boolean
+	public removeUnseen(category: number, itemId: number): boolean
 	{
 		const items = this._unseenItems.get(category);
 
@@ -106,7 +106,7 @@ export class UnseenItemTracker
 	/**
 	 * Reset all unseen items in a category
 	 */
-	resetCategory(category: number): boolean
+	public resetCategory(category: number): boolean
 	{
 		if (this.getCount(category) === 0)
 		{
@@ -123,7 +123,7 @@ export class UnseenItemTracker
 	/**
 	 * Reset specific items in a category
 	 */
-	resetItems(category: number, itemIds: number[]): boolean
+	public resetItems(category: number, itemIds: number[]): boolean
 	{
 		const items = this._unseenItems.get(category);
 
@@ -146,7 +146,7 @@ export class UnseenItemTracker
 	/**
 	 * Reset category if it's empty
 	 */
-	resetCategoryIfEmpty(category: number): boolean
+	public resetCategoryIfEmpty(category: number): boolean
 	{
 		if (this.getCount(category) === 0)
 		{
@@ -163,7 +163,7 @@ export class UnseenItemTracker
 	/**
 	 * Dispose the tracker
 	 */
-	dispose(): void
+	public dispose(): void
 	{
 		this._unseenItems.clear();
 	}

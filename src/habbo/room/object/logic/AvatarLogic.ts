@@ -53,7 +53,11 @@ export class AvatarLogic extends MovingObjectLogic
 
 	// Selection state
 	private _selected = false;
-	private _lastLocation: Vector3d | null = null;
+	// Pre-allocated to avoid hot-path allocations (PF-001)
+	private readonly _lastLocation: Vector3d = new Vector3d();
+	private _hasLastLocation = false;
+	// Pre-allocated event reused each frame to avoid hot-path allocations (PF-001)
+	private readonly _positionChangedEvent: RoomObjectMoveEvent = new RoomObjectMoveEvent(RoomObjectMoveEvent.ROME_POSITION_CHANGED, null);
 
 	// Effect state
 	private _effectChangeTime = 0;
@@ -80,7 +84,7 @@ export class AvatarLogic extends MovingObjectLogic
 	constructor()
 	{
 		super();
-		this._nextBlinkTime = Date.now() + this.getBlinkInterval();
+		this._nextBlinkTime = performance.now() + this.getBlinkInterval();
 	}
 
 	override getEventTypes(): string[]
@@ -109,7 +113,7 @@ export class AvatarLogic extends MovingObjectLogic
 		}
 
 		super.dispose();
-		this._lastLocation = null;
+		this._hasLastLocation = false;
 	}
 
 	override processUpdateMessage(message: RoomObjectUpdateMessage): void
@@ -148,7 +152,7 @@ export class AvatarLogic extends MovingObjectLogic
 		if (message instanceof RoomObjectAvatarChatUpdateMessage)
 		{
 			model.setNumber('figure_talk', 1);
-			this._talkEndTime = Date.now() + message.numberOfWords * 1000;
+			this._talkEndTime = performance.now() + message.numberOfWords * 1000;
 			return;
 		}
 
@@ -184,7 +188,7 @@ export class AvatarLogic extends MovingObjectLogic
 		if (message instanceof RoomObjectAvatarGestureUpdateMessage)
 		{
 			model.setNumber('figure_gesture', message.gesture);
-			this._gestureEndTime = Date.now() + 3000;
+			this._gestureEndTime = performance.now() + 3000;
 			return;
 		}
 
@@ -195,7 +199,7 @@ export class AvatarLogic extends MovingObjectLogic
 			const duration = this.getExpressionTime(message.expressionType);
 			if (duration > -1)
 			{
-				this._expressionEndTime = Date.now() + duration;
+				this._expressionEndTime = performance.now() + duration;
 			} else
 			{
 				this._expressionEndTime = 0;
@@ -221,7 +225,7 @@ export class AvatarLogic extends MovingObjectLogic
 		if (message instanceof RoomObjectAvatarPlayerValueUpdateMessage)
 		{
 			model.setNumber('figure_number_value', message.value);
-			this._playerValueEndTime = Date.now() + 3000;
+			this._playerValueEndTime = performance.now() + 3000;
 			return;
 		}
 
@@ -237,7 +241,7 @@ export class AvatarLogic extends MovingObjectLogic
 		{
 			model.setNumber('figure_carry_object', message.itemType);
 			model.setNumber('figure_use_object', 0);
-			this._carryObjectStartTime = Date.now();
+			this._carryObjectStartTime = performance.now();
 
 			if (message.itemType < AvatarLogic.CARRY_ITEM_EMPTY_HAND)
 			{
@@ -262,7 +266,7 @@ export class AvatarLogic extends MovingObjectLogic
 		if (message instanceof RoomObjectAvatarSignUpdateMessage)
 		{
 			model.setNumber('figure_sign', message.signType);
-			this._signEndTime = Date.now() + 5000;
+			this._signEndTime = performance.now() + 5000;
 			return;
 		}
 
@@ -301,7 +305,7 @@ export class AvatarLogic extends MovingObjectLogic
 		if (message instanceof RoomObjectAvatarSelectedMessage)
 		{
 			this._selected = message.selected;
-			this._lastLocation = null;
+			this._hasLastLocation = false;
 			return;
 		}
 
@@ -394,20 +398,15 @@ export class AvatarLogic extends MovingObjectLogic
 			{
 				const location = this.object.getLocation();
 
-				if (this._lastLocation === null ||
+				if (!this._hasLastLocation ||
 					this._lastLocation.x !== location.x ||
 					this._lastLocation.y !== location.y ||
 					this._lastLocation.z !== location.z)
 				{
-					if (this._lastLocation === null)
-					{
-						this._lastLocation = new Vector3d();
-					}
-
+					this._hasLastLocation = true;
 					this._lastLocation.assign(location);
 
-					const event = new RoomObjectMoveEvent(RoomObjectMoveEvent.ROME_POSITION_CHANGED, this.object);
-					this.eventDispatcher.emit(event.type, event);
+					this.eventDispatcher.emit(this._positionChangedEvent.type, this._positionChangedEvent.reinit(RoomObjectMoveEvent.ROME_POSITION_CHANGED, this.object));
 				}
 			}
 		}
@@ -430,26 +429,26 @@ export class AvatarLogic extends MovingObjectLogic
 		// Handle splash/swim transitions
 		if (effect === AvatarLogic.EFFECT_TYPE_SPLASH)
 		{
-			this._effectChangeTime = Date.now() + AvatarLogic.EFFECT_SPLASH_LENGTH;
+			this._effectChangeTime = performance.now() + AvatarLogic.EFFECT_SPLASH_LENGTH;
 			this._nextEffect = AvatarLogic.EFFECT_TYPE_SWIM;
 		} else if (effect === AvatarLogic.EFFECT_TYPE_SPLASH_DARK)
 		{
-			this._effectChangeTime = Date.now() + AvatarLogic.EFFECT_SPLASH_LENGTH;
+			this._effectChangeTime = performance.now() + AvatarLogic.EFFECT_SPLASH_LENGTH;
 			this._nextEffect = AvatarLogic.EFFECT_TYPE_SWIM_DARK;
 		} else if (currentEffect === AvatarLogic.EFFECT_TYPE_SWIM)
 		{
 			// Exit water: show splash first
-			this._effectChangeTime = Date.now() + AvatarLogic.EFFECT_SPLASH_LENGTH;
+			this._effectChangeTime = performance.now() + AvatarLogic.EFFECT_SPLASH_LENGTH;
 			this._nextEffect = effect;
 			effect = AvatarLogic.EFFECT_TYPE_SPLASH;
 		} else if (currentEffect === AvatarLogic.EFFECT_TYPE_SWIM_DARK)
 		{
-			this._effectChangeTime = Date.now() + AvatarLogic.EFFECT_SPLASH_LENGTH;
+			this._effectChangeTime = performance.now() + AvatarLogic.EFFECT_SPLASH_LENGTH;
 			this._nextEffect = effect;
 			effect = AvatarLogic.EFFECT_TYPE_SPLASH_DARK;
 		} else if (delay !== 0)
 		{
-			this._effectChangeTime = Date.now() + delay;
+			this._effectChangeTime = performance.now() + delay;
 			this._nextEffect = effect;
 			return;
 		} else
@@ -462,7 +461,7 @@ export class AvatarLogic extends MovingObjectLogic
 
 	private updateActions(time: number, model: IRoomObjectModelController): void
 	{
-		const now = Date.now();
+		const now = performance.now();
 
 		// Talk animation with pauses
 		if (this._talkEndTime > 0)

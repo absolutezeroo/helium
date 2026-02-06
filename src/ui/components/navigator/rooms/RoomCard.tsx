@@ -3,7 +3,7 @@ import {Show} from 'solid-js';
 import type {IconName} from '../common';
 import {NavigatorIcon, UserCountBar} from '../common';
 
-export interface RoomCardProps
+export interface IRoomCardProps
 {
 	id: number;
 	name: string;
@@ -29,7 +29,7 @@ export interface RoomCardProps
 /**
  * Room card component - displays room information in a card format
  */
-export function RoomCard(props: RoomCardProps): JSX.Element
+export function RoomCard(props: IRoomCardProps): JSX.Element
 {
 	const handleClick = () =>
 	{
@@ -150,7 +150,7 @@ export function RoomCard(props: RoomCardProps): JSX.Element
 						{/* Tags */}
 						<Show when={props.tags && props.tags.length > 0}>
 							<div class="flex items-center gap-1">
-								{props.tags!.slice(0, 2).map((tag) => (
+								{props.tags?.slice(0, 2).map((tag) => (
 									<span class="px-1.5 py-0.5 text-xs bg-slate-700 text-slate-400 rounded">
 										{tag}
 									</span>

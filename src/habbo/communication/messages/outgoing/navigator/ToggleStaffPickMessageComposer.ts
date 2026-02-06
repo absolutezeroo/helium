@@ -16,7 +16,7 @@ export class ToggleStaffPickMessageComposer extends MessageComposer<ConstructorP
 		this._data = [roomId, picked];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

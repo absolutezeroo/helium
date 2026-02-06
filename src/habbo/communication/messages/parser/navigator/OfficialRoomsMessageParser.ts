@@ -30,7 +30,7 @@ export class OfficialRoomsMessageParser implements IMessageParser
 		return this._promotedRooms;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._data = null;
 		this._adRoom = null;
@@ -38,7 +38,7 @@ export class OfficialRoomsMessageParser implements IMessageParser
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._data = new OfficialRoomsData(wrapper);
 

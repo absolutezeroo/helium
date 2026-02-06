@@ -16,14 +16,14 @@ export class FurniListAddOrUpdateMessageParser implements IMessageParser
 		return this._items;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._items = [];
 
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		// Note: AS3 reads 1 item, but the message may contain more in some implementations
 		const item = new FurniListItemParser(wrapper);

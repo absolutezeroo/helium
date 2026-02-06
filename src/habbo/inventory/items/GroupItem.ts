@@ -167,7 +167,7 @@ export class GroupItem
 	/**
 	 * Add an item to the group
 	 */
-	push(item: FurnitureItem, isUnseen: boolean = false): void
+	public push(item: FurnitureItem, isUnseen: boolean = false): void
 	{
 		const existing = this._items.get(item.id);
 
@@ -188,7 +188,7 @@ export class GroupItem
 	/**
 	 * Remove and return the last item
 	 */
-	pop(): FurnitureItem | null
+	public pop(): FurnitureItem | null
 	{
 		if (this._items.size === 0)
 		{
@@ -206,7 +206,7 @@ export class GroupItem
 	/**
 	 * Get the last item without removing it
 	 */
-	peek(): FurnitureItem | null
+	public peek(): FurnitureItem | null
 	{
 		if (this._items.size === 0)
 		{
@@ -221,7 +221,7 @@ export class GroupItem
 	/**
 	 * Get item at index
 	 */
-	getAt(index: number): FurnitureItem | null
+	public getAt(index: number): FurnitureItem | null
 	{
 		const items = Array.from(this._items.values());
 
@@ -231,7 +231,7 @@ export class GroupItem
 	/**
 	 * Get item by ID
 	 */
-	getItem(itemId: number): FurnitureItem | null
+	public getItem(itemId: number): FurnitureItem | null
 	{
 		return this._items.get(itemId) ?? null;
 	}
@@ -239,7 +239,7 @@ export class GroupItem
 	/**
 	 * Remove item by ID
 	 */
-	remove(itemId: number): FurnitureItem | null
+	public remove(itemId: number): FurnitureItem | null
 	{
 		const item = this._items.get(itemId);
 
@@ -254,7 +254,7 @@ export class GroupItem
 	/**
 	 * Replace item
 	 */
-	replaceItem(itemId: number, item: FurnitureItem): void
+	public replaceItem(itemId: number, item: FurnitureItem): void
 	{
 		this._items.set(itemId, item);
 	}
@@ -263,7 +263,7 @@ export class GroupItem
 	 * Get total item count
 	 * For POST_IT items, returns sum of quantities
 	 */
-	getTotalCount(): number
+	public getTotalCount(): number
 	{
 		if (this._category === FurnitureCategory.POST_IT)
 		{
@@ -285,7 +285,7 @@ export class GroupItem
 	/**
 	 * Get count of unlocked items
 	 */
-	getUnlockedCount(): number
+	public getUnlockedCount(): number
 	{
 		if (this._category === FurnitureCategory.POST_IT)
 		{
@@ -308,7 +308,7 @@ export class GroupItem
 	/**
 	 * Get count of tradeable items (unlocked and tradeable)
 	 */
-	getTradeableCount(): number
+	public getTradeableCount(): number
 	{
 		let count = 0;
 
@@ -326,7 +326,7 @@ export class GroupItem
 	/**
 	 * Get count of recyclable items (unlocked and recyclable)
 	 */
-	getRecyclableCount(): number
+	public getRecyclableCount(): number
 	{
 		let count = 0;
 
@@ -344,7 +344,7 @@ export class GroupItem
 	/**
 	 * Lock an item by ID
 	 */
-	addLockTo(itemId: number): boolean
+	public addLockTo(itemId: number): boolean
 	{
 		const item = this._items.get(itemId);
 
@@ -360,7 +360,7 @@ export class GroupItem
 	/**
 	 * Unlock an item by ID
 	 */
-	removeLockFrom(itemId: number): boolean
+	public removeLockFrom(itemId: number): boolean
 	{
 		const item = this._items.get(itemId);
 
@@ -376,7 +376,7 @@ export class GroupItem
 	/**
 	 * Unlock all items
 	 */
-	removeAllLocks(): void
+	public removeAllLocks(): void
 	{
 		for (const item of this._items.values())
 		{
@@ -387,7 +387,7 @@ export class GroupItem
 	/**
 	 * Update locks based on reference IDs (items in trade)
 	 */
-	updateLocks(lockedRefIds: number[]): void
+	public updateLocks(lockedRefIds: number[]): void
 	{
 		for (const item of this._items.values())
 		{
@@ -400,7 +400,7 @@ export class GroupItem
 	/**
 	 * Get one item available for trade
 	 */
-	getOneForTrade(): FurnitureItem | null
+	public getOneForTrade(): FurnitureItem | null
 	{
 		// Try selected item first
 		if (this._selectedItemIndex >= 0)
@@ -428,7 +428,7 @@ export class GroupItem
 	/**
 	 * Get multiple items for trade
 	 */
-	getItemsForTrade(count: number): IFurnitureItem[]
+	public getItemsForTrade(count: number): IFurnitureItem[]
 	{
 		const result: IFurnitureItem[] = [];
 		const tradeItem = this.getOneForTrade();
@@ -457,7 +457,7 @@ export class GroupItem
 	/**
 	 * Get one item for recycling (locks it)
 	 */
-	getOneForRecycle(): FurnitureItem | null
+	public getOneForRecycle(): FurnitureItem | null
 	{
 		for (const item of this._items.values())
 		{
@@ -474,7 +474,7 @@ export class GroupItem
 	/**
 	 * Get one item for selling on marketplace
 	 */
-	getOneForSelling(): FurnitureItem | null
+	public getOneForSelling(): FurnitureItem | null
 	{
 		for (const item of this._items.values())
 		{
@@ -490,7 +490,7 @@ export class GroupItem
 	/**
 	 * Get all furniture IDs in this group
 	 */
-	getFurniIds(): number[]
+	public getFurniIds(): number[]
 	{
 		return Array.from(this._items.keys());
 	}
@@ -498,7 +498,7 @@ export class GroupItem
 	/**
 	 * Get all non-rented furniture IDs
 	 */
-	getNonRentedFurnitureIds(): number[]
+	public getNonRentedFurnitureIds(): number[]
 	{
 		const ids: number[] = [];
 
@@ -516,7 +516,7 @@ export class GroupItem
 	/**
 	 * Minimum items to show counter in UI
 	 */
-	getMinimumItemsToShowCounter(): number
+	public getMinimumItemsToShowCounter(): number
 	{
 		return 2;
 	}
@@ -524,7 +524,7 @@ export class GroupItem
 	/**
 	 * Dispose the group
 	 */
-	dispose(): void
+	public dispose(): void
 	{
 		this._items.clear();
 		this._stuffData = null;

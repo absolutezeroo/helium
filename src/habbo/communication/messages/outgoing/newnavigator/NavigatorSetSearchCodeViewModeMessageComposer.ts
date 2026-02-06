@@ -16,7 +16,7 @@ export class NavigatorSetSearchCodeViewModeMessageComposer extends MessageCompos
 		this._data = [searchCode, viewMode];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

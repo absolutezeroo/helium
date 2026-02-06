@@ -1,18 +1,18 @@
-import type {ActionContext} from '../core/types';
-import type {InventoryState} from './types';
 import type {IHabboInventory} from '@habbo/inventory/IHabboInventory';
 import type {Badge, Bot, Effect, GroupItem, InventoryCategoryType, Pet} from '@habbo/inventory';
 import {InventoryCategory} from '@habbo/inventory';
+import type {IActionContext} from '../core/types';
+import type {IInventoryState} from './types';
 
 /**
  * Inventory manager dependencies
  */
-export interface InventoryManagers
+export interface IInventoryManagers
 {
 	inventory: IHabboInventory;
 }
 
-export function createActions(ctx: ActionContext<InventoryState, InventoryManagers>)
+export function createActions(ctx: IActionContext<IInventoryState, IInventoryManagers>)
 {
 	const {getState, updateState, managers} = ctx;
 

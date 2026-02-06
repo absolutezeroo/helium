@@ -1,5 +1,5 @@
 import {defineModule} from '../core/defineModule';
-import type {FavouritesState} from './types';
+import type {IFavouritesState} from './types';
 import type {FavouritesActions} from './actions';
 import {createActions} from './actions';
 import {handlers} from './handlers';
@@ -33,24 +33,24 @@ export const favouritesModule = defineModule({
 	initialState: {
 		limit: 0,
 		roomIds: [],
-	} satisfies FavouritesState,
+	} satisfies IFavouritesState,
 
 	handlers,
 	actions: createActions,
 });
 
-export type {FavouritesState} from './types';
+export type {IFavouritesState} from './types';
 export type {FavouritesActions} from './actions';
 
 // Declaration merging for type-safe module access
 declare module '../core/moduleIds'
 {
-	interface ModuleStateMap
+	interface IModuleStateMap
 	{
-		'favourites': FavouritesState;
+		'favourites': IFavouritesState;
 	}
 
-	interface ModuleActionsMap
+	interface IModuleActionsMap
 	{
 		'favourites': FavouritesActions;
 	}

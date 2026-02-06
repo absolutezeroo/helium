@@ -8,12 +8,12 @@ import type {IMessageParser} from '@core/communication/messages/IMessageParser';
  */
 export class TradingCompletedMessageParser implements IMessageParser
 {
-	flush(): boolean
+	public flush(): boolean
 	{
 		return true;
 	}
 
-	parse(_wrapper: IMessageDataWrapper): boolean
+	public parse(_wrapper: IMessageDataWrapper): boolean
 	{
 		return true;
 	}

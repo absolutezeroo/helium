@@ -15,7 +15,7 @@ export class ChatMessageComposer extends MessageComposer<[string, number, number
 		this._data = [message, styleId, trackingId];
 	}
 
-	getMessageArray(): [string, number, number]
+	public getMessageArray(): [string, number, number]
 	{
 		return this._data;
 	}

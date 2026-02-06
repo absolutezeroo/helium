@@ -17,7 +17,7 @@ export class CompleteDiffieHandshakeMessageComposer extends MessageComposer<Cons
 		this._data = [publicKey];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

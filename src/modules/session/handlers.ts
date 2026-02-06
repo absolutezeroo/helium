@@ -1,7 +1,3 @@
-import type {MessageHandlers} from '../core/types';
-import type {AvailabilityStatus, SessionState, UserData} from './types';
-
-// Parser types
 import type {UserObjectMessageParser} from '@habbo/communication/messages/parser/handshake/UserObjectMessageParser';
 import type {UserRightsMessageParser} from '@habbo/communication/messages/parser/handshake/UserRightsMessageParser';
 import type {FigureUpdateMessageParser} from '@habbo/communication/messages/parser/avatar/FigureUpdateMessageParser';
@@ -18,15 +14,17 @@ import type {
 import type {
 	AvailabilityStatusMessageParser
 } from '@habbo/communication/messages/parser/availability/AvailabilityStatusMessageParser';
+import type {MessageHandlers} from '../core/types';
+import type {IAvailabilityStatus, ISessionState, IUserData} from './types';
 
-export const handlers: MessageHandlers<SessionState> = {
+export const handlers: MessageHandlers<ISessionState> = {
 
 	/**
 	 * User profile data received after login
 	 */
-	UserObjectMessageEvent: (parser: UserObjectMessageParser): Partial<SessionState> =>
+	UserObjectMessageEvent: (parser: UserObjectMessageParser): Partial<ISessionState> =>
 	{
-		const userData: UserData = {
+		const userData: IUserData = {
 			id: parser.id,
 			name: parser.name,
 			figure: parser.figure,
@@ -48,7 +46,7 @@ export const handlers: MessageHandlers<SessionState> = {
 	/**
 	 * Figure/look updated
 	 */
-	FigureUpdateMessageEvent: (parser: FigureUpdateMessageParser, state): Partial<SessionState> =>
+	FigureUpdateMessageEvent: (parser: FigureUpdateMessageParser, state): Partial<ISessionState> =>
 	{
 		if (!state.userData) return {};
 
@@ -64,9 +62,9 @@ export const handlers: MessageHandlers<SessionState> = {
 	/**
 	 * Server availability status
 	 */
-	AvailabilityStatusMessageEvent: (parser: AvailabilityStatusMessageParser): Partial<SessionState> =>
+	AvailabilityStatusMessageEvent: (parser: AvailabilityStatusMessageParser): Partial<ISessionState> =>
 	{
-		const availability: AvailabilityStatus = {
+		const availability: IAvailabilityStatus = {
 			isOpen: parser.isOpen,
 			onShutDown: parser.onShutDown,
 			isAuthenticHabbo: parser.isAuthenticHabbo,
@@ -78,7 +76,7 @@ export const handlers: MessageHandlers<SessionState> = {
 	/**
 	 * User rights (club, security level, ambassador)
 	 */
-	UserRightsMessageEvent: (parser: UserRightsMessageParser): Partial<SessionState> => ({
+	UserRightsMessageEvent: (parser: UserRightsMessageParser): Partial<ISessionState> => ({
 		clubLevel: parser.clubLevel,
 		securityLevel: parser.securityLevel,
 		isAmbassador: parser.isAmbassador,
@@ -87,7 +85,7 @@ export const handlers: MessageHandlers<SessionState> = {
 	/**
 	 * Navigator settings (home room)
 	 */
-	NavigatorSettingsMessageEvent: (parser: NavigatorSettingsMessageParser): Partial<SessionState> => ({
+	NavigatorSettingsMessageEvent: (parser: NavigatorSettingsMessageParser): Partial<ISessionState> => ({
 		homeRoomId: parser.homeRoomId,
 		roomIdToEnter: parser.roomIdToEnter,
 	}),
@@ -95,21 +93,21 @@ export const handlers: MessageHandlers<SessionState> = {
 	/**
 	 * Favourite rooms list
 	 */
-	FavouritesMessageEvent: (parser: FavouritesMessageParser): Partial<SessionState> => ({
+	FavouritesMessageEvent: (parser: FavouritesMessageParser): Partial<ISessionState> => ({
 		favouriteRooms: [...parser.favouriteRoomIds],
 	}),
 
 	/**
 	 * Activity points (currencies)
 	 */
-	ActivityPointsMessageEvent: (parser: ActivityPointsMessageParser): Partial<SessionState> => ({
+	ActivityPointsMessageEvent: (parser: ActivityPointsMessageParser): Partial<ISessionState> => ({
 		activityPoints: new Map(parser.points),
 	}),
 
 	/**
 	 * Achievement score
 	 */
-	AchievementsScoreMessageEvent: (parser: AchievementsScoreMessageParser): Partial<SessionState> => ({
+	AchievementsScoreMessageEvent: (parser: AchievementsScoreMessageParser): Partial<ISessionState> => ({
 		achievementScore: parser.score,
 	}),
 };

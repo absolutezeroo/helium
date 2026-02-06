@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import {IconButton} from './NavigatorButton';
 import {type IconName, NavigatorIcon} from './NavigatorIcon';
 
-export interface NavigatorHeaderProps extends ParentProps
+export interface INavigatorHeaderProps extends ParentProps
 {
 	title: string;
 	subtitle?: string;
@@ -18,7 +18,7 @@ export interface NavigatorHeaderProps extends ParentProps
 /**
  * Navigator window header component
  */
-export function NavigatorHeader(props: NavigatorHeaderProps): JSX.Element
+export function NavigatorHeader(props: INavigatorHeaderProps): JSX.Element
 {
 	return (
 		<div

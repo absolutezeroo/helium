@@ -5,8 +5,8 @@
  *
  * Logic for room dimmer/mood light furniture.
  */
+import {RoomObjectWidgetRequestEvent} from '@habbo/room/events/RoomObjectWidgetRequestEvent';
 import {FurnitureLogic} from './FurnitureLogic';
-import {RoomObjectWidgetRequestEvent} from '../../../events/RoomObjectWidgetRequestEvent';
 
 export class FurnitureRoomDimmerLogic extends FurnitureLogic
 {

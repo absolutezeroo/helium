@@ -9,7 +9,7 @@ import type {HabboCommunicationEventType} from './enum';
 /**
  * Events emitted by HabboCommunicationManager
  */
-export interface HabboCommunicationManagerEvents
+export interface IHabboCommunicationManagerEvents
 {
 	'loginStep': (step: HabboCommunicationEventType) => void;
 	'authenticated': () => void;

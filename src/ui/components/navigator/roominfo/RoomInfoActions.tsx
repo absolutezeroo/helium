@@ -2,7 +2,7 @@ import type {JSX} from 'solid-js';
 import {Show} from 'solid-js';
 import {NavigatorButton, NavigatorIcon} from '../common';
 
-export interface RoomInfoActionsProps
+export interface IRoomInfoActionsProps
 {
 	roomId: number;
 	isFavourite?: boolean;
@@ -23,7 +23,7 @@ export interface RoomInfoActionsProps
 /**
  * Room info actions - action buttons for room interaction
  */
-export function RoomInfoActions(props: RoomInfoActionsProps): JSX.Element
+export function RoomInfoActions(props: IRoomInfoActionsProps): JSX.Element
 {
 	return (
 		<div class={`space-y-3 ${props.class ?? ''}`}>
@@ -57,7 +57,7 @@ export function RoomInfoActions(props: RoomInfoActionsProps): JSX.Element
 					disabled={props.isHome}
 				>
 					<NavigatorIcon name="home" size="sm"/>
-					{props.isHome ? 'Home Room' : 'Set as Home'}
+					{props.isHome ? 'Home Room' : 'Set as Home'} // cast: type assertion required
 				</NavigatorButton>
 			</div>
 

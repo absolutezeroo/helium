@@ -16,7 +16,7 @@ export class MyRoomRightsSearchMessageComposer extends MessageComposer<Construct
 		this._data = [];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

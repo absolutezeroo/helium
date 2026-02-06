@@ -16,7 +16,7 @@ export class RequestFurniInventoryComposer extends MessageComposer<ConstructorPa
 		this._data = [];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

@@ -16,7 +16,7 @@ export class PopularRoomsSearchMessageComposer extends MessageComposer<Construct
 		this._data = [category, index];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

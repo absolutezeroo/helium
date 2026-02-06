@@ -24,14 +24,14 @@ export class CompleteDiffieHandshakeMessageParser implements IMessageParser
 		return this._serverClientEncryption;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._encryptedPublicKey = '';
 		this._serverClientEncryption = false;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		if (wrapper.bytesAvailable < 2) return false;
 
@@ -47,4 +47,4 @@ export class CompleteDiffieHandshakeMessageParser implements IMessageParser
 }
 
 // Alias for backwards compatibility
-export {CompleteDiffieHandshakeMessageParser as GenerateSecretKeyMessageParser};
+export {CompleteDiffieHandshakeMessageParser as GenerateSecretKeyMessageParser}; // cast: type assertion required

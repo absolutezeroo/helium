@@ -30,7 +30,7 @@ export class MessageRegistry
 	/**
 	 * Register all messages from a configuration
 	 */
-	registerMessages(config: IMessageConfiguration): void
+	public registerMessages(config: IMessageConfiguration): void
 	{
 		// Register incoming message events
 		for (const [id, eventClass] of config.events)
@@ -48,7 +48,7 @@ export class MessageRegistry
 	/**
 	 * Register an event handler instance
 	 */
-	registerMessageEvent(event: IMessageEvent): void
+	public registerMessageEvent(event: IMessageEvent): void
 	{
 		const className = event.constructor.name;
 		const id = this.eventClassToId.get(className);
@@ -79,7 +79,7 @@ export class MessageRegistry
 	/**
 	 * Unregister an event handler
 	 */
-	unregisterMessageEvent(event: IMessageEvent): void
+	public unregisterMessageEvent(event: IMessageEvent): void
 	{
 		const className = event.constructor.name;
 		const id = this.eventClassToId.get(className);
@@ -99,10 +99,10 @@ export class MessageRegistry
 	/**
 	 * Get message ID for a composer instance
 	 */
-	getMessageIdForComposer(composer: IMessageComposer<unknown[]>): number
+	public getMessageIdForComposer(composer: IMessageComposer<unknown[]>): number
 	{
 		// Try by class reference first
-		const composerClass = composer.constructor as ComposerClass;
+		const composerClass = composer.constructor as ComposerClass; // cast: type assertion required
 		const idByClass = this.composerClassToId.get(composerClass);
 		if (idByClass !== undefined)
 		{
@@ -118,7 +118,7 @@ export class MessageRegistry
 	/**
 	 * Get all event handlers for a message ID
 	 */
-	getMessageEventsForId(id: number): IMessageEvent[] | undefined
+	public getMessageEventsForId(id: number): IMessageEvent[] | undefined
 	{
 		return this.idToEvents.get(id);
 	}
@@ -126,7 +126,7 @@ export class MessageRegistry
 	/**
 	 * Check if a message ID has registered handlers
 	 */
-	hasMessageEvents(id: number): boolean
+	public hasMessageEvents(id: number): boolean
 	{
 		const events = this.idToEvents.get(id);
 		return events !== undefined && events.length > 0;
@@ -135,7 +135,7 @@ export class MessageRegistry
 	/**
 	 * Get incoming event name for a message ID
 	 */
-	getIncomingMessageName(id: number): string
+	public getIncomingMessageName(id: number): string
 	{
 		const name = this.idToEventName.get(id);
 		return name ? name.replace('MessageEvent', '') : 'Unknown';
@@ -144,7 +144,7 @@ export class MessageRegistry
 	/**
 	 * Get outgoing composer name for a message ID
 	 */
-	getOutgoingMessageName(id: number): string
+	public getOutgoingMessageName(id: number): string
 	{
 		const name = this.idToComposerName.get(id);
 		return name ? name.replace('MessageComposer', '') : 'Unknown';
@@ -153,7 +153,7 @@ export class MessageRegistry
 	/**
 	 * Check if an incoming message ID is registered
 	 */
-	hasIncomingMessage(id: number): boolean
+	public hasIncomingMessage(id: number): boolean
 	{
 		return this.idToEventName.has(id);
 	}
@@ -161,7 +161,7 @@ export class MessageRegistry
 	/**
 	 * Check if an outgoing message ID is registered
 	 */
-	hasOutgoingMessage(id: number): boolean
+	public hasOutgoingMessage(id: number): boolean
 	{
 		return this.idToComposerName.has(id);
 	}
@@ -169,7 +169,7 @@ export class MessageRegistry
 	/**
 	 * Clear all registrations
 	 */
-	clear(): void
+	public clear(): void
 	{
 		this.composerToId.clear();
 		this.eventClassToId.clear();

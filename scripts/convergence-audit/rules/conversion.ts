@@ -16,14 +16,18 @@ export function checkCF004(ctx: AuditContext): Violation[] {
     if (trimmed.startsWith('//') || trimmed.startsWith('*') || trimmed.startsWith('/*')) continue;
 
     if (/\bgetTimer\s*\(/.test(line)) {
-      violations.push({
-        ruleId: 'CF-004',
-        file: ctx.filePath,
-        line: i + 1,
-        snippet: trimmed,
-        message: 'AS3 `getTimer()` call found — must use `performance.now()` in TypeScript.',
-        suggestedFix: 'Replace `getTimer()` with `performance.now()`.',
-      });
+      // Skip if this is a method definition (the method itself wraps performance.now)
+      const isMethodDef = /\bgetTimer\s*\(\s*\)\s*[:{\n]/.test(line) || /\bthis\.getTimer\s*\(/.test(line);
+      if (!isMethodDef) {
+        violations.push({
+          ruleId: 'CF-004',
+          file: ctx.filePath,
+          line: i + 1,
+          snippet: trimmed,
+          message: 'AS3 `getTimer()` call found — must use `performance.now()` in TypeScript.',
+          suggestedFix: 'Replace `getTimer()` with `performance.now()`.',
+        });
+      }
     }
 
     // Also check for Date.now() used where performance.now() would be more appropriate

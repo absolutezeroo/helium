@@ -15,7 +15,7 @@ export class DanceMessageComposer extends MessageComposer<[number]>
 		this._data = [danceStyle];
 	}
 
-	getMessageArray(): [number]
+	public getMessageArray(): [number]
 	{
 		return this._data;
 	}

@@ -1,7 +1,7 @@
 /**
  * Localization module state
  */
-export interface LocalizationState
+export interface ILocalizationState
 {
 	/** Whether localization has been loaded */
 	isLoaded: boolean;

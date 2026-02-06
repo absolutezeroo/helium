@@ -49,8 +49,10 @@ export function checkIM003(ctx: AuditContext): Violation[] {
     const line = ctx.lines[i];
     const trimmed = line.trim();
 
-    if (!trimmed.startsWith('import')) continue;
-    // Skip non-module imports (e.g., import 'reflect-metadata')
+    // Match lines that are imports: starts with `import` OR is a multi-line import `} from '...'`
+    const isImportLine = trimmed.startsWith('import') || /^}\s*from\s+['"]/.test(trimmed);
+    if (!isImportLine) continue;
+    // Check for module path
     if (/^import\s+['"]/.test(trimmed) || /from\s+['"]/.test(trimmed)) {
       const pathMatch = /['"]([^'"]+)['"]/.exec(line);
       if (pathMatch) {

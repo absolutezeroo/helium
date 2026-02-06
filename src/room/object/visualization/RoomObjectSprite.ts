@@ -469,7 +469,7 @@ export class RoomObjectSprite implements IRoomObjectSprite
 		this._planeId = value;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		this._texture = null;
 		this._width = 0;

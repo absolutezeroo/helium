@@ -9,7 +9,7 @@ export class Purse
 
 	constructor()
 	{
-		this._lastUpdateTime = Date.now();
+		this._lastUpdateTime = performance.now();
 	}
 
 	private _clubDays: number = 0;
@@ -21,7 +21,7 @@ export class Purse
 
 	set clubDays(value: number)
 	{
-		this._lastUpdateTime = Date.now();
+		this._lastUpdateTime = performance.now();
 		this._clubDays = Math.max(0, value);
 	}
 
@@ -34,7 +34,7 @@ export class Purse
 
 	set clubPeriods(value: number)
 	{
-		this._lastUpdateTime = Date.now();
+		this._lastUpdateTime = performance.now();
 		this._clubPeriods = Math.max(0, value);
 	}
 
@@ -47,7 +47,7 @@ export class Purse
 
 	set clubPastPeriods(value: number)
 	{
-		this._lastUpdateTime = Date.now();
+		this._lastUpdateTime = performance.now();
 		this._clubPastPeriods = Math.max(0, value);
 	}
 
@@ -60,7 +60,7 @@ export class Purse
 
 	set clubHasEverBeenMember(value: boolean)
 	{
-		this._lastUpdateTime = Date.now();
+		this._lastUpdateTime = performance.now();
 		this._clubHasEverBeenMember = value;
 	}
 
@@ -73,7 +73,7 @@ export class Purse
 
 	set isVIP(value: boolean)
 	{
-		this._lastUpdateTime = Date.now();
+		this._lastUpdateTime = performance.now();
 		this._isVIP = value;
 	}
 
@@ -85,7 +85,7 @@ export class Purse
 	 */
 	get minutesUntilExpiration(): number
 	{
-		const elapsedMinutes = Math.floor((Date.now() - this._lastUpdateTime) / 60000);
+		const elapsedMinutes = Math.floor((performance.now() - this._lastUpdateTime) / 60000);
 		const remaining = this._minutesUntilExpiration - elapsedMinutes;
 
 		return Math.max(0, remaining);
@@ -93,7 +93,7 @@ export class Purse
 
 	set minutesUntilExpiration(value: number)
 	{
-		this._lastUpdateTime = Date.now();
+		this._lastUpdateTime = performance.now();
 		this._minutesUntilExpiration = value;
 	}
 
@@ -130,7 +130,7 @@ export class Purse
 
 	set minutesSinceLastModified(value: number)
 	{
-		this._lastUpdateTime = Date.now();
+		this._lastUpdateTime = performance.now();
 		this._minutesSinceLastModified = value;
 	}
 

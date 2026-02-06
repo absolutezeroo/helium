@@ -45,7 +45,7 @@ export class UserChangeMessageEventParser implements IMessageParser
 		return this._achievementScore;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._id = 0;
 		this._figure = '';
@@ -55,7 +55,7 @@ export class UserChangeMessageEventParser implements IMessageParser
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		if (wrapper === null)
 		{

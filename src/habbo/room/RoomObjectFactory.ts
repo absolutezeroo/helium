@@ -60,7 +60,7 @@ export class RoomObjectFactory implements IRoomObjectFactory
 		return this._events;
 	}
 
-	addObjectEventListener(callback: (event: unknown) => void): void
+	public addObjectEventListener(callback: (event: unknown) => void): void
 	{
 		if (this._objectEventListeners.indexOf(callback) < 0)
 		{
@@ -76,7 +76,7 @@ export class RoomObjectFactory implements IRoomObjectFactory
 		}
 	}
 
-	removeObjectEventListener(callback: (event: unknown) => void): void
+	public removeObjectEventListener(callback: (event: unknown) => void): void
 	{
 		const index = this._objectEventListeners.indexOf(callback);
 
@@ -94,7 +94,7 @@ export class RoomObjectFactory implements IRoomObjectFactory
 		}
 	}
 
-	createRoomObjectLogic(type: string): IRoomObjectEventHandler | null
+	public createRoomObjectLogic(type: string): IRoomObjectEventHandler | null
 	{
 		let LogicClass: LogicConstructor | null = null;
 
@@ -200,7 +200,7 @@ export class RoomObjectFactory implements IRoomObjectFactory
 		return null;
 	}
 
-	createRoomObjectManager(): IRoomObjectManager
+	public createRoomObjectManager(): IRoomObjectManager
 	{
 		return new RoomObjectManager();
 	}
@@ -208,7 +208,7 @@ export class RoomObjectFactory implements IRoomObjectFactory
 	/**
 	 * Create a visualization for a room object type
 	 */
-	createRoomObjectVisualization(type: string): IRoomObjectVisualization | null
+	public createRoomObjectVisualization(type: string): IRoomObjectVisualization | null
 	{
 		switch (type)
 		{

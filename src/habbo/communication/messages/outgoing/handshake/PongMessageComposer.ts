@@ -16,7 +16,7 @@ export class PongMessageComposer extends MessageComposer<ConstructorParameters<t
 		this._data = [];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

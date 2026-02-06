@@ -1,7 +1,7 @@
-import {BaseHandler} from './BaseHandler';
 import type {IConnection} from '@core/communication/connection/IConnection';
-import type {IRoomHandlerListener} from '../IRoomHandlerListener';
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
+import {BaseHandler} from './BaseHandler';
+import type {IRoomHandlerListener} from '../IRoomHandlerListener';
 import {
 	YouAreControllerMessageEvent,
 	YouAreNotControllerMessageEvent,
@@ -37,7 +37,7 @@ export class RoomPermissionsHandler extends BaseHandler
 
 	private onYouAreController(event: IMessageEvent): void
 	{
-		const parser = event.parser as YouAreControllerMessageParser;
+		const parser = event.parser as YouAreControllerMessageParser; // cast: event type assertion
 
 		if (!parser)
 		{
@@ -56,7 +56,7 @@ export class RoomPermissionsHandler extends BaseHandler
 
 	private onYouAreNotController(event: IMessageEvent): void
 	{
-		const parser = event.parser as YouAreNotControllerMessageParser;
+		const parser = event.parser as YouAreNotControllerMessageParser; // cast: event type assertion
 
 		if (!parser)
 		{

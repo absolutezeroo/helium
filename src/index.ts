@@ -1,5 +1,5 @@
 // Main application
-export {Helium, type HeliumConfig, type ConnectionConfig} from './Helium';
+export {Helium, type IHeliumConfig, type IConnectionConfig} from './Helium';
 
 // Component Runtime (replaces Inversify IoC)
 export * from '@core/runtime';
@@ -12,4 +12,4 @@ export * from '@core/communication';
 
 // Utilities
 export {Logger, LogLevel, log} from '@core/utils/Logger';
-export type {LoggerConfig} from '@core/utils/Logger';
+export type {ILoggerConfig} from '@core/utils/Logger';

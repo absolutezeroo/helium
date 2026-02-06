@@ -5,7 +5,7 @@
  */
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
-import {YouAreOwnerMessageParser} from '../../../parser/room/permissions/YouAreOwnerMessageParser';
+import {YouAreOwnerMessageParser} from '@habbo/communication/messages/parser/room/permissions/YouAreOwnerMessageParser';
 
 export class YouAreOwnerMessageEvent extends MessageEvent
 {

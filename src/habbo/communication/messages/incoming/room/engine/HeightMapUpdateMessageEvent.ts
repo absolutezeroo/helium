@@ -5,7 +5,7 @@
  */
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
-import {HeightMapUpdateMessageParser} from '../../../parser/room/engine/HeightMapUpdateMessageParser';
+import {HeightMapUpdateMessageParser} from '@habbo/communication/messages/parser/room/engine/HeightMapUpdateMessageParser';
 
 export class HeightMapUpdateMessageEvent extends MessageEvent
 {

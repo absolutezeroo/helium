@@ -19,7 +19,7 @@ export class OpenFlatConnectionMessageComposer extends MessageComposer<Construct
 		this._data = [roomId, password, unknown];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

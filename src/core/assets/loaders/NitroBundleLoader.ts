@@ -1,4 +1,5 @@
 import {Assets, Spritesheet, Texture} from 'pixi.js';
+import { Logger } from '@core/utils/Logger';
 import {BinaryFileLoader} from './BinaryFileLoader';
 
 /**
@@ -146,7 +147,7 @@ export class NitroBundleLoader extends BinaryFileLoader
 	/**
 	 * Get a texture by name
 	 */
-	getTexture(name: string): Texture | null
+	public getTexture(name: string): Texture | null
 	{
 		return this._textures.get(name) || this._baseTexture;
 	}
@@ -156,7 +157,7 @@ export class NitroBundleLoader extends BinaryFileLoader
 	 * After calling this, dispose() will NOT destroy the textures.
 	 * The receiving asset is responsible for destroying them.
 	 */
-	transferOwnership(): void
+	public transferOwnership(): void
 	{
 		this._ownershipTransferred = true;
 	}
@@ -209,7 +210,7 @@ export class NitroBundleLoader extends BinaryFileLoader
 				super.handleLoadEvent('complete', httpStatus);
 			}).catch((error) =>
 			{
-				console.error('[NitroBundleLoader] Error parsing bundle:', error);
+				Logger.error('[NitroBundleLoader] Error parsing bundle:', error);
 
 				super.handleLoadEvent('ioError', httpStatus);
 			});
@@ -242,7 +243,12 @@ export class NitroBundleLoader extends BinaryFileLoader
 
 		const decoder = new TextDecoder('utf-8');
 		const jsonString = decoder.decode(jsonFile.data);
-		this._jsonData = JSON.parse(jsonString);
+		try {
+  		this._jsonData = JSON.parse(jsonString);
+		} catch (_parseError: unknown) {
+		  // SC-005: JSON.parse validation
+		  throw new Error(`Invalid JSON: ${(_parseError as Error).message}`); // cast: type assertion required
+		}
 
 		// Find and load the PNG file(s)
 		const pngFile = files.find(f => f.name.endsWith('.png'));

@@ -1,2 +1,2 @@
 export {InventoryTabs} from './InventoryTabs';
-export type {InventoryTab, InventoryTabsProps} from './InventoryTabs';
+export type {IInventoryTab, IInventoryTabsProps} from './InventoryTabs';

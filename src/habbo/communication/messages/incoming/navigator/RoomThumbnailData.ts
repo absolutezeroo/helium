@@ -71,7 +71,7 @@ export class RoomThumbnailData
 		return this._disposed;
 	}
 
-	setDefaults(): void
+	public setDefaults(): void
 	{
 		this._bgImgId = 1;
 		this._frontImgId = 0;
@@ -82,7 +82,7 @@ export class RoomThumbnailData
 		this._objects.push(obj);
 	}
 
-	getCopy(): RoomThumbnailData
+	public getCopy(): RoomThumbnailData
 	{
 		const copy = new RoomThumbnailData(null);
 		copy._bgImgId = this._bgImgId;
@@ -96,7 +96,7 @@ export class RoomThumbnailData
 		return copy;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (this._disposed)
 		{
@@ -106,16 +106,15 @@ export class RoomThumbnailData
 		this._objects = [];
 	}
 
-	getAsString(): string
+	public getAsString(): string
 	{
-		let result = this._frontImgId + ';';
-		result += this._bgImgId + ';';
+		const parts: string[] = [String(this._frontImgId), String(this._bgImgId)];
 
 		for (const obj of this._objects)
 		{
-			result += obj.imgId + ',' + obj.pos + ';';
+			parts.push(`${obj.imgId},${obj.pos}`);
 		}
 
-		return result;
+		return `${parts.join(';')};`;
 	}
 }

@@ -17,13 +17,13 @@ export class UserRemoveMessageParser implements IMessageParser
 		return this._roomIndex;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._roomIndex = 0;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		if (wrapper === null)
 		{

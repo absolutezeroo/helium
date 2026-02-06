@@ -16,13 +16,13 @@ export class UserFlatCatsMessageParser implements IMessageParser
 		return this._nodes;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._nodes = [];
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._nodes = [];
 		const count = wrapper.readInt();

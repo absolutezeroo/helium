@@ -48,13 +48,13 @@ export class DisconnectReasonMessageParser implements IMessageParser
 		}
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._reason = -1;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		if (wrapper.bytesAvailable >= 4)
 		{

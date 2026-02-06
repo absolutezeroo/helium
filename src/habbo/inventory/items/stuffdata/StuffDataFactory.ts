@@ -1,5 +1,5 @@
-import type {IStuffData} from '../IStuffData';
 import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
+import type {IStuffData} from '../IStuffData';
 import {StuffDataType} from './StuffDataType';
 import {LegacyStuffData} from './LegacyStuffData';
 import {MapStuffData} from './MapStuffData';

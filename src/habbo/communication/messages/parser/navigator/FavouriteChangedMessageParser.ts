@@ -22,14 +22,14 @@ export class FavouriteChangedMessageParser implements IMessageParser
 		return this._added;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._flatId = 0;
 		this._added = false;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._flatId = wrapper.readInt();
 		this._added = wrapper.readBoolean();

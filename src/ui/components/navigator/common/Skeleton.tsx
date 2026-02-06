@@ -1,7 +1,7 @@
 import type {JSX} from 'solid-js';
 import clsx from 'clsx';
 
-export interface SkeletonProps
+export interface ISkeletonProps
 {
 	class?: string;
 	width?: string | number;
@@ -13,7 +13,7 @@ export interface SkeletonProps
 /**
  * Skeleton loading placeholder
  */
-export function Skeleton(props: SkeletonProps): JSX.Element
+export function Skeleton(props: ISkeletonProps): JSX.Element
 {
 	const roundedClass = () =>
 	{
@@ -99,7 +99,7 @@ export function RoomCardCompactSkeleton(): JSX.Element
 }
 
 /**
- * Category item skeleton
+ * ICategory item skeleton
  */
 export function CategoryItemSkeleton(): JSX.Element
 {

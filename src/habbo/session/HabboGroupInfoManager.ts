@@ -1,6 +1,6 @@
-import type {IHabboGroupInfoManager} from './IHabboGroupInfoManager';
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
 import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import type {IHabboGroupInfoManager} from './IHabboGroupInfoManager';
 import type {IHabboCommunicationManager} from '../communication/IHabboCommunicationManager';
 
 /**
@@ -26,7 +26,7 @@ export class HabboGroupInfoManager implements IHabboGroupInfoManager
 		return this._communication === null;
 	}
 
-	getBadgeId(groupId: number): string | null
+	public getBadgeId(groupId: number): string | null
 	{
 		return this._groupBadges.get(groupId) ?? null;
 	}
@@ -34,7 +34,7 @@ export class HabboGroupInfoManager implements IHabboGroupInfoManager
 	/**
 	 * Set group badge (called by message handler)
 	 */
-	setGroupBadge(groupId: number, badgeId: string): void
+	public setGroupBadge(groupId: number, badgeId: string): void
 	{
 		this._groupBadges.set(groupId, badgeId);
 	}
@@ -42,7 +42,7 @@ export class HabboGroupInfoManager implements IHabboGroupInfoManager
 	/**
 	 * Set multiple group badges (called by message handler)
 	 */
-	setGroupBadges(badges: Map<number, string>): void
+	public setGroupBadges(badges: Map<number, string>): void
 	{
 		for (const [groupId, badgeId] of badges)
 		{
@@ -53,7 +53,7 @@ export class HabboGroupInfoManager implements IHabboGroupInfoManager
 	/**
 	 * Request group badges for current room (called on room ready)
 	 */
-	requestGroupBadges(): void
+	public requestGroupBadges(): void
 	{
 		// TODO: Send GetHabboGroupBadgesMessageComposer when implemented
 		// if (this._sendCallback)
@@ -62,7 +62,7 @@ export class HabboGroupInfoManager implements IHabboGroupInfoManager
 		// }
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (this.disposed) return;
 

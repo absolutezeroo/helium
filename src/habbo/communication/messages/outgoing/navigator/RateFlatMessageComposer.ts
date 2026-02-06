@@ -16,7 +16,7 @@ export class RateFlatMessageComposer extends MessageComposer<ConstructorParamete
 		this._data = [rating];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

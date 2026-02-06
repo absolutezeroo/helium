@@ -7,5 +7,5 @@ export {StringArrayStuffData} from './StringArrayStuffData';
 export {VoteResultStuffData} from './VoteResultStuffData';
 export {EmptyStuffData} from './EmptyStuffData';
 export {IntArrayStuffData} from './IntArrayStuffData';
-export {HighScoreStuffData, type HighScoreEntry} from './HighScoreStuffData';
+export {HighScoreStuffData, type IHighScoreEntry} from './HighScoreStuffData';
 export {CrackableStuffData} from './CrackableStuffData';

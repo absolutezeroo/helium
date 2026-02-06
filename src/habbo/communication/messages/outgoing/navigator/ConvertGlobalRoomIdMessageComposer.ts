@@ -16,7 +16,7 @@ export class ConvertGlobalRoomIdMessageComposer extends MessageComposer<Construc
 		this._data = [flatId];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import type {IconName} from '../common';
 import {NavigatorIcon} from '../common';
 
-export interface CategoryItemProps
+export interface ICategoryItemProps
 {
 	id: number;
 	name: string;
@@ -22,9 +22,9 @@ export interface CategoryItemProps
 }
 
 /**
- * Category item component - individual category in a list
+ * ICategory item component - individual category in a list
  */
-export function CategoryItem(props: CategoryItemProps): JSX.Element
+export function CategoryItem(props: ICategoryItemProps): JSX.Element
 {
 	const depth = () => props.depth ?? 0;
 	const paddingLeft = () => `${depth() * 16 + 12}px`;

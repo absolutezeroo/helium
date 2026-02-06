@@ -1,7 +1,7 @@
 /**
  * User profile data
  */
-export interface UserData
+export interface IUserData
 {
 	id: number;
 	name: string;
@@ -21,7 +21,7 @@ export interface UserData
 /**
  * Server availability status
  */
-export interface AvailabilityStatus
+export interface IAvailabilityStatus
 {
 	isOpen: boolean;
 	onShutDown: boolean;
@@ -31,13 +31,13 @@ export interface AvailabilityStatus
 /**
  * Session module state
  */
-export interface SessionState
+export interface ISessionState
 {
 	/** Current user data */
-	userData: UserData | null;
+	userData: IUserData | null;
 
 	/** Server availability */
-	availability: AvailabilityStatus | null;
+	availability: IAvailabilityStatus | null;
 
 	/** Club membership level (0 = none, 1 = HC, 2 = VIP) */
 	clubLevel: number;

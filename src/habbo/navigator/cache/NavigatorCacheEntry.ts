@@ -42,7 +42,7 @@ export class NavigatorCacheEntry
 		return this._expiresAt;
 	}
 
-	hasExpired(currentTime: number): boolean
+	public hasExpired(currentTime: number): boolean
 	{
 		return currentTime >= this._expiresAt;
 	}

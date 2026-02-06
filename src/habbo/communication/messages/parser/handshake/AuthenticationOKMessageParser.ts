@@ -9,12 +9,12 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  */
 export class AuthenticationOKMessageParser implements IMessageParser
 {
-	flush(): boolean
+	public flush(): boolean
 	{
 		return true;
 	}
 
-	parse(_wrapper: IMessageDataWrapper): boolean
+	public parse(_wrapper: IMessageDataWrapper): boolean
 	{
 		// This message indicates successful authentication
 		return true;

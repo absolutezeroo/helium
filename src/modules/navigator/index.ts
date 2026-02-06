@@ -1,10 +1,10 @@
-import {defineModule} from '../core/defineModule';
-import type {NavigatorState} from './types';
-import type {NavigatorActions, NavigatorManagers} from './actions';
-import {createActions} from './actions';
-import {handlers} from './handlers';
 import {IID_HabboNavigator} from '@iid/IIDHabboNavigator';
 import {IID_HabboNewNavigator} from '@iid/IIDHabboNewNavigator';
+import {defineModule} from '../core/defineModule';
+import type {INavigatorState} from './types';
+import type {NavigatorActions, INavigatorManagers} from './actions';
+import {createActions} from './actions';
+import {handlers} from './handlers';
 
 /**
  * Navigator Module
@@ -41,7 +41,7 @@ export const navigatorModule = defineModule({
 	managerIIDs: {
 		navigator: IID_HabboNavigator,
 		newNavigator: IID_HabboNewNavigator,
-	} satisfies Record<keyof NavigatorManagers, unknown>,
+	} satisfies Record<keyof INavigatorManagers, unknown>,
 
 	initialState: {
 		// UI State
@@ -62,7 +62,7 @@ export const navigatorModule = defineModule({
 
 		// Settings
 		homeRoomId: 0,
-	} satisfies NavigatorState,
+	} satisfies INavigatorState,
 
 	handlers,
 	actions: createActions,
@@ -80,18 +80,18 @@ export const navigatorModule = defineModule({
 	},
 });
 
-export type {NavigatorState} from './types';
-export type {NavigatorActions, NavigatorManagers} from './actions';
+export type {INavigatorState} from './types';
+export type {NavigatorActions, INavigatorManagers} from './actions';
 
 // Declaration merging for type-safe module access
 declare module '../core/moduleIds'
 {
-	interface ModuleStateMap
+	interface IModuleStateMap
 	{
-		'navigator': NavigatorState;
+		'navigator': INavigatorState;
 	}
 
-	interface ModuleActionsMap
+	interface IModuleActionsMap
 	{
 		'navigator': NavigatorActions;
 	}

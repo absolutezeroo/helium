@@ -132,7 +132,7 @@ export class RoomPlaneData
 		return this._masks.length;
 	}
 
-	getSecondaryNormal(index: number): IVector3d | null
+	public getSecondaryNormal(index: number): IVector3d | null
 	{
 		if (index < 0 || index >= this.secondaryNormalCount)
 		{
@@ -144,34 +144,34 @@ export class RoomPlaneData
 		return result;
 	}
 
-	addMask(leftSideLoc: number, rightSideLoc: number, leftSideLength: number, rightSideLength: number): void
+	public addMask(leftSideLoc: number, rightSideLoc: number, leftSideLength: number, rightSideLength: number): void
 	{
 		const mask = new RoomPlaneMaskData(leftSideLoc, rightSideLoc, leftSideLength, rightSideLength);
 		this._masks.push(mask);
 	}
 
-	getMaskLeftSideLoc(index: number): number
+	public getMaskLeftSideLoc(index: number): number
 	{
 		const mask = this.getMask(index);
 		if (mask !== null) return mask.leftSideLoc;
 		return -1;
 	}
 
-	getMaskRightSideLoc(index: number): number
+	public getMaskRightSideLoc(index: number): number
 	{
 		const mask = this.getMask(index);
 		if (mask !== null) return mask.rightSideLoc;
 		return -1;
 	}
 
-	getMaskLeftSideLength(index: number): number
+	public getMaskLeftSideLength(index: number): number
 	{
 		const mask = this.getMask(index);
 		if (mask !== null) return mask.leftSideLength;
 		return -1;
 	}
 
-	getMaskRightSideLength(index: number): number
+	public getMaskRightSideLength(index: number): number
 	{
 		const mask = this.getMask(index);
 		if (mask !== null) return mask.rightSideLength;

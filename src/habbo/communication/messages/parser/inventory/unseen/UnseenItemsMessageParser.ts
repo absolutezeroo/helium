@@ -15,13 +15,13 @@ export class UnseenItemsMessageParser implements IMessageParser
 		return this._categories;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._categories.clear();
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		const categoryCount = wrapper.readInt();
 

@@ -5,19 +5,19 @@ import {CategoryItem} from './CategoryItem';
 import type {IconName} from '../common';
 import {CategoryItemSkeleton, NavigatorIcon} from '../common';
 
-export interface Category
+export interface ICategory
 {
 	id: number;
 	name: string;
 	icon?: IconName;
 	roomCount?: number;
 	userCount?: number;
-	subcategories?: Category[];
+	subcategories?: ICategory[];
 }
 
-export interface CategoryListProps
+export interface ICategoryListProps
 {
-	categories: Category[];
+	categories: ICategory[];
 	selectedId?: number;
 	loading?: boolean;
 	title?: string;
@@ -26,9 +26,9 @@ export interface CategoryListProps
 }
 
 /**
- * Category list component - displays hierarchical categories
+ * ICategory list component - displays hierarchical categories
  */
-export function CategoryList(props: CategoryListProps): JSX.Element
+export function CategoryList(props: ICategoryListProps): JSX.Element
 {
 	const [expandedIds, setExpandedIds] = createSignal<Set<number>>(new Set());
 
@@ -48,7 +48,7 @@ export function CategoryList(props: CategoryListProps): JSX.Element
 		});
 	};
 
-	const renderCategory = (category: Category, depth: number = 0): JSX.Element =>
+	const renderCategory = (category: ICategory, depth: number = 0): JSX.Element =>
 	{
 		const hasSubcategories = category.subcategories && category.subcategories.length > 0;
 		const isExpanded = expandedIds().has(category.id);
@@ -108,7 +108,7 @@ export function CategoryList(props: CategoryListProps): JSX.Element
 				</div>
 			</Show>
 
-			{/* Category list */}
+			{/* ICategory list */}
 			<Show when={!props.loading && props.categories.length > 0}>
 				<div class="divide-y divide-slate-700/30">
 					<For each={props.categories}>

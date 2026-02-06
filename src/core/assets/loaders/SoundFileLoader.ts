@@ -1,3 +1,4 @@
+import { Logger } from '@core/utils/Logger';
 import {BinaryFileLoader} from './BinaryFileLoader';
 
 /**
@@ -97,7 +98,7 @@ export class SoundFileLoader extends BinaryFileLoader
 			super.handleLoadEvent('complete');
 		} catch (e)
 		{
-			console.error('[SoundFileLoader] Error decoding audio:', e);
+			Logger.error('[SoundFileLoader] Error decoding audio:', e);
 
 			super.handleLoadEvent('ioError');
 		}

@@ -15,14 +15,14 @@ export class NavigatorCache
 	{
 	}
 
-	put(key: string, payload: NavigatorSearchResultSet): void
+	public put(key: string, payload: NavigatorSearchResultSet): void
 	{
 		this.removeExpiredEntries();
 		const currentTime = performance.now();
 		this._entriesByKey.set(key, new NavigatorCacheEntry(key, payload, currentTime, this.expiresAt(currentTime)));
 	}
 
-	getEntry(key: string): NavigatorSearchResultSet | null
+	public getEntry(key: string): NavigatorSearchResultSet | null
 	{
 		const entry = this._entriesByKey.get(key);
 
@@ -39,7 +39,7 @@ export class NavigatorCache
 		return null;
 	}
 
-	removeEntry(key: string): void
+	public removeEntry(key: string): void
 	{
 		this._entriesByKey.delete(key);
 	}

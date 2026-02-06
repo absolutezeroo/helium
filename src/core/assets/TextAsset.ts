@@ -43,7 +43,7 @@ export class TextAsset implements IAsset
 		return this._declaration;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (!this._disposed)
 		{
@@ -52,7 +52,7 @@ export class TextAsset implements IAsset
 		}
 	}
 
-	setUnknownContent(content: unknown): void
+	public setUnknownContent(content: unknown): void
 	{
 		if (typeof content === 'string')
 		{
@@ -83,7 +83,7 @@ export class TextAsset implements IAsset
 		this._content = content ? String(content) : '';
 	}
 
-	setFromOtherAsset(asset: IAsset): void
+	public setFromOtherAsset(asset: IAsset): void
 	{
 		if (asset instanceof TextAsset)
 		{
@@ -94,7 +94,7 @@ export class TextAsset implements IAsset
 		throw new Error('Provided asset is not of type TextAsset');
 	}
 
-	setParamsDesc(_params: Map<string, string>): void
+	public setParamsDesc(_params: Map<string, string>): void
 	{
 	}
 }

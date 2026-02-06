@@ -31,7 +31,7 @@ export class RoomEntryTileMessageParser implements IMessageParser
 		return this._dir;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._x = 0;
 		this._y = 0;
@@ -39,7 +39,7 @@ export class RoomEntryTileMessageParser implements IMessageParser
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		if (wrapper === null)
 		{

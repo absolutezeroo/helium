@@ -43,7 +43,7 @@ export class CategoriesWithVisitorCountData implements INavigatorSearchResultDat
 		return this._disposed;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (this._disposed)
 		{

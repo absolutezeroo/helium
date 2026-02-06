@@ -1,7 +1,7 @@
-import type {IPerkManager, PerkAllowance} from './IPerkManager';
-import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
-import type {IHabboCommunicationManager} from '../communication/IHabboCommunicationManager';
 import {EventEmitter} from 'eventemitter3';
+import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
+import type {IPerkManager, IPerkAllowance} from './IPerkManager';
+import type {IHabboCommunicationManager} from '../communication/IHabboCommunicationManager';
 
 /**
  * Common perk codes used in the client
@@ -27,7 +27,7 @@ export const PerkCodes = {
 export class PerkManager extends EventEmitter implements IPerkManager
 {
 	private _communication: IHabboCommunicationManager | null = null;
-	private _perks: Map<string, PerkAllowance> = new Map();
+	private _perks: Map<string, IPerkAllowance> = new Map();
 	private _messageEvents: IMessageEvent[] = [];
 
 	constructor(communication: IHabboCommunicationManager | null)
@@ -49,14 +49,14 @@ export class PerkManager extends EventEmitter implements IPerkManager
 		return this._communication === null;
 	}
 
-	isPerkAllowed(perkCode: string): boolean
+	public isPerkAllowed(perkCode: string): boolean
 	{
 		const perk = this._perks.get(perkCode);
 
 		return perk ? perk.isAllowed : false;
 	}
 
-	getPerkErrorMessage(perkCode: string): string
+	public getPerkErrorMessage(perkCode: string): string
 	{
 		const perk = this._perks.get(perkCode);
 
@@ -66,7 +66,7 @@ export class PerkManager extends EventEmitter implements IPerkManager
 	/**
 	 * Set perk allowances (called by message handler)
 	 */
-	setPerks(perks: PerkAllowance[]): void
+	public setPerks(perks: IPerkAllowance[]): void
 	{
 		for (const perk of perks)
 		{
@@ -77,7 +77,7 @@ export class PerkManager extends EventEmitter implements IPerkManager
 		this.emit('perksUpdated');
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (this.disposed) return;
 

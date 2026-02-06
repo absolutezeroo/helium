@@ -1,3 +1,4 @@
+import { Logger } from '@core/utils/Logger';
 import {getIIDName, type IID} from './IID';
 import type {IContext, InterfaceCallback, IUpdateReceiver} from './IContext';
 import type {ICoreConfiguration} from './ICoreConfiguration';
@@ -6,7 +7,7 @@ import {Component, ComponentEvents, ComponentFlags} from './Component';
 /**
  * Interface queue entry
  */
-interface InterfaceQueue<T = unknown>
+interface IInterfaceQueue<T = unknown>
 {
 	iid: IID<T>;
 	callbacks: InterfaceCallback<T>[];
@@ -15,7 +16,7 @@ interface InterfaceQueue<T = unknown>
 /**
  * Update receiver entry
  */
-interface UpdateReceiverEntry
+interface IUpdateReceiverEntry
 {
 	receiver: IUpdateReceiver;
 	priority: number;
@@ -47,8 +48,8 @@ interface UpdateReceiverEntry
 export class ComponentContext extends Component implements IContext
 {
 	private readonly _attachedComponents: Component[] = [];
-	private readonly _interfaceQueues: Map<symbol, InterfaceQueue> = new Map();
-	private readonly _updateReceivers: UpdateReceiverEntry[] = [];
+	private readonly _interfaceQueues: Map<symbol, IInterfaceQueue> = new Map();
+	private readonly _updateReceivers: IUpdateReceiverEntry[] = [];
 	private _updateReceiversDirty: boolean = false;
 
 	constructor(parentContext?: IContext)
@@ -56,7 +57,7 @@ export class ComponentContext extends Component implements IContext
 		// Pass self as context if no parent, otherwise pass parent
 		// Note: We need to construct Component with a valid context
 		// For root context, we'll set it up specially
-		super(parentContext ?? (null as unknown as IContext), ComponentFlags.CONTEXT);
+		super(parentContext ?? (null as unknown as IContext), ComponentFlags.CONTEXT); // cast: intermediate unknown assertion
 
 		// For root context, we are our own context
 		if (!parentContext)
@@ -137,13 +138,13 @@ export class ComponentContext extends Component implements IContext
 	/**
 	 * Attach a component to this context
 	 */
-	attachComponent(component: Component, interfaces: IID[]): void
+	public attachComponent(component: Component, interfaces: IID[]): void
 	{
 		if (this.disposed) return;
 
 		if (this._attachedComponents.includes(component))
 		{
-			console.warn(`[ComponentContext] Component ${component} already attached`);
+			Logger.warn(`[ComponentContext] Component ${component} already attached`);
 
 			return;
 		}
@@ -153,7 +154,7 @@ export class ComponentContext extends Component implements IContext
 
 		if (!isProperComponent)
 		{
-			console.warn(`[ComponentContext] Object does not extend Component, skipping interface registration:`, component);
+			Logger.warn(`[ComponentContext] Object does not extend Component, skipping interface registration:`, component);
 			// Still store it for basic lookup, but can't use full Component features
 			return;
 		}
@@ -189,7 +190,7 @@ export class ComponentContext extends Component implements IContext
 	/**
 	 * Detach a component from this context
 	 */
-	detachComponent(component: Component): void
+	public detachComponent(component: Component): void
 	{
 		const index = this._attachedComponents.indexOf(component);
 
@@ -204,7 +205,7 @@ export class ComponentContext extends Component implements IContext
 	/**
 	 * Register an update receiver
 	 */
-	registerUpdateReceiver(receiver: IUpdateReceiver, priority: number): void
+	public registerUpdateReceiver(receiver: IUpdateReceiver, priority: number): void
 	{
 		// Check if already registered
 		const existing = this._updateReceivers.find(e => e.receiver === receiver);
@@ -223,7 +224,7 @@ export class ComponentContext extends Component implements IContext
 	/**
 	 * Remove an update receiver
 	 */
-	removeUpdateReceiver(receiver: IUpdateReceiver): void
+	public removeUpdateReceiver(receiver: IUpdateReceiver): void
 	{
 		const index = this._updateReceivers.findIndex(e => e.receiver === receiver);
 
@@ -236,7 +237,7 @@ export class ComponentContext extends Component implements IContext
 	/**
 	 * Update all receivers
 	 */
-	update(deltaTime: number): void
+	public update(deltaTime: number): void
 	{
 		if (this._updateReceiversDirty)
 		{
@@ -253,7 +254,7 @@ export class ComponentContext extends Component implements IContext
 					entry.receiver.update(deltaTime);
 				} catch (e)
 				{
-					console.error('[ComponentContext] Update error:', e);
+					Logger.error('[ComponentContext] Update error:', e);
 				}
 			}
 		}
@@ -262,11 +263,11 @@ export class ComponentContext extends Component implements IContext
 	/**
 	 * Log an error
 	 */
-	error(message: string, fatal: boolean = false, code: number = -1, error?: Error): void
+	public error(message: string, fatal: boolean = false, code: number = -1, error?: Error): void
 	{
 		this._lastError = message;
 
-		console.error(`[ComponentContext] Error: ${message}`, error);
+		Logger.error(`[ComponentContext] Error: ${message}`, error);
 
 		this.events.emit(ComponentEvents.ERROR, {message, fatal, code, error});
 	}
@@ -274,11 +275,11 @@ export class ComponentContext extends Component implements IContext
 	/**
 	 * Log a warning
 	 */
-	warning(message: string): void
+	public warning(message: string): void
 	{
 		this._lastWarning = message;
 
-		console.warn(`[ComponentContext] Warning: ${message}`);
+		Logger.warn(`[ComponentContext] Warning: ${message}`);
 
 		this.events.emit(ComponentEvents.WARNING, message);
 	}
@@ -286,7 +287,7 @@ export class ComponentContext extends Component implements IContext
 	/**
 	 * Log a debug message
 	 */
-	debug(message: string): void
+	public debug(message: string): void
 	{
 		this._lastDebug = message;
 
@@ -336,7 +337,7 @@ export class ComponentContext extends Component implements IContext
 	/**
 	 * Get all attached components
 	 */
-	getAttachedComponents(): readonly Component[]
+	public getAttachedComponents(): readonly Component[]
 	{
 		return this._attachedComponents;
 	}
@@ -346,7 +347,7 @@ export class ComponentContext extends Component implements IContext
 	 */
 	private addToQueue<T>(iid: IID<T>, callback: InterfaceCallback<T>): void
 	{
-		let queue = this._interfaceQueues.get(iid) as InterfaceQueue<T> | undefined;
+		let queue = this._interfaceQueues.get(iid) as IInterfaceQueue<T> | undefined; // cast: type assertion required
 
 		if (!queue)
 		{
@@ -354,7 +355,7 @@ export class ComponentContext extends Component implements IContext
 				iid,
 				callbacks: [],
 			};
-			this._interfaceQueues.set(iid, queue as InterfaceQueue);
+			this._interfaceQueues.set(iid, queue as IInterfaceQueue); // cast: type assertion required
 		}
 
 		queue.callbacks.push(callback);
@@ -385,7 +386,7 @@ export class ComponentContext extends Component implements IContext
 	 */
 	private announceInterfaceAvailability<T>(iid: IID<T>, provider: Component | T): void
 	{
-		const queue = this._interfaceQueues.get(iid) as InterfaceQueue<T> | undefined;
+		const queue = this._interfaceQueues.get(iid) as IInterfaceQueue<T> | undefined; // cast: type assertion required
 
 		if (!queue) return;
 
@@ -412,7 +413,7 @@ export class ComponentContext extends Component implements IContext
 				callback(iid, instance);
 			} catch (e)
 			{
-				console.error('[ComponentContext] Callback error:', e);
+				Logger.error('[ComponentContext] Callback error:', e);
 			}
 		}
 

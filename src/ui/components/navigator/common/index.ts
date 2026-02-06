@@ -1,7 +1,7 @@
-export {NavigatorIcon, type NavigatorIconProps, type IconName} from './NavigatorIcon';
-export {NavigatorButton, IconButton, type NavigatorButtonProps, type IconButtonProps} from './NavigatorButton';
-export {NavigatorHeader, type NavigatorHeaderProps} from './NavigatorHeader';
+export {NavigatorIcon, type INavigatorIconProps, type IconName} from './NavigatorIcon';
+export {NavigatorButton, IconButton, type INavigatorButtonProps, type IIconButtonProps} from './NavigatorButton';
+export {NavigatorHeader, type INavigatorHeaderProps} from './NavigatorHeader';
 export {
-	Skeleton, RoomCardSkeleton, RoomCardCompactSkeleton, CategoryItemSkeleton, TabSkeleton, type SkeletonProps
+	Skeleton, RoomCardSkeleton, RoomCardCompactSkeleton, CategoryItemSkeleton, TabSkeleton, type ISkeletonProps
 } from './Skeleton';
-export {ProgressBar, UserCountBar, type ProgressBarProps} from './ProgressBar';
+export {ProgressBar, UserCountBar, type IProgressBarProps} from './ProgressBar';

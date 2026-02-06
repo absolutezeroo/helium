@@ -29,6 +29,16 @@ export class RoomObjectEvent
 		return this._object;
 	}
 
+	/**
+	 * Reinitialize this event for reuse, avoiding per-frame allocations.
+	 */
+	public reinit(type: string, object: IRoomObject | null): this
+	{
+		this._type = type;
+		this._object = object;
+		return this;
+	}
+
 	get objectId(): number
 	{
 		if (this._object !== null)

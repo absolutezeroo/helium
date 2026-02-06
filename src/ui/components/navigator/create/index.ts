@@ -1,9 +1,9 @@
 export {RoomCreateForm} from './RoomCreateForm';
 export type {
-	RoomCreateFormProps,
-	RoomCreateFormData,
-	RoomCategory,
-	RoomModel
+	IRoomCreateFormProps,
+	IRoomCreateFormData,
+	IRoomCategory,
+	IRoomModel
 } from './RoomCreateForm';
 export {RoomCreateModal} from './RoomCreateModal';
-export type {RoomCreateModalProps} from './RoomCreateModal';
+export type {IRoomCreateModalProps} from './RoomCreateModal';

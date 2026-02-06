@@ -25,7 +25,7 @@ export type LoadingStep =
 /**
  * Connection module state
  */
-export interface ConnectionState
+export interface IConnectionState
 {
 	/** Current connection state */
 	state: ConnectionStateType;

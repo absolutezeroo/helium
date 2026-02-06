@@ -56,7 +56,7 @@ export class FloorHeightMapMessageParser implements IMessageParser
 		return this._areaHideData;
 	}
 
-	getTileHeight(x: number, y: number): number
+	public getTileHeight(x: number, y: number): number
 	{
 		if (x < 0 || x >= this._width || y < 0 || y >= this._height)
 		{
@@ -68,7 +68,7 @@ export class FloorHeightMapMessageParser implements IMessageParser
 		return row[x];
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._tiles = [];
 		this._width = 0;
@@ -80,7 +80,7 @@ export class FloorHeightMapMessageParser implements IMessageParser
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		if (wrapper === null)
 		{

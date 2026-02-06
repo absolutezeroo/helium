@@ -2,7 +2,7 @@ import type {JSX} from 'solid-js';
 import {Show} from 'solid-js';
 import clsx from 'clsx';
 
-export interface BadgeItemProps
+export interface IBadgeItemProps
 {
 	badgeId: string;
 	name?: string;
@@ -13,7 +13,7 @@ export interface BadgeItemProps
 	onDoubleClick?: () => void;
 }
 
-export function BadgeItem(props: BadgeItemProps): JSX.Element
+export function BadgeItem(props: IBadgeItemProps): JSX.Element
 {
 	return (
 		<div

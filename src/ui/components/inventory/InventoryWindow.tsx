@@ -2,28 +2,28 @@ import type {JSX} from 'solid-js';
 import {createSignal, Match, onMount, Show, Switch} from 'solid-js';
 import clsx from 'clsx';
 import {InventoryHeader} from './common';
-import type {InventoryTab} from './tabs';
+import type {IInventoryTab} from './tabs';
 import {InventoryTabs} from './tabs';
-import type {FurniGridItem} from './furni';
+import type {IFurniGridItem} from './furni';
 import {FurniDetails, FurniGrid} from './furni';
-import type {BadgeData} from './badges';
+import type {IBadgeData} from './badges';
 import {BadgesView} from './badges';
 
-export interface InventoryWindowProps
+export interface IInventoryWindowProps
 {
 	isOpen: boolean;
 	activeTab: string;
-	tabs: InventoryTab[];
+	tabs: IInventoryTab[];
 	loading?: boolean;
 
 	// Furni
-	furniItems: FurniGridItem[];
-	selectedFurni: FurniGridItem | null;
+	furniItems: IFurniGridItem[];
+	selectedFurni: IFurniGridItem | null;
 
 	// Badges
-	badges: BadgeData[];
-	activeBadges: BadgeData[];
-	selectedBadge: BadgeData | null;
+	badges: IBadgeData[];
+	activeBadges: IBadgeData[];
+	selectedBadge: IBadgeData | null;
 
 	// Callbacks
 	onClose?: () => void;
@@ -34,7 +34,7 @@ export interface InventoryWindowProps
 	onBadgeToggle?: (badgeId: string) => void;
 }
 
-export function InventoryWindow(props: InventoryWindowProps): JSX.Element
+export function InventoryWindow(props: IInventoryWindowProps): JSX.Element
 {
 	const [position, setPosition] = createSignal({x: 100, y: 100});
 	const [isDragging, setIsDragging] = createSignal(false);
@@ -53,7 +53,7 @@ export function InventoryWindow(props: InventoryWindowProps): JSX.Element
 
 	const handleMouseDown = (e: MouseEvent) =>
 	{
-		if ((e.target as HTMLElement).closest('button')) return;
+		if ((e.target as HTMLElement).closest('button')) return; // cast: type assertion required
 
 		setIsDragging(true);
 		setDragOffset({

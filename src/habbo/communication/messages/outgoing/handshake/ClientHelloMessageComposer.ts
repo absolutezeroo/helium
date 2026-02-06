@@ -11,10 +11,10 @@ export class ClientHelloMessageComposer extends MessageComposer<ConstructorParam
 	private _data: ConstructorParameters<typeof ClientHelloMessageComposer>;
 
 	constructor(
-		releaseVersion: string = 'WIN63-202407091256-704579380',
-		type: string = 'FLASH20',
-		platform: number = 6,
-		category: number = 4
+		public releaseVersion: string = 'WIN63-202407091256-704579380',
+		public type: string = 'FLASH20',
+		public platform: number = 6,
+		public category: number = 4
 	)
 	{
 		super();
@@ -22,7 +22,7 @@ export class ClientHelloMessageComposer extends MessageComposer<ConstructorParam
 		this._data = [releaseVersion, type, platform, category];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

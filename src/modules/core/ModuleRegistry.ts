@@ -1,6 +1,7 @@
 import type {IContext, IID} from '@core/runtime';
-import type {ActionContext, DependencyAccessor, LoadedModule, ModuleDefinition, StateListener} from './types';
-import type {ModuleActionsMap, ModuleStateMap, RegisteredModuleId} from './moduleIds';
+import { Logger } from '@core/utils/Logger';
+import type {IActionContext, IDependencyAccessor, ILoadedModule, IModuleDefinition, StateListener} from './types';
+import type {IModuleActionsMap, IModuleStateMap, RegisteredModuleId} from './moduleIds';
 import type {MessageBus} from './MessageBus';
 
 /**
@@ -9,8 +10,8 @@ import type {MessageBus} from './MessageBus';
  */
 export class ModuleRegistry
 {
-	private modules = new Map<string, LoadedModule>();
-	private definitions = new Map<string, ModuleDefinition>();
+	private modules = new Map<string, ILoadedModule>();
+	private definitions = new Map<string, IModuleDefinition>();
 	private states = new Map<string, object>();
 	private subscribers = new Map<string, Set<StateListener>>();
 	private handlerCleanups = new Map<string, Array<() => void>>();
@@ -26,8 +27,8 @@ export class ModuleRegistry
 	 * Register a module
 	 * Resolves dependencies via IID, creates state, and registers handlers
 	 */
-	register<S extends object, M extends object, A extends object>(
-		definition: ModuleDefinition<S, M, A>
+	public register<S extends object, M extends object, A extends object>(
+		definition: IModuleDefinition<S, M, A>
 	): Promise<void>
 	{
 		return new Promise((resolve) =>
@@ -50,11 +51,11 @@ export class ModuleRegistry
 			let state: S = {...initialState};
 
 			this.states.set(id, state);
-			this.definitions.set(id, definition as unknown as ModuleDefinition);
+			this.definitions.set(id, definition as unknown as IModuleDefinition); // cast: intermediate unknown assertion
 
 			// 2. Resolve managers via IID (async)
 			const managerKeys = Object.keys(managerIIDs) as (keyof M)[];
-			const managers = {} as M;
+			const managers = {} as M; // cast: type assertion required
 
 			let pendingManagers = managerKeys.length;
 
@@ -68,7 +69,7 @@ export class ModuleRegistry
 
 			for (const key of managerKeys)
 			{
-				const iid = managerIIDs[key] as IID<M[typeof key]>;
+				const iid = managerIIDs[key] as IID<M[typeof key]>; // cast: type assertion required
 
 				this.context.queueInterface(iid, (_, instance) =>
 				{
@@ -87,7 +88,7 @@ export class ModuleRegistry
 	/**
 	 * Get a module by its ID
 	 */
-	get<K extends RegisteredModuleId>(id: K): LoadedModule<ModuleStateMap[K], ModuleActionsMap[K]>
+	public get<K extends RegisteredModuleId>(id: K): ILoadedModule<IModuleStateMap[K], IModuleActionsMap[K]>
 	{
 		const module = this.modules.get(id);
 
@@ -96,13 +97,13 @@ export class ModuleRegistry
 			throw new Error(`[ModuleRegistry] Module "${id}" not registered`);
 		}
 
-		return module as LoadedModule<ModuleStateMap[K], ModuleActionsMap[K]>;
+		return module as ILoadedModule<IModuleStateMap[K], IModuleActionsMap[K]>; // cast: type assertion required
 	}
 
 	/**
 	 * Check if a module is registered
 	 */
-	has(id: string): boolean
+	public has(id: string): boolean
 	{
 		return this.modules.has(id);
 	}
@@ -111,9 +112,9 @@ export class ModuleRegistry
 	 * Subscribe to state changes of a module
 	 * @returns Unsubscribe function
 	 */
-	subscribe<K extends RegisteredModuleId>(
+	public subscribe<K extends RegisteredModuleId>(
 		id: K,
-		listener: StateListener<ModuleStateMap[K]>
+		listener: StateListener<IModuleStateMap[K]>
 	): () => void
 	{
 		if (!this.subscribers.has(id))
@@ -121,18 +122,18 @@ export class ModuleRegistry
 			this.subscribers.set(id, new Set());
 		}
 
-		this.subscribers.get(id)!.add(listener as StateListener);
+		this.subscribers.get(id)!.add(listener as StateListener); // cast: type assertion required
 
 		return () =>
 		{
-			this.subscribers.get(id)?.delete(listener as StateListener);
+			this.subscribers.get(id)?.delete(listener as StateListener); // cast: type assertion required
 		};
 	}
 
 	/**
 	 * Unregister a module
 	 */
-	unregister(id: string): void
+	public unregister(id: string): void
 	{
 		// Call onDispose
 		const definition = this.definitions.get(id);
@@ -155,7 +156,7 @@ export class ModuleRegistry
 	/**
 	 * Unregister all modules
 	 */
-	dispose(): void
+	public dispose(): void
 	{
 		const ids = Array.from(this.modules.keys());
 
@@ -166,18 +167,18 @@ export class ModuleRegistry
 	/**
 	 * List all registered modules
 	 */
-	listModules(): string[]
+	public listModules(): string[]
 	{
 		return Array.from(this.modules.keys());
 	}
 
 	private finishRegistration<S extends object, M extends object, A extends object>(
 		id: string,
-		definition: ModuleDefinition<S, M, A>,
+		definition: IModuleDefinition<S, M, A>,
 		initialState: S,
 		managers: M,
-		actionsFactory: ModuleDefinition<S, M, A>['actions'],
-		handlers: ModuleDefinition<S, M, A>['handlers'],
+		actionsFactory: IModuleDefinition<S, M, A>['actions'],
+		handlers: IModuleDefinition<S, M, A>['handlers'],
 		resolve: () => void
 	): void
 	{
@@ -187,7 +188,7 @@ export class ModuleRegistry
 		let state = initialState;
 
 		// Create accessor for dependencies
-		const dependencyAccessor: DependencyAccessor = {
+		const dependencyAccessor: IDependencyAccessor = {
 			get: <K extends RegisteredModuleId>(depId: K) =>
 			{
 				if (!depends.includes(depId))
@@ -198,7 +199,7 @@ export class ModuleRegistry
 				}
 
 				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				return this.modules.get(depId) as any;
+				return this.modules.get(depId) as any; // cast: required for dynamic module access
 			},
 		};
 
@@ -224,8 +225,8 @@ export class ModuleRegistry
 		};
 
 		// Create context for actions
-		const actionContext: ActionContext<S, M> = {
-			getState: () => ({...state}) as Readonly<S>,
+		const actionContext: IActionContext<S, M> = {
+			getState: () => ({...state}) as Readonly<S>, // cast: type assertion required
 			updateState,
 			managers,
 			modules: dependencyAccessor,
@@ -247,11 +248,11 @@ export class ModuleRegistry
 		{
 			const cleanup = this.messageBus.on(eventName, (parser) =>
 			{
-				const updates = handler(parser, state as Readonly<S>, handlerContext);
+				const updates = handler(parser, state as Readonly<S>, handlerContext); // cast: type assertion required
 
 				if (updates && Object.keys(updates).length > 0)
 				{
-					updateState(updates as Partial<S>);
+					updateState(updates as Partial<S>); // cast: type assertion required
 				}
 			});
 
@@ -261,13 +262,13 @@ export class ModuleRegistry
 		this.handlerCleanups.set(id, cleanups);
 
 		// Store the module
-		const loadedModule: LoadedModule<S, A> = {
+		const loadedModule: ILoadedModule<S, A> = {
 			id,
-			getState: () => ({...state}) as Readonly<S>,
+			getState: () => ({...state}) as Readonly<S>, // cast: type assertion required
 			actions: boundActions,
 		};
 
-		this.modules.set(id, loadedModule as LoadedModule);
+		this.modules.set(id, loadedModule as ILoadedModule); // cast: type assertion required
 
 		// Call onInit if defined
 		definition.onInit?.({
@@ -295,7 +296,7 @@ export class ModuleRegistry
 				listener(state);
 			} catch (error)
 			{
-				console.error(`[ModuleRegistry] Subscriber error for "${id}":`, error);
+				Logger.error(`[ModuleRegistry] Subscriber error for "${id}":`, error);
 			}
 		});
 	}

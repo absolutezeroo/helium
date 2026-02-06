@@ -19,7 +19,7 @@ export class ArcFour implements IEncryption
 	/**
 	 * Initialize the cipher with a key (Key-Scheduling Algorithm)
 	 */
-	init(key: ByteArray): void
+	public init(key: ByteArray): void
 	{
 		// Initialize S-box with identity permutation
 		for (let i = 0; i < 256; i++)
@@ -47,7 +47,7 @@ export class ArcFour implements IEncryption
 	/**
 	 * Encrypt data in-place
 	 */
-	encipher(data: ByteArray): void
+	public encipher(data: ByteArray): void
 	{
 		for (let k = 0; k < data.length; k++)
 		{
@@ -61,7 +61,7 @@ export class ArcFour implements IEncryption
 	 * Decrypt data in-place
 	 * RC4 is symmetric - encryption and decryption are the same
 	 */
-	decipher(data: ByteArray): void
+	public decipher(data: ByteArray): void
 	{
 		this.encipher(data);
 	}
@@ -69,7 +69,7 @@ export class ArcFour implements IEncryption
 	/**
 	 * Save current cipher state
 	 */
-	mark(): void
+	public mark(): void
 	{
 		this.markedI = this.i;
 		this.markedJ = this.j;
@@ -79,7 +79,7 @@ export class ArcFour implements IEncryption
 	/**
 	 * Restore to marked state
 	 */
-	reset(): void
+	public reset(): void
 	{
 		this.i = this.markedI;
 		this.j = this.markedJ;

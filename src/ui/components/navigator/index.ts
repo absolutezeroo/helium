@@ -1,7 +1,7 @@
 // Main Navigator components
 export {Navigator} from './Navigator';
 export {NavigatorWindow} from './NavigatorWindow';
-export type {NavigatorWindowProps} from './NavigatorWindow';
+export type {INavigatorWindowProps} from './NavigatorWindow';
 
 // Common components
 export {
@@ -18,31 +18,31 @@ export {
 	UserCountBar,
 } from './common';
 export type {
-	NavigatorIconProps,
+	INavigatorIconProps,
 	IconName,
-	NavigatorButtonProps,
-	IconButtonProps,
-	NavigatorHeaderProps,
-	SkeletonProps,
-	ProgressBarProps,
+	INavigatorButtonProps,
+	IIconButtonProps,
+	INavigatorHeaderProps,
+	ISkeletonProps,
+	IProgressBarProps,
 } from './common';
 
 // Tab components
-export {NavigatorTab, NavigatorTabs} from './tabs';
-export type {NavigatorTabProps, NavigatorTabsProps, TabDefinition} from './tabs';
+export {INavigatorTab, NavigatorTabs} from './tabs';
+export type {INavigatorTabProps, INavigatorTabsProps, ITabDefinition} from './tabs';
 
 // Room components
 export {RoomCard, RoomCardCompact, RoomList, LiftedRoomsSection, RoomEventsSection} from './rooms';
 export type {
-	RoomCardProps,
-	RoomCardCompactProps,
-	RoomListProps,
-	RoomListRoom,
+	IRoomCardProps,
+	IRoomCardCompactProps,
+	IRoomListProps,
+	IRoomListRoom,
 	RoomListViewMode,
-	LiftedRoomsSectionProps,
-	LiftedRoom,
-	RoomEventsSectionProps,
-	RoomEvent,
+	ILiftedRoomsSectionProps,
+	ILiftedRoom,
+	IRoomEventsSectionProps,
+	IRoomEvent,
 } from './rooms';
 
 // Room info components
@@ -53,49 +53,49 @@ export {
 	RoomInfoPanel,
 } from './roominfo';
 export type {
-	RoomInfoHeaderProps,
-	RoomInfoDetailsProps,
-	RoomInfoActionsProps,
-	RoomInfoPanelProps,
-	RoomInfoData,
+	IRoomInfoHeaderProps,
+	IRoomInfoDetailsProps,
+	IRoomInfoActionsProps,
+	IRoomInfoPanelProps,
+	IRoomInfoData,
 } from './roominfo';
 
 // Search components
 export {NavigatorSearch, PopularTags, SearchResults, SavedSearches} from './search';
 export type {
-	NavigatorSearchProps,
-	PopularTagsProps,
-	PopularTag,
-	SearchResultsProps,
-	SavedSearchesProps,
-	SavedSearch,
+	INavigatorSearchProps,
+	IPopularTagsProps,
+	IPopularTag,
+	ISearchResultsProps,
+	ISavedSearchesProps,
+	ISavedSearch,
 } from './search';
 
-// Category components
+// ICategory components
 export {CategoryItem, CategoryList} from './categories';
-export type {CategoryItemProps, CategoryListProps, Category} from './categories';
+export type {ICategoryItemProps, ICategoryListProps, ICategory} from './categories';
 
 // Room creation components
 export {RoomCreateForm, RoomCreateModal} from './create';
 export type {
-	RoomCreateFormProps,
-	RoomCreateFormData,
-	RoomCategory,
-	RoomModel,
-	RoomCreateModalProps,
+	IRoomCreateFormProps,
+	IRoomCreateFormData,
+	IRoomCategory,
+	IRoomModel,
+	IRoomCreateModalProps,
 } from './create';
 
 // Modal components
 export {DoorbellModal, PasswordModal} from './modals';
 export type {
-	DoorbellModalProps,
+	IDoorbellModalProps,
 	DoorbellStatus,
-	PasswordModalProps,
+	IPasswordModalProps,
 } from './modals';
 
 // Hooks
 export {useDraggable} from './hooks/useDraggable';
-export type {DraggablePosition, UseDraggableOptions, UseDraggableReturn} from './hooks/useDraggable';
+export type {IDraggablePosition, IUseDraggableOptions, IUseDraggableReturn} from './hooks/useDraggable';
 export {useNavigatorLocalization, NAV_KEYS} from './hooks/useLocalization';
 
 // Utils

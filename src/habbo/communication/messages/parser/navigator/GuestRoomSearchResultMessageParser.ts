@@ -16,13 +16,13 @@ export class GuestRoomSearchResultMessageParser implements IMessageParser
 		return this._data;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._data = null;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._data = new GuestRoomSearchResultData(wrapper);
 		return true;

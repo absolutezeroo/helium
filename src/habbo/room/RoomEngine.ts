@@ -12,10 +12,6 @@
 import type {Container} from 'pixi.js';
 import {Component, ComponentDependency, type IContext, type IUpdateReceiver} from '@core/runtime';
 import type {IConnection} from '@core/communication/connection/IConnection';
-import type {IRoomEngine} from './IRoomEngine';
-import type {IRoomCreator} from './IRoomCreator';
-import type {IRoomEngineServices} from './IRoomEngineServices';
-import type {IRoomContentListener} from './IRoomContentListener';
 import type {IRoomInstance} from '@room/IRoomInstance';
 import type {IRoomManager} from '@room/IRoomManager';
 import type {IRoomManagerListener} from '@room/IRoomManagerListener';
@@ -23,6 +19,12 @@ import type {IRoomObject} from '@room/object/IRoomObject';
 import type {IRoomObjectController} from '@room/object/IRoomObjectController';
 import type {IRoomObjectSpriteVisualization} from '@room/object/visualization/IRoomObjectSpriteVisualization';
 import {IID_RoomManager} from '@iid/IIDRoomManager';
+import type {IVector3d} from '@room/utils/IVector3d';
+import {Logger} from "@/core";
+import type {IRoomEngine} from './IRoomEngine';
+import type {IRoomCreator} from './IRoomCreator';
+import type {IRoomEngineServices} from './IRoomEngineServices';
+import type {IRoomContentListener} from './IRoomContentListener';
 import {RoomObjectCategoryEnum} from './object/RoomObjectCategoryEnum';
 import {RoomObjectLogicEnum} from './object/RoomObjectLogicEnum';
 import {RoomObjectUserTypes} from './object/RoomObjectUserTypes';
@@ -32,8 +34,6 @@ import {RoomEngineObjectEvent} from './events/RoomEngineObjectEvent';
 import {RoomObjectFactory} from './RoomObjectFactory';
 import {RoomRenderingCanvas} from './renderer/RoomRenderingCanvas';
 import type {IStuffData} from './object/data/IStuffData';
-
-// Messages
 import {RoomObjectMoveUpdateMessage} from './messages/RoomObjectMoveUpdateMessage';
 import {RoomObjectAvatarUpdateMessage} from './messages/RoomObjectAvatarUpdateMessage';
 import {RoomObjectAvatarFigureUpdateMessage} from './messages/RoomObjectAvatarFigureUpdateMessage';
@@ -47,9 +47,9 @@ import {RoomObjectAvatarSleepUpdateMessage} from './messages/RoomObjectAvatarSle
 import {RoomObjectAvatarCarryObjectUpdateMessage} from './messages/RoomObjectAvatarCarryObjectUpdateMessage';
 import {RoomObjectAvatarSignUpdateMessage} from './messages/RoomObjectAvatarSignUpdateMessage';
 import {RoomObjectAvatarOwnMessage} from './messages/RoomObjectAvatarOwnMessage';
-import type {IVector3d} from '@room/utils/IVector3d';
 import type {RoomPlaneParser} from './object/RoomPlaneParser';
-import {Logger} from "@/core";
+
+// Messages
 
 const log = Logger.getLogger('RoomEngine');
 
@@ -134,7 +134,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 					if (manager)
 					{
 						// Set the object factory on room manager
-						(manager as any).setObjectFactory?.(this._roomObjectFactory);
+						(manager as any).setObjectFactory?.(this._roomObjectFactory); // cast: required for dynamic property access
 					}
 				},
 				true // Required dependency
@@ -142,12 +142,12 @@ export class RoomEngine extends Component implements IRoomEngine,
 		];
 	}
 
-	getRoom(roomId: number): IRoomInstance | null
+	public getRoom(roomId: number): IRoomInstance | null
 	{
 		return this.getRoomInstance(roomId);
 	}
 
-	getRoomObjectCategory(type: string): number
+	public getRoomObjectCategory(type: string): number
 	{
 		switch (type)
 		{
@@ -165,7 +165,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		}
 	}
 
-	getRoomObjectWithIndex(roomId: number, index: number, category: number): IRoomObject | null
+	public getRoomObjectWithIndex(roomId: number, index: number, category: number): IRoomObject | null
 	{
 		const room = this.getRoomInstance(roomId);
 		if (!room)
@@ -176,7 +176,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return room.getObjectWithIndex(index, category);
 	}
 
-	getRoomObjectCount(roomId: number, category: number): number
+	public getRoomObjectCount(roomId: number, category: number): number
 	{
 		const room = this.getRoomInstance(roomId);
 		if (!room)
@@ -187,7 +187,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return room.getObjectCount(category);
 	}
 
-	getTileCursor(roomId: number): IRoomObjectController | null
+	public getTileCursor(roomId: number): IRoomObjectController | null
 	{
 		const room = this.getRoomInstance(roomId);
 		if (!room)
@@ -195,10 +195,10 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return null;
 		}
 
-		return room.getObject(OBJECT_ID_TILE_CURSOR, RoomObjectCategoryEnum.OBJECT_CATEGORY_ROOM) as IRoomObjectController | null;
+		return room.getObject(OBJECT_ID_TILE_CURSOR, RoomObjectCategoryEnum.OBJECT_CATEGORY_ROOM) as IRoomObjectController | null; // cast: type assertion required
 	}
 
-	getSelectionArrow(roomId: number): IRoomObjectController | null
+	public getSelectionArrow(roomId: number): IRoomObjectController | null
 	{
 		const room = this.getRoomInstance(roomId);
 		if (!room)
@@ -206,35 +206,35 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return null;
 		}
 
-		return room.getObject(OBJECT_ID_SELECTION_ARROW, RoomObjectCategoryEnum.OBJECT_CATEGORY_ROOM) as IRoomObjectController | null;
+		return room.getObject(OBJECT_ID_SELECTION_ARROW, RoomObjectCategoryEnum.OBJECT_CATEGORY_ROOM) as IRoomObjectController | null; // cast: type assertion required
 	}
 
-	getIsPlayingGame(roomId: number): boolean
+	public getIsPlayingGame(roomId: number): boolean
 	{
 		return false; // TODO: implement game state
 	}
 
-	getActiveRoomIsPlayingGame(): boolean
+	public getActiveRoomIsPlayingGame(): boolean
 	{
 		return this.getIsPlayingGame(this._activeRoomId);
 	}
 
-	isAreaSelectionMode(): boolean
+	public isAreaSelectionMode(): boolean
 	{
 		return false; // TODO: implement area selection
 	}
 
-	isMoveBlocked(): boolean
+	public isMoveBlocked(): boolean
 	{
 		return false; // TODO: implement move blocking
 	}
 
-	isWhereYouClickWhereYouGo(): boolean
+	public isWhereYouClickWhereYouGo(): boolean
 	{
 		return true; // Default behavior
 	}
 
-	roomManagerInitialized(success: boolean): void
+	public roomManagerInitialized(success: boolean): void
 	{
 		if (success)
 		{
@@ -242,31 +242,31 @@ export class RoomEngine extends Component implements IRoomEngine,
 		}
 	}
 
-	contentLoaded(type: string, success: boolean): void
+	public contentLoaded(type: string, success: boolean): void
 	{
 		this.events.emit('contentLoaded', type, success);
 	}
 
-	objectInitialized(roomId: string, objectId: number, category: number): void
+	public objectInitialized(roomId: string, objectId: number, category: number): void
 	{
 		this.events.emit('objectInitialized', roomId, objectId, category);
 	}
 
-	objectsInitialized(type: string): void
+	public objectsInitialized(type: string): void
 	{
 		this.events.emit('objectsInitialized', type);
 	}
 
-	iconLoaded(typeId: number, type: string, success: boolean): void
+	public iconLoaded(typeId: number, type: string, success: boolean): void
 	{
 		this.events.emit('iconLoaded', typeId, type, success);
 	}
 
-	createRoomInstance(roomId: number): IRoomInstance | null
+	public createRoomInstance(roomId: number): IRoomInstance | null
 	{
 		if (!this._roomManager)
 		{
-			console.warn('[RoomEngine] RoomManager not available');
+			Logger.warn('[RoomEngine] RoomManager not available');
 			return null;
 		}
 
@@ -296,7 +296,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return room;
 	}
 
-	disposeRoomInstance(roomId: number): void
+	public disposeRoomInstance(roomId: number): void
 	{
 		if (!this._roomManager)
 		{
@@ -332,7 +332,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		this.events.emit(RoomEngineEvent.REE_DISPOSED, new RoomEngineEvent(RoomEngineEvent.REE_DISPOSED, roomId));
 	}
 
-	getRoomInstance(roomId: number): IRoomInstance | null
+	public getRoomInstance(roomId: number): IRoomInstance | null
 	{
 		if (!this._roomManager)
 		{
@@ -343,17 +343,17 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return this._roomManager.getRoom(roomIdStr);
 	}
 
-	setActiveRoom(roomId: number): void
+	public setActiveRoom(roomId: number): void
 	{
 		this._activeRoomId = roomId;
 	}
 
-	getActiveRoomId(): number
+	public getActiveRoomId(): number
 	{
 		return this._activeRoomId;
 	}
 
-	addRoomObjectUser(
+	public addRoomObjectUser(
 		roomId: number,
 		id: number,
 		location: IVector3d,
@@ -389,7 +389,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return false;
 		}
 
-		(object as IRoomObjectController).setLocation(location);
+		(object as IRoomObjectController).setLocation(location); // cast: type assertion required
 		(object as IRoomObjectController).setDirection(direction);
 
 		this.events.emit(
@@ -400,7 +400,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return true;
 	}
 
-	addRoomObjectFurniture(
+	public addRoomObjectFurniture(
 		roomId: number,
 		id: number,
 		typeId: number,
@@ -432,10 +432,10 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return false;
 		}
 
-		(object as IRoomObjectController).setLocation(location);
+		(object as IRoomObjectController).setLocation(location); // cast: type assertion required
 		(object as IRoomObjectController).setDirection(direction);
 
-		const model = (object as IRoomObjectController).getModelController();
+		const model = (object as IRoomObjectController).getModelController(); // cast: type assertion required
 
 		if (model)
 		{
@@ -462,7 +462,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return true;
 	}
 
-	addRoomObjectWallItem(
+	public addRoomObjectWallItem(
 		roomId: number,
 		id: number,
 		typeId: number,
@@ -491,10 +491,10 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return false;
 		}
 
-		(object as IRoomObjectController).setLocation(location);
+		(object as IRoomObjectController).setLocation(location); // cast: type assertion required
 		(object as IRoomObjectController).setDirection(direction);
 
-		const model = (object as IRoomObjectController).getModelController();
+		const model = (object as IRoomObjectController).getModelController(); // cast: type assertion required
 
 		if (model)
 		{
@@ -521,7 +521,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return true;
 	}
 
-	getRoomObject(roomId: number, objectId: number, category: number): IRoomObject | null
+	public getRoomObject(roomId: number, objectId: number, category: number): IRoomObject | null
 	{
 		const room = this.getRoomInstance(roomId);
 
@@ -533,7 +533,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return room.getObject(objectId, category);
 	}
 
-	disposeRoomObject(roomId: number, objectId: number, category: number): boolean
+	public disposeRoomObject(roomId: number, objectId: number, category: number): boolean
 	{
 		const room = this.getRoomInstance(roomId);
 
@@ -555,7 +555,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return success;
 	}
 
-	updateRoomObjectUser(
+	public updateRoomObjectUser(
 		roomId: number,
 		objectId: number,
 		location: IVector3d,
@@ -573,7 +573,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return false;
 		}
 
-		const object = room.getObject(objectId, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER) as IRoomObjectController;
+		const object = room.getObject(objectId, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER) as IRoomObjectController; // cast: type assertion required
 
 		if (!object || !object.getEventHandler())
 		{
@@ -589,7 +589,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return true;
 	}
 
-	updateRoomObjectUserFigure(
+	public updateRoomObjectUserFigure(
 		roomId: number,
 		objectId: number,
 		figure: string,
@@ -605,7 +605,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return false;
 		}
 
-		const object = room.getObject(objectId, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER) as IRoomObjectController;
+		const object = room.getObject(objectId, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER) as IRoomObjectController; // cast: type assertion required
 
 		if (!object || !object.getEventHandler())
 		{
@@ -619,7 +619,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return true;
 	}
 
-	updateRoomObjectUserPosture(roomId: number, objectId: number, posture: string, parameter: string): boolean
+	public updateRoomObjectUserPosture(roomId: number, objectId: number, posture: string, parameter: string): boolean
 	{
 		const room = this.getRoomInstance(roomId);
 
@@ -628,7 +628,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return false;
 		}
 
-		const object = room.getObject(objectId, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER) as IRoomObjectController;
+		const object = room.getObject(objectId, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER) as IRoomObjectController; // cast: type assertion required
 
 		if (!object || !object.getEventHandler())
 		{
@@ -642,7 +642,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return true;
 	}
 
-	updateRoomObjectUserGesture(roomId: number, objectId: number, gesture: number): boolean
+	public updateRoomObjectUserGesture(roomId: number, objectId: number, gesture: number): boolean
 	{
 		const room = this.getRoomInstance(roomId);
 
@@ -651,7 +651,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return false;
 		}
 
-		const object = room.getObject(objectId, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER) as IRoomObjectController;
+		const object = room.getObject(objectId, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER) as IRoomObjectController; // cast: type assertion required
 
 		if (!object || !object.getEventHandler())
 		{
@@ -665,7 +665,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return true;
 	}
 
-	updateRoomObjectUserEffect(roomId: number, objectId: number, effect: number, delay = 0): boolean
+	public updateRoomObjectUserEffect(roomId: number, objectId: number, effect: number, delay = 0): boolean
 	{
 		const room = this.getRoomInstance(roomId);
 
@@ -674,7 +674,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return false;
 		}
 
-		const object = room.getObject(objectId, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER) as IRoomObjectController;
+		const object = room.getObject(objectId, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER) as IRoomObjectController; // cast: type assertion required
 
 		if (!object || !object.getEventHandler())
 		{
@@ -688,7 +688,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return true;
 	}
 
-	updateRoomObjectUserChat(roomId: number, objectId: number, numberOfWords: number): boolean
+	public updateRoomObjectUserChat(roomId: number, objectId: number, numberOfWords: number): boolean
 	{
 		const room = this.getRoomInstance(roomId);
 
@@ -697,7 +697,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return false;
 		}
 
-		const object = room.getObject(objectId, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER) as IRoomObjectController;
+		const object = room.getObject(objectId, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER) as IRoomObjectController; // cast: type assertion required
 
 		if (!object || !object.getEventHandler())
 		{
@@ -711,7 +711,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return true;
 	}
 
-	updateRoomObjectUserTyping(roomId: number, objectId: number, isTyping: boolean): boolean
+	public updateRoomObjectUserTyping(roomId: number, objectId: number, isTyping: boolean): boolean
 	{
 		const room = this.getRoomInstance(roomId);
 
@@ -720,7 +720,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return false;
 		}
 
-		const object = room.getObject(objectId, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER) as IRoomObjectController;
+		const object = room.getObject(objectId, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER) as IRoomObjectController; // cast: type assertion required
 
 		if (!object || !object.getEventHandler())
 		{
@@ -734,7 +734,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return true;
 	}
 
-	updateRoomObjectUserDance(roomId: number, objectId: number, danceStyle: number): boolean
+	public updateRoomObjectUserDance(roomId: number, objectId: number, danceStyle: number): boolean
 	{
 		const room = this.getRoomInstance(roomId);
 
@@ -743,7 +743,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return false;
 		}
 
-		const object = room.getObject(objectId, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER) as IRoomObjectController;
+		const object = room.getObject(objectId, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER) as IRoomObjectController; // cast: type assertion required
 
 		if (!object || !object.getEventHandler())
 		{
@@ -757,7 +757,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return true;
 	}
 
-	updateRoomObjectUserSleep(roomId: number, objectId: number, isSleeping: boolean): boolean
+	public updateRoomObjectUserSleep(roomId: number, objectId: number, isSleeping: boolean): boolean
 	{
 		const room = this.getRoomInstance(roomId);
 
@@ -766,7 +766,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return false;
 		}
 
-		const object = room.getObject(objectId, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER) as IRoomObjectController;
+		const object = room.getObject(objectId, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER) as IRoomObjectController; // cast: type assertion required
 
 		if (!object || !object.getEventHandler())
 		{
@@ -780,7 +780,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return true;
 	}
 
-	updateRoomObjectUserCarryObject(roomId: number, objectId: number, itemType: number): boolean
+	public updateRoomObjectUserCarryObject(roomId: number, objectId: number, itemType: number): boolean
 	{
 		const room = this.getRoomInstance(roomId);
 
@@ -789,7 +789,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return false;
 		}
 
-		const object = room.getObject(objectId, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER) as IRoomObjectController;
+		const object = room.getObject(objectId, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER) as IRoomObjectController; // cast: type assertion required
 
 		if (!object || !object.getEventHandler())
 		{
@@ -803,7 +803,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return true;
 	}
 
-	updateRoomObjectUserSign(roomId: number, objectId: number, signType: number): boolean
+	public updateRoomObjectUserSign(roomId: number, objectId: number, signType: number): boolean
 	{
 		const room = this.getRoomInstance(roomId);
 
@@ -812,7 +812,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return false;
 		}
 
-		const object = room.getObject(objectId, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER) as IRoomObjectController;
+		const object = room.getObject(objectId, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER) as IRoomObjectController; // cast: type assertion required
 
 		if (!object || !object.getEventHandler())
 		{
@@ -826,7 +826,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return true;
 	}
 
-	setRoomObjectUserOwnUser(roomId: number, objectId: number): boolean
+	public setRoomObjectUserOwnUser(roomId: number, objectId: number): boolean
 	{
 		const room = this.getRoomInstance(roomId);
 
@@ -835,7 +835,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return false;
 		}
 
-		const object = room.getObject(objectId, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER) as IRoomObjectController;
+		const object = room.getObject(objectId, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER) as IRoomObjectController; // cast: type assertion required
 
 		if (!object || !object.getEventHandler())
 		{
@@ -851,7 +851,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return true;
 	}
 
-	update(time: number): void
+	public update(time: number): void
 	{
 		// Delegate update to RoomManager
 		if (this._roomManager)
@@ -866,7 +866,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		}
 	}
 
-	initializeRoomVisuals(
+	public initializeRoomVisuals(
 		roomId: number,
 		floorType: string,
 		wallType: string,
@@ -881,7 +881,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return;
 		}
 
-		const roomObject = room.getObject(OBJECT_ID_ROOM, RoomObjectCategoryEnum.OBJECT_CATEGORY_ROOM) as IRoomObjectController;
+		const roomObject = room.getObject(OBJECT_ID_ROOM, RoomObjectCategoryEnum.OBJECT_CATEGORY_ROOM) as IRoomObjectController; // cast: type assertion required
 
 		if (roomObject)
 		{
@@ -899,22 +899,22 @@ export class RoomEngine extends Component implements IRoomEngine,
 		this.events.emit(RoomEngineEvent.REE_INITIALIZED, new RoomEngineEvent(RoomEngineEvent.REE_INITIALIZED, roomId));
 	}
 
-	getRoomOwnObjectId(roomId: number): number
+	public getRoomOwnObjectId(roomId: number): number
 	{
 		return this._ownUserIds.get(roomId) ?? -1;
 	}
 
-	setRoomOwnObjectId(roomId: number, objectId: number): void
+	public setRoomOwnObjectId(roomId: number, objectId: number): void
 	{
 		this._ownUserIds.set(roomId, objectId);
 	}
 
-	disposeRoom(roomId: number): void
+	public disposeRoom(roomId: number): void
 	{
 		this.disposeRoomInstance(roomId);
 	}
 
-	setWorldType(roomId: number, worldType: string): void
+	public setWorldType(roomId: number, worldType: string): void
 	{
 		const room = this.getRoomInstance(roomId);
 
@@ -923,7 +923,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return;
 		}
 
-		const roomObject = room.getObject(OBJECT_ID_ROOM, RoomObjectCategoryEnum.OBJECT_CATEGORY_ROOM) as IRoomObjectController;
+		const roomObject = room.getObject(OBJECT_ID_ROOM, RoomObjectCategoryEnum.OBJECT_CATEGORY_ROOM) as IRoomObjectController; // cast: type assertion required
 
 		if (roomObject)
 		{
@@ -936,7 +936,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		}
 	}
 
-	initializeRoom(
+	public initializeRoom(
 		roomId: number,
 		planeParser: RoomPlaneParser | null,
 		doorX?: number,
@@ -963,7 +963,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		{
 			log.debug(`[RoomEngine] Initializing room ${roomId} with ${planeParser.planeCount} planes`);
 
-			const roomObject = room.getObject(OBJECT_ID_ROOM, RoomObjectCategoryEnum.OBJECT_CATEGORY_ROOM) as IRoomObjectController;
+			const roomObject = room.getObject(OBJECT_ID_ROOM, RoomObjectCategoryEnum.OBJECT_CATEGORY_ROOM) as IRoomObjectController; // cast: type assertion required
 
 			if (roomObject)
 			{
@@ -983,8 +983,8 @@ export class RoomEngine extends Component implements IRoomEngine,
 					if (doorX !== undefined && doorDir !== undefined)
 					{
 						model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_X, doorDir === 90 ? doorX - 0.5 : doorX, true);
-						model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_Y, doorDir === 180 ? doorY! - 0.5 : doorY!, true);
-						model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_Z, doorZ!, true);
+						model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_Y, doorDir === 180 ? (doorY ?? 0) - 0.5 : (doorY ?? 0), true);
+						model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_Z, doorZ ?? 0, true);
 						model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_DIR, doorDir, true);
 					}
 				}
@@ -1003,7 +1003,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		this.events.emit(RoomEngineEvent.REE_INITIALIZED, new RoomEngineEvent(RoomEngineEvent.REE_INITIALIZED, roomId));
 	}
 
-	addObjectFurniture(
+	public addObjectFurniture(
 		roomId: number,
 		id: number,
 		typeId: number,
@@ -1037,7 +1037,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		);
 	}
 
-	addObjectFurnitureByName(
+	public addObjectFurnitureByName(
 		roomId: number,
 		id: number,
 		className: string,
@@ -1062,10 +1062,10 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return false;
 		}
 
-		(object as IRoomObjectController).setLocation(location);
+		(object as IRoomObjectController).setLocation(location); // cast: type assertion required
 		(object as IRoomObjectController).setDirection(direction);
 
-		const model = (object as IRoomObjectController).getModelController();
+		const model = (object as IRoomObjectController).getModelController(); // cast: type assertion required
 
 		if (model)
 		{
@@ -1080,7 +1080,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return true;
 	}
 
-	updateObjectFurniture(
+	public updateObjectFurniture(
 		roomId: number,
 		id: number,
 		location: IVector3d | null,
@@ -1097,7 +1097,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return false;
 		}
 
-		const object = room.getObject(id, RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE) as IRoomObjectController;
+		const object = room.getObject(id, RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE) as IRoomObjectController; // cast: type assertion required
 
 		if (!object)
 		{
@@ -1106,12 +1106,12 @@ export class RoomEngine extends Component implements IRoomEngine,
 
 		if (location)
 		{
-			(object as IRoomObjectController).setLocation(location);
+			(object as IRoomObjectController).setLocation(location); // cast: type assertion required
 		}
 
 		if (direction)
 		{
-			(object as IRoomObjectController).setDirection(direction);
+			(object as IRoomObjectController).setDirection(direction); // cast: type assertion required
 		}
 
 		const model = object.getModelController();
@@ -1124,7 +1124,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return true;
 	}
 
-	updateObjectFurnitureLocation(
+	public updateObjectFurnitureLocation(
 		roomId: number,
 		id: number,
 		location: IVector3d,
@@ -1140,7 +1140,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return false;
 		}
 
-		const object = room.getObject(id, RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE) as IRoomObjectController;
+		const object = room.getObject(id, RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE) as IRoomObjectController; // cast: type assertion required
 
 		if (!object || !object.getEventHandler())
 		{
@@ -1154,7 +1154,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return true;
 	}
 
-	disposeObjectFurniture(
+	public disposeObjectFurniture(
 		roomId: number,
 		id: number,
 		pickerId?: number,
@@ -1164,7 +1164,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return this.disposeRoomObject(roomId, id, RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE);
 	}
 
-	addObjectWallItem(
+	public addObjectWallItem(
 		roomId: number,
 		id: number,
 		typeId: number,
@@ -1191,7 +1191,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		);
 	}
 
-	updateObjectWallItem(
+	public updateObjectWallItem(
 		roomId: number,
 		id: number,
 		location: IVector3d | null,
@@ -1207,7 +1207,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return false;
 		}
 
-		const object = room.getObject(id, RoomObjectCategoryEnum.OBJECT_CATEGORY_WALL) as IRoomObjectController;
+		const object = room.getObject(id, RoomObjectCategoryEnum.OBJECT_CATEGORY_WALL) as IRoomObjectController; // cast: type assertion required
 
 		if (!object)
 		{
@@ -1216,12 +1216,12 @@ export class RoomEngine extends Component implements IRoomEngine,
 
 		if (location)
 		{
-			(object as IRoomObjectController).setLocation(location);
+			(object as IRoomObjectController).setLocation(location); // cast: type assertion required
 		}
 
 		if (direction)
 		{
-			(object as IRoomObjectController).setDirection(direction);
+			(object as IRoomObjectController).setDirection(direction); // cast: type assertion required
 		}
 
 		const model = object.getModelController();
@@ -1234,7 +1234,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return true;
 	}
 
-	disposeObjectWallItem(
+	public disposeObjectWallItem(
 		roomId: number,
 		id: number,
 		pickerId?: number
@@ -1243,7 +1243,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return this.disposeRoomObject(roomId, id, RoomObjectCategoryEnum.OBJECT_CATEGORY_WALL);
 	}
 
-	addObjectUser(
+	public addObjectUser(
 		roomId: number,
 		roomIndex: number,
 		location: IVector3d,
@@ -1275,7 +1275,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return this.addRoomObjectUser(roomId, roomIndex, location, direction, type);
 	}
 
-	updateObjectUser(
+	public updateObjectUser(
 		roomId: number,
 		roomIndex: number,
 		location: IVector3d,
@@ -1300,7 +1300,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		);
 	}
 
-	updateObjectUserFigure(
+	public updateObjectUserFigure(
 		roomId: number,
 		roomIndex: number,
 		figure: string,
@@ -1316,7 +1316,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 	 * Update user action (expression, dance, sleep, typing, carry, use object).
 	 * Based on AS3: RoomEngine.updateObjectUserAction
 	 */
-	updateObjectUserAction(
+	public updateObjectUserAction(
 		roomId: number,
 		roomIndex: number,
 		action: string,
@@ -1337,7 +1337,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return false;
 		}
 
-		const model = (roomObject as IRoomObjectController).getModelController();
+		const model = (roomObject as IRoomObjectController).getModelController(); // cast: type assertion required
 
 		if (model === null)
 		{
@@ -1353,7 +1353,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 	 * Update user effect.
 	 * Based on AS3: RoomEngine.updateObjectUserEffect
 	 */
-	updateObjectUserEffect(
+	public updateObjectUserEffect(
 		roomId: number,
 		roomIndex: number,
 		effectId: number,
@@ -1374,7 +1374,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return false;
 		}
 
-		const model = (roomObject as IRoomObjectController).getModelController();
+		const model = (roomObject as IRoomObjectController).getModelController(); // cast: type assertion required
 
 		if (model === null)
 		{
@@ -1387,7 +1387,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return true;
 	}
 
-	disposeObjectUser(
+	public disposeObjectUser(
 		roomId: number,
 		roomIndex: number
 	): boolean
@@ -1395,12 +1395,12 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return this.disposeRoomObject(roomId, roomIndex, RoomObjectCategoryEnum.OBJECT_CATEGORY_USER);
 	}
 
-	setOwnUserId(roomId: number, roomIndex: number): void
+	public setOwnUserId(roomId: number, roomIndex: number): void
 	{
 		this.setRoomObjectUserOwnUser(roomId, roomIndex);
 	}
 
-	addObjectUpdateCategory(category: number): void
+	public addObjectUpdateCategory(category: number): void
 	{
 		if (this._roomManager)
 		{
@@ -1408,7 +1408,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		}
 	}
 
-	removeObjectUpdateCategory(category: number): void
+	public removeObjectUpdateCategory(category: number): void
 	{
 		if (this._roomManager)
 		{
@@ -1421,7 +1421,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 	 * Maps a furniture type name to an alias name.
 	 * Based on AS3: com.sulake.habbo.room.RoomEngine.setRoomObjectAlias
 	 */
-	setRoomObjectAlias(name: string, alias: string): void
+	public setRoomObjectAlias(name: string, alias: string): void
 	{
 		this._roomObjectAliases.set(name, alias);
 	}
@@ -1430,7 +1430,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 	 * Get the alias for a furniture type name.
 	 * Returns the alias if set, otherwise returns the original name.
 	 */
-	getRoomObjectAlias(name: string): string
+	public getRoomObjectAlias(name: string): string
 	{
 		return this._roomObjectAliases.get(name) ?? name;
 	}
@@ -1438,7 +1438,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 	/**
 	 * Set the PixiJS stage for rendering
 	 */
-	setStage(stage: Container): void
+	public setStage(stage: Container): void
 	{
 		this._pixiStage = stage;
 	}
@@ -1446,7 +1446,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 	/**
 	 * Get or create a rendering canvas for a room
 	 */
-	getRenderingCanvas(roomId: number, canvasId: number = 1): RoomRenderingCanvas | null
+	public getRenderingCanvas(roomId: number, canvasId: number = 1): RoomRenderingCanvas | null
 	{
 		const key = roomId * 1000 + canvasId;
 
@@ -1476,7 +1476,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 			window.addEventListener('resize', onResize);
 
 			// Store resize handler reference for cleanup (use the canvas container)
-			(canvas as any)._resizeHandler = onResize;
+			(canvas as any)._resizeHandler = onResize; // cast: required for dynamic property access
 		}
 
 		return this._renderingCanvases.get(key) ?? null;
@@ -1485,7 +1485,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 	/**
 	 * Dispose a rendering canvas for a room
 	 */
-	disposeRenderingCanvas(roomId: number, canvasId: number = 1): void
+	public disposeRenderingCanvas(roomId: number, canvasId: number = 1): void
 	{
 		const key = roomId * 1000 + canvasId;
 		const canvas = this._renderingCanvases.get(key);
@@ -1493,7 +1493,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		if (canvas)
 		{
 			// Remove resize handler if attached
-			const resizeHandler = (canvas as any)._resizeHandler;
+			const resizeHandler = (canvas as any)._resizeHandler; // cast: required for dynamic property access
 
 			if (resizeHandler)
 			{
@@ -1522,7 +1522,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		// Dispose all rendering canvases
 		for (const [key, canvas] of this._renderingCanvases)
 		{
-			const resizeHandler = (canvas as any)._resizeHandler;
+			const resizeHandler = (canvas as any)._resizeHandler; // cast: required for dynamic property access
 
 			if (resizeHandler)
 			{
@@ -1587,7 +1587,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		}
 
 		// Check if visualization is sprite-based
-		const spriteVisualization = visualization as IRoomObjectSpriteVisualization;
+		const spriteVisualization = visualization as IRoomObjectSpriteVisualization; // cast: PixiJS type assertion
 
 		if (!('container' in spriteVisualization))
 		{

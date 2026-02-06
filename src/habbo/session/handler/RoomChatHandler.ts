@@ -106,13 +106,13 @@ export class RoomChatHandler extends BaseHandler
 	 */
 	private onRoomChat(event: IMessageEvent): void
 	{
-		const chatEvent = event as ChatMessageEvent;
+		const chatEvent = event as ChatMessageEvent; // cast: event type assertion
 		if (chatEvent === null)
 		{
 			return;
 		}
 
-		const parser = chatEvent.parser as ChatMessageEventParser;
+		const parser = chatEvent.parser as ChatMessageEventParser; // cast: event type assertion
 		if (parser === null)
 		{
 			return;
@@ -139,13 +139,13 @@ export class RoomChatHandler extends BaseHandler
 	 */
 	private onRoomWhisper(event: IMessageEvent): void
 	{
-		const whisperEvent = event as WhisperMessageEvent;
+		const whisperEvent = event as WhisperMessageEvent; // cast: event type assertion
 		if (whisperEvent === null)
 		{
 			return;
 		}
 
-		const parser = whisperEvent.parser as ChatMessageEventParser;
+		const parser = whisperEvent.parser as ChatMessageEventParser; // cast: event type assertion
 		if (parser === null)
 		{
 			return;
@@ -172,13 +172,13 @@ export class RoomChatHandler extends BaseHandler
 	 */
 	private onRoomShout(event: IMessageEvent): void
 	{
-		const shoutEvent = event as ShoutMessageEvent;
+		const shoutEvent = event as ShoutMessageEvent; // cast: event type assertion
 		if (shoutEvent === null)
 		{
 			return;
 		}
 
-		const parser = shoutEvent.parser as ChatMessageEventParser;
+		const parser = shoutEvent.parser as ChatMessageEventParser; // cast: event type assertion
 		if (parser === null)
 		{
 			return;

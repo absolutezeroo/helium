@@ -6,7 +6,7 @@
 import {Vector3d} from '@room/utils/Vector3d';
 import type {IVector3d} from '@room/utils/IVector3d';
 
-export interface Point
+export interface IPoint
 {
 	x: number;
 	y: number;
@@ -28,8 +28,8 @@ export class RoomWallData
 		new Vector3d(1, 0, 0),
 	];
 
-	private _corners: Point[] = [];
-	private _endPoints: Point[] = [];
+	private _corners: IPoint[] = [];
+	private _endPoints: IPoint[] = [];
 	private _directions: number[] = [];
 	private _lengths: number[] = [];
 	private _leftTurns: boolean[] = [];
@@ -44,7 +44,7 @@ export class RoomWallData
 		return this._count;
 	}
 
-	addWall(corner: Point, direction: number, length: number, border: boolean, leftTurn: boolean): void
+	public addWall(corner: IPoint, direction: number, length: number, border: boolean, leftTurn: boolean): void
 	{
 		if (this.checkIsNotDuplicate(corner, direction, length, border, leftTurn))
 		{
@@ -60,58 +60,58 @@ export class RoomWallData
 		}
 	}
 
-	getCorner(index: number): Point
+	public getCorner(index: number): IPoint
 	{
 		return this._corners[index];
 	}
 
-	getEndPoint(index: number): Point
+	public getEndPoint(index: number): IPoint
 	{
 		this.calculateWallEndPoints();
 		return this._endPoints[index];
 	}
 
-	getLength(index: number): number
+	public getLength(index: number): number
 	{
 		return this._lengths[index];
 	}
 
-	getDirection(index: number): number
+	public getDirection(index: number): number
 	{
 		return this._directions[index];
 	}
 
-	getBorder(index: number): boolean
+	public getBorder(index: number): boolean
 	{
 		return this._borders[index];
 	}
 
-	getHideWall(index: number): boolean
+	public getHideWall(index: number): boolean
 	{
 		return this._hideWalls[index];
 	}
 
-	getLeftTurn(index: number): boolean
+	public getLeftTurn(index: number): boolean
 	{
 		return this._leftTurns[index];
 	}
 
-	getManuallyLeftCut(index: number): boolean
+	public getManuallyLeftCut(index: number): boolean
 	{
 		return this._manuallyLeftCut[index];
 	}
 
-	getManuallyRightCut(index: number): boolean
+	public getManuallyRightCut(index: number): boolean
 	{
 		return this._manuallyRightCut[index];
 	}
 
-	setHideWall(index: number, hide: boolean): void
+	public setHideWall(index: number, hide: boolean): void
 	{
 		this._hideWalls[index] = hide;
 	}
 
-	setLength(index: number, length: number): void
+	public setLength(index: number, length: number): void
 	{
 		if (length < this._lengths[index])
 		{
@@ -120,7 +120,7 @@ export class RoomWallData
 		}
 	}
 
-	moveCorner(index: number, distance: number): void
+	public moveCorner(index: number, distance: number): void
 	{
 		if (distance > 0 && distance < this._lengths[index])
 		{
@@ -134,7 +134,7 @@ export class RoomWallData
 		}
 	}
 
-	private checkIsNotDuplicate(corner: Point, direction: number, length: number, border: boolean, leftTurn: boolean): boolean
+	private checkIsNotDuplicate(corner: IPoint, direction: number, length: number, border: boolean, leftTurn: boolean): boolean
 	{
 		for (let i = 0; i < this._count; i++)
 		{

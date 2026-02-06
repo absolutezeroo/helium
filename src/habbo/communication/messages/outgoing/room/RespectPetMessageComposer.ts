@@ -16,7 +16,7 @@ export class RespectPetMessageComposer extends MessageComposer<ConstructorParame
 		this._data = [petId];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

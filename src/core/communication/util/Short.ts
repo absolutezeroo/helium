@@ -12,7 +12,7 @@ export class Short
 		this.value = (value << 16) >> 16;
 	}
 
-	toString(): string
+	public toString(): string
 	{
 		return `Short(${this.value})`;
 	}

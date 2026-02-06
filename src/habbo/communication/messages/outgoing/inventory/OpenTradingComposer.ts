@@ -16,7 +16,7 @@ export class OpenTradingComposer extends MessageComposer<ConstructorParameters<t
 		this._data = [userId];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

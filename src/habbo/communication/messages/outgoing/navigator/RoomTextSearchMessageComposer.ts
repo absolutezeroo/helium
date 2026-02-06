@@ -16,7 +16,7 @@ export class RoomTextSearchMessageComposer extends MessageComposer<ConstructorPa
 		this._data = [searchText];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

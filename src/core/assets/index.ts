@@ -47,7 +47,7 @@ export {UnknownAsset} from './UnknownAsset';
 export {TextAsset} from './TextAsset';
 export {XmlAsset} from './XmlAsset';
 export {BitmapDataAsset} from './BitmapDataAsset';
-export type {Point, Rectangle} from './BitmapDataAsset';
+export type {IPoint, IRectangle} from './BitmapDataAsset';
 export {SoundAsset} from './SoundAsset';
 export {NitroAsset} from './NitroAsset';
 

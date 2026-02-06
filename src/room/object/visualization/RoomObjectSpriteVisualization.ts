@@ -7,8 +7,8 @@
  * Manages a collection of sprites and provides rendering capabilities.
  */
 import {Container} from 'pixi.js';
-import type {IRoomObject} from '../IRoomObject';
 import type {IRoomGeometry} from '@room/utils/IRoomGeometry';
+import type {IRoomObject} from '../IRoomObject';
 import type {IRoomObjectSprite} from './IRoomObjectSprite';
 import type {IRoomObjectSpriteVisualization} from './IRoomObjectSpriteVisualization';
 import type {IRoomObjectVisualizationData} from './IRoomObjectVisualizationData';
@@ -103,7 +103,7 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 		};
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (this._sprites !== null)
 		{
@@ -126,22 +126,22 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 		this._container.destroy({children: true});
 	}
 
-	getUpdateID(): number
+	public getUpdateID(): number
 	{
 		return this._updateId;
 	}
 
-	getInstanceId(): number
+	public getInstanceId(): number
 	{
 		return this._instanceId;
 	}
 
-	addSprite(): IRoomObjectSprite
+	public addSprite(): IRoomObjectSprite
 	{
 		return this.addSpriteAt(this._sprites.length);
 	}
 
-	addSpriteAt(index: number): IRoomObjectSprite
+	public addSpriteAt(index: number): IRoomObjectSprite
 	{
 		const sprite = new RoomObjectSprite();
 
@@ -156,9 +156,9 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 		return sprite;
 	}
 
-	removeSprite(sprite: IRoomObjectSprite): void
+	public removeSprite(sprite: IRoomObjectSprite): void
 	{
-		const index = this._sprites.indexOf(sprite as RoomObjectSprite);
+		const index = this._sprites.indexOf(sprite as RoomObjectSprite); // cast: PixiJS type assertion
 
 		if (index === -1)
 		{
@@ -166,10 +166,10 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 		}
 
 		this._sprites.splice(index, 1);
-		(sprite as RoomObjectSprite).dispose();
+		(sprite as RoomObjectSprite).dispose(); // cast: PixiJS type assertion
 	}
 
-	getSprite(index: number): IRoomObjectSprite | null
+	public getSprite(index: number): IRoomObjectSprite | null
 	{
 		if (index >= 0 && index < this._sprites.length)
 		{
@@ -179,17 +179,17 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 		return null;
 	}
 
-	update(geometry: IRoomGeometry, time: number, update: boolean, skipUpdate: boolean): void
+	public update(geometry: IRoomGeometry, time: number, update: boolean, skipUpdate: boolean): void
 	{
 		// Override in subclasses
 	}
 
-	getSpriteList(): IRoomObjectSprite[] | null
+	public getSpriteList(): IRoomObjectSprite[] | null
 	{
 		return null;
 	}
 
-	initialize(data: IRoomObjectVisualizationData): boolean
+	public initialize(data: IRoomObjectVisualizationData): boolean
 	{
 		return false;
 	}

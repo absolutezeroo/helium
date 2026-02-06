@@ -38,7 +38,7 @@ export class ObjectRemoveMessageParser implements IMessageParser
 		return this._delay;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._objectId = 0;
 		this._isExpired = false;
@@ -47,7 +47,7 @@ export class ObjectRemoveMessageParser implements IMessageParser
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		if (wrapper === null)
 		{

@@ -23,7 +23,7 @@ export class SearchContextHistoryManager
 		return this._browsingOffset > 0 && this._history.length > 0;
 	}
 
-	addSearchContextAtCurrentOffset(context: SearchContext): number
+	public addSearchContextAtCurrentOffset(context: SearchContext): number
 	{
 		if (this._history.length > this._browsingOffset + 1)
 		{
@@ -33,7 +33,7 @@ export class SearchContextHistoryManager
 		return ++this._browsingOffset;
 	}
 
-	getPreviousSearchContextAndGoBack(): SearchContext | null
+	public getPreviousSearchContextAndGoBack(): SearchContext | null
 	{
 		if (this.hasPrevious)
 		{
@@ -42,7 +42,7 @@ export class SearchContextHistoryManager
 		return null;
 	}
 
-	getNextSearchContextAndMoveForward(): SearchContext | null
+	public getNextSearchContextAndMoveForward(): SearchContext | null
 	{
 		if (this.hasNext)
 		{
@@ -51,17 +51,10 @@ export class SearchContextHistoryManager
 		return null;
 	}
 
-	toString(): string
+	public toString(): string
 	{
-		let result = 'history: [';
-		for (let i = 0; i < this._history.length; i++)
-		{
-			result += this._history[i].toString();
-			if (i < this._history.length - 1)
-			{
-				result += ',';
-			}
-		}
-		return result + '] browsing offset: ' + this._browsingOffset;
+		const items = this._history.map(item => item.toString());
+
+		return `history: [${items.join(',')}] browsing offset: ${this._browsingOffset}`;
 	}
 }

@@ -53,7 +53,7 @@ export class Effect
 	{
 		if (this._isActive)
 		{
-			const elapsed = (Date.now() - this._activationTimestamp) / 1000;
+			const elapsed = (performance.now() - this._activationTimestamp) / 1000;
 			const remaining = this._secondsLeft - elapsed;
 
 			return Math.max(0, Math.floor(remaining));
@@ -102,7 +102,7 @@ export class Effect
 	{
 		if (value && !this._isActive)
 		{
-			this._activationTimestamp = Date.now();
+			this._activationTimestamp = performance.now();
 		}
 
 		this._isActive = value;
@@ -135,7 +135,7 @@ export class Effect
 	/**
 	 * Called when one effect instance expires
 	 */
-	setOneEffectExpired(): void
+	public setOneEffectExpired(): void
 	{
 		this._amountInInventory--;
 
@@ -150,7 +150,7 @@ export class Effect
 		this._isInUse = false;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		// Nothing to clean up
 	}

@@ -16,7 +16,7 @@ export class InfoRetrieveMessageComposer extends MessageComposer<ConstructorPara
 		this._data = [];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

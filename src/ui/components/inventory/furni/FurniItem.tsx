@@ -2,7 +2,7 @@ import type {JSX} from 'solid-js';
 import {Show} from 'solid-js';
 import clsx from 'clsx';
 
-export interface FurniItemProps
+export interface IFurniItemProps
 {
 	id: number;
 	name: string;
@@ -14,7 +14,7 @@ export interface FurniItemProps
 	onDoubleClick?: () => void;
 }
 
-export function FurniItem(props: FurniItemProps): JSX.Element
+export function FurniItem(props: IFurniItemProps): JSX.Element
 {
 	return (
 		<div

@@ -1,11 +1,11 @@
 import type {IID} from '@core/runtime';
-import type {ModuleActionsMap, ModuleStateMap, RegisteredModuleId} from './moduleIds';
+import type {IModuleActionsMap, IModuleStateMap, RegisteredModuleId} from './moduleIds';
 import type {MessageBus} from './MessageBus';
 
 /**
  * Module definition (static configuration)
  */
-export interface ModuleDefinition<
+export interface IModuleDefinition<
 	TState extends object = object,
 	TManagers extends object = object,
 	TActions extends object = object
@@ -27,10 +27,10 @@ export interface ModuleDefinition<
 	handlers: MessageHandlers<TState, TManagers>;
 
 	/** Factory to create actions */
-	actions: (ctx: ActionContext<TState, TManagers>) => TActions;
+	actions: (ctx: IActionContext<TState, TManagers>) => TActions;
 
 	/** Callback called after module initialization */
-	onInit?: (ctx: ModuleContext<TState, TManagers>) => void;
+	onInit?: (ctx: IModuleContext<TState, TManagers>) => void;
 
 	/** Callback called when module is disposed */
 	onDispose?: () => void;
@@ -46,7 +46,7 @@ export type ManagerIIDMap<TManagers> = {
 /**
  * Context passed to actions
  */
-export interface ActionContext<TState, TManagers>
+export interface IActionContext<TState, TManagers>
 {
 	/** Returns a readonly copy of the current state */
 	getState: () => Readonly<TState>;
@@ -58,13 +58,13 @@ export interface ActionContext<TState, TManagers>
 	managers: TManagers;
 
 	/** Access to other modules (if declared in depends) */
-	modules: DependencyAccessor;
+	modules: IDependencyAccessor;
 }
 
 /**
  * Extended context for onInit
  */
-export interface ModuleContext<TState, TManagers> extends ActionContext<TState, TManagers>
+export interface IModuleContext<TState, TManagers> extends IActionContext<TState, TManagers>
 {
 	id: string;
 
@@ -75,11 +75,11 @@ export interface ModuleContext<TState, TManagers> extends ActionContext<TState, 
 /**
  * Accessor for dependent modules
  */
-export interface DependencyAccessor
+export interface IDependencyAccessor
 {
 	get<K extends RegisteredModuleId>(id: K): {
-		getState: () => Readonly<ModuleStateMap[K]>;
-		actions: ModuleActionsMap[K];
+		getState: () => Readonly<IModuleStateMap[K]>;
+		actions: IModuleActionsMap[K];
 	};
 }
 
@@ -91,16 +91,16 @@ export interface DependencyAccessor
 export type MessageHandlers<TState, TManagers = object> = {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	[eventName: string]: (
-		parser: any,
+		parser: any, // cast: required for dynamic parser type dispatch
 		state: Readonly<TState>,
-		ctx: HandlerContext<TState, TManagers>
+		ctx: IHandlerContext<TState, TManagers>
 	) => Partial<TState> | void;
 };
 
 /**
  * Context passed to message handlers
  */
-export interface HandlerContext<TState, TManagers>
+export interface IHandlerContext<TState, TManagers>
 {
 	/** References to managers (resolved via IID) */
 	managers: TManagers;
@@ -112,7 +112,7 @@ export interface HandlerContext<TState, TManagers>
 /**
  * Loaded module (runtime instance)
  */
-export interface LoadedModule<
+export interface ILoadedModule<
 	TState extends object = object,
 	TActions extends object = object
 >

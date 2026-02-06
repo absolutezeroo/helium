@@ -1,6 +1,6 @@
 import {Component, Show} from 'solid-js';
-import {ModuleId, useModule} from '../../bridge';
 import {HabboCommunicationEvent} from '@habbo/communication/enum';
+import {ModuleId, useModule} from '../../bridge';
 
 /**
  * Loading step configuration matching AS3 login flow

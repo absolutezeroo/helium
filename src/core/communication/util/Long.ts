@@ -37,7 +37,7 @@ export class Long
 		return new Long(value);
 	}
 
-	toString(): string
+	public toString(): string
 	{
 		return `Long(${this.value})`;
 	}

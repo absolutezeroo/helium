@@ -1,4 +1,5 @@
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
+import {Logger} from '@core/utils/Logger';
 import type {HabboNewNavigator} from './HabboNewNavigator';
 import type {NavigatorData} from './domain';
 
@@ -27,8 +28,6 @@ import {RoomEntryInfoMessageParser} from '../communication/messages/parser/room/
 // Composers
 import {GetGuestRoomMessageComposer} from '../communication/messages/outgoing/navigator';
 
-import {Logger} from '@core/utils/Logger';
-
 const log = Logger.getLogger('NewNavigator');
 
 /**
@@ -53,7 +52,7 @@ export class NewIncomingMessages
 		return this._navigator.data;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		for (const event of this._messageEvents)
 		{
@@ -94,7 +93,7 @@ export class NewIncomingMessages
 	{
 		if (!event) return;
 
-		const parser = event.parser as NavigatorMetaDataMessageParser;
+		const parser = event.parser as NavigatorMetaDataMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -105,7 +104,7 @@ export class NewIncomingMessages
 	{
 		if (!event) return;
 
-		const parser = event.parser as NavigatorSearchResultSetMessageParser;
+		const parser = event.parser as NavigatorSearchResultSetMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -118,7 +117,7 @@ export class NewIncomingMessages
 	{
 		if (!event) return;
 
-		const parser = event.parser as NavigatorSavedSearchesMessageParser;
+		const parser = event.parser as NavigatorSavedSearchesMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -129,7 +128,7 @@ export class NewIncomingMessages
 	{
 		if (!event) return;
 
-		const parser = event.parser as NavigatorLiftedRoomsMessageParser;
+		const parser = event.parser as NavigatorLiftedRoomsMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -140,7 +139,7 @@ export class NewIncomingMessages
 	{
 		if (!event) return;
 
-		const parser = event.parser as NavigatorCollapsedCategoriesMessageParser;
+		const parser = event.parser as NavigatorCollapsedCategoriesMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 
@@ -155,7 +154,7 @@ export class NewIncomingMessages
 	{
 		if (!event) return;
 
-		const parser = event.parser as RoomEntryInfoMessageParser;
+		const parser = event.parser as RoomEntryInfoMessageParser; // cast: event type assertion
 
 		if (!parser) return;
 

@@ -53,7 +53,7 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	/**
 	 * Set the object factory used to create room object logic
 	 */
-	setObjectFactory(factory: IRoomObjectFactory): void
+	public setObjectFactory(factory: IRoomObjectFactory): void
 	{
 		this._objectFactory = factory;
 	}
@@ -61,7 +61,7 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	/**
 	 * Initialize the room manager
 	 */
-	initialize(data: unknown, listener: IRoomManagerListener): boolean
+	public initialize(data: unknown, listener: IRoomManagerListener): boolean
 	{
 		if (this._state >= RoomManagerState.INITIALIZING)
 		{
@@ -106,7 +106,7 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	/**
 	 * Set the content loader
 	 */
-	setContentLoader(loader: IRoomContentLoader): void
+	public setContentLoader(loader: IRoomContentLoader): void
 	{
 		if (this._contentLoader)
 		{
@@ -119,7 +119,7 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	/**
 	 * Add an object update category
 	 */
-	addObjectUpdateCategory(category: number): void
+	public addObjectUpdateCategory(category: number): void
 	{
 		if (this._updateCategories.includes(category))
 		{
@@ -138,7 +138,7 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	/**
 	 * Remove an object update category
 	 */
-	removeObjectUpdateCategory(category: number): void
+	public removeObjectUpdateCategory(category: number): void
 	{
 		const index = this._updateCategories.indexOf(category);
 
@@ -159,7 +159,7 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	/**
 	 * Create a new room instance
 	 */
-	createRoom(id: string, data: unknown): IRoomInstance | null
+	public createRoom(id: string, data: unknown): IRoomInstance | null
 	{
 		if (this._rooms.has(id))
 		{
@@ -181,7 +181,7 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	/**
 	 * Get a room by ID
 	 */
-	getRoom(id: string): IRoomInstance | null
+	public getRoom(id: string): IRoomInstance | null
 	{
 		return this._rooms.get(id) ?? null;
 	}
@@ -189,7 +189,7 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	/**
 	 * Get a room by index
 	 */
-	getRoomWithIndex(index: number): IRoomInstance | null
+	public getRoomWithIndex(index: number): IRoomInstance | null
 	{
 		const rooms = Array.from(this._rooms.values());
 
@@ -204,7 +204,7 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	/**
 	 * Get the number of rooms
 	 */
-	getRoomCount(): number
+	public getRoomCount(): number
 	{
 		return this._rooms.size;
 	}
@@ -212,7 +212,7 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	/**
 	 * Dispose a room
 	 */
-	disposeRoom(id: string): boolean
+	public disposeRoom(id: string): boolean
 	{
 		const room = this._rooms.get(id);
 
@@ -229,7 +229,7 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	/**
 	 * Check if content is available for a type
 	 */
-	isContentAvailable(type: string): boolean
+	public isContentAvailable(type: string): boolean
 	{
 		if (this._contentLoader)
 		{
@@ -242,7 +242,7 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	/**
 	 * Update all rooms
 	 */
-	update(time: number): void
+	public update(time: number): void
 	{
 		for (const room of this._rooms.values())
 		{
@@ -256,7 +256,7 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	 * This is called by RoomInstance.createRoomObject() to actually create the object.
 	 * Uses createObjectInternal() on the room to avoid recursion.
 	 */
-	createRoomObject(roomId: string, objectId: number, type: string, category: number): IRoomObject | null
+	public createRoomObject(roomId: string, objectId: number, type: string, category: number): IRoomObject | null
 	{
 
 		const room = this.getRoom(roomId);
@@ -288,7 +288,7 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 			return null;
 		}
 
-		const controller = object as IRoomObjectController;
+		const controller = object as IRoomObjectController; // cast: type assertion required
 
 		// Create and assign logic
 		if (this._objectFactory && logicType)
@@ -314,7 +314,7 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	/**
 	 * Create a room object manager
 	 */
-	createRoomObjectManager(): IRoomObjectManager
+	public createRoomObjectManager(): IRoomObjectManager
 	{
 		if (this._objectFactory)
 		{

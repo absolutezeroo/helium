@@ -15,7 +15,7 @@ export class BanUserWithDurationMessageComposer extends MessageComposer<[number,
 		this._data = [userId, banType, roomId];
 	}
 
-	getMessageArray(): [number, number, number]
+	public getMessageArray(): [number, number, number]
 	{
 		return this._data;
 	}

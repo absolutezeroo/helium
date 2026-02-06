@@ -1,9 +1,4 @@
-import type {HandlerContext, MessageHandlers} from '../core/types';
-import type {InventoryState} from './types';
-import type {InventoryManagers} from './actions';
 import {FurnitureItem, InventoryCategory, PetFigureData} from '@habbo/inventory';
-
-// Parser types
 import type {FurniListMessageParser} from '@habbo/communication/messages/parser/inventory/furni/FurniListMessageParser';
 import type {
 	FurniListAddOrUpdateMessageParser
@@ -18,10 +13,13 @@ import type {
 import type {
 	BotInventoryMessageParser
 } from '@habbo/communication/messages/parser/inventory/bots/BotInventoryMessageParser';
+import type {IHandlerContext, MessageHandlers} from '../core/types';
+import type {IInventoryState} from './types';
+import type {IInventoryManagers} from './actions';
 
-type Ctx = HandlerContext<InventoryState, InventoryManagers>;
+type Ctx = IHandlerContext<IInventoryState, IInventoryManagers>;
 
-export const handlers: MessageHandlers<InventoryState, InventoryManagers> = {
+export const handlers: MessageHandlers<IInventoryState, IInventoryManagers> = {
 
 	/**
 	 * Furniture list received (fragmented)
@@ -35,7 +33,7 @@ export const handlers: MessageHandlers<InventoryState, InventoryManagers> = {
 		}
 
 		const inv = managers.inventory;
-		const furnitureItems = new Map<number, import('@habbo/inventory').FurnitureItemData>();
+		const furnitureItems = new Map<number, import('@habbo/inventory').IFurnitureItemData>();
 
 		for (const [id, itemParser] of parser.items)
 		{
@@ -122,8 +120,8 @@ export const handlers: MessageHandlers<InventoryState, InventoryManagers> = {
 
 		inv.badgesModel.initBadges(
 			badgeDataForModel,
-			(id) => id,
-			(id) => `Badge: ${id}`
+			(id: string) => id,
+			(id: string) => `Badge: ${id}`
 		);
 
 		inv.setCategoryInitialized(InventoryCategory.BADGES);

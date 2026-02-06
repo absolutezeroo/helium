@@ -30,14 +30,14 @@ export class FurniListMessageParser implements IMessageParser
 		return this._items;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._items.clear();
 
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._totalFragments = wrapper.readInt();
 		this._fragmentNo = wrapper.readInt();

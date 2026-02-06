@@ -27,7 +27,7 @@ export class RoomObjectModel implements IRoomObjectModelController
 
 	private _updateID: number = 0;
 
-	dispose(): void
+	public dispose(): void
 	{
 		this._numbers.clear();
 		this._strings.clear();
@@ -42,37 +42,37 @@ export class RoomObjectModel implements IRoomObjectModelController
 		this._immutableObjects = [];
 	}
 
-	hasNumber(key: string): boolean
+	public hasNumber(key: string): boolean
 	{
 		return this._numbers.has(key);
 	}
 
-	hasNumberArray(key: string): boolean
+	public hasNumberArray(key: string): boolean
 	{
 		return this._numberArrays.has(key);
 	}
 
-	hasString(key: string): boolean
+	public hasString(key: string): boolean
 	{
 		return this._strings.has(key);
 	}
 
-	hasStringArray(key: string): boolean
+	public hasStringArray(key: string): boolean
 	{
 		return this._stringArrays.has(key);
 	}
 
-	getNumber(key: string): number
+	public getNumber(key: string): number
 	{
 		return this._numbers.get(key) ?? NaN;
 	}
 
-	getString(key: string): string
+	public getString(key: string): string
 	{
 		return this._strings.get(key) ?? '';
 	}
 
-	getNumberArray(key: string): number[] | null
+	public getNumberArray(key: string): number[] | null
 	{
 		const array = this._numberArrays.get(key);
 
@@ -84,7 +84,7 @@ export class RoomObjectModel implements IRoomObjectModelController
 		return null;
 	}
 
-	getStringArray(key: string): string[] | null
+	public getStringArray(key: string): string[] | null
 	{
 		const array = this._stringArrays.get(key);
 
@@ -96,7 +96,7 @@ export class RoomObjectModel implements IRoomObjectModelController
 		return null;
 	}
 
-	getStringToStringMap(key: string): Map<string, string>
+	public getStringToStringMap(key: string): Map<string, string>
 	{
 		const result = new Map<string, string>();
 
@@ -114,7 +114,7 @@ export class RoomObjectModel implements IRoomObjectModelController
 		return result;
 	}
 
-	setNumber(key: string, value: number, immutable: boolean = false): void
+	public setNumber(key: string, value: number, immutable: boolean = false): void
 	{
 		if (this._immutableNumbers.indexOf(key) >= 0)
 		{
@@ -133,7 +133,7 @@ export class RoomObjectModel implements IRoomObjectModelController
 		}
 	}
 
-	setString(key: string, value: string, immutable: boolean = false): void
+	public setString(key: string, value: string, immutable: boolean = false): void
 	{
 		if (this._immutableStrings.indexOf(key) >= 0)
 		{
@@ -152,7 +152,7 @@ export class RoomObjectModel implements IRoomObjectModelController
 		}
 	}
 
-	setNumberArray(key: string, value: number[], immutable: boolean = false): void
+	public setNumberArray(key: string, value: number[], immutable: boolean = false): void
 	{
 		if (value === null)
 		{
@@ -195,7 +195,7 @@ export class RoomObjectModel implements IRoomObjectModelController
 		}
 	}
 
-	setStringArray(key: string, value: string[], immutable: boolean = false): void
+	public setStringArray(key: string, value: string[], immutable: boolean = false): void
 	{
 		if (value === null)
 		{
@@ -238,7 +238,7 @@ export class RoomObjectModel implements IRoomObjectModelController
 		}
 	}
 
-	setStringToStringMap(key: string, value: Map<string, string>, immutable: boolean = false): void
+	public setStringToStringMap(key: string, value: Map<string, string>, immutable: boolean = false): void
 	{
 		if (value === null)
 		{
@@ -252,12 +252,12 @@ export class RoomObjectModel implements IRoomObjectModelController
 		this.setStringArray(RoomObjectModel.MAP_VALUES_PREFIX + key, values, immutable);
 	}
 
-	getObject(key: string): unknown
+	public getObject(key: string): unknown
 	{
 		return this._objects.get(key) ?? null;
 	}
 
-	setObject(key: string, value: unknown, immutable: boolean = false): void
+	public setObject(key: string, value: unknown, immutable: boolean = false): void
 	{
 		if (this._immutableObjects.indexOf(key) >= 0)
 		{
@@ -273,7 +273,7 @@ export class RoomObjectModel implements IRoomObjectModelController
 		this._updateID++;
 	}
 
-	getUpdateID(): number
+	public getUpdateID(): number
 	{
 		return this._updateID;
 	}

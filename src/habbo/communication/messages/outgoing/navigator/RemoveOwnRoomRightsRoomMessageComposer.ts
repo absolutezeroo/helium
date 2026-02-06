@@ -16,7 +16,7 @@ export class RemoveOwnRoomRightsRoomMessageComposer extends MessageComposer<Cons
 		this._data = [roomId];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

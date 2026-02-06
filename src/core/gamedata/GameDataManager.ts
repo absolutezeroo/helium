@@ -8,7 +8,7 @@ const log = Logger.getLogger('GameData');
 /**
  * Events emitted by GameDataManager
  */
-export interface GameDataEvents
+export interface IGameDataEvents
 {
 	ready: [];
 	error: [error: Error];
@@ -64,7 +64,7 @@ export class GameDataManager extends Component implements IGameDataManager
 		return this._isLoaded;
 	}
 
-	async loadGameData(urls: IGameDataUrls): Promise<boolean>
+	public async loadGameData(urls: IGameDataUrls): Promise<boolean>
 	{
 		try
 		{
@@ -95,27 +95,27 @@ export class GameDataManager extends Component implements IGameDataManager
 		} catch (error)
 		{
 			log.error('Failed to load game data:', error);
-			this.events.emit('error', error as Error);
+			this.events.emit('error', error as Error); // cast: event type assertion
 			return false;
 		}
 	}
 
-	getFurnitureData(id: number): IFurnitureData | null
+	public getFurnitureData(id: number): IFurnitureData | null
 	{
 		return this._floorItems.get(id) ?? this._wallItems.get(id) ?? null;
 	}
 
-	getFurnitureDataByClassName(className: string): IFurnitureData | null
+	public getFurnitureDataByClassName(className: string): IFurnitureData | null
 	{
 		return this._furnitureByClassName.get(className) ?? null;
 	}
 
-	getEffectData(id: string): IEffectData | null
+	public getEffectData(id: string): IEffectData | null
 	{
 		return this._effects.get(id) ?? null;
 	}
 
-	getProductData(code: string): IProductData | null
+	public getProductData(code: string): IProductData | null
 	{
 		return this._products.get(code) ?? null;
 	}
@@ -154,7 +154,7 @@ export class GameDataManager extends Component implements IGameDataManager
 	{
 		for (const item of items)
 		{
-			const furni = item as Record<string, unknown>;
+			const furni = item as Record<string, unknown>; // cast: type assertion required
 			if (!furni) continue;
 
 			const colors = this.parseColors(furni.partcolors);
@@ -197,7 +197,7 @@ export class GameDataManager extends Component implements IGameDataManager
 	{
 		for (const item of items)
 		{
-			const furni = item as Record<string, unknown>;
+			const furni = item as Record<string, unknown>; // cast: type assertion required
 			if (!furni) continue;
 
 			const furniture: IFurnitureData = {

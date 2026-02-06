@@ -15,13 +15,13 @@ export class IsFirstLoginOfDayMessageParser implements IMessageParser
 		return this._isFirstLoginOfDay;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._isFirstLoginOfDay = false;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._isFirstLoginOfDay = wrapper.readBoolean();
 		return true;

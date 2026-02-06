@@ -8,12 +8,12 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  */
 export class RoomEventCancelMessageParser implements IMessageParser
 {
-	flush(): boolean
+	public flush(): boolean
 	{
 		return true;
 	}
 
-	parse(_wrapper: IMessageDataWrapper): boolean
+	public parse(_wrapper: IMessageDataWrapper): boolean
 	{
 		// No data to parse
 		return true;

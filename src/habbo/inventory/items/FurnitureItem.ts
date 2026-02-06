@@ -1,6 +1,6 @@
 import type {IFurnitureItem} from './IFurnitureItem';
 import type {IStuffData} from './IStuffData';
-import type {FurnitureItemData} from './FurnitureItemData';
+import type {IFurnitureItemData} from './FurnitureItemData';
 
 /**
  * Furniture item data model
@@ -11,7 +11,7 @@ export class FurnitureItem implements IFurnitureItem
 {
 	private _expirationTimeStamp: number;
 
-	constructor(data: FurnitureItemData)
+	constructor(data: IFurnitureItemData)
 	{
 		this._id = data.itemId;
 		this._ref = data.roomItemId;
@@ -140,7 +140,7 @@ export class FurnitureItem implements IFurnitureItem
 
 		if (this._hasRentPeriodStarted)
 		{
-			const elapsed = (Date.now() - this._expirationTimeStamp) / 1000;
+			const elapsed = (performance.now() - this._expirationTimeStamp) / 1000;
 			const remaining = this._secondsToExpiration - elapsed;
 
 			return Math.max(0, Math.floor(remaining));
@@ -213,7 +213,7 @@ export class FurnitureItem implements IFurnitureItem
 	/**
 	 * Update item from new data
 	 */
-	update(data: FurnitureItemData): void
+	public update(data: IFurnitureItemData): void
 	{
 		this._ref = data.roomItemId;
 		this._type = data.itemTypeId;

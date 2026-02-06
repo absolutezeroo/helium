@@ -16,14 +16,14 @@ export class NavigatorSearchResultSetMessageParser implements IMessageParser
 		return this._searchResult;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._searchResult = null;
 
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._searchResult = new NavigatorSearchResultSet(wrapper);
 

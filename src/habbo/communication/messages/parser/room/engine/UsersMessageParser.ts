@@ -7,18 +7,18 @@
  */
 import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
-import {RoomUserData} from '../../../incoming/room/engine/RoomUserData';
+import {IRoomUserData} from '@habbo/communication/messages/incoming/room/engine/RoomUserData';
 
 export class UsersMessageParser implements IMessageParser
 {
-	private _users: RoomUserData[] = [];
+	private _users: IRoomUserData[] = [];
 
 	get userCount(): number
 	{
 		return this._users.length;
 	}
 
-	getUser(index: number): RoomUserData | null
+	public getUser(index: number): IRoomUserData | null
 	{
 		if (index < 0 || index >= this._users.length)
 		{
@@ -35,13 +35,13 @@ export class UsersMessageParser implements IMessageParser
 		return data;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._users = [];
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		const count = wrapper.readInt();
 
@@ -58,7 +58,7 @@ export class UsersMessageParser implements IMessageParser
 			const dir = wrapper.readInt();
 			const userType = wrapper.readInt();
 
-			const userData = new RoomUserData(roomIndex);
+			const userData = new IRoomUserData(roomIndex);
 			userData.dir = dir;
 			userData.name = name;
 			userData.custom = custom;
@@ -70,7 +70,7 @@ export class UsersMessageParser implements IMessageParser
 			{
 				case 1: // Regular user
 					userData.webID = webId;
-					userData.userType = RoomUserData.USER_TYPE_USER;
+					userData.userType = IRoomUserData.USER_TYPE_USER;
 					userData.sex = this.resolveSex(wrapper.readString());
 					userData.groupID = String(wrapper.readInt());
 					userData.groupStatus = wrapper.readInt();
@@ -84,7 +84,7 @@ export class UsersMessageParser implements IMessageParser
 					break;
 
 				case 2: // Pet
-					userData.userType = RoomUserData.USER_TYPE_PET;
+					userData.userType = IRoomUserData.USER_TYPE_PET;
 					userData.figure = figure;
 					userData.webID = webId;
 					userData.subType = wrapper.readInt().toString();
@@ -102,14 +102,14 @@ export class UsersMessageParser implements IMessageParser
 					break;
 
 				case 3: // Old bot
-					userData.userType = RoomUserData.USER_TYPE_OLD_BOT;
+					userData.userType = IRoomUserData.USER_TYPE_OLD_BOT;
 					userData.webID = -roomIndex;
 					userData.figure = figure.includes('/') ? 'hr-100-.hd-180-1.ch-876-66.lg-270-94.sh-300-64' : figure;
 					userData.sex = 'M';
 					break;
 
 				case 4: // Rentable bot
-					userData.userType = RoomUserData.USER_TYPE_BOT;
+					userData.userType = IRoomUserData.USER_TYPE_BOT;
 					userData.webID = webId;
 					userData.sex = this.resolveSex(wrapper.readString());
 					userData.figure = figure;

@@ -2,10 +2,6 @@ import {Component, ComponentDependency, type IContext, IID_CoreCommunicationMana
 import {ArcFour} from '@habbo/communication/encryption/ArcFour';
 import {DiffieHellman} from '@habbo/communication/encryption/DiffieHellman';
 import {Logger} from '@core/utils/Logger';
-import {HabboMessages} from './HabboMessages';
-import {IncomingMessages} from './demo/IncomingMessages';
-import {SessionDataManager} from '../session/SessionDataManager';
-import type {IHabboCommunicationManager} from './IHabboCommunicationManager';
 import type {ICoreCommunicationManager} from '@core/communication/ICoreCommunicationManager';
 import type {IConnection} from '@core/communication/connection/IConnection';
 import type {IConnectionCallback} from '@core/communication/connection/IConnectionCallback';
@@ -14,12 +10,16 @@ import type {IMessageConfiguration} from '@core/communication/messages/IMessageC
 import type {IEncryption} from '@core/communication/encryption/IEncryption';
 import type {IKeyExchange} from '@core/communication/handshake/IKeyExchange';
 import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
-import type {ISessionDataManager} from '../session/ISessionDataManager';
 import type {ConnectionActions} from '@/modules/connection/actions';
+import {HabboMessages} from './HabboMessages';
+import {IncomingMessages} from './demo/IncomingMessages';
+import {SessionDataManager} from '../session/SessionDataManager';
+import type {IHabboCommunicationManager} from './IHabboCommunicationManager';
+import type {ISessionDataManager} from '../session/ISessionDataManager';
 
 const log = Logger.getLogger('Communication');
 
-export interface HabboConnectionConfig
+export interface IHabboConnectionConfig
 {
 	host: string;
 	ports: number[];
@@ -38,7 +38,7 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 {
 	private messageConfig: IMessageConfiguration;
 	private incomingMessages: IncomingMessages | null = null;
-	private config: HabboConnectionConfig | null = null;
+	private config: IHabboConnectionConfig | null = null;
 	private portIndex: number = -1;
 	private connectionAttempt: number = 1;
 	private maxConnectionAttempts: number = 2;
@@ -126,18 +126,18 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 	 * Set connection actions for state updates
 	 * Called by Helium after module registration
 	 */
-	setConnectionActions(actions: ConnectionActions): void
+	public setConnectionActions(actions: ConnectionActions): void
 	{
 		this._connectionActions = actions;
 	}
 
-	configure(config: HabboConnectionConfig): void
+	public configure(config: IHabboConnectionConfig): void
 	{
 		this.config = config;
 		this._ssoTicket = config.ssoTicket || null;
 	}
 
-	initConnection(type: string): void
+	public initConnection(type: string): void
 	{
 		if (type !== 'habbo')
 		{
@@ -201,7 +201,7 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 		this.tryNextPort();
 	}
 
-	addMessageEvent(event: IMessageEvent): IMessageEvent
+	public addMessageEvent(event: IMessageEvent): IMessageEvent
 	{
 		if (this._connection)
 		{
@@ -214,7 +214,7 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 		return event;
 	}
 
-	removeMessageEvent(event: IMessageEvent): void
+	public removeMessageEvent(event: IMessageEvent): void
 	{
 		if (this._connection)
 		{
@@ -230,22 +230,22 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 		}
 	}
 
-	createEncryption(): IEncryption
+	public createEncryption(): IEncryption
 	{
 		return new ArcFour();
 	}
 
-	createKeyExchange(prime: string, generator: string): IKeyExchange
+	public createKeyExchange(prime: string, generator: string): IKeyExchange
 	{
 		return new DiffieHellman(prime, generator);
 	}
 
-	disconnect(): void
+	public disconnect(): void
 	{
 		this._connection?.close();
 	}
 
-	onMessage(listener: (event: IMessageEvent) => void): () => void
+	public onMessage(listener: (event: IMessageEvent) => void): () => void
 	{
 		if (!this._connection)
 		{
@@ -274,25 +274,25 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 	}
 
 	// IConnectionCallback
-	connectionInit(host: string, port: number): void
+	public connectionInit(host: string, port: number): void
 	{
 		log.info(`Connecting to ${host}:${port}...`);
 		this.connectionActions.setConnecting();
 	}
 
-	connectionOpened(): void
+	public connectionOpened(): void
 	{
 		log.success('Connected to server');
 		this.connectionActions.setConnected();
 	}
 
-	connectionClosed(): void
+	public connectionClosed(): void
 	{
 		log.info('Connection closed');
 		this.connectionActions.setDisconnected();
 	}
 
-	connectionError(error: Error): void
+	public connectionError(error: Error): void
 	{
 		log.error(`Connection error: ${error.message}`);
 		// Only set error state if we've exhausted all retry attempts
@@ -304,17 +304,17 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 		this.tryNextPort();
 	}
 
-	messageReceived(messageId: number, messageName: string): void
+	public messageReceived(messageId: number, messageName: string): void
 	{
 		log.incoming(messageId, messageName);
 	}
 
-	messageSent(messageId: number, messageName: string): void
+	public messageSent(messageId: number, messageName: string): void
 	{
 		log.outgoing(messageId, messageName);
 	}
 
-	messageParseError(message: IMessageDataWrapper, error: Error): void
+	public messageParseError(message: IMessageDataWrapper, error: Error): void
 	{
 		log.error(`Failed to parse message ${message.getMessageId()}: ${error.message}`);
 	}

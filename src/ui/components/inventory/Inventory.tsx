@@ -1,11 +1,12 @@
 import type {JSX} from 'solid-js';
 import {createMemo} from 'solid-js';
+import {InventoryCategory, type GroupItem, type Badge} from '@habbo/inventory';
+import { Logger } from '@core/utils/Logger';
 import {ModuleId, useActions, useModule} from '../../bridge';
-import {InventoryCategory} from '@habbo/inventory';
 import {InventoryWindow} from './InventoryWindow';
-import type {InventoryTab} from './tabs';
-import type {FurniGridItem} from './furni';
-import type {BadgeData} from './badges';
+import type {IInventoryTab} from './tabs';
+import type {IFurniGridItem} from './furni';
+import type {IBadgeData} from './badges';
 
 /**
  * Inventory - Connects the module to InventoryWindow
@@ -18,7 +19,7 @@ export function Inventory(): JSX.Element
 	const invActions = useActions(ModuleId.Inventory);
 
 	// Define tabs (reactive)
-	const tabs = createMemo((): InventoryTab[] => [
+	const tabs = createMemo((): IInventoryTab[] => [
 		{id: 'furni', label: 'Furniture', icon: 'furni', unseenCount: inventory().furniUnseenCount},
 		{id: 'badges', label: 'Badges', icon: 'badges', unseenCount: inventory().badgesUnseenCount},
 		{id: 'pets', label: 'Pets', icon: 'pets', unseenCount: inventory().petsUnseenCount},
@@ -26,9 +27,9 @@ export function Inventory(): JSX.Element
 	]);
 
 	// Transform module data to UI format
-	const furniItems = createMemo((): FurniGridItem[] =>
+	const furniItems = createMemo((): IFurniGridItem[] =>
 	{
-		return inventory().furniGroups.map((group) => ({
+		return inventory().furniGroups.map((group: GroupItem) => ({
 			id: group.getFurniIds()[0] ?? 0,
 			type: group.type,
 			name: group.name || `Furni #${group.type}`,
@@ -39,7 +40,7 @@ export function Inventory(): JSX.Element
 		}));
 	});
 
-	const selectedFurni = createMemo((): FurniGridItem | null =>
+	const selectedFurni = createMemo((): IFurniGridItem | null =>
 	{
 		const group = inventory().selectedFurniGroup;
 		if (!group) return null;
@@ -55,9 +56,9 @@ export function Inventory(): JSX.Element
 		};
 	});
 
-	const badges = createMemo((): BadgeData[] =>
+	const badges = createMemo((): IBadgeData[] =>
 	{
-		return inventory().badges.map((badge) => ({
+		return inventory().badges.map((badge: Badge) => ({
 			badgeId: badge.badgeId,
 			name: badge.name,
 			description: badge.description,
@@ -67,9 +68,9 @@ export function Inventory(): JSX.Element
 		}));
 	});
 
-	const activeBadges = createMemo((): BadgeData[] =>
+	const activeBadges = createMemo((): IBadgeData[] =>
 	{
-		return inventory().activeBadges.map((badge) => ({
+		return inventory().activeBadges.map((badge: Badge) => ({
 			badgeId: badge.badgeId,
 			name: badge.name,
 			description: badge.description,
@@ -79,7 +80,7 @@ export function Inventory(): JSX.Element
 		}));
 	});
 
-	const selectedBadge = createMemo((): BadgeData | null =>
+	const selectedBadge = createMemo((): IBadgeData | null =>
 	{
 		const badge = inventory().selectedBadge;
 		if (!badge) return null;
@@ -97,12 +98,12 @@ export function Inventory(): JSX.Element
 	// Handlers - use module actions
 	const handleTabChange = (id: string) =>
 	{
-		invActions.switchCategory(id as typeof InventoryCategory[keyof typeof InventoryCategory]);
+		invActions.switchCategory(id as typeof InventoryCategory[keyof typeof InventoryCategory]); // cast: type assertion required
 	};
 
 	const handleFurniSelect = (id: number) =>
 	{
-		const group = inventory().furniGroups.find(g => g.getFurniIds().includes(id));
+		const group = inventory().furniGroups.find((g: GroupItem) => g.getFurniIds().includes(id));
 		if (group)
 		{
 			invActions.selectFurniGroup(group);
@@ -112,12 +113,12 @@ export function Inventory(): JSX.Element
 	const handleFurniPlace = (id: number) =>
 	{
 		// TODO: Implement furniture placement
-		console.log('Place furni:', id);
+		Logger.log('Place furni:', id);
 	};
 
 	const handleBadgeSelect = (badgeId: string) =>
 	{
-		const badge = inventory().badges.find(b => b.badgeId === badgeId);
+		const badge = inventory().badges.find((b: Badge) => b.badgeId === badgeId);
 		if (badge)
 		{
 			invActions.selectBadge(badge);

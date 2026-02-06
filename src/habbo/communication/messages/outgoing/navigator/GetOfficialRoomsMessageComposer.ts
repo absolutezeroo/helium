@@ -16,7 +16,7 @@ export class GetOfficialRoomsMessageComposer extends MessageComposer<Constructor
 		this._data = [index];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

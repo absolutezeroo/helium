@@ -47,7 +47,7 @@ export class LegacyStuffData extends StuffDataBase implements IStuffData
 		return this._data === data.getLegacyString();
 	}
 
-	setString(value: string): void
+	public setString(value: string): void
 	{
 		this._data = value;
 	}

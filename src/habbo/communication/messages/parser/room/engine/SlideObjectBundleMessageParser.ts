@@ -7,7 +7,7 @@
  */
 import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
-import {SlideObjectData} from '../../../incoming/room/engine/SlideObjectData';
+import {SlideObjectData} from '@habbo/communication/messages/incoming/room/engine/SlideObjectData';
 import {Vector3d} from '@room/utils/Vector3d';
 
 export class SlideObjectBundleMessageParser implements IMessageParser
@@ -33,7 +33,7 @@ export class SlideObjectBundleMessageParser implements IMessageParser
 		return this._objects;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._id = -1;
 		this._avatar = null;
@@ -41,7 +41,7 @@ export class SlideObjectBundleMessageParser implements IMessageParser
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		if (wrapper === null)
 		{

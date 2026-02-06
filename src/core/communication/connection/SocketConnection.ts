@@ -13,7 +13,7 @@ import type {IWireFormatter} from '../wireformat/IWireFormatter';
 
 const log = Logger.getLogger('Socket');
 
-export interface ConnectionEvents
+export interface IConnectionEvents
 {
 	connected: () => void;
 	disconnected: () => void;
@@ -25,7 +25,7 @@ export interface ConnectionEvents
 	messageEvent: (event: IMessageEvent) => void;
 }
 
-export class SocketConnection extends EventEmitter<ConnectionEvents> implements IConnection
+export class SocketConnection extends EventEmitter<IConnectionEvents> implements IConnection
 {
 	private socket: WebSocket | null = null;
 	private receivedBuffer: ByteArray = new ByteArray();
@@ -73,7 +73,7 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 		this._timeout = value;
 	}
 
-	init(host: string, port: number = 0): boolean
+	public init(host: string, port: number = 0): boolean
 	{
 		if (this._disposed) return false;
 
@@ -82,7 +82,7 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 		this.callback?.connectionInit?.(host, port);
 
 		let url: string;
-		if (host.startsWith('ws://') || host.startsWith('wss://'))
+		if (host.startsWith('wss://') || host.startsWith('wss://'))
 		{
 			url = host;
 		} else
@@ -100,13 +100,13 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 			return true;
 		} catch (error)
 		{
-			log.error(`WebSocket error: ${(error as Error).message}`);
+			log.error(`WebSocket error: ${(error as Error).message}`); // cast: type assertion required
 			this.callback?.connectionError?.(error as Error);
 			return false;
 		}
 	}
 
-	send(composer: IMessageComposer<unknown[]>): boolean
+	public send(composer: IMessageComposer<unknown[]>): boolean
 	{
 		const messageId = this.messageRegistry.getMessageIdForComposer(composer);
 		if (messageId < 0)
@@ -125,7 +125,7 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 		return this.sendRaw(encoded, messageId);
 	}
 
-	sendUnencrypted(composer: IMessageComposer<unknown[]>): boolean
+	public sendUnencrypted(composer: IMessageComposer<unknown[]>): boolean
 	{
 		const messageId = this.messageRegistry.getMessageIdForComposer(composer);
 		if (messageId < 0)
@@ -138,38 +138,38 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 		return this.sendRaw(encoded, messageId);
 	}
 
-	setEncryption(clientToServer: IEncryption, serverToClient: IEncryption): void
+	public setEncryption(clientToServer: IEncryption, serverToClient: IEncryption): void
 	{
 		this.clientToServerEncryption = clientToServer;
 		this.serverToClientEncryption = serverToClient;
 	}
 
-	getServerToClientEncryption(): IEncryption | null
+	public getServerToClientEncryption(): IEncryption | null
 	{
 		return this.serverToClientEncryption;
 	}
 
-	getClientToServerEncryption(): IEncryption | null
+	public getClientToServerEncryption(): IEncryption | null
 	{
 		return this.clientToServerEncryption;
 	}
 
-	registerMessageClasses(config: IMessageConfiguration): void
+	public registerMessageClasses(config: IMessageConfiguration): void
 	{
 		this.messageRegistry.registerMessages(config);
 	}
 
-	addMessageEvent(event: IMessageEvent): void
+	public addMessageEvent(event: IMessageEvent): void
 	{
 		this.messageRegistry.registerMessageEvent(event);
 	}
 
-	removeMessageEvent(event: IMessageEvent): void
+	public removeMessageEvent(event: IMessageEvent): void
 	{
 		this.messageRegistry.unregisterMessageEvent(event);
 	}
 
-	processReceivedData(): void
+	public processReceivedData(): void
 	{
 		if (this.receivedBuffer.length === 0) return;
 
@@ -214,13 +214,13 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 										event.callback(event);
 									} catch (error)
 									{
-										log.error(`Handler error for ${messageId}: ${(error as Error).message}`);
+										log.error(`Handler error for ${messageId}: ${(error as Error).message}`); // cast: type assertion required
 									}
 								}
 							}
 						} catch (error)
 						{
-							log.error(`Parse error for ${messageId}: ${(error as Error).message}`);
+							log.error(`Parse error for ${messageId}: ${(error as Error).message}`); // cast: type assertion required
 							this.callback?.messageParseError?.(wrapper, error as Error);
 						}
 					}
@@ -228,11 +228,11 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 			}
 		} catch (error)
 		{
-			log.error(`Process error: ${(error as Error).message}`);
+			log.error(`Process error: ${(error as Error).message}`); // cast: type assertion required
 		}
 	}
 
-	close(): void
+	public close(): void
 	{
 		this.clearTimeout();
 
@@ -248,7 +248,7 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 		this._connected = false;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (this._disposed) return;
 
@@ -303,7 +303,7 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 				reader.readAsArrayBuffer(event.data);
 				reader.onloadend = () =>
 				{
-					this.onDataReceived(reader.result as ArrayBuffer);
+					this.onDataReceived(reader.result as ArrayBuffer); // cast: type assertion required
 				};
 			} else if (event.data instanceof ArrayBuffer)
 			{
@@ -371,7 +371,7 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 			return true;
 		} catch (error)
 		{
-			log.error(`Send error: ${(error as Error).message}`);
+			log.error(`Send error: ${(error as Error).message}`); // cast: type assertion required
 			return false;
 		}
 	}

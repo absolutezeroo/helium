@@ -16,7 +16,7 @@ export class RespectUserMessageComposer extends MessageComposer<ConstructorParam
 		this._data = [userId];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

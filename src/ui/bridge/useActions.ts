@@ -1,5 +1,5 @@
+import type {IModuleActionsMap, RegisteredModuleId} from '@/modules/core';
 import {useModuleRegistry} from './ModuleProvider';
-import type {ModuleActionsMap, RegisteredModuleId} from '@/modules/core';
 
 /**
  * Hook to access only the actions of a module
@@ -15,10 +15,10 @@ import type {ModuleActionsMap, RegisteredModuleId} from '@/modules/core';
  * }
  * ```
  */
-export function useActions<K extends RegisteredModuleId>(moduleId: K): ModuleActionsMap[K]
+export function useActions<K extends RegisteredModuleId>(moduleId: K): IModuleActionsMap[K]
 {
 	const registry = useModuleRegistry();
 	const module = registry.get(moduleId);
 
-	return module.actions as ModuleActionsMap[K];
+	return module.actions as IModuleActionsMap[K]; // cast: type assertion required
 }

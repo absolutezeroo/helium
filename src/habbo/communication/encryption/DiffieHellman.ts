@@ -47,7 +47,7 @@ class BigIntWrapper
 		}
 	}
 
-	toRadix(radix: number = 16): string
+	public toRadix(radix: number = 16): string
 	{
 		if (radix === 16)
 		{
@@ -78,7 +78,7 @@ class BigIntWrapper
 	/**
 	 * Modular exponentiation: base^exp mod mod
 	 */
-	modPow(exponent: BigIntWrapper, modulus: BigIntWrapper): BigIntWrapper
+	public modPow(exponent: BigIntWrapper, modulus: BigIntWrapper): BigIntWrapper
 	{
 		let result = 1n;
 		let base = this.value % modulus.value;
@@ -97,14 +97,14 @@ class BigIntWrapper
 		return new BigIntWrapper(result);
 	}
 
-	compareTo(other: BigIntWrapper): number
+	public compareTo(other: BigIntWrapper): number
 	{
 		if (this.value < other.value) return -1;
 		if (this.value > other.value) return 1;
 		return 0;
 	}
 
-	getValue(): bigint
+	public getValue(): bigint
 	{
 		return this.value;
 	}
@@ -139,7 +139,7 @@ export class DiffieHellman implements IKeyExchange
 	/**
 	 * Initialize with our private key
 	 */
-	init(privateKeyHex: string, radix: number = 16): boolean
+	public init(privateKeyHex: string, radix: number = 16): boolean
 	{
 		try
 		{
@@ -159,7 +159,7 @@ export class DiffieHellman implements IKeyExchange
 	/**
 	 * Generate shared key from server's public key
 	 */
-	generateSharedKey(serverPublicKeyHex: string, radix: number = 16): string
+	public generateSharedKey(serverPublicKeyHex: string, radix: number = 16): string
 	{
 		if (!this.privateKey)
 		{
@@ -177,7 +177,7 @@ export class DiffieHellman implements IKeyExchange
 	/**
 	 * Get our public key
 	 */
-	getPublicKey(radix: number = 16): string
+	public getPublicKey(radix: number = 16): string
 	{
 		if (!this.publicKey)
 		{
@@ -189,7 +189,7 @@ export class DiffieHellman implements IKeyExchange
 	/**
 	 * Get the shared key
 	 */
-	getSharedKey(radix: number = 16): string
+	public getSharedKey(radix: number = 16): string
 	{
 		if (!this.sharedKey)
 		{
@@ -201,7 +201,7 @@ export class DiffieHellman implements IKeyExchange
 	/**
 	 * Validate server's public key (should be >= 2)
 	 */
-	isValidServerPublicKey(): boolean
+	public isValidServerPublicKey(): boolean
 	{
 		if (!this.serverPublicKey) return false;
 		return this.serverPublicKey.compareTo(this.minimumPublicKey) >= 0;
@@ -210,7 +210,7 @@ export class DiffieHellman implements IKeyExchange
 	/**
 	 * Validate the shared key (should be >= 2)
 	 */
-	isValidSharedKey(): boolean
+	public isValidSharedKey(): boolean
 	{
 		if (!this.sharedKey) return false;
 		return this.sharedKey.compareTo(this.minimumSharedKey) >= 0;

@@ -1,7 +1,7 @@
 /**
  * Log levels
  */
-export enum LogLevel
+export const enum LogLevel
 {
 	DEBUG = 0,
 	INFO = 1,
@@ -13,7 +13,7 @@ export enum LogLevel
 /**
  * Logger configuration
  */
-export interface LoggerConfig
+export interface ILoggerConfig
 {
 	level: LogLevel;
 	showTimestamp: boolean;
@@ -52,7 +52,7 @@ export class Logger
 		reset: 'color: inherit',
 	};
 	private _name: string;
-	private _config: LoggerConfig = {
+	private _config: ILoggerConfig = {
 		level: LogLevel.DEBUG,
 		showTimestamp: true,
 		showLevel: true,
@@ -91,6 +91,46 @@ export class Logger
 	}
 
 	/**
+	 * Static convenience: debug log via singleton
+	 */
+	static debug(...args: unknown[]): void
+	{
+		this.instance.debug(...args);
+	}
+
+	/**
+	 * Static convenience: info log via singleton
+	 */
+	static info(...args: unknown[]): void
+	{
+		this.instance.info(...args);
+	}
+
+	/**
+	 * Static convenience: warn log via singleton
+	 */
+	static warn(...args: unknown[]): void
+	{
+		this.instance.warn(...args);
+	}
+
+	/**
+	 * Static convenience: error log via singleton
+	 */
+	static error(...args: unknown[]): void
+	{
+		this.instance.error(...args);
+	}
+
+	/**
+	 * Static convenience: log alias for info
+	 */
+	static log(...args: unknown[]): void
+	{
+		this.instance.info(...args);
+	}
+
+	/**
 	 * Set global log level
 	 */
 	static setLevel(level: LogLevel): void
@@ -105,7 +145,7 @@ export class Logger
 	/**
 	 * Configure the logger
 	 */
-	configure(config: Partial<LoggerConfig>): void
+	public configure(config: Partial<ILoggerConfig>): void
 	{
 		this._config = {...this._config, ...config};
 	}
@@ -113,7 +153,7 @@ export class Logger
 	/**
 	 * Debug level log
 	 */
-	debug(...args: unknown[]): void
+	public debug(...args: unknown[]): void
 	{
 		this.log(LogLevel.DEBUG, ...args);
 	}
@@ -121,7 +161,7 @@ export class Logger
 	/**
 	 * Info level log
 	 */
-	info(...args: unknown[]): void
+	public info(...args: unknown[]): void
 	{
 		this.log(LogLevel.INFO, ...args);
 	}
@@ -129,7 +169,7 @@ export class Logger
 	/**
 	 * Warning level log
 	 */
-	warn(...args: unknown[]): void
+	public warn(...args: unknown[]): void
 	{
 		this.log(LogLevel.WARN, ...args);
 	}
@@ -137,7 +177,7 @@ export class Logger
 	/**
 	 * Error level log
 	 */
-	error(...args: unknown[]): void
+	public error(...args: unknown[]): void
 	{
 		this.log(LogLevel.ERROR, ...args);
 	}
@@ -145,7 +185,7 @@ export class Logger
 	/**
 	 * Success message (info level with success styling)
 	 */
-	success(...args: unknown[]): void
+	public success(...args: unknown[]): void
 	{
 		if (this._config.level > LogLevel.INFO) return;
 		const prefix = this.formatPrefix('✓', Logger.STYLES.success);
@@ -155,7 +195,7 @@ export class Logger
 	/**
 	 * Failure message (error level with failure styling)
 	 */
-	failure(...args: unknown[]): void
+	public failure(...args: unknown[]): void
 	{
 		if (this._config.level > LogLevel.ERROR) return;
 		const prefix = this.formatPrefix('✗', Logger.STYLES.failure);
@@ -165,7 +205,7 @@ export class Logger
 	/**
 	 * Log incoming message
 	 */
-	incoming(messageId: number, messageName?: string): void
+	public incoming(messageId: number, messageName?: string): void
 	{
 		if (this._config.level > LogLevel.DEBUG) return;
 		const name = messageName ? ` (${messageName})` : '';
@@ -181,7 +221,7 @@ export class Logger
 	/**
 	 * Log outgoing message
 	 */
-	outgoing(messageId: number, messageName?: string): void
+	public outgoing(messageId: number, messageName?: string): void
 	{
 		if (this._config.level > LogLevel.DEBUG) return;
 

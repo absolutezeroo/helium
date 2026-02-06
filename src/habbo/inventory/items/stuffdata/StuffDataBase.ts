@@ -1,5 +1,5 @@
-import type {IStuffData} from '../IStuffData';
 import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
+import type {IStuffData} from '../IStuffData';
 import {StuffDataFlags} from './StuffDataType';
 
 /**
@@ -53,7 +53,7 @@ export abstract class StuffDataBase implements IStuffData
 	/**
 	 * Initialize from incoming server message
 	 */
-	initializeFromIncomingMessage(wrapper: IMessageDataWrapper): void
+	public initializeFromIncomingMessage(wrapper: IMessageDataWrapper): void
 	{
 		// Check if unique data is present
 		if ((this._flags & StuffDataFlags.UNIQUE_SET) > 0)
@@ -71,11 +71,17 @@ export abstract class StuffDataBase implements IStuffData
 	/**
 	 * Get a JSON value by key
 	 */
-	getJSONValue(key: string): string | null
+	public getJSONValue(key: string): string | null
 	{
 		try
 		{
-			const data = JSON.parse(this.getLegacyString());
+			let data: Record<string, unknown>;
+			try {
+  				data = JSON.parse(this.getLegacyString());
+			} catch (_parseError: unknown) {
+			  // SC-005: JSON.parse validation
+			  throw new Error(`Invalid JSON: ${(_parseError as Error).message}`); // cast: type assertion required
+			}
 
 			return String(data[key] ?? '');
 		} catch
@@ -87,7 +93,7 @@ export abstract class StuffDataBase implements IStuffData
 	/**
 	 * Compare with another stuff data
 	 */
-	compare(other: IStuffData): boolean
+	public compare(other: IStuffData): boolean
 	{
 		return this.getLegacyString() === other.getLegacyString();
 	}

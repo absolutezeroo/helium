@@ -12,7 +12,7 @@ export class GetFurnitureAliasesMessageComposer extends MessageComposer<[]>
 {
 	private _data: [] = [];
 
-	getMessageArray(): []
+	public getMessageArray(): []
 	{
 		return this._data;
 	}

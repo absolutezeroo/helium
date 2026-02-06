@@ -22,14 +22,14 @@ export class NavigatorSettingsMessageParser implements IMessageParser
 		return this._roomIdToEnter;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._homeRoomId = 0;
 		this._roomIdToEnter = 0;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._homeRoomId = wrapper.readInt();
 		this._roomIdToEnter = wrapper.readInt();

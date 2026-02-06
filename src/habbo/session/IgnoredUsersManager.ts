@@ -1,7 +1,7 @@
-import type {IIgnoredUsersManager} from './IIgnoredUsersManager';
-import {IgnoreResult} from './IIgnoredUsersManager';
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
 import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import type {IIgnoredUsersManager} from './IIgnoredUsersManager';
+import {IgnoreResult} from './IIgnoredUsersManager';
 import type {IHabboCommunicationManager} from '../communication/IHabboCommunicationManager';
 
 /**
@@ -27,7 +27,7 @@ export class IgnoredUsersManager implements IIgnoredUsersManager
 		return this._communication === null;
 	}
 
-	initIgnoreList(): void
+	public initIgnoreList(): void
 	{
 		// TODO: Send GetIgnoredUsersMessageComposer when implemented
 		// if (this._sendCallback)
@@ -36,7 +36,7 @@ export class IgnoredUsersManager implements IIgnoredUsersManager
 		// }
 	}
 
-	ignoreUser(userId: number): void
+	public ignoreUser(userId: number): void
 	{
 		// TODO: Send IgnoreUserMessageComposer when implemented
 		// if (this._sendCallback)
@@ -45,7 +45,7 @@ export class IgnoredUsersManager implements IIgnoredUsersManager
 		// }
 	}
 
-	unignoreUser(userId: number): void
+	public unignoreUser(userId: number): void
 	{
 		// TODO: Send UnignoreUserMessageComposer when implemented
 		// if (this._sendCallback)
@@ -54,7 +54,7 @@ export class IgnoredUsersManager implements IIgnoredUsersManager
 		// }
 	}
 
-	isIgnored(userId: number): boolean
+	public isIgnored(userId: number): boolean
 	{
 		return this._ignoredUserIds.includes(userId);
 	}
@@ -62,7 +62,7 @@ export class IgnoredUsersManager implements IIgnoredUsersManager
 	/**
 	 * Set the ignored users list (called by message handler)
 	 */
-	setIgnoredUsers(userIds: number[]): void
+	public setIgnoredUsers(userIds: number[]): void
 	{
 		this._ignoredUserIds = [...userIds];
 	}
@@ -70,7 +70,7 @@ export class IgnoredUsersManager implements IIgnoredUsersManager
 	/**
 	 * Handle ignore result from server
 	 */
-	handleIgnoreResult(result: number, userId: number): void
+	public handleIgnoreResult(result: number, userId: number): void
 	{
 		switch (result)
 		{
@@ -94,7 +94,7 @@ export class IgnoredUsersManager implements IIgnoredUsersManager
 		}
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (this.disposed) return;
 

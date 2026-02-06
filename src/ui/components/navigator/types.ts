@@ -4,7 +4,7 @@ import type {EventCategory, FlatCategory, GuestRoomData} from '@habbo/communicat
 /**
  * Navigator tab definition
  */
-export interface NavigatorTab
+export interface INavigatorTab
 {
 	id: string;
 	label: string;
@@ -31,7 +31,7 @@ export type RoomDisplayMode = 'grid' | 'list' | 'compact';
 /**
  * Room card props
  */
-export interface RoomCardProps
+export interface IRoomCardProps
 {
 	room: GuestRoomData;
 	isFavourite?: boolean;
@@ -49,7 +49,7 @@ export interface RoomCardProps
 /**
  * Room list props
  */
-export interface RoomListProps
+export interface IRoomListProps
 {
 	rooms: GuestRoomData[];
 	displayMode?: RoomDisplayMode;
@@ -62,9 +62,9 @@ export interface RoomListProps
 }
 
 /**
- * Category item props
+ * ICategory item props
  */
-export interface CategoryItemProps
+export interface ICategoryItemProps
 {
 	category: FlatCategory | EventCategory;
 	isSelected?: boolean;
@@ -76,7 +76,7 @@ export interface CategoryItemProps
 /**
  * Search props
  */
-export interface SearchProps
+export interface ISearchProps
 {
 	placeholder?: string;
 	onSearch?: (query: string) => void;
@@ -87,7 +87,7 @@ export interface SearchProps
 /**
  * Navigator theme configuration
  */
-export interface NavigatorTheme
+export interface INavigatorTheme
 {
 	// Window
 	windowBg?: string;
@@ -129,7 +129,7 @@ export interface NavigatorTheme
 /**
  * Default navigator theme
  */
-export const defaultNavigatorTheme: NavigatorTheme = {
+export const defaultNavigatorTheme: INavigatorTheme = {
 	windowBg: 'bg-slate-800',
 	windowBorder: 'border-slate-600',
 	windowShadow: 'shadow-xl',

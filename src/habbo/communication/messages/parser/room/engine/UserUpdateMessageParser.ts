@@ -28,7 +28,7 @@ export class UserUpdateMessageParser implements IMessageParser
 		return this._users.length;
 	}
 
-	getUser(index: number): IUserUpdate | null
+	public getUser(index: number): IUserUpdate | null
 	{
 		if (index < 0 || index >= this._users.length)
 		{
@@ -38,13 +38,13 @@ export class UserUpdateMessageParser implements IMessageParser
 		return this._users[index];
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._users = [];
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		if (wrapper === null)
 		{

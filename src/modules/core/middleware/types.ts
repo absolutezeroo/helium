@@ -3,7 +3,7 @@ import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
 /**
  * Context passed to middlewares
  */
-export interface MiddlewareContext
+export interface IMiddlewareContext
 {
 	/** Event class name */
 	eventName: string;
@@ -21,6 +21,6 @@ export interface MiddlewareContext
  * Don't call next() to stop propagation
  */
 export type Middleware = (
-	context: MiddlewareContext,
+	context: IMiddlewareContext,
 	next: () => void
 ) => void;

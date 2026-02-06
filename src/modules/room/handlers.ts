@@ -1,7 +1,3 @@
-import type {MessageHandlers} from '../core/types';
-import type {RoomState, RoomUserData as ModuleRoomUserData} from './types';
-import {createInitialRoomState} from './types';
-
 // Parser types
 import type {
 	GetGuestRoomResultMessageParser
@@ -19,17 +15,20 @@ import type {
 } from '@habbo/communication/messages/parser/room/engine/RoomEntryInfoMessageParser';
 
 // Data types
-import type {RoomUserData as ParserRoomUserData} from '@habbo/communication/messages/incoming/room/engine/RoomUserData';
+import type {IRoomUserData as ParserRoomUserData} from '@habbo/communication/messages/incoming/room/engine/RoomUserData'; // cast: type assertion required
+import type {MessageHandlers} from '../core/types';
+import type {IRoomState, IRoomUserData as ModuleRoomUserData} from './types'; // cast: type assertion required
+import {createInitialRoomState} from './types';
 
 /**
- * Convert parser RoomUserData to module RoomUserData
+ * Convert parser IRoomUserData to module IRoomUserData
  */
 function convertUserData(data: ParserRoomUserData): ModuleRoomUserData
 {
 	return {
 		roomIndex: data.roomIndex,
 		webId: data.webID,
-		type: data.userType as ModuleRoomUserData['type'],
+		type: data.userType as ModuleRoomUserData['type'], // cast: type assertion required
 		name: data.name,
 		figure: data.figure,
 		sex: data.sex,
@@ -50,7 +49,7 @@ function convertUserData(data: ParserRoomUserData): ModuleRoomUserData
 	};
 }
 
-export const handlers: MessageHandlers<RoomState> = {
+export const handlers: MessageHandlers<IRoomState> = {
 
 	/**
 	 * Room info / entry
@@ -61,7 +60,7 @@ export const handlers: MessageHandlers<RoomState> = {
 	 * - roomForward=true: Server forwarding to room, set currentRoom (modern emulators)
 	 * - neither: Just viewing room info (don't set currentRoom)
 	 */
-	GetGuestRoomResultMessageEvent: (parser: GetGuestRoomResultMessageParser): Partial<RoomState> =>
+	GetGuestRoomResultMessageEvent: (parser: GetGuestRoomResultMessageParser): Partial<IRoomState> =>
 	{
 		if (parser.enterRoom && parser.data)
 		{
@@ -89,7 +88,7 @@ export const handlers: MessageHandlers<RoomState> = {
 	/**
 	 * Room rating updated
 	 */
-	RoomRatingMessageEvent: (parser: RoomRatingMessageParser): Partial<RoomState> => ({
+	RoomRatingMessageEvent: (parser: RoomRatingMessageParser): Partial<IRoomState> => ({
 		rating: parser.rating,
 		canRate: parser.canRate,
 	}),
@@ -97,35 +96,35 @@ export const handlers: MessageHandlers<RoomState> = {
 	/**
 	 * Room event started/updated
 	 */
-	RoomEventMessageEvent: (parser: RoomEventMessageParser): Partial<RoomState> => ({
+	RoomEventMessageEvent: (parser: RoomEventMessageParser): Partial<IRoomState> => ({
 		roomEvent: parser.data,
 	}),
 
 	/**
 	 * Room event cancelled
 	 */
-	RoomEventCancelMessageEvent: (): Partial<RoomState> => ({
+	RoomEventCancelMessageEvent: (): Partial<IRoomState> => ({
 		roomEvent: null,
 	}),
 
 	/**
 	 * Room ready - session started
 	 */
-	RoomReadyMessageEvent: (parser: RoomReadyMessageParser): Partial<RoomState> => ({
+	RoomReadyMessageEvent: (parser: RoomReadyMessageParser): Partial<IRoomState> => ({
 		sessionState: 'started',
 	}),
 
 	/**
 	 * Room entry info - ownership status
 	 */
-	RoomEntryInfoMessageEvent: (parser: RoomEntryInfoMessageParser): Partial<RoomState> => ({
+	RoomEntryInfoMessageEvent: (parser: RoomEntryInfoMessageParser): Partial<IRoomState> => ({
 		isRoomOwner: parser.owner,
 	}),
 
 	/**
 	 * Close connection - session ended
 	 */
-	CloseConnectionMessageEvent: (): Partial<RoomState> =>
+	CloseConnectionMessageEvent: (): Partial<IRoomState> =>
 	{
 		// Return initial state to clear everything
 		return createInitialRoomState();
@@ -134,19 +133,19 @@ export const handlers: MessageHandlers<RoomState> = {
 	/**
 	 * Flat accessible - doorbell answered, can enter
 	 */
-	FlatAccessibleMessageEvent: (): Partial<RoomState> => ({}),
+	FlatAccessibleMessageEvent: (): Partial<IRoomState> => ({}),
 
 	/**
 	 * You are controller (have rights)
 	 */
-	YouAreControllerMessageEvent: (parser: YouAreControllerMessageParser): Partial<RoomState> => ({
+	YouAreControllerMessageEvent: (parser: YouAreControllerMessageParser): Partial<IRoomState> => ({
 		roomControllerLevel: parser.roomControllerLevel,
 	}),
 
 	/**
 	 * You are room owner
 	 */
-	YouAreOwnerMessageEvent: (): Partial<RoomState> => ({
+	YouAreOwnerMessageEvent: (): Partial<IRoomState> => ({
 		isRoomOwner: true,
 	}),
 
@@ -155,8 +154,8 @@ export const handlers: MessageHandlers<RoomState> = {
 	 */
 	UsersMessageEvent: (
 		parser: UsersMessageParser,
-		state: Readonly<RoomState>
-	): Partial<RoomState> =>
+		state: Readonly<IRoomState>
+	): Partial<IRoomState> =>
 	{
 		const newUsers: Record<number, ModuleRoomUserData> = {...state.users};
 
@@ -179,8 +178,8 @@ export const handlers: MessageHandlers<RoomState> = {
 	 */
 	UserRemoveMessageEvent: (
 		parser: UserRemoveMessageParser,
-		state: Readonly<RoomState>
-	): Partial<RoomState> =>
+		state: Readonly<IRoomState>
+	): Partial<IRoomState> =>
 	{
 		const newUsers: Record<number, ModuleRoomUserData> = {...state.users};
 

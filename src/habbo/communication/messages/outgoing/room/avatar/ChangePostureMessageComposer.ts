@@ -15,7 +15,7 @@ export class ChangePostureMessageComposer extends MessageComposer<[number]>
 		this._data = [posture];
 	}
 
-	getMessageArray(): [number]
+	public getMessageArray(): [number]
 	{
 		return this._data;
 	}

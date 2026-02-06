@@ -16,7 +16,7 @@ export class RoomAdSearchMessageComposer extends MessageComposer<ConstructorPara
 		this._data = [categoryId, index];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

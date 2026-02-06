@@ -2,13 +2,13 @@ import type {JSX} from 'solid-js';
 import {createSignal, For, Show} from 'solid-js';
 import {NavigatorButton, NavigatorIcon} from '../common';
 
-export interface RoomCategory
+export interface IRoomCategory
 {
 	id: number;
 	name: string;
 }
 
-export interface RoomModel
+export interface IRoomModel
 {
 	id: number;
 	name: string;
@@ -17,7 +17,7 @@ export interface RoomModel
 	doorY?: number;
 }
 
-export interface RoomCreateFormData
+export interface IRoomCreateFormData
 {
 	name: string;
 	description: string;
@@ -27,13 +27,13 @@ export interface RoomCreateFormData
 	tradeMode: number;
 }
 
-export interface RoomCreateFormProps
+export interface IRoomCreateFormProps
 {
-	categories: RoomCategory[];
-	models: RoomModel[];
+	categories: IRoomCategory[];
+	models: IRoomModel[];
 	maxRoomNameLength?: number;
 	maxDescriptionLength?: number;
-	onSubmit?: (data: RoomCreateFormData) => void;
+	onSubmit?: (data: IRoomCreateFormData) => void;
 	onCancel?: () => void;
 	loading?: boolean;
 	error?: string;
@@ -50,7 +50,7 @@ const TRADE_MODES = [
 /**
  * Room create form - form fields for creating a new room
  */
-export function RoomCreateForm(props: RoomCreateFormProps): JSX.Element
+export function RoomCreateForm(props: IRoomCreateFormProps): JSX.Element
 {
 	const maxNameLength = () => props.maxRoomNameLength ?? 60;
 	const maxDescLength = () => props.maxDescriptionLength ?? 255;
@@ -161,7 +161,7 @@ export function RoomCreateForm(props: RoomCreateFormProps): JSX.Element
 				</div>
 			</div>
 
-			{/* Category */}
+			{/* ICategory */}
 			<div>
 				<label class="block text-sm font-medium text-slate-300 mb-1">
 					Category *

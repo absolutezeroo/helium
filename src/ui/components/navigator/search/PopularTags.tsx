@@ -4,15 +4,15 @@ import clsx from 'clsx';
 import {NavigatorIcon} from '../common';
 import {useNavigatorLocalization} from '../hooks';
 
-export interface PopularTag
+export interface IPopularTag
 {
 	tag: string;
 	count: number;
 }
 
-export interface PopularTagsProps
+export interface IPopularTagsProps
 {
-	tags: PopularTag[];
+	tags: IPopularTag[];
 	loading?: boolean;
 	maxTags?: number;
 	onTagClick?: (tag: string) => void;
@@ -22,7 +22,7 @@ export interface PopularTagsProps
 /**
  * Popular tags display component
  */
-export function PopularTags(props: PopularTagsProps): JSX.Element
+export function PopularTags(props: IPopularTagsProps): JSX.Element
 {
 	const {t, keys} = useNavigatorLocalization();
 

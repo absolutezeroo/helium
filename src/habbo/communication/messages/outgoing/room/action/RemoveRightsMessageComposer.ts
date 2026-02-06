@@ -15,7 +15,7 @@ export class RemoveRightsMessageComposer extends MessageComposer<unknown[]>
 		this._userIds = userIds;
 	}
 
-	getMessageArray(): unknown[]
+	public getMessageArray(): unknown[]
 	{
 		return [this._userIds.length, ...this._userIds];
 	}

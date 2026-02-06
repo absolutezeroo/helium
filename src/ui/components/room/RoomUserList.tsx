@@ -1,7 +1,7 @@
 import {Component, createMemo, For, Show} from 'solid-js';
-import {ModuleId, useModule} from '../../bridge';
-import type {RoomUserData} from '@/modules';
+import type {IRoomUserData} from '@/modules';
 import {RoomUserType} from '@/modules';
+import {ModuleId, useModule} from '../../bridge';
 
 /**
  * RoomUserList
@@ -97,13 +97,13 @@ export const RoomUserList: Component = () =>
 /**
  * Individual user item in the list
  */
-interface UserListItemProps
+interface IUserListItemProps
 {
-	user: RoomUserData;
+	user: IRoomUserData;
 	isOwn: boolean;
 }
 
-const UserListItem: Component<UserListItemProps> = (props) =>
+const UserListItem: Component<IUserListItemProps> = (props) =>
 {
 	const typeLabel = createMemo(() =>
 	{

@@ -3,7 +3,7 @@ import type {Badge, Bot, Effect, GroupItem, InventoryCategoryType, Pet} from '@h
 /**
  * Inventory module state
  */
-export interface InventoryState
+export interface IInventoryState
 {
 	/** Whether the inventory window is open */
 	isOpen: boolean;

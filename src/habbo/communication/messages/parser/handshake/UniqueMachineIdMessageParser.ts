@@ -16,13 +16,13 @@ export class UniqueMachineIdMessageParser implements IMessageParser
 		return this._machineId;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._machineId = '';
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		if (wrapper.bytesAvailable >= 2)
 		{

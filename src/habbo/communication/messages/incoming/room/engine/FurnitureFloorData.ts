@@ -229,7 +229,7 @@ export class FurnitureFloorData
 		this._trustedSender = value;
 	}
 
-	setReadOnly(): void
+	public setReadOnly(): void
 	{
 		this._readOnly = true;
 	}

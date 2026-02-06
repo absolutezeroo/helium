@@ -1,18 +1,16 @@
-import type {MessageHandlers} from '../core/types';
-import type {FavouritesState} from './types';
-
-// Parser types
 import type {FavouritesMessageParser} from '@habbo/communication/messages/parser/navigator/FavouritesMessageParser';
 import type {
 	FavouriteChangedMessageParser
 } from '@habbo/communication/messages/parser/navigator/FavouriteChangedMessageParser';
+import type {MessageHandlers} from '../core/types';
+import type {IFavouritesState} from './types';
 
-export const handlers: MessageHandlers<FavouritesState> = {
+export const handlers: MessageHandlers<IFavouritesState> = {
 
 	/**
 	 * Full favourites list received
 	 */
-	FavouritesMessageEvent: (parser: FavouritesMessageParser): Partial<FavouritesState> => ({
+	FavouritesMessageEvent: (parser: FavouritesMessageParser): Partial<IFavouritesState> => ({
 		limit: parser.limit,
 		roomIds: [...parser.favouriteRoomIds],
 	}),
@@ -20,7 +18,7 @@ export const handlers: MessageHandlers<FavouritesState> = {
 	/**
 	 * Single favourite added or removed
 	 */
-	FavouriteChangedMessageEvent: (parser: FavouriteChangedMessageParser, state): Partial<FavouritesState> =>
+	FavouriteChangedMessageEvent: (parser: FavouriteChangedMessageParser, state): Partial<IFavouritesState> =>
 	{
 		const currentIds = new Set(state.roomIds);
 

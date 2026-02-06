@@ -6,7 +6,7 @@
  * Utility class for parsing wall item data from messages.
  */
 import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
-import {FurnitureWallData} from '../../../incoming/room/engine/FurnitureWallData';
+import {FurnitureWallData} from '@habbo/communication/messages/incoming/room/engine/FurnitureWallData';
 
 export class WallDataParser
 {

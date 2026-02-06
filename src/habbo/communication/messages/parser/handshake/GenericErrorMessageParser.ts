@@ -16,13 +16,13 @@ export class GenericErrorMessageParser implements IMessageParser
 		return this._errorCode;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._errorCode = 0;
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		if (wrapper.bytesAvailable >= 4)
 		{

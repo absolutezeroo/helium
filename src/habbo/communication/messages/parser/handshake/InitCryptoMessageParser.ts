@@ -24,14 +24,14 @@ export class InitDiffieHandshakeMessageParser implements IMessageParser
 		return this._encryptedGenerator;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._encryptedPrime = '';
 		this._encryptedGenerator = '';
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		if (wrapper.bytesAvailable < 2) return false;
 
@@ -43,4 +43,4 @@ export class InitDiffieHandshakeMessageParser implements IMessageParser
 }
 
 // Alias for backwards compatibility
-export {InitDiffieHandshakeMessageParser as InitCryptoMessageParser};
+export {InitDiffieHandshakeMessageParser as InitCryptoMessageParser}; // cast: type assertion required

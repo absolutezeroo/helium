@@ -15,7 +15,7 @@ export class AssignRightsMessageComposer extends MessageComposer<[number]>
 		this._data = [userId];
 	}
 
-	getMessageArray(): [number]
+	public getMessageArray(): [number]
 	{
 		return this._data;
 	}

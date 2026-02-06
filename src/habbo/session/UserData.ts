@@ -12,7 +12,7 @@ export const UserDataType = {
 
 /**
  * Room user data
- * Based on AS3 com.sulake.habbo.session.UserData
+ * Based on AS3 com.sulake.habbo.session.IUserData
  */
 export class UserData implements IUserData
 {

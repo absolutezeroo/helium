@@ -1,4 +1,5 @@
 import {Assets, Texture} from 'pixi.js';
+import { Logger } from '@core/utils/Logger';
 import {BinaryFileLoader} from './BinaryFileLoader';
 
 /**
@@ -68,7 +69,7 @@ export class BitmapFileLoader extends BinaryFileLoader
 			})
 			.catch((error: Error) =>
 			{
-				console.error('[BitmapFileLoader] Error loading texture:', error);
+				Logger.error('[BitmapFileLoader] Error loading texture:', error);
 				this.handleLoadEvent('ioError');
 			});
 	}

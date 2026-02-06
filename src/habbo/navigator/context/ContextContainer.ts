@@ -24,12 +24,12 @@ export class ContextContainer
 		this._savedSearches = value;
 	}
 
-	hasContextFor(searchCode: string): boolean
+	public hasContextFor(searchCode: string): boolean
 	{
 		return this._topLevelContexts.has(searchCode);
 	}
 
-	initialize(topLevelContexts: NavigatorTopLevelContext[]): void
+	public initialize(topLevelContexts: NavigatorTopLevelContext[]): void
 	{
 		this._topLevelContexts.clear();
 		for (const context of topLevelContexts)
@@ -38,12 +38,12 @@ export class ContextContainer
 		}
 	}
 
-	getTopLevelSearches(): string[]
+	public getTopLevelSearches(): string[]
 	{
 		return Array.from(this._topLevelContexts.keys());
 	}
 
-	isReady(): boolean
+	public isReady(): boolean
 	{
 		return this._topLevelContexts.size > 0;
 	}

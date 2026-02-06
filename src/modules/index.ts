@@ -31,45 +31,45 @@ export {
 } from './core';
 
 export type {
-	ModuleDefinition,
-	LoadedModule,
-	ActionContext,
-	ModuleContext,
+	IModuleDefinition,
+	ILoadedModule,
+	IActionContext,
+	IModuleContext,
 	MessageHandlers,
-	HandlerContext,
+	IHandlerContext,
 	StateListener,
-	DependencyAccessor,
+	IDependencyAccessor,
 	ManagerIIDMap,
 	ModuleIdType,
-	ModuleStateMap,
-	ModuleActionsMap,
-	ModuleAPI,
+	IModuleStateMap,
+	IModuleActionsMap,
+	IModuleAPI,
 	Middleware,
-	MiddlewareContext,
+	IMiddlewareContext,
 	RegisteredModuleId,
 } from './core';
 
 // Modules
 export {sessionModule} from './session';
-export type {SessionState, SessionActions, UserData, AvailabilityStatus} from './session';
+export type {ISessionState, SessionActions, IUserData, IAvailabilityStatus} from './session';
 
 export {navigatorModule} from './navigator';
-export type {NavigatorState, NavigatorActions, NavigatorManagers} from './navigator';
+export type {INavigatorState, NavigatorActions, INavigatorManagers} from './navigator';
 
 export {connectionModule} from './connection';
-export type {ConnectionState, ConnectionStateType, LoadingStep, ConnectionActions} from './connection';
+export type {IConnectionState, ConnectionStateType, LoadingStep, ConnectionActions} from './connection';
 
 export {roomModule, RoomUserType} from './room';
-export type {RoomState, RoomActions, RoomUserData, RoomSessionState, RoomUserTypeValue} from './room';
+export type {IRoomState, RoomActions, IRoomUserData, RoomSessionState, RoomUserTypeValue} from './room';
 
 export {favouritesModule} from './favourites';
-export type {FavouritesState, FavouritesActions} from './favourites';
+export type {IFavouritesState, FavouritesActions} from './favourites';
 
 export {configModule} from './config';
-export type {ConfigState, ConfigActions, ConfigManagers} from './config';
+export type {IConfigState, ConfigActions, IConfigManagers} from './config';
 
 export {localizationModule} from './localization';
-export type {LocalizationState, LocalizationActions, LocalizationManagers} from './localization';
+export type {ILocalizationState, LocalizationActions, ILocalizationManagers} from './localization';
 
 export {inventoryModule} from './inventory';
-export type {InventoryState, InventoryActions, InventoryManagers} from './inventory';
+export type {IInventoryState, InventoryActions, IInventoryManagers} from './inventory';

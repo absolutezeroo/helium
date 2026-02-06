@@ -16,7 +16,7 @@ export class GetBotInventoryComposer extends MessageComposer<ConstructorParamete
 		this._data = [];
 	}
 
-	getMessageArray()
+	public getMessageArray()
 	{
 		return this._data;
 	}

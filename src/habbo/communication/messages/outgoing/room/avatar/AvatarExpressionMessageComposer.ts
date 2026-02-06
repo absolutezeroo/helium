@@ -15,7 +15,7 @@ export class AvatarExpressionMessageComposer extends MessageComposer<[number]>
 		this._data = [expressionId];
 	}
 
-	getMessageArray(): [number]
+	public getMessageArray(): [number]
 	{
 		return this._data;
 	}

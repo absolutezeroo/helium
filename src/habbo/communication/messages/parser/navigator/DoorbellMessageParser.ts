@@ -15,13 +15,13 @@ export class DoorbellMessageParser implements IMessageParser
 		return this._userName;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._userName = '';
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		this._userName = wrapper.readString();
 		return true;

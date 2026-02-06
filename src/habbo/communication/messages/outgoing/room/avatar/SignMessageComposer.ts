@@ -15,7 +15,7 @@ export class SignMessageComposer extends MessageComposer<[number]>
 		this._data = [signId];
 	}
 
-	getMessageArray(): [number]
+	public getMessageArray(): [number]
 	{
 		return this._data;
 	}

@@ -1,4 +1,5 @@
 import {Spritesheet, Texture} from 'pixi.js';
+import { Logger } from '@core/utils/Logger';
 import type {ILazyAsset} from './ILazyAsset';
 import type {IAsset} from './IAsset';
 import type {AssetTypeDeclaration} from './AssetTypeDeclaration';
@@ -124,7 +125,7 @@ export class NitroAsset implements ILazyAsset
 		return this._jsonData?.type;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (!this._disposed)
 		{
@@ -147,7 +148,7 @@ export class NitroAsset implements ILazyAsset
 		}
 	}
 
-	setUnknownContent(content: unknown): void
+	public setUnknownContent(content: unknown): void
 	{
 		this._jsonData = null;
 		this._textures.clear();
@@ -179,7 +180,7 @@ export class NitroAsset implements ILazyAsset
 		this._unknown = content;
 	}
 
-	prepareLazyContent(): void
+	public prepareLazyContent(): void
 	{
 		if (this._unknown === null)
 		{
@@ -223,16 +224,16 @@ export class NitroAsset implements ILazyAsset
 		// If passed IAssetData directly
 		if (typeof this._unknown === 'object' && this._unknown !== null && 'type' in this._unknown)
 		{
-			this._jsonData = this._unknown as IAssetData;
+			this._jsonData = this._unknown as IAssetData; // cast: type assertion required
 			this._unknown = null;
 			return;
 		}
 
-		console.warn('[NitroAsset] Unknown content type:', typeof this._unknown);
+		Logger.warn('[NitroAsset] Unknown content type:', typeof this._unknown);
 		this._unknown = null;
 	}
 
-	setFromOtherAsset(asset: IAsset): void
+	public setFromOtherAsset(asset: IAsset): void
 	{
 		if (asset instanceof NitroAsset)
 		{
@@ -254,19 +255,19 @@ export class NitroAsset implements ILazyAsset
 		throw new Error('Provided asset is not of type NitroAsset');
 	}
 
-	setParamsDesc(_params: Map<string, string>): void
+	public setParamsDesc(_params: Map<string, string>): void
 	{
 	}
 
 	/**
 	 * Get a texture by name
 	 */
-	getTexture(name: string): Texture | null
+	public getTexture(name: string): Texture | null
 	{
 		return this._textures.get(name) || this._baseTexture;
 	}
 
-	toString(): string
+	public toString(): string
 	{
 		return `[NitroAsset url=${this._url} name=${this.name}]`;
 	}

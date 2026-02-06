@@ -16,14 +16,14 @@ export class NavigatorMetaDataMessageParser implements IMessageParser
 		return this._topLevelContexts;
 	}
 
-	flush(): boolean
+	public flush(): boolean
 	{
 		this._topLevelContexts = [];
 
 		return true;
 	}
 
-	parse(wrapper: IMessageDataWrapper): boolean
+	public parse(wrapper: IMessageDataWrapper): boolean
 	{
 		const count = wrapper.readInt();
 

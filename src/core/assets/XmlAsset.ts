@@ -50,7 +50,7 @@ export class XmlAsset implements ILazyAsset
 		return this._declaration;
 	}
 
-	dispose(): void
+	public dispose(): void
 	{
 		if (!this._disposed)
 		{
@@ -60,13 +60,13 @@ export class XmlAsset implements ILazyAsset
 		}
 	}
 
-	setUnknownContent(content: unknown): void
+	public setUnknownContent(content: unknown): void
 	{
 		this._content = null;
 		this._unknown = content;
 	}
 
-	prepareLazyContent(): void
+	public prepareLazyContent(): void
 	{
 		if (this._unknown === null)
 		{
@@ -106,7 +106,7 @@ export class XmlAsset implements ILazyAsset
 		this._unknown = null;
 	}
 
-	setFromOtherAsset(asset: IAsset): void
+	public setFromOtherAsset(asset: IAsset): void
 	{
 		if (asset instanceof XmlAsset)
 		{
@@ -117,11 +117,11 @@ export class XmlAsset implements ILazyAsset
 		throw new Error('Provided asset is not of type XmlAsset');
 	}
 
-	setParamsDesc(_params: Map<string, string>): void
+	public setParamsDesc(_params: Map<string, string>): void
 	{
 	}
 
-	toString(): string
+	public toString(): string
 	{
 		return `[XmlAsset url=${this._url}]`;
 	}
