@@ -7,7 +7,7 @@
  */
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
-import {CloseConnectionMessageParser} from '../../../parser/room/session/CloseConnectionMessageParser';
+import {CloseConnectionMessageParser} from '@habbo/communication/messages/parser/room/session/CloseConnectionMessageParser';
 
 export class CloseConnectionMessageEvent extends MessageEvent
 {

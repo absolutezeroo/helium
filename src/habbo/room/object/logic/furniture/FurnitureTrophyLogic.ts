@@ -6,7 +6,7 @@
  * Logic for trophy furniture.
  */
 import {FurnitureLogic} from './FurnitureLogic';
-import {RoomObjectWidgetRequestEvent} from '../../../events/RoomObjectWidgetRequestEvent';
+import {RoomObjectWidgetRequestEvent} from '@habbo/room/events/RoomObjectWidgetRequestEvent';
 
 export class FurnitureTrophyLogic extends FurnitureLogic
 {

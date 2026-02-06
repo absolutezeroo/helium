@@ -6,7 +6,7 @@
  * Logic for jukebox furniture.
  */
 import {FurnitureMultiStateLogic} from './FurnitureMultiStateLogic';
-import {RoomObjectWidgetRequestEvent} from '../../../events/RoomObjectWidgetRequestEvent';
+import {RoomObjectWidgetRequestEvent} from '@habbo/room/events/RoomObjectWidgetRequestEvent';
 
 export class FurnitureJukeboxLogic extends FurnitureMultiStateLogic
 {

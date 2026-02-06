@@ -5,7 +5,7 @@
  */
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
-import {ChatMessageEventParser} from '../../../parser/room/chat/ChatMessageEventParser';
+import {ChatMessageEventParser} from '@habbo/communication/messages/parser/room/chat/ChatMessageEventParser';
 
 export class ShoutMessageEvent extends MessageEvent
 {

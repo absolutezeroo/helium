@@ -13,11 +13,11 @@ import {Vector3d} from '@room/utils/Vector3d';
 import {RoomSpriteMouseEvent} from '@room/events/RoomSpriteMouseEvent';
 import {RoomObjectMouseEvent} from '@room/events/RoomObjectMouseEvent';
 import {MovingObjectLogic} from '../MovingObjectLogic';
-import {RoomObjectStateChangeEvent} from '../../../events/RoomObjectStateChangeEvent';
-import {RoomObjectWidgetRequestEvent} from '../../../events/RoomObjectWidgetRequestEvent';
-import {RoomObjectRoomAdEvent} from '../../../events/RoomObjectRoomAdEvent';
-import type {RoomObjectDataUpdateMessage} from '../../../messages/RoomObjectDataUpdateMessage';
-import type {RoomObjectHeightUpdateMessage} from '../../../messages/RoomObjectHeightUpdateMessage';
+import {RoomObjectStateChangeEvent} from '@habbo/room/events/RoomObjectStateChangeEvent';
+import {RoomObjectWidgetRequestEvent} from '@habbo/room/events/RoomObjectWidgetRequestEvent';
+import {RoomObjectRoomAdEvent} from '@habbo/room/events/RoomObjectRoomAdEvent';
+import type {RoomObjectDataUpdateMessage} from '@habbo/room/messages/RoomObjectDataUpdateMessage';
+import type {RoomObjectHeightUpdateMessage} from '@habbo/room/messages/RoomObjectHeightUpdateMessage';
 
 export class FurnitureLogic extends MovingObjectLogic
 {

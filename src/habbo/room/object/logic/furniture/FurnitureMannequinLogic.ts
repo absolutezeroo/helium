@@ -6,7 +6,7 @@
  * Logic for mannequin furniture.
  */
 import {FurnitureMultiStateLogic} from './FurnitureMultiStateLogic';
-import {RoomObjectWidgetRequestEvent} from '../../../events/RoomObjectWidgetRequestEvent';
+import {RoomObjectWidgetRequestEvent} from '@habbo/room/events/RoomObjectWidgetRequestEvent';
 
 export class FurnitureMannequinLogic extends FurnitureMultiStateLogic
 {

@@ -7,7 +7,7 @@
  */
 import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
-import {RoomUserData} from '../../../incoming/room/engine/RoomUserData';
+import {RoomUserData} from '@habbo/communication/messages/incoming/room/engine/RoomUserData';
 
 export class UsersMessageParser implements IMessageParser
 {

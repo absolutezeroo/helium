@@ -5,7 +5,7 @@
  */
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
-import {ItemAddMessageParser} from '../../../parser/room/engine/ItemAddMessageParser';
+import {ItemAddMessageParser} from '@habbo/communication/messages/parser/room/engine/ItemAddMessageParser';
 
 export class ItemAddMessageEvent extends MessageEvent
 {

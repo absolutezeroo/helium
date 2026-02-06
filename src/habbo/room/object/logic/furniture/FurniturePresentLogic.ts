@@ -6,7 +6,7 @@
  * Logic for gift/present furniture.
  */
 import {FurnitureLogic} from './FurnitureLogic';
-import {RoomObjectWidgetRequestEvent} from '../../../events/RoomObjectWidgetRequestEvent';
+import {RoomObjectWidgetRequestEvent} from '@habbo/room/events/RoomObjectWidgetRequestEvent';
 
 export class FurniturePresentLogic extends FurnitureLogic
 {

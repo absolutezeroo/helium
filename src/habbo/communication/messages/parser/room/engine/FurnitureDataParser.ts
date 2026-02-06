@@ -8,7 +8,7 @@
 import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
 import type {IStuffData} from '@habbo/room/object/data/IStuffData';
 import {StuffDataFactory} from '@habbo/room/object/data/StuffDataFactory';
-import {FurnitureFloorData} from '../../../incoming/room/engine/FurnitureFloorData';
+import {FurnitureFloorData} from '@habbo/communication/messages/incoming/room/engine/FurnitureFloorData';
 
 export class FurnitureDataParser
 {

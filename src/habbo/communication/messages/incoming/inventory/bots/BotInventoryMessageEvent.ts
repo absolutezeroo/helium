@@ -1,6 +1,6 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
-import {BotInventoryMessageParser} from '../../../parser/inventory/bots/BotInventoryMessageParser';
+import {BotInventoryMessageParser} from '@habbo/communication/messages/parser/inventory/bots/BotInventoryMessageParser';
 
 /**
  * @see source_as/habbo/communication/messages/incoming/inventory/bots/BotInventoryEvent.as

@@ -1,6 +1,6 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
-import {UnseenItemsMessageParser} from '../../../parser/inventory/unseen/UnseenItemsMessageParser';
+import {UnseenItemsMessageParser} from '@habbo/communication/messages/parser/inventory/unseen/UnseenItemsMessageParser';
 
 /**
  * @see source_as/habbo/communication/messages/incoming/inventory/unseen/UnseenItemsEvent.as

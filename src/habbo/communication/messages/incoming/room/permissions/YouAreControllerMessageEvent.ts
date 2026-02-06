@@ -5,7 +5,7 @@
  */
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
-import {YouAreControllerMessageParser} from '../../../parser/room/permissions/YouAreControllerMessageParser';
+import {YouAreControllerMessageParser} from '@habbo/communication/messages/parser/room/permissions/YouAreControllerMessageParser';
 
 export class YouAreControllerMessageEvent extends MessageEvent
 {

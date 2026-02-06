@@ -7,7 +7,7 @@
  */
 import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
-import {SlideObjectData} from '../../../incoming/room/engine/SlideObjectData';
+import {SlideObjectData} from '@habbo/communication/messages/incoming/room/engine/SlideObjectData';
 import {Vector3d} from '@room/utils/Vector3d';
 
 export class SlideObjectBundleMessageParser implements IMessageParser

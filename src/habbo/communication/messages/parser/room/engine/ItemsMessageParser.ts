@@ -7,7 +7,7 @@
  */
 import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
-import {FurnitureWallData} from '../../../incoming/room/engine/FurnitureWallData';
+import {FurnitureWallData} from '@habbo/communication/messages/incoming/room/engine/FurnitureWallData';
 import {WallDataParser} from './WallDataParser';
 
 export class ItemsMessageParser implements IMessageParser
