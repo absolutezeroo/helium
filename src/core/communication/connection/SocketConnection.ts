@@ -84,6 +84,10 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 		let url: string;
 		if (host.startsWith('ws://') || host.startsWith('wss://'))
 		{
+			if (host.startsWith('ws://'))
+			{
+				log.warn('Insecure WebSocket connection (ws://). Use wss:// in production.');
+			}
 			url = host;
 		} else
 		{

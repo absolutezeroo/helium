@@ -6,6 +6,7 @@ import {InventoryWindow} from './InventoryWindow';
 import type {InventoryTab} from './tabs';
 import type {FurniGridItem} from './furni';
 import type {BadgeData} from './badges';
+import {Logger} from '@core/utils/Logger';
 
 /**
  * Inventory - Connects the module to InventoryWindow
@@ -112,7 +113,7 @@ export function Inventory(): JSX.Element
 	const handleFurniPlace = (id: number) =>
 	{
 		// TODO: Implement furniture placement
-		console.log('Place furni:', id);
+		Logger.getLogger('Inventory').debug('Place furni:', id);
 	};
 
 	const handleBadgeSelect = (badgeId: string) =>

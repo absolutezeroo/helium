@@ -4,6 +4,7 @@ import type {IMessageEvent, MessageEventCallback} from './IMessageEvent';
 /**
  * Constructor type for composer classes
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- constructor args must be `any` for variance compatibility
 export type ComposerClass = new (...args: any[]) => IMessageComposer<unknown[]>;
 
 /**

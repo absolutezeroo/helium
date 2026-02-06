@@ -89,7 +89,7 @@ export interface DependencyAccessor
  * Value = function that receives parser, state, and managers context
  */
 export type MessageHandlers<TState, TManagers = object> = {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any -- parser type varies per handler, any needed for variance
 	[eventName: string]: (
 		parser: any,
 		state: Readonly<TState>,

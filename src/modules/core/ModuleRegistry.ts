@@ -2,6 +2,7 @@ import type {IContext, IID} from '@core/runtime';
 import type {ActionContext, DependencyAccessor, LoadedModule, ModuleDefinition, StateListener} from './types';
 import type {ModuleActionsMap, ModuleStateMap, RegisteredModuleId} from './moduleIds';
 import type {MessageBus} from './MessageBus';
+import {Logger} from '@core/utils/Logger';
 
 /**
  * Central registry for all modules
@@ -197,7 +198,7 @@ export class ModuleRegistry
 					);
 				}
 
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any -- generic module registry lookup
 				return this.modules.get(depId) as any;
 			},
 		};
@@ -295,7 +296,7 @@ export class ModuleRegistry
 				listener(state);
 			} catch (error)
 			{
-				console.error(`[ModuleRegistry] Subscriber error for "${id}":`, error);
+				Logger.getLogger('ModuleRegistry').error(`Subscriber error for "${id}":`, error);
 			}
 		});
 	}

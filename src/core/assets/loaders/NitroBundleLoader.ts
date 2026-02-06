@@ -1,6 +1,7 @@
 import {Assets, Spritesheet, Texture} from 'pixi.js';
 import {inflate} from 'pako';
 import {BinaryFileLoader} from './BinaryFileLoader';
+import {Logger} from '@core/utils/Logger';
 
 /**
  * Nitro bundle asset data interface
@@ -210,7 +211,7 @@ export class NitroBundleLoader extends BinaryFileLoader
 				super.handleLoadEvent('complete', httpStatus);
 			}).catch((error) =>
 			{
-				console.error('[NitroBundleLoader] Error parsing bundle:', error);
+				Logger.getLogger('NitroBundleLoader').error('Error parsing bundle:', error);
 
 				super.handleLoadEvent('ioError', httpStatus);
 			});

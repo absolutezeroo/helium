@@ -4,6 +4,25 @@ import type {IDisposable} from './IDisposable';
 import type {IContext, InterfaceCallback} from './IContext';
 import type {ComponentDependency} from './ComponentDependency';
 import type {AssetLoaderStruct, IAsset, IAssetLibrary} from '@core/assets';
+import {Logger} from '@core/utils/Logger';
+
+const log = Logger.getLogger('Component');
+
+/**
+ * Helper to check if an object has an `events` property that is an EventEmitter
+ */
+function hasEvents(obj: unknown): obj is { events: EventEmitter }
+{
+	return obj !== null && typeof obj === 'object' && 'events' in obj && typeof (obj as { events: unknown }).events === 'object';
+}
+
+/**
+ * Helper to check if an object has a `release` method
+ */
+function hasRelease(obj: unknown): obj is { release: (iid: IID) => void }
+{
+	return obj !== null && typeof obj === 'object' && 'release' in obj && typeof (obj as { release: unknown }).release === 'function';
+}
 
 /**
  * Component Events
@@ -192,7 +211,8 @@ export class Component implements IDisposable
 	 * Override this to declare component dependencies.
 	 * Called during construction.
 	 */
-	protected get dependencies(): ComponentDependency<any>[]
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any -- variance: typed ComponentDependency<T> is contravariant in T
+	protected get dependencies(): Array<ComponentDependency<any>>
 	{
 		return [];
 	}
@@ -252,7 +272,7 @@ export class Component implements IDisposable
 				cleanup();
 			} catch (e)
 			{
-				console.error('[Component] Cleanup error:', e);
+				log.error('[Component] Cleanup error:', e);
 			}
 		}
 		this._cleanupFunctions.length = 0;
@@ -518,13 +538,11 @@ export class Component implements IDisposable
 		}
 
 		// Attach event listeners
-		if (dep.eventListeners && instance && typeof (instance as any).events === 'object')
+		if (dep.eventListeners && hasEvents(instance))
 		{
-			const emitter = (instance as any).events as EventEmitter;
-
 			for (const listener of dep.eventListeners)
 			{
-				emitter.on(listener.type, listener.callback);
+				instance.events.on(listener.type, listener.callback);
 			}
 		}
 
@@ -550,13 +568,11 @@ export class Component implements IDisposable
 		return () =>
 		{
 			// Remove event listeners
-			if (dep.eventListeners && instance && typeof (instance as any).events === 'object')
+			if (dep.eventListeners && hasEvents(instance))
 			{
-				const emitter = (instance as any).events as EventEmitter;
-
 				for (const listener of dep.eventListeners)
 				{
-					emitter.off(listener.type, listener.callback);
+					instance.events.off(listener.type, listener.callback);
 				}
 			}
 
@@ -567,9 +583,9 @@ export class Component implements IDisposable
 			}
 
 			// Release interface
-			if (instance && typeof (instance as any).release === 'function')
+			if (hasRelease(instance))
 			{
-				(instance as any).release(dep.identifier);
+				instance.release(dep.identifier);
 			}
 		};
 	}
@@ -601,7 +617,7 @@ export class Component implements IDisposable
 						this.unlock();
 					} catch (e)
 					{
-						console.error(`[Component] Error in initComponent for ${this.constructor.name}:`, e);
+						log.error(`[Component] Error in initComponent for ${this.constructor.name}:`, e);
 						throw e;
 					}
 				});
@@ -615,7 +631,7 @@ export class Component implements IDisposable
 					this.unlock();
 				} catch (e)
 				{
-					console.error(`[Component] Error in initComponent for ${this.constructor.name}:`, e);
+					log.error(`[Component] Error in initComponent for ${this.constructor.name}:`, e);
 					throw e;
 				}
 			}

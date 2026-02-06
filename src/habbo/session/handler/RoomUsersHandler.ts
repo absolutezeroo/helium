@@ -11,6 +11,7 @@ import {DoorbellMessageEvent} from '../../communication/messages/incoming/naviga
 // Parsers
 import type {UsersMessageParser} from '../../communication/messages/parser/room/engine/UsersMessageParser';
 import type {UserRemoveMessageParser} from '../../communication/messages/parser/room/engine/UserRemoveMessageParser';
+import type {DoorbellMessageParser} from '../../communication/messages/parser/navigator/DoorbellMessageParser';
 
 // Events
 import {RoomSessionUserDataUpdateEvent} from '../events/RoomSessionUserDataUpdateEvent';
@@ -168,7 +169,7 @@ export class RoomUsersHandler extends BaseHandler
 			return;
 		}
 
-		const userName = (doorbellEvent.parser as any)?.userName;
+		const userName = (doorbellEvent.parser as DoorbellMessageParser)?.userName;
 		if (!userName || userName === '')
 		{
 			return;

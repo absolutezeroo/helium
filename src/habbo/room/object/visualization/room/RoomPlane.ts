@@ -698,10 +698,13 @@ export class RoomPlane
 		if (leftLen < 0.001 || rightLen < 0.001) return null;
 
 		// Normalize mask coordinates to fractions of plane dimensions
-		const lf0 = Math.max(0, mask.leftSideLoc / leftLen);
-		const lf1 = Math.min(1, (mask.leftSideLoc + mask.leftSideLength) / leftLen);
-		const rf0 = Math.max(0, mask.rightSideLoc / rightLen);
-		const rf1 = Math.min(1, (mask.rightSideLoc + mask.rightSideLength) / rightLen);
+		// Add small inset (MASK_INSET) to keep hole strictly inside the outer polygon.
+		// PixiJS v8 .cut() requires holes to be completely inside the shape.
+		const MASK_INSET = 0.002;
+		const lf0 = Math.max(MASK_INSET, mask.leftSideLoc / leftLen);
+		const lf1 = Math.min(1 - MASK_INSET, (mask.leftSideLoc + mask.leftSideLength) / leftLen);
+		const rf0 = Math.max(MASK_INSET, mask.rightSideLoc / rightLen);
+		const rf1 = Math.min(1 - MASK_INSET, (mask.rightSideLoc + mask.rightSideLength) / rightLen);
 
 		if (lf0 >= lf1 || rf0 >= rf1) return null;
 

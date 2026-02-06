@@ -1,5 +1,6 @@
 import {Component, For} from 'solid-js';
 import {ModuleId, useActions, useModule} from '../../bridge';
+import {Logger} from '@core/utils/Logger';
 
 interface ToolbarIcon
 {
@@ -35,25 +36,25 @@ export const Toolbar: Component = () =>
 				break;
 			case 'hotel':
 				// TODO: Implement hotel view
-				console.log('Hotel view clicked');
+				Logger.getLogger('Toolbar').debug('Hotel view clicked');
 				break;
 			case 'catalog':
 				// TODO: Implement catalog
-				console.log('Catalog clicked');
+				Logger.getLogger('Toolbar').debug('Catalog clicked');
 				break;
 			case 'inventory':
 				invActions.toggle();
 				break;
 			case 'friends':
 				// TODO: Implement friends
-				console.log('Friends clicked');
+				Logger.getLogger('Toolbar').debug('Friends clicked');
 				break;
 			case 'me':
 				// TODO: Implement me menu
-				console.log('Me menu clicked');
+				Logger.getLogger('Toolbar').debug('Me menu clicked');
 				break;
 			default:
-				console.log('Toolbar icon clicked:', iconId);
+				Logger.getLogger('Toolbar').debug('Toolbar icon clicked:', iconId);
 		}
 	};
 

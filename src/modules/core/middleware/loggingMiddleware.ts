@@ -1,4 +1,5 @@
 import type {Middleware} from './types';
+import {Logger} from '@core/utils/Logger';
 
 /**
  * Logging middleware for development
@@ -7,7 +8,7 @@ import type {Middleware} from './types';
 export const loggingMiddleware: Middleware = (context, next) =>
 {
 	// Log event name only to avoid DevTools serialization issues
-	console.log(
+	Logger.getLogger('Messages').debug(
 		`%c[Message] ${context.eventName}`,
 		'color: #888; font-weight: bold;',
 		context.parser
@@ -24,7 +25,7 @@ export function createFilteredLoggingMiddleware(pattern: RegExp): Middleware
 	{
 		if (pattern.test(context.eventName))
 		{
-			console.log(
+			Logger.getLogger('Messages').debug(
 				`%c[Message] ${context.eventName}`,
 				'color: #4CAF50; font-weight: bold;',
 				context.parser
@@ -45,6 +46,6 @@ export const timingMiddleware: Middleware = (context, next) =>
 
 	if (duration > 5)
 	{
-		console.warn(`[Message] ${context.eventName} took ${duration.toFixed(2)}ms`);
+		Logger.getLogger('Messages').warn(`[Message] ${context.eventName} took ${duration.toFixed(2)}ms`);
 	}
 };

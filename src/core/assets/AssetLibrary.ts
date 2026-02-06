@@ -1,5 +1,6 @@
 import {EventEmitter} from 'eventemitter3';
 import {Component, type IContext} from '@core/runtime';
+import {Logger} from '@core/utils/Logger';
 import type {IAsset} from './IAsset';
 import type {IAssetLibrary} from './IAssetLibrary';
 import type {IAssetLoader} from './loaders/IAssetLoader';
@@ -226,7 +227,7 @@ export class AssetLibrary extends Component implements IAssetLibrary
 			this._libraryEvents.emit(AssetLibraryEvents.READY);
 		} catch (error)
 		{
-			console.error(`[AssetLibrary] Failed to load from ${url}:`, error);
+			Logger.getLogger('AssetLibrary').error(`Failed to load from ${url}:`, error);
 			this._isReady = false;
 			this._libraryEvents.emit(AssetLibraryEvents.LOAD_ERROR);
 			throw error;
@@ -480,7 +481,7 @@ export class AssetLibrary extends Component implements IAssetLibrary
 		if (registry.has(declaration.mimeType))
 		{
 			// Allow re-registration (update)
-			console.warn(`[AssetLibrary] Updating type declaration for ${declaration.mimeType}`);
+			Logger.getLogger('AssetLibrary').warn(`Updating type declaration for ${declaration.mimeType}`);
 		}
 
 		registry.set(declaration.mimeType, declaration);
@@ -675,7 +676,7 @@ export class AssetLibrary extends Component implements IAssetLibrary
 				struct.dispatchEvent(new AssetLoaderEvent(AssetLoaderEventType.COMPLETE, event.status));
 			} catch (error)
 			{
-				console.error('[AssetLibrary] Error creating asset:', error);
+				Logger.getLogger('AssetLibrary').error('Error creating asset:', error);
 				struct.dispatchEvent(new AssetLoaderEvent(AssetLoaderEventType.ERROR, event.status));
 			}
 

@@ -2,6 +2,7 @@ import {Texture} from 'pixi.js';
 import type {ILazyAsset} from './ILazyAsset';
 import type {IAsset} from './IAsset';
 import type {AssetTypeDeclaration} from './AssetTypeDeclaration';
+import {Logger} from '@core/utils/Logger';
 
 /**
  * Point structure for offset
@@ -216,7 +217,7 @@ export class BitmapDataAsset implements ILazyAsset
 			return;
 		}
 
-		console.warn('[BitmapDataAsset] Unknown content type:', typeof this._unknown);
+		Logger.getLogger('BitmapDataAsset').warn('Unknown content type:', typeof this._unknown);
 		this._unknown = null;
 	}
 

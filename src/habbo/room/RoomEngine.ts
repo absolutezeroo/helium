@@ -84,6 +84,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 	private _roomObjectAliases: Map<string, string>;
 	private _renderingCanvases: Map<number, RoomRenderingCanvas> = new Map();
 	private _roomVisualizations: Map<string, IRoomObjectSpriteVisualization> = new Map();
+	private _resizeHandlers: WeakMap<RoomRenderingCanvas, () => void> = new WeakMap();
 	private _pixiStage: Container | null = null;
 	private _roomVisualizationData: RoomVisualizationData | null = null;
 	private _configurationManager: IHabboConfigurationManager | null = null;
@@ -142,10 +143,10 @@ export class RoomEngine extends Component implements IRoomEngine,
 				{
 					this._roomManager = manager;
 
-					if (manager)
+					if (manager && 'setObjectFactory' in manager)
 					{
 						// Set the object factory on room manager
-						(manager as any).setObjectFactory?.(this._roomObjectFactory);
+						(manager as unknown as { setObjectFactory: (f: RoomObjectFactory) => void }).setObjectFactory(this._roomObjectFactory);
 					}
 				},
 				true // Required dependency
@@ -291,7 +292,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 	{
 		if (!this._roomManager)
 		{
-			console.warn('[RoomEngine] RoomManager not available');
+			log.warn('RoomManager not available');
 			return null;
 		}
 
@@ -1523,8 +1524,8 @@ export class RoomEngine extends Component implements IRoomEngine,
 
 			window.addEventListener('resize', onResize);
 
-			// Store resize handler reference for cleanup (use the canvas container)
-			(canvas as any)._resizeHandler = onResize;
+			// Store resize handler reference for cleanup
+			this._resizeHandlers.set(canvas, onResize);
 		}
 
 		return this._renderingCanvases.get(key) ?? null;
@@ -1541,11 +1542,12 @@ export class RoomEngine extends Component implements IRoomEngine,
 		if (canvas)
 		{
 			// Remove resize handler if attached
-			const resizeHandler = (canvas as any)._resizeHandler;
+			const resizeHandler = this._resizeHandlers.get(canvas);
 
 			if (resizeHandler)
 			{
 				window.removeEventListener('resize', resizeHandler);
+				this._resizeHandlers.delete(canvas);
 			}
 
 			// Remove from PixiJS stage
@@ -1570,11 +1572,12 @@ export class RoomEngine extends Component implements IRoomEngine,
 		// Dispose all rendering canvases
 		for (const [key, canvas] of this._renderingCanvases)
 		{
-			const resizeHandler = (canvas as any)._resizeHandler;
+			const resizeHandler = this._resizeHandlers.get(canvas);
 
 			if (resizeHandler)
 			{
 				window.removeEventListener('resize', resizeHandler);
+				this._resizeHandlers.delete(canvas);
 			}
 
 			if (this._pixiStage && canvas.container.parent === this._pixiStage)

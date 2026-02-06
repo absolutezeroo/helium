@@ -2,6 +2,9 @@ import {getIIDName, type IID} from './IID';
 import type {IContext, InterfaceCallback, IUpdateReceiver} from './IContext';
 import type {ICoreConfiguration} from './ICoreConfiguration';
 import {Component, ComponentEvents, ComponentFlags} from './Component';
+import {Logger} from '@core/utils/Logger';
+
+const log = Logger.getLogger('ComponentContext');
 
 /**
  * Interface queue entry
@@ -143,7 +146,7 @@ export class ComponentContext extends Component implements IContext
 
 		if (this._attachedComponents.includes(component))
 		{
-			console.warn(`[ComponentContext] Component ${component} already attached`);
+			log.warn(`Component ${component} already attached`);
 
 			return;
 		}
@@ -153,7 +156,7 @@ export class ComponentContext extends Component implements IContext
 
 		if (!isProperComponent)
 		{
-			console.warn(`[ComponentContext] Object does not extend Component, skipping interface registration:`, component);
+			log.warn('Object does not extend Component, skipping interface registration:', component);
 			// Still store it for basic lookup, but can't use full Component features
 			return;
 		}
@@ -253,7 +256,7 @@ export class ComponentContext extends Component implements IContext
 					entry.receiver.update(deltaTime);
 				} catch (e)
 				{
-					console.error('[ComponentContext] Update error:', e);
+					log.error('Update error:', e);
 				}
 			}
 		}
@@ -266,7 +269,7 @@ export class ComponentContext extends Component implements IContext
 	{
 		this._lastError = message;
 
-		console.error(`[ComponentContext] Error: ${message}`, error);
+		log.error(`Error: ${message}`, error);
 
 		this.events.emit(ComponentEvents.ERROR, {message, fatal, code, error});
 	}
@@ -278,7 +281,7 @@ export class ComponentContext extends Component implements IContext
 	{
 		this._lastWarning = message;
 
-		console.warn(`[ComponentContext] Warning: ${message}`);
+		log.warn(message);
 
 		this.events.emit(ComponentEvents.WARNING, message);
 	}
@@ -412,7 +415,7 @@ export class ComponentContext extends Component implements IContext
 				callback(iid, instance);
 			} catch (e)
 			{
-				console.error('[ComponentContext] Callback error:', e);
+				log.error('Callback error:', e);
 			}
 		}
 

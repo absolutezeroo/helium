@@ -4,6 +4,7 @@ import type {IAsset} from './IAsset';
 import type {AssetTypeDeclaration} from './AssetTypeDeclaration';
 import type {IAssetData} from './loaders/NitroBundleLoader';
 import {NitroBundleLoader} from './loaders/NitroBundleLoader';
+import {Logger} from '@core/utils/Logger';
 
 /**
  * NitroAsset
@@ -228,7 +229,7 @@ export class NitroAsset implements ILazyAsset
 			return;
 		}
 
-		console.warn('[NitroAsset] Unknown content type:', typeof this._unknown);
+		Logger.getLogger('NitroAsset').warn('Unknown content type:', typeof this._unknown);
 		this._unknown = null;
 	}
 

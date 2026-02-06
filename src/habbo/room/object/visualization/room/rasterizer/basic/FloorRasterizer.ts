@@ -9,6 +9,7 @@ import type {IVector3d} from '@room/utils/IVector3d';
 import {PlaneBitmapData} from '../../utils/PlaneBitmapData';
 import {PlaneRasterizer} from './PlaneRasterizer';
 import {FloorPlane} from './FloorPlane';
+import type {IAssetPlane} from './PlaneRasterizerTypes';
 
 export class FloorRasterizer extends PlaneRasterizer
 {
@@ -70,7 +71,7 @@ export class FloorRasterizer extends PlaneRasterizer
 		return new PlaneBitmapData(result, -1);
 	}
 
-	private parseFloors(planes: {id?: string; visualizations?: unknown[]}[]): void
+	private parseFloors(planes: IAssetPlane[]): void
 	{
 		if (planes === null) return;
 
@@ -82,7 +83,7 @@ export class FloorRasterizer extends PlaneRasterizer
 			const visualizations = planeData.visualizations ?? [];
 			const floorPlane = new FloorPlane();
 
-			this.parseVisualizations(floorPlane, visualizations as any);
+			this.parseVisualizations(floorPlane, visualizations);
 
 			if (!this.addPlane(id, floorPlane))
 			{

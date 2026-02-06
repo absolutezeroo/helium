@@ -9,6 +9,7 @@ import type {IVector3d} from '@room/utils/IVector3d';
 import {PlaneBitmapData} from '../../utils/PlaneBitmapData';
 import {PlaneRasterizer} from './PlaneRasterizer';
 import {WallPlane} from './WallPlane';
+import type {IAssetPlane} from './PlaneRasterizerTypes';
 
 export class WallRasterizer extends PlaneRasterizer
 {
@@ -79,7 +80,7 @@ export class WallRasterizer extends PlaneRasterizer
 		return super.getTextureIdentifier(scale, normal);
 	}
 
-	protected parseWalls(planes: {id?: string; visualizations?: unknown[]}[]): void
+	protected parseWalls(planes: IAssetPlane[]): void
 	{
 		if (planes === null) return;
 
@@ -91,7 +92,7 @@ export class WallRasterizer extends PlaneRasterizer
 			const visualizations = planeData.visualizations ?? [];
 			const wallPlane = new WallPlane();
 
-			this.parseVisualizations(wallPlane, visualizations as any);
+			this.parseVisualizations(wallPlane, visualizations);
 
 			if (!this.addPlane(id, wallPlane))
 			{

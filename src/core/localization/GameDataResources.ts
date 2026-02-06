@@ -33,7 +33,15 @@ export class GameDataResources implements IGameDataResources
 	 */
 	static parse(data: string): GameDataResources
 	{
-		const parsed: HashesData = JSON.parse(data);
+		let parsed: HashesData;
+		try
+		{
+			parsed = JSON.parse(data) as HashesData;
+		}
+		catch
+		{
+			throw new Error('[GameDataResources] Failed to parse game data JSON');
+		}
 		const resources = new GameDataResources();
 
 		for (const entry of parsed.hashes)

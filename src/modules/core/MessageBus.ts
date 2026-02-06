@@ -1,5 +1,6 @@
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
 import type {Middleware, MiddlewareContext} from './middleware/types';
+import {Logger} from '@core/utils/Logger';
 
 /**
  * Central bus for server messages
@@ -109,7 +110,7 @@ export class MessageBus
 			});
 		} catch (error)
 		{
-			console.error(`[MessageBus] Middleware error:`, error);
+			Logger.getLogger('MessageBus').error('Middleware error:', error);
 
 			this.executeMiddlewareChain(context, index + 1, done);
 		}
@@ -128,7 +129,7 @@ export class MessageBus
 				handler(parser);
 			} catch (error)
 			{
-				console.error(`[MessageBus] Handler error for ${eventName}:`, error);
+				Logger.getLogger('MessageBus').error(`Handler error for ${eventName}:`, error);
 			}
 		});
 	}
