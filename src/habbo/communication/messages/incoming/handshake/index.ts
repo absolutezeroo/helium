@@ -10,3 +10,4 @@ export * from './GenericErrorMessageEvent';
 export * from './UniqueMachineIdMessageEvent';
 export * from './NoobnessLevelMessageEvent';
 export * from './IsFirstLoginOfDayMessageEvent';
+export * from './IdentityAccountsEvent';

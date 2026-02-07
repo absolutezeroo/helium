@@ -3,6 +3,7 @@ import {HeliumCore, HeliumCoreConfig} from '@core/HeliumCore';
 import {ComponentContext} from '@core/runtime';
 import {HabboConfigurationManager} from '@habbo/configuration/HabboConfigurationManager';
 import {HabboCommunicationManager} from '@habbo/communication/HabboCommunicationManager';
+import {HabboCommunicationDemo} from '@habbo/communication/demo/HabboCommunicationDemo';
 import {HabboLocalizationManager} from '@habbo/localization/HabboLocalizationManager';
 import {HabboNavigator} from '@habbo/navigator/HabboNavigator';
 import {HabboNewNavigator} from '@habbo/navigator/HabboNewNavigator';
@@ -96,6 +97,7 @@ export class Helium
 	// Habbo managers
 	private _configurationManager: HabboConfigurationManager | null = null;
 	private _habboCommunicationManager: HabboCommunicationManager | null = null;
+	private _communicationDemo: HabboCommunicationDemo | null = null;
 	private _localizationManager: HabboLocalizationManager | null = null;
 	private _navigator: HabboNavigator | null = null;
 	private _newNavigator: HabboNewNavigator | null = null;
@@ -254,19 +256,31 @@ export class Helium
 
 	/**
 	 * Connect to the Habbo server
+	 *
+	 * Uses HabboCommunicationDemo (AS3 pattern) to manage the login flow:
+	 * setSSOTicket → initGameSocket → initConnection → IncomingMessages → handshake
 	 */
 	public connect(): void
 	{
-		if (!this._habboCommunicationManager)
+		if (!this._communicationDemo || !this._habboCommunicationManager)
 		{
 			throw new Error('[Helium] Not initialized');
 		}
 
 		log.info('Connecting to server...');
 
-		this._habboCommunicationManager.initConnection('habbo');
+		const ssoTicket = this._habboCommunicationManager.ssoTicket;
 
-		// Connect RoomMessageHandler to the connection
+		if (ssoTicket)
+		{
+			this._communicationDemo.setSSOTicket(ssoTicket);
+		}
+		else
+		{
+			this._communicationDemo.initGameSocket();
+		}
+
+		// Wire RoomMessageHandler to the connection (created in initConnection)
 		if (this._roomMessageHandler && this._habboCommunicationManager.connection)
 		{
 			this._roomMessageHandler.connection = this._habboCommunicationManager.connection;
@@ -308,6 +322,7 @@ export class Helium
 		// Clear references
 		this._configurationManager = null;
 		this._habboCommunicationManager = null;
+		this._communicationDemo = null;
 		this._localizationManager = null;
 		this._navigator = null;
 		this._newNavigator = null;
@@ -406,6 +421,11 @@ export class Helium
 		{
 			this._habboCommunicationManager.configure(config.connection);
 		}
+
+		// Communication Demo (manages login flow, IncomingMessages)
+		// AS3: HabboCommunicationDemo is a separate Component that orchestrates the connection
+		this._communicationDemo = new HabboCommunicationDemo(ctx);
+		ctx.attachComponent(this._communicationDemo, []);
 
 		// Localization Manager
 		this._localizationManager = new HabboLocalizationManager(ctx);

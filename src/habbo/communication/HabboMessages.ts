@@ -17,10 +17,15 @@ import {
 	UniqueMachineIdMessageEvent,
 	UserObjectMessageEvent,
 	UserRightsMessageEvent,
+	IdentityAccountsEvent,
 } from './messages/incoming/handshake';
 
 // Incoming Events - Availability
-import {AvailabilityStatusMessageEvent,} from './messages/incoming/availability';
+import {
+	AvailabilityStatusMessageEvent,
+	LoginFailedHotelClosedMessageEvent,
+	MaintenanceStatusMessageEvent,
+} from './messages/incoming/availability';
 
 // Incoming Events - Avatar
 import {FigureUpdateMessageEvent,} from './messages/incoming/avatar';
@@ -142,6 +147,9 @@ import {
 	QuestionEvent,
 	QuestionFinishedEvent,
 } from './messages/incoming/poll';
+
+// Incoming Events - Error
+import {ErrorReportEvent} from './messages/incoming/error';
 
 // Incoming Events - Room Action
 import {
@@ -345,6 +353,8 @@ export class HabboMessages implements IMessageConfiguration
 
 		// === AVAILABILITY ===
 		this._events.set(3449, AvailabilityStatusMessageEvent);
+		this._events.set(3728, LoginFailedHotelClosedMessageEvent);
+		this._events.set(1350, MaintenanceStatusMessageEvent);
 
 		// === AVATAR ===
 		this._events.set(836, FigureUpdateMessageEvent);

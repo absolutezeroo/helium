@@ -8,3 +8,4 @@ export * from './mysterybox';
 export * from './catalog';
 export * from './room';
 export * from './poll';
+export * from './error';

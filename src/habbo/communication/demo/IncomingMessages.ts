@@ -1,4 +1,3 @@
-import {EventEmitter} from 'eventemitter3';
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
 import type {IEncryption} from '@core/communication/encryption/IEncryption';
 import type {IKeyExchange} from '@core/communication/handshake/IKeyExchange';
@@ -6,9 +5,9 @@ import {CryptoTools} from '@core/communication/encryption/CryptoTools';
 import {RSA} from '@core/communication/encryption/RSA';
 import {SocketConnection} from '@core/communication/connection/SocketConnection';
 import {Logger} from '@core/utils/Logger';
+import type {HabboCommunicationDemo} from './HabboCommunicationDemo';
 import type {IHabboCommunicationManager} from '../IHabboCommunicationManager';
-import {HabboCommunicationEvent, type HabboCommunicationEventType} from '../enum';
-import type {ConnectionActions} from '@/modules/connection/actions';
+import {HabboCommunicationEvent} from '../enum/HabboCommunicationEvent';
 
 // Events
 import {
@@ -16,6 +15,7 @@ import {
 	CompleteDiffieHandshakeMessageEvent,
 	DisconnectReasonMessageEvent,
 	GenericErrorMessageEvent,
+	IdentityAccountsEvent,
 	InitDiffieHandshakeMessageEvent,
 	PingMessageEvent,
 	UniqueMachineIdMessageEvent,
@@ -26,8 +26,22 @@ import {
 	CompleteDiffieHandshakeMessageParser,
 	DisconnectReasonMessageParser,
 	GenericErrorMessageParser,
+	IdentityAccountsEventParser,
 	InitDiffieHandshakeMessageParser,
 } from '../messages/parser/handshake';
+
+import {
+	LoginFailedHotelClosedMessageEvent,
+	MaintenanceStatusMessageEvent,
+} from '../messages/incoming/availability';
+
+import {
+	LoginFailedHotelClosedMessageEventParser,
+	MaintenanceStatusMessageEventParser,
+} from '../messages/parser/availability';
+
+import {ErrorReportEvent} from '../messages/incoming/error';
+import {ErrorReportEventParser} from '../messages/parser/error';
 
 // Composers
 import {
@@ -36,8 +50,6 @@ import {
 	InfoRetrieveMessageComposer,
 	InitDiffieHandshakeMessageComposer,
 	PongMessageComposer,
-	SSOTicketMessageComposer,
-	UniqueIDMessageComposer,
 } from '../messages/outgoing/handshake';
 
 import {EventLogMessageComposer} from '../messages/outgoing/tracking';
@@ -45,21 +57,18 @@ import {EventLogMessageComposer} from '../messages/outgoing/tracking';
 const log = Logger.getLogger('Handshake');
 
 /**
- * Events emitted by IncomingMessages
- */
-export interface IncomingMessagesEvents
-{
-	'loginStep': (step: HabboCommunicationEventType) => void;
-	'authenticated': () => void;
-	'disconnected': (reason: number, reasonText: string) => void;
-	'error': (code: number, message: string) => void;
-}
-
-/**
  * Handles incoming messages during connection/handshake
+ *
+ * Faithfully mirrors AS3: com.sulake.habbo.communication.demo.IncomingMessages
+ *
+ * Takes a reference to HabboCommunicationDemo and calls back to its methods
+ * (loginOk, disconnected, handleErrorMessage, etc.) rather than emitting events.
+ *
+ * @see source_as/habbo/communication/demo/IncomingMessages.as
  */
-export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
+export class IncomingMessages
 {
+	private _demo: HabboCommunicationDemo;
 	private _communication: IHabboCommunicationManager;
 	private _messageEvents: IMessageEvent[] = [];
 	private _keyExchange: IKeyExchange | null = null;
@@ -67,14 +76,13 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
 	private _isHandshaking: boolean = false;
 	private _wasDisconnected: boolean = false;
 	private _rsa: RSA;
-	private _connectionActions: ConnectionActions | null = null;
 
 	private _boundOnConnected: () => void;
 	private _boundOnDisconnected: () => void;
 
-	constructor(communication: IHabboCommunicationManager)
+	constructor(demo: HabboCommunicationDemo, communication: IHabboCommunicationManager)
 	{
-		super();
+		this._demo = demo;
 		this._communication = communication;
 		this._rsa = new RSA();
 
@@ -91,26 +99,18 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
 		connection.on('connected', this._boundOnConnected);
 		connection.on('disconnected', this._boundOnDisconnected);
 
-		// Emit INIT event - connection initialization started
-		// This matches AS3's dispatchLoginStepEvent("HABBO_CONNECTION_EVENT_INIT")
-		this.dispatchLoginStepEvent(HabboCommunicationEvent.INIT);
-
-		// Register message handlers
-		this.addMessageEvent(new InitDiffieHandshakeMessageEvent(this.onInitDiffieHandshake.bind(this)));
-		this.addMessageEvent(new CompleteDiffieHandshakeMessageEvent(this.onCompleteDiffieHandshake.bind(this)));
-		this.addMessageEvent(new AuthenticationOKMessageEvent(this.onAuthenticationOK.bind(this)));
-		this.addMessageEvent(new PingMessageEvent(this.onPing.bind(this)));
-		this.addMessageEvent(new DisconnectReasonMessageEvent(this.onDisconnectReason.bind(this)));
-		this.addMessageEvent(new GenericErrorMessageEvent(this.onGenericError.bind(this)));
-		this.addMessageEvent(new UniqueMachineIdMessageEvent(this.onUniqueMachineId.bind(this)));
-	}
-
-	/**
-	 * Set connection actions for state updates
-	 */
-	setConnectionActions(actions: ConnectionActions): void
-	{
-		this._connectionActions = actions;
+		// Register message handlers - matches AS3 order
+		this.addHabboConnectionMessageEvent(new LoginFailedHotelClosedMessageEvent(this.onLoginFailedHotelClosed.bind(this)));
+		this.addHabboConnectionMessageEvent(new DisconnectReasonMessageEvent(this.onDisconnectReason.bind(this)));
+		this.addHabboConnectionMessageEvent(new MaintenanceStatusMessageEvent(this.onMaintenance.bind(this)));
+		this.addHabboConnectionMessageEvent(new GenericErrorMessageEvent(this.onGenericError.bind(this)));
+		this.addHabboConnectionMessageEvent(new InitDiffieHandshakeMessageEvent(this.onInitDiffieHandshake.bind(this)));
+		this.addHabboConnectionMessageEvent(new UniqueMachineIdMessageEvent(this.onUniqueMachineId.bind(this)));
+		this.addHabboConnectionMessageEvent(new CompleteDiffieHandshakeMessageEvent(this.onCompleteDiffieHandshake.bind(this)));
+		this.addHabboConnectionMessageEvent(new ErrorReportEvent(this.onErrorReport.bind(this)));
+		this.addHabboConnectionMessageEvent(new IdentityAccountsEvent(this.onIdentityAccounts.bind(this)));
+		this.addHabboConnectionMessageEvent(new PingMessageEvent(this.onPing.bind(this)));
+		this.addHabboConnectionMessageEvent(new AuthenticationOKMessageEvent(this.onAuthenticationOK.bind(this)));
 	}
 
 	dispose(): void
@@ -130,79 +130,67 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
 
 		this._messageEvents = [];
 		this._keyExchange = null;
-
-		this.removeAllListeners();
 	}
 
-	private addMessageEvent(event: IMessageEvent): void
+	/**
+	 * @see source_as/habbo/communication/demo/IncomingMessages.as addHabboConnectionMessageEvent()
+	 */
+	private addHabboConnectionMessageEvent(event: IMessageEvent): void
 	{
 		this._communication.addMessageEvent(event);
 		this._messageEvents.push(event);
 	}
 
 	/**
-	 * Dispatch login step event to both event emitter and connection module
-	 * Matches AS3's dispatchLoginStepEvent()
+	 * @see source_as/habbo/communication/demo/IncomingMessages.as onConnectionEstablished()
 	 */
-	private dispatchLoginStepEvent(step: HabboCommunicationEventType): void
-	{
-		this.emit('loginStep', step);
-		this._connectionActions?.setLoginStep(step);
-	}
-
 	private onConnectionEstablished(): void
 	{
 		const connection = this._communication.connection;
 
-		if (!connection)
-		{
-			log.error('No connection available');
-			return;
-		}
+		if (!connection) return;
 
-		this.dispatchLoginStepEvent(HabboCommunicationEvent.ESTABLISHED);
+		this._demo.dispatchLoginStepEvent(HabboCommunicationEvent.ESTABLISHED);
 
 		this._wasDisconnected = false;
 		this._isHandshaking = true;
 
-		this.dispatchLoginStepEvent(HabboCommunicationEvent.HANDSHAKING);
-
-		log.info('Starting handshake...');
+		this._demo.dispatchLoginStepEvent(HabboCommunicationEvent.HANDSHAKING);
 
 		connection.sendUnencrypted(new ClientHelloMessageComposer());
 		connection.sendUnencrypted(new InitDiffieHandshakeMessageComposer());
 	}
 
+	/**
+	 * @see source_as/habbo/communication/demo/IncomingMessages.as onInitDiffieHandshake()
+	 */
 	private onInitDiffieHandshake(event: IMessageEvent): void
 	{
 		const connection = event.connection;
 
 		if (!connection) return;
 
-		if (!event) return;
-
 		const parser = event.parser as InitDiffieHandshakeMessageParser;
 
 		if (!parser) return;
 
-		// Decrypt prime and generator using RSA
 		const primeDecimal = this._rsa.decryptString(parser.encryptedPrime);
 		const generatorDecimal = this._rsa.decryptString(parser.encryptedGenerator);
 
-		// Convert decimal strings to hex for DiffieHellman
 		const primeHex = BigInt(primeDecimal).toString(16);
 		const generatorHex = BigInt(generatorDecimal).toString(16);
 
 		this._keyExchange = this._communication.createKeyExchange(primeHex, generatorHex);
 
-		// Generate random private key and compute public key
 		let bestPublicKey: string | null = null;
 		let attempts = 10;
 
 		while (attempts > 0)
 		{
 			const privateKey = this.generateRandomHexString(30);
+
 			this._keyExchange.init(privateKey);
+
 			const publicKey = this._keyExchange.getPublicKey(10);
 
 			if (publicKey.length >= 64)
@@ -217,6 +205,7 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
 				bestPublicKey = publicKey;
 				this._privateKey = privateKey;
 			}
+
 			attempts--;
 		}
 
@@ -225,39 +214,34 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
 			this._keyExchange.init(this._privateKey);
 		}
 
-		// Encrypt our public key with RSA before sending
 		const encryptedPublicKey = this._rsa.encryptString(bestPublicKey || '');
-		connection.sendUnencrypted(new CompleteDiffieHandshakeMessageComposer(encryptedPublicKey));
 
-		log.debug('DH public key sent');
+		connection.sendUnencrypted(new CompleteDiffieHandshakeMessageComposer(encryptedPublicKey));
 	}
 
+	/**
+	 * @see source_as/habbo/communication/demo/IncomingMessages.as onCompleteDiffieHandshake()
+	 */
 	private onCompleteDiffieHandshake(event: IMessageEvent): void
 	{
 		const connection = event.connection;
 
 		if (!connection || !this._keyExchange) return;
 
-		if (!event) return;
-
 		const parser = event.parser as CompleteDiffieHandshakeMessageParser;
 
 		if (!parser) return;
 
-		// Decrypt server's public key using RSA
 		const serverPublicKey = this._rsa.decryptString(parser.encryptedPublicKey);
 
-		// Generate shared secret
 		this._keyExchange.generateSharedKey(serverPublicKey, 10);
 
 		if (!this._keyExchange.isValidServerPublicKey())
 		{
 			log.error('Invalid server public key');
-
 			return;
 		}
 
-		// Get shared key and initialize RC4
 		const sharedKeyHex = this._keyExchange.getSharedKey(16).toUpperCase();
 		const keyBytes = CryptoTools.hexStringToByteArray(sharedKeyHex);
 
@@ -270,7 +254,6 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
 		if (parser.serverClientEncryption)
 		{
 			serverToClient = this._communication.createEncryption();
-
 			serverToClient.init(CryptoTools.hexStringToByteArray(sharedKeyHex));
 		}
 
@@ -278,115 +261,167 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
 
 		this._isHandshaking = false;
 
-		this.dispatchLoginStepEvent(HabboCommunicationEvent.HANDSHAKED);
+		this._demo.dispatchLoginStepEvent(HabboCommunicationEvent.HANDSHAKED);
 
 		log.success('Encryption enabled');
 
-		this.sendConnectionParameters(connection);
+		// AS3: var_1660.sendConnectionParameters(connection)
+		this._demo.sendConnectionParameters(connection);
 	}
 
-	private sendConnectionParameters(connection: IMessageEvent['connection']): void
-	{
-		if (!connection) return;
-
-		connection.send(new ClientHelloMessageComposer());
-		connection.send(new UniqueIDMessageComposer(
-			this.getMachineId(),
-			this.generateFingerprint(),
-			'HTML5/1.0.0'
-		));
-
-		const ssoTicket = this._communication.ssoTicket;
-
-		if (ssoTicket && ssoTicket.length > 0)
-		{
-			connection.send(new SSOTicketMessageComposer(ssoTicket, this.getTimer()));
-
-			log.info('SSO ticket sent');
-		} else
-		{
-			log.warn('No SSO ticket available');
-		}
-	}
-
+	/**
+	 * @see source_as/habbo/communication/demo/IncomingMessages.as onAuthenticationOK()
+	 */
 	private onAuthenticationOK(event: IMessageEvent): void
 	{
-		const conn = event.connection;
+		const connection = event.connection;
 
-		if (!conn) return;
+		if (!connection) return;
+
+		this._demo.dispatchLoginStepEvent(HabboCommunicationEvent.AUTHENTICATED);
+
+		connection.send(new InfoRetrieveMessageComposer());
+		connection.send(new EventLogMessageComposer('Login', 'socket', 'client.auth_ok'));
 
 		log.success('Authenticated');
 
-		this.dispatchLoginStepEvent(HabboCommunicationEvent.AUTHENTICATED);
-
-		// Notify connection module that authentication succeeded
-		this._connectionActions?.setAuthenticated();
-
-		conn.send(new InfoRetrieveMessageComposer());
-		conn.send(new EventLogMessageComposer('Login', 'socket', 'client.auth_ok'));
-
-		this.emit('authenticated');
+		this._demo.loginOk();
 	}
 
+	/**
+	 * @see source_as/habbo/communication/demo/IncomingMessages.as onPing()
+	 */
 	private onPing(event: IMessageEvent): void
 	{
-		if (!event) return;
+		const connection = event.connection;
 
-		event.connection?.send(new PongMessageComposer());
+		if (!connection) return;
+
+		connection.send(new PongMessageComposer());
 	}
 
+	/**
+	 * @see source_as/habbo/communication/demo/IncomingMessages.as onDisconnectReason()
+	 */
 	private onDisconnectReason(event: IMessageEvent): void
 	{
-		if (!event) return;
+		if (this._isHandshaking)
+		{
+			this._demo.dispatchLoginStepEvent(HabboCommunicationEvent.HANDSHAKE_FAIL);
+		}
 
 		const parser = event.parser as DisconnectReasonMessageParser;
 
 		if (!parser) return;
 
-		if (this._isHandshaking)
-		{
-			this.dispatchLoginStepEvent(HabboCommunicationEvent.HANDSHAKE_FAIL);
-		}
+		log.warn(`Disconnected: reason=${parser.reason}`);
 
-		log.warn(`Disconnected: ${parser.reason} - ${parser.reasonText}`);
-
-		this.emit('disconnected', parser.reason, parser.reasonText);
+		this._demo.disconnected(parser.reason, parser.reasonText);
 
 		this._isHandshaking = false;
 		this._wasDisconnected = true;
 	}
 
+	/**
+	 * @see source_as/habbo/communication/demo/IncomingMessages.as onGenericError()
+	 */
 	private onGenericError(event: IMessageEvent): void
 	{
-		if (!event) return;
-
 		const parser = event.parser as GenericErrorMessageParser;
 
 		if (!parser) return;
 
-		log.error(`Server error: ${parser.errorCode}`);
-
-		this.emit('error', parser.errorCode, `Error ${parser.errorCode}`);
+		switch (parser.errorCode)
+		{
+			case -3:
+				log.error('Generic error: -3');
+				break;
+			case -400:
+				log.error('Generic error: -400');
+				break;
+		}
 	}
 
+	/**
+	 * @see source_as/habbo/communication/demo/IncomingMessages.as onUniqueMachineId()
+	 */
 	private onUniqueMachineId(_event: IMessageEvent): void
 	{
-		// Machine ID received - stored by server
+		// AS3: CommunicationUtils.writeSOLProperty("machineid", param1.machineID)
+		// Machine ID stored by server, we persist locally
 	}
 
+	/**
+	 * @see source_as/habbo/communication/demo/IncomingMessages.as onLoginFailedHotelClosed()
+	 */
+	private onLoginFailedHotelClosed(event: IMessageEvent): void
+	{
+		const parser = (event as LoginFailedHotelClosedMessageEvent).getParser() as LoginFailedHotelClosedMessageEventParser;
+
+		if (!parser) return;
+
+		this._demo.handleLoginFailedHotelClosedMessage(parser.openHour, parser.openMinute);
+	}
+
+	/**
+	 * @see source_as/habbo/communication/demo/IncomingMessages.as onErrorReport()
+	 */
+	private onErrorReport(event: IMessageEvent): void
+	{
+		const parser = (event as ErrorReportEvent).getParser() as ErrorReportEventParser;
+
+		if (!parser) return;
+
+		this._demo.handleErrorMessage(parser.errorCode, parser.messageId);
+	}
+
+	/**
+	 * @see source_as/habbo/communication/demo/IncomingMessages.as onMaintenance()
+	 */
+	private onMaintenance(event: IMessageEvent): void
+	{
+		const parser = (event as MaintenanceStatusMessageEvent).getParser() as MaintenanceStatusMessageEventParser;
+
+		if (!parser) return;
+
+		log.warn(`Maintenance status: ${parser.minutesUntilMaintenance} minutes`);
+
+		this._demo.disconnected(-2, `Maintenance in ${parser.minutesUntilMaintenance} minutes`);
+	}
+
+	/**
+	 * @see source_as/habbo/communication/demo/IncomingMessages.as onIdentityAccounts()
+	 */
+	private onIdentityAccounts(event: IMessageEvent): void
+	{
+		const parser = (event as IdentityAccountsEvent).getParser() as IdentityAccountsEventParser;
+
+		if (!parser) return;
+
+		// AS3: var_1660.onUserList(avatars) - populates login screen character list (VIEW)
+		// We skip the UI callback but log the data
+		log.debug(`Identity accounts received: ${parser.accounts.size} accounts`);
+	}
+
+	/**
+	 * @see source_as/habbo/communication/demo/IncomingMessages.as onConnectionDisconnected()
+	 */
 	private onConnectionDisconnected(): void
 	{
 		if (this._isHandshaking)
 		{
-			this.dispatchLoginStepEvent(HabboCommunicationEvent.HANDSHAKE_FAIL);
+			this._demo.dispatchLoginStepEvent(HabboCommunicationEvent.HANDSHAKE_FAIL);
 		}
 
 		if (!this._wasDisconnected)
 		{
-			this.emit('disconnected', -3, 'Connection closed');
+			this._demo.disconnected(-3, '');
 		}
 	}
 
+	/**
+	 * @see source_as/habbo/communication/demo/IncomingMessages.as generateRandomHexString()
+	 */
 	private generateRandomHexString(byteLength: number): string
 	{
 		let result = '';
@@ -399,55 +434,5 @@ export class IncomingMessages extends EventEmitter<IncomingMessagesEvents>
 		}
 
 		return result;
-	}
-
-	private getMachineId(): string
-	{
-		let machineId = localStorage.getItem('helium_machine_id');
-
-		if (!machineId)
-		{
-			machineId = this.generateRandomHexString(16);
-
-			localStorage.setItem('helium_machine_id', machineId);
-		}
-
-		return machineId;
-	}
-
-	private generateFingerprint(): string
-	{
-		const canvas = document.createElement('canvas');
-		const ctx = canvas.getContext('2d');
-
-		if (ctx)
-		{
-			ctx.textBaseline = 'top';
-			ctx.font = '14px Arial';
-			ctx.fillText('Helium', 2, 2);
-		}
-
-		const data = [
-			navigator.userAgent,
-			navigator.language,
-			screen.width + 'x' + screen.height,
-			new Date().getTimezoneOffset().toString(),
-			canvas.toDataURL()
-		].join('|');
-
-		let hash = 0;
-
-		for (let i = 0; i < data.length; i++)
-		{
-			hash = ((hash << 5) - hash) + data.charCodeAt(i);
-			hash = hash & hash;
-		}
-
-		return Math.abs(hash).toString(16);
-	}
-
-	private getTimer(): number
-	{
-		return Math.floor(performance.now());
 	}
 }

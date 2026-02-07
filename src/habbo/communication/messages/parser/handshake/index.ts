@@ -9,3 +9,4 @@ export * from './GenericErrorMessageParser';
 export * from './UniqueMachineIdMessageParser';
 export * from './NoobnessLevelMessageParser';
 export * from './IsFirstLoginOfDayMessageParser';
+export * from './IdentityAccountsEventParser';

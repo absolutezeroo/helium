@@ -3,8 +3,8 @@ import {ArcFour} from '@habbo/communication/encryption/ArcFour';
 import {DiffieHellman} from '@habbo/communication/encryption/DiffieHellman';
 import {Logger} from '@core/utils/Logger';
 import {HabboMessages} from './HabboMessages';
-import {IncomingMessages} from './demo/IncomingMessages';
 import {SessionDataManager} from '../session/SessionDataManager';
+import type {HabboCommunicationEventType} from './enum/HabboCommunicationEvent';
 import type {IHabboCommunicationManager} from './IHabboCommunicationManager';
 import type {ICoreCommunicationManager} from '@core/communication/ICoreCommunicationManager';
 import type {IConnection} from '@core/communication/connection/IConnection';
@@ -37,7 +37,6 @@ export interface HabboConnectionConfig
 export class HabboCommunicationManager extends Component implements IHabboCommunicationManager, IConnectionCallback
 {
 	private messageConfig: IMessageConfiguration;
-	private incomingMessages: IncomingMessages | null = null;
 	private config: HabboConnectionConfig | null = null;
 	private portIndex: number = -1;
 	private connectionAttempt: number = 1;
@@ -169,32 +168,13 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 			}
 		}
 
-		// Dispose previous instances
-		if (this.incomingMessages)
-		{
-			this.incomingMessages.dispose();
-		}
+		// Dispose previous SessionDataManager
 		if (this._sessionDataManager)
 		{
 			this._sessionDataManager.dispose();
 		}
 
-		// Create new instances
-		this.incomingMessages = new IncomingMessages(this);
-
-		if (this._connectionActions)
-		{
-			this.incomingMessages.setConnectionActions(this._connectionActions);
-		}
-
 		this._sessionDataManager = new SessionDataManager(this.context);
-
-		// Forward events from IncomingMessages to this manager
-		// This acts as context.events in AS3 for other components to listen
-		this.incomingMessages.on('loginStep', (step) => this.events.emit('loginStep', step));
-		this.incomingMessages.on('authenticated', () => this.events.emit('authenticated'));
-		this.incomingMessages.on('disconnected', (reason, reasonText) => this.events.emit('disconnected', reason, reasonText));
-		this.incomingMessages.on('error', (code, message) => this.events.emit('error', code, message));
 
 		this.portIndex = -1;
 		this.connectionAttempt = 1;
@@ -322,6 +302,12 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 	protected override initComponent(): void
 	{
 		log.debug('HabboCommunicationManager initialized');
+
+		// Forward loginStep events (emitted by HabboCommunicationDemo) to connectionActions
+		this.events.on('loginStep', (step: HabboCommunicationEventType) =>
+		{
+			this._connectionActions?.setLoginStep(step);
+		});
 	}
 
 	private tryNextPort(): void

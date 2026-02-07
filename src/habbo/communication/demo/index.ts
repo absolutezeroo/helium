@@ -1,2 +1,2 @@
+export {HabboCommunicationDemo} from './HabboCommunicationDemo';
 export {IncomingMessages} from './IncomingMessages';
-export type {IncomingMessagesEvents} from './IncomingMessages';
