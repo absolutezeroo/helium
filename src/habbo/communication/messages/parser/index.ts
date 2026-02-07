@@ -6,3 +6,5 @@ export * from './notifications';
 export * from './inventory';
 export * from './mysterybox';
 export * from './catalog';
+export * from './room';
+export * from './poll';

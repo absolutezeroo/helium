@@ -121,6 +121,26 @@ export interface ISessionDataManager
 	 */
 	setRoomToolsState(open: boolean): void;
 
+	// Perk shortcuts
+	readonly perksReady: boolean;
+
+	isPerkAllowed(perk: string): boolean;
+
+	getPerkErrorMessage(perk: string): string;
+
+	// Ignored users shortcuts
+	isIgnored(userId: number): boolean;
+
+	ignoreUser(userId: number): void;
+
+	unignoreUser(userId: number): void;
+
+	// Safety
+	isAccountSafetyLocked(): boolean;
+
+	// Special command
+	sendSpecialCommandMessage(command: string): void;
+
 	/**
 	 * Dispose of the session data manager
 	 */

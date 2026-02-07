@@ -3,25 +3,52 @@ import type {IRoomSession, RoomSessionStateType} from './IRoomSession';
 import {RoomSessionState} from './IRoomSession';
 import type {RoomModerationSettings} from '../communication/messages/incoming/navigator';
 import {
+	AmbassadorAlertMessageComposer,
 	AssignRightsMessageComposer,
 	AvatarExpressionMessageComposer,
 	BanUserWithDurationMessageComposer,
 	CancelTypingMessageComposer,
+	ChangeMottoMessageComposer,
 	ChangePostureMessageComposer,
+	ChangeQueueMessageComposer,
 	ChatMessageComposer,
+	CompostPlantComposer,
+	CreditFurniRedeemMessageComposer,
 	DanceMessageComposer,
+	DismountPetComposer,
+	GetPetCommandsComposer,
+	HarvestPetComposer,
 	KickUserMessageComposer,
 	LetUserInMessageComposer,
+	MountPetComposer,
 	MuteUserMessageComposer,
 	OpenFlatConnectionMessageComposer,
+	OpenPetPackageMessageComposer,
+	PickUpPetComposer,
+	PresentOpenMessageComposer,
 	QuitMessageComposer,
 	RemoveRightsMessageComposer,
+	RemoveSaddleFromPetComposer,
+	RoomDimmerChangeStateComposer,
+	RoomDimmerGetPresetsComposer,
+	RoomDimmerSavePresetComposer,
 	ShoutMessageComposer,
 	SignMessageComposer,
 	StartTypingMessageComposer,
+	TogglePetBreedingPermissionComposer,
+	TogglePetRidingPermissionComposer,
 	UnmuteUserMessageComposer,
+	UpdateClothingChangeFurnitureComposer,
+	UseProductForPetComposer,
 	WhisperMessageComposer,
 } from '../communication/messages/outgoing/room';
+import {
+	PollAnswerComposer,
+	PollRejectComposer,
+	PollStartComposer,
+} from '../communication/messages/outgoing/poll';
+import {VisitUserMessageComposer,} from '../communication/messages/outgoing/friendlist';
+import {EventLogMessageComposer,} from '../communication/messages/outgoing';
 
 /**
  * Ban duration types
@@ -39,10 +66,14 @@ export const BanDuration = {
  *
  * Represents an active session in a room. The key method is start()
  * which sends OpenFlatConnectionMessageComposer to enter the room.
+ *
+ * @see source_as/habbo/session/RoomSession.as
  */
 export class RoomSession implements IRoomSession
 {
 	private _chatTrackingId: number = 0;
+	private _chatTrackingMap: Map<number, number> = new Map();
+	private _eventLogTracked: Map<string, boolean> = new Map();
 
 	private _connection: IConnection | null = null;
 
@@ -151,6 +182,11 @@ export class RoomSession implements IRoomSession
 		this._isGuildRoom = value;
 	}
 
+	get isPrivateRoom(): boolean
+	{
+		return true;
+	}
+
 	private _tradeMode: number = 0;
 
 	get tradeMode(): number
@@ -175,6 +211,11 @@ export class RoomSession implements IRoomSession
 		this._doorMode = value;
 	}
 
+	get isNoobRoom(): boolean
+	{
+		return this._doorMode === 4;
+	}
+
 	private _isSpectatorMode: boolean = false;
 
 	get isSpectatorMode(): boolean
@@ -197,6 +238,11 @@ export class RoomSession implements IRoomSession
 	set arePetsAllowed(value: boolean)
 	{
 		this._arePetsAllowed = value;
+	}
+
+	get areBotsAllowed(): boolean
+	{
+		return this._isRoomOwner;
 	}
 
 	private _roomModerationSettings: RoomModerationSettings | null = null;
@@ -235,6 +281,30 @@ export class RoomSession implements IRoomSession
 		this._isGameSession = value;
 	}
 
+	private _playTestMode: boolean = false;
+
+	get playTestMode(): boolean
+	{
+		return this._playTestMode;
+	}
+
+	set playTestMode(value: boolean)
+	{
+		this._playTestMode = value;
+	}
+
+	private _isNuxNotComplete: boolean = false;
+
+	get isNuxNotComplete(): boolean
+	{
+		return this._isNuxNotComplete;
+	}
+
+	set isNuxNotComplete(value: boolean)
+	{
+		this._isNuxNotComplete = value;
+	}
+
 	/**
 	 * Start the room session
 	 * Sends OpenFlatConnectionMessageComposer to the server
@@ -248,7 +318,6 @@ export class RoomSession implements IRoomSession
 
 		this._state = RoomSessionState.STARTED;
 
-		// Send the connection message to enter the room
 		this._connection.send(new OpenFlatConnectionMessageComposer(this._roomId, this._roomPassword));
 
 		return true;
@@ -290,12 +359,25 @@ export class RoomSession implements IRoomSession
 	{
 		this._connection = null;
 		this._state = RoomSessionState.ENDED;
+		this._chatTrackingMap.clear();
+		this._eventLogTracked.clear();
 	}
+
+	// ========== Chat Methods ==========
 
 	sendChatMessage(message: string, styleId: number = 0): void
 	{
 		if (this._connection === null) return;
-		this._connection.send(new ChatMessageComposer(message, styleId, this._chatTrackingId++));
+
+		this._chatTrackingMap.set(this._chatTrackingId, Date.now());
+		this._connection.send(new ChatMessageComposer(message, styleId, this._chatTrackingId));
+		this._chatTrackingId++;
+	}
+
+	sendChangeMottoMessage(motto: string): void
+	{
+		if (this._connection === null) return;
+		this._connection.send(new ChangeMottoMessageComposer(motto));
 	}
 
 	sendShoutMessage(message: string, styleId: number = 0): void
@@ -308,8 +390,7 @@ export class RoomSession implements IRoomSession
 	{
 		if (this._connection === null) return;
 		// Note: WhisperMessageComposer takes message, styleId, targetUserId
-		// But the interface takes recipientName - we need to resolve this
-		// For now, sending with -1 as userId - would need UserDataManager to resolve
+		// But the interface takes recipientName - would need UserDataManager to resolve
 		this._connection.send(new WhisperMessageComposer(message, styleId, -1));
 	}
 
@@ -320,11 +401,19 @@ export class RoomSession implements IRoomSession
 		if (isTyping)
 		{
 			this._connection.send(new StartTypingMessageComposer());
-		} else
+		}
+		else
 		{
 			this._connection.send(new CancelTypingMessageComposer());
 		}
 	}
+
+	receivedChatWithTrackingId(trackingId: number): void
+	{
+		this._chatTrackingMap.delete(trackingId);
+	}
+
+	// ========== Avatar Methods ==========
 
 	sendAvatarExpressionMessage(expressionId: number): void
 	{
@@ -348,6 +437,110 @@ export class RoomSession implements IRoomSession
 	{
 		if (this._connection === null) return;
 		this._connection.send(new ChangePostureMessageComposer(posture));
+	}
+
+	// ========== Furniture Methods ==========
+
+	sendCreditFurniRedeemMessage(objectId: number): void
+	{
+		if (this._connection === null) return;
+		this._connection.send(new CreditFurniRedeemMessageComposer(objectId));
+	}
+
+	sendPresentOpenMessage(objectId: number): void
+	{
+		if (this._connection === null) return;
+		this._connection.send(new PresentOpenMessageComposer(objectId));
+	}
+
+	sendOpenPetPackageMessage(objectId: number, name: string): void
+	{
+		if (this._connection === null) return;
+		this._connection.send(new OpenPetPackageMessageComposer(objectId, name));
+	}
+
+	sendRoomDimmerGetPresetsMessage(_itemId: number): void
+	{
+		if (this._connection === null) return;
+		this._connection.send(new RoomDimmerGetPresetsComposer());
+	}
+
+	sendRoomDimmerSavePresetMessage(_itemId: number, presetId: number, type: number, color: number, light: boolean, brightness: number): void
+	{
+		if (this._connection === null) return;
+		this._connection.send(new RoomDimmerSavePresetComposer(presetId, type, color, brightness, light));
+	}
+
+	sendRoomDimmerChangeStateMessage(_itemId: number): void
+	{
+		if (this._connection === null) return;
+		this._connection.send(new RoomDimmerChangeStateComposer());
+	}
+
+	sendUpdateClothingChangeFurniture(objectId: number, gender: string, figure: string): void
+	{
+		if (this._connection === null) return;
+		this._connection.send(new UpdateClothingChangeFurnitureComposer(objectId, gender, figure));
+	}
+
+	// ========== Poll Methods ==========
+
+	sendPollStartMessage(pollId: number): void
+	{
+		if (this._connection === null) return;
+		this._connection.send(new PollStartComposer(pollId));
+	}
+
+	sendPollRejectMessage(pollId: number): void
+	{
+		if (this._connection === null) return;
+		this._connection.send(new PollRejectComposer(pollId));
+	}
+
+	sendPollAnswerMessage(pollId: number, questionId: number, answers: string[]): void
+	{
+		if (this._connection === null) return;
+		this._connection.send(new PollAnswerComposer(pollId, questionId, answers));
+	}
+
+	// ========== Tracking Methods ==========
+
+	sendConversionPoint(type: string, value: string, extra: string, category: string | null = null, action: number = 0): void
+	{
+		if (this._connection === null) return;
+		this._connection.send(new EventLogMessageComposer(type, value, extra, category ?? '', action));
+	}
+
+	sendPeerUsersClassificationMessage(_data: string): void
+	{
+		// TODO: PeerUsersClassificationMessageComposer
+	}
+
+	sendRoomUsersClassificationMessage(_data: string): void
+	{
+		// TODO: RoomUsersClassificationMessageComposer
+	}
+
+	// ========== Navigation Methods ==========
+
+	sendVisitFlatMessage(roomId: number): void
+	{
+		if (this._connection === null) return;
+		this._connection.send(new OpenFlatConnectionMessageComposer(roomId, ''));
+	}
+
+	sendVisitUserMessage(userName: string): void
+	{
+		if (this._connection === null) return;
+		this._connection.send(new VisitUserMessageComposer(userName));
+	}
+
+	// ========== Moderation Methods ==========
+
+	ambassadorAlert(userId: number): void
+	{
+		if (this._connection === null) return;
+		this._connection.send(new AmbassadorAlertMessageComposer(userId));
 	}
 
 	kickUser(userId: number): void
@@ -390,6 +583,8 @@ export class RoomSession implements IRoomSession
 		this._connection.send(new UnmuteUserMessageComposer(userId, this._roomId));
 	}
 
+	// ========== Rights Methods ==========
+
 	assignRights(userId: number): void
 	{
 		if (this._connection === null) return;
@@ -406,5 +601,101 @@ export class RoomSession implements IRoomSession
 	{
 		if (this._connection === null) return;
 		this._connection.send(new LetUserInMessageComposer(userName, allow));
+	}
+
+	// ========== Pet Methods ==========
+
+	pickUpPet(petId: number): void
+	{
+		if (this._connection === null) return;
+		this._connection.send(new PickUpPetComposer(petId));
+	}
+
+	mountPet(petId: number): void
+	{
+		if (this._connection === null) return;
+		this._connection.send(new MountPetComposer(petId));
+	}
+
+	togglePetRidingPermission(petId: number): void
+	{
+		if (this._connection === null) return;
+		this._connection.send(new TogglePetRidingPermissionComposer(petId));
+	}
+
+	dismountPet(petId: number): void
+	{
+		if (this._connection === null) return;
+		this._connection.send(new DismountPetComposer(petId));
+	}
+
+	removeSaddleFromPet(petId: number): void
+	{
+		if (this._connection === null) return;
+		this._connection.send(new RemoveSaddleFromPetComposer(petId));
+	}
+
+	requestPetCommands(petId: number): void
+	{
+		if (this._connection === null) return;
+		this._connection.send(new GetPetCommandsComposer(petId));
+	}
+
+	useProductForPet(petId: number, productId: number): void
+	{
+		if (this._connection === null) return;
+		this._connection.send(new UseProductForPetComposer(petId, productId));
+	}
+
+	plantSeed(itemId: number): void
+	{
+		if (this._connection === null) return;
+		// TODO: UseFurnitureMessageComposer
+	}
+
+	harvestPet(petId: number): void
+	{
+		if (this._connection === null) return;
+		this._connection.send(new HarvestPetComposer(petId));
+	}
+
+	togglePetBreedingPermission(petId: number): void
+	{
+		if (this._connection === null) return;
+		this._connection.send(new TogglePetBreedingPermissionComposer(petId));
+	}
+
+	compostPlant(petId: number): void
+	{
+		if (this._connection === null) return;
+		this._connection.send(new CompostPlantComposer(petId));
+	}
+
+	// ========== Queue Methods ==========
+
+	changeQueue(targetQueue: number): void
+	{
+		if (this._connection === null) return;
+		this._connection.send(new ChangeQueueMessageComposer(targetQueue));
+	}
+
+	// ========== NUX Methods ==========
+
+	sendScriptProceed(): void
+	{
+		// TODO: NewUserExperienceScriptProceedComposer
+	}
+
+	// ========== Event Logging ==========
+
+	trackEventLogOncePerSession(category: string, type: string, action: string): void
+	{
+		const key = `${category}_${type}_${action}`;
+		if (this._eventLogTracked.has(key))
+		{
+			return;
+		}
+		this._eventLogTracked.set(key, true);
+		this.sendConversionPoint(category, type, action);
 	}
 }

@@ -72,6 +72,7 @@ import type {
 // Composers
 import {RespectUserMessageComposer} from '../communication/messages/outgoing/room/RespectUserMessageComposer';
 import {RespectPetMessageComposer} from '../communication/messages/outgoing/room/RespectPetMessageComposer';
+import {ChatMessageComposer} from '../communication/messages/outgoing/room/chat/ChatMessageComposer';
 
 // Sub-managers
 import type {IUserDataManager} from './IUserDataManager';
@@ -562,6 +563,57 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	setRoomToolsState(open: boolean): void
 	{
 		this.setUIFlag(UIFlagsEnum.ROOM_TOOLS_OPEN, open);
+	}
+
+	// ========== Perk Shortcuts ==========
+
+	get perksReady(): boolean
+	{
+		return this._perkManager?.isReady ?? false;
+	}
+
+	isPerkAllowed(perk: string): boolean
+	{
+		return this._perkManager?.isPerkAllowed(perk) ?? false;
+	}
+
+	getPerkErrorMessage(perk: string): string
+	{
+		return this._perkManager?.getPerkErrorMessage(perk) ?? '';
+	}
+
+	// ========== Ignored Users Shortcuts ==========
+
+	isIgnored(userId: number): boolean
+	{
+		return this._ignoredUsersManager?.isIgnored(userId) ?? false;
+	}
+
+	ignoreUser(userId: number): void
+	{
+		this._ignoredUsersManager?.ignoreUser(userId);
+	}
+
+	unignoreUser(userId: number): void
+	{
+		this._ignoredUsersManager?.unignoreUser(userId);
+	}
+
+	// ========== Safety ==========
+
+	isAccountSafetyLocked(): boolean
+	{
+		return this._accountSafetyLocked;
+	}
+
+	// ========== Special Command ==========
+
+	sendSpecialCommandMessage(command: string): void
+	{
+		if (this._communication?.connection)
+		{
+			this._communication.connection.send(new ChatMessageComposer(command, 0, -1));
+		}
 	}
 
 	/**

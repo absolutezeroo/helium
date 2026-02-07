@@ -5,3 +5,4 @@ export * from './UnmuteUserMessageComposer';
 export * from './AssignRightsMessageComposer';
 export * from './RemoveRightsMessageComposer';
 export * from './LetUserInMessageComposer';
+export * from './AmbassadorAlertMessageComposer';

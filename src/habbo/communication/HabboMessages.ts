@@ -125,6 +125,24 @@ import {
 	WhisperMessageEvent,
 } from './messages/incoming/room/chat';
 
+// Incoming Events - Room Furniture
+import {
+	OpenPetPackageRequestedMessageEvent,
+	OpenPetPackageResultMessageEvent,
+	PresentOpenedMessageEvent,
+	RoomDimmerPresetsMessageEvent,
+} from './messages/incoming/room/furniture';
+
+// Incoming Events - Poll
+import {
+	PollContentsEvent,
+	PollErrorEvent,
+	PollOfferEvent,
+	QuestionAnsweredEvent,
+	QuestionEvent,
+	QuestionFinishedEvent,
+} from './messages/incoming/poll';
+
 // Incoming Events - Room Action
 import {
 	AvatarEffectMessageEvent,
@@ -211,13 +229,54 @@ import {
 } from './messages/outgoing/newnavigator';
 
 // Outgoing Composers - Room Session
-import {OpenFlatConnectionMessageComposer,} from './messages/outgoing/room/session';
+import {ChangeQueueMessageComposer, OpenFlatConnectionMessageComposer,} from './messages/outgoing/room/session';
 
 // Outgoing Composers - Room Engine
 import {GetFurnitureAliasesMessageComposer, GetHeightMapMessageComposer,} from './messages/outgoing/room/engine';
 
 // Outgoing Composers - Room Chat
 import {ChatMessageComposer, ShoutMessageComposer, WhisperMessageComposer,} from './messages/outgoing/room/chat';
+
+// Outgoing Composers - Room Avatar
+import {ChangeMottoMessageComposer,} from './messages/outgoing/room/avatar';
+
+// Outgoing Composers - Room Action (new)
+import {AmbassadorAlertMessageComposer,} from './messages/outgoing/room/action';
+
+// Outgoing Composers - Room Furniture
+import {
+	CreditFurniRedeemMessageComposer,
+	OpenPetPackageMessageComposer,
+	PresentOpenMessageComposer,
+	RoomDimmerChangeStateComposer,
+	RoomDimmerGetPresetsComposer,
+	RoomDimmerSavePresetComposer,
+	UpdateClothingChangeFurnitureComposer,
+} from './messages/outgoing/room/furniture';
+
+// Outgoing Composers - Room Pet
+import {
+	CompostPlantComposer,
+	DismountPetComposer,
+	GetPetCommandsComposer,
+	HarvestPetComposer,
+	MountPetComposer,
+	PickUpPetComposer,
+	RemoveSaddleFromPetComposer,
+	TogglePetBreedingPermissionComposer,
+	TogglePetRidingPermissionComposer,
+	UseProductForPetComposer,
+} from './messages/outgoing/room/pet';
+
+// Outgoing Composers - Poll
+import {
+	PollAnswerComposer,
+	PollRejectComposer,
+	PollStartComposer,
+} from './messages/outgoing/poll';
+
+// Outgoing Composers - Friendlist
+import {VisitUserMessageComposer,} from './messages/outgoing/friendlist';
 
 // Outgoing Composers - Inventory
 import {
@@ -411,6 +470,20 @@ export class HabboMessages implements IMessageConfiguration
 		this._events.set(1299, CarryObjectMessageEvent);
 		this._events.set(2675, UseObjectMessageEvent);
 		this._events.set(2680, UserChangeMessageEvent);
+
+		// === ROOM FURNITURE ===
+		this._events.set(2710, RoomDimmerPresetsMessageEvent);
+		this._events.set(56, PresentOpenedMessageEvent);
+		this._events.set(2380, OpenPetPackageRequestedMessageEvent);
+		this._events.set(546, OpenPetPackageResultMessageEvent);
+
+		// === POLL / WORD QUIZ ===
+		this._events.set(3785, PollOfferEvent);
+		this._events.set(662, PollErrorEvent);
+		this._events.set(2997, PollContentsEvent);
+		this._events.set(2665, QuestionEvent);
+		this._events.set(2589, QuestionAnsweredEvent);
+		this._events.set(1066, QuestionFinishedEvent);
 	}
 
 	/**
@@ -482,6 +555,41 @@ export class HabboMessages implements IMessageConfiguration
 
 		// === ROOM SESSION ===
 		this._composers.set(2729, OpenFlatConnectionMessageComposer);
+		this._composers.set(3093, ChangeQueueMessageComposer);
+
+		// === ROOM AVATAR ===
+		this._composers.set(2228, ChangeMottoMessageComposer);
+
+		// === ROOM ACTION (additional) ===
+		this._composers.set(2996, AmbassadorAlertMessageComposer);
+
+		// === ROOM FURNITURE ===
+		this._composers.set(3115, CreditFurniRedeemMessageComposer);
+		this._composers.set(3558, PresentOpenMessageComposer);
+		this._composers.set(3698, OpenPetPackageMessageComposer);
+		this._composers.set(2813, RoomDimmerGetPresetsComposer);
+		this._composers.set(1648, RoomDimmerSavePresetComposer);
+		this._composers.set(2296, RoomDimmerChangeStateComposer);
+		this._composers.set(924, UpdateClothingChangeFurnitureComposer);
+
+		// === ROOM PET ===
+		this._composers.set(1581, PickUpPetComposer);
+		this._composers.set(1036, MountPetComposer); // Also used for dismount (same ID, server toggles)
+		this._composers.set(1472, TogglePetRidingPermissionComposer);
+		this._composers.set(186, RemoveSaddleFromPetComposer);
+		this._composers.set(2161, GetPetCommandsComposer);
+		this._composers.set(1521, HarvestPetComposer);
+		this._composers.set(3379, TogglePetBreedingPermissionComposer);
+		this._composers.set(3835, CompostPlantComposer);
+		this._composers.set(3202, UseProductForPetComposer);
+
+		// === POLL ===
+		this._composers.set(109, PollStartComposer);
+		this._composers.set(1773, PollRejectComposer);
+		this._composers.set(3505, PollAnswerComposer);
+
+		// === FRIENDLIST ===
+		this._composers.set(2970, VisitUserMessageComposer);
 
 		// === ROOM ENGINE ===
 		this._composers.set(2064, GetFurnitureAliasesMessageComposer);

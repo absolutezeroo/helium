@@ -14,6 +14,13 @@ import {RoomPermissionsHandler} from './handler/RoomPermissionsHandler';
 import {RoomDataHandler} from './handler/RoomDataHandler';
 import {RoomChatHandler} from './handler/RoomChatHandler';
 import {RoomUsersHandler} from './handler/RoomUsersHandler';
+import {GenericErrorHandler} from './handler/GenericErrorHandler';
+import {PollHandler} from './handler/PollHandler';
+import {RoomDimmerPresetsHandler} from './handler/RoomDimmerPresetsHandler';
+import {WordQuizHandler} from './handler/WordQuizHandler';
+import {PresentHandler} from './handler/PresentHandler';
+import {PetPackageHandler} from './handler/PetPackageHandler';
+import {AvatarEffectsHandler} from './handler/AvatarEffectsHandler';
 import {RoomEngineEvent} from '../room/events/RoomEngineEvent';
 import {Logger} from '@core/utils/Logger';
 import type {IRoomEngine} from '@habbo/room';
@@ -350,6 +357,13 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 		this._handlers.push(new RoomDataHandler(connection, this));
 		this._handlers.push(new RoomChatHandler(connection, this));
 		this._handlers.push(new RoomUsersHandler(connection, this));
+		this._handlers.push(new GenericErrorHandler(connection, this));
+		this._handlers.push(new PollHandler(connection, this));
+		this._handlers.push(new RoomDimmerPresetsHandler(connection, this));
+		this._handlers.push(new WordQuizHandler(connection, this));
+		this._handlers.push(new PresentHandler(connection, this));
+		this._handlers.push(new PetPackageHandler(connection, this));
+		this._handlers.push(new AvatarEffectsHandler(connection, this));
 
 		log.debug(`Created ${this._handlers.length} handlers`);
 	}

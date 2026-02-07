@@ -1,0 +1,26 @@
+import type {IRoomSession} from '../IRoomSession';
+import type {IPetInfo} from '../IPetInfo';
+import {RoomSessionEvent} from './RoomSessionEvent';
+
+/**
+ * Room session pet info update event
+ *
+ * @see source_as/habbo/session/events/RoomSessionPetInfoUpdateEvent.as
+ */
+export class RoomSessionPetInfoUpdateEvent extends RoomSessionEvent
+{
+	public static readonly PET_INFO = 'RSPIUE_PET_INFO';
+
+	private _petInfo: IPetInfo;
+
+	get petInfo(): IPetInfo
+	{
+		return this._petInfo;
+	}
+
+	constructor(session: IRoomSession, petInfo: IPetInfo)
+	{
+		super(RoomSessionPetInfoUpdateEvent.PET_INFO, session);
+		this._petInfo = petInfo;
+	}
+}
