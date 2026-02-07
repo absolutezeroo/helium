@@ -1,9 +1,10 @@
 import {defineModule} from '../core/defineModule';
 import type {RoomState} from './types';
 import {createInitialRoomState} from './types';
-import type {RoomActions} from './actions';
+import type {RoomActions, RoomManagers} from './actions';
 import {createActions} from './actions';
 import {handlers} from './handlers';
+import {IID_RoomSessionManager} from '@iid/IIDRoomSessionManager';
 
 /**
  * Room Module
@@ -34,7 +35,9 @@ export const roomModule = defineModule({
 
 	depends: [],
 
-	managerIIDs: {},
+	managerIIDs: {
+		roomSessionManager: IID_RoomSessionManager,
+	} satisfies Record<keyof RoomManagers, unknown>,
 
 	initialState: createInitialRoomState(),
 

@@ -11,6 +11,7 @@ import {HabboInventory} from '@habbo/inventory/HabboInventory';
 import {RoomEngine, RoomMessageHandler} from '@habbo/room';
 import {RoomManager} from '@room/RoomManager';
 import {RoomSessionManager} from '@habbo/session/RoomSessionManager';
+import {SessionDataManager} from '@habbo/session/SessionDataManager';
 import {Logger} from '@core/utils/Logger';
 import {mountUI} from '@ui/index';
 import {
@@ -41,7 +42,10 @@ import {IID_HabboInventory} from '@iid/IIDHabboInventory';
 import {IID_RoomEngine} from '@iid/IIDRoomEngine';
 import {IID_RoomManager} from '@iid/IIDRoomManager';
 import {IID_RoomSessionManager} from '@iid/IIDRoomSessionManager';
+import {IID_SessionDataManager} from '@iid/IIDSessionDataManager';
 import {HabboProperty} from "@habbo/configuration";
+
+import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
 
 const log = Logger.getLogger('Helium');
 
@@ -104,6 +108,7 @@ export class Helium
 	private _inventory: HabboInventory | null = null;
 	private _roomManager: RoomManager | null = null;
 	private _roomMessageHandler: RoomMessageHandler | null = null;
+	private _sessionDataManager: SessionDataManager | null = null;
 	private _roomSessionManager: RoomSessionManager | null = null;
 	// UI
 	private _disposeUI: (() => void) | null = null;
@@ -243,6 +248,19 @@ export class Helium
 	}
 
 	/**
+	 * Get the session data manager
+	 */
+	get sessionDataManager(): ISessionDataManager
+	{
+		if (!this._sessionDataManager)
+		{
+			throw new Error('[Helium] Not initialized');
+		}
+
+		return this._sessionDataManager;
+	}
+
+	/**
 	 * Bootstrap the application
 	 */
 	public static async bootstrap(config?: HeliumConfig): Promise<Helium>
@@ -297,42 +315,45 @@ export class Helium
 
 	/**
 	 * Dispose the application
+	 *
+	 * Order: UI → Module system → RoomMessageHandler (not a Component)
+	 * → Nullify manager refs → Core (context.dispose() disposes all Components)
 	 */
 	public dispose(): void
 	{
 		log.info('Disposing Helium...');
 
-		// Dispose UI
-		if (this._disposeUI)
-		{
-			this._disposeUI();
-			this._disposeUI = null;
-		}
+		// 1. Dispose UI
+		this._disposeUI?.();
+		this._disposeUI = null;
 
-		// Dispose module system
+		// 2. Dispose module system
 		this._moduleRegistry?.dispose();
 		this._moduleRegistry = null;
 		this._messageBus?.clear();
 		this._messageBus = null;
 
-		// Dispose core (disposes all components via context)
-		this._core?.dispose();
-		this._core = null;
-
-		// Clear references
-		this._configurationManager = null;
-		this._habboCommunicationManager = null;
-		this._communicationDemo = null;
-		this._localizationManager = null;
-		this._navigator = null;
-		this._newNavigator = null;
-		this._inventory = null;
+		// 3. Dispose RoomMessageHandler (not a Component, needs manual dispose)
 		this._roomMessageHandler?.dispose();
 		this._roomMessageHandler = null;
-		this._roomEngine?.dispose();
+
+		// 4. Nullify Habbo manager refs (inverse init order)
+		// These are Components - they will be disposed by context.dispose() below
 		this._roomEngine = null;
-		this._roomManager?.dispose();
+		this._inventory = null;
+		this._newNavigator = null;
+		this._navigator = null;
+		this._sessionDataManager = null;
+		this._roomSessionManager = null;
 		this._roomManager = null;
+		this._localizationManager = null;
+		this._communicationDemo = null;
+		this._habboCommunicationManager = null;
+		this._configurationManager = null;
+
+		// 5. Dispose core (context.dispose() disposes all attached Components)
+		this._core?.dispose();
+		this._core = null;
 
 		this._ready = false;
 	}
@@ -368,12 +389,16 @@ export class Helium
 
 	/**
 	 * Initialize Habbo-specific managers
+	 *
+	 * Order follows AS3 HabboMain.as initialization sequence:
+	 * Config → Communication → Demo → Localization → RoomManager → RoomSessionManager
+	 * → SessionDataManager → Navigator → Inventory → RoomEngine → RoomMessageHandler
 	 */
 	private async initHabboManagers(config?: HeliumConfig): Promise<void>
 	{
 		const ctx = this._core!.context;
 
-		// Configuration Manager (must be first - other managers depend on it)
+		// 1. Configuration Manager (must be first - other managers depend on it)
 		this._configurationManager = new HabboConfigurationManager(ctx);
 		ctx.attachComponent(this._configurationManager, [IID_HabboConfigurationManager]);
 
@@ -412,7 +437,7 @@ export class Helium
 			}
 		}
 
-		// Habbo Communication Manager (depends on CoreCommunicationManager from core)
+		// 2. Habbo Communication Manager (depends on CoreCommunicationManager from core)
 		this._habboCommunicationManager = new HabboCommunicationManager(ctx);
 		ctx.attachComponent(this._habboCommunicationManager, [IID_HabboCommunicationManager]);
 
@@ -422,12 +447,12 @@ export class Helium
 			this._habboCommunicationManager.configure(config.connection);
 		}
 
-		// Communication Demo (manages login flow, IncomingMessages)
+		// 3. Communication Demo (manages login flow, IncomingMessages)
 		// AS3: HabboCommunicationDemo is a separate Component that orchestrates the connection
 		this._communicationDemo = new HabboCommunicationDemo(ctx);
 		ctx.attachComponent(this._communicationDemo, []);
 
-		// Localization Manager
+		// 4. Localization Manager
 		this._localizationManager = new HabboLocalizationManager(ctx);
 		ctx.attachComponent(this._localizationManager, [IID_HabboLocalizationManager]);
 		this._localizationManager.setConfigurationManager(this._configurationManager);
@@ -439,34 +464,39 @@ export class Helium
 			this.onGameDataResourcesReady(resources);
 		});
 
-		// Room Session Manager
-		this._roomSessionManager = new RoomSessionManager(ctx);
-		ctx.attachComponent(this._roomSessionManager, [IID_RoomSessionManager]);
-
-		// Navigator (legacy)
-		this._navigator = new HabboNavigator(ctx);
-		ctx.attachComponent(this._navigator, [IID_HabboNavigator]);
-
-		// New Navigator
-		this._newNavigator = new HabboNewNavigator(ctx);
-		ctx.attachComponent(this._newNavigator, [IID_HabboNewNavigator]);
-
-		// Inventory
-		this._inventory = new HabboInventory(ctx);
-		ctx.attachComponent(this._inventory, [IID_HabboInventory]);
-
-		// Room Manager (must be registered before RoomEngine)
+		// 5. Room Manager (must be registered before RoomEngine)
 		this._roomManager = new RoomManager(ctx);
 		ctx.attachComponent(this._roomManager, [IID_RoomManager]);
 
-		// Room Engine (depends on RoomManager via IID_RoomManager)
+		// 6. Room Session Manager
+		this._roomSessionManager = new RoomSessionManager(ctx);
+		ctx.attachComponent(this._roomSessionManager, [IID_RoomSessionManager]);
+
+		// 7. Session Data Manager (manages user data after authentication)
+		// AS3: HabboSessionDataManagerLib - depends on HabboCommunicationManager via IID
+		this._sessionDataManager = new SessionDataManager(ctx);
+		ctx.attachComponent(this._sessionDataManager, [IID_SessionDataManager]);
+
+		// 8. Navigator (legacy)
+		this._navigator = new HabboNavigator(ctx);
+		ctx.attachComponent(this._navigator, [IID_HabboNavigator]);
+
+		// 9. New Navigator
+		this._newNavigator = new HabboNewNavigator(ctx);
+		ctx.attachComponent(this._newNavigator, [IID_HabboNewNavigator]);
+
+		// 10. Inventory
+		this._inventory = new HabboInventory(ctx);
+		ctx.attachComponent(this._inventory, [IID_HabboInventory]);
+
+		// 11. Room Engine (depends on RoomManager via IID_RoomManager)
 		this._roomEngine = new RoomEngine(ctx, this._core!.assets);
 		ctx.attachComponent(this._roomEngine, [IID_RoomEngine]);
 
 		// Set PixiJS stage on room engine for rendering
 		this._roomEngine.setStage(this._core!.application.stage);
 
-		// Room Message Handler - bridges communication to room engine
+		// 12. Room Message Handler - bridges communication to room engine
 		this._roomMessageHandler = new RoomMessageHandler(this._roomEngine);
 	}
 

@@ -1,13 +1,19 @@
 import type {ActionContext} from '../core/types';
 import type {RoomState, RoomUserData, RoomUserTypeValue} from './types';
+import type {IRoomSessionManager} from '@habbo/session/IRoomSessionManager';
 import {createInitialRoomState, RoomUserType} from './types';
 
-// Room module has no managers - it's purely reactive to server messages
-type Managers = Record<string, never>;
-
-export function createActions(ctx: ActionContext<RoomState, Managers>)
+/**
+ * Room module manager dependencies
+ */
+export interface RoomManagers
 {
-	const {getState, updateState} = ctx;
+	roomSessionManager: IRoomSessionManager;
+}
+
+export function createActions(ctx: ActionContext<RoomState, RoomManagers>)
+{
+	const {getState, updateState, managers} = ctx;
 
 	return {
 		/**
@@ -153,6 +159,35 @@ export function createActions(ctx: ActionContext<RoomState, Managers>)
 		setOwnUserIndex: (roomIndex: number): void =>
 		{
 			updateState({ownUserRoomIndex: roomIndex});
+		},
+
+		/**
+		 * Go to desktop / hotel view (leave current room)
+		 *
+		 * Based on AS3: HabboLandingView.onToolbarClick() → HTIE_ICON_RECEPTION
+		 * Sends QuitMessageComposer, disposes the session, and clears room state.
+		 *
+		 * @see source_as/habbo/friendbar/landingview/HabboLandingView.as line 328
+		 */
+		goToDesktop: (): void =>
+		{
+			const state = getState();
+			const roomId = state.currentRoom?.flatId;
+
+			if (roomId == null)
+			{
+				return;
+			}
+
+			const session = managers.roomSessionManager.getSession(roomId);
+
+			if (session)
+			{
+				session.quit();
+				managers.roomSessionManager.disposeSession(roomId);
+			}
+
+			updateState(createInitialRoomState());
 		},
 	};
 }

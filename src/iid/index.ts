@@ -24,3 +24,4 @@ export {IID_HabboInventory} from './IIDHabboInventory';
 export {IID_RoomEngine} from './IIDRoomEngine';
 export {IID_RoomManager} from './IIDRoomManager';
 export {IID_RoomSessionManager} from './IIDRoomSessionManager';
+export {IID_SessionDataManager} from './IIDSessionDataManager';

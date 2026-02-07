@@ -15,9 +15,11 @@ export const Toolbar: Component = () =>
 	const {state: navigator} = useModule(ModuleId.Navigator);
 	const {state: inventory} = useModule(ModuleId.Inventory);
 	const {state: session} = useModule(ModuleId.Session);
+	const {state: room} = useModule(ModuleId.Room);
 
 	const navActions = useActions(ModuleId.Navigator);
 	const invActions = useActions(ModuleId.Inventory);
+	const roomActions = useActions(ModuleId.Room);
 
 	const icons: ToolbarIcon[] = [
 		{id: 'hotel', label: 'Hotel View', icon: '🏨'},
@@ -36,7 +38,7 @@ export const Toolbar: Component = () =>
 				navActions.toggle();
 				break;
 			case 'hotel':
-				Logger.getLogger('Toolbar').debug('Hotel view clicked');
+				roomActions.goToDesktop();
 				break;
 			case 'catalog':
 				Logger.getLogger('Toolbar').debug('Catalog clicked');
