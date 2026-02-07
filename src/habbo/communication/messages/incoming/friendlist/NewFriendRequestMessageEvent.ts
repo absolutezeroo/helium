@@ -1,0 +1,16 @@
+import {MessageEvent} from '@core/communication/messages/MessageEvent';
+import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import {NewFriendRequestMessageParser} from '../../parser/friendlist/NewFriendRequestMessageParser';
+
+/**
+ * Event for receiving a new incoming friend request notification.
+ *
+ * @see source_as/habbo/communication/messages/incoming/friendlist/NewFriendRequestEvent.as
+ */
+export class NewFriendRequestMessageEvent extends MessageEvent
+{
+	constructor(callback: MessageEventCallback)
+	{
+		super(callback, NewFriendRequestMessageParser);
+	}
+}

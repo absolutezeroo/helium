@@ -4,3 +4,4 @@ export * from './FeedVisibilityEnum';
 export * from './HabboNotifications';
 export * from './IHabboNotifications';
 export * from './NotificationMessageHandler';
+export * from './NotificationType';

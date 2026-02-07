@@ -1,1 +1,11 @@
 export * from './HabboWebTools';
+export * from './StringUtil';
+export * from './FixedSizeStack';
+export * from './FriendlyTime';
+export * from './FigureDataContainer';
+export * from './MathUtils';
+export * from './BuilderClubUtils';
+export * from './CommunicationUtils';
+export type {IEncryptedLocalStorage} from './IEncryptedLocalStorage';
+export * from './PlatformUtils';
+export * from './animation';

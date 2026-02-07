@@ -1,0 +1,16 @@
+import {MessageEvent} from '@core/communication/messages/MessageEvent';
+import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import {ModeratorUserInfoParser} from '../../parser/moderation/ModeratorUserInfoParser';
+
+/**
+ * Event for moderator user info data.
+ *
+ * @see source_as/habbo/communication/messages/incoming/moderation/ModeratorUserInfoEvent.as
+ */
+export class ModeratorUserInfoMessageEvent extends MessageEvent
+{
+	constructor(callback: MessageEventCallback)
+	{
+		super(callback, ModeratorUserInfoParser);
+	}
+}

@@ -1,0 +1,16 @@
+import {MessageEvent} from '@core/communication/messages/MessageEvent';
+import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import {ModeratorToolPreferencesParser} from '../../parser/moderation/ModeratorToolPreferencesParser';
+
+/**
+ * Event for moderator tool window preferences.
+ *
+ * @see source_as/habbo/communication/messages/incoming/moderation/ModeratorToolPreferencesEvent.as
+ */
+export class ModeratorToolPreferencesMessageEvent extends MessageEvent
+{
+	constructor(callback: MessageEventCallback)
+	{
+		super(callback, ModeratorToolPreferencesParser);
+	}
+}

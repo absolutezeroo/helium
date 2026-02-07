@@ -43,7 +43,7 @@ Progression globale ENGINE: █████░░░░░░░░░░░░�
 | **advertisement**                  | 3          | 6       | 100% | ✅ Complet                |
 | **campaign**                       | 1          | 7       | 100% | ✅ Complet                |
 | **friendbar**                      | 5          | 0       | 0%   | ❌ Non commencé           |
-| **utils**                          | 19         | 0       | 0%   | ❌ Non commencé           |
+| **utils**                          | 19         | 14      | 74%  | 🔄 Avancé                |
 | **nux**                            | 4          | 0       | -    | ❌ VIEW (skip)            |
 | **phonenumber**                    | 7          | 0       | -    | ❌ VIEW (skip)            |
 | **window**                         | 5          | 0       | -    | ❌ VIEW (skip)            |
@@ -317,7 +317,7 @@ AS3: 32 fichiers | TS: 8 fichiers
 | **notifications** | ~4         | Popups de notification                              | ✅ Implémenté     |
 | **roomevents**    | 5          | Wired system                                        | ❌ Non commencé   |
 | **messenger**     | ~3         | Messages privés                                     | ✅ Implémenté     |
-| **utils**         | ~10        | StringUtil, CommunicationUtils, FigureDataContainer | ❌ Non commencé   |
+| **utils**         | ~10        | StringUtil, CommunicationUtils, FigureDataContainer | ✅ Avancé (74%)   |
 | **freeflowchat**  | ~2         | Bulles de chat                                      | ✅ Implémenté     |
 | **advertisement** | 3          | Pubs                                                | ✅ Implémenté     |
 | **campaign**      | 1          | Calendrier                                          | ✅ Implémenté     |
@@ -360,7 +360,7 @@ AS3: 32 fichiers | TS: 8 fichiers
 | Modules complets (100%)       | Configuration, Localization, Inventory, Campaign, Advertisement, Notifications, Messenger, FreeFlowChat         |
 | Modules quasi-complets (>90%) | Session (99%), Navigator ENGINE (96%), core/comm (90%), core/assets (92%), Tracking (90%), Toolbar (83%)         |
 | Modules en cours (25-50%)     | Room (50%), Communication messages (33%), core/runtime (25%), Groups (57%)                                      |
-| Modules non commencés         | 12 modules (avatar, catalog, sound, help, moderation, quest, game, roomevents, friendbar, friendlist, utils, nux)|
+| Modules non commencés         | 11 modules (avatar, catalog, sound, help, moderation, quest, game, roomevents, friendbar, friendlist, nux)|
 
 ---
 

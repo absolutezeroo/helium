@@ -9,3 +9,4 @@ export * from './friendlist';
 export * from './campaign';
 export * from './advertisement';
 export * from './notifications';
+export * from './moderation';

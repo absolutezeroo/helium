@@ -1,0 +1,16 @@
+import {MessageEvent} from '@core/communication/messages/MessageEvent';
+import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import {IssuePickFailedMessageParser} from '../../parser/moderation/IssuePickFailedMessageParser';
+
+/**
+ * Event fired when picking an issue fails.
+ *
+ * @see source_as/habbo/communication/messages/incoming/moderation/IssuePickFailedMessageEvent.as
+ */
+export class IssuePickFailedMessageEvent extends MessageEvent
+{
+	constructor(callback: MessageEventCallback)
+	{
+		super(callback, IssuePickFailedMessageParser);
+	}
+}

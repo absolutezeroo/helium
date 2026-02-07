@@ -17,6 +17,7 @@ export {IID_GameDataManager} from './IIDGameDataManager';
 // Habbo IIDs
 export {IID_HabboConfigurationManager} from './IIDHabboConfigurationManager';
 export {IID_HabboCommunicationManager} from './IIDHabboCommunicationManager';
+export {IID_HabboFriendList} from './IIDHabboFriendList';
 export {IID_HabboLocalizationManager} from './IIDHabboLocalizationManager';
 export {IID_HabboNavigator} from './IIDHabboNavigator';
 export {IID_HabboNewNavigator} from './IIDHabboNewNavigator';
