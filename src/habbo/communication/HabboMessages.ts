@@ -10,6 +10,7 @@ import {
 	CompleteDiffieHandshakeMessageEvent,
 	DisconnectReasonMessageEvent,
 	GenericErrorMessageEvent,
+	IdentityAccountsEvent,
 	InitDiffieHandshakeMessageEvent,
 	IsFirstLoginOfDayMessageEvent,
 	NoobnessLevelMessageEvent,
@@ -17,7 +18,6 @@ import {
 	UniqueMachineIdMessageEvent,
 	UserObjectMessageEvent,
 	UserRightsMessageEvent,
-	IdentityAccountsEvent,
 } from './messages/incoming/handshake';
 
 // Incoming Events - Availability
@@ -153,6 +153,25 @@ import {ErrorReportEvent} from './messages/incoming/error';
 
 // Incoming Events - Users
 import {InClientLinkMessageEvent} from './messages/incoming/users';
+
+// Incoming Events - Campaign
+import {CampaignCalendarDataMessageEvent, CampaignCalendarDoorOpenedMessageEvent,} from './messages/incoming/campaign';
+
+// Incoming Events - Advertisement
+import {InterstitialMessageEvent} from './messages/incoming/advertisement';
+
+// Incoming Events - Tracking
+import {LatencyPingResponseMessageEvent} from './messages/incoming/tracking';
+
+// Incoming Events - Friendlist
+import {
+	ConsoleMessageHistoryEvent,
+	InstantMessageErrorEvent,
+	MessengerErrorEvent,
+	MessengerInitEvent,
+	NewConsoleMessageEvent,
+	RoomInviteEvent,
+} from './messages/incoming/friendlist';
 
 // Incoming Events - Room Action
 import {
@@ -296,7 +315,6 @@ import {
 // Outgoing Composers - Room Pet
 import {
 	CompostPlantComposer,
-	DismountPetComposer,
 	GetPetCommandsComposer,
 	HarvestPetComposer,
 	MountPetComposer,
@@ -308,14 +326,30 @@ import {
 } from './messages/outgoing/room/pet';
 
 // Outgoing Composers - Poll
+import {PollAnswerComposer, PollRejectComposer, PollStartComposer,} from './messages/outgoing/poll';
+
+// Outgoing Composers - Tracking
 import {
-	PollAnswerComposer,
-	PollRejectComposer,
-	PollStartComposer,
-} from './messages/outgoing/poll';
+	LagWarningReportMessageComposer,
+	LatencyPingReportMessageComposer,
+	LatencyPingRequestMessageComposer,
+	PerformanceLogMessageComposer,
+} from './messages/outgoing/tracking';
 
 // Outgoing Composers - Friendlist
-import {VisitUserMessageComposer,} from './messages/outgoing/friendlist';
+import {
+	FollowFriendMessageComposer,
+	GetMessengerHistoryComposer,
+	MessengerInitMessageComposer,
+	SendMsgMessageComposer,
+	VisitUserMessageComposer,
+} from './messages/outgoing/friendlist';
+
+// Outgoing Composers - Campaign
+import {OpenCampaignCalendarDoorAsStaffComposer, OpenCampaignCalendarDoorComposer,} from './messages/outgoing/campaign';
+
+// Outgoing Composers - Advertisement
+import {GetInterstitialMessageComposer, InterstitialShownMessageComposer,} from './messages/outgoing/advertisement';
 
 // Outgoing Composers - Inventory
 import {
@@ -374,6 +408,7 @@ export class HabboMessages implements IMessageConfiguration
 		this._events.set(2323, AuthenticationOKMessageEvent);
 		this._events.set(3974, UniqueMachineIdMessageEvent);
 		this._events.set(4000, DisconnectReasonMessageEvent);
+		this._events.set(1417, IdentityAccountsEvent);
 
 		// === SESSION ===
 		this._events.set(658, PingMessageEvent);
@@ -521,6 +556,24 @@ export class HabboMessages implements IMessageConfiguration
 		// === USERS ===
 		this._events.set(2437, InClientLinkMessageEvent);
 
+		// === CAMPAIGN ===
+		this._events.set(3108, CampaignCalendarDataMessageEvent);
+		this._events.set(502, CampaignCalendarDoorOpenedMessageEvent);
+
+		// === ADVERTISEMENT ===
+		this._events.set(3430, InterstitialMessageEvent);
+
+		// === TRACKING ===
+		this._events.set(931, LatencyPingResponseMessageEvent);
+
+		// === FRIENDLIST / MESSENGER ===
+		this._events.set(1623, MessengerInitEvent);
+		this._events.set(2935, NewConsoleMessageEvent);
+		this._events.set(1819, ConsoleMessageHistoryEvent);
+		this._events.set(3498, InstantMessageErrorEvent);
+		this._events.set(687, MessengerErrorEvent);
+		this._events.set(2514, RoomInviteEvent);
+
 		// === POLL / WORD QUIZ ===
 		this._events.set(3785, PollOfferEvent);
 		this._events.set(662, PollErrorEvent);
@@ -528,6 +581,9 @@ export class HabboMessages implements IMessageConfiguration
 		this._events.set(2665, QuestionEvent);
 		this._events.set(2589, QuestionAnsweredEvent);
 		this._events.set(1066, QuestionFinishedEvent);
+
+		// === ERROR ===
+		this._events.set(657, ErrorReportEvent);
 	}
 
 	/**
@@ -639,7 +695,7 @@ export class HabboMessages implements IMessageConfiguration
 		this._composers.set(2161, GetPetCommandsComposer);
 		this._composers.set(1521, HarvestPetComposer);
 		this._composers.set(3379, TogglePetBreedingPermissionComposer);
-		this._composers.set(3835, CompostPlantComposer);
+		this._composers.set(856, CompostPlantComposer);
 		this._composers.set(3202, UseProductForPetComposer);
 
 		// === POLL ===
@@ -647,8 +703,26 @@ export class HabboMessages implements IMessageConfiguration
 		this._composers.set(1773, PollRejectComposer);
 		this._composers.set(3505, PollAnswerComposer);
 
+		// === TRACKING ===
+		this._composers.set(3638, LatencyPingRequestMessageComposer);
+		this._composers.set(3835, LatencyPingReportMessageComposer);
+		this._composers.set(2304, LagWarningReportMessageComposer);
+		this._composers.set(747, PerformanceLogMessageComposer);
+
 		// === FRIENDLIST ===
 		this._composers.set(2970, VisitUserMessageComposer);
+		this._composers.set(2800, SendMsgMessageComposer);
+		this._composers.set(799, GetMessengerHistoryComposer);
+		this._composers.set(2446, FollowFriendMessageComposer);
+		this._composers.set(472, MessengerInitMessageComposer);
+
+		// === CAMPAIGN ===
+		this._composers.set(3165, OpenCampaignCalendarDoorComposer);
+		this._composers.set(3280, OpenCampaignCalendarDoorAsStaffComposer);
+
+		// === ADVERTISEMENT ===
+		this._composers.set(3698, GetInterstitialMessageComposer);
+		this._composers.set(509, InterstitialShownMessageComposer);
 
 		// === ROOM ENGINE ===
 		this._composers.set(2064, GetFurnitureAliasesMessageComposer);

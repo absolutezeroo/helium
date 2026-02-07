@@ -21,6 +21,7 @@ export {IID_HabboLocalizationManager} from './IIDHabboLocalizationManager';
 export {IID_HabboNavigator} from './IIDHabboNavigator';
 export {IID_HabboNewNavigator} from './IIDHabboNewNavigator';
 export {IID_HabboInventory} from './IIDHabboInventory';
+export {IID_HabboToolbar} from './IIDHabboToolbar';
 export {IID_RoomEngine} from './IIDRoomEngine';
 export {IID_RoomManager} from './IIDRoomManager';
 export {IID_RoomSessionManager} from './IIDRoomSessionManager';

@@ -12,6 +12,10 @@ import {RoomEngine, RoomMessageHandler} from '@habbo/room';
 import {RoomManager} from '@room/RoomManager';
 import {RoomSessionManager} from '@habbo/session/RoomSessionManager';
 import {SessionDataManager} from '@habbo/session/SessionDataManager';
+import {HabboCampaigns} from '@habbo/campaign/HabboCampaigns';
+import {AdManager} from '@habbo/advertisement/AdManager';
+import {HabboTracking} from '@habbo/tracking/HabboTracking';
+import {HabboGroupsManager} from '@habbo/groups/HabboGroupsManager';
 import {Logger} from '@core/utils/Logger';
 import {mountUI} from '@ui/index';
 import {
@@ -146,6 +150,10 @@ export class Helium
 		return this._core;
 	}
 
+	private _campaigns: HabboCampaigns | null = null;
+	private _adManager: AdManager | null = null;
+	private _tracking: HabboTracking | null = null;
+	private _groupsManager: HabboGroupsManager | null = null;
 	private _roomEngine: RoomEngine | null = null;
 
 	/**
@@ -339,6 +347,10 @@ export class Helium
 
 		// 4. Nullify Habbo manager refs (inverse init order)
 		// These are Components - they will be disposed by context.dispose() below
+		this._campaigns = null;
+		this._adManager = null;
+		this._tracking = null;
+		this._groupsManager = null;
 		this._roomEngine = null;
 		this._inventory = null;
 		this._newNavigator = null;
@@ -492,6 +504,22 @@ export class Helium
 		// 11. Room Engine (depends on RoomManager via IID_RoomManager)
 		this._roomEngine = new RoomEngine(ctx, this._core!.assets);
 		ctx.attachComponent(this._roomEngine, [IID_RoomEngine]);
+
+		// 12b. Campaign Calendar
+		this._campaigns = new HabboCampaigns(ctx);
+		ctx.attachComponent(this._campaigns, []);
+
+		// 12c. Advertisement Manager
+		this._adManager = new AdManager(ctx);
+		ctx.attachComponent(this._adManager, []);
+
+		// 12d. Tracking
+		this._tracking = new HabboTracking(ctx);
+		ctx.attachComponent(this._tracking, []);
+
+		// 12e. Groups Manager
+		this._groupsManager = new HabboGroupsManager(ctx);
+		ctx.attachComponent(this._groupsManager, []);
 
 		// Set PixiJS stage on room engine for rendering
 		this._roomEngine.setStage(this._core!.application.stage);

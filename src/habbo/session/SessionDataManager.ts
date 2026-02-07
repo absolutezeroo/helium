@@ -32,9 +32,7 @@ import {MysteryBoxKeysMessageEvent} from '../communication/messages/incoming/mys
 import {
 	BuildersClubSubscriptionStatusMessageEvent
 } from '../communication/messages/incoming/catalog/BuildersClubSubscriptionStatusMessageEvent';
-import {
-	InClientLinkMessageEvent
-} from '../communication/messages/incoming/users/InClientLinkMessageEvent';
+import {InClientLinkMessageEvent} from '../communication/messages/incoming/users/InClientLinkMessageEvent';
 
 // Parsers
 import type {UserObjectMessageParser} from '../communication/messages/parser/handshake/UserObjectMessageParser';
@@ -71,9 +69,7 @@ import type {
 import type {
 	BuildersClubSubscriptionStatusMessageParser
 } from '../communication/messages/parser/catalog/BuildersClubSubscriptionStatusMessageParser';
-import type {
-	InClientLinkMessageParser
-} from '../communication/messages/parser/users/InClientLinkMessageParser';
+import type {InClientLinkMessageParser} from '../communication/messages/parser/users/InClientLinkMessageParser';
 
 // Composers
 import {RespectUserMessageComposer} from '../communication/messages/outgoing/room/RespectUserMessageComposer';
@@ -99,7 +95,7 @@ const log = Logger.getLogger('Session');
  */
 export class SessionDataManager extends Component implements ISessionDataManager
 {
-	private _communication: IHabboCommunicationManager | null = null;
+	private _communicationManager: IHabboCommunicationManager | null = null;
 	private _messageEvents: IMessageEvent[] = [];
 	private _customData: string = '';
 	private _directMail: boolean = false;
@@ -484,6 +480,11 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		return this._mysteryBoxKeyColor;
 	}
 
+	get perksReady(): boolean
+	{
+		return this._perkManager?.isReady ?? false;
+	}
+
 	protected override get dependencies(): Array<ComponentDependency<any>>
 	{
 		return [
@@ -491,7 +492,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 				IID_HabboCommunicationManager,
 				(manager: IHabboCommunicationManager | null) =>
 				{
-					this._communication = manager;
+					this._communicationManager = manager;
 				},
 				true
 			),
@@ -511,7 +512,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	 */
 	send(composer: IMessageComposer<unknown[]>): void
 	{
-		this._communication?.connection?.send(composer);
+		this._communicationManager?.connection?.send(composer);
 	}
 
 	/**
@@ -563,19 +564,14 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		this.setUIFlag(UIFlagsEnum.FRIEND_BAR_OPEN, open);
 	}
 
+	// ========== Perk Shortcuts ==========
+
 	/**
 	 * Set room tools state UI flag
 	 */
 	setRoomToolsState(open: boolean): void
 	{
 		this.setUIFlag(UIFlagsEnum.ROOM_TOOLS_OPEN, open);
-	}
-
-	// ========== Perk Shortcuts ==========
-
-	get perksReady(): boolean
-	{
-		return this._perkManager?.isReady ?? false;
 	}
 
 	isPerkAllowed(perk: string): boolean
@@ -616,9 +612,9 @@ export class SessionDataManager extends Component implements ISessionDataManager
 
 	sendSpecialCommandMessage(command: string): void
 	{
-		if (this._communication?.connection)
+		if (this._communicationManager?.connection)
 		{
-			this._communication.connection.send(new ChatMessageComposer(command, 0, -1));
+			this._communicationManager.connection.send(new ChatMessageComposer(command, 0, -1));
 		}
 	}
 
@@ -643,7 +639,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		// Remove all message event handlers
 		for (const event of this._messageEvents)
 		{
-			this._communication?.removeMessageEvent(event);
+			this._communicationManager?.removeMessageEvent(event);
 		}
 
 		this._messageEvents = [];
@@ -659,9 +655,9 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		const sendCallback = this.send.bind(this);
 
 		this._userDataManager = new UserDataManager(sendCallback);
-		this._perkManager = new PerkManager(this._communication);
-		this._ignoredUsersManager = new IgnoredUsersManager(this._communication, sendCallback);
-		this._groupInfoManager = new HabboGroupInfoManager(this._communication, sendCallback);
+		this._perkManager = new PerkManager(this._communicationManager);
+		this._ignoredUsersManager = new IgnoredUsersManager(this._communicationManager, sendCallback);
+		this._groupInfoManager = new HabboGroupInfoManager(this._communicationManager, sendCallback);
 
 		this.registerMessageEvents();
 
@@ -732,7 +728,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	 */
 	private addMessageEvent(event: IMessageEvent): void
 	{
-		this._communication!.addMessageEvent(event);
+		this._communicationManager!.addMessageEvent(event);
 		this._messageEvents.push(event);
 	}
 

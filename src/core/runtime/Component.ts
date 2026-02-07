@@ -171,7 +171,7 @@ export class Component implements IDisposable
 		return this._flags;
 	}
 
-	private _disposed: boolean = false;
+	protected _disposed: boolean = false;
 
 	/**
 	 * Whether the component has been disposed

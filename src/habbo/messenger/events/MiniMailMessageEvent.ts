@@ -1,0 +1,23 @@
+/**
+ * Event dispatched for mini mail message notifications.
+ * Indicates new or unread mini mail messages.
+ *
+ * @see source_as/habbo/messenger/events/MiniMailMessageEvent.as
+ */
+export class MiniMailMessageEvent
+{
+	public static readonly NEW: string = 'MMME_new';
+	public static readonly UNREAD: string = 'MMME_unread';
+
+	private _unreadCount: number;
+
+	get unreadCount(): number
+	{
+		return this._unreadCount;
+	}
+
+	constructor(type: string, unreadCount: number = -1)
+	{
+		this._unreadCount = unreadCount;
+	}
+}

@@ -6,3 +6,6 @@ export * from './inventory';
 export * from './room';
 export * from './poll';
 export * from './friendlist';
+export * from './campaign';
+export * from './advertisement';
+export * from './notifications';

@@ -10,3 +10,7 @@ export * from './room';
 export * from './poll';
 export * from './error';
 export * from './users';
+export * from './campaign';
+export * from './advertisement';
+export * from './tracking';
+export * from './friendlist';
