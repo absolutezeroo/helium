@@ -32,7 +32,12 @@
 - **UI Root:** `src/ui/App.tsx`
 - **HTML Entry:** `index.html`
 
-## Generated Documentation
+## Key Documents
+
+### Standards & Status
+
+- **[STYLEGUIDE.md](./STYLEGUIDE.md)** - Conventions de code strictes (Allman braces, nommage, templates)
+- **[IMPLEMENTATION_STATUS.md](./IMPLEMENTATION_STATUS.md)** - État d'implémentation par module (AS3 vs TS)
 
 ### Core Documents
 

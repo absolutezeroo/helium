@@ -117,15 +117,20 @@ export class CoreLocalizationManager extends Component implements ICoreLocalizat
 				try
 				{
 					const resources = GameDataResources.parse(text);
+
 					if (!resources.isValid())
 					{
 						log.warn('Hashes file incomplete, trying to load what we have');
 					}
+
 					this._gameDataResources = resources;
 
+					// Notify listeners that game data resources (hashes) are available
+					this.events.emit('gameDataResourcesReady', resources);
+
 					// Construct final URL: url + "/" + hash
-					const externalTextsUrl = resources.getExternalTextsUrl();
-					const externalTextsHash = resources.getExternalTextsHash();
+					const externalTextsUrl = resources.externalTextsUrl;
+					const externalTextsHash = resources.externalTextsHash;
 
 					if (!externalTextsUrl || !externalTextsHash)
 					{

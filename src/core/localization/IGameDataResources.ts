@@ -5,48 +5,27 @@
  */
 export interface IGameDataResources
 {
+	readonly effectMapUrl: string;
+	readonly effectMapHash: string;
+	readonly externalRendererVariablesUrl: string;
+	readonly externalRendererVariablesHash: string;
+	readonly externalTextsUrl: string;
+	readonly externalTextsHash: string;
+	readonly externalUIVariablesUrl: string;
+	readonly externalUIVariablesHash: string;
+	readonly figureDataUrl: string;
+	readonly figureDataHash: string;
+	readonly figureMapUrl: string;
+	readonly figureMapHash: string;
+	readonly furnitureDataUrl: string;
+	readonly furnitureDataHash: string;
+	readonly habboAvatarActionsUrl: string;
+	readonly habboAvatarActionsHash: string;
+	readonly productDataUrl: string;
+	readonly productDataHash: string;
+
 	/**
 	 * Check if all required resources are present
 	 */
 	isValid(): boolean;
-
-	/**
-	 * Get external texts URL
-	 */
-	getExternalTextsUrl(): string;
-
-	/**
-	 * Get external texts hash
-	 */
-	getExternalTextsHash(): string;
-
-	/**
-	 * Get external variables URL
-	 */
-	getExternalVariablesUrl(): string;
-
-	/**
-	 * Get external variables hash
-	 */
-	getExternalVariablesHash(): string;
-
-	/**
-	 * Get furni data URL
-	 */
-	getFurniDataUrl(): string;
-
-	/**
-	 * Get furni data hash
-	 */
-	getFurniDataHash(): string;
-
-	/**
-	 * Get product data URL
-	 */
-	getProductDataUrl(): string;
-
-	/**
-	 * Get product data hash
-	 */
-	getProductDataHash(): string;
 }

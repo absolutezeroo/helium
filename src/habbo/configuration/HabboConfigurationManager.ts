@@ -241,11 +241,11 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 	{
 		this._isConfigLoaded = false;
 
-		const externalVariablesUrl = this.getProperty('external.variables.txt');
+		const externalVariablesUrl = this.getProperty('external.renderer.variables.json');
 
 		if (!externalVariablesUrl)
 		{
-			log.warn('No external.variables.txt URL configured');
+			log.warn('No external.renderer.variables.json URL configured');
 
 			this.configurationsComplete();
 
@@ -381,6 +381,63 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 	}
 
 	private parseConfiguration(config: string): void
+	{
+		const trimmed = config.trim();
+
+		// Detect JSON format (starts with { or [)
+		if (trimmed.startsWith('{') || trimmed.startsWith('['))
+		{
+			this.parseJsonConfiguration(trimmed);
+			return;
+		}
+
+		// Parse key=value text format (original Habbo format)
+		this.parseKeyValueConfiguration(config);
+	}
+
+	private parseJsonConfiguration(data: string): void
+	{
+		try
+		{
+			const json = JSON.parse(data);
+			let count = 0;
+
+			for (const [key, value] of Object.entries(json))
+			{
+				if (value === null || value === undefined)
+				{
+					continue;
+				}
+
+				let stringValue: string;
+
+				if (typeof value === 'string')
+				{
+					stringValue = value;
+				}
+				else if (typeof value === 'number' || typeof value === 'boolean')
+				{
+					stringValue = String(value);
+				}
+				else
+				{
+					// Arrays and objects → store as JSON string
+					stringValue = JSON.stringify(value);
+				}
+
+				this.setProperty(key, stringValue);
+				count++;
+			}
+
+			log.info(`Parsed ${count} configuration entries from JSON`);
+		}
+		catch (error)
+		{
+			log.error(`Failed to parse JSON configuration: ${error}`);
+		}
+	}
+
+	private parseKeyValueConfiguration(config: string): void
 	{
 		const lines = config.split(/\n\r?|\r\n?/);
 		let isReadOnly = false;

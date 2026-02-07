@@ -19,14 +19,131 @@ interface HashesData
  */
 export class GameDataResources implements IGameDataResources
 {
+	private _effectMapUrl: string = '';
+
+	get effectMapUrl(): string
+	{
+		return this._effectMapUrl;
+	}
+
+	private _effectMapHash: string = '';
+
+	get effectMapHash(): string
+	{
+		return this._effectMapHash;
+	}
+
+	private _externalRendererVariablesUrl: string = '';
+
+	get externalRendererVariablesUrl(): string
+	{
+		return this._externalRendererVariablesUrl;
+	}
+
+	private _externalRendererVariablesHash: string = '';
+
+	get externalRendererVariablesHash(): string
+	{
+		return this._externalRendererVariablesHash;
+	}
+
 	private _externalTextsUrl: string = '';
+
+	get externalTextsUrl(): string
+	{
+		return this._externalTextsUrl;
+	}
+
 	private _externalTextsHash: string = '';
-	private _externalVariablesUrl: string = '';
-	private _externalVariablesHash: string = '';
-	private _furniDataUrl: string = '';
-	private _furniDataHash: string = '';
+
+	get externalTextsHash(): string
+	{
+		return this._externalTextsHash;
+	}
+
+	private _externalUIVariablesUrl: string = '';
+
+	get externalUIVariablesUrl(): string
+	{
+		return this._externalUIVariablesUrl;
+	}
+
+	private _externalUIVariablesHash: string = '';
+
+	get externalUIVariablesHash(): string
+	{
+		return this._externalUIVariablesHash;
+	}
+
+	private _figureDataUrl: string = '';
+
+	get figureDataUrl(): string
+	{
+		return this._figureDataUrl;
+	}
+
+	private _figureDataHash: string = '';
+
+	get figureDataHash(): string
+	{
+		return this._figureDataHash;
+	}
+
+	private _figureMapUrl: string = '';
+
+	get figureMapUrl(): string
+	{
+		return this._figureMapUrl;
+	}
+
+	private _figureMapHash: string = '';
+
+	get figureMapHash(): string
+	{
+		return this._figureMapHash;
+	}
+
+	private _furnitureDataUrl: string = '';
+
+	get furnitureDataUrl(): string
+	{
+		return this._furnitureDataUrl;
+	}
+
+	private _furnitureDataHash: string = '';
+
+	get furnitureDataHash(): string
+	{
+		return this._furnitureDataHash;
+	}
+
+	private _habboAvatarActionsUrl: string = '';
+
+	get habboAvatarActionsUrl(): string
+	{
+		return this._habboAvatarActionsUrl;
+	}
+
+	private _habboAvatarActionsHash: string = '';
+
+	get habboAvatarActionsHash(): string
+	{
+		return this._habboAvatarActionsHash;
+	}
+
 	private _productDataUrl: string = '';
+
+	get productDataUrl(): string
+	{
+		return this._productDataUrl;
+	}
+
 	private _productDataHash: string = '';
+
+	get productDataHash(): string
+	{
+		return this._productDataHash;
+	}
 
 	/**
 	 * Parse game data resources from JSON string
@@ -48,17 +165,37 @@ export class GameDataResources implements IGameDataResources
 		{
 			switch (entry.name)
 			{
+				case 'effect_map':
+					resources._effectMapUrl = entry.url;
+					resources._effectMapHash = entry.hash;
+					break;
+				case 'external_renderer_variables':
+					resources._externalRendererVariablesUrl = entry.url;
+					resources._externalRendererVariablesHash = entry.hash;
+					break;
 				case 'external_texts':
 					resources._externalTextsUrl = entry.url;
 					resources._externalTextsHash = entry.hash;
 					break;
-				case 'external_variables':
-					resources._externalVariablesUrl = entry.url;
-					resources._externalVariablesHash = entry.hash;
+				case 'external_ui_variables':
+					resources._externalUIVariablesUrl = entry.url;
+					resources._externalUIVariablesHash = entry.hash;
 					break;
-				case 'furni_data':
-					resources._furniDataUrl = entry.url;
-					resources._furniDataHash = entry.hash;
+				case 'figure_data':
+					resources._figureDataUrl = entry.url;
+					resources._figureDataHash = entry.hash;
+					break;
+				case 'figure_map':
+					resources._figureMapUrl = entry.url;
+					resources._figureMapHash = entry.hash;
+					break;
+				case 'furniture_data':
+					resources._furnitureDataUrl = entry.url;
+					resources._furnitureDataHash = entry.hash;
+					break;
+				case 'habbo_avatar_actions':
+					resources._habboAvatarActionsUrl = entry.url;
+					resources._habboAvatarActionsHash = entry.hash;
 					break;
 				case 'product_data':
 					resources._productDataUrl = entry.url;
@@ -73,54 +210,24 @@ export class GameDataResources implements IGameDataResources
 	isValid(): boolean
 	{
 		return !!(
+			this._effectMapUrl &&
+			this._effectMapHash &&
+			this._externalRendererVariablesUrl &&
+			this._externalRendererVariablesHash &&
 			this._externalTextsUrl &&
 			this._externalTextsHash &&
-			this._externalVariablesUrl &&
-			this._externalVariablesHash &&
-			this._furniDataUrl &&
-			this._furniDataHash &&
+			this._externalUIVariablesUrl &&
+			this._externalUIVariablesHash &&
+			this._figureDataUrl &&
+			this._figureDataHash &&
+			this._figureMapUrl &&
+			this._figureMapHash &&
+			this._furnitureDataUrl &&
+			this._furnitureDataHash &&
+			this._habboAvatarActionsUrl &&
+			this._habboAvatarActionsHash &&
 			this._productDataUrl &&
 			this._productDataHash
 		);
-	}
-
-	getExternalTextsUrl(): string
-	{
-		return this._externalTextsUrl;
-	}
-
-	getExternalTextsHash(): string
-	{
-		return this._externalTextsHash;
-	}
-
-	getExternalVariablesUrl(): string
-	{
-		return this._externalVariablesUrl;
-	}
-
-	getExternalVariablesHash(): string
-	{
-		return this._externalVariablesHash;
-	}
-
-	getFurniDataUrl(): string
-	{
-		return this._furniDataUrl;
-	}
-
-	getFurniDataHash(): string
-	{
-		return this._furniDataHash;
-	}
-
-	getProductDataUrl(): string
-	{
-		return this._productDataUrl;
-	}
-
-	getProductDataHash(): string
-	{
-		return this._productDataHash;
 	}
 }

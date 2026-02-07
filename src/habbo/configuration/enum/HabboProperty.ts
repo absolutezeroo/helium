@@ -34,14 +34,9 @@ export const HabboProperty = {
 	LOGOUT_DISCONNECT_URL: 'logout.disconnect.url',
 
 	// External files
-	EXTERNAL_VARIABLES: 'external.variables.txt',
+	EXTERNAL_RENDERER_VARIABLES: 'external.renderer.variables.json',
+	EXTERNAL_UI_VARIABLES: 'external.ui.variables.json',
 	GAMEDATA_HASHES_URL: 'gamedata.hashes.url',
-
-	// Dynamic downloads
-	DYNAMIC_DOWNLOAD_URL: 'flash.dynamic.download.url',
-	DYNAMIC_DOWNLOAD_NAME_TEMPLATE: 'flash.dynamic.download.name.template',
-	AVATAR_DOWNLOAD_CONFIGURATION: 'flash.dynamic.avatar.download.configuration',
-	AVATAR_DOWNLOAD_URL: 'flash.dynamic.avatar.download.url',
 
 	// Client state
 	CLIENT_STARTING: 'client.starting',
@@ -55,13 +50,6 @@ export const HabboProperty = {
 	NEW_USER_FLOW_PAGE: 'new.user.flow.page',
 	NEW_USER_ONBOARDING_HC_FLOW_ENABLED: 'new.user.onboarding.hc.flow.enabled',
 	NEW_USER_ONBOARDING_SHOW_HC_ITEMS: 'new.user.onboarding.show.hc.items',
-
-	// APIs
-	POCKET_API: 'pocket.api',
-	WEB_API: 'web.api',
-
-	// Third-party
-	FACEBOOK_APPLICATION_ID: 'facebook.application.id',
 
 	// Legal
 	TERMS_OF_SERVICE_URL: 'web.terms_of_service.link',

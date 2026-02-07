@@ -30,6 +30,7 @@ import '@ui/styles.css';
 
 import type {ICoreCommunicationManager} from '@core/communication/ICoreCommunicationManager';
 import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
+import type {IGameDataResources} from '@core/localization/IGameDataResources';
 import {IID_HabboCommunicationManager} from '@iid/IIDHabboCommunicationManager';
 import {IID_HabboConfigurationManager} from '@iid/IIDHabboConfigurationManager';
 import {IID_HabboLocalizationManager} from '@iid/IIDHabboLocalizationManager';
@@ -39,6 +40,7 @@ import {IID_HabboInventory} from '@iid/IIDHabboInventory';
 import {IID_RoomEngine} from '@iid/IIDRoomEngine';
 import {IID_RoomManager} from '@iid/IIDRoomManager';
 import {IID_RoomSessionManager} from '@iid/IIDRoomSessionManager';
+import {HabboProperty} from "@habbo/configuration";
 
 const log = Logger.getLogger('Helium');
 
@@ -363,7 +365,7 @@ export class Helium
 		// Set external variables URL if provided (must be set before download)
 		if (config?.configurationUrl)
 		{
-			this._configurationManager.setProperty('external.variables.txt', config.configurationUrl);
+			this._configurationManager.setProperty(HabboProperty.EXTERNAL_RENDERER_VARIABLES, config.configurationUrl);
 		}
 
 		// Load external configuration (blocks until loaded)
@@ -411,6 +413,12 @@ export class Helium
 		this._localizationManager.setConfigurationManager(this._configurationManager);
 		this._localizationManager.setCommunicationManager(this._habboCommunicationManager);
 
+		// Wire game data loading from hashes
+		this._localizationManager.events.on('gameDataResourcesReady', (resources: IGameDataResources) =>
+		{
+			this.onGameDataResourcesReady(resources);
+		});
+
 		// Room Session Manager
 		this._roomSessionManager = new RoomSessionManager(ctx);
 		ctx.attachComponent(this._roomSessionManager, [IID_RoomSessionManager]);
@@ -440,6 +448,134 @@ export class Helium
 
 		// Room Message Handler - bridges communication to room engine
 		this._roomMessageHandler = new RoomMessageHandler(this._roomEngine);
+	}
+
+	/**
+	 * Called when game data resources (hashes) are available.
+	 * Sets config properties from hashes and triggers GameDataManager loading.
+	 */
+	private onGameDataResourcesReady(resources: IGameDataResources): void
+	{
+		const config = this._configurationManager!;
+
+		log.info('Game data resources (hashes) available, updating configuration...');
+
+		// Override config properties with hash-derived URLs (url/hash format)
+		if (resources.furnitureDataUrl && resources.furnitureDataHash)
+		{
+			config.setProperty('furnidata.url', `${resources.furnitureDataUrl}/${resources.furnitureDataHash}`);
+		}
+
+		if (resources.effectMapUrl && resources.effectMapHash)
+		{
+			config.setProperty('avatar.effectmap.url', `${resources.effectMapUrl}/${resources.effectMapHash}`);
+		}
+
+		if (resources.productDataUrl && resources.productDataHash)
+		{
+			config.setProperty('productdata.url', `${resources.productDataUrl}/${resources.productDataHash}`);
+		}
+
+		if (resources.figureDataUrl && resources.figureDataHash)
+		{
+			config.setProperty('avatar.figuredata.url', `${resources.figureDataUrl}/${resources.figureDataHash}`);
+		}
+
+		if (resources.figureMapUrl && resources.figureMapHash)
+		{
+			config.setProperty('avatar.figuremap.url', `${resources.figureMapUrl}/${resources.figureMapHash}`);
+		}
+
+		if (resources.habboAvatarActionsUrl && resources.habboAvatarActionsHash)
+		{
+			config.setProperty('avatar.actions.url', `${resources.habboAvatarActionsUrl}/${resources.habboAvatarActionsHash}`);
+		}
+
+		// Load external UI variables if available (separated from renderer variables)
+		if (resources.externalUIVariablesUrl && resources.externalUIVariablesHash)
+		{
+			const uiVarsUrl = `${resources.externalUIVariablesUrl}/${resources.externalUIVariablesHash}`;
+
+			config.setProperty('external.ui.variables.url', uiVarsUrl);
+
+			this.loadExternalUIVariables(uiVarsUrl);
+		}
+
+		// Feed GameDataManager with hash-derived URLs
+		this._core!.gameData.loadGameData({
+			furnitureDataUrl: config.getProperty('furnidata.url'),
+			effectMapUrl: config.getProperty('avatar.effectmap.url'),
+			productDataUrl: config.getProperty('productdata.url'),
+			figureDataUrl: config.getProperty('avatar.figuredata.url'),
+			figureMapUrl: config.getProperty('avatar.figuremap.url'),
+		});
+	}
+
+	/**
+	 * Load external UI variables and merge into configuration
+	 */
+	private async loadExternalUIVariables(url: string): Promise<void>
+	{
+		try
+		{
+			log.info(`Loading external UI variables from ${url}`);
+
+			const response = await fetch(url);
+
+			if (!response.ok)
+			{
+				log.warn(`Failed to load UI variables: HTTP ${response.status}`);
+				return;
+			}
+
+			const text = await response.text();
+			const trimmed = text.trim();
+
+			if (trimmed.startsWith('{') || trimmed.startsWith('['))
+			{
+				const json = JSON.parse(trimmed);
+
+				for (const [key, value] of Object.entries(json))
+				{
+					if (value === null || value === undefined) continue;
+
+					const stringValue = typeof value === 'string'
+						? value
+						: typeof value === 'number' || typeof value === 'boolean'
+							? String(value)
+							: JSON.stringify(value);
+
+					this._configurationManager!.setProperty(key, stringValue);
+				}
+
+				log.success('External UI variables loaded');
+			}
+			else
+			{
+				// key=value format
+				const lines = text.split(/\n\r?|\r\n?/);
+
+				for (const line of lines)
+				{
+					const t = line.trim();
+					if (t.startsWith('#') || t === '') continue;
+
+					const parts = t.split('=');
+					if (parts.length >= 2 && parts[0].length > 0)
+					{
+						const key = parts.shift()!.trim();
+						const value = parts.join('=').trim();
+						this._configurationManager!.setProperty(key, value);
+					}
+				}
+
+				log.success('External UI variables loaded (key=value)');
+			}
+		}
+		catch (error)
+		{
+			log.warn(`Failed to load external UI variables: ${error}`);
+		}
 	}
 
 	/**

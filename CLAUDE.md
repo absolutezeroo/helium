@@ -6,6 +6,23 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Helium is a modern Habbo client renderer built with TypeScript, PixiJS v8, SolidJS, and Inversify for dependency injection. It aims to be a lighter alternative to Nitro.
 
+## CRITICAL: Documentation obligatoire
+
+Avant de coder quoi que ce soit, consulter dans cet ordre:
+
+1. **`docs/STYLEGUIDE.md`** - Conventions de code strictes (nommage, formatage Allman, templates Composer/Parser/Event/Manager)
+2. **`docs/IMPLEMENTATION_STATUS.md`** - État d'implémentation par module (ce qui est fait / ce qui manque)
+3. **`docs/architectures/<module>-architecture.md`** - Architecture AS3 du module concerné
+4. **`source_as/habbo/<module>/`** - Code source AS3 (source de vérité absolue)
+
+### Mise à jour de la documentation
+
+Après chaque implémentation significative (nouveau module, nouveau handler, ensemble de messages):
+- **Mettre à jour `docs/IMPLEMENTATION_STATUS.md`** pour cocher les éléments implémentés
+- Changer le statut des éléments de ❌ à ✅
+- Mettre à jour les pourcentages et barres de progression
+- Mettre à jour la date de dernière mise à jour
+
 ## CRITICAL RULE: AS3 Source is the Source of Truth
 
 **The `source_as/` folder contains the original ActionScript 3 Habbo client code. This is the ABSOLUTE source of truth.**
@@ -22,15 +39,18 @@ Helium is a modern Habbo client renderer built with TypeScript, PixiJS v8, Solid
 ### Before Writing ANY Code
 
 ```
-1. Find the AS3 source file: source_as/habbo/<module>/<ClassName>.as
-2. Read the entire file including:
+1. Read docs/STYLEGUIDE.md if not already familiar with conventions
+2. Check docs/IMPLEMENTATION_STATUS.md to see current module status
+3. Find the AS3 source file: source_as/habbo/<module>/<ClassName>.as
+4. Read the entire file including:
    - Class declaration (extends, implements)
    - All imports (reveals dependencies)
    - All methods and their implementations
    - All properties
-3. Check related interfaces: I<ClassName>.as
-4. Check handler/listener patterns: source_as/habbo/<module>/handler/
-5. Only then start implementing
+5. Check related interfaces: I<ClassName>.as
+6. Check handler/listener patterns: source_as/habbo/<module>/handler/
+7. Only then start implementing, following STYLEGUIDE.md conventions
+8. After implementing, update docs/IMPLEMENTATION_STATUS.md
 ```
 
 ### Common Mistakes to AVOID
@@ -40,7 +60,34 @@ Helium is a modern Habbo client renderer built with TypeScript, PixiJS v8, Solid
 - ❌ Ignoring handler/listener patterns
 - ❌ Not checking what events AS3 dispatches
 - ❌ Not implementing all methods from interfaces
-- ✅ Read AS3 → Understand → Implement exactly
+- ❌ Not following STYLEGUIDE.md conventions (Allman braces, naming, etc.)
+- ❌ Forgetting to update IMPLEMENTATION_STATUS.md after implementing
+- ✅ Read AS3 → Understand → Implement exactly → Update status
+
+## Code Style (STYLEGUIDE.md)
+
+**Full reference: `docs/STYLEGUIDE.md`**
+
+Quick summary of critical conventions:
+
+| Rule | Convention |
+|------|-----------|
+| Braces | Allman style (opening brace on new line) |
+| Classes | PascalCase |
+| Interfaces | I + PascalCase (e.g., `ISessionDataManager`) |
+| Private fields | `_` prefix + camelCase (e.g., `_userId`) |
+| Constants | UPPER_SNAKE_CASE |
+| Methods | camelCase |
+| Imports | `import type` for types, path aliases preferred |
+| Exports | Named exports only (no `export default`) |
+| JSDoc | Required on classes/public methods with `@see` AS3 reference |
+| dispose() | Always last method, checks `_disposed` flag |
+
+### Template patterns (see STYLEGUIDE.md for full templates):
+- **Composers**: `IMessageComposer<ConstructorParameters<typeof ClassName>>` pattern
+- **Parsers**: `IMessageParser` with `flush()` + `parse(wrapper)` pattern
+- **Events**: `extends MessageEvent` with single `callback` constructor param
+- **Managers**: `@injectable()` + `EventEmitter<Events>` + interface
 
 ## Architecture Documentation
 
@@ -81,6 +128,31 @@ Comprehensive documentation exists in `docs/architectures` for each AS3 module, 
 | `utils-architecture.md`         | 22     | 6    | Utilities                     |
 
 **Total: ~1000 ENGINE files to implement, ~1000 VIEW files to ignore**
+
+## Implementation Status Summary
+
+**Full reference: `docs/IMPLEMENTATION_STATUS.md`** (updated 2026-02-07)
+
+```
+Progression globale: ████░░░░░░░░░░░░░░░░ ~19%
+```
+
+| Module | Progression | Statut |
+|--------|------------|--------|
+| Core Communication | ~90% | Avancé |
+| Core Assets | ~92% | Avancé |
+| Localization | ~100% | Complet |
+| Configuration | ~100% | Complet |
+| Inventory | ~100% | Complet |
+| Room Engine (root) | ~100% | Complet |
+| Session | ~52% | En cours |
+| Room Objects | ~36% | En cours |
+| Navigator (ENGINE) | ~29% | Partiel |
+| Communication Messages | ~21% | Partiel |
+| Avatar | 0% | Non commencé |
+| Catalog | 0% | Non commencé |
+| Sound | 0% | Non commencé |
+| +18 autres modules | 0% | Non commencé |
 
 ## Build Commands
 
@@ -154,9 +226,9 @@ The UI is built with SolidJS instead of Flash/AS3 windows:
 
 ```
 src/ui/
-├── stores/           # Reactive stores (navigatorStore, inventoryStore, etc.)
+├── bridge/           # Engine ↔ UI bridge
 ├── components/       # SolidJS components
-└── uiBridge.ts       # Bridge between engine and UI
+└── hooks/            # Custom hooks
 ```
 
 ### Pattern: Engine → Store → UI
@@ -197,16 +269,22 @@ Focus on ENGINE logic, not re-implementing parsers/composers.
 ## Development Workflow
 
 1. **Before implementing a feature:**
-   - Read the architecture doc in `docs/<feature>-architecture.md`
+   - Read `docs/STYLEGUIDE.md` for coding conventions
+   - Check `docs/IMPLEMENTATION_STATUS.md` for current module status
+   - Read the architecture doc in `docs/architectures/<feature>-architecture.md`
    - Read the AS3 source in `source_as/habbo/<feature>/`
    - Identify ENGINE files to port
 
 2. **Implementation:**
-   - Create TypeScript equivalents following AS3 structure
+   - Create TypeScript equivalents following AS3 structure AND STYLEGUIDE.md
    - Register in IoC container (`src/iid/container.ts`)
    - Add types to `src/iid/types.ts`
    - Create store if UI needed (`src/ui/stores/`)
 
-3. **Testing:**
+3. **After implementation:**
+   - Update `docs/IMPLEMENTATION_STATUS.md` (check items, update percentages)
+   - Run `npm run dev` to verify compilation
+
+4. **Testing:**
    - `npm run dev` to start dev server
    - Connect to a Habbo server to test
