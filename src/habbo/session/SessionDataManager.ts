@@ -32,6 +32,9 @@ import {MysteryBoxKeysMessageEvent} from '../communication/messages/incoming/mys
 import {
 	BuildersClubSubscriptionStatusMessageEvent
 } from '../communication/messages/incoming/catalog/BuildersClubSubscriptionStatusMessageEvent';
+import {
+	InClientLinkMessageEvent
+} from '../communication/messages/incoming/users/InClientLinkMessageEvent';
 
 // Parsers
 import type {UserObjectMessageParser} from '../communication/messages/parser/handshake/UserObjectMessageParser';
@@ -68,6 +71,9 @@ import type {
 import type {
 	BuildersClubSubscriptionStatusMessageParser
 } from '../communication/messages/parser/catalog/BuildersClubSubscriptionStatusMessageParser';
+import type {
+	InClientLinkMessageParser
+} from '../communication/messages/parser/users/InClientLinkMessageParser';
 
 // Composers
 import {RespectUserMessageComposer} from '../communication/messages/outgoing/room/RespectUserMessageComposer';
@@ -716,6 +722,9 @@ export class SessionDataManager extends Component implements ISessionDataManager
 
 		// Catalog events
 		this.addMessageEvent(new BuildersClubSubscriptionStatusMessageEvent(this.onBuildersClubStatus.bind(this)));
+
+		// Users events
+		this.addMessageEvent(new InClientLinkMessageEvent(this.onInClientLink.bind(this)));
 	}
 
 	/**
@@ -932,6 +941,17 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		this._mysteryBoxKeyColor = parser.keyColor;
 
 		log.debug(`Mystery box: color=${this._mysteryBoxColor}, keyColor=${this._mysteryBoxKeyColor}`);
+	}
+
+	private onInClientLink(event: IMessageEvent): void
+	{
+		const parser = event.parser as InClientLinkMessageParser;
+
+		if (!parser) return;
+
+		this.context.createLinkEvent(parser.link);
+
+		log.debug('InClientLink: ' + parser.link);
 	}
 
 	private onBuildersClubStatus(event: IMessageEvent): void

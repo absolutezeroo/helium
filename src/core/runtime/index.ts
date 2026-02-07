@@ -50,6 +50,7 @@ export {createIID, getIIDName, type IID} from './IID';
 export type {IDisposable} from './IDisposable';
 export type {ICoreConfiguration} from './ICoreConfiguration';
 export type {IContext, IUpdateReceiver, InterfaceCallback} from './IContext';
+export type {ILinkEventTracker} from './events/ILinkEventTracker';
 
 // Component Dependency
 export {ComponentDependency} from './ComponentDependency';

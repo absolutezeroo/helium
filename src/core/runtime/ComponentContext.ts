@@ -1,6 +1,7 @@
 import {getIIDName, type IID} from './IID';
 import type {IContext, InterfaceCallback, IUpdateReceiver} from './IContext';
 import type {ICoreConfiguration} from './ICoreConfiguration';
+import type {ILinkEventTracker} from './events/ILinkEventTracker';
 import {Component, ComponentEvents, ComponentFlags} from './Component';
 import {Logger} from '@core/utils/Logger';
 
@@ -53,6 +54,7 @@ export class ComponentContext extends Component implements IContext
 	private readonly _interfaceQueues: Map<symbol, InterfaceQueue> = new Map();
 	private readonly _updateReceivers: UpdateReceiverEntry[] = [];
 	private _updateReceiversDirty: boolean = false;
+	private readonly _linkEventTrackers: ILinkEventTracker[] = [];
 
 	constructor(parentContext?: IContext)
 	{
@@ -263,6 +265,56 @@ export class ComponentContext extends Component implements IContext
 	}
 
 	/**
+	 * Add a link event tracker
+	 *
+	 * @see source_as/core/runtime/ComponentContext.as lines 509-515
+	 */
+	addLinkEventTracker(tracker: ILinkEventTracker): void
+	{
+		if (this._linkEventTrackers.indexOf(tracker) < 0)
+		{
+			this._linkEventTrackers.push(tracker);
+		}
+	}
+
+	/**
+	 * Remove a link event tracker
+	 *
+	 * @see source_as/core/runtime/ComponentContext.as lines 517-524
+	 */
+	removeLinkEventTracker(tracker: ILinkEventTracker): void
+	{
+		const index = this._linkEventTrackers.indexOf(tracker);
+
+		if (index > -1)
+		{
+			this._linkEventTrackers.splice(index, 1);
+		}
+	}
+
+	/**
+	 * Create a link event, routing it to all matching trackers
+	 *
+	 * @see source_as/core/runtime/ComponentContext.as lines 526-536
+	 */
+	createLinkEvent(link: string): void
+	{
+		for (const tracker of this._linkEventTrackers)
+		{
+			if (tracker.linkPattern.length > 0)
+			{
+				if (link.substring(0, tracker.linkPattern.length) === tracker.linkPattern)
+				{
+					tracker.linkReceived(link);
+				}
+			} else
+			{
+				tracker.linkReceived(link);
+			}
+		}
+	}
+
+	/**
 	 * Log an error
 	 */
 	error(message: string, fatal: boolean = false, code: number = -1, error?: Error): void
@@ -316,6 +368,9 @@ export class ComponentContext extends Component implements IContext
 
 		// Clear update receivers
 		this._updateReceivers.length = 0;
+
+		// Clear link event trackers
+		this._linkEventTrackers.length = 0;
 
 		super.dispose();
 	}

@@ -4,6 +4,7 @@ import type {IDisposable} from './IDisposable';
 import type {ICoreConfiguration} from './ICoreConfiguration';
 import type {Component} from './Component';
 import type {IAssetLibrary} from '@core/assets/IAssetLibrary';
+import type {ILinkEventTracker} from './events/ILinkEventTracker';
 
 /**
  * Queue callback for interface resolution
@@ -82,6 +83,27 @@ export interface IContext extends IDisposable
 	 * Remove an update receiver
 	 */
 	removeUpdateReceiver(receiver: IUpdateReceiver): void;
+
+	/**
+	 * Add a link event tracker
+	 *
+	 * @param tracker The tracker to add
+	 */
+	addLinkEventTracker(tracker: ILinkEventTracker): void;
+
+	/**
+	 * Remove a link event tracker
+	 *
+	 * @param tracker The tracker to remove
+	 */
+	removeLinkEventTracker(tracker: ILinkEventTracker): void;
+
+	/**
+	 * Create a link event, routing it to matching trackers
+	 *
+	 * @param link The link string to route
+	 */
+	createLinkEvent(link: string): void;
 
 	/**
 	 * Log an error

@@ -9,3 +9,4 @@ export * from './catalog';
 export * from './room';
 export * from './poll';
 export * from './error';
+export * from './users';

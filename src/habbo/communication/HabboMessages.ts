@@ -151,6 +151,9 @@ import {
 // Incoming Events - Error
 import {ErrorReportEvent} from './messages/incoming/error';
 
+// Incoming Events - Users
+import {InClientLinkMessageEvent} from './messages/incoming/users';
+
 // Incoming Events - Room Action
 import {
 	AvatarEffectMessageEvent,
@@ -514,6 +517,9 @@ export class HabboMessages implements IMessageConfiguration
 		this._events.set(56, PresentOpenedMessageEvent);
 		this._events.set(2380, OpenPetPackageRequestedMessageEvent);
 		this._events.set(546, OpenPetPackageResultMessageEvent);
+
+		// === USERS ===
+		this._events.set(2437, InClientLinkMessageEvent);
 
 		// === POLL / WORD QUIZ ===
 		this._events.set(3785, PollOfferEvent);
