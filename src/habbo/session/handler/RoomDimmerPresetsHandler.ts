@@ -4,10 +4,14 @@ import type {IRoomHandlerListener} from '../IRoomHandlerListener';
 import {BaseHandler} from './BaseHandler';
 
 // Message events
-import {RoomDimmerPresetsMessageEvent} from '../../communication/messages/incoming/room/furniture/RoomDimmerPresetsMessageEvent';
+import {
+	RoomDimmerPresetsMessageEvent
+} from '../../communication/messages/incoming/room/furniture/RoomDimmerPresetsMessageEvent';
 
 // Parsers
-import type {RoomDimmerPresetsMessageEventParser} from '../../communication/messages/parser/room/furniture/RoomDimmerPresetsMessageEventParser';
+import type {
+	RoomDimmerPresetsMessageEventParser
+} from '../../communication/messages/parser/room/furniture/RoomDimmerPresetsMessageEventParser';
 
 // Events
 import {RoomSessionDimmerPresetsEvent} from '../events/RoomSessionDimmerPresetsEvent';

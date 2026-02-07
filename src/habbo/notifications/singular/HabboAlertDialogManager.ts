@@ -26,16 +26,16 @@ export interface HabboAlertDialogManagerEvents
  */
 export class HabboAlertDialogManager extends EventEmitter<HabboAlertDialogManagerEvents>
 {
+	constructor()
+	{
+		super();
+	}
+
 	private _disposed: boolean = false;
 
 	get disposed(): boolean
 	{
 		return this._disposed;
-	}
-
-	constructor()
-	{
-		super();
 	}
 
 	/**
@@ -135,6 +135,14 @@ export class HabboAlertDialogManager extends EventEmitter<HabboAlertDialogManage
 		log.info(`Login failed, hotel closed. Reopens at ${hourStr}:${minuteStr}`);
 	}
 
+	dispose(): void
+	{
+		if (this._disposed) return;
+
+		this.removeAllListeners();
+		this._disposed = true;
+	}
+
 	/**
 	 * Show a moderation message.
 	 * In AS3 this creates a simpleAlert dialog. Here we emit an event.
@@ -146,20 +154,11 @@ export class HabboAlertDialogManager extends EventEmitter<HabboAlertDialogManage
 		if (url)
 		{
 			this.emit('moderatorMessage', cleanMessage, url);
-		}
-		else
+		} else
 		{
 			this.emit('moderatorCaution', cleanMessage, url);
 		}
 
 		log.info('Moderation message received');
-	}
-
-	dispose(): void
-	{
-		if (this._disposed) return;
-
-		this.removeAllListeners();
-		this._disposed = true;
 	}
 }

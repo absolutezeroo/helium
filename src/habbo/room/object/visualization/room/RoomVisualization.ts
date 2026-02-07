@@ -7,7 +7,6 @@
  * (floors, walls, landscapes) from RoomPlaneParser data.
  */
 import {Container} from 'pixi.js';
-import type {IRoomObject} from '@room/object/IRoomObject';
 import type {IRoomGeometry} from '@room/utils/IRoomGeometry';
 import type {IRoomObjectSprite} from '@room/object/visualization/IRoomObjectSprite';
 import type {IRoomObjectVisualizationData} from '@room/object/visualization/IRoomObjectVisualizationData';
@@ -15,7 +14,6 @@ import {RoomObjectSpriteVisualization} from '@room/object/visualization/RoomObje
 import {RoomObjectSpriteType} from '@room/object/enum/RoomObjectSpriteType';
 import {RoomPlane} from './RoomPlane';
 import {Vector3d} from '@room/utils/Vector3d';
-import type {IVector3d} from '@room/utils/IVector3d';
 import {RoomPlaneData} from '@habbo/room/object/RoomPlaneData';
 import {RoomObjectVariableEnum} from '@habbo/room/object/RoomObjectVariableEnum';
 import type {RoomPlaneParser} from '@habbo/room/object/RoomPlaneParser';
@@ -471,8 +469,7 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 				if (planeType === RoomPlane.TYPE_FLOOR)
 				{
 					plane.rasterizer = this._visualizationData.floorRasterizer;
-				}
-				else if (planeType === RoomPlane.TYPE_WALL)
+				} else if (planeType === RoomPlane.TYPE_WALL)
 				{
 					plane.rasterizer = this._visualizationData.wallRasterizer;
 				}

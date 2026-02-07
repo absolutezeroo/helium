@@ -10,7 +10,8 @@ export function ToolbarMeView(): JSX.Element
 
 	return (
 		<Show when={isOpen()}>
-			<div class="absolute bottom-[var(--spacing-toolbar)] right-4 w-[200px] bg-bg-secondary border border-border rounded-[var(--radius-lg)] shadow-lg p-2">
+			<div
+				class="absolute bottom-[var(--spacing-toolbar)] right-4 w-[200px] bg-bg-secondary border border-border rounded-[var(--radius-lg)] shadow-lg p-2">
 				<p class="text-text-muted text-center py-4 text-sm">Coming Soon</p>
 			</div>
 		</Show>

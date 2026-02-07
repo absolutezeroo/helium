@@ -8,6 +8,13 @@
  */
 export class GuildKickData
 {
+	constructor(guildId: number, targetId: number, isBlocked: boolean = false)
+	{
+		this._kickGuildId = guildId;
+		this._kickTargetId = targetId;
+		this._targetBlocked = isBlocked;
+	}
+
 	private _kickGuildId: number;
 
 	get kickGuildId(): number
@@ -27,12 +34,5 @@ export class GuildKickData
 	get targetBlocked(): boolean
 	{
 		return this._targetBlocked;
-	}
-
-	constructor(guildId: number, targetId: number, isBlocked: boolean = false)
-	{
-		this._kickGuildId = guildId;
-		this._kickTargetId = targetId;
-		this._targetBlocked = isBlocked;
 	}
 }

@@ -10,6 +10,13 @@ export class RoomSessionPetFigureUpdateEvent extends RoomSessionEvent
 {
 	public static readonly PET_FIGURE_UPDATE = 'RSPFUE_PET_FIGURE_UPDATE';
 
+	constructor(session: IRoomSession, petId: number, figure: string)
+	{
+		super(RoomSessionPetFigureUpdateEvent.PET_FIGURE_UPDATE, session);
+		this._petId = petId;
+		this._figure = figure;
+	}
+
 	private _petId: number;
 
 	get petId(): number
@@ -22,12 +29,5 @@ export class RoomSessionPetFigureUpdateEvent extends RoomSessionEvent
 	get figure(): string
 	{
 		return this._figure;
-	}
-
-	constructor(session: IRoomSession, petId: number, figure: string)
-	{
-		super(RoomSessionPetFigureUpdateEvent.PET_FIGURE_UPDATE, session);
-		this._petId = petId;
-		this._figure = figure;
 	}
 }

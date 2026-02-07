@@ -7,6 +7,12 @@ export class BadgeImageReadyEvent
 {
 	public static readonly BADGE_IMAGE_READY = 'BIRE_BADGE_IMAGE_READY';
 
+	constructor(badgeId: string, badgeImage: unknown = null)
+	{
+		this._badgeId = badgeId;
+		this._badgeImage = badgeImage;
+	}
+
 	private _badgeId: string;
 
 	get badgeId(): string
@@ -19,11 +25,5 @@ export class BadgeImageReadyEvent
 	get badgeImage(): unknown
 	{
 		return this._badgeImage;
-	}
-
-	constructor(badgeId: string, badgeImage: unknown = null)
-	{
-		this._badgeId = badgeId;
-		this._badgeImage = badgeImage;
 	}
 }

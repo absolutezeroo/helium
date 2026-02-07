@@ -13,7 +13,9 @@ const log = Logger.getLogger('Component');
  */
 function hasEvents(obj: unknown): obj is { events: EventEmitter }
 {
-	return obj !== null && typeof obj === 'object' && 'events' in obj && typeof (obj as { events: unknown }).events === 'object';
+	return obj !== null && typeof obj === 'object' && 'events' in obj && typeof (obj as {
+		events: unknown
+	}).events === 'object';
 }
 
 /**
@@ -21,7 +23,9 @@ function hasEvents(obj: unknown): obj is { events: EventEmitter }
  */
 function hasRelease(obj: unknown): obj is { release: (iid: IID) => void }
 {
-	return obj !== null && typeof obj === 'object' && 'release' in obj && typeof (obj as { release: unknown }).release === 'function';
+	return obj !== null && typeof obj === 'object' && 'release' in obj && typeof (obj as {
+		release: unknown
+	}).release === 'function';
 }
 
 /**

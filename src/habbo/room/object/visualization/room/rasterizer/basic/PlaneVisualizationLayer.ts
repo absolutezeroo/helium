@@ -17,10 +17,7 @@ export class PlaneVisualizationLayer
 
 	private _material: PlaneMaterial | null;
 	private _color: number;
-	private _align: number;
-	private _offset: number;
 	private _cachedBitmap: HTMLCanvasElement | null = null;
-	private _disposed: boolean = false;
 
 	constructor(material: PlaneMaterial | null, color: number, align: number, offset: number = 0)
 	{
@@ -30,9 +27,26 @@ export class PlaneVisualizationLayer
 		this._offset = offset;
 	}
 
-	get offset(): number { return this._offset; }
-	get align(): number { return this._align; }
-	get disposed(): boolean { return this._disposed; }
+	private _align: number;
+
+	get align(): number
+	{
+		return this._align;
+	}
+
+	private _offset: number;
+
+	get offset(): number
+	{
+		return this._offset;
+	}
+
+	private _disposed: boolean = false;
+
+	get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
 	dispose(): void
 	{
@@ -84,8 +98,7 @@ export class PlaneVisualizationLayer
 			{
 				// Render to separate buffer for color transform
 				result = this._material.render(null, width, height, normal, hasTexture, offsetX, offsetY + this._offset, this._align === PlaneVisualizationLayer.ALIGN_TOP);
-			}
-			else
+			} else
 			{
 				result = this._material.render(canvas, width, height, normal, hasTexture, offsetX, offsetY + this._offset, this._align === PlaneVisualizationLayer.ALIGN_TOP);
 			}
@@ -113,8 +126,7 @@ export class PlaneVisualizationLayer
 				ctx.drawImage(result, 0, 0);
 				result = this._cachedBitmap;
 			}
-		}
-		else if (canvas === null)
+		} else if (canvas === null)
 		{
 			// No material - create white fill
 			if (this._cachedBitmap !== null && this._cachedBitmap.width === width && this._cachedBitmap.height === height)
@@ -129,8 +141,7 @@ export class PlaneVisualizationLayer
 			ctx.fillStyle = '#FFFFFFFF';
 			ctx.fillRect(0, 0, width, height);
 			result = this._cachedBitmap;
-		}
-		else
+		} else
 		{
 			const ctx = canvas.getContext('2d')!;
 			ctx.fillStyle = '#FFFFFFFF';

@@ -10,6 +10,15 @@ export class RoomSessionQueueEvent extends RoomSessionEvent
 {
 	public static readonly QUEUE_STATUS = 'RSQE_QUEUE_STATUS';
 	public static readonly QUEUE_TYPE_NORMAL = 'd';
+	private _queues: Map<string, number> = new Map();
+
+	constructor(session: IRoomSession, name: string, target: number, isActive: boolean = false)
+	{
+		super(RoomSessionQueueEvent.QUEUE_STATUS, session);
+		this._queueSetName = name;
+		this._queueSetTarget = target;
+		this._isActive = isActive;
+	}
 
 	private _queueSetName: string;
 
@@ -32,19 +41,9 @@ export class RoomSessionQueueEvent extends RoomSessionEvent
 		return this._isActive;
 	}
 
-	private _queues: Map<string, number> = new Map();
-
 	get queueTypes(): string[]
 	{
 		return Array.from(this._queues.keys());
-	}
-
-	constructor(session: IRoomSession, name: string, target: number, isActive: boolean = false)
-	{
-		super(RoomSessionQueueEvent.QUEUE_STATUS, session);
-		this._queueSetName = name;
-		this._queueSetTarget = target;
-		this._isActive = isActive;
 	}
 
 	addQueue(type: string, size: number): void

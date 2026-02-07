@@ -42,11 +42,7 @@ import {
 	UseProductForPetComposer,
 	WhisperMessageComposer,
 } from '../communication/messages/outgoing/room';
-import {
-	PollAnswerComposer,
-	PollRejectComposer,
-	PollStartComposer,
-} from '../communication/messages/outgoing/poll';
+import {PollAnswerComposer, PollRejectComposer, PollStartComposer,} from '../communication/messages/outgoing/poll';
 import {VisitUserMessageComposer,} from '../communication/messages/outgoing/friendlist';
 import {EventLogMessageComposer,} from '../communication/messages/outgoing';
 
@@ -401,8 +397,7 @@ export class RoomSession implements IRoomSession
 		if (isTyping)
 		{
 			this._connection.send(new StartTypingMessageComposer());
-		}
-		else
+		} else
 		{
 			this._connection.send(new CancelTypingMessageComposer());
 		}

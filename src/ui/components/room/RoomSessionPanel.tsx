@@ -24,7 +24,8 @@ export const RoomSessionPanel: Component = () =>
 						{state().currentRoom?.roomName ?? 'Unknown Room'}
 					</h2>
 					<Show when={state().isStaffPick}>
-						<span class="bg-gradient-to-br from-accent to-purple-500 text-white text-[0.625rem] font-semibold px-2 py-0.5 rounded-full uppercase">
+						<span
+							class="bg-gradient-to-br from-accent to-purple-500 text-white text-[0.625rem] font-semibold px-2 py-0.5 rounded-full uppercase">
 							Staff Pick
 						</span>
 					</Show>
@@ -40,7 +41,8 @@ export const RoomSessionPanel: Component = () =>
 				{/* Info rows */}
 				<InfoRow label="Owner" value={state().currentRoom?.ownerName ?? 'Unknown'}/>
 				<InfoRow label="Rating" value={`${state().rating}${state().canRate ? ' (Can rate)' : ''}`}/>
-				<InfoRow label="Users" value={`${Object.keys(state().users).length} / ${state().currentRoom?.maxUserCount ?? '?'}`}/>
+				<InfoRow label="Users"
+						 value={`${Object.keys(state().users).length} / ${state().currentRoom?.maxUserCount ?? '?'}`}/>
 
 				{/* Session state */}
 				<div class="flex justify-between items-center text-xs py-1.5">
@@ -58,17 +60,20 @@ export const RoomSessionPanel: Component = () =>
 				{/* Permissions */}
 				<div class="flex gap-2 mt-3 flex-wrap">
 					<Show when={state().isRoomOwner}>
-						<span class="text-[0.625rem] font-semibold px-2 py-1 rounded-[var(--radius-sm)] uppercase bg-credits/15 text-credits border border-credits/25">
+						<span
+							class="text-[0.625rem] font-semibold px-2 py-1 rounded-[var(--radius-sm)] uppercase bg-credits/15 text-credits border border-credits/25">
 							Owner
 						</span>
 					</Show>
 					<Show when={state().roomControllerLevel >= 4}>
-						<span class="text-[0.625rem] font-semibold px-2 py-1 rounded-[var(--radius-sm)] uppercase bg-error/15 text-error border border-error/25">
+						<span
+							class="text-[0.625rem] font-semibold px-2 py-1 rounded-[var(--radius-sm)] uppercase bg-error/15 text-error border border-error/25">
 							Admin
 						</span>
 					</Show>
 					<Show when={state().roomControllerLevel >= 1 && state().roomControllerLevel < 4}>
-						<span class="text-[0.625rem] font-semibold px-2 py-1 rounded-[var(--radius-sm)] uppercase bg-success/15 text-success border border-success/25">
+						<span
+							class="text-[0.625rem] font-semibold px-2 py-1 rounded-[var(--radius-sm)] uppercase bg-success/15 text-success border border-success/25">
 							Rights
 						</span>
 					</Show>

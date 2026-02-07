@@ -4,10 +4,14 @@ import type {IRoomHandlerListener} from '../IRoomHandlerListener';
 import {BaseHandler} from './BaseHandler';
 
 // Message events
-import {PresentOpenedMessageEvent} from '../../communication/messages/incoming/room/furniture/PresentOpenedMessageEvent';
+import {
+	PresentOpenedMessageEvent
+} from '../../communication/messages/incoming/room/furniture/PresentOpenedMessageEvent';
 
 // Parsers
-import type {PresentOpenedMessageEventParser} from '../../communication/messages/parser/room/furniture/PresentOpenedMessageEventParser';
+import type {
+	PresentOpenedMessageEventParser
+} from '../../communication/messages/parser/room/furniture/PresentOpenedMessageEventParser';
 
 // Events
 import {RoomSessionPresentEvent} from '../events/RoomSessionPresentEvent';

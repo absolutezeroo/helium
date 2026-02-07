@@ -10,6 +10,7 @@
  * It does NOT manage rooms directly - that's RoomManager's responsibility.
  */
 import type {Container} from 'pixi.js';
+import {Texture} from 'pixi.js';
 import {Component, ComponentDependency, type IContext, type IUpdateReceiver} from '@core/runtime';
 import type {IAssetLibrary} from '@core/assets/IAssetLibrary';
 import type {IConnection} from '@core/communication/connection/IConnection';
@@ -58,7 +59,6 @@ import type {NitroAsset} from '@core/assets/NitroAsset';
 import {AssetLoaderEvent, AssetLoaderEventType} from '@core/assets/loaders/AssetLoaderEvent';
 import {IID_HabboConfigurationManager} from '@iid/IIDHabboConfigurationManager';
 import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
-import {Texture} from 'pixi.js';
 
 const log = Logger.getLogger('RoomEngine');
 
@@ -146,7 +146,9 @@ export class RoomEngine extends Component implements IRoomEngine,
 					if (manager && 'setObjectFactory' in manager)
 					{
 						// Set the object factory on room manager
-						(manager as unknown as { setObjectFactory: (f: RoomObjectFactory) => void }).setObjectFactory(this._roomObjectFactory);
+						(manager as unknown as {
+							setObjectFactory: (f: RoomObjectFactory) => void
+						}).setObjectFactory(this._roomObjectFactory);
 					}
 				},
 				true // Required dependency
@@ -1655,8 +1657,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 				if (event.type === AssetLoaderEventType.COMPLETE)
 				{
 					this.onRoomContentReady();
-				}
-				else if (event.type === AssetLoaderEventType.ERROR)
+				} else if (event.type === AssetLoaderEventType.ERROR)
 				{
 					log.warn('[RoomEngine] Failed to load room content bundle');
 				}
@@ -1756,8 +1757,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 			}
 
 			return null;
-		}
-		catch
+		} catch
 		{
 			return null;
 		}

@@ -40,6 +40,28 @@ export class RoomSessionEventHandler
 	}
 
 	/**
+	 * Dispose of the handler and remove event listeners.
+	 */
+	dispose(): void
+	{
+		if (this.disposed) return;
+
+		if (this._freeFlowChat?.roomSessionManager)
+		{
+			this._freeFlowChat.roomSessionManager.sessionEvents.off(
+				'RSE_CREATED',
+				this._onRoomSessionCreatedBound
+			);
+			this._freeFlowChat.roomSessionManager.sessionEvents.off(
+				'RSE_ENDED',
+				this._onRoomSessionEndedBound
+			);
+		}
+
+		this._freeFlowChat = null;
+	}
+
+	/**
 	 * Handler for RSE_CREATED event. Notifies the free flow chat
 	 * that a room has been entered.
 	 */
@@ -61,27 +83,5 @@ export class RoomSessionEventHandler
 		{
 			this._freeFlowChat.roomLeft();
 		}
-	}
-
-	/**
-	 * Dispose of the handler and remove event listeners.
-	 */
-	dispose(): void
-	{
-		if (this.disposed) return;
-
-		if (this._freeFlowChat?.roomSessionManager)
-		{
-			this._freeFlowChat.roomSessionManager.sessionEvents.off(
-				'RSE_CREATED',
-				this._onRoomSessionCreatedBound
-			);
-			this._freeFlowChat.roomSessionManager.sessionEvents.off(
-				'RSE_ENDED',
-				this._onRoomSessionEndedBound
-			);
-		}
-
-		this._freeFlowChat = null;
 	}
 }

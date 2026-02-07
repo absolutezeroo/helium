@@ -14,9 +14,9 @@ import {RoomObject} from './object/RoomObject';
 export class RoomObjectManager implements IRoomObjectManager
 {
 	private _objectsByType: Map<string, Map<string, IRoomObjectController>> = new Map();
+	private _cachedValues: IRoomObjectController[] | null = null;
 
 	private _objects: Map<string, IRoomObjectController> = new Map();
-	private _cachedValues: IRoomObjectController[] | null = null;
 
 	get objects(): IRoomObject[]
 	{

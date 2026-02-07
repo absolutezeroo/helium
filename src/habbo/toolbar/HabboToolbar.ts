@@ -47,18 +47,26 @@ export interface HabboToolbarEvents
 export class HabboToolbar extends Component implements IHabboToolbar
 {
 	private _communication: IHabboCommunicationManager | null = null;
-	private _sessionDataManager: ISessionDataManager | null = null;
 	private _roomSessionManager: IRoomSessionManager | null = null;
 	private _messageEvents: IMessageEvent[] = [];
-	private _toolbarEvents: EventEmitter = new EventEmitter();
-	private _currentState: string = HabboToolbarEnum.TOOLBAR_STATE_HIDDEN;
 	private _extensionsInitialized: boolean = false;
-	private _onDuty: boolean = false;
 
 	constructor(context: IContext)
 	{
 		super(context);
 	}
+
+	private _sessionDataManager: ISessionDataManager | null = null;
+
+	/**
+	 * The session data manager
+	 */
+	get sessionDataManager(): ISessionDataManager | null
+	{
+		return this._sessionDataManager;
+	}
+
+	private _toolbarEvents: EventEmitter = new EventEmitter();
 
 	/**
 	 * Custom toolbar event emitter (NOT the Component events)
@@ -71,12 +79,29 @@ export class HabboToolbar extends Component implements IHabboToolbar
 		return this._toolbarEvents;
 	}
 
+	private _currentState: string = HabboToolbarEnum.TOOLBAR_STATE_HIDDEN;
+
 	/**
 	 * The current toolbar state
 	 */
 	get currentState(): string
 	{
 		return this._currentState;
+	}
+
+	private _onDuty: boolean = false;
+
+	/**
+	 * Whether the user is on duty (moderation)
+	 */
+	get onDuty(): boolean
+	{
+		return this._onDuty;
+	}
+
+	set onDuty(value: boolean)
+	{
+		this._onDuty = value;
 	}
 
 	/**
@@ -108,27 +133,6 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	get communicationManager(): IHabboCommunicationManager | null
 	{
 		return this._communication;
-	}
-
-	/**
-	 * The session data manager
-	 */
-	get sessionDataManager(): ISessionDataManager | null
-	{
-		return this._sessionDataManager;
-	}
-
-	/**
-	 * Whether the user is on duty (moderation)
-	 */
-	get onDuty(): boolean
-	{
-		return this._onDuty;
-	}
-
-	set onDuty(value: boolean)
-	{
-		this._onDuty = value;
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -173,19 +177,6 @@ export class HabboToolbar extends Component implements IHabboToolbar
 				false
 			),
 		];
-	}
-
-	/**
-	 * Initialize the toolbar component
-	 *
-	 * Called when all required dependencies are resolved.
-	 * Sets up message event handlers and initial toolbar state.
-	 *
-	 * @see source_as/habbo/toolbar/HabboToolbar.as initComponent()
-	 */
-	protected override initComponent(): void
-	{
-		log.info('Toolbar component initialized');
 	}
 
 	/**
@@ -235,8 +226,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 			const cameraEvent = new HabboToolbarEvent(HabboToolbarEvent.CAMERA_TOGGLE);
 			cameraEvent.iconName = HabboToolbarEvent.CAMERA_LAUNCH_ORIGIN_TOOLBAR;
 			this._toolbarEvents.emit(HabboToolbarEvent.CAMERA_TOGGLE, cameraEvent);
-		}
-		else
+		} else
 		{
 			const clickEvent = new HabboToolbarEvent(HabboToolbarEvent.TOOLBAR_CLICK);
 			clickEvent.iconId = iconId;
@@ -339,6 +329,52 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	}
 
 	/**
+	 * Dispose of this component
+	 *
+	 * Cleans up all message event handlers, extensions, and timers.
+	 *
+	 * @see source_as/habbo/toolbar/HabboToolbar.as dispose()
+	 */
+	override dispose(): void
+	{
+		if (this._disposed) return;
+
+		// Remove all message event handlers
+		if (this._communication)
+		{
+			for (const event of this._messageEvents)
+			{
+				this._communication.removeMessageEvent(event);
+			}
+		}
+		this._messageEvents = [];
+
+		// Clear toolbar events
+		this._toolbarEvents.removeAllListeners();
+
+		// Clear references
+		this._communication = null;
+		this._sessionDataManager = null;
+		this._roomSessionManager = null;
+		this._extensionsInitialized = false;
+
+		super.dispose();
+	}
+
+	/**
+	 * Initialize the toolbar component
+	 *
+	 * Called when all required dependencies are resolved.
+	 * Sets up message event handlers and initial toolbar state.
+	 *
+	 * @see source_as/habbo/toolbar/HabboToolbar.as initComponent()
+	 */
+	protected override initComponent(): void
+	{
+		log.info('Toolbar component initialized');
+	}
+
+	/**
 	 * Handler for configuration complete event
 	 *
 	 * @see source_as/habbo/toolbar/HabboToolbar.as onConfigurationComplete()
@@ -379,38 +415,5 @@ export class HabboToolbar extends Component implements IHabboToolbar
 			this._communication.addMessageEvent(event);
 			this._messageEvents.push(event);
 		}
-	}
-
-	/**
-	 * Dispose of this component
-	 *
-	 * Cleans up all message event handlers, extensions, and timers.
-	 *
-	 * @see source_as/habbo/toolbar/HabboToolbar.as dispose()
-	 */
-	override dispose(): void
-	{
-		if (this._disposed) return;
-
-		// Remove all message event handlers
-		if (this._communication)
-		{
-			for (const event of this._messageEvents)
-			{
-				this._communication.removeMessageEvent(event);
-			}
-		}
-		this._messageEvents = [];
-
-		// Clear toolbar events
-		this._toolbarEvents.removeAllListeners();
-
-		// Clear references
-		this._communication = null;
-		this._sessionDataManager = null;
-		this._roomSessionManager = null;
-		this._extensionsInitialized = false;
-
-		super.dispose();
 	}
 }

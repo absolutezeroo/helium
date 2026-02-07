@@ -64,9 +64,11 @@ export const Toolbar: Component = () =>
 	};
 
 	return (
-		<div class="absolute bottom-0 left-0 right-0 h-[var(--spacing-toolbar)] bg-bg-secondary border-t border-border flex items-center justify-between px-5 backdrop-blur-xl">
+		<div
+			class="absolute bottom-0 left-0 right-0 h-[var(--spacing-toolbar)] bg-bg-secondary border-t border-border flex items-center justify-between px-5 backdrop-blur-xl">
 			<div class="flex-1 flex items-center">
-				<span class="text-xl font-bold bg-gradient-to-br from-accent to-purple-500 bg-clip-text text-transparent">
+				<span
+					class="text-xl font-bold bg-gradient-to-br from-accent to-purple-500 bg-clip-text text-transparent">
 					Helium
 				</span>
 			</div>
@@ -93,7 +95,8 @@ export const Toolbar: Component = () =>
 
 			<div class="flex-1 flex items-center justify-end">
 				<div class="flex items-center gap-3">
-					<span class="bg-credits/15 text-credits px-3.5 py-1.5 rounded-full text-sm font-medium border border-credits/25">
+					<span
+						class="bg-credits/15 text-credits px-3.5 py-1.5 rounded-full text-sm font-medium border border-credits/25">
 						{session().activityPoints.get(0) ?? 0} Credits
 					</span>
 				</div>

@@ -5,7 +5,9 @@
  */
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
-import {OpenPetPackageResultMessageEventParser} from '@habbo/communication/messages/parser/room/furniture/OpenPetPackageResultMessageEventParser';
+import {
+	OpenPetPackageResultMessageEventParser
+} from '@habbo/communication/messages/parser/room/furniture/OpenPetPackageResultMessageEventParser';
 
 export class OpenPetPackageResultMessageEvent extends MessageEvent
 {

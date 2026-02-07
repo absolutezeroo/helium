@@ -47,5 +47,5 @@ export function parsePetInfoData(wrapper: IMessageDataWrapper): PetInfoData
 	const figureData = parsePetFigureData(wrapper);
 	const level = wrapper.readInt();
 
-	return { id, name, figureData, level };
+	return {id, name, figureData, level};
 }

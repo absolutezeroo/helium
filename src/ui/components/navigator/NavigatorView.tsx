@@ -3,10 +3,10 @@ import {createMemo, createSignal, For, Show} from 'solid-js';
 import clsx from 'clsx';
 import {ModuleId, useActions, useModule} from '../../bridge';
 import {useLocalization} from '@ui/common';
-import {HeliumCardView, HeliumCardHeaderView, HeliumCardContentView} from '@ui/common/card';
+import {HeliumCardContentView, HeliumCardHeaderView, HeliumCardView} from '@ui/common/card';
 import {NavigatorIcon} from './common';
-import {NavigatorTabsView, NavigatorSearchView, NavigatorSearchResultView} from './views';
 import type {NavigatorBlockData, RoomListViewMode} from './views';
+import {NavigatorSearchResultView, NavigatorSearchView, NavigatorTabsView} from './views';
 import {mapSearchResultsToBlocks} from './utils';
 
 /**

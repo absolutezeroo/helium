@@ -26,16 +26,12 @@ export class HabboToolbarEvent
 
 	public static readonly CAMERA_LAUNCH_ORIGIN_TOOLBAR: string = 'toolBarCameraIcon';
 
-	private _type: string;
-
-	private _iconId: string = '';
-
-	private _iconName: string = '';
-
 	constructor(type: string)
 	{
 		this._type = type;
 	}
+
+	private _type: string;
 
 	/**
 	 * The event type
@@ -44,6 +40,8 @@ export class HabboToolbarEvent
 	{
 		return this._type;
 	}
+
+	private _iconId: string = '';
 
 	/**
 	 * The icon identifier that was clicked
@@ -57,6 +55,8 @@ export class HabboToolbarEvent
 	{
 		this._iconId = value;
 	}
+
+	private _iconName: string = '';
 
 	/**
 	 * The human-readable icon name

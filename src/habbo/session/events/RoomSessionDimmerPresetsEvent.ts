@@ -10,16 +10,14 @@ import {RoomSessionDimmerPresetsEventPresetItem} from './RoomSessionDimmerPreset
 export class RoomSessionDimmerPresetsEvent extends RoomSessionEvent
 {
 	public static readonly ROOM_DIMMER_PRESETS = 'RSDPE_PRESETS';
-
-	private _selectedPresetId: number = 0;
 	private _presets: RoomSessionDimmerPresetsEventPresetItem[] = [];
-	private _itemId: number = 0;
-	private _isOn: boolean = false;
 
 	constructor(type: string, session: IRoomSession, openLandingPage: boolean = false)
 	{
 		super(type, session, openLandingPage);
 	}
+
+	private _selectedPresetId: number = 0;
 
 	get selectedPresetId(): number
 	{
@@ -31,10 +29,7 @@ export class RoomSessionDimmerPresetsEvent extends RoomSessionEvent
 		this._selectedPresetId = value;
 	}
 
-	get presetCount(): number
-	{
-		return this._presets.length;
-	}
+	private _itemId: number = 0;
 
 	get itemId(): number
 	{
@@ -46,6 +41,8 @@ export class RoomSessionDimmerPresetsEvent extends RoomSessionEvent
 		this._itemId = value;
 	}
 
+	private _isOn: boolean = false;
+
 	get isOn(): boolean
 	{
 		return this._isOn;
@@ -54,6 +51,11 @@ export class RoomSessionDimmerPresetsEvent extends RoomSessionEvent
 	set isOn(value: boolean)
 	{
 		this._isOn = value;
+	}
+
+	get presetCount(): number
+	{
+		return this._presets.length;
 	}
 
 	storePreset(id: number, type: number, color: number, light: number): void

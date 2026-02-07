@@ -154,8 +154,7 @@ export class GameDataResources implements IGameDataResources
 		try
 		{
 			parsed = JSON.parse(data) as HashesData;
-		}
-		catch
+		} catch
 		{
 			throw new Error('[GameDataResources] Failed to parse game data JSON');
 		}

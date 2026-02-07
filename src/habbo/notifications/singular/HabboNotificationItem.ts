@@ -9,6 +9,19 @@ import type {SingularNotificationController} from './SingularNotificationControl
  */
 export class HabboNotificationItem
 {
+	private _controller: SingularNotificationController | null;
+
+	constructor(
+		content: string,
+		style: HabboNotificationItemStyle,
+		controller: SingularNotificationController
+	)
+	{
+		this._content = content;
+		this._style = style;
+		this._controller = controller;
+	}
+
 	private _style: HabboNotificationItemStyle | null;
 
 	get style(): HabboNotificationItemStyle | null
@@ -21,19 +34,6 @@ export class HabboNotificationItem
 	get content(): string | null
 	{
 		return this._content;
-	}
-
-	private _controller: SingularNotificationController | null;
-
-	constructor(
-		content: string,
-		style: HabboNotificationItemStyle,
-		controller: SingularNotificationController
-	)
-	{
-		this._content = content;
-		this._style = style;
-		this._controller = controller;
 	}
 
 	/**

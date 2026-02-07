@@ -31,17 +31,6 @@ export class PlaneMaterialCellMatrix
 	private _cachedBitmapNormal: Vector3d | null = null;
 	private _cachedBitmapHeight: number = 0;
 	private _cacheUsed: boolean = false;
-	private _isStatic: boolean = true;
-	private _normalMinX: number;
-	private _normalMaxX: number;
-	private _normalMinY: number;
-	private _normalMaxY: number;
-
-	private static nextRandomColumnIndex(count: number): number
-	{
-		const values = Randomizer.getValues(1, 0, count * 17631);
-		return values[0] % count;
-	}
 
 	constructor(
 		numColumns: number,
@@ -74,11 +63,46 @@ export class PlaneMaterialCellMatrix
 		}
 	}
 
-	get normalMinX(): number { return this._normalMinX; }
-	get normalMaxX(): number { return this._normalMaxX; }
-	get normalMinY(): number { return this._normalMinY; }
-	get normalMaxY(): number { return this._normalMaxY; }
-	get isStatic(): boolean { return this._isStatic; }
+	private _isStatic: boolean = true;
+
+	get isStatic(): boolean
+	{
+		return this._isStatic;
+	}
+
+	private _normalMinX: number;
+
+	get normalMinX(): number
+	{
+		return this._normalMinX;
+	}
+
+	private _normalMaxX: number;
+
+	get normalMaxX(): number
+	{
+		return this._normalMaxX;
+	}
+
+	private _normalMinY: number;
+
+	get normalMinY(): number
+	{
+		return this._normalMinY;
+	}
+
+	private _normalMaxY: number;
+
+	get normalMaxY(): number
+	{
+		return this._normalMaxY;
+	}
+
+	private static nextRandomColumnIndex(count: number): number
+	{
+		const values = Randomizer.getValues(1, 0, count * 17631);
+		return values[0] % count;
+	}
 
 	isBottomAligned(): boolean
 	{
@@ -195,8 +219,7 @@ export class PlaneMaterialCellMatrix
 				}
 				this._cachedBitmap = null;
 			}
-		}
-		else if (this._cachedBitmap !== null)
+		} else if (this._cachedBitmap !== null)
 		{
 			if (this._cachedBitmap.width === width && this._cachedBitmap.height === height)
 			{
@@ -204,8 +227,7 @@ export class PlaneMaterialCellMatrix
 				ctx.clearRect(0, 0, width, height);
 				ctx.fillStyle = '#FFFFFF';
 				ctx.fillRect(0, 0, width, height);
-			}
-			else
+			} else
 			{
 				this._cachedBitmap = null;
 			}
@@ -226,8 +248,7 @@ export class PlaneMaterialCellMatrix
 				const ctx = this._cachedBitmap.getContext('2d')!;
 				ctx.fillStyle = '#FFFFFFFF';
 				ctx.fillRect(0, 0, width, height);
-			}
-			else
+			} else
 			{
 				const ctx = this._cachedBitmap.getContext('2d')!;
 				ctx.fillStyle = '#FFFFFFFF';
@@ -323,8 +344,7 @@ export class PlaneMaterialCellMatrix
 		{
 			srcY = 0;
 			srcH = this._cachedBitmapHeight;
-		}
-		else
+		} else
 		{
 			srcY = this._cachedBitmap.height - this._cachedBitmapHeight;
 			srcH = this._cachedBitmapHeight;
@@ -355,7 +375,7 @@ export class PlaneMaterialCellMatrix
 		columns: HTMLCanvasElement[],
 		xPos: number,
 		leftToRight: boolean
-	): {x: number; maxHeight: number}
+	): { x: number; maxHeight: number }
 	{
 		if (columns === null || columns.length === 0 || target === null)
 		{

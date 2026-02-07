@@ -18,33 +18,33 @@ export interface FlexProps extends ParentProps
 }
 
 const GAP_MAP: Record<number, string> =
-{
-	0: 'gap-0',
-	1: 'gap-1',
-	2: 'gap-2',
-	3: 'gap-3',
-	4: 'gap-4',
-	5: 'gap-5',
-	6: 'gap-6',
-};
+	{
+		0: 'gap-0',
+		1: 'gap-1',
+		2: 'gap-2',
+		3: 'gap-3',
+		4: 'gap-4',
+		5: 'gap-5',
+		6: 'gap-6',
+	};
 
 const ALIGN_MAP: Record<string, string> =
-{
-	start: 'items-start',
-	center: 'items-center',
-	end: 'items-end',
-	stretch: 'items-stretch',
-	baseline: 'items-baseline',
-};
+	{
+		start: 'items-start',
+		center: 'items-center',
+		end: 'items-end',
+		stretch: 'items-stretch',
+		baseline: 'items-baseline',
+	};
 
 const JUSTIFY_MAP: Record<string, string> =
-{
-	start: 'justify-start',
-	center: 'justify-center',
-	end: 'justify-end',
-	between: 'justify-between',
-	around: 'justify-around',
-};
+	{
+		start: 'justify-start',
+		center: 'justify-center',
+		end: 'justify-end',
+		between: 'justify-between',
+		around: 'justify-around',
+	};
 
 export function Flex(props: FlexProps): JSX.Element
 {

@@ -42,7 +42,8 @@ export function LayoutGridItem(props: LayoutGridItemProps): JSX.Element
 
 			{/* Count badge */}
 			<Show when={props.count !== undefined && props.count! > 1}>
-				<span class="absolute bottom-0.5 right-0.5 min-w-[18px] h-[18px] flex items-center justify-center px-1 text-[10px] font-bold bg-slate-700 text-slate-300 rounded-full">
+				<span
+					class="absolute bottom-0.5 right-0.5 min-w-[18px] h-[18px] flex items-center justify-center px-1 text-[10px] font-bold bg-slate-700 text-slate-300 rounded-full">
 					{props.count! > 99 ? '99+' : props.count}
 				</span>
 			</Show>

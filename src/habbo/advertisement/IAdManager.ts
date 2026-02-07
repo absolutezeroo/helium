@@ -8,6 +8,8 @@ import type {EventEmitter} from 'eventemitter3';
 export interface IAdManager
 {
 	showInterstitial(): void;
+
 	loadRoomAdImage(roomId: number, objectId: number, objectCategory: number, imageURL: string, clickURL: string): void;
+
 	get adEvents(): EventEmitter;
 }

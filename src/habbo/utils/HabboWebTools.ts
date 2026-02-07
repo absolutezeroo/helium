@@ -34,9 +34,19 @@ export class HabboWebTools
 	public static readonly HABBLET_MINI_MAIL: string = 'minimail';
 	public static readonly HABBLET_ROOM_ENTER_AD: string = 'roomenterad';
 	public static readonly HABBLET_NEWS: string = 'news';
+	private static readonly _toolEvents = new EventEmitter<HabboWebToolsEvents>();
 
 	private static _baseUrl: string = '';
-	private static readonly _toolEvents = new EventEmitter<HabboWebToolsEvents>();
+
+	static get baseUrl(): string
+	{
+		return HabboWebTools._baseUrl;
+	}
+
+	static set baseUrl(value: string)
+	{
+		HabboWebTools._baseUrl = value;
+	}
 
 	/**
 	 * Event emitter for web tool events.
@@ -45,29 +55,6 @@ export class HabboWebTools
 	static get toolEvents(): EventEmitter<HabboWebToolsEvents>
 	{
 		return HabboWebTools._toolEvents;
-	}
-
-	static set baseUrl(value: string)
-	{
-		HabboWebTools._baseUrl = value;
-	}
-
-	static get baseUrl(): string
-	{
-		return HabboWebTools._baseUrl;
-	}
-
-	/**
-	 * Resolve a URL: if it starts with "http", use as-is; otherwise prepend baseUrl
-	 */
-	private static resolveUrl(url: string): string
-	{
-		if (url.indexOf('http') === 0)
-		{
-			return url;
-		}
-
-		return HabboWebTools._baseUrl + '/' + url;
 	}
 
 	/**
@@ -272,5 +259,18 @@ export class HabboWebTools
 	static hideGame(): void
 	{
 		log.debug('hideGame');
+	}
+
+	/**
+	 * Resolve a URL: if it starts with "http", use as-is; otherwise prepend baseUrl
+	 */
+	private static resolveUrl(url: string): string
+	{
+		if (url.indexOf('http') === 0)
+		{
+			return url;
+		}
+
+		return HabboWebTools._baseUrl + '/' + url;
 	}
 }

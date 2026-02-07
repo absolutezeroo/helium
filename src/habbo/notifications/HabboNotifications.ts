@@ -195,8 +195,7 @@ export class HabboNotifications extends Component implements IHabboNotifications
 				{
 					params.set(key, value);
 				}
-			}
-			catch (e)
+			} catch (e)
 			{
 				log.error(`Failed to parse notification config for "${configKey}":`, e);
 			}
@@ -223,8 +222,7 @@ export class HabboNotifications extends Component implements IHabboNotifications
 				null,
 				internalLink ?? linkUrl
 			);
-		}
-		else
+		} else
 		{
 			// Emit event for UI layer to show notification popup
 			this._notificationEvents.emit('showNotification', type, params);

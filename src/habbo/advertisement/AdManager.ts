@@ -4,8 +4,12 @@ import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommun
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
 import {Logger} from '@core/utils/Logger';
 import {InterstitialMessageEvent} from '@habbo/communication/messages/incoming/advertisement/InterstitialMessageEvent';
-import type {InterstitialMessageParser} from '@habbo/communication/messages/parser/advertisement/InterstitialMessageParser';
-import {GetInterstitialMessageComposer} from '@habbo/communication/messages/outgoing/advertisement/GetInterstitialMessageComposer';
+import type {
+	InterstitialMessageParser
+} from '@habbo/communication/messages/parser/advertisement/InterstitialMessageParser';
+import {
+	GetInterstitialMessageComposer
+} from '@habbo/communication/messages/outgoing/advertisement/GetInterstitialMessageComposer';
 import {InterstitialEvent} from './events/InterstitialEvent';
 import {AdEvent} from './events/AdEvent';
 import {AdImageRequest} from './AdImageRequest';
@@ -23,7 +27,6 @@ const log = Logger.getLogger('AdManager');
 export class AdManager extends Component implements IAdManager
 {
 	private _communicationManager: IHabboCommunicationManager | null = null;
-	private _adEvents: EventEmitter = new EventEmitter();
 	private _billboardImageLoaders: Map<string, AdImageRequest[]> = new Map();
 	private _interstitialEvent: IMessageEvent | null = null;
 
@@ -31,6 +34,8 @@ export class AdManager extends Component implements IAdManager
 	{
 		super(context);
 	}
+
+	private _adEvents: EventEmitter = new EventEmitter();
 
 	get adEvents(): EventEmitter
 	{
@@ -48,14 +53,6 @@ export class AdManager extends Component implements IAdManager
 				},
 			),
 		];
-	}
-
-	protected override initComponent(): void
-	{
-		this._interstitialEvent = new InterstitialMessageEvent(this.onInterstitial.bind(this));
-		this._communicationManager!.addMessageEvent(this._interstitialEvent);
-
-		log.debug('AdManager initialized');
 	}
 
 	/**
@@ -96,6 +93,31 @@ export class AdManager extends Component implements IAdManager
 		this.loadBillboardImage(imageURL);
 	}
 
+	dispose(): void
+	{
+		if (this._disposed) return;
+
+		if (this._communicationManager && this._interstitialEvent)
+		{
+			this._communicationManager.removeMessageEvent(this._interstitialEvent);
+			this._interstitialEvent = null;
+		}
+
+		this._billboardImageLoaders.clear();
+		this._adEvents.removeAllListeners();
+		this._communicationManager = null;
+
+		super.dispose();
+	}
+
+	protected override initComponent(): void
+	{
+		this._interstitialEvent = new InterstitialMessageEvent(this.onInterstitial.bind(this));
+		this._communicationManager!.addMessageEvent(this._interstitialEvent);
+
+		log.debug('AdManager initialized');
+	}
+
 	/**
 	 * Handle interstitial message from server
 	 */
@@ -107,8 +129,7 @@ export class AdManager extends Component implements IAdManager
 		{
 			log.debug('Interstitial available');
 			this._adEvents.emit(InterstitialEvent.INTERSTITIAL_SHOW);
-		}
-		else
+		} else
 		{
 			this._adEvents.emit(InterstitialEvent.INTERSTITIAL_NOT_SHOWN);
 		}
@@ -136,8 +157,7 @@ export class AdManager extends Component implements IAdManager
 			{
 				this.onBillboardImageReady(imageURL);
 			}
-		}
-		catch
+		} catch
 		{
 			this.onBillboardImageLoadError(imageURL);
 		}
@@ -187,22 +207,5 @@ export class AdManager extends Component implements IAdManager
 				req.objectCategory
 			));
 		}
-	}
-
-	dispose(): void
-	{
-		if (this._disposed) return;
-
-		if (this._communicationManager && this._interstitialEvent)
-		{
-			this._communicationManager.removeMessageEvent(this._interstitialEvent);
-			this._interstitialEvent = null;
-		}
-
-		this._billboardImageLoaders.clear();
-		this._adEvents.removeAllListeners();
-		this._communicationManager = null;
-
-		super.dispose();
 	}
 }

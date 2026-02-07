@@ -11,11 +11,6 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 export class CampaignCalendarData
 {
 	private _campaignName: string = '';
-	private _campaignImage: string = '';
-	private _currentDay: number = 0;
-	private _campaignDays: number = 0;
-	private _openedDays: number[] = [];
-	private _missedDays: number[] = [];
 
 	get campaignName(): string
 	{
@@ -27,6 +22,8 @@ export class CampaignCalendarData
 		this._campaignName = value;
 	}
 
+	private _campaignImage: string = '';
+
 	get campaignImage(): string
 	{
 		return this._campaignImage;
@@ -36,6 +33,8 @@ export class CampaignCalendarData
 	{
 		this._campaignImage = value;
 	}
+
+	private _currentDay: number = 0;
 
 	get currentDay(): number
 	{
@@ -47,6 +46,8 @@ export class CampaignCalendarData
 		this._currentDay = value;
 	}
 
+	private _campaignDays: number = 0;
+
 	get campaignDays(): number
 	{
 		return this._campaignDays;
@@ -57,6 +58,8 @@ export class CampaignCalendarData
 		this._campaignDays = value;
 	}
 
+	private _openedDays: number[] = [];
+
 	get openedDays(): number[]
 	{
 		return this._openedDays;
@@ -66,6 +69,8 @@ export class CampaignCalendarData
 	{
 		this._openedDays = value;
 	}
+
+	private _missedDays: number[] = [];
 
 	get missedDays(): number[]
 	{

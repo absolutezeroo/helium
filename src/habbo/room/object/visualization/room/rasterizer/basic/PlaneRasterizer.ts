@@ -20,15 +20,13 @@ import {PlaneMaterialCellMatrix} from './PlaneMaterialCellMatrix';
 import {Plane} from './Plane';
 import type {PlaneVisualizationLayer} from './PlaneVisualizationLayer';
 import type {
-	IAssetPlaneVisualizationData,
-	IAssetPlaneVisualization,
-	IAssetPlaneVisualizationLayer,
-	IAssetPlaneTexture,
-	IAssetPlaneTextureBitmap,
 	IAssetPlaneMaterial,
-	IAssetPlaneMaterialCellMatrix,
-	IAssetPlaneMaterialCellColumn,
 	IAssetPlaneMaterialCell,
+	IAssetPlaneMaterialCellColumn,
+	IAssetPlaneTexture,
+	IAssetPlaneVisualization,
+	IAssetPlaneVisualizationData,
+	IAssetPlaneVisualizationLayer,
 } from './PlaneRasterizerTypes';
 
 export class PlaneRasterizer implements IPlaneRasterizer
@@ -39,8 +37,9 @@ export class PlaneRasterizer implements IPlaneRasterizer
 	private _materials: Map<string, PlaneMaterial> = new Map();
 	private _planes: Map<string, Plane> = new Map();
 	private _geometryCache: Map<string, IRoomGeometry> = new Map();
-	private _data: IAssetPlaneVisualizationData | null = null;
 	private _assetTextures: Map<string, HTMLCanvasElement> | null = null;
+
+	private _data: IAssetPlaneVisualizationData | null = null;
 
 	protected get data(): IAssetPlaneVisualizationData | null
 	{
@@ -225,8 +224,7 @@ export class PlaneRasterizer implements IPlaneRasterizer
 					if (layerData.align === 'bottom')
 					{
 						align = 2;
-					}
-					else if (layerData.align === 'top')
+					} else if (layerData.align === 'top')
 					{
 						align = 1;
 					}
@@ -390,12 +388,18 @@ export class PlaneRasterizer implements IPlaneRasterizer
 	{
 		switch (mode)
 		{
-			case 'borders': return PlaneMaterialCellMatrix.REPEAT_MODE_BORDERS;
-			case 'center': return PlaneMaterialCellMatrix.REPEAT_MODE_CENTER;
-			case 'first': return PlaneMaterialCellMatrix.REPEAT_MODE_FIRST;
-			case 'last': return PlaneMaterialCellMatrix.REPEAT_MODE_LAST;
-			case 'random': return PlaneMaterialCellMatrix.REPEAT_MODE_RANDOM;
-			default: return PlaneMaterialCellMatrix.REPEAT_MODE_ALL;
+			case 'borders':
+				return PlaneMaterialCellMatrix.REPEAT_MODE_BORDERS;
+			case 'center':
+				return PlaneMaterialCellMatrix.REPEAT_MODE_CENTER;
+			case 'first':
+				return PlaneMaterialCellMatrix.REPEAT_MODE_FIRST;
+			case 'last':
+				return PlaneMaterialCellMatrix.REPEAT_MODE_LAST;
+			case 'random':
+				return PlaneMaterialCellMatrix.REPEAT_MODE_RANDOM;
+			default:
+				return PlaneMaterialCellMatrix.REPEAT_MODE_ALL;
 		}
 	}
 
@@ -403,12 +407,18 @@ export class PlaneRasterizer implements IPlaneRasterizer
 	{
 		switch (mode)
 		{
-			case 'borders': return PlaneMaterialCellColumn.REPEAT_MODE_BORDERS;
-			case 'center': return PlaneMaterialCellColumn.REPEAT_MODE_CENTER;
-			case 'first': return PlaneMaterialCellColumn.REPEAT_MODE_FIRST;
-			case 'last': return PlaneMaterialCellColumn.REPEAT_MODE_LAST;
-			case 'none': return PlaneMaterialCellColumn.REPEAT_MODE_NONE;
-			default: return PlaneMaterialCellColumn.REPEAT_MODE_ALL;
+			case 'borders':
+				return PlaneMaterialCellColumn.REPEAT_MODE_BORDERS;
+			case 'center':
+				return PlaneMaterialCellColumn.REPEAT_MODE_CENTER;
+			case 'first':
+				return PlaneMaterialCellColumn.REPEAT_MODE_FIRST;
+			case 'last':
+				return PlaneMaterialCellColumn.REPEAT_MODE_LAST;
+			case 'none':
+				return PlaneMaterialCellColumn.REPEAT_MODE_NONE;
+			default:
+				return PlaneMaterialCellColumn.REPEAT_MODE_ALL;
 		}
 	}
 
@@ -416,9 +426,12 @@ export class PlaneRasterizer implements IPlaneRasterizer
 	{
 		switch (align)
 		{
-			case 'bottom': return PlaneMaterialCellMatrix.ALIGN_BOTTOM;
-			case 'top': return PlaneMaterialCellMatrix.ALIGN_TOP;
-			default: return PlaneMaterialCellMatrix.ALIGN_DEFAULT;
+			case 'bottom':
+				return PlaneMaterialCellMatrix.ALIGN_BOTTOM;
+			case 'top':
+				return PlaneMaterialCellMatrix.ALIGN_TOP;
+			default:
+				return PlaneMaterialCellMatrix.ALIGN_DEFAULT;
 		}
 	}
 }

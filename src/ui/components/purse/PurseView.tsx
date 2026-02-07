@@ -15,13 +15,16 @@ export function PurseView(): JSX.Element
 
 	return (
 		<div class="flex items-center gap-2">
-			<span class="bg-credits/15 text-credits px-3 py-1 rounded-full text-xs font-medium border border-credits/25">
+			<span
+				class="bg-credits/15 text-credits px-3 py-1 rounded-full text-xs font-medium border border-credits/25">
 				{credits()} Credits
 			</span>
-			<span class="bg-diamonds/15 text-diamonds px-3 py-1 rounded-full text-xs font-medium border border-diamonds/25">
+			<span
+				class="bg-diamonds/15 text-diamonds px-3 py-1 rounded-full text-xs font-medium border border-diamonds/25">
 				{diamonds()} Diamonds
 			</span>
-			<span class="bg-duckets/15 text-duckets px-3 py-1 rounded-full text-xs font-medium border border-duckets/25">
+			<span
+				class="bg-duckets/15 text-duckets px-3 py-1 rounded-full text-xs font-medium border border-duckets/25">
 				{duckets()} Duckets
 			</span>
 		</div>

@@ -10,6 +10,16 @@ export class RoomSessionPetStatusUpdateEvent extends RoomSessionEvent
 {
 	public static readonly PET_STATUS_UPDATE = 'RSPFUE_PET_STATUS_UPDATE';
 
+	constructor(session: IRoomSession, petId: number, canBreed: boolean, canHarvest: boolean, canRevive: boolean, hasBreedingPermission: boolean)
+	{
+		super(RoomSessionPetStatusUpdateEvent.PET_STATUS_UPDATE, session);
+		this._petId = petId;
+		this._canBreed = canBreed;
+		this._canHarvest = canHarvest;
+		this._canRevive = canRevive;
+		this._hasBreedingPermission = hasBreedingPermission;
+	}
+
 	private _petId: number;
 
 	get petId(): number
@@ -43,15 +53,5 @@ export class RoomSessionPetStatusUpdateEvent extends RoomSessionEvent
 	get hasBreedingPermission(): boolean
 	{
 		return this._hasBreedingPermission;
-	}
-
-	constructor(session: IRoomSession, petId: number, canBreed: boolean, canHarvest: boolean, canRevive: boolean, hasBreedingPermission: boolean)
-	{
-		super(RoomSessionPetStatusUpdateEvent.PET_STATUS_UPDATE, session);
-		this._petId = petId;
-		this._canBreed = canBreed;
-		this._canHarvest = canHarvest;
-		this._canRevive = canRevive;
-		this._hasBreedingPermission = hasBreedingPermission;
 	}
 }

@@ -8,6 +8,11 @@
 export interface IHabboMessenger
 {
 	/**
+	 * Whether the user is following someone to a group room.
+	 */
+	followingToGroupRoom: boolean;
+
+	/**
 	 * Whether the messenger window is currently open.
 	 */
 	isOpen(): boolean;
@@ -63,9 +68,4 @@ export interface IHabboMessenger
 	 * @param ignored - Whether to ignore room invites
 	 */
 	setRoomInvitesIgnored(ignored: boolean): void;
-
-	/**
-	 * Whether the user is following someone to a group room.
-	 */
-	followingToGroupRoom: boolean;
 }

@@ -5,7 +5,9 @@
  */
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
-import {PresentOpenedMessageEventParser} from '@habbo/communication/messages/parser/room/furniture/PresentOpenedMessageEventParser';
+import {
+	PresentOpenedMessageEventParser
+} from '@habbo/communication/messages/parser/room/furniture/PresentOpenedMessageEventParser';
 
 export class PresentOpenedMessageEvent extends MessageEvent
 {

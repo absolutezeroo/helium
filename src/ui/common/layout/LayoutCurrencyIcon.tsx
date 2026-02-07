@@ -10,18 +10,18 @@ export interface LayoutCurrencyIconProps
 }
 
 const CURRENCY_COLORS: Record<CurrencyType, string> =
-{
-	credits: 'text-credits',
-	diamonds: 'text-diamonds',
-	duckets: 'text-duckets',
-};
+	{
+		credits: 'text-credits',
+		diamonds: 'text-diamonds',
+		duckets: 'text-duckets',
+	};
 
 const CURRENCY_LABELS: Record<CurrencyType, string> =
-{
-	credits: 'C',
-	diamonds: 'D',
-	duckets: 'K',
-};
+	{
+		credits: 'C',
+		diamonds: 'D',
+		duckets: 'K',
+	};
 
 /**
  * LayoutCurrencyIcon - Icon for credits/diamonds/duckets.

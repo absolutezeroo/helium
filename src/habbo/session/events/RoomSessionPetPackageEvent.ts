@@ -11,6 +11,22 @@ export class RoomSessionPetPackageEvent extends RoomSessionEvent
 	public static readonly RSOPPE_OPEN_PET_PACKAGE_REQUESTED = 'RSOPPE_OPEN_PET_PACKAGE_REQUESTED';
 	public static readonly RSOPPE_OPEN_PET_PACKAGE_RESULT = 'RSOPPE_OPEN_PET_PACKAGE_RESULT';
 
+	constructor(
+		type: string,
+		session: IRoomSession,
+		objectId: number,
+		figureData: unknown = null,
+		nameValidationStatus: number = 0,
+		nameValidationInfo: string | null = null
+	)
+	{
+		super(type, session);
+		this._objectId = objectId;
+		this._figureData = figureData;
+		this._nameValidationStatus = nameValidationStatus;
+		this._nameValidationInfo = nameValidationInfo;
+	}
+
 	private _objectId: number;
 
 	get objectId(): number
@@ -37,21 +53,5 @@ export class RoomSessionPetPackageEvent extends RoomSessionEvent
 	get nameValidationInfo(): string | null
 	{
 		return this._nameValidationInfo;
-	}
-
-	constructor(
-		type: string,
-		session: IRoomSession,
-		objectId: number,
-		figureData: unknown = null,
-		nameValidationStatus: number = 0,
-		nameValidationInfo: string | null = null
-	)
-	{
-		super(type, session);
-		this._objectId = objectId;
-		this._figureData = figureData;
-		this._nameValidationStatus = nameValidationStatus;
-		this._nameValidationInfo = nameValidationInfo;
 	}
 }

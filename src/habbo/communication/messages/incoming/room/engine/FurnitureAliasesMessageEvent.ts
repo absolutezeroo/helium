@@ -5,7 +5,9 @@
  */
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
-import {FurnitureAliasesMessageParser} from '@habbo/communication/messages/parser/room/engine/FurnitureAliasesMessageParser';
+import {
+	FurnitureAliasesMessageParser
+} from '@habbo/communication/messages/parser/room/engine/FurnitureAliasesMessageParser';
 
 export class FurnitureAliasesMessageEvent extends MessageEvent
 {

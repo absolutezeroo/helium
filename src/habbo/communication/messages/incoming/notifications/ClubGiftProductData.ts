@@ -14,6 +14,29 @@ export class ClubGiftProductData
 	public static readonly PRODUCT_TYPE_EFFECT: string = 'e';
 	public static readonly PRODUCT_TYPE_BADGE: string = 'b';
 
+	constructor(wrapper: IMessageDataWrapper)
+	{
+		this._productType = wrapper.readString();
+
+		if (this._productType !== ClubGiftProductData.PRODUCT_TYPE_BADGE)
+		{
+			this._furniClassId = wrapper.readInt();
+			this._extraParam = wrapper.readString();
+			this._productCount = wrapper.readInt();
+			this._uniqueLimitedItem = wrapper.readBoolean();
+
+			if (this._uniqueLimitedItem)
+			{
+				this._uniqueLimitedItemSeriesSize = wrapper.readInt();
+				this._uniqueLimitedItemsLeft = wrapper.readInt();
+			}
+		} else
+		{
+			this._extraParam = wrapper.readString();
+			this._productCount = 1;
+		}
+	}
+
 	private _productType: string = '';
 
 	get productType(): string
@@ -61,29 +84,5 @@ export class ClubGiftProductData
 	get uniqueLimitedItemsLeft(): number
 	{
 		return this._uniqueLimitedItemsLeft;
-	}
-
-	constructor(wrapper: IMessageDataWrapper)
-	{
-		this._productType = wrapper.readString();
-
-		if (this._productType !== ClubGiftProductData.PRODUCT_TYPE_BADGE)
-		{
-			this._furniClassId = wrapper.readInt();
-			this._extraParam = wrapper.readString();
-			this._productCount = wrapper.readInt();
-			this._uniqueLimitedItem = wrapper.readBoolean();
-
-			if (this._uniqueLimitedItem)
-			{
-				this._uniqueLimitedItemSeriesSize = wrapper.readInt();
-				this._uniqueLimitedItemsLeft = wrapper.readInt();
-			}
-		}
-		else
-		{
-			this._extraParam = wrapper.readString();
-			this._productCount = 1;
-		}
 	}
 }

@@ -80,6 +80,8 @@ export interface ISessionDataManager
 	readonly buildersClubFurniLimit: number;
 	readonly buildersClubMaxFurniLimit: number;
 	readonly buildersClubSecondsLeftWithGrace: number | null;
+	// Perk shortcuts
+	readonly perksReady: boolean;
 
 	/**
 	 * Check if user has at least the given security level
@@ -120,9 +122,6 @@ export interface ISessionDataManager
 	 * Set room tools state UI flag
 	 */
 	setRoomToolsState(open: boolean): void;
-
-	// Perk shortcuts
-	readonly perksReady: boolean;
 
 	isPerkAllowed(perk: string): boolean;
 

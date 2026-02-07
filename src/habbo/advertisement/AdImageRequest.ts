@@ -5,12 +5,6 @@
  */
 export class AdImageRequest
 {
-	private _roomId: number;
-	private _objectId: number;
-	private _objectCategory: number;
-	private _imageURL: string;
-	private _clickURL: string;
-
 	constructor(roomId: number, imageURL: string = '', clickURL: string = '', objectId: number = -1, objectCategory: number = -1)
 	{
 		this._roomId = roomId;
@@ -20,25 +14,35 @@ export class AdImageRequest
 		this._clickURL = clickURL;
 	}
 
+	private _roomId: number;
+
 	get roomId(): number
 	{
 		return this._roomId;
 	}
+
+	private _objectId: number;
 
 	get objectId(): number
 	{
 		return this._objectId;
 	}
 
+	private _objectCategory: number;
+
 	get objectCategory(): number
 	{
 		return this._objectCategory;
 	}
 
+	private _imageURL: string;
+
 	get imageURL(): string
 	{
 		return this._imageURL;
 	}
+
+	private _clickURL: string;
 
 	get clickURL(): string
 	{

@@ -5,11 +5,19 @@ import {Logger} from '@core/utils/Logger';
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
 import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
 import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommunicationManager';
-import {AuthenticationOKMessageEvent} from '@habbo/communication/messages/incoming/handshake/AuthenticationOKMessageEvent';
+import {
+	AuthenticationOKMessageEvent
+} from '@habbo/communication/messages/incoming/handshake/AuthenticationOKMessageEvent';
 import {RoomEntryInfoMessageEvent} from '@habbo/communication/messages/incoming/room/engine/RoomEntryInfoMessageEvent';
-import type {RoomEntryInfoMessageParser} from '@habbo/communication/messages/parser/room/engine/RoomEntryInfoMessageParser';
-import {LatencyPingResponseMessageEvent} from '@habbo/communication/messages/incoming/tracking/LatencyPingResponseMessageEvent';
-import type {LatencyPingResponseMessageParser} from '@habbo/communication/messages/parser/tracking/LatencyPingResponseMessageParser';
+import type {
+	RoomEntryInfoMessageParser
+} from '@habbo/communication/messages/parser/room/engine/RoomEntryInfoMessageParser';
+import {
+	LatencyPingResponseMessageEvent
+} from '@habbo/communication/messages/incoming/tracking/LatencyPingResponseMessageEvent';
+import type {
+	LatencyPingResponseMessageParser
+} from '@habbo/communication/messages/parser/tracking/LatencyPingResponseMessageParser';
 import {EventLogMessageComposer} from '@habbo/communication/messages/outgoing/tracking/EventLogMessageComposer';
 import type {IHabboTracking} from './IHabboTracking';
 import {HabboLoginTrackingStep} from './HabboLoginTrackingStep';
@@ -75,14 +83,6 @@ export class HabboTracking extends Component implements IHabboTracking, IUpdateR
 	}
 
 	/**
-	 * Get the singleton instance
-	 */
-	static getInstance(): HabboTracking | null
-	{
-		return HabboTracking._instance;
-	}
-
-	/**
 	 * Component dependencies
 	 */
 	protected override get dependencies(): Array<ComponentDependency<any>>
@@ -100,27 +100,11 @@ export class HabboTracking extends Component implements IHabboTracking, IUpdateR
 	}
 
 	/**
-	 * Called when all required dependencies are available
+	 * Get the singleton instance
 	 */
-	protected override initComponent(): void
+	static getInstance(): HabboTracking | null
 	{
-		this._latencyTracker = new LatencyTracker(this);
-		this._framerateTracker = new FramerateTracker(this);
-		this._lagWarningLogger = new LagWarningLogger(this);
-		this._toolbarClickTracker = new ToolbarClickTracker(this);
-
-		// Register message events
-		this.addMessageEvent(new AuthenticationOKMessageEvent(this.onAuthOK.bind(this)));
-		this.addMessageEvent(new RoomEntryInfoMessageEvent(this.onRoomEnter.bind(this)));
-		this.addMessageEvent(new LatencyPingResponseMessageEvent(this.onPingResponse.bind(this)));
-
-		// Initialize latency tracker once configuration is available
-		if (this._latencyTracker)
-		{
-			this._latencyTracker.init();
-		}
-
-		log.info('HabboTracking initialized');
+		return HabboTracking._instance;
 	}
 
 	/**
@@ -306,6 +290,70 @@ export class HabboTracking extends Component implements IHabboTracking, IUpdateR
 	}
 
 	/**
+	 * Dispose of the tracking component and all sub-trackers
+	 */
+	override dispose(): void
+	{
+		if (this.disposed)
+		{
+			return;
+		}
+
+		if (HabboTracking._instance === this)
+		{
+			HabboTracking._instance = null;
+		}
+
+		this.removeUpdateReceiver(this);
+
+		if (this._messageEvents.length > 0 && this._communication)
+		{
+			for (const event of this._messageEvents)
+			{
+				this._communication.removeMessageEvent(event);
+			}
+		}
+
+		this._messageEvents = [];
+		this._framerateTracker = null;
+		this._toolbarClickTracker = null;
+
+		if (this._latencyTracker)
+		{
+			this._latencyTracker.dispose();
+			this._latencyTracker = null;
+		}
+
+		this._lagWarningLogger = null;
+
+		super.dispose();
+	}
+
+	/**
+	 * Called when all required dependencies are available
+	 */
+	protected override initComponent(): void
+	{
+		this._latencyTracker = new LatencyTracker(this);
+		this._framerateTracker = new FramerateTracker(this);
+		this._lagWarningLogger = new LagWarningLogger(this);
+		this._toolbarClickTracker = new ToolbarClickTracker(this);
+
+		// Register message events
+		this.addMessageEvent(new AuthenticationOKMessageEvent(this.onAuthOK.bind(this)));
+		this.addMessageEvent(new RoomEntryInfoMessageEvent(this.onRoomEnter.bind(this)));
+		this.addMessageEvent(new LatencyPingResponseMessageEvent(this.onPingResponse.bind(this)));
+
+		// Initialize latency tracker once configuration is available
+		if (this._latencyTracker)
+		{
+			this._latencyTracker.init();
+		}
+
+		log.info('HabboTracking initialized');
+	}
+
+	/**
 	 * Register a message event with the communication manager
 	 */
 	private addMessageEvent(event: IMessageEvent): void
@@ -362,45 +410,5 @@ export class HabboTracking extends Component implements IHabboTracking, IUpdateR
 
 		const parser = (event as RoomEntryInfoMessageEvent).parser as RoomEntryInfoMessageParser;
 		this.legacyTrackGoogle('navigator', 'private', [parser.guestRoomId]);
-	}
-
-	/**
-	 * Dispose of the tracking component and all sub-trackers
-	 */
-	override dispose(): void
-	{
-		if (this.disposed)
-		{
-			return;
-		}
-
-		if (HabboTracking._instance === this)
-		{
-			HabboTracking._instance = null;
-		}
-
-		this.removeUpdateReceiver(this);
-
-		if (this._messageEvents.length > 0 && this._communication)
-		{
-			for (const event of this._messageEvents)
-			{
-				this._communication.removeMessageEvent(event);
-			}
-		}
-
-		this._messageEvents = [];
-		this._framerateTracker = null;
-		this._toolbarClickTracker = null;
-
-		if (this._latencyTracker)
-		{
-			this._latencyTracker.dispose();
-			this._latencyTracker = null;
-		}
-
-		this._lagWarningLogger = null;
-
-		super.dispose();
 	}
 }

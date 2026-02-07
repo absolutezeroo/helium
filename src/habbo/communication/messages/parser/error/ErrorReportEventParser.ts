@@ -9,18 +9,20 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 export class ErrorReportEventParser implements IMessageParser
 {
 	private _errorCode: number = 0;
-	private _messageId: number = 0;
-	private _timestamp: string = '';
 
 	get errorCode(): number
 	{
 		return this._errorCode;
 	}
 
+	private _messageId: number = 0;
+
 	get messageId(): number
 	{
 		return this._messageId;
 	}
+
+	private _timestamp: string = '';
 
 	get timestamp(): string
 	{

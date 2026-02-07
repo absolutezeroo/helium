@@ -119,12 +119,8 @@ import {
 import {GetHeightMapMessageComposer} from '../communication/messages/outgoing/room/engine/GetHeightMapMessageComposer';
 
 // Room Entry Tile
-import {
-	RoomEntryTileMessageEvent
-} from '../communication/messages/incoming/room/layout/RoomEntryTileMessageEvent';
-import type {
-	RoomEntryTileMessageParser
-} from '../communication/messages/parser/room/layout/RoomEntryTileMessageParser';
+import {RoomEntryTileMessageEvent} from '../communication/messages/incoming/room/layout/RoomEntryTileMessageEvent';
+import type {RoomEntryTileMessageParser} from '../communication/messages/parser/room/layout/RoomEntryTileMessageParser';
 
 // Room Object
 import {RoomPlaneParser} from './object/RoomPlaneParser';

@@ -7,6 +7,12 @@ export class MysteryBoxKeysUpdateEvent
 {
 	public static readonly MYSTERY_BOX_KEYS_UPDATE = 'mbke_update';
 
+	constructor(boxColor: string, keyColor: string)
+	{
+		this._boxColor = boxColor;
+		this._keyColor = keyColor;
+	}
+
 	private _boxColor: string;
 
 	get boxColor(): string
@@ -19,11 +25,5 @@ export class MysteryBoxKeysUpdateEvent
 	get keyColor(): string
 	{
 		return this._keyColor;
-	}
-
-	constructor(boxColor: string, keyColor: string)
-	{
-		this._boxColor = boxColor;
-		this._keyColor = keyColor;
 	}
 }

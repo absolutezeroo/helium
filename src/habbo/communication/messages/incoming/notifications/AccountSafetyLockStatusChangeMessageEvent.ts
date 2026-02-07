@@ -1,6 +1,8 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
-import {AccountSafetyLockStatusChangeMessageEventParser} from '../../parser/notifications/AccountSafetyLockStatusChangeMessageEventParser';
+import {
+	AccountSafetyLockStatusChangeMessageEventParser
+} from '../../parser/notifications/AccountSafetyLockStatusChangeMessageEventParser';
 
 /**
  * Event for account safety lock status change

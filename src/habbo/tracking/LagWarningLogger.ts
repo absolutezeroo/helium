@@ -1,4 +1,6 @@
-import {LagWarningReportMessageComposer} from '@habbo/communication/messages/outgoing/tracking/LagWarningReportMessageComposer';
+import {
+	LagWarningReportMessageComposer
+} from '@habbo/communication/messages/outgoing/tracking/LagWarningReportMessageComposer';
 import type {HabboTracking} from './HabboTracking';
 
 /**
@@ -19,6 +21,22 @@ export class LagWarningLogger
 	constructor(tracking: HabboTracking)
 	{
 		this._habboTracking = tracking;
+	}
+
+	/**
+	 * Whether lag warning logging is enabled
+	 */
+	private get enabled(): boolean
+	{
+		return this._habboTracking.getBoolean('lagWarningLog.enabled');
+	}
+
+	/**
+	 * The interval in milliseconds between warning reports
+	 */
+	private get warningInterval(): number
+	{
+		return this._habboTracking.getInteger('lagWarningLog.interval.seconds', 10) * 1000;
 	}
 
 	/**
@@ -64,21 +82,5 @@ export class LagWarningLogger
 			this._lastReportTime = currentTime;
 			this._warningCount = 0;
 		}
-	}
-
-	/**
-	 * Whether lag warning logging is enabled
-	 */
-	private get enabled(): boolean
-	{
-		return this._habboTracking.getBoolean('lagWarningLog.enabled');
-	}
-
-	/**
-	 * The interval in milliseconds between warning reports
-	 */
-	private get warningInterval(): number
-	{
-		return this._habboTracking.getInteger('lagWarningLog.interval.seconds', 10) * 1000;
 	}
 }

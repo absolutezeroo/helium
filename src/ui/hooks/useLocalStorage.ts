@@ -1,5 +1,5 @@
-import {createSignal} from 'solid-js';
 import type {Accessor} from 'solid-js';
+import {createSignal} from 'solid-js';
 
 /**
  * SolidJS signal synchronized with localStorage.
@@ -19,8 +19,7 @@ export function useLocalStorage<T>(key: string, defaultValue: T): [Accessor<T>, 
 		try
 		{
 			initial = JSON.parse(stored) as T;
-		}
-		catch
+		} catch
 		{
 			// Ignore parse errors, use default
 		}
@@ -35,8 +34,7 @@ export function useLocalStorage<T>(key: string, defaultValue: T): [Accessor<T>, 
 		try
 		{
 			localStorage.setItem(key, JSON.stringify(v));
-		}
-		catch
+		} catch
 		{
 			// Ignore storage errors (quota exceeded, etc.)
 		}

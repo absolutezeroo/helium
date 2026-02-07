@@ -15,11 +15,17 @@ export class ChatHistoryBuffer
 	private static readonly MAX_CHAT_ITEMS: number = 1000;
 
 	private _entries: ChatItem[] = [];
-	private _disposed: boolean = false;
 
 	get entries(): ChatItem[]
 	{
 		return this._entries;
+	}
+
+	private _disposed: boolean = false;
+
+	get disposed(): boolean
+	{
+		return this._disposed;
 	}
 
 	/**
@@ -28,11 +34,6 @@ export class ChatHistoryBuffer
 	get length(): number
 	{
 		return this._entries.length;
-	}
-
-	get disposed(): boolean
-	{
-		return this._disposed;
 	}
 
 	/**
@@ -48,17 +49,6 @@ export class ChatHistoryBuffer
 	}
 
 	/**
-	 * Check if the buffer has exceeded max capacity and splice the top if needed.
-	 */
-	private checkBufferOverflow(): void
-	{
-		if (this._entries.length > ChatHistoryBuffer.MAX_CHAT_ITEMS)
-		{
-			this._entries.splice(0, 1);
-		}
-	}
-
-	/**
 	 * Dispose of the buffer and clear all entries.
 	 */
 	dispose(): void
@@ -67,5 +57,16 @@ export class ChatHistoryBuffer
 
 		this._entries = [];
 		this._disposed = true;
+	}
+
+	/**
+	 * Check if the buffer has exceeded max capacity and splice the top if needed.
+	 */
+	private checkBufferOverflow(): void
+	{
+		if (this._entries.length > ChatHistoryBuffer.MAX_CHAT_ITEMS)
+		{
+			this._entries.splice(0, 1);
+		}
 	}
 }

@@ -21,13 +21,13 @@ export class RoomSessionErrorMessageEvent extends RoomSessionEvent
 	public static readonly SELECTED_TILE_NOT_FREE_FOR_BOT = 'RSEME_SELECTED_TILE_NOT_FREE_FOR_BOT';
 	public static readonly BOT_NAME_NOT_ACCEPTED = 'RSEME_BOT_NAME_NOT_ACCEPTED';
 
-	private _message: string | null;
-
 	constructor(type: string, session: IRoomSession, message: string | null = null, openLandingPage: boolean = false)
 	{
 		super(type, session, openLandingPage);
 		this._message = message;
 	}
+
+	private _message: string | null;
 
 	get message(): string | null
 	{

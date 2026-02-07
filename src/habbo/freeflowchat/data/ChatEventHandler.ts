@@ -46,6 +46,24 @@ export class ChatEventHandler
 	}
 
 	/**
+	 * Dispose of the handler and remove event listeners.
+	 */
+	dispose(): void
+	{
+		if (this.disposed) return;
+
+		if (this._freeFlowChat?.roomSessionManager)
+		{
+			this._freeFlowChat.roomSessionManager.sessionEvents.off(
+				'RSCE_CHAT_EVENT',
+				this._onRoomChatBound
+			);
+		}
+
+		this._freeFlowChat = null;
+	}
+
+	/**
 	 * Handler for RoomSessionChatEvent. Creates a ChatItem with a
 	 * collision-avoidant timestamp and inserts it into the free flow chat.
 	 *
@@ -65,8 +83,7 @@ export class ChatEventHandler
 		if (now === this._lastTimeStamp)
 		{
 			this._timeStampCollisionCount++;
-		}
-		else
+		} else
 		{
 			this._timeStampCollisionCount = 0;
 		}
@@ -76,23 +93,5 @@ export class ChatEventHandler
 		);
 
 		this._lastTimeStamp = now;
-	}
-
-	/**
-	 * Dispose of the handler and remove event listeners.
-	 */
-	dispose(): void
-	{
-		if (this.disposed) return;
-
-		if (this._freeFlowChat?.roomSessionManager)
-		{
-			this._freeFlowChat.roomSessionManager.sessionEvents.off(
-				'RSCE_CHAT_EVENT',
-				this._onRoomChatBound
-			);
-		}
-
-		this._freeFlowChat = null;
 	}
 }

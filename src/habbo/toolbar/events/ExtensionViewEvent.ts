@@ -9,12 +9,12 @@ export class ExtensionViewEvent
 {
 	public static readonly EXTENSION_VIEW_RESIZED: string = 'EVE_EXTENSION_VIEW_RESIZED';
 
-	private _type: string;
-
 	constructor(type: string)
 	{
 		this._type = type;
 	}
+
+	private _type: string;
 
 	/**
 	 * The event type

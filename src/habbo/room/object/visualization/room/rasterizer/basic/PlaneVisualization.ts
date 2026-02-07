@@ -17,8 +17,6 @@ export class PlaneVisualization
 	private _cachedBitmap: HTMLCanvasElement | null = null;
 	private _cachedBitmapNormal: Vector3d;
 	private _cacheUsed: boolean = false;
-	private _geometry: IRoomGeometry | null;
-	private _hasAnimationLayers: boolean = false;
 
 	constructor(_size: number, layerCount: number, geometry: IRoomGeometry)
 	{
@@ -34,10 +32,14 @@ export class PlaneVisualization
 		this._cachedBitmapNormal = new Vector3d();
 	}
 
+	private _geometry: IRoomGeometry | null;
+
 	get geometry(): IRoomGeometry | null
 	{
 		return this._geometry;
 	}
+
+	private _hasAnimationLayers: boolean = false;
 
 	get hasAnimationLayers(): boolean
 	{
@@ -134,8 +136,7 @@ export class PlaneVisualization
 					}
 					return this._cachedBitmap;
 				}
-			}
-			else
+			} else
 			{
 				this._cachedBitmap = null;
 			}
@@ -151,8 +152,7 @@ export class PlaneVisualization
 			const ctx = this._cachedBitmap.getContext('2d')!;
 			ctx.fillStyle = '#FFFFFF';
 			ctx.fillRect(0, 0, width, height);
-		}
-		else
+		} else
 		{
 			const ctx = this._cachedBitmap.getContext('2d')!;
 			ctx.clearRect(0, 0, width, height);

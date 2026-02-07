@@ -1,7 +1,13 @@
 import {Logger} from '@core/utils/Logger';
-import type {LatencyPingResponseMessageParser} from '@habbo/communication/messages/parser/tracking/LatencyPingResponseMessageParser';
-import {LatencyPingRequestMessageComposer} from '@habbo/communication/messages/outgoing/tracking/LatencyPingRequestMessageComposer';
-import {LatencyPingReportMessageComposer} from '@habbo/communication/messages/outgoing/tracking/LatencyPingReportMessageComposer';
+import type {
+	LatencyPingResponseMessageParser
+} from '@habbo/communication/messages/parser/tracking/LatencyPingResponseMessageParser';
+import {
+	LatencyPingRequestMessageComposer
+} from '@habbo/communication/messages/outgoing/tracking/LatencyPingRequestMessageComposer';
+import {
+	LatencyPingReportMessageComposer
+} from '@habbo/communication/messages/outgoing/tracking/LatencyPingReportMessageComposer';
 import type {HabboTracking} from './HabboTracking';
 
 const log = Logger.getLogger('LatencyTracker');
@@ -27,12 +33,13 @@ export class LatencyTracker
 	private _latencies: number[] = [];
 	private _latencyMap: Map<number, number> = new Map();
 	private _habboTracking: HabboTracking | null;
-	private _disposed: boolean = false;
 
 	constructor(tracking: HabboTracking)
 	{
 		this._habboTracking = tracking;
 	}
+
+	private _disposed: boolean = false;
 
 	get disposed(): boolean
 	{
@@ -110,6 +117,24 @@ export class LatencyTracker
 	}
 
 	/**
+	 * Dispose of the latency tracker
+	 */
+	dispose(): void
+	{
+		if (this._disposed)
+		{
+			return;
+		}
+
+		this._isTracking = false;
+
+		this._latencyMap.clear();
+		this._latencies = [];
+		this._habboTracking = null;
+		this._disposed = true;
+	}
+
+	/**
 	 * Send a latency ping request
 	 */
 	private testLatency(): void
@@ -177,23 +202,5 @@ export class LatencyTracker
 		}
 
 		this._latencies = [];
-	}
-
-	/**
-	 * Dispose of the latency tracker
-	 */
-	dispose(): void
-	{
-		if (this._disposed)
-		{
-			return;
-		}
-
-		this._isTracking = false;
-
-		this._latencyMap.clear();
-		this._latencies = [];
-		this._habboTracking = null;
-		this._disposed = true;
 	}
 }

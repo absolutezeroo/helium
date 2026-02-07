@@ -10,6 +10,14 @@ export class RoomSessionPetCommandsUpdateEvent extends RoomSessionEvent
 {
 	public static readonly PET_COMMANDS = 'RSPIUE_ENABLED_PET_COMMANDS';
 
+	constructor(session: IRoomSession, petId: number, allCommands: number[], enabledCommands: number[])
+	{
+		super(RoomSessionPetCommandsUpdateEvent.PET_COMMANDS, session);
+		this._petId = petId;
+		this._allCommands = allCommands;
+		this._enabledCommands = enabledCommands;
+	}
+
 	private _petId: number;
 
 	get petId(): number
@@ -29,13 +37,5 @@ export class RoomSessionPetCommandsUpdateEvent extends RoomSessionEvent
 	get enabledCommands(): number[]
 	{
 		return this._enabledCommands;
-	}
-
-	constructor(session: IRoomSession, petId: number, allCommands: number[], enabledCommands: number[])
-	{
-		super(RoomSessionPetCommandsUpdateEvent.PET_COMMANDS, session);
-		this._petId = petId;
-		this._allCommands = allCommands;
-		this._enabledCommands = enabledCommands;
 	}
 }

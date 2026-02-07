@@ -1,6 +1,6 @@
 import type {JSX} from 'solid-js';
 import {createSignal, Show} from 'solid-js';
-import {HeliumCardView, HeliumCardHeaderView, HeliumCardContentView} from '@ui/common/card';
+import {HeliumCardContentView, HeliumCardHeaderView, HeliumCardView} from '@ui/common/card';
 
 export function UserProfileView(): JSX.Element
 {

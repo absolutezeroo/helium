@@ -83,8 +83,7 @@ export class Plane
 		if (sizeIndex < this._sizes.length)
 		{
 			this._cachedVisualization = this._visualizations.get(String(this._sizes[sizeIndex])) ?? null;
-		}
-		else
+		} else
 		{
 			this._cachedVisualization = null;
 		}

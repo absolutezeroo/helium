@@ -13,17 +13,6 @@ import type {IAssetPlane} from './PlaneRasterizerTypes';
 
 export class FloorRasterizer extends PlaneRasterizer
 {
-	protected override initializePlanes(): void
-	{
-		if (this.data === null) return;
-
-		const planes = this.data.planes;
-		if (planes)
-		{
-			this.parseFloors(planes);
-		}
-	}
-
 	override render(
 		canvas: HTMLCanvasElement | null,
 		id: string,
@@ -69,6 +58,17 @@ export class FloorRasterizer extends PlaneRasterizer
 		}
 
 		return new PlaneBitmapData(result, -1);
+	}
+
+	protected override initializePlanes(): void
+	{
+		if (this.data === null) return;
+
+		const planes = this.data.planes;
+		if (planes)
+		{
+			this.parseFloors(planes);
+		}
 	}
 
 	private parseFloors(planes: IAssetPlane[]): void

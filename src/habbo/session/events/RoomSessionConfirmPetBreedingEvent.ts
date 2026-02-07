@@ -10,6 +10,16 @@ export class RoomSessionConfirmPetBreedingEvent extends RoomSessionEvent
 {
 	public static readonly CONFIRM_PET_BREEDING = 'RSPFUE_CONFIRM_PET_BREEDING';
 
+	constructor(session: IRoomSession, nestId: number, pet1: unknown, pet2: unknown, rarityCategories: unknown[], resultPetTypeId: number)
+	{
+		super(RoomSessionConfirmPetBreedingEvent.CONFIRM_PET_BREEDING, session);
+		this._nestId = nestId;
+		this._pet1 = pet1;
+		this._pet2 = pet2;
+		this._rarityCategories = rarityCategories;
+		this._resultPetTypeId = resultPetTypeId;
+	}
+
 	private _nestId: number;
 
 	get nestId(): number
@@ -43,15 +53,5 @@ export class RoomSessionConfirmPetBreedingEvent extends RoomSessionEvent
 	get resultPetTypeId(): number
 	{
 		return this._resultPetTypeId;
-	}
-
-	constructor(session: IRoomSession, nestId: number, pet1: unknown, pet2: unknown, rarityCategories: unknown[], resultPetTypeId: number)
-	{
-		super(RoomSessionConfirmPetBreedingEvent.CONFIRM_PET_BREEDING, session);
-		this._nestId = nestId;
-		this._pet1 = pet1;
-		this._pet2 = pet2;
-		this._rarityCategories = rarityCategories;
-		this._resultPetTypeId = resultPetTypeId;
 	}
 }

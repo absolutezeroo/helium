@@ -10,6 +10,22 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  */
 export class AchievementNotificationData
 {
+	constructor(wrapper: IMessageDataWrapper)
+	{
+		this._type = wrapper.readInt();
+		this._level = wrapper.readInt();
+		this._badgeId = wrapper.readInt();
+		this._badgeCode = wrapper.readString();
+		this._points = wrapper.readInt();
+		this._levelRewardPoints = wrapper.readInt();
+		this._levelRewardPointType = wrapper.readInt();
+		this._bonusPoints = wrapper.readInt();
+		this._achievementID = wrapper.readInt();
+		this._removedBadgeCode = wrapper.readString();
+		this._category = wrapper.readString();
+		this._showDialogToUser = wrapper.readBoolean();
+	}
+
 	private _type: number = 0;
 
 	get type(): number
@@ -92,21 +108,5 @@ export class AchievementNotificationData
 	get showDialogToUser(): boolean
 	{
 		return this._showDialogToUser;
-	}
-
-	constructor(wrapper: IMessageDataWrapper)
-	{
-		this._type = wrapper.readInt();
-		this._level = wrapper.readInt();
-		this._badgeId = wrapper.readInt();
-		this._badgeCode = wrapper.readString();
-		this._points = wrapper.readInt();
-		this._levelRewardPoints = wrapper.readInt();
-		this._levelRewardPointType = wrapper.readInt();
-		this._bonusPoints = wrapper.readInt();
-		this._achievementID = wrapper.readInt();
-		this._removedBadgeCode = wrapper.readString();
-		this._category = wrapper.readString();
-		this._showDialogToUser = wrapper.readBoolean();
 	}
 }

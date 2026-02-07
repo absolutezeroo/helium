@@ -13,35 +13,38 @@ import type {IAssetRoomVisualizationData} from './rasterizer/basic/PlaneRasteriz
 
 export class RoomVisualizationData implements IRoomObjectVisualizationData
 {
-	private _floorRasterizer: FloorRasterizer;
-	private _wallRasterizer: WallRasterizer;
-	private _initialized: boolean = false;
-	private _disposed: boolean = false;
-
 	constructor()
 	{
 		this._floorRasterizer = new FloorRasterizer();
 		this._wallRasterizer = new WallRasterizer();
 	}
 
-	get disposed(): boolean
-	{
-		return this._disposed;
-	}
+	private _floorRasterizer: FloorRasterizer;
 
 	get floorRasterizer(): IPlaneRasterizer
 	{
 		return this._floorRasterizer;
 	}
 
+	private _wallRasterizer: WallRasterizer;
+
 	get wallRasterizer(): IPlaneRasterizer
 	{
 		return this._wallRasterizer;
 	}
 
+	private _initialized: boolean = false;
+
 	get initialized(): boolean
 	{
 		return this._initialized;
+	}
+
+	private _disposed: boolean = false;
+
+	get disposed(): boolean
+	{
+		return this._disposed;
 	}
 
 	initialize(data: unknown): boolean

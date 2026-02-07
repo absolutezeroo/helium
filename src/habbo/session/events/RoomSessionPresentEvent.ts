@@ -10,6 +10,28 @@ export class RoomSessionPresentEvent extends RoomSessionEvent
 {
 	public static readonly RSPE_PRESENT_OPENED = 'RSPE_PRESENT_OPENED';
 
+	constructor(
+		type: string,
+		session: IRoomSession,
+		classId: number,
+		itemType: string,
+		productCode: string,
+		placedItemId: number,
+		placedItemType: string,
+		placedInRoom: boolean,
+		petFigureString: string
+	)
+	{
+		super(type, session);
+		this._classId = classId;
+		this._itemType = itemType;
+		this._productCode = productCode;
+		this._placedItemId = placedItemId;
+		this._placedItemType = placedItemType;
+		this._placedInRoom = placedInRoom;
+		this._petFigureString = petFigureString;
+	}
+
 	private _classId: number;
 
 	get classId(): number
@@ -57,27 +79,5 @@ export class RoomSessionPresentEvent extends RoomSessionEvent
 	get petFigureString(): string
 	{
 		return this._petFigureString;
-	}
-
-	constructor(
-		type: string,
-		session: IRoomSession,
-		classId: number,
-		itemType: string,
-		productCode: string,
-		placedItemId: number,
-		placedItemType: string,
-		placedInRoom: boolean,
-		petFigureString: string
-	)
-	{
-		super(type, session);
-		this._classId = classId;
-		this._itemType = itemType;
-		this._productCode = productCode;
-		this._placedItemId = placedItemId;
-		this._placedItemType = placedItemType;
-		this._placedInRoom = placedInRoom;
-		this._petFigureString = petFigureString;
 	}
 }

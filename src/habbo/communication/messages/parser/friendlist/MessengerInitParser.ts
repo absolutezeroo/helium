@@ -8,6 +8,12 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  */
 export class FriendCategoryData
 {
+	constructor(wrapper: IMessageDataWrapper)
+	{
+		this._id = wrapper.readInt();
+		this._name = wrapper.readString();
+	}
+
 	private _id: number;
 
 	get id(): number
@@ -20,12 +26,6 @@ export class FriendCategoryData
 	get name(): string
 	{
 		return this._name;
-	}
-
-	constructor(wrapper: IMessageDataWrapper)
-	{
-		this._id = wrapper.readInt();
-		this._name = wrapper.readString();
 	}
 }
 

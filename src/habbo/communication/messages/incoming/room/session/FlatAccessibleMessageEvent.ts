@@ -7,7 +7,9 @@
  */
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
-import {FlatAccessibleMessageParser} from '@habbo/communication/messages/parser/room/session/FlatAccessibleMessageParser';
+import {
+	FlatAccessibleMessageParser
+} from '@habbo/communication/messages/parser/room/session/FlatAccessibleMessageParser';
 
 export class FlatAccessibleMessageEvent extends MessageEvent
 {

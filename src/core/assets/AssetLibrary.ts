@@ -415,8 +415,7 @@ export class AssetLibrary extends Component implements IAssetLibrary
 				{
 					this._assetByContent.delete(oldAsset.content);
 				}
-			}
-			else
+			} else
 			{
 				this._assetNameIndex.set(name, this._assetNameArray.length);
 				this._assetNameArray.push(name);
@@ -485,15 +484,6 @@ export class AssetLibrary extends Component implements IAssetLibrary
 		}
 
 		return null;
-	}
-
-	private rebuildNameIndex(): void
-	{
-		this._assetNameIndex.clear();
-		for (let i = 0; i < this._assetNameArray.length; i++)
-		{
-			this._assetNameIndex.set(this._assetNameArray[i], i);
-		}
 	}
 
 	/**
@@ -604,6 +594,15 @@ export class AssetLibrary extends Component implements IAssetLibrary
 	override toString(): string
 	{
 		return `[AssetLibrary ${this._name} assets=${this._assetMap.size}]`;
+	}
+
+	private rebuildNameIndex(): void
+	{
+		this._assetNameIndex.clear();
+		for (let i = 0; i < this._assetNameArray.length; i++)
+		{
+			this._assetNameIndex.set(this._assetNameArray[i], i);
+		}
 	}
 
 	/**

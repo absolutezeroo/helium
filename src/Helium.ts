@@ -115,12 +115,18 @@ export class Helium
 	private _inventory: HabboInventory | null = null;
 	private _roomManager: RoomManager | null = null;
 	private _roomMessageHandler: RoomMessageHandler | null = null;
-	private _sessionDataManager: SessionDataManager | null = null;
 	private _roomSessionManager: RoomSessionManager | null = null;
 	// UI
 	private _disposeUI: (() => void) | null = null;
 	// State
 	private _ready: boolean = false;
+	private _campaigns: HabboCampaigns | null = null;
+	private _adManager: AdManager | null = null;
+	private _tracking: HabboTracking | null = null;
+	private _groupsManager: HabboGroupsManager | null = null;
+	private _notifications: HabboNotifications | null = null;
+	private _toolbar: HabboToolbar | null = null;
+	private _freeFlowChat: HabboFreeFlowChat | null = null;
 
 	private static _instance: Helium;
 
@@ -135,6 +141,21 @@ export class Helium
 		}
 
 		return this._instance;
+	}
+
+	private _sessionDataManager: SessionDataManager | null = null;
+
+	/**
+	 * Get the session data manager
+	 */
+	get sessionDataManager(): ISessionDataManager
+	{
+		if (!this._sessionDataManager)
+		{
+			throw new Error('[Helium] Not initialized');
+		}
+
+		return this._sessionDataManager;
 	}
 
 	// Core layer
@@ -153,13 +174,6 @@ export class Helium
 		return this._core;
 	}
 
-	private _campaigns: HabboCampaigns | null = null;
-	private _adManager: AdManager | null = null;
-	private _tracking: HabboTracking | null = null;
-	private _groupsManager: HabboGroupsManager | null = null;
-	private _notifications: HabboNotifications | null = null;
-	private _toolbar: HabboToolbar | null = null;
-	private _freeFlowChat: HabboFreeFlowChat | null = null;
 	private _roomEngine: RoomEngine | null = null;
 
 	/**
@@ -262,19 +276,6 @@ export class Helium
 	}
 
 	/**
-	 * Get the session data manager
-	 */
-	get sessionDataManager(): ISessionDataManager
-	{
-		if (!this._sessionDataManager)
-		{
-			throw new Error('[Helium] Not initialized');
-		}
-
-		return this._sessionDataManager;
-	}
-
-	/**
 	 * Bootstrap the application
 	 */
 	public static async bootstrap(config?: HeliumConfig): Promise<Helium>
@@ -306,8 +307,7 @@ export class Helium
 		if (ssoTicket)
 		{
 			this._communicationDemo.setSSOTicket(ssoTicket);
-		}
-		else
+		} else
 		{
 			this._communicationDemo.initGameSocket();
 		}
@@ -648,8 +648,7 @@ export class Helium
 				}
 
 				log.success('External UI variables loaded');
-			}
-			else
+			} else
 			{
 				// key=value format
 				const lines = text.split(/\n\r?|\r\n?/);
@@ -670,8 +669,7 @@ export class Helium
 
 				log.success('External UI variables loaded (key=value)');
 			}
-		}
-		catch (error)
+		} catch (error)
 		{
 			log.warn(`Failed to load external UI variables: ${error}`);
 		}

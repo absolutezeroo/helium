@@ -30,10 +30,7 @@ import {
 	InitDiffieHandshakeMessageParser,
 } from '../messages/parser/handshake';
 
-import {
-	LoginFailedHotelClosedMessageEvent,
-	MaintenanceStatusMessageEvent,
-} from '../messages/incoming/availability';
+import {LoginFailedHotelClosedMessageEvent, MaintenanceStatusMessageEvent,} from '../messages/incoming/availability';
 
 import {
 	LoginFailedHotelClosedMessageEventParser,

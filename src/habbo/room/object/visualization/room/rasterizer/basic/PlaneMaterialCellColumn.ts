@@ -25,8 +25,6 @@ export class PlaneMaterialCellColumn
 	private _cachedOffsetX: number = 0;
 	private _cachedOffsetY: number = 0;
 	private _cacheUsed: boolean = false;
-	private _isStatic: boolean = true;
-	private _width: number;
 
 	constructor(width: number, cells: PlaneMaterialCell[] | null, repeatMode: number = 1)
 	{
@@ -53,14 +51,18 @@ export class PlaneMaterialCellColumn
 		this._repeatMode = repeatMode;
 	}
 
-	get width(): number
-	{
-		return this._width;
-	}
+	private _isStatic: boolean = true;
 
 	get isStatic(): boolean
 	{
 		return this._isStatic;
+	}
+
+	private _width: number;
+
+	get width(): number
+	{
+		return this._width;
 	}
 
 	isRepeated(): boolean
@@ -141,8 +143,7 @@ export class PlaneMaterialCellColumn
 				}
 				this._cachedBitmap = null;
 			}
-		}
-		else if (this._cachedBitmap !== null)
+		} else if (this._cachedBitmap !== null)
 		{
 			if (this._cachedBitmap.height === height)
 			{
@@ -150,8 +151,7 @@ export class PlaneMaterialCellColumn
 				ctx.clearRect(0, 0, this._cachedBitmap.width, this._cachedBitmap.height);
 				ctx.fillStyle = '#FFFFFF';
 				ctx.fillRect(0, 0, this._cachedBitmap.width, this._cachedBitmap.height);
-			}
-			else
+			} else
 			{
 				this._cachedBitmap = null;
 			}

@@ -13,17 +13,6 @@ import type {IAssetPlane} from './PlaneRasterizerTypes';
 
 export class WallRasterizer extends PlaneRasterizer
 {
-	protected override initializePlanes(): void
-	{
-		if (this.data === null) return;
-
-		const planes = this.data.planes;
-		if (planes)
-		{
-			this.parseWalls(planes);
-		}
-	}
-
 	override render(
 		canvas: HTMLCanvasElement | null,
 		id: string,
@@ -78,6 +67,17 @@ export class WallRasterizer extends PlaneRasterizer
 			return `${scale}_${normal.x}_${normal.y}_${normal.z}`;
 		}
 		return super.getTextureIdentifier(scale, normal);
+	}
+
+	protected override initializePlanes(): void
+	{
+		if (this.data === null) return;
+
+		const planes = this.data.planes;
+		if (planes)
+		{
+			this.parseWalls(planes);
+		}
 	}
 
 	protected parseWalls(planes: IAssetPlane[]): void

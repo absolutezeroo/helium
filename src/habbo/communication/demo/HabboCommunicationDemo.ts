@@ -1,6 +1,5 @@
 import type {IContext} from '@core/runtime';
-import {Component, ComponentDependency} from '@core/runtime';
-import {IID_HabboCommunicationManager} from '@core/runtime';
+import {Component, ComponentDependency, IID_HabboCommunicationManager} from '@core/runtime';
 import {Logger} from '@core/utils/Logger';
 import type {IConnection} from '@core/communication/connection/IConnection';
 import {IncomingMessages} from './IncomingMessages';
@@ -30,10 +29,7 @@ export class HabboCommunicationDemo extends Component
 {
 	static readonly ERROR_TYPE_IO_ERROR: string = 'ioError';
 	static readonly ERROR_CODE_MAINTENANCE: string = 'maintenance';
-
-	private _communication: IHabboCommunicationManager | null = null;
 	private _incomingMessages: IncomingMessages | null = null;
-	private _ssoTicket: string | null = null;
 	private _isDisconnected: boolean = false;
 	private _isLoggedIn: boolean = false;
 
@@ -42,6 +38,8 @@ export class HabboCommunicationDemo extends Component
 		super(context);
 	}
 
+	private _communication: IHabboCommunicationManager | null = null;
+
 	/**
 	 * @see source_as/habbo/communication/demo/HabboCommunicationDemo.as communication
 	 */
@@ -49,6 +47,8 @@ export class HabboCommunicationDemo extends Component
 	{
 		return this._communication;
 	}
+
+	private _ssoTicket: string | null = null;
 
 	/**
 	 * @see source_as/habbo/communication/demo/HabboCommunicationDemo.as ssoTicket
@@ -70,37 +70,6 @@ export class HabboCommunicationDemo extends Component
 				true
 			),
 		];
-	}
-
-	/**
-	 * @see source_as/habbo/communication/demo/HabboCommunicationDemo.as initComponent()
-	 */
-	protected override initComponent(): void
-	{
-		this._isDisconnected = false;
-
-		// AS3: Dispose previous IncomingMessages and renew socket
-		if (this._incomingMessages)
-		{
-			this._incomingMessages.dispose();
-
-			if (this._communication)
-			{
-				// AS3: _communication.renewSocket()
-			}
-		}
-
-		if (!this._communication)
-		{
-			log.error('Communication manager not available');
-			return;
-		}
-
-		// AS3: if (var_1998) initWithSSO(var_1998)
-		if (this._ssoTicket)
-		{
-			this.initWithSSO(this._ssoTicket);
-		}
 	}
 
 	/**
@@ -285,6 +254,37 @@ export class HabboCommunicationDemo extends Component
 		}
 
 		this._communication = null;
+	}
+
+	/**
+	 * @see source_as/habbo/communication/demo/HabboCommunicationDemo.as initComponent()
+	 */
+	protected override initComponent(): void
+	{
+		this._isDisconnected = false;
+
+		// AS3: Dispose previous IncomingMessages and renew socket
+		if (this._incomingMessages)
+		{
+			this._incomingMessages.dispose();
+
+			if (this._communication)
+			{
+				// AS3: _communication.renewSocket()
+			}
+		}
+
+		if (!this._communication)
+		{
+			log.error('Communication manager not available');
+			return;
+		}
+
+		// AS3: if (var_1998) initWithSSO(var_1998)
+		if (this._ssoTicket)
+		{
+			this.initWithSSO(this._ssoTicket);
+		}
 	}
 
 	/**

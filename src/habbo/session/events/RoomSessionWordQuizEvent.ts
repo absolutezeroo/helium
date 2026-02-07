@@ -12,6 +12,12 @@ export class RoomSessionWordQuizEvent extends RoomSessionEvent
 	public static readonly RWPUW_QUESTION_FINISHED = 'RWPUW_QUESION_FINSIHED';
 	public static readonly RWPUW_QUESTION_ANSWERED = 'RWPUW_QUESTION_ANSWERED';
 
+	constructor(type: string, session: IRoomSession, id: number = -1)
+	{
+		super(type, session);
+		this._id = id;
+	}
+
 	private _id: number = -1;
 
 	get id(): number
@@ -118,11 +124,5 @@ export class RoomSessionWordQuizEvent extends RoomSessionEvent
 	set answerCounts(value: Map<string, number>)
 	{
 		this._answerCounts = value;
-	}
-
-	constructor(type: string, session: IRoomSession, id: number = -1)
-	{
-		super(type, session);
-		this._id = id;
 	}
 }

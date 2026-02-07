@@ -42,12 +42,14 @@ export const RoomUserList: Component = () =>
 						Room Users ({Object.keys(state().users).length})
 					</h3>
 					<Show when={state().isRoomOwner}>
-						<span class="text-[0.625rem] font-semibold px-2 py-0.5 rounded-full uppercase bg-credits/15 text-credits">
+						<span
+							class="text-[0.625rem] font-semibold px-2 py-0.5 rounded-full uppercase bg-credits/15 text-credits">
 							Owner
 						</span>
 					</Show>
 					<Show when={!state().isRoomOwner && state().roomControllerLevel > 0}>
-						<span class="text-[0.625rem] font-semibold px-2 py-0.5 rounded-full uppercase bg-success/15 text-success">
+						<span
+							class="text-[0.625rem] font-semibold px-2 py-0.5 rounded-full uppercase bg-success/15 text-success">
 							Rights
 						</span>
 					</Show>
@@ -139,22 +141,26 @@ const UserListItem: Component<UserListItemProps> = (props) =>
 				: 'hover:bg-surface-hover'
 		)}>
 			<div class="flex-shrink-0">
-				<div class="w-8 h-8 bg-bg-hover rounded-[var(--radius-sm)] flex items-center justify-center text-sm font-semibold text-text-secondary">
+				<div
+					class="w-8 h-8 bg-bg-hover rounded-[var(--radius-sm)] flex items-center justify-center text-sm font-semibold text-text-secondary">
 					{props.user.name.charAt(0).toUpperCase()}
 				</div>
 			</div>
 			<div class="flex-1 min-w-0">
-				<span class="block text-[0.8125rem] font-medium text-text-primary overflow-hidden text-ellipsis whitespace-nowrap">
+				<span
+					class="block text-[0.8125rem] font-medium text-text-primary overflow-hidden text-ellipsis whitespace-nowrap">
 					{props.user.name}
 				</span>
 				<Show when={props.user.custom}>
-					<span class="block text-[0.6875rem] text-text-muted overflow-hidden text-ellipsis whitespace-nowrap">
+					<span
+						class="block text-[0.6875rem] text-text-muted overflow-hidden text-ellipsis whitespace-nowrap">
 						{props.user.custom}
 					</span>
 				</Show>
 			</div>
 			<Show when={typeLabel()}>
-				<span class="text-[0.625rem] font-medium text-text-muted bg-surface-active px-1.5 py-0.5 rounded-[var(--radius-sm)]">
+				<span
+					class="text-[0.625rem] font-medium text-text-muted bg-surface-active px-1.5 py-0.5 rounded-[var(--radius-sm)]">
 					{typeLabel()}
 				</span>
 			</Show>

@@ -10,6 +10,15 @@ export class RoomSessionFavouriteGroupUpdateEvent extends RoomSessionEvent
 {
 	public static readonly FAVOURITE_GROUP_UPDATE = 'rsfgue_favourite_group_update';
 
+	constructor(session: IRoomSession, roomIndex: number, habboGroupId: number, status: number, habboGroupName: string)
+	{
+		super(RoomSessionFavouriteGroupUpdateEvent.FAVOURITE_GROUP_UPDATE, session);
+		this._roomIndex = roomIndex;
+		this._habboGroupId = habboGroupId;
+		this._status = status;
+		this._habboGroupName = habboGroupName;
+	}
+
 	private _roomIndex: number;
 
 	get roomIndex(): number
@@ -36,14 +45,5 @@ export class RoomSessionFavouriteGroupUpdateEvent extends RoomSessionEvent
 	get habboGroupName(): string
 	{
 		return this._habboGroupName;
-	}
-
-	constructor(session: IRoomSession, roomIndex: number, habboGroupId: number, status: number, habboGroupName: string)
-	{
-		super(RoomSessionFavouriteGroupUpdateEvent.FAVOURITE_GROUP_UPDATE, session);
-		this._roomIndex = roomIndex;
-		this._habboGroupId = habboGroupId;
-		this._status = status;
-		this._habboGroupName = habboGroupName;
 	}
 }

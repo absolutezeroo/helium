@@ -1,6 +1,8 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
-import {TradingOpenMessageParser} from '@habbo/communication/messages/parser/inventory/trading/TradingOpenMessageParser';
+import {
+	TradingOpenMessageParser
+} from '@habbo/communication/messages/parser/inventory/trading/TradingOpenMessageParser';
 
 /**
  * @see source_as/habbo/communication/messages/incoming/inventory/trading/TradingOpenEvent.as

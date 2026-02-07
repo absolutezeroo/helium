@@ -1,6 +1,8 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
-import {RoomMessageNotificationMessageEventParser} from '../../parser/notifications/RoomMessageNotificationMessageEventParser';
+import {
+	RoomMessageNotificationMessageEventParser
+} from '../../parser/notifications/RoomMessageNotificationMessageEventParser';
 
 /**
  * Event for room message notification

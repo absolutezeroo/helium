@@ -63,16 +63,12 @@ export class RoomPlane
 	private _cornerD: Vector3d;
 	private _width: number = 0;
 	private _height: number = 0;
-
-	private _rasterizer: IPlaneRasterizer | null = null;
 	private _textureCache: Map<string, PlaneBitmapData> = new Map();
 	private _cachedTextureBitmap: PlaneBitmapData | null = null;
 	private _textureSprite: Sprite | null = null;
-
 	private _bitmapMasks: RoomPlaneBitmapMask[] = [];
 	private _rectangleMasks: RoomPlaneRectangleMask[] = [];
 	private _maskChanged: boolean = false;
-
 	private _graphics: Graphics;
 
 	constructor(
@@ -138,6 +134,13 @@ export class RoomPlane
 
 		this._graphics = new Graphics();
 		this._graphics.label = `RoomPlane_${this._uniqueId}_type${type}`;
+	}
+
+	private _rasterizer: IPlaneRasterizer | null = null;
+
+	set rasterizer(value: IPlaneRasterizer | null)
+	{
+		this._rasterizer = value;
 	}
 
 	private _disposed: boolean = false;
@@ -216,11 +219,6 @@ export class RoomPlane
 	set id(value: string)
 	{
 		this._id = value;
-	}
-
-	set rasterizer(value: IPlaneRasterizer | null)
-	{
-		this._rasterizer = value;
 	}
 
 	private _uniqueId: number;
@@ -617,8 +615,7 @@ export class RoomPlane
 		{
 			this._textureSprite = new Sprite(texture);
 			this._textureSprite.label = `RoomPlane_Tex_${this._uniqueId}`;
-		}
-		else
+		} else
 		{
 			this._textureSprite.texture = texture;
 		}

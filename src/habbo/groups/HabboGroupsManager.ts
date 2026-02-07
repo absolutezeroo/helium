@@ -29,6 +29,14 @@ export class HabboGroupsManager extends Component implements IHabboGroupsManager
 		super(context);
 	}
 
+	/**
+	 * The URL prefix pattern this tracker handles
+	 */
+	get linkPattern(): string
+	{
+		return 'group/';
+	}
+
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any -- variance: typed ComponentDependency<T> is contravariant in T
 	protected override get dependencies(): Array<ComponentDependency<any>>
 	{
@@ -43,20 +51,6 @@ export class HabboGroupsManager extends Component implements IHabboGroupsManager
 				true
 			),
 		];
-	}
-
-	protected override initComponent(): void
-	{
-		this.context.addLinkEventTracker(this);
-		log.debug('Groups manager initialized');
-	}
-
-	/**
-	 * The URL prefix pattern this tracker handles
-	 */
-	get linkPattern(): string
-	{
-		return 'group/';
 	}
 
 	/**
@@ -144,5 +138,11 @@ export class HabboGroupsManager extends Component implements IHabboGroupsManager
 		this._communicationManager = null;
 
 		super.dispose();
+	}
+
+	protected override initComponent(): void
+	{
+		this.context.addLinkEventTracker(this);
+		log.debug('Groups manager initialized');
 	}
 }

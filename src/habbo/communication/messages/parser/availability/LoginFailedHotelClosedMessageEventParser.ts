@@ -9,12 +9,13 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 export class LoginFailedHotelClosedMessageEventParser implements IMessageParser
 {
 	private _openHour: number = 0;
-	private _openMinute: number = 0;
 
 	get openHour(): number
 	{
 		return this._openHour;
 	}
+
+	private _openMinute: number = 0;
 
 	get openMinute(): number
 	{

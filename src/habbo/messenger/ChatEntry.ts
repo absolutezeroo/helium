@@ -11,6 +11,32 @@ export class ChatEntry
 	public static readonly TYPE_ROOM_INVITE: number = 3;
 	public static readonly TYPE_INFO: number = 4;
 	public static readonly TYPE_ROOM_INVITE_COMBO: number = 5;
+	private _seconds: number;
+	private _clientReceiveTime: number;
+
+	constructor(
+		type: number,
+		chatId: number,
+		message: string,
+		seconds: number,
+		senderId: number = 0,
+		senderName: string = '',
+		senderFigure: string = '',
+		messageId: string = '',
+		awaitConfirmationId: number = 0
+	)
+	{
+		this._type = type;
+		this._chatId = chatId;
+		this._message = message;
+		this._seconds = seconds;
+		this._clientReceiveTime = performance.now();
+		this._awaitConfirmationId = awaitConfirmationId;
+		this._messageId = messageId;
+		this._senderId = senderId;
+		this._senderName = senderName;
+		this._senderFigure = senderFigure;
+	}
 
 	private _type: number;
 
@@ -32,9 +58,6 @@ export class ChatEntry
 	{
 		return this._message;
 	}
-
-	private _seconds: number;
-	private _clientReceiveTime: number;
 
 	private _awaitConfirmationId: number;
 
@@ -69,30 +92,6 @@ export class ChatEntry
 	get senderFigure(): string
 	{
 		return this._senderFigure;
-	}
-
-	constructor(
-		type: number,
-		chatId: number,
-		message: string,
-		seconds: number,
-		senderId: number = 0,
-		senderName: string = '',
-		senderFigure: string = '',
-		messageId: string = '',
-		awaitConfirmationId: number = 0
-	)
-	{
-		this._type = type;
-		this._chatId = chatId;
-		this._message = message;
-		this._seconds = seconds;
-		this._clientReceiveTime = performance.now();
-		this._awaitConfirmationId = awaitConfirmationId;
-		this._messageId = messageId;
-		this._senderId = senderId;
-		this._senderName = senderName;
-		this._senderFigure = senderFigure;
 	}
 
 	/**

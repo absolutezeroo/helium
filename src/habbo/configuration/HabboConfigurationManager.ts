@@ -95,8 +95,7 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 		if (!params)
 		{
 			this._interpolatedCache.set(key, value);
-		}
-		else
+		} else
 		{
 			value = this.fillParams(value, params);
 		}
@@ -414,12 +413,10 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 				if (typeof value === 'string')
 				{
 					stringValue = value;
-				}
-				else if (typeof value === 'number' || typeof value === 'boolean')
+				} else if (typeof value === 'number' || typeof value === 'boolean')
 				{
 					stringValue = String(value);
-				}
-				else
+				} else
 				{
 					// Arrays and objects → store as JSON string
 					stringValue = JSON.stringify(value);
@@ -430,8 +427,7 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 			}
 
 			log.info(`Parsed ${count} configuration entries from JSON`);
-		}
-		catch (error)
+		} catch (error)
 		{
 			log.error(`Failed to parse JSON configuration: ${error}`);
 		}

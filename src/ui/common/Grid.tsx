@@ -11,24 +11,24 @@ export interface GridProps extends ParentProps
 }
 
 const COLS_MAP: Record<number, string> =
-{
-	2: 'grid-cols-2',
-	3: 'grid-cols-3',
-	4: 'grid-cols-4',
-	5: 'grid-cols-5',
-	6: 'grid-cols-6',
-	7: 'grid-cols-7',
-	8: 'grid-cols-8',
-};
+	{
+		2: 'grid-cols-2',
+		3: 'grid-cols-3',
+		4: 'grid-cols-4',
+		5: 'grid-cols-5',
+		6: 'grid-cols-6',
+		7: 'grid-cols-7',
+		8: 'grid-cols-8',
+	};
 
 const GAP_MAP: Record<number, string> =
-{
-	0: 'gap-0',
-	1: 'gap-1',
-	2: 'gap-2',
-	3: 'gap-3',
-	4: 'gap-4',
-};
+	{
+		0: 'gap-0',
+		1: 'gap-1',
+		2: 'gap-2',
+		3: 'gap-3',
+		4: 'gap-4',
+	};
 
 export function Grid(props: GridProps): JSX.Element
 {

@@ -14,19 +14,19 @@ export interface ButtonProps extends ParentProps
 }
 
 const VARIANT_CLASSES: Record<string, string> =
-{
-	primary: 'bg-accent text-white hover:bg-accent-hover',
-	secondary: 'bg-surface border border-border text-text-secondary hover:bg-surface-hover hover:border-border-hover hover:text-text-primary',
-	ghost: 'text-text-secondary hover:text-text-primary hover:bg-surface-hover',
-	danger: 'bg-error/15 text-error border border-error/25 hover:bg-error/25',
-};
+	{
+		primary: 'bg-accent text-white hover:bg-accent-hover',
+		secondary: 'bg-surface border border-border text-text-secondary hover:bg-surface-hover hover:border-border-hover hover:text-text-primary',
+		ghost: 'text-text-secondary hover:text-text-primary hover:bg-surface-hover',
+		danger: 'bg-error/15 text-error border border-error/25 hover:bg-error/25',
+	};
 
 const SIZE_CLASSES: Record<string, string> =
-{
-	xs: 'px-2 py-1 text-xs',
-	sm: 'px-3 py-1.5 text-sm',
-	md: 'px-4 py-2 text-sm',
-};
+	{
+		xs: 'px-2 py-1 text-xs',
+		sm: 'px-3 py-1.5 text-sm',
+		md: 'px-4 py-2 text-sm',
+	};
 
 export function Button(props: ButtonProps): JSX.Element
 {

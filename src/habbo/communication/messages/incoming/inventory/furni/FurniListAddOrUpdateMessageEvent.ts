@@ -1,6 +1,8 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
-import {FurniListAddOrUpdateMessageParser} from '@habbo/communication/messages/parser/inventory/furni/FurniListAddOrUpdateMessageParser';
+import {
+	FurniListAddOrUpdateMessageParser
+} from '@habbo/communication/messages/parser/inventory/furni/FurniListAddOrUpdateMessageParser';
 
 /**
  * @see source_as/habbo/communication/messages/incoming/inventory/furni/FurniListAddOrUpdateEvent.as

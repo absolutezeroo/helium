@@ -9,24 +9,27 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 export class CampaignCalendarDoorOpenedMessageParser implements IMessageParser
 {
 	private _doorOpened: boolean = false;
-	private _productName: string = '';
-	private _customImage: string = '';
-	private _furnitureClassName: string = '';
 
 	get doorOpened(): boolean
 	{
 		return this._doorOpened;
 	}
 
+	private _productName: string = '';
+
 	get productName(): string
 	{
 		return this._productName;
 	}
 
+	private _customImage: string = '';
+
 	get customImage(): string
 	{
 		return this._customImage;
 	}
+
+	private _furnitureClassName: string = '';
 
 	get furnitureClassName(): string
 	{

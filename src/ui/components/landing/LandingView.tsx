@@ -18,7 +18,8 @@ export const LandingView: Component = () =>
 				</Show>
 
 				<div class="grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-5">
-					<div class="glass glass-hover rounded-[var(--radius-lg)] p-10 text-center transition-all duration-200">
+					<div
+						class="glass glass-hover rounded-[var(--radius-lg)] p-10 text-center transition-all duration-200">
 						<p>Landing View Widgets</p>
 						<p class="text-xs text-text-muted">Coming soon...</p>
 					</div>

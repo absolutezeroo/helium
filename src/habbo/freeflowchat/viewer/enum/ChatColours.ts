@@ -29,10 +29,10 @@ export class ChatColours
 		{
 			if (item.text.startsWith(tag))
 			{
-				return { text: item.text.substring(tag.length), color };
+				return {text: item.text.substring(tag.length), color};
 			}
 		}
 
-		return { text: item.text, color: null };
+		return {text: item.text, color: null};
 	}
 }

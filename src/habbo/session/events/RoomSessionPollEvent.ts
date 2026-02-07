@@ -12,25 +12,20 @@ export class RoomSessionPollEvent extends RoomSessionEvent
 	public static readonly ERROR = 'RSPE_POLL_ERROR';
 	public static readonly CONTENT = 'RSPE_POLL_CONTENT';
 
-	private _id: number;
-	private _headline: string = '';
-	private _summary: string = '';
-	private _numQuestions: number = 0;
-	private _startMessage: string = '';
-	private _endMessage: string = '';
-	private _questionArray: unknown[] | null = null;
-	private _npsPoll: boolean = false;
-
 	constructor(type: string, session: IRoomSession, id: number)
 	{
 		super(type, session);
 		this._id = id;
 	}
 
+	private _id: number;
+
 	get id(): number
 	{
 		return this._id;
 	}
+
+	private _headline: string = '';
 
 	get headline(): string
 	{
@@ -42,6 +37,8 @@ export class RoomSessionPollEvent extends RoomSessionEvent
 		this._headline = value;
 	}
 
+	private _summary: string = '';
+
 	get summary(): string
 	{
 		return this._summary;
@@ -51,6 +48,8 @@ export class RoomSessionPollEvent extends RoomSessionEvent
 	{
 		this._summary = value;
 	}
+
+	private _numQuestions: number = 0;
 
 	get numQuestions(): number
 	{
@@ -62,6 +61,8 @@ export class RoomSessionPollEvent extends RoomSessionEvent
 		this._numQuestions = value;
 	}
 
+	private _startMessage: string = '';
+
 	get startMessage(): string
 	{
 		return this._startMessage;
@@ -71,6 +72,8 @@ export class RoomSessionPollEvent extends RoomSessionEvent
 	{
 		this._startMessage = value;
 	}
+
+	private _endMessage: string = '';
 
 	get endMessage(): string
 	{
@@ -82,6 +85,8 @@ export class RoomSessionPollEvent extends RoomSessionEvent
 		this._endMessage = value;
 	}
 
+	private _questionArray: unknown[] | null = null;
+
 	get questionArray(): unknown[] | null
 	{
 		return this._questionArray;
@@ -91,6 +96,8 @@ export class RoomSessionPollEvent extends RoomSessionEvent
 	{
 		this._questionArray = value;
 	}
+
+	private _npsPoll: boolean = false;
 
 	get npsPoll(): boolean
 	{

@@ -8,14 +8,14 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  */
 export class RoomDimmerPresetsMessageEventParser implements IMessageParser
 {
+	private _presets: DimmerPreset[] = [];
+
 	private _selectedPresetId: number = 0;
 
 	get selectedPresetId(): number
 	{
 		return this._selectedPresetId;
 	}
-
-	private _presets: DimmerPreset[] = [];
 
 	get presetCount(): number
 	{

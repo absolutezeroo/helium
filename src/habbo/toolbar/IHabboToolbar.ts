@@ -25,6 +25,10 @@ export interface IHabboToolbar
 	 * The width of the toolbar area
 	 */
 	readonly toolBarAreaWidth: number;
+	/**
+	 * Set whether the user is on duty (moderation)
+	 */
+	onDuty: boolean;
 
 	/**
 	 * Set the toolbar state (hotel view, room view, hidden, etc.)
@@ -70,9 +74,4 @@ export interface IHabboToolbar
 	 * @param iconName Icon name to toggle
 	 */
 	toggleWindowVisibility(iconName: string): void;
-
-	/**
-	 * Set whether the user is on duty (moderation)
-	 */
-	onDuty: boolean;
 }

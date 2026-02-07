@@ -73,7 +73,8 @@ export const LoadingScreen: Component = () =>
 	const isError = () => connection().state === 'error';
 
 	return (
-		<div class="absolute inset-0 bg-gradient-to-br from-bg-primary to-bg-secondary flex justify-center items-center z-[1000]">
+		<div
+			class="absolute inset-0 bg-gradient-to-br from-bg-primary to-bg-secondary flex justify-center items-center z-[1000]">
 			<div class="text-center">
 				<div class="mb-8">
 					<h1 class="text-5xl font-bold bg-gradient-to-br from-accent to-purple-500 bg-clip-text text-transparent">
@@ -83,7 +84,8 @@ export const LoadingScreen: Component = () =>
 
 				<Show when={!isError()} fallback={
 					<div class="flex flex-col items-center gap-4">
-						<div class="w-12 h-12 bg-error/15 border-2 border-error rounded-full flex items-center justify-center text-2xl font-bold text-error">
+						<div
+							class="w-12 h-12 bg-error/15 border-2 border-error rounded-full flex items-center justify-center text-2xl font-bold text-error">
 							!
 						</div>
 						<div class="text-sm text-error max-w-[280px] text-center">
@@ -91,7 +93,8 @@ export const LoadingScreen: Component = () =>
 						</div>
 					</div>
 				}>
-					<div class="w-12 h-12 border-3 border-border border-t-accent rounded-full animate-spin mx-auto mb-6"/>
+					<div
+						class="w-12 h-12 border-3 border-border border-t-accent rounded-full animate-spin mx-auto mb-6"/>
 
 					<div class="w-[200px] h-1 bg-border rounded-full mx-auto mb-4 overflow-hidden">
 						<div

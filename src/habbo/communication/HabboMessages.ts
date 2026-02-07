@@ -56,7 +56,30 @@ import {
 } from './messages/incoming/navigator';
 
 // Incoming Events - Notifications
-import {ActivityPointsMessageEvent, InfoFeedEnableMessageEvent,} from './messages/incoming/notifications';
+// Incoming Events - Notifications (extended)
+import {
+	AccountSafetyLockStatusChangeMessageEvent,
+	ActivityPointsMessageEvent,
+	ClubGiftNotificationEvent,
+	ClubGiftSelectedEvent,
+	HabboAchievementNotificationMessageEvent,
+	HabboBroadcastMessageEvent,
+	InfoFeedEnableMessageEvent,
+	InfoHotelClosedMessageEvent,
+	InfoHotelClosingMessageEvent,
+	ModeratorCautionEvent,
+	ModeratorMessageEvent,
+	MOTDNotificationEvent,
+	NotificationDialogMessageEvent,
+	PetLevelNotificationEvent,
+	PetReceivedMessageEvent,
+	PetRespectFailedEvent,
+	PetRespectNotificationEvent,
+	RespectNotificationMessageEvent,
+	RestoreClientMessageEvent,
+	RoomMessageNotificationMessageEvent,
+	UserBannedMessageEvent,
+} from './messages/incoming/notifications';
 
 // Incoming Events - Inventory
 import {
@@ -162,29 +185,6 @@ import {InterstitialMessageEvent} from './messages/incoming/advertisement';
 
 // Incoming Events - Tracking
 import {LatencyPingResponseMessageEvent} from './messages/incoming/tracking';
-
-// Incoming Events - Notifications (extended)
-import {
-	AccountSafetyLockStatusChangeMessageEvent,
-	ClubGiftNotificationEvent,
-	ClubGiftSelectedEvent,
-	HabboAchievementNotificationMessageEvent,
-	HabboBroadcastMessageEvent,
-	InfoHotelClosedMessageEvent,
-	InfoHotelClosingMessageEvent,
-	MOTDNotificationEvent,
-	ModeratorCautionEvent,
-	ModeratorMessageEvent,
-	NotificationDialogMessageEvent,
-	PetLevelNotificationEvent,
-	PetReceivedMessageEvent,
-	PetRespectFailedEvent,
-	PetRespectNotificationEvent,
-	RespectNotificationMessageEvent,
-	RestoreClientMessageEvent,
-	RoomMessageNotificationMessageEvent,
-	UserBannedMessageEvent,
-} from './messages/incoming/notifications';
 
 // Incoming Events - Friendlist
 import {

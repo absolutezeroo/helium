@@ -6,6 +6,33 @@
  */
 export class HabboNotificationItemStyle
 {
+	private _ownsIcon: boolean = false;
+
+	/**
+	 * @param styleMap Optional style map containing icon and internallink keys
+	 * @param iconAssetUri Optional icon asset URI string
+	 * @param ownsIcon Whether this style owns its icon and should dispose it
+	 * @param iconSrc Optional icon source string
+	 */
+	constructor(
+		styleMap: Record<string, unknown> | null,
+		iconAssetUri: string | null,
+		ownsIcon: boolean,
+		iconSrc: string | null
+	)
+	{
+		this._iconAssetUri = iconAssetUri;
+
+		if (styleMap != null && iconAssetUri == null)
+		{
+			this._iconData = styleMap;
+			this._internalLink = (styleMap['internallink'] as string) ?? null;
+		}
+
+		this._ownsIcon = ownsIcon;
+		this._iconSrc = iconSrc;
+	}
+
 	private _iconAssetUri: string | null = null;
 
 	get iconAssetUri(): string | null
@@ -37,33 +64,6 @@ export class HabboNotificationItemStyle
 	get iconData(): Record<string, unknown> | null
 	{
 		return this._iconData;
-	}
-
-	private _ownsIcon: boolean = false;
-
-	/**
-	 * @param styleMap Optional style map containing icon and internallink keys
-	 * @param iconAssetUri Optional icon asset URI string
-	 * @param ownsIcon Whether this style owns its icon and should dispose it
-	 * @param iconSrc Optional icon source string
-	 */
-	constructor(
-		styleMap: Record<string, unknown> | null,
-		iconAssetUri: string | null,
-		ownsIcon: boolean,
-		iconSrc: string | null
-	)
-	{
-		this._iconAssetUri = iconAssetUri;
-
-		if (styleMap != null && iconAssetUri == null)
-		{
-			this._iconData = styleMap;
-			this._internalLink = (styleMap['internallink'] as string) ?? null;
-		}
-
-		this._ownsIcon = ownsIcon;
-		this._iconSrc = iconSrc;
 	}
 
 	dispose(): void

@@ -1,7 +1,7 @@
 import type {ActionContext} from '../core/types';
 import type {RoomState, RoomUserData, RoomUserTypeValue} from './types';
-import type {IRoomSessionManager} from '@habbo/session/IRoomSessionManager';
 import {createInitialRoomState, RoomUserType} from './types';
+import type {IRoomSessionManager} from '@habbo/session/IRoomSessionManager';
 
 /**
  * Room module manager dependencies

@@ -9,18 +9,20 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 export class MaintenanceStatusMessageEventParser implements IMessageParser
 {
 	private _isInMaintenance: boolean = false;
-	private _minutesUntilMaintenance: number = 0;
-	private _duration: number = 15;
 
 	get isInMaintenance(): boolean
 	{
 		return this._isInMaintenance;
 	}
 
+	private _minutesUntilMaintenance: number = 0;
+
 	get minutesUntilMaintenance(): number
 	{
 		return this._minutesUntilMaintenance;
 	}
+
+	private _duration: number = 15;
 
 	get duration(): number
 	{

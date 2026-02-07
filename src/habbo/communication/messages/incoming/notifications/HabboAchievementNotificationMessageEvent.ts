@@ -1,6 +1,8 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
-import {HabboAchievementNotificationMessageEventParser} from '../../parser/notifications/HabboAchievementNotificationMessageEventParser';
+import {
+	HabboAchievementNotificationMessageEventParser
+} from '../../parser/notifications/HabboAchievementNotificationMessageEventParser';
 
 /**
  * Event for Habbo achievement notification message

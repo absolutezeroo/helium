@@ -9,6 +9,16 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  */
 export class HistoryMessageEntry
 {
+	constructor(wrapper: IMessageDataWrapper)
+	{
+		this._senderId = wrapper.readInt();
+		this._senderName = wrapper.readString();
+		this._senderFigure = wrapper.readString();
+		this._message = wrapper.readString();
+		this._secondsSinceSent = wrapper.readInt();
+		this._messageId = wrapper.readString();
+	}
+
 	private _senderId: number;
 
 	get senderId(): number
@@ -49,16 +59,6 @@ export class HistoryMessageEntry
 	get messageId(): string
 	{
 		return this._messageId;
-	}
-
-	constructor(wrapper: IMessageDataWrapper)
-	{
-		this._senderId = wrapper.readInt();
-		this._senderName = wrapper.readString();
-		this._senderFigure = wrapper.readString();
-		this._message = wrapper.readString();
-		this._secondsSinceSent = wrapper.readInt();
-		this._messageId = wrapper.readString();
 	}
 }
 
