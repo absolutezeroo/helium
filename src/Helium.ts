@@ -16,6 +16,9 @@ import {HabboCampaigns} from '@habbo/campaign/HabboCampaigns';
 import {AdManager} from '@habbo/advertisement/AdManager';
 import {HabboTracking} from '@habbo/tracking/HabboTracking';
 import {HabboGroupsManager} from '@habbo/groups/HabboGroupsManager';
+import {HabboNotifications} from '@habbo/notifications/HabboNotifications';
+import {HabboToolbar} from '@habbo/toolbar/HabboToolbar';
+import {HabboFreeFlowChat} from '@habbo/freeflowchat/HabboFreeFlowChat';
 import {Logger} from '@core/utils/Logger';
 import {mountUI} from '@ui/index';
 import {
@@ -154,6 +157,9 @@ export class Helium
 	private _adManager: AdManager | null = null;
 	private _tracking: HabboTracking | null = null;
 	private _groupsManager: HabboGroupsManager | null = null;
+	private _notifications: HabboNotifications | null = null;
+	private _toolbar: HabboToolbar | null = null;
+	private _freeFlowChat: HabboFreeFlowChat | null = null;
 	private _roomEngine: RoomEngine | null = null;
 
 	/**
@@ -351,6 +357,9 @@ export class Helium
 		this._adManager = null;
 		this._tracking = null;
 		this._groupsManager = null;
+		this._notifications = null;
+		this._toolbar = null;
+		this._freeFlowChat = null;
 		this._roomEngine = null;
 		this._inventory = null;
 		this._newNavigator = null;
@@ -520,6 +529,18 @@ export class Helium
 		// 12e. Groups Manager
 		this._groupsManager = new HabboGroupsManager(ctx);
 		ctx.attachComponent(this._groupsManager, []);
+
+		// 12f. Notifications
+		this._notifications = new HabboNotifications(ctx);
+		ctx.attachComponent(this._notifications, []);
+
+		// 12g. Toolbar
+		this._toolbar = new HabboToolbar(ctx);
+		ctx.attachComponent(this._toolbar, []);
+
+		// 12h. FreeFlowChat
+		this._freeFlowChat = new HabboFreeFlowChat(ctx);
+		ctx.attachComponent(this._freeFlowChat, []);
 
 		// Set PixiJS stage on room engine for rendering
 		this._roomEngine.setStage(this._core!.application.stage);

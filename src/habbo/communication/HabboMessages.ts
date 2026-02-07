@@ -163,6 +163,29 @@ import {InterstitialMessageEvent} from './messages/incoming/advertisement';
 // Incoming Events - Tracking
 import {LatencyPingResponseMessageEvent} from './messages/incoming/tracking';
 
+// Incoming Events - Notifications (extended)
+import {
+	AccountSafetyLockStatusChangeMessageEvent,
+	ClubGiftNotificationEvent,
+	ClubGiftSelectedEvent,
+	HabboAchievementNotificationMessageEvent,
+	HabboBroadcastMessageEvent,
+	InfoHotelClosedMessageEvent,
+	InfoHotelClosingMessageEvent,
+	MOTDNotificationEvent,
+	ModeratorCautionEvent,
+	ModeratorMessageEvent,
+	NotificationDialogMessageEvent,
+	PetLevelNotificationEvent,
+	PetReceivedMessageEvent,
+	PetRespectFailedEvent,
+	PetRespectNotificationEvent,
+	RespectNotificationMessageEvent,
+	RestoreClientMessageEvent,
+	RoomMessageNotificationMessageEvent,
+	UserBannedMessageEvent,
+} from './messages/incoming/notifications';
+
 // Incoming Events - Friendlist
 import {
 	ConsoleMessageHistoryEvent,
@@ -327,6 +350,9 @@ import {
 
 // Outgoing Composers - Poll
 import {PollAnswerComposer, PollRejectComposer, PollStartComposer,} from './messages/outgoing/poll';
+
+// Outgoing Composers - Notifications
+import {GetMOTDMessageComposer} from './messages/outgoing/notifications';
 
 // Outgoing Composers - Tracking
 import {
@@ -574,6 +600,27 @@ export class HabboMessages implements IMessageConfiguration
 		this._events.set(687, MessengerErrorEvent);
 		this._events.set(2514, RoomInviteEvent);
 
+		// === NOTIFICATIONS (extended) ===
+		this._events.set(1823, MOTDNotificationEvent);
+		this._events.set(3874, HabboBroadcastMessageEvent);
+		this._events.set(2709, ModeratorMessageEvent);
+		this._events.set(440, NotificationDialogMessageEvent);
+		this._events.set(1429, RespectNotificationMessageEvent);
+		this._events.set(675, PetLevelNotificationEvent);
+		this._events.set(1287, HabboAchievementNotificationMessageEvent);
+		this._events.set(2210, InfoHotelClosingMessageEvent);
+		this._events.set(3892, InfoHotelClosedMessageEvent);
+		this._events.set(298, UserBannedMessageEvent);
+		this._events.set(3983, ModeratorCautionEvent);
+		this._events.set(3139, ClubGiftNotificationEvent);
+		this._events.set(3525, RestoreClientMessageEvent);
+		this._events.set(654, AccountSafetyLockStatusChangeMessageEvent);
+		this._events.set(2771, PetReceivedMessageEvent);
+		this._events.set(3002, PetRespectFailedEvent);
+		this._events.set(2034, PetRespectNotificationEvent);
+		this._events.set(679, ClubGiftSelectedEvent);
+		this._events.set(731, RoomMessageNotificationMessageEvent);
+
 		// === POLL / WORD QUIZ ===
 		this._events.set(3785, PollOfferEvent);
 		this._events.set(662, PollErrorEvent);
@@ -702,6 +749,9 @@ export class HabboMessages implements IMessageConfiguration
 		this._composers.set(109, PollStartComposer);
 		this._composers.set(1773, PollRejectComposer);
 		this._composers.set(3505, PollAnswerComposer);
+
+		// === NOTIFICATIONS ===
+		this._composers.set(1441, GetMOTDMessageComposer);
 
 		// === TRACKING ===
 		this._composers.set(3638, LatencyPingRequestMessageComposer);

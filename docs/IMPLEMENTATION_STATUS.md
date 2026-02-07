@@ -2,14 +2,14 @@
 
 > **Dernière mise à jour**: 2026-02-07
 > **Méthode**: Audit exhaustif AS3 → TS (comparaison `source_as/` vs `src/`)
-> **Total AS3 ENGINE**: ~1 150 fichiers | **Total TS implémentés**: ~450 fichiers
+> **Total AS3 ENGINE**: ~1 150 fichiers | **Total TS implémentés**: ~530 fichiers
 
 ---
 
 ## Vue d'ensemble
 
 ```
-Progression globale ENGINE: ████░░░░░░░░░░░░░░░░ ~22%
+Progression globale ENGINE: █████░░░░░░░░░░░░░░░ ~28%
 ```
 
 | Module                             | AS3 ENGINE | TS Impl | %    | Statut                   |
@@ -23,7 +23,7 @@ Progression globale ENGINE: ████░░░░░░░░░░░░░�
 | **session**                        | 77         | 76      | 99%  | ✅ Quasi-complet          |
 | **navigator** (ENGINE)             | 25         | 24      | 96%  | ✅ Quasi-complet          |
 | **communication** (root/demo/enum) | 10         | 5       | 50%  | 🔄 Partiel (WebApi=SKIP) |
-| **communication/messages**         | 1150       | 300     | 26%  | 🔄 Partiel               |
+| **communication/messages**         | 1150       | 380     | 33%  | 🔄 Partiel               |
 | **room** (total)                   | 313        | 157     | 50%  | 🔄 En cours              |
 | **avatar**                         | 70         | 0       | 0%   | ❌ Non commencé           |
 | **catalog**                        | 62         | 0       | 0%   | ❌ Non commencé           |
@@ -32,16 +32,16 @@ Progression globale ENGINE: ████░░░░░░░░░░░░░�
 | **moderation**                     | 36         | 0       | 0%   | ❌ Non commencé           |
 | **help**                           | 13         | 0       | 0%   | ❌ Non commencé           |
 | **quest**                          | 21         | 0       | 0%   | ❌ Non commencé           |
-| **tracking**                       | 10         | 0       | 0%   | ❌ Non commencé           |
-| **toolbar**                        | 12         | 0       | 0%   | ❌ Non commencé           |
-| **groups**                         | 14         | 0       | 0%   | ❌ Non commencé           |
+| **tracking**                       | 10         | 9       | 90%  | ✅ Avancé                 |
+| **toolbar**                        | 12         | 10      | 83%  | ✅ Avancé                 |
+| **groups**                         | 14         | 8       | 57%  | 🔄 En cours              |
 | **game**                           | 4          | 0       | 0%   | ❌ Non commencé           |
-| **notifications**                  | 6          | 0       | 0%   | ❌ Non commencé           |
+| **notifications**                  | 6          | 13      | 100% | ✅ Complet                |
 | **roomevents**                     | 5          | 0       | 0%   | ❌ Non commencé           |
-| **messenger**                      | 5          | 0       | 0%   | ❌ Non commencé           |
-| **freeflowchat**                   | 3          | 0       | 0%   | ❌ Non commencé           |
-| **advertisement**                  | 3          | 0       | 0%   | ❌ Non commencé           |
-| **campaign**                       | 1          | 0       | 0%   | ❌ Non commencé           |
+| **messenger**                      | 5          | 6       | 100% | ✅ Complet                |
+| **freeflowchat**                   | 3          | 13      | 100% | ✅ Complet                |
+| **advertisement**                  | 3          | 6       | 100% | ✅ Complet                |
+| **campaign**                       | 1          | 7       | 100% | ✅ Complet                |
 | **friendbar**                      | 5          | 0       | 0%   | ❌ Non commencé           |
 | **utils**                          | 19         | 0       | 0%   | ❌ Non commencé           |
 | **nux**                            | 4          | 0       | -    | ❌ VIEW (skip)            |
