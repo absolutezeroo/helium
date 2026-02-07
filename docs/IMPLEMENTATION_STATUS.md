@@ -1,40 +1,58 @@
 # Helium - Implementation Status
 
 > **Dernière mise à jour**: 2026-02-07
-> **Méthode**: Comparaison exhaustive `source_as/` vs `src/`
-> **Total AS3**: ~4 462 fichiers | **Total TS**: ~928 fichiers
+> **Méthode**: Audit exhaustif AS3 → TS (comparaison `source_as/` vs `src/`)
+> **Total AS3 ENGINE**: ~1 150 fichiers | **Total TS implémentés**: ~450 fichiers
 
 ---
 
 ## Vue d'ensemble
 
 ```
-Progression globale: █████░░░░░░░░░░░░░░░ ~23%
+Progression globale ENGINE: ████░░░░░░░░░░░░░░░░ ~22%
 ```
 
-| Catégorie                  | AS3 fichiers | TS fichiers | Progression | Statut       |
-|----------------------------|--------------|-------------|-------------|--------------|
-| Core (hors window)         | 114          | 80          | ~70%        | Avancé       |
-| Room Engine (`src/room/`)  | 81           | 43          | ~53%        | En cours     |
-| Habbo Room (`habbo/room/`) | 313          | 114         | ~36%        | En cours     |
-| Communication Messages     | 1 762        | 437         | ~25%        | Partiel      |
-| Session                    | 79           | 71          | ~90%        | Avancé       |
-| Navigator                  | 83           | 24          | ~29%        | Partiel      |
-| Inventory                  | 51           | 53          | ~100%       | Complet      |
-| Configuration              | 6            | 8           | ~100%       | Complet      |
-| Localization               | 5            | 7           | ~100%       | Complet      |
-| Avatar                     | 135          | 0           | 0%          | Non commencé |
-| Catalog                    | 205          | 0           | 0%          | Non commencé |
-| Sound                      | 29           | 0           | 0%          | Non commencé |
-| UI (`habbo/ui/`)           | 369          | -           | -           | SolidJS (53) |
-| Window (`core/window/`)    | 244          | -           | -           | SolidJS      |
-| Autres modules Habbo       | ~600         | 0           | 0%          | Non commencé |
+| Module                             | AS3 ENGINE | TS Impl | %    | Statut                   |
+|------------------------------------|------------|---------|------|--------------------------|
+| **core/communication**             | 22         | 31      | 90%  | ✅ Avancé                 |
+| **core/assets**                    | 25         | 23      | 92%  | ✅ Avancé                 |
+| **core/runtime**                   | 32         | 8       | 25%  | 🔄 Partiel               |
+| **configuration**                  | 2          | 8       | 100% | ✅ Complet                |
+| **localization**                   | 3          | 7       | 100% | ✅ Complet                |
+| **inventory**                      | 33         | 33      | 100% | ✅ Complet                |
+| **session**                        | 77         | 76      | 99%  | ✅ Quasi-complet          |
+| **navigator** (ENGINE)             | 25         | 24      | 96%  | ✅ Quasi-complet          |
+| **communication** (root/demo/enum) | 10         | 5       | 50%  | 🔄 Partiel (WebApi=SKIP) |
+| **communication/messages**         | 1150       | 300     | 26%  | 🔄 Partiel               |
+| **room** (total)                   | 313        | 157     | 50%  | 🔄 En cours              |
+| **avatar**                         | 70         | 0       | 0%   | ❌ Non commencé           |
+| **catalog**                        | 62         | 0       | 0%   | ❌ Non commencé           |
+| **sound**                          | 28         | 0       | 0%   | ❌ Non commencé           |
+| **friendlist**                     | 21         | 0       | 0%   | ❌ Non commencé           |
+| **moderation**                     | 36         | 0       | 0%   | ❌ Non commencé           |
+| **help**                           | 13         | 0       | 0%   | ❌ Non commencé           |
+| **quest**                          | 21         | 0       | 0%   | ❌ Non commencé           |
+| **tracking**                       | 10         | 0       | 0%   | ❌ Non commencé           |
+| **toolbar**                        | 12         | 0       | 0%   | ❌ Non commencé           |
+| **groups**                         | 14         | 0       | 0%   | ❌ Non commencé           |
+| **game**                           | 4          | 0       | 0%   | ❌ Non commencé           |
+| **notifications**                  | 6          | 0       | 0%   | ❌ Non commencé           |
+| **roomevents**                     | 5          | 0       | 0%   | ❌ Non commencé           |
+| **messenger**                      | 5          | 0       | 0%   | ❌ Non commencé           |
+| **freeflowchat**                   | 3          | 0       | 0%   | ❌ Non commencé           |
+| **advertisement**                  | 3          | 0       | 0%   | ❌ Non commencé           |
+| **campaign**                       | 1          | 0       | 0%   | ❌ Non commencé           |
+| **friendbar**                      | 5          | 0       | 0%   | ❌ Non commencé           |
+| **utils**                          | 19         | 0       | 0%   | ❌ Non commencé           |
+| **nux**                            | 4          | 0       | -    | ❌ VIEW (skip)            |
+| **phonenumber**                    | 7          | 0       | -    | ❌ VIEW (skip)            |
+| **window**                         | 5          | 0       | -    | ❌ VIEW (skip)            |
 
 ---
 
-## 1. Core (`src/core/`)
+## 1. Modules COMPLETS (✅)
 
-### 1.1 Communication (`core/communication/`)
+### 1.1 core/communication (~90%)
 ```
 Progression: ██████████████████░░ ~90%
 AS3: 22 fichiers | TS: 31 fichiers
@@ -50,7 +68,7 @@ AS3: 22 fichiers | TS: 31 fichiers
 | ✅      | WireFormat encoding/decoding                     |
 | ✅      | Handshake protocol                               |
 
-### 1.2 Assets (`core/assets/`)
+### 1.2 core/assets (~92%)
 ```
 Progression: ██████████████████░░ ~92%
 AS3: 25 fichiers | TS: 23 fichiers
@@ -61,567 +79,289 @@ AS3: 25 fichiers | TS: 23 fichiers
 | ✅      | AssetLibrary, loaders, sprite extraction |
 | ✅      | Asset data models                        |
 
-### 1.3 Localization (`core/localization/`)
+### 1.3 Configuration (100%)
 ```
 Progression: ████████████████████ ~100%
-AS3: 10 fichiers | TS: 11 fichiers
 ```
 
-| Statut | Élément                      |
-|--------|------------------------------|
-| ✅      | Infrastructure i18n complète |
+| Statut | Élément                                                            |
+|--------|--------------------------------------------------------------------|
+| ✅      | HabboConfigurationManager + IHabboConfigurationManager             |
+| ✅      | Enums: HabboProperty, HabboConfigurationEvent, HabboComponentFlags |
 
-### 1.4 Runtime (`core/runtime/`)
+### 1.4 Localization (100%)
 ```
-Progression: ████████░░░░░░░░░░░░ ~40%
-AS3: 33 fichiers | TS: 8 fichiers
-```
-
-| Statut | Élément                                                          |
-|--------|------------------------------------------------------------------|
-| ✅      | Component (base class complète)                                  |
-| ✅      | ComponentContext, ComponentDependency                            |
-| ✅      | IContext, IDisposable, IID                                       |
-| ✅      | ICoreConfiguration                                               |
-| ❌      | **CoreComponentContext** (registre/conteneur - CRITIQUE)         |
-| ❌      | ComponentInterfaceQueue, InterfaceStruct                         |
-| ❌      | EventDispatcherWrapper (compatibilité AS3)                       |
-| ❌      | IUpdateReceiver (intégration game loop)                          |
-| ❌      | ICore, IIDCore                                                   |
-| ❌      | IProfiler, Profiler                                              |
-| ❌      | ICoreErrorLogger, ICoreErrorReporter                             |
-| ❌      | Exception, ComponentDisposedException, InvalidComponentException |
-| ❌      | ~8 classes d'events manquantes                                   |
-
-### 1.5 Utils (`core/utils/`)
-```
-Progression: ██░░░░░░░░░░░░░░░░░░ ~10%
-AS3: 23 fichiers | TS: 2 fichiers
+Progression: ████████████████████ ~100%
 ```
 
-| Statut | Élément                                           |
-|--------|---------------------------------------------------|
-| ✅      | Logger (avec support couleurs)                    |
-| ❌      | ClassUtils (réflexion, vérification d'interfaces) |
-| ❌      | BrowserInfo (détection navigateur)                |
-| ❌      | ErrorReportStorage (reporting d'erreurs)          |
-| ❌      | LibraryLoader, LibraryLoaderQueue                 |
-| ❌      | MouseWheelEnabler                                 |
-| ❌      | ~15 classes utilitaires obfusquées                |
+| Statut | Élément                                              |
+|--------|------------------------------------------------------|
+| ✅      | HabboLocalizationManager + IHabboLocalizationManager |
+| ✅      | BadgeBaseAndLevel, HabboLocalizationEvent            |
 
-### 1.6 Window (`core/window/`)
+### 1.5 Inventory (100%)
 ```
-Statut: IGNORÉ (SolidJS remplace)
-AS3: 244 fichiers | TS: 0 fichiers (remplacé par src/ui/)
+Progression: ████████████████████ ~100%
+AS3: 33 fichiers | TS: 33 fichiers
 ```
+
+| Statut | Élément                                                        |
+|--------|----------------------------------------------------------------|
+| ✅      | HabboInventory complet avec tous les sous-modèles              |
+| ✅      | FurniModel, PetsModel, BadgesModel, EffectsModel, TradingModel |
+| ✅      | Items: FurnitureItem, GroupItem, StuffData (12 types)          |
+| ✅      | UnseenItemTracker, Purse, MarketplaceModel                     |
+
+### 1.6 Session (~99%)
+```
+Progression: ███████████████████░ ~99%
+AS3: 77 fichiers | TS: 76 fichiers
+```
+
+| Statut | Élément                                                                                                                                   |
+|--------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| ✅      | SessionDataManager, RoomSessionManager, RoomSession complets                                                                              |
+| ✅      | 12/12 handlers (Session, Users, Chat, Permissions, Data, GenericError, Poll, WordQuiz, Present, PetPackage, DimmerPresets, AvatarEffects) |
+| ✅      | 24/24 events                                                                                                                              |
+| ✅      | 7/7 enums                                                                                                                                 |
+| ✅      | UserDataManager, PerkManager, IgnoredUsersManager, HabboGroupInfoManager                                                                  |
+| ✅      | PetInfo, IPetInfo                                                                                                                         |
+| ❌      | FurnitureData/ProductData parsers (délégués au GameDataManager existant)                                                                  |
+
+### 1.7 Navigator ENGINE (~96%)
+```
+Progression: ███████████████████░ ~96%
+AS3 ENGINE: 25 fichiers | TS: 24 fichiers
+```
+
+| Statut | Élément                                                        |
+|--------|----------------------------------------------------------------|
+| ✅      | HabboNavigator, HabboNewNavigator complets                     |
+| ✅      | IncomingMessages, NewIncomingMessages                          |
+| ✅      | NavigatorData, NavigatorCache, SearchContext, ContextContainer |
+| ❌      | RoomSessionTags (1 fichier, faible priorité)                   |
 
 ---
 
-## 2. Room Engine (`src/room/`)
+## 2. Communication Messages (~26%)
 
-### 2.1 Root files
 ```
-Progression: ████████████████████ ~100%
-AS3: 10 fichiers | TS: 11 fichiers (avec index)
-```
-
-| Statut | Élément                                               |
-|--------|-------------------------------------------------------|
-| ✅      | RoomInstance                                          |
-| ✅      | RoomManager                                           |
-| ✅      | RoomObjectManager                                     |
-| ✅      | IRoomInstance, IRoomManager, IRoomObjectFactory, etc. |
-| ✅      | IRoomContentLoader, IRoomInstanceContainer            |
-| ✅      | IRoomManagerListener                                  |
-
-### 2.2 Events (`room/events/`)
-```
-Progression: ████████████████░░░░ ~80%
-AS3: 5 fichiers | TS: 4 fichiers
+Progression: █████░░░░░░░░░░░░░░░ ~26%
+AS3: ~1150 (events + composers + parsers) | TS: ~300 fichiers
 ```
 
-| Statut | Élément                               |
-|--------|---------------------------------------|
-| ✅      | RoomObjectEvent, RoomSpriteMouseEvent |
-| ❌      | 1 event manquant                      |
+### 2.1 Root + Demo + Enum
 
-### 2.3 Messages (`room/messages/`)
-```
-Progression: ████████████████████ ~100%
-AS3: 1 fichier | TS: 2 fichiers
-```
+| Fichier AS3                             | Statut        |
+|-----------------------------------------|---------------|
+| HabboCommunicationManager               | ✅ Complet     |
+| IHabboCommunicationManager              | ✅ Complet     |
+| HabboMessages                           | ✅ Registre    |
+| HabboCommunicationDemo                  | ✅ Complet     |
+| IncomingMessages                        | ✅ Complet     |
+| HabboLoginDemoScreen                    | SKIP (VIEW)   |
+| LoginEnvironmentsController             | SKIP (VIEW)   |
+| ApiRequest, WebApiRequest               | SKIP (WebApi) |
+| HabboWebApiSession, IHabboWebApiSession | SKIP (WebApi) |
 
-### 2.4 Object (`room/object/`)
-```
-Progression: ██████████████░░░░░░ ~71%
-AS3: 28 fichiers | TS: 20 fichiers
-```
+**Enums (11/11):** ✅ Tous implémentés
 
-| Sous-module    | AS3 | TS | Statut                    |
-|----------------|-----|----|---------------------------|
-| enum/          | 2   | 2  | ✅ Complet                 |
-| logic/         | 3   | 4  | ✅ Complet                 |
-| visualization/ | 16  | 7  | ⚠️ 44% - Manque renderers |
+### 2.2 Incoming Events par catégorie
 
-| Statut | Éléments clés manquants                 |
-|--------|-----------------------------------------|
-| ❌      | RoomObjectSpriteVisualization (partiel) |
-| ❌      | Renderers de visualisation avancés      |
-| ❌      | Animated visualization                  |
+| Catégorie             | AS3      | TS       | %       |
+|-----------------------|----------|----------|---------|
+| handshake             | 12       | 13       | ✅ 100%  |
+| navigator             | 39       | 40       | ✅ 100%  |
+| newnavigator          | 12       | 12       | ✅ 100%  |
+| poll                  | 6        | 7        | ✅ 100%  |
+| error                 | 1        | 2        | ✅ 100%  |
+| room                  | 107      | 53       | ⚠️ 49%  |
+| inventory             | 53       | 25       | ⚠️ 47%  |
+| availability          | 6        | 4        | ⚠️ 66%  |
+| mysterybox            | 4        | 2        | ⚠️ 50%  |
+| avatar                | 5        | 2        | ⚠️ 40%  |
+| notifications         | 14       | 3        | ⚠️ 21%  |
+| catalog               | 43       | 2        | ❌ 4%    |
+| users                 | 51       | 0        | ❌ 0%    |
+| game                  | 44       | 0        | ❌ 0%    |
+| help                  | 32       | 0        | ❌ 0%    |
+| moderation            | 25       | 0        | ❌ 0%    |
+| friendlist            | 24       | 0        | ❌ 0%    |
+| roomsettings          | 18       | 0        | ❌ 0%    |
+| quest                 | 17       | 0        | ❌ 0%    |
+| collectibles          | 14       | 0        | ❌ 0%    |
+| sound                 | 10       | 0        | ❌ 0%    |
+| userdefinedroomevents | 44       | 0        | ❌ 0%    |
+| +11 autres catégories | ~40      | 0        | ❌ 0%    |
+| **TOTAL**             | **~657** | **~165** | **25%** |
 
-### 2.5 Renderer (`room/renderer/`)
-```
-Progression: ░░░░░░░░░░░░░░░░░░░░ ~0%
-AS3: 20 fichiers | TS: 0 fichiers
-```
+### 2.3 Outgoing Composers par catégorie
 
-| Statut | Élément                       |
-|--------|-------------------------------|
-| ❌      | RoomRenderer                  |
-| ❌      | RoomSpriteCanvas              |
-| ❌      | RoomSpriteRenderer            |
-| ❌      | Tout le système de rendu room |
+| Catégorie             | AS3      | TS       | %       |
+|-----------------------|----------|----------|---------|
+| handshake             | 10       | 10       | ✅ 100%  |
+| navigator             | 38       | 36       | ✅ 94%   |
+| newnavigator          | 7        | 8        | ✅ 100%  |
+| poll                  | 3        | 4        | ✅ 100%  |
+| room                  | 97       | 50       | ⚠️ 51%  |
+| inventory             | 26       | 17       | ⚠️ 65%  |
+| avatar                | 15       | 6        | ⚠️ 40%  |
+| tracking              | 5        | 2        | ⚠️ 40%  |
+| friendlist            | 15       | 2        | ❌ 13%   |
+| catalog               | 37       | 0        | ❌ 0%    |
+| users                 | 40       | 0        | ❌ 0%    |
+| help                  | 32       | 0        | ❌ 0%    |
+| game                  | 27       | 0        | ❌ 0%    |
+| +15 autres catégories | ~141     | 0        | ❌ 0%    |
+| **TOTAL**             | **~493** | **~135** | **27%** |
 
-### 2.6 Utils (`room/utils/`)
-```
-Progression: ████████░░░░░░░░░░░░ ~40%
-AS3: 15 fichiers | TS: 6 fichiers
-```
+### 2.4 Problèmes Détectés
 
-| Statut | Élément                                   |
-|--------|-------------------------------------------|
-| ✅      | ColorConverter, SpriteUtilities (partiel) |
-| ❌      | Rasterizer, FloorHole, Vector3D utils     |
+**Conflit d'ID (1 CRITIQUE):**
+- `ID 1472` — RoomAdEventTabViewedComposer ET TogglePetRidingPermissionComposer (le 2ème écrase le 1er)
 
-### 2.7 Data (`room/data/`)
-```
-Progression: ░░░░░░░░░░░░░░░░░░░░ ~0%
-AS3: 1 fichier | TS: 0 fichiers
-```
+**Note:** Les conflits cross-type (events vs composers) ne sont PAS des vrais conflits car les maps sont séparées.
+
+**Composers existants mais non enregistrés dans HabboMessages.ts (17):**
+- QuitMessageComposer
+- RespectUserMessageComposer, RespectPetMessageComposer
+- KickUserMessageComposer, BanUserWithDurationMessageComposer
+- MuteUserMessageComposer, UnmuteUserMessageComposer
+- AssignRightsMessageComposer, RemoveRightsMessageComposer
+- LetUserInMessageComposer
+- AvatarExpressionMessageComposer, SignMessageComposer
+- DanceMessageComposer, ChangePostureMessageComposer
+- StartTypingMessageComposer, CancelTypingMessageComposer
 
 ---
 
-## 3. Habbo Room (`src/habbo/room/`)
+## 3. Room Module (~50%)
 
-### 3.1 Vue d'ensemble
 ```
-Progression: ███████░░░░░░░░░░░░░ ~36%
-AS3: 313 fichiers | TS: 114 fichiers
+Progression: ██████████░░░░░░░░░░ ~50%
+AS3: 313 fichiers | TS: 157 fichiers
 ```
 
-### 3.2 Par sous-module
+### 3.1 Par sous-module
 
-| Sous-module           | AS3 | TS | %   | Statut          |
-|-----------------------|-----|----|-----|-----------------|
-| events/               | 31  | 9  | 29% | ⚠️ Partiel      |
-| messages/             | 40  | 28 | 70% | En cours        |
-| object/data/          | 13  | 12 | 92% | Presque complet |
-| object/logic/         | 73  | 20 | 27% | ⚠️ Partiel      |
-| object/visualization/ | 109 | 23 | 21% | ⚠️ Partiel      |
-| preview/              | 1   | 0  | 0%  | Non commencé    |
-| enum/                 | 1   | 0  | 0%  | Non commencé    |
-| utils/                | 11  | 0  | 0%  | Non commencé    |
-| renderer/             | 0   | 1  | -   | TS uniquement   |
-| root files            | 19  | 10 | 53% | En cours        |
+| Sous-module               | AS3 | TS | %    | Statut          |
+|---------------------------|-----|----|------|-----------------|
+| Enums                     | 6   | 6  | 100% | ✅ Complet       |
+| Messages (avatar updates) | 40  | 28 | 70%  | 🔄 En cours     |
+| Object Data (StuffData)   | 13  | 12 | 92%  | ✅ Quasi-complet |
+| Rasterizer                | ~10 | 8  | 80%  | 🔄 Avancé       |
+| Events                    | 31  | 9  | 29%  | ⚠️ Partiel      |
+| Object Logic              | 73  | 20 | 27%  | ⚠️ Partiel      |
+| Object Visualization      | 109 | 23 | 21%  | ⚠️ Partiel      |
+| Utilities                 | 11  | 0  | 0%   | ❌ Non commencé  |
 
-### 3.3 Détail object/logic (27%)
-
-| Statut | Éléments clés                              |
-|--------|--------------------------------------------|
-| ✅      | FurnitureLogic (base), RoomObjectLogicBase |
-| ✅      | AvatarLogic, PetLogic (bases)              |
-| ❌      | FurnitureMultiStateLogic                   |
-| ❌      | FurnitureGuildCustomizedLogic              |
-| ❌      | FurniturePresentLogic                      |
-| ❌      | FurnitureCreditLogic                       |
-| ❌      | ~53 autres fichiers logique                |
-
-### 3.4 Détail object/visualization (21%)
-
-| Statut | Éléments clés                         |
-|--------|---------------------------------------|
-| ✅      | FurnitureVisualization (base)         |
-| ✅      | RoomObjectSpriteVisualization         |
-| ✅      | FurnitureAnimatedVisualization (base) |
-| ❌      | FurnitureVisualizationData            |
-| ❌      | AvatarVisualization                   |
-| ❌      | PetVisualization                      |
-| ❌      | FurnitureBBVisualization              |
-| ❌      | FurnitureParticleVisualization        |
-| ❌      | ~86 autres fichiers visualisation     |
+### 3.2 Manquant critique
+- 50+ classes de logique furniture (FurnitureSoundMachine, FurnitureRoomDimmer, FurnitureCreditLogic, FurniturePresentLogic, etc.)
+- Système de visualisation avatar/pet complet
+- RoomVisualization, TileCursor, SelectionArrow
+- Système de plane masking (4 fichiers)
+- Rasterizers animés (paysages)
 
 ---
 
-## 4. Communication Messages (`src/habbo/communication/`)
+## 4. Core Runtime (~25%)
 
-### 4.1 Vue d'ensemble
 ```
 Progression: █████░░░░░░░░░░░░░░░ ~25%
-AS3: 1 762 (événements + composers + parsers) | TS: 437 fichiers
+AS3: 32 fichiers | TS: 8 fichiers
 ```
 
-| Type               | AS3 | TS  | %   |
-|--------------------|-----|-----|-----|
-| Incoming Events    | 656 | 159 | 24% |
-| Outgoing Composers | 518 | 124 | 24% |
-| Parsers            | 588 | 134 | 23% |
-
-### 4.2 Par catégorie (Incoming Events)
-
-| Catégorie             | AS3 | TS | Statut    |
-|-----------------------|-----|----|-----------|
-| handshake             | 12  | 12 | ✅ Complet |
-| navigator             | 39  | 40 | ✅ Complet |
-| newnavigator          | 12  | 12 | ✅ Complet |
-| inventory             | 53  | 25 | ⚠️ 47%    |
-| room                  | 107 | 58 | ⚠️ 54%    |
-| availability          | 6   | 2  | ⚠️ 33%    |
-| notifications         | 14  | 3  | ⚠️ 21%    |
-| avatar                | 5   | 2  | ⚠️ 40%    |
-| mysterybox            | 4   | 2  | ⚠️ 50%    |
-| catalog               | 43  | 2  | ❌ 5%      |
-| users                 | 51  | 0  | ❌ 0%      |
-| game                  | 44  | 0  | ❌ 0%      |
-| userdefinedroomevents | 44  | 0  | ❌ 0%      |
-| help                  | 32  | 0  | ❌ 0%      |
-| moderation            | 25  | 0  | ❌ 0%      |
-| friendlist            | 24  | 0  | ❌ 0%      |
-| roomsettings          | 18  | 0  | ❌ 0%      |
-| quest                 | 17  | 0  | ❌ 0%      |
-| notifications         | 14  | 3  | ❌ 21%     |
-| collectibles          | 14  | 0  | ❌ 0%      |
-| groupforums           | 9   | 0  | ❌ 0%      |
-| marketplace           | 9   | 0  | ❌ 0%      |
-| sound                 | 10  | 0  | ❌ 0%      |
-| nux                   | 6   | 0  | ❌ 0%      |
-| camera                | 6   | 0  | ❌ 0%      |
-| callforhelp           | 6   | 0  | ❌ 0%      |
-| competition           | 6   | 0  | ❌ 0%      |
-| poll                  | 6   | 6  | ✅ Complet |
-
-### 4.3 Par catégorie (Outgoing Composers)
-
-| Catégorie             | AS3 | TS | Statut    |
-|-----------------------|-----|----|-----------|
-| handshake             | 10  | 10 | ✅ Complet |
-| navigator             | 38  | 36 | ✅ ~95%    |
-| newnavigator          | 7   | 8  | ✅ Complet |
-| inventory             | 26  | 17 | ⚠️ 65%    |
-| room                  | 97  | 50 | ⚠️ 52%    |
-| tracking              | 5   | 2  | ⚠️ 40%    |
-| catalog               | 37  | 0  | ❌ 0%      |
-| users                 | 40  | 0  | ❌ 0%      |
-| help                  | 32  | 0  | ❌ 0%      |
-| game                  | 27  | 0  | ❌ 0%      |
-| moderator             | 21  | 0  | ❌ 0%      |
-| userdefinedroomevents | 19  | 0  | ❌ 0%      |
-| friendlist            | 15  | 0  | ❌ 0%      |
-| collectibles          | 13  | 0  | ❌ 0%      |
-| groupforums           | 12  | 0  | ❌ 0%      |
-| camera                | 10  | 0  | ❌ 0%      |
-| marketplace           | 10  | 0  | ❌ 0%      |
-| roomsettings          | 9   | 0  | ❌ 0%      |
-| sound                 | 9   | 0  | ❌ 0%      |
-
-### 4.4 Par catégorie (Parsers)
-
-| Catégorie             | AS3 | TS | Statut    |
-|-----------------------|-----|----|-----------|
-| handshake             | 12  | 12 | ✅ Complet |
-| navigator             | 22  | 22 | ✅ Complet |
-| newnavigator          | 6   | 7  | ✅ Complet |
-| inventory             | 51  | 26 | ⚠️ 51%    |
-| room                  | 103 | 55 | ⚠️ 53%    |
-| availability          | 6   | 2  | ⚠️ 33%    |
-| avatar                | 4   | 2  | ⚠️ 50%    |
-| mysterybox            | 4   | 2  | ⚠️ 50%    |
-| notifications         | 13  | 3  | ⚠️ 23%    |
-| catalog               | 34  | 2  | ❌ 6%      |
-| game                  | 70  | 0  | ❌ 0%      |
-| users                 | 35  | 0  | ❌ 0%      |
-| help                  | 33  | 0  | ❌ 0%      |
-| userdefinedroomevents | 19  | 0  | ❌ 0%      |
-| moderation            | 18  | 0  | ❌ 0%      |
-| friendlist            | 18  | 0  | ❌ 0%      |
-| collectibles          | 19  | 0  | ❌ 0%      |
-| groupforums           | 13  | 0  | ❌ 0%      |
-| roomsettings          | 12  | 0  | ❌ 0%      |
-| poll                  | 6   | 6  | ✅ Complet |
+| Statut | Élément                                    |
+|--------|--------------------------------------------|
+| ✅      | Component (base class complète)            |
+| ✅      | ComponentContext, ComponentDependency      |
+| ✅      | IContext, IDisposable, IID                 |
+| ✅      | ICoreConfiguration                         |
+| ❌      | CoreComponentContext (registre/conteneur)  |
+| ❌      | ComponentInterfaceQueue, InterfaceStruct   |
+| ❌      | EventDispatcherWrapper (compatibilité AS3) |
+| ❌      | IUpdateReceiver (intégration game loop)    |
+| ❌      | ICore, IIDCore                             |
+| ❌      | IProfiler, Profiler                        |
+| ❌      | ~8 classes d'events manquantes             |
 
 ---
 
-## 5. Session (`src/habbo/session/`)
+## 5. Modules Non Commencés (❌ 0%)
 
-```
-Progression: ██████████████████░░ ~90%
-AS3: 79 fichiers | TS: 71 fichiers
-```
+### Tier 1 — Critique pour le gameplay
 
-### 5.1 Managers & Interfaces
+| Module      | AS3 ENGINE | Description                                                |
+|-------------|------------|------------------------------------------------------------|
+| **avatar**  | ~70        | Rendu avatar, géométrie 3D, animations, cache, figure data |
+| **catalog** | ~62        | Commerce, offres, achats, marketplace, club                |
+| **sound**   | ~28        | Audio, TRAX sequencer, playlists, jukebox                  |
 
-| Statut | Élément                                                                                                                                                                               |
-|--------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| ✅      | SessionDataManager + ISessionDataManager (avec perksReady, isPerkAllowed, getPerkErrorMessage, isIgnored, ignoreUser, unignoreUser, isAccountSafetyLocked, sendSpecialCommandMessage) |
-| ✅      | RoomSessionManager + IRoomSessionManager (tous les handlers enregistrés dans createHandlers())                                                                                        |
-| ✅      | RoomSession + IRoomSession (~30 nouvelles méthodes + propriétés)                                                                                                                      |
-| ✅      | UserDataManager + IUserDataManager                                                                                                                                                    |
-| ✅      | UserData + IUserData                                                                                                                                                                  |
-| ✅      | PerkManager + IPerkManager                                                                                                                                                            |
-| ✅      | IgnoredUsersManager + IIgnoredUsersManager                                                                                                                                            |
-| ✅      | HabboGroupInfoManager + IHabboGroupInfoManager                                                                                                                                        |
-| ✅      | IRoomHandlerListener                                                                                                                                                                  |
-| ❌      | BadgeImageManager                                                                                                                                                                     |
-| ❌      | BadgeInfo                                                                                                                                                                             |
-| ❌      | FurnitureData / FurnitureDataParser                                                                                                                                                   |
+### Tier 2 — Fonctionnalités importantes
 
-### 5.2 Handlers
+| Module         | AS3 ENGINE | Description                  |
+|----------------|------------|------------------------------|
+| **friendlist** | ~18        | Amis, requêtes, relations    |
+| **help**       | ~13        | CFH, guide, safety booklet   |
+| **moderation** | ~20        | Outils de modération, issues |
+| **quest**      | ~15        | Achievements, quêtes         |
+| **toolbar**    | ~5         | Barre d'outils, icônes       |
 
-| Statut | Élément                     |
-|--------|-----------------------------|
-| ✅      | BaseHandler                 |
-| ✅      | RoomChatHandler             |
-| ✅      | RoomDataHandler             |
-| ✅      | RoomPermissionsHandler      |
-| ✅      | RoomSessionHandler          |
-| ✅      | RoomUsersHandler            |
-| ✅      | GenericErrorHandler         |
-| ✅      | PollHandler                 |
-| ✅      | RoomDimmerPresetsHandler    |
-| ✅      | WordQuizHandler             |
-| ✅      | PresentHandler              |
-| ✅      | PetPackageHandler           |
-| ✅      | AvatarEffectsHandler (stub) |
-| ❌      | ModerationHandler           |
-| ❌      | RoomPetHandler              |
+### Tier 3 — Secondaire
 
-### 5.3 Events
-
-| Statut | Élément                                                                      |
-|--------|------------------------------------------------------------------------------|
-| ✅      | RoomSessionEvent, RoomSessionChatEvent                                       |
-| ✅      | RoomSessionDanceEvent, RoomSessionDoorbellEvent                              |
-| ✅      | RoomSessionPropertyUpdateEvent                                               |
-| ✅      | RoomSessionUserBadgesEvent, RoomSessionUserDataUpdateEvent                   |
-| ✅      | RoomSessionUserFigureUpdateEvent                                             |
-| ✅      | RoomSessionErrorMessageEvent                                                 |
-| ✅      | RoomSessionDimmerPresetsEvent, RoomSessionDimmerPresetsEventPresetItem       |
-| ✅      | RoomSessionPollEvent                                                         |
-| ✅      | RoomSessionPresentEvent                                                      |
-| ✅      | RoomSessionWordQuizEvent                                                     |
-| ✅      | RoomSessionPetPackageEvent                                                   |
-| ✅      | RoomSessionQueueEvent                                                        |
-| ✅      | RoomSessionFriendRequestEvent                                                |
-| ✅      | RoomSessionFavouriteGroupUpdateEvent                                         |
-| ✅      | RoomSessionPetInfoUpdateEvent, RoomSessionPetFigureUpdateEvent               |
-| ✅      | RoomSessionPetStatusUpdateEvent, RoomSessionPetCommandsUpdateEvent           |
-| ✅      | RoomSessionPetLevelUpdateEvent                                               |
-| ✅      | RoomSessionPetBreedingEvent, RoomSessionPetBreedingResultEvent               |
-| ✅      | RoomSessionConfirmPetBreedingEvent, RoomSessionConfirmPetBreedingResultEvent |
-| ✅      | RoomSessionNestBreedingSuccessEvent                                          |
-| ✅      | BadgeImageReadyEvent                                                         |
-| ✅      | MysteryBoxKeysUpdateEvent                                                    |
-| ✅      | PerksUpdatedEvent                                                            |
-| ✅      | SessionDataPreferencesEvent                                                  |
-| ✅      | UserNameUpdateEvent                                                          |
-
-### 5.4 Data Classes
-
-| Statut | Élément            |
-|--------|--------------------|
-| ✅      | IPetInfo + PetInfo |
-| ✅      | SecurityLevelEnum  |
-
-### 5.5 Enums
-
-| Statut | Élément                                       |
-|--------|-----------------------------------------------|
-| ✅      | GenericErrorEnum, HabboClubLevelEnum          |
-| ✅      | RoomControllerLevelEnum, RoomTradingLevelEnum |
-| ✅      | TalentEnum, UIFlagsEnum                       |
-| ✅      | SecurityLevelEnum                             |
-
-### 5.6 RoomSession Methods (nouvelles)
-
-| Statut | Élément                                                                               |
-|--------|---------------------------------------------------------------------------------------|
-| ✅      | Properties: isPrivateRoom, isNoobRoom, areBotsAllowed, playTestMode, isNuxNotComplete |
-| ✅      | sendChangeMottoMessage, sendCreditFurniRedeemMessage, sendPresentOpenMessage          |
-| ✅      | sendOpenPetPackageMessage, sendRoomDimmerGetPresetsMessage                            |
-| ✅      | sendRoomDimmerSavePresetMessage, sendRoomDimmerChangeStateMessage                     |
-| ✅      | sendUpdateClothingChangeFurniture                                                     |
-| ✅      | sendPollStartMessage, sendPollRejectMessage, sendPollAnswerMessage                    |
-| ✅      | sendConversionPoint, sendVisitFlatMessage, sendVisitUserMessage, ambassadorAlert      |
-| ✅      | pickUpPet, mountPet, dismountPet, togglePetRidingPermission, removeSaddleFromPet      |
-| ✅      | requestPetCommands, useProductForPet, plantSeed, harvestPet                           |
-| ✅      | togglePetBreedingPermission, compostPlant, changeQueue                                |
-| ✅      | receivedChatWithTrackingId, sendScriptProceed, trackEventLogOncePerSession            |
-
-### 5.7 Outgoing Composers (session-related)
-
-| Statut | Élément                                                                                   |
-|--------|-------------------------------------------------------------------------------------------|
-| ✅      | PollStartComposer, PollRejectComposer, PollAnswerComposer                                 |
-| ✅      | CreditFurniRedeemMessageComposer, PresentOpenMessageComposer                              |
-| ✅      | OpenPetPackageMessageComposer                                                             |
-| ✅      | RoomDimmerGetPresetsComposer, RoomDimmerSavePresetComposer, RoomDimmerChangeStateComposer |
-| ✅      | UpdateClothingChangeFurnitureComposer                                                     |
-| ✅      | PickUpPetComposer, MountPetComposer, DismountPetComposer                                  |
-| ✅      | TogglePetRidingPermissionComposer, RemoveSaddleFromPetComposer                            |
-| ✅      | GetPetCommandsComposer, HarvestPetComposer, TogglePetBreedingPermissionComposer           |
-| ✅      | CompostPlantComposer, UseProductForPetComposer                                            |
-| ✅      | ChangeMottoMessageComposer, AmbassadorAlertMessageComposer                                |
-| ✅      | ChangeQueueMessageComposer, VisitUserMessageComposer                                      |
+| Module            | AS3 ENGINE | Description                                         |
+|-------------------|------------|-----------------------------------------------------|
+| **tracking**      | 10         | Analytics, latence, FPS                             |
+| **groups**        | ~6         | Guildes                                             |
+| **game**          | 4          | SnowWar game manager                                |
+| **notifications** | ~4         | Popups de notification                              |
+| **roomevents**    | 5          | Wired system                                        |
+| **messenger**     | ~3         | Messages privés                                     |
+| **utils**         | ~10        | StringUtil, CommunicationUtils, FigureDataContainer |
+| **freeflowchat**  | ~2         | Bulles de chat                                      |
+| **advertisement** | 3          | Pubs                                                |
+| **campaign**      | 1          | Calendrier                                          |
+| **friendbar**     | 5          | Barre d'amis                                        |
 
 ---
 
-## 6. Navigator (`src/habbo/navigator/`)
+## 6. Recommandations d'Implémentation
 
-```
-Progression: ██████░░░░░░░░░░░░░░ ~29%
-AS3: 83 fichiers (ENGINE ~25 + VIEW ~58) | TS: 24 fichiers
-```
+### Priorité immédiate (amener à 50%+ global)
+1. **Finir room** — ~157 fichiers manquants (furniture logic + visualisations)
+2. **Enregistrer les 17 composers orphelins** dans HabboMessages.ts
+3. **Résoudre le conflit d'ID 1472** (RoomAdEventTabViewedComposer vs TogglePetRidingPermissionComposer)
 
-### 6.1 Implémenté
+### Priorité haute (fonctionnalités core)
+4. **avatar** — ~70 fichiers (rendu avatar = critique pour le jeu)
+5. **catalog** — ~62 fichiers (commerce = essentiel)
+6. **sound** — ~28 fichiers (audio/TRAX)
+7. **communication/messages** — Compléter les catégories room, inventory, avatar
 
-| Statut | Élément                                                              |
-|--------|----------------------------------------------------------------------|
-| ✅      | HabboNavigator + IHabboNavigator                                     |
-| ✅      | HabboNewNavigator + IHabboNewNavigator                               |
-| ✅      | IncomingMessages + NewIncomingMessages                               |
-| ✅      | NavigatorCache, NavigatorCacheEntry                                  |
-| ✅      | SearchContext, ContextContainer, SearchContextHistoryManager         |
-| ✅      | NavigatorData                                                        |
-| ✅      | LiftDataContainer                                                    |
-| ✅      | Events (HabboNavigatorTrackingEvent, HabboRoomSettingsTrackingEvent) |
-| ✅      | ViewMode, ResultsModeEnum                                            |
+### Priorité moyenne (features)
+8. **friendlist + messenger** — Social
+9. **help + moderation** — Outils admins
+10. **quest** — Achievements
+11. **utils** — Utilitaires partagés
 
-### 6.2 Manquant (principalement VIEW → SolidJS)
-
-| Statut | Élément                            |
-|--------|------------------------------------|
-| ❌      | MainViewCtrl (VIEW → SolidJS)      |
-| ❌      | GuestRoomDoorbell (VIEW → SolidJS) |
-| ❌      | RoomInfoViewCtrl (VIEW → SolidJS)  |
-| ❌      | Tab, Tabs (domain)                 |
-| ❌      | RoomLayout (domain)                |
+### Priorité basse (polish)
+12. **tracking, groups, game, notifications, roomevents, freeflowchat**
+13. **advertisement, campaign, toolbar**
 
 ---
 
-## 7. Inventory (`src/habbo/inventory/`)
+## 7. Statistiques finales
 
-```
-Progression: ████████████████████ ~100%
-AS3: 51 fichiers | TS: 53 fichiers
-```
-
-| Sous-module  | AS3 | TS | Statut     |
-|--------------|-----|----|------------|
-| badges/      | 4   | 4  | ✅ Complet  |
-| bots/        | 3   | 4  | ✅ Complet  |
-| effects/     | 4   | 4  | ✅ Complet  |
-| enum/        | 4   | 3  | ✅ ~Complet |
-| furni/       | 3   | 3  | ✅ Complet  |
-| items/       | 4   | 18 | ✅ Étendu   |
-| pets/        | 3   | 5  | ✅ Complet  |
-| purse/       | 1   | 3  | ✅ Complet  |
-| trading/     | 2   | 5  | ✅ Étendu   |
-| marketplace/ | 2   | 0  | ❌ Manquant |
+| Métrique                      | Valeur                                                                    |
+|-------------------------------|---------------------------------------------------------------------------|
+| Fichiers AS3 ENGINE totaux    | ~1 150+                                                                   |
+| Fichiers TS implémentés       | ~450+                                                                     |
+| Fichiers manquants            | ~700+                                                                     |
+| Modules complets (100%)       | Configuration, Localization, Inventory                                    |
+| Modules quasi-complets (>90%) | Session (99%), Navigator ENGINE (96%), core/comm (90%), core/assets (92%) |
+| Modules en cours (25-50%)     | Room (50%), Communication messages (26%), core/runtime (25%)              |
+| Modules non commencés         | 21+ modules                                                               |
 
 ---
 
-## 8. Configuration (`src/habbo/configuration/`)
-
-```
-Progression: ████████████████████ ~100%
-AS3: 6 fichiers | TS: 8 fichiers
-```
-
-| Statut | Élément                           |
-|--------|-----------------------------------|
-| ✅      | HabboConfigurationManager complet |
-
----
-
-## 9. Modules Non Commencés
-
-| Module                  | AS3 fichiers | Priorité | Description                                                        |
-|-------------------------|--------------|----------|--------------------------------------------------------------------|
-| **avatar/**             | 135          | HAUTE    | Système de rendu avatars (structure, géométrie, animations, cache) |
-| **catalog/**            | 205          | HAUTE    | Catalogue/boutique (pages, offres, achats) - 162 VIEW              |
-| **sound/**              | 29           | MOYENNE  | Son/musique (TRAX sequencer)                                       |
-| **friendlist/**         | 39           | MOYENNE  | Liste d'amis (21 VIEW)                                             |
-| **friendbar/**          | 143          | BASSE    | Barre d'amis/landing (113 VIEW)                                    |
-| **messenger/**          | 7            | MOYENNE  | Messagerie privée                                                  |
-| **help/**               | 33           | BASSE    | Système d'aide/CFH                                                 |
-| **moderation/**         | 36           | BASSE    | Outils de modération (16 VIEW)                                     |
-| **game/**               | 63           | BASSE    | SnowWar game                                                       |
-| **toolbar/**            | 37           | BASSE    | Toolbar (18 VIEW)                                                  |
-| **notifications/**      | 32           | MOYENNE  | Notifications (16 VIEW)                                            |
-| **freeflowchat/**       | 32           | MOYENNE  | Bulles de chat (15 VIEW)                                           |
-| **quest/**              | 31           | BASSE    | Quêtes/achievements                                                |
-| **roomevents/**         | 243          | BASSE    | Wired furniture (204 VIEW)                                         |
-| **groups/**             | 21           | BASSE    | Guildes (15 VIEW)                                                  |
-| **tracking/**           | 10           | BASSE    | Analytics                                                          |
-| **campaign/**           | 5            | BASSE    | Campagnes calendrier                                               |
-| **phonenumber/**        | 7            | BASSE    | Vérification téléphone                                             |
-| **nux/**                | 4            | BASSE    | New user experience                                                |
-| **userclassification/** | 1            | BASSE    | Classification utilisateurs                                        |
-| **advertisement/**      | 5            | BASSE    | Publicités                                                         |
-
----
-
-## 10. UI SolidJS (`src/ui/`)
-
-```
-53 fichiers (composants, stores, bridge)
-Remplace: core/window/ (244 AS3) + habbo/ui/ (369 AS3) = ~613 fichiers VIEW
-```
-
-| Sous-module | Fichiers | Description        |
-|-------------|----------|--------------------|
-| bridge/     | 5        | Pont Engine ↔ UI   |
-| components/ | 43       | Composants SolidJS |
-| hooks/      | 3        | Hooks custom       |
-
----
-
-## 11. Résumé des priorités
-
-### Phase actuelle: Room Engine + Session (avancé)
-Le système de room rendering est en cours. La gestion de session est à ~90% (handlers poll, dimmer, present, pet package, word quiz, generic error, avatar effects implémentés).
-
-### Priorités recommandées
-
-1. **Room Engine** (src/room/ + habbo/room/) - Compléter le renderer, les visualisations et logiques manquantes
-2. **Avatar System** (habbo/avatar/) - Indispensable pour le rendu des personnages dans les rooms
-3. **Communication Messages** - Compléter les messages room/ et inventory/ en priorité
-4. **Session** - Finaliser: ModerationHandler, RoomPetHandler, BadgeImageManager, FurnitureData
-5. **Catalog** - Boutique (ENGINE seulement, VIEW → SolidJS)
-6. **Messenger / FriendList** - Communication sociale
-7. **Sound** - Audio/musique
-
-### Fichiers VIEW ignorés (→ SolidJS)
-Les fichiers AS3 dans ces catégories sont remplacés par des composants SolidJS:
-- `core/window/` (244 fichiers) → `src/ui/`
-- `habbo/ui/` (369 fichiers) → `src/ui/`
-- Parties VIEW de chaque module Habbo
-
----
-
-## 12. Statistiques finales
-
-| Métrique                            | Valeur                                        |
-|-------------------------------------|-----------------------------------------------|
-| Fichiers AS3 total                  | ~4 462                                        |
-| Fichiers AS3 ENGINE (à implémenter) | ~1 000                                        |
-| Fichiers AS3 VIEW (→ SolidJS)       | ~1 000                                        |
-| Fichiers AS3 Communication          | ~1 762                                        |
-| Fichiers TS implémentés             | ~928                                          |
-| Modules complets                    | Configuration, Localization, Inventory        |
-| Modules avancés (>50%)              | Core/Communication, Room root, Session (~90%) |
-| Modules partiels (20-50%)           | Room objects, Navigator, Comm messages        |
-| Modules non commencés               | 21 modules                                    |
-
----
-
-*Document généré par analyse BMAD - Comparaison exhaustive source_as/ vs src/*
+*Document mis à jour par audit exhaustif AS3 → TS — 2026-02-07*

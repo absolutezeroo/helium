@@ -237,19 +237,47 @@ import {
 } from './messages/outgoing/newnavigator';
 
 // Outgoing Composers - Room Session
-import {ChangeQueueMessageComposer, OpenFlatConnectionMessageComposer,} from './messages/outgoing/room/session';
+import {
+	ChangeQueueMessageComposer,
+	OpenFlatConnectionMessageComposer,
+	QuitMessageComposer,
+} from './messages/outgoing/room/session';
 
 // Outgoing Composers - Room Engine
 import {GetFurnitureAliasesMessageComposer, GetHeightMapMessageComposer,} from './messages/outgoing/room/engine';
 
 // Outgoing Composers - Room Chat
-import {ChatMessageComposer, ShoutMessageComposer, WhisperMessageComposer,} from './messages/outgoing/room/chat';
+import {
+	CancelTypingMessageComposer,
+	ChatMessageComposer,
+	ShoutMessageComposer,
+	StartTypingMessageComposer,
+	WhisperMessageComposer,
+} from './messages/outgoing/room/chat';
 
 // Outgoing Composers - Room Avatar
-import {ChangeMottoMessageComposer,} from './messages/outgoing/room/avatar';
+import {
+	AvatarExpressionMessageComposer,
+	ChangeMottoMessageComposer,
+	ChangePostureMessageComposer,
+	DanceMessageComposer,
+	SignMessageComposer,
+} from './messages/outgoing/room/avatar';
 
-// Outgoing Composers - Room Action (new)
-import {AmbassadorAlertMessageComposer,} from './messages/outgoing/room/action';
+// Outgoing Composers - Room Action
+import {
+	AmbassadorAlertMessageComposer,
+	AssignRightsMessageComposer,
+	BanUserWithDurationMessageComposer,
+	KickUserMessageComposer,
+	LetUserInMessageComposer,
+	MuteUserMessageComposer,
+	RemoveRightsMessageComposer,
+	UnmuteUserMessageComposer,
+} from './messages/outgoing/room/action';
+
+// Outgoing Composers - Room (root)
+import {RespectPetMessageComposer,} from './messages/outgoing/room';
 
 // Outgoing Composers - Room Furniture
 import {
@@ -566,12 +594,27 @@ export class HabboMessages implements IMessageConfiguration
 		// === ROOM SESSION ===
 		this._composers.set(2729, OpenFlatConnectionMessageComposer);
 		this._composers.set(3093, ChangeQueueMessageComposer);
+		this._composers.set(2722, QuitMessageComposer);
 
 		// === ROOM AVATAR ===
 		this._composers.set(2228, ChangeMottoMessageComposer);
+		this._composers.set(3794, AvatarExpressionMessageComposer);
+		this._composers.set(311, SignMessageComposer);
+		this._composers.set(2185, DanceMessageComposer);
+		this._composers.set(917, ChangePostureMessageComposer);
 
-		// === ROOM ACTION (additional) ===
+		// === ROOM ACTION ===
 		this._composers.set(2996, AmbassadorAlertMessageComposer);
+		this._composers.set(2046, KickUserMessageComposer);
+		this._composers.set(1061, BanUserWithDurationMessageComposer);
+		this._composers.set(296, MuteUserMessageComposer);
+		this._composers.set(1251, UnmuteUserMessageComposer);
+		this._composers.set(161, AssignRightsMessageComposer);
+		this._composers.set(108, RemoveRightsMessageComposer);
+		this._composers.set(3962, LetUserInMessageComposer);
+
+		// === ROOM RESPECT ===
+		this._composers.set(2631, RespectPetMessageComposer);
 
 		// === ROOM FURNITURE ===
 		this._composers.set(3115, CreditFurniRedeemMessageComposer);
@@ -585,7 +628,7 @@ export class HabboMessages implements IMessageConfiguration
 		// === ROOM PET ===
 		this._composers.set(1581, PickUpPetComposer);
 		this._composers.set(1036, MountPetComposer); // Also used for dismount (same ID, server toggles)
-		this._composers.set(1472, TogglePetRidingPermissionComposer);
+		this._composers.set(3575, TogglePetRidingPermissionComposer);
 		this._composers.set(186, RemoveSaddleFromPetComposer);
 		this._composers.set(2161, GetPetCommandsComposer);
 		this._composers.set(1521, HarvestPetComposer);
@@ -609,6 +652,8 @@ export class HabboMessages implements IMessageConfiguration
 		this._composers.set(2057, ChatMessageComposer);
 		this._composers.set(380, ShoutMessageComposer);
 		this._composers.set(2065, WhisperMessageComposer);
+		this._composers.set(2678, StartTypingMessageComposer);
+		this._composers.set(3878, CancelTypingMessageComposer);
 
 		// === INVENTORY ===
 		this._composers.set(3181, RequestFurniInventoryComposer);
