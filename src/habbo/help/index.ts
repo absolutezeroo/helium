@@ -22,22 +22,5 @@ export {
 	HabboHelpTutorialEvent,
 } from './enum';
 
-// Chat registry
-export {
-	ChatRegistryItem,
-	ChatRegistry,
-	ChatEventHandler,
-} from './cfh/registry/chat';
-
-// IM registry
-export {
-	InstantMessageRegistryItem,
-	InstantMessageRegistry,
-	InstantMessageEventHandler,
-} from './cfh/registry/instantmessage';
-
-// User registry
-export {
-	UserRegistryItem,
-	UserRegistry,
-} from './cfh/registry/user';
+// CFH registry
+export * from './cfh';
