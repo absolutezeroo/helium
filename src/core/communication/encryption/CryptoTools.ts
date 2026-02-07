@@ -13,14 +13,15 @@ export class CryptoTools
 		const savedPosition = bytes.position;
 		bytes.position = 0;
 
-		let result = '';
-		while (bytes.bytesAvailable > 0)
+		const codes: number[] = new Array(bytes.bytesAvailable);
+
+		for (let i = 0; bytes.bytesAvailable > 0; i++)
 		{
-			result += String.fromCharCode(bytes.readUnsignedByte());
+			codes[i] = bytes.readUnsignedByte();
 		}
 
 		bytes.position = savedPosition;
-		return result;
+		return String.fromCharCode(...codes);
 	}
 
 	/**
@@ -45,16 +46,17 @@ export class CryptoTools
 		const savedPosition = bytes.position;
 		bytes.position = 0;
 
-		let result = '';
-		while (bytes.bytesAvailable > 0)
+		const parts: string[] = new Array(bytes.bytesAvailable);
+
+		for (let i = 0; bytes.bytesAvailable > 0; i++)
 		{
 			const byte = bytes.readUnsignedByte();
 			const hex = byte.toString(16).padStart(2, '0');
-			result += uppercase ? hex.toUpperCase() : hex;
+			parts[i] = uppercase ? hex.toUpperCase() : hex;
 		}
 
 		bytes.position = savedPosition;
-		return result;
+		return parts.join('');
 	}
 
 	/**

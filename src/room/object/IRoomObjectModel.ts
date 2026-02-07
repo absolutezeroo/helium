@@ -20,9 +20,9 @@ export interface IRoomObjectModel
 
 	getString(key: string): string;
 
-	getNumberArray(key: string): number[] | null;
+	getNumberArray(key: string): readonly number[] | null;
 
-	getStringArray(key: string): string[] | null;
+	getStringArray(key: string): readonly string[] | null;
 
 	getStringToStringMap(key: string): Map<string, string>;
 

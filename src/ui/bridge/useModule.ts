@@ -35,10 +35,8 @@ export function useModule<K extends RegisteredModuleId>(moduleId: K): ModuleAPI<
 	const registry = useModuleRegistry();
 	const module = registry.get(moduleId);
 
-	// Use createSignal with equals: false to always trigger updates
 	const [state, setState] = createSignal<Readonly<ModuleStateMap[K]>>(
-		module.getState() as ModuleStateMap[K],
-		{equals: false}
+		module.getState() as ModuleStateMap[K]
 	);
 
 	onMount(() =>

@@ -79,8 +79,6 @@ export class Vector3d implements IVector3d
 		return new Vector3d(a.x + b.x, a.y + b.y, a.z + b.z);
 	}
 
-	// Instance properties
-
 	static dif(a: IVector3d | null, b: IVector3d | null): Vector3d | null
 	{
 		if (a === null || b === null)

@@ -47,7 +47,7 @@ export const handlers: MessageHandlers<InventoryState, InventoryManagers> = {
 		inv.setCategoryInitialized(InventoryCategory.RENTABLES);
 
 		updateState({
-			furniGroups: [...inv.furniModel.furniData],
+			furniGroups: inv.furniModel.furniData,
 			selectedFurniGroup: inv.furniModel.getSelectedItem(),
 			isLoading: false,
 			furniUnseenCount: inv.unseenItemTracker.getCount(1) + inv.unseenItemTracker.getCount(2),
@@ -72,7 +72,7 @@ export const handlers: MessageHandlers<InventoryState, InventoryManagers> = {
 		}
 
 		updateState({
-			furniGroups: [...inv.furniModel.furniData],
+			furniGroups: inv.furniModel.furniData,
 			furniUnseenCount: inv.unseenItemTracker.getCount(1) + inv.unseenItemTracker.getCount(2),
 		});
 	},
@@ -87,7 +87,7 @@ export const handlers: MessageHandlers<InventoryState, InventoryManagers> = {
 		inv.furniModel.removeFurni(parser.itemId);
 
 		updateState({
-			furniGroups: [...inv.furniModel.furniData],
+			furniGroups: inv.furniModel.furniData,
 			selectedFurniGroup: inv.furniModel.getSelectedItem(),
 		});
 	},
@@ -129,8 +129,8 @@ export const handlers: MessageHandlers<InventoryState, InventoryManagers> = {
 		inv.setCategoryInitialized(InventoryCategory.BADGES);
 
 		updateState({
-			badges: [...inv.badgesModel.getBadges()],
-			activeBadges: [...inv.badgesModel.getBadges(1)],
+			badges: inv.badgesModel.getBadges(),
+			activeBadges: inv.badgesModel.getBadges(1),
 			selectedBadge: inv.badgesModel.getSelectedBadge(),
 			badgesUnseenCount: inv.unseenItemTracker.getCount(4),
 			isLoading: false,
@@ -171,7 +171,7 @@ export const handlers: MessageHandlers<InventoryState, InventoryManagers> = {
 		inv.setCategoryInitialized(InventoryCategory.PETS);
 
 		updateState({
-			pets: [...inv.petsModel.getPetsArray()],
+			pets: inv.petsModel.getPetsArray(),
 			selectedPet: inv.petsModel.getSelectedPet(),
 			petsUnseenCount: inv.unseenItemTracker.getCount(3),
 			isLoading: false,
@@ -204,7 +204,7 @@ export const handlers: MessageHandlers<InventoryState, InventoryManagers> = {
 		inv.setCategoryInitialized(InventoryCategory.BOTS);
 
 		updateState({
-			bots: [...inv.botsModel.getBotsArray()],
+			bots: inv.botsModel.getBotsArray(),
 			selectedBot: inv.botsModel.getSelectedBot(),
 			botsUnseenCount: inv.unseenItemTracker.getCount(5),
 			isLoading: false,

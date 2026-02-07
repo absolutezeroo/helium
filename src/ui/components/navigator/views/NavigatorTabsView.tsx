@@ -1,5 +1,5 @@
 import type {JSX} from 'solid-js';
-import {createSignal, For, onMount, Show} from 'solid-js';
+import {createSignal, For, onCleanup, onMount, Show} from 'solid-js';
 import clsx from 'clsx';
 import type {IconName} from '../common';
 import {NavigatorIcon} from '../common';
@@ -89,6 +89,12 @@ export function NavigatorTabsView(props: NavigatorTabsViewProps): JSX.Element
 		updateScrollButtons();
 		scrollContainerRef?.addEventListener('scroll', updateScrollButtons);
 		window.addEventListener('resize', updateScrollButtons);
+
+		onCleanup(() =>
+		{
+			scrollContainerRef?.removeEventListener('scroll', updateScrollButtons);
+			window.removeEventListener('resize', updateScrollButtons);
+		});
 	});
 
 	const scroll = (direction: 'left' | 'right') =>

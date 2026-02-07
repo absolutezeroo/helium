@@ -4,6 +4,9 @@
  */
 export class ByteArray
 {
+	private static readonly _encoder: TextEncoder = new TextEncoder();
+	private static readonly _decoder: TextDecoder = new TextDecoder('utf-8');
+
 	private buffer: ArrayBuffer;
 	private view: DataView;
 
@@ -216,10 +219,15 @@ export class ByteArray
 	 */
 	writeUTF(value: string): void
 	{
-		const encoder = new TextEncoder();
-		const encoded = encoder.encode(value);
+		const encoded = ByteArray._encoder.encode(value);
 		this.writeUnsignedShort(encoded.length);
-		this.writeBytes(ByteArray.fromUint8Array(encoded));
+		this.ensureCapacity(encoded.length);
+		new Uint8Array(this.buffer).set(encoded, this._position);
+		this._position += encoded.length;
+		if (this._position > this._length)
+		{
+			this._length = this._position;
+		}
 	}
 
 	/**
@@ -227,9 +235,14 @@ export class ByteArray
 	 */
 	writeUTFBytes(value: string): void
 	{
-		const encoder = new TextEncoder();
-		const encoded = encoder.encode(value);
-		this.writeBytes(ByteArray.fromUint8Array(encoded));
+		const encoded = ByteArray._encoder.encode(value);
+		this.ensureCapacity(encoded.length);
+		new Uint8Array(this.buffer).set(encoded, this._position);
+		this._position += encoded.length;
+		if (this._position > this._length)
+		{
+			this._length = this._position;
+		}
 	}
 
 	/**
@@ -368,8 +381,7 @@ export class ByteArray
 		}
 
 		const bytes = new Uint8Array(this.buffer, this._position, length);
-		const decoder = new TextDecoder('utf-8');
-		const value = decoder.decode(bytes);
+		const value = ByteArray._decoder.decode(bytes);
 		this._position += length;
 		return value;
 	}
@@ -414,6 +426,14 @@ export class ByteArray
 	{
 		this._position = 0;
 		this._length = 0;
+	}
+
+	/**
+	 * Get a Uint8Array view of the data (no copy — modifications affect the underlying buffer)
+	 */
+	getUint8ArrayView(): Uint8Array
+	{
+		return new Uint8Array(this.buffer, 0, this._length);
 	}
 
 	/**

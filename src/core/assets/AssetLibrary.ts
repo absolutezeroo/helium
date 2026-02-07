@@ -66,6 +66,8 @@ export class AssetLibrary extends Component implements IAssetLibrary
 	private readonly _assetNameArray: string[] = [];
 	private readonly _pendingLoads: Map<string, AssetLoaderStruct> = new Map();
 	private readonly _localTypesByMime: Map<string, AssetTypeDeclaration> = new Map();
+	private readonly _assetByContent: Map<unknown, IAsset> = new Map();
+	private readonly _assetNameIndex: Map<string, number> = new Map();
 
 	constructor(context: IContext, name: string = 'AssetLibrary')
 	{
@@ -266,6 +268,8 @@ export class AssetLibrary extends Component implements IAssetLibrary
 
 		this._assetMap.clear();
 		this._assetNameArray.length = 0;
+		this._assetByContent.clear();
+		this._assetNameIndex.clear();
 
 		this._isReady = false;
 		this._url = '';
@@ -355,15 +359,7 @@ export class AssetLibrary extends Component implements IAssetLibrary
 	 */
 	getAssetByContent(content: unknown): IAsset | null
 	{
-		for (const [, asset] of this._assetMap)
-		{
-			if (asset.content === content)
-			{
-				return asset;
-			}
-		}
-
-		return null;
+		return this._assetByContent.get(content) ?? null;
 	}
 
 	/**
@@ -388,7 +384,7 @@ export class AssetLibrary extends Component implements IAssetLibrary
 		{
 			if (a === asset)
 			{
-				return this._assetNameArray.indexOf(name);
+				return this._assetNameIndex.get(name) ?? -1;
 			}
 		}
 
@@ -412,12 +408,25 @@ export class AssetLibrary extends Component implements IAssetLibrary
 
 		if ((overwrite || !exists) && asset)
 		{
-			if (!exists)
+			if (exists)
 			{
+				const oldAsset = this._assetMap.get(name)!;
+				if (oldAsset.content !== undefined)
+				{
+					this._assetByContent.delete(oldAsset.content);
+				}
+			}
+			else
+			{
+				this._assetNameIndex.set(name, this._assetNameArray.length);
 				this._assetNameArray.push(name);
 			}
 
 			this._assetMap.set(name, asset);
+			if (asset.content !== undefined)
+			{
+				this._assetByContent.set(asset.content, asset);
+			}
 			return true;
 		}
 
@@ -456,11 +465,18 @@ export class AssetLibrary extends Component implements IAssetLibrary
 		{
 			if (a === asset)
 			{
-				const index = this._assetNameArray.indexOf(name);
+				const index = this._assetNameIndex.get(name);
 
-				if (index >= 0)
+				if (index !== undefined)
 				{
 					this._assetNameArray.splice(index, 1);
+					this._assetNameIndex.delete(name);
+					this.rebuildNameIndex();
+				}
+
+				if (asset.content !== undefined)
+				{
+					this._assetByContent.delete(asset.content);
 				}
 
 				this._assetMap.delete(name);
@@ -469,6 +485,15 @@ export class AssetLibrary extends Component implements IAssetLibrary
 		}
 
 		return null;
+	}
+
+	private rebuildNameIndex(): void
+	{
+		this._assetNameIndex.clear();
+		for (let i = 0; i < this._assetNameArray.length; i++)
+		{
+			this._assetNameIndex.set(this._assetNameArray[i], i);
+		}
 	}
 
 	/**
@@ -666,12 +691,7 @@ export class AssetLibrary extends Component implements IAssetLibrary
 				}
 
 				// Store the asset
-				if (!this._assetMap.has(struct.assetName))
-				{
-					this._assetNameArray.push(struct.assetName);
-				}
-
-				this._assetMap.set(struct.assetName, asset);
+				this.setAsset(struct.assetName, asset);
 
 				struct.dispatchEvent(new AssetLoaderEvent(AssetLoaderEventType.COMPLETE, event.status));
 			} catch (error)

@@ -24,6 +24,7 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 
 	private _configurationData: Map<string, string> = new Map();
 	private _configurationKeys: string[] = [];
+	private _interpolatedCache: Map<string, string> = new Map();
 	private _isConfigLoaded: boolean = false;
 	private _isConfigReadOnly: boolean = false;
 
@@ -63,12 +64,23 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 
 	getProperty(key: string, params?: Record<string, string>): string
 	{
+		if (!params)
+		{
+			const cached = this._interpolatedCache.get(key);
+
+			if (cached !== undefined)
+			{
+				return cached;
+			}
+		}
+
 		let value = this._configurationData.get(key) ?? '';
 
 		value = this.interpolate(value);
 
 		if (value === '')
 		{
+			if (!params) this._interpolatedCache.set(key, '');
 			return '';
 		}
 
@@ -80,7 +92,11 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 
 		value = this.updateUrlProtocol(value);
 
-		if (params)
+		if (!params)
+		{
+			this._interpolatedCache.set(key, value);
+		}
+		else
 		{
 			value = this.fillParams(value, params);
 		}
@@ -99,6 +115,7 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 		if (this._configurationKeys.indexOf(key) < 0 || persistent)
 		{
 			this._configurationData.set(key, value);
+			this._interpolatedCache.clear();
 		}
 
 		if (persistent)
@@ -208,6 +225,7 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 		this._isConfigLoaded = false;
 		this._configurationData.clear();
 		this._configurationKeys = [];
+		this._interpolatedCache.clear();
 
 		this.parseCommonVariables();
 		this.setDefaults();

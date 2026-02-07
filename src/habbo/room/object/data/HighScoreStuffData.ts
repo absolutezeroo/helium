@@ -85,10 +85,10 @@ export class HighScoreStuffData extends StuffDataBase implements IStuffData
 
 		for (let i = 0; i < count; i++)
 		{
-			const users = model.getStringArray(RoomObjectVariableEnum.FURNITURE_HIGHSCORE_DATA_ENTRY_BASE_USERS + i) ?? [];
+			const users = model.getStringArray(RoomObjectVariableEnum.FURNITURE_HIGHSCORE_DATA_ENTRY_BASE_USERS + i);
 			const score = model.getNumber(RoomObjectVariableEnum.FURNITURE_HIGHSCORE_DATA_ENTRY_BASE_SCORE + i);
 
-			this._entries.push({users, score});
+			this._entries.push({users: users ? [...users] : [], score});
 		}
 	}
 

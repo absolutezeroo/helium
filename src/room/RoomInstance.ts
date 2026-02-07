@@ -19,8 +19,8 @@ export class RoomInstance implements IRoomInstance
 	private _updateCategories: number[] = [];
 	private _numbers: Map<string, number> = new Map();
 	private _strings: Map<string, string> = new Map();
-	private _immutableNumbers: string[] = [];
-	private _immutableStrings: string[] = [];
+	private _immutableNumbers: Set<string> = new Set();
+	private _immutableStrings: Set<string> = new Set();
 
 	constructor(id: string, container: IRoomInstanceContainer)
 	{
@@ -47,8 +47,8 @@ export class RoomInstance implements IRoomInstance
 		this._updateCategories = [];
 		this._numbers.clear();
 		this._strings.clear();
-		this._immutableNumbers = [];
-		this._immutableStrings = [];
+		this._immutableNumbers.clear();
+		this._immutableStrings.clear();
 	}
 
 	getNumber(key: string): number
@@ -58,14 +58,14 @@ export class RoomInstance implements IRoomInstance
 
 	setNumber(key: string, value: number, immutable: boolean = false): void
 	{
-		if (this._immutableNumbers.indexOf(key) >= 0)
+		if (this._immutableNumbers.has(key))
 		{
 			return;
 		}
 
 		if (immutable)
 		{
-			this._immutableNumbers.push(key);
+			this._immutableNumbers.add(key);
 		}
 
 		if (this._numbers.get(key) !== value)
@@ -81,14 +81,14 @@ export class RoomInstance implements IRoomInstance
 
 	setString(key: string, value: string, immutable: boolean = false): void
 	{
-		if (this._immutableStrings.indexOf(key) >= 0)
+		if (this._immutableStrings.has(key))
 		{
 			return;
 		}
 
 		if (immutable)
 		{
-			this._immutableStrings.push(key);
+			this._immutableStrings.add(key);
 		}
 
 		if (this._strings.get(key) !== value)
@@ -130,9 +130,11 @@ export class RoomInstance implements IRoomInstance
 
 			if (manager !== null)
 			{
-				for (let j = manager.objectCount - 1; j >= 0; j--)
+				const objects = manager.objects;
+
+				for (let j = objects.length - 1; j >= 0; j--)
 				{
-					const object = manager.getObjectByIndex(j) as IRoomObjectController | null;
+					const object = objects[j] as IRoomObjectController | null;
 
 					if (object !== null)
 					{

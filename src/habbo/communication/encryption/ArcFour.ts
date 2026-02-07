@@ -49,11 +49,11 @@ export class ArcFour implements IEncryption
 	 */
 	encipher(data: ByteArray): void
 	{
-		for (let k = 0; k < data.length; k++)
+		const bytes = data.getUint8ArrayView();
+
+		for (let k = 0; k < bytes.length; k++)
 		{
-			const byte = data.getByte(k);
-			const keyByte = this.next();
-			data.setByte(k, byte ^ keyByte);
+			bytes[k] ^= this.next();
 		}
 	}
 

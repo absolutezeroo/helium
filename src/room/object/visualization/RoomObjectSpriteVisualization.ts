@@ -26,6 +26,8 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 	private _sprites: RoomObjectSprite[] = [];
 	private _instanceId: number;
 	private _updateId: number = 0;
+	private _cachedBounds: { x: number; y: number; width: number; height: number } = {x: 0, y: 0, width: 0, height: 0};
+	private _boundsDirty: boolean = true;
 
 	constructor()
 	{
@@ -63,6 +65,11 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 	 */
 	get boundingRectangle(): { x: number; y: number; width: number; height: number }
 	{
+		if (!this._boundsDirty)
+		{
+			return this._cachedBounds;
+		}
+
 		let left = 0;
 		let top = 0;
 		let right = 0;
@@ -95,12 +102,13 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 			}
 		}
 
-		return {
-			x: left,
-			y: top,
-			width: right - left,
-			height: bottom - top,
-		};
+		this._cachedBounds.x = left;
+		this._cachedBounds.y = top;
+		this._cachedBounds.width = right - left;
+		this._cachedBounds.height = bottom - top;
+		this._boundsDirty = false;
+
+		return this._cachedBounds;
 	}
 
 	dispose(): void
@@ -220,6 +228,7 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 	protected increaseUpdateId(): void
 	{
 		this._updateId++;
+		this._boundsDirty = true;
 	}
 
 	protected reset(): void

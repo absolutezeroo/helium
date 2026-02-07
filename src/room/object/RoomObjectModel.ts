@@ -19,11 +19,11 @@ export class RoomObjectModel implements IRoomObjectModelController
 	private _stringArrays: Map<string, string[]> = new Map();
 	private _objects: Map<string, unknown> = new Map();
 
-	private _immutableNumbers: string[] = [];
-	private _immutableStrings: string[] = [];
-	private _immutableNumberArrays: string[] = [];
-	private _immutableStringArrays: string[] = [];
-	private _immutableObjects: string[] = [];
+	private _immutableNumbers: Set<string> = new Set();
+	private _immutableStrings: Set<string> = new Set();
+	private _immutableNumberArrays: Set<string> = new Set();
+	private _immutableStringArrays: Set<string> = new Set();
+	private _immutableObjects: Set<string> = new Set();
 
 	private _updateID: number = 0;
 
@@ -35,11 +35,11 @@ export class RoomObjectModel implements IRoomObjectModelController
 		this._stringArrays.clear();
 		this._objects.clear();
 
-		this._immutableNumbers = [];
-		this._immutableStrings = [];
-		this._immutableNumberArrays = [];
-		this._immutableStringArrays = [];
-		this._immutableObjects = [];
+		this._immutableNumbers.clear();
+		this._immutableStrings.clear();
+		this._immutableNumberArrays.clear();
+		this._immutableStringArrays.clear();
+		this._immutableObjects.clear();
 	}
 
 	hasNumber(key: string): boolean
@@ -72,28 +72,14 @@ export class RoomObjectModel implements IRoomObjectModelController
 		return this._strings.get(key) ?? '';
 	}
 
-	getNumberArray(key: string): number[] | null
+	getNumberArray(key: string): readonly number[] | null
 	{
-		const array = this._numberArrays.get(key);
-
-		if (array !== undefined)
-		{
-			return array.slice();
-		}
-
-		return null;
+		return this._numberArrays.get(key) ?? null;
 	}
 
-	getStringArray(key: string): string[] | null
+	getStringArray(key: string): readonly string[] | null
 	{
-		const array = this._stringArrays.get(key);
-
-		if (array !== undefined)
-		{
-			return array.slice();
-		}
-
-		return null;
+		return this._stringArrays.get(key) ?? null;
 	}
 
 	getStringToStringMap(key: string): Map<string, string>
@@ -116,14 +102,14 @@ export class RoomObjectModel implements IRoomObjectModelController
 
 	setNumber(key: string, value: number, immutable: boolean = false): void
 	{
-		if (this._immutableNumbers.indexOf(key) >= 0)
+		if (this._immutableNumbers.has(key))
 		{
 			return;
 		}
 
 		if (immutable)
 		{
-			this._immutableNumbers.push(key);
+			this._immutableNumbers.add(key);
 		}
 
 		if (this._numbers.get(key) !== value)
@@ -135,14 +121,14 @@ export class RoomObjectModel implements IRoomObjectModelController
 
 	setString(key: string, value: string, immutable: boolean = false): void
 	{
-		if (this._immutableStrings.indexOf(key) >= 0)
+		if (this._immutableStrings.has(key))
 		{
 			return;
 		}
 
 		if (immutable)
 		{
-			this._immutableStrings.push(key);
+			this._immutableStrings.add(key);
 		}
 
 		if (this._strings.get(key) !== value)
@@ -159,40 +145,36 @@ export class RoomObjectModel implements IRoomObjectModelController
 			return;
 		}
 
-		if (this._immutableNumberArrays.indexOf(key) >= 0)
+		if (this._immutableNumberArrays.has(key))
 		{
 			return;
 		}
 
 		if (immutable)
 		{
-			this._immutableNumberArrays.push(key);
+			this._immutableNumberArrays.add(key);
 		}
 
-		const newArray = value.filter(v => typeof v === 'number');
 		const existingArray = this._numberArrays.get(key);
-		let isDifferent = true;
 
-		if (existingArray !== undefined && existingArray.length === newArray.length)
+		if (existingArray !== undefined && existingArray.length === value.length)
 		{
-			isDifferent = false;
+			let same = true;
 
-			for (let i = newArray.length - 1; i >= 0; i--)
+			for (let i = value.length - 1; i >= 0; i--)
 			{
-				if (newArray[i] !== existingArray[i])
+				if (value[i] !== existingArray[i] || typeof value[i] !== 'number')
 				{
-					isDifferent = true;
-
+					same = false;
 					break;
 				}
 			}
+
+			if (same) return;
 		}
 
-		if (isDifferent)
-		{
-			this._numberArrays.set(key, newArray);
-			this._updateID++;
-		}
+		this._numberArrays.set(key, value.slice());
+		this._updateID++;
 	}
 
 	setStringArray(key: string, value: string[], immutable: boolean = false): void
@@ -202,40 +184,36 @@ export class RoomObjectModel implements IRoomObjectModelController
 			return;
 		}
 
-		if (this._immutableStringArrays.indexOf(key) >= 0)
+		if (this._immutableStringArrays.has(key))
 		{
 			return;
 		}
 
 		if (immutable)
 		{
-			this._immutableStringArrays.push(key);
+			this._immutableStringArrays.add(key);
 		}
 
-		const newArray = value.filter(v => typeof v === 'string');
 		const existingArray = this._stringArrays.get(key);
-		let isDifferent = true;
 
-		if (existingArray !== undefined && existingArray.length === newArray.length)
+		if (existingArray !== undefined && existingArray.length === value.length)
 		{
-			isDifferent = false;
+			let same = true;
 
-			for (let i = newArray.length - 1; i >= 0; i--)
+			for (let i = value.length - 1; i >= 0; i--)
 			{
-				if (newArray[i] !== existingArray[i])
+				if (value[i] !== existingArray[i] || typeof value[i] !== 'string')
 				{
-					isDifferent = true;
-
+					same = false;
 					break;
 				}
 			}
+
+			if (same) return;
 		}
 
-		if (isDifferent)
-		{
-			this._stringArrays.set(key, newArray);
-			this._updateID++;
-		}
+		this._stringArrays.set(key, value.slice());
+		this._updateID++;
 	}
 
 	setStringToStringMap(key: string, value: Map<string, string>, immutable: boolean = false): void
@@ -259,14 +237,14 @@ export class RoomObjectModel implements IRoomObjectModelController
 
 	setObject(key: string, value: unknown, immutable: boolean = false): void
 	{
-		if (this._immutableObjects.indexOf(key) >= 0)
+		if (this._immutableObjects.has(key))
 		{
 			return;
 		}
 
 		if (immutable)
 		{
-			this._immutableObjects.push(key);
+			this._immutableObjects.add(key);
 		}
 
 		this._objects.set(key, value);

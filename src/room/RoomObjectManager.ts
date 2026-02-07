@@ -16,10 +16,11 @@ export class RoomObjectManager implements IRoomObjectManager
 	private _objectsByType: Map<string, Map<string, IRoomObjectController>> = new Map();
 
 	private _objects: Map<string, IRoomObjectController> = new Map();
+	private _cachedValues: IRoomObjectController[] | null = null;
 
 	get objects(): IRoomObject[]
 	{
-		return Array.from(this._objects.values());
+		return this.getCachedValues();
 	}
 
 	get objectCount(): number
@@ -48,7 +49,7 @@ export class RoomObjectManager implements IRoomObjectManager
 
 	getObjectByIndex(index: number): IRoomObject | null
 	{
-		const values = Array.from(this._objects.values());
+		const values = this.getCachedValues();
 
 		if (index >= 0 && index < values.length)
 		{
@@ -76,11 +77,16 @@ export class RoomObjectManager implements IRoomObjectManager
 
 		if (typeMap !== null)
 		{
-			const values = Array.from(typeMap.values());
+			let i = 0;
 
-			if (index >= 0 && index < values.length)
+			for (const obj of typeMap.values())
 			{
-				return values[index];
+				if (i === index)
+				{
+					return obj;
+				}
+
+				i++;
 			}
 		}
 
@@ -103,6 +109,7 @@ export class RoomObjectManager implements IRoomObjectManager
 			}
 
 			this._objects.delete(idKey);
+			this._cachedValues = null;
 			object.dispose();
 
 			return true;
@@ -119,6 +126,7 @@ export class RoomObjectManager implements IRoomObjectManager
 		}
 
 		this._objects.clear();
+		this._cachedValues = null;
 
 		for (const typeMap of this._objectsByType.values())
 		{
@@ -138,11 +146,22 @@ export class RoomObjectManager implements IRoomObjectManager
 		}
 
 		this._objects.set(idKey, object);
+		this._cachedValues = null;
 
 		const typeMap = this.getObjectsForType(type, true)!;
 		typeMap.set(idKey, object);
 
 		return object;
+	}
+
+	private getCachedValues(): IRoomObjectController[]
+	{
+		if (this._cachedValues === null)
+		{
+			this._cachedValues = Array.from(this._objects.values());
+		}
+
+		return this._cachedValues;
 	}
 
 	private getObjectsForType(type: string, createIfMissing: boolean = true): Map<string, IRoomObjectController> | null

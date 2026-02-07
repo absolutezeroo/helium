@@ -42,7 +42,7 @@ export class IntArrayStuffData extends StuffDataBase implements IStuffData
 		super.initializeFromRoomObjectModel(model);
 
 		const data = model.getNumberArray(RoomObjectVariableEnum.FURNITURE_DATA);
-		this._data = data ?? [];
+		this._data = data ? [...data] : [];
 	}
 
 	override writeRoomObjectModel(model: IRoomObjectModelController): void

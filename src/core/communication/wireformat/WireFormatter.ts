@@ -133,11 +133,11 @@ export class WireFormatter implements IWireFormatter
 		// Compact buffer - remove processed data
 		if (buffer.position > 0 && buffer.bytesAvailable > 0)
 		{
-			const remaining = new ByteArray(buffer.bytesAvailable);
-			buffer.readBytes(remaining);
-			buffer.clear();
-			remaining.position = 0;
-			buffer.writeBytes(remaining);
+			const src = buffer.getUint8ArrayView();
+			const pos = buffer.position;
+			const remaining = buffer.bytesAvailable;
+			src.copyWithin(0, pos, pos + remaining);
+			buffer.length = remaining;
 			buffer.position = 0;
 		} else if (buffer.position > 0)
 		{
