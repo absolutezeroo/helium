@@ -64,6 +64,11 @@
     --radius-full: 9999px;
 }
 
+@font-face {
+    font-family: Ubuntu;
+    src: url('../webfonts/Ubuntu-C.ttf');
+}
+
 /* ============================================
    Base Styles (in layer so Tailwind utilities can override)
    ============================================ */
@@ -76,7 +81,7 @@
     }
 
     body {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-family: 'Ubuntu', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         background: var(--color-bg-primary);
         color: var(--color-text-primary);
         overflow: hidden;

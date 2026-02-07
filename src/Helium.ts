@@ -35,7 +35,7 @@ import {
 	roomModule,
 	sessionModule,
 } from '@/modules';
-import '@ui/styles/index.css';
+import '@ui/assets/styles/index.css';
 
 import type {ICoreCommunicationManager} from '@core/communication/ICoreCommunicationManager';
 import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
