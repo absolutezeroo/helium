@@ -1,0 +1,125 @@
+/* ============================================
+   Helium Theme - Modern Dark Mode
+   ============================================ */
+
+@theme {
+    /* Colors - Modern Dark Palette */
+    --color-bg-primary: #0a0a0f;
+    --color-bg-secondary: #12121a;
+    --color-bg-tertiary: #1a1a24;
+    --color-bg-elevated: #22222e;
+    --color-bg-hover: #2a2a38;
+
+    /* Surface colors with transparency */
+    --color-surface: rgba(255, 255, 255, 0.03);
+    --color-surface-hover: rgba(255, 255, 255, 0.06);
+    --color-surface-active: rgba(255, 255, 255, 0.1);
+
+    /* Border colors */
+    --color-border: rgba(255, 255, 255, 0.08);
+    --color-border-hover: rgba(255, 255, 255, 0.15);
+    --color-border-focus: rgba(99, 102, 241, 0.5);
+
+    /* Text colors */
+    --color-text-primary: #f4f4f5;
+    --color-text-secondary: #a1a1aa;
+    --color-text-muted: #71717a;
+    --color-text-disabled: #52525b;
+
+    /* Accent colors - Indigo/Purple gradient feel */
+    --color-accent: #6366f1;
+    --color-accent-hover: #818cf8;
+    --color-accent-muted: rgba(99, 102, 241, 0.2);
+
+    /* Status colors */
+    --color-success: #22c55e;
+    --color-warning: #f59e0b;
+    --color-error: #ef4444;
+    --color-info: #3b82f6;
+
+    /* Credits/Currency */
+    --color-credits: #fbbf24;
+    --color-diamonds: #06b6d4;
+    --color-duckets: #a855f7;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+    --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.3);
+
+    /* Spacing */
+    --spacing-toolbar: 60px;
+
+    /* Animation */
+    --transition-fast: 150ms ease;
+    --transition-normal: 200ms ease;
+    --transition-slow: 300ms ease;
+
+    /* Border radius */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 20px;
+    --radius-full: 9999px;
+}
+
+/* ============================================
+   Base Styles (in layer so Tailwind utilities can override)
+   ============================================ */
+
+@layer base {
+    *, *::before, *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: var(--color-bg-primary);
+        color: var(--color-text-primary);
+        overflow: hidden;
+    }
+}
+
+/* ============================================
+   Scrollbar Styling
+   ============================================ */
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-bg-hover);
+    border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-border-hover);
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+
+.glass {
+    background: var(--color-surface);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--color-border);
+}
+
+.glass-hover:hover {
+    background: var(--color-surface-hover);
+    border-color: var(--color-border-hover);
+}
+
+.glow {
+    box-shadow: var(--shadow-glow);
+}

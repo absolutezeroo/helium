@@ -1,0 +1,1 @@
+export {HotelView} from './HotelView';

@@ -1,7 +1,6 @@
 import type {JSX} from 'solid-js';
-import {createSignal, Match, onMount, Show, Switch} from 'solid-js';
-import clsx from 'clsx';
-import {InventoryHeader} from './common';
+import {Match, Show, Switch} from 'solid-js';
+import {HeliumCardView, HeliumCardHeaderView, HeliumCardContentView} from '@ui/common/card';
 import type {InventoryTab} from './tabs';
 import {InventoryTabs} from './tabs';
 import type {FurniGridItem} from './furni';
@@ -36,72 +35,20 @@ export interface InventoryWindowProps
 
 export function InventoryWindow(props: InventoryWindowProps): JSX.Element
 {
-	const [position, setPosition] = createSignal({x: 100, y: 100});
-	const [isDragging, setIsDragging] = createSignal(false);
-	const [dragOffset, setDragOffset] = createSignal({x: 0, y: 0});
-
-	let windowRef: HTMLDivElement | undefined;
-
-	onMount(() =>
-	{
-		// Center on mount
-		setPosition({
-			x: Math.max(20, (window.innerWidth - 480) / 2),
-			y: Math.max(20, (window.innerHeight - 520) / 2),
-		});
-	});
-
-	const handleMouseDown = (e: MouseEvent) =>
-	{
-		if ((e.target as HTMLElement).closest('button')) return;
-
-		setIsDragging(true);
-		setDragOffset({
-			x: e.clientX - position().x,
-			y: e.clientY - position().y,
-		});
-
-		const handleMouseMove = (e: MouseEvent) =>
-		{
-			setPosition({
-				x: Math.max(0, Math.min(window.innerWidth - 480, e.clientX - dragOffset().x)),
-				y: Math.max(0, Math.min(window.innerHeight - 520, e.clientY - dragOffset().y)),
-			});
-		};
-
-		const handleMouseUp = () =>
-		{
-			setIsDragging(false);
-			window.removeEventListener('mousemove', handleMouseMove);
-			window.removeEventListener('mouseup', handleMouseUp);
-		};
-
-		window.addEventListener('mousemove', handleMouseMove);
-		window.addEventListener('mouseup', handleMouseUp);
-	};
-
 	return (
 		<Show when={props.isOpen}>
-			<div
-				ref={windowRef}
-				class={clsx(
-					'fixed z-50 flex flex-col w-[480px] h-[520px]',
-					'bg-slate-900 border border-slate-700',
-					'rounded-xl shadow-2xl overflow-hidden',
-					isDragging() && 'select-none cursor-grabbing'
-				)}
-				style={{
-					left: `${position().x}px`,
-					top: `${position().y}px`,
-				}}
-			>
+			<HeliumCardView uniqueKey="inventory" width={480} height={520}>
 				{/* Header */}
-				<div onMouseDown={handleMouseDown} class="cursor-grab">
-					<InventoryHeader
-						title="Inventory"
-						onClose={props.onClose}
-					/>
-				</div>
+				<HeliumCardHeaderView
+					title="Inventory"
+					icon={
+						<svg class="w-4 h-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+								d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+						</svg>
+					}
+					onClose={props.onClose}
+				/>
 
 				{/* Tabs */}
 				<InventoryTabs
@@ -111,7 +58,7 @@ export function InventoryWindow(props: InventoryWindowProps): JSX.Element
 				/>
 
 				{/* Content */}
-				<div class="flex-1 flex overflow-hidden">
+				<HeliumCardContentView overflow={false} class="flex overflow-hidden">
 					<Switch>
 						{/* Furni View */}
 						<Match when={props.activeTab === 'furni' || props.activeTab === 'rentables'}>
@@ -153,9 +100,9 @@ export function InventoryWindow(props: InventoryWindowProps): JSX.Element
 							<div class="flex-1 flex items-center justify-center text-slate-500">
 								<div class="text-center">
 									<svg class="w-12 h-12 mx-auto mb-2" fill="none" viewBox="0 0 24 24"
-										 stroke="currentColor">
+										stroke="currentColor">
 										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-											  d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+											d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
 									</svg>
 									<span class="text-sm">Effects</span>
 								</div>
@@ -167,9 +114,9 @@ export function InventoryWindow(props: InventoryWindowProps): JSX.Element
 							<div class="flex-1 flex items-center justify-center text-slate-500">
 								<div class="text-center">
 									<svg class="w-12 h-12 mx-auto mb-2" fill="none" viewBox="0 0 24 24"
-										 stroke="currentColor">
+										stroke="currentColor">
 										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-											  d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+											d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
 									</svg>
 									<span class="text-sm">Pets</span>
 								</div>
@@ -181,17 +128,17 @@ export function InventoryWindow(props: InventoryWindowProps): JSX.Element
 							<div class="flex-1 flex items-center justify-center text-slate-500">
 								<div class="text-center">
 									<svg class="w-12 h-12 mx-auto mb-2" fill="none" viewBox="0 0 24 24"
-										 stroke="currentColor">
+										stroke="currentColor">
 										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-											  d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+											d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
 									</svg>
 									<span class="text-sm">Bots</span>
 								</div>
 							</div>
 						</Match>
 					</Switch>
-				</div>
-			</div>
+				</HeliumCardContentView>
+			</HeliumCardView>
 		</Show>
 	);
 }

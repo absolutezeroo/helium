@@ -15,8 +15,8 @@ export const Room: Component = () =>
 
 	return (
 		<Show when={state().currentRoom !== null}>
-			<div class="room-ui">
-				<div class="room-sidebar">
+			<div class="absolute top-0 right-0 bottom-[var(--spacing-toolbar)] flex justify-end p-4 pointer-events-none">
+				<div class="flex flex-col gap-4 w-[280px] max-h-full overflow-y-auto pointer-events-auto">
 					<RoomSessionPanel/>
 					<RoomUserList/>
 				</div>

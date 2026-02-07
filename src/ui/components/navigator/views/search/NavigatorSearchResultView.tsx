@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import {NavigatorIcon} from '../../common';
 import type {RoomListRoom, RoomListViewMode} from './NavigatorSearchResultItemView';
 import {NavigatorSearchResultItemCompactView, NavigatorSearchResultItemView,} from './NavigatorSearchResultItemView';
-import {useLocalization} from '@/ui/components/common';
+import {useLocalization} from '@ui/common';
 
 export interface NavigatorBlockData
 {

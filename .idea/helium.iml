@@ -11,6 +11,9 @@
       <excludeFolder url="file://$MODULE_DIR$/.idea/codeStyles" />
       <excludeFolder url="file://$MODULE_DIR$/source_gamedata" />
       <excludeFolder url="file://$MODULE_DIR$/source_nitro_converter" />
+      <excludeFolder url="file://$MODULE_DIR$/.claude" />
+      <excludeFolder url="file://$MODULE_DIR$/configurations" />
+      <excludeFolder url="file://$MODULE_DIR$/mockup" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

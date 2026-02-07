@@ -14,3 +14,8 @@ export type {
 	RoomListRoom,
 	RoomListViewMode,
 } from './search';
+
+// Shell views
+export {NavigatorRoomInfoView} from './NavigatorRoomInfoView';
+export {NavigatorRoomCreatorView} from './NavigatorRoomCreatorView';
+export {NavigatorDoorStateView} from './NavigatorDoorStateView';

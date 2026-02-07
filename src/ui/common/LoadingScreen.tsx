@@ -1,5 +1,5 @@
 import {Component, Show} from 'solid-js';
-import {ModuleId, useModule} from '../../bridge';
+import {ModuleId, useModule} from '../bridge';
 import {HabboCommunicationEvent} from '@habbo/communication/enum';
 
 /**
@@ -22,23 +22,17 @@ export const LoadingScreen: Component = () =>
 		const step = connection().loadingStep;
 		const state = connection().state;
 
-		// Handle error state
 		if (state === 'error')
 		{
 			return connection().error || 'Connection error';
 		}
 
-		// Find matching step
 		if (step)
 		{
 			const stepConfig = LOADING_STEPS.find(s => s.step === step);
-			if (stepConfig)
-			{
-				return stepConfig.label;
-			}
+			if (stepConfig) return stepConfig.label;
 		}
 
-		// Fallback based on state
 		switch (state)
 		{
 			case 'connecting':
@@ -59,13 +53,9 @@ export const LoadingScreen: Component = () =>
 		if (step)
 		{
 			const stepConfig = LOADING_STEPS.find(s => s.step === step);
-			if (stepConfig)
-			{
-				return stepConfig.progress;
-			}
+			if (stepConfig) return stepConfig.progress;
 		}
 
-		// Fallback
 		const state = connection().state;
 		switch (state)
 		{
@@ -83,29 +73,34 @@ export const LoadingScreen: Component = () =>
 	const isError = () => connection().state === 'error';
 
 	return (
-		<div class="loading-screen">
-			<div class="loading-content">
-				<div class="loading-logo">
-					<h1>Helium</h1>
+		<div class="absolute inset-0 bg-gradient-to-br from-bg-primary to-bg-secondary flex justify-center items-center z-[1000]">
+			<div class="text-center">
+				<div class="mb-8">
+					<h1 class="text-5xl font-bold bg-gradient-to-br from-accent to-purple-500 bg-clip-text text-transparent">
+						Helium
+					</h1>
 				</div>
 
 				<Show when={!isError()} fallback={
-					<div class="loading-error">
-						<div class="loading-error-icon">!</div>
-						<div class="loading-error-text">{statusText()}</div>
+					<div class="flex flex-col items-center gap-4">
+						<div class="w-12 h-12 bg-error/15 border-2 border-error rounded-full flex items-center justify-center text-2xl font-bold text-error">
+							!
+						</div>
+						<div class="text-sm text-error max-w-[280px] text-center">
+							{statusText()}
+						</div>
 					</div>
 				}>
-					<div class="loading-spinner"></div>
+					<div class="w-12 h-12 border-3 border-border border-t-accent rounded-full animate-spin mx-auto mb-6"/>
 
-					{/* Progress bar */}
-					<div class="loading-progress">
+					<div class="w-[200px] h-1 bg-border rounded-full mx-auto mb-4 overflow-hidden">
 						<div
-							class="loading-progress-bar"
+							class="h-full bg-gradient-to-r from-accent to-purple-500 rounded-full transition-all duration-300"
 							style={{width: `${progress()}%`}}
 						/>
 					</div>
 
-					<div class="loading-status">{statusText()}</div>
+					<div class="text-sm text-text-muted">{statusText()}</div>
 				</Show>
 			</div>
 		</div>

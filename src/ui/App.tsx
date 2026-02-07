@@ -2,7 +2,7 @@ import {Component, createMemo, Show} from 'solid-js';
 import {ModuleId, useModule} from './bridge';
 import {LandingView} from './components/landing/LandingView';
 import {Toolbar} from './components/toolbar/Toolbar';
-import {LoadingScreen} from './components/common/LoadingScreen';
+import {LoadingScreen} from './common/LoadingScreen';
 import {NavigatorView} from './components/navigator';
 import {Inventory} from './components/inventory';
 import {Room} from './components/room';

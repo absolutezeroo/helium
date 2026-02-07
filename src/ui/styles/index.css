@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+/* Tell Tailwind v4 where to scan for classes */
+@source "../../**/*.{ts,tsx,js,jsx}";
+
+@import "./theme.css";
+@import "./globals.css";

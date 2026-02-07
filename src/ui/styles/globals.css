@@ -1,0 +1,58 @@
+/* ============================================
+   Helium UI Container
+   ============================================ */
+
+.helium-ui {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.helium-ui > * {
+    pointer-events: auto;
+}
+
+/* ============================================
+   Error Screen
+   ============================================ */
+
+.error-screen {
+    position: absolute;
+    inset: 0;
+    background: var(--color-bg-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.error-content {
+    text-align: center;
+    padding: 2.5rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    border-radius: var(--radius-lg);
+    max-width: 400px;
+}
+
+.error-content h2 {
+    color: var(--color-error);
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+}
+
+.error-content p {
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+}
+
+/* ============================================
+   Keyframes
+   ============================================ */
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

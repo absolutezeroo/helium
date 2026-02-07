@@ -2,9 +2,9 @@ import type {JSX} from 'solid-js';
 import {createMemo, createSignal, For, Show} from 'solid-js';
 import clsx from 'clsx';
 import {ModuleId, useActions, useModule} from '../../bridge';
-import {useLocalization} from '@/ui/components/common';
-import {useDraggable} from '@/ui/hooks';
-import {NavigatorHeader, NavigatorIcon} from './common';
+import {useLocalization} from '@ui/common';
+import {HeliumCardView, HeliumCardHeaderView, HeliumCardContentView} from '@ui/common/card';
+import {NavigatorIcon} from './common';
 import {NavigatorTabsView, NavigatorSearchView, NavigatorSearchResultView} from './views';
 import type {NavigatorBlockData, RoomListViewMode} from './views';
 import {mapSearchResultsToBlocks} from './utils';
@@ -22,15 +22,6 @@ export function NavigatorView(): JSX.Element
 
 	const [viewMode, setViewMode] = createSignal<RoomListViewMode>('compact');
 	const [searchQuery, setSearchQuery] = createSignal('');
-
-	const draggable = useDraggable({
-		initialPosition: {
-			x: Math.max(20, (window.innerWidth - 480) / 2),
-			y: Math.max(20, (window.innerHeight - 600) / 2),
-		},
-		constrainToViewport: true,
-		viewportPadding: 20,
-	});
 
 	// Derived state
 	const tabs = createMemo(() =>
@@ -82,41 +73,33 @@ export function NavigatorView(): JSX.Element
 
 	return (
 		<Show when={navigator().isOpen}>
-			<div
-				ref={(el) => draggable.bindDragTarget(el)}
-				class={clsx(
-					'fixed z-50 flex flex-col w-[480px] h-[600px]',
-					'bg-slate-900 border border-slate-700',
-					'rounded-xl shadow-2xl overflow-hidden',
-					draggable.isDragging() && 'select-none'
-				)}
-			>
+			<HeliumCardView uniqueKey="navigator" width={480} height={600}>
 				{/* Header */}
-				<div ref={(el) => draggable.bindDragHandle(el)}>
-					<NavigatorHeader
-						title={t('navigator.title', 'Navigator')}
-						icon="compass"
-						onClose={() => navActions.close()}
-					>
-						<div class="flex items-center gap-1">
-							<button
-								type="button"
-								class="p-1.5 rounded text-slate-400 hover:text-slate-200 hover:bg-slate-700/50"
-								onClick={handleRefresh}
-								title={t('navigator.action.refresh', 'Refresh')}
-							>
-								<NavigatorIcon name="refresh" size="sm"/>
-							</button>
-							<button
-								type="button"
-								class="p-1.5 rounded text-slate-400 hover:text-slate-200 hover:bg-slate-700/50"
-								title={t('navigator.create.title', 'Create room')}
-							>
-								<NavigatorIcon name="plus" size="sm"/>
-							</button>
-						</div>
-					</NavigatorHeader>
-				</div>
+				<HeliumCardHeaderView
+					title={t('navigator.title', 'Navigator')}
+					icon={
+						<NavigatorIcon name="compass" size="md" class="text-amber-400"/>
+					}
+					onClose={() => navActions.close()}
+				>
+					<div class="flex items-center gap-1">
+						<button
+							type="button"
+							class="p-1.5 rounded text-slate-400 hover:text-slate-200 hover:bg-slate-700/50"
+							onClick={handleRefresh}
+							title={t('navigator.action.refresh', 'Refresh')}
+						>
+							<NavigatorIcon name="refresh" size="sm"/>
+						</button>
+						<button
+							type="button"
+							class="p-1.5 rounded text-slate-400 hover:text-slate-200 hover:bg-slate-700/50"
+							title={t('navigator.create.title', 'Create room')}
+						>
+							<NavigatorIcon name="plus" size="sm"/>
+						</button>
+					</div>
+				</HeliumCardHeaderView>
 
 				{/* Tabs */}
 				<NavigatorTabsView
@@ -166,7 +149,7 @@ export function NavigatorView(): JSX.Element
 				</div>
 
 				{/* Content - collapsible block sections */}
-				<div class="flex-1 overflow-y-auto">
+				<HeliumCardContentView>
 					<Show when={blocks().length === 0}>
 						<div class="flex flex-col items-center justify-center py-12 text-center">
 							<NavigatorIcon name="room" size="xl" class="text-slate-600 mb-2"/>
@@ -185,8 +168,8 @@ export function NavigatorView(): JSX.Element
 							)}
 						</For>
 					</Show>
-				</div>
-			</div>
+				</HeliumCardContentView>
+			</HeliumCardView>
 		</Show>
 	);
 }

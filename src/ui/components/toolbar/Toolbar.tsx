@@ -1,4 +1,5 @@
 import {Component, For} from 'solid-js';
+import clsx from 'clsx';
 import {ModuleId, useActions, useModule} from '../../bridge';
 import {Logger} from '@core/utils/Logger';
 
@@ -35,22 +36,18 @@ export const Toolbar: Component = () =>
 				navActions.toggle();
 				break;
 			case 'hotel':
-				// TODO: Implement hotel view
 				Logger.getLogger('Toolbar').debug('Hotel view clicked');
 				break;
 			case 'catalog':
-				// TODO: Implement catalog
 				Logger.getLogger('Toolbar').debug('Catalog clicked');
 				break;
 			case 'inventory':
 				invActions.toggle();
 				break;
 			case 'friends':
-				// TODO: Implement friends
 				Logger.getLogger('Toolbar').debug('Friends clicked');
 				break;
 			case 'me':
-				// TODO: Implement me menu
 				Logger.getLogger('Toolbar').debug('Me menu clicked');
 				break;
 			default:
@@ -58,36 +55,45 @@ export const Toolbar: Component = () =>
 		}
 	};
 
+	const isActive = (iconId: string) =>
+	{
+		return (iconId === 'navigator' && navigator().isOpen) ||
+			(iconId === 'inventory' && inventory().isOpen);
+	};
+
 	return (
-		<div class="toolbar">
-			<div class="toolbar-left">
-				<div class="toolbar-logo">Helium</div>
+		<div class="absolute bottom-0 left-0 right-0 h-[var(--spacing-toolbar)] bg-bg-secondary border-t border-border flex items-center justify-between px-5 backdrop-blur-xl">
+			<div class="flex-1 flex items-center">
+				<span class="text-xl font-bold bg-gradient-to-br from-accent to-purple-500 bg-clip-text text-transparent">
+					Helium
+				</span>
 			</div>
 
-			<div class="toolbar-center">
+			<div class="flex gap-2">
 				<For each={icons}>
 					{(icon) => (
 						<button
-							class={`toolbar-icon ${
-								(icon.id === 'navigator' && navigator().isOpen) ||
-								(icon.id === 'inventory' && inventory().isOpen)
-									? 'active'
-									: ''
-							}`}
+							class={clsx(
+								'w-11 h-11 flex items-center justify-center rounded-[var(--radius-md)] cursor-pointer',
+								'border transition-all duration-150',
+								isActive(icon.id)
+									? 'bg-accent border-accent text-white'
+									: 'bg-surface border-border text-text-secondary hover:bg-surface-hover hover:border-border-hover hover:text-text-primary hover:-translate-y-0.5'
+							)}
 							title={icon.label}
 							onClick={() => handleIconClick(icon.id)}
 						>
-							<span class="icon-emoji">{icon.icon}</span>
+							<span class="text-xl">{icon.icon}</span>
 						</button>
 					)}
 				</For>
 			</div>
 
-			<div class="toolbar-right">
-				<div class="user-info">
-                    <span class="user-credits">
-                        {session().activityPoints.get(0) ?? 0} Credits
-                    </span>
+			<div class="flex-1 flex items-center justify-end">
+				<div class="flex items-center gap-3">
+					<span class="bg-credits/15 text-credits px-3.5 py-1.5 rounded-full text-sm font-medium border border-credits/25">
+						{session().activityPoints.get(0) ?? 0} Credits
+					</span>
 				</div>
 			</div>
 		</div>

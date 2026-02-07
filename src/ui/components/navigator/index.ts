@@ -6,7 +6,6 @@ export {
 	NavigatorIcon,
 	NavigatorButton,
 	IconButton,
-	NavigatorHeader,
 	Skeleton,
 	RoomCardSkeleton,
 	RoomCardCompactSkeleton,
@@ -20,7 +19,6 @@ export type {
 	IconName,
 	NavigatorButtonProps,
 	IconButtonProps,
-	NavigatorHeaderProps,
 	SkeletonProps,
 	ProgressBarProps,
 } from './common';
