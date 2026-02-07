@@ -1,5 +1,5 @@
 import type {IUpdateReceiver} from '@core/runtime/IContext';
-import type {HabboNotifications} from './HabboNotifications';
+import type {HabboNotifications} from '../HabboNotifications';
 import {HabboNotificationItem} from './HabboNotificationItem';
 import {HabboNotificationItemStyle} from './HabboNotificationItemStyle';
 import {HabboAlertDialogManager} from './HabboAlertDialogManager';
@@ -23,19 +23,7 @@ export class SingularNotificationController implements IUpdateReceiver
 
 	private _notifications: HabboNotifications | null;
 	private _queue: HabboNotificationItem[] = [];
-	private _alertDialogManager: HabboAlertDialogManager;
 	private _moderationDisclaimerShown: boolean = false;
-	private _disposed: boolean = false;
-
-	get alertDialogManager(): HabboAlertDialogManager
-	{
-		return this._alertDialogManager;
-	}
-
-	get disposed(): boolean
-	{
-		return this._disposed;
-	}
 
 	constructor(notifications: HabboNotifications)
 	{
@@ -44,6 +32,20 @@ export class SingularNotificationController implements IUpdateReceiver
 
 		// Register for frame updates
 		this._notifications.registerUpdateReceiver(this, 2);
+	}
+
+	private _alertDialogManager: HabboAlertDialogManager;
+
+	get alertDialogManager(): HabboAlertDialogManager
+	{
+		return this._alertDialogManager;
+	}
+
+	private _disposed: boolean = false;
+
+	get disposed(): boolean
+	{
+		return this._disposed;
 	}
 
 	/**
@@ -101,15 +103,6 @@ export class SingularNotificationController implements IUpdateReceiver
 		log.debug(`Notification queued: "${content}" [${type}]`);
 
 		return this._queue.length;
-	}
-
-	/**
-	 * Get the next item from the front of the queue
-	 */
-	private getNextItemFromQueue(): HabboNotificationItem | null
-	{
-		const items = this._queue.splice(0, 1);
-		return items[0] ?? null;
 	}
 
 	/**
@@ -205,5 +198,14 @@ export class SingularNotificationController implements IUpdateReceiver
 		}
 
 		this._disposed = true;
+	}
+
+	/**
+	 * Get the next item from the front of the queue
+	 */
+	private getNextItemFromQueue(): HabboNotificationItem | null
+	{
+		const items = this._queue.splice(0, 1);
+		return items[0] ?? null;
 	}
 }

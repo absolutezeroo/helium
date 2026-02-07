@@ -15,6 +15,3 @@ export class CompleteDiffieHandshakeMessageEvent extends MessageEvent
 		super(callback, CompleteDiffieHandshakeMessageParser);
 	}
 }
-
-// Alias for backwards compatibility
-export {CompleteDiffieHandshakeMessageEvent as GenerateSecretKeyMessageEvent};

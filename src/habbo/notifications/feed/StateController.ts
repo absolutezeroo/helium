@@ -1,4 +1,4 @@
-import {FeedVisibilityEnum} from './FeedVisibilityEnum';
+import {FeedVisibilityEnum} from '../FeedVisibilityEnum';
 
 /**
  * Visibility state machine for the notification feed.
@@ -12,14 +12,6 @@ export class StateController
 	private _gameMode: boolean = false;
 	private _currentState: number = FeedVisibilityEnum.VIEW_STATE_HIDDEN;
 	private _requestedState: number = FeedVisibilityEnum.VIEW_STATE_MINIMIZED;
-
-	/**
-	 * Check if the feed is currently active (enabled and not in game mode)
-	 */
-	private isActive(): boolean
-	{
-		return this._enabled && !this._gameMode;
-	}
 
 	/**
 	 * Set the enabled state of the feed.
@@ -85,6 +77,14 @@ export class StateController
 		this._currentState = state;
 		this._requestedState = state;
 		return this._currentState;
+	}
+
+	/**
+	 * Check if the feed is currently active (enabled and not in game mode)
+	 */
+	private isActive(): boolean
+	{
+		return this._enabled && !this._gameMode;
 	}
 
 	/**

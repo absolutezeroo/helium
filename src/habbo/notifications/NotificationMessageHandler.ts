@@ -1,19 +1,30 @@
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
 import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommunicationManager';
 import type {HabboNotifications} from './HabboNotifications';
-import {GenericNotificationItemData} from './GenericNotificationItemData';
 import {Logger} from '@core/utils/Logger';
 
 // Existing message events
-import {MaintenanceStatusMessageEvent} from '@habbo/communication/messages/incoming/availability/MaintenanceStatusMessageEvent';
-import {LoginFailedHotelClosedMessageEvent} from '@habbo/communication/messages/incoming/availability/LoginFailedHotelClosedMessageEvent';
-import {InfoFeedEnableMessageEvent} from '@habbo/communication/messages/incoming/notifications/InfoFeedEnableMessageEvent';
-import {OpenConnectionMessageEvent} from '@habbo/communication/messages/incoming/room/session/OpenConnectionMessageEvent';
+import {
+	MaintenanceStatusMessageEvent
+} from '@habbo/communication/messages/incoming/availability/MaintenanceStatusMessageEvent';
+import {
+	LoginFailedHotelClosedMessageEvent
+} from '@habbo/communication/messages/incoming/availability/LoginFailedHotelClosedMessageEvent';
+import {
+	InfoFeedEnableMessageEvent
+} from '@habbo/communication/messages/incoming/notifications/InfoFeedEnableMessageEvent';
+import {
+	OpenConnectionMessageEvent
+} from '@habbo/communication/messages/incoming/room/session/OpenConnectionMessageEvent';
 import {RoomEntryInfoMessageEvent} from '@habbo/communication/messages/incoming/room/engine/RoomEntryInfoMessageEvent';
 
 // Existing parsers
-import type {MaintenanceStatusMessageEventParser} from '@habbo/communication/messages/parser/availability/MaintenanceStatusMessageEventParser';
-import type {InfoFeedEnableMessageParser} from '@habbo/communication/messages/parser/notifications/InfoFeedEnableMessageParser';
+import type {
+	MaintenanceStatusMessageEventParser
+} from '@habbo/communication/messages/parser/availability/MaintenanceStatusMessageEventParser';
+import type {
+	InfoFeedEnableMessageParser
+} from '@habbo/communication/messages/parser/notifications/InfoFeedEnableMessageParser';
 
 // TODO: Import these events once they are implemented:
 // import {ModeratorMessageEvent} from '@habbo/communication/messages/incoming/moderation/ModeratorMessageEvent';
@@ -69,6 +80,33 @@ export class NotificationMessageHandler
 	}
 
 	/**
+	 * Handle room messages notification
+	 *
+	 * @see source_as/habbo/notifications/class_3353.as onRoomMessagesNotification()
+	 */
+	// TODO: Uncomment when RoomMessageNotificationMessageEvent is implemented
+	// private onRoomMessagesNotification(event: IMessageEvent): void
+	// {
+	//     const parser = (event as RoomMessageNotificationMessageEvent).parser;
+	//     // Show room messages posted notification
+	// }
+
+	dispose(): void
+	{
+		if (this._messageEvents != null && this._communication != null)
+		{
+			for (const event of this._messageEvents)
+			{
+				this._communication.removeMessageEvent(event);
+			}
+		}
+
+		this._messageEvents = [];
+		this._notifications = null;
+		this._communication = null;
+	}
+
+	/**
 	 * Register all message event listeners
 	 */
 	private registerMessageEvents(): void
@@ -113,6 +151,8 @@ export class NotificationMessageHandler
 		log.info('Notification message handlers registered');
 	}
 
+	// === Handler methods for currently available events ===
+
 	/**
 	 * Register a message event with the communication manager and track it for cleanup
 	 */
@@ -124,8 +164,6 @@ export class NotificationMessageHandler
 			this._messageEvents.push(event);
 		}
 	}
-
-	// === Handler methods for currently available events ===
 
 	/**
 	 * Handle hotel maintenance status message
@@ -177,16 +215,6 @@ export class NotificationMessageHandler
 		{
 			this._notifications.disabled = !parser.enabled;
 		}
-	}
-
-	/**
-	 * Handle room enter events (triggers moderation disclaimer)
-	 *
-	 * @see source_as/habbo/notifications/class_3353.as onRoomEnter()
-	 */
-	private onRoomEnter(_event: IMessageEvent): void
-	{
-		this._notifications?.singularController?.showModerationDisclaimer();
 	}
 
 	// === Handler stubs for events not yet available ===
@@ -475,29 +503,12 @@ export class NotificationMessageHandler
 	// }
 
 	/**
-	 * Handle room messages notification
+	 * Handle room enter events (triggers moderation disclaimer)
 	 *
-	 * @see source_as/habbo/notifications/class_3353.as onRoomMessagesNotification()
+	 * @see source_as/habbo/notifications/class_3353.as onRoomEnter()
 	 */
-	// TODO: Uncomment when RoomMessageNotificationMessageEvent is implemented
-	// private onRoomMessagesNotification(event: IMessageEvent): void
-	// {
-	//     const parser = (event as RoomMessageNotificationMessageEvent).parser;
-	//     // Show room messages posted notification
-	// }
-
-	dispose(): void
+	private onRoomEnter(_event: IMessageEvent): void
 	{
-		if (this._messageEvents != null && this._communication != null)
-		{
-			for (const event of this._messageEvents)
-			{
-				this._communication.removeMessageEvent(event);
-			}
-		}
-
-		this._messageEvents = [];
-		this._notifications = null;
-		this._communication = null;
+		this._notifications?.singularController?.showModerationDisclaimer();
 	}
 }

@@ -26,6 +26,7 @@ export class InterstitialMessageParser implements IMessageParser
 		if (!wrapper) return false;
 
 		this._canShowInterstitial = wrapper.readBoolean();
+
 		return true;
 	}
 }

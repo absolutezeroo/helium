@@ -1,17 +1,12 @@
 import {EventEmitter} from 'eventemitter3';
-import {
-	Component,
-	ComponentDependency,
-	IID_HabboCommunicationManager,
-	type IContext,
-} from '@core/runtime';
+import {Component, ComponentDependency, type IContext, IID_HabboCommunicationManager,} from '@core/runtime';
 import {IID_SessionDataManager} from '@iid/IIDSessionDataManager';
 import {IID_RoomSessionManager} from '@iid/IIDRoomSessionManager';
 import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommunicationManager';
 import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
 import type {IRoomSessionManager} from '@habbo/session/IRoomSessionManager';
 import type {IHabboNotifications} from './IHabboNotifications';
-import {SingularNotificationController} from './SingularNotificationController';
+import {SingularNotificationController} from './singular/SingularNotificationController';
 import {NotificationMessageHandler} from './NotificationMessageHandler';
 import {Logger} from '@core/utils/Logger';
 
@@ -47,6 +42,14 @@ export interface HabboNotificationEvents
  */
 export class HabboNotifications extends Component implements IHabboNotifications
 {
+	private _messageHandler: NotificationMessageHandler | null = null;
+
+	constructor(context: IContext)
+	{
+		super(context);
+		this._disabled = false;
+	}
+
 	/**
 	 * Separate notification EventEmitter.
 	 * CRITICAL: Do NOT override the `events` getter from Component.
@@ -64,31 +67,34 @@ export class HabboNotifications extends Component implements IHabboNotifications
 	}
 
 	private _communication: IHabboCommunicationManager | null = null;
-	private _sessionDataManager: ISessionDataManager | null = null;
-	private _roomSessionManager: IRoomSessionManager | null = null;
-	private _singularController: SingularNotificationController | null = null;
-	private _messageHandler: NotificationMessageHandler | null = null;
-	private _disabled: boolean = false;
 
 	get communication(): IHabboCommunicationManager | null
 	{
 		return this._communication;
 	}
 
+	private _sessionDataManager: ISessionDataManager | null = null;
+
 	get sessionDataManager(): ISessionDataManager | null
 	{
 		return this._sessionDataManager;
 	}
+
+	private _roomSessionManager: IRoomSessionManager | null = null;
 
 	get roomSessionManager(): IRoomSessionManager | null
 	{
 		return this._roomSessionManager;
 	}
 
+	private _singularController: SingularNotificationController | null = null;
+
 	get singularController(): SingularNotificationController | null
 	{
 		return this._singularController;
 	}
+
+	private _disabled: boolean = false;
 
 	get disabled(): boolean
 	{
@@ -99,12 +105,6 @@ export class HabboNotifications extends Component implements IHabboNotifications
 	{
 		this._disabled = value;
 		this._notificationEvents.emit('disabled', value);
-	}
-
-	constructor(context: IContext)
-	{
-		super(context);
-		this._disabled = false;
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -136,18 +136,6 @@ export class HabboNotifications extends Component implements IHabboNotifications
 				false
 			),
 		];
-	}
-
-	/**
-	 * Called when all required dependencies are resolved.
-	 * Creates the SingularNotificationController and NotificationMessageHandler.
-	 */
-	protected override initComponent(): void
-	{
-		this._singularController = new SingularNotificationController(this);
-		this._messageHandler = new NotificationMessageHandler(this, this._communication!);
-
-		log.info('HabboNotifications initialized');
 	}
 
 	/**
@@ -350,5 +338,17 @@ export class HabboNotifications extends Component implements IHabboNotifications
 		log.info('HabboNotifications disposed');
 
 		super.dispose();
+	}
+
+	/**
+	 * Called when all required dependencies are resolved.
+	 * Creates the SingularNotificationController and NotificationMessageHandler.
+	 */
+	protected override initComponent(): void
+	{
+		this._singularController = new SingularNotificationController(this);
+		this._messageHandler = new NotificationMessageHandler(this, this._communication!);
+
+		log.info('HabboNotifications initialized');
 	}
 }
