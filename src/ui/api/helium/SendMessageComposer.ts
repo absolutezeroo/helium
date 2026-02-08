@@ -1,5 +1,5 @@
-import {IMessageComposer} from "@/core";
-import {getConnection} from "@ui/api";
+import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {getConnection} from './getConnection';
 
 /**
  * Send a message composer to the server
