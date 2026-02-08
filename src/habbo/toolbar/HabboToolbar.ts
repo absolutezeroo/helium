@@ -347,6 +347,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 				this._communication.removeMessageEvent(event);
 			}
 		}
+
 		this._messageEvents = [];
 
 		// Clear toolbar events
@@ -399,6 +400,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 			// Extension initialization would happen here
 			// In AS3: purse area, seasonal currency, VIP extend, settings, etc.
 			this._extensionsInitialized = true;
+			
 			log.info('Toolbar extensions initialized after perks update');
 		}
 	}
