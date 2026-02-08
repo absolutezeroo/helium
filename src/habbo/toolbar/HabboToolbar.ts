@@ -222,7 +222,8 @@ export class HabboToolbar extends Component implements IHabboToolbar
 			const cameraEvent = new HabboToolbarEvent(HabboToolbarEvent.CAMERA_TOGGLE);
 			cameraEvent.iconName = HabboToolbarEvent.CAMERA_LAUNCH_ORIGIN_TOOLBAR;
 			this._toolbarEvents.emit(HabboToolbarEvent.CAMERA_TOGGLE, cameraEvent);
-		} else
+		}
+		else
 		{
 			const clickEvent = new HabboToolbarEvent(HabboToolbarEvent.TOOLBAR_CLICK);
 			clickEvent.iconId = iconId;
@@ -396,7 +397,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 			// Extension initialization would happen here
 			// In AS3: purse area, seasonal currency, VIP extend, settings, etc.
 			this._extensionsInitialized = true;
-			
+
 			log.info('Toolbar extensions initialized after perks update');
 		}
 	}

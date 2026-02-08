@@ -252,7 +252,8 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		if (this._isOpen)
 		{
 			this.close();
-		} else
+		}
+		else
 		{
 			this.open();
 		}

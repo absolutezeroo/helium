@@ -154,7 +154,8 @@ export class HabboAlertDialogManager extends EventEmitter<HabboAlertDialogManage
 		if (url)
 		{
 			this.emit('moderatorMessage', cleanMessage, url);
-		} else
+		}
+		else
 		{
 			this.emit('moderatorCaution', cleanMessage, url);
 		}

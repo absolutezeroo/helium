@@ -7,8 +7,8 @@ export * from './history';
 export * from './viewer';
 
 // Exports
-export { HabboFreeFlowChat } from './HabboFreeFlowChat';
+export {HabboFreeFlowChat} from './HabboFreeFlowChat';
 
 // Types
-export type { HabboFreeFlowChatEvents } from './HabboFreeFlowChat';
-export type { IFreeFlowChatRoomSessionManager, IHabboFreeFlowChat, } from './IHabboFreeFlowChat';
+export type {HabboFreeFlowChatEvents} from './HabboFreeFlowChat';
+export type {IFreeFlowChatRoomSessionManager, IHabboFreeFlowChat,} from './IHabboFreeFlowChat';

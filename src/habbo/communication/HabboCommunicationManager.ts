@@ -187,7 +187,8 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 		if (this._connection)
 		{
 			this._connection.addMessageEvent(event);
-		} else
+		}
+		else
 		{
 			// Buffer events until connection is established
 			this.pendingMessageEvents.push(event);
@@ -200,7 +201,8 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 		if (this._connection)
 		{
 			this._connection.removeMessageEvent(event);
-		} else
+		}
+		else
 		{
 			// Remove from pending events if not yet registered
 			const index = this.pendingMessageEvents.indexOf(event);

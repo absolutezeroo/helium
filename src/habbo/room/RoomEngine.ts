@@ -401,10 +401,12 @@ export class RoomEngine extends Component implements IRoomEngine,
 		if (type === RoomObjectUserTypes.BOT)
 		{
 			logicType = RoomObjectLogicEnum.BOT;
-		} else if (type === RoomObjectUserTypes.RENTABLE_BOT)
+		}
+		else if (type === RoomObjectUserTypes.RENTABLE_BOT)
 		{
 			logicType = RoomObjectLogicEnum.RENTABLE_BOT;
-		} else if (type === RoomObjectUserTypes.PET)
+		}
+		else if (type === RoomObjectUserTypes.PET)
 		{
 			logicType = RoomObjectLogicEnum.PET;
 		}
@@ -1657,7 +1659,8 @@ export class RoomEngine extends Component implements IRoomEngine,
 				if (event.type === AssetLoaderEventType.COMPLETE)
 				{
 					this.onRoomContentReady();
-				} else if (event.type === AssetLoaderEventType.ERROR)
+				}
+				else if (event.type === AssetLoaderEventType.ERROR)
 				{
 					log.warn('[RoomEngine] Failed to load room content bundle');
 				}

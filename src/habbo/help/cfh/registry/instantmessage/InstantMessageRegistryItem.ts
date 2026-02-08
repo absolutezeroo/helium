@@ -8,6 +8,15 @@
  */
 export class InstantMessageRegistryItem
 {
+	constructor(index: number, userId: number, userName: string, text: string)
+	{
+		this._index = index;
+		this._userId = userId;
+		this._userName = userName;
+		this._text = text;
+		this._chatTime = new Date();
+	}
+
 	private _index: number;
 
 	get index(): number
@@ -53,14 +62,5 @@ export class InstantMessageRegistryItem
 	get chatTime(): Date
 	{
 		return this._chatTime;
-	}
-
-	constructor(index: number, userId: number, userName: string, text: string)
-	{
-		this._index = index;
-		this._userId = userId;
-		this._userName = userName;
-		this._text = text;
-		this._chatTime = new Date();
 	}
 }

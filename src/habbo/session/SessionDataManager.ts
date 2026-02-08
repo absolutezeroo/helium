@@ -675,7 +675,8 @@ export class SessionDataManager extends Component implements ISessionDataManager
 			if (this._uiFlags & flag) return;
 
 			this._uiFlags |= flag;
-		} else
+		}
+		else
 		{
 			if (!(this._uiFlags & flag)) return;
 

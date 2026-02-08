@@ -8,6 +8,19 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  */
 export class HabboSearchResultData
 {
+	constructor(wrapper: IMessageDataWrapper)
+	{
+		this._avatarId = wrapper.readInt();
+		this._avatarName = wrapper.readString();
+		this._avatarMotto = wrapper.readString();
+		this._isAvatarOnline = wrapper.readBoolean();
+		this._canFollow = wrapper.readBoolean();
+		wrapper.readString(); // lastOnlineDate (unused/discarded in AS3)
+		this._avatarGender = wrapper.readInt();
+		this._avatarFigure = wrapper.readString();
+		this._realName = wrapper.readString();
+	}
+
 	private _avatarId: number;
 
 	get avatarId(): number
@@ -62,18 +75,5 @@ export class HabboSearchResultData
 	get realName(): string
 	{
 		return this._realName;
-	}
-
-	constructor(wrapper: IMessageDataWrapper)
-	{
-		this._avatarId = wrapper.readInt();
-		this._avatarName = wrapper.readString();
-		this._avatarMotto = wrapper.readString();
-		this._isAvatarOnline = wrapper.readBoolean();
-		this._canFollow = wrapper.readBoolean();
-		wrapper.readString(); // lastOnlineDate (unused/discarded in AS3)
-		this._avatarGender = wrapper.readInt();
-		this._avatarFigure = wrapper.readString();
-		this._realName = wrapper.readString();
 	}
 }

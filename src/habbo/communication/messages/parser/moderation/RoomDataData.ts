@@ -8,6 +8,26 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  */
 export class RoomDataData
 {
+	constructor(wrapper: IMessageDataWrapper)
+	{
+		this._exists = wrapper.readBoolean();
+
+		if (!this._exists)
+		{
+			return;
+		}
+
+		this._name = wrapper.readString();
+		this._desc = wrapper.readString();
+
+		const tagCount = wrapper.readInt();
+
+		for (let i = 0; i < tagCount; i++)
+		{
+			this._tags.push(wrapper.readString());
+		}
+	}
+
 	private _exists: boolean;
 
 	get exists(): boolean
@@ -34,25 +54,5 @@ export class RoomDataData
 	get tags(): string[]
 	{
 		return this._tags;
-	}
-
-	constructor(wrapper: IMessageDataWrapper)
-	{
-		this._exists = wrapper.readBoolean();
-
-		if (!this._exists)
-		{
-			return;
-		}
-
-		this._name = wrapper.readString();
-		this._desc = wrapper.readString();
-
-		const tagCount = wrapper.readInt();
-
-		for (let i = 0; i < tagCount; i++)
-		{
-			this._tags.push(wrapper.readString());
-		}
 	}
 }

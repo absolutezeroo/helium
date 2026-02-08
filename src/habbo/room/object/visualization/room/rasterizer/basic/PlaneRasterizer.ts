@@ -224,7 +224,8 @@ export class PlaneRasterizer implements IPlaneRasterizer
 					if (layerData.align === 'bottom')
 					{
 						align = 2;
-					} else if (layerData.align === 'top')
+					}
+					else if (layerData.align === 'top')
 					{
 						align = 1;
 					}

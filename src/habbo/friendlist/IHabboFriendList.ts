@@ -32,25 +32,36 @@ export interface IHabboFriendList
 	readonly hasFriendsListInitialized: boolean;
 
 	getFriendById(id: number): FriendData | null;
+
 	getFriendByName(name: string): FriendData | null;
+
 	getFriends(): FriendData[];
+
 	getFriendNames(): string[];
+
 	getFriendCount(onlineOnly: boolean): number;
+
 	isFriend(userId: number): boolean;
+
 	canBeAskedForAFriend(userId: number): boolean;
 
 	// === Friend actions ===
 	requestFriend(userName: string): void;
+
 	acceptFriend(...requestIds: number[]): void;
+
 	declineFriend(declineAll: boolean, ...requestIds: number[]): void;
+
 	removeFriend(...friendIds: number[]): void;
 
 	// === Search ===
 	findNewFriends(): void;
+
 	searchUsers(query: string): void;
 
 	// === Relationship ===
 	setRelationship(friendId: number, status: number): void;
+
 	getRelationshipStatus(friendId: number): number;
 
 	// === Lifecycle ===

@@ -15,15 +15,6 @@ export class CallForHelpManager
 	private static readonly MAX_CHARS: number = 253;
 
 	private _disposed: boolean = false;
-	private _reportedUserId: number = -1;
-	private _reportedUserName: string = '';
-	private _reportedRoomId: number = -1;
-	private _reportedRoomName: string = '';
-	private _reportedExtraDataId: string = '';
-	private _reportedRoomObjectId: number = -1;
-	private _reportedGroupId: number = -1;
-	private _reportedThreadId: number = -1;
-	private _reportedMessageId: number = -1;
 
 	/**
 	 * Whether this manager has been disposed
@@ -32,6 +23,8 @@ export class CallForHelpManager
 	{
 		return this._disposed;
 	}
+
+	private _reportedUserId: number = -1;
 
 	get reportedUserId(): number
 	{
@@ -43,6 +36,8 @@ export class CallForHelpManager
 		this._reportedUserId = value;
 	}
 
+	private _reportedUserName: string = '';
+
 	get reportedUserName(): string
 	{
 		return this._reportedUserName;
@@ -52,6 +47,8 @@ export class CallForHelpManager
 	{
 		this._reportedUserName = value;
 	}
+
+	private _reportedRoomId: number = -1;
 
 	get reportedRoomId(): number
 	{
@@ -63,6 +60,8 @@ export class CallForHelpManager
 		this._reportedRoomId = value;
 	}
 
+	private _reportedRoomName: string = '';
+
 	get reportedRoomName(): string
 	{
 		return this._reportedRoomName;
@@ -72,6 +71,8 @@ export class CallForHelpManager
 	{
 		this._reportedRoomName = value;
 	}
+
+	private _reportedExtraDataId: string = '';
 
 	get reportedExtraDataId(): string
 	{
@@ -83,6 +84,8 @@ export class CallForHelpManager
 		this._reportedExtraDataId = value;
 	}
 
+	private _reportedRoomObjectId: number = -1;
+
 	get reportedRoomObjectId(): number
 	{
 		return this._reportedRoomObjectId;
@@ -92,6 +95,8 @@ export class CallForHelpManager
 	{
 		this._reportedRoomObjectId = value;
 	}
+
+	private _reportedGroupId: number = -1;
 
 	get reportedGroupId(): number
 	{
@@ -103,6 +108,8 @@ export class CallForHelpManager
 		this._reportedGroupId = value;
 	}
 
+	private _reportedThreadId: number = -1;
+
 	get reportedThreadId(): number
 	{
 		return this._reportedThreadId;
@@ -112,6 +119,8 @@ export class CallForHelpManager
 	{
 		this._reportedThreadId = value;
 	}
+
+	private _reportedMessageId: number = -1;
 
 	get reportedMessageId(): number
 	{

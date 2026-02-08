@@ -30,17 +30,6 @@ export class CommunicationUtils
 	private static readonly SOL_PROPERTY_PASSWORD: string = 'password';
 
 	private static _forcedAutoLoginEnabled: boolean = false;
-	private static _encryptedLocalStorage: IEncryptedLocalStorage | null = null;
-
-	/**
-	 * Set the encrypted local storage implementation.
-	 *
-	 * @param storage The encrypted storage provider
-	 */
-	static set encryptedLocalStorage(storage: IEncryptedLocalStorage)
-	{
-		CommunicationUtils._encryptedLocalStorage = storage;
-	}
 
 	/**
 	 * Whether forced auto-login is enabled.
@@ -53,6 +42,18 @@ export class CommunicationUtils
 	static set forcedAutoLoginEnabled(value: boolean)
 	{
 		CommunicationUtils._forcedAutoLoginEnabled = value;
+	}
+
+	private static _encryptedLocalStorage: IEncryptedLocalStorage | null = null;
+
+	/**
+	 * Set the encrypted local storage implementation.
+	 *
+	 * @param storage The encrypted storage provider
+	 */
+	static set encryptedLocalStorage(storage: IEncryptedLocalStorage)
+	{
+		CommunicationUtils._encryptedLocalStorage = storage;
 	}
 
 	/**
@@ -75,8 +76,7 @@ export class CommunicationUtils
 			{
 				localStorage.setItem(storageKey, value);
 			}
-		}
-		catch (e)
+		} catch (e)
 		{
 			log.error('Error writing property \'' + key + '\' with value \'' + value + '\'');
 		}
@@ -109,8 +109,7 @@ export class CommunicationUtils
 			}
 
 			return value;
-		}
-		catch (e)
+		} catch (e)
 		{
 			log.error('Error reading property \'' + key + '\'');
 		}
@@ -159,8 +158,7 @@ export class CommunicationUtils
 			const storageKey = CommunicationUtils.SOL_ID + '.' + key;
 
 			return localStorage.getItem(storageKey) !== null;
-		}
-		catch (e)
+		} catch (e)
 		{
 			return false;
 		}

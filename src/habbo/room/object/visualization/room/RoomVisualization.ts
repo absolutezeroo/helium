@@ -251,7 +251,8 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 				if (plane.type === RoomPlane.TYPE_WALL && (plane.leftSide.length < 1 || plane.rightSide.length < 1))
 				{
 					sprite.alphaTolerance = 256;
-				} else
+				}
+				else
 				{
 					sprite.alphaTolerance = 128;
 				}
@@ -259,10 +260,12 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 				if (plane.type === RoomPlane.TYPE_WALL)
 				{
 					sprite.tag = `plane.wall@${i + 1}`;
-				} else if (plane.type === RoomPlane.TYPE_FLOOR)
+				}
+				else if (plane.type === RoomPlane.TYPE_FLOOR)
 				{
 					sprite.tag = `plane.floor@${i + 1}`;
-				} else
+				}
+				else
 				{
 					sprite.tag = `plane@${i + 1}`;
 				}
@@ -355,7 +358,8 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 						this._visiblePlanes.push(plane);
 						this._visiblePlaneSpriteNumbers.push(i);
 					}
-				} else
+				}
+				else
 				{
 					sprite.planeId = 0;
 
@@ -407,45 +411,55 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 				if (normal !== null && normal.z !== 0)
 				{
 					color = RoomVisualization.FLOOR_COLOR_TOP;
-				} else if (normal !== null && normal.x !== 0)
+				}
+				else if (normal !== null && normal.x !== 0)
 				{
 					color = RoomVisualization.FLOOR_COLOR_RIGHT;
-				} else
+				}
+				else
 				{
 					color = RoomVisualization.FLOOR_COLOR_LEFT;
 				}
-			} else if (type === RoomPlaneData.PLANE_WALL)
+			}
+			else if (type === RoomPlaneData.PLANE_WALL)
 			{
 				planeType = RoomPlane.TYPE_WALL;
 
 				if (normal !== null && normal.x === 0 && normal.y === 0)
 				{
 					color = RoomVisualization.WALL_COLOR_BOTTOM;
-				} else if (normal !== null && normal.y > 0)
+				}
+				else if (normal !== null && normal.y > 0)
 				{
 					color = RoomVisualization.WALL_COLOR_TOP;
-				} else if (normal !== null && normal.y === 0)
+				}
+				else if (normal !== null && normal.y === 0)
 				{
 					color = RoomVisualization.WALL_COLOR_SIDE;
-				} else
+				}
+				else
 				{
 					color = RoomVisualization.WALL_COLOR_BOTTOM;
 				}
-			} else if (type === RoomPlaneData.PLANE_LANDSCAPE)
+			}
+			else if (type === RoomPlaneData.PLANE_LANDSCAPE)
 			{
 				planeType = RoomPlane.TYPE_LANDSCAPE;
 
 				if (normal !== null && normal.y > 0)
 				{
 					color = RoomVisualization.LANDSCAPE_COLOR_TOP;
-				} else if (normal !== null && normal.y === 0)
+				}
+				else if (normal !== null && normal.y === 0)
 				{
 					color = RoomVisualization.LANDSCAPE_COLOR_SIDE;
-				} else
+				}
+				else
 				{
 					color = RoomVisualization.LANDSCAPE_COLOR_BOTTOM;
 				}
-			} else
+			}
+			else
 			{
 				continue;
 			}
@@ -469,7 +483,8 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 				if (planeType === RoomPlane.TYPE_FLOOR)
 				{
 					plane.rasterizer = this._visualizationData.floorRasterizer;
-				} else if (planeType === RoomPlane.TYPE_WALL)
+				}
+				else if (planeType === RoomPlane.TYPE_WALL)
 				{
 					plane.rasterizer = this._visualizationData.wallRasterizer;
 				}

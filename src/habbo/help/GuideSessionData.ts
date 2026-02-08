@@ -148,9 +148,9 @@ export class GuideSessionData
 	{
 		return this._role === GuideSessionData.ROLE_USER &&
 			(this._activeWindow === GuideSessionStateEnum.USER_CREATE ||
-			this._activeWindow === GuideSessionStateEnum.USER_PENDING ||
-			this._activeWindow === GuideSessionStateEnum.USER_ONGOING ||
-			this._activeWindow === GuideSessionStateEnum.USER_FEEDBACK);
+				this._activeWindow === GuideSessionStateEnum.USER_PENDING ||
+				this._activeWindow === GuideSessionStateEnum.USER_ONGOING ||
+				this._activeWindow === GuideSessionStateEnum.USER_FEEDBACK);
 	}
 
 	/**
@@ -160,8 +160,8 @@ export class GuideSessionData
 	{
 		return this._role === GuideSessionData.ROLE_GUIDE &&
 			(this._activeWindow === GuideSessionStateEnum.GUIDE_ACCEPT ||
-			this._activeWindow === GuideSessionStateEnum.GUIDE_ONGOING ||
-			this._activeWindow === GuideSessionStateEnum.GUIDE_CLOSED);
+				this._activeWindow === GuideSessionStateEnum.GUIDE_ONGOING ||
+				this._activeWindow === GuideSessionStateEnum.GUIDE_CLOSED);
 	}
 
 	/**

@@ -167,7 +167,8 @@ export class EffectsModel implements IEffectsModel
 		if (effect.isSelected)
 		{
 			effect.isSelected = false;
-		} else
+		}
+		else
 		{
 			this.setAllEffectsDeselected();
 			effect.isSelected = true;

@@ -16,16 +16,17 @@ export class QuestController implements IDisposable
 {
 	private _engine: HabboQuestEngine | null;
 	private _questTrackers: Map<string, unknown> = new Map();
+
+	constructor(engine: HabboQuestEngine)
+	{
+		this._engine = engine;
+	}
+
 	private _disposed: boolean = false;
 
 	get disposed(): boolean
 	{
 		return this._disposed;
-	}
-
-	constructor(engine: HabboQuestEngine)
-	{
-		this._engine = engine;
 	}
 
 	/**

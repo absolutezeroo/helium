@@ -1,6 +1,8 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
-import {CallForHelpPendingCallsDeletedMessageParser} from '../../parser/help/CallForHelpPendingCallsDeletedMessageParser';
+import {
+	CallForHelpPendingCallsDeletedMessageParser
+} from '../../parser/help/CallForHelpPendingCallsDeletedMessageParser';
 
 /**
  * Event indicating all pending calls for help have been deleted.

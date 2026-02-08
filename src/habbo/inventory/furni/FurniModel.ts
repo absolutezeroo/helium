@@ -139,7 +139,8 @@ export class FurniModel implements IFurniModel
 		if (!item.groupable && item.category !== FurnitureCategory.MONSTERPLANT_SEED)
 		{
 			result = this.addOrUpdateNonGroupableItem(item, isInitializing);
-		} else
+		}
+		else
 		{
 			result = this.addOrUpdateGroupableItem(item, isInitializing);
 		}
@@ -428,7 +429,8 @@ export class FurniModel implements IFurniModel
 		{
 			groupItem.hasUnseenItems = true;
 			this.addItemToTop(groupItem);
-		} else
+		}
+		else
 		{
 			this.addItemToBottom(groupItem);
 		}
@@ -516,7 +518,8 @@ export class FurniModel implements IFurniModel
 		{
 			groupItem.hasUnseenItems = true;
 			this.addItemToTop(groupItem);
-		} else
+		}
+		else
 		{
 			this.addItemToBottom(groupItem);
 		}
@@ -565,7 +568,8 @@ export class FurniModel implements IFurniModel
 		{
 			savedSelection.isSelected = true;
 			savedSelection.selectedItemIndex = -1;
-		} else
+		}
+		else
 		{
 			this.selectFirstItem();
 		}

@@ -1,6 +1,8 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
 import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
-import {GuideSessionInvitedToGuideRoomMessageParser} from '../../parser/help/GuideSessionInvitedToGuideRoomMessageParser';
+import {
+	GuideSessionInvitedToGuideRoomMessageParser
+} from '../../parser/help/GuideSessionInvitedToGuideRoomMessageParser';
 
 /**
  * Event for being invited to a guide's room during a session.

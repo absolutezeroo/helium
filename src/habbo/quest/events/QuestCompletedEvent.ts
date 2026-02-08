@@ -7,6 +7,12 @@ export class QuestCompletedEvent
 {
 	public static readonly QUEST_SEASONAL: string = 'qce_seasonal';
 
+	constructor(type: string, questData: unknown)
+	{
+		this._type = type;
+		this._questData = questData;
+	}
+
 	private _type: string;
 
 	get type(): string
@@ -19,11 +25,5 @@ export class QuestCompletedEvent
 	get questData(): unknown
 	{
 		return this._questData;
-	}
-
-	constructor(type: string, questData: unknown)
-	{
-		this._type = type;
-		this._questData = questData;
 	}
 }

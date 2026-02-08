@@ -132,7 +132,8 @@ export class MovingObjectLogic extends ObjectLogicBase
 					this._liftAmount = offset.z;
 					model.setNumber('furniture_lift_amount', this._liftAmount);
 				}
-			} else if (this._liftAmount !== 0)
+			}
+			else if (this._liftAmount !== 0)
 			{
 				this._liftAmount = 0;
 				model.setNumber('furniture_lift_amount', this._liftAmount);
@@ -158,7 +159,8 @@ export class MovingObjectLogic extends ObjectLogicBase
 				MovingObjectLogic._helperVector.assign(this._delta);
 				MovingObjectLogic._helperVector.mul(elapsed / this._moveUpdateInterval);
 				MovingObjectLogic._helperVector.add(this._location);
-			} else
+			}
+			else
 			{
 				MovingObjectLogic._helperVector.assign(this._location);
 			}

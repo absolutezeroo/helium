@@ -373,18 +373,21 @@ export class PetLogic extends MovingObjectLogic
 			{
 				this._directionIndex = 0;
 			}
-		} else if (event.altKey && !event.ctrlKey)
+		}
+		else if (event.altKey && !event.ctrlKey)
 		{
 			// Cycle postures
 			this._debugPostureIndex++;
 			model.setNumber('figure_posture', this._debugPostureIndex);
 			model.setNumber('figure_gesture', NaN);
-		} else if (event.ctrlKey && !event.altKey)
+		}
+		else if (event.ctrlKey && !event.altKey)
 		{
 			// Cycle gestures
 			this._debugGestureIndex++;
 			model.setNumber('figure_gesture', this._debugGestureIndex);
-		} else
+		}
+		else
 		{
 			// Adjust head direction delta
 			this._headDirectionDelta += 45;

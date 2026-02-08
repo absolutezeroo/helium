@@ -14,6 +14,21 @@ export class IssueBundle
 	public static readonly STATE_OPEN: number = 1;
 	public static readonly STATE_PICKED: number = 2;
 	public static readonly STATE_CLOSED: number = 3;
+	private _groupingId: number;
+	private _messageCount: number = 0;
+	private _oldestIssue: IssueInfoData | null = null;
+	private _highestPriorityIssue: IssueInfoData | null = null;
+
+	constructor(id: number, issue: IssueInfoData)
+	{
+		this._id = id;
+		this._state = issue.state;
+		this._pickerUserId = issue.pickerUserId;
+		this._pickerName = issue.pickerUserName;
+		this._reportedUserId = issue.reportedUserId;
+		this._groupingId = issue.groupingId;
+		this.addIssue(issue);
+	}
 
 	private _id: number;
 
@@ -23,6 +38,14 @@ export class IssueBundle
 	}
 
 	private _issues: Map<number, IssueInfoData> = new Map();
+
+	/**
+	 * Get all issues in this bundle as an array.
+	 */
+	get issues(): IssueInfoData[]
+	{
+		return Array.from(this._issues.values());
+	}
 
 	private _state: number;
 
@@ -52,38 +75,11 @@ export class IssueBundle
 		return this._reportedUserId;
 	}
 
-	private _groupingId: number;
-
-	private _messageCount: number = 0;
-
 	private _issueAgeInMilliseconds: number = 0;
 
 	get issueAgeInMilliseconds(): number
 	{
 		return this._issueAgeInMilliseconds;
-	}
-
-	private _oldestIssue: IssueInfoData | null = null;
-
-	private _highestPriorityIssue: IssueInfoData | null = null;
-
-	constructor(id: number, issue: IssueInfoData)
-	{
-		this._id = id;
-		this._state = issue.state;
-		this._pickerUserId = issue.pickerUserId;
-		this._pickerName = issue.pickerUserName;
-		this._reportedUserId = issue.reportedUserId;
-		this._groupingId = issue.groupingId;
-		this.addIssue(issue);
-	}
-
-	/**
-	 * Get all issues in this bundle as an array.
-	 */
-	get issues(): IssueInfoData[]
-	{
-		return Array.from(this._issues.values());
 	}
 
 	/**

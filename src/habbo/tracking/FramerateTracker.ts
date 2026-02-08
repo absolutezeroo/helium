@@ -44,7 +44,8 @@ export class FramerateTracker
 		{
 			this._averageInterval = deltaTime;
 			this._lastReportTime = currentTime;
-		} else
+		}
+		else
 		{
 			// Exponential moving average
 			const n = this._updateCount;

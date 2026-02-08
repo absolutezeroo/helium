@@ -5,8 +5,8 @@
 export * from './events';
 
 // Exports
-export { AdImageRequest } from './AdImageRequest';
-export { AdManager } from './AdManager';
+export {AdImageRequest} from './AdImageRequest';
+export {AdManager} from './AdManager';
 
 // Types
-export type { IAdManager } from './IAdManager';
+export type {IAdManager} from './IAdManager';

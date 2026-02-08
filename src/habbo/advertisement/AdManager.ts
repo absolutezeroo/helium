@@ -130,7 +130,8 @@ export class AdManager extends Component implements IAdManager
 		{
 			log.debug('Interstitial available');
 			this._adEvents.emit(InterstitialEvent.INTERSTITIAL_SHOW);
-		} else
+		}
+		else
 		{
 			this._adEvents.emit(InterstitialEvent.INTERSTITIAL_NOT_SHOWN);
 		}

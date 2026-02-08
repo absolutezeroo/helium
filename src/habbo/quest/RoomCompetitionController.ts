@@ -15,17 +15,13 @@ const log = Logger.getLogger('RoomCompetitionController');
 export class RoomCompetitionController implements IDisposable
 {
 	private _engine: HabboQuestEngine | null;
-	private _goalCode: string = '';
-	private _goalId: number = 0;
-	private _votesRemaining: number = 0;
-	private _isSubmitMode: boolean = false;
-	private _dontShowAgain: boolean = false;
-	private _disposed: boolean = false;
 
-	get disposed(): boolean
+	constructor(engine: HabboQuestEngine)
 	{
-		return this._disposed;
+		this._engine = engine;
 	}
+
+	private _goalCode: string = '';
 
 	/**
 	 * Get the goal code
@@ -35,6 +31,8 @@ export class RoomCompetitionController implements IDisposable
 		return this._goalCode;
 	}
 
+	private _goalId: number = 0;
+
 	/**
 	 * Get the goal ID
 	 */
@@ -42,6 +40,8 @@ export class RoomCompetitionController implements IDisposable
 	{
 		return this._goalId;
 	}
+
+	private _votesRemaining: number = 0;
 
 	/**
 	 * Get remaining votes
@@ -51,6 +51,8 @@ export class RoomCompetitionController implements IDisposable
 		return this._votesRemaining;
 	}
 
+	private _isSubmitMode: boolean = false;
+
 	/**
 	 * Whether the controller is in submit mode
 	 */
@@ -58,6 +60,8 @@ export class RoomCompetitionController implements IDisposable
 	{
 		return this._isSubmitMode;
 	}
+
+	private _dontShowAgain: boolean = false;
 
 	/**
 	 * Set whether to suppress competition window display
@@ -67,9 +71,11 @@ export class RoomCompetitionController implements IDisposable
 		this._dontShowAgain = value;
 	}
 
-	constructor(engine: HabboQuestEngine)
+	private _disposed: boolean = false;
+
+	get disposed(): boolean
 	{
-		this._engine = engine;
+		return this._disposed;
 	}
 
 	/**

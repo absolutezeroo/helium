@@ -3,9 +3,13 @@ import {IssueBundle} from './IssueBundle';
 import {Logger} from '@core/utils/Logger';
 import type {ModerationManager} from './ModerationManager';
 import {PickIssuesMessageComposer} from '@habbo/communication/messages/outgoing/moderation/PickIssuesMessageComposer';
-import {ReleaseIssuesMessageComposer} from '@habbo/communication/messages/outgoing/moderation/ReleaseIssuesMessageComposer';
+import {
+	ReleaseIssuesMessageComposer
+} from '@habbo/communication/messages/outgoing/moderation/ReleaseIssuesMessageComposer';
 import {CloseIssuesMessageComposer} from '@habbo/communication/messages/outgoing/moderation/CloseIssuesMessageComposer';
-import {CloseIssueDefaultActionMessageComposer} from '@habbo/communication/messages/outgoing/moderation/CloseIssueDefaultActionMessageComposer';
+import {
+	CloseIssueDefaultActionMessageComposer
+} from '@habbo/communication/messages/outgoing/moderation/CloseIssueDefaultActionMessageComposer';
 import {ModToolSanctionComposer} from '@habbo/communication/messages/outgoing/moderation/ModToolSanctionComposer';
 
 const log = Logger.getLogger('Moderation');
@@ -34,7 +38,6 @@ export class IssueManager
 	private _pendingPickIssueIds: number[] = [];
 	private _pendingReleaseIssueIds: number[] = [];
 	private _nextBundleId: number = 1;
-	private _autoPickEnabled: boolean = false;
 	private _windowX: number = 0;
 	private _windowY: number = 0;
 	private _windowWidth: number = 0;
@@ -44,6 +47,8 @@ export class IssueManager
 	{
 		this._manager = manager;
 	}
+
+	private _autoPickEnabled: boolean = false;
 
 	/**
 	 * Whether auto-pick mode is enabled.

@@ -30,6 +30,11 @@ export interface AchievementData
  */
 export class AchievementCategory
 {
+	constructor(code: string)
+	{
+		this._code = code;
+	}
+
 	private _code: string;
 
 	get code(): string
@@ -42,11 +47,6 @@ export class AchievementCategory
 	get achievements(): AchievementData[]
 	{
 		return this._achievements;
-	}
-
-	constructor(code: string)
-	{
-		this._code = code;
 	}
 
 	/**

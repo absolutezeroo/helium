@@ -39,7 +39,8 @@ export class ChatItem
 		if (event.session)
 		{
 			this._roomId = event.session.roomId;
-		} else
+		}
+		else
 		{
 			this._roomId = 1;
 		}

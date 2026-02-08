@@ -14,17 +14,15 @@ const log = Logger.getLogger('NameChangeController');
 export class NameChangeController
 {
 	public static readonly NAME_CHANGE: string = 'TUI_NAME_VIEW';
-
-	private _disposed: boolean = false;
 	private _communication: IHabboCommunicationManager | null = null;
-	private _ownUserName: string = '';
-	private _ownUserId: number = 0;
 
 	constructor(communication: IHabboCommunicationManager | null)
 	{
 		this._communication = communication;
 		log.debug('NameChangeController initialized');
 	}
+
+	private _disposed: boolean = false;
 
 	/**
 	 * Whether this controller has been disposed
@@ -34,6 +32,8 @@ export class NameChangeController
 		return this._disposed;
 	}
 
+	private _ownUserName: string = '';
+
 	/**
 	 * Get the current user's name
 	 */
@@ -41,6 +41,8 @@ export class NameChangeController
 	{
 		return this._ownUserName;
 	}
+
+	private _ownUserId: number = 0;
 
 	/**
 	 * Get the current user's ID

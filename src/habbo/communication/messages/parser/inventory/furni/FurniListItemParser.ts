@@ -199,7 +199,8 @@ export class FurniListItemParser
 		if (this._secondsToExpiration > -1)
 		{
 			this._isRented = true;
-		} else
+		}
+		else
 		{
 			this._isRented = false;
 			this._secondsToExpiration = -1;

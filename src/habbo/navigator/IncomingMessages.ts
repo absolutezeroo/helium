@@ -188,7 +188,8 @@ export class IncomingMessages
 			// Case 1: Actually entering the room
 			this.data.enteredGuestRoom = parser.data;
 			this.data.currentRoomIsStaffPick = parser.staffPick;
-		} else if (parser.roomForward)
+		}
+		else if (parser.roomForward)
 		{
 			// Case 2: Room forwarding - check door mode
 			const doorMode = parser.data.doorMode;
@@ -200,13 +201,15 @@ export class IncomingMessages
 				// TODO: _navigator.doorbell.show(parser.data)
 				log.debug(`Room requires doorbell: ${parser.data.flatId}`);
 				this._navigator.goToRoom(parser.data.flatId, false);
-			} else if (doorMode === 2)
+			}
+			else if (doorMode === 2)
 			{
 				// Password protected - would need to show password input
 				// TODO: _navigator.passwordInput.show(parser.data)
 				log.debug(`Room requires password: ${parser.data.flatId}`);
 				this._navigator.goToRoom(parser.data.flatId, false);
-			} else
+			}
+			else
 			{
 				// Open room or other modes - enter directly
 				this._navigator.goToRoom(parser.data.flatId, false);
@@ -216,7 +219,8 @@ export class IncomingMessages
 			// AS3 would get this from a subsequent enterRoom=true response
 			this.data.enteredGuestRoom = parser.data;
 			this.data.currentRoomIsStaffPick = parser.staffPick;
-		} else
+		}
+		else
 		{
 			// Case 3: Just viewing room info, not entering
 			this.data.enteredGuestRoom = parser.data;

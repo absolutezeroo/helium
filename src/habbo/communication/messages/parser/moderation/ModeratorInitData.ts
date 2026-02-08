@@ -1,7 +1,6 @@
 import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
 import {IssueInfoData} from './IssueInfoData';
 import {IssueInfoMessageParser} from './IssueInfoMessageParser';
-import {PatternMatchData} from './PatternMatchData';
 
 /**
  * Data class containing moderator initialization data.
@@ -11,6 +10,59 @@ import {PatternMatchData} from './PatternMatchData';
  */
 export class ModeratorInitData
 {
+	constructor(wrapper: IMessageDataWrapper)
+	{
+		const issueParser = new IssueInfoMessageParser();
+		this._issues = [];
+		this._messageTemplates = [];
+		this._roomMessageTemplates = [];
+
+		let count = wrapper.readInt();
+
+		for (let i = 0; i < count; i++)
+		{
+			if (issueParser.parse(wrapper))
+			{
+				const data = issueParser.issueData;
+
+				if (data)
+				{
+					this._issues.push(data);
+				}
+			}
+		}
+
+		count = wrapper.readInt();
+
+		for (let i = 0; i < count; i++)
+		{
+			this._messageTemplates.push(wrapper.readString());
+		}
+
+		// CFH categories (read and discard string keys)
+		count = wrapper.readInt();
+
+		for (let i = 0; i < count; i++)
+		{
+			wrapper.readString();
+		}
+
+		this._cfhPermission = wrapper.readBoolean();
+		this._chatlogsPermission = wrapper.readBoolean();
+		this._alertPermission = wrapper.readBoolean();
+		this._kickPermission = wrapper.readBoolean();
+		this._banPermission = wrapper.readBoolean();
+		this._roomAlertPermission = wrapper.readBoolean();
+		this._roomKickPermission = wrapper.readBoolean();
+
+		count = wrapper.readInt();
+
+		for (let i = 0; i < count; i++)
+		{
+			this._roomMessageTemplates.push(wrapper.readString());
+		}
+	}
+
 	private _issues: IssueInfoData[];
 
 	get issues(): IssueInfoData[]
@@ -79,59 +131,6 @@ export class ModeratorInitData
 	get roomKickPermission(): boolean
 	{
 		return this._roomKickPermission;
-	}
-
-	constructor(wrapper: IMessageDataWrapper)
-	{
-		const issueParser = new IssueInfoMessageParser();
-		this._issues = [];
-		this._messageTemplates = [];
-		this._roomMessageTemplates = [];
-
-		let count = wrapper.readInt();
-
-		for (let i = 0; i < count; i++)
-		{
-			if (issueParser.parse(wrapper))
-			{
-				const data = issueParser.issueData;
-
-				if (data)
-				{
-					this._issues.push(data);
-				}
-			}
-		}
-
-		count = wrapper.readInt();
-
-		for (let i = 0; i < count; i++)
-		{
-			this._messageTemplates.push(wrapper.readString());
-		}
-
-		// CFH categories (read and discard string keys)
-		count = wrapper.readInt();
-
-		for (let i = 0; i < count; i++)
-		{
-			wrapper.readString();
-		}
-
-		this._cfhPermission = wrapper.readBoolean();
-		this._chatlogsPermission = wrapper.readBoolean();
-		this._alertPermission = wrapper.readBoolean();
-		this._kickPermission = wrapper.readBoolean();
-		this._banPermission = wrapper.readBoolean();
-		this._roomAlertPermission = wrapper.readBoolean();
-		this._roomKickPermission = wrapper.readBoolean();
-
-		count = wrapper.readInt();
-
-		for (let i = 0; i < count; i++)
-		{
-			this._roomMessageTemplates.push(wrapper.readString());
-		}
 	}
 
 	dispose(): void

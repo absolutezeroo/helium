@@ -18,6 +18,16 @@ export class PlatformUtils
 	public static readonly PLATFORM_IOS: number = 1;
 
 	/**
+	 * Get the display scale factor (device pixel ratio).
+	 *
+	 * @returns The device pixel ratio
+	 */
+	static get scale(): number
+	{
+		return window.devicePixelRatio || 1;
+	}
+
+	/**
 	 * Check if the current platform is a desktop.
 	 * In the web client, this always returns true.
 	 *
@@ -66,16 +76,6 @@ export class PlatformUtils
 		}
 
 		return PlatformUtils.DEVICE_TYPE_DESKTOP;
-	}
-
-	/**
-	 * Get the display scale factor (device pixel ratio).
-	 *
-	 * @returns The device pixel ratio
-	 */
-	static get scale(): number
-	{
-		return window.devicePixelRatio || 1;
 	}
 
 	/**

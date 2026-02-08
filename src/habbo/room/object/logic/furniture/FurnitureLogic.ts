@@ -434,7 +434,8 @@ export class FurnitureLogic extends MovingObjectLogic
 				this._bounceStep = 1;
 				this._storedRotateMessage = message;
 				return;
-			} else if (message.dir !== null)
+			}
+			else if (message.dir !== null)
 			{
 				this.object?.setDirection(message.dir);
 			}
@@ -485,7 +486,8 @@ export class FurnitureLogic extends MovingObjectLogic
 			if (this._bounceStep <= FurnitureLogic.BOUNCE_STEPS / 2)
 			{
 				this._locationOffset.z = FurnitureLogic.BOUNCE_STEP_HEIGHT * this._bounceStep;
-			} else if (this._bounceStep <= FurnitureLogic.BOUNCE_STEPS)
+			}
+			else if (this._bounceStep <= FurnitureLogic.BOUNCE_STEPS)
 			{
 				if (this._storedRotateMessage !== null)
 				{

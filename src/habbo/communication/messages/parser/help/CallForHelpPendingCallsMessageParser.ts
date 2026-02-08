@@ -51,7 +51,7 @@ export class CallForHelpPendingCallsMessageParser implements IMessageParser
 			const timestamp = wrapper.readString();
 			const message = wrapper.readString();
 
-			this._calls.push({ callId, timestamp, message });
+			this._calls.push({callId, timestamp, message});
 		}
 
 		return true;

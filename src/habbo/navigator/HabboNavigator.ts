@@ -244,7 +244,8 @@ export class HabboNavigator extends Component implements IHabboNavigator
 		if (this._isRoomInfoOpen)
 		{
 			this.closeRoomInfo();
-		} else
+		}
+		else
 		{
 			this.openRoomInfo();
 		}

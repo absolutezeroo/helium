@@ -196,7 +196,8 @@ export class AvatarLogic extends MovingObjectLogic
 			if (duration > -1)
 			{
 				this._expressionEndTime = Date.now() + duration;
-			} else
+			}
+			else
 			{
 				this._expressionEndTime = 0;
 			}
@@ -243,7 +244,8 @@ export class AvatarLogic extends MovingObjectLogic
 			{
 				this._carryObjectEndTime = 0;
 				this._allowUseCarryObject = message.itemType <= AvatarLogic.CARRY_ITEM_LAST_CONSUMABLE;
-			} else
+			}
+			else
 			{
 				this._carryObjectEndTime = this._carryObjectStartTime + AvatarLogic.CARRY_ITEM_EMPTY_HAND_ANIMATION_LENGTH;
 				this._allowUseCarryObject = false;
@@ -273,7 +275,8 @@ export class AvatarLogic extends MovingObjectLogic
 			if (!isNaN(value) && value >= 0 && value <= 5)
 			{
 				model.setNumber('figure_flat_control', value);
-			} else
+			}
+			else
 			{
 				model.setNumber('figure_flat_control', 0);
 			}
@@ -432,27 +435,32 @@ export class AvatarLogic extends MovingObjectLogic
 		{
 			this._effectChangeTime = Date.now() + AvatarLogic.EFFECT_SPLASH_LENGTH;
 			this._nextEffect = AvatarLogic.EFFECT_TYPE_SWIM;
-		} else if (effect === AvatarLogic.EFFECT_TYPE_SPLASH_DARK)
+		}
+		else if (effect === AvatarLogic.EFFECT_TYPE_SPLASH_DARK)
 		{
 			this._effectChangeTime = Date.now() + AvatarLogic.EFFECT_SPLASH_LENGTH;
 			this._nextEffect = AvatarLogic.EFFECT_TYPE_SWIM_DARK;
-		} else if (currentEffect === AvatarLogic.EFFECT_TYPE_SWIM)
+		}
+		else if (currentEffect === AvatarLogic.EFFECT_TYPE_SWIM)
 		{
 			// Exit water: show splash first
 			this._effectChangeTime = Date.now() + AvatarLogic.EFFECT_SPLASH_LENGTH;
 			this._nextEffect = effect;
 			effect = AvatarLogic.EFFECT_TYPE_SPLASH;
-		} else if (currentEffect === AvatarLogic.EFFECT_TYPE_SWIM_DARK)
+		}
+		else if (currentEffect === AvatarLogic.EFFECT_TYPE_SWIM_DARK)
 		{
 			this._effectChangeTime = Date.now() + AvatarLogic.EFFECT_SPLASH_LENGTH;
 			this._nextEffect = effect;
 			effect = AvatarLogic.EFFECT_TYPE_SPLASH_DARK;
-		} else if (delay !== 0)
+		}
+		else if (delay !== 0)
 		{
 			this._effectChangeTime = Date.now() + delay;
 			this._nextEffect = effect;
 			return;
-		} else
+		}
+		else
 		{
 			this._effectChangeTime = 0;
 		}
@@ -473,15 +481,18 @@ export class AvatarLogic extends MovingObjectLogic
 				this._talkEndTime = 0;
 				this._talkPauseTime = 0;
 				this._talkResumeTime = 0;
-			} else if (this._talkResumeTime === 0 && this._talkPauseTime === 0)
+			}
+			else if (this._talkResumeTime === 0 && this._talkPauseTime === 0)
 			{
 				this._talkPauseTime = now + this.getTalkingPauseInterval();
 				this._talkResumeTime = this._talkPauseTime + this.getTalkingPauseLength();
-			} else if (this._talkPauseTime > 0 && now > this._talkPauseTime)
+			}
+			else if (this._talkPauseTime > 0 && now > this._talkPauseTime)
 			{
 				model.setNumber('figure_talk', 0);
 				this._talkPauseTime = 0;
-			} else if (this._talkResumeTime > 0 && now > this._talkResumeTime)
+			}
+			else if (this._talkResumeTime > 0 && now > this._talkResumeTime)
 			{
 				model.setNumber('figure_talk', 1);
 				this._talkResumeTime = 0;
@@ -532,7 +543,8 @@ export class AvatarLogic extends MovingObjectLogic
 				if (elapsed % 10000 < 1000)
 				{
 					model.setNumber('figure_use_object', 1);
-				} else
+				}
+				else
 				{
 					model.setNumber('figure_use_object', 0);
 				}

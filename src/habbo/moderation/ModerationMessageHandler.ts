@@ -4,34 +4,64 @@ import {Logger} from '@core/utils/Logger';
 import {ModeratorInitMessageEvent} from '@habbo/communication/messages/incoming/moderation/ModeratorInitMessageEvent';
 import {IssueInfoMessageEvent} from '@habbo/communication/messages/incoming/moderation/IssueInfoMessageEvent';
 import {IssueDeletedMessageEvent} from '@habbo/communication/messages/incoming/moderation/IssueDeletedMessageEvent';
-import {IssuePickFailedMessageEvent} from '@habbo/communication/messages/incoming/moderation/IssuePickFailedMessageEvent';
-import {ModeratorUserInfoMessageEvent} from '@habbo/communication/messages/incoming/moderation/ModeratorUserInfoMessageEvent';
-import {ModeratorRoomInfoMessageEvent} from '@habbo/communication/messages/incoming/moderation/ModeratorRoomInfoMessageEvent';
-import {ModeratorActionResultMessageEvent} from '@habbo/communication/messages/incoming/moderation/ModeratorActionResultMessageEvent';
-import {ModeratorToolPreferencesMessageEvent} from '@habbo/communication/messages/incoming/moderation/ModeratorToolPreferencesMessageEvent';
+import {
+	IssuePickFailedMessageEvent
+} from '@habbo/communication/messages/incoming/moderation/IssuePickFailedMessageEvent';
+import {
+	ModeratorUserInfoMessageEvent
+} from '@habbo/communication/messages/incoming/moderation/ModeratorUserInfoMessageEvent';
+import {
+	ModeratorRoomInfoMessageEvent
+} from '@habbo/communication/messages/incoming/moderation/ModeratorRoomInfoMessageEvent';
+import {
+	ModeratorActionResultMessageEvent
+} from '@habbo/communication/messages/incoming/moderation/ModeratorActionResultMessageEvent';
+import {
+	ModeratorToolPreferencesMessageEvent
+} from '@habbo/communication/messages/incoming/moderation/ModeratorToolPreferencesMessageEvent';
 import {CfhChatlogMessageEvent} from '@habbo/communication/messages/incoming/moderation/CfhChatlogMessageEvent';
 import {RoomChatlogMessageEvent} from '@habbo/communication/messages/incoming/moderation/RoomChatlogMessageEvent';
 import {UserChatlogMessageEvent} from '@habbo/communication/messages/incoming/moderation/UserChatlogMessageEvent';
 import {RoomVisitsMessageEvent} from '@habbo/communication/messages/incoming/moderation/RoomVisitsMessageEvent';
-import {UserClassificationMessageEvent} from '@habbo/communication/messages/incoming/moderation/UserClassificationMessageEvent';
+import {
+	UserClassificationMessageEvent
+} from '@habbo/communication/messages/incoming/moderation/UserClassificationMessageEvent';
 import {RoomEntryInfoMessageEvent} from '@habbo/communication/messages/incoming/room/engine/RoomEntryInfoMessageEvent';
-import {CloseConnectionMessageEvent} from '@habbo/communication/messages/incoming/room/session/CloseConnectionMessageEvent';
+import {
+	CloseConnectionMessageEvent
+} from '@habbo/communication/messages/incoming/room/session/CloseConnectionMessageEvent';
 
-import type {ModeratorInitMessageParser} from '@habbo/communication/messages/parser/moderation/ModeratorInitMessageParser';
+import type {
+	ModeratorInitMessageParser
+} from '@habbo/communication/messages/parser/moderation/ModeratorInitMessageParser';
 import type {IssueInfoMessageParser} from '@habbo/communication/messages/parser/moderation/IssueInfoMessageParser';
-import type {IssueDeletedMessageParser} from '@habbo/communication/messages/parser/moderation/IssueDeletedMessageParser';
-import type {IssuePickFailedMessageParser} from '@habbo/communication/messages/parser/moderation/IssuePickFailedMessageParser';
+import type {
+	IssueDeletedMessageParser
+} from '@habbo/communication/messages/parser/moderation/IssueDeletedMessageParser';
+import type {
+	IssuePickFailedMessageParser
+} from '@habbo/communication/messages/parser/moderation/IssuePickFailedMessageParser';
 import type {ModeratorUserInfoParser} from '@habbo/communication/messages/parser/moderation/ModeratorUserInfoParser';
 import type {ModeratorRoomInfoParser} from '@habbo/communication/messages/parser/moderation/ModeratorRoomInfoParser';
-import type {ModeratorActionResultMessageParser} from '@habbo/communication/messages/parser/moderation/ModeratorActionResultMessageParser';
-import type {ModeratorToolPreferencesParser} from '@habbo/communication/messages/parser/moderation/ModeratorToolPreferencesParser';
+import type {
+	ModeratorActionResultMessageParser
+} from '@habbo/communication/messages/parser/moderation/ModeratorActionResultMessageParser';
+import type {
+	ModeratorToolPreferencesParser
+} from '@habbo/communication/messages/parser/moderation/ModeratorToolPreferencesParser';
 import type {CfhChatlogMessageParser} from '@habbo/communication/messages/parser/moderation/CfhChatlogMessageParser';
 import type {RoomChatlogMessageParser} from '@habbo/communication/messages/parser/moderation/RoomChatlogMessageParser';
 import type {UserChatlogMessageParser} from '@habbo/communication/messages/parser/moderation/UserChatlogMessageParser';
 import type {RoomVisitsMessageParser} from '@habbo/communication/messages/parser/moderation/RoomVisitsMessageParser';
-import type {UserClassificationMessageParser} from '@habbo/communication/messages/parser/moderation/UserClassificationMessageParser';
-import type {RoomEntryInfoMessageParser} from '@habbo/communication/messages/parser/room/engine/RoomEntryInfoMessageParser';
-import {GetModeratorUserInfoMessageComposer} from '@habbo/communication/messages/outgoing/moderation/GetModeratorUserInfoMessageComposer';
+import type {
+	UserClassificationMessageParser
+} from '@habbo/communication/messages/parser/moderation/UserClassificationMessageParser';
+import type {
+	RoomEntryInfoMessageParser
+} from '@habbo/communication/messages/parser/room/engine/RoomEntryInfoMessageParser';
+import {
+	GetModeratorUserInfoMessageComposer
+} from '@habbo/communication/messages/outgoing/moderation/GetModeratorUserInfoMessageComposer';
 
 import type {ModerationManager} from './ModerationManager';
 

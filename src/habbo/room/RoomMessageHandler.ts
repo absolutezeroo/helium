@@ -253,7 +253,8 @@ export class RoomMessageHandler
 		{
 			event.connection.send(new GetFurnitureAliasesMessageComposer());
 			this._initialConnection = false;
-		} else
+		}
+		else
 		{
 			event.connection.send(new GetHeightMapMessageComposer());
 		}
@@ -965,7 +966,8 @@ export class RoomMessageHandler
 				data.data,
 				data.extra
 			);
-		} else
+		}
+		else
 		{
 			this._roomCreator.addObjectFurniture(
 				roomId,

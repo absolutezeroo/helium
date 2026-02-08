@@ -8,6 +8,15 @@ import {ChatRecordData} from './ChatRecordData';
  */
 export class CfhChatlogData
 {
+	constructor(wrapper: IMessageDataWrapper)
+	{
+		this._callId = wrapper.readInt();
+		this._callerUserId = wrapper.readInt();
+		this._reportedUserId = wrapper.readInt();
+		this._chatRecordId = wrapper.readInt();
+		this._chatRecord = new ChatRecordData(wrapper);
+	}
+
 	private _callId: number;
 
 	get callId(): number
@@ -41,14 +50,5 @@ export class CfhChatlogData
 	get chatRecord(): ChatRecordData
 	{
 		return this._chatRecord;
-	}
-
-	constructor(wrapper: IMessageDataWrapper)
-	{
-		this._callId = wrapper.readInt();
-		this._callerUserId = wrapper.readInt();
-		this._reportedUserId = wrapper.readInt();
-		this._chatRecordId = wrapper.readInt();
-		this._chatRecord = new ChatRecordData(wrapper);
 	}
 }

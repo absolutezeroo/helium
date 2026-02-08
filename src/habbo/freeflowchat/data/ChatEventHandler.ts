@@ -83,7 +83,8 @@ export class ChatEventHandler
 		if (now === this._lastTimeStamp)
 		{
 			this._timeStampCollisionCount++;
-		} else
+		}
+		else
 		{
 			this._timeStampCollisionCount = 0;
 		}

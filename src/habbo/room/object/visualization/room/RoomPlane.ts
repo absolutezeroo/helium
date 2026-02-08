@@ -615,7 +615,8 @@ export class RoomPlane
 		{
 			this._textureSprite = new Sprite(texture);
 			this._textureSprite.label = `RoomPlane_Tex_${this._uniqueId}`;
-		} else
+		}
+		else
 		{
 			this._textureSprite.texture = texture;
 		}

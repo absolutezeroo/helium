@@ -18,6 +18,14 @@ export class Juggler implements IAnimatable
 	private _elapsedTime: number = 0;
 
 	/**
+	 * The total elapsed time since this juggler was created.
+	 */
+	get elapsedTime(): number
+	{
+		return this._elapsedTime;
+	}
+
+	/**
 	 * Add an animatable object to the juggler.
 	 * If the object is already added, this is a no-op.
 	 *
@@ -185,13 +193,5 @@ export class Juggler implements IAnimatable
 
 			this._animatables.length = currentIndex;
 		}
-	}
-
-	/**
-	 * The total elapsed time since this juggler was created.
-	 */
-	get elapsedTime(): number
-	{
-		return this._elapsedTime;
 	}
 }

@@ -143,7 +143,8 @@ export class PlaneMaterialCellColumn
 				}
 				this._cachedBitmap = null;
 			}
-		} else if (this._cachedBitmap !== null)
+		}
+		else if (this._cachedBitmap !== null)
 		{
 			if (this._cachedBitmap.height === height)
 			{
@@ -151,7 +152,8 @@ export class PlaneMaterialCellColumn
 				ctx.clearRect(0, 0, this._cachedBitmap.width, this._cachedBitmap.height);
 				ctx.fillStyle = '#FFFFFF';
 				ctx.fillRect(0, 0, this._cachedBitmap.width, this._cachedBitmap.height);
-			} else
+			}
+			else
 			{
 				this._cachedBitmap = null;
 			}

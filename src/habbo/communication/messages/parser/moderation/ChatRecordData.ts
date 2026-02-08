@@ -16,6 +16,44 @@ export class ChatRecordData
 	public static readonly TYPE_SELFIE: number = 5;
 	public static readonly TYPE_PHOTO: number = 6;
 
+	constructor(wrapper: IMessageDataWrapper)
+	{
+		this._context = new Map<string, unknown>();
+		this._chatlog = [];
+
+		this._recordType = wrapper.readByte();
+
+		const contextCount = wrapper.readShort();
+
+		for (let i = 0; i < contextCount; i++)
+		{
+			const key = wrapper.readString();
+			const dataType = wrapper.readByte();
+
+			switch (dataType)
+			{
+				case 0:
+					this._context.set(key, wrapper.readBoolean());
+					break;
+				case 1:
+					this._context.set(key, wrapper.readInt());
+					break;
+				case 2:
+					this._context.set(key, wrapper.readString());
+					break;
+				default:
+					throw new Error('Unknown data type ' + dataType);
+			}
+		}
+
+		const chatlogCount = wrapper.readShort();
+
+		for (let i = 0; i < chatlogCount; i++)
+		{
+			this._chatlog.push(new ChatEntryData(wrapper));
+		}
+	}
+
 	private _recordType: number;
 
 	get recordType(): number
@@ -60,44 +98,6 @@ export class ChatRecordData
 	get messageId(): number
 	{
 		return this.getInt('messageId');
-	}
-
-	constructor(wrapper: IMessageDataWrapper)
-	{
-		this._context = new Map<string, unknown>();
-		this._chatlog = [];
-
-		this._recordType = wrapper.readByte();
-
-		const contextCount = wrapper.readShort();
-
-		for (let i = 0; i < contextCount; i++)
-		{
-			const key = wrapper.readString();
-			const dataType = wrapper.readByte();
-
-			switch (dataType)
-			{
-				case 0:
-					this._context.set(key, wrapper.readBoolean());
-					break;
-				case 1:
-					this._context.set(key, wrapper.readInt());
-					break;
-				case 2:
-					this._context.set(key, wrapper.readString());
-					break;
-				default:
-					throw new Error('Unknown data type ' + dataType);
-			}
-		}
-
-		const chatlogCount = wrapper.readShort();
-
-		for (let i = 0; i < chatlogCount; i++)
-		{
-			this._chatlog.push(new ChatEntryData(wrapper));
-		}
 	}
 
 	private getInt(key: string): number

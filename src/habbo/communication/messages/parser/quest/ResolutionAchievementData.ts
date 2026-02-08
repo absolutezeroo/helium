@@ -9,12 +9,6 @@ export class ResolutionAchievementData
 {
 	public static readonly STATE_INACTIVE: number = 0;
 
-	private _achievementId: number = 0;
-	private _level: number = 0;
-	private _badgeId: string = '';
-	private _requiredLevel: number = 0;
-	private _state: number = 0;
-
 	constructor(wrapper: IMessageDataWrapper)
 	{
 		this._achievementId = wrapper.readInt();
@@ -24,34 +18,44 @@ export class ResolutionAchievementData
 		this._state = wrapper.readInt();
 	}
 
+	private _achievementId: number = 0;
+
 	get achievementId(): number
 	{
 		return this._achievementId;
 	}
+
+	private _level: number = 0;
 
 	get level(): number
 	{
 		return this._level;
 	}
 
+	private _badgeId: string = '';
+
 	get badgeId(): string
 	{
 		return this._badgeId;
 	}
+
+	private _requiredLevel: number = 0;
 
 	get requiredLevel(): number
 	{
 		return this._requiredLevel;
 	}
 
-	get enabled(): boolean
-	{
-		return this._state === ResolutionAchievementData.STATE_INACTIVE;
-	}
+	private _state: number = 0;
 
 	get state(): number
 	{
 		return this._state;
+	}
+
+	get enabled(): boolean
+	{
+		return this._state === ResolutionAchievementData.STATE_INACTIVE;
 	}
 
 	dispose(): void

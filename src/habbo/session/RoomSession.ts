@@ -397,7 +397,8 @@ export class RoomSession implements IRoomSession
 		if (isTyping)
 		{
 			this._connection.send(new StartTypingMessageComposer());
-		} else
+		}
+		else
 		{
 			this._connection.send(new CancelTypingMessageComposer());
 		}

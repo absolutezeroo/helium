@@ -7,15 +7,15 @@ export class UnseenAchievementsCountUpdateEvent
 {
 	public static readonly TYPE: string = 'qe_uacue';
 
+	constructor(count: number)
+	{
+		this._count = count;
+	}
+
 	private _count: number;
 
 	get count(): number
 	{
 		return this._count;
-	}
-
-	constructor(count: number)
-	{
-		this._count = count;
 	}
 }

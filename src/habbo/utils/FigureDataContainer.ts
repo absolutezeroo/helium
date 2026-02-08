@@ -43,16 +43,28 @@ export class FigureDataContainer
 	private _parts: Map<string, number> = new Map();
 	private _colors: Map<string, number[]> = new Map();
 	private _gender: string = 'M';
-	private _disposed: boolean = false;
 
 	get gender(): string
 	{
 		return this._gender;
 	}
 
+	private _disposed: boolean = false;
+
 	get disposed(): boolean
 	{
 		return this._disposed;
+	}
+
+	/**
+	 * Check if an effect type is blocked.
+	 *
+	 * @param fxType The effect type ID
+	 * @returns True if the effect type is blocked
+	 */
+	static isBlockedFxType(fxType: number): boolean
+	{
+		return FigureDataContainer.BLOCKED_FX_TYPES.indexOf(fxType) !== -1;
 	}
 
 	/**
@@ -67,48 +79,6 @@ export class FigureDataContainer
 		this._colors = new Map();
 		this._gender = gender;
 		this.parseFigureString(figureString);
-	}
-
-	/**
-	 * Parse a figure string into parts and colors.
-	 *
-	 * Figure strings have the format: "setType-partId-color1-color2.setType2-partId2-color1"
-	 *
-	 * @param str The figure string to parse
-	 */
-	private parseFigureString(str: string): void
-	{
-		if (str === null || str === undefined)
-		{
-			return;
-		}
-
-		const sets = str.split('.');
-
-		for (const set of sets)
-		{
-			const parts = set.split('-');
-
-			if (parts.length > 0)
-			{
-				const setType = parts[0];
-				const partId = parseInt(parts[1]) || 0;
-				const colors: number[] = [];
-
-				for (let i = 2; i < parts.length; i++)
-				{
-					colors.push(parseInt(parts[i]) || 0);
-				}
-
-				if (colors.length === 0)
-				{
-					colors.push(0);
-				}
-
-				this.savePartSetId(setType, partId, false);
-				this.savePartSetColourId(setType, colors, false);
-			}
-		}
 	}
 
 	/**
@@ -204,31 +174,6 @@ export class FigureDataContainer
 	}
 
 	/**
-	 * Save a part set ID for a given set type.
-	 *
-	 * @param type The set type code
-	 * @param id The part set ID
-	 * @param _updateFigure Reserved for future use
-	 */
-	private savePartSetId(type: string, id: number, _updateFigure: boolean = true): void
-	{
-		if (FigureDataContainer.VALID_SET_TYPES.indexOf(type) === -1)
-		{
-			log.warn('[FigureData] Unknown partset: ' + type + ', can not store id: ' + id);
-			return;
-		}
-
-		if (id >= 0)
-		{
-			this._parts.set(type, id);
-		}
-		else
-		{
-			this._parts.delete(type);
-		}
-	}
-
-	/**
 	 * Save colour IDs for a given set type.
 	 *
 	 * @param type The set type code
@@ -288,17 +233,6 @@ export class FigureDataContainer
 	}
 
 	/**
-	 * Check if an effect type is blocked.
-	 *
-	 * @param fxType The effect type ID
-	 * @returns True if the effect type is blocked
-	 */
-	static isBlockedFxType(fxType: number): boolean
-	{
-		return FigureDataContainer.BLOCKED_FX_TYPES.indexOf(fxType) !== -1;
-	}
-
-	/**
 	 * Dispose of this container and release resources.
 	 */
 	dispose(): void
@@ -308,5 +242,72 @@ export class FigureDataContainer
 		this._parts.clear();
 		this._colors.clear();
 		this._disposed = true;
+	}
+
+	/**
+	 * Parse a figure string into parts and colors.
+	 *
+	 * Figure strings have the format: "setType-partId-color1-color2.setType2-partId2-color1"
+	 *
+	 * @param str The figure string to parse
+	 */
+	private parseFigureString(str: string): void
+	{
+		if (str === null || str === undefined)
+		{
+			return;
+		}
+
+		const sets = str.split('.');
+
+		for (const set of sets)
+		{
+			const parts = set.split('-');
+
+			if (parts.length > 0)
+			{
+				const setType = parts[0];
+				const partId = parseInt(parts[1]) || 0;
+				const colors: number[] = [];
+
+				for (let i = 2; i < parts.length; i++)
+				{
+					colors.push(parseInt(parts[i]) || 0);
+				}
+
+				if (colors.length === 0)
+				{
+					colors.push(0);
+				}
+
+				this.savePartSetId(setType, partId, false);
+				this.savePartSetColourId(setType, colors, false);
+			}
+		}
+	}
+
+	/**
+	 * Save a part set ID for a given set type.
+	 *
+	 * @param type The set type code
+	 * @param id The part set ID
+	 * @param _updateFigure Reserved for future use
+	 */
+	private savePartSetId(type: string, id: number, _updateFigure: boolean = true): void
+	{
+		if (FigureDataContainer.VALID_SET_TYPES.indexOf(type) === -1)
+		{
+			log.warn('[FigureData] Unknown partset: ' + type + ', can not store id: ' + id);
+			return;
+		}
+
+		if (id >= 0)
+		{
+			this._parts.set(type, id);
+		}
+		else
+		{
+			this._parts.delete(type);
+		}
 	}
 }

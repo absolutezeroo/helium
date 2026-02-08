@@ -15,12 +15,7 @@ export class DelayedCall implements IAnimatable
 
 	private _callback: ((...args: unknown[]) => void) | null;
 	private _args: unknown[];
-	private _currentTime: number;
-	private _totalTime: number;
-	private _repeatCount: number;
 	private _complete: boolean = false;
-
-	private _onRemove: (() => void) | null = null;
 
 	/**
 	 * Create a new DelayedCall.
@@ -36,6 +31,62 @@ export class DelayedCall implements IAnimatable
 		this._currentTime = 0;
 		this._totalTime = Math.max(delay, 0.0001);
 		this._repeatCount = 1;
+	}
+
+	private _currentTime: number;
+
+	/**
+	 * The current accumulated time in seconds.
+	 */
+	get currentTime(): number
+	{
+		return this._currentTime;
+	}
+
+	private _totalTime: number;
+
+	/**
+	 * The total delay time in seconds.
+	 */
+	get totalTime(): number
+	{
+		return this._totalTime;
+	}
+
+	private _repeatCount: number;
+
+	/**
+	 * The number of times the callback will be invoked.
+	 * 0 means infinite repeats.
+	 */
+	get repeatCount(): number
+	{
+		return this._repeatCount;
+	}
+
+	set repeatCount(value: number)
+	{
+		this._repeatCount = value;
+	}
+
+	private _onRemove: (() => void) | null = null;
+
+	/**
+	 * Set the callback to invoke when this delayed call should be removed from its juggler.
+	 *
+	 * @param callback The removal callback
+	 */
+	set onRemove(callback: (() => void) | null)
+	{
+		this._onRemove = callback;
+	}
+
+	/**
+	 * Whether this delayed call has completed.
+	 */
+	get isComplete(): boolean
+	{
+		return this._repeatCount === 1 && this._currentTime >= this._totalTime;
 	}
 
 	/**
@@ -123,53 +174,5 @@ export class DelayedCall implements IAnimatable
 		{
 			this.advanceTime(remaining);
 		}
-	}
-
-	/**
-	 * Whether this delayed call has completed.
-	 */
-	get isComplete(): boolean
-	{
-		return this._repeatCount === 1 && this._currentTime >= this._totalTime;
-	}
-
-	/**
-	 * The total delay time in seconds.
-	 */
-	get totalTime(): number
-	{
-		return this._totalTime;
-	}
-
-	/**
-	 * The current accumulated time in seconds.
-	 */
-	get currentTime(): number
-	{
-		return this._currentTime;
-	}
-
-	/**
-	 * The number of times the callback will be invoked.
-	 * 0 means infinite repeats.
-	 */
-	get repeatCount(): number
-	{
-		return this._repeatCount;
-	}
-
-	set repeatCount(value: number)
-	{
-		this._repeatCount = value;
-	}
-
-	/**
-	 * Set the callback to invoke when this delayed call should be removed from its juggler.
-	 *
-	 * @param callback The removal callback
-	 */
-	set onRemove(callback: (() => void) | null)
-	{
-		this._onRemove = callback;
 	}
 }

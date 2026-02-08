@@ -11,6 +11,44 @@ export class IssueInfoData
 	public static readonly STATE_PICKED: number = 2;
 	public static readonly STATE_CLOSED: number = 3;
 
+	constructor(
+		issueId: number,
+		state: number,
+		categoryId: number,
+		reportedCategoryId: number,
+		issueAgeInMilliseconds: number,
+		priority: number,
+		groupingId: number,
+		reporterUserId: number,
+		reporterUserName: string,
+		reportedUserId: number,
+		reportedUserName: string,
+		pickerUserId: number,
+		pickerUserName: string,
+		message: string,
+		chatRecordId: number,
+		patterns: PatternMatchData[]
+	)
+	{
+		this._issueId = issueId;
+		this._state = state;
+		this._categoryId = categoryId;
+		this._reportedCategoryId = reportedCategoryId;
+		this._issueAgeInMilliseconds = issueAgeInMilliseconds;
+		this._priority = priority;
+		this._groupingId = groupingId;
+		this._reporterUserId = reporterUserId;
+		this._reporterUserName = reporterUserName;
+		this._reportedUserId = reportedUserId;
+		this._reportedUserName = reportedUserName;
+		this._pickerUserId = pickerUserId;
+		this._pickerUserName = pickerUserName;
+		this._message = message;
+		this._chatRecordId = chatRecordId;
+		this._patterns = patterns;
+		this._creationTimeInMilliseconds = Date.now();
+	}
+
 	private _issueId: number;
 
 	get issueId(): number
@@ -128,44 +166,6 @@ export class IssueInfoData
 	get creationTimeInMilliseconds(): number
 	{
 		return this._creationTimeInMilliseconds;
-	}
-
-	constructor(
-		issueId: number,
-		state: number,
-		categoryId: number,
-		reportedCategoryId: number,
-		issueAgeInMilliseconds: number,
-		priority: number,
-		groupingId: number,
-		reporterUserId: number,
-		reporterUserName: string,
-		reportedUserId: number,
-		reportedUserName: string,
-		pickerUserId: number,
-		pickerUserName: string,
-		message: string,
-		chatRecordId: number,
-		patterns: PatternMatchData[]
-	)
-	{
-		this._issueId = issueId;
-		this._state = state;
-		this._categoryId = categoryId;
-		this._reportedCategoryId = reportedCategoryId;
-		this._issueAgeInMilliseconds = issueAgeInMilliseconds;
-		this._priority = priority;
-		this._groupingId = groupingId;
-		this._reporterUserId = reporterUserId;
-		this._reporterUserName = reporterUserName;
-		this._reportedUserId = reportedUserId;
-		this._reportedUserName = reportedUserName;
-		this._pickerUserId = pickerUserId;
-		this._pickerUserName = pickerUserName;
-		this._message = message;
-		this._chatRecordId = chatRecordId;
-		this._patterns = patterns;
-		this._creationTimeInMilliseconds = Date.now();
 	}
 
 	/**

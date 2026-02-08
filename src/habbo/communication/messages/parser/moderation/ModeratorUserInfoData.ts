@@ -7,6 +7,33 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  */
 export class ModeratorUserInfoData
 {
+	constructor(wrapper: IMessageDataWrapper)
+	{
+		this._userId = wrapper.readInt();
+		this._userName = wrapper.readString();
+		this._figure = wrapper.readString();
+		this._registrationAgeInMinutes = wrapper.readInt();
+		this._minutesSinceLastLogin = wrapper.readInt();
+		this._online = wrapper.readBoolean();
+		this._cfhCount = wrapper.readInt();
+		this._abusiveCfhCount = wrapper.readInt();
+		this._cautionCount = wrapper.readInt();
+		this._banCount = wrapper.readInt();
+		this._tradingLockCount = wrapper.readInt();
+		this._tradingExpiryDate = wrapper.readString();
+		this._lastPurchaseDate = wrapper.readString();
+		this._identityId = wrapper.readInt();
+		this._identityRelatedBanCount = wrapper.readInt();
+		this._primaryEmailAddress = wrapper.readString();
+		this._userClassification = wrapper.readString();
+
+		if (wrapper.bytesAvailable > 0)
+		{
+			this._lastSanctionTime = wrapper.readString();
+			this._sanctionAgeHours = wrapper.readInt();
+		}
+	}
+
 	private _userId: number;
 
 	get userId(): number
@@ -138,32 +165,5 @@ export class ModeratorUserInfoData
 	get sanctionAgeHours(): number
 	{
 		return this._sanctionAgeHours;
-	}
-
-	constructor(wrapper: IMessageDataWrapper)
-	{
-		this._userId = wrapper.readInt();
-		this._userName = wrapper.readString();
-		this._figure = wrapper.readString();
-		this._registrationAgeInMinutes = wrapper.readInt();
-		this._minutesSinceLastLogin = wrapper.readInt();
-		this._online = wrapper.readBoolean();
-		this._cfhCount = wrapper.readInt();
-		this._abusiveCfhCount = wrapper.readInt();
-		this._cautionCount = wrapper.readInt();
-		this._banCount = wrapper.readInt();
-		this._tradingLockCount = wrapper.readInt();
-		this._tradingExpiryDate = wrapper.readString();
-		this._lastPurchaseDate = wrapper.readString();
-		this._identityId = wrapper.readInt();
-		this._identityRelatedBanCount = wrapper.readInt();
-		this._primaryEmailAddress = wrapper.readString();
-		this._userClassification = wrapper.readString();
-
-		if (wrapper.bytesAvailable > 0)
-		{
-			this._lastSanctionTime = wrapper.readString();
-			this._sanctionAgeHours = wrapper.readInt();
-		}
 	}
 }

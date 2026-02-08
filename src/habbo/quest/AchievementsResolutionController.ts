@@ -17,16 +17,13 @@ const log = Logger.getLogger('AchievementsResolutionController');
 export class AchievementsResolutionController implements IDisposable
 {
 	private _engine: HabboQuestEngine | null;
-	private _stuffId: number = -1;
-	private _selectedAchievementId: number = -1;
-	private _endTime: number = -1;
-	private _achievements: unknown[] = [];
-	private _disposed: boolean = false;
 
-	get disposed(): boolean
+	constructor(engine: HabboQuestEngine)
 	{
-		return this._disposed;
+		this._engine = engine;
 	}
+
+	private _stuffId: number = -1;
 
 	/**
 	 * Get the stuff ID associated with the current resolution
@@ -36,6 +33,8 @@ export class AchievementsResolutionController implements IDisposable
 		return this._stuffId;
 	}
 
+	private _selectedAchievementId: number = -1;
+
 	/**
 	 * Get the selected achievement ID
 	 */
@@ -43,6 +42,8 @@ export class AchievementsResolutionController implements IDisposable
 	{
 		return this._selectedAchievementId;
 	}
+
+	private _endTime: number = -1;
 
 	/**
 	 * Get the end time for the current resolution
@@ -52,6 +53,8 @@ export class AchievementsResolutionController implements IDisposable
 		return this._endTime;
 	}
 
+	private _achievements: unknown[] = [];
+
 	/**
 	 * Get the resolution achievements
 	 */
@@ -60,9 +63,11 @@ export class AchievementsResolutionController implements IDisposable
 		return this._achievements;
 	}
 
-	constructor(engine: HabboQuestEngine)
+	private _disposed: boolean = false;
+
+	get disposed(): boolean
 	{
-		this._engine = engine;
+		return this._disposed;
 	}
 
 	/**

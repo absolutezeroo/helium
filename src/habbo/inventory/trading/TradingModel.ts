@@ -122,7 +122,8 @@ export class TradingModel implements ITradingModel
 			this._otherUser.items = secondUserItems;
 			this._otherUser.numItems = secondUserNumItems;
 			this._otherUser.numCredits = secondUserNumCredits;
-		} else
+		}
+		else
 		{
 			this._ownUser.items = secondUserItems;
 			this._ownUser.numItems = secondUserNumItems;
@@ -142,7 +143,8 @@ export class TradingModel implements ITradingModel
 		if (this._ownUser?.userId === userId)
 		{
 			this._ownUser.accepts = accepts;
-		} else if (this._otherUser?.userId === userId)
+		}
+		else if (this._otherUser?.userId === userId)
 		{
 			this._otherUser.accepts = accepts;
 		}

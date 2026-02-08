@@ -3,27 +3,27 @@ import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
 import {Logger} from '@core/utils/Logger';
 
 import {
+	CallForHelpDisabledNotifyMessageEvent,
+	CallForHelpPendingCallsDeletedMessageEvent,
+	CallForHelpPendingCallsMessageEvent,
 	CallForHelpReplyMessageEvent,
 	CallForHelpResultMessageEvent,
-	CallForHelpPendingCallsMessageEvent,
-	CallForHelpPendingCallsDeletedMessageEvent,
-	CallForHelpDisabledNotifyMessageEvent,
-	SanctionStatusMessageEvent,
 	CfhTopicsInitMessageEvent,
-	GuideReportingStatusMessageEvent,
-	GuideSessionStartedMessageEvent,
+	ChangeUserNameResultMessageEvent,
+	CheckUserNameResultMessageEvent,
 	GuideOnDutyStatusMessageEvent,
+	GuideReportingStatusMessageEvent,
 	GuideSessionAttachedMessageEvent,
 	GuideSessionDetachedMessageEvent,
-	GuideSessionMessageMessageEvent,
 	GuideSessionEndedMessageEvent,
-	GuideSessionInviteRequesterMessageEvent,
 	GuideSessionInvitedToGuideRoomMessageEvent,
+	GuideSessionInviteRequesterMessageEvent,
+	GuideSessionMessageMessageEvent,
 	GuideSessionRequesterRoomMessageEvent,
+	GuideSessionStartedMessageEvent,
 	GuideTicketCreationResultMessageEvent,
 	GuideTicketResolutionMessageEvent,
-	CheckUserNameResultMessageEvent,
-	ChangeUserNameResultMessageEvent,
+	SanctionStatusMessageEvent,
 	UserNameChangedMessageEvent,
 } from '@habbo/communication/messages/incoming/help';
 
@@ -44,7 +44,6 @@ export class HelpMessageHandler
 	private _help: HabboHelp;
 	private _communication: IHabboCommunicationManager;
 	private _messageEvents: IMessageEvent[] = [];
-	private _disposed: boolean = false;
 
 	constructor(help: HabboHelp, communication: IHabboCommunicationManager)
 	{
@@ -55,6 +54,8 @@ export class HelpMessageHandler
 
 		log.debug('HelpMessageHandler initialized');
 	}
+
+	private _disposed: boolean = false;
 
 	/**
 	 * Whether this handler has been disposed

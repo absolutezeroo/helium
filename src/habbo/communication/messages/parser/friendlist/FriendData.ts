@@ -8,6 +8,24 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  */
 export class FriendData
 {
+	constructor(wrapper: IMessageDataWrapper)
+	{
+		this._id = wrapper.readInt();
+		this._name = wrapper.readString();
+		this._gender = wrapper.readInt();
+		this._online = wrapper.readBoolean();
+		this._followingAllowed = wrapper.readBoolean();
+		this._figure = wrapper.readString();
+		this._categoryId = wrapper.readInt();
+		this._motto = wrapper.readString();
+		this._realName = wrapper.readString();
+		this._facebookId = wrapper.readString();
+		this._persistedMessageUser = wrapper.readBoolean();
+		this._vipMember = wrapper.readBoolean();
+		this._pocketHabboUser = wrapper.readBoolean();
+		this._relationshipStatus = wrapper.readShort();
+	}
+
 	private _id: number;
 
 	get id(): number
@@ -104,23 +122,5 @@ export class FriendData
 	get relationshipStatus(): number
 	{
 		return this._relationshipStatus;
-	}
-
-	constructor(wrapper: IMessageDataWrapper)
-	{
-		this._id = wrapper.readInt();
-		this._name = wrapper.readString();
-		this._gender = wrapper.readInt();
-		this._online = wrapper.readBoolean();
-		this._followingAllowed = wrapper.readBoolean();
-		this._figure = wrapper.readString();
-		this._categoryId = wrapper.readInt();
-		this._motto = wrapper.readString();
-		this._realName = wrapper.readString();
-		this._facebookId = wrapper.readString();
-		this._persistedMessageUser = wrapper.readBoolean();
-		this._vipMember = wrapper.readBoolean();
-		this._pocketHabboUser = wrapper.readBoolean();
-		this._relationshipStatus = wrapper.readShort();
 	}
 }

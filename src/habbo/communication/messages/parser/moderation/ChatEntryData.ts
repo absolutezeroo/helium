@@ -7,6 +7,15 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  */
 export class ChatEntryData
 {
+	constructor(wrapper: IMessageDataWrapper)
+	{
+		this._timestamp = wrapper.readString();
+		this._chatterId = wrapper.readInt();
+		this._chatterName = wrapper.readString();
+		this._message = wrapper.readString();
+		this._hasHighlighting = wrapper.readBoolean();
+	}
+
 	private _timestamp: string;
 
 	get timestamp(): string
@@ -40,14 +49,5 @@ export class ChatEntryData
 	get hasHighlighting(): boolean
 	{
 		return this._hasHighlighting;
-	}
-
-	constructor(wrapper: IMessageDataWrapper)
-	{
-		this._timestamp = wrapper.readString();
-		this._chatterId = wrapper.readInt();
-		this._chatterName = wrapper.readString();
-		this._message = wrapper.readString();
-		this._hasHighlighting = wrapper.readBoolean();
 	}
 }

@@ -18,15 +18,15 @@ const log = Logger.getLogger('AchievementController');
 export class AchievementController implements IDisposable
 {
 	private _engine: HabboQuestEngine | null;
-	private _categories: AchievementCategories | null = null;
 	private _unseenAchievements: Map<number, AchievementData> = new Map();
 	private _initialized: boolean = false;
-	private _disposed: boolean = false;
 
-	get disposed(): boolean
+	constructor(engine: HabboQuestEngine)
 	{
-		return this._disposed;
+		this._engine = engine;
 	}
+
+	private _categories: AchievementCategories | null = null;
 
 	/**
 	 * Get the achievement categories
@@ -36,9 +36,11 @@ export class AchievementController implements IDisposable
 		return this._categories;
 	}
 
-	constructor(engine: HabboQuestEngine)
+	private _disposed: boolean = false;
+
+	get disposed(): boolean
 	{
-		this._engine = engine;
+		return this._disposed;
 	}
 
 	/**

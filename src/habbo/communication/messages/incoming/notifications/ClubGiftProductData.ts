@@ -30,7 +30,8 @@ export class ClubGiftProductData
 				this._uniqueLimitedItemSeriesSize = wrapper.readInt();
 				this._uniqueLimitedItemsLeft = wrapper.readInt();
 			}
-		} else
+		}
+		else
 		{
 			this._extraParam = wrapper.readString();
 			this._productCount = 1;

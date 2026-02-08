@@ -14,13 +14,14 @@ const log = Logger.getLogger('ChatEventHandler');
 export class ChatEventHandler
 {
 	private _registry: ChatRegistry;
-	private _disposed: boolean = false;
 
 	constructor(registry: ChatRegistry)
 	{
 		this._registry = registry;
 		log.debug('ChatEventHandler initialized');
 	}
+
+	private _disposed: boolean = false;
 
 	/**
 	 * Whether this handler has been disposed

@@ -14,13 +14,14 @@ const log = Logger.getLogger('InstantMessageEventHandler');
 export class InstantMessageEventHandler
 {
 	private _registry: InstantMessageRegistry;
-	private _disposed: boolean = false;
 
 	constructor(registry: InstantMessageRegistry)
 	{
 		this._registry = registry;
 		log.debug('InstantMessageEventHandler initialized');
 	}
+
+	private _disposed: boolean = false;
 
 	/**
 	 * Whether this handler has been disposed

@@ -167,7 +167,7 @@ export class IncomingMessages
 
 		if (!connection) return;
 
-		if(!event) return;
+		if (!event) return;
 
 		const parser = event.parser as InitDiffieHandshakeMessageParser;
 

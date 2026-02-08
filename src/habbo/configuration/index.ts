@@ -5,7 +5,7 @@
 export * from './enum';
 
 // Exports
-export { HabboConfigurationManager } from './HabboConfigurationManager';
+export {HabboConfigurationManager} from './HabboConfigurationManager';
 
 // Types
-export type { HabboConfigurationManagerEvents, IHabboConfigurationManager, } from './IHabboConfigurationManager';
+export type {HabboConfigurationManagerEvents, IHabboConfigurationManager,} from './IHabboConfigurationManager';

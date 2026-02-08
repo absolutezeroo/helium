@@ -123,7 +123,8 @@ export class PlaneMaterialCell
 			if (this._cachedBitmap.width !== bitmap.width || this._cachedBitmap.height !== bitmap.height)
 			{
 				this._cachedBitmap = null;
-			} else
+			}
+			else
 			{
 				const ctx = this._cachedBitmap.getContext('2d')!;
 				ctx.clearRect(0, 0, this._cachedBitmap.width, this._cachedBitmap.height);

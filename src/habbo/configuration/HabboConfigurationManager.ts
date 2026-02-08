@@ -95,7 +95,8 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 		if (!params)
 		{
 			this._interpolatedCache.set(key, value);
-		} else
+		}
+		else
 		{
 			value = this.fillParams(value, params);
 		}
@@ -172,7 +173,8 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 				{
 					// Keep original if key doesn't exist
 					result += interpolated.substring(lastIndex, match.index + match[0].length);
-				} else
+				}
+				else
 				{
 					result += interpolated.substring(lastIndex, match.index);
 					result += this._configurationData.get(key) ?? '';
@@ -267,7 +269,8 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 			if (configData && configData.length > 0)
 			{
 				this.parseConfiguration(configData);
-			} else
+			}
+			else
 			{
 				log.error(`Empty configuration data from ${externalVariablesUrl}`);
 			}
@@ -316,7 +319,8 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 				const envValue = this._configurationData.get(envKey) ?? '';
 
 				this.setProperty(key, envValue);
-			} else
+			}
+			else
 			{
 				this.setProperty(key, defaultValue);
 			}
@@ -413,10 +417,12 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 				if (typeof value === 'string')
 				{
 					stringValue = value;
-				} else if (typeof value === 'number' || typeof value === 'boolean')
+				}
+				else if (typeof value === 'number' || typeof value === 'boolean')
 				{
 					stringValue = String(value);
-				} else
+				}
+				else
 				{
 					// Arrays and objects → store as JSON string
 					stringValue = JSON.stringify(value);

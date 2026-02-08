@@ -8,6 +8,13 @@ export class QuestsListEvent
 	public static readonly QUESTS_SEASONAL: string = 'qe_quests_seasonal';
 	public static readonly QUESTS: string = 'qu_quests';
 
+	constructor(type: string, quests: unknown[], openWindow: boolean)
+	{
+		this._type = type;
+		this._quests = quests;
+		this._openWindow = openWindow;
+	}
+
 	private _type: string;
 
 	get type(): string
@@ -27,12 +34,5 @@ export class QuestsListEvent
 	get openWindow(): boolean
 	{
 		return this._openWindow;
-	}
-
-	constructor(type: string, quests: unknown[], openWindow: boolean)
-	{
-		this._type = type;
-		this._quests = quests;
-		this._openWindow = openWindow;
 	}
 }

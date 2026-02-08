@@ -180,7 +180,8 @@ export class RoomSessionHandler extends BaseHandler
 			{
 				this.listener.sessionUpdate(parser.flatId, RoomSessionHandlerState.RS_DISCONNECTED);
 			}
-		} else if (this.listener && this.listener.sessionEvents)
+		}
+		else if (this.listener && this.listener.sessionEvents)
 		{
 			const session = this.listener.getSession(parser.flatId);
 			if (session !== null)

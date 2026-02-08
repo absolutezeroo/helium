@@ -184,7 +184,8 @@ export class RoomPlaneParser
 			if (foundX === -1)
 			{
 				firstValidX.push(row.length + 1);
-			} else
+			}
+			else
 			{
 				firstValidX.push(foundX);
 			}
@@ -230,7 +231,8 @@ export class RoomPlaneParser
 							result[resultY + dy][resultX + dx] = tileHeight < 0 ? tileHeight : tileHeight * 4;
 						}
 					}
-				} else
+				}
+				else
 				{
 					// Handle corner tiles with height variations
 					const baseHeight = (tileHeight & 255) * 4;
@@ -403,7 +405,8 @@ export class RoomPlaneParser
 				if (x > this._maxX) this._maxX = x;
 				if (y < this._minY) this._minY = y;
 				if (y > this._maxY) this._maxY = y;
-			} else
+			}
+			else
 			{
 				// Update bounds if tile became blocked
 				if (x === this._minX || x === this._maxX)
@@ -594,7 +597,8 @@ export class RoomPlaneParser
 		if (invert)
 		{
 			this._floorHolesInverted.set(id, hole);
-		} else
+		}
+		else
 		{
 			this._floorHoles.set(id, hole);
 		}
@@ -671,7 +675,8 @@ export class RoomPlaneParser
 			if (width > 0)
 			{
 				width = Math.min(width, row.length);
-			} else
+			}
+			else
 			{
 				width = row.length;
 			}
@@ -758,7 +763,8 @@ export class RoomPlaneParser
 				direction = (direction - 1 + 4) % 4;
 				length += 1;
 				isLeftTurn = true;
-			} else
+			}
+			else
 			{
 				direction = (direction + 1) % 4;
 				length -= 1;
@@ -907,7 +913,8 @@ export class RoomPlaneParser
 				if (wallData.getLeftTurn(i))
 				{
 					leftTurnCount++;
-				} else if (leftTurnCount > 0)
+				}
+				else if (leftTurnCount > 0)
 				{
 					leftTurnCount--;
 				}
@@ -962,7 +969,8 @@ export class RoomPlaneParser
 							break;
 						}
 						holeCount++;
-					} else if (holeCount > 0)
+					}
+					else if (holeCount > 0)
 					{
 						wallData.moveCorner(i, holeCount);
 						break;
@@ -1029,7 +1037,8 @@ export class RoomPlaneParser
 						return i;
 					}
 				}
-			} else if (start.y === end.y)
+			}
+			else if (start.y === end.y)
 			{
 				if (corner.y === start.y && wallEnd.y === start.y)
 				{
@@ -1099,7 +1108,8 @@ export class RoomPlaneParser
 				{
 					nextDirection = originalWallData.getDirection((originalIndex + 1) % originalCount);
 					prevDirection = originalWallData.getDirection((originalIndex - 1 + originalCount) % originalCount);
-				} else
+				}
+				else
 				{
 					nextDirection = wallData.getDirection((i + 1) % count);
 					prevDirection = wallData.getDirection((i - 1 + count) % count);
@@ -1110,7 +1120,8 @@ export class RoomPlaneParser
 				if ((nextDirection - direction + 4) % 4 === 3)
 				{
 					cornerNormal = RoomWallData.WALL_NORMAL_VECTORS[nextDirection];
-				} else if ((direction - prevDirection + 4) % 4 === 3)
+				}
+				else if ((direction - prevDirection + 4) % 4 === 3)
 				{
 					cornerNormal = RoomWallData.WALL_NORMAL_VECTORS[prevDirection];
 				}

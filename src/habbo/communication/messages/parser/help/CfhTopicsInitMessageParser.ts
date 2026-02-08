@@ -65,10 +65,10 @@ export class CfhTopicsInitMessageParser implements IMessageParser
 				const topicId = wrapper.readInt();
 				const consequence = wrapper.readString();
 
-				topics.push({ name: topicName, id: topicId, consequence });
+				topics.push({name: topicName, id: topicId, consequence});
 			}
 
-			this._callForHelpCategories.push({ name, topics });
+			this._callForHelpCategories.push({name, topics});
 		}
 
 		return true;

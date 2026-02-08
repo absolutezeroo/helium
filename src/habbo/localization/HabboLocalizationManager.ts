@@ -56,7 +56,8 @@ export class HabboLocalizationManager extends CoreLocalizationManager implements
 		if (this._skipExternals)
 		{
 			this.events.emit('complete');
-		} else
+		}
+		else
 		{
 			// Listen for AUTHENTICATED event to trigger localization loading
 			this._communicationManager.events.on('loginStep', (step: HabboCommunicationEventType) =>

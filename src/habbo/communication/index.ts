@@ -8,9 +8,9 @@ export * from './enum';
 export * from './messages';
 
 // Exports
-export { HabboCommunicationManager } from './HabboCommunicationManager';
-export { HabboMessages } from './HabboMessages';
+export {HabboCommunicationManager} from './HabboCommunicationManager';
+export {HabboMessages} from './HabboMessages';
 
 // Types
-export type { HabboConnectionConfig } from './HabboCommunicationManager';
-export type { HabboCommunicationManagerEvents, IHabboCommunicationManager, } from './IHabboCommunicationManager';
+export type {HabboConnectionConfig} from './HabboCommunicationManager';
+export type {HabboCommunicationManagerEvents, IHabboCommunicationManager,} from './IHabboCommunicationManager';

@@ -335,7 +335,7 @@ export class HabboFriendList extends Component implements IHabboFriendList
 		if (this._communicationManager)
 		{
 			this._communicationManager.addMessageEvent(event);
-			
+
 			this._messageEvents.push(event);
 		}
 	}
@@ -365,11 +365,11 @@ export class HabboFriendList extends Component implements IHabboFriendList
 
 	private onMessengerInit(event: IMessageEvent): void
 	{
-		if(!event) return;
+		if (!event) return;
 
 		const parser = event.parser as MessengerInitParser;
 
-		if(!parser) return;
+		if (!parser) return;
 
 		this._userFriendLimit = parser.userFriendLimit;
 		this._extendedFriendLimit = parser.extendedFriendLimit;
@@ -393,11 +393,11 @@ export class HabboFriendList extends Component implements IHabboFriendList
 
 	private onFriendListFragment(event: IMessageEvent): void
 	{
-		if(!event) return;
+		if (!event) return;
 
 		const parser = event.parser as FriendListFragmentMessageParser;
 
-		if(!parser) return;
+		if (!parser) return;
 
 		for (const friendData of parser.friendFragment)
 		{
@@ -415,11 +415,11 @@ export class HabboFriendList extends Component implements IHabboFriendList
 
 	private onFriendListUpdate(event: IMessageEvent): void
 	{
-		if(!event) return;
+		if (!event) return;
 
 		const parser = event.parser as FriendListUpdateMessageParser;
 
-		if(!parser) return;
+		if (!parser) return;
 
 		// Remove friends
 		for (const removedId of parser.removedFriendIds)
@@ -444,11 +444,11 @@ export class HabboFriendList extends Component implements IHabboFriendList
 
 	private onFriendRequests(event: IMessageEvent): void
 	{
-		if(!event) return;
+		if (!event) return;
 
 		const parser = event.parser as FriendRequestsMessageParser;
 
-		if(!parser) return;
+		if (!parser) return;
 
 		this._friendRequests = parser.reqs;
 
@@ -457,11 +457,11 @@ export class HabboFriendList extends Component implements IHabboFriendList
 
 	private onNewFriendRequest(event: IMessageEvent): void
 	{
-		if(!event) return;
+		if (!event) return;
 
 		const parser = event.parser as NewFriendRequestMessageParser;
 
-		if(!parser) return;
+		if (!parser) return;
 
 		if (parser.req)
 		{
@@ -473,11 +473,11 @@ export class HabboFriendList extends Component implements IHabboFriendList
 
 	private onAcceptFriendResult(event: IMessageEvent): void
 	{
-		if(!event) return;
+		if (!event) return;
 
 		const parser = event.parser as AcceptFriendResultMessageParser;
 
-		if(!parser) return;
+		if (!parser) return;
 
 		for (const failure of parser.failures)
 		{
@@ -489,44 +489,44 @@ export class HabboFriendList extends Component implements IHabboFriendList
 
 	private onFriendNotification(event: IMessageEvent): void
 	{
-		if(!event) return;
+		if (!event) return;
 
 		const parser = event.parser as FriendNotificationMessageParser;
 
-		if(!parser) return;
+		if (!parser) return;
 
 		this._friendListEvents.emit('friendNotification', parser.avatarId, parser.typeCode, parser.message);
 	}
 
 	private onFindFriendsProcessResult(event: IMessageEvent): void
 	{
-		if(!event) return;
+		if (!event) return;
 
 		const parser = event.parser as FindFriendsProcessResultMessageParser;
 
-		if(!parser) return;
+		if (!parser) return;
 
 		this._friendListEvents.emit('findFriendsResult', parser.success);
 	}
 
 	private onHabboSearchResult(event: IMessageEvent): void
 	{
-		if(!event) return;
+		if (!event) return;
 
 		const parser = event.parser as HabboSearchResultMessageParser;
 
-		if(!parser) return;
+		if (!parser) return;
 
 		this._friendListEvents.emit('searchResult', parser.friends, parser.others);
 	}
 
 	private onFollowFriendFailed(event: IMessageEvent): void
 	{
-		if(!event) return;
+		if (!event) return;
 
 		const parser = event.parser as FollowFriendFailedMessageParser;
 
-		if(!parser) return;
+		if (!parser) return;
 
 		log.warn(`Follow friend failed: errorCode=${parser.errorCode}`);
 		this._friendListEvents.emit('followFriendFailed', parser.errorCode);
@@ -534,11 +534,11 @@ export class HabboFriendList extends Component implements IHabboFriendList
 
 	private onRoomInviteError(event: IMessageEvent): void
 	{
-		if(!event) return;
+		if (!event) return;
 
 		const parser = event.parser as RoomInviteErrorMessageParser;
 
-		if(!parser) return;
+		if (!parser) return;
 
 		log.warn(`Room invite error: errorCode=${parser.errorCode}, failed recipients: ${parser.failedRecipients}`);
 		this._friendListEvents.emit('roomInviteError', parser.errorCode, parser.failedRecipients);
@@ -548,11 +548,11 @@ export class HabboFriendList extends Component implements IHabboFriendList
 
 	private onMessengerError(event: IMessageEvent): void
 	{
-		if(!event) return;
+		if (!event) return;
 
 		const parser = event.parser as MessengerErrorMessageParser;
 
-		if(!parser) return;
+		if (!parser) return;
 
 		log.warn(`Messenger error: errorCode=${parser.errorCode}, clientMessageId=${parser.clientMessageId}`);
 

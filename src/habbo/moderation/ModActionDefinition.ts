@@ -14,6 +14,15 @@ export class ModActionDefinition
 	public static readonly TRADING_LOCK: number = 5;
 	public static readonly MESSAGE: number = 6;
 
+	constructor(actionId: number, name: string, actionType: number, sanctionTypeId: number, actionLengthHours: number)
+	{
+		this._actionId = actionId;
+		this._name = name;
+		this._actionType = actionType;
+		this._sanctionTypeId = sanctionTypeId;
+		this._actionLengthHours = actionLengthHours;
+	}
+
 	private _actionId: number;
 
 	get actionId(): number
@@ -47,14 +56,5 @@ export class ModActionDefinition
 	get actionLengthHours(): number
 	{
 		return this._actionLengthHours;
-	}
-
-	constructor(actionId: number, name: string, actionType: number, sanctionTypeId: number, actionLengthHours: number)
-	{
-		this._actionId = actionId;
-		this._name = name;
-		this._actionType = actionType;
-		this._sanctionTypeId = sanctionTypeId;
-		this._actionLengthHours = actionLengthHours;
 	}
 }

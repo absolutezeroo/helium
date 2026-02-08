@@ -32,10 +32,12 @@ export class OfficialRoomEntryData
 		if (this._type === OfficialRoomEntryType.TAG)
 		{
 			this._tag = wrapper.readString();
-		} else if (this._type === OfficialRoomEntryType.GUEST_ROOM)
+		}
+		else if (this._type === OfficialRoomEntryType.GUEST_ROOM)
 		{
 			this._guestRoomData = new GuestRoomData(wrapper);
-		} else
+		}
+		else
 		{
 			this._open = wrapper.readBoolean();
 		}

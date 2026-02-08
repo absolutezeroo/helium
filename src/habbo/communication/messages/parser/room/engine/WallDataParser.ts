@@ -84,7 +84,8 @@ export class WallDataParser
 				if (dir === 'rightwall' || dir === 'frontwall')
 				{
 					dir = 'r';
-				} else
+				}
+				else
 				{
 					dir = 'l';
 				}

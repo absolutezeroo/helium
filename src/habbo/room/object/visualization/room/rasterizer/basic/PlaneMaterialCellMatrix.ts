@@ -219,7 +219,8 @@ export class PlaneMaterialCellMatrix
 				}
 				this._cachedBitmap = null;
 			}
-		} else if (this._cachedBitmap !== null)
+		}
+		else if (this._cachedBitmap !== null)
 		{
 			if (this._cachedBitmap.width === width && this._cachedBitmap.height === height)
 			{
@@ -227,7 +228,8 @@ export class PlaneMaterialCellMatrix
 				ctx.clearRect(0, 0, width, height);
 				ctx.fillStyle = '#FFFFFF';
 				ctx.fillRect(0, 0, width, height);
-			} else
+			}
+			else
 			{
 				this._cachedBitmap = null;
 			}
@@ -248,7 +250,8 @@ export class PlaneMaterialCellMatrix
 				const ctx = this._cachedBitmap.getContext('2d')!;
 				ctx.fillStyle = '#FFFFFFFF';
 				ctx.fillRect(0, 0, width, height);
-			} else
+			}
+			else
 			{
 				const ctx = this._cachedBitmap.getContext('2d')!;
 				ctx.fillStyle = '#FFFFFFFF';
@@ -344,7 +347,8 @@ export class PlaneMaterialCellMatrix
 		{
 			srcY = 0;
 			srcH = this._cachedBitmapHeight;
-		} else
+		}
+		else
 		{
 			srcY = this._cachedBitmap.height - this._cachedBitmapHeight;
 			srcH = this._cachedBitmapHeight;

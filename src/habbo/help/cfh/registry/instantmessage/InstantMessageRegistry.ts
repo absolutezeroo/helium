@@ -21,6 +21,14 @@ export class InstantMessageRegistry
 	private _holdPurges: boolean = false;
 
 	/**
+	 * Set whether purges should be held (during report selection)
+	 */
+	set holdPurges(value: boolean)
+	{
+		this._holdPurges = value;
+	}
+
+	/**
 	 * Add an instant message to the registry
 	 *
 	 * @param userId The user ID (or chat ID for group chats)
@@ -103,14 +111,6 @@ export class InstantMessageRegistry
 	getItems(): Map<number, InstantMessageRegistryItem[]>
 	{
 		return this._items;
-	}
-
-	/**
-	 * Set whether purges should be held (during report selection)
-	 */
-	set holdPurges(value: boolean)
-	{
-		this._holdPurges = value;
 	}
 
 	/**

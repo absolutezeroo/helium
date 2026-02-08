@@ -465,7 +465,8 @@ export class NavigatorData
 		{
 			this._favouriteRoomIds.set(roomId, true);
 			this._favouriteCount++;
-		} else
+		}
+		else
 		{
 			this._favouriteRoomIds.delete(roomId);
 			this._favouriteCount--;

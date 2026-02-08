@@ -8,6 +8,15 @@
  */
 export class UserRegistryItem
 {
+	constructor(userId: number, userName: string, figure: string, roomId: number, roomName: string = '')
+	{
+		this._userId = userId;
+		this._userName = userName;
+		this._figure = figure;
+		this._roomId = roomId;
+		this._roomName = roomName;
+	}
+
 	private _userId: number;
 
 	get userId(): number
@@ -46,14 +55,5 @@ export class UserRegistryItem
 	set roomName(value: string)
 	{
 		this._roomName = value;
-	}
-
-	constructor(userId: number, userName: string, figure: string, roomId: number, roomName: string = '')
-	{
-		this._userId = userId;
-		this._userName = userName;
-		this._figure = figure;
-		this._roomId = roomId;
-		this._roomName = roomName;
 	}
 }

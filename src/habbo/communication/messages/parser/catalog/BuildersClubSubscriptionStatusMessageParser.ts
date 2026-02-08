@@ -53,7 +53,8 @@ export class BuildersClubSubscriptionStatusMessageParser implements IMessagePars
 		if (wrapper.bytesAvailable > 0)
 		{
 			this._secondsLeftWithGrace = wrapper.readInt();
-		} else
+		}
+		else
 		{
 			this._secondsLeftWithGrace = this._secondsLeft;
 		}

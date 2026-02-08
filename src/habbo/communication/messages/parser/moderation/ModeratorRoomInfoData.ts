@@ -8,6 +8,16 @@ import {RoomDataData} from './RoomDataData';
  */
 export class ModeratorRoomInfoData
 {
+	constructor(wrapper: IMessageDataWrapper)
+	{
+		this._flatId = wrapper.readInt();
+		this._userCount = wrapper.readInt();
+		this._ownerInRoom = wrapper.readBoolean();
+		this._ownerId = wrapper.readInt();
+		this._ownerName = wrapper.readString();
+		this._room = new RoomDataData(wrapper);
+	}
+
 	private _flatId: number;
 
 	get flatId(): number
@@ -48,15 +58,5 @@ export class ModeratorRoomInfoData
 	get room(): RoomDataData
 	{
 		return this._room;
-	}
-
-	constructor(wrapper: IMessageDataWrapper)
-	{
-		this._flatId = wrapper.readInt();
-		this._userCount = wrapper.readInt();
-		this._ownerInRoom = wrapper.readBoolean();
-		this._ownerId = wrapper.readInt();
-		this._ownerName = wrapper.readString();
-		this._room = new RoomDataData(wrapper);
 	}
 }

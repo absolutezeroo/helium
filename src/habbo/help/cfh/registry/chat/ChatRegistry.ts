@@ -20,6 +20,14 @@ export class ChatRegistry
 	private _holdPurges: boolean = false;
 
 	/**
+	 * Set whether purges should be held (during report selection)
+	 */
+	set holdPurges(value: boolean)
+	{
+		this._holdPurges = value;
+	}
+
+	/**
 	 * Whether the registry has any content
 	 */
 	hasContent(): boolean
@@ -108,14 +116,6 @@ export class ChatRegistry
 		}
 
 		return result;
-	}
-
-	/**
-	 * Set whether purges should be held (during report selection)
-	 */
-	set holdPurges(value: boolean)
-	{
-		this._holdPurges = value;
 	}
 
 	/**

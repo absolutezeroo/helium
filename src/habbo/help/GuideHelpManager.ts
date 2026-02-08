@@ -14,14 +14,13 @@ const log = Logger.getLogger('GuideHelpManager');
  */
 export class GuideHelpManager
 {
-	private _disposed: boolean = false;
-	private _guideData: GuideSessionData;
-
 	constructor()
 	{
 		this._guideData = new GuideSessionData();
 		log.debug('GuideHelpManager initialized');
 	}
+
+	private _disposed: boolean = false;
 
 	/**
 	 * Whether this manager has been disposed
@@ -30,6 +29,8 @@ export class GuideHelpManager
 	{
 		return this._disposed;
 	}
+
+	private _guideData: GuideSessionData;
 
 	/**
 	 * Get the guide session data

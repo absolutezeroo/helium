@@ -53,10 +53,12 @@ export class RoomPlaneData
 
 					angleY = 360 + (Math.atan2(dy, dx) / Math.PI * 180);
 					if (angleY >= 360) angleY -= 360;
-				} else if (this._normal.z < 0)
+				}
+				else if (this._normal.z < 0)
 				{
 					angleY = 90;
-				} else
+				}
+				else
 				{
 					angleY = 270;
 				}

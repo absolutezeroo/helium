@@ -1,5 +1,5 @@
-import {AchievementCategory} from './AchievementCategory';
 import type {AchievementData} from './AchievementCategory';
+import {AchievementCategory} from './AchievementCategory';
 
 /**
  * Container class that organizes achievements into categories and calculates overall progress
@@ -15,7 +15,6 @@ export class AchievementCategories
 	public static readonly ACHIEVEMENT_CATEGORY_ARCHIVED: string = 'archive';
 
 	private _categories: Map<string, AchievementCategory> = new Map();
-	private _categoryList: AchievementCategory[] = [];
 
 	/**
 	 * Construct achievement categories from an array of achievement data.
@@ -76,6 +75,8 @@ export class AchievementCategories
 		// Push archive category at the very end
 		this._categoryList.push(archiveCategory);
 	}
+
+	private _categoryList: AchievementCategory[] = [];
 
 	/**
 	 * Get the ordered list of categories

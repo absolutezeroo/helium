@@ -136,7 +136,8 @@ export class PlaneVisualization
 					}
 					return this._cachedBitmap;
 				}
-			} else
+			}
+			else
 			{
 				this._cachedBitmap = null;
 			}
@@ -152,7 +153,8 @@ export class PlaneVisualization
 			const ctx = this._cachedBitmap.getContext('2d')!;
 			ctx.fillStyle = '#FFFFFF';
 			ctx.fillRect(0, 0, width, height);
-		} else
+		}
+		else
 		{
 			const ctx = this._cachedBitmap.getContext('2d')!;
 			ctx.clearRect(0, 0, width, height);

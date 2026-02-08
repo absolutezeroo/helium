@@ -223,7 +223,8 @@ export class HabboNotifications extends Component implements IHabboNotifications
 				null,
 				internalLink ?? linkUrl
 			);
-		} else
+		}
+		else
 		{
 			// Emit event for UI layer to show notification popup
 			this._notificationEvents.emit('showNotification', type, params);
