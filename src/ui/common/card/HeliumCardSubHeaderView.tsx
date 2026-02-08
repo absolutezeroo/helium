@@ -12,12 +12,7 @@ export interface HeliumCardSubHeaderViewProps extends ParentProps
 export function HeliumCardSubHeaderView(props: HeliumCardSubHeaderViewProps): JSX.Element
 {
 	return (
-		<div
-			class={clsx(
-				'border-b border-slate-700/50 bg-slate-800/20',
-				props.class
-			)}
-		>
+		<div class={clsx('border-bottom', props.class)}>
 			{props.children}
 		</div>
 	);

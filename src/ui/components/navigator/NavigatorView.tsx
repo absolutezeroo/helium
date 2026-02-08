@@ -1,161 +1,120 @@
 import type {JSX} from 'solid-js';
-import {createMemo, createSignal, For, Show} from 'solid-js';
+import {createEffect, createSignal, For, Show} from 'solid-js';
 import clsx from 'clsx';
+import {FaSolidPlus} from 'solid-icons/fa';
 import {ModuleId, useActions, useModule} from '../../bridge';
 import {useLocalization} from '@ui/common';
-import {HeliumCardView} from '@ui/common/card';
-import type {NavigatorBlockData, RoomListViewMode} from './views';
-import {NavigatorSearchResultView} from './views';
-import {mapSearchResultsToBlocks} from './utils';
-import {FaSolidMagnifyingGlass, FaSolidGrip, FaSolidList, FaSolidPlus, FaSolidCompass} from 'solid-icons/fa';
+import {HeliumCardContentView, HeliumCardHeaderView, HeliumCardTabsView, HeliumCardView} from '@ui/common/card';
+import {NavigatorSearchView} from './views/search/NavigatorSearchView';
+import {NavigatorSearchResultView} from './views/search/NavigatorSearchResultView';
 
 /**
- * NavigatorView - Habbo classic navigator window.
+ * NavigatorView - Main navigator window (Nitro-style).
+ *
+ * @see source_nitro_react/components/navigator/NavigatorView.tsx
  */
 export function NavigatorView(): JSX.Element
 {
 	const t = useLocalization();
 	const {state: navigator} = useModule(ModuleId.Navigator);
 	const navActions = useActions(ModuleId.Navigator);
-	const locActions = useActions(ModuleId.Localization);
 
-	const [viewMode, setViewMode] = createSignal<RoomListViewMode>('cards');
-	const [searchQuery, setSearchQuery] = createSignal('');
+	const [isCreatorOpen, setCreatorOpen] = createSignal(false);
+	const [isLoading, setIsLoading] = createSignal(false);
 
-	const tabs = createMemo(() =>
-		navigator().topLevelContexts.map(ctx =>
-		{
-			const locKey = `navigator.toplevelview.${ctx.searchCode}`;
-			const fallback = ctx.searchCode.replace('_view', '').replace(/_/g, ' ');
-			return {
-				id: ctx.searchCode,
-				label: locActions.get(locKey, fallback),
-			};
-		})
-	);
+	let resultsRef: HTMLDivElement | undefined;
 
-	const blocks = createMemo((): NavigatorBlockData[] =>
-		mapSearchResultsToBlocks(navigator().searchResults)
-	);
+	const topLevelContexts = () => navigator().topLevelContexts;
+	const searchResults = () => navigator().searchResults;
+	const currentSearchCode = () => navigator().currentSearchCode;
 
-	const isSearching = () => searchQuery().length > 0;
-
-	const handleTabChange = (searchCode: string) =>
+	const sendSearch = (searchValue: string, contextCode: string) =>
 	{
-		navActions.search(searchCode);
+		setCreatorOpen(false);
+		navActions.search(contextCode, searchValue);
+		setIsLoading(true);
 	};
 
-	const handleSearchSubmit = (e: Event) =>
+	// When search results arrive, clear loading and scroll to top
+	createEffect(() =>
 	{
-		e.preventDefault();
-		const query = searchQuery().trim();
-		if (query) navActions.searchRooms(query);
-	};
+		const results = searchResults();
 
-	const handleClearSearch = () =>
-	{
-		setSearchQuery('');
-		handleTabChange(navigator().currentSearchCode);
-	};
+		if (!results) return;
 
-	const handleRoomClick = (roomId: number) =>
-	{
-		navActions.goToRoom(roomId);
-	};
+		setIsLoading(false);
+
+		if (resultsRef) resultsRef.scrollTop = 0;
+	});
 
 	return (
 		<Show when={navigator().isOpen}>
-			<HeliumCardView uniqueKey="navigator" width={420} height={520} class="navigator-window">
-				{/* ---- Header ---- */}
-				<div class="nav-header drag-handle">
-					<span class="nav-header__title">Navigateur</span>
-					<button
-						class="nav-header__close"
-						onClick={() => navActions.close()}
-						title="Fermer"
-					>
-						X
-					</button>
-				</div>
+			<HeliumCardView uniqueKey="navigator" class="helium-navigator">
+				<HeliumCardHeaderView
+					title={t(isCreatorOpen() ? 'navigator.createroom.title' : 'navigator.title', isCreatorOpen() ? 'Create Room' : 'Navigator')}
+					onClose={() => navActions.close()}
+				/>
 
-				{/* ---- Tabs ---- */}
-				<div class="nav-tabs">
-					<For each={tabs()}>
-						{(tab) => (
-							<button
+				{/* Tabs */}
+				<HeliumCardTabsView>
+					<For each={topLevelContexts()}>
+						{(ctx) => (
+							<div
 								class={clsx(
-									'nav-tab',
-									(navigator().currentSearchCode === tab.id && !isSearching()) && 'nav-tab--active'
+									'nav-item rounded-top border cursor-pointer overflow-hidden position-relative',
+									(currentSearchCode() === ctx.searchCode && !isCreatorOpen()) && 'active'
 								)}
-								onClick={() => handleTabChange(tab.id)}
+								onClick={() => sendSearch('', ctx.searchCode)}
 							>
-								{tab.label}
-							</button>
+								<div class="d-flex flex-shrink-1 justify-content-center align-items-center">
+									{t('navigator.toplevelview.' + ctx.searchCode, ctx.searchCode)}
+								</div>
+							</div>
 						)}
 					</For>
-				</div>
-
-				{/* ---- Search + View mode ---- */}
-				<form class="nav-search" onSubmit={handleSearchSubmit}>
-					<input
-						class="nav-search__input"
-						type="text"
-						placeholder="Recherche"
-						value={searchQuery()}
-						onInput={(e) => setSearchQuery(e.currentTarget.value)}
-						onKeyDown={(e) => e.key === 'Escape' && handleClearSearch()}
-					/>
-					<button type="submit" class="nav-search__btn">
-						<FaSolidMagnifyingGlass size={12} />
-					</button>
-
-					{/* View mode toggle */}
-					<div class="nav-viewmode">
-						<button
-							type="button"
-							class={clsx('nav-viewmode__btn', viewMode() === 'cards' && 'nav-viewmode__btn--active')}
-							onClick={() => setViewMode('cards')}
-							title="Grille"
-						>
-							<FaSolidGrip size={12} />
-						</button>
-						<button
-							type="button"
-							class={clsx('nav-viewmode__btn', viewMode() === 'compact' && 'nav-viewmode__btn--active')}
-							onClick={() => setViewMode('compact')}
-							title="Liste"
-						>
-							<FaSolidList size={12} />
-						</button>
+					<div
+						class={clsx(
+							'nav-item rounded-top border cursor-pointer overflow-hidden position-relative',
+							isCreatorOpen() && 'active'
+						)}
+						onClick={() => setCreatorOpen(true)}
+					>
+						<div class="d-flex flex-shrink-1 justify-content-center align-items-center">
+							<FaSolidPlus />
+						</div>
 					</div>
-				</form>
+				</HeliumCardTabsView>
 
-				{/* ---- Content ---- */}
-				<div class="nav-content">
-					<Show when={blocks().length === 0}>
-						<div class="nav-empty">Aucun appart trouvé</div>
+				{/* Content */}
+				<HeliumCardContentView position="relative">
+					{/* Loading overlay */}
+					<Show when={isLoading()}>
+						<div class="position-absolute top-0 start-0 w-100 h-100 z-index-1 bg-muted opacity-0-5" />
 					</Show>
 
-					<For each={blocks()}>
-						{(block) => (
-							<NavigatorSearchResultView
-								block={block}
-								displayMode={viewMode()}
-								onRoomClick={handleRoomClick}
-							/>
-						)}
-					</For>
-				</div>
-
-				{/* ---- Footer ---- */}
-				<div class="nav-footer">
-					<button class="nav-footer__btn" onClick={() => navActions.openCreateModal()}>
-						<FaSolidPlus size={10} /> Crée un appart
-					</button>
-					<button class="nav-footer__btn">
-						<FaSolidCompass size={10} /> Endroit nouveau
-					</button>
-				</div>
+					<Show
+						when={!isCreatorOpen()}
+						fallback={
+							<div class="p-3 text-muted text-center small">
+								{t('navigator.createroom.title', 'Room creator coming soon...')}
+							</div>
+						}
+					>
+						<NavigatorSearchView sendSearch={sendSearch} />
+						<div
+							class="d-flex flex-column overflow-auto"
+							ref={resultsRef}
+						>
+							<Show when={searchResults()}>
+								<For each={searchResults()!.blocks}>
+									{(block) => (
+										<NavigatorSearchResultView searchResult={block} />
+									)}
+								</For>
+							</Show>
+						</div>
+					</Show>
+				</HeliumCardContentView>
 			</HeliumCardView>
 		</Show>
 	);

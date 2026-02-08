@@ -2,13 +2,9 @@ import {defineConfig} from 'vite';
 import {resolve} from 'path';
 import babel from 'vite-plugin-babel';
 import solidPlugin from 'vite-plugin-solid';
-import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
 	plugins: [
-		tailwindcss({
-			optimize: true
-		}),
 		babel({
 			babelConfig: {
 				plugins: [
@@ -24,6 +20,7 @@ export default defineConfig({
 	],
 	resolve: {
 		alias: {
+			'@/assets': resolve(__dirname, 'src/ui/assets'),
 			'@': resolve(__dirname, 'src'),
 			'@core': resolve(__dirname, 'src/core'),
 			'@habbo': resolve(__dirname, 'src/habbo'),

@@ -1,0 +1,42 @@
+@import './fonts';
+@import './bootstrap/bootstrap';
+@import './scrollbars';
+@import './slider';
+@import './icons';
+@import './utils';
+
+// App variables (from Nitro App.scss)
+$grid-bg-color: #cdd3d9;
+$grid-border-color: $muted;
+$grid-active-bg-color: #ececec;
+$grid-active-border-color: $white;
+
+$navigator-width: 420px;
+$navigator-height: 440px;
+$room-info-width: 325px;
+
+// Card system
+@import '../../common/card/HeliumCardView';
+
+// Components
+@import '../../components/navigator/NavigatorView';
+
+.btn-sm {
+  min-height: 28px;
+}
+
+textarea {
+  resize: none;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

@@ -1,123 +1,139 @@
 import type {JSX} from 'solid-js';
 import {Show} from 'solid-js';
 import clsx from 'clsx';
-import {FaSolidDoorOpen, FaSolidBell, FaSolidLock, FaSolidEyeSlash, FaSolidUsers} from 'solid-icons/fa';
+import {FaSolidUser, FaSolidDoorOpen, FaSolidBell, FaSolidLock, FaSolidEyeSlash} from 'solid-icons/fa';
+import type {GuestRoomData} from '@habbo/communication/messages/incoming/navigator';
+import {RoomDoorMode} from '@habbo/communication/messages/incoming/navigator';
+import {ModuleId, useActions} from '@ui/bridge';
+import {NavigatorSearchResultItemInfoView} from './NavigatorSearchResultItemInfoView';
 
-export interface RoomListRoom
+export interface NavigatorSearchResultItemViewProps
 {
-	id: number;
-	name: string;
-	ownerName: string;
-	description?: string;
-	userCount: number;
-	maxUserCount: number;
-	thumbnail?: string;
-	tags?: string[];
-	isFavourite?: boolean;
-	isGroupRoom?: boolean;
-	isStaffPick?: boolean;
-	doorMode?: 'open' | 'doorbell' | 'password' | 'invisible';
-	score?: number;
-	categoryId?: number;
-}
-
-export type RoomListViewMode = 'cards' | 'compact' | 'grid';
-
-interface ItemProps
-{
-	room: RoomListRoom;
-	onClick?: (roomId: number) => void;
-}
-
-function DoorIcon(props: { mode?: string }): JSX.Element
-{
-	switch (props.mode)
-	{
-		case 'doorbell':
-			return <FaSolidBell size={10} />;
-		case 'password':
-			return <FaSolidLock size={10} />;
-		case 'invisible':
-			return <FaSolidEyeSlash size={10} />;
-		default:
-			return <FaSolidDoorOpen size={10} />;
-	}
-}
-
-function getUserBadgeClass(userCount: number, maxUserCount: number): string
-{
-	const ratio = maxUserCount > 0 ? userCount / maxUserCount : 0;
-	if (ratio >= 1) return 'nav-room-card__users--full';
-	if (ratio >= 0.7) return 'nav-room-card__users--busy';
-	return '';
+	roomData: GuestRoomData;
+	thumbnail?: boolean;
 }
 
 /**
- * Room card - grid mode.
- * Thumbnail on top, info below (matches mockup/navigator_base.png).
+ * Get Bootstrap badge color class based on user ratio.
+ * Matches Nitro's getUserCounterColor logic.
  */
-export function NavigatorSearchResultItemView(props: ItemProps): JSX.Element
+function getUserCounterColor(userCount: number, maxUserCount: number): string
 {
-	const room = () => props.room;
+	const ratio = maxUserCount > 0 ? (100 * (userCount / maxUserCount)) : 0;
 
+	if (ratio >= 92) return 'bg-danger';
+	if (ratio >= 50) return 'bg-warning';
+	if (ratio > 0) return 'bg-success';
+
+	return 'bg-primary';
+}
+
+/**
+ * NavigatorSearchResultItemView - Individual room item (list or thumbnail mode).
+ *
+ * @see source_nitro_react/components/navigator/views/search/NavigatorSearchResultItemView.tsx
+ */
+export function NavigatorSearchResultItemView(props: NavigatorSearchResultItemViewProps): JSX.Element
+{
+	const navActions = useActions(ModuleId.Navigator);
+
+	const visitRoom = () =>
+	{
+		navActions.goToRoom(props.roomData.flatId);
+	};
+
+	const badgeColor = () => getUserCounterColor(props.roomData.userCount, props.roomData.maxUserCount);
+
+	// Thumbnail mode
+	if (props.thumbnail)
+	{
+		return (
+			<div
+				class="d-flex flex-column cursor-pointer overflow-hidden align-items-center p-1 bg-light rounded-3 small mb-1 border border-muted"
+				onClick={visitRoom}
+				style={{gap: '0'}}
+			>
+				{/* Room thumbnail */}
+				<div
+					class="d-flex flex-column align-items-center justify-content-end mb-1 position-relative"
+					style={{width: '100%', 'aspect-ratio': '1', background: '#ccc', 'border-radius': '4px', overflow: 'hidden'}}
+				>
+					<Show
+						when={props.roomData.officialRoomPicRef}
+						fallback={
+							<div class="d-flex align-items-center justify-content-center w-100 h-100 text-muted">
+								<FaSolidDoorOpen size={24} />
+							</div>
+						}
+					>
+						<img
+							src={props.roomData.officialRoomPicRef!}
+							alt={props.roomData.roomName}
+							style={{width: '100%', height: '100%', 'object-fit': 'cover', 'image-rendering': 'pixelated'}}
+						/>
+					</Show>
+
+					{/* User count badge overlay */}
+					<div class={clsx('badge p-1 position-absolute m-1 d-flex align-items-center gap-1', badgeColor())}>
+						<FaSolidUser />
+						{props.roomData.userCount}
+					</div>
+
+					{/* Door mode icon */}
+					<Show when={props.roomData.doorMode !== RoomDoorMode.OPEN}>
+						<span class="position-absolute end-0 mb-1 me-1">
+							<Show when={props.roomData.doorMode === RoomDoorMode.DOORBELL}>
+								<FaSolidBell />
+							</Show>
+							<Show when={props.roomData.doorMode === RoomDoorMode.PASSWORD}>
+								<FaSolidLock />
+							</Show>
+							<Show when={props.roomData.doorMode === RoomDoorMode.INVISIBLE}>
+								<FaSolidEyeSlash />
+							</Show>
+						</span>
+					</Show>
+				</div>
+
+				{/* Footer: name + info */}
+				<div class="d-flex w-100">
+					<span class="text-truncate flex-grow-1">{props.roomData.roomName}</span>
+					<div class="d-flex flex-row-reverse align-items-center gap-1">
+						<NavigatorSearchResultItemInfoView roomData={props.roomData} />
+					</div>
+				</div>
+			</div>
+		);
+	}
+
+	// List mode
 	return (
 		<div
-			class="nav-room-card"
-			onClick={() => props.onClick?.(room().id)}
+			class="navigator-item d-flex cursor-pointer overflow-hidden align-items-center gap-2 px-2 py-1 small"
+			onClick={visitRoom}
 		>
-			{/* Thumbnail on top */}
-			<div class="nav-room-card__thumb">
-				<Show
-					when={room().thumbnail}
-					fallback={
-						<span class="nav-room-card__thumb-placeholder">
-							<FaSolidDoorOpen size={22} />
-						</span>
-					}
-				>
-					<img src={room().thumbnail} alt={room().name} />
+			<div class={clsx('badge p-1 d-flex align-items-center gap-1', badgeColor())} style={{'min-width': '35px', 'width': '35px'}}>
+				<FaSolidUser />
+				{props.roomData.userCount}
+			</div>
+			<span class="text-truncate flex-grow-1">{props.roomData.roomName}</span>
+			<div class="d-flex flex-row-reverse align-items-center gap-1">
+				<NavigatorSearchResultItemInfoView roomData={props.roomData} />
+				<Show when={props.roomData.habboGroupId > 0}>
+					<i class="icon icon-navigator-room-group" />
+				</Show>
+				<Show when={props.roomData.doorMode !== RoomDoorMode.OPEN}>
+					<Show when={props.roomData.doorMode === RoomDoorMode.DOORBELL}>
+						<FaSolidBell class="text-muted" />
+					</Show>
+					<Show when={props.roomData.doorMode === RoomDoorMode.PASSWORD}>
+						<FaSolidLock class="text-muted" />
+					</Show>
+					<Show when={props.roomData.doorMode === RoomDoorMode.INVISIBLE}>
+						<FaSolidEyeSlash class="text-muted" />
+					</Show>
 				</Show>
 			</div>
-
-			{/* Info below */}
-			<div class="nav-room-card__info">
-				<span class="nav-room-card__name">{room().name}</span>
-				<span class="nav-room-card__owner">{room().ownerName}</span>
-				<span class={clsx(
-					'nav-room-card__users',
-					getUserBadgeClass(room().userCount, room().maxUserCount)
-				)}>
-					<FaSolidUsers size={8} />
-					{room().userCount}/{room().maxUserCount}
-				</span>
-			</div>
-		</div>
-	);
-}
-
-/**
- * Room row - compact/list mode.
- */
-export function NavigatorSearchResultItemCompactView(props: ItemProps): JSX.Element
-{
-	const room = () => props.room;
-
-	return (
-		<div
-			class="nav-room-row"
-			onClick={() => props.onClick?.(room().id)}
-		>
-			<span class="nav-room-row__door">
-				<DoorIcon mode={room().doorMode} />
-			</span>
-			<span class="nav-room-row__name">{room().name}</span>
-			<span class="nav-room-row__owner">{room().ownerName}</span>
-			<span class={clsx(
-				'nav-room-row__users',
-				getUserBadgeClass(room().userCount, room().maxUserCount)
-			)}>
-				{room().userCount}
-			</span>
 		</div>
 	);
 }

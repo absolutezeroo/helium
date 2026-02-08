@@ -1,18 +1,13 @@
-export {NavigatorTabsView} from './NavigatorTabsView';
-export type {NavigatorTabsViewProps, TabDefinition} from './NavigatorTabsView';
-
 export {
 	NavigatorSearchView,
 	NavigatorSearchResultView,
 	NavigatorSearchResultItemView,
-	NavigatorSearchResultItemCompactView,
+	NavigatorSearchResultItemInfoView,
 } from './search';
 export type {
 	NavigatorSearchViewProps,
 	NavigatorSearchResultViewProps,
-	NavigatorBlockData,
-	RoomListRoom,
-	RoomListViewMode,
+	NavigatorSearchResultItemViewProps,
 } from './search';
 
 // Shell views

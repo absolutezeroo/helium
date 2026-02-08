@@ -58,7 +58,7 @@ export function InventoryWindow(props: InventoryWindowProps): JSX.Element
 				/>
 
 				{/* Content */}
-				<HeliumCardContentView overflow={false} class="flex overflow-hidden">
+				<HeliumCardContentView overflow="hidden" class="flex overflow-hidden">
 					<Switch>
 						{/* Furni View */}
 						<Match when={props.activeTab === 'furni' || props.activeTab === 'rentables'}>

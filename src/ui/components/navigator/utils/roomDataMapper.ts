@@ -1,7 +1,39 @@
 import type {GuestRoomData} from '@habbo/communication/messages/incoming/navigator';
 import type {NavigatorSearchResultSet} from '@habbo/communication/messages/incoming/newnavigator';
-import type {RoomListRoom} from '../views/search/NavigatorSearchResultItemView';
-import type {NavigatorBlockData} from '../views/search/NavigatorSearchResultView';
+
+/**
+ * Simplified room data for list display
+ */
+export interface RoomListRoom
+{
+	id: number;
+	name: string;
+	ownerName: string;
+	description?: string;
+	userCount: number;
+	maxUserCount: number;
+	thumbnail?: string;
+	tags?: string[];
+	isFavourite?: boolean;
+	isGroupRoom?: boolean;
+	isStaffPick?: boolean;
+	doorMode?: 'open' | 'doorbell' | 'password' | 'invisible';
+	score?: number;
+	categoryId?: number;
+}
+
+/**
+ * Block data for grouped display
+ */
+export interface NavigatorBlockData
+{
+	searchCode: string;
+	text: string;
+	actionAllowed: number;
+	forceClosed: boolean;
+	viewMode: number;
+	rooms: RoomListRoom[];
+}
 
 /**
  * Map door mode number to string type
@@ -39,7 +71,7 @@ export function mapGuestRoomToListRoom(room: GuestRoomData, isFavourite?: boolea
 		tags: room.tags.length > 0 ? room.tags : undefined,
 		isFavourite: isFavourite,
 		isGroupRoom: room.habboGroupId > 0,
-		isStaffPick: false, // Not available in GuestRoomData directly
+		isStaffPick: false,
 		doorMode: mapDoorMode(room.doorMode),
 		score: room.score,
 		categoryId: room.categoryId,

@@ -11,6 +11,7 @@ export interface HeliumCardViewProps extends ParentProps
 	width?: number;
 	height?: number;
 	class?: string;
+	theme?: string;
 }
 
 /**
@@ -18,20 +19,15 @@ export interface HeliumCardViewProps extends ParentProps
  *
  * Renders via Portal into #draggable-windows-container.
  * Uses WindowManager for z-index stacking.
- * Children with class `drag-handle` are used as drag handles.
+ * Children with class `drag-handler` are used as drag handles.
  *
- * @example
- * ```tsx
- * <HeliumCardView uniqueKey="navigator" width={480} height={600}>
- *   <HeliumCardHeaderView title="Navigator" onClose={close} />
- *   <HeliumCardContentView>...</HeliumCardContentView>
- * </HeliumCardView>
- * ```
+ * @see source_nitro_react/common/card/NitroCardView.tsx
  */
 export function HeliumCardView(props: HeliumCardViewProps): JSX.Element
 {
 	const w = () => props.width ?? 480;
 	const h = () => props.height ?? 500;
+	const theme = () => props.theme ?? 'primary';
 
 	const [zIndex, setZIndex] = createSignal(0);
 
@@ -77,10 +73,9 @@ export function HeliumCardView(props: HeliumCardViewProps): JSX.Element
 				{
 					draggable.bindDragTarget(el);
 
-					// Find and bind the drag handle (HeliumCardHeaderView)
 					requestAnimationFrame(() =>
 					{
-						const handle = el.querySelector('.drag-handle');
+						const handle = el.querySelector('.drag-handler');
 
 						if (handle)
 						{
@@ -89,13 +84,15 @@ export function HeliumCardView(props: HeliumCardViewProps): JSX.Element
 					});
 				}}
 				class={clsx(
-					'fixed flex flex-col',
-					'bg-slate-900 border border-slate-700',
-					'rounded-xl shadow-2xl overflow-hidden',
-					draggable.isDragging() && 'select-none',
+					'helium-card',
+					'd-flex flex-column',
+					'rounded shadow overflow-hidden',
+					`theme-${theme()}`,
+					draggable.isDragging() && 'no-select',
 					props.class
 				)}
 				style={{
+					position: 'fixed',
 					width: `${w()}px`,
 					height: `${h()}px`,
 					'z-index': zIndex(),

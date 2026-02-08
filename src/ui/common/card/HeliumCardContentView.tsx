@@ -4,23 +4,30 @@ import clsx from 'clsx';
 export interface HeliumCardContentViewProps extends ParentProps
 {
 	class?: string;
-	overflow?: boolean;
+	overflow?: string;
+	position?: string;
 }
 
 /**
  * HeliumCardContentView - Scrollable content area for card windows.
+ *
+ * @see source_nitro_react/common/card/NitroCardContentView.tsx
  */
 export function HeliumCardContentView(props: HeliumCardContentViewProps): JSX.Element
 {
-	const shouldOverflow = () => props.overflow ?? true;
+	const overflow = () => props.overflow ?? 'auto';
+	const position = () => props.position ?? '';
 
 	return (
 		<div
 			class={clsx(
-				'flex-1',
-				shouldOverflow() && 'overflow-y-auto',
+				'container-fluid content-area d-flex flex-column',
+				position() && `position-${position()}`,
 				props.class
 			)}
+			style={{
+				overflow: overflow(),
+			}}
 		>
 			{props.children}
 		</div>

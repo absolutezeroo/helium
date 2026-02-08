@@ -9,7 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.18",
     "clsx": "^2.1.1",
     "eventemitter3": "^5.0.1",
     "inversify": "^6.2.1",
@@ -17,14 +16,14 @@
     "pixi.js": "^8.6.6",
     "reflect-metadata": "^0.2.2",
     "solid-icons": "^1.2.0",
-    "solid-js": "^1.9.11",
-    "tailwindcss": "^4.1.18"
+    "solid-js": "^1.9.11"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.28.6",
     "@babel/plugin-transform-class-properties": "^7.28.6",
     "@types/node": "^22.10.0",
     "@types/pako": "^2.0.3",
+    "sass-embedded": "^1.97.3",
     "sharp": "^0.34.5",
     "typescript": "^5.7.2",
     "vite": "^6.0.0",
