@@ -48,6 +48,7 @@ export const navigatorModule = defineModule({
 		isOpen: false,
 		isRoomInfoOpen: false,
 		isCreateModalOpen: false,
+		isRoomLinkOpen: false,
 
 		// Search State
 		currentSearchCode: '',
@@ -62,6 +63,9 @@ export const navigatorModule = defineModule({
 
 		// Settings
 		homeRoomId: 0,
+
+		// Door state
+		doorData: null,
 	} satisfies NavigatorState,
 
 	handlers,
@@ -80,7 +84,8 @@ export const navigatorModule = defineModule({
 	},
 });
 
-export type {NavigatorState} from './types';
+export type {NavigatorState, DoorData} from './types';
+export {DoorStateType} from './types';
 export type {NavigatorActions, NavigatorManagers} from './actions';
 
 // Declaration merging for type-safe module access

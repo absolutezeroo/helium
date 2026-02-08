@@ -93,6 +93,11 @@ export interface IHabboNavigator
 	startRoomCreation(): void;
 
 	/**
+	 * Create a new room
+	 */
+	createRoom(name: string, description: string, model: string, categoryId: number, maxUsers: number, tradeMode: number): void;
+
+	/**
 	 * Open the navigator window
 	 */
 	openNavigator(): void;

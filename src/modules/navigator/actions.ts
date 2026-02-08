@@ -1,5 +1,6 @@
 import type {ActionContext} from '../core/types';
 import type {NavigatorState} from './types';
+import type {DoorData} from './types';
 import type {IHabboNavigator} from '@habbo/navigator/IHabboNavigator';
 import type {IHabboNewNavigator} from '@habbo/navigator/IHabboNewNavigator';
 
@@ -142,6 +143,15 @@ export function createActions(ctx: ActionContext<NavigatorState, NavigatorManage
 		},
 
 		/**
+		 * Enter a room directly (for doorbell/password flows).
+		 * Calls goToRoom on the navigator which uses RoomSessionManager.
+		 */
+		enterRoom: (roomId: number, password: string = ''): void =>
+		{
+			managers.navigator.goToPrivateRoom(roomId);
+		},
+
+		/**
 		 * Go to the user's home room
 		 * @returns true if successful, false if no home room is set
 		 */
@@ -159,11 +169,73 @@ export function createActions(ctx: ActionContext<NavigatorState, NavigatorManage
 		},
 
 		/**
+		 * Get the currently entered guest room data
+		 */
+		getEnteredRoom: () =>
+		{
+			return managers.navigator.enteredGuestRoomData;
+		},
+
+		/**
 		 * Check if a room is in favourites
 		 */
 		isRoomFavorite: (roomId: number): boolean =>
 		{
 			return managers.navigator.isRoomFavorite(roomId);
+		},
+
+		/**
+		 * Create a new room
+		 */
+		createRoom: (name: string, description: string, model: string, categoryId: number, maxUsers: number, tradeMode: number): void =>
+		{
+			managers.navigator.createRoom(name, description, model, categoryId, maxUsers, tradeMode);
+		},
+
+		/**
+		 * Set the door data (for doorbell/password dialogs)
+		 */
+		setDoorData: (data: DoorData | null): void =>
+		{
+			updateState({doorData: data});
+		},
+
+		/**
+		 * Update just the door state
+		 */
+		updateDoorState: (state: number): void =>
+		{
+			const current = getState().doorData;
+
+			if (!current) return;
+
+			updateState({doorData: {...current, state}});
+		},
+
+		/**
+		 * Open the room link view
+		 */
+		openRoomLink: (): void =>
+		{
+			updateState({isRoomLinkOpen: true});
+		},
+
+		/**
+		 * Close the room link view
+		 */
+		closeRoomLink: (): void =>
+		{
+			updateState({isRoomLinkOpen: false});
+		},
+
+		/**
+		 * Toggle the room link view
+		 */
+		toggleRoomLink: (): void =>
+		{
+			const state = getState();
+
+			updateState({isRoomLinkOpen: !state.isRoomLinkOpen});
 		},
 
 		/**
@@ -175,6 +247,7 @@ export function createActions(ctx: ActionContext<NavigatorState, NavigatorManage
 				isOpen: false,
 				isRoomInfoOpen: false,
 				isCreateModalOpen: false,
+				isRoomLinkOpen: false,
 				currentSearchCode: '',
 				topLevelContexts: [],
 				searchResults: null,
@@ -183,6 +256,7 @@ export function createActions(ctx: ActionContext<NavigatorState, NavigatorManage
 				flatCategories: [],
 				eventCategories: [],
 				homeRoomId: 0,
+				doorData: null,
 			});
 		},
 	};

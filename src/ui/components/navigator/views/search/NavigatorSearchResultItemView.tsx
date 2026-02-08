@@ -1,10 +1,11 @@
 import type {JSX} from 'solid-js';
 import {Show} from 'solid-js';
 import clsx from 'clsx';
-import {FaSolidUser, FaSolidDoorOpen, FaSolidBell, FaSolidLock, FaSolidEyeSlash} from 'solid-icons/fa';
+import {FaSolidUser} from 'solid-icons/fa';
 import type {GuestRoomData} from '@habbo/communication/messages/incoming/navigator';
 import {RoomDoorMode} from '@habbo/communication/messages/incoming/navigator';
-import {ModuleId, useActions} from '@ui/bridge';
+import {ModuleId, useActions, useModule} from '@ui/bridge';
+import {DoorStateType} from '@/modules/navigator/types';
 import {NavigatorSearchResultItemInfoView} from './NavigatorSearchResultItemInfoView';
 
 export interface NavigatorSearchResultItemViewProps
@@ -29,6 +30,20 @@ function getUserCounterColor(userCount: number, maxUserCount: number): string
 }
 
 /**
+ * Get the CSS icon class name for a door mode.
+ */
+function getDoorModeIconClass(doorMode: number): string
+{
+	switch (doorMode)
+	{
+		case RoomDoorMode.DOORBELL: return 'icon icon-navigator-room-locked';
+		case RoomDoorMode.PASSWORD: return 'icon icon-navigator-room-password';
+		case RoomDoorMode.INVISIBLE: return 'icon icon-navigator-room-invisible';
+		default: return '';
+	}
+}
+
+/**
  * NavigatorSearchResultItemView - Individual room item (list or thumbnail mode).
  *
  * @see source_nitro_react/components/navigator/views/search/NavigatorSearchResultItemView.tsx
@@ -36,10 +51,39 @@ function getUserCounterColor(userCount: number, maxUserCount: number): string
 export function NavigatorSearchResultItemView(props: NavigatorSearchResultItemViewProps): JSX.Element
 {
 	const navActions = useActions(ModuleId.Navigator);
+	const {state: session} = useModule(ModuleId.Session);
 
 	const visitRoom = () =>
 	{
-		navActions.goToRoom(props.roomData.flatId);
+		const roomData = props.roomData;
+		const userId = session()?.userData?.id ?? -1;
+
+		if (roomData.ownerId !== userId)
+		{
+			if (roomData.habboGroupId !== 0)
+			{
+				navActions.goToRoom(roomData.flatId);
+				return;
+			}
+
+			switch (roomData.doorMode)
+			{
+				case RoomDoorMode.DOORBELL:
+					navActions.setDoorData({
+						roomInfo: roomData,
+						state: DoorStateType.START_DOORBELL,
+					});
+					return;
+				case RoomDoorMode.PASSWORD:
+					navActions.setDoorData({
+						roomInfo: roomData,
+						state: DoorStateType.START_PASSWORD,
+					});
+					return;
+			}
+		}
+
+		navActions.goToRoom(roomData.flatId);
 	};
 
 	const badgeColor = () => getUserCounterColor(props.roomData.userCount, props.roomData.maxUserCount);
@@ -49,7 +93,7 @@ export function NavigatorSearchResultItemView(props: NavigatorSearchResultItemVi
 	{
 		return (
 			<div
-				class="d-flex flex-column cursor-pointer overflow-hidden align-items-center p-1 bg-light rounded-3 small mb-1 border border-muted"
+				class="navigator-item d-flex flex-column cursor-pointer overflow-hidden align-items-center p-1 bg-light rounded-3 small mb-1 border border-muted"
 				onClick={visitRoom}
 				style={{gap: '0'}}
 			>
@@ -62,7 +106,7 @@ export function NavigatorSearchResultItemView(props: NavigatorSearchResultItemVi
 						when={props.roomData.officialRoomPicRef}
 						fallback={
 							<div class="d-flex align-items-center justify-content-center w-100 h-100 text-muted">
-								<FaSolidDoorOpen size={24} />
+								<i class="icon icon-rooms" />
 							</div>
 						}
 					>
@@ -73,6 +117,11 @@ export function NavigatorSearchResultItemView(props: NavigatorSearchResultItemVi
 						/>
 					</Show>
 
+					{/* Group badge */}
+					<Show when={props.roomData.habboGroupId > 0}>
+						<i class="icon icon-navigator-room-group position-absolute top-0 start-0 m-1" />
+					</Show>
+
 					{/* User count badge overlay */}
 					<div class={clsx('badge p-1 position-absolute m-1 d-flex align-items-center gap-1', badgeColor())}>
 						<FaSolidUser />
@@ -81,17 +130,7 @@ export function NavigatorSearchResultItemView(props: NavigatorSearchResultItemVi
 
 					{/* Door mode icon */}
 					<Show when={props.roomData.doorMode !== RoomDoorMode.OPEN}>
-						<span class="position-absolute end-0 mb-1 me-1">
-							<Show when={props.roomData.doorMode === RoomDoorMode.DOORBELL}>
-								<FaSolidBell />
-							</Show>
-							<Show when={props.roomData.doorMode === RoomDoorMode.PASSWORD}>
-								<FaSolidLock />
-							</Show>
-							<Show when={props.roomData.doorMode === RoomDoorMode.INVISIBLE}>
-								<FaSolidEyeSlash />
-							</Show>
-						</span>
+						<i class={clsx('position-absolute end-0 mb-1 me-1', getDoorModeIconClass(props.roomData.doorMode))} />
 					</Show>
 				</div>
 
@@ -112,7 +151,7 @@ export function NavigatorSearchResultItemView(props: NavigatorSearchResultItemVi
 			class="navigator-item d-flex cursor-pointer overflow-hidden align-items-center gap-2 px-2 py-1 small"
 			onClick={visitRoom}
 		>
-			<div class={clsx('badge p-1 d-flex align-items-center gap-1', badgeColor())} style={{'min-width': '35px', 'width': '35px'}}>
+			<div class={clsx('badge p-1 d-flex align-items-center gap-1', badgeColor())} style={{'min-width': '35px', width: '35px'}}>
 				<FaSolidUser />
 				{props.roomData.userCount}
 			</div>
@@ -123,15 +162,7 @@ export function NavigatorSearchResultItemView(props: NavigatorSearchResultItemVi
 					<i class="icon icon-navigator-room-group" />
 				</Show>
 				<Show when={props.roomData.doorMode !== RoomDoorMode.OPEN}>
-					<Show when={props.roomData.doorMode === RoomDoorMode.DOORBELL}>
-						<FaSolidBell class="text-muted" />
-					</Show>
-					<Show when={props.roomData.doorMode === RoomDoorMode.PASSWORD}>
-						<FaSolidLock class="text-muted" />
-					</Show>
-					<Show when={props.roomData.doorMode === RoomDoorMode.INVISIBLE}>
-						<FaSolidEyeSlash class="text-muted" />
-					</Show>
+					<i class={getDoorModeIconClass(props.roomData.doorMode)} />
 				</Show>
 			</div>
 		</div>

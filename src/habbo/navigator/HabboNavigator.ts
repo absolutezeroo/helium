@@ -12,6 +12,7 @@ import {Logger} from '@core/utils/Logger';
 // Composers
 import {
 	CompetitionRoomsSearchMessageComposer,
+	CreateFlatMessageComposer,
 	GetGuestRoomMessageComposer,
 	MyGuildBasesSearchMessageComposer,
 	MyRoomsSearchMessageComposer,
@@ -219,6 +220,11 @@ export class HabboNavigator extends Component implements IHabboNavigator
 	startRoomCreation(): void
 	{
 		log.debug('Starting room creation');
+	}
+
+	createRoom(name: string, description: string, model: string, categoryId: number, maxUsers: number, tradeMode: number): void
+	{
+		this.send(new CreateFlatMessageComposer(name, description, model, categoryId, maxUsers, tradeMode));
 	}
 
 	openNavigator(): void

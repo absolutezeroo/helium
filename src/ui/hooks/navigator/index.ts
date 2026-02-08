@@ -1,1 +1,0 @@
-export {useNavigator} from './useNavigator';

@@ -7,11 +7,17 @@ export {
 	NavigatorSearchResultView,
 	NavigatorSearchResultItemView,
 	NavigatorSearchResultItemInfoView,
+	NavigatorRoomInfoView,
+	NavigatorRoomCreatorView,
+	NavigatorDoorStateView,
+	NavigatorRoomLinkView,
 } from './views';
 export type {
 	NavigatorSearchViewProps,
 	NavigatorSearchResultViewProps,
 	NavigatorSearchResultItemViewProps,
+	NavigatorRoomInfoViewProps,
+	NavigatorRoomLinkViewProps,
 } from './views';
 
 // Utils

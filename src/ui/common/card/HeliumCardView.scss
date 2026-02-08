@@ -3,6 +3,7 @@ $helium-card-tabs-height: 33px;
 
 .helium-card {
     resize: both;
+    pointer-events: all;
 
     &.theme-primary {
         border: $border-width solid $border-color;

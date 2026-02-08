@@ -1,8 +1,9 @@
 import type {JSX} from 'solid-js';
 import {createSignal, Show} from 'solid-js';
 import clsx from 'clsx';
-import {FaSolidCircleInfo, FaSolidDoorOpen, FaSolidUser} from 'solid-icons/fa';
+import {FaSolidUser} from 'solid-icons/fa';
 import type {GuestRoomData} from '@habbo/communication/messages/incoming/navigator';
+import {RoomDoorMode} from '@habbo/communication/messages/incoming/navigator';
 import {useLocalization} from '@ui/common';
 
 interface NavigatorSearchResultItemInfoViewProps
@@ -25,6 +26,20 @@ function getUserCounterColor(userCount: number, maxUserCount: number): string
 }
 
 /**
+ * Get the CSS icon class name for a door mode.
+ */
+function getDoorModeIconClass(doorMode: number): string
+{
+	switch (doorMode)
+	{
+		case RoomDoorMode.DOORBELL: return 'icon icon-navigator-room-locked';
+		case RoomDoorMode.PASSWORD: return 'icon icon-navigator-room-password';
+		case RoomDoorMode.INVISIBLE: return 'icon icon-navigator-room-invisible';
+		default: return '';
+	}
+}
+
+/**
  * NavigatorSearchResultItemInfoView - Popover shown on hover over info icon.
  *
  * @see source_nitro_react/components/navigator/views/search/NavigatorSearchResultItemInfoView.tsx
@@ -37,13 +52,13 @@ export function NavigatorSearchResultItemInfoView(props: NavigatorSearchResultIt
 	const badgeColor = () => getUserCounterColor(props.roomData.userCount, props.roomData.maxUserCount);
 
 	return (
-		<span
-			class="cursor-pointer position-relative"
-			onMouseEnter={() => setIsVisible(true)}
-			onMouseLeave={() => setIsVisible(false)}
-			onClick={(e) => e.stopPropagation()}
-		>
-			<FaSolidCircleInfo />
+		<>
+			<div
+				class="icon icon-navigator-info cursor-pointer"
+				onMouseOver={() => setIsVisible(true)}
+				onMouseLeave={() => setIsVisible(false)}
+				onClick={(e) => e.stopPropagation()}
+			/>
 
 			<Show when={isVisible()}>
 				<div
@@ -68,7 +83,7 @@ export function NavigatorSearchResultItemInfoView(props: NavigatorSearchResultIt
 									when={props.roomData.officialRoomPicRef}
 									fallback={
 										<div class="d-flex align-items-center justify-content-center w-100 h-100 text-muted">
-											<FaSolidDoorOpen size={32} />
+											<i class="icon icon-rooms" />
 										</div>
 									}
 								>
@@ -77,6 +92,16 @@ export function NavigatorSearchResultItemInfoView(props: NavigatorSearchResultIt
 										alt={props.roomData.roomName}
 										style={{width: '100%', height: '100%', 'object-fit': 'cover', 'image-rendering': 'pixelated'}}
 									/>
+								</Show>
+
+								{/* Group badge */}
+								<Show when={props.roomData.habboGroupId > 0}>
+									<i class="icon icon-navigator-room-group position-absolute top-0 start-0 m-1" />
+								</Show>
+
+								{/* Door mode icon */}
+								<Show when={props.roomData.doorMode !== RoomDoorMode.OPEN}>
+									<i class={clsx('position-absolute end-0 mb-1 me-1', getDoorModeIconClass(props.roomData.doorMode))} />
 								</Show>
 							</div>
 
@@ -105,6 +130,6 @@ export function NavigatorSearchResultItemInfoView(props: NavigatorSearchResultIt
 					</div>
 				</div>
 			</Show>
-		</span>
+		</>
 	);
 }

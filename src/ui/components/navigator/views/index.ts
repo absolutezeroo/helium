@@ -12,5 +12,8 @@ export type {
 
 // Shell views
 export {NavigatorRoomInfoView} from './NavigatorRoomInfoView';
+export type {NavigatorRoomInfoViewProps} from './NavigatorRoomInfoView';
 export {NavigatorRoomCreatorView} from './NavigatorRoomCreatorView';
 export {NavigatorDoorStateView} from './NavigatorDoorStateView';
+export {NavigatorRoomLinkView} from './NavigatorRoomLinkView';
+export type {NavigatorRoomLinkViewProps} from './NavigatorRoomLinkView';
