@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for room invite events.
  * Contains the sender ID and the invitation message text.
  *
- * @see source_as/habbo/communication/messages/parser/friendlist/RoomInviteEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/friendlist/RoomInviteEventParser.as
  */
 export class RoomInviteEventParser implements IMessageParser
 {

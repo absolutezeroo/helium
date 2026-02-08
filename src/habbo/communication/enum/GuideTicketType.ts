@@ -1,7 +1,7 @@
 /**
  * Guide Ticket Type Constants
  *
- * @see source_as/habbo/communication/enum/help/GuideTicketType.as
+ * @see source_as_win63/habbo/communication/enum/help/GuideTicketType.as
  */
 export const GuideTicketType = {
 	HELP: 0,

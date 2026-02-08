@@ -10,7 +10,7 @@ const log = Logger.getLogger('QuestController');
  * Manages quest trackers (per campaign chain), handles quest lifecycle events,
  * and coordinates quest-related state. VIEW logic is handled by SolidJS.
  *
- * @see source_as/habbo/quest/QuestController.as
+ * @see source_as_win63/habbo/quest/QuestController.as
  */
 export class QuestController implements IDisposable
 {

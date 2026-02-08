@@ -4,7 +4,7 @@
  * Stores a single chat message with metadata for use in the
  * Call For Help reporting flow.
  *
- * @see source_as/habbo/help/cfh/registry/chat/ChatRegistryItem.as
+ * @see source_as_win63/habbo/help/cfh/registry/chat/ChatRegistryItem.as
  */
 export class ChatRegistryItem
 {

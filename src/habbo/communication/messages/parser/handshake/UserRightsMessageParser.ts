@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for user rights/permissions
  * Message ID: 1416
  *
- * @see source_as/habbo/communication/messages/parser/handshake/UserRightsMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/handshake/UserRightsMessageEventParser.as
  */
 export class UserRightsMessageParser implements IMessageParser
 {

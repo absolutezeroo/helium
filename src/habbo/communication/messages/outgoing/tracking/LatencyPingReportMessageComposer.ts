@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Report latency test results to the server
  *
- * @see source_as/habbo/communication/messages/outgoing/tracking/LatencyPingReportMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/tracking/LatencyPingReportMessageComposer.as
  */
 export class LatencyPingReportMessageComposer extends MessageComposer<ConstructorParameters<typeof LatencyPingReportMessageComposer>>
 {

@@ -6,7 +6,7 @@ import {GuideSessionStartedMessageParser} from '../../parser/help/GuideSessionSt
  * Event for guide session started notification.
  * Fired when a new guide session has been established.
  *
- * @see source_as/habbo/communication/messages/incoming/help/GuideSessionStartedMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/help/GuideSessionStartedMessageEvent.as
  */
 export class GuideSessionStartedMessageEvent extends MessageEvent
 {

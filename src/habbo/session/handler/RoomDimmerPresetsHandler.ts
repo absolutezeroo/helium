@@ -21,7 +21,7 @@ import {RoomSessionDimmerPresetsEvent} from '../events/RoomSessionDimmerPresetsE
  *
  * Handles dimmer presets messages and dispatches RoomSessionDimmerPresetsEvent.
  *
- * @see source_as/habbo/session/handler/RoomDimmerPresetsHandler.as
+ * @see source_as_win63/habbo/session/handler/RoomDimmerPresetsHandler.as
  */
 export class RoomDimmerPresetsHandler extends BaseHandler
 {

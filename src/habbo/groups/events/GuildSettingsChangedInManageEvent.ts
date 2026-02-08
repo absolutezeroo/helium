@@ -1,7 +1,7 @@
 /**
  * Event dispatched when guild visual settings are changed in the management UI
  *
- * @see source_as/habbo/groups/events/GuildSettingsChangedInManageEvent.as
+ * @see source_as_win63/habbo/groups/events/GuildSettingsChangedInManageEvent.as
  */
 export class GuildSettingsChangedInManageEvent
 {

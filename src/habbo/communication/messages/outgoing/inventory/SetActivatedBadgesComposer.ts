@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Set which badges are worn/active
  *
- * @see source_as/habbo/communication/messages/outgoing/inventory/badges/SetActivatedBadgesComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/inventory/badges/SetActivatedBadgesComposer.as
  */
 export class SetActivatedBadgesComposer extends MessageComposer<unknown[]>
 {

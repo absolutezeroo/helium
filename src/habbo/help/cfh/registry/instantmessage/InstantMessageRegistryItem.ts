@@ -4,7 +4,7 @@
  * Stores a single instant message with metadata for use in the
  * Call For Help reporting flow.
  *
- * @see source_as/habbo/help/cfh/registry/instantmessage/InstantMessageRegistryItem.as
+ * @see source_as_win63/habbo/help/cfh/registry/instantmessage/InstantMessageRegistryItem.as
  */
 export class InstantMessageRegistryItem
 {

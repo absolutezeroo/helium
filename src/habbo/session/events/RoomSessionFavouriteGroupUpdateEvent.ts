@@ -4,7 +4,7 @@ import {RoomSessionEvent} from './RoomSessionEvent';
 /**
  * Room session favourite group update event
  *
- * @see source_as/habbo/session/events/RoomSessionFavouriteGroupUpdateEvent.as
+ * @see source_as_win63/habbo/session/events/RoomSessionFavouriteGroupUpdateEvent.as
  */
 export class RoomSessionFavouriteGroupUpdateEvent extends RoomSessionEvent
 {

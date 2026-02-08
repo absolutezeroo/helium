@@ -5,7 +5,7 @@ import {FollowFriendFailedMessageParser} from '../../parser/friendlist/FollowFri
 /**
  * Event for receiving follow friend failure notifications.
  *
- * @see source_as/habbo/communication/messages/incoming/friendlist/FollowFriendFailedEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/friendlist/FollowFriendFailedEvent.as
  */
 export class FollowFriendFailedMessageEvent extends MessageEvent
 {

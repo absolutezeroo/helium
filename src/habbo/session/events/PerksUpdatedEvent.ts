@@ -1,7 +1,7 @@
 /**
  * Perks updated event - pure signal, no data
  *
- * @see source_as/habbo/session/events/PerksUpdatedEvent.as
+ * @see source_as_win63/habbo/session/events/PerksUpdatedEvent.as
  */
 export class PerksUpdatedEvent
 {

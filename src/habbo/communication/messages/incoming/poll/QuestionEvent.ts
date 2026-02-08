@@ -5,7 +5,7 @@ import {QuestionEventParser} from '../../parser/poll/QuestionEventParser';
 /**
  * Question event (word quiz)
  *
- * @see source_as/habbo/communication/messages/incoming/poll/QuestionEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/poll/QuestionEvent.as
  */
 export class QuestionEvent extends MessageEvent
 {

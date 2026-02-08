@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for friend notification events (e.g. friend logged in/out).
  *
- * @see source_as/habbo/communication/messages/parser/friendlist/FriendNotificationEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/friendlist/FriendNotificationEventParser.as
  */
 export class FriendNotificationMessageParser implements IMessageParser
 {

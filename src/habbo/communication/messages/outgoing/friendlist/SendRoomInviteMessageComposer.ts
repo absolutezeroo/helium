@@ -4,7 +4,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  * Sends a room invite to one or more friends.
  * Sends the recipient count, each recipient ID, then the message.
  *
- * @see source_as/habbo/communication/messages/outgoing/friendlist/SendRoomInviteMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/friendlist/SendRoomInviteMessageComposer.as
  */
 export class SendRoomInviteMessageComposer implements IMessageComposer<unknown[]>
 {

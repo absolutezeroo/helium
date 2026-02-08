@@ -6,7 +6,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  *
  * Parses the user ID and total respect count.
  *
- * @see source_as/habbo/communication/messages/parser/users/RespectNotificationMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/users/RespectNotificationMessageEventParser.as
  */
 export class RespectNotificationMessageEventParser implements IMessageParser
 {

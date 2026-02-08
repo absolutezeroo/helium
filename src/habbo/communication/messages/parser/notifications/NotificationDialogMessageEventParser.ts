@@ -6,7 +6,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  *
  * Parses a dialog type string and a set of key-value parameter pairs.
  *
- * @see source_as/habbo/communication/messages/parser/notifications/NotificationDialogMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/notifications/NotificationDialogMessageEventParser.as
  */
 export class NotificationDialogMessageEventParser implements IMessageParser
 {

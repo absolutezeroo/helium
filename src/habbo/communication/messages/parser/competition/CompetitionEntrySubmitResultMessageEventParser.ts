@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for competition entry submit result message
  *
- * @see source_as/habbo/communication/messages/parser/competition/CompetitionEntrySubmitResultMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/competition/CompetitionEntrySubmitResultMessageEventParser.as
  */
 export class CompetitionEntrySubmitResultMessageEventParser implements IMessageParser
 {

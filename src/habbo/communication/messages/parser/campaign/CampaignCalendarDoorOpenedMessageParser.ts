@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for campaign calendar door opened response
  *
- * @see source_as/habbo/communication/messages/parser/campaign/CampaignCalendarDoorOpenedMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/campaign/CampaignCalendarDoorOpenedMessageEventParser.as
  */
 export class CampaignCalendarDoorOpenedMessageParser implements IMessageParser
 {

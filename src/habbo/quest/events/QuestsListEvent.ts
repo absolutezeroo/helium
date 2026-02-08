@@ -1,7 +1,7 @@
 /**
  * Event dispatched when quest list is received from the server
  *
- * @see source_as/habbo/quest/events/QuestsListEvent.as
+ * @see source_as_win63/habbo/quest/events/QuestsListEvent.as
  */
 export class QuestsListEvent
 {

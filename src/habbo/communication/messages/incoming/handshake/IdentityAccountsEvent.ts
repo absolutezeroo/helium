@@ -5,7 +5,7 @@ import {IdentityAccountsEventParser} from '../../parser/handshake/IdentityAccoun
 /**
  * Identity accounts event (multi-avatar selection)
  *
- * @see source_as/habbo/communication/messages/incoming/handshake/IdentityAccountsEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/handshake/IdentityAccountsEvent.as
  */
 export class IdentityAccountsEvent extends MessageEvent
 {

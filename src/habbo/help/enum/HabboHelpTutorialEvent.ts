@@ -4,7 +4,7 @@
  * Event types dispatched during the new user tutorial flow,
  * including avatar editor opening/closing and tutorial start.
  *
- * @see source_as/habbo/help/enum/HabboHelpTutorialEvent.as
+ * @see source_as_win63/habbo/help/enum/HabboHelpTutorialEvent.as
  */
 export class HabboHelpTutorialEvent
 {

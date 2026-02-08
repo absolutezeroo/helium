@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Data class for a single history message entry.
  * Represents one message in a conversation history fragment.
  *
- * @see source_as/habbo/communication/messages/incoming/friendlist/class_1741.as
+ * @see source_as_win63/habbo/communication/messages/incoming/friendlist/class_1741.as
  */
 export class HistoryMessageEntry
 {
@@ -66,7 +66,7 @@ export class HistoryMessageEntry
  * Parser for console message history events.
  * Contains a fragment of conversation history for a given chat.
  *
- * @see source_as/habbo/communication/messages/parser/friendlist/ConsoleMessageHistoryEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/friendlist/ConsoleMessageHistoryEventParser.as
  */
 export class ConsoleMessageHistoryEventParser implements IMessageParser
 {

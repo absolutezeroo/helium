@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Requests to follow a friend to their current room.
  *
- * @see source_as/habbo/communication/messages/outgoing/friendlist/FollowFriendMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/friendlist/FollowFriendMessageComposer.as
  */
 export class FollowFriendMessageComposer extends MessageComposer<ConstructorParameters<typeof FollowFriendMessageComposer>>
 {

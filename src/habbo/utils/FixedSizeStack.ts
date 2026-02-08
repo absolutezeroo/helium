@@ -4,7 +4,7 @@
  * Stores a fixed number of integer values in a circular buffer,
  * allowing efficient min/max queries over the stored values.
  *
- * @see source_as/habbo/utils/FixedSizeStack.as
+ * @see source_as_win63/habbo/utils/FixedSizeStack.as
  */
 export class FixedSizeStack
 {

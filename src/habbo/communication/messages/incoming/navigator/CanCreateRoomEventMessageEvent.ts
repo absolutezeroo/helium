@@ -5,7 +5,7 @@ import {CanCreateRoomEventMessageParser} from '../../parser/navigator/CanCreateR
 /**
  * Event handler for CanCreateRoomEvent message
  *
- * @see source_as/habbo/communication/messages/incoming/navigator/CanCreateRoomEventEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/navigator/CanCreateRoomEventEvent.as
  */
 export class CanCreateRoomEventMessageEvent extends MessageEvent
 {

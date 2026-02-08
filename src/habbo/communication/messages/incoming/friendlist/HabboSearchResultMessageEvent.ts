@@ -5,7 +5,7 @@ import {HabboSearchResultMessageParser} from '../../parser/friendlist/HabboSearc
 /**
  * Event for receiving Habbo user search results.
  *
- * @see source_as/habbo/communication/messages/incoming/friendlist/HabboSearchResultEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/friendlist/HabboSearchResultEvent.as
  */
 export class HabboSearchResultMessageEvent extends MessageEvent
 {

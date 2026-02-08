@@ -4,7 +4,7 @@ import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 /**
  * Parser for FurniListRemove message (item removed from inventory)
  *
- * @see source_as/habbo/communication/messages/parser/inventory/furni/FurniListRemoveEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/inventory/furni/FurniListRemoveEventParser.as
  */
 export class FurniListRemoveMessageParser implements IMessageParser
 {

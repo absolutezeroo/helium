@@ -6,7 +6,7 @@ import {SanctionStatusMessageParser} from '../../parser/help/SanctionStatusMessa
  * Event for sanction status updates.
  * Provides information about the user's current sanction state.
  *
- * @see source_as/habbo/communication/messages/incoming/callforhelp/SanctionStatusEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/callforhelp/SanctionStatusEvent.as
  */
 export class SanctionStatusMessageEvent extends MessageEvent
 {

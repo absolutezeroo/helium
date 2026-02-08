@@ -18,7 +18,7 @@ import {RoomSessionErrorMessageEvent} from '../events/RoomSessionErrorMessageEve
  * Handles GenericErrorEvent and dispatches RoomSessionErrorMessageEvent
  * for error code 4008 (kicked by owner).
  *
- * @see source_as/habbo/session/handler/GenericErrorHandler.as
+ * @see source_as_win63/habbo/session/handler/GenericErrorHandler.as
  */
 export class GenericErrorHandler extends BaseHandler
 {

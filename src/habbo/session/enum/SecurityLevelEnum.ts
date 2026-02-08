@@ -1,7 +1,7 @@
 /**
  * Security level enum
  *
- * @see source_as/habbo/session/enum/SecurityLevelEnum.as
+ * @see source_as_win63/habbo/session/enum/SecurityLevelEnum.as
  */
 export const SecurityLevelEnum = {
 	NONE: 0,

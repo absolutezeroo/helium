@@ -7,7 +7,7 @@ import {
 /**
  * Login failed - hotel is closed
  *
- * @see source_as/habbo/communication/messages/incoming/availability/LoginFailedHotelClosedMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/availability/LoginFailedHotelClosedMessageEvent.as
  */
 export class LoginFailedHotelClosedMessageEvent extends MessageEvent
 {

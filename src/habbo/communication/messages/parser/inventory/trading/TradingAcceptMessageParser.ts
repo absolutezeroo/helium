@@ -4,7 +4,7 @@ import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 /**
  * Parser for trading accept message
  *
- * @see source_as/habbo/communication/messages/parser/inventory/trading/TradingAcceptEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/inventory/trading/TradingAcceptEventParser.as
  */
 export class TradingAcceptMessageParser implements IMessageParser
 {

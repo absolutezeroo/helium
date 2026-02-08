@@ -5,7 +5,7 @@ import {CallForHelpReplyMessageParser} from '../../parser/help/CallForHelpReplyM
 /**
  * Event for call for help reply messages from staff.
  *
- * @see source_as/habbo/communication/messages/incoming/help/CallForHelpReplyMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/help/CallForHelpReplyMessageEvent.as
  */
 export class CallForHelpReplyMessageEvent extends MessageEvent
 {

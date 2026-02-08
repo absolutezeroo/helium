@@ -4,7 +4,7 @@
  * Tracks guild type and rights level with modification tracking.
  * Used in the guild management UI to detect unsaved changes.
  *
- * @see source_as/habbo/groups/GuildSettingsData.as
+ * @see source_as_win63/habbo/groups/GuildSettingsData.as
  */
 export class GuildSettingsData
 {

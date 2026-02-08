@@ -6,7 +6,7 @@ import {HabboSearchResultData} from './HabboSearchResultData';
  * Parser for Habbo user search results.
  * Contains two lists: friends matching the search and other users matching the search.
  *
- * @see source_as/habbo/communication/messages/parser/friendlist/HabboSearchResultMessageParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/friendlist/HabboSearchResultMessageParser.as
  */
 export class HabboSearchResultMessageParser implements IMessageParser
 {

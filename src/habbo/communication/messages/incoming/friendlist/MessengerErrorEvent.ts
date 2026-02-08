@@ -6,7 +6,7 @@ import {MessengerErrorMessageParser} from '../../parser/friendlist/MessengerErro
  * Event handler for messenger errors.
  * Fired when a messenger operation fails.
  *
- * @see source_as/habbo/communication/messages/incoming/friendlist/MessengerErrorEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/friendlist/MessengerErrorEvent.as
  */
 export class MessengerErrorEvent extends MessageEvent
 {

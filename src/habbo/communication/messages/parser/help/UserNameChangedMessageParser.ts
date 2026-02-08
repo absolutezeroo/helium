@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for user name changed messages.
  * Contains the user's web ID, room entity ID, and new name.
  *
- * @see source_as/habbo/communication/messages/parser/users/UserNameChangedMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/users/UserNameChangedMessageEventParser.as
  */
 export class UserNameChangedMessageParser implements IMessageParser
 {

@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for room dimmer presets message
  *
- * @see source_as/habbo/communication/messages/parser/room/furniture/RoomDimmerPresetsMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/room/furniture/RoomDimmerPresetsMessageEventParser.as
  */
 export class RoomDimmerPresetsMessageEventParser implements IMessageParser
 {

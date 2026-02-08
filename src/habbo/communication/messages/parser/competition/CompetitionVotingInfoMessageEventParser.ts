@@ -7,7 +7,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parses voting information including goal ID, goal code, result code,
  * whether voting is allowed, and votes remaining.
  *
- * @see source_as/habbo/communication/messages/parser/competition/CompetitionVotingInfoMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/competition/CompetitionVotingInfoMessageEventParser.as
  */
 export class CompetitionVotingInfoMessageEventParser implements IMessageParser
 {

@@ -5,7 +5,7 @@ import {CampaignCalendarDoorOpenedMessageParser} from '../../parser/campaign/Cam
 /**
  * Event for campaign calendar door opened response from server
  *
- * @see source_as/habbo/communication/messages/incoming/campaign/CampaignCalendarDoorOpenedMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/campaign/CampaignCalendarDoorOpenedMessageEvent.as
  */
 export class CampaignCalendarDoorOpenedMessageEvent extends MessageEvent
 {

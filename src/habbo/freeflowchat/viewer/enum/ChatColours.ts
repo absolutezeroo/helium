@@ -4,7 +4,7 @@ import type {ChatItem} from '../../data/ChatItem';
  * Chat colour tag parser. Detects colour prefix tags in chat text
  * (e.g. @red@, @cyan@) and returns the parsed text and colour value.
  *
- * @see source_as/habbo/freeflowchat/viewer/enum/ChatColours.as
+ * @see source_as_win63/habbo/freeflowchat/viewer/enum/ChatColours.as
  */
 export class ChatColours
 {

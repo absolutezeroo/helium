@@ -5,7 +5,7 @@ import {UserClassificationMessageParser} from '../../parser/moderation/UserClass
 /**
  * Event for user classification data.
  *
- * @see source_as/habbo/communication/messages/incoming/userclassification/UserClassificationMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/userclassification/UserClassificationMessageEvent.as
  */
 export class UserClassificationMessageEvent extends MessageEvent
 {

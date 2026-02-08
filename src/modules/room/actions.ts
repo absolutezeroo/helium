@@ -167,7 +167,7 @@ export function createActions(ctx: ActionContext<RoomState, RoomManagers>)
 		 * Based on AS3: HabboLandingView.onToolbarClick() → HTIE_ICON_RECEPTION
 		 * Sends QuitMessageComposer, disposes the session, and clears room state.
 		 *
-		 * @see source_as/habbo/friendbar/landingview/HabboLandingView.as line 328
+		 * @see source_as_win63/habbo/friendbar/landingview/HabboLandingView.as line 328
 		 */
 		goToDesktop: (): void =>
 		{

@@ -4,7 +4,7 @@
  * Dispatched when toolbar icons are clicked or the toolbar is resized.
  * Carries iconId and iconName properties to identify which icon was interacted with.
  *
- * @see source_as/habbo/toolbar/events/HabboToolbarEvent.as
+ * @see source_as_win63/habbo/toolbar/events/HabboToolbarEvent.as
  */
 export class HabboToolbarEvent
 {

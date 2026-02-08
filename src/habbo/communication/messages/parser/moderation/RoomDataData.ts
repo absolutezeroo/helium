@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Data class for room data within moderator room info.
  * Contains the room name, description, and tags.
  *
- * @see source_as/habbo/communication/messages/incoming/moderation/class_1769.as
+ * @see source_as_win63/habbo/communication/messages/incoming/moderation/class_1769.as
  */
 export class RoomDataData
 {

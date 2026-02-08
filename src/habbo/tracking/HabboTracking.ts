@@ -38,7 +38,7 @@ const log = Logger.getLogger('HabboTracking');
  * and provides methods for event logging, Google Analytics tracking, and
  * error reporting. Implements the IUpdateReceiver interface for frame-based updates.
  *
- * @see source_as/habbo/tracking/HabboTracking.as
+ * @see source_as_win63/habbo/tracking/HabboTracking.as
  */
 export class HabboTracking extends Component implements IHabboTracking, IUpdateReceiver
 {

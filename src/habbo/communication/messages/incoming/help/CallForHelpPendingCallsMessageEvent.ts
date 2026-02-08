@@ -5,7 +5,7 @@ import {CallForHelpPendingCallsMessageParser} from '../../parser/help/CallForHel
 /**
  * Event for pending calls for help list.
  *
- * @see source_as/habbo/communication/messages/incoming/help/CallForHelpPendingCallsMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/help/CallForHelpPendingCallsMessageEvent.as
  */
 export class CallForHelpPendingCallsMessageEvent extends MessageEvent
 {

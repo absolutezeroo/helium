@@ -5,7 +5,7 @@ import {ModeratorRoomInfoData} from './ModeratorRoomInfoData';
 /**
  * Parser for moderator room info messages.
  *
- * @see source_as/habbo/communication/messages/parser/moderation/ModeratorRoomInfoEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/moderation/ModeratorRoomInfoEventParser.as
  */
 export class ModeratorRoomInfoParser implements IMessageParser
 {

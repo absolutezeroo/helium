@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Represents a single CFH topic within a category.
  *
- * @see source_as/habbo/communication/messages/incoming/callforhelp/class_1785.as
+ * @see source_as_win63/habbo/communication/messages/incoming/callforhelp/class_1785.as
  */
 export interface CfhTopic
 {
@@ -16,7 +16,7 @@ export interface CfhTopic
 /**
  * Represents a CFH category containing multiple topics.
  *
- * @see source_as/habbo/communication/messages/incoming/callforhelp/class_1746.as
+ * @see source_as_win63/habbo/communication/messages/incoming/callforhelp/class_1746.as
  */
 export interface CfhCategory
 {
@@ -28,7 +28,7 @@ export interface CfhCategory
  * Parser for CFH topics initialization messages.
  * Contains the full category/topic tree for the call for help system.
  *
- * @see source_as/habbo/communication/messages/parser/callforhelp/CfhTopicsInitMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/callforhelp/CfhTopicsInitMessageEventParser.as
  */
 export class CfhTopicsInitMessageParser implements IMessageParser
 {

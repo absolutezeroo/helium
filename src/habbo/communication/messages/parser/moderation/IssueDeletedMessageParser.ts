@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for issue deleted messages.
  *
- * @see source_as/habbo/communication/messages/parser/moderation/IssueDeletedMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/moderation/IssueDeletedMessageEventParser.as
  */
 export class IssueDeletedMessageParser implements IMessageParser
 {

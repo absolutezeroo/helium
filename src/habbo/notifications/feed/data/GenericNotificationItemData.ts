@@ -2,7 +2,7 @@
  * Feed item data model with title, description, timestamp, etc.
  * Used for notification feed entries.
  *
- * @see source_as/habbo/notifications/feed/data/GenericNotificationItemData.as
+ * @see source_as_win63/habbo/notifications/feed/data/GenericNotificationItemData.as
  */
 export class GenericNotificationItemData
 {

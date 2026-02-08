@@ -4,7 +4,7 @@
  * Provides methods for tracking user actions, performance metrics,
  * and error reporting.
  *
- * @see source_as/habbo/tracking/IHabboTracking.as
+ * @see source_as_win63/habbo/tracking/IHabboTracking.as
  */
 export interface IHabboTracking
 {

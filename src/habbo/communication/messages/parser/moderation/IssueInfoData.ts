@@ -3,7 +3,7 @@ import {PatternMatchData} from './PatternMatchData';
 /**
  * Data class representing a single moderation issue.
  *
- * @see source_as/habbo/communication/messages/parser/moderation/class_1722.as
+ * @see source_as_win63/habbo/communication/messages/parser/moderation/class_1722.as
  */
 export class IssueInfoData
 {

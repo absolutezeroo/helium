@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for guide session started messages.
  * Contains information about both the requester and guide in a new session.
  *
- * @see source_as/habbo/communication/messages/parser/help/GuideSessionStartedMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/help/GuideSessionStartedMessageEventParser.as
  */
 export class GuideSessionStartedMessageParser implements IMessageParser
 {

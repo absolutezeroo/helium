@@ -4,7 +4,7 @@ import {RoomSessionEvent} from './RoomSessionEvent';
 /**
  * Room session error message event
  *
- * @see source_as/habbo/session/events/RoomSessionErrorMessageEvent.as
+ * @see source_as_win63/habbo/session/events/RoomSessionErrorMessageEvent.as
  */
 export class RoomSessionErrorMessageEvent extends RoomSessionEvent
 {

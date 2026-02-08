@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  *
  * Parses product type and associated item data from the wrapper.
  *
- * @see source_as/habbo/communication/messages/incoming/catalog/class_1718.as
+ * @see source_as_win63/habbo/communication/messages/incoming/catalog/class_1718.as
  */
 export class ClubGiftProductData
 {

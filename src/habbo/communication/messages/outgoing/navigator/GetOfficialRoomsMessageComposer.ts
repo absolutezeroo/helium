@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Get official rooms list
  *
- * @see source_as/habbo/communication/messages/outgoing/navigator/GetOfficialRoomsMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/navigator/GetOfficialRoomsMessageComposer.as
  */
 export class GetOfficialRoomsMessageComposer extends MessageComposer<ConstructorParameters<typeof GetOfficialRoomsMessageComposer>>
 {

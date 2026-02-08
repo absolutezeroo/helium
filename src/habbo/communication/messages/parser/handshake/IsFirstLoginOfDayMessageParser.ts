@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for is first login of day message
  *
- * @see source_as/habbo/communication/messages/parser/handshake/IsFirstLoginOfDayEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/handshake/IsFirstLoginOfDayEventParser.as
  */
 export class IsFirstLoginOfDayMessageParser implements IMessageParser
 {

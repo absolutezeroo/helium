@@ -24,7 +24,7 @@ const log = Logger.getLogger('CommunicationDemo');
  * In AS3 this also manages the login screen UI (HabboLoginDemoScreen),
  * which we skip since the UI is handled by SolidJS.
  *
- * @see source_as/habbo/communication/demo/HabboCommunicationDemo.as
+ * @see source_as_win63/habbo/communication/demo/HabboCommunicationDemo.as
  */
 export class HabboCommunicationDemo extends Component
 {
@@ -42,7 +42,7 @@ export class HabboCommunicationDemo extends Component
 	private _communication: IHabboCommunicationManager | null = null;
 
 	/**
-	 * @see source_as/habbo/communication/demo/HabboCommunicationDemo.as communication
+	 * @see source_as_win63/habbo/communication/demo/HabboCommunicationDemo.as communication
 	 */
 	get communication(): IHabboCommunicationManager | null
 	{
@@ -52,7 +52,7 @@ export class HabboCommunicationDemo extends Component
 	private _ssoTicket: string | null = null;
 
 	/**
-	 * @see source_as/habbo/communication/demo/HabboCommunicationDemo.as ssoTicket
+	 * @see source_as_win63/habbo/communication/demo/HabboCommunicationDemo.as ssoTicket
 	 */
 	set ssoTicket(value: string)
 	{
@@ -76,7 +76,7 @@ export class HabboCommunicationDemo extends Component
 	/**
 	 * Initialize the game socket connection
 	 *
-	 * @see source_as/habbo/communication/demo/HabboCommunicationDemo.as initGameSocket()
+	 * @see source_as_win63/habbo/communication/demo/HabboCommunicationDemo.as initGameSocket()
 	 */
 	initGameSocket(): void
 	{
@@ -105,7 +105,7 @@ export class HabboCommunicationDemo extends Component
 	/**
 	 * Set SSO ticket and initialize the game socket
 	 *
-	 * @see source_as/habbo/communication/demo/HabboCommunicationDemo.as setSSOTicket()
+	 * @see source_as_win63/habbo/communication/demo/HabboCommunicationDemo.as setSSOTicket()
 	 */
 	setSSOTicket(ticket: string): void
 	{
@@ -121,7 +121,7 @@ export class HabboCommunicationDemo extends Component
 	 *
 	 * AS3 sends: ClientHelloMessageComposer, UniqueIDMessageComposer, SSOTicketMessageComposer
 	 *
-	 * @see source_as/habbo/communication/demo/HabboCommunicationDemo.as sendConnectionParameters()
+	 * @see source_as_win63/habbo/communication/demo/HabboCommunicationDemo.as sendConnectionParameters()
 	 */
 	sendConnectionParameters(connection: IConnection): void
 	{
@@ -145,7 +145,7 @@ export class HabboCommunicationDemo extends Component
 	/**
 	 * Called when login is successful (AuthenticationOK received)
 	 *
-	 * @see source_as/habbo/communication/demo/HabboCommunicationDemo.as loginOk()
+	 * @see source_as_win63/habbo/communication/demo/HabboCommunicationDemo.as loginOk()
 	 */
 	loginOk(): void
 	{
@@ -160,7 +160,7 @@ export class HabboCommunicationDemo extends Component
 	 *
 	 * In AS3 this shows a UI alert via localization - we emit the event for SolidJS to handle.
 	 *
-	 * @see source_as/habbo/communication/demo/HabboCommunicationDemo.as disconnected()
+	 * @see source_as_win63/habbo/communication/demo/HabboCommunicationDemo.as disconnected()
 	 */
 	disconnected(reason: number, reasonText: string): void
 	{
@@ -184,7 +184,7 @@ export class HabboCommunicationDemo extends Component
 	 * - 4013: Maintenance (AS3 shows alert)
 	 * - Other: Generic server error (AS3 shows alert)
 	 *
-	 * @see source_as/habbo/communication/demo/HabboCommunicationDemo.as handleErrorMessage()
+	 * @see source_as_win63/habbo/communication/demo/HabboCommunicationDemo.as handleErrorMessage()
 	 */
 	handleErrorMessage(errorCode: number, messageId: number): void
 	{
@@ -220,7 +220,7 @@ export class HabboCommunicationDemo extends Component
 	 *
 	 * In AS3 this shows the login screen with disconnected text.
 	 *
-	 * @see source_as/habbo/communication/demo/HabboCommunicationDemo.as handleLoginFailedHotelClosedMessage()
+	 * @see source_as_win63/habbo/communication/demo/HabboCommunicationDemo.as handleLoginFailedHotelClosedMessage()
 	 */
 	handleLoginFailedHotelClosedMessage(openHour: number, openMinute: number): void
 	{
@@ -234,7 +234,7 @@ export class HabboCommunicationDemo extends Component
 	 * We emit on the communication manager events (our equivalent of the shared context events)
 	 * so that other components (HabboLocalizationManager, connection module) can listen.
 	 *
-	 * @see source_as/habbo/communication/demo/HabboCommunicationDemo.as dispatchLoginStepEvent()
+	 * @see source_as_win63/habbo/communication/demo/HabboCommunicationDemo.as dispatchLoginStepEvent()
 	 */
 	dispatchLoginStepEvent(step: HabboCommunicationEventType): void
 	{
@@ -244,7 +244,7 @@ export class HabboCommunicationDemo extends Component
 	}
 
 	/**
-	 * @see source_as/habbo/communication/demo/HabboCommunicationDemo.as dispose()
+	 * @see source_as_win63/habbo/communication/demo/HabboCommunicationDemo.as dispose()
 	 */
 	override dispose(): void
 	{
@@ -258,7 +258,7 @@ export class HabboCommunicationDemo extends Component
 	}
 
 	/**
-	 * @see source_as/habbo/communication/demo/HabboCommunicationDemo.as initComponent()
+	 * @see source_as_win63/habbo/communication/demo/HabboCommunicationDemo.as initComponent()
 	 */
 	protected override initComponent(): void
 	{
@@ -289,7 +289,7 @@ export class HabboCommunicationDemo extends Component
 	}
 
 	/**
-	 * @see source_as/habbo/communication/demo/HabboCommunicationDemo.as initWithSSO()
+	 * @see source_as_win63/habbo/communication/demo/HabboCommunicationDemo.as initWithSSO()
 	 */
 	private initWithSSO(ticket: string): void
 	{

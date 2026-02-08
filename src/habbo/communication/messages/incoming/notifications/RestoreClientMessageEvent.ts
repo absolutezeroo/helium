@@ -5,7 +5,7 @@ import {RestoreClientMessageEventParser} from '../../parser/notifications/Restor
 /**
  * Event for restore client message
  *
- * @see source_as/habbo/communication/messages/incoming/notifications/RestoreClientMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/notifications/RestoreClientMessageEvent.as
  */
 export class RestoreClientMessageEvent extends MessageEvent
 {

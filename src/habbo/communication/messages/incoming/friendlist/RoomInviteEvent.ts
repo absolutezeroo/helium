@@ -6,7 +6,7 @@ import {RoomInviteEventParser} from '../../parser/friendlist/RoomInviteEventPars
  * Event handler for room invite events.
  * Fired when a friend sends a room invitation.
  *
- * @see source_as/habbo/communication/messages/incoming/friendlist/RoomInviteEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/friendlist/RoomInviteEvent.as
  */
 export class RoomInviteEvent extends MessageEvent
 {

@@ -1,7 +1,7 @@
 /**
  * Dimmer preset item
  *
- * @see source_as/habbo/session/events/RoomSessionDimmerPresetsEventPresetItem.as
+ * @see source_as_win63/habbo/session/events/RoomSessionDimmerPresetsEventPresetItem.as
  */
 export class RoomSessionDimmerPresetsEventPresetItem
 {

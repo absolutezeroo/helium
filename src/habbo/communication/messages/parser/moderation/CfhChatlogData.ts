@@ -4,7 +4,7 @@ import {ChatRecordData} from './ChatRecordData';
 /**
  * Data class for CFH (Call For Help) chatlog data.
  *
- * @see source_as/habbo/communication/messages/incoming/moderation/class_1674.as
+ * @see source_as_win63/habbo/communication/messages/incoming/moderation/class_1674.as
  */
 export class CfhChatlogData
 {

@@ -5,7 +5,7 @@ import {NavigatorCollapsedCategoriesMessageParser} from '../../parser/newnavigat
 /**
  * Event for collapsed categories
  *
- * @see source_as/habbo/communication/messages/incoming/newnavigator/NavigatorCollapsedCategoriesMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/newnavigator/NavigatorCollapsedCategoriesMessageEvent.as
  */
 export class NavigatorCollapsedCategoriesMessageEvent extends MessageEvent
 {

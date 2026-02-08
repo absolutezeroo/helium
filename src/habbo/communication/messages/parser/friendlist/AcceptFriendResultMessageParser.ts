@@ -6,7 +6,7 @@ import {AcceptFriendFailureData} from './AcceptFriendFailureData';
  * Parser for accept friend request result.
  * Contains a list of failures (if any).
  *
- * @see source_as/habbo/communication/messages/parser/friendlist/AcceptFriendResultMessageParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/friendlist/AcceptFriendResultMessageParser.as
  */
 export class AcceptFriendResultMessageParser implements IMessageParser
 {

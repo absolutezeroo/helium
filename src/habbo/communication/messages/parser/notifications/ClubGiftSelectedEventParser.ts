@@ -7,7 +7,7 @@ import {ClubGiftProductData} from '../../incoming/notifications/ClubGiftProductD
  *
  * Parses the selected product code and the list of products.
  *
- * @see source_as/habbo/communication/messages/parser/catalog/ClubGiftSelectedEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/catalog/ClubGiftSelectedEventParser.as
  */
 export class ClubGiftSelectedEventParser implements IMessageParser
 {

@@ -3,7 +3,7 @@ import type {MessageEventCallback} from '@core/communication/messages/IMessageEv
 import {UnseenItemsMessageParser} from '@habbo/communication/messages/parser/inventory/unseen/UnseenItemsMessageParser';
 
 /**
- * @see source_as/habbo/communication/messages/incoming/inventory/unseen/UnseenItemsEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/inventory/unseen/UnseenItemsEvent.as
  */
 export class UnseenItemsMessageEvent extends MessageEvent
 {

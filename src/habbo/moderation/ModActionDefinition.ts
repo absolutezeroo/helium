@@ -3,7 +3,7 @@
  *
  * Contains the action's metadata including type, sanction info, and duration.
  *
- * @see source_as/habbo/moderation/ModActionDefinition.as
+ * @see source_as_win63/habbo/moderation/ModActionDefinition.as
  */
 export class ModActionDefinition
 {

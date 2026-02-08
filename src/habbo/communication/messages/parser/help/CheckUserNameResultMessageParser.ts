@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for check user name result messages.
  * Contains the result code, checked name, and name suggestions.
  *
- * @see source_as/habbo/communication/messages/parser/avatar/CheckUserNameResultMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/avatar/CheckUserNameResultMessageEventParser.as
  */
 export class CheckUserNameResultMessageParser implements IMessageParser
 {

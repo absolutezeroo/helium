@@ -6,7 +6,7 @@ import {ResolutionAchievementData} from '../../quest/ResolutionAchievementData';
  * Parser for the achievement resolutions list message.
  * Parses a list of resolution achievements along with a stuff ID and end time.
  *
- * @see source_as/habbo/communication/messages/parser/game/lobby/AchievementResolutionsMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/game/lobby/AchievementResolutionsMessageEventParser.as
  */
 export class AchievementResolutionsMessageEventParser implements IMessageParser
 {

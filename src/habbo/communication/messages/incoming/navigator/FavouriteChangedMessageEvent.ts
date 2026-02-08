@@ -5,7 +5,7 @@ import {FavouriteChangedMessageParser} from '../../parser/navigator/FavouriteCha
 /**
  * Event handler for FavouriteChanged message
  *
- * @see source_as/habbo/communication/messages/incoming/navigator/FavouriteChangedEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/navigator/FavouriteChangedEvent.as
  */
 export class FavouriteChangedMessageEvent extends MessageEvent
 {

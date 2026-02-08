@@ -7,7 +7,7 @@ import {
 /**
  * Event handler for BuildersClubSubscriptionStatus message
  *
- * @see source_as/habbo/communication/messages/incoming/catalog/BuildersClubSubscriptionStatusMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/catalog/BuildersClubSubscriptionStatusMessageEvent.as
  */
 export class BuildersClubSubscriptionStatusMessageEvent extends MessageEvent
 {

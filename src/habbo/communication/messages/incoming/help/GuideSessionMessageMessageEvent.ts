@@ -6,7 +6,7 @@ import {GuideSessionMessageMessageParser} from '../../parser/help/GuideSessionMe
  * Event for guide session chat messages.
  * Fired when a new message is received in a guide session.
  *
- * @see source_as/habbo/communication/messages/incoming/help/GuideSessionMessageMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/help/GuideSessionMessageMessageEvent.as
  */
 export class GuideSessionMessageMessageEvent extends MessageEvent
 {

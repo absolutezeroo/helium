@@ -8,7 +8,7 @@ import {
  * Event for being invited to a guide's room during a session.
  * Fired when the requester is invited to the guide's room.
  *
- * @see source_as/habbo/communication/messages/incoming/help/GuideSessionInvitedToGuideRoomMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/help/GuideSessionInvitedToGuideRoomMessageEvent.as
  */
 export class GuideSessionInvitedToGuideRoomMessageEvent extends MessageEvent
 {

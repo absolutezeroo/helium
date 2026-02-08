@@ -4,7 +4,7 @@
  * Holds the target user, guild, and whether the kick includes a block.
  * Used during the confirmation flow before kicking or blocking a member.
  *
- * @see source_as/habbo/groups/GuildKickData.as
+ * @see source_as_win63/habbo/groups/GuildKickData.as
  */
 export class GuildKickData
 {

@@ -5,7 +5,7 @@ import {ClubGiftSelectedEventParser} from '../../parser/notifications/ClubGiftSe
 /**
  * Event for club gift selected
  *
- * @see source_as/habbo/communication/messages/incoming/catalog/ClubGiftSelectedEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/catalog/ClubGiftSelectedEvent.as
  */
 export class ClubGiftSelectedEvent extends MessageEvent
 {

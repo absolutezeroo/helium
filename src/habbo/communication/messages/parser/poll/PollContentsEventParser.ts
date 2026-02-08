@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for poll contents events
  *
- * @see source_as/habbo/communication/messages/parser/poll/PollContentsEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/poll/PollContentsEventParser.as
  */
 export class PollContentsEventParser implements IMessageParser
 {

@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Data class for friend categories
  *
- * @see source_as/habbo/communication/messages/incoming/friendlist/FriendCategoryData.as
+ * @see source_as_win63/habbo/communication/messages/incoming/friendlist/FriendCategoryData.as
  */
 export class FriendCategoryData
 {
@@ -33,7 +33,7 @@ export class FriendCategoryData
  * Parser for messenger initialization data.
  * Contains friend limits and friend categories.
  *
- * @see source_as/habbo/communication/messages/parser/friendlist/MessengerInitParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/friendlist/MessengerInitParser.as
  */
 export class MessengerInitParser implements IMessageParser
 {

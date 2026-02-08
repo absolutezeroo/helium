@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for disconnect reason
  * Message ID: 4000
  *
- * @see source_as/habbo/communication/messages/parser/handshake/DisconnectReasonEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/handshake/DisconnectReasonEventParser.as
  */
 export class DisconnectReasonMessageParser implements IMessageParser
 {

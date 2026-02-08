@@ -42,7 +42,7 @@ export interface HabboNotificationEvents
  * - ISessionDataManager (optional) - for user data
  * - IRoomSessionManager (optional) - for room session state
  *
- * @see source_as/habbo/notifications/HabboNotifications.as
+ * @see source_as_win63/habbo/notifications/HabboNotifications.as
  */
 export class HabboNotifications extends Component implements IHabboNotifications
 {
@@ -162,7 +162,7 @@ export class HabboNotifications extends Component implements IHabboNotifications
 	 * Activate the notifications system.
 	 * Called by the NotificationMessageHandler after message events are registered.
 	 *
-	 * @see source_as/habbo/notifications/HabboNotifications.as activate()
+	 * @see source_as_win63/habbo/notifications/HabboNotifications.as activate()
 	 */
 	activate(): void
 	{
@@ -179,7 +179,7 @@ export class HabboNotifications extends Component implements IHabboNotifications
 	 * @param type The notification type string
 	 * @param iconAssetName Optional asset name for the icon
 	 *
-	 * @see source_as/habbo/notifications/HabboNotifications.as addItem()
+	 * @see source_as_win63/habbo/notifications/HabboNotifications.as addItem()
 	 */
 	addItem(content: string, type: string, iconAssetName?: string | null): void
 	{
@@ -192,7 +192,7 @@ export class HabboNotifications extends Component implements IHabboNotifications
 	 * @param type The notification type key
 	 * @param parameters Optional parameters map
 	 *
-	 * @see source_as/habbo/notifications/HabboNotifications.as showNotification()
+	 * @see source_as_win63/habbo/notifications/HabboNotifications.as showNotification()
 	 */
 	showNotification(type: string, parameters?: Map<string, string> | null): void
 	{
@@ -253,7 +253,7 @@ export class HabboNotifications extends Component implements IHabboNotifications
 	 * @param songName The name of the song
 	 * @param songAuthor The author of the song
 	 *
-	 * @see source_as/habbo/notifications/HabboNotifications.as addSongPlayingNotification()
+	 * @see source_as_win63/habbo/notifications/HabboNotifications.as addSongPlayingNotification()
 	 */
 	addSongPlayingNotification(songName: string, songAuthor: string): void
 	{
@@ -270,7 +270,7 @@ export class HabboNotifications extends Component implements IHabboNotifications
 	 * @param required Whether the part is required
 	 * @returns The resolved string or null
 	 *
-	 * @see source_as/habbo/notifications/HabboNotifications.as getNotificationPart()
+	 * @see source_as_win63/habbo/notifications/HabboNotifications.as getNotificationPart()
 	 */
 	getNotificationPart(
 		params: Map<string, string>,
@@ -309,7 +309,7 @@ export class HabboNotifications extends Component implements IHabboNotifications
 	 * @param type The notification type
 	 * @returns The image URL
 	 *
-	 * @see source_as/habbo/notifications/HabboNotifications.as getNotificationImageUrl()
+	 * @see source_as_win63/habbo/notifications/HabboNotifications.as getNotificationImageUrl()
 	 */
 	getNotificationImageUrl(params: Map<string, string>, type: string): string | null
 	{
@@ -328,7 +328,7 @@ export class HabboNotifications extends Component implements IHabboNotifications
 	 *
 	 * @param link The link event string
 	 *
-	 * @see source_as/habbo/notifications/HabboNotifications.as createLinkEvent()
+	 * @see source_as_win63/habbo/notifications/HabboNotifications.as createLinkEvent()
 	 */
 	createLinkEvent(link: string): void
 	{

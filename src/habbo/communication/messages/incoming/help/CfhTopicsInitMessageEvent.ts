@@ -6,7 +6,7 @@ import {CfhTopicsInitMessageParser} from '../../parser/help/CfhTopicsInitMessage
  * Event for CFH topics initialization.
  * Contains the full category/topic tree for the call for help system.
  *
- * @see source_as/habbo/communication/messages/incoming/callforhelp/CfhTopicsInitMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/callforhelp/CfhTopicsInitMessageEvent.as
  */
 export class CfhTopicsInitMessageEvent extends MessageEvent
 {

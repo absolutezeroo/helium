@@ -4,7 +4,7 @@
  * Manages extension panels that can be attached/detached from the toolbar area
  * (purse, settings, promos, etc.)
  *
- * @see source_as/habbo/toolbar/IExtensionView.as
+ * @see source_as_win63/habbo/toolbar/IExtensionView.as
  */
 export interface IExtensionView
 {

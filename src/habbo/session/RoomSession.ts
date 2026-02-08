@@ -63,7 +63,7 @@ export const BanDuration = {
  * Represents an active session in a room. The key method is start()
  * which sends OpenFlatConnectionMessageComposer to enter the room.
  *
- * @see source_as/habbo/session/RoomSession.as
+ * @see source_as_win63/habbo/session/RoomSession.as
  */
 export class RoomSession implements IRoomSession
 {

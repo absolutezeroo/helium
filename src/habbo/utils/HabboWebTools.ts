@@ -22,7 +22,7 @@ export interface HabboWebToolsEvents
  * In Helium we use standard browser APIs (window.open, etc.) and emit events
  * for features that need to notify other parts of the application.
  *
- * @see source_as/habbo/utils/HabboWebTools.as
+ * @see source_as_win63/habbo/utils/HabboWebTools.as
  */
 export class HabboWebTools
 {

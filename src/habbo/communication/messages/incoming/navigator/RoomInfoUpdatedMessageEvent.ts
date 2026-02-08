@@ -3,7 +3,7 @@ import type {MessageEventCallback} from '@core/communication/messages/IMessageEv
 import {RoomInfoUpdatedMessageParser} from '../../parser/navigator/RoomInfoUpdatedMessageParser';
 
 /**
- * @see source_as/habbo/communication/messages/incoming/navigator/RoomInfoUpdatedEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/navigator/RoomInfoUpdatedEvent.as
  */
 export class RoomInfoUpdatedMessageEvent extends MessageEvent
 {

@@ -5,7 +5,7 @@ import {NavigatorLiftedRoomData} from '../../incoming/newnavigator';
 /**
  * Parser for lifted rooms message
  *
- * @see source_as/habbo/communication/messages/parser/newnavigator/class_1530.as
+ * @see source_as_win63/habbo/communication/messages/parser/newnavigator/class_1530.as
  */
 export class NavigatorLiftedRoomsMessageParser implements IMessageParser
 {

@@ -4,7 +4,7 @@
  * These keys are used with ErrorReportStorage to store contextual
  * information about the client state when an error occurs.
  *
- * @see source_as/habbo/tracking/HabboErrorVariableEnum.as
+ * @see source_as_win63/habbo/tracking/HabboErrorVariableEnum.as
  */
 export const HabboErrorVariableEnum = {
 	ERROR_VARIABLE_HOST: 'host',

@@ -4,7 +4,7 @@
  * Implementors receive time advancement calls from a Juggler
  * to update their animation state.
  *
- * @see source_as/habbo/utils/animation/class_65.as
+ * @see source_as_win63/habbo/utils/animation/class_65.as
  */
 export interface IAnimatable
 {

@@ -3,7 +3,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Data class for pattern match information in issue reports.
  *
- * @see source_as/habbo/communication/messages/parser/moderation/class_1682.as
+ * @see source_as_win63/habbo/communication/messages/parser/moderation/class_1682.as
  */
 export class PatternMatchData
 {

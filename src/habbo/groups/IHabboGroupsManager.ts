@@ -4,7 +4,7 @@
  * Provides group-related operations including viewing group info,
  * badge info, and extended profiles.
  *
- * @see source_as/habbo/groups/class_1880.as
+ * @see source_as_win63/habbo/groups/class_1880.as
  */
 export interface IHabboGroupsManager
 {

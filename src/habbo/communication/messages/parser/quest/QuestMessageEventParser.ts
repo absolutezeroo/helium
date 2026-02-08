@@ -7,7 +7,7 @@ import {QuestMessageData} from './QuestMessageData';
  *
  * Parses the server message containing a single quest's data.
  *
- * @see source_as/habbo/communication/messages/parser/quest/QuestMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/quest/QuestMessageEventParser.as
  */
 export class QuestMessageEventParser implements IMessageParser
 {

@@ -4,7 +4,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
  * Picks (claims) one or more issues for moderation.
  * Sends issue count, each issue ID, retry flag, retry count, and picker name.
  *
- * @see source_as/habbo/communication/messages/outgoing/moderator/PickIssuesMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/moderator/PickIssuesMessageComposer.as
  */
 export class PickIssuesMessageComposer extends MessageComposer<unknown[]>
 {

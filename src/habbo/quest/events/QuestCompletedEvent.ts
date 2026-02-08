@@ -1,7 +1,7 @@
 /**
  * Event dispatched when a quest is completed
  *
- * @see source_as/habbo/quest/events/QuestCompletedEvent.as
+ * @see source_as_win63/habbo/quest/events/QuestCompletedEvent.as
  */
 export class QuestCompletedEvent
 {

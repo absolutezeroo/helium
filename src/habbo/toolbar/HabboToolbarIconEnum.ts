@@ -4,7 +4,7 @@
  * Each constant represents a toolbar icon identifier. The getIconName() method
  * maps icon IDs back to their human-readable names.
  *
- * @see source_as/habbo/toolbar/HabboToolbarIconEnum.as
+ * @see source_as_win63/habbo/toolbar/HabboToolbarIconEnum.as
  */
 export class HabboToolbarIconEnum
 {

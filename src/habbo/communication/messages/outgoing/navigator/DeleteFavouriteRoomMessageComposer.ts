@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Remove a room from favourites
  *
- * @see source_as/habbo/communication/messages/outgoing/navigator/DeleteFavouriteRoomMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/navigator/DeleteFavouriteRoomMessageComposer.as
  */
 export class DeleteFavouriteRoomMessageComposer extends MessageComposer<ConstructorParameters<typeof DeleteFavouriteRoomMessageComposer>>
 {

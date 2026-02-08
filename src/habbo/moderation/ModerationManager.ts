@@ -19,7 +19,7 @@ const log = Logger.getLogger('Moderation');
  * Manages issue tracking, permissions, connections, sound, and tracking.
  * Creates and owns the IssueManager and ModerationMessageHandler.
  *
- * @see source_as/habbo/moderation/ModerationManager.as
+ * @see source_as_win63/habbo/moderation/ModerationManager.as
  */
 export class ModerationManager extends Component implements IHabboModeration
 {

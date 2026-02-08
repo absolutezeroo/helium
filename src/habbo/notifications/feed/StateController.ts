@@ -4,7 +4,7 @@ import {FeedVisibilityEnum} from '../FeedVisibilityEnum';
  * Visibility state machine for the notification feed.
  * Manages transitions between hidden, minimized, and maximized states.
  *
- * @see source_as/habbo/notifications/feed/StateController.as
+ * @see source_as_win63/habbo/notifications/feed/StateController.as
  */
 export class StateController
 {

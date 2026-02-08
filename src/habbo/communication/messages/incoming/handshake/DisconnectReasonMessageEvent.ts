@@ -6,7 +6,7 @@ import {DisconnectReasonMessageParser} from '../../parser/handshake/DisconnectRe
  * Event handler for Disconnect reason message
  * Message ID: 4000
  *
- * @see source_as/habbo/communication/messages/incoming/handshake/DisconnectReasonEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/handshake/DisconnectReasonEvent.as
  */
 export class DisconnectReasonMessageEvent extends MessageEvent
 {

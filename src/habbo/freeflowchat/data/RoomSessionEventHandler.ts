@@ -6,7 +6,7 @@ import type {IHabboFreeFlowChat} from '../IHabboFreeFlowChat';
  * on the roomSessionManager and calls the corresponding roomEntered() and
  * roomLeft() methods on the free flow chat component.
  *
- * @see source_as/habbo/freeflowchat/data/RoomSessionEventHandler.as
+ * @see source_as_win63/habbo/freeflowchat/data/RoomSessionEventHandler.as
  */
 export class RoomSessionEventHandler
 {

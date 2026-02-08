@@ -1,7 +1,7 @@
 /**
  * Session data preferences event
  *
- * @see source_as/habbo/session/events/SessionDataPreferencesEvent.as
+ * @see source_as_win63/habbo/session/events/SessionDataPreferencesEvent.as
  */
 export class SessionDataPreferencesEvent
 {

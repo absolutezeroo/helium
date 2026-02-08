@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Start a poll session
  *
- * @see source_as/habbo/communication/messages/outgoing/poll/PollStartComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/poll/PollStartComposer.as
  */
 export class PollStartComposer extends MessageComposer<ConstructorParameters<typeof PollStartComposer>>
 {

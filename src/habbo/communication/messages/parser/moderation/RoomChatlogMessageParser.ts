@@ -5,7 +5,7 @@ import {ChatRecordData} from './ChatRecordData';
 /**
  * Parser for room chatlog messages.
  *
- * @see source_as/habbo/communication/messages/parser/moderation/RoomChatlogEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/moderation/RoomChatlogEventParser.as
  */
 export class RoomChatlogMessageParser implements IMessageParser
 {

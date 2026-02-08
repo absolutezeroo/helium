@@ -5,7 +5,7 @@ import {NavigatorSavedSearchesMessageParser} from '../../parser/newnavigator';
 /**
  * Event for saved searches
  *
- * @see source_as/habbo/communication/messages/incoming/newnavigator/NavigatorSavedSearchesMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/newnavigator/NavigatorSavedSearchesMessageEvent.as
  */
 export class NavigatorSavedSearchesMessageEvent extends MessageEvent
 {

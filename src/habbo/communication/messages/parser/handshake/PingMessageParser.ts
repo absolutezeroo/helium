@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for Ping message (keep-alive)
  * Message ID: 658
  *
- * @see source_as/habbo/communication/messages/parser/handshake/PingMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/handshake/PingMessageEventParser.as
  */
 export class PingMessageParser implements IMessageParser
 {

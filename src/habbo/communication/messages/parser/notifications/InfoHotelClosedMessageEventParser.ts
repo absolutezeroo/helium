@@ -6,7 +6,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  *
  * Parses the opening hour, opening minute, and whether the user was thrown out at close.
  *
- * @see source_as/habbo/communication/messages/parser/availability/InfoHotelClosedMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/availability/InfoHotelClosedMessageEventParser.as
  */
 export class InfoHotelClosedMessageEventParser implements IMessageParser
 {

@@ -1,8 +1,8 @@
 # UI Architecture Documentation
 
-This document categorizes all AS3 UI files in `source_as/habbo/ui/` into **ENGINE** (business logic we need) and **VIEW** (UI code we ignore).
+This document categorizes all AS3 UI files in `source_as_win63/habbo/ui/` into **ENGINE** (business logic we need) and **VIEW** (UI code we ignore).
 
-> **Rule**: AS3 source in `source_as/` is the source of truth.
+> **Rule**: AS3 source in `source_as_win63/` is the source of truth.
 
 ---
 

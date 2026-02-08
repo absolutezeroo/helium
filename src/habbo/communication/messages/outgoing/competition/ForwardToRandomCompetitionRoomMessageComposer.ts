@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * ForwardToRandomCompetitionRoomMessageComposer
  *
- * @see source_as/habbo/communication/messages/outgoing/competition/ForwardToRandomCompetitionRoomMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/competition/ForwardToRandomCompetitionRoomMessageComposer.as
  */
 export class ForwardToRandomCompetitionRoomMessageComposer extends MessageComposer<ConstructorParameters<typeof ForwardToRandomCompetitionRoomMessageComposer>>
 {

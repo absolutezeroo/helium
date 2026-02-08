@@ -5,7 +5,7 @@ import {IssueInfoMessageParser} from '../../parser/moderation/IssueInfoMessagePa
 /**
  * Event for a single issue info update.
  *
- * @see source_as/habbo/communication/messages/incoming/moderation/IssueInfoMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/moderation/IssueInfoMessageEvent.as
  */
 export class IssueInfoMessageEvent extends MessageEvent
 {

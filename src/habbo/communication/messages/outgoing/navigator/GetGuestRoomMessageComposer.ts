@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Get guest room information
  *
- * @see source_as/habbo/communication/messages/outgoing/navigator/GetGuestRoomMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/navigator/GetGuestRoomMessageComposer.as
  */
 export class GetGuestRoomMessageComposer extends MessageComposer<[number, number, number]>
 {

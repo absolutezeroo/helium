@@ -7,7 +7,7 @@ import {
 /**
  * Event indicating all pending calls for help have been deleted.
  *
- * @see source_as/habbo/communication/messages/incoming/help/CallForHelpPendingCallsDeletedMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/help/CallForHelpPendingCallsDeletedMessageEvent.as
  */
 export class CallForHelpPendingCallsDeletedMessageEvent extends MessageEvent
 {

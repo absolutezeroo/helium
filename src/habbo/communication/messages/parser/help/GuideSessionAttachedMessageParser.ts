@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for guide session attached messages.
  * Indicates that the user has been attached to a guide session.
  *
- * @see source_as/habbo/communication/messages/parser/help/GuideSessionAttachedMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/help/GuideSessionAttachedMessageEventParser.as
  */
 export class GuideSessionAttachedMessageParser implements IMessageParser
 {

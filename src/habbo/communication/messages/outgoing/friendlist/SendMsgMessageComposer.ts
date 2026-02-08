@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Sends a message to a friend via the messenger console.
  *
- * @see source_as/habbo/communication/messages/outgoing/friendlist/SendMsgMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/friendlist/SendMsgMessageComposer.as
  */
 export class SendMsgMessageComposer extends MessageComposer<ConstructorParameters<typeof SendMsgMessageComposer>>
 {

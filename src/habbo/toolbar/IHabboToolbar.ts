@@ -7,7 +7,7 @@ import type {IExtensionView} from './IExtensionView';
  * Provides methods for managing toolbar state, icon visibility,
  * and extension panels.
  *
- * @see source_as/habbo/toolbar/IHabboToolbar.as
+ * @see source_as_win63/habbo/toolbar/IHabboToolbar.as
  */
 export interface IHabboToolbar
 {

@@ -4,7 +4,7 @@ import {AchievementCategory} from './AchievementCategory';
 /**
  * Container class that organizes achievements into categories and calculates overall progress
  *
- * @see source_as/habbo/quest/AchievementCategories.as
+ * @see source_as_win63/habbo/quest/AchievementCategories.as
  */
 export class AchievementCategories
 {

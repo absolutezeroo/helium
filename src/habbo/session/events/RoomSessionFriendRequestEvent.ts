@@ -4,7 +4,7 @@ import {RoomSessionEvent} from './RoomSessionEvent';
 /**
  * Room session friend request event
  *
- * @see source_as/habbo/session/events/RoomSessionFriendRequestEvent.as
+ * @see source_as_win63/habbo/session/events/RoomSessionFriendRequestEvent.as
  */
 export class RoomSessionFriendRequestEvent extends RoomSessionEvent
 {

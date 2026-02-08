@@ -5,7 +5,7 @@
  * platform, device type, and display characteristics. Simplified
  * for web usage where the client always runs in a browser.
  *
- * @see source_as/habbo/utils/class_497.as
+ * @see source_as_win63/habbo/utils/class_497.as
  */
 export class PlatformUtils
 {

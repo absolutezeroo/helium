@@ -5,7 +5,7 @@ import {QuestCancelledMessageEventParser} from '../../parser/quest/QuestCancelle
 /**
  * Event for the quest cancelled message from the server.
  *
- * @see source_as/habbo/communication/messages/incoming/quest/QuestCancelledMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/quest/QuestCancelledMessageEvent.as
  */
 export class QuestCancelledMessageEvent extends MessageEvent
 {

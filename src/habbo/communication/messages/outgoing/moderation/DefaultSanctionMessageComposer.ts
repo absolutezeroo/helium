@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Sends a default sanction for an issue.
  *
- * @see source_as/habbo/communication/messages/outgoing/moderator/DefaultSanctionMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/moderator/DefaultSanctionMessageComposer.as
  */
 export class DefaultSanctionMessageComposer extends MessageComposer<unknown[]>
 {

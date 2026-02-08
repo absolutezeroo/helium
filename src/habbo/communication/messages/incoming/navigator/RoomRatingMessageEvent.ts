@@ -5,7 +5,7 @@ import {RoomRatingMessageParser} from '../../parser/navigator/RoomRatingMessageP
 /**
  * Event handler for RoomRating message
  *
- * @see source_as/habbo/communication/messages/incoming/navigator/RoomRatingEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/navigator/RoomRatingEvent.as
  */
 export class RoomRatingMessageEvent extends MessageEvent
 {

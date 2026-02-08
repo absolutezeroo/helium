@@ -5,7 +5,7 @@ import {GuestRoomData, RoomChatSettings, RoomModerationSettings} from '../../inc
 /**
  * Parser for get guest room result message
  *
- * @see source_as/habbo/communication/messages/parser/navigator/GetGuestRoomResultEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/navigator/GetGuestRoomResultEventParser.as
  */
 export class GetGuestRoomResultMessageParser implements IMessageParser
 {

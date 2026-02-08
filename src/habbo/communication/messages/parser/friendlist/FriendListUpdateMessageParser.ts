@@ -7,7 +7,7 @@ import {FriendData} from './FriendData';
  * Parser for friend list update messages.
  * Contains category updates, removed friend IDs, added friends, and updated friends.
  *
- * @see source_as/habbo/communication/messages/parser/friendlist/FriendListUpdateMessageParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/friendlist/FriendListUpdateMessageParser.as
  */
 export class FriendListUpdateMessageParser implements IMessageParser
 {

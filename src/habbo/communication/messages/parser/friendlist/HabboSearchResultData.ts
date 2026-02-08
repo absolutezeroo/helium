@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Data class representing a user search result entry.
  * Used by HabboSearchResultMessageParser for both friends and non-friends results.
  *
- * @see source_as/habbo/communication/messages/incoming/friendlist/class_1712.as
+ * @see source_as_win63/habbo/communication/messages/incoming/friendlist/class_1712.as
  */
 export class HabboSearchResultData
 {

@@ -4,7 +4,7 @@
  * Public API for reporting users/rooms/threads/messages, name change,
  * welcome screen, Habbo Way, and safety booklet.
  *
- * @see source_as/habbo/help/IHabboHelp.as
+ * @see source_as_win63/habbo/help/IHabboHelp.as
  */
 export interface IHabboHelp
 {

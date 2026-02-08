@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for availability status message
  * Indicates if the hotel is open, shutting down, etc.
  *
- * @see source_as/habbo/communication/messages/parser/availability/AvailabilityStatusMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/availability/AvailabilityStatusMessageEventParser.as
  */
 export class AvailabilityStatusMessageParser implements IMessageParser
 {

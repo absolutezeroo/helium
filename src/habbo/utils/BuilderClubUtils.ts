@@ -4,7 +4,7 @@
  * Provides static methods to identify Builder Club items
  * based on their ID threshold.
  *
- * @see source_as/habbo/utils/class_3521.as
+ * @see source_as_win63/habbo/utils/class_3521.as
  */
 export class BuilderClubUtils
 {

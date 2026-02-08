@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for follow friend failed messages.
  * Contains an error code indicating the reason for failure.
  *
- * @see source_as/habbo/communication/messages/parser/friendlist/FollowFriendFailedMessageParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/friendlist/FollowFriendFailedMessageParser.as
  */
 export class FollowFriendFailedMessageParser implements IMessageParser
 {

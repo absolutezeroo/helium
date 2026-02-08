@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Request pet inventory from server
  *
- * @see source_as/habbo/communication/messages/outgoing/inventory/pets/GetPetInventoryComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/inventory/pets/GetPetInventoryComposer.as
  */
 export class GetPetInventoryComposer extends MessageComposer<ConstructorParameters<typeof GetPetInventoryComposer>>
 {

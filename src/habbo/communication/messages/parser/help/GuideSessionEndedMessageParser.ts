@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for guide session ended messages.
  * Contains the reason why the guide session ended.
  *
- * @see source_as/habbo/communication/messages/parser/help/GuideSessionEndedMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/help/GuideSessionEndedMessageEventParser.as
  */
 export class GuideSessionEndedMessageParser implements IMessageParser
 {

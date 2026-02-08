@@ -6,7 +6,7 @@ import {StuffDataFactory} from '@habbo/inventory/items/stuffdata';
 /**
  * Parser for a single furniture item in inventory
  *
- * @see source_as/habbo/communication/messages/incoming/inventory/furni/class_1707.as
+ * @see source_as_win63/habbo/communication/messages/incoming/inventory/furni/class_1707.as
  */
 export class FurniListItemParser
 {

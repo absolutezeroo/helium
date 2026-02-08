@@ -5,7 +5,7 @@ import {HabboBroadcastMessageEventParser} from '../../parser/notifications/Habbo
 /**
  * Event for Habbo broadcast message
  *
- * @see source_as/habbo/communication/messages/incoming/notifications/HabboBroadcastMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/notifications/HabboBroadcastMessageEvent.as
  */
 export class HabboBroadcastMessageEvent extends MessageEvent
 {

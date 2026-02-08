@@ -3,7 +3,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Achievement data - holds all fields for a single achievement
  *
- * @see source_as/habbo/communication/messages/incoming/inventory/achievements/class_1724.as
+ * @see source_as_win63/habbo/communication/messages/incoming/inventory/achievements/class_1724.as
  */
 export class AchievementData
 {

@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for room event cancel message
  *
- * @see source_as/habbo/communication/messages/parser/navigator/RoomEventCancelEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/navigator/RoomEventCancelEventParser.as
  */
 export class RoomEventCancelMessageParser implements IMessageParser
 {

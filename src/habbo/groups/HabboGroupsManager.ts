@@ -17,7 +17,7 @@ const log = Logger.getLogger('Groups');
  * (DetailsWindowCtrl, GuildMembersWindowCtrl, etc.) which are omitted
  * here as the UI layer is handled by SolidJS.
  *
- * @see source_as/habbo/groups/HabboGroupsManager.as
+ * @see source_as_win63/habbo/groups/HabboGroupsManager.as
  */
 export class HabboGroupsManager extends Component implements IHabboGroupsManager, ILinkEventTracker
 {

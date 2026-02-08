@@ -3,7 +3,7 @@ import type {IPetInfo} from './IPetInfo';
 /**
  * Pet info implementation
  *
- * @see source_as/habbo/session/PetInfo.as
+ * @see source_as_win63/habbo/session/PetInfo.as
  */
 export class PetInfo implements IPetInfo
 {

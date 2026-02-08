@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for error report event
  *
- * @see source_as/habbo/communication/messages/parser/error/ErrorReportEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/error/ErrorReportEventParser.as
  */
 export class ErrorReportEventParser implements IMessageParser
 {

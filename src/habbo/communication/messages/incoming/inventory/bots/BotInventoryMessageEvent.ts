@@ -3,7 +3,7 @@ import type {MessageEventCallback} from '@core/communication/messages/IMessageEv
 import {BotInventoryMessageParser} from '@habbo/communication/messages/parser/inventory/bots/BotInventoryMessageParser';
 
 /**
- * @see source_as/habbo/communication/messages/incoming/inventory/bots/BotInventoryEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/inventory/bots/BotInventoryEvent.as
  */
 export class BotInventoryMessageEvent extends MessageEvent
 {

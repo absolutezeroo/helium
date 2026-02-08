@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for room info updated message
  *
- * @see source_as/habbo/communication/messages/parser/navigator/RoomInfoUpdatedEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/navigator/RoomInfoUpdatedEventParser.as
  */
 export class RoomInfoUpdatedMessageParser implements IMessageParser
 {

@@ -3,7 +3,7 @@ import type {EventEmitter} from 'eventemitter3';
 /**
  * Interface for the advertisement manager
  *
- * @see source_as/habbo/advertisement/class_1811.as
+ * @see source_as_win63/habbo/advertisement/class_1811.as
  */
 export interface IAdManager
 {

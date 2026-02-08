@@ -5,7 +5,7 @@ import {InfoHotelClosingMessageEventParser} from '../../parser/notifications/Inf
 /**
  * Event for hotel closing notification
  *
- * @see source_as/habbo/communication/messages/incoming/availability/InfoHotelClosingMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/availability/InfoHotelClosingMessageEvent.as
  */
 export class InfoHotelClosingMessageEvent extends MessageEvent
 {

@@ -5,7 +5,7 @@ import {CompetitionRoomsData} from '../../incoming/navigator';
 /**
  * Parser for competition rooms data message
  *
- * @see source_as/habbo/communication/messages/parser/navigator/CompetitionRoomsDataMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/navigator/CompetitionRoomsDataMessageEventParser.as
  */
 export class CompetitionRoomsDataMessageParser implements IMessageParser
 {

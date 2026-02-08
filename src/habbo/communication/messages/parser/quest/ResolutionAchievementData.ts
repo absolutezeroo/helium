@@ -3,7 +3,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Resolution achievement data - holds fields for a single resolution achievement
  *
- * @see source_as/habbo/communication/messages/incoming/inventory/achievements/class_1723.as
+ * @see source_as_win63/habbo/communication/messages/incoming/inventory/achievements/class_1723.as
  */
 export class ResolutionAchievementData
 {

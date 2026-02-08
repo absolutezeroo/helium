@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for navigator window settings message
  *
- * @see source_as/habbo/communication/messages/parser/newnavigator/class_1323.as
+ * @see source_as_win63/habbo/communication/messages/parser/newnavigator/class_1323.as
  */
 export class NavigatorWindowSettingsMessageParser implements IMessageParser
 {

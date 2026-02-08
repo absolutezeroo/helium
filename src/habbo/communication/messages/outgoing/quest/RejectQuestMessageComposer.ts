@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Rejects a quest by its ID.
  *
- * @see source_as/habbo/communication/messages/outgoing/quest/RejectQuestMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/quest/RejectQuestMessageComposer.as
  */
 export class RejectQuestMessageComposer extends MessageComposer<ConstructorParameters<typeof RejectQuestMessageComposer>>
 {

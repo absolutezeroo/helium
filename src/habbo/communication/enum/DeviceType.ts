@@ -1,7 +1,7 @@
 /**
  * Device Type Constants
  *
- * @see source_as/habbo/communication/enum/class_1601.as
+ * @see source_as_win63/habbo/communication/enum/class_1601.as
  */
 export const DeviceType = {
 	UNKNOWN: 0,

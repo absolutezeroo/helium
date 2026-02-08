@@ -15,7 +15,7 @@ const log = Logger.getLogger('SingularNotificationController');
  * notification bubbles. In our implementation, the view is handled by SolidJS,
  * so this class focuses on queue management and emitting events.
  *
- * @see source_as/habbo/notifications/singular/SingularNotificationController.as
+ * @see source_as_win63/habbo/notifications/singular/SingularNotificationController.as
  */
 export class SingularNotificationController implements IUpdateReceiver
 {

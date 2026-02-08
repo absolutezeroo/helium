@@ -41,7 +41,7 @@ export interface HabboFreeFlowChatEvents
  * - ISessionDataManager (optional)
  * - IRoomSessionManager (optional - accessed as IFreeFlowChatRoomSessionManager for sessionEvents)
  *
- * @see source_as/habbo/freeflowchat/HabboFreeFlowChat.as
+ * @see source_as_win63/habbo/freeflowchat/HabboFreeFlowChat.as
  */
 export class HabboFreeFlowChat extends Component implements IHabboFreeFlowChat
 {

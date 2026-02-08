@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for in-client link messages sent by the server
  *
- * @see source_as/habbo/communication/messages/parser/users/InClientLinkMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/users/InClientLinkMessageEventParser.as
  */
 export class InClientLinkMessageParser implements IMessageParser
 {

@@ -1,7 +1,7 @@
 /**
  * State constants and indicator colors for calendar entities
  *
- * @see source_as/habbo/quest/seasonalcalendar/CalendarEntityStateEnums.as
+ * @see source_as_win63/habbo/quest/seasonalcalendar/CalendarEntityStateEnums.as
  */
 export class CalendarEntityStateEnums
 {

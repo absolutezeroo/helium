@@ -10,7 +10,7 @@ const log = Logger.getLogger('GuideHelpManager');
  * session management, and feedback. Coordinates with the toolbar for
  * help/guide icon clicks.
  *
- * @see source_as/habbo/help/GuideHelpManager.as
+ * @see source_as_win63/habbo/help/GuideHelpManager.as
  */
 export class GuideHelpManager
 {

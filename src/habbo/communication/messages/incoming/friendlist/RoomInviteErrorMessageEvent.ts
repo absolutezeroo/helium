@@ -5,7 +5,7 @@ import {RoomInviteErrorMessageParser} from '../../parser/friendlist/RoomInviteEr
 /**
  * Event for receiving room invite errors.
  *
- * @see source_as/habbo/communication/messages/incoming/friendlist/RoomInviteErrorEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/friendlist/RoomInviteErrorEvent.as
  */
 export class RoomInviteErrorMessageEvent extends MessageEvent
 {

@@ -6,7 +6,7 @@ import {GuideSessionStateEnum} from './enum';
  * Tracks the current state of a guide help session, including
  * roles, request details, and user/guide identities.
  *
- * @see source_as/habbo/help/guidehelp/GuideSessionData.as
+ * @see source_as_win63/habbo/help/guidehelp/GuideSessionData.as
  */
 export class GuideSessionData
 {

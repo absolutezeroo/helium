@@ -2,7 +2,7 @@
 
 This document categorizes all AS3 window files into **ENGINE** (window manager logic we might need) and **VIEW** (UI rendering code we ignore since SolidJS handles UI).
 
-> **Rule**: AS3 source in `source_as/` is the source of truth.
+> **Rule**: AS3 source in `source_as_win63/` is the source of truth.
 
 ---
 

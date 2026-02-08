@@ -6,7 +6,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  *
  * Empty parser - no data fields to parse.
  *
- * @see source_as/habbo/communication/messages/parser/notifications/RestoreClientMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/notifications/RestoreClientMessageEventParser.as
  */
 export class RestoreClientMessageEventParser implements IMessageParser
 {

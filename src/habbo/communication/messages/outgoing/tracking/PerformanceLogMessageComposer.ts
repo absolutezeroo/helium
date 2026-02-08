@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Report client performance metrics to the server
  *
- * @see source_as/habbo/communication/messages/outgoing/tracking/PerformanceLogMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/tracking/PerformanceLogMessageComposer.as
  */
 export class PerformanceLogMessageComposer extends MessageComposer<unknown[]>
 {

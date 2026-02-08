@@ -1,7 +1,7 @@
 /**
  * Data class for moderation action definitions.
  *
- * @see source_as/habbo/moderation/ModActionDefinition.as
+ * @see source_as_win63/habbo/moderation/ModActionDefinition.as
  */
 export class ModActionDefinitionData
 {

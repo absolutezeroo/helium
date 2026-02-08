@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Requests detailed room information for moderators.
  *
- * @see source_as/habbo/communication/messages/outgoing/moderator/GetModeratorRoomInfoMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/moderator/GetModeratorRoomInfoMessageComposer.as
  */
 export class GetModeratorRoomInfoMessageComposer extends MessageComposer<ConstructorParameters<typeof GetModeratorRoomInfoMessageComposer>>
 {

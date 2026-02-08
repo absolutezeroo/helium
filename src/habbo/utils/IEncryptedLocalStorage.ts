@@ -4,7 +4,7 @@
  * Provides a contract for secure string storage and retrieval.
  * Implementations may use different encryption strategies.
  *
- * @see source_as/habbo/utils/IEncryptedLocalStorage.as
+ * @see source_as_win63/habbo/utils/IEncryptedLocalStorage.as
  */
 export interface IEncryptedLocalStorage
 {

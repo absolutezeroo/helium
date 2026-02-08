@@ -5,7 +5,7 @@ import {NotificationDialogMessageEventParser} from '../../parser/notifications/N
 /**
  * Event for notification dialog message
  *
- * @see source_as/habbo/communication/messages/incoming/notifications/NotificationDialogMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/notifications/NotificationDialogMessageEvent.as
  */
 export class NotificationDialogMessageEvent extends MessageEvent
 {

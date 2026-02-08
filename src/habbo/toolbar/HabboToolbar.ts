@@ -38,7 +38,7 @@ export interface HabboToolbarEvents
  * IMPORTANT: Uses `_toolbarEvents` / `toolbarEvents` for custom events
  * rather than overriding the `events` getter from Component (see MEMORY.md).
  *
- * @see source_as/habbo/toolbar/HabboToolbar.as
+ * @see source_as_win63/habbo/toolbar/HabboToolbar.as
  */
 export class HabboToolbar extends Component implements IHabboToolbar
 {
@@ -179,7 +179,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	 * Set the toolbar state (hotel view, room view, hidden, etc.)
 	 *
 	 * @param state One of HabboToolbarEnum state constants
-	 * @see source_as/habbo/toolbar/HabboToolbar.as setToolbarState()
+	 * @see source_as_win63/habbo/toolbar/HabboToolbar.as setToolbarState()
 	 */
 	setToolbarState(state: string): void
 	{
@@ -211,7 +211,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	 * Also sends an event log to the server for tracking.
 	 *
 	 * @param iconName Icon name to toggle
-	 * @see source_as/habbo/toolbar/HabboToolbar.as toggleWindowVisibility()
+	 * @see source_as_win63/habbo/toolbar/HabboToolbar.as toggleWindowVisibility()
 	 */
 	toggleWindowVisibility(iconName: string): void
 	{
@@ -247,7 +247,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	 *
 	 * @param _iconId Icon identifier
 	 * @returns null - UI layer handles icon positions
-	 * @see source_as/habbo/toolbar/HabboToolbar.as getIconLocation()
+	 * @see source_as_win63/habbo/toolbar/HabboToolbar.as getIconLocation()
 	 */
 	getIconLocation(_iconId: string): { x: number; y: number; width: number; height: number } | null
 	{
@@ -262,7 +262,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	 *
 	 * @param _iconId Icon identifier
 	 * @param _bitmap Bitmap data
-	 * @see source_as/habbo/toolbar/HabboToolbar.as setIconBitmap()
+	 * @see source_as_win63/habbo/toolbar/HabboToolbar.as setIconBitmap()
 	 */
 	setIconBitmap(_iconId: string, _bitmap: unknown): void
 	{
@@ -273,7 +273,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	 * Get the bounding rectangle of the toolbar
 	 *
 	 * @returns An empty rectangle - UI layer handles toolbar bounds
-	 * @see source_as/habbo/toolbar/HabboToolbar.as getRect()
+	 * @see source_as_win63/habbo/toolbar/HabboToolbar.as getRect()
 	 */
 	getRect(): { x: number; y: number; width: number; height: number }
 	{
@@ -285,7 +285,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	 *
 	 * @param _iconId Icon identifier
 	 * @param _visible Whether the icon should be visible
-	 * @see source_as/habbo/toolbar/HabboToolbar.as setIconVisibility()
+	 * @see source_as_win63/habbo/toolbar/HabboToolbar.as setIconVisibility()
 	 */
 	setIconVisibility(_iconId: string, _visible: boolean): void
 	{
@@ -296,7 +296,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	 * Check if this is a new identity user
 	 *
 	 * @returns True if new.identity config value is greater than 0
-	 * @see source_as/habbo/toolbar/HabboToolbar.as isNewIdentity()
+	 * @see source_as_win63/habbo/toolbar/HabboToolbar.as isNewIdentity()
 	 */
 	isNewIdentity(): boolean
 	{
@@ -307,7 +307,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	 * Check if Xmas features are enabled
 	 *
 	 * @returns True if xmas11.enabled config is true
-	 * @see source_as/habbo/toolbar/HabboToolbar.as isXmasEnabled()
+	 * @see source_as_win63/habbo/toolbar/HabboToolbar.as isXmasEnabled()
 	 */
 	isXmasEnabled(): boolean
 	{
@@ -318,7 +318,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	 * Check if Valentines features are enabled
 	 *
 	 * @returns True if valentines.enabled config is true
-	 * @see source_as/habbo/toolbar/HabboToolbar.as isValentinesEnabled()
+	 * @see source_as_win63/habbo/toolbar/HabboToolbar.as isValentinesEnabled()
 	 */
 	isValentinesEnabled(): boolean
 	{
@@ -330,7 +330,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	 *
 	 * Cleans up all message event handlers, extensions, and timers.
 	 *
-	 * @see source_as/habbo/toolbar/HabboToolbar.as dispose()
+	 * @see source_as_win63/habbo/toolbar/HabboToolbar.as dispose()
 	 */
 	override dispose(): void
 	{
@@ -365,7 +365,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	 * Called when all required dependencies are resolved.
 	 * Sets up message event handlers and initial toolbar state.
 	 *
-	 * @see source_as/habbo/toolbar/HabboToolbar.as initComponent()
+	 * @see source_as_win63/habbo/toolbar/HabboToolbar.as initComponent()
 	 */
 	protected override initComponent(): void
 	{
@@ -375,7 +375,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	/**
 	 * Handler for configuration complete event
 	 *
-	 * @see source_as/habbo/toolbar/HabboToolbar.as onConfigurationComplete()
+	 * @see source_as_win63/habbo/toolbar/HabboToolbar.as onConfigurationComplete()
 	 */
 	private onConfigurationComplete(): void
 	{
@@ -388,7 +388,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	 * Initializes toolbar extensions after perks are available.
 	 * Extensions are only initialized once.
 	 *
-	 * @see source_as/habbo/toolbar/HabboToolbar.as onPerksUpdated()
+	 * @see source_as_win63/habbo/toolbar/HabboToolbar.as onPerksUpdated()
 	 */
 	private onPerksUpdated(): void
 	{

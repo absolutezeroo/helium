@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Search rooms with highest score
  *
- * @see source_as/habbo/communication/messages/outgoing/navigator/RoomsWithHighestScoreSearchMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/navigator/RoomsWithHighestScoreSearchMessageComposer.as
  */
 export class RoomsWithHighestScoreSearchMessageComposer extends MessageComposer<ConstructorParameters<typeof RoomsWithHighestScoreSearchMessageComposer>>
 {

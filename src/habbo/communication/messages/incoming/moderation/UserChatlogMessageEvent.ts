@@ -5,7 +5,7 @@ import {UserChatlogMessageParser} from '../../parser/moderation/UserChatlogMessa
 /**
  * Event for user chatlog data.
  *
- * @see source_as/habbo/communication/messages/incoming/moderation/UserChatlogEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/moderation/UserChatlogEvent.as
  */
 export class UserChatlogMessageEvent extends MessageEvent
 {

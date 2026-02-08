@@ -9,7 +9,7 @@ const log = Logger.getLogger('InstantMessageEventHandler');
  * Captures console messages and room invites and stores them
  * in the InstantMessageRegistry for later use in CFH reports.
  *
- * @see source_as/habbo/help/cfh/registry/instantmessage/InstantMessageEventHandler.as
+ * @see source_as_win63/habbo/help/cfh/registry/instantmessage/InstantMessageEventHandler.as
  */
 export class InstantMessageEventHandler
 {

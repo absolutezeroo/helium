@@ -2,7 +2,7 @@
 
 This document categorizes all AS3 navigator files into **ENGINE** (business logic we need to implement) and **VIEW** (UI code we ignore since SolidJS handles our UI).
 
-> **Rule**: AS3 source in `source_as/` is the source of truth. Follow it exactly.
+> **Rule**: AS3 source in `source_as_win63/` is the source of truth. Follow it exactly.
 
 ---
 

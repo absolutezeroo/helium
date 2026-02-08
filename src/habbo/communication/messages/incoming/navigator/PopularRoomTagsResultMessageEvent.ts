@@ -5,7 +5,7 @@ import {PopularRoomTagsResultMessageParser} from '../../parser/navigator/Popular
 /**
  * Event handler for PopularRoomTagsResult message
  *
- * @see source_as/habbo/communication/messages/incoming/navigator/PopularRoomTagsResultEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/navigator/PopularRoomTagsResultEvent.as
  */
 export class PopularRoomTagsResultMessageEvent extends MessageEvent
 {

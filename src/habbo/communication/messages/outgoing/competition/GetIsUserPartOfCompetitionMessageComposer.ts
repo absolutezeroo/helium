@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * GetIsUserPartOfCompetitionMessageComposer
  *
- * @see source_as/habbo/communication/messages/outgoing/competition/GetIsUserPartOfCompetitionMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/competition/GetIsUserPartOfCompetitionMessageComposer.as
  */
 export class GetIsUserPartOfCompetitionMessageComposer extends MessageComposer<ConstructorParameters<typeof GetIsUserPartOfCompetitionMessageComposer>>
 {

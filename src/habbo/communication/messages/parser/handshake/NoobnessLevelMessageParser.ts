@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for noobness level message
  * Indicates user's experience level (new user status)
  *
- * @see source_as/habbo/communication/messages/parser/handshake/NoobnessLevelMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/handshake/NoobnessLevelMessageEventParser.as
  */
 export class NoobnessLevelMessageParser implements IMessageParser
 {

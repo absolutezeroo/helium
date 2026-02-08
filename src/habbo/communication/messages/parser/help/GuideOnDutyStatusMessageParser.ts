@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for guide on-duty status messages.
  * Contains the current duty status and counts of active guides/guardians.
  *
- * @see source_as/habbo/communication/messages/parser/help/GuideOnDutyStatusMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/help/GuideOnDutyStatusMessageEventParser.as
  */
 export class GuideOnDutyStatusMessageParser implements IMessageParser
 {

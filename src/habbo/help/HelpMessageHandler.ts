@@ -37,7 +37,7 @@ const log = Logger.getLogger('HelpMessageHandler');
  * Registers all help-related message events and routes incoming
  * messages to the appropriate sub-managers (CFH, guide, name change, sanction).
  *
- * @see source_as/habbo/help/HabboHelp.as (initComponent message registration)
+ * @see source_as_win63/habbo/help/HabboHelp.as (initComponent message registration)
  */
 export class HelpMessageHandler
 {

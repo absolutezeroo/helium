@@ -1,7 +1,7 @@
 /**
  * Event dispatched when the unseen achievement count changes
  *
- * @see source_as/habbo/quest/events/UnseenAchievementsCountUpdateEvent.as
+ * @see source_as_win63/habbo/quest/events/UnseenAchievementsCountUpdateEvent.as
  */
 export class UnseenAchievementsCountUpdateEvent
 {

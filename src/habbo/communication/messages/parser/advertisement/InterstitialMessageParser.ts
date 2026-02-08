@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for interstitial ad availability message
  *
- * @see source_as/habbo/communication/messages/parser/advertisement/InterstitialMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/advertisement/InterstitialMessageEventParser.as
  */
 export class InterstitialMessageParser implements IMessageParser
 {

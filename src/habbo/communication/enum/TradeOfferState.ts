@@ -1,7 +1,7 @@
 /**
  * Trade Offer State Constants
  *
- * @see source_as/habbo/communication/enum/class_3533.as
+ * @see source_as_win63/habbo/communication/enum/class_3533.as
  */
 export const TradeOfferState = {
 	OFFERED: 1,

@@ -6,7 +6,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  *
  * Parses the safety lock status code.
  *
- * @see source_as/habbo/communication/messages/parser/users/AccountSafetyLockStatusChangeMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/users/AccountSafetyLockStatusChangeMessageEventParser.as
  */
 export class AccountSafetyLockStatusChangeMessageEventParser implements IMessageParser
 {

@@ -10,7 +10,7 @@ const log = Logger.getLogger('RoomCompetitionController');
  * Manages room competition voting and submission flow.
  * VIEW logic is handled by SolidJS.
  *
- * @see source_as/habbo/quest/RoomCompetitionController.as
+ * @see source_as_win63/habbo/quest/RoomCompetitionController.as
  */
 export class RoomCompetitionController implements IDisposable
 {

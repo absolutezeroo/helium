@@ -1,7 +1,7 @@
 /**
  * Habbo Connection Type Constants
  *
- * @see source_as/habbo/communication/enum/HabboConnectionType.as
+ * @see source_as_win63/habbo/communication/enum/HabboConnectionType.as
  */
 export const HabboConnectionType = {
 	HABBO_MAIN: 'habbo',

@@ -10,7 +10,7 @@ export interface BadgeData
 /**
  * Parser for badges list message
  *
- * @see source_as/habbo/communication/messages/parser/inventory/badges/BadgesEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/inventory/badges/BadgesEventParser.as
  */
 export class BadgesMessageParser implements IMessageParser
 {

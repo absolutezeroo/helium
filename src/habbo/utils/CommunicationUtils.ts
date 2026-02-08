@@ -10,7 +10,7 @@ const log = Logger.getLogger('CommunicationUtils');
  * as the web equivalent of Flash SharedObjects), XOR cipher operations,
  * fingerprint generation, and protocol manipulation.
  *
- * @see source_as/habbo/utils/CommunicationUtils.as
+ * @see source_as_win63/habbo/utils/CommunicationUtils.as
  */
 export class CommunicationUtils
 {

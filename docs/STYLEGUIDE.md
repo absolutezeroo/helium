@@ -30,7 +30,7 @@ Ce document définit les conventions strictes pour le développement d'Helium. T
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  1. AS3 (source_as/)           → Logique métier, structure  │
+│  1. AS3 (source_as_win63/)           → Logique métier, structure  │
 │  2. Nitro Renderer             → Patterns TypeScript        │
 │  3. Nitro React (source_nitro_react/) → Patterns UI/Store   │
 └─────────────────────────────────────────────────────────────┘
@@ -176,7 +176,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * [Description courte du message]
  *
- * @see source_as/habbo/communication/messages/outgoing/{feature}/{Name}MessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/{feature}/{Name}MessageComposer.as
  */
 export class
 {
@@ -222,7 +222,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Demande la liste des favoris du navigateur
  *
- * @see source_as/habbo/communication/messages/outgoing/navigator/GetUserFlatCatsMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/navigator/GetUserFlatCatsMessageComposer.as
  */
 export class GetUserFlatCatsMessageComposer implements IMessageComposer<ConstructorParameters<typeof GetUserFlatCatsMessageComposer>>
 {
@@ -253,7 +253,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Change le nom d'utilisateur
  *
- * @see source_as/habbo/communication/messages/outgoing/avatar/ChangeUserNameMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/avatar/ChangeUserNameMessageComposer.as
  */
 export class ChangeUserNameMessageComposer implements IMessageComposer<ConstructorParameters<typeof ChangeUserNameMessageComposer>>
 {
@@ -284,7 +284,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Crée une nouvelle room
  *
- * @see source_as/habbo/communication/messages/outgoing/navigator/CreateFlatMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/navigator/CreateFlatMessageComposer.as
  */
 export class CreateFlatMessageComposer implements IMessageComposer<ConstructorParameters<typeof CreateFlatMessageComposer>>
 {
@@ -322,7 +322,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
 /**
  * Définit les badges actifs (portés)
  *
- * @see source_as/habbo/communication/messages/outgoing/inventory/badges/SetActivatedBadgesComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/inventory/badges/SetActivatedBadgesComposer.as
  */
 export class SetActivatedBadgesComposer implements IMessageComposer<unknown[]>
 {
@@ -375,7 +375,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * [Description courte]
  *
- * @see source_as/habbo/communication/messages/parser/{feature}/{Name}MessageParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/{feature}/{Name}MessageParser.as
  */
 export class
 {
@@ -496,7 +496,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser pour le statut de disponibilité de l'hôtel
  *
- * @see source_as/habbo/communication/messages/parser/availability/AvailabilityStatusMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/availability/AvailabilityStatusMessageEventParser.as
  */
 export class AvailabilityStatusMessageParser implements IMessageParser
 {
@@ -556,7 +556,7 @@ import {FurniListItemParser} from './FurniListItemParser';
 /**
  * Parser pour la liste de meubles de l'inventaire
  *
- * @see source_as/habbo/communication/messages/parser/inventory/furni/FurniListMessageParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/inventory/furni/FurniListMessageParser.as
  */
 export class FurniListMessageParser implements IMessageParser
 {
@@ -619,7 +619,7 @@ import {StuffDataFactory} from '@habbo/inventory/items/stuffdata';
  * Parser pour un item de meuble individuel
  * Note: N'implémente PAS IMessageParser car utilisé comme nested parser
  *
- * @see source_as/habbo/communication/messages/incoming/inventory/furni/class_1707.as
+ * @see source_as_win63/habbo/communication/messages/incoming/inventory/furni/class_1707.as
  */
 export class FurniListItemParser
 {
@@ -719,7 +719,7 @@ from
 /**
  * [Description de l'événement]
  *
- * @see source_as/habbo/communication/messages/incoming/{feature}/{Name}Event.as
+ * @see source_as_win63/habbo/communication/messages/incoming/{feature}/{Name}Event.as
  */
 export class
 {
@@ -756,7 +756,7 @@ import {AvailabilityStatusMessageParser} from '../../parser/availability/Availab
  * Événement de statut de disponibilité de l'hôtel
  * Indique si l'hôtel est ouvert, en fermeture, etc.
  *
- * @see source_as/habbo/communication/messages/incoming/availability/AvailabilityStatusMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/availability/AvailabilityStatusMessageEvent.as
  */
 export class AvailabilityStatusMessageEvent extends MessageEvent
 {
@@ -777,7 +777,7 @@ import {ChangeUserNameResultMessageParser} from '../../parser/avatar/ChangeUserN
 /**
  * Résultat du changement de nom d'utilisateur
  *
- * @see source_as/habbo/communication/messages/incoming/avatar/ChangeUserNameResultMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/avatar/ChangeUserNameResultMessageEvent.as
  */
 export class ChangeUserNameResultMessageEvent extends MessageEvent
 {
@@ -857,7 +857,7 @@ from
 /**
  * [Description du manager]
  *
- * @see source_as/habbo/{feature}/{Name}Manager.as
+ * @see source_as_win63/habbo/{feature}/{Name}Manager.as
  */
 @injectable()
 export class
@@ -1023,7 +1023,7 @@ void;
 /**
  * [Description du modèle]
  *
- * @see source_as/habbo/{feature}/{Name}.as
+ * @see source_as_win63/habbo/{feature}/{Name}.as
  */
 export class
 {
@@ -1129,7 +1129,7 @@ DataInit
 /**
  * Représente un ami dans la liste d'amis
  *
- * @see source_as/habbo/friendlist/MessengerFriend.as
+ * @see source_as_win63/habbo/friendlist/MessengerFriend.as
  */
 export class MessengerFriend
 {
@@ -1352,7 +1352,7 @@ import {AnotherClass} from '../other/AnotherClass';
  * Description longue si nécessaire, expliquant le comportement,
  * les cas d'usage, etc.
  *
- * @see source_as/path/to/OriginalClass.as
+ * @see source_as_win63/path/to/OriginalClass.as
  * @example
  * const instance = new MyClass(param);
  * instance.doSomething();

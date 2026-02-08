@@ -6,7 +6,7 @@ import {PetFigureData} from '@habbo/inventory/pets/PetFigureData';
  *
  * Reads the figure data fields in the order specified by the AS3 class_1657 constructor.
  *
- * @see source_as/habbo/communication/messages/parser/inventory/pets/class_1657.as
+ * @see source_as_win63/habbo/communication/messages/parser/inventory/pets/class_1657.as
  */
 export function parsePetFigureData(wrapper: IMessageDataWrapper): PetFigureData
 {
@@ -30,7 +30,7 @@ export function parsePetFigureData(wrapper: IMessageDataWrapper): PetFigureData
 /**
  * Parses pet info (class_1679) from wrapper: id, name, figureData, level
  *
- * @see source_as/habbo/communication/messages/parser/inventory/pets/class_1679.as
+ * @see source_as_win63/habbo/communication/messages/parser/inventory/pets/class_1679.as
  */
 export interface PetInfoData
 {

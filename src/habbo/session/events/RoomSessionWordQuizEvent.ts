@@ -4,7 +4,7 @@ import {RoomSessionEvent} from './RoomSessionEvent';
 /**
  * Room session word quiz event
  *
- * @see source_as/habbo/session/events/RoomSessionWordQuizEvent.as
+ * @see source_as_win63/habbo/session/events/RoomSessionWordQuizEvent.as
  */
 export class RoomSessionWordQuizEvent extends RoomSessionEvent
 {

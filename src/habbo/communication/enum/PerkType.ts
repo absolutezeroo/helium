@@ -1,7 +1,7 @@
 /**
  * Perk Type String Constants
  *
- * @see source_as/habbo/communication/enum/perk/class_3387.as
+ * @see source_as_win63/habbo/communication/enum/perk/class_3387.as
  */
 export const PerkType = {
 	USE_GUIDE_TOOL: 'USE_GUIDE_TOOL',

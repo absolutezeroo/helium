@@ -7,7 +7,7 @@ import {QuestMessageData} from './QuestMessageData';
  *
  * Parses a list of seasonal quests from the server.
  *
- * @see source_as/habbo/communication/messages/parser/quest/SeasonalQuestsMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/quest/SeasonalQuestsMessageEventParser.as
  */
 export class SeasonalQuestsMessageEventParser implements IMessageParser
 {

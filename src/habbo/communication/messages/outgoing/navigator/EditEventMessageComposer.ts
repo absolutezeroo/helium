@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Edit a room event
  *
- * @see source_as/habbo/communication/messages/outgoing/navigator/EditEventMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/navigator/EditEventMessageComposer.as
  */
 export class EditEventMessageComposer extends MessageComposer<ConstructorParameters<typeof EditEventMessageComposer>>
 {

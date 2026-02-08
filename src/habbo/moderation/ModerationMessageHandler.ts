@@ -74,7 +74,7 @@ const log = Logger.getLogger('Moderation');
  * Registers event handlers for issues, chatlogs, room info,
  * user info, sanctions, tool preferences, and room enter/exit.
  *
- * @see source_as/habbo/moderation/ModerationMessageHandler.as
+ * @see source_as_win63/habbo/moderation/ModerationMessageHandler.as
  */
 export class ModerationMessageHandler
 {

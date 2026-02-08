@@ -4,7 +4,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  * Removes one or more friends from the friend list.
  * Sends the count followed by each friend ID.
  *
- * @see source_as/habbo/communication/messages/outgoing/friendlist/RemoveFriendMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/friendlist/RemoveFriendMessageComposer.as
  */
 export class RemoveFriendMessageComposer implements IMessageComposer<unknown[]>
 {

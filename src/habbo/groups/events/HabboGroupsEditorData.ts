@@ -1,7 +1,7 @@
 /**
  * Event dispatched when guild editor data becomes available
  *
- * @see source_as/habbo/groups/events/HabboGroupsEditorData.as
+ * @see source_as_win63/habbo/groups/events/HabboGroupsEditorData.as
  */
 export class HabboGroupsEditorData
 {

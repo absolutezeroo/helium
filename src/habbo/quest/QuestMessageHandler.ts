@@ -93,7 +93,7 @@ const log = Logger.getLogger('QuestMessageHandler');
  * Central message handler/router for all quest, achievement, and competition
  * server messages. Routes parsed data to the appropriate controllers.
  *
- * @see source_as/habbo/quest/class_3353.as
+ * @see source_as_win63/habbo/quest/class_3353.as
  */
 export class QuestMessageHandler implements IDisposable
 {

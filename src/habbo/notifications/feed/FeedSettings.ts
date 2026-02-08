@@ -2,7 +2,7 @@
  * Feed category filtering with constants.
  * Manages which feed categories are visible to the user.
  *
- * @see source_as/habbo/notifications/feed/FeedSettings.as
+ * @see source_as_win63/habbo/notifications/feed/FeedSettings.as
  */
 export class FeedSettings
 {

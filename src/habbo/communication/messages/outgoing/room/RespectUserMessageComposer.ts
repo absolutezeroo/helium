@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Give respect to a user
  *
- * @see source_as/habbo/communication/messages/outgoing/room/avatar/RespectUserMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/room/avatar/RespectUserMessageComposer.as
  */
 export class RespectUserMessageComposer extends MessageComposer<ConstructorParameters<typeof RespectUserMessageComposer>>
 {

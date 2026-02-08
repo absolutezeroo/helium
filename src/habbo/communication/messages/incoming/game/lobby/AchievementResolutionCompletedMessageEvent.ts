@@ -8,7 +8,7 @@ import {
  * Event for the achievement resolution completed message.
  * Fired when a resolution achievement is completed, containing badge and stuff codes.
  *
- * @see source_as/habbo/communication/messages/incoming/game/lobby/AchievementResolutionCompletedMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/game/lobby/AchievementResolutionCompletedMessageEvent.as
  */
 export class AchievementResolutionCompletedMessageEvent extends MessageEvent
 {

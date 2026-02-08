@@ -5,7 +5,7 @@ import {UserBannedMessageEventParser} from '../../parser/notifications/UserBanne
 /**
  * Event for user banned message
  *
- * @see source_as/habbo/communication/messages/incoming/moderation/UserBannedMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/moderation/UserBannedMessageEvent.as
  */
 export class UserBannedMessageEvent extends MessageEvent
 {

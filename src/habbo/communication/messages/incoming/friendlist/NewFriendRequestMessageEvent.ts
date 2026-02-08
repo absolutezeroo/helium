@@ -5,7 +5,7 @@ import {NewFriendRequestMessageParser} from '../../parser/friendlist/NewFriendRe
 /**
  * Event for receiving a new incoming friend request notification.
  *
- * @see source_as/habbo/communication/messages/incoming/friendlist/NewFriendRequestEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/friendlist/NewFriendRequestEvent.as
  */
 export class NewFriendRequestMessageEvent extends MessageEvent
 {

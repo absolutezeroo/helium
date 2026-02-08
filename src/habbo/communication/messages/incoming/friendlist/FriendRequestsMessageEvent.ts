@@ -5,7 +5,7 @@ import {FriendRequestsMessageParser} from '../../parser/friendlist/FriendRequest
 /**
  * Event for receiving the list of pending friend requests.
  *
- * @see source_as/habbo/communication/messages/incoming/friendlist/FriendRequestsEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/friendlist/FriendRequestsEvent.as
  */
 export class FriendRequestsMessageEvent extends MessageEvent
 {

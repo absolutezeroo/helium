@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Requests user classification data for a peer user.
  *
- * @see source_as/habbo/communication/messages/outgoing/userclassification/PeerUsersClassificationMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/userclassification/PeerUsersClassificationMessageComposer.as
  */
 export class PeerUsersClassificationMessageComposer extends MessageComposer<ConstructorParameters<typeof PeerUsersClassificationMessageComposer>>
 {

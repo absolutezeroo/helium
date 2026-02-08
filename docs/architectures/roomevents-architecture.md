@@ -1,8 +1,8 @@
 # Room Events (Wired) Architecture Documentation
 
-This document categorizes all AS3 files in `source_as/habbo/roomevents/` into **ENGINE** (business logic we need) and **VIEW** (UI code we ignore).
+This document categorizes all AS3 files in `source_as_win63/habbo/roomevents/` into **ENGINE** (business logic we need) and **VIEW** (UI code we ignore).
 
-> **Rule**: AS3 source in `source_as/` is the source of truth. SolidJS handles UI.
+> **Rule**: AS3 source in `source_as_win63/` is the source of truth. SolidJS handles UI.
 
 ---
 

@@ -13,7 +13,7 @@ const log = Logger.getLogger('ChatEventHandler');
  * Handles timestamp collision avoidance to ensure unique ordering
  * of chat items that arrive at the same millisecond.
  *
- * @see source_as/habbo/freeflowchat/data/ChatEventHandler.as
+ * @see source_as_win63/habbo/freeflowchat/data/ChatEventHandler.as
  */
 export class ChatEventHandler
 {

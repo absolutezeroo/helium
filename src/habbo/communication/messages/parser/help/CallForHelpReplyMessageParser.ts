@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for call for help reply messages.
  * Contains the response message from staff regarding a CFH ticket.
  *
- * @see source_as/habbo/communication/messages/parser/help/CallForHelpReplyMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/help/CallForHelpReplyMessageEventParser.as
  */
 export class CallForHelpReplyMessageParser implements IMessageParser
 {

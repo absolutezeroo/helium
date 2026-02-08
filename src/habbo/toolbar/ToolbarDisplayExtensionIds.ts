@@ -4,7 +4,7 @@
  * Identifies the various extension panels that can be attached to the toolbar
  * (purse, settings, promos, etc.)
  *
- * @see source_as/habbo/toolbar/ToolbarDisplayExtensionIds.as
+ * @see source_as_win63/habbo/toolbar/ToolbarDisplayExtensionIds.as
  */
 export class ToolbarDisplayExtensionIds
 {

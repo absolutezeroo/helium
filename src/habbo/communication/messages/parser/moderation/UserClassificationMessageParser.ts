@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for user classification messages.
  * Contains maps of user IDs to usernames and classification types.
  *
- * @see source_as/habbo/communication/messages/parser/userclassification/UserClassificationMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/userclassification/UserClassificationMessageEventParser.as
  */
 export class UserClassificationMessageParser implements IMessageParser
 {

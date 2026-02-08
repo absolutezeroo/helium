@@ -13,7 +13,7 @@ const log = Logger.getLogger('AchievementController');
  * Manages achievement data, categories, and unseen achievement tracking.
  * VIEW logic (window management, UI refresh) is handled by SolidJS.
  *
- * @see source_as/habbo/quest/AchievementController.as
+ * @see source_as_win63/habbo/quest/AchievementController.as
  */
 export class AchievementController implements IDisposable
 {

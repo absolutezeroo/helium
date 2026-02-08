@@ -6,7 +6,7 @@ import {ConsoleMessageHistoryEventParser} from '../../parser/friendlist/ConsoleM
  * Event handler for console message history.
  * Fired when a conversation history fragment is received.
  *
- * @see source_as/habbo/communication/messages/incoming/friendlist/ConsoleMessageHistoryEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/friendlist/ConsoleMessageHistoryEvent.as
  */
 export class ConsoleMessageHistoryEvent extends MessageEvent
 {

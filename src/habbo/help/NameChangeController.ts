@@ -9,7 +9,7 @@ const log = Logger.getLogger('NameChangeController');
  * Handles checking name availability and submitting name changes
  * via CheckUserNameMessageComposer and ChangeUserNameMessageComposer.
  *
- * @see source_as/habbo/help/namechange/NameChangeController.as
+ * @see source_as_win63/habbo/help/namechange/NameChangeController.as
  */
 export class NameChangeController
 {

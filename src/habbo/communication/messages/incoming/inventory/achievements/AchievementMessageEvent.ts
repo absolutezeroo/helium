@@ -5,7 +5,7 @@ import {AchievementEventParser} from '../../../parser/inventory/achievements/Ach
 /**
  * Event for receiving a single achievement update.
  *
- * @see source_as/habbo/communication/messages/incoming/inventory/achievements/AchievementEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/inventory/achievements/AchievementEvent.as
  */
 export class AchievementMessageEvent extends MessageEvent
 {

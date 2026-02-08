@@ -3,7 +3,7 @@
  * Provides methods to add notification items, show notifications,
  * and handle song playing notifications.
  *
- * @see source_as/habbo/notifications/IHabboNotifications.as
+ * @see source_as_win63/habbo/notifications/IHabboNotifications.as
  */
 export interface IHabboNotifications
 {

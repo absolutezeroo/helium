@@ -7,7 +7,7 @@ import {QuestMessageData} from './QuestMessageData';
  *
  * Parses the completed quest data and a boolean indicating whether to show the dialog.
  *
- * @see source_as/habbo/communication/messages/parser/quest/QuestCompletedMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/quest/QuestCompletedMessageEventParser.as
  */
 export class QuestCompletedMessageEventParser implements IMessageParser
 {

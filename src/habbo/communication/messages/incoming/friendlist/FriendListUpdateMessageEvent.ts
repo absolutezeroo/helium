@@ -6,7 +6,7 @@ import {FriendListUpdateMessageParser} from '../../parser/friendlist/FriendListU
  * Event for receiving friend list updates.
  * Contains categories, removed friend IDs, added friends, and updated friends.
  *
- * @see source_as/habbo/communication/messages/incoming/friendlist/FriendListUpdateEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/friendlist/FriendListUpdateEvent.as
  */
 export class FriendListUpdateMessageEvent extends MessageEvent
 {

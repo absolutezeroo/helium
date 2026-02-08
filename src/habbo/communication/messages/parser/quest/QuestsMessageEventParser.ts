@@ -7,7 +7,7 @@ import {QuestMessageData} from './QuestMessageData';
  *
  * Parses a list of quests and a boolean indicating whether to open the quest window.
  *
- * @see source_as/habbo/communication/messages/parser/quest/QuestsMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/quest/QuestsMessageEventParser.as
  */
 export class QuestsMessageEventParser implements IMessageParser
 {

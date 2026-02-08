@@ -5,7 +5,7 @@ import {ConvertedRoomIdMessageParser} from '../../parser/navigator/ConvertedRoom
 /**
  * Event handler for ConvertedRoomId message
  *
- * @see source_as/habbo/communication/messages/incoming/navigator/ConvertedRoomIdEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/navigator/ConvertedRoomIdEvent.as
  */
 export class ConvertedRoomIdMessageEvent extends MessageEvent
 {

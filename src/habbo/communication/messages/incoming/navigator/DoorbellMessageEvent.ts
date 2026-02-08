@@ -3,7 +3,7 @@ import type {MessageEventCallback} from '@core/communication/messages/IMessageEv
 import {DoorbellMessageParser} from '../../parser/navigator/DoorbellMessageParser';
 
 /**
- * @see source_as/habbo/communication/messages/incoming/navigator/DoorbellEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/navigator/DoorbellEvent.as
  */
 export class DoorbellMessageEvent extends MessageEvent
 {

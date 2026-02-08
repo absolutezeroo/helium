@@ -1,7 +1,7 @@
 /**
  * Public interface for the Habbo Moderation component.
  *
- * @see source_as/habbo/moderation/IHabboModeration.as
+ * @see source_as_win63/habbo/moderation/IHabboModeration.as
  */
 export interface IHabboModeration
 {

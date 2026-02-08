@@ -6,7 +6,7 @@ import {IssueInfoData} from './IssueInfoData';
  * Parser for issue pick failed messages.
  * Contains the issues that failed to pick, retry info.
  *
- * @see source_as/habbo/communication/messages/parser/moderation/IssuePickFailedMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/moderation/IssuePickFailedMessageEventParser.as
  */
 export class IssuePickFailedMessageParser implements IMessageParser
 {

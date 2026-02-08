@@ -5,7 +5,7 @@ import type {SingularNotificationController} from './SingularNotificationControl
  * Data model wrapping notification content string and style.
  * Represents a single notification bubble item in the queue.
  *
- * @see source_as/habbo/notifications/singular/HabboNotificationItem.as
+ * @see source_as_win63/habbo/notifications/singular/HabboNotificationItem.as
  */
 export class HabboNotificationItem
 {

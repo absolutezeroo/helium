@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Update clothing change furniture with gender and figure data
  *
- * @see source_as/habbo/communication/messages/outgoing/room/engine/SetClothingChangeDataMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/room/engine/SetClothingChangeDataMessageComposer.as
  */
 export class UpdateClothingChangeFurnitureComposer extends MessageComposer<ConstructorParameters<typeof UpdateClothingChangeFurnitureComposer>>
 {

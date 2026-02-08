@@ -5,7 +5,7 @@ import {RoomEventMessageParser} from '../../parser/navigator/RoomEventMessagePar
 /**
  * Event handler for RoomEvent message
  *
- * @see source_as/habbo/communication/messages/incoming/navigator/RoomEventEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/navigator/RoomEventEvent.as
  */
 export class RoomEventMessageEvent extends MessageEvent
 {

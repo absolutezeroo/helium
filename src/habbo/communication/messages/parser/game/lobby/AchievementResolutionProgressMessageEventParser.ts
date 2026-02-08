@@ -6,7 +6,7 @@ import type {IMessageParser} from '@core/communication/messages/IMessageParser';
  * Parses progress data for a specific resolution achievement including
  * stuff ID, achievement ID, badge code, user/total progress, and end time.
  *
- * @see source_as/habbo/communication/messages/parser/game/lobby/AchievementResolutionProgressMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/game/lobby/AchievementResolutionProgressMessageEventParser.as
  */
 export class AchievementResolutionProgressMessageEventParser implements IMessageParser
 {

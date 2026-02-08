@@ -7,7 +7,7 @@ import {
 /**
  * Event for Habbo achievement notification message
  *
- * @see source_as/habbo/communication/messages/incoming/notifications/HabboAchievementNotificationMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/notifications/HabboAchievementNotificationMessageEvent.as
  */
 export class HabboAchievementNotificationMessageEvent extends MessageEvent
 {

@@ -5,7 +5,7 @@ import {FriendRequestData} from './FriendRequestData';
 /**
  * Parser for a new incoming friend request notification.
  *
- * @see source_as/habbo/communication/messages/parser/friendlist/NewFriendRequestMessageParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/friendlist/NewFriendRequestMessageParser.as
  */
 export class NewFriendRequestMessageParser implements IMessageParser
 {

@@ -20,7 +20,7 @@ const log = Logger.getLogger('Moderation');
  * Maintains issue state, bundles related reports by grouping ID and
  * reported user, and handles pick/release/close operations.
  *
- * @see source_as/habbo/moderation/IssueManager.as
+ * @see source_as_win63/habbo/moderation/IssueManager.as
  */
 export class IssueManager
 {

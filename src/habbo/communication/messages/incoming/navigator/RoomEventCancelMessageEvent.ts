@@ -3,7 +3,7 @@ import type {MessageEventCallback} from '@core/communication/messages/IMessageEv
 import {RoomEventCancelMessageParser} from '../../parser/navigator/RoomEventCancelMessageParser';
 
 /**
- * @see source_as/habbo/communication/messages/incoming/navigator/RoomEventCancelEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/navigator/RoomEventCancelEvent.as
  */
 export class RoomEventCancelMessageEvent extends MessageEvent
 {

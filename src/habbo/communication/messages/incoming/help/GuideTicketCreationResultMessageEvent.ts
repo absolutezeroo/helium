@@ -6,7 +6,7 @@ import {GuideTicketCreationResultMessageParser} from '../../parser/help/GuideTic
  * Event for guide ticket creation result.
  * Fired after attempting to create a guide ticket.
  *
- * @see source_as/habbo/communication/messages/incoming/help/GuideTicketCreationResultMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/help/GuideTicketCreationResultMessageEvent.as
  */
 export class GuideTicketCreationResultMessageEvent extends MessageEvent
 {

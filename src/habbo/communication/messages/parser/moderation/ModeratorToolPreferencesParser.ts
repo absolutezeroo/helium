@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for moderator tool window preferences (position/size).
  *
- * @see source_as/habbo/communication/messages/parser/moderation/ModeratorToolPreferencesEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/moderation/ModeratorToolPreferencesEventParser.as
  */
 export class ModeratorToolPreferencesParser implements IMessageParser
 {

@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for guide ticket resolution messages.
  * Contains the resolution code which maps to a localization string.
  *
- * @see source_as/habbo/communication/messages/parser/help/GuideTicketResolutionMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/help/GuideTicketResolutionMessageEventParser.as
  */
 export class GuideTicketResolutionMessageParser implements IMessageParser
 {

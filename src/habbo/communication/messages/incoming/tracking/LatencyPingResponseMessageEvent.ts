@@ -5,7 +5,7 @@ import {LatencyPingResponseMessageParser} from '../../parser/tracking/LatencyPin
 /**
  * Event for latency ping response from the server
  *
- * @see source_as/habbo/communication/messages/incoming/tracking/LatencyPingResponseMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/tracking/LatencyPingResponseMessageEvent.as
  */
 export class LatencyPingResponseMessageEvent extends MessageEvent
 {

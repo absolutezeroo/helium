@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Sends a moderator action on an issue.
  *
- * @see source_as/habbo/communication/messages/outgoing/moderator/ModeratorActionMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/moderator/ModeratorActionMessageComposer.as
  */
 export class ModeratorActionMessageComposer extends MessageComposer<ConstructorParameters<typeof ModeratorActionMessageComposer>>
 {

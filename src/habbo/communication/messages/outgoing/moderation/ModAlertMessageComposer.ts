@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Sends a moderator alert to a user.
  *
- * @see source_as/habbo/communication/messages/outgoing/moderator/ModAlertMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/moderator/ModAlertMessageComposer.as
  */
 export class ModAlertMessageComposer extends MessageComposer<unknown[]>
 {

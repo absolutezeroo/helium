@@ -5,7 +5,7 @@ import {AvatarEffectsMessageParser} from '../../parser/inventory/AvatarEffectsMe
 /**
  * Event handler for AvatarEffects message
  *
- * @see source_as/habbo/communication/messages/incoming/inventory/avatareffect/AvatarEffectsMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/inventory/avatareffect/AvatarEffectsMessageEvent.as
  */
 export class AvatarEffectsMessageEvent extends MessageEvent
 {

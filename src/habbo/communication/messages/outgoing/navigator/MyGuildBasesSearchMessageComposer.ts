@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Search my guild bases
  *
- * @see source_as/habbo/communication/messages/outgoing/navigator/MyGuildBasesSearchMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/navigator/MyGuildBasesSearchMessageComposer.as
  */
 export class MyGuildBasesSearchMessageComposer extends MessageComposer<ConstructorParameters<typeof MyGuildBasesSearchMessageComposer>>
 {

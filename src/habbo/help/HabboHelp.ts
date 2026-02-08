@@ -28,7 +28,7 @@ const log = Logger.getLogger('HabboHelp');
  * guide sessions, name changes, sanctions, and report registries.
  * Handles toolbar events, link events, and server message routing.
  *
- * @see source_as/habbo/help/HabboHelp.as
+ * @see source_as_win63/habbo/help/HabboHelp.as
  */
 export class HabboHelp extends Component implements IHabboHelp, ILinkEventTracker
 {

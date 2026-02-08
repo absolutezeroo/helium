@@ -5,7 +5,7 @@ import {PetLevelNotificationEventParser} from '../../parser/notifications/PetLev
 /**
  * Event for pet level notification
  *
- * @see source_as/habbo/communication/messages/incoming/notifications/PetLevelNotificationEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/notifications/PetLevelNotificationEvent.as
  */
 export class PetLevelNotificationEvent extends MessageEvent
 {

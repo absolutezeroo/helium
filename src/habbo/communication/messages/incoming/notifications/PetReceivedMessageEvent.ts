@@ -5,7 +5,7 @@ import {PetReceivedMessageEventParser} from '../../parser/notifications/PetRecei
 /**
  * Event for pet received message
  *
- * @see source_as/habbo/communication/messages/incoming/inventory/pets/PetReceivedMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/inventory/pets/PetReceivedMessageEvent.as
  */
 export class PetReceivedMessageEvent extends MessageEvent
 {

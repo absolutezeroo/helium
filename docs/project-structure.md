@@ -26,12 +26,12 @@ The project contains **4 reference sources** (not part of the build):
 
 | Folder                    | Purpose                                         | Files | LOC     |
 |---------------------------|-------------------------------------------------|-------|---------|
-| `source_as/`              | **Original Habbo AS3 client** - SOURCE OF TRUTH | 4,462 | ~44,217 |
+| `source_as_win63/`              | **Original Habbo AS3 client** - SOURCE OF TRUTH | 4,462 | ~44,217 |
 | `source_nitro_react/`     | Nitro React client - UI/Store patterns          | 860   | ~24,620 |
 | `source_nitro_renderer/`  | Nitro PixiJS renderer - Rendering patterns      | 2,644 | ~8,766  |
 | `source_nitro_converter/` | Asset converter - JSON mappers                  | 229   | -       |
 
-**CRITICAL:** Always read `source_as/` before implementing features.
+**CRITICAL:** Always read `source_as_win63/` before implementing features.
 
 ## Main Codebase Structure
 

@@ -5,7 +5,7 @@ import {ModeratorUserInfoParser} from '../../parser/moderation/ModeratorUserInfo
 /**
  * Event for moderator user info data.
  *
- * @see source_as/habbo/communication/messages/incoming/moderation/ModeratorUserInfoEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/moderation/ModeratorUserInfoEvent.as
  */
 export class ModeratorUserInfoMessageEvent extends MessageEvent
 {

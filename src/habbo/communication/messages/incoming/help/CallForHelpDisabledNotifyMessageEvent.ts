@@ -5,7 +5,7 @@ import {CallForHelpDisabledNotifyMessageParser} from '../../parser/help/CallForH
 /**
  * Event notifying that call for help is currently disabled.
  *
- * @see source_as/habbo/communication/messages/incoming/help/CallForHelpDisabledNotifyMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/help/CallForHelpDisabledNotifyMessageEvent.as
  */
 export class CallForHelpDisabledNotifyMessageEvent extends MessageEvent
 {

@@ -5,7 +5,7 @@ import {CategoriesWithVisitorCountData} from '../../incoming/navigator';
 /**
  * Parser for categories with visitor count message
  *
- * @see source_as/habbo/communication/messages/parser/navigator/CategoriesWithVisitorCountEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/navigator/CategoriesWithVisitorCountEventParser.as
  */
 export class CategoriesWithVisitorCountMessageParser implements IMessageParser
 {

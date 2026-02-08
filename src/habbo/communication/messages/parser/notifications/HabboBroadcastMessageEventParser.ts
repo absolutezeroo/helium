@@ -6,7 +6,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  *
  * Parses a single broadcast message text string.
  *
- * @see source_as/habbo/communication/messages/parser/notifications/HabboBroadcastMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/notifications/HabboBroadcastMessageEventParser.as
  */
 export class HabboBroadcastMessageEventParser implements IMessageParser
 {

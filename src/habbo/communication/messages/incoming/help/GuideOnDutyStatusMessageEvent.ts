@@ -6,7 +6,7 @@ import {GuideOnDutyStatusMessageParser} from '../../parser/help/GuideOnDutyStatu
  * Event for guide on-duty status updates.
  * Contains duty status and active guide/guardian counts.
  *
- * @see source_as/habbo/communication/messages/incoming/help/GuideOnDutyStatusMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/help/GuideOnDutyStatusMessageEvent.as
  */
 export class GuideOnDutyStatusMessageEvent extends MessageEvent
 {

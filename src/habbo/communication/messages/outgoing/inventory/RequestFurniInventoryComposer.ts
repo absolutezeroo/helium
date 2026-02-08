@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Request furniture inventory from server
  *
- * @see source_as/habbo/communication/messages/outgoing/inventory/furni/RequestFurniInventoryComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/inventory/furni/RequestFurniInventoryComposer.as
  */
 export class RequestFurniInventoryComposer extends MessageComposer<ConstructorParameters<typeof RequestFurniInventoryComposer>>
 {

@@ -7,7 +7,7 @@ import {
 /**
  * Event for account safety lock status change
  *
- * @see source_as/habbo/communication/messages/incoming/users/AccountSafetyLockStatusChangeMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/users/AccountSafetyLockStatusChangeMessageEvent.as
  */
 export class AccountSafetyLockStatusChangeMessageEvent extends MessageEvent
 {

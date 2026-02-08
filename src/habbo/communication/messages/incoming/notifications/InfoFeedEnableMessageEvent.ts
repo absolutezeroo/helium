@@ -5,7 +5,7 @@ import {InfoFeedEnableMessageParser} from '../../parser/notifications/InfoFeedEn
 /**
  * Event handler for InfoFeedEnable message
  *
- * @see source_as/habbo/communication/messages/incoming/notifications/InfoFeedEnableMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/notifications/InfoFeedEnableMessageEvent.as
  */
 export class InfoFeedEnableMessageEvent extends MessageEvent
 {

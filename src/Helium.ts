@@ -1,12 +1,11 @@
 import {Application} from 'pixi.js';
+import type {HeliumCoreConfig} from '@core/HeliumCore';
 import {HeliumCore} from '@core/HeliumCore';
 import {ComponentContext} from '@core/runtime';
 import {HabboMain} from './HabboMain';
 import {Logger} from '@core/utils/Logger';
 import {mountUI} from '@ui/index';
 import '@ui/_index.scss';
-
-import type {HeliumCoreConfig} from '@core/HeliumCore';
 import type {ICoreCommunicationManager} from '@core/communication/ICoreCommunicationManager';
 import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
 import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
@@ -62,24 +61,19 @@ export interface HeliumConfig extends HeliumCoreConfig
  * Follows the AS3 pattern where Habbo.as is the entry shell
  * and HabboMain.as is the engine orchestrator.
  *
- * @see source_as/habbo/Habbo.as
+ * @see source_as_win63/habbo/Habbo.as
  */
 export class Helium
 {
-	// Singleton
-	private static _instance: Helium;
-
-	// Core layer
-	private _core: HeliumCore | null = null;
-
 	// Engine orchestrator
 	private _habboMain: HabboMain | null = null;
-
 	// UI
 	private _disposeUI: (() => void) | null = null;
-
 	// State
 	private _ready: boolean = false;
+
+	// Singleton
+	private static _instance: Helium;
 
 	/**
 	 * Get the singleton instance
@@ -94,19 +88,8 @@ export class Helium
 		return this._instance;
 	}
 
-	/**
-	 * Bootstrap the application
-	 */
-	public static async bootstrap(config?: HeliumConfig): Promise<Helium>
-	{
-		const instance = this.instance;
-
-		await instance.init(config);
-
-		return instance;
-	}
-
-	// ── Direct accessors (Helium owns) ───────────────────────────────
+	// Core layer
+	private _core: HeliumCore | null = null;
 
 	get core(): HeliumCore
 	{
@@ -117,6 +100,8 @@ export class Helium
 
 		return this._core;
 	}
+
+	// ── Direct accessors (Helium owns) ───────────────────────────────
 
 	get context(): ComponentContext
 	{
@@ -138,12 +123,12 @@ export class Helium
 		return this._ready;
 	}
 
-	// ── Proxy accessors (delegate to HabboMain) ──────────────────────
-
 	get configuration(): IHabboConfigurationManager
 	{
 		return this._habboMain!.configurationManager;
 	}
+
+	// ── Proxy accessors (delegate to HabboMain) ──────────────────────
 
 	get habboCommunication(): HabboCommunicationManager
 	{
@@ -168,6 +153,18 @@ export class Helium
 	get moduleRegistry(): ModuleRegistry
 	{
 		return this._habboMain!.moduleRegistry;
+	}
+
+	/**
+	 * Bootstrap the application
+	 */
+	public static async bootstrap(config?: HeliumConfig): Promise<Helium>
+	{
+		const instance = this.instance;
+
+		await instance.init(config);
+
+		return instance;
 	}
 
 	// ── Lifecycle ────────────────────────────────────────────────────

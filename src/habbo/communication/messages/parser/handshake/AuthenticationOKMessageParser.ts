@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for successful authentication response
  * Message ID: 2323
  *
- * @see source_as/habbo/communication/messages/parser/handshake/AuthenticationOKMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/handshake/AuthenticationOKMessageEventParser.as
  */
 export class AuthenticationOKMessageParser implements IMessageParser
 {

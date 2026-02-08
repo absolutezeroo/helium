@@ -1,7 +1,7 @@
 /**
  * String constants for notification types
  *
- * @see source_as/habbo/notifications/NotificationType.as
+ * @see source_as_win63/habbo/notifications/NotificationType.as
  */
 export class NotificationType
 {

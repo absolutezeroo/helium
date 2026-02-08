@@ -7,7 +7,7 @@ import {
 /**
  * Event for competition entry submit result message
  *
- * @see source_as/habbo/communication/messages/incoming/competition/CompetitionEntrySubmitResultMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/competition/CompetitionEntrySubmitResultMessageEvent.as
  */
 export class CompetitionEntrySubmitResultMessageEvent extends MessageEvent
 {

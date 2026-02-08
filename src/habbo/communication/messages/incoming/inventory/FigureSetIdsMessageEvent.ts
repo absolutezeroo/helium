@@ -5,7 +5,7 @@ import {FigureSetIdsMessageParser} from '../../parser/inventory/FigureSetIdsMess
 /**
  * Event handler for FigureSetIds message
  *
- * @see source_as/habbo/communication/messages/incoming/inventory/clothing/FigureSetIdsEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/inventory/clothing/FigureSetIdsEvent.as
  */
 export class FigureSetIdsMessageEvent extends MessageEvent
 {

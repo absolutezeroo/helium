@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for maintenance status message
  *
- * @see source_as/habbo/communication/messages/parser/availability/MaintenanceStatusMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/availability/MaintenanceStatusMessageEventParser.as
  */
 export class MaintenanceStatusMessageEventParser implements IMessageParser
 {

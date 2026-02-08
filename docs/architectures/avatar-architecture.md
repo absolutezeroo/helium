@@ -1,6 +1,6 @@
 # Avatar System Architecture
 
-This document analyzes all files in `source_as/habbo/avatar/` and categorizes them as ENGINE (core rendering/data logic) or VIEW (UI components for the Avatar Editor).
+This document analyzes all files in `source_as_win63/habbo/avatar/` and categorizes them as ENGINE (core rendering/data logic) or VIEW (UI components for the Avatar Editor).
 
 ## Overview
 

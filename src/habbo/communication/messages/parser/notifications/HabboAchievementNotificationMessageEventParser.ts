@@ -7,7 +7,7 @@ import {AchievementNotificationData} from '../../incoming/notifications/Achievem
  *
  * Parses achievement notification data including type, level, badge, points, and category.
  *
- * @see source_as/habbo/communication/messages/parser/notifications/HabboAchievementNotificationMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/notifications/HabboAchievementNotificationMessageEventParser.as
  */
 export class HabboAchievementNotificationMessageEventParser implements IMessageParser
 {

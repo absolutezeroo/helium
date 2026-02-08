@@ -21,7 +21,7 @@ import {RoomSessionWordQuizEvent} from '../events/RoomSessionWordQuizEvent';
  *
  * Handles word quiz question events and dispatches RoomSessionWordQuizEvent.
  *
- * @see source_as/habbo/session/handler/WordQuizHandler.as
+ * @see source_as_win63/habbo/session/handler/WordQuizHandler.as
  */
 export class WordQuizHandler extends BaseHandler
 {

@@ -4,7 +4,7 @@ import {RoomSessionEvent} from './RoomSessionEvent';
 /**
  * Room session pet level update event
  *
- * @see source_as/habbo/session/events/RoomSessionPetLevelUpdateEvent.as
+ * @see source_as_win63/habbo/session/events/RoomSessionPetLevelUpdateEvent.as
  */
 export class RoomSessionPetLevelUpdateEvent extends RoomSessionEvent
 {

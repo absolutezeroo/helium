@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for identity accounts event (multi-avatar selection)
  *
- * @see source_as/habbo/communication/messages/parser/handshake/IdentityAccountsEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/handshake/IdentityAccountsEventParser.as
  */
 export class IdentityAccountsEventParser implements IMessageParser
 {

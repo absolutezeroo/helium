@@ -6,7 +6,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  *
  * Parses a message text and an optional URL from a moderator.
  *
- * @see source_as/habbo/communication/messages/parser/moderation/ModeratorMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/moderation/ModeratorMessageEventParser.as
  */
 export class ModeratorMessageEventParser implements IMessageParser
 {

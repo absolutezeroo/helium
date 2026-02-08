@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Report chat lag warnings to the server
  *
- * @see source_as/habbo/communication/messages/outgoing/tracking/LagWarningReportMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/tracking/LagWarningReportMessageComposer.as
  */
 export class LagWarningReportMessageComposer extends MessageComposer<ConstructorParameters<typeof LagWarningReportMessageComposer>>
 {

@@ -6,7 +6,7 @@ import {GuideSessionAttachedMessageParser} from '../../parser/help/GuideSessionA
  * Event for guide session attachment notification.
  * Fired when the user is attached to a guide session.
  *
- * @see source_as/habbo/communication/messages/incoming/help/GuideSessionAttachedMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/help/GuideSessionAttachedMessageEvent.as
  */
 export class GuideSessionAttachedMessageEvent extends MessageEvent
 {

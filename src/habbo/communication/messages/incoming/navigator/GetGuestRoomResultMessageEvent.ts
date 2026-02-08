@@ -5,7 +5,7 @@ import {GetGuestRoomResultMessageParser} from '../../parser/navigator/GetGuestRo
 /**
  * Event handler for GetGuestRoomResult message
  *
- * @see source_as/habbo/communication/messages/incoming/navigator/GetGuestRoomResultEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/navigator/GetGuestRoomResultEvent.as
  */
 export class GetGuestRoomResultMessageEvent extends MessageEvent
 {

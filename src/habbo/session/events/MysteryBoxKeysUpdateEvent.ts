@@ -1,7 +1,7 @@
 /**
  * Mystery box keys update event
  *
- * @see source_as/habbo/session/events/MysteryBoxKeysUpdateEvent.as
+ * @see source_as_win63/habbo/session/events/MysteryBoxKeysUpdateEvent.as
  */
 export class MysteryBoxKeysUpdateEvent
 {

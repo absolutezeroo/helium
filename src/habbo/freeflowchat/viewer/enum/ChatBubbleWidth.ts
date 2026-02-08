@@ -2,7 +2,7 @@
  * Chat bubble width constants and utility for mapping room chat settings
  * to corresponding bubble widths.
  *
- * @see source_as/habbo/freeflowchat/viewer/enum/ChatBubbleWidth.as
+ * @see source_as_win63/habbo/freeflowchat/viewer/enum/ChatBubbleWidth.as
  */
 export class ChatBubbleWidth
 {

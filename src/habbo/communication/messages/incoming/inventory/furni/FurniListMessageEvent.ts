@@ -3,7 +3,7 @@ import type {MessageEventCallback} from '@core/communication/messages/IMessageEv
 import {FurniListMessageParser} from '@habbo/communication/messages/parser/inventory/furni/FurniListMessageParser';
 
 /**
- * @see source_as/habbo/communication/messages/incoming/inventory/furni/FurniListEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/inventory/furni/FurniListEvent.as
  */
 export class FurniListMessageEvent extends MessageEvent
 {

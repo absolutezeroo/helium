@@ -3,7 +3,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Data class representing a friend request from the server.
  *
- * @see source_as/habbo/communication/messages/incoming/friendlist/FriendRequestData.as
+ * @see source_as_win63/habbo/communication/messages/incoming/friendlist/FriendRequestData.as
  */
 export class FriendRequestData
 {

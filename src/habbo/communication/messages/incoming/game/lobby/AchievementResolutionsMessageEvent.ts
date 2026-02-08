@@ -8,7 +8,7 @@ import {
  * Event for the achievement resolutions list message.
  * Contains a list of resolution achievements with a stuff ID and end time.
  *
- * @see source_as/habbo/communication/messages/incoming/game/lobby/AchievementResolutionsMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/game/lobby/AchievementResolutionsMessageEvent.as
  */
 export class AchievementResolutionsMessageEvent extends MessageEvent
 {

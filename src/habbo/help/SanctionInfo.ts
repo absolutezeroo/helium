@@ -8,7 +8,7 @@ const log = Logger.getLogger('SanctionInfo');
  * Processes sanction status events and formats ban/mute/alert messages
  * with probation day calculations.
  *
- * @see source_as/habbo/help/SanctionInfo.as
+ * @see source_as_win63/habbo/help/SanctionInfo.as
  */
 export class SanctionInfo
 {

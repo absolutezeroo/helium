@@ -1,7 +1,7 @@
 /**
  * Badge image ready event
  *
- * @see source_as/habbo/session/events/BadgeImageReadyEvent.as
+ * @see source_as_win63/habbo/session/events/BadgeImageReadyEvent.as
  */
 export class BadgeImageReadyEvent
 {

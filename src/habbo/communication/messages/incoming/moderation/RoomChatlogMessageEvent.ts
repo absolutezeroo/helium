@@ -5,7 +5,7 @@ import {RoomChatlogMessageParser} from '../../parser/moderation/RoomChatlogMessa
 /**
  * Event for room chatlog data.
  *
- * @see source_as/habbo/communication/messages/incoming/moderation/RoomChatlogEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/moderation/RoomChatlogEvent.as
  */
 export class RoomChatlogMessageEvent extends MessageEvent
 {

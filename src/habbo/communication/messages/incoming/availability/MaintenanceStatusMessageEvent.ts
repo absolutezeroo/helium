@@ -5,7 +5,7 @@ import {MaintenanceStatusMessageEventParser} from '../../parser/availability/Mai
 /**
  * Maintenance status message
  *
- * @see source_as/habbo/communication/messages/incoming/availability/MaintenanceStatusMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/availability/MaintenanceStatusMessageEvent.as
  */
 export class MaintenanceStatusMessageEvent extends MessageEvent
 {

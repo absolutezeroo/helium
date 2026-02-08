@@ -5,7 +5,7 @@ import type {ILinkEventTracker} from '@core/runtime';
  *
  * Provides access to quest and achievement management functionality.
  *
- * @see source_as/habbo/quest/class_2197.as
+ * @see source_as_win63/habbo/quest/class_2197.as
  */
 export interface IHabboQuestEngine extends ILinkEventTracker
 {

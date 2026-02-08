@@ -5,7 +5,7 @@ import {ModeratorActionResultMessageParser} from '../../parser/moderation/Modera
 /**
  * Event for moderator action result (success/failure).
  *
- * @see source_as/habbo/communication/messages/incoming/moderation/ModeratorActionResultMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/moderation/ModeratorActionResultMessageEvent.as
  */
 export class ModeratorActionResultMessageEvent extends MessageEvent
 {

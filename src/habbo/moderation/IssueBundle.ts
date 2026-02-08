@@ -7,7 +7,7 @@ import type {IssueInfoData} from '@habbo/communication/messages/parser/moderatio
  * its state (open/picked/closed), the picker info, message counts, and
  * provides priority-based sorting for issue selection.
  *
- * @see source_as/habbo/moderation/IssueBundle.as
+ * @see source_as_win63/habbo/moderation/IssueBundle.as
  */
 export class IssueBundle
 {

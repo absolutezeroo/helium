@@ -5,7 +5,7 @@ import {CfhChatlogData} from './CfhChatlogData';
 /**
  * Parser for CFH (Call For Help) chatlog messages.
  *
- * @see source_as/habbo/communication/messages/parser/moderation/CfhChatlogEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/moderation/CfhChatlogEventParser.as
  */
 export class CfhChatlogMessageParser implements IMessageParser
 {

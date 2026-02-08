@@ -6,7 +6,7 @@ import {MessengerInitParser} from '../../parser/friendlist/MessengerInitParser';
  * Event handler for messenger initialization.
  * Provides friend limits and category data.
  *
- * @see source_as/habbo/communication/messages/incoming/friendlist/MessengerInitEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/friendlist/MessengerInitEvent.as
  */
 export class MessengerInitEvent extends MessageEvent
 {

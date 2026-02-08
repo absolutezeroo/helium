@@ -7,7 +7,7 @@ import type {IAnimatable} from './IAnimatable';
  * once the specified delay has elapsed. Supports repeat counts
  * for recurring calls.
  *
- * @see source_as/habbo/utils/animation/DelayedCall.as
+ * @see source_as_win63/habbo/utils/animation/DelayedCall.as
  */
 export class DelayedCall implements IAnimatable
 {

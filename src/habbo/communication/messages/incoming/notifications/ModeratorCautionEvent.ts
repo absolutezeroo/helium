@@ -5,7 +5,7 @@ import {ModeratorCautionEventParser} from '../../parser/notifications/ModeratorC
 /**
  * Event for moderator caution
  *
- * @see source_as/habbo/communication/messages/incoming/moderation/ModeratorCautionEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/moderation/ModeratorCautionEvent.as
  */
 export class ModeratorCautionEvent extends MessageEvent
 {

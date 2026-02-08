@@ -5,7 +5,7 @@ import {FlatAccessDeniedMessageParser} from '../../parser/navigator/FlatAccessDe
 /**
  * Event handler for FlatAccessDenied message
  *
- * @see source_as/habbo/communication/messages/incoming/navigator/FlatAccessDeniedMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/navigator/FlatAccessDeniedMessageEvent.as
  */
 export class FlatAccessDeniedMessageEvent extends MessageEvent
 {

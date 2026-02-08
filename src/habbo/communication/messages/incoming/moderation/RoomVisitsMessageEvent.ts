@@ -5,7 +5,7 @@ import {RoomVisitsMessageParser} from '../../parser/moderation/RoomVisitsMessage
 /**
  * Event for room visits data.
  *
- * @see source_as/habbo/communication/messages/incoming/moderation/RoomVisitsEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/moderation/RoomVisitsEvent.as
  */
 export class RoomVisitsMessageEvent extends MessageEvent
 {

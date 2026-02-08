@@ -5,7 +5,7 @@ import {IsFirstLoginOfDayMessageParser} from '../../parser/handshake/IsFirstLogi
 /**
  * Event handler for IsFirstLoginOfDay message
  *
- * @see source_as/habbo/communication/messages/incoming/handshake/IsFirstLoginOfDayEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/handshake/IsFirstLoginOfDayEvent.as
  */
 export class IsFirstLoginOfDayMessageEvent extends MessageEvent
 {

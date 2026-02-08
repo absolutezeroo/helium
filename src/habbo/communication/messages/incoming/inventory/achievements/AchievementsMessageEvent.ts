@@ -5,7 +5,7 @@ import {AchievementsEventParser} from '../../../parser/inventory/achievements/Ac
 /**
  * Event for receiving the full list of achievements.
  *
- * @see source_as/habbo/communication/messages/incoming/inventory/achievements/AchievementsEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/inventory/achievements/AchievementsEvent.as
  */
 export class AchievementsMessageEvent extends MessageEvent
 {

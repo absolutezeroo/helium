@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for instant message error events.
  * Contains the error code, user ID, and original message.
  *
- * @see source_as/habbo/communication/messages/parser/friendlist/InstantMessageErrorEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/friendlist/InstantMessageErrorEventParser.as
  */
 export class InstantMessageErrorEventParser implements IMessageParser
 {

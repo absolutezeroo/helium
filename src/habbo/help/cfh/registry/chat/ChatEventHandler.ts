@@ -9,7 +9,7 @@ const log = Logger.getLogger('ChatEventHandler');
  * Captures chat messages from room sessions and stores them
  * in the ChatRegistry for later use in Call For Help reports.
  *
- * @see source_as/habbo/help/cfh/registry/chat/ChatEventHandler.as
+ * @see source_as_win63/habbo/help/cfh/registry/chat/ChatEventHandler.as
  */
 export class ChatEventHandler
 {

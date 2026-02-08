@@ -6,7 +6,7 @@ import {ChangeUserNameResultMessageParser} from '../../parser/help/ChangeUserNam
  * Event for change user name result.
  * Contains the result code indicating success or specific error.
  *
- * @see source_as/habbo/communication/messages/incoming/avatar/ChangeUserNameResultMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/avatar/ChangeUserNameResultMessageEvent.as
  */
 export class ChangeUserNameResultMessageEvent extends MessageEvent
 {

@@ -5,7 +5,7 @@ import {AchievementData} from '../../quest/AchievementData';
 /**
  * Parses a list of achievements and the default category.
  *
- * @see source_as/habbo/communication/messages/parser/inventory/achievements/AchievementsEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/inventory/achievements/AchievementsEventParser.as
  */
 export class AchievementsEventParser implements IMessageParser
 {

@@ -6,7 +6,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  *
  * Parses a list of strings representing the MOTD lines.
  *
- * @see source_as/habbo/communication/messages/parser/notifications/MOTDNotificationEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/notifications/MOTDNotificationEventParser.as
  */
 export class MOTDNotificationEventParser implements IMessageParser
 {

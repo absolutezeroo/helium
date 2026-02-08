@@ -5,7 +5,7 @@ import {NavigatorWindowSettingsMessageParser} from '../../parser/newnavigator';
 /**
  * Event for navigator window settings
  *
- * @see source_as/habbo/communication/messages/incoming/newnavigator/NavigatorSettingsMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/newnavigator/NavigatorSettingsMessageEvent.as
  */
 export class NavigatorWindowSettingsMessageEvent extends MessageEvent
 {

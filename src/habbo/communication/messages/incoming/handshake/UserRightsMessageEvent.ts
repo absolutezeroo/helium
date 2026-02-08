@@ -6,7 +6,7 @@ import {UserRightsMessageParser} from '../../parser/handshake/UserRightsMessageP
  * Event handler for User rights message
  * Message ID: 1416
  *
- * @see source_as/habbo/communication/messages/incoming/handshake/UserRightsMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/handshake/UserRightsMessageEvent.as
  */
 export class UserRightsMessageEvent extends MessageEvent
 {

@@ -5,7 +5,7 @@ import {QuestionAnsweredEventParser} from '../../parser/poll/QuestionAnsweredEve
 /**
  * Question answered event (word quiz)
  *
- * @see source_as/habbo/communication/messages/incoming/poll/QuestionAnsweredEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/poll/QuestionAnsweredEvent.as
  */
 export class QuestionAnsweredEvent extends MessageEvent
 {

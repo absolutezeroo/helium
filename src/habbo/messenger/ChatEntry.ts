@@ -2,7 +2,7 @@
  * Represents a single chat entry in a messenger conversation.
  * Tracks message data, timing, and confirmation state.
  *
- * @see source_as/habbo/messenger/ChatEntry.as
+ * @see source_as_win63/habbo/messenger/ChatEntry.as
  */
 export class ChatEntry
 {

@@ -6,7 +6,7 @@ import {IssueInfoMessageParser} from './IssueInfoMessageParser';
  * Data class containing moderator initialization data.
  * Includes issues, message templates, permissions, and room message templates.
  *
- * @see source_as/habbo/communication/messages/parser/moderation/class_1762.as
+ * @see source_as_win63/habbo/communication/messages/parser/moderation/class_1762.as
  */
 export class ModeratorInitData
 {

@@ -5,7 +5,7 @@ import {CallForHelpResultMessageParser} from '../../parser/help/CallForHelpResul
 /**
  * Event for call for help submission result.
  *
- * @see source_as/habbo/communication/messages/incoming/help/CallForHelpResultMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/help/CallForHelpResultMessageEvent.as
  */
 export class CallForHelpResultMessageEvent extends MessageEvent
 {

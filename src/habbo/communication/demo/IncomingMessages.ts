@@ -61,7 +61,7 @@ const log = Logger.getLogger('Handshake');
  * Takes a reference to HabboCommunicationDemo and calls back to its methods
  * (loginOk, disconnected, handleErrorMessage, etc.) rather than emitting events.
  *
- * @see source_as/habbo/communication/demo/IncomingMessages.as
+ * @see source_as_win63/habbo/communication/demo/IncomingMessages.as
  */
 export class IncomingMessages
 {
@@ -130,7 +130,7 @@ export class IncomingMessages
 	}
 
 	/**
-	 * @see source_as/habbo/communication/demo/IncomingMessages.as addHabboConnectionMessageEvent()
+	 * @see source_as_win63/habbo/communication/demo/IncomingMessages.as addHabboConnectionMessageEvent()
 	 */
 	private addHabboConnectionMessageEvent(event: IMessageEvent): void
 	{
@@ -139,7 +139,7 @@ export class IncomingMessages
 	}
 
 	/**
-	 * @see source_as/habbo/communication/demo/IncomingMessages.as onConnectionEstablished()
+	 * @see source_as_win63/habbo/communication/demo/IncomingMessages.as onConnectionEstablished()
 	 */
 	private onConnectionEstablished(): void
 	{
@@ -159,7 +159,7 @@ export class IncomingMessages
 	}
 
 	/**
-	 * @see source_as/habbo/communication/demo/IncomingMessages.as onInitDiffieHandshake()
+	 * @see source_as_win63/habbo/communication/demo/IncomingMessages.as onInitDiffieHandshake()
 	 */
 	private onInitDiffieHandshake(event: IMessageEvent): void
 	{
@@ -222,7 +222,7 @@ export class IncomingMessages
 	}
 
 	/**
-	 * @see source_as/habbo/communication/demo/IncomingMessages.as onCompleteDiffieHandshake()
+	 * @see source_as_win63/habbo/communication/demo/IncomingMessages.as onCompleteDiffieHandshake()
 	 */
 	private onCompleteDiffieHandshake(event: IMessageEvent): void
 	{
@@ -272,7 +272,7 @@ export class IncomingMessages
 	}
 
 	/**
-	 * @see source_as/habbo/communication/demo/IncomingMessages.as onAuthenticationOK()
+	 * @see source_as_win63/habbo/communication/demo/IncomingMessages.as onAuthenticationOK()
 	 */
 	private onAuthenticationOK(event: IMessageEvent): void
 	{
@@ -291,7 +291,7 @@ export class IncomingMessages
 	}
 
 	/**
-	 * @see source_as/habbo/communication/demo/IncomingMessages.as onPing()
+	 * @see source_as_win63/habbo/communication/demo/IncomingMessages.as onPing()
 	 */
 	private onPing(event: IMessageEvent): void
 	{
@@ -303,7 +303,7 @@ export class IncomingMessages
 	}
 
 	/**
-	 * @see source_as/habbo/communication/demo/IncomingMessages.as onDisconnectReason()
+	 * @see source_as_win63/habbo/communication/demo/IncomingMessages.as onDisconnectReason()
 	 */
 	private onDisconnectReason(event: IMessageEvent): void
 	{
@@ -325,7 +325,7 @@ export class IncomingMessages
 	}
 
 	/**
-	 * @see source_as/habbo/communication/demo/IncomingMessages.as onGenericError()
+	 * @see source_as_win63/habbo/communication/demo/IncomingMessages.as onGenericError()
 	 */
 	private onGenericError(event: IMessageEvent): void
 	{
@@ -345,7 +345,7 @@ export class IncomingMessages
 	}
 
 	/**
-	 * @see source_as/habbo/communication/demo/IncomingMessages.as onUniqueMachineId()
+	 * @see source_as_win63/habbo/communication/demo/IncomingMessages.as onUniqueMachineId()
 	 */
 	private onUniqueMachineId(_event: IMessageEvent): void
 	{
@@ -354,7 +354,7 @@ export class IncomingMessages
 	}
 
 	/**
-	 * @see source_as/habbo/communication/demo/IncomingMessages.as onLoginFailedHotelClosed()
+	 * @see source_as_win63/habbo/communication/demo/IncomingMessages.as onLoginFailedHotelClosed()
 	 */
 	private onLoginFailedHotelClosed(event: IMessageEvent): void
 	{
@@ -366,7 +366,7 @@ export class IncomingMessages
 	}
 
 	/**
-	 * @see source_as/habbo/communication/demo/IncomingMessages.as onErrorReport()
+	 * @see source_as_win63/habbo/communication/demo/IncomingMessages.as onErrorReport()
 	 */
 	private onErrorReport(event: IMessageEvent): void
 	{
@@ -378,7 +378,7 @@ export class IncomingMessages
 	}
 
 	/**
-	 * @see source_as/habbo/communication/demo/IncomingMessages.as onMaintenance()
+	 * @see source_as_win63/habbo/communication/demo/IncomingMessages.as onMaintenance()
 	 */
 	private onMaintenance(event: IMessageEvent): void
 	{
@@ -392,7 +392,7 @@ export class IncomingMessages
 	}
 
 	/**
-	 * @see source_as/habbo/communication/demo/IncomingMessages.as onIdentityAccounts()
+	 * @see source_as_win63/habbo/communication/demo/IncomingMessages.as onIdentityAccounts()
 	 */
 	private onIdentityAccounts(event: IMessageEvent): void
 	{
@@ -406,7 +406,7 @@ export class IncomingMessages
 	}
 
 	/**
-	 * @see source_as/habbo/communication/demo/IncomingMessages.as onConnectionDisconnected()
+	 * @see source_as_win63/habbo/communication/demo/IncomingMessages.as onConnectionDisconnected()
 	 */
 	private onConnectionDisconnected(): void
 	{
@@ -422,7 +422,7 @@ export class IncomingMessages
 	}
 
 	/**
-	 * @see source_as/habbo/communication/demo/IncomingMessages.as generateRandomHexString()
+	 * @see source_as_win63/habbo/communication/demo/IncomingMessages.as generateRandomHexString()
 	 */
 	private generateRandomHexString(byteLength: number): string
 	{

@@ -1,7 +1,7 @@
 /**
  * Pet info interface
  *
- * @see source_as/habbo/session/IPetInfo.as
+ * @see source_as_win63/habbo/session/IPetInfo.as
  */
 export interface IPetInfo
 {

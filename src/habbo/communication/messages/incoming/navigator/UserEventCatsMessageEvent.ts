@@ -5,7 +5,7 @@ import {UserEventCatsMessageParser} from '../../parser/navigator/UserEventCatsMe
 /**
  * Event handler for UserEventCats message
  *
- * @see source_as/habbo/communication/messages/incoming/navigator/UserEventCatsEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/navigator/UserEventCatsEvent.as
  */
 export class UserEventCatsMessageEvent extends MessageEvent
 {

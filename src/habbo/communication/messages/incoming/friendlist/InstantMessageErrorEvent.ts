@@ -6,7 +6,7 @@ import {InstantMessageErrorEventParser} from '../../parser/friendlist/InstantMes
  * Event handler for instant message errors.
  * Fired when a message fails to send.
  *
- * @see source_as/habbo/communication/messages/incoming/friendlist/InstantMessageErrorEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/friendlist/InstantMessageErrorEvent.as
  */
 export class InstantMessageErrorEvent extends MessageEvent
 {

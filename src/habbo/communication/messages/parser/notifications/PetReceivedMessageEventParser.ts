@@ -8,7 +8,7 @@ import {parsePetInfoData} from '../../incoming/notifications/PetFigureDataParser
  *
  * Parses whether the pet was bought as a gift and the pet data.
  *
- * @see source_as/habbo/communication/messages/parser/inventory/pets/PetReceivedMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/inventory/pets/PetReceivedMessageEventParser.as
  */
 export class PetReceivedMessageEventParser implements IMessageParser
 {

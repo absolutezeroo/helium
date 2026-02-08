@@ -22,7 +22,7 @@ export interface HabboAlertDialogManagerEvents
  * In the AS3 source this directly creates window dialogs; here we emit events
  * for the UI layer to handle.
  *
- * @see source_as/habbo/notifications/singular/HabboAlertDialogManager.as
+ * @see source_as_win63/habbo/notifications/singular/HabboAlertDialogManager.as
  */
 export class HabboAlertDialogManager extends EventEmitter<HabboAlertDialogManagerEvents>
 {

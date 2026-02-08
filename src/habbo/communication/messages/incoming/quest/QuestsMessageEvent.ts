@@ -5,7 +5,7 @@ import {QuestsMessageEventParser} from '../../parser/quest/QuestsMessageEventPar
 /**
  * Event for the quests list message from the server.
  *
- * @see source_as/habbo/communication/messages/incoming/quest/QuestsMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/quest/QuestsMessageEvent.as
  */
 export class QuestsMessageEvent extends MessageEvent
 {

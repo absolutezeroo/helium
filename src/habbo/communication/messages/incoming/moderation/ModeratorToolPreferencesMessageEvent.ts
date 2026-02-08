@@ -5,7 +5,7 @@ import {ModeratorToolPreferencesParser} from '../../parser/moderation/ModeratorT
 /**
  * Event for moderator tool window preferences.
  *
- * @see source_as/habbo/communication/messages/incoming/moderation/ModeratorToolPreferencesEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/moderation/ModeratorToolPreferencesEvent.as
  */
 export class ModeratorToolPreferencesMessageEvent extends MessageEvent
 {

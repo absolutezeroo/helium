@@ -4,7 +4,7 @@
  * Provides static helper methods for common math operations
  * such as normalization, interpolation, clamping, and mapping.
  *
- * @see source_as/habbo/utils/class_419.as
+ * @see source_as_win63/habbo/utils/class_419.as
  */
 export class MathUtils
 {

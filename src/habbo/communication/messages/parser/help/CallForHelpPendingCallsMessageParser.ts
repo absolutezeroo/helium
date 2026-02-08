@@ -15,7 +15,7 @@ export interface PendingCall
  * Parser for pending calls for help messages.
  * Contains the list of pending CFH tickets for the user.
  *
- * @see source_as/habbo/communication/messages/parser/help/CallForHelpPendingCallsMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/help/CallForHelpPendingCallsMessageEventParser.as
  */
 export class CallForHelpPendingCallsMessageParser implements IMessageParser
 {

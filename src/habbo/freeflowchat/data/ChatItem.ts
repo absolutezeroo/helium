@@ -5,7 +5,7 @@ import type {IVector3d} from '@room/utils/IVector3d';
  * Chat message data model. Contains all the data for a single chat message
  * including the user, room, text, style, and optional forced rendering parameters.
  *
- * @see source_as/habbo/freeflowchat/data/ChatItem.as
+ * @see source_as_win63/habbo/freeflowchat/data/ChatItem.as
  */
 export class ChatItem
 {

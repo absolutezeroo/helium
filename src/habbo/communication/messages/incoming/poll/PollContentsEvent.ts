@@ -5,7 +5,7 @@ import {PollContentsEventParser} from '../../parser/poll/PollContentsEventParser
 /**
  * Poll contents event
  *
- * @see source_as/habbo/communication/messages/incoming/poll/PollContentsEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/poll/PollContentsEvent.as
  */
 export class PollContentsEvent extends MessageEvent
 {

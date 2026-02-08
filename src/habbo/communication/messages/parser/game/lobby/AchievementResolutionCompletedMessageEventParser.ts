@@ -5,7 +5,7 @@ import type {IMessageParser} from '@core/communication/messages/IMessageParser';
  * Parser for the achievement resolution completed message.
  * Parses the stuff code and badge code when a resolution achievement is completed.
  *
- * @see source_as/habbo/communication/messages/parser/game/lobby/AchievementResolutionCompletedMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/game/lobby/AchievementResolutionCompletedMessageEventParser.as
  */
 export class AchievementResolutionCompletedMessageEventParser implements IMessageParser
 {

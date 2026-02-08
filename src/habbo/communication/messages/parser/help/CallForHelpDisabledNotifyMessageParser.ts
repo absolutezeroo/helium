@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for call for help disabled notification.
  * Contains a URL for additional information when CFH is disabled.
  *
- * @see source_as/habbo/communication/messages/parser/help/CallForHelpDisabledNotifyMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/help/CallForHelpDisabledNotifyMessageEventParser.as
  */
 export class CallForHelpDisabledNotifyMessageParser implements IMessageParser
 {

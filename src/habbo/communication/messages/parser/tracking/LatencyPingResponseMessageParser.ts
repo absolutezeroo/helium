@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for latency ping response from the server
  *
- * @see source_as/habbo/communication/messages/parser/tracking/LatencyPingResponseMessageParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/tracking/LatencyPingResponseMessageParser.as
  */
 export class LatencyPingResponseMessageParser implements IMessageParser
 {

@@ -1,7 +1,7 @@
 /**
  * Noobness Level Enum
  *
- * @see source_as/habbo/communication/enum/NoobnessLevelEnum.as
+ * @see source_as_win63/habbo/communication/enum/NoobnessLevelEnum.as
  */
 export const NoobnessLevelEnum = {
 	OLD_IDENTITY: 0,

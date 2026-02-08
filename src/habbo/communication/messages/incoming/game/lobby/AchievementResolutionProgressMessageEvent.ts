@@ -8,7 +8,7 @@ import {
  * Event for the achievement resolution progress message.
  * Contains progress data for a specific resolution achievement.
  *
- * @see source_as/habbo/communication/messages/incoming/game/lobby/AchievementResolutionProgressMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/game/lobby/AchievementResolutionProgressMessageEvent.as
  */
 export class AchievementResolutionProgressMessageEvent extends MessageEvent
 {

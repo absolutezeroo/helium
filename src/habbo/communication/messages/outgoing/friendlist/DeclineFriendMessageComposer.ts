@@ -4,7 +4,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  * Declines one or more friend requests.
  * If no request IDs are given, declines all pending requests.
  *
- * @see source_as/habbo/communication/messages/outgoing/friendlist/DeclineFriendMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/friendlist/DeclineFriendMessageComposer.as
  */
 export class DeclineFriendMessageComposer implements IMessageComposer<unknown[]>
 {

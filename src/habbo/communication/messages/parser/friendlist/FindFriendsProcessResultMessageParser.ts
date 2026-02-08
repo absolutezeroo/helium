@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for find friends process result.
  * Indicates whether the find new friends operation succeeded.
  *
- * @see source_as/habbo/communication/messages/parser/friendlist/FindFriendsProcessResultEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/friendlist/FindFriendsProcessResultEventParser.as
  */
 export class FindFriendsProcessResultMessageParser implements IMessageParser
 {

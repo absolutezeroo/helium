@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Remove own room rights
  *
- * @see source_as/habbo/communication/messages/outgoing/navigator/RemoveOwnRoomRightsRoomMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/navigator/RemoveOwnRoomRightsRoomMessageComposer.as
  */
 export class RemoveOwnRoomRightsRoomMessageComposer extends MessageComposer<ConstructorParameters<typeof RemoveOwnRoomRightsRoomMessageComposer>>
 {

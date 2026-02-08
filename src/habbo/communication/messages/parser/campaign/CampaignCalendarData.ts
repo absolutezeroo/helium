@@ -6,7 +6,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Stores the full state of a campaign calendar: name, image, current day,
  * total days, which days were opened, and which were missed.
  *
- * @see source_as/habbo/communication/messages/parser/campaign/class_1641.as
+ * @see source_as_win63/habbo/communication/messages/parser/campaign/class_1641.as
  */
 export class CampaignCalendarData
 {

@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Submit answers to a poll question
  *
- * @see source_as/habbo/communication/messages/outgoing/poll/PollAnswerComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/poll/PollAnswerComposer.as
  */
 export class PollAnswerComposer extends MessageComposer<ConstructorParameters<typeof PollAnswerComposer>>
 {

@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for open pet package requested message
  *
- * @see source_as/habbo/communication/messages/parser/room/furniture/OpenPetPackageRequestedMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/room/furniture/OpenPetPackageRequestedMessageEventParser.as
  */
 export class OpenPetPackageRequestedMessageEventParser implements IMessageParser
 {

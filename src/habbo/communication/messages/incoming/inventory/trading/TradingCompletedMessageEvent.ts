@@ -5,7 +5,7 @@ import {
 } from '@habbo/communication/messages/parser/inventory/trading/TradingCompletedMessageParser';
 
 /**
- * @see source_as/habbo/communication/messages/incoming/inventory/trading/TradingCompletedEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/inventory/trading/TradingCompletedEvent.as
  */
 export class TradingCompletedMessageEvent extends MessageEvent
 {

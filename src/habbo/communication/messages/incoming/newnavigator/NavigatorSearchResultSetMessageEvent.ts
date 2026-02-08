@@ -5,7 +5,7 @@ import {NavigatorSearchResultSetMessageParser} from '../../parser/newnavigator';
 /**
  * Event for a navigator search result set
  *
- * @see source_as/habbo/communication/messages/incoming/newnavigator/NavigatorSearchResultSetMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/newnavigator/NavigatorSearchResultSetMessageEvent.as
  */
 export class NavigatorSearchResultSetMessageEvent extends MessageEvent
 {

@@ -290,7 +290,7 @@ The project includes two reference implementations:
 
 | Folder          | Purpose                                      |
 |-----------------|----------------------------------------------|
-| `source_as/`    | Original Habbo Flash client (ActionScript 3) |
+| `source_as_win63/`    | Original Habbo Flash client (ActionScript 3) |
 | `source_nitro/` | Nitro TypeScript client                      |
 
 Use these as reference when implementing new features to ensure protocol compatibility.

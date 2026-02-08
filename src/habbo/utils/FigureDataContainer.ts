@@ -9,7 +9,7 @@ const log = Logger.getLogger('FigureDataContainer');
  * into structured data with part set types, IDs, and colors.
  * Provides methods to query and modify figure data.
  *
- * @see source_as/habbo/utils/FigureDataContainer.as
+ * @see source_as_win63/habbo/utils/FigureDataContainer.as
  */
 export class FigureDataContainer
 {

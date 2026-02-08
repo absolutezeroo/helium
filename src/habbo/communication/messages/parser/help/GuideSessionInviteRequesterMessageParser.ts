@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for guide session invite requester messages.
  * Contains the room information where the requester should be invited.
  *
- * @see source_as/habbo/communication/messages/parser/help/GuideSessionInvitedToGuideRoomMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/help/GuideSessionInvitedToGuideRoomMessageEventParser.as
  */
 export class GuideSessionInviteRequesterMessageParser implements IMessageParser
 {

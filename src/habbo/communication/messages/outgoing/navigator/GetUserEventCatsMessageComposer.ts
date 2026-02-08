@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Get user's event categories
  *
- * @see source_as/habbo/communication/messages/outgoing/navigator/GetUserEventCatsMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/navigator/GetUserEventCatsMessageComposer.as
  */
 export class GetUserEventCatsMessageComposer extends MessageComposer<ConstructorParameters<typeof GetUserEventCatsMessageComposer>>
 {

@@ -5,7 +5,7 @@ import {CampaignCalendarDataMessageParser} from '../../parser/campaign/CampaignC
 /**
  * Event for campaign calendar data received from server
  *
- * @see source_as/habbo/communication/messages/incoming/campaign/CampaignCalendarDataMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/campaign/CampaignCalendarDataMessageEvent.as
  */
 export class CampaignCalendarDataMessageEvent extends MessageEvent
 {

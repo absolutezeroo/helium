@@ -1,7 +1,7 @@
 /**
  * Event for interstitial ad state changes
  *
- * @see source_as/habbo/advertisement/events/InterstitialEvent.as
+ * @see source_as_win63/habbo/advertisement/events/InterstitialEvent.as
  */
 export class InterstitialEvent
 {

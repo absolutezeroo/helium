@@ -69,7 +69,7 @@ The project includes two reference implementations (not part of the build):
 
 | Folder                   | Description                                  | Files  |
 |--------------------------|----------------------------------------------|--------|
-| `source_as/`             | Original Habbo Flash client (ActionScript 3) | ~4,462 |
+| `source_as_win63/`             | Original Habbo Flash client (ActionScript 3) | ~4,462 |
 | `source_nitro_react/`    | Nitro TypeScript react                       | ~      |
 | `source_nitro_renderer/` | Nitro TypeScript client                      | ~2,644 |
 

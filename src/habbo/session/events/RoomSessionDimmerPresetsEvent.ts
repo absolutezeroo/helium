@@ -5,7 +5,7 @@ import {RoomSessionDimmerPresetsEventPresetItem} from './RoomSessionDimmerPreset
 /**
  * Room session dimmer presets event
  *
- * @see source_as/habbo/session/events/RoomSessionDimmerPresetsEvent.as
+ * @see source_as_win63/habbo/session/events/RoomSessionDimmerPresetsEvent.as
  */
 export class RoomSessionDimmerPresetsEvent extends RoomSessionEvent
 {

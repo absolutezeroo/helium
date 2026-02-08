@@ -3,7 +3,7 @@
  *
  * Defines the possible states of the Habbo toolbar (hotel view, room view, etc.)
  *
- * @see source_as/habbo/toolbar/HabboToolbarEnum.as
+ * @see source_as_win63/habbo/toolbar/HabboToolbarEnum.as
  */
 export class HabboToolbarEnum
 {

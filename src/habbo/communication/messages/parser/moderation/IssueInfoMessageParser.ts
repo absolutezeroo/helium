@@ -6,7 +6,7 @@ import {PatternMatchData} from './PatternMatchData';
 /**
  * Parser for a single issue info message.
  *
- * @see source_as/habbo/communication/messages/parser/moderation/IssueInfoMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/moderation/IssueInfoMessageEventParser.as
  */
 export class IssueInfoMessageParser implements IMessageParser
 {

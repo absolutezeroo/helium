@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for messenger error messages.
  * Contains the client message ID and an error code.
  *
- * @see source_as/habbo/communication/messages/parser/friendlist/MessengerErrorMessageParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/friendlist/MessengerErrorMessageParser.as
  */
 export class MessengerErrorMessageParser implements IMessageParser
 {

@@ -5,7 +5,7 @@ import {ActivityPointsMessageParser} from '../../parser/notifications/ActivityPo
 /**
  * Event handler for ActivityPoints message
  *
- * @see source_as/habbo/communication/messages/incoming/notifications/ActivityPointsMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/notifications/ActivityPointsMessageEvent.as
  */
 export class ActivityPointsMessageEvent extends MessageEvent
 {

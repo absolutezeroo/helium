@@ -6,7 +6,7 @@ import {GuideSessionInviteRequesterMessageParser} from '../../parser/help/GuideS
  * Event for guide session invite requester notification.
  * Fired when the guide invites the requester to a room.
  *
- * @see source_as/habbo/communication/messages/incoming/help/GuideSessionInvitedToGuideRoomMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/help/GuideSessionInvitedToGuideRoomMessageEvent.as
  */
 export class GuideSessionInviteRequesterMessageEvent extends MessageEvent
 {

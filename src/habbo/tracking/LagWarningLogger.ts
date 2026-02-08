@@ -10,7 +10,7 @@ import type {HabboTracking} from './HabboTracking';
  * reported via LagWarningReportMessageComposer based on a configurable
  * interval.
  *
- * @see source_as/habbo/tracking/LagWarningLogger.as
+ * @see source_as_win63/habbo/tracking/LagWarningLogger.as
  */
 export class LagWarningLogger
 {

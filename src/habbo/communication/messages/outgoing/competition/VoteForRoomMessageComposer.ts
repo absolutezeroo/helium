@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * VoteForRoomMessageComposer
  *
- * @see source_as/habbo/communication/messages/outgoing/competition/VoteForRoomMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/competition/VoteForRoomMessageComposer.as
  */
 export class VoteForRoomMessageComposer extends MessageComposer<ConstructorParameters<typeof VoteForRoomMessageComposer>>
 {

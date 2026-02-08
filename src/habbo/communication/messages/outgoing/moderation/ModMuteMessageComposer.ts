@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Sends a moderator mute action for a user.
  *
- * @see source_as/habbo/communication/messages/outgoing/moderator/ModMuteMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/moderator/ModMuteMessageComposer.as
  */
 export class ModMuteMessageComposer extends MessageComposer<unknown[]>
 {

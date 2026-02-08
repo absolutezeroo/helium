@@ -6,7 +6,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Message ID: 3777
  * Contains the server's encrypted public key
  *
- * @see source_as/habbo/communication/messages/parser/handshake/CompleteDiffieHandshakeEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/handshake/CompleteDiffieHandshakeEventParser.as
  */
 export class CompleteDiffieHandshakeMessageParser implements IMessageParser
 {

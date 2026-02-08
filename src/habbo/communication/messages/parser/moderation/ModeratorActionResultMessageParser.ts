@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for moderator action result messages.
  * Indicates success or failure of a moderation action.
  *
- * @see source_as/habbo/communication/messages/parser/moderation/ModeratorActionResultMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/moderation/ModeratorActionResultMessageEventParser.as
  */
 export class ModeratorActionResultMessageParser implements IMessageParser
 {

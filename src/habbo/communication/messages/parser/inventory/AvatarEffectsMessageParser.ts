@@ -17,7 +17,7 @@ export interface AvatarEffect
 /**
  * Parser for avatar effects message
  *
- * @see source_as/habbo/communication/messages/parser/inventory/avatareffect/AvatarEffectsMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/inventory/avatareffect/AvatarEffectsMessageEventParser.as
  */
 export class AvatarEffectsMessageParser implements IMessageParser
 {

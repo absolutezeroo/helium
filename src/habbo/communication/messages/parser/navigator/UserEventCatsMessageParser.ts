@@ -5,7 +5,7 @@ import {EventCategory} from '../../incoming/navigator';
 /**
  * Parser for user event categories message
  *
- * @see source_as/habbo/communication/messages/parser/navigator/UserEventCatsEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/navigator/UserEventCatsEventParser.as
  */
 export class UserEventCatsMessageParser implements IMessageParser
 {

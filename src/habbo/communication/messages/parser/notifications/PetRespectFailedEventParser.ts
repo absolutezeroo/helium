@@ -6,7 +6,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  *
  * Parses the required days and avatar age in days.
  *
- * @see source_as/habbo/communication/messages/parser/room/pets/PetRespectFailedEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/room/pets/PetRespectFailedEventParser.as
  */
 export class PetRespectFailedEventParser implements IMessageParser
 {

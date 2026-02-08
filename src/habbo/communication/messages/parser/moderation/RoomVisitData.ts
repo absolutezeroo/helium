@@ -3,7 +3,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Data class for a room visit entry.
  *
- * @see source_as/habbo/communication/messages/incoming/moderation/class_1775.as
+ * @see source_as_win63/habbo/communication/messages/incoming/moderation/class_1775.as
  */
 export class RoomVisitData
 {

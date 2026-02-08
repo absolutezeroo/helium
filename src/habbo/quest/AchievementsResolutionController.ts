@@ -12,7 +12,7 @@ const log = Logger.getLogger('AchievementsResolutionController');
  * to work toward via furniture items (resolution achievements).
  * VIEW logic is handled by SolidJS.
  *
- * @see source_as/habbo/quest/AchievementsResolutionController.as
+ * @see source_as_win63/habbo/quest/AchievementsResolutionController.as
  */
 export class AchievementsResolutionController implements IDisposable
 {

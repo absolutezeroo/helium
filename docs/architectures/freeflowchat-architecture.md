@@ -1,6 +1,6 @@
 # FreeFlowChat Architecture Analysis
 
-This document analyzes the ActionScript 3 (AS3) source files in `source_as/habbo/freeflowchat/` to categorize which code contains **ENGINE** logic (positioning, simulation, data flow) that must be ported to TypeScript, versus **VIEW** logic (rendering, visual styling) that SolidJS will handle.
+This document analyzes the ActionScript 3 (AS3) source files in `source_as_win63/habbo/freeflowchat/` to categorize which code contains **ENGINE** logic (positioning, simulation, data flow) that must be ported to TypeScript, versus **VIEW** logic (rendering, visual styling) that SolidJS will handle.
 
 ## Summary
 

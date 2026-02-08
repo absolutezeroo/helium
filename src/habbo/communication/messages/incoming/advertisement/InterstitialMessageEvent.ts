@@ -5,7 +5,7 @@ import {InterstitialMessageParser} from '../../parser/advertisement/Interstitial
 /**
  * Event for interstitial ad availability response
  *
- * @see source_as/habbo/communication/messages/incoming/advertisement/InterstitialMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/advertisement/InterstitialMessageEvent.as
  */
 export class InterstitialMessageEvent extends MessageEvent
 {

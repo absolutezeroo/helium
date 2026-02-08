@@ -4,7 +4,7 @@ import {RoomSessionEvent} from './RoomSessionEvent';
 /**
  * Room session queue event
  *
- * @see source_as/habbo/session/events/RoomSessionQueueEvent.as
+ * @see source_as_win63/habbo/session/events/RoomSessionQueueEvent.as
  */
 export class RoomSessionQueueEvent extends RoomSessionEvent
 {

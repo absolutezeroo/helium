@@ -5,7 +5,7 @@
  * a linear ratio (0-1) into a curved ratio for smooth animations.
  * Includes cubic, back, elastic, and bounce easing variants.
  *
- * @see source_as/habbo/utils/animation/Transitions.as
+ * @see source_as_win63/habbo/utils/animation/Transitions.as
  */
 export class Transitions
 {

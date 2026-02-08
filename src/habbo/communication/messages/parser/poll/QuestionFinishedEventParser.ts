@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for question finished events (word quiz)
  *
- * @see source_as/habbo/communication/messages/parser/poll/QuestionFinishedEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/poll/QuestionFinishedEventParser.as
  */
 export class QuestionFinishedEventParser implements IMessageParser
 {

@@ -6,7 +6,7 @@ import {ChatRecordData} from './ChatRecordData';
  * Parser for user chatlog messages.
  * Contains user info and a list of room chat records.
  *
- * @see source_as/habbo/communication/messages/parser/moderation/UserChatlogEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/moderation/UserChatlogEventParser.as
  */
 export class UserChatlogMessageParser implements IMessageParser
 {

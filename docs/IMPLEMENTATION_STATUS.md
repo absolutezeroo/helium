@@ -1,7 +1,7 @@
 # Helium - Implementation Status
 
 > **Dernière mise à jour**: 2026-02-07
-> **Méthode**: Audit exhaustif AS3 → TS (comparaison `source_as/` vs `src/`)
+> **Méthode**: Audit exhaustif AS3 → TS (comparaison `source_as_win63/` vs `src/`)
 > **Total AS3 ENGINE**: ~1 150 fichiers | **Total TS implémentés**: ~530 fichiers
 
 ---

@@ -118,7 +118,7 @@ const log = Logger.getLogger('HabboFriendList');
  * Extends Component for DI lifecycle and uses a separate EventEmitter
  * (friendListEvents) to avoid conflicting with the Component base class events.
  *
- * @see source_as/habbo/friendlist/HabboFriendList.as
+ * @see source_as_win63/habbo/friendlist/HabboFriendList.as
  */
 export class HabboFriendList extends Component implements IHabboFriendList
 {

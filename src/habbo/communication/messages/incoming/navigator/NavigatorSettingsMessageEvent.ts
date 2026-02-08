@@ -3,7 +3,7 @@ import type {MessageEventCallback} from '@core/communication/messages/IMessageEv
 import {NavigatorSettingsMessageParser} from '../../parser/navigator/NavigatorSettingsMessageParser';
 
 /**
- * @see source_as/habbo/communication/messages/incoming/navigator/NavigatorSettingsEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/navigator/NavigatorSettingsEvent.as
  */
 export class NavigatorSettingsMessageEvent extends MessageEvent
 {

@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Activates a quest by its ID.
  *
- * @see source_as/habbo/communication/messages/outgoing/quest/ActivateQuestMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/quest/ActivateQuestMessageComposer.as
  */
 export class ActivateQuestMessageComposer extends MessageComposer<ConstructorParameters<typeof ActivateQuestMessageComposer>>
 {

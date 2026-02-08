@@ -6,7 +6,7 @@ import {GuideTicketResolutionMessageParser} from '../../parser/help/GuideTicketR
  * Event for guide ticket resolution.
  * Fired when a guide ticket has been resolved.
  *
- * @see source_as/habbo/communication/messages/incoming/help/GuideTicketResolutionMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/help/GuideTicketResolutionMessageEvent.as
  */
 export class GuideTicketResolutionMessageEvent extends MessageEvent
 {

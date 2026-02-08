@@ -4,7 +4,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
  * Send unique machine/device identification
  * Message ID: 1390
  *
- * @see source_as/habbo/communication/messages/outgoing/handshake/UniqueIDMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/handshake/UniqueIDMessageComposer.as
  */
 export class UniqueIDMessageComposer extends MessageComposer<ConstructorParameters<typeof UniqueIDMessageComposer>>
 {

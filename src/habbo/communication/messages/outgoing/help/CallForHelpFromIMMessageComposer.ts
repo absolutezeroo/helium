@@ -4,7 +4,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
  * Sends a call for help report from an instant message conversation.
  * Chat entries array contains pairs of [timestamp, message] strings.
  *
- * @see source_as/habbo/communication/messages/outgoing/help/CallForHelpFromIMMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/help/CallForHelpFromIMMessageComposer.as
  */
 export class CallForHelpFromIMMessageComposer extends MessageComposer<unknown[]>
 {

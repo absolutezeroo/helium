@@ -6,7 +6,7 @@ import {RoomVisitData} from './RoomVisitData';
  * Parser for room visits messages.
  * Contains user info and a list of visited rooms.
  *
- * @see source_as/habbo/communication/messages/parser/moderation/RoomVisitsEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/moderation/RoomVisitsEventParser.as
  */
 export class RoomVisitsMessageParser implements IMessageParser
 {

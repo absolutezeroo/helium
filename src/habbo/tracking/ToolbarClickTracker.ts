@@ -6,7 +6,7 @@ import type {HabboTracking} from './HabboTracking';
  * Sends click events to Google Analytics tracking up to a configurable
  * maximum number of events per session.
  *
- * @see source_as/habbo/tracking/ToolbarClickTracker.as
+ * @see source_as_win63/habbo/tracking/ToolbarClickTracker.as
  */
 export class ToolbarClickTracker
 {

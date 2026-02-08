@@ -139,7 +139,7 @@ helium/
 │   │
 │   └── 📁 bootstrap/                # Bootstrap (stub)
 │
-├── 📁 source_as/                    # Reference: AS3 source (~4,462 files)
+├── 📁 source_as_win63/                    # Reference: AS3 source (~4,462 files)
 ├── 📁 source_nitro/                 # Reference: Nitro source (~2,644 files)
 │
 ├── 📁 dist/                         # Build output

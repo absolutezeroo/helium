@@ -6,7 +6,7 @@ import {InstantMessageRegistryItem} from './InstantMessageRegistryItem';
  * Stores up to 20 messages per user, auto-purges messages older than
  * 15 minutes, keyed by user ID.
  *
- * @see source_as/habbo/help/cfh/registry/instantmessage/InstantMessageRegistry.as
+ * @see source_as_win63/habbo/help/cfh/registry/instantmessage/InstantMessageRegistry.as
  */
 export class InstantMessageRegistry
 {

@@ -5,7 +5,7 @@ import {MysteryBoxKeysMessageParser} from '../../parser/mysterybox/MysteryBoxKey
 /**
  * Event handler for MysteryBoxKeys message
  *
- * @see source_as/habbo/communication/messages/incoming/mysterybox/MysteryBoxKeysMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/mysterybox/MysteryBoxKeysMessageEvent.as
  */
 export class MysteryBoxKeysMessageEvent extends MessageEvent
 {

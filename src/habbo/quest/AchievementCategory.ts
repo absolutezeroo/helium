@@ -5,7 +5,7 @@ export type {AchievementData};
 /**
  * Single achievement category containing achievements and progress calculations
  *
- * @see source_as/habbo/quest/AchievementCategory.as
+ * @see source_as_win63/habbo/quest/AchievementCategory.as
  */
 export class AchievementCategory
 {

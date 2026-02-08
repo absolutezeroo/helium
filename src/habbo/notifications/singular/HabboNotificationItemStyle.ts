@@ -2,7 +2,7 @@
  * Data model for notification item styling.
  * Holds icon asset URI, internal link, and icon source.
  *
- * @see source_as/habbo/notifications/singular/HabboNotificationItemStyle.as
+ * @see source_as_win63/habbo/notifications/singular/HabboNotificationItemStyle.as
  */
 export class HabboNotificationItemStyle
 {

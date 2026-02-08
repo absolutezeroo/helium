@@ -19,7 +19,7 @@ const log = Logger.getLogger('LatencyTracker');
  * is received. After collecting enough samples, it calculates an average
  * and reports it to the server.
  *
- * @see source_as/habbo/tracking/LatencyTracker.as
+ * @see source_as_win63/habbo/tracking/LatencyTracker.as
  */
 export class LatencyTracker
 {

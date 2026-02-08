@@ -1,7 +1,7 @@
 /**
  * Event for room ad image loading
  *
- * @see source_as/habbo/advertisement/events/AdEvent.as
+ * @see source_as_win63/habbo/advertisement/events/AdEvent.as
  */
 export class AdEvent
 {

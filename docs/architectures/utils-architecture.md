@@ -1,8 +1,8 @@
 # Utils Architecture Documentation
 
-This document categorizes all AS3 utility files from `source_as/habbo/util/` and `source_as/habbo/utils/` into **ENGINE** (business logic we need to implement) and **VIEW** (UI code we ignore since SolidJS handles our UI).
+This document categorizes all AS3 utility files from `source_as_win63/habbo/util/` and `source_as_win63/habbo/utils/` into **ENGINE** (business logic we need to implement) and **VIEW** (UI code we ignore since SolidJS handles our UI).
 
-> **Rule**: AS3 source in `source_as/` is the source of truth. Follow it exactly.
+> **Rule**: AS3 source in `source_as_win63/` is the source of truth. Follow it exactly.
 
 ---
 

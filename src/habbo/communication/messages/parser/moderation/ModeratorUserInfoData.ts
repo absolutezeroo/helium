@@ -3,7 +3,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Data class containing detailed user information for moderators.
  *
- * @see source_as/habbo/communication/messages/incoming/moderation/class_1670.as
+ * @see source_as_win63/habbo/communication/messages/incoming/moderation/class_1670.as
  */
 export class ModeratorUserInfoData
 {

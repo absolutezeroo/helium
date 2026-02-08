@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Data class representing a friend entry from the server.
  * Used by FriendListFragmentMessageParser and FriendListUpdateMessageParser.
  *
- * @see source_as/habbo/communication/messages/incoming/friendlist/FriendData.as
+ * @see source_as_win63/habbo/communication/messages/incoming/friendlist/FriendData.as
  */
 export class FriendData
 {

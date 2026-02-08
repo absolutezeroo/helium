@@ -6,7 +6,7 @@ import {FriendData} from './FriendData';
  * Parser for friend list fragment messages.
  * The server sends the friend list in multiple fragments.
  *
- * @see source_as/habbo/communication/messages/parser/friendlist/FriendsListFragmentMessageParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/friendlist/FriendsListFragmentMessageParser.as
  */
 export class FriendListFragmentMessageParser implements IMessageParser
 {

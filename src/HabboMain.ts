@@ -62,7 +62,7 @@ const log = Logger.getLogger('HabboMain');
  * Follows the AS3 pattern where HabboMain.as orchestrates the engine
  * while Habbo.as acts as the application shell.
  *
- * @see source_as/habbo/HabboMain.as
+ * @see source_as_win63/habbo/HabboMain.as
  */
 export class HabboMain
 {

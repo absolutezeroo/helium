@@ -3,7 +3,7 @@
  *
  * Used for analytics tracking of help-related actions.
  *
- * @see source_as/habbo/help/enum/HabboHelpTrackingEvent.as
+ * @see source_as_win63/habbo/help/enum/HabboHelpTrackingEvent.as
  */
 export class HabboHelpTrackingEvent
 {

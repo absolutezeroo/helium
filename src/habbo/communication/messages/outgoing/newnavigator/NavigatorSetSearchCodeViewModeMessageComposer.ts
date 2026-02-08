@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Sets the view mode for a search code in the navigator
  *
- * @see source_as/habbo/communication/messages/outgoing/newnavigator/NavigatorSetSearchCodeViewModeMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/newnavigator/NavigatorSetSearchCodeViewModeMessageComposer.as
  */
 export class NavigatorSetSearchCodeViewModeMessageComposer extends MessageComposer<ConstructorParameters<typeof NavigatorSetSearchCodeViewModeMessageComposer>>
 {

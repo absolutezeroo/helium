@@ -6,7 +6,7 @@ import {ChatRegistryItem} from './ChatRegistryItem';
  * Stores up to 120 chat messages, auto-purges messages older than 15 minutes,
  * and provides filtering by user ID.
  *
- * @see source_as/habbo/help/cfh/registry/chat/ChatRegistry.as
+ * @see source_as_win63/habbo/help/cfh/registry/chat/ChatRegistry.as
  */
 export class ChatRegistry
 {

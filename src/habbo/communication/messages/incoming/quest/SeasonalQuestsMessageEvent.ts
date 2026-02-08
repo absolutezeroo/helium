@@ -5,7 +5,7 @@ import {SeasonalQuestsMessageEventParser} from '../../parser/quest/SeasonalQuest
 /**
  * Event for the seasonal quests list message from the server.
  *
- * @see source_as/habbo/communication/messages/incoming/quest/SeasonalQuestsMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/quest/SeasonalQuestsMessageEvent.as
  */
 export class SeasonalQuestsMessageEvent extends MessageEvent
 {

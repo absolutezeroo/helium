@@ -21,7 +21,7 @@ export interface IFreeFlowChatRoomSessionManager
  * Provides methods for chat management, room lifecycle, visibility control,
  * and user preference management for the free-flow chat system.
  *
- * @see source_as/habbo/freeflowchat/class_1809.as
+ * @see source_as_win63/habbo/freeflowchat/class_1809.as
  */
 export interface IHabboFreeFlowChat
 {

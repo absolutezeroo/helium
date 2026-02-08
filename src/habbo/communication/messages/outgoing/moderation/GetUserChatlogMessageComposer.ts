@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Requests the chatlog for a specific user.
  *
- * @see source_as/habbo/communication/messages/outgoing/moderator/GetUserChatlogMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/moderator/GetUserChatlogMessageComposer.as
  */
 export class GetUserChatlogMessageComposer extends MessageComposer<ConstructorParameters<typeof GetUserChatlogMessageComposer>>
 {

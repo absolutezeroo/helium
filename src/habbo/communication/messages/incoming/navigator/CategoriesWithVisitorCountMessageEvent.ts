@@ -3,7 +3,7 @@ import type {MessageEventCallback} from '@core/communication/messages/IMessageEv
 import {CategoriesWithVisitorCountMessageParser} from '../../parser/navigator/CategoriesWithVisitorCountMessageParser';
 
 /**
- * @see source_as/habbo/communication/messages/incoming/navigator/CategoriesWithVisitorCountEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/navigator/CategoriesWithVisitorCountEvent.as
  */
 export class CategoriesWithVisitorCountMessageEvent extends MessageEvent
 {

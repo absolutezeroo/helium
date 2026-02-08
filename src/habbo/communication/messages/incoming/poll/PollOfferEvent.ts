@@ -5,7 +5,7 @@ import {PollOfferEventParser} from '../../parser/poll/PollOfferEventParser';
 /**
  * Poll offer event
  *
- * @see source_as/habbo/communication/messages/incoming/poll/PollOfferEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/poll/PollOfferEvent.as
  */
 export class PollOfferEvent extends MessageEvent
 {

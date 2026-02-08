@@ -4,7 +4,7 @@ import {ChatEntryData} from './ChatEntryData';
 /**
  * Data class for a chat record containing context and chat log entries.
  *
- * @see source_as/habbo/communication/messages/incoming/moderation/class_1757.as
+ * @see source_as_win63/habbo/communication/messages/incoming/moderation/class_1757.as
  */
 export class ChatRecordData
 {

@@ -20,7 +20,7 @@ export type RoomSessionStateType = typeof RoomSessionState[keyof typeof RoomSess
  * Represents an active session in a room. Handles communication
  * with the server for room-specific actions.
  *
- * @see source_as/habbo/session/IRoomSession.as
+ * @see source_as_win63/habbo/session/IRoomSession.as
  */
 export interface IRoomSession
 {

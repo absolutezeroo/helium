@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for unique machine ID request/response
  * Message ID: 3974
  *
- * @see source_as/habbo/communication/messages/parser/handshake/UniqueMachineIDEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/handshake/UniqueMachineIDEventParser.as
  */
 export class UniqueMachineIdMessageParser implements IMessageParser
 {

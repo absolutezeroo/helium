@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Closes one or more issues with a resolution code.
  *
- * @see source_as/habbo/communication/messages/outgoing/moderator/CloseIssuesMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/moderator/CloseIssuesMessageComposer.as
  */
 export class CloseIssuesMessageComposer extends MessageComposer<unknown[]>
 {

@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Get popular room tags
  *
- * @see source_as/habbo/communication/messages/outgoing/navigator/GetPopularRoomTagsMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/navigator/GetPopularRoomTagsMessageComposer.as
  */
 export class GetPopularRoomTagsMessageComposer extends MessageComposer<ConstructorParameters<typeof GetPopularRoomTagsMessageComposer>>
 {

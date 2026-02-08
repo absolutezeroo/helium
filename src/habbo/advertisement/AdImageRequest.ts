@@ -1,7 +1,7 @@
 /**
  * Data object for a billboard ad image load request
  *
- * @see source_as/habbo/advertisement/AdImageRequest.as
+ * @see source_as_win63/habbo/advertisement/AdImageRequest.as
  */
 export class AdImageRequest
 {

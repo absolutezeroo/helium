@@ -6,7 +6,7 @@ import {CheckUserNameResultMessageParser} from '../../parser/help/CheckUserNameR
  * Event for check user name result.
  * Contains the validation result and name suggestions.
  *
- * @see source_as/habbo/communication/messages/incoming/avatar/CheckUserNameResultMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/avatar/CheckUserNameResultMessageEvent.as
  */
 export class CheckUserNameResultMessageEvent extends MessageEvent
 {

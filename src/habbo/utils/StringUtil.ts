@@ -4,7 +4,7 @@
  * Provides static helper methods for common string operations
  * such as padding, trimming, validation, and sanitization.
  *
- * @see source_as/habbo/utils/StringUtil.as
+ * @see source_as_win63/habbo/utils/StringUtil.as
  */
 export class StringUtil
 {

@@ -4,7 +4,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
  * Send event log for tracking
  * Message ID: 2297
  *
- * @see source_as/habbo/communication/messages/outgoing/tracking/class_955.as (EventLogMessageComposer)
+ * @see source_as_win63/habbo/communication/messages/outgoing/tracking/class_955.as (EventLogMessageComposer)
  */
 export class EventLogMessageComposer extends MessageComposer<ConstructorParameters<typeof EventLogMessageComposer>>
 {

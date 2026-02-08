@@ -6,7 +6,7 @@ import {NewConsoleMessageEventParser} from '../../parser/friendlist/NewConsoleMe
  * Event handler for new console (messenger) messages.
  * Fired when a new message is received in a conversation.
  *
- * @see source_as/habbo/communication/messages/incoming/friendlist/NewConsoleMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/friendlist/NewConsoleMessageEvent.as
  */
 export class NewConsoleMessageEvent extends MessageEvent
 {

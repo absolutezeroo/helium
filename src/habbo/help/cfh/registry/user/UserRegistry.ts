@@ -6,7 +6,7 @@ import {UserRegistryItem} from './UserRegistryItem';
  * Stores up to 80 users with their room context, providing
  * lookup by user ID for the reporting flow.
  *
- * @see source_as/habbo/help/cfh/registry/user/UserRegistry.as
+ * @see source_as_win63/habbo/help/cfh/registry/user/UserRegistry.as
  */
 export class UserRegistry
 {

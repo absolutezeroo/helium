@@ -269,7 +269,7 @@ export class ComponentContext extends Component implements IContext
 	/**
 	 * Add a link event tracker
 	 *
-	 * @see source_as/core/runtime/ComponentContext.as lines 509-515
+	 * @see source_as_win63/core/runtime/ComponentContext.as lines 509-515
 	 */
 	addLinkEventTracker(tracker: ILinkEventTracker): void
 	{
@@ -282,7 +282,7 @@ export class ComponentContext extends Component implements IContext
 	/**
 	 * Remove a link event tracker
 	 *
-	 * @see source_as/core/runtime/ComponentContext.as lines 517-524
+	 * @see source_as_win63/core/runtime/ComponentContext.as lines 517-524
 	 */
 	removeLinkEventTracker(tracker: ILinkEventTracker): void
 	{
@@ -297,7 +297,7 @@ export class ComponentContext extends Component implements IContext
 	/**
 	 * Create a link event, routing it to all matching trackers
 	 *
-	 * @see source_as/core/runtime/ComponentContext.as lines 526-536
+	 * @see source_as_win63/core/runtime/ComponentContext.as lines 526-536
 	 */
 	createLinkEvent(link: string): void
 	{

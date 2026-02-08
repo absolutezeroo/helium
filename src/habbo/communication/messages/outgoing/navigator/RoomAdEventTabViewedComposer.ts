@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Room ad event tab viewed
  *
- * @see source_as/habbo/communication/messages/outgoing/navigator/RoomAdEventTabViewedComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/navigator/RoomAdEventTabViewedComposer.as
  */
 export class RoomAdEventTabViewedComposer extends MessageComposer<ConstructorParameters<typeof RoomAdEventTabViewedComposer>>
 {

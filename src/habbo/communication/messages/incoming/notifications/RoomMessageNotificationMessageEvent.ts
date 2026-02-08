@@ -7,7 +7,7 @@ import {
 /**
  * Event for room message notification
  *
- * @see source_as/habbo/communication/messages/incoming/room/furniture/RoomMessageNotificationMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/room/furniture/RoomMessageNotificationMessageEvent.as
  */
 export class RoomMessageNotificationMessageEvent extends MessageEvent
 {

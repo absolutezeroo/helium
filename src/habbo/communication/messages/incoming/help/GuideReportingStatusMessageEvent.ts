@@ -6,7 +6,7 @@ import {GuideReportingStatusMessageParser} from '../../parser/help/GuideReportin
  * Event for guide reporting status updates.
  * Contains the current status of the guide reporting system.
  *
- * @see source_as/habbo/communication/messages/incoming/help/GuideReportingStatusMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/help/GuideReportingStatusMessageEvent.as
  */
 export class GuideReportingStatusMessageEvent extends MessageEvent
 {

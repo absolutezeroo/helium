@@ -5,7 +5,7 @@ import {RoomEventData} from '../../incoming/navigator';
 /**
  * Parser for room event message
  *
- * @see source_as/habbo/communication/messages/parser/navigator/RoomEventEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/navigator/RoomEventEventParser.as
  */
 export class RoomEventMessageParser implements IMessageParser
 {

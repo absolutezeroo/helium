@@ -8,7 +8,7 @@ import {parsePetInfoData} from '../../incoming/notifications/PetFigureDataParser
  *
  * Parses respect count, pet owner ID, and pet data.
  *
- * @see source_as/habbo/communication/messages/parser/users/PetRespectNotificationEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/users/PetRespectNotificationEventParser.as
  */
 export class PetRespectNotificationEventParser implements IMessageParser
 {

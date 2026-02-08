@@ -4,7 +4,7 @@ import {RoomDataData} from './RoomDataData';
 /**
  * Data class containing room information for moderators.
  *
- * @see source_as/habbo/communication/messages/incoming/moderation/class_1749.as
+ * @see source_as_win63/habbo/communication/messages/incoming/moderation/class_1749.as
  */
 export class ModeratorRoomInfoData
 {

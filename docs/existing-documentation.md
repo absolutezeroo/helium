@@ -31,7 +31,7 @@ Comprehensive AI assistance guide covering:
 
 | Folder          | Type           | Purpose                                              |
 |-----------------|----------------|------------------------------------------------------|
-| `source_as/`    | ActionScript 3 | Original Habbo Flash client source (~4,462 files)    |
+| `source_as_win63/`    | ActionScript 3 | Original Habbo Flash client source (~4,462 files)    |
 | `source_nitro/` | TypeScript     | Nitro client reference implementation (~2,644 files) |
 
 These folders serve as implementation references, not project documentation.

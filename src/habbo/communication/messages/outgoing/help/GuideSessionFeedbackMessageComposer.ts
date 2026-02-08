@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Sends feedback for a completed guide session.
  *
- * @see source_as/habbo/communication/messages/outgoing/help/GuideSessionFeedbackMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/help/GuideSessionFeedbackMessageComposer.as
  */
 export class GuideSessionFeedbackMessageComposer extends MessageComposer<ConstructorParameters<typeof GuideSessionFeedbackMessageComposer>>
 {

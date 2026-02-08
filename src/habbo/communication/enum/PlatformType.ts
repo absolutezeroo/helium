@@ -1,7 +1,7 @@
 /**
  * Platform Type Constants
  *
- * @see source_as/habbo/communication/enum/class_1133.as
+ * @see source_as_win63/habbo/communication/enum/class_1133.as
  */
 export const PlatformType = {
 	UNKNOWN: 0,

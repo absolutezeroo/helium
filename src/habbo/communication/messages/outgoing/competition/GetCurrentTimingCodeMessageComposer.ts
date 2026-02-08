@@ -5,7 +5,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
  *
  * This corresponds to the obfuscated class_1011 in the AS3 source.
  *
- * @see source_as/habbo/communication/messages/outgoing/competition/class_1011.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/competition/class_1011.as
  */
 export class GetCurrentTimingCodeMessageComposer extends MessageComposer<ConstructorParameters<typeof GetCurrentTimingCodeMessageComposer>>
 {

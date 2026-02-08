@@ -1,7 +1,7 @@
 /**
  * Numeric constants for feed visibility states
  *
- * @see source_as/habbo/notifications/FeedVisibilityEnum.as
+ * @see source_as_win63/habbo/notifications/FeedVisibilityEnum.as
  */
 export class FeedVisibilityEnum
 {

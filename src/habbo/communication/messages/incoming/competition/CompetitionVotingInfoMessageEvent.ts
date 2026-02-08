@@ -7,7 +7,7 @@ import {
 /**
  * Event for competition voting info message
  *
- * @see source_as/habbo/communication/messages/incoming/competition/CompetitionVotingInfoMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/competition/CompetitionVotingInfoMessageEvent.as
  */
 export class CompetitionVotingInfoMessageEvent extends MessageEvent
 {

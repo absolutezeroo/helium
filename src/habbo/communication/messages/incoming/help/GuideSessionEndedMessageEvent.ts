@@ -6,7 +6,7 @@ import {GuideSessionEndedMessageParser} from '../../parser/help/GuideSessionEnde
  * Event for guide session ended notification.
  * Fired when the guide session ends for any reason.
  *
- * @see source_as/habbo/communication/messages/incoming/help/GuideSessionEndedMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/help/GuideSessionEndedMessageEvent.as
  */
 export class GuideSessionEndedMessageEvent extends MessageEvent
 {

@@ -5,7 +5,7 @@ import {FindFriendsProcessResultMessageParser} from '../../parser/friendlist/Fin
 /**
  * Event for receiving the result of a find new friends request.
  *
- * @see source_as/habbo/communication/messages/incoming/friendlist/FindFriendsProcessResultEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/friendlist/FindFriendsProcessResultEvent.as
  */
 export class FindFriendsProcessResultMessageEvent extends MessageEvent
 {

@@ -4,7 +4,7 @@ import {RoomSessionEvent} from './RoomSessionEvent';
 /**
  * Room session confirm pet breeding event
  *
- * @see source_as/habbo/session/events/RoomSessionConfirmPetBreedingEvent.as
+ * @see source_as_win63/habbo/session/events/RoomSessionConfirmPetBreedingEvent.as
  */
 export class RoomSessionConfirmPetBreedingEvent extends RoomSessionEvent
 {

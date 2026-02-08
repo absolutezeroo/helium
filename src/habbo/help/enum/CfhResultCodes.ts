@@ -3,7 +3,7 @@
  *
  * Constants for CFH submission results.
  *
- * @see source_as/habbo/help/enum/class_3529.as
+ * @see source_as_win63/habbo/help/enum/class_3529.as
  */
 export class CfhResultCodes
 {

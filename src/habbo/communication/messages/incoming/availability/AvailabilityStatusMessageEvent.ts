@@ -6,7 +6,7 @@ import {AvailabilityStatusMessageParser} from '../../parser/availability/Availab
  * Event handler for availability status message
  * Indicates if the hotel is open, shutting down, etc.
  *
- * @see source_as/habbo/communication/messages/incoming/availability/AvailabilityStatusMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/availability/AvailabilityStatusMessageEvent.as
  */
 export class AvailabilityStatusMessageEvent extends MessageEvent
 {

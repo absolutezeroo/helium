@@ -6,7 +6,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parses achievement data from the message wrapper including type, level,
  * points, badge info, and category.
  *
- * @see source_as/habbo/communication/messages/incoming/notifications/class_1681.as
+ * @see source_as_win63/habbo/communication/messages/incoming/notifications/class_1681.as
  */
 export class AchievementNotificationData
 {

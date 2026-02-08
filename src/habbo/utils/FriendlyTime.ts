@@ -6,7 +6,7 @@
  * for string formatting; this simplified version uses hardcoded
  * English strings for standalone usage.
  *
- * @see source_as/habbo/utils/FriendlyTime.as
+ * @see source_as_win63/habbo/utils/FriendlyTime.as
  */
 export class FriendlyTime
 {

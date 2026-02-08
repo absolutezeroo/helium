@@ -19,7 +19,7 @@ const log = Logger.getLogger('HabboQuestEngine');
  * Coordinates all quest subsystems: quests, achievements, resolutions,
  * and room competitions. Implements ILinkEventTracker for deep linking.
  *
- * @see source_as/habbo/quest/HabboQuestEngine.as
+ * @see source_as_win63/habbo/quest/HabboQuestEngine.as
  */
 export class HabboQuestEngine extends Component implements IHabboQuestEngine, ILinkEventTracker
 {

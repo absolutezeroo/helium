@@ -8,7 +8,7 @@ import {BaseHandler} from './BaseHandler';
  * Stub/no-op handler. In AS3 this registers no message events
  * and has an empty handler body.
  *
- * @see source_as/habbo/session/handler/AvatarEffectsHandler.as
+ * @see source_as_win63/habbo/session/handler/AvatarEffectsHandler.as
  */
 export class AvatarEffectsHandler extends BaseHandler
 {

@@ -6,7 +6,7 @@ import {FriendRequestData} from './FriendRequestData';
  * Parser for friend requests list message.
  * Contains the total request count and the list of friend request data.
  *
- * @see source_as/habbo/communication/messages/parser/friendlist/FriendRequestsMessageParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/friendlist/FriendRequestsMessageParser.as
  */
 export class FriendRequestsMessageParser implements IMessageParser
 {

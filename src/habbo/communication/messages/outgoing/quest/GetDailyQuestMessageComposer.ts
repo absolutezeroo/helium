@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Requests the daily quest from the server.
  *
- * @see source_as/habbo/communication/messages/outgoing/quest/GetDailyQuestMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/quest/GetDailyQuestMessageComposer.as
  */
 export class GetDailyQuestMessageComposer extends MessageComposer<ConstructorParameters<typeof GetDailyQuestMessageComposer>>
 {

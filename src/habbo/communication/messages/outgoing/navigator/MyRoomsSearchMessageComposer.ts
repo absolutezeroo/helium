@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Search my own rooms
  *
- * @see source_as/habbo/communication/messages/outgoing/navigator/MyRoomsSearchMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/navigator/MyRoomsSearchMessageComposer.as
  */
 export class MyRoomsSearchMessageComposer extends MessageComposer<ConstructorParameters<typeof MyRoomsSearchMessageComposer>>
 {

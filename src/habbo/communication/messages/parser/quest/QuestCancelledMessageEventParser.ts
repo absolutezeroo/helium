@@ -7,7 +7,7 @@ import {QuestMessageData} from './QuestMessageData';
  *
  * Parses the expired flag and the cancelled quest data.
  *
- * @see source_as/habbo/communication/messages/parser/quest/QuestCancelledMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/quest/QuestCancelledMessageEventParser.as
  */
 export class QuestCancelledMessageEventParser implements IMessageParser
 {

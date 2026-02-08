@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for mystery box keys message
  *
- * @see source_as/habbo/communication/messages/parser/mysterybox/MysteryBoxKeysMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/mysterybox/MysteryBoxKeysMessageEventParser.as
  */
 export class MysteryBoxKeysMessageParser implements IMessageParser
 {

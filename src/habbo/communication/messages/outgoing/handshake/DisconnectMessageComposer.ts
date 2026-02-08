@@ -4,7 +4,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
  * Request to disconnect from server
  * Message ID: 1113
  *
- * @see source_as/habbo/communication/messages/outgoing/handshake/DisconnectMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/handshake/DisconnectMessageComposer.as
  */
 export class DisconnectMessageComposer extends MessageComposer<ConstructorParameters<typeof DisconnectMessageComposer>>
 {

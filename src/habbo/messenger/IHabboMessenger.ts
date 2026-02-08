@@ -3,7 +3,7 @@
  * Provides methods for managing conversations, online status,
  * and messenger UI state.
  *
- * @see source_as/habbo/messenger/IHabboMessenger.as
+ * @see source_as_win63/habbo/messenger/IHabboMessenger.as
  */
 export interface IHabboMessenger
 {

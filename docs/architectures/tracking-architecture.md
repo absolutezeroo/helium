@@ -2,7 +2,7 @@
 
 This document categorizes all AS3 tracking files into **ENGINE** (analytics/event tracking code we need) and **VIEW** (UI code we ignore).
 
-> **Rule**: AS3 source in `source_as/` is the source of truth.
+> **Rule**: AS3 source in `source_as_win63/` is the source of truth.
 
 ---
 

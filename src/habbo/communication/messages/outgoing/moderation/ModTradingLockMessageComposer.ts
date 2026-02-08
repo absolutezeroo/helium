@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Sends a moderator trading lock action for a user.
  *
- * @see source_as/habbo/communication/messages/outgoing/moderator/ModTradingLockMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/moderator/ModTradingLockMessageComposer.as
  */
 export class ModTradingLockMessageComposer extends MessageComposer<unknown[]>
 {

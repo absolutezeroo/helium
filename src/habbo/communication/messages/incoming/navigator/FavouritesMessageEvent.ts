@@ -3,7 +3,7 @@ import type {MessageEventCallback} from '@core/communication/messages/IMessageEv
 import {FavouritesMessageParser} from '../../parser/navigator/FavouritesMessageParser';
 
 /**
- * @see source_as/habbo/communication/messages/incoming/navigator/FavouritesEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/navigator/FavouritesEvent.as
  */
 export class FavouritesMessageEvent extends MessageEvent
 {

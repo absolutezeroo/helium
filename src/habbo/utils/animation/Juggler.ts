@@ -8,7 +8,7 @@ import {DelayedCall} from './DelayedCall';
  * all by a given time delta each frame. It also provides convenience
  * methods for delayed and repeated function calls.
  *
- * @see source_as/habbo/utils/animation/Juggler.as
+ * @see source_as_win63/habbo/utils/animation/Juggler.as
  */
 export class Juggler implements IAnimatable
 {

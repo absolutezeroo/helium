@@ -6,7 +6,7 @@ import {AcceptFriendResultMessageParser} from '../../parser/friendlist/AcceptFri
  * Event for receiving the result of accepting a friend request.
  * Contains a list of failures (if any requests could not be accepted).
  *
- * @see source_as/habbo/communication/messages/incoming/friendlist/AcceptFriendResultEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/friendlist/AcceptFriendResultEvent.as
  */
 export class AcceptFriendResultMessageEvent extends MessageEvent
 {

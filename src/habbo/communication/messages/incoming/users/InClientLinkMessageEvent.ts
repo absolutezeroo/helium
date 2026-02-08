@@ -8,7 +8,7 @@ import {InClientLinkMessageParser} from '../../parser/users/InClientLinkMessageP
  * The server sends a link string that should be routed to the appropriate
  * link event tracker via ComponentContext.createLinkEvent().
  *
- * @see source_as/habbo/communication/messages/incoming/users/InClientLinkMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/users/InClientLinkMessageEvent.as
  */
 export class InClientLinkMessageEvent extends MessageEvent
 {

@@ -5,7 +5,7 @@ import {FriendNotificationMessageParser} from '../../parser/friendlist/FriendNot
 /**
  * Event for receiving friend notifications (e.g. friend logged in/out).
  *
- * @see source_as/habbo/communication/messages/incoming/friendlist/FriendNotificationEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/friendlist/FriendNotificationEvent.as
  */
 export class FriendNotificationMessageEvent extends MessageEvent
 {

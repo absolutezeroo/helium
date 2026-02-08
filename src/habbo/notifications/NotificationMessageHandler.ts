@@ -80,7 +80,7 @@ const log = Logger.getLogger('NotificationMessageHandler');
  * This is the obfuscated class_3353 in the AS3 source. It registers all
  * notification-related message event handlers and processes them.
  *
- * @see source_as/habbo/notifications/class_3353.as
+ * @see source_as_win63/habbo/notifications/class_3353.as
  */
 export class NotificationMessageHandler
 {
@@ -119,7 +119,7 @@ export class NotificationMessageHandler
 	/**
 	 * Handle room messages notification
 	 *
-	 * @see source_as/habbo/notifications/class_3353.as onRoomMessagesNotification()
+	 * @see source_as_win63/habbo/notifications/class_3353.as onRoomMessagesNotification()
 	 */
 	private onRoomMessagesNotification(event: IMessageEvent): void
 	{
@@ -194,7 +194,7 @@ export class NotificationMessageHandler
 	/**
 	 * Handle hotel maintenance status message
 	 *
-	 * @see source_as/habbo/notifications/class_3353.as onHotelMaintenance()
+	 * @see source_as_win63/habbo/notifications/class_3353.as onHotelMaintenance()
 	 */
 	private onHotelMaintenance(event: IMessageEvent): void
 	{
@@ -214,7 +214,7 @@ export class NotificationMessageHandler
 	/**
 	 * Handle login failed because hotel is closed
 	 *
-	 * @see source_as/habbo/notifications/class_3353.as onLoginFailedHotelClosed()
+	 * @see source_as_win63/habbo/notifications/class_3353.as onLoginFailedHotelClosed()
 	 */
 	private onLoginFailedHotelClosed(event: IMessageEvent): void
 	{
@@ -232,7 +232,7 @@ export class NotificationMessageHandler
 	/**
 	 * Handle info feed enable/disable
 	 *
-	 * @see source_as/habbo/notifications/class_3353.as onInfoFeedEnable()
+	 * @see source_as_win63/habbo/notifications/class_3353.as onInfoFeedEnable()
 	 */
 	private onInfoFeedEnable(event: IMessageEvent): void
 	{
@@ -251,7 +251,7 @@ export class NotificationMessageHandler
 	/**
 	 * Handle moderator message event
 	 *
-	 * @see source_as/habbo/notifications/class_3353.as onModMessageEvent()
+	 * @see source_as_win63/habbo/notifications/class_3353.as onModMessageEvent()
 	 */
 	// TODO: Uncomment when ModeratorMessageEvent is implemented
 	// private onModMessageEvent(event: IMessageEvent): void
@@ -273,7 +273,7 @@ export class NotificationMessageHandler
 	/**
 	 * Handle moderator caution event
 	 *
-	 * @see source_as/habbo/notifications/class_3353.as onModCautionEvent()
+	 * @see source_as_win63/habbo/notifications/class_3353.as onModCautionEvent()
 	 */
 	// TODO: Uncomment when ModeratorCautionEvent is implemented
 	// private onModCautionEvent(event: IMessageEvent): void
@@ -295,7 +295,7 @@ export class NotificationMessageHandler
 	/**
 	 * Handle user banned message
 	 *
-	 * @see source_as/habbo/notifications/class_3353.as onUserBannedMessageEvent()
+	 * @see source_as_win63/habbo/notifications/class_3353.as onUserBannedMessageEvent()
 	 */
 	// TODO: Uncomment when UserBannedMessageEvent is implemented
 	// private onUserBannedMessageEvent(event: IMessageEvent): void
@@ -308,7 +308,7 @@ export class NotificationMessageHandler
 	/**
 	 * Handle respect notification
 	 *
-	 * @see source_as/habbo/notifications/class_3353.as onRespectNotification()
+	 * @see source_as_win63/habbo/notifications/class_3353.as onRespectNotification()
 	 */
 	// TODO: Uncomment when RespectNotificationMessageEvent is implemented
 	// private onRespectNotification(event: IMessageEvent): void
@@ -320,7 +320,7 @@ export class NotificationMessageHandler
 	/**
 	 * Handle MOTD (Message of the Day)
 	 *
-	 * @see source_as/habbo/notifications/class_3353.as onMOTD()
+	 * @see source_as_win63/habbo/notifications/class_3353.as onMOTD()
 	 */
 	private onMOTD(event: IMessageEvent): void
 	{
@@ -340,7 +340,7 @@ export class NotificationMessageHandler
 	/**
 	 * Handle broadcast message
 	 *
-	 * @see source_as/habbo/notifications/class_3353.as onBroadcastMessageEvent()
+	 * @see source_as_win63/habbo/notifications/class_3353.as onBroadcastMessageEvent()
 	 */
 	private onBroadcastMessageEvent(event: IMessageEvent): void
 	{
@@ -356,7 +356,7 @@ export class NotificationMessageHandler
 	/**
 	 * Handle notification dialog message
 	 *
-	 * @see source_as/habbo/notifications/class_3353.as onNotificationDialogMessageEvent()
+	 * @see source_as_win63/habbo/notifications/class_3353.as onNotificationDialogMessageEvent()
 	 */
 	private onNotificationDialogMessageEvent(event: IMessageEvent): void
 	{
@@ -379,7 +379,7 @@ export class NotificationMessageHandler
 	/**
 	 * Handle hotel closing message
 	 *
-	 * @see source_as/habbo/notifications/class_3353.as onHotelClosing()
+	 * @see source_as_win63/habbo/notifications/class_3353.as onHotelClosing()
 	 */
 	private onHotelClosing(event: IMessageEvent): void
 	{
@@ -397,7 +397,7 @@ export class NotificationMessageHandler
 	/**
 	 * Handle hotel closed message
 	 *
-	 * @see source_as/habbo/notifications/class_3353.as onHotelClosed()
+	 * @see source_as_win63/habbo/notifications/class_3353.as onHotelClosed()
 	 */
 	private onHotelClosed(event: IMessageEvent): void
 	{
@@ -415,7 +415,7 @@ export class NotificationMessageHandler
 	/**
 	 * Handle achievement level up notification
 	 *
-	 * @see source_as/habbo/notifications/class_3353.as onLevelUp()
+	 * @see source_as_win63/habbo/notifications/class_3353.as onLevelUp()
 	 */
 	private onLevelUp(event: IMessageEvent): void
 	{
@@ -431,7 +431,7 @@ export class NotificationMessageHandler
 	/**
 	 * Handle pet level notification
 	 *
-	 * @see source_as/habbo/notifications/class_3353.as onPetLevelNotification()
+	 * @see source_as_win63/habbo/notifications/class_3353.as onPetLevelNotification()
 	 */
 	private onPetLevelNotification(event: IMessageEvent): void
 	{
@@ -447,7 +447,7 @@ export class NotificationMessageHandler
 	/**
 	 * Handle pet received notification
 	 *
-	 * @see source_as/habbo/notifications/class_3353.as onPetReceived()
+	 * @see source_as_win63/habbo/notifications/class_3353.as onPetReceived()
 	 */
 	private onPetReceived(event: IMessageEvent): void
 	{
@@ -463,7 +463,7 @@ export class NotificationMessageHandler
 	/**
 	 * Handle pet respect failed
 	 *
-	 * @see source_as/habbo/notifications/class_3353.as onPetRespectFailed()
+	 * @see source_as_win63/habbo/notifications/class_3353.as onPetRespectFailed()
 	 */
 	private onPetRespectFailed(event: IMessageEvent): void
 	{
@@ -479,7 +479,7 @@ export class NotificationMessageHandler
 	/**
 	 * Handle club gift notification
 	 *
-	 * @see source_as/habbo/notifications/class_3353.as onClubGiftNotification()
+	 * @see source_as_win63/habbo/notifications/class_3353.as onClubGiftNotification()
 	 */
 	// TODO: Uncomment when ClubGiftNotificationEvent is implemented
 	// private onClubGiftNotification(event: IMessageEvent): void
@@ -492,7 +492,7 @@ export class NotificationMessageHandler
 	/**
 	 * Handle club gift selected
 	 *
-	 * @see source_as/habbo/notifications/class_3353.as onClubGiftSelected()
+	 * @see source_as_win63/habbo/notifications/class_3353.as onClubGiftSelected()
 	 */
 	// TODO: Uncomment when ClubGiftSelectedEvent is implemented
 	// private onClubGiftSelected(event: IMessageEvent): void
@@ -504,7 +504,7 @@ export class NotificationMessageHandler
 	/**
 	 * Handle user object (for safety lock check)
 	 *
-	 * @see source_as/habbo/notifications/class_3353.as onUserObject()
+	 * @see source_as_win63/habbo/notifications/class_3353.as onUserObject()
 	 */
 	// TODO: Uncomment when UserObjectEvent is implemented
 	// private onUserObject(event: IMessageEvent): void
@@ -519,7 +519,7 @@ export class NotificationMessageHandler
 	/**
 	 * Handle account safety lock status change
 	 *
-	 * @see source_as/habbo/notifications/class_3353.as onAccountSafetyLockStatusChanged()
+	 * @see source_as_win63/habbo/notifications/class_3353.as onAccountSafetyLockStatusChanged()
 	 */
 	// TODO: Uncomment when AccountSafetyLockStatusChangeMessageEvent is implemented
 	// private onAccountSafetyLockStatusChanged(event: IMessageEvent): void
@@ -534,7 +534,7 @@ export class NotificationMessageHandler
 	/**
 	 * Handle activity point notification (loyalty points etc.)
 	 *
-	 * @see source_as/habbo/notifications/class_3353.as onActivityPointNotification()
+	 * @see source_as_win63/habbo/notifications/class_3353.as onActivityPointNotification()
 	 */
 	// TODO: Uncomment when HabboActivityPointNotificationMessageEvent is implemented
 	// private onActivityPointNotification(event: IMessageEvent): void
@@ -551,7 +551,7 @@ export class NotificationMessageHandler
 	/**
 	 * Handle restore client message (close web page)
 	 *
-	 * @see source_as/habbo/notifications/class_3353.as onRestoreClientMessageEvent()
+	 * @see source_as_win63/habbo/notifications/class_3353.as onRestoreClientMessageEvent()
 	 */
 	// TODO: Uncomment when RestoreClientMessageEvent is implemented
 	// private onRestoreClientMessageEvent(_event: IMessageEvent): void
@@ -563,7 +563,7 @@ export class NotificationMessageHandler
 	/**
 	 * Handle room enter events (triggers moderation disclaimer)
 	 *
-	 * @see source_as/habbo/notifications/class_3353.as onRoomEnter()
+	 * @see source_as_win63/habbo/notifications/class_3353.as onRoomEnter()
 	 */
 	private onRoomEnter(_event: IMessageEvent): void
 	{

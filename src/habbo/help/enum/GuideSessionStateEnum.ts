@@ -4,7 +4,7 @@
  * Defines the possible states for guide sessions, including user flow,
  * guide flow, and guardian chat review flow.
  *
- * @see source_as/habbo/help/enum/GuideSessionStateEnum.as
+ * @see source_as_win63/habbo/help/enum/GuideSessionStateEnum.as
  */
 export class GuideSessionStateEnum
 {

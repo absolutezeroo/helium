@@ -20,7 +20,7 @@ import {RoomSessionPollEvent} from '../events/RoomSessionPollEvent';
  *
  * Handles poll offer, error and content events and dispatches RoomSessionPollEvent.
  *
- * @see source_as/habbo/session/handler/PollHandler.as
+ * @see source_as_win63/habbo/session/handler/PollHandler.as
  */
 export class PollHandler extends BaseHandler
 {

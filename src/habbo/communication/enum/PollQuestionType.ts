@@ -1,7 +1,7 @@
 /**
  * Poll Question Type Constants
  *
- * @see source_as/habbo/communication/enum/poll/class_3840.as
+ * @see source_as_win63/habbo/communication/enum/poll/class_3840.as
  */
 export const PollQuestionType = {
 	RADIO: 1,

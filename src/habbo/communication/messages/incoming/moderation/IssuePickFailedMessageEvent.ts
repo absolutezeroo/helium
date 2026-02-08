@@ -5,7 +5,7 @@ import {IssuePickFailedMessageParser} from '../../parser/moderation/IssuePickFai
 /**
  * Event fired when picking an issue fails.
  *
- * @see source_as/habbo/communication/messages/incoming/moderation/IssuePickFailedMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/moderation/IssuePickFailedMessageEvent.as
  */
 export class IssuePickFailedMessageEvent extends MessageEvent
 {

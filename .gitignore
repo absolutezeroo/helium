@@ -4,7 +4,8 @@
 _bmad/
 _bmad-output/
 node_modules/
-source_as/
+source_as_flash/
+source_as_win63/
 source_nitro_renderer/
 source_nitro_react/
 dist/

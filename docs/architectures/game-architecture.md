@@ -2,7 +2,7 @@
 
 This document categorizes all AS3 game files into **ENGINE** (game logic we need) and **VIEW** (UI code we ignore).
 
-> **Rule**: AS3 source in `source_as/` is the source of truth.
+> **Rule**: AS3 source in `source_as_win63/` is the source of truth.
 
 ---
 

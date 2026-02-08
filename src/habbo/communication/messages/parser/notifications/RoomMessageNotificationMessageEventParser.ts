@@ -6,7 +6,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  *
  * Parses the room ID, room name, and message count.
  *
- * @see source_as/habbo/communication/messages/parser/room/furniture/RoomMessageNotificationMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/room/furniture/RoomMessageNotificationMessageEventParser.as
  */
 export class RoomMessageNotificationMessageEventParser implements IMessageParser
 {

@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for login failed hotel closed message
  *
- * @see source_as/habbo/communication/messages/parser/availability/LoginFailedHotelClosedMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/availability/LoginFailedHotelClosedMessageEventParser.as
  */
 export class LoginFailedHotelClosedMessageEventParser implements IMessageParser
 {

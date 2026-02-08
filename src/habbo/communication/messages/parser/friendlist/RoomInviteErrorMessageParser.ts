@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for room invite error messages.
  * Contains the error code and list of failed recipient IDs.
  *
- * @see source_as/habbo/communication/messages/parser/friendlist/RoomInviteErrorMessageParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/friendlist/RoomInviteErrorMessageParser.as
  */
 export class RoomInviteErrorMessageParser implements IMessageParser
 {

@@ -5,7 +5,7 @@ import {AchievementData} from '../../quest/AchievementData';
 /**
  * Parses a single achievement update.
  *
- * @see source_as/habbo/communication/messages/parser/inventory/achievements/AchievementEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/inventory/achievements/AchievementEventParser.as
  */
 export class AchievementEventParser implements IMessageParser
 {

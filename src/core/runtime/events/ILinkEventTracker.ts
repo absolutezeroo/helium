@@ -4,7 +4,7 @@
  * Components implement this interface to receive link events matching their pattern.
  * The pattern is matched against the beginning of the link string.
  *
- * @see source_as/core/runtime/events/ILinkEventTracker.as
+ * @see source_as_win63/core/runtime/events/ILinkEventTracker.as
  */
 export interface ILinkEventTracker
 {

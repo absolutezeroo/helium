@@ -6,7 +6,7 @@ import {ModeratorInitData} from './ModeratorInitData';
  * Parser for moderator initialization message.
  * Contains issues, templates, permissions, and room message templates.
  *
- * @see source_as/habbo/communication/messages/parser/moderation/ModeratorInitMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/moderation/ModeratorInitMessageEventParser.as
  */
 export class ModeratorInitMessageParser implements IMessageParser
 {

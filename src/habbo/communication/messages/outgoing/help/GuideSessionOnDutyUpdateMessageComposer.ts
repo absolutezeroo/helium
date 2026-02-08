@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Updates the guide's on-duty status for various duty types.
  *
- * @see source_as/habbo/communication/messages/outgoing/help/GuideSessionOnDutyUpdateMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/help/GuideSessionOnDutyUpdateMessageComposer.as
  */
 export class GuideSessionOnDutyUpdateMessageComposer extends MessageComposer<ConstructorParameters<typeof GuideSessionOnDutyUpdateMessageComposer>>
 {

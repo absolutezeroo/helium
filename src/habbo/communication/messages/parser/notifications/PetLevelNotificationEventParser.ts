@@ -8,7 +8,7 @@ import {parsePetFigureData} from '../../incoming/notifications/PetFigureDataPars
  *
  * Parses pet ID, pet name, level, and pet figure data.
  *
- * @see source_as/habbo/communication/messages/parser/notifications/PetLevelNotificationEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/notifications/PetLevelNotificationEventParser.as
  */
 export class PetLevelNotificationEventParser implements IMessageParser
 {

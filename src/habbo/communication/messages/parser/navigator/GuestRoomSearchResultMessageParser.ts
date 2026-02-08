@@ -5,7 +5,7 @@ import {GuestRoomSearchResultData} from '../../incoming/navigator';
 /**
  * Parser for guest room search result message
  *
- * @see source_as/habbo/communication/messages/parser/navigator/GuestRoomSearchResultEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/navigator/GuestRoomSearchResultEventParser.as
  */
 export class GuestRoomSearchResultMessageParser implements IMessageParser
 {

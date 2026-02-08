@@ -23,7 +23,7 @@ const log = Logger.getLogger('AdManager');
  *
  * Manages interstitial ads and billboard image loading for rooms.
  *
- * @see source_as/habbo/advertisement/AdManager.as
+ * @see source_as_win63/habbo/advertisement/AdManager.as
  */
 export class AdManager extends Component implements IAdManager
 {

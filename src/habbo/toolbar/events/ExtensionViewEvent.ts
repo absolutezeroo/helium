@@ -3,7 +3,7 @@
  *
  * Dispatched when the toolbar extension view is resized.
  *
- * @see source_as/habbo/toolbar/events/ExtensionViewEvent.as
+ * @see source_as_win63/habbo/toolbar/events/ExtensionViewEvent.as
  */
 export class ExtensionViewEvent
 {

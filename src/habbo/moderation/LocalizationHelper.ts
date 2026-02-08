@@ -5,7 +5,7 @@
  * Falls back to a localization manager if available, otherwise
  * uses hardcoded mappings.
  *
- * @see source_as/habbo/moderation/class_3472.as
+ * @see source_as_win63/habbo/moderation/class_3472.as
  */
 export class LocalizationHelper
 {

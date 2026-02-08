@@ -24,7 +24,7 @@ export interface HabboFriendListEvents
 /**
  * Interface for the Habbo friend list manager.
  *
- * @see source_as/habbo/friendlist/IHabboFriendList.as
+ * @see source_as_win63/habbo/friendlist/IHabboFriendList.as
  */
 export interface IHabboFriendList
 {

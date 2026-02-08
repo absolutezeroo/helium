@@ -1,7 +1,7 @@
 /**
  * Chat Send Permission Status
  *
- * @see source_as/habbo/communication/enum/class_1635.as
+ * @see source_as_win63/habbo/communication/enum/class_1635.as
  */
 export const ChatSendPermissionStatus = {
 	ALLOWED: 0,

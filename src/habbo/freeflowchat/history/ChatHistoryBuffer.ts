@@ -8,7 +8,7 @@ import type {ChatItem} from '../data/ChatItem';
  * In the Helium ENGINE version, we store ChatItem data models directly since
  * the VIEW layer (SolidJS) handles rendering separately.
  *
- * @see source_as/habbo/freeflowchat/history/ChatHistoryBuffer.as
+ * @see source_as_win63/habbo/freeflowchat/history/ChatHistoryBuffer.as
  */
 export class ChatHistoryBuffer
 {

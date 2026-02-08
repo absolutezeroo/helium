@@ -8,7 +8,7 @@ const log = Logger.getLogger('CallForHelpManager');
  * Manages CFH report submission, tracking reported user/room/thread/message data.
  * Coordinates with HabboHelp for pending calls and message sending.
  *
- * @see source_as/habbo/help/CallForHelpManager.as
+ * @see source_as_win63/habbo/help/CallForHelpManager.as
  */
 export class CallForHelpManager
 {

@@ -32,7 +32,7 @@ const log = Logger.getLogger('Campaign');
  * Handles campaign calendar data, door opening, and deep-link routing
  * via ILinkEventTracker ("openView/calendar").
  *
- * @see source_as/habbo/campaign/HabboCampaigns.as
+ * @see source_as_win63/habbo/campaign/HabboCampaigns.as
  */
 export class HabboCampaigns extends Component implements ILinkEventTracker
 {

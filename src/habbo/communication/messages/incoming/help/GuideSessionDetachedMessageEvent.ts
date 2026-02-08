@@ -6,7 +6,7 @@ import {GuideSessionDetachedMessageParser} from '../../parser/help/GuideSessionD
  * Event for guide session detachment notification.
  * Fired when the guide session is detached.
  *
- * @see source_as/habbo/communication/messages/incoming/help/GuideSessionDetachedMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/help/GuideSessionDetachedMessageEvent.as
  */
 export class GuideSessionDetachedMessageEvent extends MessageEvent
 {

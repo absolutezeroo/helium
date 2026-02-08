@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Request to open a campaign calendar door (as regular user)
  *
- * @see source_as/habbo/communication/messages/outgoing/campaign/OpenCampaignCalendarDoorComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/campaign/OpenCampaignCalendarDoorComposer.as
  */
 export class OpenCampaignCalendarDoorComposer extends MessageComposer<ConstructorParameters<typeof OpenCampaignCalendarDoorComposer>>
 {

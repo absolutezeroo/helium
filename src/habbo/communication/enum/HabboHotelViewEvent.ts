@@ -1,7 +1,7 @@
 /**
  * Habbo Hotel View Event Constants
  *
- * @see source_as/habbo/communication/enum/HabboHotelViewEvent.as
+ * @see source_as_win63/habbo/communication/enum/HabboHotelViewEvent.as
  */
 export const HabboHotelViewEvent = {
 	START_LOAD: 'HHVE_START_LOAD',

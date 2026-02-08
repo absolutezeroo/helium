@@ -5,7 +5,7 @@ import {UserObjectMessageParser} from '../../parser/handshake/UserObjectMessageP
 /**
  * Event handler for User object data message
  *
- * @see source_as/habbo/communication/messages/incoming/handshake/UserObjectEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/handshake/UserObjectEvent.as
  */
 export class UserObjectMessageEvent extends MessageEvent
 {

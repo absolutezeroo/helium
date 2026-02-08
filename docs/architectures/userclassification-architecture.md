@@ -2,7 +2,7 @@
 
 This document categorizes all AS3 user classification files into **ENGINE** (business logic we need to implement) and **VIEW** (UI code we ignore since SolidJS handles our UI).
 
-> **Rule**: AS3 source in `source_as/` is the source of truth. Follow it exactly.
+> **Rule**: AS3 source in `source_as_win63/` is the source of truth. Follow it exactly.
 
 ---
 
@@ -35,7 +35,7 @@ This document categorizes all AS3 user classification files into **ENGINE** (bus
 
 ### UserClassificationData.as
 
-**Location**: `source_as/habbo/userclassification/UserClassificationData.as`
+**Location**: `source_as_win63/habbo/userclassification/UserClassificationData.as`
 
 **Purpose**: Data class that holds user classification information, including user ID, username, and classification type.
 

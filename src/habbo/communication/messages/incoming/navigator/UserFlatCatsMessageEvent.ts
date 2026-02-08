@@ -3,7 +3,7 @@ import type {MessageEventCallback} from '@core/communication/messages/IMessageEv
 import {UserFlatCatsMessageParser} from '../../parser/navigator/UserFlatCatsMessageParser';
 
 /**
- * @see source_as/habbo/communication/messages/incoming/navigator/UserFlatCatsEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/navigator/UserFlatCatsEvent.as
  */
 export class UserFlatCatsMessageEvent extends MessageEvent
 {

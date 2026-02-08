@@ -5,7 +5,7 @@ import {QuestCompletedMessageEventParser} from '../../parser/quest/QuestComplete
 /**
  * Event for the quest completed message from the server.
  *
- * @see source_as/habbo/communication/messages/incoming/quest/QuestCompletedMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/quest/QuestCompletedMessageEvent.as
  */
 export class QuestCompletedMessageEvent extends MessageEvent
 {

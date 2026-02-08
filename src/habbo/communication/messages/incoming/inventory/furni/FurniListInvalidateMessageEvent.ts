@@ -5,7 +5,7 @@ import {
 } from '@habbo/communication/messages/parser/inventory/furni/FurniListInvalidateMessageParser';
 
 /**
- * @see source_as/habbo/communication/messages/incoming/inventory/furni/FurniListInvalidateEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/inventory/furni/FurniListInvalidateEvent.as
  */
 export class FurniListInvalidateMessageEvent extends MessageEvent
 {

@@ -5,7 +5,7 @@ import {PetRespectFailedEventParser} from '../../parser/notifications/PetRespect
 /**
  * Event for pet respect failed
  *
- * @see source_as/habbo/communication/messages/incoming/room/pets/PetRespectFailedEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/room/pets/PetRespectFailedEvent.as
  */
 export class PetRespectFailedEvent extends MessageEvent
 {

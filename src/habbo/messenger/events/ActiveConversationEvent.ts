@@ -2,7 +2,7 @@
  * Event dispatched when the active conversation count changes.
  * Used to update UI indicators for open conversations.
  *
- * @see source_as/habbo/messenger/events/ActiveConversationEvent.as
+ * @see source_as_win63/habbo/messenger/events/ActiveConversationEvent.as
  */
 export class ActiveConversationEvent
 {

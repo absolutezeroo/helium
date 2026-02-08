@@ -5,7 +5,7 @@ import {IssueDeletedMessageParser} from '../../parser/moderation/IssueDeletedMes
 /**
  * Event fired when an issue is deleted.
  *
- * @see source_as/habbo/communication/messages/incoming/moderation/IssueDeletedMessageEvent.as
+ * @see source_as_win63/habbo/communication/messages/incoming/moderation/IssueDeletedMessageEvent.as
  */
 export class IssueDeletedMessageEvent extends MessageEvent
 {

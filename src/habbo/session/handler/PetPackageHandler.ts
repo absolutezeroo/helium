@@ -27,7 +27,7 @@ import {RoomSessionPetPackageEvent} from '../events/RoomSessionPetPackageEvent';
  *
  * Handles pet package open messages and dispatches RoomSessionPetPackageEvent.
  *
- * @see source_as/habbo/session/handler/PetPackageHandler.as
+ * @see source_as_win63/habbo/session/handler/PetPackageHandler.as
  */
 export class PetPackageHandler extends BaseHandler
 {

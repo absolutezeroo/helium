@@ -1,7 +1,7 @@
 /**
  * User name update event
  *
- * @see source_as/habbo/session/events/UserNameUpdateEvent.as
+ * @see source_as_win63/habbo/session/events/UserNameUpdateEvent.as
  */
 export class UserNameUpdateEvent
 {

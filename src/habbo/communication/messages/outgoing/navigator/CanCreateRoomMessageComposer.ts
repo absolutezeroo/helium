@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Check if user can create a room
  *
- * @see source_as/habbo/communication/messages/outgoing/navigator/CanCreateRoomMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/navigator/CanCreateRoomMessageComposer.as
  */
 export class CanCreateRoomMessageComposer extends MessageComposer<ConstructorParameters<typeof CanCreateRoomMessageComposer>>
 {

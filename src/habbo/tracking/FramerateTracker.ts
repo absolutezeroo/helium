@@ -7,7 +7,7 @@ import type {HabboTracking} from './HabboTracking';
  * via trackGoogle. The report interval and maximum number of events
  * are configurable.
  *
- * @see source_as/habbo/tracking/FramerateTracker.as
+ * @see source_as_win63/habbo/tracking/FramerateTracker.as
  */
 export class FramerateTracker
 {

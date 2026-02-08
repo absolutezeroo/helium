@@ -4,7 +4,7 @@ import type {IMessageComposer} from '@core/communication/messages/IMessageCompos
  * Accepts one or more friend requests.
  * Sends the count followed by each request ID.
  *
- * @see source_as/habbo/communication/messages/outgoing/friendlist/AcceptFriendMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/friendlist/AcceptFriendMessageComposer.as
  */
 export class AcceptFriendMessageComposer implements IMessageComposer<unknown[]>
 {

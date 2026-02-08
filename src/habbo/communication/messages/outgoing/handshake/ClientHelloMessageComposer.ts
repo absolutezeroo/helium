@@ -4,7 +4,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
  * First message sent to server to initiate connection
  * Message ID: 4000
  *
- * @see source_as/habbo/communication/messages/outgoing/handshake/ClientHelloMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/handshake/ClientHelloMessageComposer.as
  */
 export class ClientHelloMessageComposer extends MessageComposer<ConstructorParameters<typeof ClientHelloMessageComposer>>
 {

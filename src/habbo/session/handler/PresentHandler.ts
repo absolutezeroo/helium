@@ -21,7 +21,7 @@ import {RoomSessionPresentEvent} from '../events/RoomSessionPresentEvent';
  *
  * Handles present opened messages and dispatches RoomSessionPresentEvent.
  *
- * @see source_as/habbo/session/handler/PresentHandler.as
+ * @see source_as_win63/habbo/session/handler/PresentHandler.as
  */
 export class PresentHandler extends BaseHandler
 {

@@ -5,7 +5,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  * Parser for new console (messenger) message events.
  * Contains the chat message data including sender information.
  *
- * @see source_as/habbo/communication/messages/parser/friendlist/NewConsoleMessageEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/friendlist/NewConsoleMessageEventParser.as
  */
 export class NewConsoleMessageEventParser implements IMessageParser
 {

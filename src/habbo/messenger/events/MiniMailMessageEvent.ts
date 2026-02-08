@@ -2,7 +2,7 @@
  * Event dispatched for mini mail message notifications.
  * Indicates new or unread mini mail messages.
  *
- * @see source_as/habbo/messenger/events/MiniMailMessageEvent.as
+ * @see source_as_win63/habbo/messenger/events/MiniMailMessageEvent.as
  */
 export class MiniMailMessageEvent
 {

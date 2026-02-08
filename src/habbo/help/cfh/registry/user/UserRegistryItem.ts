@@ -4,7 +4,7 @@
  * Stores user information including their room context for use
  * in the Call For Help reporting flow.
  *
- * @see source_as/habbo/help/cfh/registry/user/UserRegistryItem.as
+ * @see source_as_win63/habbo/help/cfh/registry/user/UserRegistryItem.as
  */
 export class UserRegistryItem
 {

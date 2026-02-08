@@ -4,7 +4,7 @@
  * Each step corresponds to a milestone in the client initialization process
  * that gets reported for analytics.
  *
- * @see source_as/habbo/tracking/HabboLoginTrackingStep.as
+ * @see source_as_win63/habbo/tracking/HabboLoginTrackingStep.as
  */
 export const HabboLoginTrackingStep = {
 	CONNECTION_INIT: 'client.init.socket.init',

@@ -3,7 +3,7 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
 /**
  * Sends a friend request to a user by name.
  *
- * @see source_as/habbo/communication/messages/outgoing/friendlist/RequestFriendMessageComposer.as
+ * @see source_as_win63/habbo/communication/messages/outgoing/friendlist/RequestFriendMessageComposer.as
  */
 export class RequestFriendMessageComposer extends MessageComposer<ConstructorParameters<typeof RequestFriendMessageComposer>>
 {

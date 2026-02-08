@@ -4,7 +4,7 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 /**
  * Parser for favourite changed message
  *
- * @see source_as/habbo/communication/messages/parser/navigator/FavouriteChangedEventParser.as
+ * @see source_as_win63/habbo/communication/messages/parser/navigator/FavouriteChangedEventParser.as
  */
 export class FavouriteChangedMessageParser implements IMessageParser
 {
