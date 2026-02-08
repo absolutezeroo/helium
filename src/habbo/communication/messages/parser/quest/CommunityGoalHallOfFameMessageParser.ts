@@ -10,7 +10,10 @@ export class CommunityGoalHallOfFameMessageParser implements IMessageParser
 {
 	private _data: CommunityGoalHallOfFameData | null = null;
 
-	get data(): CommunityGoalHallOfFameData | null { return this._data; }
+	get data(): CommunityGoalHallOfFameData | null
+	{
+		return this._data;
+	}
 
 	flush(): boolean
 	{

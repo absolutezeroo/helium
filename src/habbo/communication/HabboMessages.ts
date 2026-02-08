@@ -107,10 +107,7 @@ import {
 import {MysteryBoxKeysMessageEvent,} from './messages/incoming/mysterybox';
 
 // Incoming Events - Catalog
-import {
-	BonusRareInfoMessageEvent,
-	BuildersClubSubscriptionStatusMessageEvent,
-} from './messages/incoming/catalog';
+import {BonusRareInfoMessageEvent, BuildersClubSubscriptionStatusMessageEvent,} from './messages/incoming/catalog';
 
 // Incoming Events - Landing View
 import {PromoArticlesMessageEvent,} from './messages/incoming/landingview';

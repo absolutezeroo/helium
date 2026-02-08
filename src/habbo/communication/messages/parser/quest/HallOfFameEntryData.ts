@@ -6,12 +6,6 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
  */
 export class HallOfFameEntryData
 {
-	private _userId: number;
-	private _userName: string;
-	private _figure: string;
-	private _rank: number;
-	private _currentScore: number;
-
 	constructor(wrapper: IMessageDataWrapper)
 	{
 		this._userId = wrapper.readInt();
@@ -21,9 +15,38 @@ export class HallOfFameEntryData
 		this._currentScore = wrapper.readInt();
 	}
 
-	get userId(): number { return this._userId; }
-	get userName(): string { return this._userName; }
-	get figure(): string { return this._figure; }
-	get rank(): number { return this._rank; }
-	get currentScore(): number { return this._currentScore; }
+	private _userId: number;
+
+	get userId(): number
+	{
+		return this._userId;
+	}
+
+	private _userName: string;
+
+	get userName(): string
+	{
+		return this._userName;
+	}
+
+	private _figure: string;
+
+	get figure(): string
+	{
+		return this._figure;
+	}
+
+	private _rank: number;
+
+	get rank(): number
+	{
+		return this._rank;
+	}
+
+	private _currentScore: number;
+
+	get currentScore(): number
+	{
+		return this._currentScore;
+	}
 }

@@ -92,7 +92,8 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 					right = x + sprite.width;
 					bottom = y + sprite.height;
 					first = false;
-				} else
+				}
+				else
 				{
 					if (x < left) left = x;
 					if (y < top) top = y;
@@ -156,7 +157,8 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 		if (index >= this._sprites.length)
 		{
 			this._sprites.push(sprite);
-		} else
+		}
+		else
 		{
 			this._sprites.splice(index, 0, sprite);
 		}

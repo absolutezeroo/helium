@@ -10,6 +10,9 @@ import {SingularNotificationController} from './singular/SingularNotificationCon
 import {NotificationMessageHandler} from './NotificationMessageHandler';
 import {Logger} from '@core/utils/Logger';
 import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
+import {GetMOTDMessageComposer} from "@habbo/communication";
+import {IHabboLocalizationManager} from "@habbo/localization";
+import {IID_HabboLocalizationManager} from "@/iid";
 
 const log = Logger.getLogger('HabboNotifications');
 
@@ -48,6 +51,7 @@ export class HabboNotifications extends Component implements IHabboNotifications
 	constructor(context: IContext)
 	{
 		super(context);
+
 		this._disabled = false;
 	}
 
@@ -86,6 +90,13 @@ export class HabboNotifications extends Component implements IHabboNotifications
 	get roomSessionManager(): IRoomSessionManager | null
 	{
 		return this._roomSessionManager;
+	}
+
+	private _localizationManager: IHabboLocalizationManager | null = null;
+
+	get localizationManager(): IHabboLocalizationManager | null
+	{
+		return this._localizationManager;
 	}
 
 	private _singularController: SingularNotificationController | null = null;
@@ -129,6 +140,14 @@ export class HabboNotifications extends Component implements IHabboNotifications
 				false
 			),
 			new ComponentDependency(
+				IID_HabboLocalizationManager,
+				(manager: IHabboLocalizationManager | null) =>
+				{
+					this._localizationManager = manager;
+				},
+				false
+			),
+			new ComponentDependency(
 				IID_RoomSessionManager,
 				(manager: IRoomSessionManager | null) =>
 				{
@@ -147,13 +166,10 @@ export class HabboNotifications extends Component implements IHabboNotifications
 	 */
 	activate(): void
 	{
-		// TODO: Send GetMOTDMessageComposer when available
-		// if (this._communication?.connection)
-		// {
-		//     this._communication.connection.send(new GetMOTDMessageComposer());
-		// }
-
-		log.debug('Notifications activated');
+		if (this._communication?.connection)
+		{
+			this._communication.connection.send(new GetMOTDMessageComposer());
+		}
 	}
 
 	/**
@@ -270,11 +286,13 @@ export class HabboNotifications extends Component implements IHabboNotifications
 
 		const locKey = ['notification', type, part].join('.');
 
-		// TODO: Use localization manager when available
-		// if (this._localization?.hasLocalization(locKey) || required)
-		// {
-		//     return this._localization.getLocalizationWithParamMap(locKey, locKey, params);
-		// }
+		if (this._localizationManager)
+		{
+			if (this._localizationManager?.hasLocalization(locKey) || required)
+			{
+				return this._localizationManager.getLocalizationWithParamMap(locKey, locKey, params);
+			}
+		}
 
 		if (required)
 		{

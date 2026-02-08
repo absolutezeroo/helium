@@ -15,27 +15,30 @@ export class CompetitionEntrySubmitResultMessageEventParser implements IMessageP
 	public static readonly RESULT_4: number = 4;
 	public static readonly RESULT_5: number = 5;
 	public static readonly RESULT_6: number = 6;
+	private _missingFurnis: Map<string, string> | null = null;
 
 	private _goalId: number = 0;
-	private _goalCode: string = '';
-	private _result: number = 0;
-	private _requiredFurnis: string[] | null = null;
-	private _missingFurnis: Map<string, string> | null = null;
 
 	get goalId(): number
 	{
 		return this._goalId;
 	}
 
+	private _goalCode: string = '';
+
 	get goalCode(): string
 	{
 		return this._goalCode;
 	}
 
+	private _result: number = 0;
+
 	get result(): number
 	{
 		return this._result;
 	}
+
+	private _requiredFurnis: string[] | null = null;
 
 	get requiredFurnis(): string[] | null
 	{

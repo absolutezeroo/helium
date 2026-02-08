@@ -27,19 +27,23 @@ export class ColorConverter
 		if (delta === 0)
 		{
 			h = 0;
-		} else if (max === r)
+		}
+		else if (max === r)
 		{
 			if (g > b)
 			{
 				h = 60 * (g - b) / delta;
-			} else
+			}
+			else
 			{
 				h = 60 * (g - b) / delta + 360;
 			}
-		} else if (max === g)
+		}
+		else if (max === g)
 		{
 			h = 60 * (b - r) / delta + 120;
-		} else if (max === b)
+		}
+		else if (max === b)
 		{
 			h = 60 * (r - g) / delta + 240;
 		}
@@ -49,10 +53,12 @@ export class ColorConverter
 		if (delta === 0)
 		{
 			s = 0;
-		} else if (l <= 0.5)
+		}
+		else if (l <= 0.5)
 		{
 			s = delta / l * 0.5;
-		} else
+		}
+		else
 		{
 			s = delta / (1 - l) * 0.5;
 		}
@@ -82,7 +88,8 @@ export class ColorConverter
 			if (l < 0.5)
 			{
 				q = l * (1 + s);
-			} else
+			}
+			else
 			{
 				q = l + s - l * s;
 			}
@@ -96,7 +103,8 @@ export class ColorConverter
 			if (tr < 0)
 			{
 				tr += 1;
-			} else if (tr > 1)
+			}
+			else if (tr > 1)
 			{
 				tr -= 1;
 			}
@@ -104,7 +112,8 @@ export class ColorConverter
 			if (tg < 0)
 			{
 				tg += 1;
-			} else if (tg > 1)
+			}
+			else if (tg > 1)
 			{
 				tg -= 1;
 			}
@@ -112,7 +121,8 @@ export class ColorConverter
 			if (tb < 0)
 			{
 				tb += 1;
-			} else if (tb > 1)
+			}
+			else if (tb > 1)
 			{
 				tb -= 1;
 			}
@@ -120,13 +130,16 @@ export class ColorConverter
 			if (tr * 6 < 1)
 			{
 				r = p + (q - p) * 6 * tr;
-			} else if (tr * 2 < 1)
+			}
+			else if (tr * 2 < 1)
 			{
 				r = q;
-			} else if (tr * 3 < 2)
+			}
+			else if (tr * 3 < 2)
 			{
 				r = p + (q - p) * 6 * (2 / 3 - tr);
-			} else
+			}
+			else
 			{
 				r = p;
 			}
@@ -134,13 +147,16 @@ export class ColorConverter
 			if (tg * 6 < 1)
 			{
 				g = p + (q - p) * 6 * tg;
-			} else if (tg * 2 < 1)
+			}
+			else if (tg * 2 < 1)
 			{
 				g = q;
-			} else if (tg * 3 < 2)
+			}
+			else if (tg * 3 < 2)
 			{
 				g = p + (q - p) * 6 * (2 / 3 - tg);
-			} else
+			}
+			else
 			{
 				g = p;
 			}
@@ -148,17 +164,21 @@ export class ColorConverter
 			if (tb * 6 < 1)
 			{
 				b = p + (q - p) * 6 * tb;
-			} else if (tb * 2 < 1)
+			}
+			else if (tb * 2 < 1)
 			{
 				b = q;
-			} else if (tb * 3 < 2)
+			}
+			else if (tb * 3 < 2)
 			{
 				b = p + (q - p) * 6 * (2 / 3 - tb);
-			} else
+			}
+			else
 			{
 				b = p;
 			}
-		} else
+		}
+		else
 		{
 			r = l;
 			g = l;
@@ -181,7 +201,8 @@ export class ColorConverter
 		if (r > 0.04045)
 		{
 			r = Math.pow((r + 0.055) / 1.055, 2.4);
-		} else
+		}
+		else
 		{
 			r /= 12.92;
 		}
@@ -189,7 +210,8 @@ export class ColorConverter
 		if (g > 0.04045)
 		{
 			g = Math.pow((g + 0.055) / 1.055, 2.4);
-		} else
+		}
+		else
 		{
 			g /= 12.92;
 		}
@@ -197,7 +219,8 @@ export class ColorConverter
 		if (b > 0.04045)
 		{
 			b = Math.pow((b + 0.055) / 1.055, 2.4);
-		} else
+		}
+		else
 		{
 			b /= 12.92;
 		}
@@ -222,7 +245,8 @@ export class ColorConverter
 		if (x > 0.008856)
 		{
 			x = Math.pow(x, 1 / 3);
-		} else
+		}
+		else
 		{
 			x = 7.787 * x + 16 / 116;
 		}
@@ -230,7 +254,8 @@ export class ColorConverter
 		if (y > 0.008856)
 		{
 			y = Math.pow(y, 1 / 3);
-		} else
+		}
+		else
 		{
 			y = 7.787 * y + 16 / 116;
 		}
@@ -238,7 +263,8 @@ export class ColorConverter
 		if (z > 0.008856)
 		{
 			z = Math.pow(z, 1 / 3);
-		} else
+		}
+		else
 		{
 			z = 7.787 * z + 16 / 116;
 		}

@@ -10,7 +10,10 @@ export class PromoArticlesMessageParser implements IMessageParser
 {
 	private _articles: PromoArticleData[] = [];
 
-	get articles(): PromoArticleData[] { return this._articles; }
+	get articles(): PromoArticleData[]
+	{
+		return this._articles;
+	}
 
 	flush(): boolean
 	{

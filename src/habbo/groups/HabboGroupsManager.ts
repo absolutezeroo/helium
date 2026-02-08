@@ -120,6 +120,10 @@ export class HabboGroupsManager extends Component implements IHabboGroupsManager
 	{
 		log.debug('showExtendedProfile:', userId);
 		// TODO: send GetExtendedProfileMessageComposer(userId)
+		// if (this._sendCallback)
+		// {
+		//     this._sendCallback(new GetExtendedProfileMessageComposer(userId));
+		// }
 	}
 
 	/**

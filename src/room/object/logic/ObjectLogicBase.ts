@@ -50,7 +50,8 @@ export class ObjectLogicBase implements IRoomObjectEventHandler
 		{
 			this.dispose();
 			this._object = null;
-		} else
+		}
+		else
 		{
 			this._object = value;
 			this._object.setEventHandler(this);

@@ -53,7 +53,8 @@ export class RoomGeometry implements IRoomGeometry
 		if (depthDirection !== null)
 		{
 			this.setDepthVector(depthDirection);
-		} else
+		}
+		else
 		{
 			this.setDepthVector(direction);
 		}
@@ -203,7 +204,8 @@ export class RoomGeometry implements IRoomGeometry
 			const finalX3 = new Vector3d(finalX2.x, finalX2.y, finalX2.z);
 
 			this._depth.assign(finalX3);
-		} else
+		}
+		else
 		{
 			this._depth.assign(finalX2);
 		}
@@ -359,7 +361,8 @@ export class RoomGeometry implements IRoomGeometry
 		if (this.isZoomedIn())
 		{
 			this.setScale(32);
-		} else
+		}
+		else
 		{
 			this.setScale(64);
 		}
@@ -482,7 +485,8 @@ export class RoomGeometry implements IRoomGeometry
 			this._y.assign(finalZ3);
 			this._z.assign(finalX3);
 			this._directionAxis.assign(this._z);
-		} else
+		}
+		else
 		{
 			this._x.assign(finalY);
 			this._y.assign(finalZ2);

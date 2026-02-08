@@ -80,6 +80,14 @@ export class Logger
 	}
 
 	/**
+	 * Get effective log level for this logger (per-logger override or global)
+	 */
+	private get effectiveLevel(): LogLevel
+	{
+		return Logger._levelOverrides.get(this._name) ?? Logger._globalLevel;
+	}
+
+	/**
 	 * Get or create a named logger
 	 */
 	static getLogger(name: string): Logger
@@ -199,14 +207,6 @@ export class Logger
 			Logger.STYLES.reset,
 			'color: #2196F3'
 		);
-	}
-
-	/**
-	 * Get effective log level for this logger (per-logger override or global)
-	 */
-	private get effectiveLevel(): LogLevel
-	{
-		return Logger._levelOverrides.get(this._name) ?? Logger._globalLevel;
 	}
 
 	/**

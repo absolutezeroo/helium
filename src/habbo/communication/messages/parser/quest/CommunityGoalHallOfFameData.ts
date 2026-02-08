@@ -7,9 +7,6 @@ import {HallOfFameEntryData} from './HallOfFameEntryData';
  */
 export class CommunityGoalHallOfFameData
 {
-	private _goalCode: string;
-	private _hof: HallOfFameEntryData[];
-
 	constructor(wrapper: IMessageDataWrapper)
 	{
 		this._hof = [];
@@ -23,11 +20,25 @@ export class CommunityGoalHallOfFameData
 		}
 	}
 
-	get goalCode(): string { return this._goalCode; }
-	get hof(): HallOfFameEntryData[] { return this._hof; }
+	private _goalCode: string;
+
+	get goalCode(): string
+	{
+		return this._goalCode;
+	}
+
+	private _hof: HallOfFameEntryData[];
+
+	get hof(): HallOfFameEntryData[]
+	{
+		return this._hof;
+	}
 
 	private _disposed: boolean = false;
-	get disposed(): boolean { return this._disposed; }
+	get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
 	dispose(): void
 	{

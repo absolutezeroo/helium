@@ -12,33 +12,36 @@ import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDat
 export class CompetitionVotingInfoMessageEventParser implements IMessageParser
 {
 	private _goalId: number = 0;
-	private _goalCode: string = '';
-	private _resultCode: number = 0;
-	private _votesRemaining: number = 0;
 
 	get goalId(): number
 	{
 		return this._goalId;
 	}
 
+	private _goalCode: string = '';
+
 	get goalCode(): string
 	{
 		return this._goalCode;
 	}
 
-	get isVotingAllowedForUser(): boolean
+	private _resultCode: number = 0;
+
+	get resultCode(): number
 	{
-		return this._resultCode === 0;
+		return this._resultCode;
 	}
+
+	private _votesRemaining: number = 0;
 
 	get votesRemaining(): number
 	{
 		return this._votesRemaining;
 	}
 
-	get resultCode(): number
+	get isVotingAllowedForUser(): boolean
 	{
-		return this._resultCode;
+		return this._resultCode === 0;
 	}
 
 	flush(): boolean

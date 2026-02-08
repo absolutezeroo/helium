@@ -25,6 +25,28 @@ import type {
 import type {
 	InfoFeedEnableMessageParser
 } from '@habbo/communication/messages/parser/notifications/InfoFeedEnableMessageParser';
+import {
+	HabboAchievementNotificationMessageEvent,
+	HabboBroadcastMessageEvent,
+	HabboBroadcastMessageEventParser,
+	InfoHotelClosedMessageEvent,
+	InfoHotelClosedMessageEventParser,
+	InfoHotelClosingMessageEvent,
+	InfoHotelClosingMessageEventParser,
+	LoginFailedHotelClosedMessageEventParser,
+	MOTDNotificationEvent,
+	MOTDNotificationEventParser,
+	NotificationDialogMessageEvent,
+	NotificationDialogMessageEventParser,
+	PetLevelNotificationEvent,
+	PetLevelNotificationEventParser,
+	PetReceivedMessageEvent,
+	PetReceivedMessageEventParser,
+	PetRespectFailedEvent,
+	PetRespectFailedEventParser,
+	RoomMessageNotificationMessageEvent
+} from "@habbo/communication";
+import {GenericNotificationItemData} from "@habbo/notifications/feed";
 
 // TODO: Import these events once they are implemented:
 // import {ModeratorMessageEvent} from '@habbo/communication/messages/incoming/moderation/ModeratorMessageEvent';
@@ -79,18 +101,6 @@ export class NotificationMessageHandler
 		this._notifications.activate();
 	}
 
-	/**
-	 * Handle room messages notification
-	 *
-	 * @see source_as/habbo/notifications/class_3353.as onRoomMessagesNotification()
-	 */
-	// TODO: Uncomment when RoomMessageNotificationMessageEvent is implemented
-	// private onRoomMessagesNotification(event: IMessageEvent): void
-	// {
-	//     const parser = (event as RoomMessageNotificationMessageEvent).parser;
-	//     // Show room messages posted notification
-	// }
-
 	dispose(): void
 	{
 		if (this._messageEvents != null && this._communication != null)
@@ -104,6 +114,22 @@ export class NotificationMessageHandler
 		this._messageEvents = [];
 		this._notifications = null;
 		this._communication = null;
+	}
+
+	/**
+	 * Handle room messages notification
+	 *
+	 * @see source_as/habbo/notifications/class_3353.as onRoomMessagesNotification()
+	 */
+	private onRoomMessagesNotification(event: IMessageEvent): void
+	{
+		if (!event) return;
+
+		const parser = (event as RoomMessageNotificationMessageEvent).parser;
+
+		if (!parser) return;
+
+		// Show room messages posted notification
 	}
 
 	/**
@@ -132,21 +158,21 @@ export class NotificationMessageHandler
 		// this.addMessageEvent(new UserBannedMessageEvent(this.onUserBannedMessageEvent.bind(this)));
 		// this.addMessageEvent(new RespectNotificationMessageEvent(this.onRespectNotification.bind(this)));
 		// this.addMessageEvent(new UserObjectEvent(this.onUserObject.bind(this)));
-		// this.addMessageEvent(new MOTDNotificationEvent(this.onMOTD.bind(this)));
-		// this.addMessageEvent(new HabboBroadcastMessageEvent(this.onBroadcastMessageEvent.bind(this)));
+		this.addMessageEvent(new MOTDNotificationEvent(this.onMOTD.bind(this)));
+		this.addMessageEvent(new HabboBroadcastMessageEvent(this.onBroadcastMessageEvent.bind(this)));
 		// this.addMessageEvent(new HabboActivityPointNotificationMessageEvent(this.onActivityPointNotification.bind(this)));
-		// this.addMessageEvent(new NotificationDialogMessageEvent(this.onNotificationDialogMessageEvent.bind(this)));
+		this.addMessageEvent(new NotificationDialogMessageEvent(this.onNotificationDialogMessageEvent.bind(this)));
 		// this.addMessageEvent(new ClubGiftNotificationEvent(this.onClubGiftNotification.bind(this)));
 		// this.addMessageEvent(new ClubGiftSelectedEvent(this.onClubGiftSelected.bind(this)));
-		// this.addMessageEvent(new HabboAchievementNotificationMessageEvent(this.onLevelUp.bind(this)));
-		// this.addMessageEvent(new PetLevelNotificationEvent(this.onPetLevelNotification.bind(this)));
-		// this.addMessageEvent(new PetReceivedMessageEvent(this.onPetReceived.bind(this)));
-		// this.addMessageEvent(new PetRespectFailedEvent(this.onPetRespectFailed.bind(this)));
-		// this.addMessageEvent(new InfoHotelClosingMessageEvent(this.onHotelClosing.bind(this)));
-		// this.addMessageEvent(new InfoHotelClosedMessageEvent(this.onHotelClosed.bind(this)));
+		this.addMessageEvent(new HabboAchievementNotificationMessageEvent(this.onLevelUp.bind(this)));
+		this.addMessageEvent(new PetLevelNotificationEvent(this.onPetLevelNotification.bind(this)));
+		this.addMessageEvent(new PetReceivedMessageEvent(this.onPetReceived.bind(this)));
+		this.addMessageEvent(new PetRespectFailedEvent(this.onPetRespectFailed.bind(this)));
+		this.addMessageEvent(new InfoHotelClosingMessageEvent(this.onHotelClosing.bind(this)));
+		this.addMessageEvent(new InfoHotelClosedMessageEvent(this.onHotelClosed.bind(this)));
 		// this.addMessageEvent(new RestoreClientMessageEvent(this.onRestoreClientMessageEvent.bind(this)));
 		// this.addMessageEvent(new AccountSafetyLockStatusChangeMessageEvent(this.onAccountSafetyLockStatusChanged.bind(this)));
-		// this.addMessageEvent(new RoomMessageNotificationMessageEvent(this.onRoomMessagesNotification.bind(this)));
+		this.addMessageEvent(new RoomMessageNotificationMessageEvent(this.onRoomMessagesNotification.bind(this)));
 
 		log.info('Notification message handlers registered');
 	}
@@ -194,10 +220,11 @@ export class NotificationMessageHandler
 	{
 		if (!event) return;
 
-		// TODO: Cast to LoginFailedHotelClosedMessageEventParser once available
-		// const parser = event.parser as LoginFailedHotelClosedMessageEventParser;
-		// if (parser == null || this._notifications?.singularController?.alertDialogManager == null) return;
-		// this._notifications.singularController.alertDialogManager.handleLoginFailedHotelClosedMessage(parser.openHour, parser.openMinute);
+		const parser = event.parser as LoginFailedHotelClosedMessageEventParser;
+
+		if (parser == null || this._notifications?.singularController?.alertDialogManager == null) return;
+
+		this._notifications.singularController.alertDialogManager.handleLoginFailedHotelClosedMessage(parser.openHour, parser.openMinute);
 
 		log.debug('Login failed - hotel closed');
 	}
@@ -295,128 +322,159 @@ export class NotificationMessageHandler
 	 *
 	 * @see source_as/habbo/notifications/class_3353.as onMOTD()
 	 */
-	// TODO: Uncomment when MOTDNotificationEvent is implemented
-	// private onMOTD(event: IMessageEvent): void
-	// {
-	//     const parser = (event as MOTDNotificationEvent).parser as MOTDNotificationEventParser;
-	//     if (parser.messages && parser.messages.length > 0)
-	//     {
-	//         for (const message of parser.messages)
-	//         {
-	//             const data = new GenericNotificationItemData();
-	//             data.title = message;
-	//             data.timeStamp = performance.now();
-	//             // this._notifications.feedController?.addFeedItem(3, data);
-	//         }
-	//     }
-	// }
+	private onMOTD(event: IMessageEvent): void
+	{
+		const parser = (event as MOTDNotificationEvent).parser as MOTDNotificationEventParser;
+		if (parser.messages && parser.messages.length > 0)
+		{
+			for (const message of parser.messages)
+			{
+				const data = new GenericNotificationItemData();
+				data.title = message;
+				data.timeStamp = performance.now();
+				// this._notifications.feedController?.addFeedItem(3, data);
+			}
+		}
+	}
 
 	/**
 	 * Handle broadcast message
 	 *
 	 * @see source_as/habbo/notifications/class_3353.as onBroadcastMessageEvent()
 	 */
-	// TODO: Uncomment when HabboBroadcastMessageEvent is implemented
-	// private onBroadcastMessageEvent(event: IMessageEvent): void
-	// {
-	//     const parser = (event as HabboBroadcastMessageEvent).parser as HabboBroadcastMessageEventParser;
-	//     let message = parser.messageText;
-	//     message = message.replace(/\\r/g, '\r');
-	//     // Show broadcast alert dialog
-	// }
+	private onBroadcastMessageEvent(event: IMessageEvent): void
+	{
+		const parser = (event as HabboBroadcastMessageEvent).parser as HabboBroadcastMessageEventParser;
+
+		let message = parser.messageText;
+
+		message.replace(/\\r/g, '\r');
+
+		// Show broadcast alert dialog
+	}
 
 	/**
 	 * Handle notification dialog message
 	 *
 	 * @see source_as/habbo/notifications/class_3353.as onNotificationDialogMessageEvent()
 	 */
-	// TODO: Uncomment when NotificationDialogMessageEvent is implemented
-	// private onNotificationDialogMessageEvent(event: IMessageEvent): void
-	// {
-	//     const parser = (event as NotificationDialogMessageEvent).parser as NotificationDialogMessageEventParser;
-	//     if (NotificationMessageHandler.CALL_FOR_HELP_NOTIFICATION_TYPE === parser.type)
-	//     {
-	//         // Show CFH created notification
-	//     }
-	//     else
-	//     {
-	//         this._notifications?.showNotification(parser.type, parser.parameters);
-	//     }
-	// }
+	private onNotificationDialogMessageEvent(event: IMessageEvent): void
+	{
+		if (!event) return;
+
+		const parser = (event as NotificationDialogMessageEvent).parser as NotificationDialogMessageEventParser;
+
+		if (!parser) return;
+
+		if (NotificationMessageHandler.CALL_FOR_HELP_NOTIFICATION_TYPE === parser.type)
+		{
+			// Show CFH created notification
+		}
+		else
+		{
+			this._notifications?.showNotification(parser.type, parser.parameters);
+		}
+	}
 
 	/**
 	 * Handle hotel closing message
 	 *
 	 * @see source_as/habbo/notifications/class_3353.as onHotelClosing()
 	 */
-	// TODO: Uncomment when InfoHotelClosingMessageEvent is implemented
-	// private onHotelClosing(event: IMessageEvent): void
-	// {
-	//     const parser = (event as InfoHotelClosingMessageEvent).parser as InfoHotelClosingMessageEventParser;
-	//     if (parser == null || this._notifications?.singularController?.alertDialogManager == null) return;
-	//     this._notifications.singularController.alertDialogManager.handleHotelClosingMessage(parser.minutesUntilClosing);
-	// }
+	private onHotelClosing(event: IMessageEvent): void
+	{
+		if (!event) return;
+
+		const parser = (event as InfoHotelClosingMessageEvent).parser as InfoHotelClosingMessageEventParser;
+
+		if (!parser) return;
+
+		if (this._notifications?.singularController?.alertDialogManager == null) return;
+
+		this._notifications.singularController.alertDialogManager.handleHotelClosingMessage(parser.minutesUntilClosing);
+	}
 
 	/**
 	 * Handle hotel closed message
 	 *
 	 * @see source_as/habbo/notifications/class_3353.as onHotelClosed()
 	 */
-	// TODO: Uncomment when InfoHotelClosedMessageEvent is implemented
-	// private onHotelClosed(event: IMessageEvent): void
-	// {
-	//     const parser = (event as InfoHotelClosedMessageEvent).parser as InfoHotelClosedMessageEventParser;
-	//     if (parser == null || this._notifications?.singularController?.alertDialogManager == null) return;
-	//     this._notifications.singularController.alertDialogManager.handleHotelClosedMessage(parser.openHour, parser.openMinute, parser.userThrownOutAtClose);
-	// }
+	private onHotelClosed(event: IMessageEvent): void
+	{
+		if (!event) return;
+
+		const parser = (event as InfoHotelClosedMessageEvent).parser as InfoHotelClosedMessageEventParser;
+
+		if (!parser) return;
+
+		if (this._notifications?.singularController?.alertDialogManager == null) return;
+
+		this._notifications.singularController.alertDialogManager.handleHotelClosedMessage(parser.openHour, parser.openMinute, parser.userThrownOutAtClose);
+	}
 
 	/**
 	 * Handle achievement level up notification
 	 *
 	 * @see source_as/habbo/notifications/class_3353.as onLevelUp()
 	 */
-	// TODO: Uncomment when HabboAchievementNotificationMessageEvent is implemented
-	// private onLevelUp(event: IMessageEvent): void
-	// {
-	//     const parser = (event as HabboAchievementNotificationMessageEvent).parser;
-	//     // Show achievement notification with badge image
-	// }
+	private onLevelUp(event: IMessageEvent): void
+	{
+		if (!event) return;
+
+		const parser = (event as HabboAchievementNotificationMessageEvent).parser;
+
+		if (!parser) return;
+
+		// Show achievement notification with badge image
+	}
 
 	/**
 	 * Handle pet level notification
 	 *
 	 * @see source_as/habbo/notifications/class_3353.as onPetLevelNotification()
 	 */
-	// TODO: Uncomment when PetLevelNotificationEvent is implemented
-	// private onPetLevelNotification(event: IMessageEvent): void
-	// {
-	//     const parser = (event as PetLevelNotificationEvent).parser as PetLevelNotificationEventParser;
-	//     // Show pet level notification with pet image
-	// }
+	private onPetLevelNotification(event: IMessageEvent): void
+	{
+		if (!event) return;
+
+		const parser = (event as PetLevelNotificationEvent).parser as PetLevelNotificationEventParser;
+
+		if (!parser) return;
+
+		// Show pet level notification with pet image
+	}
 
 	/**
 	 * Handle pet received notification
 	 *
 	 * @see source_as/habbo/notifications/class_3353.as onPetReceived()
 	 */
-	// TODO: Uncomment when PetReceivedMessageEvent is implemented
-	// private onPetReceived(event: IMessageEvent): void
-	// {
-	//     const parser = (event as PetReceivedMessageEvent).parser as PetReceivedMessageEventParser;
-	//     // Show pet bought/received notification
-	// }
+	private onPetReceived(event: IMessageEvent): void
+	{
+		if (!event) return;
+
+		const parser = (event as PetReceivedMessageEvent).parser as PetReceivedMessageEventParser;
+
+		if (!parser) return;
+
+		// Show pet bought/received notification
+	}
 
 	/**
 	 * Handle pet respect failed
 	 *
 	 * @see source_as/habbo/notifications/class_3353.as onPetRespectFailed()
 	 */
-	// TODO: Uncomment when PetRespectFailedEvent is implemented
-	// private onPetRespectFailed(event: IMessageEvent): void
-	// {
-	//     const parser = (event as PetRespectFailedEvent).parser as PetRespectFailedEventParser;
-	//     // Show alert with required/avatar age
-	// }
+	private onPetRespectFailed(event: IMessageEvent): void
+	{
+		if (!event) return;
+
+		const parser = (event as PetRespectFailedEvent).parser as PetRespectFailedEventParser;
+
+		if (!parser) return;
+
+		// Show alert with required/avatar age
+	}
 
 	/**
 	 * Handle club gift notification

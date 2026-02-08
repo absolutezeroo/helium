@@ -10,12 +10,13 @@ import {AchievementData} from '../../quest/AchievementData';
 export class AchievementsEventParser implements IMessageParser
 {
 	private _achievements: AchievementData[] = [];
-	private _defaultCategory: string = '';
 
 	get achievements(): AchievementData[]
 	{
 		return this._achievements;
 	}
+
+	private _defaultCategory: string = '';
 
 	get defaultCategory(): string
 	{

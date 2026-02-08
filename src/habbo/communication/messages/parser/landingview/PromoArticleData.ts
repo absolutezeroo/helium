@@ -10,14 +10,6 @@ export class PromoArticleData
 	static readonly LINK_TYPE_INTERNAL = 1;
 	static readonly LINK_TYPE_NO_LINK = 2;
 
-	private _id: number;
-	private _title: string;
-	private _bodyText: string;
-	private _buttonText: string;
-	private _linkType: number;
-	private _linkContent: string;
-	private _imageUrl: string;
-
 	constructor(wrapper: IMessageDataWrapper)
 	{
 		this._id = wrapper.readInt();
@@ -29,11 +21,52 @@ export class PromoArticleData
 		this._imageUrl = wrapper.readString();
 	}
 
-	get id(): number { return this._id; }
-	get title(): string { return this._title; }
-	get bodyText(): string { return this._bodyText; }
-	get buttonText(): string { return this._buttonText; }
-	get linkType(): number { return this._linkType; }
-	get linkContent(): string { return this._linkContent; }
-	get imageUrl(): string { return this._imageUrl; }
+	private _id: number;
+
+	get id(): number
+	{
+		return this._id;
+	}
+
+	private _title: string;
+
+	get title(): string
+	{
+		return this._title;
+	}
+
+	private _bodyText: string;
+
+	get bodyText(): string
+	{
+		return this._bodyText;
+	}
+
+	private _buttonText: string;
+
+	get buttonText(): string
+	{
+		return this._buttonText;
+	}
+
+	private _linkType: number;
+
+	get linkType(): number
+	{
+		return this._linkType;
+	}
+
+	private _linkContent: string;
+
+	get linkContent(): string
+	{
+		return this._linkContent;
+	}
+
+	private _imageUrl: string;
+
+	get imageUrl(): string
+	{
+		return this._imageUrl;
+	}
 }
