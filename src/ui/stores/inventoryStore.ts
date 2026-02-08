@@ -1,16 +1,22 @@
 import {createStore} from 'solid-js/store';
 import {registerMessageEvent} from '@ui/hooks/events/useMessageEvent';
-import {SendMessageComposer} from '@ui/api/helium';
+import {SendMessageComposer} from "@ui/api/helium/SendMessageComposer";
 import {FurniListMessageEvent} from '@habbo/communication/messages/incoming/inventory/furni/FurniListMessageEvent';
 import {BadgesMessageEvent} from '@habbo/communication/messages/incoming/inventory/badges/BadgesMessageEvent';
 import {PetInventoryMessageEvent} from '@habbo/communication/messages/incoming/inventory/pets/PetInventoryMessageEvent';
 import {BotInventoryMessageEvent} from '@habbo/communication/messages/incoming/inventory/bots/BotInventoryMessageEvent';
-import {RequestFurniInventoryComposer} from '@habbo/communication/messages/outgoing/inventory/RequestFurniInventoryComposer';
+import {
+	RequestFurniInventoryComposer
+} from '@habbo/communication/messages/outgoing/inventory/RequestFurniInventoryComposer';
 import {SetActivatedBadgesComposer} from '@habbo/communication/messages/outgoing/inventory/SetActivatedBadgesComposer';
 import type {FurniListMessageParser} from '@habbo/communication/messages/parser/inventory/furni/FurniListMessageParser';
 import type {BadgesMessageParser} from '@habbo/communication/messages/parser/inventory/badges/BadgesMessageParser';
-import type {PetInventoryMessageParser} from '@habbo/communication/messages/parser/inventory/pets/PetInventoryMessageParser';
-import type {BotInventoryMessageParser} from '@habbo/communication/messages/parser/inventory/bots/BotInventoryMessageParser';
+import type {
+	PetInventoryMessageParser
+} from '@habbo/communication/messages/parser/inventory/pets/PetInventoryMessageParser';
+import type {
+	BotInventoryMessageParser
+} from '@habbo/communication/messages/parser/inventory/bots/BotInventoryMessageParser';
 
 /**
  * Inventory Store

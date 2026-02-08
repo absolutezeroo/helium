@@ -1,14 +1,14 @@
 import {Component, Show} from 'solid-js';
-import {ModuleId, useModule} from '../../bridge';
+import {sessionStore} from '@ui/stores/sessionStore';
 
 export const LandingView: Component = () =>
 {
-	const {state: session} = useModule(ModuleId.Session);
+	const session = sessionStore.state;
 
 	return (
 		<div class="absolute inset-0 bottom-[var(--spacing-toolbar)] flex justify-center px-6 pt-10 overflow-y-auto">
 			<div class="max-w-[1200px] w-full">
-				<Show when={session().userData}>
+				<Show when={session.userData}>
 					{(user) => (
 						<div class="text-center mb-10">
 							<h2 class="text-[1.75rem] font-semibold mb-2">Welcome back, {user().name}!</h2>

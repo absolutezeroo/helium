@@ -1,9 +1,8 @@
 import type {JSX} from 'solid-js';
 import {createEffect, createSignal, Show} from 'solid-js';
-import {ModuleId, useActions, useModule} from '@ui/bridge';
+import {navigatorStore, DoorStateType} from '@ui/stores/navigatorStore';
 import {useLocalization} from '@ui/common';
 import {HeliumCardContentView, HeliumCardHeaderView, HeliumCardView} from '@ui/common/card';
-import {DoorStateType} from '@/modules/navigator/types';
 
 const VISIBLE_STATES: number[] = [
 	DoorStateType.START_DOORBELL,
@@ -27,12 +26,11 @@ const DOORBELL_STATES: number[] = [
 export function NavigatorDoorStateView(): JSX.Element
 {
 	const t = useLocalization();
-	const {state: navigator} = useModule(ModuleId.Navigator);
-	const navActions = useActions(ModuleId.Navigator);
+	const {state: navigator, actions: navActions} = navigatorStore;
 
 	const [password, setPassword] = createSignal('');
 
-	const doorData = () => navigator().doorData;
+	const doorData = () => navigator.doorData;
 
 	const isVisible = () =>
 	{

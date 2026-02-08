@@ -1,6 +1,6 @@
 import type {JSX} from 'solid-js';
 import {Show} from 'solid-js';
-import {ModuleId, useActions} from '@ui/bridge';
+import {navigatorStore} from '@ui/stores/navigatorStore';
 import {useLocalization} from '@ui/common';
 import {HeliumCardContentView, HeliumCardHeaderView, HeliumCardView} from '@ui/common/card';
 
@@ -17,7 +17,7 @@ export interface NavigatorRoomLinkViewProps
 export function NavigatorRoomLinkView(props: NavigatorRoomLinkViewProps): JSX.Element
 {
 	const t = useLocalization();
-	const navActions = useActions(ModuleId.Navigator);
+	const {actions: navActions} = navigatorStore;
 
 	const enteredRoom = () => navActions.getEnteredRoom();
 

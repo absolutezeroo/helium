@@ -1,4 +1,4 @@
 export * from './core';
-export * from './nitro';
+export * from './helium';
 export * from './useEventDispatcher';
 export * from './useMessageEvent';

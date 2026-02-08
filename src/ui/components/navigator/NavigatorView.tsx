@@ -2,7 +2,7 @@ import type {JSX} from 'solid-js';
 import {createEffect, createSignal, For, Show} from 'solid-js';
 import clsx from 'clsx';
 import {FaSolidPlus} from 'solid-icons/fa';
-import {ModuleId, useActions, useModule} from '../../bridge';
+import {navigatorStore} from '@ui/stores/navigatorStore';
 import {useLocalization} from '@ui/common';
 import {HeliumCardContentView, HeliumCardHeaderView, HeliumCardTabsView, HeliumCardView} from '@ui/common/card';
 import {NavigatorSearchView} from './views/search/NavigatorSearchView';
@@ -20,17 +20,16 @@ import {NavigatorRoomLinkView} from './views/NavigatorRoomLinkView';
 export function NavigatorView(): JSX.Element
 {
 	const t = useLocalization();
-	const {state: navigator} = useModule(ModuleId.Navigator);
-	const navActions = useActions(ModuleId.Navigator);
+	const {state: navigator, actions: navActions} = navigatorStore;
 
 	const [isCreatorOpen, setCreatorOpen] = createSignal(false);
 	const [isLoading, setIsLoading] = createSignal(false);
 
 	let resultsRef: HTMLDivElement | undefined;
 
-	const topLevelContexts = () => navigator().topLevelContexts;
-	const searchResults = () => navigator().searchResults;
-	const currentSearchCode = () => navigator().currentSearchCode;
+	const topLevelContexts = () => navigator.topLevelContexts;
+	const searchResults = () => navigator.searchResults;
+	const currentSearchCode = () => navigator.currentSearchCode;
 
 	const sendSearch = (searchValue: string, contextCode: string) =>
 	{
@@ -53,7 +52,7 @@ export function NavigatorView(): JSX.Element
 
 	return (
 		<>
-			<Show when={navigator().isOpen}>
+			<Show when={navigator.isOpen}>
 				<HeliumCardView uniqueKey="navigator" class="helium-navigator">
 					<HeliumCardHeaderView
 						title={t(isCreatorOpen() ? 'navigator.createroom.title' : 'navigator.title', isCreatorOpen() ? 'Create Room' : 'Navigator')}
@@ -119,10 +118,10 @@ export function NavigatorView(): JSX.Element
 				</HeliumCardView>
 			</Show>
 			<NavigatorDoorStateView />
-			<Show when={navigator().isRoomInfoOpen}>
+			<Show when={navigator.isRoomInfoOpen}>
 				<NavigatorRoomInfoView onCloseClick={() => navActions.closeRoomInfo()} />
 			</Show>
-			<Show when={navigator().isRoomLinkOpen}>
+			<Show when={navigator.isRoomLinkOpen}>
 				<NavigatorRoomLinkView onCloseClick={() => navActions.closeRoomLink()} />
 			</Show>
 		</>

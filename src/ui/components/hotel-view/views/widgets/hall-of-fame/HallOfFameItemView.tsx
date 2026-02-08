@@ -1,5 +1,5 @@
 import type {JSX} from 'solid-js';
-import {useLocalizationWithParams} from '@ui/hooks/useLocalization';
+import {useLocalizationWithParams} from '@ui/common/Text';
 import {LayoutAvatarImageView} from '@ui/common/layout/LayoutAvatarImageView';
 import type {HallOfFameEntryData} from '@habbo/communication/messages/parser/quest/HallOfFameEntryData';
 

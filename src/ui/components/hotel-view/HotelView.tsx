@@ -1,8 +1,9 @@
 import type {JSX} from 'solid-js';
 import {Show} from 'solid-js';
-import {ModuleId, useActions, useModule} from '../../bridge';
 import Helium from '@/Helium';
 import {LayoutAvatarImageView} from '@ui/common/layout/LayoutAvatarImageView';
+import {sessionStore} from '@ui/stores/sessionStore';
+import {configStore} from '@ui/stores/configStore';
 import {WidgetSlotView} from './views/widgets/WidgetSlotView';
 
 /**
@@ -13,8 +14,8 @@ import {WidgetSlotView} from './views/widgets/WidgetSlotView';
  */
 export function HotelView(): JSX.Element
 {
-	const {state: session} = useModule(ModuleId.Session);
-	const configActions = useActions(ModuleId.Config);
+	const session = sessionStore.state;
+	const configActions = configStore.actions;
 
 	const interpolate = (val: string | undefined): string =>
 	{
@@ -48,7 +49,7 @@ export function HotelView(): JSX.Element
 	};
 
 	const showAvatar = () => configActions.getBoolean('hotelview.show.avatar');
-	const userFigure = () => session().userData?.figure ?? '';
+	const userFigure = () => session.userData?.figure ?? '';
 
 	return (
 		<div class="helium-hotel-view" style={backgroundColor() ? {background: backgroundColor()} : {}}>

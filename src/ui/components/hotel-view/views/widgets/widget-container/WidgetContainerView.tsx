@@ -1,5 +1,5 @@
 import type {JSX} from 'solid-js';
-import {useLocalization} from '@ui/hooks/useLocalization';
+import {useLocalization} from '@ui/common/Text';
 import Helium from '@/Helium';
 
 export interface WidgetContainerViewProps

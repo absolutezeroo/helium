@@ -2,7 +2,7 @@ import type {JSX} from 'solid-js';
 import {createEffect, createSignal, For, Show} from 'solid-js';
 import {FaSolidMinus, FaSolidPlus, FaSolidBars, FaSolidTableCells, FaSolidWindowMaximize, FaSolidWindowRestore} from 'solid-icons/fa';
 import type {NavigatorSearchResultBlock} from '@habbo/communication/messages/incoming/newnavigator';
-import {ModuleId, useActions, useModule} from '@ui/bridge';
+import {navigatorStore} from '@ui/stores/navigatorStore';
 import {useLocalization} from '@ui/common';
 import {NavigatorSearchResultItemView} from './NavigatorSearchResultItemView';
 
@@ -23,8 +23,7 @@ export interface NavigatorSearchResultViewProps
 export function NavigatorSearchResultView(props: NavigatorSearchResultViewProps): JSX.Element
 {
 	const t = useLocalization();
-	const {state: navigator} = useModule(ModuleId.Navigator);
-	const navActions = useActions(ModuleId.Navigator);
+	const {state: navigator, actions: navActions} = navigatorStore;
 
 	const [isExtended, setIsExtended] = createSignal(true);
 	const [displayMode, setDisplayMode] = createSignal(0);
@@ -82,8 +81,8 @@ export function NavigatorSearchResultView(props: NavigatorSearchResultViewProps)
 		}
 		else if (sr.actionAllowed === 2)
 		{
-			const contexts = navigator().topLevelContexts;
-			const code = navigator().currentSearchCode;
+			const contexts = navigator.topLevelContexts;
+			const code = navigator.currentSearchCode;
 			const ctx = contexts.find(c => c.searchCode === code);
 
 			if (ctx)

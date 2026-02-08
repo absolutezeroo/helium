@@ -1,21 +1,33 @@
 import {createStore, produce} from 'solid-js/store';
 import {registerMessageEvent} from '@ui/hooks/events/useMessageEvent';
-import {SendMessageComposer} from '@ui/api/helium';
-import {GetGuestRoomResultMessageEvent} from '@habbo/communication/messages/incoming/navigator/GetGuestRoomResultMessageEvent';
+import {SendMessageComposer} from "@ui/api/helium/SendMessageComposer";
+import {
+	GetGuestRoomResultMessageEvent
+} from '@habbo/communication/messages/incoming/navigator/GetGuestRoomResultMessageEvent';
 import {RoomRatingMessageEvent} from '@habbo/communication/messages/incoming/navigator/RoomRatingMessageEvent';
 import {RoomEventMessageEvent} from '@habbo/communication/messages/incoming/navigator/RoomEventMessageEvent';
 import {RoomReadyMessageEvent} from '@habbo/communication/messages/incoming/room/session/RoomReadyMessageEvent';
 import {RoomEntryInfoMessageEvent} from '@habbo/communication/messages/incoming/room/engine/RoomEntryInfoMessageEvent';
-import {CloseConnectionMessageEvent} from '@habbo/communication/messages/incoming/room/session/CloseConnectionMessageEvent';
-import {YouAreControllerMessageEvent} from '@habbo/communication/messages/incoming/room/permissions/YouAreControllerMessageEvent';
+import {
+	CloseConnectionMessageEvent
+} from '@habbo/communication/messages/incoming/room/session/CloseConnectionMessageEvent';
+import {
+	YouAreControllerMessageEvent
+} from '@habbo/communication/messages/incoming/room/permissions/YouAreControllerMessageEvent';
 import {YouAreOwnerMessageEvent} from '@habbo/communication/messages/incoming/room/permissions/YouAreOwnerMessageEvent';
 import {UsersMessageEvent} from '@habbo/communication/messages/incoming/room/engine/UsersMessageEvent';
 import {UserRemoveMessageEvent} from '@habbo/communication/messages/incoming/room/engine/UserRemoveMessageEvent';
-import type {GetGuestRoomResultMessageParser} from '@habbo/communication/messages/parser/navigator/GetGuestRoomResultMessageParser';
+import type {
+	GetGuestRoomResultMessageParser
+} from '@habbo/communication/messages/parser/navigator/GetGuestRoomResultMessageParser';
 import type {RoomRatingMessageParser} from '@habbo/communication/messages/parser/navigator/RoomRatingMessageParser';
 import type {RoomEventMessageParser} from '@habbo/communication/messages/parser/navigator/RoomEventMessageParser';
-import type {RoomEntryInfoMessageParser} from '@habbo/communication/messages/parser/room/engine/RoomEntryInfoMessageParser';
-import type {YouAreControllerMessageParser} from '@habbo/communication/messages/parser/room/permissions/YouAreControllerMessageParser';
+import type {
+	RoomEntryInfoMessageParser
+} from '@habbo/communication/messages/parser/room/engine/RoomEntryInfoMessageParser';
+import type {
+	YouAreControllerMessageParser
+} from '@habbo/communication/messages/parser/room/permissions/YouAreControllerMessageParser';
 import type {UsersMessageParser} from '@habbo/communication/messages/parser/room/engine/UsersMessageParser';
 import type {UserRemoveMessageParser} from '@habbo/communication/messages/parser/room/engine/UserRemoveMessageParser';
 import {QuitMessageComposer} from '@habbo/communication/messages/outgoing/room/session/QuitMessageComposer';

@@ -1,7 +1,7 @@
 import type {JSX} from 'solid-js';
 import {createEffect, createSignal, For} from 'solid-js';
 import {FaSolidMagnifyingGlass} from 'solid-icons/fa';
-import {ModuleId, useModule} from '@ui/bridge';
+import {navigatorStore} from '@ui/stores/navigatorStore';
 import {useLocalization} from '@ui/common';
 
 /**
@@ -29,15 +29,15 @@ export interface NavigatorSearchViewProps
 export function NavigatorSearchView(props: NavigatorSearchViewProps): JSX.Element
 {
 	const t = useLocalization();
-	const {state: navigator} = useModule(ModuleId.Navigator);
+	const {state: navigator} = navigatorStore;
 
 	const [filterIndex, setFilterIndex] = createSignal(0);
 	const [searchValue, setSearchValue] = createSignal('');
 
 	const topLevelContext = () =>
 	{
-		const contexts = navigator().topLevelContexts;
-		const code = navigator().currentSearchCode;
+		const contexts = navigator.topLevelContexts;
+		const code = navigator.currentSearchCode;
 
 		return contexts.find(ctx => ctx.searchCode === code) ?? contexts[0] ?? null;
 	};
@@ -65,7 +65,7 @@ export function NavigatorSearchView(props: NavigatorSearchViewProps): JSX.Elemen
 	// Sync with incoming search results
 	createEffect(() =>
 	{
-		const results = navigator().searchResults;
+		const results = navigator.searchResults;
 
 		if (!results) return;
 

@@ -2,7 +2,8 @@ import type {JSX} from 'solid-js';
 import {createSignal, For, Show} from 'solid-js';
 import clsx from 'clsx';
 import {FaSolidLink} from 'solid-icons/fa';
-import {ModuleId, useActions, useModule} from '@ui/bridge';
+import {navigatorStore} from '@ui/stores/navigatorStore';
+import {sessionStore} from '@ui/stores/sessionStore';
 import {useLocalization} from '@ui/common';
 import {HeliumCardContentView, HeliumCardHeaderView, HeliumCardView} from '@ui/common/card';
 
@@ -19,29 +20,28 @@ export interface NavigatorRoomInfoViewProps
 export function NavigatorRoomInfoView(props: NavigatorRoomInfoViewProps): JSX.Element
 {
 	const t = useLocalization();
-	const {state: navigator} = useModule(ModuleId.Navigator);
-	const {state: session} = useModule(ModuleId.Session);
-	const navActions = useActions(ModuleId.Navigator);
+	const {state: navigator, actions: navActions} = navigatorStore;
+	const {state: session} = sessionStore;
 
 	const [isRoomPicked, setIsRoomPicked] = createSignal(false);
 	const [isRoomMuted, setIsRoomMuted] = createSignal(false);
 
 	const enteredRoom = () => navActions.getEnteredRoom();
-	const homeRoomId = () => navigator().homeRoomId;
+	const homeRoomId = () => navigator.homeRoomId;
 
 	const hasPermission = (permission: string): boolean =>
 	{
 		const room = enteredRoom();
-		const userData = session()?.userData;
+		const userData = session?.userData;
 
 		if (!room || !userData) return false;
 
 		switch (permission)
 		{
 			case 'settings':
-				return userData.id === room.ownerId || (session()?.securityLevel ?? 0) >= 4;
+				return userData.userId === room.ownerId || (session?.securityLevel ?? 0) >= 4;
 			case 'staff_pick':
-				return (session()?.securityLevel ?? 0) >= 3;
+				return (session?.securityLevel ?? 0) >= 3;
 			default:
 				return false;
 		}

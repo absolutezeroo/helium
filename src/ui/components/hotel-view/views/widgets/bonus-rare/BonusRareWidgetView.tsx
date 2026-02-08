@@ -1,6 +1,6 @@
 import type {JSX} from 'solid-js';
 import {onMount, Show} from 'solid-js';
-import {ModuleId, useModule} from '@ui/bridge';
+import {landingViewStore} from '@ui/stores/landingViewStore';
 
 /**
  * BonusRareWidgetView - Displays bonus rare item progress bar.
@@ -8,7 +8,8 @@ import {ModuleId, useModule} from '@ui/bridge';
  */
 export function BonusRareWidgetView(): JSX.Element
 {
-	const {state: landingView, actions} = useModule(ModuleId.LandingView);
+	const landingView = landingViewStore.state;
+	const {actions} = landingViewStore;
 
 	onMount(() =>
 	{
@@ -16,7 +17,7 @@ export function BonusRareWidgetView(): JSX.Element
 	});
 
 	return (
-		<Show when={landingView().bonusRare}>
+		<Show when={landingView.bonusRare}>
 			{(bonusRare) => (
 				<div class="bonus-rare widget d-flex">
 					{bonusRare().productType}

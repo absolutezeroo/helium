@@ -1,6 +1,6 @@
 import type {JSX} from 'solid-js';
 import {onMount, Show, For} from 'solid-js';
-import {ModuleId, useModule} from '@ui/bridge';
+import {landingViewStore} from '@ui/stores/landingViewStore';
 import {HallOfFameItemView} from './HallOfFameItemView';
 
 export interface HallOfFameWidgetViewProps
@@ -15,7 +15,8 @@ export interface HallOfFameWidgetViewProps
  */
 export function HallOfFameWidgetView(props: HallOfFameWidgetViewProps): JSX.Element
 {
-	const {state: landingView, actions} = useModule(ModuleId.LandingView);
+	const landingView = landingViewStore.state;
+	const {actions} = landingViewStore;
 
 	onMount(() =>
 	{
@@ -24,7 +25,7 @@ export function HallOfFameWidgetView(props: HallOfFameWidgetViewProps): JSX.Elem
 	});
 
 	return (
-		<Show when={landingView().hallOfFame}>
+		<Show when={landingView.hallOfFame}>
 			{(hofData) => (
 				<div class="hall-of-fame d-flex">
 					<For each={hofData().hof}>

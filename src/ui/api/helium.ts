@@ -9,7 +9,6 @@ import type {IHabboInventory} from '@habbo/inventory/IHabboInventory';
 import type {IHabboLocalizationManager} from '@habbo/localization/IHabboLocalizationManager';
 import type {RoomEngine} from '@habbo/room';
 import type {IConnection} from '@core/communication/connection/IConnection';
-import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
 
 /**
  * Engine accessor functions
@@ -41,13 +40,3 @@ export const getNewNavigator = (): IHabboNewNavigator => getHelium().newNavigato
 export const getInventory = (): IHabboInventory => getHelium().inventory;
 
 export const getLocalization = (): IHabboLocalizationManager => getHelium().localization;
-
-/**
- * Send a message composer to the server
- *
- * @see source_nitro_react/src/api/nitro/SendMessageComposer.ts
- */
-export const SendMessageComposer = (composer: IMessageComposer<unknown[]>): void =>
-{
-	getConnection()?.send(composer);
-};

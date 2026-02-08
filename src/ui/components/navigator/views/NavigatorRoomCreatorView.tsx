@@ -1,6 +1,6 @@
 import type {JSX} from 'solid-js';
 import {createSignal, For, onMount} from 'solid-js';
-import {ModuleId, useActions, useModule} from '@ui/bridge';
+import {navigatorStore} from '@ui/stores/navigatorStore';
 import {useLocalization} from '@ui/common';
 
 /**
@@ -11,8 +11,7 @@ import {useLocalization} from '@ui/common';
 export function NavigatorRoomCreatorView(): JSX.Element
 {
 	const t = useLocalization();
-	const {state: navigator} = useModule(ModuleId.Navigator);
-	const navActions = useActions(ModuleId.Navigator);
+	const {state: navigator, actions: navActions} = navigatorStore;
 
 	const [name, setName] = createSignal('');
 	const [description, setDescription] = createSignal('');
@@ -52,7 +51,7 @@ export function NavigatorRoomCreatorView(): JSX.Element
 		{name: 'r', tileSize: 304, clubLevel: 1},
 	];
 
-	const flatCategories = () => navigator().flatCategories;
+	const flatCategories = () => navigator.flatCategories;
 
 	// Auto-select first category when available
 	onMount(() =>

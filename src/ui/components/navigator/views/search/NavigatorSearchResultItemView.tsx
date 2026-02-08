@@ -4,8 +4,8 @@ import clsx from 'clsx';
 import {FaSolidUser} from 'solid-icons/fa';
 import type {GuestRoomData} from '@habbo/communication/messages/incoming/navigator';
 import {RoomDoorMode} from '@habbo/communication/messages/incoming/navigator';
-import {ModuleId, useActions, useModule} from '@ui/bridge';
-import {DoorStateType} from '@/modules/navigator/types';
+import {navigatorStore, DoorStateType} from '@ui/stores/navigatorStore';
+import {sessionStore} from '@ui/stores/sessionStore';
 import {NavigatorSearchResultItemInfoView} from './NavigatorSearchResultItemInfoView';
 
 export interface NavigatorSearchResultItemViewProps
@@ -50,13 +50,13 @@ function getDoorModeIconClass(doorMode: number): string
  */
 export function NavigatorSearchResultItemView(props: NavigatorSearchResultItemViewProps): JSX.Element
 {
-	const navActions = useActions(ModuleId.Navigator);
-	const {state: session} = useModule(ModuleId.Session);
+	const {actions: navActions} = navigatorStore;
+	const {state: session} = sessionStore;
 
 	const visitRoom = () =>
 	{
 		const roomData = props.roomData;
-		const userId = session()?.userData?.id ?? -1;
+		const userId = session?.userData?.userId ?? -1;
 
 		if (roomData.ownerId !== userId)
 		{

@@ -1,7 +1,7 @@
 import type {JSX} from 'solid-js';
 import {createSignal, onMount, Show, For} from 'solid-js';
-import {ModuleId, useModule} from '@ui/bridge';
-import {useLocalization} from '@ui/hooks/useLocalization';
+import {landingViewStore} from '@ui/stores/landingViewStore';
+import {useLocalization} from '@ui/common/Text';
 
 /**
  * PromoArticleWidgetView - Displays promotional articles with navigation bullets.
@@ -9,7 +9,8 @@ import {useLocalization} from '@ui/hooks/useLocalization';
  */
 export function PromoArticleWidgetView(): JSX.Element
 {
-	const {state: landingView, actions} = useModule(ModuleId.LandingView);
+	const landingView = landingViewStore.state;
+	const {actions} = landingViewStore;
 	const [index, setIndex] = createSignal(0);
 	const t = useLocalization();
 
@@ -19,7 +20,7 @@ export function PromoArticleWidgetView(): JSX.Element
 	});
 
 	return (
-		<Show when={landingView().articles}>
+		<Show when={landingView.articles}>
 			{(articleList) => (
 				<div class="promo-articles widget mb-2">
 					<div class="d-flex flex-row align-items-center w-100 mb-1">

@@ -1,15 +1,25 @@
 import {createStore} from 'solid-js/store';
 import {registerMessageEvent} from '@ui/hooks/events/useMessageEvent';
-import {SendMessageComposer} from '@ui/api/helium';
 import {PromoArticlesMessageEvent} from '@habbo/communication/messages/incoming/landingview/PromoArticlesMessageEvent';
-import {CommunityGoalHallOfFameMessageEvent} from '@habbo/communication/messages/incoming/quest/CommunityGoalHallOfFameMessageEvent';
+import {
+	CommunityGoalHallOfFameMessageEvent
+} from '@habbo/communication/messages/incoming/quest/CommunityGoalHallOfFameMessageEvent';
 import {BonusRareInfoMessageEvent} from '@habbo/communication/messages/incoming/catalog/BonusRareInfoMessageEvent';
 import {GetPromoArticlesComposer} from '@habbo/communication/messages/outgoing/landingview/GetPromoArticlesComposer';
-import {GetCommunityGoalHallOfFameMessageComposer} from '@habbo/communication/messages/outgoing/quest/GetCommunityGoalHallOfFameMessageComposer';
-import {GetBonusRareInfoMessageComposer} from '@habbo/communication/messages/outgoing/catalog/GetBonusRareInfoMessageComposer';
-import type {PromoArticlesMessageParser} from '@habbo/communication/messages/parser/landingview/PromoArticlesMessageParser';
-import type {CommunityGoalHallOfFameMessageParser} from '@habbo/communication/messages/parser/quest/CommunityGoalHallOfFameMessageParser';
+import {
+	GetCommunityGoalHallOfFameMessageComposer
+} from '@habbo/communication/messages/outgoing/quest/GetCommunityGoalHallOfFameMessageComposer';
+import {
+	GetBonusRareInfoMessageComposer
+} from '@habbo/communication/messages/outgoing/catalog/GetBonusRareInfoMessageComposer';
+import type {
+	PromoArticlesMessageParser
+} from '@habbo/communication/messages/parser/landingview/PromoArticlesMessageParser';
+import type {
+	CommunityGoalHallOfFameMessageParser
+} from '@habbo/communication/messages/parser/quest/CommunityGoalHallOfFameMessageParser';
 import type {BonusRareInfoMessageParser} from '@habbo/communication/messages/parser/catalog/BonusRareInfoMessageParser';
+import {SendMessageComposer} from "@ui/api/helium/SendMessageComposer";
 
 /**
  * Landing View Store
