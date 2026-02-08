@@ -1,29 +1,15 @@
-import {Component, Show} from 'solid-js';
-import type {IconTypes} from 'solid-icons';
+import type {JSX} from 'solid-js';
+import {createSignal, Show} from 'solid-js';
 import clsx from 'clsx';
 import {ModuleId, useActions, useModule} from '../../bridge';
-import {Logger} from '@core/utils/Logger';
-import {FaSolidHouse, FaSolidCompass, FaSolidStore, FaSolidBoxOpen, FaSolidHammer, FaSolidUser, FaSolidChevronRight, FaSolidUserGroup} from 'solid-icons/fa';
+import {ToolbarMeView} from './ToolbarMeView';
 
-const log = Logger.getLogger('Toolbar');
-
-interface ToolbarIconDef
-{
-	id: string;
-	label: string;
-	icon: IconTypes;
-}
-
-const TOOLBAR_ICONS: ToolbarIconDef[] = [
-	{id: 'hotel', label: 'Hotel View', icon: FaSolidHouse},
-	{id: 'navigator', label: 'Navigator', icon: FaSolidCompass},
-	{id: 'catalog', label: 'Catalog', icon: FaSolidStore},
-	{id: 'inventory', label: 'Inventory', icon: FaSolidBoxOpen},
-	{id: 'pets', label: 'Pets', icon: FaSolidHammer},
-	{id: 'me', label: 'Me', icon: FaSolidUser},
-];
-
-export const Toolbar: Component = () =>
+/**
+ * Toolbar - Bottom toolbar with navigation icons.
+ *
+ * @see source_nitro_react/components/toolbar/ToolbarView.tsx
+ */
+export function Toolbar(): JSX.Element
 {
 	const {state: navigator} = useModule(ModuleId.Navigator);
 	const {state: inventory} = useModule(ModuleId.Inventory);
@@ -33,87 +19,79 @@ export const Toolbar: Component = () =>
 	const invActions = useActions(ModuleId.Inventory);
 	const roomActions = useActions(ModuleId.Room);
 
+	const [isMeExpanded, setMeExpanded] = createSignal(false);
+
 	const isInRoom = () => room().currentRoom !== null;
 
-	const isActive = (id: string): boolean =>
-	{
-		return (id === 'navigator' && navigator().isOpen) ||
-			(id === 'inventory' && inventory().isOpen);
-	};
-
-	const handleClick = (id: string) =>
-	{
-		switch (id)
-		{
-			case 'hotel':
-				roomActions.goToDesktop();
-				break;
-			case 'navigator':
-				navActions.toggle();
-				break;
-			case 'inventory':
-				invActions.toggle();
-				break;
-			case 'catalog':
-				log.debug('Catalog clicked');
-				break;
-			case 'pets':
-				log.debug('Pets clicked');
-				break;
-			case 'me':
-				log.debug('Me clicked');
-				break;
-			case 'friends':
-				log.debug('Friends clicked');
-				break;
-		}
-	};
-
 	return (
-		<div class="toolbar">
-			{/* ---- Left: Icons ---- */}
-			<div class="toolbar__left">
-				{TOOLBAR_ICONS.map((icon) => (
-					<button
-						class={clsx(
-							'toolbar__icon',
-							icon.id === 'hotel' && !isInRoom() && 'toolbar__icon--home-active',
-							isActive(icon.id) && 'toolbar__icon--active'
-						)}
-						title={icon.label}
-						onClick={() => handleClick(icon.id)}
-					>
-						<icon.icon size={20} />
-					</button>
-				))}
-			</div>
-
-			{/* ---- Center: Chat bar (only in room) ---- */}
-			<Show when={isInRoom()}>
-				<div class="toolbar__center">
-					<div class="toolbar__chat">
-						<input
-							class="toolbar__chat-input"
-							type="text"
-							placeholder="Clique ici pour chatter..."
+		<>
+			<Show when={isMeExpanded()}>
+				<ToolbarMeView setMeExpanded={setMeExpanded} />
+			</Show>
+			<div class="helium-toolbar d-flex align-items-center justify-content-between gap-2 py-1 px-3">
+				<div class="d-flex gap-2 align-items-center">
+					<div class="d-flex align-items-center gap-2">
+						{/* Avatar / Me button */}
+						<div
+							class={clsx('navigation-item item-avatar cursor-pointer', isMeExpanded() && 'active')}
+							onClick={(e) =>
+							{
+								e.stopPropagation();
+								setMeExpanded(prev => !prev);
+							}}
+						>
+							<div class="avatar-image position-absolute" />
+						</div>
+						{/* Home / Hotel view */}
+						<Show
+							when={isInRoom()}
+							fallback={
+								<div
+									class="navigation-item icon icon-house cursor-pointer"
+									onClick={() => navActions.search('myworld_view', '')}
+								/>
+							}
+						>
+							<div
+								class="navigation-item icon icon-habbo cursor-pointer"
+								onClick={() => roomActions.goToDesktop()}
+							/>
+						</Show>
+						{/* Navigator */}
+						<div
+							class="navigation-item icon icon-rooms cursor-pointer"
+							onClick={() => navActions.toggle()}
+						/>
+						{/* Catalog */}
+						<div
+							class="navigation-item icon icon-catalog cursor-pointer"
+						/>
+						{/* Inventory */}
+						<div
+							class="navigation-item icon icon-inventory cursor-pointer"
+							onClick={() => invActions.toggle()}
+						/>
+						{/* Camera (only in room) */}
+						<Show when={isInRoom()}>
+							<div class="navigation-item icon icon-camera cursor-pointer" />
+						</Show>
+					</div>
+					<div id="toolbar-chat-input-container" class="d-flex align-items-center" />
+				</div>
+				<div class="d-flex align-items-center gap-2">
+					<div class="d-flex gap-2">
+						{/* Friends */}
+						<div
+							class="navigation-item icon icon-friendall cursor-pointer"
+						/>
+						{/* Messenger */}
+						<div
+							class="navigation-item icon icon-message cursor-pointer"
 						/>
 					</div>
+					<div id="toolbar-friend-bar-container" class="d-none d-lg-block" />
 				</div>
-			</Show>
-
-			{/* ---- Right: Friends ---- */}
-			<div class="toolbar__right">
-				<button
-					class="toolbar__friends-btn"
-					onClick={() => handleClick('friends')}
-				>
-					<FaSolidUserGroup size={14} />
-					<span>Plus d'amis</span>
-				</button>
-				<button class="toolbar__icon toolbar__icon--nav-arrow" title="More">
-					<FaSolidChevronRight size={12} />
-				</button>
 			</div>
-		</div>
+		</>
 	);
-};
+}

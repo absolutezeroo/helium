@@ -11,7 +11,7 @@ export function NotificationCenterView(): JSX.Element
 			<HeliumCardView uniqueKey="notification-center" width={380} height={450}>
 				<HeliumCardHeaderView title="Notifications" onClose={() => setIsOpen(false)}/>
 				<HeliumCardContentView>
-					<p class="text-text-muted text-center py-12">Coming Soon</p>
+					<p class="text-muted text-center py-5">Coming Soon</p>
 				</HeliumCardContentView>
 			</HeliumCardView>
 		</Show>

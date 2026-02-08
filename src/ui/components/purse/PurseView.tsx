@@ -14,17 +14,14 @@ export function PurseView(): JSX.Element
 	const duckets = () => session().activityPoints.get(105) ?? 0;
 
 	return (
-		<div class="flex items-center gap-2">
-			<span
-				class="bg-credits/15 text-credits px-3 py-1 rounded-full text-xs font-medium border border-credits/25">
+		<div class="d-flex align-items-center gap-2">
+			<span class="badge bg-warning text-dark">
 				{credits()} Credits
 			</span>
-			<span
-				class="bg-diamonds/15 text-diamonds px-3 py-1 rounded-full text-xs font-medium border border-diamonds/25">
+			<span class="badge bg-info text-white">
 				{diamonds()} Diamonds
 			</span>
-			<span
-				class="bg-duckets/15 text-duckets px-3 py-1 rounded-full text-xs font-medium border border-duckets/25">
+			<span class="badge bg-success text-white">
 				{duckets()} Duckets
 			</span>
 		</div>

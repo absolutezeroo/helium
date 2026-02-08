@@ -1,63 +1,96 @@
-import {Component, createMemo, Show} from 'solid-js';
+import type {JSX} from 'solid-js';
+import {createEffect, createMemo, createSignal, onMount, Show} from 'solid-js';
+import {HabboCommunicationEvent} from '@habbo/communication/enum';
 import {ModuleId, useModule} from './bridge';
-import {LandingView} from './components/landing/LandingView';
-import {Toolbar} from './components/toolbar/Toolbar';
-import {LoadingScreen} from './common/LoadingScreen';
-import {NavigatorView} from './components/navigator';
-import {Inventory} from './components/inventory';
-import {Room} from './components/room';
+import {LoadingView} from './components/loading';
+import {MainView} from './components/main';
 
-export const App: Component = () =>
+/**
+ * App - Root application component.
+ * Shows loading screen during connection, then MainView when authenticated.
+ *
+ * @see source_nitro_react/App.tsx
+ */
+export function App(): JSX.Element
 {
 	const {state: connection} = useModule(ModuleId.Connection);
-	const {state: room} = useModule(ModuleId.Room);
+
+	const [isReady, setIsReady] = createSignal(false);
+	const [message, setMessage] = createSignal('Getting Ready');
+	const [percent, setPercent] = createSignal(0);
+	const [isError, setIsError] = createSignal(false);
+	const [imageRendering, setImageRendering] = createSignal(true);
 
 	const isAuthenticated = createMemo(() => connection().state === 'authenticated');
 
-	// Show landing view when authenticated AND not in a room
-	const showLanding = createMemo(() =>
-		isAuthenticated() && room().currentRoom === null
-	);
-
-	// Show room view when in a room (currentRoom is set or session is active)
-	const isInRoom = createMemo(() =>
-		isAuthenticated() && room().currentRoom !== null
-	);
-
-	const showLoading = createMemo(() =>
+	// Track connection state changes to update loading progress
+	createEffect(() =>
 	{
-		return connection().state === 'connecting' || connection().state === 'connected';
+		const state = connection().state;
+
+		switch (state)
+		{
+			case 'connecting':
+				setMessage('Connecting...');
+				setPercent(20);
+				break;
+			case 'connected':
+				setMessage('Handshaking...');
+				setPercent(40);
+				break;
+			case 'authenticated':
+				setMessage('Loading...');
+				setPercent(100);
+				setTimeout(() => setIsReady(true), 300);
+				break;
+			case 'error':
+				setIsError(true);
+				setMessage(connection().error || 'Connection Error');
+				break;
+		}
+	});
+
+	// Track loading steps for finer progress
+	createEffect(() =>
+	{
+		const step = connection().loadingStep;
+
+		if (!step) return;
+
+		if (step === HabboCommunicationEvent.HANDSHAKING)
+		{
+			setMessage('Securing connection...');
+			setPercent(50);
+		}
+		else if (step === HabboCommunicationEvent.HANDSHAKED)
+		{
+			setMessage('Connection secured');
+			setPercent(70);
+		}
+		else if (step === HabboCommunicationEvent.AUTHENTICATED)
+		{
+			setMessage('Authenticated');
+			setPercent(90);
+		}
+	});
+
+	onMount(() =>
+	{
+		const resize = () => setImageRendering(!(window.devicePixelRatio % 1));
+
+		window.addEventListener('resize', resize);
+		resize();
 	});
 
 	return (
-		<div class="helium-ui">
-			<Show when={showLoading()}>
-				<LoadingScreen/>
+		<div class={`helium-app ${imageRendering() ? 'image-rendering-pixelated' : ''}`}>
+			<Show when={!isReady() || isError()}>
+				<LoadingView isError={isError()} message={message()} percent={percent()} />
 			</Show>
-
-			<Show when={isAuthenticated()}>
-				{/* Landing view - hidden when in a room */}
-				<Show when={showLanding()}>
-					<LandingView/>
-				</Show>
-
-				{/* Always show toolbar, navigator, inventory when authenticated */}
-				<Toolbar/>
-				<NavigatorView/>
-				<Inventory/>
-
-				{/* Room UI - shown when in a room */}
-				<Room/>
+			<Show when={isReady()}>
+				<MainView />
 			</Show>
-
-			<Show when={connection().state === 'error'}>
-				<div class="error-screen">
-					<div class="error-content">
-						<h2>Connection Error</h2>
-						<p>{connection().error}</p>
-					</div>
-				</div>
-			</Show>
+			<div id="draggable-windows-container" />
 		</div>
 	);
-};
+}

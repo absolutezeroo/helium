@@ -14,7 +14,7 @@ export function NavigatorRoomInfoView(): JSX.Element
 			<HeliumCardView uniqueKey="room-info" width={350} height={400}>
 				<HeliumCardHeaderView title="Room Info" onClose={() => setIsOpen(false)}/>
 				<HeliumCardContentView>
-					<p class="text-text-muted text-center py-12">Coming Soon</p>
+					<p class="text-muted text-center py-5">Coming Soon</p>
 				</HeliumCardContentView>
 			</HeliumCardView>
 		</Show>

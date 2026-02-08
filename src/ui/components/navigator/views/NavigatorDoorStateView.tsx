@@ -14,7 +14,7 @@ export function NavigatorDoorStateView(): JSX.Element
 			<HeliumCardView uniqueKey="door-state" width={350} height={250}>
 				<HeliumCardHeaderView title="Door State" onClose={() => setIsOpen(false)}/>
 				<HeliumCardContentView>
-					<p class="text-text-muted text-center py-12">Coming Soon</p>
+					<p class="text-muted text-center py-5">Coming Soon</p>
 				</HeliumCardContentView>
 			</HeliumCardView>
 		</Show>

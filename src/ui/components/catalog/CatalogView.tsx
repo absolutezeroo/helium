@@ -11,7 +11,7 @@ export function CatalogView(): JSX.Element
 			<HeliumCardView uniqueKey="catalog" width={600} height={500}>
 				<HeliumCardHeaderView title="Catalog" onClose={() => setIsOpen(false)}/>
 				<HeliumCardContentView>
-					<p class="text-text-muted text-center py-12">Coming Soon</p>
+					<p class="text-muted text-center py-5">Coming Soon</p>
 				</HeliumCardContentView>
 			</HeliumCardView>
 		</Show>

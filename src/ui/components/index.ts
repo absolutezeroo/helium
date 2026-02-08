@@ -1,5 +1,8 @@
+// Main views
+export {MainView} from './main';
+export {LoadingView} from './loading';
+
 // Active components
-export * from './landing';
 export * from './navigator';
 export * from './toolbar';
 export * from './inventory';

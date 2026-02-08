@@ -4,29 +4,30 @@ import {ModuleId, useModule} from '../../bridge';
 
 /**
  * HotelView - The main hotel landing page shown when not in a room.
- * Evolution of LandingView with more features planned.
+ *
+ * @see source_nitro_react/components/hotel-view/HotelView.tsx
  */
 export function HotelView(): JSX.Element
 {
 	const {state: session} = useModule(ModuleId.Session);
 
 	return (
-		<div class="absolute inset-0 bottom-[var(--spacing-toolbar)] flex justify-center px-6 pt-10 overflow-y-auto">
-			<div class="max-w-[1200px] w-full">
-				<Show when={session().userData}>
-					{(user) => (
-						<div class="text-center mb-10">
-							<h2 class="text-[1.75rem] font-semibold mb-2">Welcome back, {user().name}!</h2>
-							<p class="text-sm text-text-muted italic">{user().motto || 'No motto set'}</p>
+		<div class="helium-hotel-view">
+			<div class="container h-100 py-3 overflow-hidden landing-widgets">
+				<div class="row h-100">
+					<div class="col-12 d-flex flex-column align-items-center justify-content-center">
+						<Show when={session().userData}>
+							{(user) => (
+								<div class="text-center mb-4">
+									<h2 class="fs-4 fw-semibold text-white mb-2">Welcome back, {user().name}!</h2>
+									<p class="small text-muted fst-italic">{user().motto || 'No motto set'}</p>
+								</div>
+							)}
+						</Show>
+						<div class="text-center text-muted small">
+							<p>Hotel View</p>
+							<p>Coming soon...</p>
 						</div>
-					)}
-				</Show>
-
-				<div class="grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-5">
-					<div
-						class="glass glass-hover rounded-[var(--radius-lg)] p-10 text-center transition-all duration-200">
-						<p>Hotel View</p>
-						<p class="text-xs text-text-muted">Coming soon...</p>
 					</div>
 				</div>
 			</div>

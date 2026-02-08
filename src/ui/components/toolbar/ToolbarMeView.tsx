@@ -1,19 +1,34 @@
-import type {JSX} from 'solid-js';
-import {createSignal, Show} from 'solid-js';
+import type {JSX, Setter} from 'solid-js';
+import {onMount, onCleanup} from 'solid-js';
+
+interface ToolbarMeViewProps
+{
+	setMeExpanded: Setter<boolean>;
+}
 
 /**
- * ToolbarMeView - "Me" dropdown menu from the toolbar.
+ * ToolbarMeView - "Me" popup menu above the avatar icon.
+ *
+ * @see source_nitro_react/components/toolbar/ToolbarMeView.tsx
  */
-export function ToolbarMeView(): JSX.Element
+export function ToolbarMeView(props: ToolbarMeViewProps): JSX.Element
 {
-	const [isOpen, setIsOpen] = createSignal(false);
+	onMount(() =>
+	{
+		const onClick = () => props.setMeExpanded(false);
+
+		document.addEventListener('click', onClick);
+
+		onCleanup(() => document.removeEventListener('click', onClick));
+	});
 
 	return (
-		<Show when={isOpen()}>
-			<div
-				class="absolute bottom-[var(--spacing-toolbar)] right-4 w-[200px] bg-bg-secondary border border-border rounded-[var(--radius-lg)] shadow-lg p-2">
-				<p class="text-text-muted text-center py-4 text-sm">Coming Soon</p>
-			</div>
-		</Show>
+		<div class="helium-toolbar-me d-flex align-items-center p-2 gap-2">
+			<div class="navigation-item icon icon-me-achievements cursor-pointer" />
+			<div class="navigation-item icon icon-me-profile cursor-pointer" />
+			<div class="navigation-item icon icon-me-rooms cursor-pointer" />
+			<div class="navigation-item icon icon-me-clothing cursor-pointer" />
+			<div class="navigation-item icon icon-me-settings cursor-pointer" />
+		</div>
 	);
 }

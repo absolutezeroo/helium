@@ -54,4 +54,3 @@ export type {TransitionAnimationProps} from './transitions';
 // Moved from components/common
 export {Text, useLocalization, useLocalizationWithParams} from './Text';
 export type {TextProps} from './Text';
-export {LoadingScreen} from './LoadingScreen';
