@@ -86,8 +86,12 @@ export class NewIncomingMessages
 
 	private addMessageEvent(event: IMessageEvent): void
 	{
-		this._navigator.communication.addMessageEvent(event);
-		this._messageEvents.push(event);
+		if (this._navigator.communication)
+		{
+			this._navigator.communication.addMessageEvent(event);
+
+			this._messageEvents.push(event);
+		}
 	}
 
 	private onNavigatorMetaData(event: IMessageEvent): void

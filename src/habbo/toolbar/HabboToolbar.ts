@@ -1,11 +1,5 @@
 import {EventEmitter} from 'eventemitter3';
-import {
-	Component,
-	ComponentDependency,
-	type IContext,
-	IID_HabboCommunicationManager,
-	IID_HabboConfigurationManager,
-} from '@core/runtime';
+import {Component, ComponentDependency, type IContext,} from '@core/runtime';
 import {IID_SessionDataManager} from '@iid/IIDSessionDataManager';
 import {IID_RoomSessionManager} from '@iid/IIDRoomSessionManager';
 import type {IHabboToolbar} from './IHabboToolbar';
@@ -19,6 +13,8 @@ import {HabboToolbarEnum} from './HabboToolbarEnum';
 import {HabboToolbarIconEnum} from './HabboToolbarIconEnum';
 import {EventLogMessageComposer} from '../communication/messages/outgoing/tracking/EventLogMessageComposer';
 import {Logger} from '@core/utils/Logger';
+import {IID_HabboConfigurationManager} from "@iid/IIDHabboConfigurationManager";
+import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
 
 const log = Logger.getLogger('HabboToolbar');
 

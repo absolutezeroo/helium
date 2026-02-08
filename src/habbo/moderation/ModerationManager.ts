@@ -1,4 +1,4 @@
-import {Component, ComponentDependency, type IContext, IID_HabboCommunicationManager} from '@core/runtime';
+import {Component, ComponentDependency, type IContext} from '@core/runtime';
 import type {IConnection} from '@core/communication/connection/IConnection';
 import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommunicationManager';
 import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
@@ -9,6 +9,7 @@ import type {IHabboModeration} from './IHabboModeration';
 import {IssueManager} from './IssueManager';
 import {ModerationMessageHandler} from './ModerationMessageHandler';
 import {LocalizationHelper} from './LocalizationHelper';
+import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
 
 const log = Logger.getLogger('Moderation');
 
@@ -23,16 +24,13 @@ const log = Logger.getLogger('Moderation');
 export class ModerationManager extends Component implements IHabboModeration
 {
 	private _communication: IHabboCommunicationManager | null = null;
-	private _sessionDataManager: ISessionDataManager | null = null;
-	private _messageHandler: ModerationMessageHandler | null = null;
-	private _issueManager: IssueManager | null = null;
-	private _initData: unknown | null = null;
-	private _currentFlatId: number = 0;
 
 	constructor(context: IContext)
 	{
 		super(context);
 	}
+
+	private _sessionDataManager: ISessionDataManager | null = null;
 
 	/**
 	 * The session data manager dependency.
@@ -42,21 +40,7 @@ export class ModerationManager extends Component implements IHabboModeration
 		return this._sessionDataManager;
 	}
 
-	/**
-	 * The issue manager for this moderation component.
-	 */
-	get issueManager(): IssueManager | null
-	{
-		return this._issueManager;
-	}
-
-	/**
-	 * The communication connection.
-	 */
-	get connection(): IConnection | null
-	{
-		return this._communication?.connection ?? null;
-	}
+	private _messageHandler: ModerationMessageHandler | null = null;
 
 	/**
 	 * The message handler for this moderation component.
@@ -65,6 +49,33 @@ export class ModerationManager extends Component implements IHabboModeration
 	{
 		return this._messageHandler;
 	}
+
+	private _issueManager: IssueManager | null = null;
+
+	/**
+	 * The issue manager for this moderation component.
+	 */
+	get issueManager(): IssueManager | null
+	{
+		return this._issueManager;
+	}
+
+	private _initData: unknown | null = null;
+
+	/**
+	 * The moderator initialization data received from the server.
+	 */
+	get initData(): unknown | null
+	{
+		return this._initData;
+	}
+
+	set initData(value: unknown | null)
+	{
+		this._initData = value;
+	}
+
+	private _currentFlatId: number = 0;
 
 	/**
 	 * The current flat (room) ID the user is in.
@@ -80,16 +91,11 @@ export class ModerationManager extends Component implements IHabboModeration
 	}
 
 	/**
-	 * The moderator initialization data received from the server.
+	 * The communication connection.
 	 */
-	get initData(): unknown | null
+	get connection(): IConnection | null
 	{
-		return this._initData;
-	}
-
-	set initData(value: unknown | null)
-	{
-		this._initData = value;
+		return this._communication?.connection ?? null;
 	}
 
 	/**
@@ -129,18 +135,6 @@ export class ModerationManager extends Component implements IHabboModeration
 				true
 			),
 		];
-	}
-
-	/**
-	 * Initialize the component after all dependencies are resolved.
-	 * Creates the IssueManager and ModerationMessageHandler.
-	 */
-	protected override initComponent(): void
-	{
-		this._issueManager = new IssueManager(this);
-		this._messageHandler = new ModerationMessageHandler(this);
-
-		log.info('ModerationManager initialized');
 	}
 
 	/**
@@ -221,5 +215,17 @@ export class ModerationManager extends Component implements IHabboModeration
 
 		log.info('ModerationManager disposed');
 		super.dispose();
+	}
+
+	/**
+	 * Initialize the component after all dependencies are resolved.
+	 * Creates the IssueManager and ModerationMessageHandler.
+	 */
+	protected override initComponent(): void
+	{
+		this._issueManager = new IssueManager(this);
+		this._messageHandler = new ModerationMessageHandler(this);
+
+		log.info('ModerationManager initialized');
 	}
 }

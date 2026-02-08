@@ -1,5 +1,5 @@
 import type {IContext} from '@core/runtime';
-import {Component, ComponentDependency, IID_HabboCommunicationManager} from '@core/runtime';
+import {Component, ComponentDependency} from '@core/runtime';
 import {Logger} from '@core/utils/Logger';
 import type {IConnection} from '@core/communication/connection/IConnection';
 import {IncomingMessages} from './IncomingMessages';
@@ -11,6 +11,7 @@ import {
 	SSOTicketMessageComposer,
 	UniqueIDMessageComposer,
 } from '../messages/outgoing/handshake';
+import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
 
 const log = Logger.getLogger('CommunicationDemo');
 

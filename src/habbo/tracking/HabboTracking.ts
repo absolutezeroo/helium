@@ -1,4 +1,4 @@
-import {Component, ComponentDependency, type IContext, IID_HabboCommunicationManager} from '@core/runtime';
+import {Component, ComponentDependency, type IContext} from '@core/runtime';
 import type {IUpdateReceiver} from '@core/runtime/IContext';
 import type {IAssetLibrary} from '@core/assets';
 import {Logger} from '@core/utils/Logger';
@@ -25,6 +25,7 @@ import {LatencyTracker} from './LatencyTracker';
 import {FramerateTracker} from './FramerateTracker';
 import {LagWarningLogger} from './LagWarningLogger';
 import {ToolbarClickTracker} from './ToolbarClickTracker';
+import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 

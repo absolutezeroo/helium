@@ -1,7 +1,7 @@
 /**
  * Log levels
  */
-export const enum LogLevel
+export enum LogLevel
 {
 	DEBUG = 0,
 	INFO = 1,

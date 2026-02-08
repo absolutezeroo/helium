@@ -9,8 +9,12 @@ import {Logger} from '@core/utils/Logger';
 
 // Existing message events
 import {RoomEntryInfoMessageEvent} from '@habbo/communication/messages/incoming/room/engine/RoomEntryInfoMessageEvent';
-import {CloseConnectionMessageEvent} from '@habbo/communication/messages/incoming/room/session/CloseConnectionMessageEvent';
-import {HabboAchievementNotificationMessageEvent} from '@habbo/communication/messages/incoming/notifications/HabboAchievementNotificationMessageEvent';
+import {
+	CloseConnectionMessageEvent
+} from '@habbo/communication/messages/incoming/room/session/CloseConnectionMessageEvent';
+import {
+	HabboAchievementNotificationMessageEvent
+} from '@habbo/communication/messages/incoming/notifications/HabboAchievementNotificationMessageEvent';
 
 // Quest message events (may be created concurrently by another agent)
 import {QuestMessageEvent} from '@habbo/communication/messages/incoming/quest/QuestMessageEvent';
@@ -20,32 +24,68 @@ import {QuestCompletedMessageEvent} from '@habbo/communication/messages/incoming
 import {QuestCancelledMessageEvent} from '@habbo/communication/messages/incoming/quest/QuestCancelledMessageEvent';
 
 // Achievement message events (may be created concurrently by another agent)
-import {AchievementsMessageEvent} from '@habbo/communication/messages/incoming/inventory/achievements/AchievementsMessageEvent';
-import {AchievementMessageEvent} from '@habbo/communication/messages/incoming/inventory/achievements/AchievementMessageEvent';
+import {
+	AchievementsMessageEvent
+} from '@habbo/communication/messages/incoming/inventory/achievements/AchievementsMessageEvent';
+import {
+	AchievementMessageEvent
+} from '@habbo/communication/messages/incoming/inventory/achievements/AchievementMessageEvent';
 
 // Resolution message events (may be created concurrently by another agent)
-import {AchievementResolutionsMessageEvent} from '@habbo/communication/messages/incoming/game/lobby/AchievementResolutionsMessageEvent';
-import {AchievementResolutionProgressMessageEvent} from '@habbo/communication/messages/incoming/game/lobby/AchievementResolutionProgressMessageEvent';
-import {AchievementResolutionCompletedMessageEvent} from '@habbo/communication/messages/incoming/game/lobby/AchievementResolutionCompletedMessageEvent';
+import {
+	AchievementResolutionsMessageEvent
+} from '@habbo/communication/messages/incoming/game/lobby/AchievementResolutionsMessageEvent';
+import {
+	AchievementResolutionProgressMessageEvent
+} from '@habbo/communication/messages/incoming/game/lobby/AchievementResolutionProgressMessageEvent';
+import {
+	AchievementResolutionCompletedMessageEvent
+} from '@habbo/communication/messages/incoming/game/lobby/AchievementResolutionCompletedMessageEvent';
 
 // Competition message events (may be created concurrently by another agent)
-import {CompetitionVotingInfoMessageEvent} from '@habbo/communication/messages/incoming/competition/CompetitionVotingInfoMessageEvent';
-import {CompetitionEntrySubmitResultMessageEvent} from '@habbo/communication/messages/incoming/competition/CompetitionEntrySubmitResultMessageEvent';
+import {
+	CompetitionVotingInfoMessageEvent
+} from '@habbo/communication/messages/incoming/competition/CompetitionVotingInfoMessageEvent';
+import {
+	CompetitionEntrySubmitResultMessageEvent
+} from '@habbo/communication/messages/incoming/competition/CompetitionEntrySubmitResultMessageEvent';
 
 // Parsers
 import {QuestMessageEventParser} from '@habbo/communication/messages/parser/quest/QuestMessageEventParser';
 import {QuestsMessageEventParser} from '@habbo/communication/messages/parser/quest/QuestsMessageEventParser';
-import {SeasonalQuestsMessageEventParser} from '@habbo/communication/messages/parser/quest/SeasonalQuestsMessageEventParser';
-import {QuestCompletedMessageEventParser} from '@habbo/communication/messages/parser/quest/QuestCompletedMessageEventParser';
-import {QuestCancelledMessageEventParser} from '@habbo/communication/messages/parser/quest/QuestCancelledMessageEventParser';
-import {AchievementsEventParser} from '@habbo/communication/messages/parser/inventory/achievements/AchievementsEventParser';
-import {AchievementEventParser} from '@habbo/communication/messages/parser/inventory/achievements/AchievementEventParser';
-import {AchievementResolutionsMessageEventParser} from '@habbo/communication/messages/parser/game/lobby/AchievementResolutionsMessageEventParser';
-import {AchievementResolutionProgressMessageEventParser} from '@habbo/communication/messages/parser/game/lobby/AchievementResolutionProgressMessageEventParser';
-import {AchievementResolutionCompletedMessageEventParser} from '@habbo/communication/messages/parser/game/lobby/AchievementResolutionCompletedMessageEventParser';
-import {HabboAchievementNotificationMessageEventParser} from '@habbo/communication/messages/parser/notifications/HabboAchievementNotificationMessageEventParser';
-import {CompetitionVotingInfoMessageEventParser} from '@habbo/communication/messages/parser/competition/CompetitionVotingInfoMessageEventParser';
-import {CompetitionEntrySubmitResultMessageEventParser} from '@habbo/communication/messages/parser/competition/CompetitionEntrySubmitResultMessageEventParser';
+import {
+	SeasonalQuestsMessageEventParser
+} from '@habbo/communication/messages/parser/quest/SeasonalQuestsMessageEventParser';
+import {
+	QuestCompletedMessageEventParser
+} from '@habbo/communication/messages/parser/quest/QuestCompletedMessageEventParser';
+import {
+	QuestCancelledMessageEventParser
+} from '@habbo/communication/messages/parser/quest/QuestCancelledMessageEventParser';
+import {
+	AchievementsEventParser
+} from '@habbo/communication/messages/parser/inventory/achievements/AchievementsEventParser';
+import {
+	AchievementEventParser
+} from '@habbo/communication/messages/parser/inventory/achievements/AchievementEventParser';
+import {
+	AchievementResolutionsMessageEventParser
+} from '@habbo/communication/messages/parser/game/lobby/AchievementResolutionsMessageEventParser';
+import {
+	AchievementResolutionProgressMessageEventParser
+} from '@habbo/communication/messages/parser/game/lobby/AchievementResolutionProgressMessageEventParser';
+import {
+	AchievementResolutionCompletedMessageEventParser
+} from '@habbo/communication/messages/parser/game/lobby/AchievementResolutionCompletedMessageEventParser';
+import {
+	HabboAchievementNotificationMessageEventParser
+} from '@habbo/communication/messages/parser/notifications/HabboAchievementNotificationMessageEventParser';
+import {
+	CompetitionVotingInfoMessageEventParser
+} from '@habbo/communication/messages/parser/competition/CompetitionVotingInfoMessageEventParser';
+import {
+	CompetitionEntrySubmitResultMessageEventParser
+} from '@habbo/communication/messages/parser/competition/CompetitionEntrySubmitResultMessageEventParser';
 
 const log = Logger.getLogger('QuestMessageHandler');
 
@@ -59,6 +99,14 @@ export class QuestMessageHandler implements IDisposable
 {
 	private _engine: HabboQuestEngine | null;
 	private _messageEvents: IMessageEvent[] = [];
+
+	constructor(engine: HabboQuestEngine)
+	{
+		this._engine = engine;
+
+		this.registerMessageEvents();
+	}
+
 	private _disposed: boolean = false;
 
 	get disposed(): boolean
@@ -66,11 +114,29 @@ export class QuestMessageHandler implements IDisposable
 		return this._disposed;
 	}
 
-	constructor(engine: HabboQuestEngine)
+	/**
+	 * Dispose of this handler and remove all message events
+	 */
+	dispose(): void
 	{
-		this._engine = engine;
+		if (this._disposed) return;
 
-		this.registerMessageEvents();
+		if (this._engine)
+		{
+			const communication = this._engine.communicationManager;
+
+			if (communication)
+			{
+				for (const event of this._messageEvents)
+				{
+					communication.removeMessageEvent(event);
+				}
+			}
+		}
+
+		this._messageEvents = [];
+		this._engine = null;
+		this._disposed = true;
 	}
 
 	/**
@@ -80,7 +146,7 @@ export class QuestMessageHandler implements IDisposable
 	{
 		if (!this._engine) return;
 
-		const communication = this._engine.communication;
+		const communication = this._engine.communicationManager;
 
 		if (!communication) return;
 
@@ -376,30 +442,5 @@ export class QuestMessageHandler implements IDisposable
 		this._engine.achievementsResolutionController?.onLevelUp(parser.data);
 
 		log.debug('Achievement level-up notification received');
-	}
-
-	/**
-	 * Dispose of this handler and remove all message events
-	 */
-	dispose(): void
-	{
-		if (this._disposed) return;
-
-		if (this._engine)
-		{
-			const communication = this._engine.communication;
-
-			if (communication)
-			{
-				for (const event of this._messageEvents)
-				{
-					communication.removeMessageEvent(event);
-				}
-			}
-		}
-
-		this._messageEvents = [];
-		this._engine = null;
-		this._disposed = true;
 	}
 }

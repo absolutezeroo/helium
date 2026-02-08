@@ -1,4 +1,4 @@
-import {Component, ComponentDependency, type IContext, IID_HabboCommunicationManager} from '@core/runtime';
+import {Component, ComponentDependency, type IContext} from '@core/runtime';
 import type {IHabboInventory, InventoryCategoryType} from './IHabboInventory';
 import type {IFurniModel} from './furni/IFurniModel';
 import type {IBadgesModel} from './badges/IBadgesModel';
@@ -17,6 +17,7 @@ import {TradingModel} from './trading/TradingModel';
 import {Purse} from './purse/Purse';
 import {UnseenItemTracker} from './UnseenItemTracker';
 import {Logger} from '@core/utils/Logger';
+import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
 import {
 	GetBadgesComposer,
 	GetBotInventoryComposer,

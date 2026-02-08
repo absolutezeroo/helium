@@ -1,5 +1,5 @@
 import {EventEmitter} from 'eventemitter3';
-import {Component, ComponentDependency, type IContext, IID_HabboCommunicationManager} from '@core/runtime';
+import {Component, ComponentDependency, type IContext} from '@core/runtime';
 import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommunicationManager';
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
 import {Logger} from '@core/utils/Logger';
@@ -14,6 +14,7 @@ import {InterstitialEvent} from './events/InterstitialEvent';
 import {AdEvent} from './events/AdEvent';
 import {AdImageRequest} from './AdImageRequest';
 import type {IAdManager} from './IAdManager';
+import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
 
 const log = Logger.getLogger('AdManager');
 

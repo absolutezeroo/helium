@@ -1,5 +1,5 @@
-import {Component, ComponentDependency, IID_HabboCommunicationManager} from '@core/runtime';
 import type {IContext} from '@core/runtime';
+import {Component, ComponentDependency} from '@core/runtime';
 import type {ILinkEventTracker} from '@core/runtime/events/ILinkEventTracker';
 import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommunicationManager';
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
@@ -16,6 +16,8 @@ import {GuideHelpManager} from './GuideHelpManager';
 import {NameChangeController} from './NameChangeController';
 import {SanctionInfo} from './SanctionInfo';
 import {HelpMessageHandler} from './HelpMessageHandler';
+import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
+import {IMessageComposer} from "@/core";
 
 const log = Logger.getLogger('HabboHelp');
 
@@ -40,9 +42,7 @@ export class HabboHelp extends Component implements IHabboHelp, ILinkEventTracke
 	public static readonly REPORT_TYPE_PHOTO: number = 9;
 
 	private _communication: IHabboCommunicationManager | null = null;
-	private _chatRegistry: ChatRegistry;
 	private _imRegistry: InstantMessageRegistry;
-	private _userRegistry: UserRegistry;
 	private _chatEventHandler: ChatEventHandler | null = null;
 	private _imEventHandler: InstantMessageEventHandler | null = null;
 	private _cfhManager: CallForHelpManager | null = null;
@@ -50,19 +50,18 @@ export class HabboHelp extends Component implements IHabboHelp, ILinkEventTracke
 	private _nameChangeController: NameChangeController | null = null;
 	private _sanctionInfo: SanctionInfo | null = null;
 	private _messageHandler: HelpMessageHandler | null = null;
-	private _outsideRoom: boolean = false;
 	private _currentRoomId: number = 0;
 
 	constructor(context: IContext)
 	{
+		super(context);
+
 		this._userRegistry = new UserRegistry();
 		this._chatRegistry = new ChatRegistry();
 		this._imRegistry = new InstantMessageRegistry();
-
-		super(context);
 	}
 
-	// --- Getters ---
+	private _chatRegistry: ChatRegistry;
 
 	/**
 	 * The chat registry for CFH reports
@@ -72,13 +71,9 @@ export class HabboHelp extends Component implements IHabboHelp, ILinkEventTracke
 		return this._chatRegistry;
 	}
 
-	/**
-	 * The instant message registry for CFH reports
-	 */
-	get instantMessageRegistry(): InstantMessageRegistry
-	{
-		return this._imRegistry;
-	}
+	private _userRegistry: UserRegistry;
+
+	// --- Getters ---
 
 	/**
 	 * The user registry for CFH reports
@@ -86,6 +81,29 @@ export class HabboHelp extends Component implements IHabboHelp, ILinkEventTracke
 	get userRegistry(): UserRegistry
 	{
 		return this._userRegistry;
+	}
+
+	private _outsideRoom: boolean = false;
+
+	/**
+	 * Whether the user is outside a room
+	 */
+	get outsideRoom(): boolean
+	{
+		return this._outsideRoom;
+	}
+
+	set outsideRoom(value: boolean)
+	{
+		this._outsideRoom = value;
+	}
+
+	/**
+	 * The instant message registry for CFH reports
+	 */
+	get instantMessageRegistry(): InstantMessageRegistry
+	{
+		return this._imRegistry;
 	}
 
 	/**
@@ -110,19 +128,6 @@ export class HabboHelp extends Component implements IHabboHelp, ILinkEventTracke
 	get communicationManager(): IHabboCommunicationManager | null
 	{
 		return this._communication;
-	}
-
-	/**
-	 * Whether the user is outside a room
-	 */
-	get outsideRoom(): boolean
-	{
-		return this._outsideRoom;
-	}
-
-	set outsideRoom(value: boolean)
-	{
-		this._outsideRoom = value;
 	}
 
 	/**
@@ -167,29 +172,6 @@ export class HabboHelp extends Component implements IHabboHelp, ILinkEventTracke
 
 	// --- Initialization ---
 
-	protected override initComponent(): void
-	{
-		// Create sub-managers
-		this._cfhManager = new CallForHelpManager();
-		this._guideManager = new GuideHelpManager();
-		this._nameChangeController = new NameChangeController(this._communication);
-		this._sanctionInfo = new SanctionInfo();
-
-		// Create registry handlers
-		this._chatEventHandler = new ChatEventHandler(this._chatRegistry);
-		this._imEventHandler = new InstantMessageEventHandler(this._imRegistry);
-
-		// Create message handler (registers all help events)
-		this._messageHandler = new HelpMessageHandler(this, this._communication!);
-
-		// Register link event tracker
-		this.context.addLinkEventTracker(this);
-
-		log.debug('HabboHelp initialized');
-	}
-
-	// --- IHabboHelp methods ---
-
 	/**
 	 * Report a bully
 	 *
@@ -203,6 +185,8 @@ export class HabboHelp extends Component implements IHabboHelp, ILinkEventTracke
 			log.debug('Report bully - userId:', userId);
 		}
 	}
+
+	// --- IHabboHelp methods ---
 
 	/**
 	 * Report a user
@@ -381,8 +365,6 @@ export class HabboHelp extends Component implements IHabboHelp, ILinkEventTracke
 		}
 	}
 
-	// --- ILinkEventTracker ---
-
 	/**
 	 * Handle a link event
 	 *
@@ -411,18 +393,20 @@ export class HabboHelp extends Component implements IHabboHelp, ILinkEventTracke
 		}
 	}
 
-	// --- Utility methods ---
+	// --- ILinkEventTracker ---
 
 	/**
 	 * Send a message through the communication manager
 	 */
-	sendMessage(composer: { getMessageArray(): unknown[]; dispose(): void }): void
+	sendMessage(composer: IMessageComposer<any>): void
 	{
 		if (this._communication?.connection)
 		{
 			this._communication.connection.send(composer);
 		}
 	}
+
+	// --- Utility methods ---
 
 	/**
 	 * Add a message event to the communication manager
@@ -436,8 +420,6 @@ export class HabboHelp extends Component implements IHabboHelp, ILinkEventTracke
 			this._communication.addMessageEvent(event);
 		}
 	}
-
-	// --- Dispose ---
 
 	/**
 	 * Dispose of this component and all sub-managers
@@ -499,5 +481,28 @@ export class HabboHelp extends Component implements IHabboHelp, ILinkEventTracke
 		super.dispose();
 
 		log.debug('HabboHelp disposed');
+	}
+
+	// --- Dispose ---
+
+	protected override initComponent(): void
+	{
+		// Create sub-managers
+		this._cfhManager = new CallForHelpManager();
+		this._guideManager = new GuideHelpManager();
+		this._nameChangeController = new NameChangeController(this._communication);
+		this._sanctionInfo = new SanctionInfo();
+
+		// Create registry handlers
+		this._chatEventHandler = new ChatEventHandler(this._chatRegistry);
+		this._imEventHandler = new InstantMessageEventHandler(this._imRegistry);
+
+		// Create message handler (registers all help events)
+		this._messageHandler = new HelpMessageHandler(this, this._communication!);
+
+		// Register link event tracker
+		this.context.addLinkEventTracker(this);
+
+		log.debug('HabboHelp initialized');
 	}
 }

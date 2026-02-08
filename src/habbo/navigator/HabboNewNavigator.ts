@@ -1,10 +1,4 @@
-import {
-	Component,
-	ComponentDependency,
-	type IContext,
-	IID_HabboCommunicationManager,
-	IID_HabboNavigator
-} from '@core/runtime';
+import {Component, ComponentDependency, type IContext} from '@core/runtime';
 import {IID_RoomSessionManager} from '@iid/IIDRoomSessionManager';
 import type {IHabboNewNavigator} from './IHabboNewNavigator';
 import type {IHabboNavigator} from './IHabboNavigator';
@@ -34,6 +28,8 @@ import {
 	NewNavigatorSearchComposer,
 } from '../communication/messages/outgoing/newnavigator';
 import type {IMessageComposer} from "@/core";
+import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
+import {IID_HabboNavigator} from "@iid/IIDHabboNavigator";
 
 const log = Logger.getLogger('NewNavigator');
 

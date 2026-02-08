@@ -19,6 +19,7 @@ export class IgnoredUsersManager implements IIgnoredUsersManager
 	{
 		this._communication = communication;
 		this._sendCallback = sendCallback;
+
 		this.registerMessageEvents();
 	}
 

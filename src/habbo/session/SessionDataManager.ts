@@ -1,10 +1,11 @@
-import {Component, ComponentDependency, type IContext, IID_HabboCommunicationManager} from '@core/runtime';
+import {Component, ComponentDependency, type IContext} from '@core/runtime';
 import {Logger} from '@core/utils/Logger';
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
 import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
 import type {IHabboCommunicationManager} from '../communication/IHabboCommunicationManager';
 import type {ISessionDataManager} from './ISessionDataManager';
 import {HabboClubLevelEnum, UIFlagsEnum} from './enum';
+import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
 
 // Events
 import {UserObjectMessageEvent} from '../communication/messages/incoming/handshake/UserObjectMessageEvent';

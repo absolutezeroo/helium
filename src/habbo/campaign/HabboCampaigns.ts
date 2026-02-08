@@ -1,4 +1,4 @@
-import {Component, ComponentDependency, type IContext, IID_HabboCommunicationManager} from '@core/runtime';
+import {Component, ComponentDependency, type IContext} from '@core/runtime';
 import type {ILinkEventTracker} from '@core/runtime/events/ILinkEventTracker';
 import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommunicationManager';
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
@@ -22,6 +22,7 @@ import {
 import {
 	OpenCampaignCalendarDoorAsStaffComposer
 } from '@habbo/communication/messages/outgoing/campaign/OpenCampaignCalendarDoorAsStaffComposer';
+import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
 
 const log = Logger.getLogger('Campaign');
 

@@ -1,8 +1,9 @@
-import {Component, ComponentDependency, type IContext, IID_HabboCommunicationManager} from '@core/runtime';
+import {Component, ComponentDependency, type IContext} from '@core/runtime';
 import type {ILinkEventTracker} from '@core/runtime/events/ILinkEventTracker';
 import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommunicationManager';
 import {Logger} from '@core/utils/Logger';
 import type {IHabboGroupsManager} from './IHabboGroupsManager';
+import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
 
 const log = Logger.getLogger('Groups');
 

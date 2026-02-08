@@ -265,7 +265,7 @@ export class ModerationMessageHandler
 			return;
 		}
 
-		log.debug('Got room info:', parser.data.roomId);
+		log.debug('Got room info:', parser.data.flatId);
 	}
 
 	/**

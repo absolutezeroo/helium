@@ -1,4 +1,4 @@
-import {Component, ComponentDependency, type IContext, IID_CoreCommunicationManager} from '@core/runtime';
+import {Component, ComponentDependency, type IContext} from '@core/runtime';
 import {ArcFour} from '@habbo/communication/encryption/ArcFour';
 import {DiffieHellman} from '@habbo/communication/encryption/DiffieHellman';
 import {Logger} from '@core/utils/Logger';
@@ -16,6 +16,7 @@ import type {IKeyExchange} from '@core/communication/handshake/IKeyExchange';
 import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
 import type {ISessionDataManager} from '../session/ISessionDataManager';
 import type {ConnectionActions} from '@/modules/connection/actions';
+import {IID_CoreCommunicationManager} from "@iid/IIDCoreCommunicationManager";
 
 const log = Logger.getLogger('Communication');
 

@@ -1,5 +1,5 @@
 import {EventEmitter} from 'eventemitter3';
-import {Component, ComponentDependency, type IContext, IID_HabboCommunicationManager,} from '@core/runtime';
+import {Component, ComponentDependency, type IContext,} from '@core/runtime';
 import {IID_SessionDataManager} from '@iid/IIDSessionDataManager';
 import {IID_RoomSessionManager} from '@iid/IIDRoomSessionManager';
 import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommunicationManager';
@@ -9,6 +9,7 @@ import type {IHabboNotifications} from './IHabboNotifications';
 import {SingularNotificationController} from './singular/SingularNotificationController';
 import {NotificationMessageHandler} from './NotificationMessageHandler';
 import {Logger} from '@core/utils/Logger';
+import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
 
 const log = Logger.getLogger('HabboNotifications');
 

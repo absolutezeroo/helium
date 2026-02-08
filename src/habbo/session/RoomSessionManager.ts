@@ -1,5 +1,5 @@
 import {EventEmitter} from 'eventemitter3';
-import {Component, ComponentDependency, type IContext, IID_HabboCommunicationManager} from '@core/runtime';
+import {Component, ComponentDependency, type IContext} from '@core/runtime';
 import {IID_RoomEngine} from '@iid/IIDRoomEngine';
 import type {IHabboCommunicationManager} from '../communication/IHabboCommunicationManager';
 import type {IRoomSessionManager} from './IRoomSessionManager';
@@ -24,6 +24,7 @@ import {AvatarEffectsHandler} from './handler/AvatarEffectsHandler';
 import {RoomEngineEvent} from '../room/events/RoomEngineEvent';
 import {Logger} from '@core/utils/Logger';
 import type {IRoomEngine} from '@habbo/room';
+import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
 
 const log = Logger.getLogger('RoomSessionManager');
 

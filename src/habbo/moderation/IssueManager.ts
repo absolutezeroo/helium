@@ -1,4 +1,4 @@
-import type {IssueInfoData} from '@habbo/communication/messages/parser/moderation/IssueInfoData';
+import {IssueInfoData} from '@habbo/communication/messages/parser/moderation/IssueInfoData';
 import {IssueBundle} from './IssueBundle';
 import {Logger} from '@core/utils/Logger';
 import type {ModerationManager} from './ModerationManager';

@@ -1,4 +1,4 @@
-import {Component, ComponentDependency, type IContext, IID_HabboCommunicationManager} from '@core/runtime';
+import {Component, ComponentDependency, type IContext} from '@core/runtime';
 import {IID_RoomSessionManager} from '@iid/IIDRoomSessionManager';
 import type {IHabboNavigator} from './IHabboNavigator';
 import type {IRoomSessionManager} from '../session/IRoomSessionManager';
@@ -6,6 +6,7 @@ import {NavigatorData} from './domain';
 import {IncomingMessages} from './IncomingMessages';
 import type {CompetitionRoomsData, EventCategory, GuestRoomData} from '../communication/messages/incoming/navigator';
 import type {IHabboCommunicationManager} from '../communication/IHabboCommunicationManager';
+import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
 import {Logger} from '@core/utils/Logger';
 
 // Composers

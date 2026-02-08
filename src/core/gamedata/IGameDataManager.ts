@@ -8,7 +8,7 @@
 /**
  * Furniture type enum
  */
-export const enum FurnitureType
+export enum FurnitureType
 {
 	FLOOR = 'S',
 	WALL = 'I',

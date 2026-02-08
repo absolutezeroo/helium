@@ -1,9 +1,10 @@
-import {Component, ComponentDependency, type IContext, IID_HabboCommunicationManager} from '@core/runtime';
+import {Component, ComponentDependency, type IContext} from '@core/runtime';
 import {EventEmitter} from 'eventemitter3';
 import {Logger} from '@core/utils/Logger';
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
 import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommunicationManager';
-import type {IHabboFriendList, HabboFriendListEvents} from './IHabboFriendList';
+import type {HabboFriendListEvents, IHabboFriendList} from './IHabboFriendList';
+import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
 
 // Data classes
 import type {FriendData} from '@habbo/communication/messages/parser/friendlist/FriendData';
@@ -11,43 +12,102 @@ import type {FriendRequestData} from '@habbo/communication/messages/parser/frien
 
 // Events
 import {MessengerInitEvent} from '@habbo/communication/messages/incoming/friendlist/MessengerInitEvent';
-import {FriendListFragmentMessageEvent} from '@habbo/communication/messages/incoming/friendlist/FriendListFragmentMessageEvent';
-import {FriendListUpdateMessageEvent} from '@habbo/communication/messages/incoming/friendlist/FriendListUpdateMessageEvent';
+import {
+	FriendListFragmentMessageEvent
+} from '@habbo/communication/messages/incoming/friendlist/FriendListFragmentMessageEvent';
+import {
+	FriendListUpdateMessageEvent
+} from '@habbo/communication/messages/incoming/friendlist/FriendListUpdateMessageEvent';
 import {FriendRequestsMessageEvent} from '@habbo/communication/messages/incoming/friendlist/FriendRequestsMessageEvent';
-import {NewFriendRequestMessageEvent} from '@habbo/communication/messages/incoming/friendlist/NewFriendRequestMessageEvent';
-import {AcceptFriendResultMessageEvent} from '@habbo/communication/messages/incoming/friendlist/AcceptFriendResultMessageEvent';
-import {FriendNotificationMessageEvent} from '@habbo/communication/messages/incoming/friendlist/FriendNotificationMessageEvent';
-import {FindFriendsProcessResultMessageEvent} from '@habbo/communication/messages/incoming/friendlist/FindFriendsProcessResultMessageEvent';
-import {HabboSearchResultMessageEvent} from '@habbo/communication/messages/incoming/friendlist/HabboSearchResultMessageEvent';
-import {FollowFriendFailedMessageEvent} from '@habbo/communication/messages/incoming/friendlist/FollowFriendFailedMessageEvent';
-import {RoomInviteErrorMessageEvent} from '@habbo/communication/messages/incoming/friendlist/RoomInviteErrorMessageEvent';
+import {
+	NewFriendRequestMessageEvent
+} from '@habbo/communication/messages/incoming/friendlist/NewFriendRequestMessageEvent';
+import {
+	AcceptFriendResultMessageEvent
+} from '@habbo/communication/messages/incoming/friendlist/AcceptFriendResultMessageEvent';
+import {
+	FriendNotificationMessageEvent
+} from '@habbo/communication/messages/incoming/friendlist/FriendNotificationMessageEvent';
+import {
+	FindFriendsProcessResultMessageEvent
+} from '@habbo/communication/messages/incoming/friendlist/FindFriendsProcessResultMessageEvent';
+import {
+	HabboSearchResultMessageEvent
+} from '@habbo/communication/messages/incoming/friendlist/HabboSearchResultMessageEvent';
+import {
+	FollowFriendFailedMessageEvent
+} from '@habbo/communication/messages/incoming/friendlist/FollowFriendFailedMessageEvent';
+import {
+	RoomInviteErrorMessageEvent
+} from '@habbo/communication/messages/incoming/friendlist/RoomInviteErrorMessageEvent';
 import {MessengerErrorEvent} from '@habbo/communication/messages/incoming/friendlist/MessengerErrorEvent';
 
 // Parsers
 import type {MessengerInitParser} from '@habbo/communication/messages/parser/friendlist/MessengerInitParser';
-import type {FriendListFragmentMessageParser} from '@habbo/communication/messages/parser/friendlist/FriendListFragmentMessageParser';
-import type {FriendListUpdateMessageParser} from '@habbo/communication/messages/parser/friendlist/FriendListUpdateMessageParser';
-import type {FriendRequestsMessageParser} from '@habbo/communication/messages/parser/friendlist/FriendRequestsMessageParser';
-import type {NewFriendRequestMessageParser} from '@habbo/communication/messages/parser/friendlist/NewFriendRequestMessageParser';
-import type {AcceptFriendResultMessageParser} from '@habbo/communication/messages/parser/friendlist/AcceptFriendResultMessageParser';
-import type {FriendNotificationMessageParser} from '@habbo/communication/messages/parser/friendlist/FriendNotificationMessageParser';
-import type {FindFriendsProcessResultMessageParser} from '@habbo/communication/messages/parser/friendlist/FindFriendsProcessResultMessageParser';
-import type {HabboSearchResultMessageParser} from '@habbo/communication/messages/parser/friendlist/HabboSearchResultMessageParser';
-import type {FollowFriendFailedMessageParser} from '@habbo/communication/messages/parser/friendlist/FollowFriendFailedMessageParser';
-import type {RoomInviteErrorMessageParser} from '@habbo/communication/messages/parser/friendlist/RoomInviteErrorMessageParser';
-import type {MessengerErrorMessageParser} from '@habbo/communication/messages/parser/friendlist/MessengerErrorMessageParser';
+import type {
+	FriendListFragmentMessageParser
+} from '@habbo/communication/messages/parser/friendlist/FriendListFragmentMessageParser';
+import type {
+	FriendListUpdateMessageParser
+} from '@habbo/communication/messages/parser/friendlist/FriendListUpdateMessageParser';
+import type {
+	FriendRequestsMessageParser
+} from '@habbo/communication/messages/parser/friendlist/FriendRequestsMessageParser';
+import type {
+	NewFriendRequestMessageParser
+} from '@habbo/communication/messages/parser/friendlist/NewFriendRequestMessageParser';
+import type {
+	AcceptFriendResultMessageParser
+} from '@habbo/communication/messages/parser/friendlist/AcceptFriendResultMessageParser';
+import type {
+	FriendNotificationMessageParser
+} from '@habbo/communication/messages/parser/friendlist/FriendNotificationMessageParser';
+import type {
+	FindFriendsProcessResultMessageParser
+} from '@habbo/communication/messages/parser/friendlist/FindFriendsProcessResultMessageParser';
+import type {
+	HabboSearchResultMessageParser
+} from '@habbo/communication/messages/parser/friendlist/HabboSearchResultMessageParser';
+import type {
+	FollowFriendFailedMessageParser
+} from '@habbo/communication/messages/parser/friendlist/FollowFriendFailedMessageParser';
+import type {
+	RoomInviteErrorMessageParser
+} from '@habbo/communication/messages/parser/friendlist/RoomInviteErrorMessageParser';
+import type {
+	MessengerErrorMessageParser
+} from '@habbo/communication/messages/parser/friendlist/MessengerErrorMessageParser';
 
 // Composers
-import {MessengerInitMessageComposer} from '@habbo/communication/messages/outgoing/friendlist/MessengerInitMessageComposer';
-import {GetFriendRequestsMessageComposer} from '@habbo/communication/messages/outgoing/friendlist/GetFriendRequestsMessageComposer';
-import {FriendListUpdateMessageComposer} from '@habbo/communication/messages/outgoing/friendlist/FriendListUpdateMessageComposer';
-import {RequestFriendMessageComposer} from '@habbo/communication/messages/outgoing/friendlist/RequestFriendMessageComposer';
-import {AcceptFriendMessageComposer} from '@habbo/communication/messages/outgoing/friendlist/AcceptFriendMessageComposer';
-import {DeclineFriendMessageComposer} from '@habbo/communication/messages/outgoing/friendlist/DeclineFriendMessageComposer';
-import {RemoveFriendMessageComposer} from '@habbo/communication/messages/outgoing/friendlist/RemoveFriendMessageComposer';
-import {SetRelationshipStatusMessageComposer} from '@habbo/communication/messages/outgoing/friendlist/SetRelationshipStatusMessageComposer';
-import {FindNewFriendsMessageComposer} from '@habbo/communication/messages/outgoing/friendlist/FindNewFriendsMessageComposer';
+import {
+	MessengerInitMessageComposer
+} from '@habbo/communication/messages/outgoing/friendlist/MessengerInitMessageComposer';
+import {
+	GetFriendRequestsMessageComposer
+} from '@habbo/communication/messages/outgoing/friendlist/GetFriendRequestsMessageComposer';
+import {
+	FriendListUpdateMessageComposer
+} from '@habbo/communication/messages/outgoing/friendlist/FriendListUpdateMessageComposer';
+import {
+	RequestFriendMessageComposer
+} from '@habbo/communication/messages/outgoing/friendlist/RequestFriendMessageComposer';
+import {
+	AcceptFriendMessageComposer
+} from '@habbo/communication/messages/outgoing/friendlist/AcceptFriendMessageComposer';
+import {
+	DeclineFriendMessageComposer
+} from '@habbo/communication/messages/outgoing/friendlist/DeclineFriendMessageComposer';
+import {
+	RemoveFriendMessageComposer
+} from '@habbo/communication/messages/outgoing/friendlist/RemoveFriendMessageComposer';
+import {
+	SetRelationshipStatusMessageComposer
+} from '@habbo/communication/messages/outgoing/friendlist/SetRelationshipStatusMessageComposer';
+import {
+	FindNewFriendsMessageComposer
+} from '@habbo/communication/messages/outgoing/friendlist/FindNewFriendsMessageComposer';
 import {HabboSearchMessageComposer} from '@habbo/communication/messages/outgoing/friendlist/HabboSearchMessageComposer';
+import {IMessageComposer} from "@/core";
 
 const log = Logger.getLogger('HabboFriendList');
 
@@ -62,7 +122,7 @@ const log = Logger.getLogger('HabboFriendList');
  */
 export class HabboFriendList extends Component implements IHabboFriendList
 {
-	private _communication: IHabboCommunicationManager | null = null;
+	private _communicationManager: IHabboCommunicationManager | null = null;
 	private _friends: Map<number, FriendData> = new Map();
 	private _friendRequests: FriendRequestData[] = [];
 	private _messageEvents: IMessageEvent[] = [];
@@ -70,6 +130,11 @@ export class HabboFriendList extends Component implements IHabboFriendList
 	private _userFriendLimit: number = 0;
 	private _extendedFriendLimit: number = 0;
 	private _updateTimerId: ReturnType<typeof setInterval> | null = null;
+
+	constructor(context: IContext, flags: number = 0)
+	{
+		super(context, flags);
+	}
 
 	/**
 	 * Separate event emitter for friend list events.
@@ -87,38 +152,26 @@ export class HabboFriendList extends Component implements IHabboFriendList
 		return this._initialized;
 	}
 
-	constructor(context: IContext, flags: number = 0)
-	{
-		super(context, flags);
-	}
-
-	protected get dependencies(): ComponentDependency[]
+	protected override get dependencies(): Array<ComponentDependency<any>>
 	{
 		return [
 			new ComponentDependency(
 				IID_HabboCommunicationManager,
-				(manager) => { this._communication = manager; },
+				(manager: IHabboCommunicationManager | null) =>
+				{
+					this._communicationManager = manager;
+				},
 				true
 			),
 		];
 	}
 
-	protected initComponent(): void
-	{
-		log.info('Initializing HabboFriendList...');
-
-		this.registerMessageEvent(new MessengerInitEvent(this.onMessengerInit.bind(this)));
-		this.registerMessageEvent(new FriendListFragmentMessageEvent(this.onFriendListFragment.bind(this)));
-
-		this.send(new MessengerInitMessageComposer());
-	}
-
-	// === Public API ===
-
 	getFriendById(id: number): FriendData | null
 	{
 		return this._friends.get(id) ?? null;
 	}
+
+	// === Public API ===
 
 	getFriendByName(name: string): FriendData | null
 	{
@@ -231,50 +284,92 @@ export class HabboFriendList extends Component implements IHabboFriendList
 		return 0;
 	}
 
+	dispose(): void
+	{
+		if (this._disposed) return;
+
+		if (this._updateTimerId)
+		{
+			clearInterval(this._updateTimerId);
+			this._updateTimerId = null;
+		}
+
+		if (this._communicationManager)
+		{
+			for (const event of this._messageEvents)
+			{
+				this._communicationManager.removeMessageEvent(event);
+			}
+		}
+
+		this._messageEvents = [];
+		this._friends.clear();
+		this._friendRequests = [];
+		this._friendListEvents.removeAllListeners();
+
+		super.dispose();
+	}
+
 	// === Private helpers ===
 
-	private send(composer: IMessageComposer): void
+	protected initComponent(): void
 	{
-		if (this._communication?.connection)
+		log.info('Initializing HabboFriendList...');
+
+		this.addMessageEvent(new MessengerInitEvent(this.onMessengerInit.bind(this)));
+		this.addMessageEvent(new FriendListFragmentMessageEvent(this.onFriendListFragment.bind(this)));
+
+		this.send(new MessengerInitMessageComposer());
+	}
+
+	private send(composer: IMessageComposer<any>): void
+	{
+		if (this._communicationManager?.connection)
 		{
-			this._communication.connection.send(composer);
+			this._communicationManager.connection.send(composer);
 		}
 	}
 
-	private registerMessageEvent(event: IMessageEvent): void
+	private addMessageEvent(event: IMessageEvent): void
 	{
-		if (this._communication)
+		if (this._communicationManager)
 		{
-			this._communication.addMessageEvent(event);
+			this._communicationManager.addMessageEvent(event);
+			
 			this._messageEvents.push(event);
 		}
 	}
 
 	private registerListeners(): void
 	{
-		this.registerMessageEvent(new FriendListUpdateMessageEvent(this.onFriendListUpdate.bind(this)));
-		this.registerMessageEvent(new FriendRequestsMessageEvent(this.onFriendRequests.bind(this)));
-		this.registerMessageEvent(new NewFriendRequestMessageEvent(this.onNewFriendRequest.bind(this)));
-		this.registerMessageEvent(new AcceptFriendResultMessageEvent(this.onAcceptFriendResult.bind(this)));
-		this.registerMessageEvent(new FriendNotificationMessageEvent(this.onFriendNotification.bind(this)));
-		this.registerMessageEvent(new FindFriendsProcessResultMessageEvent(this.onFindFriendsProcessResult.bind(this)));
-		this.registerMessageEvent(new HabboSearchResultMessageEvent(this.onHabboSearchResult.bind(this)));
-		this.registerMessageEvent(new FollowFriendFailedMessageEvent(this.onFollowFriendFailed.bind(this)));
-		this.registerMessageEvent(new RoomInviteErrorMessageEvent(this.onRoomInviteError.bind(this)));
-		this.registerMessageEvent(new MessengerErrorEvent(this.onMessengerError.bind(this)));
-	}
-
-	private sendFriendListUpdate(): void
-	{
-		log.debug('Sending friend list update request');
-		this.send(new FriendListUpdateMessageComposer());
+		this.addMessageEvent(new FriendListUpdateMessageEvent(this.onFriendListUpdate.bind(this)));
+		this.addMessageEvent(new FriendRequestsMessageEvent(this.onFriendRequests.bind(this)));
+		this.addMessageEvent(new NewFriendRequestMessageEvent(this.onNewFriendRequest.bind(this)));
+		this.addMessageEvent(new AcceptFriendResultMessageEvent(this.onAcceptFriendResult.bind(this)));
+		this.addMessageEvent(new FriendNotificationMessageEvent(this.onFriendNotification.bind(this)));
+		this.addMessageEvent(new FindFriendsProcessResultMessageEvent(this.onFindFriendsProcessResult.bind(this)));
+		this.addMessageEvent(new HabboSearchResultMessageEvent(this.onHabboSearchResult.bind(this)));
+		this.addMessageEvent(new FollowFriendFailedMessageEvent(this.onFollowFriendFailed.bind(this)));
+		this.addMessageEvent(new RoomInviteErrorMessageEvent(this.onRoomInviteError.bind(this)));
+		this.addMessageEvent(new MessengerErrorEvent(this.onMessengerError.bind(this)));
 	}
 
 	// === Message handlers ===
 
-	private onMessengerInit(event: MessengerInitEvent): void
+	private sendFriendListUpdate(): void
 	{
+		log.debug('Sending friend list update request');
+
+		this.send(new FriendListUpdateMessageComposer());
+	}
+
+	private onMessengerInit(event: IMessageEvent): void
+	{
+		if(!event) return;
+
 		const parser = event.parser as MessengerInitParser;
+
+		if(!parser) return;
 
 		this._userFriendLimit = parser.userFriendLimit;
 		this._extendedFriendLimit = parser.extendedFriendLimit;
@@ -296,9 +391,13 @@ export class HabboFriendList extends Component implements IHabboFriendList
 		this._friendListEvents.emit('friendListInitialized');
 	}
 
-	private onFriendListFragment(event: FriendListFragmentMessageEvent): void
+	private onFriendListFragment(event: IMessageEvent): void
 	{
+		if(!event) return;
+
 		const parser = event.parser as FriendListFragmentMessageParser;
+
+		if(!parser) return;
 
 		for (const friendData of parser.friendFragment)
 		{
@@ -314,9 +413,13 @@ export class HabboFriendList extends Component implements IHabboFriendList
 		}
 	}
 
-	private onFriendListUpdate(event: FriendListUpdateMessageEvent): void
+	private onFriendListUpdate(event: IMessageEvent): void
 	{
+		if(!event) return;
+
 		const parser = event.parser as FriendListUpdateMessageParser;
+
+		if(!parser) return;
 
 		// Remove friends
 		for (const removedId of parser.removedFriendIds)
@@ -339,107 +442,120 @@ export class HabboFriendList extends Component implements IHabboFriendList
 		this._friendListEvents.emit('friendListUpdate', parser.addedFriends, parser.updatedFriends, parser.removedFriendIds);
 	}
 
-	private onFriendRequests(event: FriendRequestsMessageEvent): void
+	private onFriendRequests(event: IMessageEvent): void
 	{
+		if(!event) return;
+
 		const parser = event.parser as FriendRequestsMessageParser;
+
+		if(!parser) return;
 
 		this._friendRequests = parser.reqs;
 
 		this._friendListEvents.emit('friendRequestsReceived', parser.reqs);
 	}
 
-	private onNewFriendRequest(event: NewFriendRequestMessageEvent): void
+	private onNewFriendRequest(event: IMessageEvent): void
 	{
+		if(!event) return;
+
 		const parser = event.parser as NewFriendRequestMessageParser;
+
+		if(!parser) return;
 
 		if (parser.req)
 		{
 			this._friendRequests.push(parser.req);
+
 			this._friendListEvents.emit('newFriendRequest', parser.req);
 		}
 	}
 
-	private onAcceptFriendResult(event: AcceptFriendResultMessageEvent): void
+	private onAcceptFriendResult(event: IMessageEvent): void
 	{
+		if(!event) return;
+
 		const parser = event.parser as AcceptFriendResultMessageParser;
+
+		if(!parser) return;
 
 		for (const failure of parser.failures)
 		{
 			log.warn(`Accept friend failed for sender ${failure.senderId}, error: ${failure.errorCode}`);
+
 			this._friendListEvents.emit('acceptFriendFailed', failure.senderId, failure.errorCode);
 		}
 	}
 
-	private onFriendNotification(event: FriendNotificationMessageEvent): void
+	private onFriendNotification(event: IMessageEvent): void
 	{
+		if(!event) return;
+
 		const parser = event.parser as FriendNotificationMessageParser;
+
+		if(!parser) return;
 
 		this._friendListEvents.emit('friendNotification', parser.avatarId, parser.typeCode, parser.message);
 	}
 
-	private onFindFriendsProcessResult(event: FindFriendsProcessResultMessageEvent): void
+	private onFindFriendsProcessResult(event: IMessageEvent): void
 	{
+		if(!event) return;
+
 		const parser = event.parser as FindFriendsProcessResultMessageParser;
+
+		if(!parser) return;
 
 		this._friendListEvents.emit('findFriendsResult', parser.success);
 	}
 
-	private onHabboSearchResult(event: HabboSearchResultMessageEvent): void
+	private onHabboSearchResult(event: IMessageEvent): void
 	{
+		if(!event) return;
+
 		const parser = event.parser as HabboSearchResultMessageParser;
+
+		if(!parser) return;
 
 		this._friendListEvents.emit('searchResult', parser.friends, parser.others);
 	}
 
-	private onFollowFriendFailed(event: FollowFriendFailedMessageEvent): void
+	private onFollowFriendFailed(event: IMessageEvent): void
 	{
+		if(!event) return;
+
 		const parser = event.parser as FollowFriendFailedMessageParser;
+
+		if(!parser) return;
 
 		log.warn(`Follow friend failed: errorCode=${parser.errorCode}`);
 		this._friendListEvents.emit('followFriendFailed', parser.errorCode);
 	}
 
-	private onRoomInviteError(event: RoomInviteErrorMessageEvent): void
+	private onRoomInviteError(event: IMessageEvent): void
 	{
+		if(!event) return;
+
 		const parser = event.parser as RoomInviteErrorMessageParser;
+
+		if(!parser) return;
 
 		log.warn(`Room invite error: errorCode=${parser.errorCode}, failed recipients: ${parser.failedRecipients}`);
 		this._friendListEvents.emit('roomInviteError', parser.errorCode, parser.failedRecipients);
 	}
 
-	private onMessengerError(event: MessengerErrorEvent): void
-	{
-		const parser = event.parser as MessengerErrorMessageParser;
-
-		log.warn(`Messenger error: errorCode=${parser.errorCode}, clientMessageId=${parser.clientMessageId}`);
-		this._friendListEvents.emit('messengerError', parser.errorCode, parser.clientMessageId);
-	}
-
 	// === Dispose ===
 
-	dispose(): void
+	private onMessengerError(event: IMessageEvent): void
 	{
-		if (this._disposed) return;
+		if(!event) return;
 
-		if (this._updateTimerId)
-		{
-			clearInterval(this._updateTimerId);
-			this._updateTimerId = null;
-		}
+		const parser = event.parser as MessengerErrorMessageParser;
 
-		if (this._communication)
-		{
-			for (const event of this._messageEvents)
-			{
-				this._communication.removeMessageEvent(event);
-			}
-		}
+		if(!parser) return;
 
-		this._messageEvents = [];
-		this._friends.clear();
-		this._friendRequests = [];
-		this._friendListEvents.removeAllListeners();
+		log.warn(`Messenger error: errorCode=${parser.errorCode}, clientMessageId=${parser.clientMessageId}`);
 
-		super.dispose();
+		this._friendListEvents.emit('messengerError', parser.errorCode, parser.clientMessageId);
 	}
 }

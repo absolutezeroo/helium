@@ -1,10 +1,6 @@
-import {
-	Component,
-	ComponentDependency,
-	type IContext,
-	IID_HabboCommunicationManager,
-} from '@core/runtime';
 import type {ILinkEventTracker} from '@core/runtime';
+import {Component, ComponentDependency, type IContext,} from '@core/runtime';
+import {IID_HabboCommunicationManager} from '@iid/IIDHabboCommunicationManager';
 import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommunicationManager';
 import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
 import type {IHabboQuestEngine} from './IHabboQuestEngine';
@@ -27,27 +23,26 @@ const log = Logger.getLogger('HabboQuestEngine');
  */
 export class HabboQuestEngine extends Component implements IHabboQuestEngine, ILinkEventTracker
 {
-	private _communication: IHabboCommunicationManager | null = null;
-	private _questController: QuestController | null = null;
-	private _achievementController: AchievementController | null = null;
 	private _resolutionController: AchievementsResolutionController | null = null;
 	private _competitionController: RoomCompetitionController | null = null;
 	private _messageHandler: QuestMessageHandler | null = null;
-	private _currentlyInRoom: boolean = false;
-	private _isFirstLoginOfDay: boolean = false;
 
 	constructor(context: IContext)
 	{
 		super(context);
 	}
 
+	private _communicationManager: IHabboCommunicationManager | null = null;
+
 	/**
 	 * Get the communication manager
 	 */
-	get communication(): IHabboCommunicationManager | null
+	get communicationManager(): IHabboCommunicationManager | null
 	{
-		return this._communication;
+		return this._communicationManager;
 	}
+
+	private _questController: QuestController | null = null;
 
 	/**
 	 * Get the quest controller
@@ -57,12 +52,39 @@ export class HabboQuestEngine extends Component implements IHabboQuestEngine, IL
 		return this._questController;
 	}
 
+	private _achievementController: AchievementController | null = null;
+
 	/**
 	 * Get the achievement controller
 	 */
 	get achievementController(): AchievementController | null
 	{
 		return this._achievementController;
+	}
+
+	private _currentlyInRoom: boolean = false;
+
+	/**
+	 * Whether the user is currently in a room
+	 */
+	get currentlyInRoom(): boolean
+	{
+		return this._currentlyInRoom;
+	}
+
+	set currentlyInRoom(value: boolean)
+	{
+		this._currentlyInRoom = value;
+	}
+
+	private _isFirstLoginOfDay: boolean = false;
+
+	/**
+	 * Whether this is the first login of the day
+	 */
+	get isFirstLoginOfDay(): boolean
+	{
+		return this._isFirstLoginOfDay;
 	}
 
 	/**
@@ -82,35 +104,6 @@ export class HabboQuestEngine extends Component implements IHabboQuestEngine, IL
 	}
 
 	/**
-	 * Whether the user is currently in a room
-	 */
-	get currentlyInRoom(): boolean
-	{
-		return this._currentlyInRoom;
-	}
-
-	set currentlyInRoom(value: boolean)
-	{
-		this._currentlyInRoom = value;
-	}
-
-	/**
-	 * Whether this is the first login of the day
-	 */
-	get isFirstLoginOfDay(): boolean
-	{
-		return this._isFirstLoginOfDay;
-	}
-
-	/**
-	 * Set the first login of day flag
-	 */
-	setIsFirstLoginOfDay(value: boolean): void
-	{
-		this._isFirstLoginOfDay = value;
-	}
-
-	/**
 	 * The link pattern for the ILinkEventTracker interface
 	 */
 	get linkPattern(): string
@@ -125,7 +118,7 @@ export class HabboQuestEngine extends Component implements IHabboQuestEngine, IL
 				IID_HabboCommunicationManager,
 				(manager: IHabboCommunicationManager | null) =>
 				{
-					this._communication = manager;
+					this._communicationManager = manager;
 				},
 				true
 			),
@@ -133,24 +126,11 @@ export class HabboQuestEngine extends Component implements IHabboQuestEngine, IL
 	}
 
 	/**
-	 * Called when all required dependencies are available.
-	 * Creates all controllers and the message handler, registers link event tracker.
+	 * Set the first login of day flag
 	 */
-	protected override initComponent(): void
+	setIsFirstLoginOfDay(value: boolean): void
 	{
-		// Create controllers
-		this._questController = new QuestController(this);
-		this._achievementController = new AchievementController(this);
-		this._resolutionController = new AchievementsResolutionController(this);
-		this._competitionController = new RoomCompetitionController(this);
-
-		// Create message handler (registers all message events)
-		this._messageHandler = new QuestMessageHandler(this);
-
-		// Register link event tracker
-		this.context.addLinkEventTracker(this);
-
-		log.info('HabboQuestEngine initialized');
+		this._isFirstLoginOfDay = value;
 	}
 
 	/**
@@ -201,7 +181,7 @@ export class HabboQuestEngine extends Component implements IHabboQuestEngine, IL
 	 */
 	send(composer: IMessageComposer<unknown[]>): void
 	{
-		const connection = this._communication?.connection;
+		const connection = this._communicationManager?.connection;
 
 		if (connection)
 		{
@@ -343,5 +323,26 @@ export class HabboQuestEngine extends Component implements IHabboQuestEngine, IL
 		log.info('HabboQuestEngine disposed');
 
 		super.dispose();
+	}
+
+	/**
+	 * Called when all required dependencies are available.
+	 * Creates all controllers and the message handler, registers link event tracker.
+	 */
+	protected override initComponent(): void
+	{
+		// Create controllers
+		this._questController = new QuestController(this);
+		this._achievementController = new AchievementController(this);
+		this._resolutionController = new AchievementsResolutionController(this);
+		this._competitionController = new RoomCompetitionController(this);
+
+		// Create message handler (registers all message events)
+		this._messageHandler = new QuestMessageHandler(this);
+
+		// Register link event tracker
+		this.context.addLinkEventTracker(this);
+
+		log.info('HabboQuestEngine initialized');
 	}
 }

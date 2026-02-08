@@ -1,5 +1,5 @@
 import {EventEmitter} from 'eventemitter3';
-import {Component, ComponentDependency, type IContext, IID_HabboCommunicationManager} from '@core/runtime';
+import {Component, ComponentDependency, type IContext} from '@core/runtime';
 import {IID_SessionDataManager} from '@iid/IIDSessionDataManager';
 import {IID_RoomSessionManager} from '@iid/IIDRoomSessionManager';
 import type {IAssetLibrary} from '@core/assets';
@@ -11,6 +11,7 @@ import {ChatEventHandler} from './data/ChatEventHandler';
 import {RoomSessionEventHandler} from './data/RoomSessionEventHandler';
 import {ChatHistoryBuffer} from './history/ChatHistoryBuffer';
 import type {ChatItem} from './data/ChatItem';
+import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
