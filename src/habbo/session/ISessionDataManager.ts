@@ -1,17 +1,22 @@
 import type {EventEmitter} from 'eventemitter3';
+import type {IDisposable} from '@core/runtime/IDisposable';
 import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import type {IFurnitureData, IProductData} from '@core/gamedata/IGameDataManager';
 import type {AvatarEffect} from '../communication/messages/parser/inventory/AvatarEffectsMessageParser';
 import type {IUserDataManager} from './IUserDataManager';
 import type {IPerkManager} from './IPerkManager';
 import type {IIgnoredUsersManager} from './IIgnoredUsersManager';
 import type {IHabboGroupInfoManager} from './IHabboGroupInfoManager';
+import type {IFurniDataListener} from './furniture/IFurniDataListener';
+import type {IProductDataListener} from './product/IProductDataListener';
+import type {BadgeInfo} from './BadgeInfo';
 
 /**
  * Interface for session data manager
  * Manages user session data after authentication
  * @see source_as_win63/habbo/session/ISessionDataManager.as
  */
-export interface ISessionDataManager
+export interface ISessionDataManager extends IDisposable
 {
 	readonly events: EventEmitter;
 	readonly userDataManager: IUserDataManager;
@@ -19,10 +24,12 @@ export interface ISessionDataManager
 	readonly ignoredUsersManager: IIgnoredUsersManager;
 	readonly groupInfoManager: IHabboGroupInfoManager;
 
+	// System status
 	readonly systemOpen: boolean;
 	readonly systemShutDown: boolean;
 	readonly isAuthenticHabbo: boolean;
 
+	// User data
 	readonly userId: number;
 	readonly userName: string;
 	readonly realName: string;
@@ -30,6 +37,7 @@ export interface ISessionDataManager
 	readonly gender: string;
 	readonly motto: string;
 
+	// Security & status
 	readonly clubLevel: number;
 	readonly securityLevel: number;
 	readonly topSecurityLevel: number;
@@ -43,7 +51,9 @@ export interface ISessionDataManager
 	readonly isAnyRoomController: boolean;
 	readonly nameChangeAllowed: boolean;
 	readonly canChangeName: boolean;
+	readonly isEmailVerified: boolean;
 
+	// Respect
 	readonly respectTotal: number;
 	readonly respectLeft: number;
 	readonly petRespectLeft: number;
@@ -51,99 +61,126 @@ export interface ISessionDataManager
 	readonly respectsRemaining: number;
 	readonly respectsPetRemaining: number;
 
+	// Safety
 	readonly accountSafetyLocked: boolean;
 	readonly safetyLocked: boolean;
-	readonly isEmailVerified: boolean;
 
+	// Stream & access
 	readonly streamPublishingAllowed: boolean;
 	readonly lastAccessDate: string;
 	readonly isFirstLoginOfDay: boolean;
 
+	// Navigator
 	readonly homeRoomId: number;
 	readonly roomIdToEnter: number;
 	readonly favouriteRooms: number[];
 	readonly favouriteRoomsLimit: number;
 
+	// Currency & achievements
 	readonly activityPoints: Map<number, number>;
 	readonly achievementScore: number;
 
+	// UI preferences
 	readonly uiFlags: number;
 	readonly isRoomCameraFollowDisabled: boolean;
 	readonly infoFeedEnabled: boolean;
 
+	// Figure & effects
 	readonly figureSetIds: number[];
 	readonly boundFurnitureNames: string[];
 	readonly avatarEffects: AvatarEffect[];
 
+	// Mystery box
 	readonly mysteryBoxColor: string;
 	readonly mysteryKeyColor: string;
 
+	// Builders club
 	readonly buildersClubSecondsLeft: number;
 	readonly buildersClubFurniLimit: number;
 	readonly buildersClubMaxFurniLimit: number;
 	readonly buildersClubSecondsLeftWithGrace: number | null;
-	// Perk shortcuts
+
+	// Perks
 	readonly perksReady: boolean;
 
-	/**
-	 * Check if user has at least the given security level
-	 */
+	// Talent
+	readonly currentTalentTrack: string;
+
 	hasSecurity(level: number): boolean;
 
-	/**
-	 * Send a message to the server
-	 */
 	send(composer: IMessageComposer<unknown[]>): void;
 
-	/**
-	 * Give respect to a user (decrements respectLeft)
-	 */
+	// Respect
 	giveRespect(userId: number): void;
-
-	/**
-	 * Give respect to a pet (decrements petRespectLeft)
-	 */
 	givePetRespect(petId: number): void;
-
-	/**
-	 * Called when giving respect fails (restores counter)
-	 */
 	giveRespectFailed(): void;
+	giveStarGem(userId: number): void;
 
-	/**
-	 * Set room camera follow disabled preference
-	 */
+	// UI preferences
 	setRoomCameraFollowDisabled(disabled: boolean): void;
-
-	/**
-	 * Set friend bar state UI flag
-	 */
 	setFriendBarState(open: boolean): void;
-
-	/**
-	 * Set room tools state UI flag
-	 */
 	setRoomToolsState(open: boolean): void;
 
+	// Perks
 	isPerkAllowed(perk: string): boolean;
-
 	getPerkErrorMessage(perk: string): string;
 
-	// Ignored users shortcuts
+	// Ignored users
 	isIgnored(userId: number): boolean;
-
 	ignoreUser(userId: number): void;
-
 	unignoreUser(userId: number): void;
 
 	// Safety
 	isAccountSafetyLocked(): boolean;
 
+	// Badge images
+	getBadgeImage(badge: string): HTMLImageElement | null;
+	getBadgeSmallImage(badge: string): HTMLImageElement | null;
+	getBadgeImageAssetName(badge: string): string;
+	getBadgeImageSmallAssetName(badge: string): string;
+	requestBadgeImage(badge: string): HTMLImageElement | null;
+	getBadgeImageWithInfo(badge: string): BadgeInfo;
+
+	// Group badge images
+	getGroupBadgeId(groupId: number): string;
+	getGroupBadgeImage(badge: string): HTMLImageElement | null;
+	getGroupBadgeSmallImage(badge: string): HTMLImageElement | null;
+	getGroupBadgeAssetName(badge: string): string;
+	getGroupBadgeSmallAssetName(badge: string): string;
+
+	// Furniture data
+	getProductData(productCode: string): IProductData | null;
+	getFloorItemData(itemId: number): IFurnitureData | null;
+	getFloorItemsDataByCategory(category: number): IFurnitureData[];
+	getWallItemData(itemId: number): IFurnitureData | null;
+	getFloorItemDataByName(name: string, index?: number): IFurnitureData | null;
+	getWallItemDataByName(name: string, index?: number): IFurnitureData | null;
+	loadProductData(listener?: IProductDataListener): boolean;
+	getFurniData(listener: IFurniDataListener): IFurnitureData[];
+	addProductsReadyEventListener(listener: IProductDataListener): void;
+	removeFurniDataListener(listener: IFurniDataListener): void;
+	refreshFurniData(): void;
+	newFurniDataHash: string;
+
+	// Room actions
+	openHabboHomePage(userId: number, userName: string): void;
+	pickAllFurniture(roomId: number): void;
+	resetScores(roomId: number): void;
+	ejectAllFurniture(roomId: number, message: string): void;
+	ejectPets(roomId: number): void;
+	pickAllBuilderFurniture(roomId: number): void;
+
+	// Credit vault & rewards
+	getCreditVaultStatus(): void;
+	getIncomeRewardStatus(): void;
+	withdrawCreditVault(): void;
+	claimReward(rewardId: number): void;
+
+	// NFT
+	hasNftChatStyle(styleId: number): boolean;
+
 	// Special command
 	sendSpecialCommandMessage(command: string): void;
 
-	/**
-	 * Dispose of the session data manager
-	 */
 	dispose(): void;
 }

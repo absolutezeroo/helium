@@ -2,10 +2,14 @@ import {Component, ComponentDependency, type IContext} from '@core/runtime';
 import {Logger} from '@core/utils/Logger';
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
 import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import type {IFurnitureData, IProductData} from '@core/gamedata/IGameDataManager';
 import type {IHabboCommunicationManager} from '../communication/IHabboCommunicationManager';
 import type {ISessionDataManager} from './ISessionDataManager';
 import {HabboClubLevelEnum, UIFlagsEnum} from './enum';
-import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
+import {IID_HabboCommunicationManager} from '@iid/IIDHabboCommunicationManager';
+import type {IFurniDataListener} from './furniture/IFurniDataListener';
+import type {IProductDataListener} from './product/IProductDataListener';
+import {BadgeInfo} from './BadgeInfo';
 
 // Events
 import {UserObjectMessageEvent} from '../communication/messages/incoming/handshake/UserObjectMessageEvent';
@@ -607,6 +611,231 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	isAccountSafetyLocked(): boolean
 	{
 		return this._accountSafetyLocked;
+	}
+
+	// ========== Star Gems ==========
+
+	giveStarGem(_userId: number): void
+	{
+		// TODO: Implement star gem gifting
+	}
+
+	// ========== Talent Track ==========
+
+	private _currentTalentTrack: string = '';
+
+	get currentTalentTrack(): string
+	{
+		return this._currentTalentTrack;
+	}
+
+	// ========== Badge Images ==========
+
+	getBadgeImage(_badge: string): HTMLImageElement | null
+	{
+		// TODO: Implement badge image loading
+		return null;
+	}
+
+	getBadgeSmallImage(_badge: string): HTMLImageElement | null
+	{
+		// TODO: Implement small badge image loading
+		return null;
+	}
+
+	getBadgeImageAssetName(badge: string): string
+	{
+		return `${badge}_b`;
+	}
+
+	getBadgeImageSmallAssetName(badge: string): string
+	{
+		return `${badge}_s`;
+	}
+
+	requestBadgeImage(_badge: string): HTMLImageElement | null
+	{
+		// TODO: Implement badge image request
+		return null;
+	}
+
+	getBadgeImageWithInfo(badge: string): BadgeInfo
+	{
+		const image = this.getBadgeImage(badge);
+		return new BadgeInfo(image, image === null);
+	}
+
+	// ========== Group Badge Images ==========
+
+	getGroupBadgeId(_groupId: number): string
+	{
+		return this._groupInfoManager?.getBadgeId(_groupId) ?? '';
+	}
+
+	getGroupBadgeImage(_badge: string): HTMLImageElement | null
+	{
+		// TODO: Implement group badge image loading
+		return null;
+	}
+
+	getGroupBadgeSmallImage(_badge: string): HTMLImageElement | null
+	{
+		// TODO: Implement small group badge image loading
+		return null;
+	}
+
+	getGroupBadgeAssetName(badge: string): string
+	{
+		return `group_badge_${badge}`;
+	}
+
+	getGroupBadgeSmallAssetName(badge: string): string
+	{
+		return `group_badge_${badge}_s`;
+	}
+
+	// ========== Furniture Data ==========
+
+	private _furniDataHash: string = '';
+
+	set newFurniDataHash(hash: string)
+	{
+		this._furniDataHash = hash;
+	}
+
+	get newFurniDataHash(): string
+	{
+		return this._furniDataHash;
+	}
+
+	getProductData(_productCode: string): IProductData | null
+	{
+		// TODO: Implement product data lookup
+		return null;
+	}
+
+	getFloorItemData(_itemId: number): IFurnitureData | null
+	{
+		// TODO: Implement floor item data lookup
+		return null;
+	}
+
+	getFloorItemsDataByCategory(_category: number): IFurnitureData[]
+	{
+		// TODO: Implement floor item data by category
+		return [];
+	}
+
+	getWallItemData(_itemId: number): IFurnitureData | null
+	{
+		// TODO: Implement wall item data lookup
+		return null;
+	}
+
+	getFloorItemDataByName(_name: string, _index: number = 0): IFurnitureData | null
+	{
+		// TODO: Implement floor item data by name lookup
+		return null;
+	}
+
+	getWallItemDataByName(_name: string, _index: number = 0): IFurnitureData | null
+	{
+		// TODO: Implement wall item data by name lookup
+		return null;
+	}
+
+	loadProductData(_listener?: IProductDataListener): boolean
+	{
+		// TODO: Implement product data loading
+		return false;
+	}
+
+	getFurniData(_listener: IFurniDataListener): IFurnitureData[]
+	{
+		// TODO: Implement furni data with listener
+		return [];
+	}
+
+	addProductsReadyEventListener(_listener: IProductDataListener): void
+	{
+		// TODO: Implement product data ready listener
+	}
+
+	removeFurniDataListener(_listener: IFurniDataListener): void
+	{
+		// TODO: Implement furni data listener removal
+	}
+
+	refreshFurniData(): void
+	{
+		// TODO: Implement furni data refresh
+	}
+
+	// ========== Room Actions ==========
+
+	openHabboHomePage(_userId: number, _userName: string): void
+	{
+		// TODO: Implement Habbo home page opening
+	}
+
+	pickAllFurniture(roomId: number): void
+	{
+		// TODO: Send PickAllFurnitureMessageComposer
+		log.debug(`Pick all furniture in room ${roomId}`);
+	}
+
+	resetScores(roomId: number): void
+	{
+		// TODO: Send ResetScoresMessageComposer
+		log.debug(`Reset scores in room ${roomId}`);
+	}
+
+	ejectAllFurniture(roomId: number, _message: string): void
+	{
+		// TODO: Send EjectAllFurnitureMessageComposer
+		log.debug(`Eject all furniture in room ${roomId}`);
+	}
+
+	ejectPets(roomId: number): void
+	{
+		// TODO: Send EjectPetsMessageComposer
+		log.debug(`Eject pets in room ${roomId}`);
+	}
+
+	pickAllBuilderFurniture(roomId: number): void
+	{
+		// TODO: Send PickAllBuilderFurnitureMessageComposer
+		log.debug(`Pick all builder furniture in room ${roomId}`);
+	}
+
+	// ========== Credit Vault & Rewards ==========
+
+	getCreditVaultStatus(): void
+	{
+		// TODO: Send GetCreditVaultStatusComposer
+	}
+
+	getIncomeRewardStatus(): void
+	{
+		// TODO: Send GetIncomeRewardStatusComposer
+	}
+
+	withdrawCreditVault(): void
+	{
+		// TODO: Send WithdrawCreditVaultComposer
+	}
+
+	claimReward(_rewardId: number): void
+	{
+		// TODO: Send ClaimRewardComposer
+	}
+
+	// ========== NFT ==========
+
+	hasNftChatStyle(_styleId: number): boolean
+	{
+		// TODO: Implement NFT chat style check
+		return false;
 	}
 
 	// ========== Special Command ==========
