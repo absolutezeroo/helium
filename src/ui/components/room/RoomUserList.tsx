@@ -1,8 +1,7 @@
 import {Component, createMemo, For, Show} from 'solid-js';
 import clsx from 'clsx';
-import {ModuleId, useModule} from '../../bridge';
-import type {RoomUserData} from '@/modules';
-import {RoomUserType} from '@/modules';
+import type {RoomUserData} from '@ui/stores/roomStore';
+import {roomStore, RoomUserType} from '@ui/stores/roomStore';
 
 /**
  * RoomUserList
@@ -12,42 +11,42 @@ import {RoomUserType} from '@/modules';
  */
 export const RoomUserList: Component = () =>
 {
-	const {state} = useModule(ModuleId.Room);
+	const {state} = roomStore;
 
 	const humanUsers = createMemo(() =>
-		Object.values(state().users).filter(u => u.type === RoomUserType.USER)
+		Object.values(state.users).filter(u => u.type === RoomUserType.USER)
 	);
 
 	const pets = createMemo(() =>
-		Object.values(state().users).filter(u => u.type === RoomUserType.PET)
+		Object.values(state.users).filter(u => u.type === RoomUserType.PET)
 	);
 
 	const bots = createMemo(() =>
-		Object.values(state().users).filter(
+		Object.values(state.users).filter(
 			u => u.type === RoomUserType.BOT || u.type === RoomUserType.RENTABLE_BOT
 		)
 	);
 
 	const ownUser = createMemo(() =>
 	{
-		if (state().ownUserRoomIndex < 0) return null;
-		return state().users[state().ownUserRoomIndex] ?? null;
+		if (state.ownUserRoomIndex < 0) return null;
+		return state.users[state.ownUserRoomIndex] ?? null;
 	});
 
 	return (
-		<Show when={state().currentRoom !== null}>
+		<Show when={state.currentRoom !== null}>
 			<div class="glass rounded-[var(--radius-lg)] p-4 flex-1 overflow-y-auto">
 				<div class="flex items-center gap-2 mb-3">
 					<h3 class="text-sm font-semibold text-text-primary m-0 flex-1">
-						Room Users ({Object.keys(state().users).length})
+						Room Users ({Object.keys(state.users).length})
 					</h3>
-					<Show when={state().isRoomOwner}>
+					<Show when={state.isRoomOwner}>
 						<span
 							class="text-[0.625rem] font-semibold px-2 py-0.5 rounded-full uppercase bg-credits/15 text-credits">
 							Owner
 						</span>
 					</Show>
-					<Show when={!state().isRoomOwner && state().roomControllerLevel > 0}>
+					<Show when={!state.isRoomOwner && state.roomControllerLevel > 0}>
 						<span
 							class="text-[0.625rem] font-semibold px-2 py-0.5 rounded-full uppercase bg-success/15 text-success">
 							Rights
@@ -67,7 +66,7 @@ export const RoomUserList: Component = () =>
 					<UserSection title={`Users (${humanUsers().length})`}>
 						<For each={humanUsers()}>
 							{(user) => (
-								<Show when={user.roomIndex !== state().ownUserRoomIndex}>
+								<Show when={user.roomIndex !== state.ownUserRoomIndex}>
 									<UserListItem user={user} isOwn={false}/>
 								</Show>
 							)}

@@ -15,7 +15,7 @@ import type {IEncryption} from '@core/communication/encryption/IEncryption';
 import type {IKeyExchange} from '@core/communication/handshake/IKeyExchange';
 import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
 import type {ISessionDataManager} from '../session/ISessionDataManager';
-import type {ConnectionActions} from '@/modules/connection/actions';
+import type {ConnectionActions} from '@ui/stores/connectionStore';
 import {IID_CoreCommunicationManager} from "@iid/IIDCoreCommunicationManager";
 
 const log = Logger.getLogger('Communication');
@@ -144,6 +144,7 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 		if (type !== 'habbo')
 		{
 			log.warn(`Unknown connection type: ${type}`);
+
 			return;
 		}
 
@@ -262,18 +263,21 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 	connectionInit(host: string, port: number): void
 	{
 		log.info(`Connecting to ${host}:${port}...`);
+
 		this.connectionActions.setConnecting();
 	}
 
 	connectionOpened(): void
 	{
 		log.success('Connected to server');
+
 		this.connectionActions.setConnected();
 	}
 
 	connectionClosed(): void
 	{
 		log.info('Connection closed');
+
 		this.connectionActions.setDisconnected();
 	}
 
@@ -298,7 +302,7 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 	{
 		log.debug('HabboCommunicationManager initialized');
 
-		// Forward loginStep events (emitted by HabboCommunicationDemo) to connectionActions
+		// Forward loginStep events
 		this.events.on('loginStep', (step: HabboCommunicationEventType) =>
 		{
 			this._connectionActions?.setLoginStep(step);
@@ -308,6 +312,7 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 	private tryNextPort(): void
 	{
 		if (!this._connection || !this.config) return;
+
 		if (this._connection.connected) return;
 
 		this.portIndex++;
@@ -319,6 +324,7 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 			if (this.connectionAttempt > this.maxConnectionAttempts)
 			{
 				log.failure('Failed to connect after all attempts');
+
 				return;
 			}
 
@@ -326,6 +332,7 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 		}
 
 		const port = this.config.ports[this.portIndex];
+
 		this._connection.timeout = this.connectionAttempt * 10000;
 		this._connection.init(this.config.host, port);
 	}

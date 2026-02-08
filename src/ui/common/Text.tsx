@@ -1,5 +1,5 @@
 import {createMemo, type JSX} from 'solid-js';
-import {ModuleId, useActions} from '../bridge';
+import {localizationStore} from '@ui/stores/localizationStore';
 
 export interface TextProps
 {
@@ -27,7 +27,7 @@ export interface TextProps
  */
 export function Text(props: TextProps): JSX.Element
 {
-	const localization = useActions(ModuleId.Localization);
+	const {actions: localization} = localizationStore;
 
 	const text = createMemo(() =>
 	{
@@ -54,7 +54,7 @@ export function Text(props: TextProps): JSX.Element
  */
 export function useLocalization()
 {
-	const localization = useActions(ModuleId.Localization);
+	const {actions: localization} = localizationStore;
 
 	return (key: string, defaultValue?: string) =>
 	{
@@ -73,7 +73,7 @@ export function useLocalization()
  */
 export function useLocalizationWithParams()
 {
-	const localization = useActions(ModuleId.Localization);
+	const {actions: localization} = localizationStore;
 
 	return (key: string, params: Record<string, string>, defaultValue?: string) =>
 	{

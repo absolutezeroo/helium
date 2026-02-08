@@ -17,21 +17,15 @@ import {HabboNotifications} from '@habbo/notifications/HabboNotifications';
 import {HabboToolbar} from '@habbo/toolbar/HabboToolbar';
 import {HabboFreeFlowChat} from '@habbo/freeflowchat/HabboFreeFlowChat';
 import {Logger} from '@core/utils/Logger';
-import {
-	configModule,
-	connectionModule,
-	favouritesModule,
-	inventoryModule,
-	landingViewModule,
-	localizationModule,
-	loggingMiddleware,
-	MessageBus,
-	ModuleId,
-	ModuleRegistry,
-	navigatorModule,
-	roomModule,
-	sessionModule,
-} from '@/modules';
+import {connectionStore} from '@ui/stores/connectionStore';
+import {sessionStore} from '@ui/stores/sessionStore';
+import {favouritesStore} from '@ui/stores/favouritesStore';
+import {roomStore} from '@ui/stores/roomStore';
+import {configStore} from '@ui/stores/configStore';
+import {localizationStore} from '@ui/stores/localizationStore';
+import {navigatorStore} from '@ui/stores/navigatorStore';
+import {inventoryStore} from '@ui/stores/inventoryStore';
+import {landingViewStore} from '@ui/stores/landingViewStore';
 
 import {IID_HabboCommunicationManager} from '@iid/IIDHabboCommunicationManager';
 import {IID_HabboConfigurationManager} from '@iid/IIDHabboConfigurationManager';
@@ -70,9 +64,6 @@ export class HabboMain
 	private _core: HeliumCore | null = null;
 	private _habboCommunicationManager: HabboCommunicationManager | null = null;
 	private _localizationManager: HabboLocalizationManager | null = null;
-	private _navigator: HabboNavigator | null = null;
-	private _newNavigator: HabboNewNavigator | null = null;
-	private _inventory: HabboInventory | null = null;
 	private _campaigns: HabboCampaigns | null = null;
 	private _adManager: AdManager | null = null;
 	private _tracking: HabboTracking | null = null;
@@ -82,6 +73,42 @@ export class HabboMain
 	private _freeFlowChat: HabboFreeFlowChat | null = null;
 	// State
 	private _disposed: boolean = false;
+
+	private _navigator: HabboNavigator | null = null;
+
+	get navigator(): HabboNavigator
+	{
+		if (!this._navigator)
+		{
+			throw new Error('[HabboMain] Not initialized');
+		}
+
+		return this._navigator;
+	}
+
+	private _newNavigator: HabboNewNavigator | null = null;
+
+	get newNavigator(): HabboNewNavigator
+	{
+		if (!this._newNavigator)
+		{
+			throw new Error('[HabboMain] Not initialized');
+		}
+
+		return this._newNavigator;
+	}
+
+	private _inventory: HabboInventory | null = null;
+
+	get inventory(): HabboInventory
+	{
+		if (!this._inventory)
+		{
+			throw new Error('[HabboMain] Not initialized');
+		}
+
+		return this._inventory;
+	}
 
 	// Habbo managers
 	private _configurationManager: HabboConfigurationManager | null = null;
@@ -120,6 +147,8 @@ export class HabboMain
 		return this._roomManager;
 	}
 
+	// ── Getters ──────────────────────────────────────────────────────
+
 	private _roomMessageHandler: RoomMessageHandler | null = null;
 
 	get roomMessageHandler(): RoomMessageHandler
@@ -134,8 +163,6 @@ export class HabboMain
 
 	private _roomSessionManager: RoomSessionManager | null = null;
 
-	// ── Getters ──────────────────────────────────────────────────────
-
 	get roomSessionManager(): RoomSessionManager
 	{
 		if (!this._roomSessionManager)
@@ -144,6 +171,16 @@ export class HabboMain
 		}
 
 		return this._roomSessionManager;
+	}
+
+	get localization(): HabboLocalizationManager
+	{
+		if (!this._localizationManager)
+		{
+			throw new Error('[HabboMain] Not initialized');
+		}
+
+		return this._localizationManager;
 	}
 
 	private _roomEngine: RoomEngine | null = null;
@@ -170,31 +207,6 @@ export class HabboMain
 		return this._sessionDataManager;
 	}
 
-	// Module system
-	private _messageBus: MessageBus | null = null;
-
-	get messageBus(): MessageBus
-	{
-		if (!this._messageBus)
-		{
-			throw new Error('[HabboMain] Not initialized');
-		}
-
-		return this._messageBus;
-	}
-
-	private _moduleRegistry: ModuleRegistry | null = null;
-
-	get moduleRegistry(): ModuleRegistry
-	{
-		if (!this._moduleRegistry)
-		{
-			throw new Error('[HabboMain] Not initialized');
-		}
-
-		return this._moduleRegistry;
-	}
-
 	get habboCommunication(): HabboCommunicationManager
 	{
 		if (!this._habboCommunicationManager)
@@ -219,9 +231,7 @@ export class HabboMain
 
 		await this.initHabboManagers(config);
 
-		this.initModuleSystem();
-
-		await this.registerModules();
+		this.initStores();
 
 		this.initLocalization();
 	}
@@ -241,13 +251,7 @@ export class HabboMain
 
 		log.info('Disposing HabboMain...');
 
-		// 1. Dispose module system
-		this._moduleRegistry?.dispose();
-		this._moduleRegistry = null;
-		this._messageBus?.clear();
-		this._messageBus = null;
-
-		// 2. Dispose RoomMessageHandler (not a Component, needs manual dispose)
+		// 1. Dispose RoomMessageHandler (not a Component, needs manual dispose)
 		this._roomMessageHandler?.dispose();
 		this._roomMessageHandler = null;
 
@@ -557,53 +561,26 @@ export class HabboMain
 	}
 
 	/**
-	 * Initialize the module system (MessageBus + ModuleRegistry)
+	 * Initialize all SolidJS stores
 	 */
-	private initModuleSystem(): void
+	private initStores(): void
 	{
-		// Create MessageBus
-		this._messageBus = new MessageBus();
-
-		// Add logging middleware in development
-		if (import.meta.env.DEV)
-		{
-			this._messageBus.use(loggingMiddleware);
-		}
-
-		// Create ModuleRegistry
-		this._moduleRegistry = new ModuleRegistry(this._core!.context, this._messageBus);
-
-		// Connect MessageBus to HabboCommunicationManager
-		this._habboCommunicationManager!.onMessage((event) =>
-		{
-			this._messageBus!.dispatch(event);
-		});
-	}
-
-	/**
-	 * Register all modules
-	 */
-	private async registerModules(): Promise<void>
-	{
-		// Modules without manager dependencies
-		await this._moduleRegistry!.register(sessionModule);
-		await this._moduleRegistry!.register(connectionModule);
-		await this._moduleRegistry!.register(roomModule);
-		await this._moduleRegistry!.register(favouritesModule);
+		// Stores without manager dependencies
+		sessionStore.init();
+		favouritesStore.init();
+		roomStore.init();
 
 		// Wire connection actions to HabboCommunicationManager
-		const connectionActions = this._moduleRegistry!.get(ModuleId.Connection).actions;
-		this._habboCommunicationManager!.setConnectionActions(connectionActions);
+		this._habboCommunicationManager!.setConnectionActions(connectionStore.actions);
 
-		// Modules with manager dependencies
-		await this._moduleRegistry!.register(configModule);
-		await this._moduleRegistry!.register(localizationModule);
-		await this._moduleRegistry!.register(navigatorModule);
-		await this._moduleRegistry!.register(inventoryModule);
-		await this._moduleRegistry!.register(landingViewModule);
+		// Stores with manager dependencies
+		configStore.init();
+		localizationStore.init();
+		navigatorStore.init();
+		inventoryStore.init();
+		landingViewStore.init();
 	}
 
-	// ── Dispose ──────────────────────────────────────────────────────
 
 	/**
 	 * Initialize localization

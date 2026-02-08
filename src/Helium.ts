@@ -9,9 +9,13 @@ import '@ui/_index.scss';
 import type {ICoreCommunicationManager} from '@core/communication/ICoreCommunicationManager';
 import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
 import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
+import type {IRoomSessionManager} from '@habbo/session/IRoomSessionManager';
 import type {HabboCommunicationManager} from '@habbo/communication/HabboCommunicationManager';
 import type {RoomEngine} from '@habbo/room';
-import type {MessageBus, ModuleRegistry} from '@/modules';
+import type {IHabboNavigator} from '@habbo/navigator/IHabboNavigator';
+import type {IHabboNewNavigator} from '@habbo/navigator/IHabboNewNavigator';
+import type {IHabboInventory} from '@habbo/inventory/IHabboInventory';
+import type {IHabboLocalizationManager} from '@habbo/localization/IHabboLocalizationManager';
 
 const log = Logger.getLogger('Helium');
 
@@ -145,14 +149,29 @@ export class Helium
 		return this._habboMain!.sessionDataManager;
 	}
 
-	get messageBus(): MessageBus
+	get roomSessionManager(): IRoomSessionManager
 	{
-		return this._habboMain!.messageBus;
+		return this._habboMain!.roomSessionManager;
 	}
 
-	get moduleRegistry(): ModuleRegistry
+	get navigator(): IHabboNavigator
 	{
-		return this._habboMain!.moduleRegistry;
+		return this._habboMain!.navigator;
+	}
+
+	get newNavigator(): IHabboNewNavigator
+	{
+		return this._habboMain!.newNavigator;
+	}
+
+	get inventory(): IHabboInventory
+	{
+		return this._habboMain!.inventory;
+	}
+
+	get localization(): IHabboLocalizationManager
+	{
+		return this._habboMain!.localization;
 	}
 
 	/**
@@ -279,7 +298,7 @@ export class Helium
 
 		document.body.appendChild(uiContainer);
 
-		this._disposeUI = mountUI(uiContainer, this._habboMain!.moduleRegistry);
+		this._disposeUI = mountUI(uiContainer);
 	}
 }
 

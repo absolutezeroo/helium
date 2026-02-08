@@ -1,3 +1,4 @@
+import type {EventEmitter} from 'eventemitter3';
 import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
 import type {AvatarEffect} from '../communication/messages/parser/inventory/AvatarEffectsMessageParser';
 import type {IUserDataManager} from './IUserDataManager';
@@ -8,10 +9,11 @@ import type {IHabboGroupInfoManager} from './IHabboGroupInfoManager';
 /**
  * Interface for session data manager
  * Manages user session data after authentication
- * Based on AS3 com.sulake.habbo.session.ISessionDataManager
+ * @see source_as_win63/habbo/session/ISessionDataManager.as
  */
 export interface ISessionDataManager
 {
+	readonly events: EventEmitter;
 	readonly userDataManager: IUserDataManager;
 	readonly perkManager: IPerkManager;
 	readonly ignoredUsersManager: IIgnoredUsersManager;

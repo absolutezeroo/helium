@@ -1,5 +1,5 @@
 import type {JSX} from 'solid-js';
-import {ModuleId, useModule} from '../../bridge';
+import {sessionStore} from '@ui/stores/sessionStore';
 
 /**
  * PurseView - Currency display in the toolbar area.
@@ -7,11 +7,11 @@ import {ModuleId, useModule} from '../../bridge';
  */
 export function PurseView(): JSX.Element
 {
-	const {state: session} = useModule(ModuleId.Session);
+	const {state: session} = sessionStore;
 
-	const credits = () => session().activityPoints.get(0) ?? 0;
-	const diamonds = () => session().activityPoints.get(5) ?? 0;
-	const duckets = () => session().activityPoints.get(105) ?? 0;
+	const credits = () => session.activityPoints[0] ?? 0;
+	const diamonds = () => session.activityPoints[5] ?? 0;
+	const duckets = () => session.activityPoints[105] ?? 0;
 
 	return (
 		<div class="d-flex align-items-center gap-2">

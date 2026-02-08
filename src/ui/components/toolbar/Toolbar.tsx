@@ -1,7 +1,9 @@
 import type {JSX} from 'solid-js';
 import {createSignal, Show} from 'solid-js';
 import clsx from 'clsx';
-import {ModuleId, useActions, useModule} from '../../bridge';
+import {navigatorStore} from '@ui/stores/navigatorStore';
+import {inventoryStore} from '@ui/stores/inventoryStore';
+import {roomStore} from '@ui/stores/roomStore';
 import {ToolbarMeView} from './ToolbarMeView';
 
 /**
@@ -11,17 +13,13 @@ import {ToolbarMeView} from './ToolbarMeView';
  */
 export function Toolbar(): JSX.Element
 {
-	const {state: navigator} = useModule(ModuleId.Navigator);
-	const {state: inventory} = useModule(ModuleId.Inventory);
-	const {state: room} = useModule(ModuleId.Room);
-
-	const navActions = useActions(ModuleId.Navigator);
-	const invActions = useActions(ModuleId.Inventory);
-	const roomActions = useActions(ModuleId.Room);
+	const {state: room, actions: roomActions} = roomStore;
+	const {actions: navActions} = navigatorStore;
+	const {actions: invActions} = inventoryStore;
 
 	const [isMeExpanded, setMeExpanded] = createSignal(false);
 
-	const isInRoom = () => room().currentRoom !== null;
+	const isInRoom = () => room.currentRoom !== null;
 
 	return (
 		<>

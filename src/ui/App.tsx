@@ -1,7 +1,7 @@
 import type {JSX} from 'solid-js';
-import {createEffect, createMemo, createSignal, onMount, Show} from 'solid-js';
+import {createEffect, createSignal, onMount, Show} from 'solid-js';
 import {HabboCommunicationEvent} from '@habbo/communication/enum';
-import {ModuleId, useModule} from './bridge';
+import {connectionStore} from '@ui/stores/connectionStore';
 import {LoadingView} from './components/loading';
 import {MainView} from './components/main';
 
@@ -13,7 +13,7 @@ import {MainView} from './components/main';
  */
 export function App(): JSX.Element
 {
-	const {state: connection} = useModule(ModuleId.Connection);
+	const {state: connection} = connectionStore;
 
 	const [isReady, setIsReady] = createSignal(false);
 	const [message, setMessage] = createSignal('Getting Ready');
@@ -21,12 +21,10 @@ export function App(): JSX.Element
 	const [isError, setIsError] = createSignal(false);
 	const [imageRendering, setImageRendering] = createSignal(true);
 
-	const isAuthenticated = createMemo(() => connection().state === 'authenticated');
-
 	// Track connection state changes to update loading progress
 	createEffect(() =>
 	{
-		const state = connection().state;
+		const state = connection.state;
 
 		switch (state)
 		{
@@ -45,7 +43,7 @@ export function App(): JSX.Element
 				break;
 			case 'error':
 				setIsError(true);
-				setMessage(connection().error || 'Connection Error');
+				setMessage(connection.error || 'Connection Error');
 				break;
 		}
 	});
@@ -53,7 +51,7 @@ export function App(): JSX.Element
 	// Track loading steps for finer progress
 	createEffect(() =>
 	{
-		const step = connection().loadingStep;
+		const step = connection.loadingStep;
 
 		if (!step) return;
 
