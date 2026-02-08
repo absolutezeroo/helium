@@ -12,6 +12,7 @@ export const loggingMiddleware: Middleware = (context, next) =>
 		'color: #4CAF50; font-weight: bold',
 		'color: inherit; font-weight: normal'
 	);
+	if (context.parser) console.log(context.parser);
 	next();
 	console.groupEnd();
 };
@@ -30,6 +31,7 @@ export function createFilteredLoggingMiddleware(pattern: RegExp): Middleware
 				'color: #4CAF50; font-weight: bold',
 				'color: inherit; font-weight: normal'
 			);
+			if (context.parser) console.log(context.parser);
 			next();
 			console.groupEnd();
 		}
