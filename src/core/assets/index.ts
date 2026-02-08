@@ -5,20 +5,20 @@
 export * from './loaders';
 
 // Exports
-export { AssetLibraryEvents, AssetLibrary, } from './AssetLibrary';
-export { AssetLibraryCollection } from './AssetLibraryCollection';
-export { AssetLoaderStruct } from './AssetLoaderStruct';
-export { AssetTypeDeclaration } from './AssetTypeDeclaration';
-export { BitmapDataAsset } from './BitmapDataAsset';
-export { NitroAsset } from './NitroAsset';
-export { SoundAsset } from './SoundAsset';
-export { TextAsset } from './TextAsset';
-export { UnknownAsset } from './UnknownAsset';
-export { XmlAsset } from './XmlAsset';
+export {AssetLibraryEvents, AssetLibrary,} from './AssetLibrary';
+export {AssetLibraryCollection} from './AssetLibraryCollection';
+export {AssetLoaderStruct} from './AssetLoaderStruct';
+export {AssetTypeDeclaration} from './AssetTypeDeclaration';
+export {BitmapDataAsset} from './BitmapDataAsset';
+export {NitroAsset} from './NitroAsset';
+export {SoundAsset} from './SoundAsset';
+export {TextAsset} from './TextAsset';
+export {UnknownAsset} from './UnknownAsset';
+export {XmlAsset} from './XmlAsset';
 
 // Types
-export type { AssetClass, AssetLoaderClass, } from './AssetTypeDeclaration';
-export type { Point, Rectangle, } from './BitmapDataAsset';
-export type { IAsset } from './IAsset';
-export type { IAssetLibrary } from './IAssetLibrary';
-export type { ILazyAsset } from './ILazyAsset';
+export type {AssetClass, AssetLoaderClass,} from './AssetTypeDeclaration';
+export type {Point, Rectangle,} from './BitmapDataAsset';
+export type {IAsset} from './IAsset';
+export type {IAssetLibrary} from './IAssetLibrary';
+export type {ILazyAsset} from './ILazyAsset';

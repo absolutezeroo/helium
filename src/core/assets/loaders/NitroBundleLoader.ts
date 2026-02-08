@@ -180,14 +180,16 @@ export class NitroBundleLoader extends BinaryFileLoader
 				{
 					this._spritesheet.destroy(true);
 					this._spritesheet = null;
-				} else if (this._baseTexture)
+				}
+				else if (this._baseTexture)
 				{
 					this._baseTexture.destroy(true);
 				}
 
 				this._baseTexture = null;
 				this._textures.clear();
-			} else
+			}
+			else
 			{
 				// Clear references without destroying
 				this._spritesheet = null;

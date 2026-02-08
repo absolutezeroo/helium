@@ -78,7 +78,8 @@ export class WireFormatter implements IWireFormatter
 				encryption.decipher(lengthBytes);
 				lengthBytes.position = 0;
 				length = lengthBytes.readInt();
-			} else
+			}
+			else
 			{
 				length = buffer.readInt();
 			}
@@ -116,7 +117,8 @@ export class WireFormatter implements IWireFormatter
 				encrypted.position = 0;
 				messageData.writeBytes(encrypted, 0, length);
 				messageData.position = 0;
-			} else
+			}
+			else
 			{
 				messageData = new ByteArray(length);
 				buffer.readBytes(messageData, 0, length);
@@ -139,7 +141,8 @@ export class WireFormatter implements IWireFormatter
 			src.copyWithin(0, pos, pos + remaining);
 			buffer.length = remaining;
 			buffer.position = 0;
-		} else if (buffer.position > 0)
+		}
+		else if (buffer.position > 0)
 		{
 			buffer.clear();
 		}
@@ -149,7 +152,10 @@ export class WireFormatter implements IWireFormatter
 
 	dispose(): void
 	{
-		if (this._disposed) return;
+		if (this._disposed)
+		{
+			return;
+		}
 		this._disposed = true;
 	}
 
@@ -166,19 +172,24 @@ export class WireFormatter implements IWireFormatter
 		if (typeof value === 'string')
 		{
 			message.writeUTF(value);
-		} else if (typeof value === 'boolean')
+		}
+		else if (typeof value === 'boolean')
 		{
 			message.writeBoolean(value);
-		} else if (value instanceof Byte)
+		}
+		else if (value instanceof Byte)
 		{
 			message.writeByte(value.value);
-		} else if (value instanceof Short)
+		}
+		else if (value instanceof Short)
 		{
 			message.writeShort(value.value);
-		} else if (value instanceof Long)
+		}
+		else if (value instanceof Long)
 		{
 			this.writeLong(message, value.value);
-		} else if (value instanceof ByteArray)
+		}
+		else if (value instanceof ByteArray)
 		{
 			// Write ByteArray with length prefix
 			message.writeInt(value.length);
@@ -186,18 +197,21 @@ export class WireFormatter implements IWireFormatter
 			value.position = 0;
 			message.writeBytes(value);
 			value.position = savedPosition;
-		} else if (typeof value === 'number')
+		}
+		else if (typeof value === 'number')
 		{
 			// Default number type is int
 			if (Number.isInteger(value))
 			{
 				message.writeInt(value);
-			} else
+			}
+			else
 			{
 				// Float for non-integers
 				message.writeFloat(value);
 			}
-		} else if (Array.isArray(value))
+		}
+		else if (Array.isArray(value))
 		{
 			// Write array length then each element
 			message.writeInt(value.length);

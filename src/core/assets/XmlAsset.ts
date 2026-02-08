@@ -79,25 +79,30 @@ export class XmlAsset implements ILazyAsset
 		if (typeof this._unknown === 'string')
 		{
 			xmlString = this._unknown;
-		} else if (this._unknown instanceof ArrayBuffer)
+		}
+		else if (this._unknown instanceof ArrayBuffer)
 		{
 			const decoder = new TextDecoder('utf-8');
 			xmlString = decoder.decode(this._unknown);
-		} else if (this._unknown instanceof Uint8Array)
+		}
+		else if (this._unknown instanceof Uint8Array)
 		{
 			const decoder = new TextDecoder('utf-8');
 			xmlString = decoder.decode(this._unknown);
-		} else if (this._unknown instanceof Document)
+		}
+		else if (this._unknown instanceof Document)
 		{
 			this._content = this._unknown;
 			this._unknown = null;
 			return;
-		} else if (this._unknown instanceof XmlAsset)
+		}
+		else if (this._unknown instanceof XmlAsset)
 		{
 			this._content = this._unknown._content;
 			this._unknown = null;
 			return;
-		} else
+		}
+		else
 		{
 			xmlString = String(this._unknown);
 		}

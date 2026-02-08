@@ -5,14 +5,14 @@
 export * from './events';
 
 // Exports
-export { ComponentEvents, ComponentFlags, Component, } from './Component';
-export { ComponentContext } from './ComponentContext';
-export { ComponentDependency } from './ComponentDependency';
-export { createIID, getIIDName, } from './IID';
+export {ComponentEvents, ComponentFlags, Component,} from './Component';
+export {ComponentContext} from './ComponentContext';
+export {ComponentDependency} from './ComponentDependency';
+export {createIID, getIIDName,} from './IID';
 
 // Types
-export type { DependencyEventListener } from './ComponentDependency';
-export type { InterfaceCallback, IContext, IUpdateReceiver, } from './IContext';
-export type { ICoreConfiguration } from './ICoreConfiguration';
-export type { IDisposable } from './IDisposable';
-export type { IID } from './IID';
+export type {DependencyEventListener} from './ComponentDependency';
+export type {InterfaceCallback, IContext, IUpdateReceiver,} from './IContext';
+export type {ICoreConfiguration} from './ICoreConfiguration';
+export type {IDisposable} from './IDisposable';
+export type {IID} from './IID';

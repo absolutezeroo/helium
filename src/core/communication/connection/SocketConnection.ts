@@ -75,7 +75,10 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 
 	init(host: string, port: number = 0): boolean
 	{
-		if (this._disposed) return false;
+		if (this._disposed)
+		{
+			return false;
+		}
 
 		this.host = host;
 		this.port = port;
@@ -89,7 +92,8 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 				log.warn('Insecure WebSocket connection (ws://). Use wss:// in production.');
 			}
 			url = host;
-		} else
+		}
+		else
 		{
 			const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
 			url = port > 0 ? `${protocol}//${host}:${port}` : `${protocol}//${host}`;
@@ -175,7 +179,10 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 
 	processReceivedData(): void
 	{
-		if (this.receivedBuffer.length === 0) return;
+		if (this.receivedBuffer.length === 0)
+		{
+			return;
+		}
 
 		this.receivedBuffer.position = 0;
 
@@ -254,7 +261,10 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 
 	dispose(): void
 	{
-		if (this._disposed) return;
+		if (this._disposed)
+		{
+			return;
+		}
 
 		this.close();
 		this.receivedBuffer.clear();
@@ -271,7 +281,10 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 
 	private setupEventListeners(): void
 	{
-		if (!this.socket) return;
+		if (!this.socket)
+		{
+			return;
+		}
 
 		this.socket.onopen = () =>
 		{
@@ -299,7 +312,10 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 
 		this.socket.onmessage = (event) =>
 		{
-			if (!event.data) return;
+			if (!event.data)
+			{
+				return;
+			}
 
 			if (event.data instanceof Blob)
 			{
@@ -309,7 +325,8 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 				{
 					this.onDataReceived(reader.result as ArrayBuffer);
 				};
-			} else if (event.data instanceof ArrayBuffer)
+			}
+			else if (event.data instanceof ArrayBuffer)
 			{
 				this.onDataReceived(event.data);
 			}
@@ -351,7 +368,10 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 
 	private sendRaw(data: ByteArray, messageId?: number): boolean
 	{
-		if (!this.socket) return false;
+		if (!this.socket)
+		{
+			return false;
+		}
 
 		if (!this._connected)
 		{

@@ -41,6 +41,3 @@ export class InitDiffieHandshakeMessageParser implements IMessageParser
 		return true;
 	}
 }
-
-// Alias for backwards compatibility
-export {InitDiffieHandshakeMessageParser as InitCryptoMessageParser};

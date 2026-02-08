@@ -95,7 +95,8 @@ export class BinaryFileLoader extends BaseFileLoader
 				if (error.name === 'TypeError' && error.message.includes('network'))
 				{
 					this.handleLoadEvent('ioError');
-				} else
+				}
+				else
 				{
 					this.handleLoadEvent('securityError');
 				}

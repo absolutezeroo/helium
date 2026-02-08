@@ -16,10 +16,12 @@ class BigIntWrapper
 		if (typeof value === 'string')
 		{
 			this.value = BigInt(value);
-		} else if (typeof value === 'number')
+		}
+		else if (typeof value === 'number')
 		{
 			this.value = BigInt(value);
-		} else
+		}
+		else
 		{
 			this.value = value;
 		}
@@ -30,19 +32,24 @@ class BigIntWrapper
 		if (radix === 16)
 		{
 			return new BigIntWrapper(BigInt('0x' + str));
-		} else if (radix === 10)
+		}
+		else if (radix === 10)
 		{
 			return new BigIntWrapper(BigInt(str));
-		} else
+		}
+		else
 		{
 			// Manual conversion for other radixes
 			let result = 0n;
 			const base = BigInt(radix);
+
 			for (const char of str)
 			{
 				const digit = parseInt(char, radix);
+
 				result = result * base + BigInt(digit);
 			}
+
 			return new BigIntWrapper(result);
 		}
 	}
@@ -52,22 +59,27 @@ class BigIntWrapper
 		if (radix === 16)
 		{
 			return this.value.toString(16);
-		} else if (radix === 10)
+		}
+		else if (radix === 10)
 		{
 			return this.value.toString(10);
-		} else
+		}
+		else
 		{
 			// Manual conversion for other radixes
 			if (this.value === 0n) return '0';
 
 			const base = BigInt(radix);
 			const digits: string[] = [];
+
 			let remaining = this.value;
 
 			while (remaining > 0n)
 			{
 				const digit = Number(remaining % base);
+
 				digits.unshift(digit.toString(radix));
+
 				remaining = remaining / base;
 			}
 
@@ -90,6 +102,7 @@ class BigIntWrapper
 			{
 				result = (result * base) % modulus.value;
 			}
+
 			exp = exp / 2n;
 			base = (base * base) % modulus.value;
 		}
@@ -100,7 +113,9 @@ class BigIntWrapper
 	compareTo(other: BigIntWrapper): number
 	{
 		if (this.value < other.value) return -1;
+
 		if (this.value > other.value) return 1;
+
 		return 0;
 	}
 
@@ -149,9 +164,11 @@ export class DiffieHellman implements IKeyExchange
 			this.publicKey = this.generator.modPow(this.privateKey, this.prime);
 
 			return true;
-		} catch (error)
+		}
+		catch (error)
 		{
 			log.error('DiffieHellman init error:', error);
+
 			return false;
 		}
 	}
@@ -183,6 +200,7 @@ export class DiffieHellman implements IKeyExchange
 		{
 			throw new Error('DiffieHellman not initialized');
 		}
+
 		return this.publicKey.toRadix(radix);
 	}
 

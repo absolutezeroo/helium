@@ -625,7 +625,8 @@ export class Component implements IDisposable
 						throw e;
 					}
 				});
-			} else
+			}
+			else
 			{
 				// Construction is complete - fields are initialized, call synchronously
 				try

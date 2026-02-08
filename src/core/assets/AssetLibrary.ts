@@ -307,7 +307,8 @@ export class AssetLibrary extends Component implements IAssetLibrary
 			{
 				throw new Error(`Asset type declaration for MIME type ${mimeType} not found`);
 			}
-		} else
+		}
+		else
 		{
 			declaration = this.solveTypeDeclarationFromUrl(url);
 
@@ -415,7 +416,8 @@ export class AssetLibrary extends Component implements IAssetLibrary
 				{
 					this._assetByContent.delete(oldAsset.content);
 				}
-			} else
+			}
+			else
 			{
 				this._assetNameIndex.set(name, this._assetNameArray.length);
 				this._assetNameArray.push(name);
@@ -684,7 +686,8 @@ export class AssetLibrary extends Component implements IAssetLibrary
 				if (loader instanceof NitroBundleLoader)
 				{
 					asset.setUnknownContent(loader);
-				} else
+				}
+				else
 				{
 					asset.setUnknownContent(loader.content);
 				}
@@ -700,7 +703,8 @@ export class AssetLibrary extends Component implements IAssetLibrary
 			}
 
 			shouldCleanup = true;
-		} else if (event.type === AssetLoaderEventType.ERROR)
+		}
+		else if (event.type === AssetLoaderEventType.ERROR)
 		{
 			struct.dispatchEvent(new AssetLoaderEvent(AssetLoaderEventType.ERROR, event.status));
 			shouldCleanup = true;

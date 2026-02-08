@@ -46,7 +46,10 @@ export class CoreCommunicationManager extends Component implements ICoreCommunic
 	 */
 	update(_deltaTime: number): void
 	{
-		if (this.disposed) return;
+		if (this.disposed)
+		{
+			return;
+		}
 
 		// Process each connection and remove disposed ones
 		for (let i = this._connections.length - 1; i >= 0; i--)
@@ -81,7 +84,10 @@ export class CoreCommunicationManager extends Component implements ICoreCommunic
 	 */
 	override dispose(): void
 	{
-		if (this.disposed) return;
+		if (this.disposed)
+		{
+			return;
+		}
 
 		for (const connection of this._connections)
 		{

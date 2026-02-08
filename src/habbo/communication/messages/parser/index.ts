@@ -9,6 +9,7 @@ export * from './campaign';
 export * from './catalog';
 export * from './error';
 export * from './friendlist';
+export * from './game';
 export * from './handshake';
 export * from './help';
 export * from './inventory';

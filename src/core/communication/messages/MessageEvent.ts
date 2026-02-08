@@ -70,6 +70,7 @@ export class MessageEvent implements IMessageEvent
 	dispose(): void
 	{
 		if (this._disposed) return;
+
 		this._disposed = true;
 
 		this._callback = null!;

@@ -138,7 +138,8 @@ export class NitroAsset implements ILazyAsset
 			{
 				this._spritesheet.destroy(true);
 				this._spritesheet = null;
-			} else if (this._baseTexture)
+			}
+			else if (this._baseTexture)
 			{
 				this._baseTexture.destroy(true);
 			}

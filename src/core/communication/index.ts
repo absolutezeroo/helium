@@ -10,7 +10,7 @@ export * from './util';
 export * from './wireformat';
 
 // Exports
-export { CoreCommunicationManager } from './CoreCommunicationManager';
+export {CoreCommunicationManager} from './CoreCommunicationManager';
 
 // Types
-export type { ICoreCommunicationManager } from './ICoreCommunicationManager';
+export type {ICoreCommunicationManager} from './ICoreCommunicationManager';

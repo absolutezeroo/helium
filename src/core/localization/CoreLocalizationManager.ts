@@ -245,7 +245,8 @@ export class CoreLocalizationManager extends Component implements ICoreLocalizat
 			localization = new Localization(this, key, value);
 
 			this._localizations.set(key, localization);
-		} else
+		}
+		else
 		{
 			localization.setValue(value);
 		}

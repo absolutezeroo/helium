@@ -167,6 +167,8 @@ export class IncomingMessages
 
 		if (!connection) return;
 
+		if(!event) return;
+
 		const parser = event.parser as InitDiffieHandshakeMessageParser;
 
 		if (!parser) return;
@@ -193,13 +195,16 @@ export class IncomingMessages
 			if (publicKey.length >= 64)
 			{
 				bestPublicKey = publicKey;
+
 				this._privateKey = privateKey;
+
 				break;
 			}
 
 			if (!bestPublicKey || publicKey.length > bestPublicKey.length)
 			{
 				bestPublicKey = publicKey;
+
 				this._privateKey = privateKey;
 			}
 

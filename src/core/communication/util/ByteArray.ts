@@ -16,7 +16,8 @@ export class ByteArray
 		{
 			this.buffer = buffer;
 			this._length = buffer.byteLength;
-		} else
+		}
+		else
 		{
 			const size = buffer ?? 1024;
 			this.buffer = new ArrayBuffer(size);

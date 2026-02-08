@@ -10,7 +10,7 @@ export * from './runtime';
 export * from './utils';
 
 // Exports
-export { HeliumCore } from './HeliumCore';
+export {HeliumCore} from './HeliumCore';
 
 // Types
-export type { HeliumCoreConfig } from './HeliumCore';
+export type {HeliumCoreConfig} from './HeliumCore';

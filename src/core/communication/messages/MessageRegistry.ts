@@ -65,7 +65,8 @@ export class MessageRegistry
 		{
 			// Reuse parser from first event handler
 			event.parser = events[0].parser;
-		} else
+		}
+		else
 		{
 			// Create new parser instance
 			events = [];
@@ -84,10 +85,16 @@ export class MessageRegistry
 		const className = event.constructor.name;
 		const id = this.eventClassToId.get(className);
 
-		if (id === undefined) return;
+		if (id === undefined)
+		{
+			return;
+		}
 
 		const events = this.idToEvents.get(id);
-		if (!events) return;
+		if (!events)
+		{
+			return;
+		}
 
 		const index = events.indexOf(event);
 		if (index !== -1)

@@ -178,7 +178,8 @@ export class ComponentContext extends Component implements IContext
 			{
 				this.onComponentUnlocked(component, interfaces);
 			});
-		} else
+		}
+		else
 		{
 			// Component is ready - announce interfaces
 			for (const iid of interfaces)
@@ -217,7 +218,8 @@ export class ComponentContext extends Component implements IContext
 		if (existing)
 		{
 			existing.priority = priority;
-		} else
+		}
+		else
 		{
 			this._updateReceivers.push({receiver, priority});
 		}
@@ -307,7 +309,8 @@ export class ComponentContext extends Component implements IContext
 				{
 					tracker.linkReceived(link);
 				}
-			} else
+			}
+			else
 			{
 				tracker.linkReceived(link);
 			}
