@@ -1,0 +1,16 @@
+import {MessageEvent} from '@core/communication/messages/MessageEvent';
+import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import {QuestMessageEventParser} from '../../parser/quest/QuestMessageEventParser';
+
+/**
+ * Event for a single quest message from the server.
+ *
+ * @see source_as/habbo/communication/messages/incoming/quest/QuestMessageEvent.as
+ */
+export class QuestMessageEvent extends MessageEvent
+{
+	constructor(callback: MessageEventCallback)
+	{
+		super(callback, QuestMessageEventParser);
+	}
+}

@@ -1,27 +1,6 @@
-/**
- * Local interface for achievement data used in category management.
- * This mirrors the parser data class from the communication layer.
- */
-export interface AchievementData
-{
-	id: number;
-	groupId: number;
-	badgeId: string;
-	category: string;
-	state: number;
-	currentPoints: number;
-	scoreAtStartOfLevel: number;
-	scoreLimit: number;
-	levelRewardPoints: number;
-	levelRewardPointType: number;
-	levels: number;
-	levelCount: number;
-	displayProgress: boolean;
-	finalLevel: boolean;
-	firstLevelAchieved: boolean;
-	achievementId: number;
-	level: number;
-}
+import {AchievementData} from '@habbo/communication/messages/parser/quest/AchievementData';
+
+export type {AchievementData};
 
 /**
  * Single achievement category containing achievements and progress calculations

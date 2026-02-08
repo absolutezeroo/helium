@@ -276,7 +276,7 @@ export class QuestMessageHandler implements IDisposable
 		if (!parser) return;
 
 		log.debug(`Quest cancelled: ${parser.quest?.id}`);
-		this._engine.questController?.onQuestCancelled(parser.quest?.campaignChainCode);
+		this._engine.questController?.onQuestCancelled(parser.quest?.campaignChainCode ?? '');
 	}
 
 	/**
@@ -400,7 +400,7 @@ export class QuestMessageHandler implements IDisposable
 		this._engine.roomCompetitionController?.onCompetitionEntrySubmitResult(
 			parser.result,
 			parser.goalCode,
-			parser.doorId
+			parser.goalId
 		);
 	}
 

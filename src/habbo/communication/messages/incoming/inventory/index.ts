@@ -7,3 +7,4 @@ export * from './pets';
 export * from './bots';
 export * from './trading';
 export * from './unseen';
+export * from './achievements';
