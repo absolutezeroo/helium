@@ -1,0 +1,479 @@
+/* ============================================
+   Navigator - Habbo Classic Style
+   Matches mockup/navigator_base.png
+   ============================================ */
+
+/* ---- Window override ---- */
+
+.navigator-window {
+	background: #c8d7de !important;
+	border: 2px solid #7ca5b5 !important;
+	border-radius: 8px !important;
+	box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.4) !important;
+	overflow: hidden !important;
+	display: flex !important;
+	flex-direction: column !important;
+}
+
+/* ---- Header ---- */
+
+.nav-header {
+	background: linear-gradient(180deg, #7eb4c9 0%, #5b99b0 100%);
+	padding: 6px 8px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	cursor: move;
+	user-select: none;
+	border-bottom: 1px solid #4d8a9f;
+}
+
+.nav-header__title {
+	color: #fff;
+	font-size: 13px;
+	font-weight: 700;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.nav-header__close {
+	width: 20px;
+	height: 20px;
+	background: #c0392b;
+	border: 1px solid #962d22;
+	border-radius: 3px;
+	color: #fff;
+	font-size: 12px;
+	font-weight: 700;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	line-height: 1;
+	padding: 0;
+	outline: none;
+}
+
+.nav-header__close:hover {
+	background: #e74c3c;
+}
+
+/* ---- Tabs ---- */
+
+.nav-tabs {
+	display: flex;
+	background: #b3c6cf;
+	padding: 4px 6px 0;
+	gap: 2px;
+	border-bottom: 1px solid #9db5bf;
+}
+
+.nav-tab {
+	padding: 4px 8px;
+	font-size: 10px;
+	font-weight: 600;
+	color: #4a6e7d;
+	background: #a3b8c2;
+	border: 1px solid #8fa9b5;
+	border-bottom: none;
+	border-radius: 4px 4px 0 0;
+	cursor: pointer;
+	outline: none;
+	transition: background 100ms;
+	white-space: nowrap;
+}
+
+.nav-tab:hover {
+	background: #c8d7de;
+	color: #2c4f5e;
+}
+
+.nav-tab--active {
+	background: #c8d7de;
+	color: #2c4f5e;
+	border-color: #7ca5b5;
+	position: relative;
+}
+
+.nav-tab--active::after {
+	content: '';
+	position: absolute;
+	bottom: -1px;
+	left: 0;
+	right: 0;
+	height: 1px;
+	background: #c8d7de;
+}
+
+/* ---- Search ---- */
+
+.nav-search {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	padding: 5px 8px;
+	background: #c0d0d8;
+	border-bottom: 1px solid #a3b8c2;
+}
+
+.nav-search__input {
+	flex: 1;
+	height: 24px;
+	padding: 0 8px;
+	background: #fff;
+	border: 1px solid #8fa9b5;
+	border-radius: 3px;
+	font-size: 11px;
+	color: #333;
+	outline: none;
+	font-family: inherit;
+}
+
+.nav-search__input::placeholder {
+	color: #999;
+}
+
+.nav-search__input:focus {
+	border-color: #5b99b0;
+}
+
+.nav-search__btn {
+	height: 24px;
+	width: 24px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(180deg, #7eb4c9 0%, #5b99b0 100%);
+	border: 1px solid #4d8a9f;
+	border-radius: 3px;
+	color: #fff;
+	cursor: pointer;
+	outline: none;
+	padding: 0;
+	flex-shrink: 0;
+}
+
+.nav-search__btn:hover {
+	background: linear-gradient(180deg, #8fc1d3 0%, #6aa5ba 100%);
+}
+
+/* ---- View mode toggle ---- */
+
+.nav-viewmode {
+	display: flex;
+	gap: 2px;
+	margin-left: 4px;
+}
+
+.nav-viewmode__btn {
+	width: 22px;
+	height: 22px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #fff;
+	border: 1px solid #8fa9b5;
+	border-radius: 3px;
+	color: #6a8a97;
+	cursor: pointer;
+	outline: none;
+	padding: 0;
+}
+
+.nav-viewmode__btn:hover {
+	background: #eef4f7;
+	color: #2c4f5e;
+}
+
+.nav-viewmode__btn--active {
+	background: #5b99b0;
+	border-color: #4d8a9f;
+	color: #fff;
+}
+
+.nav-viewmode__btn--active:hover {
+	background: #6aa5ba;
+}
+
+/* ---- Content area ---- */
+
+.nav-content {
+	flex: 1;
+	overflow-y: auto;
+	background: #d6e2e8;
+	min-height: 0;
+}
+
+/* Thin scrollbar */
+.nav-content::-webkit-scrollbar {
+	width: 6px;
+}
+
+.nav-content::-webkit-scrollbar-track {
+	background: #c8d7de;
+}
+
+.nav-content::-webkit-scrollbar-thumb {
+	background: #8fa9b5;
+	border-radius: 3px;
+}
+
+/* ---- Collapsible section ---- */
+
+.nav-section__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 4px 8px;
+	background: linear-gradient(180deg, #8fb8c9 0%, #7aa8ba 100%);
+	border-top: 1px solid #9dc0cf;
+	border-bottom: 1px solid #6a99ab;
+	cursor: pointer;
+	user-select: none;
+}
+
+.nav-section__header:first-child {
+	border-top: none;
+}
+
+.nav-section__header:hover {
+	background: linear-gradient(180deg, #9dc0cf 0%, #88b2c3 100%);
+}
+
+.nav-section__title {
+	font-size: 11px;
+	font-weight: 700;
+	color: #fff;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.nav-section__count {
+	font-size: 10px;
+	color: rgba(255, 255, 255, 0.7);
+	margin-left: 4px;
+}
+
+.nav-section__arrow {
+	color: #fff;
+	font-size: 8px;
+	transition: transform 150ms;
+}
+
+.nav-section__arrow--open {
+	transform: rotate(90deg);
+}
+
+/* ---- Room grid (cards mode) ---- */
+
+.nav-rooms {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 4px;
+	padding: 6px;
+}
+
+/* ---- Room card (grid mode) ---- */
+
+.nav-room-card {
+	display: flex;
+	flex-direction: column;
+	background: #eef4f7;
+	border: 1px solid #c0d2da;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background 100ms;
+	overflow: hidden;
+}
+
+.nav-room-card:hover {
+	background: #dde9ef;
+	border-color: #a3c0cc;
+}
+
+.nav-room-card__thumb {
+	width: 100%;
+	height: 64px;
+	background: #c8d7de;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-bottom: 1px solid #c0d2da;
+}
+
+.nav-room-card__thumb img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.nav-room-card__thumb-placeholder {
+	color: #8fa9b5;
+	font-size: 22px;
+}
+
+.nav-room-card__info {
+	padding: 4px 6px;
+	display: flex;
+	flex-direction: column;
+	gap: 1px;
+}
+
+.nav-room-card__name {
+	font-size: 10px;
+	font-weight: 700;
+	color: #2d6b4a;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.nav-room-card__owner {
+	font-size: 9px;
+	color: #6a8a97;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.nav-room-card__users {
+	display: inline-flex;
+	align-items: center;
+	gap: 2px;
+	font-size: 9px;
+	font-weight: 700;
+	color: #fff;
+	background: #27ae60;
+	padding: 1px 5px;
+	border-radius: 7px;
+	align-self: flex-start;
+	margin-top: 2px;
+}
+
+.nav-room-card__users--full {
+	background: #e74c3c;
+}
+
+.nav-room-card__users--busy {
+	background: #f39c12;
+}
+
+/* ---- Room list (compact mode) ---- */
+
+.nav-rooms--compact {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	padding: 0;
+}
+
+.nav-room-row {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 3px 8px;
+	border-bottom: 1px solid #c4d5dc;
+	cursor: pointer;
+	transition: background 100ms;
+}
+
+.nav-room-row:last-child {
+	border-bottom: none;
+}
+
+.nav-room-row:hover {
+	background: #dde9ef;
+}
+
+.nav-room-row__door {
+	color: #8fa9b5;
+	font-size: 10px;
+	flex-shrink: 0;
+	width: 14px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.nav-room-row__name {
+	flex: 1;
+	font-size: 11px;
+	font-weight: 600;
+	color: #2d6b4a;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	min-width: 0;
+}
+
+.nav-room-row__owner {
+	font-size: 10px;
+	color: #6a8a97;
+	flex-shrink: 0;
+}
+
+.nav-room-row__users {
+	font-size: 9px;
+	font-weight: 700;
+	color: #fff;
+	background: #27ae60;
+	padding: 1px 5px;
+	border-radius: 7px;
+	flex-shrink: 0;
+}
+
+.nav-room-row__users--full {
+	background: #e74c3c;
+}
+
+.nav-room-row__users--busy {
+	background: #f39c12;
+}
+
+/* ---- Footer ---- */
+
+.nav-footer {
+	display: flex;
+	justify-content: space-between;
+	padding: 5px 8px;
+	background: #bccdd5;
+	border-top: 1px solid #a3b8c2;
+	gap: 6px;
+}
+
+.nav-footer__btn {
+	flex: 1;
+	height: 26px;
+	background: linear-gradient(180deg, #7eb4c9 0%, #5b99b0 100%);
+	border: 1px solid #4d8a9f;
+	border-radius: 4px;
+	color: #fff;
+	font-size: 10px;
+	font-weight: 600;
+	cursor: pointer;
+	outline: none;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+	font-family: inherit;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+}
+
+.nav-footer__btn:hover {
+	background: linear-gradient(180deg, #8fc1d3 0%, #6aa5ba 100%);
+}
+
+.nav-footer__btn:active {
+	background: linear-gradient(180deg, #5b99b0 0%, #4d8a9f 100%);
+}
+
+/* ---- Empty state ---- */
+
+.nav-empty {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 16px;
+	color: #7a9caa;
+	font-size: 11px;
+}

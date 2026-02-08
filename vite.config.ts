@@ -16,6 +16,7 @@ export default defineConfig({
 					['@babel/plugin-transform-class-properties', {loose: true}],
 				],
 			},
+			exclude: /node_modules/,
 		}),
 		solidPlugin({
 			include: [/\.tsx$/, /\.jsx$/],
@@ -30,6 +31,9 @@ export default defineConfig({
 			'@iid': resolve(__dirname, 'src/iid'),
 			'@ui': resolve(__dirname, 'src/ui'),
 		},
+	},
+	optimizeDeps: {
+		exclude: ['solid-icons'],
 	},
 	build: {
 		target: 'ES2022',

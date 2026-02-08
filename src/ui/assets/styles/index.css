@@ -5,3 +5,5 @@
 
 @import "./theme.css";
 @import "./globals.css";
+@import "../../components/toolbar/toolbar.css";
+@import "../../components/navigator/navigator.css";
