@@ -15,7 +15,6 @@ export enum LogLevel
  */
 export interface LoggerConfig
 {
-	level: LogLevel;
 	showTimestamp: boolean;
 	showLevel: boolean;
 	showSource: boolean;
@@ -27,6 +26,9 @@ export interface LoggerConfig
 export class Logger
 {
 	private static _loggers: Map<string, Logger> = new Map();
+	private static _globalLevel: LogLevel = LogLevel.DEBUG;
+	private static _levelOverrides: Map<string, LogLevel> = new Map();
+
 	// Console styles
 	private static readonly STYLES = {
 		// Levels
@@ -53,7 +55,6 @@ export class Logger
 	};
 	private _name: string;
 	private _config: LoggerConfig = {
-		level: LogLevel.DEBUG,
 		showTimestamp: true,
 		showLevel: true,
 		showSource: true,
@@ -91,15 +92,35 @@ export class Logger
 	}
 
 	/**
-	 * Set global log level
+	 * Set global log level for all loggers without a per-logger override
 	 */
 	static setLevel(level: LogLevel): void
 	{
-		this.instance._config.level = level;
-		this._loggers.forEach((logger) =>
-		{
-			logger._config.level = level;
-		});
+		this._globalLevel = level;
+	}
+
+	/**
+	 * Set log level for a specific logger by name
+	 */
+	static setLoggerLevel(name: string, level: LogLevel): void
+	{
+		this._levelOverrides.set(name, level);
+	}
+
+	/**
+	 * Remove per-logger override, falling back to global level
+	 */
+	static resetLoggerLevel(name: string): void
+	{
+		this._levelOverrides.delete(name);
+	}
+
+	/**
+	 * Get effective log level for a named logger
+	 */
+	static getLoggerLevel(name: string): LogLevel
+	{
+		return this._levelOverrides.get(name) ?? this._globalLevel;
 	}
 
 	/**
@@ -147,7 +168,7 @@ export class Logger
 	 */
 	success(...args: unknown[]): void
 	{
-		if (this._config.level > LogLevel.INFO) return;
+		if (this.effectiveLevel > LogLevel.INFO) return;
 		const prefix = this.formatPrefix('✓', Logger.STYLES.success);
 		console.log(...prefix, ...args);
 	}
@@ -157,25 +178,9 @@ export class Logger
 	 */
 	failure(...args: unknown[]): void
 	{
-		if (this._config.level > LogLevel.ERROR) return;
+		if (this.effectiveLevel > LogLevel.ERROR) return;
 		const prefix = this.formatPrefix('✗', Logger.STYLES.failure);
 		console.error(...prefix, ...args);
-	}
-
-	/**
-	 * Log incoming message
-	 */
-	incoming(messageId: number, messageName?: string): void
-	{
-		if (this._config.level > LogLevel.DEBUG) return;
-		const name = messageName ? ` (${messageName})` : '';
-		console.log(
-			`%c← %c[${this._name}]%c Received: %c${messageId}${name}`,
-			'color: #4CAF50; font-weight: bold',
-			this.getSourceStyle(),
-			Logger.STYLES.reset,
-			'color: #4CAF50'
-		);
 	}
 
 	/**
@@ -183,7 +188,7 @@ export class Logger
 	 */
 	outgoing(messageId: number, messageName?: string): void
 	{
-		if (this._config.level > LogLevel.DEBUG) return;
+		if (this.effectiveLevel > LogLevel.DEBUG) return;
 
 		const name = messageName ? ` (${messageName})` : '';
 
@@ -197,11 +202,19 @@ export class Logger
 	}
 
 	/**
+	 * Get effective log level for this logger (per-logger override or global)
+	 */
+	private get effectiveLevel(): LogLevel
+	{
+		return Logger._levelOverrides.get(this._name) ?? Logger._globalLevel;
+	}
+
+	/**
 	 * Log with specific level
 	 */
 	private log(level: LogLevel, ...args: unknown[]): void
 	{
-		if (level < this._config.level) return;
+		if (level < this.effectiveLevel) return;
 
 		const prefix = this.formatPrefix(this.getLevelLabel(level), this.getLevelStyle(level));
 

@@ -107,7 +107,16 @@ import {
 import {MysteryBoxKeysMessageEvent,} from './messages/incoming/mysterybox';
 
 // Incoming Events - Catalog
-import {BuildersClubSubscriptionStatusMessageEvent,} from './messages/incoming/catalog';
+import {
+	BonusRareInfoMessageEvent,
+	BuildersClubSubscriptionStatusMessageEvent,
+} from './messages/incoming/catalog';
+
+// Incoming Events - Landing View
+import {PromoArticlesMessageEvent,} from './messages/incoming/landingview';
+
+// Incoming Events - Quest (hall of fame)
+import {CommunityGoalHallOfFameMessageEvent,} from './messages/incoming/quest';
 
 // Incoming Events - Room Session
 import {
@@ -350,6 +359,15 @@ import {
 
 // Outgoing Composers - Poll
 import {PollAnswerComposer, PollRejectComposer, PollStartComposer,} from './messages/outgoing/poll';
+
+// Outgoing Composers - Landing View
+import {GetPromoArticlesComposer,} from './messages/outgoing/landingview';
+
+// Outgoing Composers - Catalog
+import {GetBonusRareInfoMessageComposer,} from './messages/outgoing/catalog';
+
+// Outgoing Composers - Quest (hall of fame)
+import {GetCommunityGoalHallOfFameMessageComposer,} from './messages/outgoing/quest';
 
 // Outgoing Composers - Notifications
 import {GetMOTDMessageComposer} from './messages/outgoing/notifications';
@@ -631,6 +649,15 @@ export class HabboMessages implements IMessageConfiguration
 
 		// === ERROR ===
 		this._events.set(657, ErrorReportEvent);
+
+		// === LANDING VIEW ===
+		this._events.set(286, PromoArticlesMessageEvent);
+
+		// === CATALOG (bonus rare) ===
+		this._events.set(1533, BonusRareInfoMessageEvent);
+
+		// === QUEST (hall of fame) ===
+		this._events.set(3005, CommunityGoalHallOfFameMessageEvent);
 	}
 
 	/**
@@ -794,6 +821,15 @@ export class HabboMessages implements IMessageConfiguration
 		this._composers.set(90, AvatarEffectActivatedComposer);
 		this._composers.set(1393, AvatarEffectSelectedComposer);
 		this._composers.set(3343, ResetUnseenItemsComposer);
+
+		// === LANDING VIEW ===
+		this._composers.set(1827, GetPromoArticlesComposer);
+
+		// === CATALOG (bonus rare) ===
+		this._composers.set(957, GetBonusRareInfoMessageComposer);
+
+		// === QUEST (hall of fame) ===
+		this._composers.set(2167, GetCommunityGoalHallOfFameMessageComposer);
 
 		// === INVENTORY - TRADING ===
 		this._composers.set(3040, OpenTradingComposer);

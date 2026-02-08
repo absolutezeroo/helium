@@ -14,6 +14,7 @@ export * from './game';
 export * from './handshake';
 export * from './help';
 export * from './inventory';
+export * from './landingview';
 export * from './moderation';
 export * from './mysterybox';
 export * from './navigator';

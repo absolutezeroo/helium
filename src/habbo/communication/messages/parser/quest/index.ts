@@ -1,4 +1,7 @@
 export * from './AchievementData';
+export * from './CommunityGoalHallOfFameData';
+export * from './CommunityGoalHallOfFameMessageParser';
+export * from './HallOfFameEntryData';
 export * from './QuestMessageData';
 export * from './ResolutionAchievementData';
 export * from './QuestMessageEventParser';

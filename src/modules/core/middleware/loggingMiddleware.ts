@@ -3,17 +3,17 @@ import {Logger} from '@core/utils/Logger';
 
 /**
  * Logging middleware for development
- * Note: Logging full parser objects can cause stack overflow in DevTools
+ * Uses console.groupCollapsed so handler logs are nested inside
  */
 export const loggingMiddleware: Middleware = (context, next) =>
 {
-	// Log event name only to avoid DevTools serialization issues
-	Logger.getLogger('Messages').debug(
-		`%c[Message] ${context.eventName}`,
-		'color: #888; font-weight: bold;',
-		context.parser
+	console.groupCollapsed(
+		`%c← %c${context.eventName}`,
+		'color: #4CAF50; font-weight: bold',
+		'color: inherit; font-weight: normal'
 	);
 	next();
+	console.groupEnd();
 };
 
 /**
@@ -25,13 +25,18 @@ export function createFilteredLoggingMiddleware(pattern: RegExp): Middleware
 	{
 		if (pattern.test(context.eventName))
 		{
-			Logger.getLogger('Messages').debug(
-				`%c[Message] ${context.eventName}`,
-				'color: #4CAF50; font-weight: bold;',
-				context.parser
+			console.groupCollapsed(
+				`%c← %c${context.eventName}`,
+				'color: #4CAF50; font-weight: bold',
+				'color: inherit; font-weight: normal'
 			);
+			next();
+			console.groupEnd();
 		}
-		next();
+		else
+		{
+			next();
+		}
 	};
 }
 

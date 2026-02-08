@@ -195,8 +195,6 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 				const messageId = wrapper.getMessageId();
 				const messageName = this.messageRegistry.getIncomingMessageName(messageId);
 
-				this.callback?.messageReceived?.(messageId, messageName);
-
 				this.emit('message', messageId);
 
 				const events = this.messageRegistry.getMessageEventsForId(messageId);
@@ -232,6 +230,7 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 						} catch (error)
 						{
 							log.error(`Parse error for ${messageId}: ${(error as Error).message}`);
+
 							this.callback?.messageParseError?.(wrapper, error as Error);
 						}
 					}
@@ -390,7 +389,6 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 			if (messageId !== undefined)
 			{
 				const messageName = this.messageRegistry.getOutgoingMessageName(messageId);
-				this.callback?.messageSent?.(messageId, messageName);
 			}
 			return true;
 		} catch (error)

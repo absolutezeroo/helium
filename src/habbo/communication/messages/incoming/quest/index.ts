@@ -1,3 +1,4 @@
+export * from './CommunityGoalHallOfFameMessageEvent';
 export * from './QuestMessageEvent';
 export * from './QuestsMessageEvent';
 export * from './SeasonalQuestsMessageEvent';

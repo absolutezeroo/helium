@@ -73,3 +73,6 @@ export type {LocalizationState, LocalizationActions, LocalizationManagers} from 
 
 export {inventoryModule} from './inventory';
 export type {InventoryState, InventoryActions, InventoryManagers} from './inventory';
+
+export {landingViewModule} from './landingview';
+export type {LandingViewState, LandingViewActions, LandingViewManagers, BonusRareInfo} from './landingview';

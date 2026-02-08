@@ -86,6 +86,7 @@ export class HabboGroupsManager extends Component implements IHabboGroupsManager
 	showGroupBadgeInfo(isStaff: boolean, groupId: number): void
 	{
 		this.openGroupInfo(groupId);
+
 		log.debug('showGroupBadgeInfo:', groupId, 'staff:', isStaff);
 	}
 
@@ -144,6 +145,7 @@ export class HabboGroupsManager extends Component implements IHabboGroupsManager
 	protected override initComponent(): void
 	{
 		this.context.addLinkEventTracker(this);
+
 		log.debug('Groups manager initialized');
 	}
 }

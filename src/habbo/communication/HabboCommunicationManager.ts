@@ -108,6 +108,7 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 		{
 			throw new Error('CommunicationManager not available');
 		}
+
 		return this._communicationManager;
 	}
 
@@ -119,6 +120,7 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 		{
 			throw new Error('Connection actions not set. Call setConnectionActions() first.');
 		}
+
 		return this._connectionActions;
 	}
 
@@ -285,16 +287,6 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 			this.connectionActions.setError(error.message);
 		}
 		this.tryNextPort();
-	}
-
-	messageReceived(messageId: number, messageName: string): void
-	{
-		log.incoming(messageId, messageName);
-	}
-
-	messageSent(messageId: number, messageName: string): void
-	{
-		log.outgoing(messageId, messageName);
 	}
 
 	messageParseError(message: IMessageDataWrapper, error: Error): void

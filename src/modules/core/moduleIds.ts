@@ -11,6 +11,7 @@ export const ModuleId = {
 	Connection: 'connection',
 	Config: 'config',
 	Localization: 'localization',
+	LandingView: 'landingview',
 } as const;
 
 export type ModuleIdType = (typeof ModuleId)[keyof typeof ModuleId];
