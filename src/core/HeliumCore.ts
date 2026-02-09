@@ -2,15 +2,12 @@ import {Application, ApplicationOptions, Ticker} from 'pixi.js';
 import {ComponentContext} from '@core/runtime';
 import {AssetLibrary} from '@core/assets/AssetLibrary';
 import {CoreCommunicationManager} from '@core/communication/CoreCommunicationManager';
-import {GameDataManager} from '@core/gamedata/GameDataManager';
 import {Logger} from '@core/utils/Logger';
 import {IID_AssetLibrary} from '@iid/IIDAssetLibrary';
 import {IID_CoreCommunicationManager} from '@iid/IIDCoreCommunicationManager';
-import {IID_GameDataManager} from '@iid/IIDGameDataManager';
 
 import type {IAssetLibrary} from '@core/assets/IAssetLibrary';
 import type {ICoreCommunicationManager} from '@core/communication/ICoreCommunicationManager';
-import type {IGameDataManager} from '@core/gamedata/IGameDataManager';
 
 const log = Logger.getLogger('HeliumCore');
 
@@ -39,7 +36,6 @@ export interface HeliumCoreConfig
  * - ComponentContext (dependency injection)
  * - PixiJS Application
  * - AssetLibrary
- * - GameDataManager
  * - CoreCommunicationManager
  *
  * This layer is initialized first, before any Habbo-specific managers.
@@ -90,18 +86,6 @@ export class HeliumCore
 		}
 
 		return this._assets;
-	}
-
-	private _gameData: GameDataManager | null = null;
-
-	get gameData(): IGameDataManager
-	{
-		if (!this._gameData)
-		{
-			throw new Error('[HeliumCore] Not initialized');
-		}
-
-		return this._gameData;
 	}
 
 	private _communication: CoreCommunicationManager | null = null;
@@ -160,10 +144,6 @@ export class HeliumCore
 		this._assets = new AssetLibrary(this._context);
 		this._context.attachComponent(this._assets, [IID_AssetLibrary]);
 
-		// Game Data Manager - manages game data files
-		this._gameData = new GameDataManager(this._context);
-		this._context.attachComponent(this._gameData, [IID_GameDataManager]);
-
 		// Core Communication Manager - low-level socket communication
 		this._communication = new CoreCommunicationManager(this._context);
 		this._context.attachComponent(this._communication, [IID_CoreCommunicationManager]);
@@ -197,7 +177,6 @@ export class HeliumCore
 
 		// Clear references
 		this._assets = null;
-		this._gameData = null;
 		this._communication = null;
 
 		this._disposed = true;

@@ -4,7 +4,6 @@
 // Exports
 export {IID_AssetLibrary} from './IIDAssetLibrary';
 export {IID_CoreCommunicationManager} from './IIDCoreCommunicationManager';
-export {IID_GameDataManager} from './IIDGameDataManager';
 export {IID_HabboCommunicationManager} from './IIDHabboCommunicationManager';
 export {IID_HabboConfigurationManager} from './IIDHabboConfigurationManager';
 export {IID_HabboFriendList} from './IIDHabboFriendList';

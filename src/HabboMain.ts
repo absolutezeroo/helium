@@ -422,7 +422,7 @@ export class HabboMain
 
 	/**
 	 * Called when game data resources (hashes) are available.
-	 * Sets config properties from hashes and triggers GameDataManager loading.
+	 * Sets config properties from hashes for game data loading.
 	 */
 	private async onGameDataResourcesReady(resources: IGameDataResources): Promise<void>
 	{
@@ -471,14 +471,9 @@ export class HabboMain
 			await this.loadExternalUIVariables(uiVarsUrl);
 		}
 
-		// Feed GameDataManager with hash-derived URLs
-		this._core!.gameData.loadGameData({
-			furnitureDataUrl: config.getProperty('furnidata.url'),
-			effectMapUrl: config.getProperty('avatar.effectmap.url'),
-			productDataUrl: config.getProperty('productdata.url'),
-			figureDataUrl: config.getProperty('avatar.figuredata.url'),
-			figureMapUrl: config.getProperty('avatar.figuremap.url'),
-		});
+		// Furniture/product data is now loaded by SessionDataManager
+		// (matching AS3 architecture where SessionDataManager owns FurnitureDataParser/ProductDataParser)
+		// Effect/figure data will be loaded by AvatarRenderManager when implemented
 	}
 
 	/**

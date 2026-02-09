@@ -177,11 +177,23 @@ import {
 	QuestionFinishedEvent,
 } from './messages/incoming/poll';
 
+// Incoming Events - Help (name change events)
+import {
+	ChangeUserNameResultMessageEvent,
+	UserNameChangedMessageEvent,
+} from './messages/incoming/help';
+
 // Incoming Events - Error
 import {ErrorReportEvent} from './messages/incoming/error';
 
 // Incoming Events - Users
-import {InClientLinkMessageEvent} from './messages/incoming/users';
+import {EmailStatusResultEvent, InClientLinkMessageEvent} from './messages/incoming/users';
+
+// Incoming Events - Preferences
+import {AccountPreferencesEvent} from './messages/incoming/preferences';
+
+// Incoming Events - NFT
+import {UserNftChatStylesMessageEvent} from './messages/incoming/nft';
 
 // Incoming Events - Campaign
 import {CampaignCalendarDataMessageEvent, CampaignCalendarDoorOpenedMessageEvent,} from './messages/incoming/campaign';
@@ -194,11 +206,21 @@ import {LatencyPingResponseMessageEvent} from './messages/incoming/tracking';
 
 // Incoming Events - Friendlist
 import {
+	AcceptFriendResultMessageEvent,
 	ConsoleMessageHistoryEvent,
+	FindFriendsProcessResultMessageEvent,
+	FollowFriendFailedMessageEvent,
+	FriendListFragmentMessageEvent,
+	FriendListUpdateMessageEvent,
+	FriendNotificationMessageEvent,
+	FriendRequestsMessageEvent,
+	HabboSearchResultMessageEvent,
 	InstantMessageErrorEvent,
 	MessengerErrorEvent,
 	MessengerInitEvent,
 	NewConsoleMessageEvent,
+	NewFriendRequestMessageEvent,
+	RoomInviteErrorMessageEvent,
 	RoomInviteEvent,
 } from './messages/incoming/friendlist';
 
@@ -328,7 +350,10 @@ import {
 } from './messages/outgoing/room/action';
 
 // Outgoing Composers - Room (root)
-import {RespectPetMessageComposer,} from './messages/outgoing/room';
+import {RespectPetMessageComposer, RespectUserMessageComposer,} from './messages/outgoing/room';
+
+// Outgoing Composers - Preferences
+import {SetUIFlagsMessageComposer,} from './messages/outgoing/preferences';
 
 // Outgoing Composers - Room Furniture
 import {
@@ -379,10 +404,21 @@ import {
 
 // Outgoing Composers - Friendlist
 import {
+	AcceptFriendMessageComposer,
+	DeclineFriendMessageComposer,
+	FindNewFriendsMessageComposer,
 	FollowFriendMessageComposer,
+	FriendListUpdateMessageComposer,
+	GetFriendRequestsMessageComposer,
 	GetMessengerHistoryComposer,
+	GetRelationshipStatusInfoMessageComposer,
+	HabboSearchMessageComposer,
 	MessengerInitMessageComposer,
+	RemoveFriendMessageComposer,
+	RequestFriendMessageComposer,
 	SendMsgMessageComposer,
+	SendRoomInviteMessageComposer,
+	SetRelationshipStatusMessageComposer,
 	VisitUserMessageComposer,
 } from './messages/outgoing/friendlist';
 
@@ -596,6 +632,17 @@ export class HabboMessages implements IMessageConfiguration
 
 		// === USERS ===
 		this._events.set(2437, InClientLinkMessageEvent);
+		this._events.set(712, EmailStatusResultEvent);
+
+		// === HELP (name change) ===
+		this._events.set(2879, UserNameChangedMessageEvent);
+		this._events.set(3732, ChangeUserNameResultMessageEvent);
+
+		// === PREFERENCES ===
+		this._events.set(2641, AccountPreferencesEvent);
+
+		// === NFT ===
+		this._events.set(1205, UserNftChatStylesMessageEvent);
 
 		// === CAMPAIGN ===
 		this._events.set(3108, CampaignCalendarDataMessageEvent);
@@ -614,6 +661,16 @@ export class HabboMessages implements IMessageConfiguration
 		this._events.set(3498, InstantMessageErrorEvent);
 		this._events.set(687, MessengerErrorEvent);
 		this._events.set(2514, RoomInviteEvent);
+		this._events.set(1142, FriendListFragmentMessageEvent);
+		this._events.set(3960, FriendListUpdateMessageEvent);
+		this._events.set(3313, FriendRequestsMessageEvent);
+		this._events.set(1207, NewFriendRequestMessageEvent);
+		this._events.set(3125, AcceptFriendResultMessageEvent);
+		this._events.set(1928, FriendNotificationMessageEvent);
+		this._events.set(1122, FindFriendsProcessResultMessageEvent);
+		this._events.set(3471, HabboSearchResultMessageEvent);
+		this._events.set(2508, FollowFriendFailedMessageEvent);
+		this._events.set(3994, RoomInviteErrorMessageEvent);
 
 		// === NOTIFICATIONS (extended) ===
 		this._events.set(1823, MOTDNotificationEvent);
@@ -747,6 +804,7 @@ export class HabboMessages implements IMessageConfiguration
 		this._composers.set(3962, LetUserInMessageComposer);
 
 		// === ROOM RESPECT ===
+		this._composers.set(2694, RespectUserMessageComposer);
 		this._composers.set(2631, RespectPetMessageComposer);
 
 		// === ROOM FURNITURE ===
@@ -789,14 +847,30 @@ export class HabboMessages implements IMessageConfiguration
 		this._composers.set(799, GetMessengerHistoryComposer);
 		this._composers.set(2446, FollowFriendMessageComposer);
 		this._composers.set(472, MessengerInitMessageComposer);
+		this._composers.set(76, AcceptFriendMessageComposer);
+		this._composers.set(3308, DeclineFriendMessageComposer);
+		this._composers.set(3473, FindNewFriendsMessageComposer);
+		this._composers.set(1399, FriendListUpdateMessageComposer);
+		this._composers.set(406, GetFriendRequestsMessageComposer);
+		this._composers.set(1015, GetRelationshipStatusInfoMessageComposer);
+		this._composers.set(1378, HabboSearchMessageComposer);
+		this._composers.set(417, RemoveFriendMessageComposer);
+		this._composers.set(1645, RequestFriendMessageComposer);
+		this._composers.set(366, SendRoomInviteMessageComposer);
+		this._composers.set(1666, SetRelationshipStatusMessageComposer);
 
 		// === CAMPAIGN ===
 		this._composers.set(3165, OpenCampaignCalendarDoorComposer);
 		this._composers.set(3280, OpenCampaignCalendarDoorAsStaffComposer);
 
 		// === ADVERTISEMENT ===
-		this._composers.set(3698, GetInterstitialMessageComposer);
+		// NOTE: GetInterstitialMessageComposer had ID 3698 in win63 source, but that conflicts
+		// with OpenPetPackageMessageComposer (also 3698). Removed to avoid collision.
+		// GetInterstitialMessageComposer can be re-added with the correct ID if needed.
 		this._composers.set(509, InterstitialShownMessageComposer);
+
+		// === PREFERENCES ===
+		this._composers.set(2209, SetUIFlagsMessageComposer);
 
 		// === ROOM ENGINE ===
 		this._composers.set(2064, GetFurnitureAliasesMessageComposer);

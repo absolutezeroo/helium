@@ -18,6 +18,8 @@ export * from './landingview';
 export * from './moderation';
 export * from './mysterybox';
 export * from './navigator';
+export * from './nft';
+export * from './preferences';
 export * from './newnavigator';
 export * from './notifications';
 export * from './poll';

@@ -2,42 +2,83 @@ import {Component, ComponentDependency, type IContext} from '@core/runtime';
 import {Logger} from '@core/utils/Logger';
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
 import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
-import type {IFurnitureData, IProductData} from '@core/gamedata/IGameDataManager';
 import type {IHabboCommunicationManager} from '../communication/IHabboCommunicationManager';
 import type {ISessionDataManager} from './ISessionDataManager';
 import {HabboClubLevelEnum, UIFlagsEnum} from './enum';
 import {IID_HabboCommunicationManager} from '@iid/IIDHabboCommunicationManager';
-import type {IFurniDataListener} from './furniture/IFurniDataListener';
-import type {IProductDataListener} from './product/IProductDataListener';
+import {FurnitureDataParser} from './furniture/FurnitureDataParser';
+import {ProductDataParser} from './product/ProductDataParser';
 import {BadgeInfo} from './BadgeInfo';
 
-// Events
+import type {IFurnitureData} from './furniture/IFurnitureData';
+import type {IFurniDataListener} from './furniture/IFurniDataListener';
+import type {IProductData} from './product/IProductData';
+import type {IProductDataListener} from './product/IProductDataListener';
+
+// Events - Handshake
 import {UserObjectMessageEvent} from '../communication/messages/incoming/handshake/UserObjectMessageEvent';
 import {UserRightsMessageEvent} from '../communication/messages/incoming/handshake/UserRightsMessageEvent';
 import {NoobnessLevelMessageEvent} from '../communication/messages/incoming/handshake/NoobnessLevelMessageEvent';
 import {
 	IsFirstLoginOfDayMessageEvent
 } from '../communication/messages/incoming/handshake/IsFirstLoginOfDayMessageEvent';
+
+// Events - Availability
 import {
 	AvailabilityStatusMessageEvent
 } from '../communication/messages/incoming/availability/AvailabilityStatusMessageEvent';
+
+// Events - Avatar
 import {FigureUpdateMessageEvent} from '../communication/messages/incoming/avatar/FigureUpdateMessageEvent';
+
+// Events - Navigator
 import {
 	NavigatorSettingsMessageEvent
 } from '../communication/messages/incoming/navigator/NavigatorSettingsMessageEvent';
 import {FavouritesMessageEvent} from '../communication/messages/incoming/navigator/FavouritesMessageEvent';
+
+// Events - Notifications
 import {ActivityPointsMessageEvent} from '../communication/messages/incoming/notifications/ActivityPointsMessageEvent';
 import {InfoFeedEnableMessageEvent} from '../communication/messages/incoming/notifications/InfoFeedEnableMessageEvent';
+import {
+	AccountSafetyLockStatusChangeMessageEvent
+} from '../communication/messages/incoming/notifications/AccountSafetyLockStatusChangeMessageEvent';
+import {PetRespectFailedEvent} from '../communication/messages/incoming/notifications/PetRespectFailedEvent';
+
+// Events - Inventory
 import {
 	AchievementsScoreMessageEvent
 } from '../communication/messages/incoming/inventory/AchievementsScoreMessageEvent';
 import {FigureSetIdsMessageEvent} from '../communication/messages/incoming/inventory/FigureSetIdsMessageEvent';
 import {AvatarEffectsMessageEvent} from '../communication/messages/incoming/inventory/AvatarEffectsMessageEvent';
+
+// Events - Mystery Box
 import {MysteryBoxKeysMessageEvent} from '../communication/messages/incoming/mysterybox/MysteryBoxKeysMessageEvent';
+
+// Events - Catalog
 import {
 	BuildersClubSubscriptionStatusMessageEvent
 } from '../communication/messages/incoming/catalog/BuildersClubSubscriptionStatusMessageEvent';
+
+// Events - Users
 import {InClientLinkMessageEvent} from '../communication/messages/incoming/users/InClientLinkMessageEvent';
+import {EmailStatusResultEvent} from '../communication/messages/incoming/users/EmailStatusResultEvent';
+
+// Events - Help (name change)
+import {
+	ChangeUserNameResultMessageEvent
+} from '../communication/messages/incoming/help/ChangeUserNameResultMessageEvent';
+import {UserNameChangedMessageEvent} from '../communication/messages/incoming/help/UserNameChangedMessageEvent';
+
+// Events - Room
+import {RoomReadyMessageEvent} from '../communication/messages/incoming/room/session/RoomReadyMessageEvent';
+import {UserChangeMessageEvent} from '../communication/messages/incoming/room/action/UserChangeMessageEvent';
+
+// Events - Preferences & NFT
+import {AccountPreferencesEvent} from '../communication/messages/incoming/preferences/AccountPreferencesEvent';
+import {
+	UserNftChatStylesMessageEvent
+} from '../communication/messages/incoming/nft/UserNftChatStylesMessageEvent';
 
 // Parsers
 import type {UserObjectMessageParser} from '../communication/messages/parser/handshake/UserObjectMessageParser';
@@ -61,6 +102,9 @@ import type {
 	InfoFeedEnableMessageParser
 } from '../communication/messages/parser/notifications/InfoFeedEnableMessageParser';
 import type {
+	AccountSafetyLockStatusChangeMessageEventParser
+} from '../communication/messages/parser/notifications/AccountSafetyLockStatusChangeMessageEventParser';
+import type {
 	AchievementsScoreMessageParser
 } from '../communication/messages/parser/inventory/AchievementsScoreMessageParser';
 import type {FigureSetIdsMessageParser} from '../communication/messages/parser/inventory/FigureSetIdsMessageParser';
@@ -75,11 +119,29 @@ import type {
 	BuildersClubSubscriptionStatusMessageParser
 } from '../communication/messages/parser/catalog/BuildersClubSubscriptionStatusMessageParser';
 import type {InClientLinkMessageParser} from '../communication/messages/parser/users/InClientLinkMessageParser';
+import type {EmailStatusResultParser} from '../communication/messages/parser/users/EmailStatusResultParser';
+import type {
+	ChangeUserNameResultMessageParser
+} from '../communication/messages/parser/help/ChangeUserNameResultMessageParser';
+import type {
+	UserNameChangedMessageParser
+} from '../communication/messages/parser/help/UserNameChangedMessageParser';
+import type {RoomReadyMessageParser} from '../communication/messages/parser/room/session/RoomReadyMessageParser';
+import type {AccountPreferencesParser} from '../communication/messages/parser/preferences/AccountPreferencesParser';
+import type {
+	UserNftChatStylesMessageParser
+} from '../communication/messages/parser/nft/UserNftChatStylesMessageParser';
 
 // Composers
 import {RespectUserMessageComposer} from '../communication/messages/outgoing/room/RespectUserMessageComposer';
 import {RespectPetMessageComposer} from '../communication/messages/outgoing/room/RespectPetMessageComposer';
 import {ChatMessageComposer} from '../communication/messages/outgoing/room/chat/ChatMessageComposer';
+import {SetUIFlagsMessageComposer} from '../communication/messages/outgoing/preferences/SetUIFlagsMessageComposer';
+
+// Session events
+import {UserNameUpdateEvent} from './events/UserNameUpdateEvent';
+import {SessionDataPreferencesEvent} from './events/SessionDataPreferencesEvent';
+import {MysteryBoxKeysUpdateEvent} from './events/MysteryBoxKeysUpdateEvent';
 
 // Sub-managers
 import type {IUserDataManager} from './IUserDataManager';
@@ -105,7 +167,24 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	private _customData: string = '';
 	private _directMail: boolean = false;
 	private _mysteryBoxKeyColor: string = '';
-	private _furniDataHash: string = '';
+	private _newFurniDataHash: string | null = null;
+	private _nftChatStyleIds: number[] = [];
+
+	// Furniture data - owned by SessionDataManager (AS3 pattern)
+	private _floorItems: Map<number, IFurnitureData> = new Map();
+	private _wallItems: Map<number, IFurnitureData> = new Map();
+	private _floorItemsByName: Map<string, number[]> = new Map();
+	private _wallItemsByName: Map<string, number[]> = new Map();
+	private _furnitureDataParser: FurnitureDataParser | null = null;
+	private _loadingFurnitureDataParser: FurnitureDataParser | null = null;
+	private _furniDataReady: boolean = false;
+	private _furniDataListeners: IFurniDataListener[] = [];
+
+	// Product data - owned by SessionDataManager (AS3 pattern)
+	private _products: Map<string, IProductData> = new Map();
+	private _productDataParser: ProductDataParser | null = null;
+	private _productDataReady: boolean = false;
+	private _productDataListeners: IProductDataListener[] = [];
 
 	constructor(context: IContext)
 	{
@@ -500,12 +579,12 @@ export class SessionDataManager extends Component implements ISessionDataManager
 
 	get newFurniDataHash(): string
 	{
-		return this._furniDataHash;
+		return this._newFurniDataHash ?? '';
 	}
 
 	set newFurniDataHash(hash: string)
 	{
-		this._furniDataHash = hash;
+		this._newFurniDataHash = hash;
 	}
 
 	protected override get dependencies(): Array<ComponentDependency<any>>
@@ -576,7 +655,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	setRoomCameraFollowDisabled(disabled: boolean): void
 	{
 		this._isRoomCameraFollowDisabled = disabled;
-		// Note: In AS3 this also sends a message to save preference
+		this.send(new SetUIFlagsMessageComposer(this._uiFlags));
 	}
 
 	/**
@@ -691,128 +770,239 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		return `group_badge_${badge}_s`;
 	}
 
-	getProductData(_productCode: string): IProductData | null
+	/**
+	 * @see source_as_win63/habbo/session/SessionDataManager.as line 808
+	 */
+	getProductData(productCode: string): IProductData | null
 	{
-		// TODO: Implement product data lookup
+		if (!this._productDataReady)
+		{
+			this.loadProductData();
+		}
+
+		return this._products.get(productCode) ?? null;
+	}
+
+	/**
+	 * @see source_as_win63/habbo/session/SessionDataManager.as line 817
+	 */
+	getFloorItemData(itemId: number): IFurnitureData | null
+	{
+		return this._floorItems.get(itemId) ?? null;
+	}
+
+	/**
+	 * @see source_as_win63/habbo/session/SessionDataManager.as getFloorItemsDataByCategory()
+	 */
+	getFloorItemsDataByCategory(category: number): IFurnitureData[]
+	{
+		const result: IFurnitureData[] = [];
+
+		for (const furni of this._floorItems.values())
+		{
+			if (furni.category === category)
+			{
+				result.push(furni);
+			}
+		}
+
+		return result;
+	}
+
+	/**
+	 * @see source_as_win63/habbo/session/SessionDataManager.as line 842
+	 */
+	getWallItemData(itemId: number): IFurnitureData | null
+	{
+		return this._wallItems.get(itemId) ?? null;
+	}
+
+	/**
+	 * Get floor item data by class name with color variant support
+	 * @see source_as_win63/habbo/session/SessionDataManager.as line 851
+	 */
+	getFloorItemDataByName(name: string, index: number = 0): IFurnitureData | null
+	{
+		const ids = this._floorItemsByName.get(name);
+
+		if (ids && index <= ids.length - 1)
+		{
+			const id = ids[index];
+			return this.getFloorItemData(id);
+		}
+
 		return null;
 	}
 
-	getFloorItemData(_itemId: number): IFurnitureData | null
+	/**
+	 * Get wall item data by class name with color variant support
+	 * @see source_as_win63/habbo/session/SessionDataManager.as line 867
+	 */
+	getWallItemDataByName(name: string, index: number = 0): IFurnitureData | null
 	{
-		// TODO: Implement floor item data lookup
+		const ids = this._wallItemsByName.get(name);
+
+		if (ids && index <= ids.length - 1)
+		{
+			const id = ids[index];
+			return this.getWallItemData(id);
+		}
+
 		return null;
 	}
 
-	getFloorItemsDataByCategory(_category: number): IFurnitureData[]
+	/**
+	 * @see source_as_win63/habbo/session/SessionDataManager.as line 1024
+	 */
+	loadProductData(listener?: IProductDataListener): boolean
 	{
-		// TODO: Implement floor item data by category
-		return [];
-	}
+		if (this._productDataReady)
+		{
+			return true;
+		}
 
-	getWallItemData(_itemId: number): IFurnitureData | null
-	{
-		// TODO: Implement wall item data lookup
-		return null;
-	}
+		if (listener && this._productDataListeners.indexOf(listener) === -1)
+		{
+			this._productDataListeners.push(listener);
+		}
 
-	getFloorItemDataByName(_name: string, _index: number = 0): IFurnitureData | null
-	{
-		// TODO: Implement floor item data by name lookup
-		return null;
-	}
-
-	getWallItemDataByName(_name: string, _index: number = 0): IFurnitureData | null
-	{
-		// TODO: Implement wall item data by name lookup
-		return null;
-	}
-
-	loadProductData(_listener?: IProductDataListener): boolean
-	{
-		// TODO: Implement product data loading
 		return false;
 	}
 
-	getFurniData(_listener: IFurniDataListener): IFurnitureData[]
+	/**
+	 * @see source_as_win63/habbo/session/SessionDataManager.as line 1122
+	 */
+	getFurniData(listener: IFurniDataListener): IFurnitureData[]
 	{
-		// TODO: Implement furni data with listener
-		return [];
+		if (this._floorItems.size === 0 && this._wallItems.size === 0)
+		{
+			if (this._furniDataListeners.indexOf(listener) === -1)
+			{
+				this._furniDataListeners.push(listener);
+			}
+
+			return [];
+		}
+
+		const result: IFurnitureData[] = [];
+
+		for (const furni of this._floorItems.values())
+		{
+			result.push(furni);
+		}
+
+		for (const furni of this._wallItems.values())
+		{
+			result.push(furni);
+		}
+
+		return result;
 	}
 
-	addProductsReadyEventListener(_listener: IProductDataListener): void
+	/**
+	 * @see source_as_win63/habbo/session/SessionDataManager.as line 1037
+	 */
+	addProductsReadyEventListener(listener: IProductDataListener): void
 	{
-		// TODO: Implement product data ready listener
+		if (this._productDataReady)
+		{
+			listener.productDataReady();
+			return;
+		}
+
+		if (this._productDataListeners.indexOf(listener) === -1)
+		{
+			this._productDataListeners.push(listener);
+		}
 	}
 
-	removeFurniDataListener(_listener: IFurniDataListener): void
+	/**
+	 * @see source_as_win63/habbo/session/SessionDataManager.as line 1109
+	 */
+	removeFurniDataListener(listener: IFurniDataListener): void
 	{
-		// TODO: Implement furni data listener removal
+		if (!this._furniDataListeners) return;
+
+		const index = this._furniDataListeners.indexOf(listener);
+
+		if (index > -1)
+		{
+			this._furniDataListeners.splice(index, 1);
+		}
 	}
 
+	/**
+	 * @see source_as_win63/habbo/session/SessionDataManager.as line 1100
+	 */
 	refreshFurniData(): void
 	{
-		// TODO: Implement furni data refresh
+		this._floorItems = new Map();
+		this._wallItems = new Map();
+		this._floorItemsByName = new Map();
+		this._wallItemsByName = new Map();
+		this._furniDataReady = false;
+		this.initFurnitureData(false);
 	}
 
 	openHabboHomePage(_userId: number, _userName: string): void
 	{
-		// TODO: Implement Habbo home page opening
+		// Opening external pages is not applicable in this client
+		log.debug(`Open Habbo home page: ${_userName}`);
 	}
 
-	pickAllFurniture(roomId: number): void
+	pickAllFurniture(_roomId: number): void
 	{
-		// TODO: Send PickAllFurnitureMessageComposer
-		log.debug(`Pick all furniture in room ${roomId}`);
+		// Requires PickAllFurnitureMessageComposer (not yet implemented)
+		log.debug(`Pick all furniture in room ${_roomId}`);
 	}
 
-	resetScores(roomId: number): void
+	resetScores(_roomId: number): void
 	{
-		// TODO: Send ResetScoresMessageComposer
-		log.debug(`Reset scores in room ${roomId}`);
+		// Requires ResetScoresMessageComposer (not yet implemented)
+		log.debug(`Reset scores in room ${_roomId}`);
 	}
 
-	ejectAllFurniture(roomId: number, _message: string): void
+	ejectAllFurniture(_roomId: number, _message: string): void
 	{
-		// TODO: Send EjectAllFurnitureMessageComposer
-		log.debug(`Eject all furniture in room ${roomId}`);
+		// Requires EjectAllFurnitureMessageComposer (not yet implemented)
+		log.debug(`Eject all furniture in room ${_roomId}`);
 	}
 
-	ejectPets(roomId: number): void
+	ejectPets(_roomId: number): void
 	{
-		// TODO: Send EjectPetsMessageComposer
-		log.debug(`Eject pets in room ${roomId}`);
+		// Requires EjectPetsMessageComposer (not yet implemented)
+		log.debug(`Eject pets in room ${_roomId}`);
 	}
 
-	pickAllBuilderFurniture(roomId: number): void
+	pickAllBuilderFurniture(_roomId: number): void
 	{
-		// TODO: Send PickAllBuilderFurnitureMessageComposer
-		log.debug(`Pick all builder furniture in room ${roomId}`);
+		// Requires PickAllBuilderFurnitureMessageComposer (not yet implemented)
+		log.debug(`Pick all builder furniture in room ${_roomId}`);
 	}
 
 	getCreditVaultStatus(): void
 	{
-		// TODO: Send GetCreditVaultStatusComposer
+		// Requires GetCreditVaultStatusComposer (not yet implemented)
 	}
 
 	getIncomeRewardStatus(): void
 	{
-		// TODO: Send GetIncomeRewardStatusComposer
+		// Requires GetIncomeRewardStatusComposer (not yet implemented)
 	}
 
 	withdrawCreditVault(): void
 	{
-		// TODO: Send WithdrawCreditVaultComposer
+		// Requires WithdrawCreditVaultComposer (not yet implemented)
 	}
 
 	claimReward(_rewardId: number): void
 	{
-		// TODO: Send ClaimRewardComposer
+		// Requires ClaimRewardComposer (not yet implemented)
 	}
 
-	hasNftChatStyle(_styleId: number): boolean
+	hasNftChatStyle(styleId: number): boolean
 	{
-		// TODO: Implement NFT chat style check
-		return false;
+		return this._nftChatStyleIds.indexOf(styleId) !== -1;
 	}
 
 	sendSpecialCommandMessage(command: string): void
@@ -841,6 +1031,15 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		this._ignoredUsersManager = null;
 		this._groupInfoManager = null;
 
+		// Dispose parsers
+		this._furnitureDataParser?.dispose();
+		this._loadingFurnitureDataParser?.dispose();
+		this._productDataParser?.dispose();
+
+		this._furnitureDataParser = null;
+		this._loadingFurnitureDataParser = null;
+		this._productDataParser = null;
+
 		// Remove all message event handlers
 		for (const event of this._messageEvents)
 		{
@@ -864,9 +1063,128 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		this._ignoredUsersManager = new IgnoredUsersManager(this._communicationManager, sendCallback);
 		this._groupInfoManager = new HabboGroupInfoManager(this._communicationManager, sendCallback);
 
+		// Initialize furniture and product data (AS3: onConfigurationComplete)
+		this._products = new Map();
+		this._floorItems = new Map();
+		this._wallItems = new Map();
+		this._floorItemsByName = new Map();
+		this._wallItemsByName = new Map();
+
+		this.initFurnitureData();
+		this.initProductData();
+
 		this.registerMessageEvents();
 
 		log.info('SessionDataManager initialized');
+	}
+
+	/**
+	 * Initialize furniture data parser and start loading
+	 * @see source_as_win63/habbo/session/SessionDataManager.as line 297 initFurnitureData()
+	 */
+	private initFurnitureData(dispatchLocalization: boolean = true): void
+	{
+		if (this._loadingFurnitureDataParser)
+		{
+			this._loadingFurnitureDataParser.dispose();
+			this._loadingFurnitureDataParser = null;
+		}
+
+		this._loadingFurnitureDataParser = new FurnitureDataParser(
+			this._floorItems,
+			this._wallItems,
+			this._floorItemsByName,
+			this._wallItemsByName
+		);
+
+		this._loadingFurnitureDataParser.events.on('FDP_furniture_data_ready', () =>
+		{
+			this.onFurnitureReady();
+		});
+
+		if (this.propertyExists('furnidata.url'))
+		{
+			let url = this.getProperty('furnidata.url');
+
+			if (this._newFurniDataHash)
+			{
+				const lastSlash = url.lastIndexOf('/');
+				const base = url.substring(0, lastSlash);
+
+				url = base + '/' + this._newFurniDataHash;
+			}
+
+			this._loadingFurnitureDataParser.loadData(url);
+		}
+	}
+
+	/**
+	 * Initialize product data parser and start loading
+	 * @see source_as_win63/habbo/session/SessionDataManager.as line 325 initProductData()
+	 */
+	private initProductData(): void
+	{
+		if (this._productDataParser)
+		{
+			this._productDataParser.dispose();
+			this._productDataParser = null;
+		}
+
+		if (this.propertyExists('productdata.url'))
+		{
+			const url = this.getProperty('productdata.url');
+
+			this._productDataParser = new ProductDataParser(url, this._products);
+			this._productDataParser.events.on('PDP_product_data_ready', () =>
+			{
+				this.onProductsReady();
+			});
+		}
+	}
+
+	/**
+	 * Handle furniture data ready
+	 * @see source_as_win63/habbo/session/SessionDataManager.as line 337 onFurnitureReady()
+	 */
+	private onFurnitureReady(): void
+	{
+		if (this._furnitureDataParser)
+		{
+			this._furnitureDataParser.dispose();
+			this._furnitureDataParser = null;
+		}
+
+		this._furnitureDataParser = this._loadingFurnitureDataParser;
+		this._loadingFurnitureDataParser = null;
+
+		if (!this._furniDataReady)
+		{
+			this._furniDataReady = true;
+			this.notifyFurniDataListeners();
+		}
+
+		log.info(`Furniture data ready: ${this._floorItems.size} floor, ${this._wallItems.size} wall items`);
+	}
+
+	/**
+	 * Handle product data ready
+	 * @see source_as_win63/habbo/session/SessionDataManager.as line 1050 onProductsReady()
+	 */
+	private onProductsReady(): void
+	{
+		this._productDataReady = true;
+
+		for (const listener of this._productDataListeners)
+		{
+			if (listener != null && !listener.disposed)
+			{
+				listener.productDataReady();
+			}
+		}
+
+		this._productDataListeners = [];
+
+		log.info(`Product data ready: ${this._products.size} products`);
 	}
 
 	/**
@@ -886,7 +1204,20 @@ export class SessionDataManager extends Component implements ISessionDataManager
 
 			this._uiFlags &= ~flag;
 		}
-		// Note: In AS3 this sends SetUIFlagsMessageComposer
+
+		this.send(new SetUIFlagsMessageComposer(this._uiFlags));
+	}
+
+	/**
+	 * Notify all pending furni data listeners
+	 * @see source_as_win63/habbo/session/SessionDataManager.as line 351
+	 */
+	private notifyFurniDataListeners(): void
+	{
+		for (const listener of this._furniDataListeners)
+		{
+			listener.furniDataReady();
+		}
 	}
 
 	/**
@@ -927,6 +1258,23 @@ export class SessionDataManager extends Component implements ISessionDataManager
 
 		// Users events
 		this.addMessageEvent(new InClientLinkMessageEvent(this.onInClientLink.bind(this)));
+
+		// Safety & name change events
+		this.addMessageEvent(new AccountSafetyLockStatusChangeMessageEvent(this.onAccountSafetyLockStatusChanged.bind(this)));
+		this.addMessageEvent(new ChangeUserNameResultMessageEvent(this.onChangeUserNameResult.bind(this)));
+		this.addMessageEvent(new UserNameChangedMessageEvent(this.onUserNameChange.bind(this)));
+		this.addMessageEvent(new EmailStatusResultEvent(this.onEmailStatus.bind(this)));
+
+		// Room events
+		this.addMessageEvent(new RoomReadyMessageEvent(this.onRoomReady.bind(this)));
+		this.addMessageEvent(new UserChangeMessageEvent(this.onUserChange.bind(this)));
+
+		// Notification events
+		this.addMessageEvent(new PetRespectFailedEvent(this.onPetRespectFailed.bind(this)));
+
+		// Preferences & NFT events
+		this.addMessageEvent(new AccountPreferencesEvent(this.onAccountPreferences.bind(this)));
+		this.addMessageEvent(new UserNftChatStylesMessageEvent(this.onNftChatStyles.bind(this)));
 	}
 
 	/**
@@ -1006,6 +1354,13 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		this._systemOpen = parser.isOpen;
 		this._systemShutDown = parser.onShutDown;
 		this._isAuthenticHabbo = parser.isAuthenticHabbo;
+
+		// If authentic habbo and furni data not yet flagged ready, notify listeners
+		if (this._isAuthenticHabbo && !this._furniDataReady)
+		{
+			this._furniDataReady = true;
+			this.notifyFurniDataListeners();
+		}
 
 		log.debug(`Availability: Open=${this._systemOpen}, ShutDown=${this._systemShutDown}`);
 	}
@@ -1142,6 +1497,11 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		this._mysteryBoxColor = parser.boxColor;
 		this._mysteryBoxKeyColor = parser.keyColor;
 
+		this.events.emit(
+			MysteryBoxKeysUpdateEvent.MYSTERY_BOX_KEYS_UPDATE,
+			new MysteryBoxKeysUpdateEvent(this._mysteryBoxColor, this._mysteryBoxKeyColor)
+		);
+
 		log.debug(`Mystery box: color=${this._mysteryBoxColor}, keyColor=${this._mysteryBoxKeyColor}`);
 	}
 
@@ -1170,5 +1530,174 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		this._buildersClubSecondsLeftWithGrace = parser.secondsLeftWithGrace;
 
 		log.debug(`Builders club: ${this._buildersClubSecondsLeft}s left, furni ${this._buildersClubFurniLimit}/${this._buildersClubMaxFurniLimit}`);
+	}
+
+	/**
+	 * Handle account safety lock status change
+	 * @see source_as_win63/habbo/session/SessionDataManager.as line 534
+	 */
+	private onAccountSafetyLockStatusChanged(event: IMessageEvent): void
+	{
+		if (!event) return;
+
+		const parser = event.parser as AccountSafetyLockStatusChangeMessageEventParser;
+
+		if (!parser) return;
+
+		this._accountSafetyLocked = (parser.status === 0);
+
+		log.debug(`Account safety lock: ${this._accountSafetyLocked}`);
+	}
+
+	/**
+	 * Handle user name change result
+	 * @see source_as_win63/habbo/session/SessionDataManager.as line 456
+	 */
+	private onChangeUserNameResult(event: IMessageEvent): void
+	{
+		if (!event) return;
+
+		const parser = event.parser as ChangeUserNameResultMessageParser;
+
+		if (!parser) return;
+
+		if (parser.resultCode === ChangeUserNameResultMessageEvent.NAME_OK)
+		{
+			this._nameChangeAllowed = false;
+
+			this.events.emit(
+				UserNameUpdateEvent.NAME_UPDATE,
+				new UserNameUpdateEvent(parser.name)
+			);
+		}
+	}
+
+	/**
+	 * Handle user name changed notification
+	 * @see source_as_win63/habbo/session/SessionDataManager.as line 440
+	 */
+	private onUserNameChange(event: IMessageEvent): void
+	{
+		if (!event) return;
+
+		const parser = event.parser as UserNameChangedMessageParser;
+
+		if (!parser) return;
+
+		if (parser.webId === this._userId)
+		{
+			this._userName = parser.newName;
+			this._nameChangeAllowed = false;
+
+			this.events.emit(
+				UserNameUpdateEvent.NAME_UPDATE,
+				new UserNameUpdateEvent(this._userName)
+			);
+		}
+	}
+
+	/**
+	 * Handle NFT chat styles
+	 * @see source_as_win63/habbo/session/SessionDataManager.as line 430
+	 */
+	private onNftChatStyles(event: IMessageEvent): void
+	{
+		if (!event) return;
+
+		const parser = event.parser as UserNftChatStylesMessageParser;
+
+		if (!parser) return;
+
+		this._nftChatStyleIds = [...parser.chatStyleIds];
+
+		log.debug(`NFT chat styles: ${this._nftChatStyleIds.length}`);
+	}
+
+	/**
+	 * Handle email status result
+	 * @see source_as_win63/habbo/session/SessionDataManager.as line 501
+	 */
+	private onEmailStatus(event: IMessageEvent): void
+	{
+		if (!event) return;
+
+		const parser = event.parser as EmailStatusResultParser;
+
+		if (!parser) return;
+
+		this._isEmailVerified = parser.isVerified;
+
+		log.debug(`Email verified: ${this._isEmailVerified}`);
+	}
+
+	/**
+	 * Handle room ready - tracks visited rooms
+	 * @see source_as_win63/habbo/session/SessionDataManager.as line 1064
+	 */
+	private onRoomReady(event: IMessageEvent): void
+	{
+		if (!event) return;
+
+		const parser = event.parser as RoomReadyMessageParser;
+
+		if (!parser) return;
+
+		log.debug(`Room visited: ${parser.roomId}`);
+	}
+
+	/**
+	 * Handle user change - update own figure if applicable
+	 * @see source_as_win63/habbo/session/SessionDataManager.as line 404
+	 */
+	private onUserChange(event: IMessageEvent): void
+	{
+		if (!event) return;
+
+		const parser = event.parser as any;
+
+		if (!parser) return;
+
+		// id == -1 means it's the current user
+		if (parser.id === -1)
+		{
+			if (parser.figure) this._figure = parser.figure;
+			if (parser.sex) this._gender = parser.sex;
+
+			log.debug(`User figure changed: ${this._figure}`);
+		}
+	}
+
+	/**
+	 * Handle pet respect failed - restore counter
+	 * @see source_as_win63/habbo/session/SessionDataManager.as line 525
+	 */
+	private onPetRespectFailed(_event: IMessageEvent): void
+	{
+		this._petRespectLeft++;
+
+		log.debug('Pet respect failed, counter restored');
+	}
+
+	/**
+	 * Handle account preferences
+	 * @see source_as_win63/habbo/session/SessionDataManager.as line 493
+	 */
+	private onAccountPreferences(event: IMessageEvent): void
+	{
+		if (!event) return;
+
+		const parser = event.parser as AccountPreferencesParser;
+
+		if (!parser) return;
+
+		this._isRoomCameraFollowDisabled = parser.roomCameraFollowDisabled;
+		this._uiFlags = parser.uiFlags;
+
+		this.events.emit(
+			SessionDataPreferencesEvent.PREFERENCES_UPDATED,
+			new SessionDataPreferencesEvent(this._uiFlags)
+		);
+
+		log.debug(`Preferences: cameraFollow=${this._isRoomCameraFollowDisabled}, uiFlags=${this._uiFlags}`);
 	}
 }

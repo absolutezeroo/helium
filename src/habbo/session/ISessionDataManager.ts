@@ -1,13 +1,14 @@
 import type {EventEmitter} from 'eventemitter3';
 import type {IDisposable} from '@core/runtime/IDisposable';
 import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
-import type {IFurnitureData, IProductData} from '@core/gamedata/IGameDataManager';
 import type {AvatarEffect} from '../communication/messages/parser/inventory/AvatarEffectsMessageParser';
 import type {IUserDataManager} from './IUserDataManager';
 import type {IPerkManager} from './IPerkManager';
 import type {IIgnoredUsersManager} from './IIgnoredUsersManager';
 import type {IHabboGroupInfoManager} from './IHabboGroupInfoManager';
+import type {IFurnitureData} from './furniture/IFurnitureData';
 import type {IFurniDataListener} from './furniture/IFurniDataListener';
+import type {IProductData} from './product/IProductData';
 import type {IProductDataListener} from './product/IProductDataListener';
 import type {BadgeInfo} from './BadgeInfo';
 

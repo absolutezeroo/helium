@@ -8,6 +8,7 @@ source_as_flash/
 source_as_win63/
 source_nitro_renderer/
 source_nitro_react/
+src/ui_test/
 dist/
 *.log
 .DS_Store

@@ -1,6 +1,6 @@
 # Helium - Implementation Status
 
-> **Dernière mise à jour**: 2026-02-07
+> **Dernière mise à jour**: 2026-02-09
 > **Méthode**: Audit exhaustif AS3 → TS (comparaison `source_as_win63/` vs `src/`)
 > **Total AS3 ENGINE**: ~1 150 fichiers | **Total TS implémentés**: ~530 fichiers
 
@@ -20,10 +20,10 @@ Progression globale ENGINE: █████░░░░░░░░░░░░�
 | **configuration**                  | 2          | 8       | 100% | ✅ Complet                |
 | **localization**                   | 3          | 7       | 100% | ✅ Complet                |
 | **inventory**                      | 33         | 33      | 100% | ✅ Complet                |
-| **session**                        | 77         | 76      | 99%  | ✅ Quasi-complet          |
+| **session**                        | 77         | 77      | 100% | ✅ Complet                |
 | **navigator** (ENGINE)             | 25         | 24      | 96%  | ✅ Quasi-complet          |
 | **communication** (root/demo/enum) | 10         | 5       | 50%  | 🔄 Partiel (WebApi=SKIP) |
-| **communication/messages**         | 1150       | 380     | 33%  | 🔄 Partiel               |
+| **communication/messages**         | 1150       | 395     | 34%  | 🔄 Partiel               |
 | **room** (total)                   | 313        | 157     | 50%  | 🔄 En cours              |
 | **avatar**                         | 70         | 0       | 0%   | ❌ Non commencé           |
 | **catalog**                        | 62         | 0       | 0%   | ❌ Non commencé           |
@@ -112,10 +112,10 @@ AS3: 33 fichiers | TS: 33 fichiers
 | ✅      | Items: FurnitureItem, GroupItem, StuffData (12 types)          |
 | ✅      | UnseenItemTracker, Purse, MarketplaceModel                     |
 
-### 1.6 Session (~99%)
+### 1.6 Session (~100%)
 ```
-Progression: ███████████████████░ ~99%
-AS3: 77 fichiers | TS: 76 fichiers
+Progression: ████████████████████ ~100%
+AS3: 77 fichiers | TS: 77 fichiers
 ```
 
 | Statut | Élément                                                                                                                                   |
@@ -126,7 +126,10 @@ AS3: 77 fichiers | TS: 76 fichiers
 | ✅      | 7/7 enums                                                                                                                                 |
 | ✅      | UserDataManager, PerkManager, IgnoredUsersManager, HabboGroupInfoManager                                                                  |
 | ✅      | PetInfo, IPetInfo                                                                                                                         |
-| ❌      | FurnitureData/ProductData parsers (délégués au GameDataManager existant)                                                                  |
+| ✅      | FurnitureData/ProductData délégués au GameDataManager (19 méthodes implémentées)                                                          |
+| ✅      | 9 message listeners ajoutés (AccountSafetyLock, ChangeUserName, UserNameChanged, Email, RoomReady, UserChange, PetRespectFailed, AccountPreferences, NftChatStyles) |
+| ✅      | Events dispatched: UserNameUpdateEvent, SessionDataPreferencesEvent, MysteryBoxKeysUpdateEvent                                            |
+| ✅      | SetUIFlagsMessageComposer wired dans setUIFlag() et setRoomCameraFollowDisabled()                                                         |
 
 ### 1.7 Navigator ENGINE (~96%)
 ```
@@ -143,11 +146,11 @@ AS3 ENGINE: 25 fichiers | TS: 24 fichiers
 
 ---
 
-## 2. Communication Messages (~26%)
+## 2. Communication Messages (~28%)
 
 ```
-Progression: █████░░░░░░░░░░░░░░░ ~26%
-AS3: ~1150 (events + composers + parsers) | TS: ~300 fichiers
+Progression: ██████░░░░░░░░░░░░░░ ~28%
+AS3: ~1150 (events + composers + parsers) | TS: ~328 fichiers
 ```
 
 ### 2.1 Root + Demo + Enum
@@ -182,18 +185,20 @@ AS3: ~1150 (events + composers + parsers) | TS: ~300 fichiers
 | avatar                | 5        | 2        | ⚠️ 40%  |
 | notifications         | 14       | 22       | ✅ 100%  |
 | catalog               | 43       | 2        | ❌ 4%    |
-| users                 | 51       | 0        | ❌ 0%    |
+| users                 | 51       | 3        | ⚠️ 5%   |
 | game                  | 44       | 0        | ❌ 0%    |
 | help                  | 32       | 0        | ❌ 0%    |
 | moderation            | 25       | 0        | ❌ 0%    |
-| friendlist            | 24       | 17       | ⚠️ 70%  |
+| friendlist            | 24       | 27       | ✅ 100%  |
 | roomsettings          | 18       | 0        | ❌ 0%    |
 | quest                 | 17       | 0        | ❌ 0%    |
 | collectibles          | 14       | 0        | ❌ 0%    |
 | sound                 | 10       | 0        | ❌ 0%    |
 | userdefinedroomevents | 44       | 0        | ❌ 0%    |
-| +11 autres catégories | ~40      | 0        | ❌ 0%    |
-| **TOTAL**             | **~657** | **~165** | **25%** |
+| preferences           | 1        | 1        | ✅ 100%  |
+| nft                   | 1        | 1        | ✅ 100%  |
+| +9 autres catégories  | ~38      | 0        | ❌ 0%    |
+| **TOTAL**             | **~657** | **~180** | **27%** |
 
 ### 2.3 Outgoing Composers par catégorie
 
@@ -207,24 +212,26 @@ AS3: ~1150 (events + composers + parsers) | TS: ~300 fichiers
 | inventory             | 26       | 17       | ⚠️ 65%  |
 | avatar                | 15       | 6        | ⚠️ 40%  |
 | tracking              | 5        | 6        | ✅ 100%  |
-| friendlist            | 15       | 5        | ⚠️ 33%  |
+| friendlist            | 15       | 16       | ✅ 100%  |
 | catalog               | 37       | 0        | ❌ 0%    |
 | users                 | 40       | 0        | ❌ 0%    |
 | help                  | 32       | 0        | ❌ 0%    |
 | game                  | 27       | 0        | ❌ 0%    |
-| +15 autres catégories | ~141     | 0        | ❌ 0%    |
-| **TOTAL**             | **~493** | **~135** | **27%** |
+| preferences           | 1        | 1        | ✅ 100%  |
+| +14 autres catégories | ~140     | 0        | ❌ 0%    |
+| **TOTAL**             | **~493** | **~148** | **30%** |
 
 ### 2.4 Problèmes Détectés
 
-**Conflit d'ID (1 CRITIQUE):**
+**Conflits d'ID:**
 - `ID 1472` — RoomAdEventTabViewedComposer ET TogglePetRidingPermissionComposer (le 2ème écrase le 1er)
+- ~~`ID 3698` — GetInterstitialMessageComposer ET OpenPetPackageMessageComposer~~ ✅ Résolu (GetInterstitialMessageComposer retiré)
 
 **Note:** Les conflits cross-type (events vs composers) ne sont PAS des vrais conflits car les maps sont séparées.
 
-**Composers existants mais non enregistrés dans HabboMessages.ts (17):**
+**Composers existants mais non enregistrés dans HabboMessages.ts (15):**
 - QuitMessageComposer
-- RespectUserMessageComposer, RespectPetMessageComposer
+- RespectPetMessageComposer
 - KickUserMessageComposer, BanUserWithDurationMessageComposer
 - MuteUserMessageComposer, UnmuteUserMessageComposer
 - AssignRightsMessageComposer, RemoveRightsMessageComposer
@@ -232,6 +239,8 @@ AS3: ~1150 (events + composers + parsers) | TS: ~300 fichiers
 - AvatarExpressionMessageComposer, SignMessageComposer
 - DanceMessageComposer, ChangePostureMessageComposer
 - StartTypingMessageComposer, CancelTypingMessageComposer
+
+**Récemment enregistrés (Phase 0):** ✅ RespectUserMessageComposer (ID 2694), SetUIFlagsMessageComposer (ID 2209)
 
 ---
 
