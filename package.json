@@ -1,34 +1,12 @@
 {
   "name": "helium",
   "version": "0.1.0",
+  "private": true,
   "description": "Modern Habbo client renderer - Lighter than Nitro",
-  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "clsx": "^2.1.1",
-    "eventemitter3": "^5.0.1",
-    "inversify": "^6.2.1",
-    "pako": "^2.1.0",
-    "pixi.js": "^8.6.6",
-    "reflect-metadata": "^0.2.2",
-    "solid-icons": "^1.2.0",
-    "solid-js": "^1.9.11"
-  },
-  "devDependencies": {
-    "@babel/plugin-proposal-decorators": "^7.28.6",
-    "@babel/plugin-transform-class-properties": "^7.28.6",
-    "@types/node": "^22.10.0",
-    "@types/pako": "^2.0.3",
-    "sass-embedded": "^1.97.3",
-    "sharp": "^0.34.5",
-    "typescript": "^5.7.2",
-    "vite": "^6.0.0",
-    "vite-plugin-babel": "^1.4.1",
-    "vite-plugin-solid": "^2.11.10"
+    "dev": "pnpm --filter helium-client dev",
+    "build": "pnpm --filter helium-client build",
+    "preview": "pnpm --filter helium-client preview"
   },
   "author": "Clayton",
   "license": "GPL-3.0"

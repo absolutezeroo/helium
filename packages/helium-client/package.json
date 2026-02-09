@@ -1,0 +1,28 @@
+{
+  "name": "helium-client",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "helium-engine": "workspace:*",
+    "clsx": "^2.1.1",
+    "pixi.js": "^8.6.6",
+    "solid-js": "^1.9.11",
+    "solid-icons": "^1.2.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.28.6",
+    "@babel/plugin-transform-class-properties": "^7.28.6",
+    "@types/node": "^22.10.0",
+    "sass-embedded": "^1.97.3",
+    "sharp": "^0.34.5",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.0",
+    "vite-plugin-babel": "^1.4.1",
+    "vite-plugin-solid": "^2.11.10"
+  }
+}

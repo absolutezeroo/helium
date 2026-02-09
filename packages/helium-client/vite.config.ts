@@ -20,13 +20,13 @@ export default defineConfig({
 	],
 	resolve: {
 		alias: {
-			'@/assets': resolve(__dirname, 'src/ui/assets'),
+			'@/assets': resolve(__dirname, 'src/assets'),
 			'@': resolve(__dirname, 'src'),
-			'@core': resolve(__dirname, 'src/core'),
-			'@habbo': resolve(__dirname, 'src/habbo'),
-			'@room': resolve(__dirname, 'src/room'),
-			'@iid': resolve(__dirname, 'src/iid'),
-			'@ui': resolve(__dirname, 'src/ui'),
+			'@core': resolve(__dirname, '../helium-engine/src/core'),
+			'@habbo': resolve(__dirname, '../helium-engine/src/habbo'),
+			'@room': resolve(__dirname, '../helium-engine/src/room'),
+			'@iid': resolve(__dirname, '../helium-engine/src/iid'),
+			'@ui': resolve(__dirname, 'src'),
 		},
 	},
 	optimizeDeps: {
