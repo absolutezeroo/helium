@@ -359,8 +359,6 @@ export class RoomSession implements IRoomSession
 		this._eventLogTracked.clear();
 	}
 
-	// ========== Chat Methods ==========
-
 	sendChatMessage(message: string, styleId: number = 0): void
 	{
 		if (this._connection === null) return;
@@ -409,101 +407,108 @@ export class RoomSession implements IRoomSession
 		this._chatTrackingMap.delete(trackingId);
 	}
 
-	// ========== Avatar Methods ==========
-
 	sendAvatarExpressionMessage(expressionId: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new AvatarExpressionMessageComposer(expressionId));
 	}
 
 	sendSignMessage(signId: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new SignMessageComposer(signId));
 	}
 
 	sendDanceMessage(danceId: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new DanceMessageComposer(danceId));
 	}
 
 	sendChangePostureMessage(posture: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new ChangePostureMessageComposer(posture));
 	}
-
-	// ========== Furniture Methods ==========
 
 	sendCreditFurniRedeemMessage(objectId: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new CreditFurniRedeemMessageComposer(objectId));
 	}
 
 	sendPresentOpenMessage(objectId: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new PresentOpenMessageComposer(objectId));
 	}
 
 	sendOpenPetPackageMessage(objectId: number, name: string): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new OpenPetPackageMessageComposer(objectId, name));
 	}
 
 	sendRoomDimmerGetPresetsMessage(_itemId: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new RoomDimmerGetPresetsComposer());
 	}
 
 	sendRoomDimmerSavePresetMessage(_itemId: number, presetId: number, type: number, color: number, light: boolean, brightness: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new RoomDimmerSavePresetComposer(presetId, type, color, brightness, light));
 	}
 
 	sendRoomDimmerChangeStateMessage(_itemId: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new RoomDimmerChangeStateComposer());
 	}
 
 	sendUpdateClothingChangeFurniture(objectId: number, gender: string, figure: string): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new UpdateClothingChangeFurnitureComposer(objectId, gender, figure));
 	}
-
-	// ========== Poll Methods ==========
 
 	sendPollStartMessage(pollId: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new PollStartComposer(pollId));
 	}
 
 	sendPollRejectMessage(pollId: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new PollRejectComposer(pollId));
 	}
 
 	sendPollAnswerMessage(pollId: number, questionId: number, answers: string[]): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new PollAnswerComposer(pollId, questionId, answers));
 	}
-
-	// ========== Tracking Methods ==========
 
 	sendConversionPoint(type: string, value: string, extra: string, category: string | null = null, action: number = 0): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new EventLogMessageComposer(type, value, extra, category ?? '', action));
 	}
 
@@ -517,31 +522,31 @@ export class RoomSession implements IRoomSession
 		// TODO: RoomUsersClassificationMessageComposer
 	}
 
-	// ========== Navigation Methods ==========
-
 	sendVisitFlatMessage(roomId: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new OpenFlatConnectionMessageComposer(roomId, ''));
 	}
 
 	sendVisitUserMessage(userName: string): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new VisitUserMessageComposer(userName));
 	}
-
-	// ========== Moderation Methods ==========
 
 	ambassadorAlert(userId: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new AmbassadorAlertMessageComposer(userId));
 	}
 
 	kickUser(userId: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new KickUserMessageComposer(userId));
 	}
 
@@ -550,6 +555,7 @@ export class RoomSession implements IRoomSession
 		if (this._connection === null) return;
 
 		let banType: number;
+
 		switch (duration)
 		{
 			case BanDuration.HOUR:
@@ -570,94 +576,105 @@ export class RoomSession implements IRoomSession
 	muteUser(userId: number, minutes: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new MuteUserMessageComposer(userId, minutes, this._roomId));
 	}
 
 	unmuteUser(userId: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new UnmuteUserMessageComposer(userId, this._roomId));
 	}
-
-	// ========== Rights Methods ==========
 
 	assignRights(userId: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new AssignRightsMessageComposer(userId));
 	}
 
 	removeRights(userId: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new RemoveRightsMessageComposer([userId]));
 	}
 
 	letUserIn(userName: string, allow: boolean): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new LetUserInMessageComposer(userName, allow));
 	}
-
-	// ========== Pet Methods ==========
 
 	pickUpPet(petId: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new PickUpPetComposer(petId));
 	}
 
 	mountPet(petId: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new MountPetComposer(petId));
 	}
 
 	togglePetRidingPermission(petId: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new TogglePetRidingPermissionComposer(petId));
 	}
 
 	dismountPet(petId: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new DismountPetComposer(petId));
 	}
 
 	removeSaddleFromPet(petId: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new RemoveSaddleFromPetComposer(petId));
 	}
 
 	requestPetCommands(petId: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new GetPetCommandsComposer(petId));
 	}
 
 	useProductForPet(petId: number, productId: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new UseProductForPetComposer(petId, productId));
 	}
 
 	plantSeed(itemId: number): void
 	{
 		if (this._connection === null) return;
+
 		// TODO: UseFurnitureMessageComposer
 	}
 
 	harvestPet(petId: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new HarvestPetComposer(petId));
 	}
 
 	togglePetBreedingPermission(petId: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new TogglePetBreedingPermissionComposer(petId));
 	}
 
@@ -667,31 +684,29 @@ export class RoomSession implements IRoomSession
 		this._connection.send(new CompostPlantComposer(petId));
 	}
 
-	// ========== Queue Methods ==========
-
 	changeQueue(targetQueue: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new ChangeQueueMessageComposer(targetQueue));
 	}
-
-	// ========== NUX Methods ==========
 
 	sendScriptProceed(): void
 	{
 		// TODO: NewUserExperienceScriptProceedComposer
 	}
 
-	// ========== Event Logging ==========
-
 	trackEventLogOncePerSession(category: string, type: string, action: string): void
 	{
 		const key = `${category}_${type}_${action}`;
+
 		if (this._eventLogTracked.has(key))
 		{
 			return;
 		}
+
 		this._eventLogTracked.set(key, true);
+
 		this.sendConversionPoint(category, type, action);
 	}
 }

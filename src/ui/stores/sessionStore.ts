@@ -2,18 +2,30 @@ import {createStore} from 'solid-js/store';
 import {registerMessageEvent} from '@ui/hooks/events/useMessageEvent';
 import {UserObjectMessageEvent} from '@habbo/communication/messages/incoming/handshake/UserObjectMessageEvent';
 import {FigureUpdateMessageEvent} from '@habbo/communication/messages/incoming/avatar/FigureUpdateMessageEvent';
-import {AvailabilityStatusMessageEvent} from '@habbo/communication/messages/incoming/availability/AvailabilityStatusMessageEvent';
+import {
+	AvailabilityStatusMessageEvent
+} from '@habbo/communication/messages/incoming/availability/AvailabilityStatusMessageEvent';
 import {UserRightsMessageEvent} from '@habbo/communication/messages/incoming/handshake/UserRightsMessageEvent';
-import {NavigatorSettingsMessageEvent} from '@habbo/communication/messages/incoming/navigator/NavigatorSettingsMessageEvent';
+import {
+	NavigatorSettingsMessageEvent
+} from '@habbo/communication/messages/incoming/navigator/NavigatorSettingsMessageEvent';
 import {FavouritesMessageEvent} from '@habbo/communication/messages/incoming/navigator/FavouritesMessageEvent';
-import {AchievementsScoreMessageEvent} from '@habbo/communication/messages/incoming/inventory/AchievementsScoreMessageEvent';
+import {
+	AchievementsScoreMessageEvent
+} from '@habbo/communication/messages/incoming/inventory/AchievementsScoreMessageEvent';
 import type {UserObjectMessageParser} from '@habbo/communication/messages/parser/handshake/UserObjectMessageParser';
 import type {FigureUpdateMessageParser} from '@habbo/communication/messages/parser/avatar/FigureUpdateMessageParser';
-import type {AvailabilityStatusMessageParser} from '@habbo/communication/messages/parser/availability/AvailabilityStatusMessageParser';
+import type {
+	AvailabilityStatusMessageParser
+} from '@habbo/communication/messages/parser/availability/AvailabilityStatusMessageParser';
 import type {UserRightsMessageParser} from '@habbo/communication/messages/parser/handshake/UserRightsMessageParser';
-import type {NavigatorSettingsMessageParser} from '@habbo/communication/messages/parser/navigator/NavigatorSettingsMessageParser';
+import type {
+	NavigatorSettingsMessageParser
+} from '@habbo/communication/messages/parser/navigator/NavigatorSettingsMessageParser';
 import type {FavouritesMessageParser} from '@habbo/communication/messages/parser/navigator/FavouritesMessageParser';
-import type {AchievementsScoreMessageParser} from '@habbo/communication/messages/parser/inventory/AchievementsScoreMessageParser';
+import type {
+	AchievementsScoreMessageParser
+} from '@habbo/communication/messages/parser/inventory/AchievementsScoreMessageParser';
 
 /**
  * Session Store
@@ -82,7 +94,11 @@ function init(): void
 {
 	registerMessageEvent(UserObjectMessageEvent, (event) =>
 	{
+		if(!event) return;
+
 		const parser = event.getParser<UserObjectMessageParser>();
+
+		if(!parser) return;
 
 		setState('userData', {
 			userId: parser.id,
@@ -98,7 +114,11 @@ function init(): void
 
 	registerMessageEvent(FigureUpdateMessageEvent, (event) =>
 	{
+		if(!event) return;
+
 		const parser = event.getParser<FigureUpdateMessageParser>();
+
+		if(!parser) return;
 
 		setState('userData', (prev) => prev
 			? {...prev, figure: parser.figure, gender: parser.gender}
@@ -108,14 +128,22 @@ function init(): void
 
 	registerMessageEvent(AvailabilityStatusMessageEvent, (event) =>
 	{
+		if(!event) return;
+
 		const parser = event.getParser<AvailabilityStatusMessageParser>();
+
+		if(!parser) return;
 
 		setState('availability', parser.isOpen ? 1 : 0);
 	});
 
 	registerMessageEvent(UserRightsMessageEvent, (event) =>
 	{
+		if(!event) return;
+
 		const parser = event.getParser<UserRightsMessageParser>();
+
+		if(!parser) return;
 
 		setState({
 			clubLevel: parser.clubLevel,
@@ -126,21 +154,33 @@ function init(): void
 
 	registerMessageEvent(NavigatorSettingsMessageEvent, (event) =>
 	{
+		if(!event) return;
+
 		const parser = event.getParser<NavigatorSettingsMessageParser>();
+
+		if(!parser) return;
 
 		setState('homeRoomId', parser.homeRoomId);
 	});
 
 	registerMessageEvent(FavouritesMessageEvent, (event) =>
 	{
+		if(!event) return;
+
 		const parser = event.getParser<FavouritesMessageParser>();
+
+		if(!parser) return;
 
 		setState('favouriteRooms', parser.favouriteRoomIds);
 	});
 
 	registerMessageEvent(AchievementsScoreMessageEvent, (event) =>
 	{
+		if(!event) return;
+
 		const parser = event.getParser<AchievementsScoreMessageParser>();
+
+		if(!parser) return;
 
 		setState('achievementScore', parser.score);
 	});

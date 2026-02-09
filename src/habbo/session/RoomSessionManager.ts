@@ -237,8 +237,6 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 		}
 	}
 
-	// ========== IRoomHandlerListener ==========
-
 	/**
 	 * Called by handlers when session state changes
 	 */
@@ -292,8 +290,6 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 		log.debug(`Session reinitialize: ${oldRoomId} -> ${newRoomId}`);
 	}
 
-	// ========== Event Handlers ==========
-
 	override dispose(): void
 	{
 		if (this.disposed) return;
@@ -319,8 +315,6 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 		log.info('RoomSessionManager disposed');
 	}
 
-	// ========== Component Lifecycle ==========
-
 	protected override initComponent(): void
 	{
 		this.createHandlers();
@@ -340,8 +334,6 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 		// Execute any pending session requests now that engine is ready
 		this.executePendingSessionRequest();
 	}
-
-	// ========== Private Methods ==========
 
 	private createHandlers(): void
 	{

@@ -4,7 +4,7 @@ import {DiffieHellman} from '@habbo/communication/encryption/DiffieHellman';
 import {Logger} from '@core/utils/Logger';
 import {HabboMessages} from './HabboMessages';
 import {SessionDataManager} from '../session/SessionDataManager';
-import type {HabboCommunicationEventType} from './enum/HabboCommunicationEvent';
+import {HabboCommunicationEvent, HabboCommunicationEventType} from './enum/HabboCommunicationEvent';
 import type {IHabboCommunicationManager} from './IHabboCommunicationManager';
 import type {ICoreCommunicationManager} from '@core/communication/ICoreCommunicationManager';
 import type {IConnection} from '@core/communication/connection/IConnection';
@@ -306,6 +306,11 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 		this.events.on('loginStep', (step: HabboCommunicationEventType) =>
 		{
 			this._connectionActions?.setLoginStep(step);
+
+			if (step === HabboCommunicationEvent.AUTHENTICATED)
+			{
+				this._connectionActions?.setAuthenticated();
+			}
 		});
 	}
 

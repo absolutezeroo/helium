@@ -105,6 +105,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	private _customData: string = '';
 	private _directMail: boolean = false;
 	private _mysteryBoxKeyColor: string = '';
+	private _furniDataHash: string = '';
 
 	constructor(context: IContext)
 	{
@@ -490,6 +491,23 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		return this._perkManager?.isReady ?? false;
 	}
 
+	private _currentTalentTrack: string = '';
+
+	get currentTalentTrack(): string
+	{
+		return this._currentTalentTrack;
+	}
+
+	get newFurniDataHash(): string
+	{
+		return this._furniDataHash;
+	}
+
+	set newFurniDataHash(hash: string)
+	{
+		this._furniDataHash = hash;
+	}
+
 	protected override get dependencies(): Array<ComponentDependency<any>>
 	{
 		return [
@@ -569,8 +587,6 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		this.setUIFlag(UIFlagsEnum.FRIEND_BAR_OPEN, open);
 	}
 
-	// ========== Perk Shortcuts ==========
-
 	/**
 	 * Set room tools state UI flag
 	 */
@@ -589,8 +605,6 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		return this._perkManager?.getPerkErrorMessage(perk) ?? '';
 	}
 
-	// ========== Ignored Users Shortcuts ==========
-
 	isIgnored(userId: number): boolean
 	{
 		return this._ignoredUsersManager?.isIgnored(userId) ?? false;
@@ -606,30 +620,15 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		this._ignoredUsersManager?.unignoreUser(userId);
 	}
 
-	// ========== Safety ==========
-
 	isAccountSafetyLocked(): boolean
 	{
 		return this._accountSafetyLocked;
 	}
 
-	// ========== Star Gems ==========
-
 	giveStarGem(_userId: number): void
 	{
 		// TODO: Implement star gem gifting
 	}
-
-	// ========== Talent Track ==========
-
-	private _currentTalentTrack: string = '';
-
-	get currentTalentTrack(): string
-	{
-		return this._currentTalentTrack;
-	}
-
-	// ========== Badge Images ==========
 
 	getBadgeImage(_badge: string): HTMLImageElement | null
 	{
@@ -665,8 +664,6 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		return new BadgeInfo(image, image === null);
 	}
 
-	// ========== Group Badge Images ==========
-
 	getGroupBadgeId(_groupId: number): string
 	{
 		return this._groupInfoManager?.getBadgeId(_groupId) ?? '';
@@ -692,20 +689,6 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	getGroupBadgeSmallAssetName(badge: string): string
 	{
 		return `group_badge_${badge}_s`;
-	}
-
-	// ========== Furniture Data ==========
-
-	private _furniDataHash: string = '';
-
-	set newFurniDataHash(hash: string)
-	{
-		this._furniDataHash = hash;
-	}
-
-	get newFurniDataHash(): string
-	{
-		return this._furniDataHash;
 	}
 
 	getProductData(_productCode: string): IProductData | null
@@ -771,8 +754,6 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		// TODO: Implement furni data refresh
 	}
 
-	// ========== Room Actions ==========
-
 	openHabboHomePage(_userId: number, _userName: string): void
 	{
 		// TODO: Implement Habbo home page opening
@@ -808,8 +789,6 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		log.debug(`Pick all builder furniture in room ${roomId}`);
 	}
 
-	// ========== Credit Vault & Rewards ==========
-
 	getCreditVaultStatus(): void
 	{
 		// TODO: Send GetCreditVaultStatusComposer
@@ -830,15 +809,11 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		// TODO: Send ClaimRewardComposer
 	}
 
-	// ========== NFT ==========
-
 	hasNftChatStyle(_styleId: number): boolean
 	{
 		// TODO: Implement NFT chat style check
 		return false;
 	}
-
-	// ========== Special Command ==========
 
 	sendSpecialCommandMessage(command: string): void
 	{
