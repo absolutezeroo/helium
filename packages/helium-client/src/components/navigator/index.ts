@@ -3,27 +3,30 @@ export {NavigatorView} from './NavigatorView';
 
 // Views
 export {
-	NavigatorSearchView,
-	NavigatorSearchResultView,
-	NavigatorSearchResultItemView,
-	NavigatorSearchResultItemInfoView,
+	TopViewSelector,
+	SearchView,
+	BlockResultsView,
+	RoomEntryRow,
+	RoomEntryTile,
+	RoomInfoPopup,
+	QuickLinksView,
+	LiftView,
+	DoorStateView,
+	RoomCreatorView,
 	NavigatorRoomInfoView,
-	NavigatorRoomCreatorView,
-	NavigatorDoorStateView,
-	NavigatorRoomLinkView,
+	RoomLinkView,
 } from './views';
 export type {
-	NavigatorSearchViewProps,
-	NavigatorSearchResultViewProps,
-	NavigatorSearchResultItemViewProps,
-	NavigatorRoomInfoViewProps,
-	NavigatorRoomLinkViewProps,
+	SearchViewProps,
+	BlockResultsViewProps,
+	RoomEntryRowProps,
+	RoomEntryTileProps,
+	RoomInfoPopupProps,
 } from './views';
 
-// Utils
+// Utils (re-exported from views/search/results/)
 export {
-	mapGuestRoomToListRoom,
-	mapGuestRoomsToListRooms,
-	mapSearchResultsToListRooms,
-	mapSearchResultsToBlocks,
-} from './utils';
+	getUserCounterColor,
+	getDoorModeIconClass,
+	isDoorModeProtected,
+} from './views';

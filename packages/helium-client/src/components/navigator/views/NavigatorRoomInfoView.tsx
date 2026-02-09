@@ -2,32 +2,27 @@ import type {JSX} from 'solid-js';
 import {createSignal, For, Show} from 'solid-js';
 import clsx from 'clsx';
 import {FaSolidLink} from 'solid-icons/fa';
-import {navigatorStore} from '@ui/stores/navigatorStore';
+import {useNavigator} from '@ui/hooks/navigator/useNavigator';
 import {sessionStore} from '@ui/stores/sessionStore';
 import {useLocalization} from '@ui/common';
 import {HeliumCardContentView, HeliumCardHeaderView, HeliumCardView} from '@ui/common/card';
 
-export interface NavigatorRoomInfoViewProps
-{
-	onCloseClick: () => void;
-}
-
 /**
- * NavigatorRoomInfoView - Room info panel.
+ * NavigatorRoomInfoView - Room info panel for the currently entered room.
  *
- * @see source_nitro_react/components/navigator/views/NavigatorRoomInfoView.tsx
+ * @see source_as_flash/com/sulake/habbo/navigator/view/RoomInfoPopup.as
  */
-export function NavigatorRoomInfoView(props: NavigatorRoomInfoViewProps): JSX.Element
+export function NavigatorRoomInfoView(): JSX.Element
 {
 	const t = useLocalization();
-	const {state: navigator, actions: navActions} = navigatorStore;
+	const {state: nav, actions} = useNavigator();
 	const {state: session} = sessionStore;
 
 	const [isRoomPicked, setIsRoomPicked] = createSignal(false);
 	const [isRoomMuted, setIsRoomMuted] = createSignal(false);
 
-	const enteredRoom = () => navActions.getEnteredRoom();
-	const homeRoomId = () => navigator.homeRoomId;
+	const enteredRoom = () => nav.enteredRoomData;
+	const homeRoomId = () => nav.homeRoomId;
 
 	const hasPermission = (permission: string): boolean =>
 	{
@@ -59,13 +54,10 @@ export function NavigatorRoomInfoView(props: NavigatorRoomInfoViewProps): JSX.El
 				// TODO: Send UpdateHomeRoomMessageComposer
 				return;
 			case 'navigator_search_tag':
-				if (value)
-				{
-					navActions.search('hotel_view', `tag:${value}`);
-				}
+				if (value) actions.performTagSearch(value);
 				return;
 			case 'toggle_room_link':
-				navActions.toggleRoomLink();
+				actions.toggleRoomLink();
 				return;
 			case 'open_room_settings':
 				// TODO: Send RoomSettingsComposer
@@ -88,13 +80,13 @@ export function NavigatorRoomInfoView(props: NavigatorRoomInfoViewProps): JSX.El
 				// TODO: Report room
 				return;
 			case 'close':
-				props.onCloseClick();
+				actions.closeRoomInfo();
 				return;
 		}
 	};
 
 	return (
-		<Show when={enteredRoom()}>
+		<Show when={nav.isRoomInfoOpen && enteredRoom()}>
 			<HeliumCardView uniqueKey="room-info" class="helium-room-info" theme="primary-slim">
 				<HeliumCardHeaderView
 					title={t('navigator.roomsettings.roominfo', 'Room Info')}
@@ -154,11 +146,11 @@ export function NavigatorRoomInfoView(props: NavigatorRoomInfoViewProps): JSX.El
 										<span>{enteredRoom()!.score}</span>
 									</div>
 									<Show when={enteredRoom()!.tags.length > 0}>
-										<div class="d-flex align-items-center gap-1 flex-wrap">
+										<div class="room-info-tags">
 											<For each={enteredRoom()!.tags}>
 												{(tag) => (
 													<span
-														class="bg-muted rounded p-1 cursor-pointer small"
+														class="room-info-tag"
 														onClick={() => processAction('navigator_search_tag', tag)}
 													>
 														#{tag}

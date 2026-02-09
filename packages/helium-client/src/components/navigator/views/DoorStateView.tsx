@@ -1,6 +1,6 @@
 import type {JSX} from 'solid-js';
 import {createEffect, createSignal, Show} from 'solid-js';
-import {navigatorStore, DoorStateType} from '@ui/stores/navigatorStore';
+import {useNavigator, DoorStateType} from '@ui/hooks/navigator/useNavigator';
 import {useLocalization} from '@ui/common';
 import {HeliumCardContentView, HeliumCardHeaderView, HeliumCardView} from '@ui/common/card';
 
@@ -19,18 +19,19 @@ const DOORBELL_STATES: number[] = [
 ];
 
 /**
- * NavigatorDoorStateView - Doorbell/password dialog from navigator.
+ * DoorStateView - Doorbell / password dialog.
  *
- * @see source_nitro_react/components/navigator/views/NavigatorDoorStateView.tsx
+ * @see source_as_flash/com/sulake/habbo/navigator/view/GuestRoomDoorbell.as
+ * @see source_as_flash/com/sulake/habbo/navigator/view/GuestRoomPasswordInput.as
  */
-export function NavigatorDoorStateView(): JSX.Element
+export function DoorStateView(): JSX.Element
 {
 	const t = useLocalization();
-	const {state: navigator, actions: navActions} = navigatorStore;
+	const {state: nav, actions} = useNavigator();
 
 	const [password, setPassword] = createSignal('');
 
-	const doorData = () => navigator.doorData;
+	const doorData = () => nav.doorData;
 
 	const isVisible = () =>
 	{
@@ -52,15 +53,7 @@ export function NavigatorDoorStateView(): JSX.Element
 
 	const onClose = () =>
 	{
-		const data = doorData();
-
-		if (data && data.state === DoorStateType.STATE_WAITING)
-		{
-			// Go to desktop when closing while waiting
-			// TODO: GoToDesktop action
-		}
-
-		navActions.setDoorData(null);
+		actions.setDoorData(null);
 	};
 
 	const ring = () =>
@@ -69,28 +62,30 @@ export function NavigatorDoorStateView(): JSX.Element
 
 		if (!data || !data.roomInfo) return;
 
-		navActions.goToRoom(data.roomInfo.flatId);
-		navActions.updateDoorState(DoorStateType.STATE_PENDING_SERVER);
+		actions.goToRoom(data.roomInfo.flatId);
+		actions.updateDoorState(DoorStateType.STATE_PENDING_SERVER);
 	};
 
-	const tryEntering = () =>
+	const tryPassword = () =>
 	{
 		const data = doorData();
 
 		if (!data || !data.roomInfo) return;
 
-		navActions.goToRoom(data.roomInfo.flatId);
-		navActions.updateDoorState(DoorStateType.STATE_PENDING_SERVER);
+		actions.goToRoom(data.roomInfo.flatId, password());
+		actions.updateDoorState(DoorStateType.STATE_PENDING_SERVER);
 	};
 
-	// Auto-close on no answer
+	// Auto-close on no answer after delay
 	createEffect(() =>
 	{
 		const data = doorData();
 
 		if (!data || data.state !== DoorStateType.STATE_NO_ANSWER) return;
 
-		// TODO: GoToDesktop action
+		const timer = setTimeout(() => actions.setDoorData(null), 5000);
+
+		return () => clearTimeout(timer);
 	});
 
 	return (
@@ -107,52 +102,55 @@ export function NavigatorDoorStateView(): JSX.Element
 				<HeliumCardContentView>
 					<div class="d-flex flex-column gap-1">
 						<span class="fw-bold">{doorData()?.roomInfo?.roomName}</span>
+
 						<Show when={doorData()?.state === DoorStateType.START_DOORBELL}>
-							<span>{t('navigator.doorbell.info', 'Ring the doorbell to enter this room.')}</span>
+							<span class="doorbell-info">{t('navigator.doorbell.info', 'Ring the doorbell to enter this room.')}</span>
 						</Show>
 						<Show when={doorData()?.state === DoorStateType.STATE_WAITING}>
-							<span>{t('navigator.doorbell.waiting', 'Waiting for the room owner to let you in...')}</span>
+							<span class="doorbell-info">{t('navigator.doorbell.waiting', 'Waiting for the room owner to let you in...')}</span>
 						</Show>
 						<Show when={doorData()?.state === DoorStateType.STATE_NO_ANSWER}>
-							<span>{t('navigator.doorbell.no.answer', 'Nobody answered the doorbell.')}</span>
+							<span class="doorbell-info">{t('navigator.doorbell.no.answer', 'Nobody answered the doorbell.')}</span>
 						</Show>
 						<Show when={doorData()?.state === DoorStateType.START_PASSWORD}>
-							<span>{t('navigator.password.info', 'This room requires a password.')}</span>
+							<span class="password-info">{t('navigator.password.info', 'This room requires a password.')}</span>
 						</Show>
 						<Show when={doorData()?.state === DoorStateType.STATE_WRONG_PASSWORD}>
-							<span>{t('navigator.password.retryinfo', 'Wrong password. Please try again.')}</span>
+							<span class="password-info">{t('navigator.password.retryinfo', 'Wrong password. Please try again.')}</span>
 						</Show>
 					</div>
 
 					{/* Doorbell buttons */}
 					<Show when={isDoorbell()}>
-						<div class="d-flex flex-column gap-1 mt-2">
+						<div class="doorbell-actions">
 							<Show when={doorData()?.state === DoorStateType.START_DOORBELL}>
-								<button class="btn btn-success btn-sm" onClick={ring}>
+								<button class="doorbell-ring-btn" onClick={ring}>
 									{t('navigator.doorbell.button.ring', 'Ring')}
 								</button>
 							</Show>
-							<button class="btn btn-danger btn-sm" onClick={onClose}>
+							<button class="doorbell-cancel-btn" onClick={onClose}>
 								{t('generic.cancel', 'Cancel')}
 							</button>
 						</div>
 					</Show>
 
-					{/* Password input and buttons */}
+					{/* Password input */}
 					<Show when={!isDoorbell()}>
 						<div class="d-flex flex-column gap-1 mt-2">
-							<span>{t('navigator.password.enter', 'Enter password:')}</span>
+							<span class="password-info">{t('navigator.password.enter', 'Enter password:')}</span>
 							<input
 								type="password"
-								class="form-control form-control-sm"
+								class="form-control form-control-sm password-input"
+								value={password()}
 								onInput={(e) => setPassword(e.currentTarget.value)}
+								onKeyDown={(e) => e.key === 'Enter' && tryPassword()}
 							/>
 						</div>
-						<div class="d-flex flex-column gap-1 mt-2">
-							<button class="btn btn-success btn-sm" onClick={tryEntering}>
+						<div class="password-actions">
+							<button class="password-try-btn" onClick={tryPassword}>
 								{t('navigator.password.button.try', 'Try')}
 							</button>
-							<button class="btn btn-danger btn-sm" onClick={onClose}>
+							<button class="password-cancel-btn" onClick={onClose}>
 								{t('generic.cancel', 'Cancel')}
 							</button>
 						</div>

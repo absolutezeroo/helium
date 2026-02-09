@@ -1,17 +1,43 @@
 import type {JSX} from 'solid-js';
 import {createSignal, For, onMount} from 'solid-js';
-import {navigatorStore} from '@ui/stores/navigatorStore';
+import {useNavigator} from '@ui/hooks/navigator/useNavigator';
 import {useLocalization} from '@ui/common';
 
 /**
- * NavigatorRoomCreatorView - Room creation form inside the navigator.
+ * Standard Habbo room models
  *
- * @see source_nitro_react/components/navigator/views/NavigatorRoomCreatorView.tsx
+ * @see source_as_flash/com/sulake/habbo/navigator/view/RoomCreateViewCtrl.as
  */
-export function NavigatorRoomCreatorView(): JSX.Element
+const ROOM_MODELS = [
+	{name: 'a', tileSize: 104, clubLevel: 0},
+	{name: 'b', tileSize: 94, clubLevel: 0},
+	{name: 'c', tileSize: 36, clubLevel: 0},
+	{name: 'd', tileSize: 84, clubLevel: 0},
+	{name: 'e', tileSize: 80, clubLevel: 0},
+	{name: 'f', tileSize: 80, clubLevel: 0},
+	{name: 'g', tileSize: 304, clubLevel: 0},
+	{name: 'h', tileSize: 304, clubLevel: 0},
+	{name: 'i', tileSize: 204, clubLevel: 0},
+	{name: 'j', tileSize: 250, clubLevel: 0},
+	{name: 'k', tileSize: 210, clubLevel: 0},
+	{name: 'l', tileSize: 240, clubLevel: 0},
+	{name: 'm', tileSize: 84, clubLevel: 0},
+	{name: 'n', tileSize: 100, clubLevel: 0},
+	{name: 'o', tileSize: 416, clubLevel: 1},
+	{name: 'p', tileSize: 352, clubLevel: 1},
+	{name: 'q', tileSize: 304, clubLevel: 1},
+	{name: 'r', tileSize: 304, clubLevel: 1},
+] as const;
+
+/**
+ * RoomCreatorView - Room creation form.
+ *
+ * @see source_as_flash/com/sulake/habbo/navigator/view/RoomCreateViewCtrl.as
+ */
+export function RoomCreatorView(): JSX.Element
 {
 	const t = useLocalization();
-	const {state: navigator, actions: navActions} = navigatorStore;
+	const {state: nav, actions} = useNavigator();
 
 	const [name, setName] = createSignal('');
 	const [description, setDescription] = createSignal('');
@@ -29,29 +55,7 @@ export function NavigatorRoomCreatorView(): JSX.Element
 		return list;
 	};
 
-	// Room models - standard Habbo room models
-	const roomModels = [
-		{name: 'a', tileSize: 104, clubLevel: 0},
-		{name: 'b', tileSize: 94, clubLevel: 0},
-		{name: 'c', tileSize: 36, clubLevel: 0},
-		{name: 'd', tileSize: 84, clubLevel: 0},
-		{name: 'e', tileSize: 80, clubLevel: 0},
-		{name: 'f', tileSize: 80, clubLevel: 0},
-		{name: 'g', tileSize: 304, clubLevel: 0},
-		{name: 'h', tileSize: 304, clubLevel: 0},
-		{name: 'i', tileSize: 204, clubLevel: 0},
-		{name: 'j', tileSize: 250, clubLevel: 0},
-		{name: 'k', tileSize: 210, clubLevel: 0},
-		{name: 'l', tileSize: 240, clubLevel: 0},
-		{name: 'm', tileSize: 84, clubLevel: 0},
-		{name: 'n', tileSize: 100, clubLevel: 0},
-		{name: 'o', tileSize: 416, clubLevel: 1},
-		{name: 'p', tileSize: 352, clubLevel: 1},
-		{name: 'q', tileSize: 304, clubLevel: 1},
-		{name: 'r', tileSize: 304, clubLevel: 1},
-	];
-
-	const flatCategories = () => navigator.flatCategories;
+	const flatCategories = () => nav.flatCategories;
 
 	// Auto-select first category when available
 	onMount(() =>
@@ -70,7 +74,7 @@ export function NavigatorRoomCreatorView(): JSX.Element
 
 		if (!roomName || roomName.length < 3) return;
 
-		navActions.createRoom(
+		actions.createRoom(
 			roomName,
 			description(),
 			'model_' + selectedModelName(),
@@ -91,6 +95,7 @@ export function NavigatorRoomCreatorView(): JSX.Element
 							type="text"
 							class="form-control form-control-sm"
 							maxLength={60}
+							value={name()}
 							onInput={(e) => setName(e.currentTarget.value)}
 							placeholder={t('navigator.createroom.roomnameinfo', 'Room Name')}
 						/>
@@ -145,7 +150,7 @@ export function NavigatorRoomCreatorView(): JSX.Element
 
 				{/* Right column: room model selection */}
 				<div class="col-6 d-flex flex-column gap-1 overflow-auto">
-					<For each={roomModels}>
+					<For each={ROOM_MODELS}>
 						{(model) => (
 							<div
 								class={`d-flex flex-column align-items-center p-1 rounded cursor-pointer border ${selectedModelName() === model.name ? 'border-primary bg-white' : 'border-muted'}`}

@@ -1,32 +1,27 @@
 import type {JSX} from 'solid-js';
 import {Show} from 'solid-js';
-import {navigatorStore} from '@ui/stores/navigatorStore';
+import {useNavigator} from '@ui/hooks/navigator/useNavigator';
 import {useLocalization} from '@ui/common';
 import {HeliumCardContentView, HeliumCardHeaderView, HeliumCardView} from '@ui/common/card';
 
-export interface NavigatorRoomLinkViewProps
-{
-	onCloseClick: () => void;
-}
-
 /**
- * NavigatorRoomLinkView - Room embed code display.
+ * RoomLinkView - Room embed/share link dialog.
  *
  * @see source_nitro_react/components/navigator/views/NavigatorRoomLinkView.tsx
  */
-export function NavigatorRoomLinkView(props: NavigatorRoomLinkViewProps): JSX.Element
+export function RoomLinkView(): JSX.Element
 {
 	const t = useLocalization();
-	const {actions: navActions} = navigatorStore;
+	const {state: nav, actions} = useNavigator();
 
-	const enteredRoom = () => navActions.getEnteredRoom();
+	const roomData = () => nav.enteredRoomData;
 
 	return (
-		<Show when={enteredRoom()}>
+		<Show when={nav.isRoomLinkOpen && roomData()}>
 			<HeliumCardView uniqueKey="room-link" class="helium-room-link" theme="primary-slim">
 				<HeliumCardHeaderView
 					title={t('navigator.embed.title', 'Room Link')}
-					onClose={props.onCloseClick}
+					onClose={() => actions.closeRoomLink()}
 				/>
 				<HeliumCardContentView class="text-black d-flex align-items-center">
 					<div class="d-flex gap-2">
@@ -36,7 +31,7 @@ export function NavigatorRoomLinkView(props: NavigatorRoomLinkViewProps): JSX.El
 							style={{width: '110px', height: '110px', background: '#ccc', 'border-radius': '4px', overflow: 'hidden'}}
 						>
 							<Show
-								when={enteredRoom()!.officialRoomPicRef}
+								when={roomData()!.officialRoomPicRef}
 								fallback={
 									<div class="d-flex align-items-center justify-content-center w-100 h-100 text-muted">
 										<i class="icon icon-rooms" />
@@ -44,8 +39,8 @@ export function NavigatorRoomLinkView(props: NavigatorRoomLinkViewProps): JSX.El
 								}
 							>
 								<img
-									src={enteredRoom()!.officialRoomPicRef!}
-									alt={enteredRoom()!.roomName}
+									src={roomData()!.officialRoomPicRef!}
+									alt={roomData()!.roomName}
 									style={{width: '100%', height: '100%', 'object-fit': 'cover', 'image-rendering': 'pixelated'}}
 								/>
 							</Show>
@@ -63,7 +58,7 @@ export function NavigatorRoomLinkView(props: NavigatorRoomLinkViewProps): JSX.El
 								type="text"
 								readOnly
 								class="form-control form-control-sm"
-								value={`/room/${enteredRoom()!.flatId}`}
+								value={`/room/${roomData()!.flatId}`}
 							/>
 						</div>
 					</div>

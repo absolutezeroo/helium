@@ -3,12 +3,13 @@ import type {NavigatorData} from './domain';
 import type {ContextContainer, SearchContextHistoryManager} from './context';
 import type {NavigatorCache} from './cache';
 import type {NavigatorSearchResultSet} from '../communication/messages/incoming/newnavigator';
+import {IDisposable} from "@core";
 
 /**
  * New Navigator interface
  *
  */
-export interface IHabboNewNavigator
+export interface IHabboNewNavigator extends IDisposable
 {
 	/**
 	 * Check if navigator is ready
@@ -140,9 +141,4 @@ export interface IHabboNewNavigator
 	 * Set view mode for a search code
 	 */
 	setSearchCodeViewMode(searchCode: string, viewMode: number): void;
-
-	/**
-	 * Dispose the navigator
-	 */
-	dispose(): void;
 }

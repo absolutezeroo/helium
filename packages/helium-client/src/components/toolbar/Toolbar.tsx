@@ -1,7 +1,7 @@
 import type {JSX} from 'solid-js';
 import {createSignal, Show} from 'solid-js';
 import clsx from 'clsx';
-import {navigatorStore} from '@ui/stores/navigatorStore';
+import {useNavigator} from '@ui/hooks/navigator/useNavigator';
 import {inventoryStore} from '@ui/stores/inventoryStore';
 import {roomStore} from '@ui/stores/roomStore';
 import {ToolbarMeView} from './ToolbarMeView';
@@ -14,7 +14,7 @@ import {ToolbarMeView} from './ToolbarMeView';
 export function Toolbar(): JSX.Element
 {
 	const {state: room, actions: roomActions} = roomStore;
-	const {actions: navActions} = navigatorStore;
+	const {actions: navActions} = useNavigator();
 	const {actions: invActions} = inventoryStore;
 
 	const [isMeExpanded, setMeExpanded] = createSignal(false);

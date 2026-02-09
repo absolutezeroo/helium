@@ -168,6 +168,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	init(): void
 	{
 		if (this._isInitialized) return;
+
 		this._isInitialized = true;
 
 		this.send(new NewNavigatorInitComposer());
@@ -270,6 +271,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		if (cached)
 		{
 			this.onSearchResult(cached);
+			
 			return;
 		}
 

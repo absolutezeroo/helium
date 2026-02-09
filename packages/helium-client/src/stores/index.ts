@@ -5,7 +5,7 @@ import {favouritesStore} from './favouritesStore';
 import {roomStore} from './roomStore';
 import {configStore} from './configStore';
 import {localizationStore} from './localizationStore';
-import {navigatorStore} from './navigatorStore';
+import {useNavigator} from '@ui/hooks/navigator/useNavigator';
 import {inventoryStore} from './inventoryStore';
 import {landingViewStore} from './landingViewStore';
 
@@ -30,7 +30,7 @@ export function initStores(): void
 	// Stores with manager dependencies
 	configStore.init();
 	localizationStore.init();
-	navigatorStore.init();
+	useNavigator().init();
 	inventoryStore.init();
 	landingViewStore.init();
 }
@@ -44,7 +44,5 @@ export {roomStore, RoomUserType} from './roomStore';
 export type {RoomUserData, RoomSessionState} from './roomStore';
 export {configStore} from './configStore';
 export {localizationStore} from './localizationStore';
-export {navigatorStore, DoorStateType} from './navigatorStore';
-export type {DoorData} from './navigatorStore';
 export {inventoryStore} from './inventoryStore';
 export {landingViewStore} from './landingViewStore';

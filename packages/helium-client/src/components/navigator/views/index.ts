@@ -1,19 +1,29 @@
+// Search views (← source_as_flash/.../navigator/view/search/)
 export {
-	NavigatorSearchView,
-	NavigatorSearchResultView,
-	NavigatorSearchResultItemView,
-	NavigatorSearchResultItemInfoView,
+	SearchView,
+	BlockResultsView,
+	RoomEntryRow,
+	RoomEntryTile,
+	getUserCounterColor,
+	getDoorModeIconClass,
+	isDoorModeProtected,
 } from './search';
 export type {
-	NavigatorSearchViewProps,
-	NavigatorSearchResultViewProps,
-	NavigatorSearchResultItemViewProps,
+	SearchViewProps,
+	BlockResultsViewProps,
+	RoomEntryRowProps,
+	RoomEntryTileProps,
 } from './search';
 
-// Shell views
+// Top-level views (← source_as_flash/.../navigator/view/)
+export {TopViewSelector} from './TopViewSelector';
+export {RoomInfoPopup} from './RoomInfoPopup';
+export type {RoomInfoPopupProps} from './RoomInfoPopup';
+export {QuickLinksView} from './QuickLinksView';
+export {LiftView} from './LiftView';
+
+// Dialogs
+export {DoorStateView} from './DoorStateView';
+export {RoomCreatorView} from './RoomCreatorView';
 export {NavigatorRoomInfoView} from './NavigatorRoomInfoView';
-export type {NavigatorRoomInfoViewProps} from './NavigatorRoomInfoView';
-export {NavigatorRoomCreatorView} from './NavigatorRoomCreatorView';
-export {NavigatorDoorStateView} from './NavigatorDoorStateView';
-export {NavigatorRoomLinkView} from './NavigatorRoomLinkView';
-export type {NavigatorRoomLinkViewProps} from './NavigatorRoomLinkView';
+export {RoomLinkView} from './RoomLinkView';
