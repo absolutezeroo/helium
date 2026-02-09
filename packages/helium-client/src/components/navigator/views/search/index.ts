@@ -7,7 +7,7 @@ export {
 	RoomEntryRow,
 	RoomEntryTile,
 	getUserCounterColor,
-	getDoorModeIconClass,
+	getDoorModeAsset,
 	isDoorModeProtected,
 } from './results';
 export type {

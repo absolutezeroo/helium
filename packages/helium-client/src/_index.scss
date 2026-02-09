@@ -1,4 +1,4 @@
-@import 'assets/styles/index';
+@use 'assets/styles/index';
 
 html,
 body {
@@ -36,5 +36,3 @@ img {
     pointer-events: auto;
   }
 }
-
-@import 'App';

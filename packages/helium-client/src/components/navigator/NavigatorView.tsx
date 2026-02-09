@@ -1,10 +1,7 @@
 import {createEffect, createSignal, For, JSX, Show} from 'solid-js';
-import {FaSolidPlus, FaSolidArrowLeft, FaSolidArrowRight, FaSolidRotateRight} from 'solid-icons/fa';
-import clsx from 'clsx';
 import {useNavigator} from '@ui/hooks/navigator/useNavigator';
 import {useLocalization} from '@ui/common';
 import {HeliumCardContentView, HeliumCardHeaderView, HeliumCardView} from '@ui/common/card';
-import {TopViewSelector} from './views/TopViewSelector';
 import {SearchView} from './views/search/SearchView';
 import {BlockResultsView} from './views/search/results/BlockResultsView';
 import {QuickLinksView} from './views/QuickLinksView';
@@ -14,16 +11,16 @@ import {RoomCreatorView} from './views/RoomCreatorView';
 import {NavigatorRoomInfoView} from './views/NavigatorRoomInfoView';
 import {RoomLinkView} from './views/RoomLinkView';
 
+import backIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_button_back.png';
+import refreshIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_refresh_search_icon.png';
+import createRoomIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_create_room.png';
+import randomRoomIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_random_room.png';
+import quickLinkAddIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_button_quicklink_add.png';
+
 /**
  * NavigatorView - Main navigator window container.
  *
- * Lifecycle:
- * 1. Open → sends NewNavigatorInitComposer on first open
- * 2. When isReady and no results → auto-search first context (official_view)
- * 3. TopViewSelector tabs + SearchView + BlockResultsView for results
- * 4. Back/forward navigation via history manager
- * 5. QuickLinksView for saved searches
- * 6. Create room panel toggle
+ * Two-pane layout: left pane (quick links) + right pane (tabs + search + results).
  *
  * @see source_as_win63/habbo/navigator/view/NavigatorView.as
  */
@@ -34,6 +31,7 @@ export function NavigatorView(): JSX.Element
 
 	const [isLoading, setIsLoading] = createSignal(false);
 	const [hasInitialSearch, setHasInitialSearch] = createSignal(false);
+	const [leftPaneVisible, setLeftPaneVisible] = createSignal(true);
 
 	let resultsRef: HTMLDivElement | undefined;
 
@@ -75,67 +73,36 @@ export function NavigatorView(): JSX.Element
 		setIsLoading(true);
 	};
 
-	const handleForward = () =>
-	{
-		actions.goForward();
-		setIsLoading(true);
-	};
-
 	const handleRefresh = () =>
 	{
 		actions.performLastSearch();
 		setIsLoading(true);
 	};
 
+	const handleRandomRoom = () =>
+	{
+		actions.search('hotel_view', '');
+		setIsLoading(true);
+	};
+
+	const toggleLeftPane = () =>
+	{
+		setLeftPaneVisible(v => !v);
+	};
+
 	return (
 		<>
 			<Show when={nav.isVisible}>
-				<HeliumCardView uniqueKey="navigator" class="helium-navigator">
+				<HeliumCardView
+					uniqueKey="navigator"
+					class={`helium-navigator${leftPaneVisible() ? '' : ' left-pane-hidden'}`}
+				>
 					<HeliumCardHeaderView
 						title={t(nav.isCreatorOpen ? 'navigator.createroom.title' : 'navigator.title', nav.isCreatorOpen ? 'Create Room' : 'Navigator')}
 						onClose={() => actions.close()}
 					/>
 
-					{/* Tabs */}
-					<Show when={!nav.isCreatorOpen}>
-						<div class="container-fluid helium-card-tabs d-flex justify-content-center align-items-center gap-1 pt-1">
-							<For each={nav.topLevelContexts}>
-								{(ctx) => (
-									<div
-										class={clsx(
-											'nav-item rounded-top border cursor-pointer overflow-hidden position-relative',
-											nav.currentSearchCode === ctx.searchCode && 'active'
-										)}
-										onClick={() =>
-										{
-											actions.closeCreator();
-											actions.search(ctx.searchCode, '');
-											setIsLoading(true);
-										}}
-									>
-										<div class="d-flex flex-shrink-1 justify-content-center align-items-center">
-											{t('navigator.toplevelview.' + ctx.searchCode, ctx.searchCode)}
-										</div>
-									</div>
-								)}
-							</For>
-							{/* Create room tab */}
-							<div
-								class={clsx(
-									'nav-item rounded-top border cursor-pointer overflow-hidden position-relative',
-									nav.isCreatorOpen && 'active'
-								)}
-								onClick={() => actions.openCreator()}
-							>
-								<div class="d-flex flex-shrink-1 justify-content-center align-items-center">
-									<FaSolidPlus />
-								</div>
-							</div>
-						</div>
-					</Show>
-
-					{/* Content */}
-					<HeliumCardContentView position="relative">
+					<HeliumCardContentView position="relative" overflow="hidden">
 						{/* Loading overlay */}
 						<Show when={isLoading()}>
 							<div class="navigator-loading-mask" />
@@ -145,58 +112,109 @@ export function NavigatorView(): JSX.Element
 							when={!nav.isCreatorOpen}
 							fallback={<RoomCreatorView />}
 						>
-							{/* Navigation bar: back/forward + search + refresh */}
-							<div class="navigator-nav-bar">
-								{/* Back/Forward */}
-								<button
-									class="nav-btn"
-									disabled={!nav.searchResult}
-									onClick={handleBack}
-									title={t('navigator.back', 'Back')}
+							<div class="navigator-body">
+								{/* Toggle left pane button */}
+								<div
+									class="toggle-left-pane-btn"
+									onClick={toggleLeftPane}
+									title={t('navigator.tooltip.left.show.hide', 'Toggle quick links')}
 								>
-									<FaSolidArrowLeft />
-								</button>
-								<button
-									class="nav-btn"
-									disabled={!nav.searchResult}
-									onClick={handleForward}
-									title={t('navigator.forward', 'Forward')}
-								>
-									<FaSolidArrowRight />
-								</button>
+									<img src={quickLinkAddIcon} alt="" />
+								</div>
 
-								{/* Search */}
-								<SearchView onSearch={handleSearch} />
+								{/* Left pane - Quick Links */}
+								<div class="navigator-left-pane">
+									<div class="left-pane-title" onClick={toggleLeftPane}>
+										<img src={quickLinkAddIcon} alt="" />
+										{t('navigator.quicklinks.title', 'Quick Links')}
+									</div>
+									<div class="left-pane-links">
+										<QuickLinksView />
+									</div>
+									<div class="left-pane-add-btn" title={t('navigator.quicklink.add', 'Add quick link')}>
+										<img src={quickLinkAddIcon} alt="" />
+									</div>
+								</div>
 
-								{/* Refresh */}
-								<button
-									class="nav-btn refresh-btn"
-									onClick={handleRefresh}
-									title={t('navigator.refresh', 'Refresh')}
-								>
-									<FaSolidRotateRight />
-								</button>
+								{/* Right pane - Tabs + Search + Results + Bottom buttons */}
+								<div class="navigator-right-pane">
+									{/* Tabs */}
+									<div class="navigator-tabs">
+										<For each={nav.topLevelContexts}>
+											{(ctx) => (
+												<div
+													class={`navigator-tab${nav.currentSearchCode === ctx.searchCode ? ' active' : ''}`}
+													onClick={() =>
+													{
+														actions.closeCreator();
+														actions.search(ctx.searchCode, '');
+														setIsLoading(true);
+													}}
+												>
+													{t('navigator.toplevelview.' + ctx.searchCode, ctx.searchCode)}
+												</div>
+											)}
+										</For>
+									</div>
+
+									{/* Navigation bar: back + search + refresh */}
+									<div class="navigator-nav-bar">
+										<button
+											class="nav-btn"
+											disabled={!nav.searchResult}
+											onClick={handleBack}
+											title={t('navigator.back', 'Back')}
+										>
+											<img src={backIcon} alt="" />
+										</button>
+
+										<SearchView onSearch={handleSearch} />
+
+										<button
+											class="nav-btn"
+											onClick={handleRefresh}
+											title={t('navigator.refresh', 'Refresh')}
+										>
+											<img src={refreshIcon} alt="" />
+										</button>
+									</div>
+
+									{/* Lifted rooms carousel */}
+									<LiftView />
+
+									{/* Results */}
+									<div
+										class="navigator-results"
+										ref={resultsRef}
+									>
+										<Show when={nav.searchResult}>
+											<For each={nav.searchResult!.blocks}>
+												{(block) => (
+													<BlockResultsView block={block} />
+												)}
+											</For>
+										</Show>
+									</div>
+
+									{/* Bottom buttons: Create Room / Random Room */}
+									<div class="navigator-bottom-buttons">
+										<img
+											class="bottom-btn"
+											src={createRoomIcon}
+											alt={t('navigator.createroom.title', 'Create Room')}
+											onClick={() => actions.openCreator()}
+											title={t('navigator.createroom.title', 'Create Room')}
+										/>
+										<img
+											class="bottom-btn"
+											src={randomRoomIcon}
+											alt={t('navigator.randomroom', 'Random Room')}
+											onClick={handleRandomRoom}
+											title={t('navigator.randomroom', 'Random Room')}
+										/>
+									</div>
+								</div>
 							</div>
-
-							{/* Lifted rooms carousel */}
-							<LiftView />
-
-							{/* Results */}
-							<div
-								class="navigator-results"
-								ref={resultsRef}
-							>
-								<Show when={nav.searchResult}>
-									<For each={nav.searchResult!.blocks}>
-										{(block) => (
-											<BlockResultsView block={block} />
-										)}
-									</For>
-								</Show>
-							</div>
-
-							{/* Saved searches (quick links) */}
-							<QuickLinksView />
 						</Show>
 					</HeliumCardContentView>
 				</HeliumCardView>

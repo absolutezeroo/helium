@@ -1,6 +1,5 @@
 import type {JSX} from 'solid-js';
 import {createSignal, createEffect, For, Show} from 'solid-js';
-import {FaSolidChevronDown, FaSolidChevronRight, FaSolidBars, FaSolidTableCells, FaSolidArrowLeft, FaSolidBookmark} from 'solid-icons/fa';
 import type {NavigatorSearchResultBlock} from '@habbo/communication/messages/incoming/newnavigator/NavigatorSearchResultBlock';
 import {NavigatorSearchAction} from '@habbo/communication/messages/incoming/newnavigator/NavigatorSearchResultBlock';
 import {ResultsModeEnum} from '@habbo/navigator/view/ResultsModeEnum';
@@ -8,6 +7,14 @@ import {useNavigator} from '@ui/hooks/navigator/useNavigator';
 import {useLocalization} from '@ui/common';
 import {RoomEntryRow} from './RoomEntryRow';
 import {RoomEntryTile} from './RoomEntryTile';
+
+import collapseIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_button_category_collapse.png';
+import expandIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_button_category_expand.png';
+import viewRowIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_nav_view_row.png';
+import viewThumbsIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_nav_view_thumbs.png';
+import showMoreIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_button_category_show_more.png';
+import quickLinkAddIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_button_quicklink_add.png';
+import backIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_button_back.png';
 
 export interface BlockResultsViewProps
 {
@@ -18,10 +25,8 @@ export interface BlockResultsViewProps
  * BlockResultsView - A single category block in the search results.
  *
  * Renders a collapsible header + room entries in either row or tile mode.
- * Faithfully ports the CategoryElementFactory + BlockResultsView behavior.
  *
  * @see source_as_flash/com/sulake/habbo/navigator/view/search/results/BlockResultsView.as
- * @see source_as_flash/com/sulake/habbo/navigator/view/search/results/CategoryElementFactory.as
  */
 export function BlockResultsView(props: BlockResultsViewProps): JSX.Element
 {
@@ -128,48 +133,65 @@ export function BlockResultsView(props: BlockResultsViewProps): JSX.Element
 			{/* Category header */}
 			<div class="navigator-category-header">
 				<div class="category-title" onClick={toggleCollapse}>
-					<Show when={!isCollapsed()} fallback={<FaSolidChevronRight class="collapse-icon" />}>
-						<FaSolidChevronDown class="collapse-icon" />
+					<Show
+						when={!isCollapsed()}
+						fallback={<img class="collapse-icon" src={expandIcon} alt="" />}
+					>
+						<img class="collapse-icon" src={collapseIcon} alt="" />
 					</Show>
 					<span class="category-name">{getTitle()}</span>
 				</div>
 				<div class="category-controls">
 					{/* View mode toggle */}
 					<Show when={!isCollapsed()}>
-						<Show when={!isTileMode()}>
-							<FaSolidTableCells
+						<Show
+							when={!isTileMode()}
+							fallback={
+								<img
+									class="control-icon"
+									src={viewRowIcon}
+									onClick={toggleViewMode}
+									title={t('navigator.display.mode.list', 'List')}
+									alt=""
+								/>
+							}
+						>
+							<img
 								class="control-icon"
+								src={viewThumbsIcon}
 								onClick={toggleViewMode}
 								title={t('navigator.display.mode.tiles', 'Tiles')}
-							/>
-						</Show>
-						<Show when={isTileMode()}>
-							<FaSolidBars
-								class="control-icon"
-								onClick={toggleViewMode}
-								title={t('navigator.display.mode.list', 'List')}
+								alt=""
 							/>
 						</Show>
 					</Show>
 					{/* Go back button */}
 					<Show when={props.block.actionAllowed === NavigatorSearchAction.GO_BACK}>
-						<FaSolidArrowLeft
+						<img
 							class="control-icon"
+							src={backIcon}
 							onClick={handleAction}
 							title={t('navigator.showmore.back', 'Back')}
+							alt=""
 						/>
 					</Show>
 					{/* Expand button */}
 					<Show when={props.block.actionAllowed === NavigatorSearchAction.CAN_EXPAND}>
-						<span class="show-more-text" onClick={handleAction}>
-							{t('navigator.showmore', 'Show More')}
-						</span>
+						<img
+							class="show-more-btn"
+							src={showMoreIcon}
+							onClick={handleAction}
+							title={t('navigator.showmore', 'Show More')}
+							alt=""
+						/>
 					</Show>
 					{/* Quick link button */}
-					<FaSolidBookmark
+					<img
 						class="control-icon"
+						src={quickLinkAddIcon}
 						onClick={handleAddQuickLink}
 						title={t('navigator.quicklink.add', 'Save search')}
+						alt=""
 					/>
 				</div>
 			</div>

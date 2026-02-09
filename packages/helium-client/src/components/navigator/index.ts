@@ -27,6 +27,6 @@ export type {
 // Utils (re-exported from views/search/results/)
 export {
 	getUserCounterColor,
-	getDoorModeIconClass,
+	getDoorModeAsset,
 	isDoorModeProtected,
 } from './views';

@@ -6,6 +6,6 @@ export {RoomEntryTile} from './RoomEntryTile';
 export type {RoomEntryTileProps} from './RoomEntryTile';
 export {
 	getUserCounterColor,
-	getDoorModeIconClass,
+	getDoorModeAsset,
 	isDoorModeProtected,
 } from './roomEntryUtils';

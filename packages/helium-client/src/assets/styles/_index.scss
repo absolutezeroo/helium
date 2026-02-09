@@ -1,26 +1,11 @@
-@import 'fonts';
-@import 'bootstrap/bootstrap';
-@import 'scrollbars';
-@import 'slider';
-@import 'icons';
-@import 'utils';
+// ============================================================
+// Helium Styles - Main entry point
+// Based on Flash XML layouts (source_as_flash/binaryData/)
+// ============================================================
 
-.btn-sm {
-  min-height: 28px;
-}
+// Foundation
+@use 'reset';
+@use 'utilities';
 
-textarea {
-  resize: none;
-}
-
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
+// Components
+@use 'components/navigator/index';

@@ -1,5 +1,9 @@
 import {RoomDoorMode} from '@habbo/communication/messages/incoming/navigator/GuestRoomData';
 
+import doorbellIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_doormode_doorbell_small.png';
+import passwordIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_doormode_password_small.png';
+import invisibleIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_doormode_invisible_small.png';
+
 /**
  * Room entry utility functions
  *
@@ -15,27 +19,27 @@ export function getUserCounterColor(userCount: number, maxUserCount: number): st
 {
 	const ratio = maxUserCount > 0 ? (100 * (userCount / maxUserCount)) : 0;
 
-	if (ratio >= 92) return 'bg-danger';
+	if (ratio >= 92) return 'badge-full';
 
-	if (ratio >= 50) return 'bg-warning';
+	if (ratio >= 50) return 'badge-medium';
 
-	if (ratio > 0) return 'bg-success';
+	if (ratio > 0) return 'badge-low';
 
-	return 'bg-primary';
+	return 'badge-empty';
 }
 
 /**
- * Get the CSS icon class name for a door mode.
+ * Get the Flash asset path for a door mode icon.
  *
  * @see RoomEntryUtils.as _Str_25339
  */
-export function getDoorModeIconClass(doorMode: number): string
+export function getDoorModeAsset(doorMode: number): string
 {
 	switch (doorMode)
 	{
-		case RoomDoorMode.DOORBELL: return 'icon icon-navigator-room-locked';
-		case RoomDoorMode.PASSWORD: return 'icon icon-navigator-room-password';
-		case RoomDoorMode.INVISIBLE: return 'icon icon-navigator-room-invisible';
+		case RoomDoorMode.DOORBELL: return doorbellIcon;
+		case RoomDoorMode.PASSWORD: return passwordIcon;
+		case RoomDoorMode.INVISIBLE: return invisibleIcon;
 		default: return '';
 	}
 }

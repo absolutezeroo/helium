@@ -100,8 +100,8 @@ export function DoorStateView(): JSX.Element
 					onClose={onClose}
 				/>
 				<HeliumCardContentView>
-					<div class="d-flex flex-column gap-1">
-						<span class="fw-bold">{doorData()?.roomInfo?.roomName}</span>
+					<div class="door-state-info">
+						<span class="door-room-name">{doorData()?.roomInfo?.roomName}</span>
 
 						<Show when={doorData()?.state === DoorStateType.START_DOORBELL}>
 							<span class="doorbell-info">{t('navigator.doorbell.info', 'Ring the doorbell to enter this room.')}</span>
@@ -136,22 +136,22 @@ export function DoorStateView(): JSX.Element
 
 					{/* Password input */}
 					<Show when={!isDoorbell()}>
-						<div class="d-flex flex-column gap-1 mt-2">
+						<div class="password-form">
 							<span class="password-info">{t('navigator.password.enter', 'Enter password:')}</span>
 							<input
 								type="password"
-								class="form-control form-control-sm password-input"
+								class="password-input"
 								value={password()}
 								onInput={(e) => setPassword(e.currentTarget.value)}
 								onKeyDown={(e) => e.key === 'Enter' && tryPassword()}
 							/>
 						</div>
 						<div class="password-actions">
-							<button class="password-try-btn" onClick={tryPassword}>
-								{t('navigator.password.button.try', 'Try')}
-							</button>
 							<button class="password-cancel-btn" onClick={onClose}>
 								{t('generic.cancel', 'Cancel')}
+							</button>
+							<button class="password-try-btn" onClick={tryPassword}>
+								{t('navigator.password.button.try', 'Try')}
 							</button>
 						</div>
 					</Show>

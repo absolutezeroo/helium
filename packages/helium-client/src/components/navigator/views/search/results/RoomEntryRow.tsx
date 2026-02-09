@@ -1,13 +1,15 @@
 import type {JSX} from 'solid-js';
 import {createSignal, Show} from 'solid-js';
-import clsx from 'clsx';
-import {FaSolidUser} from 'solid-icons/fa';
 import type {GuestRoomData} from '@habbo/communication/messages/incoming/navigator/GuestRoomData';
 import {RoomDoorMode} from '@habbo/communication/messages/incoming/navigator/GuestRoomData';
 import {useNavigator, DoorStateType} from '@ui/hooks/navigator/useNavigator';
 import {sessionStore} from '@ui/stores/sessionStore';
-import {getUserCounterColor, getDoorModeIconClass} from './roomEntryUtils';
+import {getUserCounterColor, getDoorModeAsset} from './roomEntryUtils';
 import {RoomInfoPopup} from '../../RoomInfoPopup';
+
+import userCountIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_icon_usercount.png';
+import infoIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_button_show_room_info.png';
+import groupIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_icon_group.png';
 
 export interface RoomEntryRowProps
 {
@@ -84,14 +86,14 @@ export function RoomEntryRow(props: RoomEntryRowProps): JSX.Element
 	return (
 		<div
 			ref={rowRef}
-			class="navigator-row position-relative"
+			class="navigator-row"
 			onClick={visitRoom}
 			onMouseEnter={onMouseEnter}
 			onMouseLeave={onMouseLeave}
 		>
 			{/* User count badge */}
-			<div class={clsx('row-usercount', badgeColor())}>
-				<FaSolidUser />
+			<div class={`row-usercount ${badgeColor()}`}>
+				<img src={userCountIcon} alt="" />
 				{props.roomData.userCount}
 			</div>
 
@@ -101,8 +103,10 @@ export function RoomEntryRow(props: RoomEntryRowProps): JSX.Element
 			{/* Icons */}
 			<div class="row-icons">
 				{/* Info popup trigger */}
-				<div
-					class="icon icon-navigator-info row-info-btn"
+				<img
+					class="row-info-btn"
+					src={infoIcon}
+					alt=""
 					onClick={(e) =>
 					{
 						e.stopPropagation();
@@ -111,11 +115,11 @@ export function RoomEntryRow(props: RoomEntryRowProps): JSX.Element
 				/>
 				{/* Group badge */}
 				<Show when={props.roomData.habboGroupId > 0}>
-					<i class="icon icon-navigator-room-group" />
+					<img src={groupIcon} alt="" />
 				</Show>
 				{/* Door mode icon */}
 				<Show when={props.roomData.doorMode !== RoomDoorMode.OPEN}>
-					<i class={getDoorModeIconClass(props.roomData.doorMode)} />
+					<img src={getDoorModeAsset(props.roomData.doorMode)} alt="" />
 				</Show>
 			</div>
 

@@ -1,6 +1,5 @@
 import type {JSX} from 'solid-js';
 import {createEffect, createSignal, For, Show} from 'solid-js';
-import {FaSolidMagnifyingGlass, FaSolidXmark} from 'solid-icons/fa';
 import {useNavigator} from '@ui/hooks/navigator/useNavigator';
 import {useLocalization} from '@ui/common';
 
@@ -115,7 +114,7 @@ export function SearchView(props: SearchViewProps): JSX.Element
 	return (
 		<div class="navigator-search">
 			<select
-				class="form-select form-select-sm search-filter-dropdown"
+				class="search-filter-dropdown"
 				value={filterIndex()}
 				onChange={(e) => setFilterIndex(parseInt(e.currentTarget.value))}
 			>
@@ -130,7 +129,7 @@ export function SearchView(props: SearchViewProps): JSX.Element
 			<div class="search-input-wrapper">
 				<input
 					type="text"
-					class="form-control form-control-sm"
+					class="search-input"
 					placeholder={t('navigator.filter.input.placeholder', 'Search...')}
 					value={inputText()}
 					onInput={(e) => setInputText(e.currentTarget.value)}
@@ -138,12 +137,12 @@ export function SearchView(props: SearchViewProps): JSX.Element
 				/>
 				<Show when={inputText().length > 0}>
 					<span class="search-clear-btn" onClick={clearInput}>
-						<FaSolidXmark />
+						&times;
 					</span>
 				</Show>
 			</div>
 			<button class="search-go-btn" onClick={processSearch}>
-				<FaSolidMagnifyingGlass />
+				Go
 			</button>
 		</div>
 	);

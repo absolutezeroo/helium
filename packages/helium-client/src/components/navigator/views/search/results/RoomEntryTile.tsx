@@ -1,13 +1,16 @@
 import type {JSX} from 'solid-js';
 import {createSignal, Show} from 'solid-js';
-import clsx from 'clsx';
-import {FaSolidUser} from 'solid-icons/fa';
 import type {GuestRoomData} from '@habbo/communication/messages/incoming/navigator/GuestRoomData';
 import {RoomDoorMode} from '@habbo/communication/messages/incoming/navigator/GuestRoomData';
 import {useNavigator, DoorStateType} from '@ui/hooks/navigator/useNavigator';
 import {sessionStore} from '@ui/stores/sessionStore';
-import {getUserCounterColor, getDoorModeIconClass} from './roomEntryUtils';
+import {getUserCounterColor, getDoorModeAsset} from './roomEntryUtils';
 import {RoomInfoPopup} from '../../RoomInfoPopup';
+
+import userCountIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_icon_usercount.png';
+import infoIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_button_show_room_info.png';
+import groupIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_icon_group.png';
+import defaultRoomThumb from '@/assets/images/HabboWindowManagerCom_newnavigator_default_room.png';
 
 export interface RoomEntryTileProps
 {
@@ -68,7 +71,7 @@ export function RoomEntryTile(props: RoomEntryTileProps): JSX.Element
 	return (
 		<div
 			ref={tileRef}
-			class="navigator-tile position-relative"
+			class="navigator-tile"
 			onClick={visitRoom}
 			onMouseEnter={() => setShowInfo(true)}
 			onMouseLeave={() => setShowInfo(false)}
@@ -79,7 +82,7 @@ export function RoomEntryTile(props: RoomEntryTileProps): JSX.Element
 					when={props.roomData.officialRoomPicRef}
 					fallback={
 						<div class="tile-placeholder">
-							<i class="icon icon-rooms" />
+							<img src={defaultRoomThumb} alt="" />
 						</div>
 					}
 				>
@@ -91,24 +94,34 @@ export function RoomEntryTile(props: RoomEntryTileProps): JSX.Element
 
 				{/* Group badge */}
 				<Show when={props.roomData.habboGroupId > 0}>
-					<i class="icon icon-navigator-room-group tile-group-badge" />
+					<img class="tile-group-badge" src={groupIcon} alt="" />
 				</Show>
 
 				{/* User count badge */}
-				<div class={clsx('tile-usercount', badgeColor())}>
-					<FaSolidUser />
+				<div class={`tile-usercount ${badgeColor()}`}>
+					<img src={userCountIcon} alt="" />
 					{props.roomData.userCount}
 				</div>
 
 				{/* Door mode icon */}
 				<Show when={props.roomData.doorMode !== RoomDoorMode.OPEN}>
-					<i class={clsx('tile-doormode', getDoorModeIconClass(props.roomData.doorMode))} />
+					<img class="tile-doormode" src={getDoorModeAsset(props.roomData.doorMode)} alt="" />
 				</Show>
 			</div>
 
 			{/* Room name + info */}
 			<div class="tile-footer">
 				<span class="tile-room-name">{props.roomData.roomName}</span>
+				<img
+					class="tile-info-btn"
+					src={infoIcon}
+					alt=""
+					onClick={(e) =>
+					{
+						e.stopPropagation();
+						setShowInfo(v => !v);
+					}}
+				/>
 			</div>
 
 			{/* Room info popup */}
