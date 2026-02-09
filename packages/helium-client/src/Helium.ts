@@ -1,5 +1,4 @@
 import {Application} from 'pixi.js';
-import type {IHeliumCoreConfig} from '@core/HeliumCore';
 import {HeliumCore} from '@core/HeliumCore';
 import {ComponentContext} from '@core/runtime';
 import {HeliumMain} from './HeliumMain';
@@ -17,6 +16,7 @@ import type {IHabboNewNavigator} from '@habbo/navigator/IHabboNewNavigator';
 import type {IHabboInventory} from '@habbo/inventory/IHabboInventory';
 import type {IHabboLocalizationManager} from '@habbo/localization/IHabboLocalizationManager';
 import {IHelium} from "./IHelium";
+import {IHeliumCoreConfig} from "@core";
 
 const log = Logger.getLogger('Helium');
 

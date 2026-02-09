@@ -1,4 +1,6 @@
 packages:
   - packages/*
 
-approveBuilds: esbuild,sharp
+onlyBuiltDependencies:
+  - esbuild
+  - sharp
