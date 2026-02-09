@@ -44,6 +44,7 @@ import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfig
 import type {IGameDataResources} from '@core/localization/IGameDataResources';
 import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
 import type {HeliumConfig} from './Helium';
+import {IDisposable} from "@/core";
 
 const log = Logger.getLogger('HabboMain');
 
@@ -58,9 +59,8 @@ const log = Logger.getLogger('HabboMain');
  *
  * @see source_as_win63/habbo/HabboMain.as
  */
-export class HabboMain
+export class HabboMain implements IDisposable
 {
-	// Core reference (received, not created)
 	private _core: HeliumCore | null = null;
 	private _habboCommunicationManager: HabboCommunicationManager | null = null;
 	private _localizationManager: HabboLocalizationManager | null = null;
@@ -71,8 +71,13 @@ export class HabboMain
 	private _notifications: HabboNotifications | null = null;
 	private _toolbar: HabboToolbar | null = null;
 	private _freeFlowChat: HabboFreeFlowChat | null = null;
-	// State
-	private _disposed: boolean = false;
+
+	protected _disposed: boolean = false;
+
+	get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
 	private _navigator: HabboNavigator | null = null;
 
@@ -110,7 +115,6 @@ export class HabboMain
 		return this._inventory;
 	}
 
-	// Habbo managers
 	private _configurationManager: HabboConfigurationManager | null = null;
 
 	get configurationManager(): IHabboConfigurationManager
@@ -146,8 +150,6 @@ export class HabboMain
 
 		return this._roomManager;
 	}
-
-	// ── Getters ──────────────────────────────────────────────────────
 
 	private _roomMessageHandler: RoomMessageHandler | null = null;
 
@@ -470,10 +472,6 @@ export class HabboMain
 
 			await this.loadExternalUIVariables(uiVarsUrl);
 		}
-
-		// Furniture/product data is now loaded by SessionDataManager
-		// (matching AS3 architecture where SessionDataManager owns FurnitureDataParser/ProductDataParser)
-		// Effect/figure data will be loaded by AvatarRenderManager when implemented
 	}
 
 	/**
@@ -582,7 +580,6 @@ export class HabboMain
 	 */
 	private initLocalization(): void
 	{
-		// Activate default localization if configured
 		if (this._configurationManager!.propertyExists('localization.1'))
 		{
 			const locName = this._configurationManager!.getProperty('localization.1');
