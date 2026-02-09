@@ -1,4 +1,5 @@
 import type {IRoomSession} from '../IRoomSession';
+import type {IUserData} from '../IUserData';
 import {RoomSessionEvent} from './RoomSessionEvent';
 
 /**
@@ -10,15 +11,15 @@ export class RoomSessionUserDataUpdateEvent extends RoomSessionEvent
 {
 	public static readonly RSUDUE_USER_DATA_UPDATE = 'RSUDUE_USER_DATA_UPDATE';
 
-	constructor(session: IRoomSession, addedUsers: unknown[] = [])
+	constructor(session: IRoomSession, addedUsers: IUserData[] = [])
 	{
 		super(RoomSessionUserDataUpdateEvent.RSUDUE_USER_DATA_UPDATE, session);
 		this._addedUsers = addedUsers;
 	}
 
-	private _addedUsers: unknown[];
+	private _addedUsers: IUserData[];
 
-	get addedUsers(): unknown[]
+	get addedUsers(): IUserData[]
 	{
 		return this._addedUsers;
 	}

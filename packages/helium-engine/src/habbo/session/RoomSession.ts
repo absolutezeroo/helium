@@ -2,6 +2,8 @@ import type {IConnection} from '@core/communication/connection/IConnection';
 import type {IRoomSession, RoomSessionStateType} from './IRoomSession';
 import {RoomSessionState} from './IRoomSession';
 import type {RoomModerationSettings} from '../communication/messages/incoming/navigator';
+import type {IUserDataManager} from './IUserDataManager';
+import {UserDataManager} from './UserDataManager';
 import {
 	AmbassadorAlertMessageComposer,
 	AssignRightsMessageComposer,
@@ -70,6 +72,12 @@ export class RoomSession implements IRoomSession
 	private _chatTrackingId: number = 0;
 	private _chatTrackingMap: Map<number, number> = new Map();
 	private _eventLogTracked: Map<string, boolean> = new Map();
+	private _userDataManager: UserDataManager = new UserDataManager();
+
+	get userDataManager(): IUserDataManager
+	{
+		return this._userDataManager;
+	}
 
 	private _connection: IConnection | null = null;
 
@@ -357,6 +365,7 @@ export class RoomSession implements IRoomSession
 		this._state = RoomSessionState.ENDED;
 		this._chatTrackingMap.clear();
 		this._eventLogTracked.clear();
+		this._userDataManager.dispose();
 	}
 
 	sendChatMessage(message: string, styleId: number = 0): void
