@@ -1,6 +1,7 @@
 import type {JSX} from 'solid-js';
 import {createEffect, createSignal, onMount, Show} from 'solid-js';
-import {Helium} from 'helium-engine';
+import type {IHeliumConfig} from 'helium-engine';
+import {Helium, IConnectionConfig} from 'helium-engine';
 import {HabboCommunicationEvent} from '@habbo/communication/enum';
 import {connectionStore} from '@ui/stores/connectionStore';
 import {initStores} from '@ui/stores';
@@ -12,7 +13,7 @@ declare global
 {
 	interface Window
 	{
-		HeliumConfig?: Record<string, unknown>;
+		HeliumConfig?: IHeliumConfig;
 	}
 }
 
@@ -88,7 +89,8 @@ export function App(): JSX.Element
 	onMount(async () =>
 	{
 		// Bootstrap engine (without autoConnect - stores must be wired first)
-		const config = {...window.HeliumConfig, connection: {...window.HeliumConfig?.connection, autoConnect: false}};
+		const userConfig = window.HeliumConfig ?? {};
+		const config: IHeliumConfig = {...userConfig, connection: {...userConfig.connection, autoConnect: false} as IConnectionConfig};
 
 		const helium = await Helium.bootstrap(config);
 
@@ -96,7 +98,7 @@ export function App(): JSX.Element
 		initStores();
 
 		// Now connect (stores are ready to receive events)
-		if (window.HeliumConfig?.connection?.autoConnect)
+		if (userConfig.connection?.autoConnect)
 		{
 			helium.connect();
 		}

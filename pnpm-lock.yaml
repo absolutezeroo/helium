@@ -13,6 +13,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      eventemitter3:
+        specifier: ^5.0.1
+        version: 5.0.4
       helium-engine:
         specifier: workspace:*
         version: link:../helium-engine

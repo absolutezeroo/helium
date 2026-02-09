@@ -1,3 +1,9 @@
+import type {Application, Renderer, Ticker} from 'pixi.js';
+import type {IDisposable} from './runtime/IDisposable';
+import type {ComponentContext} from './runtime/ComponentContext';
+import type {IAssetLibrary} from './assets/IAssetLibrary';
+import type {ICoreCommunicationManager} from './communication/ICoreCommunicationManager';
+
 /**
  * HeliumCore configuration options
  */
