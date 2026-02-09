@@ -4,3 +4,4 @@
 export {RoomObjectEvent} from './RoomObjectEvent';
 export {RoomObjectMouseEvent} from './RoomObjectMouseEvent';
 export {RoomSpriteMouseEvent} from './RoomSpriteMouseEvent';
+export {RoomToObjectEvent} from './RoomToObjectEvent';
