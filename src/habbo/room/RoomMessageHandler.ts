@@ -125,15 +125,17 @@ import type {RoomEntryTileMessageParser} from '../communication/messages/parser/
 // Room Object
 import {RoomPlaneParser} from './object/RoomPlaneParser';
 import {Logger} from "@/core";
+import {IRoomMessageHandler} from "@habbo/room/IRoomMessageHandler";
 
 const log = Logger.getLogger('RoomMessageHandler');
 
-export class RoomMessageHandler
+export class RoomMessageHandler implements IRoomMessageHandler
 {
 	public static readonly EFFECT_NONE = 0;
 	public static readonly EFFECT_ROOM_SHAKE = 1;
 	public static readonly EFFECT_ROOM_ROTATE = 2;
 	public static readonly EFFECT_ROOM_DISCO = 3;
+
 	private _roomCreator: IRoomCreator | null = null;
 	private _currentRoomId: number = 0;
 	private _ownUserId: number = -1;
@@ -195,10 +197,20 @@ export class RoomMessageHandler
 		}
 	}
 
+	protected _disposed: boolean = false;
+
+	get disposed(): boolean
+	{
+		return this._disposed;
+	}
+
 	dispose(): void
 	{
-		this._connection = null;
-		this._roomCreator = null;
+		if (!this._disposed)
+		{
+			this._connection = null;
+			this._roomCreator = null;
+		}
 	}
 
 	setCurrentRoom(roomId: number): void
@@ -219,7 +231,7 @@ export class RoomMessageHandler
 		this._currentRoomId = 0;
 	}
 
-	private onRoomReady(event: IMessageEvent): void
+	onRoomReady(event: IMessageEvent): void
 	{
 		const roomReadyEvent = event as RoomReadyMessageEvent;
 
@@ -264,7 +276,7 @@ export class RoomMessageHandler
 	 * Handle furniture aliases from server.
 	 * Based on AS3: com.sulake.habbo.room.RoomMessageHandler.onFurnitureAliases
 	 */
-	private onFurnitureAliases(event: IMessageEvent): void
+	onFurnitureAliases(event: IMessageEvent): void
 	{
 		if (this._roomCreator === null || event.connection === null)
 		{
@@ -304,7 +316,7 @@ export class RoomMessageHandler
 		event.connection.send(new GetHeightMapMessageComposer());
 	}
 
-	private onHeightMap(event: IMessageEvent): void
+	onHeightMap(event: IMessageEvent): void
 	{
 		const heightMapEvent = event as HeightMapMessageEvent;
 
@@ -334,7 +346,7 @@ export class RoomMessageHandler
 	 * Handle entry tile data (arrives BEFORE FloorHeightMap).
 	 * Based on AS3: RoomMessageHandler.onEntryTileData
 	 */
-	private onEntryTileData(event: IMessageEvent): void
+	onEntryTileData(event: IMessageEvent): void
 	{
 		this._entryTileEvent = event as RoomEntryTileMessageEvent;
 	}
@@ -343,7 +355,7 @@ export class RoomMessageHandler
 	 * Handle floor height map data. Detects door position and generates planes.
 	 * Based on AS3: RoomMessageHandler.onFloorHeightMap (lines 540-627)
 	 */
-	private onFloorHeightMap(event: IMessageEvent): void
+	onFloorHeightMap(event: IMessageEvent): void
 	{
 		const floorEvent = event as FloorHeightMapMessageEvent;
 
@@ -469,7 +481,7 @@ export class RoomMessageHandler
 		}
 	}
 
-	private onHeightMapUpdate(event: IMessageEvent): void
+	onHeightMapUpdate(event: IMessageEvent): void
 	{
 		const updateEvent = event as HeightMapUpdateMessageEvent;
 
@@ -501,7 +513,7 @@ export class RoomMessageHandler
 		}
 	}
 
-	private onObjects(event: IMessageEvent): void
+	onObjects(event: IMessageEvent): void
 	{
 		const objectsEvent = event as ObjectsMessageEvent;
 
@@ -530,7 +542,7 @@ export class RoomMessageHandler
 		}
 	}
 
-	private onObjectAdd(event: IMessageEvent): void
+	onObjectAdd(event: IMessageEvent): void
 	{
 		const addEvent = event as ObjectAddMessageEvent;
 
@@ -554,7 +566,7 @@ export class RoomMessageHandler
 		}
 	}
 
-	private onObjectUpdate(event: IMessageEvent): void
+	onObjectUpdate(event: IMessageEvent): void
 	{
 		const updateEvent = event as ObjectUpdateMessageEvent;
 
@@ -594,7 +606,7 @@ export class RoomMessageHandler
 		}
 	}
 
-	private onObjectRemove(event: IMessageEvent): void
+	onObjectRemove(event: IMessageEvent): void
 	{
 		const removeEvent = event as ObjectRemoveMessageEvent;
 
@@ -622,7 +634,7 @@ export class RoomMessageHandler
 		);
 	}
 
-	private onObjectDataUpdate(event: IMessageEvent): void
+	onObjectDataUpdate(event: IMessageEvent): void
 	{
 		const dataEvent = event as ObjectDataUpdateMessageEvent;
 
@@ -653,7 +665,7 @@ export class RoomMessageHandler
 		);
 	}
 
-	private onItems(event: IMessageEvent): void
+	onItems(event: IMessageEvent): void
 	{
 		const itemsEvent = event as ItemsMessageEvent;
 
@@ -682,7 +694,7 @@ export class RoomMessageHandler
 		}
 	}
 
-	private onItemAdd(event: IMessageEvent): void
+	onItemAdd(event: IMessageEvent): void
 	{
 		const addEvent = event as ItemAddMessageEvent;
 
@@ -706,7 +718,7 @@ export class RoomMessageHandler
 		}
 	}
 
-	private onItemUpdate(event: IMessageEvent): void
+	onItemUpdate(event: IMessageEvent): void
 	{
 		const updateEvent = event as ItemUpdateMessageEvent;
 
@@ -743,7 +755,7 @@ export class RoomMessageHandler
 		}
 	}
 
-	private onItemRemove(event: IMessageEvent): void
+	onItemRemove(event: IMessageEvent): void
 	{
 		const removeEvent = event as ItemRemoveMessageEvent;
 
@@ -771,7 +783,7 @@ export class RoomMessageHandler
 		);
 	}
 
-	private onUsers(event: IMessageEvent): void
+	onUsers(event: IMessageEvent): void
 	{
 		const usersEvent = event as UsersMessageEvent;
 
@@ -803,7 +815,7 @@ export class RoomMessageHandler
 		}
 	}
 
-	private onUserUpdate(event: IMessageEvent): void
+	onUserUpdate(event: IMessageEvent): void
 	{
 		const updateEvent = event as UserUpdateMessageEvent;
 
@@ -871,7 +883,7 @@ export class RoomMessageHandler
 		}
 	}
 
-	private onUserRemove(event: IMessageEvent): void
+	onUserRemove(event: IMessageEvent): void
 	{
 		const removeEvent = event as UserRemoveMessageEvent;
 
@@ -895,7 +907,7 @@ export class RoomMessageHandler
 		this._roomCreator.disposeObjectUser(this._currentRoomId, parser.roomIndex);
 	}
 
-	private onSlideUpdate(event: IMessageEvent): void
+	onSlideUpdate(event: IMessageEvent): void
 	{
 		const slideEvent = event as SlideObjectBundleMessageEvent;
 
@@ -944,7 +956,7 @@ export class RoomMessageHandler
 		}
 	}
 
-	private addFloorFurniture(roomId: number, data: FurnitureFloorData): void
+	addFloorFurniture(roomId: number, data: FurnitureFloorData): void
 	{
 		if (data === null || this._roomCreator === null)
 		{
@@ -989,7 +1001,7 @@ export class RoomMessageHandler
 		}
 	}
 
-	private addWallItem(roomId: number, data: FurnitureWallData): void
+	addWallItem(roomId: number, data: FurnitureWallData): void
 	{
 		if (data === null || this._roomCreator === null)
 		{
@@ -1015,7 +1027,7 @@ export class RoomMessageHandler
 		);
 	}
 
-	private addUser(roomId: number, data: RoomUserData): void
+	addUser(roomId: number, data: RoomUserData): void
 	{
 		if (data === null || this._roomCreator === null)
 		{
@@ -1056,7 +1068,7 @@ export class RoomMessageHandler
 	 * Handle user typing status update.
 	 * Based on AS3: com.sulake.habbo.room.RoomMessageHandler.onTypingStatus
 	 */
-	private onTypingStatus(event: IMessageEvent): void
+	onTypingStatus(event: IMessageEvent): void
 	{
 		const typingEvent = event as UserTypingMessageEvent;
 
@@ -1086,7 +1098,7 @@ export class RoomMessageHandler
 	 * Handle user expression update.
 	 * Based on AS3: com.sulake.habbo.room.RoomMessageHandler.onExpression
 	 */
-	private onExpression(event: IMessageEvent): void
+	onExpression(event: IMessageEvent): void
 	{
 		const expressionEvent = event as ExpressionMessageEvent;
 
@@ -1119,7 +1131,7 @@ export class RoomMessageHandler
 	 * Handle user dance update.
 	 * Based on AS3: com.sulake.habbo.room.RoomMessageHandler.onDance
 	 */
-	private onDance(event: IMessageEvent): void
+	onDance(event: IMessageEvent): void
 	{
 		const danceEvent = event as DanceMessageEvent;
 
@@ -1147,7 +1159,7 @@ export class RoomMessageHandler
 	 * Handle avatar effect update.
 	 * Based on AS3: com.sulake.habbo.room.RoomMessageHandler.onAvatarEffect
 	 */
-	private onAvatarEffect(event: IMessageEvent): void
+	onAvatarEffect(event: IMessageEvent): void
 	{
 		const effectEvent = event as AvatarEffectMessageEvent;
 
@@ -1175,7 +1187,7 @@ export class RoomMessageHandler
 	 * Handle avatar sleep status update.
 	 * Based on AS3: com.sulake.habbo.room.RoomMessageHandler.onAvatarSleep
 	 */
-	private onAvatarSleep(event: IMessageEvent): void
+	onAvatarSleep(event: IMessageEvent): void
 	{
 		const sleepEvent = event as SleepMessageEvent;
 
@@ -1205,7 +1217,7 @@ export class RoomMessageHandler
 	 * Handle carry object update.
 	 * Based on AS3: com.sulake.habbo.room.RoomMessageHandler.onCarryObject
 	 */
-	private onCarryObject(event: IMessageEvent): void
+	onCarryObject(event: IMessageEvent): void
 	{
 		if (this._roomCreator === null)
 		{
@@ -1238,7 +1250,7 @@ export class RoomMessageHandler
 	 * Handle use object update.
 	 * Based on AS3: com.sulake.habbo.room.RoomMessageHandler.onUseObject
 	 */
-	private onUseObject(event: IMessageEvent): void
+	onUseObject(event: IMessageEvent): void
 	{
 		if (this._roomCreator === null)
 		{
@@ -1271,7 +1283,7 @@ export class RoomMessageHandler
 	 * Handle user figure change.
 	 * Based on AS3: com.sulake.habbo.room.RoomMessageHandler.onUserChange
 	 */
-	private onUserChange(event: IMessageEvent): void
+	onUserChange(event: IMessageEvent): void
 	{
 		const changeEvent = event as UserChangeMessageEvent;
 

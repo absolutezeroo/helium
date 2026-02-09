@@ -43,10 +43,11 @@ import type {HeliumCore} from '@core/HeliumCore';
 import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
 import type {IGameDataResources} from '@core/localization/IGameDataResources';
 import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
-import type {HeliumConfig} from './Helium';
-import {IDisposable} from "@/core";
+import type {IHeliumConfig} from './Helium';
+import {IHeliumMain} from "./IHeliumMain";
 
 const log = Logger.getLogger('HabboMain');
+
 
 /**
  * HabboMain
@@ -59,7 +60,7 @@ const log = Logger.getLogger('HabboMain');
  *
  * @see source_as_win63/habbo/HabboMain.as
  */
-export class HabboMain implements IDisposable
+export class HeliumMain implements IHeliumMain
 {
 	private _core: HeliumCore | null = null;
 	private _habboCommunicationManager: HabboCommunicationManager | null = null;
@@ -227,7 +228,7 @@ export class HabboMain implements IDisposable
 	 * @param core - The HeliumCore instance (created by Helium shell)
 	 * @param config - Optional Helium configuration
 	 */
-	async init(core: HeliumCore, config?: HeliumConfig): Promise<void>
+	async init(core: HeliumCore, config?: IHeliumConfig): Promise<void>
 	{
 		this._core = core;
 
@@ -289,7 +290,7 @@ export class HabboMain implements IDisposable
 	 * Config → Communication → Demo → Localization → RoomManager → RoomSessionManager
 	 * → SessionDataManager → Navigator → Inventory → RoomEngine → RoomMessageHandler
 	 */
-	private async initHabboManagers(config?: HeliumConfig): Promise<void>
+	async initHabboManagers(config?: IHeliumConfig): Promise<void>
 	{
 		const ctx = this._core!.context;
 
@@ -426,7 +427,7 @@ export class HabboMain implements IDisposable
 	 * Called when game data resources (hashes) are available.
 	 * Sets config properties from hashes for game data loading.
 	 */
-	private async onGameDataResourcesReady(resources: IGameDataResources): Promise<void>
+	async onGameDataResourcesReady(resources: IGameDataResources): Promise<void>
 	{
 		const config = this._configurationManager!;
 
@@ -477,7 +478,7 @@ export class HabboMain implements IDisposable
 	/**
 	 * Load external UI variables and merge into configuration
 	 */
-	private async loadExternalUIVariables(url: string): Promise<void>
+	async loadExternalUIVariables(url: string): Promise<void>
 	{
 		try
 		{
@@ -526,7 +527,8 @@ export class HabboMain implements IDisposable
 				flatten(json);
 
 				log.success('External UI variables loaded');
-			} else
+			}
+			else
 			{
 				// key=value format
 				const lines = text.split(/\n\r?|\r\n?/);
@@ -556,7 +558,7 @@ export class HabboMain implements IDisposable
 	/**
 	 * Initialize all SolidJS stores
 	 */
-	private initStores(): void
+	initStores(): void
 	{
 		// Stores without manager dependencies
 		sessionStore.init();
@@ -578,7 +580,7 @@ export class HabboMain implements IDisposable
 	/**
 	 * Initialize localization
 	 */
-	private initLocalization(): void
+	initLocalization(): void
 	{
 		if (this._configurationManager!.propertyExists('localization.1'))
 		{

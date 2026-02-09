@@ -1,5 +1,4 @@
-import type {IContext} from '@core/runtime';
-import {Component, ComponentDependency} from '@core/runtime';
+import {Component, ComponentDependency, IContext} from '@core/runtime';
 import {Logger} from '@core/utils/Logger';
 import type {IConnection} from '@core/communication/connection/IConnection';
 import {IncomingMessages} from './IncomingMessages';
@@ -12,6 +11,7 @@ import {
 	UniqueIDMessageComposer,
 } from '../messages/outgoing/handshake';
 import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
+import {IHabboCommunicationDemo} from "@habbo/communication/demo/IHabboCommunicationDemo";
 
 const log = Logger.getLogger('CommunicationDemo');
 
@@ -26,10 +26,11 @@ const log = Logger.getLogger('CommunicationDemo');
  *
  * @see source_as_win63/habbo/communication/demo/HabboCommunicationDemo.as
  */
-export class HabboCommunicationDemo extends Component
+export class HabboCommunicationDemo extends Component implements IHabboCommunicationDemo
 {
 	static readonly ERROR_TYPE_IO_ERROR: string = 'ioError';
 	static readonly ERROR_CODE_MAINTENANCE: string = 'maintenance';
+
 	private _incomingMessages: IncomingMessages | null = null;
 	private _isDisconnected: boolean = false;
 	private _isLoggedIn: boolean = false;
@@ -258,13 +259,22 @@ export class HabboCommunicationDemo extends Component
 	}
 
 	/**
+	 * @see source_as_win63/habbo/communication/demo/HabboCommunicationDemo.as initWithSSO()
+	 */
+	initWithSSO(ticket: string): void
+	{
+		this._ssoTicket = ticket;
+		this.initGameSocket();
+	}
+
+	/**
 	 * @see source_as_win63/habbo/communication/demo/HabboCommunicationDemo.as initComponent()
 	 */
 	protected override initComponent(): void
 	{
 		this._isDisconnected = false;
 
-		// AS3: Dispose previous IncomingMessages and renew socket
+		// Dispose previous IncomingMessages and renew socket
 		if (this._incomingMessages)
 		{
 			this._incomingMessages.dispose();
@@ -286,14 +296,5 @@ export class HabboCommunicationDemo extends Component
 		{
 			this.initWithSSO(this._ssoTicket);
 		}
-	}
-
-	/**
-	 * @see source_as_win63/habbo/communication/demo/HabboCommunicationDemo.as initWithSSO()
-	 */
-	private initWithSSO(ticket: string): void
-	{
-		this._ssoTicket = ticket;
-		this.initGameSocket();
 	}
 }

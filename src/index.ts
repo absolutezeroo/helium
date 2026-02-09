@@ -1,5 +1,5 @@
 // Main application
-export {Helium, type HeliumConfig, type ConnectionConfig} from './Helium';
+export {Helium, type IHeliumConfig, type IConnectionConfig} from './Helium';
 
 // Component Runtime (replaces Inversify IoC)
 export * from '@core/runtime';

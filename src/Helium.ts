@@ -2,7 +2,7 @@ import {Application} from 'pixi.js';
 import type {HeliumCoreConfig} from '@core/HeliumCore';
 import {HeliumCore} from '@core/HeliumCore';
 import {ComponentContext} from '@core/runtime';
-import {HabboMain} from './HabboMain';
+import {HeliumMain} from './HeliumMain';
 import {Logger} from '@core/utils/Logger';
 import {mountUI} from '@ui/index';
 import '@ui/_index.scss';
@@ -16,13 +16,14 @@ import type {IHabboNavigator} from '@habbo/navigator/IHabboNavigator';
 import type {IHabboNewNavigator} from '@habbo/navigator/IHabboNewNavigator';
 import type {IHabboInventory} from '@habbo/inventory/IHabboInventory';
 import type {IHabboLocalizationManager} from '@habbo/localization/IHabboLocalizationManager';
+import {IHelium} from "./IHelium";
 
 const log = Logger.getLogger('Helium');
 
 /**
  * Connection configuration
  */
-export interface ConnectionConfig
+export interface IConnectionConfig
 {
 	/** Server host (can include ws:// or wss://) */
 	host: string;
@@ -40,10 +41,10 @@ export interface ConnectionConfig
 /**
  * Helium configuration
  */
-export interface HeliumConfig extends HeliumCoreConfig
+export interface IHeliumConfig extends HeliumCoreConfig
 {
 	/** Connection configuration */
-	connection?: ConnectionConfig;
+	connection?: IConnectionConfig;
 
 	/** URL to load external configuration from (external_variables.txt) */
 	configurationUrl?: string;
@@ -67,12 +68,14 @@ export interface HeliumConfig extends HeliumCoreConfig
  *
  * @see source_as_win63/habbo/Habbo.as
  */
-export class Helium
+export class Helium implements IHelium
 {
 	// Engine orchestrator
-	private _habboMain: HabboMain | null = null;
+	private _habboMain: HeliumMain | null = null;
+
 	// UI
 	private _disposeUI: (() => void) | null = null;
+
 	// State
 	private _ready: boolean = false;
 
@@ -105,7 +108,12 @@ export class Helium
 		return this._core;
 	}
 
-	// ── Direct accessors (Helium owns) ───────────────────────────────
+	protected _disposed: boolean = false;
+
+	get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
 	get context(): ComponentContext
 	{
@@ -131,8 +139,6 @@ export class Helium
 	{
 		return this._habboMain!.configurationManager;
 	}
-
-	// ── Proxy accessors (delegate to HabboMain) ──────────────────────
 
 	get habboCommunication(): HabboCommunicationManager
 	{
@@ -177,7 +183,7 @@ export class Helium
 	/**
 	 * Bootstrap the application
 	 */
-	public static async bootstrap(config?: HeliumConfig): Promise<Helium>
+	public static async bootstrap(config?: IHeliumConfig): Promise<Helium>
 	{
 		const instance = this.instance;
 
@@ -186,15 +192,13 @@ export class Helium
 		return instance;
 	}
 
-	// ── Lifecycle ────────────────────────────────────────────────────
-
 	/**
 	 * Connect to the Habbo server
 	 *
 	 * Uses HabboCommunicationDemo (AS3 pattern) to manage the login flow:
 	 * setSSOTicket → initGameSocket → initConnection → IncomingMessages → handshake
 	 */
-	public connect(): void
+	connect(): void
 	{
 		if (!this._habboMain)
 		{
@@ -211,7 +215,8 @@ export class Helium
 		if (ssoTicket)
 		{
 			demo.setSSOTicket(ssoTicket);
-		} else
+		}
+		else
 		{
 			demo.initGameSocket();
 		}
@@ -228,7 +233,7 @@ export class Helium
 	/**
 	 * Disconnect from the server
 	 */
-	public disconnect(): void
+	disconnect(): void
 	{
 		this._habboMain?.habboCommunication.disconnect();
 	}
@@ -246,11 +251,11 @@ export class Helium
 		this._disposeUI?.();
 		this._disposeUI = null;
 
-		// 2. Dispose engine orchestrator (managers, modules)
+		// 2. Dispose engine orchestrator
 		this._habboMain?.dispose();
 		this._habboMain = null;
 
-		// 3. Dispose core (context.dispose() disposes all attached Components)
+		// 3. Dispose core
 		this._core?.dispose();
 		this._core = null;
 
@@ -262,7 +267,7 @@ export class Helium
 	/**
 	 * Initialize the application
 	 */
-	private async init(config?: HeliumConfig): Promise<void>
+	async init(config?: IHeliumConfig): Promise<void>
 	{
 		log.info('Initializing Helium...');
 
@@ -271,7 +276,7 @@ export class Helium
 		await this._core.init(config);
 
 		// 2. Create and init engine orchestrator
-		this._habboMain = new HabboMain();
+		this._habboMain = new HeliumMain();
 		await this._habboMain.init(this._core, config);
 
 		// 3. Mount UI
@@ -290,7 +295,7 @@ export class Helium
 	/**
 	 * Mount the SolidJS UI
 	 */
-	private mountUI(): void
+	mountUI(): void
 	{
 		const uiContainer = document.createElement('div');
 
