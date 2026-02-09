@@ -1,13 +1,26 @@
 import type {JSX} from 'solid-js';
 import {createEffect, createSignal, onMount, Show} from 'solid-js';
+import {Helium} from 'helium-engine';
 import {HabboCommunicationEvent} from '@habbo/communication/enum';
 import {connectionStore} from '@ui/stores/connectionStore';
+import {initStores} from '@ui/stores';
 import {LoadingView} from './components/loading';
 import {MainView} from './components/main';
+import './_index.scss';
+
+declare global
+{
+	interface Window
+	{
+		HeliumConfig?: Record<string, unknown>;
+	}
+}
 
 /**
  * App - Root application component.
- * Shows loading screen during connection, then MainView when authenticated.
+ *
+ * Bootstraps the engine, initializes stores, then shows
+ * loading screen during connection and MainView when authenticated.
  *
  * @see source_nitro_react/App.tsx
  */
@@ -72,8 +85,23 @@ export function App(): JSX.Element
 		}
 	});
 
-	onMount(() =>
+	onMount(async () =>
 	{
+		// Bootstrap engine (without autoConnect - stores must be wired first)
+		const config = {...window.HeliumConfig, connection: {...window.HeliumConfig?.connection, autoConnect: false}};
+
+		const helium = await Helium.bootstrap(config);
+
+		// Wire stores to the engine
+		initStores();
+
+		// Now connect (stores are ready to receive events)
+		if (window.HeliumConfig?.connection?.autoConnect)
+		{
+			helium.connect();
+		}
+
+		// Pixel rendering
 		const resize = () => setImageRendering(!(window.devicePixelRatio % 1));
 
 		window.addEventListener('resize', resize);

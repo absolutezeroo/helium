@@ -1,6 +1,6 @@
 import type {JSX} from 'solid-js';
 import {Show} from 'solid-js';
-import Helium from '@/Helium';
+import {Helium} from 'helium-engine';
 import {LayoutAvatarImageView} from '@ui/common/layout/LayoutAvatarImageView';
 import {sessionStore} from '@ui/stores/sessionStore';
 import {configStore} from '@ui/stores/configStore';

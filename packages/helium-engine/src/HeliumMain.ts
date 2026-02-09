@@ -17,15 +17,6 @@ import {HabboNotifications} from '@habbo/notifications/HabboNotifications';
 import {HabboToolbar} from '@habbo/toolbar/HabboToolbar';
 import {HabboFreeFlowChat} from '@habbo/freeflowchat/HabboFreeFlowChat';
 import {Logger} from '@core/utils/Logger';
-import {connectionStore} from '@ui/stores/connectionStore';
-import {sessionStore} from '@ui/stores/sessionStore';
-import {favouritesStore} from '@ui/stores/favouritesStore';
-import {roomStore} from '@ui/stores/roomStore';
-import {configStore} from '@ui/stores/configStore';
-import {localizationStore} from '@ui/stores/localizationStore';
-import {navigatorStore} from '@ui/stores/navigatorStore';
-import {inventoryStore} from '@ui/stores/inventoryStore';
-import {landingViewStore} from '@ui/stores/landingViewStore';
 
 import {IID_HabboCommunicationManager} from '@iid/IIDHabboCommunicationManager';
 import {IID_HabboConfigurationManager} from '@iid/IIDHabboConfigurationManager';
@@ -233,8 +224,6 @@ export class HeliumMain implements IHeliumMain
 		this._core = core;
 
 		await this.initHabboManagers(config);
-
-		this.initStores();
 
 		this.initLocalization();
 	}
@@ -554,28 +543,6 @@ export class HeliumMain implements IHeliumMain
 			log.warn(`Failed to load external UI variables: ${error}`);
 		}
 	}
-
-	/**
-	 * Initialize all SolidJS stores
-	 */
-	initStores(): void
-	{
-		// Stores without manager dependencies
-		sessionStore.init();
-		favouritesStore.init();
-		roomStore.init();
-
-		// Wire connection actions to HabboCommunicationManager
-		this._habboCommunicationManager!.setConnectionActions(connectionStore.actions);
-
-		// Stores with manager dependencies
-		configStore.init();
-		localizationStore.init();
-		navigatorStore.init();
-		inventoryStore.init();
-		landingViewStore.init();
-	}
-
 
 	/**
 	 * Initialize localization

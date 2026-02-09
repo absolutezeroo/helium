@@ -3,8 +3,6 @@ import {HeliumCore} from '@core/HeliumCore';
 import {ComponentContext} from '@core/runtime';
 import {HeliumMain} from './HeliumMain';
 import {Logger} from '@core/utils/Logger';
-import {mountUI} from './index.tsx';
-import './_index.scss';
 import type {ICoreCommunicationManager} from '@core/communication/ICoreCommunicationManager';
 import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
 import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
@@ -72,9 +70,6 @@ export class Helium implements IHelium
 {
 	// Engine orchestrator
 	private _habboMain: HeliumMain | null = null;
-
-	// UI
-	private _disposeUI: (() => void) | null = null;
 
 	// State
 	private _ready: boolean = false;
@@ -241,28 +236,22 @@ export class Helium implements IHelium
 	/**
 	 * Dispose the application
 	 *
-	 * Order: UI → HabboMain (managers) → Core (context.dispose() disposes all Components)
+	 * Order: HabboMain (managers) → Core (context.dispose() disposes all Components)
 	 */
 	public dispose(): void
 	{
 		log.info('Disposing Helium...');
 
-		// 1. Dispose UI
-		this._disposeUI?.();
-		this._disposeUI = null;
-
-		// 2. Dispose engine orchestrator
+		// 1. Dispose engine orchestrator
 		this._habboMain?.dispose();
 		this._habboMain = null;
 
-		// 3. Dispose core
+		// 2. Dispose core
 		this._core?.dispose();
 		this._core = null;
 
 		this._ready = false;
 	}
-
-	// ── Private ──────────────────────────────────────────────────────
 
 	/**
 	 * Initialize the application
@@ -273,16 +262,16 @@ export class Helium implements IHelium
 
 		// 1. Create and init core
 		this._core = new HeliumCore();
+
 		await this._core.init(config);
 
 		// 2. Create and init engine orchestrator
 		this._habboMain = new HeliumMain();
+
 		await this._habboMain.init(this._core, config);
 
-		// 3. Mount UI
-		this.mountUI();
-
 		this._ready = true;
+
 		log.success('Ready!');
 
 		// Auto-connect if configured
@@ -291,20 +280,4 @@ export class Helium implements IHelium
 			this.connect();
 		}
 	}
-
-	/**
-	 * Mount the SolidJS UI
-	 */
-	mountUI(): void
-	{
-		const uiContainer = document.createElement('div');
-
-		uiContainer.id = 'helium-ui';
-
-		document.body.appendChild(uiContainer);
-
-		this._disposeUI = mountUI(uiContainer);
-	}
 }
-
-export default Helium;

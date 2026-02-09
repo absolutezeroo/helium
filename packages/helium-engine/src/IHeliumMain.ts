@@ -54,11 +54,6 @@ export interface IHeliumMain extends IDisposable
 	loadExternalUIVariables(url: string): Promise<void>;
 
 	/**
-	 * Initialize all SolidJS stores
-	 */
-	initStores(): void;
-
-	/**
 	 * Initialize localization
 	 */
 	initLocalization(): void;

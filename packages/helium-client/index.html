@@ -9,30 +9,20 @@
 
 <div id="draggable-windows-container"></div>
 
+<div id="helium-ui"></div>
+
 <script type="module">
-    import {Helium, Logger} from './src/index.ts';
-
-    const log = Logger.getLogger('Helium');
-
-    // Get SSO ticket from URL parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    const ssoTicket = urlParams.get('ssoTicket');
-
-    if (!ssoTicket) {
-        log.warn('No ssoTicket in URL. Use ?ssoTicket=YOUR_TICKET');
-    }
-
-    // Initialize Helium
-    await Helium.bootstrap({
-        background: '#0a0a0f',
+    window.HeliumConfig = {
         connection: {
             host: 'localhost',
             ports: [30001],
-            ssoTicket: ssoTicket || undefined,
+            ssoTicket: (new URLSearchParams(window.location.search).get('ssoTicket') || null),
             autoConnect: true,
         },
         configurationUrl: 'http://habbo-swf.local/gamedata/external_renderer_variables/1'
-    });
+    };
 </script>
+
+<script src="./src/index.tsx" type="module"></script>
 </body>
 </html>

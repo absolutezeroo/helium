@@ -43,9 +43,4 @@ export interface IHelium extends IDisposable
 	 * Initialize the application
 	 */
 	init(config?: IHeliumConfig): Promise<void>;
-
-	/**
-	 * Mount the SolidJS UI
-	 */
-	mountUI(): void;
 }

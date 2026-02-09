@@ -1,10 +1,4 @@
 import {render} from 'solid-js/web';
 import {App} from './App';
 
-export function mountUI(container: HTMLElement): () => void
-{
-	return render(() => <App/>, container);
-}
-
-export {App} from './App';
-export * from './components';
+render(() => <App/>, document.getElementById('helium-ui')!);
