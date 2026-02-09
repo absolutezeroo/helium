@@ -18,7 +18,7 @@ import {RoomPlaneData} from '@habbo/room/object/RoomPlaneData';
 import {RoomObjectVariableEnum} from '@habbo/room/object/RoomObjectVariableEnum';
 import type {RoomPlaneParser} from '@habbo/room/object/RoomPlaneParser';
 import {RoomVisualizationData} from './RoomVisualizationData';
-import {Logger} from "@/core";
+import {Logger} from "@core";
 
 const log = Logger.getLogger('RoomVisualization');
 

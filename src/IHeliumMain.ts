@@ -1,13 +1,13 @@
-import type {HeliumCore, IDisposable, IGameDataResources} from "@/core";
+import type {HeliumCore, IDisposable, IGameDataResources} from "@core";
 import {IHabboCommunicationDemo, IHabboCommunicationManager} from "@habbo/communication";
 import {IHabboLocalizationManager} from "@habbo/localization";
 import {IHabboNavigator, IHabboNewNavigator} from "@habbo/navigator";
 import {IHabboInventory} from "@habbo/inventory";
 import {IHabboConfigurationManager} from "@habbo/configuration";
-import {IRoomManager} from "@/room";
+import {IRoomManager} from "@room";
 import {IRoomSessionManager, ISessionDataManager} from "@habbo/session";
 import {IRoomEngine} from "@habbo/room";
-import {IHeliumConfig} from "@/Helium";
+import {IHeliumConfig} from "./Helium";
 import {IRoomMessageHandler} from "@habbo/room/IRoomMessageHandler";
 
 export interface IHeliumMain extends IDisposable

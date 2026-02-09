@@ -1,4 +1,4 @@
-import {ComponentContext, HeliumCore, type ICoreCommunicationManager, IDisposable} from "@/core";
+import {ComponentContext, HeliumCore, type ICoreCommunicationManager, IDisposable} from "@core";
 import {Application, Renderer} from "pixi.js";
 import type {IHabboConfigurationManager} from "@habbo/configuration";
 import type {HabboCommunicationManager} from "@habbo/communication";
@@ -7,7 +7,7 @@ import type {IRoomSessionManager, ISessionDataManager} from "@habbo/session";
 import type {IHabboNavigator, IHabboNewNavigator} from "@habbo/navigator";
 import type {IHabboInventory} from "@habbo/inventory";
 import type {IHabboLocalizationManager} from "@habbo/localization";
-import {IHeliumConfig} from "@/Helium";
+import {IHeliumConfig} from "./Helium";
 
 export interface IHelium extends IDisposable
 {

@@ -52,7 +52,7 @@ import {RoomObjectAvatarOwnMessage} from './messages/RoomObjectAvatarOwnMessage'
 import type {IVector3d} from '@room/utils/IVector3d';
 import {Vector3d} from '@room/utils/Vector3d';
 import type {RoomPlaneParser} from './object/RoomPlaneParser';
-import {Logger} from "@/core";
+import {Logger} from "@core";
 import {RoomVisualizationData} from './object/visualization/room/RoomVisualizationData';
 import type {IAssetRoomVisualizationData} from './object/visualization/room/rasterizer/basic/PlaneRasterizerTypes';
 import type {NitroAsset} from '@core/assets/NitroAsset';

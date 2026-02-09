@@ -19,7 +19,7 @@ import {
 	RemoveOwnRoomRightsRoomMessageComposer,
 	RoomTextSearchMessageComposer,
 } from '../communication/messages/outgoing/navigator';
-import type {IMessageComposer} from "@/core";
+import type {IMessageComposer} from "@core";
 
 const log = Logger.getLogger('Navigator');
 

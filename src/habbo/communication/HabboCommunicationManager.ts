@@ -15,7 +15,7 @@ import type {IEncryption} from '@core/communication/encryption/IEncryption';
 import type {IKeyExchange} from '@core/communication/handshake/IKeyExchange';
 import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
 import type {ISessionDataManager} from '../session/ISessionDataManager';
-import type {ConnectionActions} from '@ui/stores/connectionStore';
+import type {IConnectionActions} from './IConnectionActions';
 import {IID_CoreCommunicationManager} from "@iid/IIDCoreCommunicationManager";
 
 const log = Logger.getLogger('Communication');
@@ -112,9 +112,9 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 		return this._communicationManager;
 	}
 
-	private _connectionActions: ConnectionActions | null = null;
+	private _connectionActions: IConnectionActions | null = null;
 
-	private get connectionActions(): ConnectionActions
+	private get connectionActions(): IConnectionActions
 	{
 		if (!this._connectionActions)
 		{
@@ -128,7 +128,7 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 	 * Set connection actions for state updates
 	 * Called by Helium after module registration
 	 */
-	setConnectionActions(actions: ConnectionActions): void
+	setConnectionActions(actions: IConnectionActions): void
 	{
 		this._connectionActions = actions;
 	}

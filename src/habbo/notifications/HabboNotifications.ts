@@ -12,7 +12,7 @@ import {Logger} from '@core/utils/Logger';
 import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
 import {GetMOTDMessageComposer} from "@habbo/communication";
 import {IHabboLocalizationManager} from "@habbo/localization";
-import {IID_HabboLocalizationManager} from "@/iid";
+import {IID_HabboLocalizationManager} from "@iid";
 
 const log = Logger.getLogger('HabboNotifications');
 

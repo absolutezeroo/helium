@@ -64,4 +64,5 @@ const actions = {
 
 export type ConnectionActions = typeof actions;
 
+// Re-export for backward compatibility - actions satisfies IConnectionActions
 export const connectionStore = {state, actions};

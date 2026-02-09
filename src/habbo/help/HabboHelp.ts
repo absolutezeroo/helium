@@ -17,7 +17,7 @@ import {NameChangeController} from './NameChangeController';
 import {SanctionInfo} from './SanctionInfo';
 import {HelpMessageHandler} from './HelpMessageHandler';
 import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
-import {IMessageComposer} from "@/core";
+import {IMessageComposer} from "@core";
 
 const log = Logger.getLogger('HabboHelp');
 

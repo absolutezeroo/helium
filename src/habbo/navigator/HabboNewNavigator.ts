@@ -27,7 +27,7 @@ import {
 	NewNavigatorInitComposer,
 	NewNavigatorSearchComposer,
 } from '../communication/messages/outgoing/newnavigator';
-import type {IMessageComposer} from "@/core";
+import type {IMessageComposer} from "@core";
 import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
 import {IID_HabboNavigator} from "@iid/IIDHabboNavigator";
 

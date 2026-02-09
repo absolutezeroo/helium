@@ -124,7 +124,7 @@ import type {RoomEntryTileMessageParser} from '../communication/messages/parser/
 
 // Room Object
 import {RoomPlaneParser} from './object/RoomPlaneParser';
-import {Logger} from "@/core";
+import {Logger} from "@core";
 import {IRoomMessageHandler} from "@habbo/room/IRoomMessageHandler";
 
 const log = Logger.getLogger('RoomMessageHandler');

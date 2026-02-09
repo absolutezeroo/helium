@@ -1,5 +1,5 @@
 import {HabboCommunicationEventType, IHabboCommunicationManager} from "@habbo/communication";
-import {IConnection} from "@/core";
+import {IConnection} from "@core";
 
 export interface IHabboCommunicationDemo
 {

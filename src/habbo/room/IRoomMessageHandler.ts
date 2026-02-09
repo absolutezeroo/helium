@@ -1,4 +1,4 @@
-import type {IDisposable, IMessageEvent} from "@/core";
+import type {IDisposable, IMessageEvent} from "@core";
 import type {FurnitureFloorData, FurnitureWallData, RoomUserData} from "@habbo/communication";
 
 export interface IRoomMessageHandler extends IDisposable
