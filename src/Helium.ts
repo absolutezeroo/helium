@@ -1,5 +1,5 @@
 import {Application} from 'pixi.js';
-import type {HeliumCoreConfig} from '@core/HeliumCore';
+import type {IHeliumCoreConfig} from '@core/HeliumCore';
 import {HeliumCore} from '@core/HeliumCore';
 import {ComponentContext} from '@core/runtime';
 import {HeliumMain} from './HeliumMain';
@@ -41,7 +41,7 @@ export interface IConnectionConfig
 /**
  * Helium configuration
  */
-export interface IHeliumConfig extends HeliumCoreConfig
+export interface IHeliumConfig extends IHeliumCoreConfig
 {
 	/** Connection configuration */
 	connection?: IConnectionConfig;

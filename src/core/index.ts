@@ -12,4 +12,4 @@ export * from './utils';
 export {HeliumCore} from './HeliumCore';
 
 // Types
-export type {HeliumCoreConfig} from './HeliumCore';
+export type {IHeliumCoreConfig, IHeliumCore} from './IHeliumCore';

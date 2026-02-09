@@ -8,25 +8,9 @@ import {IID_CoreCommunicationManager} from '@iid/IIDCoreCommunicationManager';
 
 import type {IAssetLibrary} from '@core/assets/IAssetLibrary';
 import type {ICoreCommunicationManager} from '@core/communication/ICoreCommunicationManager';
+import {IHeliumCore, IHeliumCoreConfig} from "@core/IHeliumCore";
 
 const log = Logger.getLogger('HeliumCore');
-
-/**
- * HeliumCore configuration options
- */
-export interface HeliumCoreConfig
-{
-	/** Background color */
-	background?: string;
-	/** Element to resize to */
-	resizeTo?: HTMLElement | Window;
-	/** Enable antialiasing */
-	antialias?: boolean;
-	/** Pixel resolution */
-	resolution?: number;
-	/** Canvas container element */
-	canvas?: HTMLElement;
-}
 
 /**
  * HeliumCore
@@ -40,7 +24,7 @@ export interface HeliumCoreConfig
  *
  * This layer is initialized first, before any Habbo-specific managers.
  */
-export class HeliumCore
+export class HeliumCore implements IHeliumCore
 {
 	private _ready: boolean = false;
 
@@ -108,7 +92,7 @@ export class HeliumCore
 	/**
 	 * Initialize the core layer
 	 */
-	async init(config?: HeliumCoreConfig): Promise<void>
+	async init(config?: IHeliumCoreConfig): Promise<void>
 	{
 		if (this._ready)
 		{
@@ -186,7 +170,7 @@ export class HeliumCore
 	/**
 	 * Main update loop - updates context and communication
 	 */
-	private update(ticker: Ticker): void
+	update(ticker: Ticker): void
 	{
 		if (this._disposed) return;
 
