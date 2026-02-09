@@ -1,0 +1,56 @@
+// ============================================================
+// Navigator Quick Links
+// Source: navigator_frame_2_xml.bin → quicklinks_list
+// quicklinks_list: x=5 y=25 w=132 h=420, spacing=2
+// quick_link: w=132 h=17
+//   quick_link_text: w=185 h=17
+//   remove_quick_link: x=115 y=1 w=16 h=16 (visible on hover)
+// ============================================================
+@use '../../tokens' as *;
+
+.navigator-quick-links {
+    display: flex;
+    flex-direction: column;
+    gap: $nav-ql-spacing;
+
+    .quick-link-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: $nav-ql-list-width;
+        height: $nav-ql-item-height;
+        padding: 0 2px;
+        cursor: pointer;
+        user-select: none;
+        position: relative;
+
+        &:hover {
+            background-color: rgba($accent-blue, 0.1);
+        }
+
+        .quick-link-name {
+            flex: 1;
+            font-size: $font-size-base;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .quick-link-remove {
+            position: absolute;
+            right: 1px;
+            top: 1px;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+
+            img {
+                width: 10px;
+                height: 10px;
+            }
+        }
+    }
+}

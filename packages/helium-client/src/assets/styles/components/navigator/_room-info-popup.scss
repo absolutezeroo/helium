@@ -1,0 +1,325 @@
+// ============================================================
+// Navigator Room Info Popup Bubble
+// Source: HabboNewNavigatorCom_room_info_popup_bubble_xml.bin
+// bubble: w=374 h=350
+//   main_content: x=11 y=-21 w=345 h=324
+//     header: w=345 h=125
+//       thumbnail: 112×112 (black bg, inner 110×110)
+//       room_name: x=6 w=214 h=33 bold multiline
+//       room_desc: x=5 y=33 w=214 h=80 multiline
+//     owner_group: w=344 h=30
+//       owner: x=5 w=150
+//       group: x=175 w=170
+//     mid: properties w=174 h=65 + actions w=170 h=80
+//       actions: fav/home/settings/report (20×20 icons)
+//     tags: horizontal spacing=2
+//     event: w=331 h=55, color=0xf1a700 blend=0.7
+// ============================================================
+@use 'sass:color';
+@use '../../tokens' as *;
+
+.room-info-popup {
+    position: absolute;
+    z-index: 20;
+    width: $nav-popup-width;
+    background-color: $bg-white;
+    border: 1px solid $frame-border-color;
+    border-radius: 4px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+    font-family: $font-family;
+    font-size: $font-size-base;
+    color: $text-primary;
+
+    // Positioned to the left of the anchor by default
+    left: -$nav-popup-width - 4px;
+    top: -20px;
+
+    .popup-content {
+        padding: 8px 11px;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    // --- Header (thumbnail + name/desc) ---
+    .popup-header {
+        display: flex;
+        flex-direction: row;
+        gap: 7px;
+        min-height: $nav-popup-header-height;
+
+        .popup-thumbnail {
+            width: $nav-popup-thumb-size;
+            height: $nav-popup-thumb-size;
+            flex-shrink: 0;
+            background-color: #000000;
+            position: relative;
+            overflow: hidden;
+
+            img {
+                width: 110px;
+                height: 110px;
+                position: absolute;
+                top: 1px;
+                left: 1px;
+                object-fit: cover;
+            }
+
+            .popup-thumbnail-placeholder {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                img {
+                    position: static;
+                    object-fit: contain;
+                }
+            }
+
+            .popup-group-badge {
+                position: absolute;
+                top: 1px;
+                left: 1px;
+                width: 48px;
+                height: 48px;
+            }
+
+            .popup-doormode {
+                position: absolute;
+                bottom: 4px;
+                right: 4px;
+                width: 16px;
+                height: 14px;
+            }
+        }
+
+        .popup-details {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+
+            .popup-home-icon {
+                width: 20px;
+                height: 20px;
+                flex-shrink: 0;
+            }
+
+            .popup-room-name {
+                font-weight: bold;
+                font-size: $font-size-base;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+
+            .popup-description {
+                font-size: $font-size-base;
+                color: $text-secondary;
+                max-height: 80px;
+                overflow-y: auto;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
+        }
+    }
+
+    // --- Owner / Group row ---
+    .popup-owner-group {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        height: 30px;
+        padding: 3px 5px;
+
+        .popup-owner-name,
+        .popup-group-name {
+            font-weight: bold;
+            text-decoration: underline;
+            cursor: pointer;
+            color: $text-link;
+        }
+
+        img {
+            width: 15px;
+            height: 13px;
+        }
+
+        span {
+            font-size: $font-size-base;
+        }
+    }
+
+    // --- Body: Properties + Actions ---
+    .popup-body {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+
+        // Properties (left column)
+        .popup-properties {
+            width: 174px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+
+            .popup-property-row {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 4px;
+
+                .property-name {
+                    font-size: $font-size-base;
+                    color: $text-secondary;
+                }
+
+                .rating-stars {
+                    display: flex;
+                    gap: 1px;
+
+                    img {
+                        width: 12px;
+                        height: 12px;
+                    }
+                }
+
+                .property-value {
+                    display: flex;
+                    align-items: center;
+                }
+
+                .popup-usercount {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    gap: 1px;
+                    padding: 1px 4px;
+                    border-radius: 2px;
+                    font-size: $font-size-sm;
+                    font-weight: bold;
+                    color: $badge-text;
+
+                    img {
+                        width: 13px;
+                        height: 14px;
+                    }
+
+                    &.badge-empty {
+                        background-color: $badge-empty;
+                    }
+
+                    &.badge-low {
+                        background-color: $badge-low;
+                    }
+
+                    &.badge-medium {
+                        background-color: $badge-medium;
+                    }
+
+                    &.badge-full {
+                        background-color: $badge-full;
+                    }
+                }
+            }
+        }
+
+        // Actions (right column)
+        .popup-actions {
+            width: 170px;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+
+            .popup-action {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 4px;
+                height: 20px;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: rgba($accent-blue, 0.08);
+                }
+
+                .action-icon {
+                    width: 20px;
+                    height: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    img {
+                        width: 20px;
+                        height: 20px;
+                    }
+                }
+
+                span {
+                    font-size: $font-size-base;
+                }
+            }
+        }
+    }
+
+    // --- Tags ---
+    .popup-tags {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 2px;
+        padding: 2px 0;
+
+        .popup-tag {
+            padding: 1px 6px;
+            background-color: $accent-gold;
+            color: $text-white;
+            font-size: $font-size-sm;
+            border-radius: 2px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: color.adjust($accent-gold, $lightness: -5%);
+            }
+        }
+    }
+
+    // --- Event info ---
+    .popup-event {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        padding: 6px;
+        background-color: rgba($accent-gold, 0.7);
+        border-radius: 2px;
+
+        > img {
+            width: 42px;
+            height: 40px;
+            flex-shrink: 0;
+        }
+
+        .popup-event-content {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+
+            .popup-event-title {
+                font-weight: bold;
+                color: $text-white;
+            }
+
+            span {
+                color: $text-white;
+                font-size: $font-size-base;
+                word-wrap: break-word;
+            }
+        }
+    }
+}

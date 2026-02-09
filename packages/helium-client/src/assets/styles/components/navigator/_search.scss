@@ -1,0 +1,102 @@
+// ============================================================
+// Navigator Search Bar
+// Source: navigator_frame_2_xml.bin → search_tools
+// search_tools: w=408 h=36
+//   filter_type_drop_menu: x=4 y=10 w=116 h=24
+//   input border: x=133 y=10 w=235 h=24
+//   refresh: x=375 y=10 w=25 h=25
+// ============================================================
+@use 'sass:color';
+@use '../../tokens' as *;
+
+.navigator-search {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 1;
+    gap: 4px;
+
+    // --- Filter dropdown ---
+    .search-filter-dropdown {
+        width: $nav-filter-width;
+        height: $nav-filter-height;
+        flex-shrink: 0;
+        padding: 2px 4px;
+        font-size: $font-size-base;
+        border: 1px solid $frame-border-color;
+        border-radius: 2px;
+        background-color: $bg-white;
+        outline: none;
+        cursor: pointer;
+        appearance: auto;
+    }
+
+    // --- Input wrapper ---
+    .search-input-wrapper {
+        position: relative;
+        flex: 1;
+        height: $nav-input-height;
+
+        input {
+            width: 100%;
+            height: 100%;
+            padding: 2px 24px 2px 6px;
+            font-size: $font-size-base;
+            border: 1px solid $frame-border-color;
+            border-radius: 2px;
+            background-color: $bg-white;
+            outline: none;
+
+            &:focus {
+                border-color: $accent-blue;
+            }
+
+            &::placeholder {
+                color: $text-muted;
+            }
+        }
+
+        // Clear button (× inside input)
+        .search-clear-btn {
+            position: absolute;
+            right: 4px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1;
+            color: $text-muted;
+
+            &:hover {
+                color: $text-primary;
+            }
+        }
+    }
+
+    // --- Go button ---
+    .search-go-btn {
+        height: $nav-input-height;
+        padding: 0 10px;
+        font-size: $font-size-base;
+        font-weight: bold;
+        color: $text-white;
+        background-color: $accent-blue;
+        border: 1px solid color.adjust($accent-blue, $lightness: -10%);
+        border-radius: 2px;
+        cursor: pointer;
+        flex-shrink: 0;
+
+        &:hover {
+            background-color: color.adjust($accent-blue, $lightness: 5%);
+        }
+
+        &:active {
+            background-color: color.adjust($accent-blue, $lightness: -5%);
+        }
+    }
+}
