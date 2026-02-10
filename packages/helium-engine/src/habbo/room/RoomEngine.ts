@@ -63,6 +63,9 @@ import {IID_SessionDataManager} from '@iid/IIDSessionDataManager';
 import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
 import {EventEmitter} from 'eventemitter3';
 import {RoomContentLoader} from './RoomContentLoader';
+import {RoomObjectTileCursorUpdateMessage} from './messages/RoomObjectTileCursorUpdateMessage';
+import {RoomObjectTileMouseEvent} from './events/RoomObjectTileMouseEvent';
+import {RoomObjectMouseEvent} from '@room/events/RoomObjectMouseEvent';
 
 const log = Logger.getLogger('RoomEngine');
 
@@ -96,6 +99,11 @@ export class RoomEngine extends Component implements IRoomEngine,
 	private _contentLoader: RoomContentLoader;
 	private _contentLoaderEvents: EventEmitter = new EventEmitter();
 	private _pendingFurnitureViz: Map<string, Array<{ roomId: number; objectId: number; category: number }>> = new Map();
+	private _canvasElement: HTMLCanvasElement | null = null;
+	private _boundOnPointerMove: ((e: PointerEvent) => void) | null = null;
+	private _boundOnPointerDown: ((e: PointerEvent) => void) | null = null;
+	private _boundOnClick: ((e: MouseEvent) => void) | null = null;
+	private _boundOnDblClick: ((e: MouseEvent) => void) | null = null;
 
 	constructor(context: IContext, assetLibrary: IAssetLibrary | null = null)
 	{
@@ -1533,6 +1541,76 @@ export class RoomEngine extends Component implements IRoomEngine,
 	}
 
 	/**
+	 * Attach DOM mouse event listeners on the PixiJS canvas element.
+	 * Forwards browser events to the active room's RoomRenderingCanvas.
+	 */
+	setCanvasElement(canvas: HTMLCanvasElement): void
+	{
+		// Remove old listeners
+		if (this._canvasElement && this._boundOnPointerMove)
+		{
+			this._canvasElement.removeEventListener('pointermove', this._boundOnPointerMove);
+			this._canvasElement.removeEventListener('pointerdown', this._boundOnPointerDown!);
+			this._canvasElement.removeEventListener('click', this._boundOnClick!);
+			this._canvasElement.removeEventListener('dblclick', this._boundOnDblClick!);
+		}
+
+		this._canvasElement = canvas;
+
+		this._boundOnPointerMove = (e: PointerEvent) => this.onCanvasPointerMove(e);
+		this._boundOnPointerDown = (e: PointerEvent) => this.onCanvasPointerDown(e);
+		this._boundOnClick = (e: MouseEvent) => this.onCanvasClick(e);
+		this._boundOnDblClick = (e: MouseEvent) => this.onCanvasDblClick(e);
+
+		canvas.addEventListener('pointermove', this._boundOnPointerMove);
+		canvas.addEventListener('pointerdown', this._boundOnPointerDown);
+		canvas.addEventListener('click', this._boundOnClick);
+		canvas.addEventListener('dblclick', this._boundOnDblClick);
+	}
+
+	private onCanvasPointerMove(e: PointerEvent): void
+	{
+		const canvas = this.getActiveRenderingCanvas();
+		if (canvas)
+		{
+			canvas.handleMouseEvent(e.offsetX, e.offsetY, 'mouse_move', e.altKey, e.ctrlKey, e.shiftKey, e.buttons > 0);
+		}
+	}
+
+	private onCanvasPointerDown(e: PointerEvent): void
+	{
+		const canvas = this.getActiveRenderingCanvas();
+		if (canvas)
+		{
+			canvas.handleMouseEvent(e.offsetX, e.offsetY, 'mouse_down', e.altKey, e.ctrlKey, e.shiftKey, true);
+		}
+	}
+
+	private onCanvasClick(e: MouseEvent): void
+	{
+		const canvas = this.getActiveRenderingCanvas();
+		if (canvas)
+		{
+			canvas.handleMouseEvent(e.offsetX, e.offsetY, 'click', e.altKey, e.ctrlKey, e.shiftKey, false);
+		}
+	}
+
+	private onCanvasDblClick(e: MouseEvent): void
+	{
+		const canvas = this.getActiveRenderingCanvas();
+		if (canvas)
+		{
+			canvas.handleMouseEvent(e.offsetX, e.offsetY, 'double_click', e.altKey, e.ctrlKey, e.shiftKey, false);
+		}
+	}
+
+	private getActiveRenderingCanvas(): RoomRenderingCanvas | null
+	{
+		if (this._activeRoomId < 0) return null;
+		return this.getRenderingCanvas(this._activeRoomId);
+	}
+
+	/**
 	 * Get or create a rendering canvas for a room
 	 */
 	getRenderingCanvas(roomId: number, canvasId: number = 1): RoomRenderingCanvas | null
@@ -1822,8 +1900,73 @@ export class RoomEngine extends Component implements IRoomEngine,
 
 	private onRoomObjectEvent(event: unknown): void
 	{
+		// Handle tile mouse events for tile cursor
+		if (event instanceof RoomObjectTileMouseEvent)
+		{
+			this.handleTileMouseEvent(event);
+		}
+		else if (event instanceof RoomObjectMouseEvent)
+		{
+			this.handleObjectMouseEvent(event);
+		}
+
 		// Forward object events
 		this.events.emit('roomObjectEvent', event);
+	}
+
+	/**
+	 * Handle tile mouse events - update the tile cursor.
+	 * Based on AS3 RoomObjectEventHandler.handleMouseOverTile()
+	 */
+	private handleTileMouseEvent(event: RoomObjectTileMouseEvent): void
+	{
+		if (this._activeRoomId < 0) return;
+
+		const tileCursor = this.getTileCursor(this._activeRoomId);
+
+		if (!tileCursor || !tileCursor.getEventHandler()) return;
+
+		const tileX = event.tileXAsInt;
+		const tileY = event.tileYAsInt;
+		const tileZ = event.tileZ;
+
+		if (event.type === RoomObjectMouseEvent.ROE_MOUSE_MOVE)
+		{
+			const cursorUpdate = new RoomObjectTileCursorUpdateMessage(
+				new Vector3d(tileX, tileY, tileZ),
+				0,
+				true,
+				event.eventId
+			);
+
+			tileCursor.getEventHandler()!.processUpdateMessage(cursorUpdate);
+		}
+		else if (event.type === RoomObjectMouseEvent.ROE_MOUSE_CLICK)
+		{
+			log.info(`[CLICK] Floor tile (${tileX}, ${tileY}, z=${tileZ.toFixed(2)})`);
+		}
+	}
+
+	/**
+	 * Handle object mouse events - debug logging for furniture clicks.
+	 */
+	private handleObjectMouseEvent(event: RoomObjectMouseEvent): void
+	{
+		if (event.type !== RoomObjectMouseEvent.ROE_MOUSE_CLICK) return;
+
+		const obj = event.object;
+
+		if (!obj) return;
+
+		const objType = obj.getType();
+		const objId = obj.getId();
+
+		// Skip room object itself
+		if (objType === 'room' || objId < 0) return;
+
+		const loc = obj.getLocation();
+
+		log.info(`[CLICK] Object id=${objId} type="${objType}" pos=(${loc?.x?.toFixed(1)}, ${loc?.y?.toFixed(1)}, ${loc?.z?.toFixed(1)})`);
 	}
 
 	/**

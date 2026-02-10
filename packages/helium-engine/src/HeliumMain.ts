@@ -408,6 +408,9 @@ export class HeliumMain implements IHeliumMain
 		// Set PixiJS stage on room engine for rendering
 		this._roomEngine.setStage(this._core!.application.stage);
 
+		// Wire DOM mouse events to room engine
+		this._roomEngine.setCanvasElement(this._core!.application.canvas as HTMLCanvasElement);
+
 		// 12. Room Message Handler - bridges communication to room engine
 		this._roomMessageHandler = new RoomMessageHandler(this._roomEngine);
 	}
