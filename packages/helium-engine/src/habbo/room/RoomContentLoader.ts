@@ -34,8 +34,8 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 	public static readonly CONTENT_LOADER_READY = 'RCL_LOADER_READY';
 
 	private static readonly PLACE_HOLDER_FURNITURE = 'place_holder';
-	private static readonly PLACE_HOLDER_WALL_ITEM = 'wall_place_holder';
-	private static readonly PLACE_HOLDER_PET = 'pet_place_holder';
+	private static readonly PLACE_HOLDER_WALL_ITEM = 'place_holder_wall';
+	private static readonly PLACE_HOLDER_PET = 'place_holder_pet';
 	private static readonly PLACE_HOLDER_DEFAULT = 'place_holder';
 	private static readonly ROOM_CONTENT = 'room';
 	private static readonly TILE_CURSOR = 'tile_cursor';
@@ -43,12 +43,24 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 
 	private static readonly PLACE_HOLDER_TYPES = [
 		'place_holder',
-		'wall_place_holder',
-		'pet_place_holder',
+		'place_holder_wall',
+		'place_holder_pet',
 		'room',
 		'tile_cursor',
 		'selection_arrow'
 	];
+
+	/**
+	 * Special content types that use generic.asset.url instead of furniture.asset.url.
+	 * Based on AS3 RoomContentLoader.getObjectContentURLs() switch statement.
+	 */
+	private static readonly SPECIAL_CONTENT_TYPES = new Set([
+		'place_holder',
+		'place_holder_wall',
+		'place_holder_pet',
+		'tile_cursor',
+		'selection_arrow',
+	]);
 
 	private static readonly ANIMATED_VIZ_TYPES = new Set([
 		'furniture_animated',
@@ -68,6 +80,7 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 		'furniture_soundblock',
 		'furniture_vote_counter',
 		'furniture_vote_majority',
+		'tile_cursor',
 	]);
 
 	private _floorItems: Map<string, number> = new Map();
@@ -288,6 +301,7 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 		return type;
 	}
 
+
 	hasInternalContent(type: string): boolean
 	{
 		type = getVisualizationType(type);
@@ -327,15 +341,22 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 			return true;
 		}
 
-		if (!this._assetLibrary || !this._furnitureAssetUrl)
+		if (!this._assetLibrary)
 		{
 			return false;
 		}
 
-		// Build URL from template
-		const url = this._furnitureAssetUrl.replace('%className%', type);
+		// Build URL: special types use generic.asset.url, regular furniture uses furniture.asset.url
+		// Based on AS3 RoomContentLoader.getObjectContentURLs()
+		const url = this.getContentUrl(type);
 
-		log.debug(`Loading furniture: ${type} from ${url}`);
+		if (!url)
+		{
+			log.warn(`Cannot resolve URL for content type: ${type}`);
+			return false;
+		}
+
+		log.debug(`Loading content: ${type} from ${url}`);
 
 		const loadPromise = this.loadFurnitureBundle(type, url, events);
 		this._loadingTypes.set(type, loadPromise);
@@ -417,6 +438,39 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 	setPetType(typeId: number, type: string): void
 	{
 		this._pets.set(type, typeId);
+	}
+
+	/**
+	 * Resolve the asset URL for a content type.
+	 * Special types (placeholders, tile_cursor, selection_arrow) use generic.asset.url.
+	 * Regular furniture uses furniture.asset.url.
+	 * Based on AS3 RoomContentLoader.getObjectContentURLs()
+	 */
+	private getContentUrl(type: string): string | null
+	{
+		if (RoomContentLoader.SPECIAL_CONTENT_TYPES.has(type))
+		{
+			// Special types use generic.asset.url (same base as room.nitro)
+			if (this._configurationManager)
+			{
+				const url = this._configurationManager.getProperty('generic.asset.url', {libname: type});
+
+				if (url)
+				{
+					return url;
+				}
+			}
+
+			return null;
+		}
+
+		// Regular furniture uses furniture.asset.url
+		if (!this._furnitureAssetUrl)
+		{
+			return null;
+		}
+
+		return this._furnitureAssetUrl.replace('%className%', type);
 	}
 
 	/**

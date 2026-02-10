@@ -1094,6 +1094,9 @@ export class RoomEngine extends Component implements IRoomEngine,
 			{
 				log.debug(`[RoomEngine] Created room visualization for room ${roomId}`);
 			}
+
+			// Load tile cursor content (.nitro bundle) — goes through the same content loading pipeline as furniture
+			this.loadFurnitureContent(roomId, OBJECT_ID_TILE_CURSOR, OBJECT_TYPE_TILE_CURSOR, RoomObjectCategoryEnum.OBJECT_CATEGORY_ROOM);
 		}
 
 		this.setActiveRoom(roomId);
@@ -2075,6 +2078,21 @@ export class RoomEngine extends Component implements IRoomEngine,
 		}
 
 		this._contentLoader.initialize(this.assets, this._configurationManager);
+
+		// Pre-load placeholder content types so they're available when objects are created.
+		// Based on AS3 RoomEngine loading PLACE_HOLDER_TYPES at initialization.
+		const placeHolderTypes = this._contentLoader.getPlaceHolderTypes();
+
+		for (const type of placeHolderTypes)
+		{
+			// 'room' is loaded separately via loadRoomContent()
+			if (type === 'room')
+			{
+				continue;
+			}
+
+			this._contentLoader.loadObjectContent(type, this._contentLoaderEvents);
+		}
 	}
 
 	/**
@@ -2191,12 +2209,26 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return;
 		}
 
-		// Get visualization type from content loader
-		const vizType = this._contentLoader.getVisualizationType(className);
+		// Get visualization type from content loader.
+		// For tile_cursor and selection_arrow, force className as vizType so the factory
+		// creates the specialized class (TileCursorVisualization). For everything else
+		// (including placeholders), use the bundle's declared visualizationType.
+		let vizType: string;
 
-		if (!vizType)
+		if (className === OBJECT_TYPE_TILE_CURSOR || className === 'selection_arrow')
 		{
-			return;
+			vizType = className;
+		}
+		else
+		{
+			const bundleVizType = this._contentLoader.getVisualizationType(className);
+
+			if (!bundleVizType)
+			{
+				return;
+			}
+
+			vizType = bundleVizType;
 		}
 
 		// Create visualization instance from factory

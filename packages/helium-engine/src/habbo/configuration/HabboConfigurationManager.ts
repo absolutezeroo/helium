@@ -485,6 +485,7 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 		this.setProperty('client.fatal.error.url', '${url.prefix}/flash_client_error');
 		this.setProperty('game.center.error.url', '${url.prefix}/log/gameerror');
 		this.setProperty('furniture.asset.url', '${asset.url}/bundled/furniture/%className%.nitro');
+		this.setProperty('generic.asset.url', '${asset.url}/bundled/generic/%libname%.nitro');
 	}
 
 	private configurationsLoaded(): void
