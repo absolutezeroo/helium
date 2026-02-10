@@ -453,6 +453,14 @@ export class HeliumMain implements IHeliumMain
 			config.setProperty('avatar.actions.url', `${resources.habboAvatarActionsUrl}/${resources.habboAvatarActionsHash}`);
 		}
 
+		// Trigger furnidata/productdata loading now that URLs are available
+		// AS3: This happens via onConfigurationComplete callback on SessionDataManager
+		// Must happen BEFORE the await below so fetch starts immediately
+		if (this._sessionDataManager)
+		{
+			this._sessionDataManager.onConfigurationComplete();
+		}
+
 		// Load external UI variables if available (separated from renderer variables)
 		if (resources.externalUIVariablesUrl && resources.externalUIVariablesHash)
 		{

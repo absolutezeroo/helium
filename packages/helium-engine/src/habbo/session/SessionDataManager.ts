@@ -76,9 +76,7 @@ import {UserChangeMessageEvent} from '../communication/messages/incoming/room/ac
 
 // Events - Preferences & NFT
 import {AccountPreferencesEvent} from '../communication/messages/incoming/preferences/AccountPreferencesEvent';
-import {
-	UserNftChatStylesMessageEvent
-} from '../communication/messages/incoming/nft/UserNftChatStylesMessageEvent';
+import {UserNftChatStylesMessageEvent} from '../communication/messages/incoming/nft/UserNftChatStylesMessageEvent';
 
 // Parsers
 import type {UserObjectMessageParser} from '../communication/messages/parser/handshake/UserObjectMessageParser';
@@ -123,14 +121,10 @@ import type {EmailStatusResultParser} from '../communication/messages/parser/use
 import type {
 	ChangeUserNameResultMessageParser
 } from '../communication/messages/parser/help/ChangeUserNameResultMessageParser';
-import type {
-	UserNameChangedMessageParser
-} from '../communication/messages/parser/help/UserNameChangedMessageParser';
+import type {UserNameChangedMessageParser} from '../communication/messages/parser/help/UserNameChangedMessageParser';
 import type {RoomReadyMessageParser} from '../communication/messages/parser/room/session/RoomReadyMessageParser';
 import type {AccountPreferencesParser} from '../communication/messages/parser/preferences/AccountPreferencesParser';
-import type {
-	UserNftChatStylesMessageParser
-} from '../communication/messages/parser/nft/UserNftChatStylesMessageParser';
+import type {UserNftChatStylesMessageParser} from '../communication/messages/parser/nft/UserNftChatStylesMessageParser';
 
 // Composers
 import {RespectUserMessageComposer} from '../communication/messages/outgoing/room/RespectUserMessageComposer';
@@ -167,9 +161,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	private _customData: string = '';
 	private _directMail: boolean = false;
 	private _mysteryBoxKeyColor: string = '';
-	private _newFurniDataHash: string | null = null;
 	private _nftChatStyleIds: number[] = [];
-
 	// Furniture data - owned by SessionDataManager (AS3 pattern)
 	private _floorItems: Map<number, IFurnitureData> = new Map();
 	private _wallItems: Map<number, IFurnitureData> = new Map();
@@ -179,7 +171,6 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	private _loadingFurnitureDataParser: FurnitureDataParser | null = null;
 	private _furniDataReady: boolean = false;
 	private _furniDataListeners: IFurniDataListener[] = [];
-
 	// Product data - owned by SessionDataManager (AS3 pattern)
 	private _products: Map<string, IProductData> = new Map();
 	private _productDataParser: ProductDataParser | null = null;
@@ -189,6 +180,18 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	constructor(context: IContext)
 	{
 		super(context);
+	}
+
+	private _newFurniDataHash: string | null = null;
+
+	get newFurniDataHash(): string
+	{
+		return this._newFurniDataHash ?? '';
+	}
+
+	set newFurniDataHash(hash: string)
+	{
+		this._newFurniDataHash = hash;
 	}
 
 	// Sub-managers
@@ -577,16 +580,6 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		return this._currentTalentTrack;
 	}
 
-	get newFurniDataHash(): string
-	{
-		return this._newFurniDataHash ?? '';
-	}
-
-	set newFurniDataHash(hash: string)
-	{
-		this._newFurniDataHash = hash;
-	}
-
 	protected override get dependencies(): Array<ComponentDependency<any>>
 	{
 		return [
@@ -854,6 +847,10 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	/**
 	 * @see source_as_win63/habbo/session/SessionDataManager.as line 1024
 	 */
+	/**
+	 * Load product data if not already loaded.
+	 * @see source_as_win63/habbo/session/SessionDataManager.as line 1024
+	 */
 	loadProductData(listener?: IProductDataListener): boolean
 	{
 		if (this._productDataReady)
@@ -864,6 +861,12 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		if (listener && this._productDataListeners.indexOf(listener) === -1)
 		{
 			this._productDataListeners.push(listener);
+		}
+
+		// Actually trigger loading if not already in progress
+		if (!this._productDataParser)
+		{
+			this.initProductData();
 		}
 
 		return false;
@@ -907,6 +910,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		if (this._productDataReady)
 		{
 			listener.productDataReady();
+
 			return;
 		}
 
@@ -1053,6 +1057,22 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		super.dispose();
 	}
 
+	/**
+	 * Called when configuration properties (furnidata.url, productdata.url) are available.
+	 * Triggers furniture and product data loading.
+	 *
+	 * In AS3 this is the onConfigurationComplete callback from the
+	 * IIDHabboConfigurationManager dependency.
+	 *
+	 * @see source_as_win63/habbo/session/SessionDataManager.as line 191 onConfigurationComplete()
+	 */
+	onConfigurationComplete(): void
+	{
+		log.info('onConfigurationComplete called - starting furnidata/productdata loading');
+		this.initFurnitureData();
+		this.initProductData();
+	}
+
 	protected override initComponent(): void
 	{
 		// Initialize sub-managers
@@ -1063,15 +1083,12 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		this._ignoredUsersManager = new IgnoredUsersManager(this._communicationManager, sendCallback);
 		this._groupInfoManager = new HabboGroupInfoManager(this._communicationManager, sendCallback);
 
-		// Initialize furniture and product data (AS3: onConfigurationComplete)
+		// Initialize furniture/product data maps (loading triggered later by onConfigurationComplete)
 		this._products = new Map();
 		this._floorItems = new Map();
 		this._wallItems = new Map();
 		this._floorItemsByName = new Map();
 		this._wallItemsByName = new Map();
-
-		this.initFurnitureData();
-		this.initProductData();
 
 		this.registerMessageEvents();
 
@@ -1106,6 +1123,8 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		{
 			let url = this.getProperty('furnidata.url');
 
+			log.info(`Loading furnidata from: ${url}`);
+
 			if (this._newFurniDataHash)
 			{
 				const lastSlash = url.lastIndexOf('/');
@@ -1115,6 +1134,10 @@ export class SessionDataManager extends Component implements ISessionDataManager
 			}
 
 			this._loadingFurnitureDataParser.loadData(url);
+		}
+		else
+		{
+			log.warn('furnidata.url property not found in configuration');
 		}
 	}
 
@@ -1354,13 +1377,6 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		this._systemOpen = parser.isOpen;
 		this._systemShutDown = parser.onShutDown;
 		this._isAuthenticHabbo = parser.isAuthenticHabbo;
-
-		// If authentic habbo and furni data not yet flagged ready, notify listeners
-		if (this._isAuthenticHabbo && !this._furniDataReady)
-		{
-			this._furniDataReady = true;
-			this.notifyFurniDataListeners();
-		}
 
 		log.debug(`Availability: Open=${this._systemOpen}, ShutDown=${this._systemShutDown}`);
 	}

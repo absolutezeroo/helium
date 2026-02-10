@@ -77,12 +77,10 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 	private _wallItemsByTypeId: Map<number, string> = new Map();
 
 	private _sessionDataManager: ISessionDataManager | null = null;
-
 	private _assetLibrary: IAssetLibrary | null = null;
 	private _configurationManager: IHabboConfigurationManager | null = null;
 	private _furnitureAssetUrl: string = '';
 	private _furniDataReady: boolean = false;
-
 	private _loadedTypes: Map<string, boolean> = new Map();
 	private _loadingTypes: Map<string, Promise<void>> = new Map();
 	private _assetCollections: Map<string, GraphicAssetCollection> = new Map();
@@ -90,11 +88,23 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 	private _visualizationTypeMap: Map<string, string> = new Map();
 	private _logicTypeMap: Map<string, string> = new Map();
 
+	private _contentEvents: EventEmitter = new EventEmitter();
+
+	get contentEvents(): EventEmitter
+	{
+		return this._contentEvents;
+	}
+
 	private _disposed: boolean = false;
 
 	get disposed(): boolean
 	{
 		return this._disposed;
+	}
+
+	get isFurniDataReady(): boolean
+	{
+		return this._furniDataReady;
 	}
 
 	/**
@@ -131,13 +141,13 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 
 		if (!furniData || furniData.length === 0)
 		{
-			// Data not ready yet - we're registered as a listener
-			// furniDataReady() will be called when data is available
 			return;
 		}
 
 		sessionDataManager.removeFurniDataListener(this);
+
 		this.populateFurniData(furniData);
+
 		this._furniDataReady = true;
 
 		log.debug(`Furniture data initialized: ${this._floorItems.size} floor items, ${this._wallItems.size} wall items`);
@@ -169,48 +179,6 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 		log.debug(`Furniture data ready: ${this._floorItems.size} floor items, ${this._wallItems.size} wall items`);
 	}
 
-	/**
-	 * Populate internal maps from furniture data.
-	 *
-	 * @see AS3 RoomContentLoader.populateFurniData (line 818)
-	 */
-	private populateFurniData(data: IFurnitureData[]): void
-	{
-		for (const item of data)
-		{
-			const typeId = item.id;
-			let className = item.className;
-
-			// Handle indexed color suffix
-			if (item.hasIndexedColor)
-			{
-				className = className + '*' + item.colourIndex;
-			}
-
-			if (item.type === 's')
-			{
-				// Floor item
-				this._floorItems.set(className, typeId);
-				this._floorItemsByTypeId.set(typeId, className);
-			}
-			else if (item.type === 'i')
-			{
-				// Wall item - handle special post.it cases
-				if (className === 'post.it')
-				{
-					className = 'post_it';
-				}
-				else if (className === 'post.it.vd')
-				{
-					className = 'post_it_vd';
-				}
-
-				this._wallItems.set(className, typeId);
-				this._wallItemsByTypeId.set(typeId, className);
-			}
-		}
-	}
-
 	dispose(): void
 	{
 		if (this._disposed) return;
@@ -238,6 +206,7 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 		this._logicTypeMap.clear();
 		this._loadedTypes.clear();
 		this._loadingTypes.clear();
+		this._contentEvents.removeAllListeners();
 
 		this._disposed = true;
 	}
@@ -446,6 +415,48 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 	setPetType(typeId: number, type: string): void
 	{
 		this._pets.set(type, typeId);
+	}
+
+	/**
+	 * Populate internal maps from furniture data.
+	 *
+	 * @see AS3 RoomContentLoader.populateFurniData (line 818)
+	 */
+	private populateFurniData(data: IFurnitureData[]): void
+	{
+		for (const item of data)
+		{
+			const typeId = item.id;
+			let className = item.className;
+
+			// Handle indexed color suffix
+			if (item.hasIndexedColor)
+			{
+				className = className + '*' + item.colourIndex;
+			}
+
+			if (item.type === 's')
+			{
+				// Floor item
+				this._floorItems.set(className, typeId);
+				this._floorItemsByTypeId.set(typeId, className);
+			}
+			else if (item.type === 'i')
+			{
+				// Wall item - handle special post.it cases
+				if (className === 'post.it')
+				{
+					className = 'post_it';
+				}
+				else if (className === 'post.it.vd')
+				{
+					className = 'post_it_vd';
+				}
+
+				this._wallItems.set(className, typeId);
+				this._wallItemsByTypeId.set(typeId, className);
+			}
+		}
 	}
 
 	/**

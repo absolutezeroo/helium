@@ -29,7 +29,6 @@ export class FurnitureDataParser
 	private _wallItems: Map<number, IFurnitureData>;
 	private _floorItemsByName: Map<string, number[]>;
 	private _wallItemsByName: Map<string, number[]>;
-	private _events: EventEmitter<FurnitureDataParserEvents> = new EventEmitter();
 	private _disposed: boolean = false;
 
 	constructor(
@@ -44,6 +43,8 @@ export class FurnitureDataParser
 		this._floorItemsByName = floorItemsByName;
 		this._wallItemsByName = wallItemsByName;
 	}
+
+	private _events: EventEmitter<FurnitureDataParserEvents> = new EventEmitter();
 
 	get events(): EventEmitter<FurnitureDataParserEvents>
 	{
@@ -70,6 +71,7 @@ export class FurnitureDataParser
 			this.parseJsonFormat(data);
 
 			log.info(`Parsed ${this._floorItems.size} floor items, ${this._wallItems.size} wall items`);
+
 			this._events.emit('FDP_furniture_data_ready');
 		}
 		catch (error)
@@ -77,6 +79,17 @@ export class FurnitureDataParser
 			log.error('Failed to parse furniture data:', error);
 			this._events.emit('FDP_furniture_data_error', error as Error);
 		}
+	}
+
+	/**
+	 * Dispose the parser
+	 */
+	dispose(): void
+	{
+		if (this._disposed) return;
+
+		this._events.removeAllListeners();
+		this._disposed = true;
 	}
 
 	/**
@@ -211,16 +224,5 @@ export class FurnitureDataParser
 		}
 
 		return colours;
-	}
-
-	/**
-	 * Dispose the parser
-	 */
-	dispose(): void
-	{
-		if (this._disposed) return;
-
-		this._events.removeAllListeners();
-		this._disposed = true;
 	}
 }

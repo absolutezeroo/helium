@@ -581,13 +581,8 @@ export class RoomEngine extends Component implements IRoomEngine,
 			}
 		}
 
-		// Trigger furniture asset loading
-		this.loadFurnitureContent(roomId, id, className, RoomObjectCategoryEnum.OBJECT_CATEGORY_WALL);
 
-		this.events.emit(
-			RoomEngineObjectEvent.REOE_OBJECT_ADDED,
-			new RoomEngineObjectEvent(RoomEngineObjectEvent.REOE_OBJECT_ADDED, roomId, id, RoomObjectCategoryEnum.OBJECT_CATEGORY_WALL)
-		);
+		this.loadFurnitureContent(roomId, id, className, RoomObjectCategoryEnum.OBJECT_CATEGORY_WALL);
 
 		return true;
 	}
@@ -1961,6 +1956,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		}
 
 		log.warn(`Unknown furniture typeId: ${typeId}, category: ${category}`);
+
 		return `type_${typeId}`;
 	}
 

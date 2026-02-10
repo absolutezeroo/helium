@@ -163,6 +163,9 @@ export interface ISessionDataManager extends IDisposable
 	refreshFurniData(): void;
 	newFurniDataHash: string;
 
+	// Configuration callback
+	onConfigurationComplete(): void;
+
 	// Room actions
 	openHabboHomePage(userId: number, userName: string): void;
 	pickAllFurniture(roomId: number): void;

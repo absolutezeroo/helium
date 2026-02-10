@@ -31,6 +31,8 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 	constructor(context: IContext)
 	{
 		super(context);
+
+		context.configuration = this;
 	}
 
 	private _environmentId: string = '';
