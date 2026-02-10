@@ -1,6 +1,6 @@
 # Helium - Implementation Status
 
-> **Dernière mise à jour**: 2026-02-09
+> **Dernière mise à jour**: 2026-02-10
 > **Méthode**: Audit exhaustif AS3 → TS (comparaison `source_as_win63/` vs `src/`)
 > **Total AS3 ENGINE**: ~1 150 fichiers | **Total TS implémentés**: ~619 fichiers
 
@@ -21,9 +21,9 @@ Progression globale ENGINE: ██████░░░░░░░░░░░�
 | **localization**                   | 3          | 7       | 100% | ✅ Complet                |
 | **inventory**                      | 33         | 33      | 100% | ✅ Complet                |
 | **session**                        | 77         | 77      | 100% | ✅ Complet                |
-| **navigator** (ENGINE)             | 25         | 24      | 96%  | ✅ Quasi-complet          |
+| **navigator** (ENGINE)             | 25         | 28      | 100% | ✅ Complet                |
 | **communication** (root/demo/enum) | 10         | 5       | 50%  | 🔄 Partiel (WebApi=SKIP) |
-| **communication/messages**         | 1150       | 395     | 34%  | 🔄 Partiel                |
+| **communication/messages**         | 1150       | 395     | 34%  | 🔄 Partiel               |
 | **room** (total)                   | 313        | 246     | 79%  | 🔄 Avancé                |
 | **avatar**                         | 70         | 0       | 0%   | ❌ Non commencé           |
 | **catalog**                        | 62         | 0       | 0%   | ❌ Non commencé           |
@@ -32,7 +32,7 @@ Progression globale ENGINE: ██████░░░░░░░░░░░�
 | **moderation**                     | 36         | 0       | 0%   | ❌ Non commencé           |
 | **help**                           | 13         | 0       | 0%   | ❌ Non commencé           |
 | **quest**                          | 21         | 0       | 0%   | ❌ Non commencé           |
-| **tracking**                       | 10         | 9       | 90%  | ✅ Avancé                 |
+| **tracking**                       | 10         | 10      | 95%  | ✅ Quasi-complet          |
 | **toolbar**                        | 12         | 10      | 83%  | ✅ Avancé                 |
 | **groups**                         | 14         | 8       | 57%  | 🔄 En cours              |
 | **game**                           | 4          | 0       | 0%   | ❌ Non commencé           |
@@ -118,23 +118,23 @@ Progression: ████████████████████ ~100%
 AS3: 77 fichiers | TS: 77 fichiers
 ```
 
-| Statut | Élément                                                                                                                                   |
-|--------|-------------------------------------------------------------------------------------------------------------------------------------------|
-| ✅      | SessionDataManager, RoomSessionManager, RoomSession complets                                                                              |
-| ✅      | 12/12 handlers (Session, Users, Chat, Permissions, Data, GenericError, Poll, WordQuiz, Present, PetPackage, DimmerPresets, AvatarEffects) |
-| ✅      | 24/24 events                                                                                                                              |
-| ✅      | 7/7 enums                                                                                                                                 |
-| ✅      | UserDataManager, PerkManager, IgnoredUsersManager, HabboGroupInfoManager                                                                  |
-| ✅      | PetInfo, IPetInfo                                                                                                                         |
-| ✅      | FurnitureData/ProductData délégués au GameDataManager (19 méthodes implémentées)                                                          |
+| Statut | Élément                                                                                                                                                             |
+|--------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ✅      | SessionDataManager, RoomSessionManager, RoomSession complets                                                                                                        |
+| ✅      | 12/12 handlers (Session, Users, Chat, Permissions, Data, GenericError, Poll, WordQuiz, Present, PetPackage, DimmerPresets, AvatarEffects)                           |
+| ✅      | 24/24 events                                                                                                                                                        |
+| ✅      | 7/7 enums                                                                                                                                                           |
+| ✅      | UserDataManager, PerkManager, IgnoredUsersManager, HabboGroupInfoManager                                                                                            |
+| ✅      | PetInfo, IPetInfo                                                                                                                                                   |
+| ✅      | FurnitureData/ProductData délégués au GameDataManager (19 méthodes implémentées)                                                                                    |
 | ✅      | 9 message listeners ajoutés (AccountSafetyLock, ChangeUserName, UserNameChanged, Email, RoomReady, UserChange, PetRespectFailed, AccountPreferences, NftChatStyles) |
-| ✅      | Events dispatched: UserNameUpdateEvent, SessionDataPreferencesEvent, MysteryBoxKeysUpdateEvent                                            |
-| ✅      | SetUIFlagsMessageComposer wired dans setUIFlag() et setRoomCameraFollowDisabled()                                                         |
+| ✅      | Events dispatched: UserNameUpdateEvent, SessionDataPreferencesEvent, MysteryBoxKeysUpdateEvent                                                                      |
+| ✅      | SetUIFlagsMessageComposer wired dans setUIFlag() et setRoomCameraFollowDisabled()                                                                                   |
 
-### 1.7 Navigator ENGINE (~96%)
+### 1.7 Navigator ENGINE (100%)
 ```
-Progression: ███████████████████░ ~96%
-AS3 ENGINE: 25 fichiers | TS: 24 fichiers
+Progression: ████████████████████ ~100%
+AS3 ENGINE: 25 fichiers | TS: 28 fichiers
 ```
 
 | Statut | Élément                                                        |
@@ -142,7 +142,10 @@ AS3 ENGINE: 25 fichiers | TS: 24 fichiers
 | ✅      | HabboNavigator, HabboNewNavigator complets                     |
 | ✅      | IncomingMessages, NewIncomingMessages                          |
 | ✅      | NavigatorData, NavigatorCache, SearchContext, ContextContainer |
-| ❌      | RoomSessionTags (1 fichier, faible priorité)                   |
+| ✅      | RoomSessionTags                                                |
+| ✅      | FriendEntryData, RoomSettingsFriendListManager                 |
+| ✅      | RoomEntryUtils (door mode, color modulation, favorite icons)   |
+| ⏭️      | Util.as → SKIP (95% VIEW: IWindow manipulation; JS natif pour le reste) |
 
 ---
 
@@ -229,16 +232,7 @@ AS3: ~1150 (events + composers + parsers) | TS: ~328 fichiers
 
 **Note:** Les conflits cross-type (events vs composers) ne sont PAS des vrais conflits car les maps sont séparées.
 
-**Composers existants mais non enregistrés dans HabboMessages.ts (15):**
-- QuitMessageComposer
-- RespectPetMessageComposer
-- KickUserMessageComposer, BanUserWithDurationMessageComposer
-- MuteUserMessageComposer, UnmuteUserMessageComposer
-- AssignRightsMessageComposer, RemoveRightsMessageComposer
-- LetUserInMessageComposer
-- AvatarExpressionMessageComposer, SignMessageComposer
-- DanceMessageComposer, ChangePostureMessageComposer
-- StartTypingMessageComposer, CancelTypingMessageComposer
+~~**Composers existants mais non enregistrés dans HabboMessages.ts (15):**~~ ✅ Tous les 15 sont en fait déjà enregistrés dans HabboMessages.ts (vérification 2026-02-10).
 
 **Récemment enregistrés (Phase 0):** ✅ RespectUserMessageComposer (ID 2694), SetUIFlagsMessageComposer (ID 2209)
 
@@ -321,13 +315,13 @@ AS3: 32 fichiers | TS: 8 fichiers
 | **help**       | ~13        | CFH, guide, safety booklet   |
 | **moderation** | ~20        | Outils de modération, issues |
 | **quest**      | ~15        | Achievements, quêtes         |
-| **toolbar**    | ~5         | Barre d'outils, icônes (✅)  |
+| **toolbar**    | ~5         | Barre d'outils, icônes (✅)   |
 
 ### Tier 3 — Secondaire
 
 | Module            | AS3 ENGINE | Description                                         | Statut           |
 |-------------------|------------|-----------------------------------------------------|------------------|
-| **tracking**      | 10         | Analytics, latence, FPS                             | ✅ Implémenté     |
+| **tracking**      | 10         | Analytics, latence, FPS, performance                | ✅ 95% (GarbageTester=SKIP Flash) |
 | **groups**        | ~6         | Guildes                                             | 🔄 En cours      |
 | **game**          | 4          | SnowWar game manager                                | ❌ Non commencé   |
 | **notifications** | ~4         | Popups de notification                              | ✅ Implémenté     |
@@ -346,7 +340,7 @@ AS3: 32 fichiers | TS: 8 fichiers
 ### Priorité immédiate
 1. ~~**Finir room events/messages/furniture logic**~~ ✅ Fait (Phase 1: +89 fichiers)
 2. **Finir room visualizations** — ~86 fichiers manquants (furniture/avatar/pet viz)
-3. **Enregistrer les 15 composers orphelins** dans HabboMessages.ts
+3. ~~**Enregistrer les 15 composers orphelins**~~ ✅ Tous déjà enregistrés
 4. **Résoudre le conflit d'ID 1472** (RoomAdEventTabViewedComposer vs TogglePetRidingPermissionComposer)
 
 ### Priorité haute (fonctionnalités core)
@@ -369,17 +363,17 @@ AS3: 32 fichiers | TS: 8 fichiers
 
 ## 7. Statistiques finales
 
-| Métrique                      | Valeur                                                                                                          |
-|-------------------------------|-----------------------------------------------------------------------------------------------------------------|
-| Fichiers AS3 ENGINE totaux    | ~1 150+                                                                                                         |
-| Fichiers TS implémentés       | ~619+                                                                                                           |
-| Fichiers manquants            | ~531+                                                                                                           |
-| Modules complets (100%)       | Configuration, Localization, Inventory, Campaign, Advertisement, Notifications, Messenger, FreeFlowChat         |
-| Modules quasi-complets (>90%) | Session (100%), Navigator ENGINE (96%), core/comm (90%), core/assets (92%), Tracking (90%), Toolbar (83%)        |
-| Modules avancés (50-90%)      | Room (79%), Groups (57%), Communication messages (34%)                                                          |
-| Modules en cours (<50%)       | core/runtime (25%)                                                                                              |
-| Modules non commencés         | 11 modules (avatar, catalog, sound, help, moderation, quest, game, roomevents, friendbar, friendlist, nux)      |
+| Métrique                      | Valeur                                                                                                     |
+|-------------------------------|------------------------------------------------------------------------------------------------------------|
+| Fichiers AS3 ENGINE totaux    | ~1 150+                                                                                                    |
+| Fichiers TS implémentés       | ~624+                                                                                                      |
+| Fichiers manquants            | ~526+                                                                                                      |
+| Modules complets (100%)       | Configuration, Localization, Inventory, Campaign, Advertisement, Notifications, Messenger, FreeFlowChat, Navigator ENGINE |
+| Modules quasi-complets (>90%) | Session (100%), core/comm (90%), core/assets (92%), Tracking (95%), Toolbar (83%)                          |
+| Modules avancés (50-90%)      | Room (79%), Groups (57%), Communication messages (34%)                                                     |
+| Modules en cours (<50%)       | core/runtime (25%)                                                                                         |
+| Modules non commencés         | 11 modules (avatar, catalog, sound, help, moderation, quest, game, roomevents, friendbar, friendlist, nux) |
 
 ---
 
-*Document mis à jour par audit Phase 1 Room Engine — 2026-02-09*
+*Document mis à jour — 2026-02-10 (Navigator 100%, Tracking 95%, composers vérifiés)*

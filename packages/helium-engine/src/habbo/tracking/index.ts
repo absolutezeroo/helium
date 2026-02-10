@@ -5,6 +5,7 @@ export {FramerateTracker} from './FramerateTracker';
 export {HabboErrorVariableEnum} from './HabboErrorVariableEnum';
 export {HabboLoginTrackingStep} from './HabboLoginTrackingStep';
 export {HabboTracking} from './HabboTracking';
+export {PerformanceTracker} from './PerformanceTracker';
 export {LagWarningLogger} from './LagWarningLogger';
 export {LatencyTracker} from './LatencyTracker';
 export {ToolbarClickTracker} from './ToolbarClickTracker';

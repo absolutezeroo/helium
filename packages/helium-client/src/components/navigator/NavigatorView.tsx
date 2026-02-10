@@ -122,17 +122,18 @@ export function NavigatorView(): JSX.Element
 							fallback={<RoomCreatorView />}
 						>
 							<div class="navigator-body">
-								{/* Left pane - Quick Links */}
+								{/* Left pane - Quick Links
+							    XML: itemlist_vertical x=6 y=35 w=149 h=440
+							    quicklinks_border style="2" = white bg with border */}
 								<div class="navigator-left-pane">
-									<div class="left-pane-title">
-										<img src={quickLinkAddIcon} alt="" />
-										{t('navigator.quicklinks.title', 'Quick Links')}
-									</div>
-									<div class="left-pane-links">
-										<QuickLinksView />
-									</div>
-									<div class="left-pane-add-btn" title={t('navigator.quicklink.add', 'Add quick link')}>
-										<img src={quickLinkAddIcon} alt="" />
+									<div class="left-pane-content">
+										<div class="left-pane-title">
+											<img src={quickLinkAddIcon} alt="" />
+											{t('navigator.quick.links.title', 'Quick Links')}
+										</div>
+										<div class="left-pane-links">
+											<QuickLinksView />
+										</div>
 									</div>
 								</div>
 
@@ -198,22 +199,31 @@ export function NavigatorView(): JSX.Element
 										</Show>
 									</div>
 
-									{/* Bottom buttons: Create Room / Random Room */}
+									{/* Bottom buttons: Create Room / Random Room
+								    XML: create_room_border x=0 y=395 w=189 h=60
+								         random_room_border x=205 y=395 w=189 h=60
+								    Each: image + white text overlay at x=60 y=22 w=125 */}
 									<div class="navigator-bottom-buttons">
-										<img
+										<div
 											class="bottom-btn"
-											src={createRoomIcon}
-											alt={t('navigator.createroom.title', 'Create Room')}
 											onClick={() => actions.openCreator()}
-											title={t('navigator.createroom.title', 'Create Room')}
-										/>
-										<img
+											title={t('navigator.tooltip.create.room', 'Create Room')}
+										>
+											<img src={createRoomIcon} alt="" />
+											<span class="bottom-btn-text">
+												{t('navigator.create.room', 'Create Room')}
+											</span>
+										</div>
+										<div
 											class="bottom-btn"
-											src={randomRoomIcon}
-											alt={t('navigator.randomroom', 'Random Room')}
 											onClick={handleRandomRoom}
-											title={t('navigator.randomroom', 'Random Room')}
-										/>
+											title={t('navigator.tooltip.random.room', 'Random Room')}
+										>
+											<img src={randomRoomIcon} alt="" />
+											<span class="bottom-btn-text">
+												{t('navigator.random.room', 'Random Room')}
+											</span>
+										</div>
 									</div>
 								</div>
 							</div>

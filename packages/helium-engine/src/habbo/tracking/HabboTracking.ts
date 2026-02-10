@@ -25,6 +25,7 @@ import {LatencyTracker} from './LatencyTracker';
 import {FramerateTracker} from './FramerateTracker';
 import {LagWarningLogger} from './LagWarningLogger';
 import {ToolbarClickTracker} from './ToolbarClickTracker';
+import {PerformanceTracker} from './PerformanceTracker';
 import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -56,6 +57,7 @@ export class HabboTracking extends Component implements IHabboTracking, IUpdateR
 	private _latencyTracker: LatencyTracker | null = null;
 	private _lagWarningLogger: LagWarningLogger | null = null;
 	private _toolbarClickTracker: ToolbarClickTracker | null = null;
+	private _performanceTracker: PerformanceTracker | null = null;
 
 	// State
 	private _hasEnteredRoom: boolean = false;
@@ -271,6 +273,11 @@ export class HabboTracking extends Component implements IHabboTracking, IUpdateR
 			this._framerateTracker.trackUpdate(deltaTime, this._currentTime);
 		}
 
+		if (this._performanceTracker)
+		{
+			this._performanceTracker.update(deltaTime, this._currentTime);
+		}
+
 		if (this._lagWarningLogger)
 		{
 			this._lagWarningLogger.update(this._currentTime);
@@ -318,6 +325,7 @@ export class HabboTracking extends Component implements IHabboTracking, IUpdateR
 		this._messageEvents = [];
 		this._framerateTracker = null;
 		this._toolbarClickTracker = null;
+		this._performanceTracker = null;
 
 		if (this._latencyTracker)
 		{
@@ -339,6 +347,7 @@ export class HabboTracking extends Component implements IHabboTracking, IUpdateR
 		this._framerateTracker = new FramerateTracker(this);
 		this._lagWarningLogger = new LagWarningLogger(this);
 		this._toolbarClickTracker = new ToolbarClickTracker(this);
+		this._performanceTracker = new PerformanceTracker(this);
 
 		// Register message events
 		this.addMessageEvent(new AuthenticationOKMessageEvent(this.onAuthOK.bind(this)));

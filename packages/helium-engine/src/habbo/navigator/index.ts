@@ -10,6 +10,7 @@ export * from './context';
 export * from './domain';
 export * from './events';
 export * from './lift';
+export * from './roomsettings';
 export * from './view';
 
 // Types
