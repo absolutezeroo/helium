@@ -1,5 +1,4 @@
-import type {JSX} from 'solid-js';
-import {createEffect, createSignal, onMount, Show} from 'solid-js';
+import {createEffect, createSignal, JSX, onMount, Show} from 'solid-js';
 import type {IHeliumConfig} from 'helium-engine';
 import {Helium, IConnectionConfig} from 'helium-engine';
 import {HabboCommunicationEvent} from '@habbo/communication/enum';
@@ -107,8 +106,10 @@ export function App(): JSX.Element
 		const resize = () => setImageRendering(!(window.devicePixelRatio % 1));
 
 		window.addEventListener('resize', resize);
+
 		resize();
 	});
+
 
 	return (
 		<div class={`helium-app ${imageRendering() ? 'image-rendering-pixelated' : ''}`}>

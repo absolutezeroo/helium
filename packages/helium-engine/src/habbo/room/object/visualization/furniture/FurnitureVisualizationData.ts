@@ -76,6 +76,7 @@ export class FurnitureVisualizationData implements IRoomObjectVisualizationData
 		}
 
 		const vizData = data as Record<string, unknown>;
+		
 		const type = vizData['type'] as string;
 
 		if (!type || type.length === 0)
@@ -88,6 +89,7 @@ export class FurnitureVisualizationData implements IRoomObjectVisualizationData
 		if (!this.defineVisualizations(vizData))
 		{
 			this.reset();
+
 			return false;
 		}
 
@@ -107,6 +109,7 @@ export class FurnitureVisualizationData implements IRoomObjectVisualizationData
 		}
 
 		const index = this.getSizeIndex(scale);
+
 		let size = -1;
 
 		if (index < this._sortedSizes.length)

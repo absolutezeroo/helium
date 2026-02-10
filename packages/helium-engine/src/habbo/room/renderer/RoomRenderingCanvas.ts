@@ -128,6 +128,7 @@ export class RoomRenderingCanvas
 	{
 		this._width = width;
 		this._height = height;
+
 		this.updateContainerPosition();
 	}
 
@@ -166,6 +167,7 @@ export class RoomRenderingCanvas
 	{
 		this._screenOffsetX = x;
 		this._screenOffsetY = y;
+
 		this.updateContainerPosition();
 	}
 

@@ -491,12 +491,16 @@ export class RoomPlane
 		const dPos = geometry.getScreenPosition(Vector3d.sum(this._location, this._leftSide)!);
 
 		if (aPos !== null) this._cornerA.assign(aPos);
+
 		if (bPos !== null) this._cornerB.assign(bPos);
+
 		if (cPos !== null) this._cornerC.assign(cPos);
+
 		if (dPos !== null) this._cornerD.assign(dPos);
 
 		// Calculate offset from room origin
 		const offsetPoint = geometry.getScreenPoint(this._origin);
+
 		if (offsetPoint !== null)
 		{
 			this._offset.x = Math.round(offsetPoint.x);
