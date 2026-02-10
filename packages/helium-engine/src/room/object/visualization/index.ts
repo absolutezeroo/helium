@@ -9,3 +9,4 @@ export type {IRoomObjectSprite} from './IRoomObjectSprite';
 export type {IRoomObjectSpriteVisualization} from './IRoomObjectSpriteVisualization';
 export {RoomObjectSprite} from './RoomObjectSprite';
 export {RoomObjectSpriteVisualization} from './RoomObjectSpriteVisualization';
+export * from './utils';

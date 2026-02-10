@@ -12,6 +12,7 @@ import type {IRoomGeometry} from '@room/utils/IRoomGeometry';
 import type {IRoomObjectSprite} from './IRoomObjectSprite';
 import type {IRoomObjectSpriteVisualization} from './IRoomObjectSpriteVisualization';
 import type {IRoomObjectVisualizationData} from './IRoomObjectVisualizationData';
+import type {IGraphicAssetCollection} from './utils/IGraphicAssetCollection';
 import {RoomObjectSprite} from './RoomObjectSprite';
 
 let visualizationInstanceCounter = 0;
@@ -23,6 +24,7 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 	protected _scale: number = -1;
 	protected _updateModelCounter: number = -1;
 	protected _direction: number = -1;
+	private _assetCollection: IGraphicAssetCollection | null = null;
 	private _sprites: RoomObjectSprite[] = [];
 	private _instanceId: number;
 	private _updateId: number = 0;
@@ -46,6 +48,16 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 	set object(value: IRoomObject | null)
 	{
 		this._object = value;
+	}
+
+	get assetCollection(): IGraphicAssetCollection | null
+	{
+		return this._assetCollection;
+	}
+
+	set assetCollection(value: IGraphicAssetCollection | null)
+	{
+		this._assetCollection = value;
 	}
 
 	private _container: Container;
