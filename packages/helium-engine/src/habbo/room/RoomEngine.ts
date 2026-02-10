@@ -59,6 +59,10 @@ import type {NitroAsset} from '@core/assets/NitroAsset';
 import {AssetLoaderEvent, AssetLoaderEventType} from '@core/assets/loaders/AssetLoaderEvent';
 import {IID_HabboConfigurationManager} from '@iid/IIDHabboConfigurationManager';
 import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
+import {IID_SessionDataManager} from '@iid/IIDSessionDataManager';
+import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
+import {EventEmitter} from 'eventemitter3';
+import {RoomContentLoader} from './RoomContentLoader';
 
 const log = Logger.getLogger('RoomEngine');
 
@@ -88,17 +92,28 @@ export class RoomEngine extends Component implements IRoomEngine,
 	private _pixiStage: Container | null = null;
 	private _roomVisualizationData: RoomVisualizationData | null = null;
 	private _configurationManager: IHabboConfigurationManager | null = null;
+	private _sessionDataManager: ISessionDataManager | null = null;
+	private _contentLoader: RoomContentLoader;
+	private _contentLoaderEvents: EventEmitter = new EventEmitter();
+	private _pendingFurnitureViz: Map<string, Array<{ roomId: number; objectId: number; category: number }>> = new Map();
 
 	constructor(context: IContext, assetLibrary: IAssetLibrary | null = null)
 	{
 		super(context, 0, assetLibrary);
 		this._roomObjectFactory = new RoomObjectFactory();
+		this._contentLoader = new RoomContentLoader();
 		this._roomData = new Map();
 		this._ownUserIds = new Map();
 		this._roomObjectAliases = new Map();
 
 		// Listen to object events from factory
 		this._roomObjectFactory.addObjectEventListener(this.onRoomObjectEvent.bind(this));
+
+		// Listen for content loader ready events
+		this._contentLoaderEvents.on(RoomContentLoader.CONTENT_LOADER_READY, (type: string) =>
+		{
+			this.onContentLoaded(type);
+		});
 	}
 
 	private _roomManager: IRoomManager | null = null;
@@ -163,9 +178,23 @@ export class RoomEngine extends Component implements IRoomEngine,
 					if (config)
 					{
 						this.loadRoomContent();
+						this.initializeContentLoader();
 					}
 				},
 				false // Optional - room can render with flat colors without textures
+			),
+			new ComponentDependency(
+				IID_SessionDataManager,
+				(sessionData: ISessionDataManager | null) =>
+				{
+					this._sessionDataManager = sessionData;
+
+					if (sessionData)
+					{
+						this._contentLoader.initFurnitureData(sessionData);
+					}
+				},
+				false // Optional - needed for furniture className lookup
 			),
 		];
 	}
@@ -452,8 +481,11 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return false;
 		}
 
-		// TODO: Get actual logic type from furniture data
-		const logicType = RoomObjectLogicEnum.FURNITURE_MULTISTATE;
+		// Resolve className from typeId using SessionDataManager
+		const className = this.getFurnitureClassName(typeId, RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE);
+
+		// Get logic type from content loader if available, otherwise default
+		let logicType = this._contentLoader.getLogicType(className) ?? RoomObjectLogicEnum.FURNITURE_MULTISTATE;
 
 		const object = room.createRoomObject(id, logicType, RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE);
 
@@ -484,6 +516,9 @@ export class RoomEngine extends Component implements IRoomEngine,
 			}
 		}
 
+		// Trigger furniture asset loading
+		this.loadFurnitureContent(roomId, id, className, RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE);
+
 		this.events.emit(
 			RoomEngineObjectEvent.REOE_OBJECT_ADDED,
 			new RoomEngineObjectEvent(RoomEngineObjectEvent.REOE_OBJECT_ADDED, roomId, id, RoomObjectCategoryEnum.OBJECT_CATEGORY_FURNITURE)
@@ -511,8 +546,11 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return false;
 		}
 
-		// TODO: Get actual logic type from furniture data
-		const logicType = RoomObjectLogicEnum.FURNITURE_BASIC;
+		// Resolve className from typeId using SessionDataManager
+		const className = this.getFurnitureClassName(typeId, RoomObjectCategoryEnum.OBJECT_CATEGORY_WALL);
+
+		// Get logic type from content loader if available, otherwise default
+		let logicType = this._contentLoader.getLogicType(className) ?? RoomObjectLogicEnum.FURNITURE_BASIC;
 
 		const object = room.createRoomObject(id, logicType, RoomObjectCategoryEnum.OBJECT_CATEGORY_WALL);
 
@@ -542,6 +580,9 @@ export class RoomEngine extends Component implements IRoomEngine,
 				model.setString(RoomObjectVariableEnum.FURNITURE_EXTRAS, extra);
 			}
 		}
+
+		// Trigger furniture asset loading
+		this.loadFurnitureContent(roomId, id, className, RoomObjectCategoryEnum.OBJECT_CATEGORY_WALL);
 
 		this.events.emit(
 			RoomEngineObjectEvent.REOE_OBJECT_ADDED,
@@ -1566,6 +1607,14 @@ export class RoomEngine extends Component implements IRoomEngine,
 	}
 
 	/**
+	 * Get the content loader instance.
+	 */
+	getContentLoader(): RoomContentLoader
+	{
+		return this._contentLoader;
+	}
+
+	/**
 	 * Dispose the room engine
 	 */
 	override dispose(): void
@@ -1601,6 +1650,11 @@ export class RoomEngine extends Component implements IRoomEngine,
 		}
 
 		this._roomVisualizations.clear();
+
+		// Dispose content loader
+		this._contentLoader.dispose();
+		this._contentLoaderEvents.removeAllListeners();
+		this._pendingFurnitureViz.clear();
 
 		// Clear stage reference
 		this._pixiStage = null;
@@ -1851,6 +1905,187 @@ export class RoomEngine extends Component implements IRoomEngine,
 			{
 				visualization.update(canvas.geometry, time, false, false);
 			}
+		}
+	}
+
+	/**
+	 * Initialize the content loader with the asset library and configuration manager.
+	 */
+	private initializeContentLoader(): void
+	{
+		if (!this.assets || !this._configurationManager)
+		{
+			return;
+		}
+
+		this._contentLoader.initialize(this.assets, this._configurationManager);
+	}
+
+	/**
+	 * Get furniture className from typeId.
+	 * Uses RoomContentLoader's typeId→className mapping (populated by setActiveObjectType/setWallItemType).
+	 *
+	 * @see AS3 RoomContentLoader var_2179
+	 * @param typeId The furniture type ID
+	 * @param category The object category (furniture or wall)
+	 * @returns The className string
+	 */
+	private getFurnitureClassName(typeId: number, category: number): string
+	{
+		// First try the content loader's typeId→className map
+		const className = this._contentLoader.getClassName(typeId, category);
+
+		if (className)
+		{
+			return className;
+		}
+
+		// Fallback to SessionDataManager
+		if (this._sessionDataManager)
+		{
+			let furniData;
+
+			if (category === RoomObjectCategoryEnum.OBJECT_CATEGORY_WALL)
+			{
+				furniData = this._sessionDataManager.getWallItemData(typeId);
+			}
+			else
+			{
+				furniData = this._sessionDataManager.getFloorItemData(typeId);
+			}
+
+			if (furniData)
+			{
+				return furniData.className;
+			}
+		}
+
+		log.warn(`Unknown furniture typeId: ${typeId}, category: ${category}`);
+		return `type_${typeId}`;
+	}
+
+	/**
+	 * Start loading furniture content and track pending visualization requests.
+	 */
+	private loadFurnitureContent(roomId: number, objectId: number, className: string, category: number): void
+	{
+		if (this._contentLoader.isLoaded(className))
+		{
+			// Already loaded - create visualization immediately
+			this.createVisualizationForFurniture(roomId, objectId, className, category);
+			return;
+		}
+
+		// Track this object as pending for when content loads
+		let pending = this._pendingFurnitureViz.get(className);
+
+		if (!pending)
+		{
+			pending = [];
+			this._pendingFurnitureViz.set(className, pending);
+		}
+
+		pending.push({roomId, objectId, category});
+
+		// Start loading
+		this._contentLoader.loadObjectContent(className, this._contentLoaderEvents);
+	}
+
+	/**
+	 * Called when a furniture content bundle has finished loading.
+	 */
+	private onContentLoaded(type: string): void
+	{
+		// Create visualizations for all pending objects of this type
+		const pending = this._pendingFurnitureViz.get(type);
+
+		if (pending)
+		{
+			for (const entry of pending)
+			{
+				this.createVisualizationForFurniture(entry.roomId, entry.objectId, type, entry.category);
+			}
+
+			this._pendingFurnitureViz.delete(type);
+		}
+	}
+
+	/**
+	 * Create a visualization for a furniture item using loaded content.
+	 *
+	 * @param roomId The room ID
+	 * @param objectId The object ID
+	 * @param className The furniture className
+	 * @param category The object category
+	 */
+	private createVisualizationForFurniture(roomId: number, objectId: number, className: string, category: number): void
+	{
+		const room = this.getRoomInstance(roomId);
+
+		if (!room)
+		{
+			return;
+		}
+
+		const object = room.getObject(objectId, category);
+
+		if (!object)
+		{
+			return;
+		}
+
+		// Get visualization type from content loader
+		const vizType = this._contentLoader.getVisualizationType(className);
+
+		if (!vizType)
+		{
+			return;
+		}
+
+		// Create visualization instance from factory
+		const visualization = this._roomObjectFactory.createRoomObjectVisualization(vizType);
+
+		if (!visualization)
+		{
+			return;
+		}
+
+		const spriteVisualization = visualization as IRoomObjectSpriteVisualization;
+
+		if (!('container' in spriteVisualization))
+		{
+			return;
+		}
+
+		// Set asset collection from content loader
+		const assetCollection = this._contentLoader.getAssetCollection(className);
+
+		if (assetCollection)
+		{
+			spriteVisualization.assetCollection = assetCollection;
+		}
+
+		// Initialize with visualization data from content loader
+		const vizData = this._contentLoader.getVisualizationData(className);
+
+		if (vizData)
+		{
+			spriteVisualization.initialize(vizData);
+		}
+
+		// Assign the room object
+		spriteVisualization.object = object;
+
+		// Store visualization
+		const key = `${roomId}_${objectId}_furniture_${className}`;
+		this._roomVisualizations.set(key, spriteVisualization);
+
+		// Add to rendering canvas
+		const canvas = this.getRenderingCanvas(roomId);
+
+		if (canvas)
+		{
+			canvas.addVisualization(spriteVisualization.container, 0);
 		}
 	}
 }

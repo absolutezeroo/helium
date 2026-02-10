@@ -4,16 +4,32 @@
  * Based on AS3: com.sulake.habbo.room.RoomContentLoader
  *
  * Loader for room content (furniture, pets, room assets).
- * This is a stub implementation that will be expanded when asset loading is implemented.
+ * Loads .nitro bundles, creates GraphicAssetCollections and FurnitureVisualizationData,
+ * and caches them for visualization initialization.
  */
-import type {EventEmitter} from 'eventemitter3';
+import {EventEmitter} from 'eventemitter3';
 import type {IRoomContentLoader} from '@room/IRoomContentLoader';
 import type {IRoomObject} from '@room/object/IRoomObject';
 import type {IRoomObjectController} from '@room/object/IRoomObjectController';
+import type {IRoomObjectVisualizationData} from '@room/object/visualization/IRoomObjectVisualizationData';
+import type {IGraphicAssetCollection} from '@room/object/visualization/utils/IGraphicAssetCollection';
+import type {IAssetLibrary} from '@core/assets/IAssetLibrary';
+import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
+import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
+import type {IFurnitureData} from '@habbo/session/furniture/IFurnitureData';
+import type {IFurniDataListener} from '@habbo/session/furniture/IFurniDataListener';
+import type {NitroAsset} from '@core/assets/NitroAsset';
+import {AssetLoaderEvent, AssetLoaderEventType} from '@core/assets/loaders/AssetLoaderEvent';
+import {GraphicAssetCollection} from '@room/object/visualization/utils/GraphicAssetCollection';
+import {FurnitureVisualizationData} from './object/visualization/furniture/FurnitureVisualizationData';
+import {AnimatedFurnitureVisualizationData} from './object/visualization/furniture/AnimatedFurnitureVisualizationData';
 import {RoomObjectCategoryEnum} from './object/RoomObjectCategoryEnum';
 import {getVisualizationType} from './object/RoomObjectUserTypes';
+import {Logger} from '@core';
 
-export class RoomContentLoader implements IRoomContentLoader
+const log = Logger.getLogger('RoomContentLoader');
+
+export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 {
 	public static readonly CONTENT_LOADER_READY = 'RCL_LOADER_READY';
 
@@ -33,9 +49,46 @@ export class RoomContentLoader implements IRoomContentLoader
 		'tile_cursor',
 		'selection_arrow'
 	];
+
+	private static readonly ANIMATED_VIZ_TYPES = new Set([
+		'furniture_animated',
+		'furniture_resetting_animated',
+		'furniture_fireworks',
+		'furniture_gift_wrapped_fireworks',
+		'furniture_habbowheel',
+		'furniture_val_randomizer',
+		'furniture_bottle',
+		'furniture_planet_system',
+		'furniture_queue_tile',
+		'furniture_party_beamer',
+		'furniture_gift_wrapped',
+		'furniture_counter_clock',
+		'furniture_water_area',
+		'furniture_score_board',
+		'furniture_soundblock',
+		'furniture_vote_counter',
+		'furniture_vote_majority',
+	]);
+
 	private _floorItems: Map<string, number> = new Map();
 	private _wallItems: Map<string, number> = new Map();
 	private _pets: Map<string, number> = new Map();
+	private _floorItemsByTypeId: Map<number, string> = new Map();
+	private _wallItemsByTypeId: Map<number, string> = new Map();
+
+	private _sessionDataManager: ISessionDataManager | null = null;
+
+	private _assetLibrary: IAssetLibrary | null = null;
+	private _configurationManager: IHabboConfigurationManager | null = null;
+	private _furnitureAssetUrl: string = '';
+	private _furniDataReady: boolean = false;
+
+	private _loadedTypes: Map<string, boolean> = new Map();
+	private _loadingTypes: Map<string, Promise<void>> = new Map();
+	private _assetCollections: Map<string, GraphicAssetCollection> = new Map();
+	private _visualizationDataMap: Map<string, IRoomObjectVisualizationData> = new Map();
+	private _visualizationTypeMap: Map<string, string> = new Map();
+	private _logicTypeMap: Map<string, string> = new Map();
 
 	private _disposed: boolean = false;
 
@@ -44,11 +97,148 @@ export class RoomContentLoader implements IRoomContentLoader
 		return this._disposed;
 	}
 
+	/**
+	 * Initialize the content loader with dependencies.
+	 */
+	initialize(assetLibrary: IAssetLibrary, configurationManager: IHabboConfigurationManager): void
+	{
+		this._assetLibrary = assetLibrary;
+		this._configurationManager = configurationManager;
+
+		this._furnitureAssetUrl = configurationManager.getProperty('furniture.asset.url');
+
+		if (!this._furnitureAssetUrl)
+		{
+			log.warn('No furniture.asset.url configured');
+		}
+		else
+		{
+			log.debug(`Furniture asset URL template: ${this._furnitureAssetUrl}`);
+		}
+	}
+
+	/**
+	 * Initialize furniture data maps from SessionDataManager.
+	 * Populates typeId→className and className→typeId mappings for all furniture.
+	 *
+	 * @see AS3 RoomContentLoader.initFurnitureData (line 783)
+	 */
+	initFurnitureData(sessionDataManager: ISessionDataManager): void
+	{
+		this._sessionDataManager = sessionDataManager;
+
+		const furniData = sessionDataManager.getFurniData(this);
+
+		if (!furniData || furniData.length === 0)
+		{
+			// Data not ready yet - we're registered as a listener
+			// furniDataReady() will be called when data is available
+			return;
+		}
+
+		sessionDataManager.removeFurniDataListener(this);
+		this.populateFurniData(furniData);
+		this._furniDataReady = true;
+
+		log.debug(`Furniture data initialized: ${this._floorItems.size} floor items, ${this._wallItems.size} wall items`);
+	}
+
+	/**
+	 * Called by SessionDataManager when furniture data becomes available.
+	 *
+	 * @see AS3 IFurniDataListener / class_1813
+	 */
+	furniDataReady(): void
+	{
+		if (!this._sessionDataManager)
+		{
+			return;
+		}
+
+		const furniData = this._sessionDataManager.getFurniData(this);
+
+		if (!furniData || furniData.length === 0)
+		{
+			return;
+		}
+
+		this._sessionDataManager.removeFurniDataListener(this);
+		this.populateFurniData(furniData);
+		this._furniDataReady = true;
+
+		log.debug(`Furniture data ready: ${this._floorItems.size} floor items, ${this._wallItems.size} wall items`);
+	}
+
+	/**
+	 * Populate internal maps from furniture data.
+	 *
+	 * @see AS3 RoomContentLoader.populateFurniData (line 818)
+	 */
+	private populateFurniData(data: IFurnitureData[]): void
+	{
+		for (const item of data)
+		{
+			const typeId = item.id;
+			let className = item.className;
+
+			// Handle indexed color suffix
+			if (item.hasIndexedColor)
+			{
+				className = className + '*' + item.colourIndex;
+			}
+
+			if (item.type === 's')
+			{
+				// Floor item
+				this._floorItems.set(className, typeId);
+				this._floorItemsByTypeId.set(typeId, className);
+			}
+			else if (item.type === 'i')
+			{
+				// Wall item - handle special post.it cases
+				if (className === 'post.it')
+				{
+					className = 'post_it';
+				}
+				else if (className === 'post.it.vd')
+				{
+					className = 'post_it_vd';
+				}
+
+				this._wallItems.set(className, typeId);
+				this._wallItemsByTypeId.set(typeId, className);
+			}
+		}
+	}
+
 	dispose(): void
 	{
+		if (this._disposed) return;
+
 		this._floorItems.clear();
 		this._wallItems.clear();
 		this._pets.clear();
+		this._floorItemsByTypeId.clear();
+		this._wallItemsByTypeId.clear();
+
+		for (const collection of this._assetCollections.values())
+		{
+			collection.dispose();
+		}
+
+		this._assetCollections.clear();
+
+		for (const vizData of this._visualizationDataMap.values())
+		{
+			vizData.dispose();
+		}
+
+		this._visualizationDataMap.clear();
+		this._visualizationTypeMap.clear();
+		this._logicTypeMap.clear();
+		this._loadedTypes.clear();
+		this._loadingTypes.clear();
+
 		this._disposed = true;
 	}
 
@@ -139,22 +329,96 @@ export class RoomContentLoader implements IRoomContentLoader
 		return false;
 	}
 
-	loadObjectContent(_type: string, _events: EventEmitter): boolean
+	/**
+	 * Load content for a furniture type.
+	 *
+	 * @param type The furniture className
+	 * @param events EventEmitter to emit CONTENT_LOADER_READY when loaded
+	 * @returns true if loading started or already loaded
+	 */
+	loadObjectContent(type: string, events: EventEmitter): boolean
 	{
-		// TODO: Implement asset loading
-		return false;
+		if (this._loadedTypes.get(type))
+		{
+			// Already loaded - emit ready immediately
+			events.emit(RoomContentLoader.CONTENT_LOADER_READY, type);
+			return true;
+		}
+
+		if (this._loadingTypes.has(type))
+		{
+			// Already loading - wait for it to finish then emit
+			this._loadingTypes.get(type)!.then(() =>
+			{
+				events.emit(RoomContentLoader.CONTENT_LOADER_READY, type);
+			});
+
+			return true;
+		}
+
+		if (!this._assetLibrary || !this._furnitureAssetUrl)
+		{
+			return false;
+		}
+
+		// Build URL from template
+		const url = this._furnitureAssetUrl.replace('%className%', type);
+
+		log.debug(`Loading furniture: ${type} from ${url}`);
+
+		const loadPromise = this.loadFurnitureBundle(type, url, events);
+		this._loadingTypes.set(type, loadPromise);
+
+		return true;
 	}
 
-	getVisualizationType(_type: string): string | null
+	getVisualizationType(type: string): string | null
 	{
-		// TODO: Implement when asset system is ready
-		return null;
+		return this._visualizationTypeMap.get(type) ?? null;
 	}
 
-	getLogicType(_type: string): string | null
+	getLogicType(type: string): string | null
 	{
-		// TODO: Implement when asset system is ready
-		return null;
+		return this._logicTypeMap.get(type) ?? null;
+	}
+
+	/**
+	 * Get the cached asset collection for a furniture type.
+	 */
+	getAssetCollection(type: string): IGraphicAssetCollection | null
+	{
+		return this._assetCollections.get(type) ?? null;
+	}
+
+	/**
+	 * Get the cached visualization data for a furniture type.
+	 */
+	getVisualizationData(type: string): IRoomObjectVisualizationData | null
+	{
+		return this._visualizationDataMap.get(type) ?? null;
+	}
+
+	/**
+	 * Get the className for a furniture typeId.
+	 *
+	 * @see AS3 RoomContentLoader var_2179 (typeId → className map)
+	 */
+	getClassName(typeId: number, category: number): string | null
+	{
+		if (category === RoomObjectCategoryEnum.OBJECT_CATEGORY_WALL)
+		{
+			return this._wallItemsByTypeId.get(typeId) ?? null;
+		}
+
+		return this._floorItemsByTypeId.get(typeId) ?? null;
+	}
+
+	/**
+	 * Check if content is loaded for a given type.
+	 */
+	isLoaded(type: string): boolean
+	{
+		return this._loadedTypes.get(type) === true;
 	}
 
 	roomObjectCreated(object: IRoomObject, roomId: string): void
@@ -170,15 +434,132 @@ export class RoomContentLoader implements IRoomContentLoader
 	setActiveObjectType(typeId: number, type: string): void
 	{
 		this._floorItems.set(type, typeId);
+		this._floorItemsByTypeId.set(typeId, type);
 	}
 
 	setWallItemType(typeId: number, type: string): void
 	{
 		this._wallItems.set(type, typeId);
+		this._wallItemsByTypeId.set(typeId, type);
 	}
 
 	setPetType(typeId: number, type: string): void
 	{
 		this._pets.set(type, typeId);
+	}
+
+	/**
+	 * Load a .nitro furniture bundle and parse it.
+	 */
+	private async loadFurnitureBundle(type: string, url: string, events: EventEmitter): Promise<void>
+	{
+		return new Promise<void>((resolve) =>
+		{
+			const loader = this._assetLibrary!.loadAssetFromFile(type, url);
+
+			if (!loader)
+			{
+				log.warn(`Failed to start loading furniture: ${type}`);
+				this._loadingTypes.delete(type);
+				resolve();
+				return;
+			}
+
+			loader.events.on('event', (event: AssetLoaderEvent) =>
+			{
+				if (event.type === AssetLoaderEventType.COMPLETE)
+				{
+					this.onFurnitureLoaded(type, events);
+					resolve();
+				}
+				else if (event.type === AssetLoaderEventType.ERROR)
+				{
+					log.warn(`Failed to load furniture bundle: ${type}`);
+					this._loadingTypes.delete(type);
+					resolve();
+				}
+			});
+		});
+	}
+
+	/**
+	 * Process a loaded furniture bundle: extract assets, create visualization data.
+	 */
+	private onFurnitureLoaded(type: string, events: EventEmitter): void
+	{
+		const asset = this._assetLibrary!.getAssetByName(type) as NitroAsset | null;
+
+		if (!asset)
+		{
+			log.warn(`Furniture asset not found after load: ${type}`);
+			this._loadingTypes.delete(type);
+			return;
+		}
+
+		const jsonData = asset.jsonData;
+
+		if (!jsonData)
+		{
+			log.warn(`Furniture bundle has no JSON data: ${type}`);
+			this._loadingTypes.delete(type);
+			return;
+		}
+
+		// Extract visualization and logic types from bundle JSON
+		const vizType = jsonData.visualizationType || 'furniture_static';
+		const logicType = jsonData.logicType || 'furniture_multistate';
+
+		this._visualizationTypeMap.set(type, vizType);
+		this._logicTypeMap.set(type, logicType);
+
+		// Create GraphicAssetCollection from bundle textures and asset definitions
+		const collection = new GraphicAssetCollection();
+		const textures = asset.textures;
+		const assetDefs = jsonData.assets as Record<string, Record<string, unknown>> | undefined;
+
+		if (textures && assetDefs)
+		{
+			collection.defineFromSpritesheet(textures, assetDefs);
+		}
+		else if (textures)
+		{
+			// If no asset definitions, at least register the textures
+			for (const [name, texture] of textures)
+			{
+				collection.addAsset(name, texture, false);
+			}
+		}
+
+		this._assetCollections.set(type, collection);
+
+		// Create FurnitureVisualizationData from bundle visualization section
+		const vizSection = (jsonData as Record<string, unknown>).visualization as Record<string, unknown> | undefined;
+		let vizData: FurnitureVisualizationData;
+
+		if (RoomContentLoader.ANIMATED_VIZ_TYPES.has(vizType))
+		{
+			vizData = new AnimatedFurnitureVisualizationData();
+		}
+		else
+		{
+			vizData = new FurnitureVisualizationData();
+		}
+
+		if (vizSection)
+		{
+			vizData.initialize(vizSection);
+		}
+
+		this._visualizationDataMap.set(type, vizData);
+
+		// Mark as loaded
+		this._loadedTypes.set(type, true);
+		this._loadingTypes.delete(type);
+
+		const textureCount = textures ? textures.size : 0;
+		log.debug(`Loaded ${type}: vizType=${vizType}, logicType=${logicType}, ${textureCount} textures`);
+
+		// Emit ready event
+		events.emit(RoomContentLoader.CONTENT_LOADER_READY, type);
 	}
 }
