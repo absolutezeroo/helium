@@ -66,6 +66,7 @@ export class RoomPlane
 	private _textureCache: Map<string, PlaneBitmapData> = new Map();
 	private _cachedTextureBitmap: PlaneBitmapData | null = null;
 	private _textureSprite: Sprite | null = null;
+	private _outputCanvas: HTMLCanvasElement | null = null;
 	private _bitmapMasks: RoomPlaneBitmapMask[] = [];
 	private _rectangleMasks: RoomPlaneRectangleMask[] = [];
 	private _maskChanged: boolean = false;
@@ -298,6 +299,7 @@ export class RoomPlane
 		}
 		this._cachedTextureBitmap = null;
 		this._textureCache.clear();
+		this._outputCanvas = null;
 		this._bitmapMasks = [];
 		this._rectangleMasks = [];
 		this._rasterizer = null;
@@ -602,18 +604,57 @@ export class RoomPlane
 		const tx = this._cornerC.x;
 		const ty = this._cornerC.y;
 
-		// Create off-screen canvas to render the transformed texture
-		const outputCanvas = document.createElement('canvas');
-		outputCanvas.width = this._width;
-		outputCanvas.height = this._height;
-		const ctx = outputCanvas.getContext('2d')!;
+		// Reuse or create output canvas
+		if (!this._outputCanvas)
+		{
+			this._outputCanvas = document.createElement('canvas');
+		}
+		this._outputCanvas.width = this._width;
+		this._outputCanvas.height = this._height;
+		const ctx = this._outputCanvas.getContext('2d')!;
 
+		// Apply affine transform and draw texture
 		ctx.setTransform(a, b, c, d, tx, ty);
 		ctx.drawImage(textureBitmap, 0, 0);
 		ctx.setTransform(1, 0, 0, 1, 0, 0);
 
+		// Apply rectangle mask cutouts (door holes) on the textured canvas
+		if (this._rectangleMasks.length > 0)
+		{
+			ctx.globalCompositeOperation = 'destination-out';
+			const leftLen = this._leftSide.length;
+			const rightLen = this._rightSide.length;
+
+			for (const mask of this._rectangleMasks)
+			{
+				const maskPoints = this.getRectMaskScreenPoints(mask, leftLen, rightLen);
+
+				if (maskPoints !== null)
+				{
+					ctx.beginPath();
+					ctx.moveTo(maskPoints[0], maskPoints[1]);
+
+					for (let j = 2; j < maskPoints.length; j += 2)
+					{
+						ctx.lineTo(maskPoints[j], maskPoints[j + 1]);
+					}
+
+					ctx.closePath();
+					ctx.fill();
+				}
+			}
+
+			ctx.globalCompositeOperation = 'source-over';
+		}
+
+		// Dispose previous texture to prevent memory leak
+		if (this._textureSprite !== null)
+		{
+			this._textureSprite.texture.destroy(true);
+		}
+
 		// Convert canvas to PixiJS texture and apply to sprite
-		const texture = Texture.from(outputCanvas);
+		const texture = Texture.from(this._outputCanvas);
 
 		if (this._textureSprite === null)
 		{
@@ -629,24 +670,54 @@ export class RoomPlane
 	/**
 	 * Render the plane. Uses textured rendering if rasterizer is available,
 	 * otherwise falls back to flat-color Graphics.poly().
+	 *
+	 * Based on AS3 RoomPlane.update() rendering section.
 	 */
 	private render(geometry: IRoomGeometry): void
 	{
 		if (!this.visible)
 		{
 			this._graphics.visible = false;
+			if (this._textureSprite) this._textureSprite.visible = false;
 			return;
 		}
 
 		if (this._width < 1 || this._height < 1)
 		{
 			this._graphics.visible = false;
+			if (this._textureSprite) this._textureSprite.visible = false;
 			return;
 		}
 
-		// TODO: textured rendering via rasterizer (later step)
+		// Try textured rendering first
+		const textureBitmapData = this.getTexture(geometry);
 
-		// Flat-color rendering
+		if (textureBitmapData?.bitmap)
+		{
+			this.renderTexture(textureBitmapData.bitmap);
+
+			if (this._textureSprite)
+			{
+				this._textureSprite.x = -this._offset.x;
+				this._textureSprite.y = -this._offset.y;
+				this._textureSprite.visible = true;
+				this._textureSprite.zIndex = this._graphics.zIndex;
+
+				// Add sprite to parent container if not already there
+				if (!this._textureSprite.parent && this._graphics.parent)
+				{
+					this._graphics.parent.addChild(this._textureSprite);
+				}
+			}
+
+			// Hide flat-color graphics when texture is available
+			this._graphics.visible = false;
+			return;
+		}
+
+		// Fallback: flat-color rendering
+		if (this._textureSprite) this._textureSprite.visible = false;
+
 		this._graphics.clear();
 
 		this._graphics

@@ -149,12 +149,19 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 
 		this.initializeRoomPlanes();
 
-		let needsUpdate = false;
+		// Check for mask and color changes (AS3: updateMasksAndColors)
+		let needsUpdate = this.updateMasksAndColors(model);
 
 		// Check if enough time has passed for an update
-		if (time < this._lastUpdateTime + RoomVisualization.UPDATE_INTERVAL && !geometryUpdated)
+		if (time < this._lastUpdateTime + RoomVisualization.UPDATE_INTERVAL && !geometryUpdated && !needsUpdate)
 		{
 			return;
+		}
+
+		// Update plane texture types and visibilities from model (AS3: updatePlaneTexturesAndVisibilities)
+		if (this.updatePlaneTexturesAndVisibilities(model))
+		{
+			needsUpdate = true;
 		}
 
 		// Update planes
@@ -586,6 +593,146 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 				);
 			}
 		}
+	}
+
+	/**
+	 * Update plane texture types and visibilities from the room model.
+	 * Based on AS3 RoomVisualization.updatePlaneTexturesAndVisibilities()
+	 */
+	private updatePlaneTexturesAndVisibilities(model: any): boolean
+	{
+		if (!model) return false;
+
+		if (this._updateModelCounter !== model.getUpdateID())
+		{
+			const wallType = model.getString(RoomObjectVariableEnum.ROOM_WALL_TYPE) as string | null;
+			const floorType = model.getString(RoomObjectVariableEnum.ROOM_FLOOR_TYPE) as string | null;
+			const landscapeType = model.getString(RoomObjectVariableEnum.ROOM_LANDSCAPE_TYPE) as string | null;
+
+			this.updatePlaneTextureTypes(
+				floorType ?? 'default',
+				wallType ?? 'default',
+				landscapeType ?? 'default'
+			);
+
+			const floorVisible = model.getNumber(RoomObjectVariableEnum.ROOM_FLOOR_VISIBILITY);
+			const wallVisible = model.getNumber(RoomObjectVariableEnum.ROOM_WALL_VISIBILITY);
+			const landscapeVisible = model.getNumber(RoomObjectVariableEnum.ROOM_LANDSCAPE_VISIBILITY);
+
+			this.updatePlaneTypeVisibilities(
+				isNaN(floorVisible) ? true : !!floorVisible,
+				isNaN(wallVisible) ? true : !!wallVisible,
+				isNaN(landscapeVisible) ? true : !!landscapeVisible
+			);
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Set plane IDs based on floor/wall/landscape type strings.
+	 * Based on AS3 RoomVisualization.updatePlaneTextureTypes()
+	 */
+	private updatePlaneTextureTypes(floorType: string, wallType: string, landscapeType: string): boolean
+	{
+		let changed = false;
+
+		if (floorType !== this._floorType)
+		{
+			this._floorType = floorType;
+			changed = true;
+		}
+		else
+		{
+			floorType = '';
+		}
+
+		if (wallType !== this._wallType)
+		{
+			this._wallType = wallType;
+			changed = true;
+		}
+		else
+		{
+			wallType = '';
+		}
+
+		if (landscapeType !== this._landscapeType)
+		{
+			this._landscapeType = landscapeType;
+			changed = true;
+		}
+		else
+		{
+			landscapeType = '';
+		}
+
+		if (!changed) return false;
+
+		for (const plane of this._planes)
+		{
+			if (plane.type === RoomPlane.TYPE_FLOOR && floorType)
+			{
+				plane.id = floorType;
+			}
+			else if (plane.type === RoomPlane.TYPE_WALL && wallType)
+			{
+				plane.id = wallType;
+			}
+			else if (plane.type === RoomPlane.TYPE_LANDSCAPE && landscapeType)
+			{
+				plane.id = landscapeType;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Update plane type visibility flags.
+	 * Based on AS3 RoomVisualization.updatePlaneTypeVisibilities()
+	 */
+	private updatePlaneTypeVisibilities(floor: boolean, wall: boolean, landscape: boolean): void
+	{
+		if (floor !== this._planeTypeVisibility[RoomPlane.TYPE_FLOOR]
+			|| wall !== this._planeTypeVisibility[RoomPlane.TYPE_WALL]
+			|| landscape !== this._planeTypeVisibility[RoomPlane.TYPE_LANDSCAPE])
+		{
+			this._planeTypeVisibility[RoomPlane.TYPE_FLOOR] = floor;
+			this._planeTypeVisibility[RoomPlane.TYPE_WALL] = wall;
+			this._planeTypeVisibility[RoomPlane.TYPE_LANDSCAPE] = landscape;
+			this._visiblePlanes = [];
+			this._visiblePlaneSpriteNumbers = [];
+		}
+	}
+
+	/**
+	 * Check for mask and background color changes in the model.
+	 * Based on AS3 RoomVisualization.updateMasksAndColors()
+	 */
+	private updateMasksAndColors(model: any): boolean
+	{
+		if (!model) return false;
+
+		let changed = false;
+
+		if (this._updateModelCounter !== model.getUpdateID())
+		{
+			const bgColor = model.getNumber(RoomObjectVariableEnum.ROOM_BACKGROUND_COLOR);
+
+			if (!isNaN(bgColor) && bgColor !== this._backgroundColor)
+			{
+				this._backgroundColor = bgColor;
+				this._backgroundBlue = bgColor & 0xFF;
+				this._backgroundGreen = (bgColor >> 8) & 0xFF;
+				this._backgroundRed = (bgColor >> 16) & 0xFF;
+				changed = true;
+			}
+		}
+
+		return changed;
 	}
 
 	private updateSprite(sprite: IRoomObjectSprite, plane: RoomPlane, name: string, depth: number): void
