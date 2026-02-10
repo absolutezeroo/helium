@@ -1893,12 +1893,30 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return;
 		}
 
+		const geometry = canvas.geometry;
+
 		// Update all visualizations for this room
 		for (const [key, visualization] of this._roomVisualizations)
 		{
 			if (key.startsWith(`${roomId}_`))
 			{
-				visualization.update(canvas.geometry, time, false, false);
+				visualization.update(geometry, time, false, false);
+
+				// Position visualization container based on room object's world coordinates
+				const object = visualization.object;
+
+				if (object)
+				{
+					const location = object.getLocation();
+					const screenPos = geometry.getScreenPosition(location);
+
+					if (screenPos)
+					{
+						visualization.container.x = screenPos.x;
+						visualization.container.y = screenPos.y;
+						visualization.container.zIndex = -screenPos.z;
+					}
+				}
 			}
 		}
 	}
@@ -2043,6 +2061,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 
 		if (!visualization)
 		{
+			log.warn(`[createVisualizationForFurniture] Factory returned null for vizType=${vizType}`);
 			return;
 		}
 
@@ -2066,7 +2085,8 @@ export class RoomEngine extends Component implements IRoomEngine,
 
 		if (vizData)
 		{
-			spriteVisualization.initialize(vizData);
+			const initResult = spriteVisualization.initialize(vizData);
+			log.debug(`[createVisualizationForFurniture] ${className} (id=${objectId}): vizType=${vizType}, initResult=${initResult}, assetCollection=${!!assetCollection}`);
 		}
 
 		// Assign the room object

@@ -137,15 +137,15 @@ Progression: ████████████████████ ~100%
 AS3 ENGINE: 25 fichiers | TS: 28 fichiers
 ```
 
-| Statut | Élément                                                        |
-|--------|----------------------------------------------------------------|
-| ✅      | HabboNavigator, HabboNewNavigator complets                     |
-| ✅      | IncomingMessages, NewIncomingMessages                          |
-| ✅      | NavigatorData, NavigatorCache, SearchContext, ContextContainer |
-| ✅      | RoomSessionTags                                                |
-| ✅      | FriendEntryData, RoomSettingsFriendListManager                 |
-| ✅      | RoomEntryUtils (door mode, color modulation, favorite icons)   |
-| ⏭️      | Util.as → SKIP (95% VIEW: IWindow manipulation; JS natif pour le reste) |
+| Statut | Élément                                                                 |
+|--------|-------------------------------------------------------------------------|
+| ✅      | HabboNavigator, HabboNewNavigator complets                              |
+| ✅      | IncomingMessages, NewIncomingMessages                                   |
+| ✅      | NavigatorData, NavigatorCache, SearchContext, ContextContainer          |
+| ✅      | RoomSessionTags                                                         |
+| ✅      | FriendEntryData, RoomSettingsFriendListManager                          |
+| ✅      | RoomEntryUtils (door mode, color modulation, favorite icons)            |
+| ⏭️     | Util.as → SKIP (95% VIEW: IWindow manipulation; JS natif pour le reste) |
 
 ---
 
@@ -327,19 +327,19 @@ AS3: 32 fichiers | TS: 8 fichiers
 
 ### Tier 3 — Secondaire
 
-| Module            | AS3 ENGINE | Description                                         | Statut           |
-|-------------------|------------|-----------------------------------------------------|------------------|
+| Module            | AS3 ENGINE | Description                                         | Statut                           |
+|-------------------|------------|-----------------------------------------------------|----------------------------------|
 | **tracking**      | 10         | Analytics, latence, FPS, performance                | ✅ 95% (GarbageTester=SKIP Flash) |
-| **groups**        | ~6         | Guildes                                             | 🔄 En cours      |
-| **game**          | 4          | SnowWar game manager                                | ❌ Non commencé   |
-| **notifications** | ~4         | Popups de notification                              | ✅ Implémenté     |
-| **roomevents**    | 5          | Wired system                                        | ❌ Non commencé   |
-| **messenger**     | ~3         | Messages privés                                     | ✅ Implémenté     |
-| **utils**         | ~10        | StringUtil, CommunicationUtils, FigureDataContainer | ✅ Avancé (74%)   |
-| **freeflowchat**  | ~2         | Bulles de chat                                      | ✅ Implémenté     |
-| **advertisement** | 3          | Pubs                                                | ✅ Implémenté     |
-| **campaign**      | 1          | Calendrier                                          | ✅ Implémenté     |
-| **friendbar**     | 5          | Barre d'amis                                        | ❌ Non commencé   |
+| **groups**        | ~6         | Guildes                                             | 🔄 En cours                      |
+| **game**          | 4          | SnowWar game manager                                | ❌ Non commencé                   |
+| **notifications** | ~4         | Popups de notification                              | ✅ Implémenté                     |
+| **roomevents**    | 5          | Wired system                                        | ❌ Non commencé                   |
+| **messenger**     | ~3         | Messages privés                                     | ✅ Implémenté                     |
+| **utils**         | ~10        | StringUtil, CommunicationUtils, FigureDataContainer | ✅ Avancé (74%)                   |
+| **freeflowchat**  | ~2         | Bulles de chat                                      | ✅ Implémenté                     |
+| **advertisement** | 3          | Pubs                                                | ✅ Implémenté                     |
+| **campaign**      | 1          | Calendrier                                          | ✅ Implémenté                     |
+| **friendbar**     | 5          | Barre d'amis                                        | ❌ Non commencé                   |
 
 ---
 
@@ -371,16 +371,16 @@ AS3: 32 fichiers | TS: 8 fichiers
 
 ## 7. Statistiques finales
 
-| Métrique                      | Valeur                                                                                                     |
-|-------------------------------|------------------------------------------------------------------------------------------------------------|
-| Fichiers AS3 ENGINE totaux    | ~1 150+                                                                                                    |
-| Fichiers TS implémentés       | ~684+                                                                                                      |
-| Fichiers manquants            | ~466+                                                                                                      |
+| Métrique                      | Valeur                                                                                                                    |
+|-------------------------------|---------------------------------------------------------------------------------------------------------------------------|
+| Fichiers AS3 ENGINE totaux    | ~1 150+                                                                                                                   |
+| Fichiers TS implémentés       | ~684+                                                                                                                     |
+| Fichiers manquants            | ~466+                                                                                                                     |
 | Modules complets (100%)       | Configuration, Localization, Inventory, Campaign, Advertisement, Notifications, Messenger, FreeFlowChat, Navigator ENGINE |
-| Modules quasi-complets (>90%) | Session (100%), Room (99%), core/comm (90%), core/assets (92%), Tracking (95%), Toolbar (83%)              |
-| Modules avancés (50-90%)      | Groups (57%), Communication messages (34%)                                                                 |
-| Modules en cours (<50%)       | core/runtime (25%)                                                                                         |
-| Modules non commencés         | 11 modules (avatar, catalog, sound, help, moderation, quest, game, roomevents, friendbar, friendlist, nux) |
+| Modules quasi-complets (>90%) | Session (100%), Room (99%), core/comm (90%), core/assets (92%), Tracking (95%), Toolbar (83%)                             |
+| Modules avancés (50-90%)      | Groups (57%), Communication messages (34%)                                                                                |
+| Modules en cours (<50%)       | core/runtime (25%)                                                                                                        |
+| Modules non commencés         | 11 modules (avatar, catalog, sound, help, moderation, quest, game, roomevents, friendbar, friendlist, nux)                |
 
 ---
 
