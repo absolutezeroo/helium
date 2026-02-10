@@ -3,10 +3,14 @@ import {createEffect, createSignal, For, Show} from 'solid-js';
 import {useNavigator} from '@ui/hooks/navigator/useNavigator';
 import {useLocalization} from '@ui/common';
 
+import penIcon from '@/assets/images/HabboWindowManagerCom_common_small_pen.png';
+import closeIcon from '@/assets/images/HabboWindowManagerCom_icons_close.png';
+import refreshIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_refresh_search_icon.png';
+
 /**
  * Search filter options
  *
- * @see source_as_flash/com/sulake/habbo/navigator/view/search/SearchView.as - _filterSelector
+ * @see source_as_win63/habbo/navigator/view/search/SearchView.as - FILTER_SELECTOR_INDEX_TO_MODE
  */
 const SEARCH_FILTERS = [
 	{name: 'anything', query: ''},
@@ -19,12 +23,17 @@ const SEARCH_FILTERS = [
 export interface SearchViewProps
 {
 	onSearch?: () => void;
+	onRefresh?: () => void;
 }
 
 /**
- * SearchView - Search input with filter dropdown.
+ * SearchView - Search input with filter dropdown, clear/pen icon, and refresh button.
  *
- * @see source_as_flash/com/sulake/habbo/navigator/view/search/SearchView.as
+ * No "Go" button — search is triggered by pressing Enter.
+ * Refresh button only visible when input has real text.
+ * Icon: pen when empty, close X when has text.
+ *
+ * @see source_as_win63/habbo/navigator/view/search/SearchView.as
  */
 export function SearchView(props: SearchViewProps): JSX.Element
 {
@@ -34,9 +43,18 @@ export function SearchView(props: SearchViewProps): JSX.Element
 	const [filterIndex, setFilterIndex] = createSignal(0);
 	const [inputText, setInputText] = createSignal('');
 
+	let inputRef: HTMLInputElement | undefined;
+
+	/**
+	 * Whether the input has real (non-placeholder) text.
+	 * Controls refresh visibility and icon state.
+	 * @see SearchView.as line 100: caption.length != 0 && caption != placeholder
+	 */
+	const hasText = () => inputText().length > 0;
+
 	/**
 	 * Build the formatted search string: "prefix:text" or just "text"
-	 * @see SearchView.as _Str_24862
+	 * @see SearchView.as getFilterParameter
 	 */
 	const buildSearchString = (): string =>
 	{
@@ -59,13 +77,34 @@ export function SearchView(props: SearchViewProps): JSX.Element
 		props.onSearch?.();
 	};
 
+	/**
+	 * Clear the search input and reset icon to pen.
+	 * @see SearchView.as onClearSearch
+	 */
 	const clearInput = () =>
 	{
 		setInputText('');
+		inputRef?.focus();
 
 		const code = nav.currentSearchCode || nav.topLevelContexts[0]?.searchCode || 'official_view';
 
 		actions.search(code, '');
+	};
+
+	/**
+	 * Handle icon click: if text → clear, if empty → focus input.
+	 * @see SearchView.as onClearSearch (clears + sets pen icon)
+	 */
+	const handleIconClick = () =>
+	{
+		if (hasText())
+		{
+			clearInput();
+		}
+		else
+		{
+			inputRef?.focus();
+		}
 	};
 
 	const handleKeyDown = (e: KeyboardEvent) =>
@@ -130,20 +169,25 @@ export function SearchView(props: SearchViewProps): JSX.Element
 				<input
 					type="text"
 					class="search-input"
-					placeholder={t('navigator.filter.input.placeholder', 'Search...')}
+					ref={inputRef}
+					placeholder={t('navigator.filter.input.placeholder', 'filter rooms by...')}
 					value={inputText()}
 					onInput={(e) => setInputText(e.currentTarget.value)}
 					onKeyDown={handleKeyDown}
 				/>
-				<Show when={inputText().length > 0}>
-					<span class="search-clear-btn" onClick={clearInput}>
-						&times;
-					</span>
-				</Show>
+				<span class="search-icon" onClick={handleIconClick}>
+					<img src={hasText() ? closeIcon : penIcon} alt="" />
+				</span>
 			</div>
-			<button class="search-go-btn" onClick={processSearch}>
-				Go
-			</button>
+			<Show when={hasText()}>
+				<button
+					class="search-refresh-btn"
+					onClick={() => props.onRefresh?.()}
+					title={t('navigator.refresh', 'Refresh')}
+				>
+					<img src={refreshIcon} alt="" />
+				</button>
+			</Show>
 		</div>
 	);
 }

@@ -1,5 +1,4 @@
 import type {JSX, ParentProps} from 'solid-js';
-import clsx from 'clsx';
 
 export interface TabItem
 {
@@ -15,19 +14,14 @@ export interface HeliumCardTabsViewProps extends ParentProps
 }
 
 /**
- * HeliumCardTabsView - Tabs container for card windows (Nitro-style).
+ * HeliumCardTabsView - Tabs container for card windows.
  *
- * @see source_nitro_react/common/card/tabs/NitroCardTabsView.tsx
+ * @see habbo_skin_button_tab_3_xml.bin (32px tall, 3 states)
  */
 export function HeliumCardTabsView(props: HeliumCardTabsViewProps): JSX.Element
 {
 	return (
-		<div
-			class={clsx(
-				'container-fluid helium-card-tabs d-flex justify-content-center align-items-center gap-1 pt-1',
-				props.class
-			)}
-		>
+		<div class={`helium-card-tabs${props.class ? ' ' + props.class : ''}`}>
 			{props.children}
 		</div>
 	);

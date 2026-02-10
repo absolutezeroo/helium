@@ -1,5 +1,4 @@
 import type {JSX, ParentProps} from 'solid-js';
-import clsx from 'clsx';
 
 export interface HeliumCardSubHeaderViewProps extends ParentProps
 {
@@ -12,7 +11,7 @@ export interface HeliumCardSubHeaderViewProps extends ParentProps
 export function HeliumCardSubHeaderView(props: HeliumCardSubHeaderViewProps): JSX.Element
 {
 	return (
-		<div class={clsx('border-bottom', props.class)}>
+		<div class={`helium-card-subheader${props.class ? ' ' + props.class : ''}`}>
 			{props.children}
 		</div>
 	);

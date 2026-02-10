@@ -1,0 +1,97 @@
+// ============================================================
+// Toolbar - Bottom bar (horizontal)
+// Source: HabboToolbarCom_bottom_bar_left_xml.bin
+// container: w=auto h=46, color=0x055534e
+// boxsizer toolbar_items: spacing=8
+// icon region: 45×41, dynamic_style=lifted_hover
+// collapse arrows: 15×45
+// border: style=2 color=0x03b3933
+// ============================================================
+@use '../../tokens' as *;
+
+// --- Design tokens (toolbar-specific) ---
+$toolbar-height: 46px;
+$toolbar-bg: #55534e;
+$toolbar-border-color: #3b3933;
+$toolbar-icon-width: 45px;
+$toolbar-icon-height: 41px;
+$toolbar-icon-spacing: 8px;
+$toolbar-icon-bg-out: #57544d; // ICON_BG_COLOR_OUT from AS3
+$toolbar-icon-bg-over: #716d69; // ICON_BG_COLOR_OVER from AS3
+$toolbar-collapse-width: 15px;
+$toolbar-collapse-height: 45px;
+
+// --- Bottom toolbar bar ---
+.helium-toolbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: $toolbar-height;
+    background-color: $toolbar-bg;
+    filter: drop-shadow(3px 0 6px rgba(0, 0, 0, 0.6));
+
+    // Collapse arrow (left/right)
+    .toolbar-collapse {
+        width: $toolbar-collapse-width;
+        height: $toolbar-collapse-height;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+
+        img {
+            width: 13px;
+            height: 45px;
+        }
+    }
+
+    // Icon container (boxsizer)
+    .toolbar-items {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: $toolbar-icon-spacing;
+        padding: 1px 0;
+    }
+
+    // Individual icon region
+    .toolbar-icon {
+        width: $toolbar-icon-width;
+        height: $toolbar-icon-height;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border-radius: 3px;
+        position: relative;
+
+        &:hover {
+            background-color: $toolbar-icon-bg-over;
+        }
+
+        img {
+            pointer-events: none;
+        }
+    }
+
+    // Divider line between icon groups
+    .toolbar-divider {
+        width: 1px;
+        height: 40px;
+        flex-shrink: 0;
+    }
+
+    // Border accent (left edge)
+    .toolbar-border-accent {
+        width: 6px;
+        height: 43px;
+        background-color: $toolbar-border-color;
+        flex-shrink: 0;
+        border-radius: 0 3px 3px 0;
+    }
+}

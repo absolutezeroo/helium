@@ -1,15 +1,24 @@
 import type {JSX} from 'solid-js';
 import {createSignal, Show} from 'solid-js';
-import clsx from 'clsx';
 import {useNavigator} from '@ui/hooks/navigator/useNavigator';
 import {inventoryStore} from '@ui/stores/inventoryStore';
 import {roomStore} from '@ui/stores/roomStore';
 import {ToolbarMeView} from './ToolbarMeView';
 
+import logoIcon from '@/assets/images/HabboWindowManagerCom_bottom_bar_logo.png';
+import homeIcon from '@/assets/images/HabboWindowManagerCom_bottom_bar_home.png';
+import navigatorIcon from '@/assets/images/HabboWindowManagerCom_bottom_bar_navigator.png';
+import shopIcon from '@/assets/images/HabboWindowManagerCom_bottom_bar_shop.png';
+import inventoryIcon from '@/assets/images/HabboWindowManagerCom_bottom_bar_inventory.png';
+import cameraIcon from '@/assets/images/HabboWindowManagerCom_bottom_bar_camera.png';
+import dividerIcon from '@/assets/images/HabboWindowManagerCom_bottom_bar_divider_1px.png';
+import meMenuPlaceholder from '@/assets/images/HabboWindowManagerCom_icons_toolbar_me_menu_placeholder.png';
+
 /**
- * Toolbar - Bottom toolbar with navigation icons.
+ * Toolbar - Bottom bar with navigation icons.
  *
- * @see source_nitro_react/components/toolbar/ToolbarView.tsx
+ * @see source_as_win63/habbo/toolbar/BottomBarLeft.as
+ * @see HabboToolbarCom_bottom_bar_left_xml.bin
  */
 export function Toolbar(): JSX.Element
 {
@@ -26,69 +35,91 @@ export function Toolbar(): JSX.Element
 			<Show when={isMeExpanded()}>
 				<ToolbarMeView setMeExpanded={setMeExpanded} />
 			</Show>
-			<div class="helium-toolbar d-flex align-items-center justify-content-between gap-2 py-1 px-3">
-				<div class="d-flex gap-2 align-items-center">
-					<div class="d-flex align-items-center gap-2">
-						{/* Avatar / Me button */}
+			<div class="helium-toolbar">
+				{/* Border accent (left edge) */}
+				<div class="toolbar-border-accent" />
+
+				{/* Icon items */}
+				<div class="toolbar-items">
+					{/* Reception / Hotel view (visible when in room) */}
+					<Show when={isInRoom()}>
 						<div
-							class={clsx('navigation-item item-avatar cursor-pointer', isMeExpanded() && 'active')}
-							onClick={(e) =>
-							{
-								e.stopPropagation();
-								setMeExpanded(prev => !prev);
-							}}
+							class="toolbar-icon"
+							onClick={() => roomActions.goToDesktop()}
+							title="Hotel View"
 						>
-							<div class="avatar-image position-absolute" />
+							<img src={logoIcon} alt="" />
 						</div>
-						{/* Home / Hotel view */}
-						<Show
-							when={isInRoom()}
-							fallback={
-								<div
-									class="navigation-item icon icon-house cursor-pointer"
-									onClick={() => navActions.search('myworld_view', '')}
-								/>
-							}
+					</Show>
+
+					{/* Home (visible when in hotel view) */}
+					<Show when={!isInRoom()}>
+						<div
+							class="toolbar-icon"
+							onClick={() => navActions.search('myworld_view', '')}
+							title="Home"
 						>
-							<div
-								class="navigation-item icon icon-habbo cursor-pointer"
-								onClick={() => roomActions.goToDesktop()}
-							/>
-						</Show>
-						{/* Navigator */}
+							<img src={homeIcon} alt="" />
+						</div>
+					</Show>
+
+					{/* Navigator */}
+					<div
+						class="toolbar-icon"
+						onClick={() => navActions.toggle()}
+						title="Navigator"
+					>
+						<img src={navigatorIcon} alt="" />
+					</div>
+
+					{/* Catalogue / Shop */}
+					<div
+						class="toolbar-icon"
+						title="Catalogue"
+					>
+						<img src={shopIcon} alt="" />
+					</div>
+
+					{/* Inventory (visible in room) */}
+					<Show when={isInRoom()}>
 						<div
-							class="navigation-item icon icon-rooms cursor-pointer"
-							onClick={() => navActions.toggle()}
-						/>
-						{/* Catalog */}
-						<div
-							class="navigation-item icon icon-catalog cursor-pointer"
-						/>
-						{/* Inventory */}
-						<div
-							class="navigation-item icon icon-inventory cursor-pointer"
+							class="toolbar-icon"
 							onClick={() => invActions.toggle()}
-						/>
-						{/* Camera (only in room) */}
-						<Show when={isInRoom()}>
-							<div class="navigation-item icon icon-camera cursor-pointer" />
-						</Show>
-					</div>
-					<div id="toolbar-chat-input-container" class="d-flex align-items-center" />
-				</div>
-				<div class="d-flex align-items-center gap-2">
-					<div class="d-flex gap-2">
-						{/* Friends */}
+							title="Inventory"
+						>
+							<img src={inventoryIcon} alt="" />
+						</div>
+					</Show>
+
+					{/* Camera (visible in room) */}
+					<Show when={isInRoom()}>
 						<div
-							class="navigation-item icon icon-friendall cursor-pointer"
-						/>
-						{/* Messenger */}
-						<div
-							class="navigation-item icon icon-message cursor-pointer"
-						/>
+							class="toolbar-icon"
+							title="Camera"
+						>
+							<img src={cameraIcon} alt="" />
+						</div>
+					</Show>
+
+					{/* Divider */}
+					<img class="toolbar-divider" src={dividerIcon} alt="" />
+
+					{/* Me Menu */}
+					<div
+						class={`toolbar-icon${isMeExpanded() ? ' active' : ''}`}
+						onClick={(e) =>
+						{
+							e.stopPropagation();
+							setMeExpanded(prev => !prev);
+						}}
+						title="Me"
+					>
+						<img src={meMenuPlaceholder} alt="" />
 					</div>
-					<div id="toolbar-friend-bar-container" class="d-none d-lg-block" />
 				</div>
+
+				{/* Chat input container (injected externally) */}
+				<div id="toolbar-chat-input-container" />
 			</div>
 		</>
 	);

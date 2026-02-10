@@ -1,5 +1,4 @@
 import type {JSX, ParentProps} from 'solid-js';
-import clsx from 'clsx';
 
 export interface HeliumCardContentViewProps extends ParentProps
 {
@@ -11,22 +10,16 @@ export interface HeliumCardContentViewProps extends ParentProps
 /**
  * HeliumCardContentView - Scrollable content area for card windows.
  *
- * @see source_nitro_react/common/card/NitroCardContentView.tsx
+ * @see habbo_window_layout_frame_3_xml.bin (content_area at x=3, y=36)
  */
 export function HeliumCardContentView(props: HeliumCardContentViewProps): JSX.Element
 {
-	const overflow = () => props.overflow ?? 'auto';
-	const position = () => props.position ?? '';
-
 	return (
 		<div
-			class={clsx(
-				'container-fluid content-area d-flex flex-column',
-				position() && `position-${position()}`,
-				props.class
-			)}
+			class={`content-area${props.class ? ' ' + props.class : ''}`}
 			style={{
-				overflow: overflow(),
+				overflow: props.overflow ?? 'auto',
+				position: props.position === 'relative' ? 'relative' : undefined,
 			}}
 		>
 			{props.children}

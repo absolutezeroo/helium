@@ -12,15 +12,17 @@ import {NavigatorRoomInfoView} from './views/NavigatorRoomInfoView';
 import {RoomLinkView} from './views/RoomLinkView';
 
 import backIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_button_back.png';
-import refreshIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_refresh_search_icon.png';
 import createRoomIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_create_room.png';
 import randomRoomIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_random_room.png';
 import quickLinkAddIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_button_quicklink_add.png';
+import leftPaneHideIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_button_leftpane_hide.png';
+import leftPaneShowIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_button_leftpane_show.png';
 
 /**
  * NavigatorView - Main navigator window container.
  *
  * Two-pane layout: left pane (quick links) + right pane (tabs + search + results).
+ * Left pane starts HIDDEN by default per AS3: setLeftPaneVisibility(false)
  *
  * @see source_as_win63/habbo/navigator/view/NavigatorView.as
  */
@@ -31,7 +33,9 @@ export function NavigatorView(): JSX.Element
 
 	const [isLoading, setIsLoading] = createSignal(false);
 	const [hasInitialSearch, setHasInitialSearch] = createSignal(false);
-	const [leftPaneVisible, setLeftPaneVisible] = createSignal(true);
+
+	// Left pane starts HIDDEN per AS3 NavigatorView.as line 365: setLeftPaneVisibility(false)
+	const [leftPaneVisible, setLeftPaneVisible] = createSignal(false);
 
 	let resultsRef: HTMLDivElement | undefined;
 
@@ -70,6 +74,7 @@ export function NavigatorView(): JSX.Element
 	const handleBack = () =>
 	{
 		actions.goBack();
+
 		setIsLoading(true);
 	};
 
@@ -85,6 +90,10 @@ export function NavigatorView(): JSX.Element
 		setIsLoading(true);
 	};
 
+	/**
+	 * Toggle left pane visibility.
+	 * @see NavigatorView.as leftPaneShowHideProcedure
+	 */
 	const toggleLeftPane = () =>
 	{
 		setLeftPaneVisible(v => !v);
@@ -113,18 +122,9 @@ export function NavigatorView(): JSX.Element
 							fallback={<RoomCreatorView />}
 						>
 							<div class="navigator-body">
-								{/* Toggle left pane button */}
-								<div
-									class="toggle-left-pane-btn"
-									onClick={toggleLeftPane}
-									title={t('navigator.tooltip.left.show.hide', 'Toggle quick links')}
-								>
-									<img src={quickLinkAddIcon} alt="" />
-								</div>
-
 								{/* Left pane - Quick Links */}
 								<div class="navigator-left-pane">
-									<div class="left-pane-title" onClick={toggleLeftPane}>
+									<div class="left-pane-title">
 										<img src={quickLinkAddIcon} alt="" />
 										{t('navigator.quicklinks.title', 'Quick Links')}
 									</div>
@@ -140,6 +140,16 @@ export function NavigatorView(): JSX.Element
 								<div class="navigator-right-pane">
 									{/* Tabs */}
 									<div class="navigator-tabs">
+										{/* Toggle left pane button (show/hide)
+										    @see NavigatorView.as: left_hide_container / left_show_container */}
+										<div
+											class="toggle-left-pane-btn"
+											onClick={toggleLeftPane}
+											title={t('navigator.tooltip.left.show.hide', 'Toggle quick links')}
+										>
+											<img src={leftPaneVisible() ? leftPaneHideIcon : leftPaneShowIcon} alt="" />
+										</div>
+
 										<For each={nav.topLevelContexts}>
 											{(ctx) => (
 												<div
@@ -157,7 +167,7 @@ export function NavigatorView(): JSX.Element
 										</For>
 									</div>
 
-									{/* Navigation bar: back + search + refresh */}
+									{/* Navigation bar: back + search (+ refresh inside SearchView) */}
 									<div class="navigator-nav-bar">
 										<button
 											class="nav-btn"
@@ -168,15 +178,7 @@ export function NavigatorView(): JSX.Element
 											<img src={backIcon} alt="" />
 										</button>
 
-										<SearchView onSearch={handleSearch} />
-
-										<button
-											class="nav-btn"
-											onClick={handleRefresh}
-											title={t('navigator.refresh', 'Refresh')}
-										>
-											<img src={refreshIcon} alt="" />
-										</button>
+										<SearchView onSearch={handleSearch} onRefresh={handleRefresh} />
 									</div>
 
 									{/* Lifted rooms carousel */}

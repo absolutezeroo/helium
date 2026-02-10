@@ -1,7 +1,7 @@
 import type {JSX, ParentProps} from 'solid-js';
 import {Show} from 'solid-js';
-import clsx from 'clsx';
-import {FaSolidXmark} from 'solid-icons/fa';
+
+import closeIcon from '@/assets/images/HabboWindowManagerCom_icons_close.png';
 
 export interface HeliumCardHeaderViewProps extends ParentProps
 {
@@ -12,11 +12,13 @@ export interface HeliumCardHeaderViewProps extends ParentProps
 }
 
 /**
- * HeliumCardHeaderView - Standard window header (Nitro-style).
+ * HeliumCardHeaderView - Standard window header.
  *
  * Uses `drag-handler` class for HeliumCardView to detect as drag handle.
+ * Close button uses Flash close icon asset.
  *
- * @see source_nitro_react/common/card/NitroCardHeaderView.tsx
+ * @see source_as_win63/core/window/components/HeaderController.as
+ * @see habbo_window_layout_header_3_xml.bin
  */
 export function HeliumCardHeaderView(props: HeliumCardHeaderViewProps): JSX.Element
 {
@@ -26,26 +28,18 @@ export function HeliumCardHeaderView(props: HeliumCardHeaderViewProps): JSX.Elem
 	};
 
 	return (
-		<div
-			class={clsx(
-				'drag-handler container-fluid helium-card-header',
-				'd-flex justify-content-center align-items-center position-relative',
-				props.class
-			)}
-		>
-			<div class="d-flex w-100 justify-content-center">
-				<span class="helium-card-header-text">{props.title}</span>
-				{props.children}
-				<Show when={props.onClose}>
-					<div
-						class="d-flex justify-content-center align-items-center position-absolute end-2 helium-card-header-close"
-						onMouseDown={onMouseDown}
-						onClick={() => props.onClose?.()}
-					>
-						<FaSolidXmark class="w-12 h-12" />
-					</div>
-				</Show>
-			</div>
+		<div class={`drag-handler helium-card-header${props.class ? ' ' + props.class : ''}`}>
+			<span class="helium-card-header-text">{props.title}</span>
+			{props.children}
+			<Show when={props.onClose}>
+				<div
+					class="helium-card-header-close"
+					onMouseDown={onMouseDown}
+					onClick={() => props.onClose?.()}
+				>
+					<img src={closeIcon} alt="" />
+				</div>
+			</Show>
 		</div>
 	);
 }

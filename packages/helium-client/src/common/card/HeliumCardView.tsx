@@ -1,7 +1,6 @@
 import type {JSX, ParentProps} from 'solid-js';
 import {createSignal, onCleanup, onMount} from 'solid-js';
 import {Portal} from 'solid-js/web';
-import clsx from 'clsx';
 import {useDraggable} from '@ui/hooks';
 import {WindowManager} from './WindowManager';
 
@@ -21,13 +20,13 @@ export interface HeliumCardViewProps extends ParentProps
  * Uses WindowManager for z-index stacking.
  * Children with class `drag-handler` are used as drag handles.
  *
- * @see source_nitro_react/common/card/NitroCardView.tsx
+ * @see source_as_win63/core/window/components/FrameController.as
+ * @see habbo_window_layout_frame_3_xml.bin
  */
 export function HeliumCardView(props: HeliumCardViewProps): JSX.Element
 {
 	const w = () => props.width ?? 480;
 	const h = () => props.height ?? 500;
-	const theme = () => props.theme ?? 'primary';
 
 	const [zIndex, setZIndex] = createSignal(0);
 
@@ -83,14 +82,7 @@ export function HeliumCardView(props: HeliumCardViewProps): JSX.Element
 						}
 					});
 				}}
-				class={clsx(
-					'helium-card',
-					'd-flex flex-column',
-					'rounded shadow overflow-hidden',
-					`theme-${theme()}`,
-					draggable.isDragging() && 'no-select',
-					props.class
-				)}
+				class={`helium-card${draggable.isDragging() ? ' no-select' : ''}${props.class ? ' ' + props.class : ''}`}
 				style={{
 					position: 'fixed',
 					width: `${w()}px`,

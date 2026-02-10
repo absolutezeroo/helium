@@ -6,6 +6,9 @@
 // Foundation
 @use 'reset';
 @use 'utilities';
+@use 'fonts';
 
 // Components
-@use 'components/navigator/index';
+@use 'components/common/index' as common;
+@use 'components/navigator/index' as navigator;
+@use 'components/toolbar/index' as toolbar;

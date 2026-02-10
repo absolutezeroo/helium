@@ -1,0 +1,46 @@
+// ============================================================
+// Ubuntu Font Family
+// Variants: Regular, Bold, Italic, Bold-Italic, Medium, Condensed
+// ============================================================
+
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('@/assets/webfonts/Ubuntu.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('@/assets/webfonts/Ubuntu-b.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('@/assets/webfonts/Ubuntu-i.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('@/assets/webfonts/Ubuntu-ib.ttf') format('truetype');
+    font-weight: 700;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('@/assets/webfonts/Ubuntu-m.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Ubuntu Condensed';
+    src: url('@/assets/webfonts/Ubuntu-C.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}

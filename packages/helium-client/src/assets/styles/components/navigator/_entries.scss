@@ -117,6 +117,8 @@
 // =======================
 // TILE ENTRY
 // =======================
+// Flash tiles have NO visible outer border - the black thumbnail
+// background creates the visual boundary. No border-radius either.
 .navigator-tile {
     width: $nav-tile-width;
     height: $nav-tile-height;
@@ -124,12 +126,10 @@
     cursor: pointer;
     user-select: none;
     background-color: $bg-tile;
-    border: 1px solid color.adjust($bg-tile, $lightness: -8%);
-    border-radius: 2px;
     overflow: hidden;
 
     &:hover {
-        border-color: $accent-blue;
+        background-color: color.adjust($bg-tile, $lightness: -4%);
     }
 
     // Thumbnail area

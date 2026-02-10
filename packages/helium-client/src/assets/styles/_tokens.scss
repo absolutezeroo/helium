@@ -114,3 +114,16 @@ $nav-doorbell-height: 182px;
 // Password
 $nav-password-width: 237px;
 $nav-password-height: 217px;
+
+// ============================================================
+// Frame / Window (Ubuntu style 3)
+// Source: habbo_skin_frame_3_xml.bin, habbo_window_layout_frame_3_xml.bin
+// ============================================================
+$frame-border-radius: 10px; // 10px corners from 9-slice
+$frame-header-height: 33px; // header container height (layout: y=6 + h=27)
+$frame-side-border: 3px; // content x=3 from frame edge
+$frame-shadow: 3px 3px 6px rgba(0, 0, 0, 0.35); // DropShadowFilter distance=4, alpha=0.35
+$frame-close-width: 19px; // close button (style 3)
+$frame-close-height: 20px;
+$frame-tab-height: 32px; // tab button height (style 3)
+$frame-tab-radius: 9px; // tab top corner radius
