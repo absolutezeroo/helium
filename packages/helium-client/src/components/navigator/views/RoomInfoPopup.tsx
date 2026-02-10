@@ -4,20 +4,19 @@ import type {GuestRoomData} from '@habbo/communication/messages/incoming/navigat
 import {RoomDoorMode} from '@habbo/communication/messages/incoming/navigator/GuestRoomData';
 import {useNavigator} from '@ui/hooks/navigator/useNavigator';
 import {useLocalization} from '@ui/common';
-import {getUserCounterColor, getDoorModeAsset} from './search/results/roomEntryUtils';
+import {getDoorModeAsset, getUserCounterColor} from './search/results/roomEntryUtils';
 
-import userCountIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_icon_usercount.png';
-import groupIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_icon_group.png';
-import eventIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_event_icon.png';
-import defaultRoomThumb from '@/assets/images/HabboWindowManagerCom_newnavigator_default_room.png';
-import homeYesIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_icon_home_yes.png';
-import homeNoIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_icon_home_no.png';
-import favYesIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_icon_fav_yes.png';
-import favNoIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_icon_fav_no.png';
-import settingsIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_room_settings_icon.png';
-import reportIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_report_room.png';
-import ratingStarOn from '@/assets/images/HabboWindowManagerCom_newnavigator_rating_star_on.png';
-import ratingStarOff from '@/assets/images/HabboWindowManagerCom_newnavigator_rating_star_off.png';
+import userCountIcon from '@/assets/images/newnavigator_icon_usercount.png';
+import groupIcon from '@/assets/images/newnavigator_icon_group.png';
+import eventIcon from '@/assets/images/newnavigator_event_icon.png';
+import defaultRoomThumb from '@/assets/images/newnavigator_default_room.png';
+import homeYesIcon from '@/assets/images/newnavigator_icon_home_yes.png';
+import homeNoIcon from '@/assets/images/newnavigator_icon_home_no.png';
+import favNoIcon from '@/assets/images/newnavigator_icon_fav_no.png';
+import settingsIcon from '@/assets/images/newnavigator_room_settings_icon.png';
+import reportIcon from '@/assets/images/newnavigator_report_room.png';
+import ratingStarOn from '@/assets/images/newnavigator_rating_star_on.png';
+import ratingStarOff from '@/assets/images/newnavigator_rating_star_off.png';
 
 export interface RoomInfoPopupProps
 {

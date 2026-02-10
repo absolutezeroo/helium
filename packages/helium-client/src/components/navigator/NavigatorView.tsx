@@ -11,12 +11,12 @@ import {RoomCreatorView} from './views/RoomCreatorView';
 import {NavigatorRoomInfoView} from './views/NavigatorRoomInfoView';
 import {RoomLinkView} from './views/RoomLinkView';
 
-import backIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_button_back.png';
-import createRoomIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_create_room.png';
-import randomRoomIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_random_room.png';
-import quickLinkAddIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_button_quicklink_add.png';
-import leftPaneHideIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_button_leftpane_hide.png';
-import leftPaneShowIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_button_leftpane_show.png';
+import backIcon from '@/assets/images/newnavigator_button_back.png';
+import createRoomIcon from '@/assets/images/newnavigator_create_room.png';
+import randomRoomIcon from '@/assets/images/newnavigator_random_room.png';
+import quickLinkAddIcon from '@/assets/images/newnavigator_button_quicklink_add.png';
+import leftPaneHideIcon from '@/assets/images/newnavigator_button_leftpane_hide.png';
+import leftPaneShowIcon from '@/assets/images/newnavigator_button_leftpane_show.png';
 
 /**
  * NavigatorView - Main navigator window container.

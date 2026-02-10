@@ -1,8 +1,8 @@
 import {RoomDoorMode} from '@habbo/communication/messages/incoming/navigator/GuestRoomData';
 
-import doorbellIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_doormode_doorbell_small.png';
-import passwordIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_doormode_password_small.png';
-import invisibleIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_doormode_invisible_small.png';
+import doorbellIcon from '@/assets/images/newnavigator_doormode_doorbell_small.png';
+import passwordIcon from '@/assets/images/newnavigator_doormode_password_small.png';
+import invisibleIcon from '@/assets/images/newnavigator_doormode_invisible_small.png';
 
 /**
  * Room entry utility functions

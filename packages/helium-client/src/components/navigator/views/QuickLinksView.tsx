@@ -3,7 +3,7 @@ import {createSignal, For, Show} from 'solid-js';
 import {useNavigator} from '@ui/hooks/navigator/useNavigator';
 import {useLocalization} from '@ui/common';
 
-import qlRemoveIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_icon_ql_remove.png';
+import qlRemoveIcon from '@/assets/images/newnavigator_icon_ql_remove.png';
 
 /**
  * QuickLinksView - Saved searches (quick links) panel.

@@ -1,7 +1,7 @@
 import type {JSX, ParentProps} from 'solid-js';
 import {Show} from 'solid-js';
 
-import closeIcon from '@/assets/images/HabboWindowManagerCom_icons_close.png';
+import closeIcon from '@/assets/images/icons_close.png';
 
 export interface HeliumCardHeaderViewProps extends ParentProps
 {

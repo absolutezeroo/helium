@@ -2,14 +2,14 @@ import type {JSX} from 'solid-js';
 import {createSignal, Show} from 'solid-js';
 import type {GuestRoomData} from '@habbo/communication/messages/incoming/navigator/GuestRoomData';
 import {RoomDoorMode} from '@habbo/communication/messages/incoming/navigator/GuestRoomData';
-import {useNavigator, DoorStateType} from '@ui/hooks/navigator/useNavigator';
+import {DoorStateType, useNavigator} from '@ui/hooks/navigator/useNavigator';
 import {sessionStore} from '@ui/stores/sessionStore';
-import {getUserCounterColor, getDoorModeAsset} from './roomEntryUtils';
+import {getDoorModeAsset, getUserCounterColor} from './roomEntryUtils';
 import {RoomInfoPopup} from '../../RoomInfoPopup';
 
-import userCountIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_icon_usercount.png';
-import infoIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_button_show_room_info.png';
-import groupIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_icon_group.png';
+import userCountIcon from '@/assets/images/newnavigator_icon_usercount.png';
+import infoIcon from '@/assets/images/newnavigator_button_show_room_info.png';
+import groupIcon from '@/assets/images/newnavigator_icon_group.png';
 
 export interface RoomEntryRowProps
 {

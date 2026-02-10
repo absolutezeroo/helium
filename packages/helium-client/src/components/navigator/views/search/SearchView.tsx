@@ -3,9 +3,9 @@ import {createEffect, createSignal, For, Show} from 'solid-js';
 import {useNavigator} from '@ui/hooks/navigator/useNavigator';
 import {useLocalization} from '@ui/common';
 
-import penIcon from '@/assets/images/HabboWindowManagerCom_common_small_pen.png';
-import closeIcon from '@/assets/images/HabboWindowManagerCom_icons_close.png';
-import refreshIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_refresh_search_icon.png';
+import penIcon from '@/assets/images/common_small_pen.png';
+import closeIcon from '@/assets/images/icons_close.png';
+import refreshIcon from '@/assets/images/newnavigator_refresh_search_icon.png';
 
 /**
  * Search filter options

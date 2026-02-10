@@ -5,14 +5,14 @@ import {inventoryStore} from '@ui/stores/inventoryStore';
 import {roomStore} from '@ui/stores/roomStore';
 import {ToolbarMeView} from './ToolbarMeView';
 
-import logoIcon from '@/assets/images/HabboWindowManagerCom_bottom_bar_logo.png';
-import homeIcon from '@/assets/images/HabboWindowManagerCom_bottom_bar_home.png';
-import navigatorIcon from '@/assets/images/HabboWindowManagerCom_bottom_bar_navigator.png';
-import shopIcon from '@/assets/images/HabboWindowManagerCom_bottom_bar_shop.png';
-import inventoryIcon from '@/assets/images/HabboWindowManagerCom_bottom_bar_inventory.png';
-import cameraIcon from '@/assets/images/HabboWindowManagerCom_bottom_bar_camera.png';
-import dividerIcon from '@/assets/images/HabboWindowManagerCom_bottom_bar_divider_1px.png';
-import meMenuPlaceholder from '@/assets/images/HabboWindowManagerCom_icons_toolbar_me_menu_placeholder.png';
+import logoIcon from '@/assets/images/bottom_bar_logo.png';
+import homeIcon from '@/assets/images/bottom_bar_home.png';
+import navigatorIcon from '@/assets/images/bottom_bar_navigator.png';
+import shopIcon from '@/assets/images/bottom_bar_shop.png';
+import inventoryIcon from '@/assets/images/bottom_bar_inventory.png';
+import cameraIcon from '@/assets/images/bottom_bar_camera.png';
+import dividerIcon from '@/assets/images/bottom_bar_divider_1px.png';
+import meMenuPlaceholder from '@/assets/images/icons_toolbar_me_menu_placeholder.png';
 
 /**
  * Toolbar - Bottom bar with navigation icons.

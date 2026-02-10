@@ -1,17 +1,17 @@
 import type {JSX, Setter} from 'solid-js';
-import {onMount, onCleanup} from 'solid-js';
+import {onCleanup, onMount} from 'solid-js';
 import {useLocalization} from '@ui/common';
 
-import achievementsColor from '@/assets/images/HabboWindowManagerCom_toolbar_memenu_achievements_color.png';
-import achievementsWhite from '@/assets/images/HabboWindowManagerCom_toolbar_memenu_achievements_white.png';
-import profileColor from '@/assets/images/HabboWindowManagerCom_toolbar_memenu_profile_color.png';
-import profileWhite from '@/assets/images/HabboWindowManagerCom_toolbar_memenu_profile_white.png';
-import roomsColor from '@/assets/images/HabboWindowManagerCom_toolbar_memenu_rooms_color.png';
-import roomsWhite from '@/assets/images/HabboWindowManagerCom_toolbar_memenu_rooms_white.png';
-import clothesColor from '@/assets/images/HabboWindowManagerCom_toolbar_memenu_clothes_color.png';
-import clothesWhite from '@/assets/images/HabboWindowManagerCom_toolbar_memenu_clothes_white.png';
-import settingsColor from '@/assets/images/HabboWindowManagerCom_toolbar_memenu_settings_color.png';
-import settingsWhite from '@/assets/images/HabboWindowManagerCom_toolbar_memenu_settings_white.png';
+import achievementsColor from '@/assets/images/toolbar_memenu_achievements_color.png';
+import achievementsWhite from '@/assets/images/toolbar_memenu_achievements_white.png';
+import profileColor from '@/assets/images/toolbar_memenu_profile_color.png';
+import profileWhite from '@/assets/images/toolbar_memenu_profile_white.png';
+import roomsColor from '@/assets/images/toolbar_memenu_rooms_color.png';
+import roomsWhite from '@/assets/images/toolbar_memenu_rooms_white.png';
+import clothesColor from '@/assets/images/toolbar_memenu_clothes_color.png';
+import clothesWhite from '@/assets/images/toolbar_memenu_clothes_white.png';
+import settingsColor from '@/assets/images/toolbar_memenu_settings_color.png';
+import settingsWhite from '@/assets/images/toolbar_memenu_settings_white.png';
 
 interface ToolbarMeViewProps
 {

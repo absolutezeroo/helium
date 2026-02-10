@@ -1,6 +1,8 @@
 import type {JSX} from 'solid-js';
-import {createSignal, createEffect, For, Show} from 'solid-js';
-import type {NavigatorSearchResultBlock} from '@habbo/communication/messages/incoming/newnavigator/NavigatorSearchResultBlock';
+import {createEffect, createSignal, For, Show} from 'solid-js';
+import type {
+	NavigatorSearchResultBlock
+} from '@habbo/communication/messages/incoming/newnavigator/NavigatorSearchResultBlock';
 import {NavigatorSearchAction} from '@habbo/communication/messages/incoming/newnavigator/NavigatorSearchResultBlock';
 import {ResultsModeEnum} from '@habbo/navigator/view/ResultsModeEnum';
 import {useNavigator} from '@ui/hooks/navigator/useNavigator';
@@ -8,13 +10,13 @@ import {useLocalization} from '@ui/common';
 import {RoomEntryRow} from './RoomEntryRow';
 import {RoomEntryTile} from './RoomEntryTile';
 
-import collapseIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_button_category_collapse.png';
-import expandIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_button_category_expand.png';
-import viewRowIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_nav_view_row.png';
-import viewThumbsIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_nav_view_thumbs.png';
-import showMoreIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_button_category_show_more.png';
-import quickLinkAddIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_button_quicklink_add.png';
-import backIcon from '@/assets/images/HabboWindowManagerCom_newnavigator_button_back.png';
+import collapseIcon from '@/assets/images/newnavigator_button_category_collapse.png';
+import expandIcon from '@/assets/images/newnavigator_button_category_expand.png';
+import viewRowIcon from '@/assets/images/newnavigator_nav_view_row.png';
+import viewThumbsIcon from '@/assets/images/newnavigator_nav_view_thumbs.png';
+import showMoreIcon from '@/assets/images/newnavigator_button_category_show_more.png';
+import quickLinkAddIcon from '@/assets/images/newnavigator_button_quicklink_add.png';
+import backIcon from '@/assets/images/newnavigator_button_back.png';
 
 export interface BlockResultsViewProps
 {
