@@ -18,6 +18,7 @@ import {RoomPlaneData} from '@habbo/room/object/RoomPlaneData';
 import {RoomObjectVariableEnum} from '@habbo/room/object/RoomObjectVariableEnum';
 import type {RoomPlaneParser} from '@habbo/room/object/RoomPlaneParser';
 import {RoomVisualizationData} from './RoomVisualizationData';
+import {RoomPlaneBitmapMaskParser} from '@habbo/room/object/RoomPlaneBitmapMaskParser';
 import {Logger} from "@core";
 
 const log = Logger.getLogger('RoomVisualization');
@@ -71,6 +72,9 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 	private _geometryDirZ: number = 0;
 	private _geometryScale: number = 0;
 
+	private _maskParser: RoomPlaneBitmapMaskParser;
+	private _maskXml: string | null = null;
+
 	private _visualizationData: RoomVisualizationData | null = null;
 
 	private _planeContainer: Container;
@@ -84,6 +88,7 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 		this._planeTypeVisibility[RoomPlane.TYPE_FLOOR] = true;
 		this._planeTypeVisibility[RoomPlane.TYPE_LANDSCAPE] = true;
 
+		this._maskParser = new RoomPlaneBitmapMaskParser();
 		this._planeContainer = new Container();
 		this._planeContainer.label = 'RoomVisualization_Planes';
 		this._planeContainer.sortableChildren = true;
@@ -113,6 +118,7 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 		this._visiblePlanes = [];
 		this._visiblePlaneSpriteNumbers = [];
 
+		this._maskParser.dispose();
 		this._planeContainer.destroy({children: true});
 
 		super.dispose();
@@ -720,6 +726,17 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 
 		if (this._updateModelCounter !== model.getUpdateID())
 		{
+			// Check mask XML changes
+			const maskXml = model.getString(RoomObjectVariableEnum.ROOM_PLANE_MASK_XML) as string | null;
+
+			if (maskXml && maskXml !== this._maskXml)
+			{
+				this.updatePlaneMasks(maskXml);
+				this._maskXml = maskXml;
+				changed = true;
+			}
+
+			// Check background color changes
 			const bgColor = model.getNumber(RoomObjectVariableEnum.ROOM_BACKGROUND_COLOR);
 
 			if (!isNaN(bgColor) && bgColor !== this._backgroundColor)
@@ -733,6 +750,112 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 		}
 
 		return changed;
+	}
+
+	/**
+	 * Apply bitmap masks to planes from parsed mask XML.
+	 * Based on AS3 RoomVisualization.updatePlaneMasks() lines 466-547
+	 *
+	 * For each mask, finds matching wall/landscape planes via scalar projection
+	 * and adds bitmap masks to them.
+	 */
+	private updatePlaneMasks(xmlString: string): void
+	{
+		if (!xmlString) return;
+
+		this._maskParser.initialize(xmlString);
+
+		const landscapePlaneIndices: number[] = [];
+		const activeLandscapePlanes: number[] = [];
+		let visibilityChanged = false;
+
+		// Reset all bitmap masks and track landscape planes
+		for (let i = 0; i < this._planes.length; i++)
+		{
+			const plane = this._planes[i];
+
+			if (plane)
+			{
+				plane.resetBitmapMasks();
+
+				if (plane.type === RoomPlane.TYPE_LANDSCAPE)
+				{
+					landscapePlaneIndices.push(i);
+				}
+			}
+		}
+
+		// Apply masks to matching planes
+		for (let maskIdx = 0; maskIdx < this._maskParser.maskCount; maskIdx++)
+		{
+			const maskType = this._maskParser.getMaskType(maskIdx);
+			const maskLoc = this._maskParser.getMaskLocation(maskIdx);
+			const maskCategory = this._maskParser.getMaskCategory(maskIdx);
+
+			if (!maskLoc) continue;
+
+			for (let planeIdx = 0; planeIdx < this._planes.length; planeIdx++)
+			{
+				const plane = this._planes[planeIdx];
+
+				if (plane.type !== RoomPlane.TYPE_WALL && plane.type !== RoomPlane.TYPE_LANDSCAPE) continue;
+
+				const loc = plane.location as Vector3d;
+				const normal = plane.normal as Vector3d;
+				const diff = Vector3d.dif(maskLoc, loc);
+
+				if (!diff) continue;
+
+				// Check if mask position is ON the plane surface
+				const normalDist = Math.abs(Vector3d.scalarProjection(diff, normal));
+
+				if (normalDist < 0.01)
+				{
+					const leftSideLoc = Vector3d.scalarProjection(diff, plane.leftSide as Vector3d);
+					const rightSideLoc = Vector3d.scalarProjection(diff, plane.rightSide as Vector3d);
+
+					if (plane.type === RoomPlane.TYPE_WALL || (plane.type === RoomPlane.TYPE_LANDSCAPE && maskCategory === 'hole'))
+					{
+						if (maskType)
+						{
+							plane.addBitmapMask(maskType, leftSideLoc, rightSideLoc);
+						}
+					}
+					else if (plane.type === RoomPlane.TYPE_LANDSCAPE)
+					{
+						if (!plane.canBeVisible)
+						{
+							visibilityChanged = true;
+						}
+
+						plane.canBeVisible = true;
+						activeLandscapePlanes.push(planeIdx);
+					}
+				}
+			}
+		}
+
+		// Hide landscape planes that don't have any active masks
+		for (const idx of landscapePlaneIndices)
+		{
+			if (!activeLandscapePlanes.includes(idx))
+			{
+				const plane = this._planes[idx];
+
+				if (plane.canBeVisible)
+				{
+					plane.canBeVisible = false;
+					visibilityChanged = true;
+				}
+			}
+		}
+
+		// Reset visible plane cache if visibility changed
+		if (visibilityChanged)
+		{
+			this._visiblePlanes = [];
+			this._visiblePlaneSpriteNumbers = [];
+		}
 	}
 
 	private updateSprite(sprite: IRoomObjectSprite, plane: RoomPlane, name: string, depth: number): void

@@ -12,7 +12,7 @@ import {Vector3d} from '@room/utils/Vector3d';
 export class RoomObjectRoomMaskUpdateMessage extends RoomObjectUpdateMessage
 {
 	public static readonly ADD_MASK = 'RORMUM_ADD_MASK';
-	public static readonly REMOVE_MASK = 'RORMUM_ADD_MASK';
+	public static readonly REMOVE_MASK = 'RORMUM_REMOVE_MASK';
 	public static readonly MASK_TYPE_DOOR = 'door';
 	public static readonly MASK_CATEGORY_WINDOW = 'window';
 	public static readonly MASK_CATEGORY_HOLE = 'hole';

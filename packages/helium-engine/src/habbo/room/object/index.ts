@@ -13,6 +13,8 @@ export {
 } from './RoomObjectUserTypes';
 export {RoomObjectVariableEnum} from './RoomObjectVariableEnum';
 export {RoomPlaneData} from './RoomPlaneData';
+export {RoomPlaneBitmapMaskData} from './RoomPlaneBitmapMaskData';
+export {RoomPlaneBitmapMaskParser} from './RoomPlaneBitmapMaskParser';
 export {RoomPlaneMaskData} from './RoomPlaneMaskData';
 export {RoomPlaneParser} from './RoomPlaneParser';
 export {RoomWallData} from './RoomWallData';

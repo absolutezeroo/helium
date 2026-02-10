@@ -124,6 +124,7 @@ import type {RoomEntryTileMessageParser} from '../communication/messages/parser/
 
 // Room Object
 import {RoomPlaneParser} from './object/RoomPlaneParser';
+import {LegacyWallGeometry} from './utils/LegacyWallGeometry';
 import {Logger} from "@core";
 import {IRoomMessageHandler} from "@habbo/room/IRoomMessageHandler";
 
@@ -141,12 +142,14 @@ export class RoomMessageHandler implements IRoomMessageHandler
 	private _ownUserId: number = -1;
 	private _initialConnection: boolean = true;
 	private _planeParser: RoomPlaneParser;
+	private _legacyWallGeometry: LegacyWallGeometry;
 	private _entryTileEvent: RoomEntryTileMessageEvent | null = null;
 
 	constructor(roomCreator: IRoomCreator)
 	{
 		this._roomCreator = roomCreator;
 		this._planeParser = new RoomPlaneParser();
+		this._legacyWallGeometry = new LegacyWallGeometry();
 	}
 
 	private _connection: IConnection | null = null;
@@ -440,6 +443,17 @@ export class RoomMessageHandler implements IRoomMessageHandler
 		}
 
 		const doorFound = doorX >= 0 && doorY >= 0;
+
+		// Initialize legacy wall geometry with height data for wall item positioning
+		this._legacyWallGeometry.initialize(width, height, parser.fixedWallsHeight);
+
+		for (let y = 0; y < height; y++)
+		{
+			for (let x = 0; x < width; x++)
+			{
+				this._legacyWallGeometry.setTileHeight(x, y, parser.getTileHeight(x, y));
+			}
+		}
 
 		// Set door tile height BEFORE initializeFromTileData (AS3 line 598)
 		const doorTileX = Math.floor(doorX);
@@ -743,12 +757,19 @@ export class RoomMessageHandler implements IRoomMessageHandler
 
 		if (data !== null)
 		{
-			// TODO: Calculate location from wall coordinates
+			// Convert wall coordinates to 3D world position using LegacyWallGeometry
+			const location = this._legacyWallGeometry.getLocation(
+				data.wallX, data.wallY, data.localX, data.localY, data.dir
+			);
+			const direction = new Vector3d(
+				this._legacyWallGeometry.getDirection(data.dir)
+			);
+
 			this._roomCreator.updateObjectWallItem(
 				this._currentRoomId,
 				data.id,
-				null, // location (needs legacy geometry)
-				null, // direction
+				location,
+				direction,
 				data.state,
 				data.data
 			);
@@ -1008,9 +1029,13 @@ export class RoomMessageHandler implements IRoomMessageHandler
 			return;
 		}
 
-		// TODO: Calculate proper location from wall coordinates using legacy geometry
-		const location: IVector3d = new Vector3d(data.wallX, data.wallY, 0);
-		const direction: IVector3d = new Vector3d(data.dir === 'r' ? 90 : 0);
+		// Convert wall coordinates to 3D world position using LegacyWallGeometry
+		const location = this._legacyWallGeometry.getLocation(
+			data.wallX, data.wallY, data.localX, data.localY, data.dir
+		);
+		const direction: IVector3d = new Vector3d(
+			this._legacyWallGeometry.getDirection(data.dir)
+		);
 
 		this._roomCreator.addObjectWallItem(
 			roomId,

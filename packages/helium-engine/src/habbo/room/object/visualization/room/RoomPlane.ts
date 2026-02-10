@@ -618,29 +618,32 @@ export class RoomPlane
 		ctx.drawImage(textureBitmap, 0, 0);
 		ctx.setTransform(1, 0, 0, 1, 0, 0);
 
-		// Apply rectangle mask cutouts (door holes) on the textured canvas
-		if (this._rectangleMasks.length > 0)
+		// Apply mask cutouts (door/window holes) on the textured canvas
+		if (this._rectangleMasks.length > 0 || this._bitmapMasks.length > 0)
 		{
 			ctx.globalCompositeOperation = 'destination-out';
 			const leftLen = this._leftSide.length;
 			const rightLen = this._rightSide.length;
 
+			// Rectangle masks (door openings)
 			for (const mask of this._rectangleMasks)
 			{
 				const maskPoints = this.getRectMaskScreenPoints(mask, leftLen, rightLen);
 
 				if (maskPoints !== null)
 				{
-					ctx.beginPath();
-					ctx.moveTo(maskPoints[0], maskPoints[1]);
+					this.drawMaskPoly(ctx, maskPoints);
+				}
+			}
 
-					for (let j = 2; j < maskPoints.length; j += 2)
-					{
-						ctx.lineTo(maskPoints[j], maskPoints[j + 1]);
-					}
+			// Bitmap masks (doors, windows via mask parser)
+			for (const mask of this._bitmapMasks)
+			{
+				const maskPoints = this.getMaskHolePoints(mask, leftLen, rightLen);
 
-					ctx.closePath();
-					ctx.fill();
+				if (maskPoints !== null)
+				{
+					this.drawMaskPoly(ctx, maskPoints);
 				}
 			}
 
@@ -859,5 +862,22 @@ export class RoomPlane
 			this._cornerA.x + u1 * dxL + v1 * dxR, this._cornerA.y + u1 * dyL + v1 * dyR,
 			this._cornerA.x + u0 * dxL + v1 * dxR, this._cornerA.y + u0 * dyL + v1 * dyR
 		];
+	}
+
+	/**
+	 * Helper: draw a polygon cutout on a canvas context.
+	 */
+	private drawMaskPoly(ctx: CanvasRenderingContext2D, points: number[]): void
+	{
+		ctx.beginPath();
+		ctx.moveTo(points[0], points[1]);
+
+		for (let j = 2; j < points.length; j += 2)
+		{
+			ctx.lineTo(points[j], points[j + 1]);
+		}
+
+		ctx.closePath();
+		ctx.fill();
 	}
 }
