@@ -532,7 +532,7 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 
 		if (textures && assetDefs)
 		{
-			collection.defineFromSpritesheet(textures, assetDefs);
+			collection.defineFromSpritesheet(textures, assetDefs, type);
 		}
 		else if (textures)
 		{
@@ -545,8 +545,9 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 
 		this._assetCollections.set(type, collection);
 
-		// Create FurnitureVisualizationData from bundle visualization section
-		const vizSection = (jsonData as Record<string, unknown>).visualization as Record<string, unknown> | undefined;
+		// Create FurnitureVisualizationData from bundle JSON
+		// Nitro bundle format: visualizations[] array is at the TOP LEVEL of jsonData,
+		// and the furniture name is in jsonData.name (not inside a nested visualization object)
 		let vizData: FurnitureVisualizationData;
 
 		if (RoomContentLoader.ANIMATED_VIZ_TYPES.has(vizType))
@@ -558,10 +559,8 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 			vizData = new FurnitureVisualizationData();
 		}
 
-		if (vizSection)
-		{
-			vizData.initialize(vizSection);
-		}
+		// Pass the whole jsonData — it has 'name' and 'visualizations' at the top level
+		vizData.initialize(jsonData);
 
 		this._visualizationDataMap.set(type, vizData);
 
@@ -569,8 +568,7 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 		this._loadedTypes.set(type, true);
 		this._loadingTypes.delete(type);
 
-		const textureCount = textures ? textures.size : 0;
-		log.debug(`Loaded ${type}: vizType=${vizType}, logicType=${logicType}, ${textureCount} textures`);
+		log.debug(`Loaded ${type}: vizType=${vizType}, logicType=${logicType}`);
 
 		// Emit ready event
 		events.emit(RoomContentLoader.CONTENT_LOADER_READY, type);

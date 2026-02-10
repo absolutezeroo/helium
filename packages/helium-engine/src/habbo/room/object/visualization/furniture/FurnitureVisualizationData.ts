@@ -76,8 +76,10 @@ export class FurnitureVisualizationData implements IRoomObjectVisualizationData
 		}
 
 		const vizData = data as Record<string, unknown>;
-		
-		const type = vizData['type'] as string;
+
+		// Nitro bundle: 'name' = specific furniture name (e.g. "table_silo_med"),
+		// 'type' = generic category (e.g. "furniture"). Use 'name' first.
+		const type = (vizData['name'] as string) || (vizData['type'] as string);
 
 		if (!type || type.length === 0)
 		{

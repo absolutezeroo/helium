@@ -210,18 +210,8 @@ export class FurnitureVisualization extends RoomObjectSpriteVisualization
 			this.updateSprites(scale, fullUpdate, animationUpdate);
 			this._scale = scale;
 			this.increaseUpdateId();
-
-			// Debug: log once on first successful update
-			if (this._debugLogOnce)
-			{
-				this._debugLogOnce = false;
-				console.log(`[FurnitureViz] ${this._type}: scale=${scale}, dir=${this._direction}, layers=${this._layerCount}, sprites=${this.spriteCount}`);
-			}
 		}
 	}
-
-	private _debugLogOnce: boolean = true;
-	private _debugAssetLog: boolean = true;
 
 	protected updateSprites(scale: number, fullUpdate: boolean, animatedLayers: number): void
 	{
@@ -273,13 +263,6 @@ export class FurnitureVisualization extends RoomObjectSpriteVisualization
 		}
 
 		const asset = this.getAsset(assetName, layerIndex);
-
-		// Debug: log asset lookup result once per type
-		if (this._debugAssetLog)
-		{
-			this._debugAssetLog = false;
-			console.log(`[FurnitureViz] ${this._type} updateSprite: layer=${layerIndex}, assetName="${assetName}", found=${asset !== null}, hasTexture=${asset?.texture !== null}`);
-		}
 
 		if (asset !== null && asset.texture !== null)
 		{

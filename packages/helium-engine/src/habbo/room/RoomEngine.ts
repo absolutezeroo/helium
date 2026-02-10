@@ -2085,8 +2085,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 
 		if (vizData)
 		{
-			const initResult = spriteVisualization.initialize(vizData);
-			log.debug(`[createVisualizationForFurniture] ${className} (id=${objectId}): vizType=${vizType}, initResult=${initResult}, assetCollection=${!!assetCollection}`);
+			spriteVisualization.initialize(vizData);
 		}
 
 		// Assign the room object

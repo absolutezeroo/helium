@@ -1,4 +1,4 @@
-import {createEffect, createSignal, JSX, onMount, Show} from 'solid-js';
+import {createEffect, createSignal, JSX, onCleanup, onMount, Show} from 'solid-js';
 import type {IHeliumConfig} from 'helium-engine';
 import {Helium, IConnectionConfig} from 'helium-engine';
 import {HabboCommunicationEvent} from '@habbo/communication/enum';
@@ -85,6 +85,9 @@ export function App(): JSX.Element
 		}
 	});
 
+	// Pixel rendering
+	const resize = () => setImageRendering(!(window.devicePixelRatio % 1));
+
 	onMount(async () =>
 	{
 		// Bootstrap engine (without autoConnect - stores must be wired first)
@@ -102,12 +105,15 @@ export function App(): JSX.Element
 			helium.connect();
 		}
 
-		// Pixel rendering
-		const resize = () => setImageRendering(!(window.devicePixelRatio % 1));
-
 		window.addEventListener('resize', resize);
-
 		resize();
+	});
+
+	// Cleanup must be at the synchronous component level for SolidJS to track it
+	onCleanup(() =>
+	{
+		window.removeEventListener('resize', resize);
+		Helium.instance.dispose();
 	});
 
 

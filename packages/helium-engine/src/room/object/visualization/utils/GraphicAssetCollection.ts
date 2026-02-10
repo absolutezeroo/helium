@@ -16,6 +16,7 @@ export class GraphicAssetCollection implements IGraphicAssetCollection
 {
 	private static readonly PALETTE_ASSET_DISPOSE_THRESHOLD: number = 10;
 
+	private _name: string = '';
 	private _assets: Map<string, GraphicAsset> = new Map();
 	private _palettes: Map<string, GraphicAssetPalette> = new Map();
 	private _paletteAssetNames: string[] = [];
@@ -263,12 +264,19 @@ export class GraphicAssetCollection implements IGraphicAssetCollection
 
 	/**
 	 * Define assets from Nitro JSON spritesheet data and register textures.
+	 *
+	 * @param textures Textures from spritesheet (keys prefixed with libraryName)
+	 * @param assetData Asset definitions from bundle JSON
+	 * @param libraryName The library/collection name used to prefix texture lookups
 	 */
 	defineFromSpritesheet(
 		textures: Map<string, Texture>,
-		assetData: Record<string, Record<string, unknown>>
+		assetData: Record<string, Record<string, unknown>>,
+		libraryName: string = ''
 	): void
 	{
+		this._name = libraryName;
+
 		for (const [name, texture] of textures)
 		{
 			this._textures.set(name, texture);
@@ -302,7 +310,18 @@ export class GraphicAssetCollection implements IGraphicAssetCollection
 				source = name;
 			}
 
-			const texture = this._textures.get(source) || null;
+			// Nitro bundle spritesheet frames are prefixed with the library name:
+			// e.g., frame = "table_silo_med_table_silo_med_64_a_0_0"
+			// while asset source = "table_silo_med_64_a_0_0"
+			// So we prepend the library name when looking up textures.
+			let textureName = source;
+
+			if (this._name.length > 0)
+			{
+				textureName = this._name + '_' + source;
+			}
+
+			const texture = this._textures.get(textureName) || this._textures.get(source) || null;
 
 			if (texture !== null)
 			{

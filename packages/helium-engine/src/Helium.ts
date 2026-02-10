@@ -258,6 +258,12 @@ export class Helium implements IHelium
 	 */
 	async init(config?: IHeliumConfig): Promise<void>
 	{
+		if (this._ready)
+		{
+			log.warn('Already initialized');
+			return;
+		}
+
 		log.info('Initializing Helium...');
 
 		// 1. Create and init core
