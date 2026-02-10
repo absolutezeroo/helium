@@ -30,7 +30,7 @@ export interface SearchViewProps
  * SearchView - Search input with filter dropdown, clear/pen icon, and refresh button.
  *
  * No "Go" button — search is triggered by pressing Enter.
- * Refresh button only visible when input has real text.
+ * The refresh button is only visible when the input has real text.
  * Icon: pen when empty, close X when has text.
  *
  * @see source_as_win63/habbo/navigator/view/search/SearchView.as
@@ -78,7 +78,7 @@ export function SearchView(props: SearchViewProps): JSX.Element
 	};
 
 	/**
-	 * Clear the search input and reset icon to pen.
+	 * Clear the search input and reset the icon to pen.
 	 * @see SearchView.as onClearSearch
 	 */
 	const clearInput = () =>
@@ -128,6 +128,7 @@ export function SearchView(props: SearchViewProps): JSX.Element
 		{
 			setFilterIndex(0);
 			setInputText('');
+
 			return;
 		}
 
@@ -142,6 +143,7 @@ export function SearchView(props: SearchViewProps): JSX.Element
 			{
 				setFilterIndex(idx);
 				setInputText(data.substring(colonIdx + 1));
+
 				return;
 			}
 		}
