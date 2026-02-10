@@ -26,7 +26,7 @@ export class FurnitureVisualization extends RoomObjectSpriteVisualization
 	protected _shadowLayerIndex: number = -1;
 
 	private _lastUpdateTime: number = -1000;
-	private _direction: number = -1;
+	protected override _direction: number = -1;
 	private _geometryDirection: number = NaN;
 	private _selectedColor: number = -1;
 	private _adClickUrl: string | null = null;

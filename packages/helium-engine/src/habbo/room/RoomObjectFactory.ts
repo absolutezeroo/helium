@@ -36,6 +36,39 @@ import {RoomTileCursorLogic} from './object/logic/room/RoomTileCursorLogic';
 
 // Visualizations
 import {RoomVisualization} from './object/visualization/room/RoomVisualization';
+import {TileCursorVisualization} from './object/visualization/room/TileCursorVisualization';
+import {RoomObjectVisualizationEnum} from './object/RoomObjectVisualizationEnum';
+
+// Furniture Visualizations
+import {FurnitureVisualization} from './object/visualization/furniture/FurnitureVisualization';
+import {AnimatedFurnitureVisualization} from './object/visualization/furniture/AnimatedFurnitureVisualization';
+import {FurnitureResettingAnimatedVisualization} from './object/visualization/furniture/FurnitureResettingAnimatedVisualization';
+import {FurniturePosterVisualization} from './object/visualization/furniture/FurniturePosterVisualization';
+import {FurnitureStickieVisualization} from './object/visualization/furniture/FurnitureStickieVisualization';
+import {FurnitureBottleVisualization} from './object/visualization/furniture/FurnitureBottleVisualization';
+import {FurnitureHabboWheelVisualization} from './object/visualization/furniture/FurnitureHabboWheelVisualization';
+import {FurnitureValRandomizerVisualization} from './object/visualization/furniture/FurnitureValRandomizerVisualization';
+import {FurnitureQueueTileVisualization} from './object/visualization/furniture/FurnitureQueueTileVisualization';
+import {FurniturePartyBeamerVisualization} from './object/visualization/furniture/FurniturePartyBeamerVisualization';
+import {FurnitureGiftWrappedVisualization} from './object/visualization/furniture/FurnitureGiftWrappedVisualization';
+import {FurnitureCounterClockVisualization} from './object/visualization/furniture/FurnitureCounterClockVisualization';
+import {FurnitureScoreBoardVisualization} from './object/visualization/furniture/FurnitureScoreBoardVisualization';
+import {FurnitureFireworksVisualization} from './object/visualization/furniture/FurnitureFireworksVisualization';
+import {FurnitureGiftWrappedFireworksVisualization} from './object/visualization/furniture/FurnitureGiftWrappedFireworksVisualization';
+import {FurnitureSoundblockVisualization} from './object/visualization/furniture/FurnitureSoundblockVisualization';
+import {FurnitureVoteCounterVisualization} from './object/visualization/furniture/FurnitureVoteCounterVisualization';
+import {FurnitureVoteMajorityVisualization} from './object/visualization/furniture/FurnitureVoteMajorityVisualization';
+import {FurnitureBadgeDisplayVisualization} from './object/visualization/furniture/FurnitureBadgeDisplayVisualization';
+import {FurnitureGuildCustomizedVisualization} from './object/visualization/furniture/FurnitureGuildCustomizedVisualization';
+import {FurnitureGuildIsometricBadgeVisualization} from './object/visualization/furniture/FurnitureGuildIsometricBadgeVisualization';
+import {FurnitureRoomBillboardVisualization} from './object/visualization/furniture/FurnitureRoomBillboardVisualization';
+import {FurnitureRoomBackgroundVisualization} from './object/visualization/furniture/FurnitureRoomBackgroundVisualization';
+import {FurnitureBuilderPlaceholderVisualization} from './object/visualization/furniture/FurnitureBuilderPlaceholderVisualization';
+import {FurnitureExternalImageVisualization} from './object/visualization/furniture/FurnitureExternalImageVisualization';
+import {FurnitureYoutubeVisualization} from './object/visualization/furniture/FurnitureYoutubeVisualization';
+import {FurnitureMannequinVisualization} from './object/visualization/furniture/FurnitureMannequinVisualization';
+import {FurnitureWaterAreaVisualization} from './object/visualization/furniture/FurnitureWaterAreaVisualization';
+import {FurniturePlanetSystemVisualization} from './object/visualization/furniture/FurniturePlanetSystemVisualization';
 
 type LogicConstructor = new () => IRoomObjectEventHandler;
 
@@ -212,17 +245,112 @@ export class RoomObjectFactory implements IRoomObjectFactory
 	{
 		switch (type)
 		{
-			case RoomObjectLogicEnum.ROOM:
+			// Room
+			case RoomObjectVisualizationEnum.ROOM:
 				return new RoomVisualization();
 
-			// TODO: Add more visualization types
-			// case RoomObjectLogicEnum.USER:
-			// case RoomObjectLogicEnum.BOT:
+			// Tile cursor
+			case RoomObjectVisualizationEnum.TILE_CURSOR:
+				return new TileCursorVisualization();
+
+			// Furniture - static
+			case RoomObjectVisualizationEnum.FURNITURE_STATIC:
+				return new FurnitureVisualization();
+
+			// Furniture - animated
+			case RoomObjectVisualizationEnum.FURNITURE_ANIMATED:
+				return new AnimatedFurnitureVisualization();
+
+			case RoomObjectVisualizationEnum.FURNITURE_RESETTING_ANIMATED:
+				return new FurnitureResettingAnimatedVisualization();
+
+			// Furniture - specialized
+			case RoomObjectVisualizationEnum.FURNITURE_POSTER:
+				return new FurniturePosterVisualization();
+
+			case RoomObjectVisualizationEnum.FURNITURE_STICKIE:
+				return new FurnitureStickieVisualization();
+
+			case RoomObjectVisualizationEnum.FURNITURE_BOTTLE:
+				return new FurnitureBottleVisualization();
+
+			case RoomObjectVisualizationEnum.FURNITURE_HABBOWHEEL:
+				return new FurnitureHabboWheelVisualization();
+
+			case RoomObjectVisualizationEnum.FURNITURE_VAL_RANDOMIZER:
+				return new FurnitureValRandomizerVisualization();
+
+			case RoomObjectVisualizationEnum.FURNITURE_QUEUE_TILE:
+				return new FurnitureQueueTileVisualization();
+
+			case RoomObjectVisualizationEnum.FURNITURE_PARTY_BEAMER:
+				return new FurniturePartyBeamerVisualization();
+
+			case RoomObjectVisualizationEnum.FURNITURE_GIFT_WRAPPED:
+				return new FurnitureGiftWrappedVisualization();
+
+			case RoomObjectVisualizationEnum.FURNITURE_COUNTER_CLOCK:
+				return new FurnitureCounterClockVisualization();
+
+			case RoomObjectVisualizationEnum.FURNITURE_SCORE_BOARD:
+				return new FurnitureScoreBoardVisualization();
+
+			case RoomObjectVisualizationEnum.FURNITURE_FIREWORKS:
+				return new FurnitureFireworksVisualization();
+
+			case RoomObjectVisualizationEnum.FURNITURE_GIFT_WRAPPED_FIREWORKS:
+				return new FurnitureGiftWrappedFireworksVisualization();
+
+			case RoomObjectVisualizationEnum.FURNITURE_SOUNDBLOCK:
+				return new FurnitureSoundblockVisualization();
+
+			case RoomObjectVisualizationEnum.FURNITURE_VOTE_COUNTER:
+				return new FurnitureVoteCounterVisualization();
+
+			case RoomObjectVisualizationEnum.FURNITURE_VOTE_MAJORITY:
+				return new FurnitureVoteMajorityVisualization();
+
+			case RoomObjectVisualizationEnum.FURNITURE_BADGE_DISPLAY:
+				return new FurnitureBadgeDisplayVisualization();
+
+			case RoomObjectVisualizationEnum.FURNITURE_GUILD_CUSTOMIZED:
+				return new FurnitureGuildCustomizedVisualization();
+
+			case RoomObjectVisualizationEnum.FURNITURE_GUILD_ISOMETRIC_BADGE:
+				return new FurnitureGuildIsometricBadgeVisualization();
+
+			case RoomObjectVisualizationEnum.FURNITURE_BB:
+				return new FurnitureRoomBillboardVisualization();
+
+			case RoomObjectVisualizationEnum.FURNITURE_BG:
+				return new FurnitureRoomBackgroundVisualization();
+
+			case RoomObjectVisualizationEnum.FURNITURE_BUILDER_PLACEHOLDER:
+				return new FurnitureBuilderPlaceholderVisualization();
+
+			case RoomObjectVisualizationEnum.FURNITURE_EXTERNAL_IMAGE:
+				return new FurnitureExternalImageVisualization();
+
+			case RoomObjectVisualizationEnum.FURNITURE_YOUTUBE:
+				return new FurnitureYoutubeVisualization();
+
+			case RoomObjectVisualizationEnum.FURNITURE_MANNEQUIN:
+				return new FurnitureMannequinVisualization();
+
+			case RoomObjectVisualizationEnum.FURNITURE_WATER_AREA:
+				return new FurnitureWaterAreaVisualization();
+
+			case RoomObjectVisualizationEnum.FURNITURE_PLANET_SYSTEM:
+				return new FurniturePlanetSystemVisualization();
+
+			// Avatar types (deferred - requires AvatarRenderManager)
+			// case RoomObjectVisualizationEnum.USER:
+			// case RoomObjectVisualizationEnum.BOT:
+			// case RoomObjectVisualizationEnum.RENTABLE_BOT:
 			// 	return new AvatarVisualization();
 
-			// case RoomObjectLogicEnum.FURNITURE_BASIC:
-			// case RoomObjectLogicEnum.FURNITURE_MULTISTATE:
-			// 	return new FurnitureVisualization();
+			// case RoomObjectVisualizationEnum.PET_ANIMATED:
+			// 	return new AnimatedPetVisualization();
 
 			default:
 				return null;

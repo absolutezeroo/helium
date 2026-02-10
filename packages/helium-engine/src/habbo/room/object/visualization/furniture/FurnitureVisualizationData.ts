@@ -25,9 +25,19 @@ export class FurnitureVisualizationData implements IRoomObjectVisualizationData
 	private _cachedSize: number = -1;
 	private _cachedSizeScale: number = -1;
 	private _type: string = '';
+	private _disposed: boolean = false;
+
+	get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
 	dispose(): void
 	{
+		if (this._disposed) return;
+
+		this._disposed = true;
+
 		for (const sizeData of this._sizes.values())
 		{
 			if (sizeData !== null)

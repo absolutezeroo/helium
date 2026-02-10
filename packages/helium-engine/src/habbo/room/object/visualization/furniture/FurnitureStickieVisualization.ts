@@ -15,7 +15,7 @@ export class FurnitureStickieVisualization extends FurnitureVisualization
 
 	override initialize(data: IRoomObjectVisualizationData): boolean
 	{
-		this._vizData = data as FurnitureVisualizationData;
+		this._vizData = data as unknown as FurnitureVisualizationData;
 
 		return super.initialize(data);
 	}

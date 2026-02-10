@@ -2,14 +2,14 @@
 
 > **Dernière mise à jour**: 2026-02-10
 > **Méthode**: Audit exhaustif AS3 → TS (comparaison `source_as_win63/` vs `src/`)
-> **Total AS3 ENGINE**: ~1 150 fichiers | **Total TS implémentés**: ~619 fichiers
+> **Total AS3 ENGINE**: ~1 150 fichiers | **Total TS implémentés**: ~684 fichiers
 
 ---
 
 ## Vue d'ensemble
 
 ```
-Progression globale ENGINE: ██████░░░░░░░░░░░░░░ ~34%
+Progression globale ENGINE: ████████░░░░░░░░░░░░ ~40%
 ```
 
 | Module                             | AS3 ENGINE | TS Impl | %    | Statut                   |
@@ -24,7 +24,7 @@ Progression globale ENGINE: ██████░░░░░░░░░░░�
 | **navigator** (ENGINE)             | 25         | 28      | 100% | ✅ Complet                |
 | **communication** (root/demo/enum) | 10         | 5       | 50%  | 🔄 Partiel (WebApi=SKIP) |
 | **communication/messages**         | 1150       | 395     | 34%  | 🔄 Partiel               |
-| **room** (total)                   | 313        | 246     | 79%  | 🔄 Avancé                |
+| **room** (total)                   | 313        | 311     | 99%  | ✅ Quasi-complet          |
 | **avatar**                         | 70         | 0       | 0%   | ❌ Non commencé           |
 | **catalog**                        | 62         | 0       | 0%   | ❌ Non commencé           |
 | **sound**                          | 28         | 0       | 0%   | ❌ Non commencé           |
@@ -238,11 +238,11 @@ AS3: ~1150 (events + composers + parsers) | TS: ~328 fichiers
 
 ---
 
-## 3. Room Module (~79%)
+## 3. Room Module (~99%)
 
 ```
-Progression: ████████████████░░░░ ~79%
-AS3: 313 fichiers | TS: 246 fichiers
+Progression: ████████████████████ ~99%
+AS3: 313 fichiers | TS: 311 fichiers
 ```
 
 ### 3.1 Par sous-module
@@ -256,7 +256,7 @@ AS3: 313 fichiers | TS: 246 fichiers
 | Events                    | 31  | 31  | 100% | ✅ Complet        |
 | Object Logic (furniture)  | 65  | 66  | 100% | ✅ Complet        |
 | Object Logic (other)      | 8   | 2   | 25%  | ⚠️ Partiel       |
-| Object Visualization      | 109 | 23  | 21%  | ⚠️ Partiel       |
+| Object Visualization      | 109 | 88  | 81%  | 🔄 Avancé        |
 | Utilities                 | 11  | 0   | 0%   | ❌ Non commencé   |
 | Root (RoomEngine, etc.)   | 20  | 58  | 100% | ✅ Complet        |
 
@@ -266,11 +266,19 @@ AS3: 313 fichiers | TS: 246 fichiers
 - ✅ 54 classes de logique furniture créées (total 66 sur 65 AS3 = 100%)
 - ✅ Constants manquantes ajoutées à RoomObjectWidgetRequestEvent (31), RoomObjectFurnitureActionEvent (13), RoomObjectStateChangeEvent (param + ROSCE_STATE_RANDOM)
 
-### 3.3 Manquant
-- Logiques non-furniture: AvatarLogic, PetLogic, RoomLogic, TileCursorLogic, SelectionArrowLogic (~6 fichiers)
-- Système de visualisation avatar/pet complet (~109 fichiers)
-- Système de plane masking (4 fichiers)
-- Rasterizers animés (paysages)
+### 3.3 Complétés (Phase Visualization)
+- ✅ GraphicAsset infrastructure (5 fichiers: IGraphicAsset, GraphicAsset, IGraphicAssetCollection, GraphicAssetCollection, GraphicAssetPalette)
+- ✅ Visualization data classes (13 fichiers: LayerData→AnimationSizeData)
+- ✅ Core furniture visualization (4 fichiers: FurnitureVisualizationData, AnimatedFurnitureVisualizationData, FurnitureVisualization, AnimatedFurnitureVisualization)
+- ✅ Plane mask system (4 fichiers: PlaneMaskBitmap, PlaneMaskVisualization, PlaneMask, PlaneMaskManager)
+- ✅ Room visualization additions (4 fichiers: TileCursorVisualization, PlaneDrawingData, RoomPlaneBitmapMask, RoomPlaneRectangleMask)
+- ✅ 35 specialized furniture visualizations (trivial, medium, complex, particle system, stubs)
+- ✅ RoomObjectVisualizationEnum + RoomObjectFactory updated with all visualization type mappings
+
+### 3.4 Manquant
+- Visualisation avatar/pet (~19 fichiers — différé, dépend d'IAvatarRenderManager)
+- Rasterizers animés / paysages (~5 fichiers: AnimationItem, PlaneVisualizationAnimationLayer, LandscapePlane, LandscapeRasterizer, WallAdRasterizer)
+- FurnitureCuboidVisualization + FurniturePlane (~2 fichiers)
 
 ---
 
@@ -339,7 +347,7 @@ AS3: 32 fichiers | TS: 8 fichiers
 
 ### Priorité immédiate
 1. ~~**Finir room events/messages/furniture logic**~~ ✅ Fait (Phase 1: +89 fichiers)
-2. **Finir room visualizations** — ~86 fichiers manquants (furniture/avatar/pet viz)
+2. ~~**Finir room visualizations**~~ ✅ Fait (+65 fichiers, 81% — avatar/pet viz différé)
 3. ~~**Enregistrer les 15 composers orphelins**~~ ✅ Tous déjà enregistrés
 4. **Résoudre le conflit d'ID 1472** (RoomAdEventTabViewedComposer vs TogglePetRidingPermissionComposer)
 
@@ -366,14 +374,14 @@ AS3: 32 fichiers | TS: 8 fichiers
 | Métrique                      | Valeur                                                                                                     |
 |-------------------------------|------------------------------------------------------------------------------------------------------------|
 | Fichiers AS3 ENGINE totaux    | ~1 150+                                                                                                    |
-| Fichiers TS implémentés       | ~624+                                                                                                      |
-| Fichiers manquants            | ~526+                                                                                                      |
+| Fichiers TS implémentés       | ~684+                                                                                                      |
+| Fichiers manquants            | ~466+                                                                                                      |
 | Modules complets (100%)       | Configuration, Localization, Inventory, Campaign, Advertisement, Notifications, Messenger, FreeFlowChat, Navigator ENGINE |
-| Modules quasi-complets (>90%) | Session (100%), core/comm (90%), core/assets (92%), Tracking (95%), Toolbar (83%)                          |
-| Modules avancés (50-90%)      | Room (79%), Groups (57%), Communication messages (34%)                                                     |
+| Modules quasi-complets (>90%) | Session (100%), Room (99%), core/comm (90%), core/assets (92%), Tracking (95%), Toolbar (83%)              |
+| Modules avancés (50-90%)      | Groups (57%), Communication messages (34%)                                                                 |
 | Modules en cours (<50%)       | core/runtime (25%)                                                                                         |
 | Modules non commencés         | 11 modules (avatar, catalog, sound, help, moderation, quest, game, roomevents, friendbar, friendlist, nux) |
 
 ---
 
-*Document mis à jour — 2026-02-10 (Navigator 100%, Tracking 95%, composers vérifiés)*
+*Document mis à jour — 2026-02-10 (Room Visualization 81% +65 fichiers, Room total 99%, Navigator 100%, Tracking 95%, composers vérifiés)*

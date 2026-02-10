@@ -24,6 +24,11 @@ export class GraphicAssetCollection implements IGraphicAssetCollection
 	private _lastReferenceTimestamp: number = 0;
 	private _disposed: boolean = false;
 
+	get disposed(): boolean
+	{
+		return this._disposed;
+	}
+
 	dispose(): void
 	{
 		if (this._disposed)
@@ -163,7 +168,7 @@ export class GraphicAssetCollection implements IGraphicAssetCollection
 
 			if (!palettizedTexture && original.texture)
 			{
-				palettizedTexture = this.colorizePalette(original.texture, palette);
+				palettizedTexture = this.colorizePalette(original.texture, palette) ?? undefined;
 
 				if (palettizedTexture)
 				{

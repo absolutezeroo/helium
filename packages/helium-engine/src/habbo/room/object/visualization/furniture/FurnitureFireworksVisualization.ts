@@ -37,9 +37,11 @@ export class FurnitureFireworksVisualization extends AnimatedFurnitureVisualizat
 			{
 				this.readDefinition();
 
-				if (this._particleSystems !== null)
+				const systems = this._particleSystems as Map<number, FurnitureParticleSystem> | null;
+
+				if (systems !== null)
 				{
-					this._activeParticleSystem = this._particleSystems.get(scale) || null;
+					this._activeParticleSystem = systems.get(scale) || null;
 				}
 			}
 			else if (this._particleSystems.get(scale) !== this._activeParticleSystem)
