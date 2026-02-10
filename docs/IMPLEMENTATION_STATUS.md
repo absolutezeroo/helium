@@ -2,7 +2,7 @@
 
 > **Dernière mise à jour**: 2026-02-10
 > **Méthode**: Audit exhaustif AS3 → TS (comparaison `source_as_win63/` vs `src/`)
-> **Total AS3 ENGINE**: ~1 150 fichiers | **Total TS implémentés**: ~684 fichiers
+> **Total AS3 ENGINE**: ~1 150 fichiers | **Total TS implémentés**: ~691 fichiers
 
 ---
 
@@ -242,7 +242,7 @@ AS3: ~1150 (events + composers + parsers) | TS: ~328 fichiers
 
 ```
 Progression: ████████████████████ ~99%
-AS3: 313 fichiers | TS: 311 fichiers
+AS3: 313 fichiers | TS: 318 fichiers
 ```
 
 ### 3.1 Par sous-module
@@ -255,9 +255,9 @@ AS3: 313 fichiers | TS: 311 fichiers
 | Rasterizer                | ~10 | 8   | 80%  | 🔄 Avancé        |
 | Events                    | 31  | 31  | 100% | ✅ Complet        |
 | Object Logic (furniture)  | 65  | 66  | 100% | ✅ Complet        |
-| Object Logic (other)      | 8   | 2   | 25%  | ⚠️ Partiel       |
+| Object Logic (other)      | 8   | 4   | 50%  | 🔄 Avancé        |
 | Object Visualization      | 109 | 88  | 81%  | 🔄 Avancé        |
-| Utilities                 | 11  | 0   | 0%   | ❌ Non commencé   |
+| Utilities                 | 11  | 5   | 45%  | 🔄 Avancé        |
 | Root (RoomEngine, etc.)   | 20  | 58  | 100% | ✅ Complet        |
 
 ### 3.2 Complétés (Phase 1)
@@ -275,7 +275,20 @@ AS3: 313 fichiers | TS: 311 fichiers
 - ✅ 35 specialized furniture visualizations (trivial, medium, complex, particle system, stubs)
 - ✅ RoomObjectVisualizationEnum + RoomObjectFactory updated with all visualization type mappings
 
-### 3.4 Manquant
+### 3.4 Complétés (Phase Rendering & Interaction)
+- ✅ Textured plane rendering wired in RoomPlane.render() (getTexture→renderTexture pipeline)
+- ✅ RoomVisualization: updatePlaneTexturesAndVisibilities(), updateMasksAndColors(), updatePlaneMasks()
+- ✅ RoomPlaneBitmapMaskParser + RoomPlaneBitmapMaskData (door/window bitmap mask system)
+- ✅ LegacyWallGeometry (wall coordinate → 3D position conversion for wall items)
+- ✅ RoomLogic full implementation (message routing: types, masks, visibility, colors, floor holes)
+- ✅ RoomTileCursorLogic (tile cursor visibility, state management, height display)
+- ✅ RoomRenderingCanvas handleMouseEvent (sprite hit-testing, event buffering, roll-over/roll-out)
+- ✅ TileObjectMap (2D spatial index for room objects)
+- ✅ FurniStackingHeightMap (per-tile stacking heights, placement validation)
+- ✅ RoomCamera (smooth camera following with sinusoidal easing)
+- ✅ SelectedRoomObjectData (selected object state container)
+
+### 3.5 Manquant
 - Visualisation avatar/pet (~19 fichiers — différé, dépend d'IAvatarRenderManager)
 - Rasterizers animés / paysages (~5 fichiers: AnimationItem, PlaneVisualizationAnimationLayer, LandscapePlane, LandscapeRasterizer, WallAdRasterizer)
 - FurnitureCuboidVisualization + FurniturePlane (~2 fichiers)

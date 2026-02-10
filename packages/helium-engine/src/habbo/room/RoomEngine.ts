@@ -1875,7 +1875,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 
 		if (canvas)
 		{
-			canvas.addVisualization(spriteVisualization.container, 0);
+			canvas.addVisualization(spriteVisualization.container, 0, spriteVisualization);
 		}
 
 		return spriteVisualization;
@@ -2100,7 +2100,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 
 		if (canvas)
 		{
-			canvas.addVisualization(spriteVisualization.container, 0);
+			canvas.addVisualization(spriteVisualization.container, 0, spriteVisualization);
 		}
 	}
 }
