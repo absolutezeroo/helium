@@ -170,20 +170,20 @@ $nav-width-collapsed: 425px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        border: 1px solid $frame-border-color;
-        border-bottom: none;
-        border-radius: $frame-tab-radius $frame-tab-radius 0 0;
-        background-color: color.adjust($frame-body-bg, $lightness: -4%);
         color: $text-primary;
+        // Bitmap tab skin via 3-slice border-image (9px left/right caps)
+        border-style: solid;
+        border-width: 0 9px;
+        border-image: url('@/assets/images/habbo_tab_default.png') 0 9 0 9 fill stretch;
+        border-radius: 0; // bitmap handles rounded corners
+        background: none; // border-image fill provides background
 
         &:hover {
-            background-color: $frame-body-bg;
+            border-image-source: url('@/assets/images/habbo_tab_hover.png');
         }
 
         &.active {
-            background-color: $bg-white;
-            border-bottom: 1px solid $bg-white;
-            margin-bottom: -1px;
+            border-image-source: url('@/assets/images/habbo_tab_selected.png');
             font-weight: bold;
         }
     }
@@ -234,6 +234,7 @@ $nav-width-collapsed: 425px;
         overflow-x: hidden;
         scrollbar-width: thin;
         padding: 2px;
+        background-color: $bg-white; // white background matching Flash
     }
 
     // --- Bottom buttons (Create Room / Random Room) ---
