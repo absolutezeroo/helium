@@ -6,7 +6,11 @@ settings:
 
 importers:
 
-  .: {}
+  .:
+    dependencies:
+      vite:
+        specifier: ^6.4.1
+        version: 6.4.1(@types/node@22.19.10)(sass-embedded@1.97.3)(sass@1.97.3)
 
   packages/helium-client:
     dependencies:

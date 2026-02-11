@@ -5,10 +5,19 @@ import {MessageComposer} from '@core/communication/messages/MessageComposer';
  *
  * @see source_as_win63/habbo/communication/messages/outgoing/advertisement/InterstitialShownMessageComposer.as
  */
-export class InterstitialShownMessageComposer extends MessageComposer<[]>
+export class InterstitialShownMessageComposer extends MessageComposer<ConstructorParameters<typeof InterstitialShownMessageComposer>>
 {
-	getMessageArray(): []
+	private _data: ConstructorParameters<typeof InterstitialShownMessageComposer>;
+
+	constructor()
 	{
-		return [];
+		super();
+
+		this._data = [];
+	}
+
+	getMessageArray()
+	{
+		return this._data;
 	}
 }

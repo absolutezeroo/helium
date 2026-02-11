@@ -35,18 +35,6 @@ interface ObjectMouseData
 
 export class RoomRenderingCanvas
 {
-	private _id: number;
-	private _container: Container;
-	private _geometry: RoomGeometry;
-	private _width: number = 0;
-	private _height: number = 0;
-	private _screenOffsetX: number = 0;
-	private _screenOffsetY: number = 0;
-	private _scale: number = 1;
-	private _disposed: boolean = false;
-
-	// Mouse tracking — based on AS3 RoomSpriteCanvas fields
-	private _mouseListener: IRoomRenderingCanvasMouseListener | null = null;
 	private _visualizations: Map<Container, IRoomObjectSpriteVisualization> = new Map();
 	private _mouseActiveObjects: Map<string, ObjectMouseData> = new Map();
 	private _eventCache: Map<string, RoomSpriteMouseEvent> = new Map();
@@ -82,30 +70,42 @@ export class RoomRenderingCanvas
 		this.updateContainerPosition();
 	}
 
+	private _id: number;
+
 	get id(): number
 	{
 		return this._id;
 	}
+
+	private _container: Container;
 
 	get container(): Container
 	{
 		return this._container;
 	}
 
+	private _geometry: RoomGeometry;
+
 	get geometry(): IRoomGeometry
 	{
 		return this._geometry;
 	}
+
+	private _width: number = 0;
 
 	get width(): number
 	{
 		return this._width;
 	}
 
+	private _height: number = 0;
+
 	get height(): number
 	{
 		return this._height;
 	}
+
+	private _screenOffsetX: number = 0;
 
 	get screenOffsetX(): number
 	{
@@ -118,6 +118,8 @@ export class RoomRenderingCanvas
 		this.updateContainerPosition();
 	}
 
+	private _screenOffsetY: number = 0;
+
 	get screenOffsetY(): number
 	{
 		return this._screenOffsetY;
@@ -129,15 +131,22 @@ export class RoomRenderingCanvas
 		this.updateContainerPosition();
 	}
 
+	private _scale: number = 1;
+
 	get scale(): number
 	{
 		return this._scale;
 	}
 
+	private _disposed: boolean = false;
+
 	get disposed(): boolean
 	{
 		return this._disposed;
 	}
+
+	// Mouse tracking — based on AS3 RoomSpriteCanvas fields
+	private _mouseListener: IRoomRenderingCanvasMouseListener | null = null;
 
 	get mouseListener(): IRoomRenderingCanvasMouseListener | null
 	{
@@ -282,6 +291,22 @@ export class RoomRenderingCanvas
 		this._visualizations.delete(container);
 	}
 
+	dispose(): void
+	{
+		if (this._disposed)
+		{
+			return;
+		}
+
+		this._visualizations.clear();
+		this._mouseActiveObjects.clear();
+		this._eventCache.clear();
+		this._mouseListener = null;
+		this._container.destroy({children: true});
+		this._geometry.dispose();
+		this._disposed = true;
+	}
+
 	/**
 	 * Core hit-test method. Iterates all sprites in reverse z-order.
 	 * Based on AS3 RoomSpriteCanvas._Str_19207() (checkMouseHits)
@@ -311,7 +336,7 @@ export class RoomRenderingCanvas
 			// Check if the sprite's clickHandling flag means we skip it for move events
 			if (sprite.clickHandling && (type === 'click' || type === 'double_click'))
 			{
-				// Click-handling sprites are only handled by the click handler
+				// The click handler only handles click-handling sprites
 				continue;
 			}
 
@@ -404,6 +429,7 @@ export class RoomRenderingCanvas
 			if (!hitObjectIds.includes(objectId))
 			{
 				const rollOutEvent = this.createMouseEvent(0, 0, 0, 0, 'roll_out', data.spriteTag, altKey, ctrlKey, shiftKey, buttonDown);
+
 				this.bufferMouseEvent(rollOutEvent, objectId);
 				this._mouseActiveObjects.delete(objectId);
 			}
@@ -519,6 +545,11 @@ export class RoomRenderingCanvas
 	 */
 	private processMouseEvents(): void
 	{
+		if (this._eventCache.size > 0)
+		{
+			console.debug(`[RoomCanvas] processMouseEvents: ${this._eventCache.size} events buffered`);
+		}
+
 		for (const [objectId, event] of this._eventCache)
 		{
 			// Find the visualization for this object
@@ -526,8 +557,11 @@ export class RoomRenderingCanvas
 
 			if (!object)
 			{
+				console.debug(`[RoomCanvas] Object not found for id: ${objectId}`);
 				continue;
 			}
+
+			console.debug(`[RoomCanvas] Dispatching ${event.type} to object ${objectId}, handler=${!!object.getMouseHandler()}`);
 
 			if (this._mouseListener)
 			{
@@ -574,21 +608,5 @@ export class RoomRenderingCanvas
 	{
 		this._container.x = this._screenOffsetX + this._width / 2;
 		this._container.y = this._screenOffsetY + this._height / 3;
-	}
-
-	dispose(): void
-	{
-		if (this._disposed)
-		{
-			return;
-		}
-
-		this._visualizations.clear();
-		this._mouseActiveObjects.clear();
-		this._eventCache.clear();
-		this._mouseListener = null;
-		this._container.destroy({children: true});
-		this._geometry.dispose();
-		this._disposed = true;
 	}
 }

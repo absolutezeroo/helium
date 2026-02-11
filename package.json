@@ -9,5 +9,8 @@
     "preview": "pnpm --filter helium-client preview"
   },
   "author": "Clayton",
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "dependencies": {
+    "vite": "^6.4.1"
+  }
 }

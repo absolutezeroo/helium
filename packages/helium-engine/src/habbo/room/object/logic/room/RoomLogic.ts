@@ -366,6 +366,7 @@ export class RoomLogic extends ObjectLogicBase
 	{
 		if (!event || !this.object || !this._planeParser)
 		{
+			console.debug(`[RoomLogic] mouseEvent skipped: event=${!!event}, object=${!!this.object}, planeParser=${!!this._planeParser}`);
 			return;
 		}
 
@@ -435,6 +436,8 @@ export class RoomLogic extends ObjectLogicBase
 		{
 			return;
 		}
+
+		console.debug(`[RoomLogic] mouseEvent: type=${event.type}, tag=${event.spriteTag}, planeIndex=${planeIndex}, planeType=${planeType}, eventType=${eventType}`);
 
 		// Dispatch appropriate event based on plane type
 		if (this.eventDispatcher)

@@ -16,6 +16,8 @@ import type {IRoomObject} from './object/IRoomObject';
 import type {IRoomObjectController} from './object/IRoomObjectController';
 import type {IRoomObjectManager} from './IRoomObjectManager';
 import type {IRoomObjectFactory} from './IRoomObjectFactory';
+import type {IRoomObjectVisualizationFactory} from './object/IRoomObjectVisualizationFactory';
+import type {IRoomObjectSpriteVisualization} from './object/visualization/IRoomObjectSpriteVisualization';
 import {RoomInstance} from './RoomInstance';
 
 /**
@@ -34,6 +36,7 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	private _rooms: Map<string, IRoomInstance> = new Map();
 	private _contentLoader: IRoomContentLoader | null = null;
 	private _objectFactory: IRoomObjectFactory | null = null;
+	private _visualizationFactory: IRoomObjectVisualizationFactory | null = null;
 	private _listener: IRoomManagerListener | null = null;
 	private _updateCategories: number[] = [];
 	private _pendingTypes: string[] = [];
@@ -56,6 +59,16 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	setObjectFactory(factory: IRoomObjectFactory): void
 	{
 		this._objectFactory = factory;
+	}
+
+	/**
+	 * Set the visualization factory used to create room object visualizations.
+	 *
+	 * @see AS3 RoomManager dependencies getter — IRoomObjectVisualizationFactory
+	 */
+	setVisualizationFactory(factory: IRoomObjectVisualizationFactory): void
+	{
+		this._visualizationFactory = factory;
 	}
 
 	/**
@@ -251,14 +264,22 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	}
 
 	/**
-	 * Create a room object
+	 * Create a room object with visualization and logic.
 	 *
 	 * This is called by RoomInstance.createRoomObject() to actually create the object.
 	 * Uses createObjectInternal() on the room to avoid recursion.
+	 *
+	 * Matches AS3 RoomManager.createRoomObject() flow:
+	 * 1. Resolve content (or use placeholder if not loaded yet)
+	 * 2. Create internal object
+	 * 3. Create visualization via visualization factory
+	 * 4. Create + cache visualization data via visualization factory
+	 * 5. Create logic via object factory
+	 *
+	 * @see source_as_win63/room/RoomManager.as lines 278-363
 	 */
 	createRoomObject(roomId: string, objectId: number, type: string, category: number): IRoomObject | null
 	{
-
 		const room = this.getRoom(roomId);
 
 		if (!room)
@@ -269,12 +290,12 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 		// Cast to RoomInstance to access createObjectInternal
 		const roomInstance = room as RoomInstance;
 
-		// Get visualization and logic types from content loader.
-		// Fall back to the object type itself if the content loader doesn't have
-		// the info yet (e.g. bundle not loaded). The factory handles built-in types
-		// like 'room', 'tile_cursor' directly.
+		// Resolve content types. For content that has internal handling (users, etc.),
+		// use the type directly. Otherwise resolve from content loader.
+		let contentType: string = type;
 		let visualizationType: string | null = type;
 		let logicType: string | null = type;
+		let isPlaceholder = false;
 
 		if (this._contentLoader && !this._contentLoader.hasInternalContent(type))
 		{
@@ -297,6 +318,7 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 		const controller = object as IRoomObjectController;
 
 		// Create and assign logic
+		// AS3: logic is created, event handler set, then initialized with config data
 		if (this._objectFactory && logicType)
 		{
 			const logic = this._objectFactory.createRoomObjectLogic(logicType);
@@ -305,6 +327,7 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 			{
 				controller.setEventHandler(logic);
 				logic.object = controller;
+				logic.initialize(null);
 			}
 		}
 
@@ -351,6 +374,7 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 
 		this._listener = null;
 		this._objectFactory = null;
+		this._visualizationFactory = null;
 		this._updateCategories = [];
 		this._pendingTypes = [];
 

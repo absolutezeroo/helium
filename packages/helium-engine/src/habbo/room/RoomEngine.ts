@@ -32,6 +32,8 @@ import {RoomObjectVariableEnum} from './object/RoomObjectVariableEnum';
 import {RoomEngineEvent} from './events/RoomEngineEvent';
 import {RoomEngineObjectEvent} from './events/RoomEngineObjectEvent';
 import {RoomObjectFactory} from './RoomObjectFactory';
+import {RoomObjectVisualizationFactory} from './object/RoomObjectVisualizationFactory';
+import type {IRoomObjectVisualizationFactory} from '@room/object/IRoomObjectVisualizationFactory';
 import {RoomRenderingCanvas} from './renderer/RoomRenderingCanvas';
 import type {IStuffData} from './object/data/IStuffData';
 
@@ -85,6 +87,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 	IRoomContentListener
 {
 	private _roomObjectFactory: RoomObjectFactory;
+	private _visualizationFactory: RoomObjectVisualizationFactory;
 	private _roomData: Map<string, unknown>;
 	private _activeRoomId: number = -1;
 	private _ownUserIds: Map<number, number>;
@@ -109,6 +112,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 	{
 		super(context, 0, assetLibrary);
 		this._roomObjectFactory = new RoomObjectFactory();
+		this._visualizationFactory = new RoomObjectVisualizationFactory();
 		this._contentLoader = new RoomContentLoader();
 		this._roomData = new Map();
 		this._ownUserIds = new Map();
@@ -170,8 +174,14 @@ export class RoomEngine extends Component implements IRoomEngine,
 					{
 						// Set the object factory on room manager
 						(manager as unknown as {
-							setObjectFactory: (f: RoomObjectFactory) => void
+							setObjectFactory: (f: RoomObjectFactory) => void;
+							setVisualizationFactory: (f: IRoomObjectVisualizationFactory) => void;
 						}).setObjectFactory(this._roomObjectFactory);
+
+						// Set the visualization factory on room manager
+						(manager as unknown as {
+							setVisualizationFactory: (f: IRoomObjectVisualizationFactory) => void;
+						}).setVisualizationFactory(this._visualizationFactory);
 					}
 				},
 				true // Required dependency
@@ -937,6 +947,16 @@ export class RoomEngine extends Component implements IRoomEngine,
 		if (this._activeRoomId >= 0)
 		{
 			this.updateRoomVisualizations(this._activeRoomId, time);
+
+			// Reset mouse state for next frame.
+			// This resets _mouseCheckCount (so the next mouse_move is processed)
+			// and increments _eventId (so events get unique IDs).
+			const canvas = this.getRenderingCanvas(this._activeRoomId);
+
+			if (canvas)
+			{
+				canvas.updateMouseState();
+			}
 		}
 	}
 
@@ -1727,6 +1747,9 @@ export class RoomEngine extends Component implements IRoomEngine,
 
 		this._roomVisualizations.clear();
 
+		// Dispose visualization factory
+		this._visualizationFactory.dispose();
+
 		// Dispose content loader
 		this._contentLoader.dispose();
 		this._contentLoaderEvents.removeAllListeners();
@@ -1923,6 +1946,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 	 */
 	private handleTileMouseEvent(event: RoomObjectTileMouseEvent): void
 	{
+		console.debug(`[RoomEngine] handleTileMouseEvent: type=${event.type}, tile=(${event.tileXAsInt},${event.tileYAsInt},${event.tileZ})`);
 		if (this._activeRoomId < 0) return;
 
 		const tileCursor = this.getTileCursor(this._activeRoomId);
@@ -1937,7 +1961,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		{
 			const cursorUpdate = new RoomObjectTileCursorUpdateMessage(
 				new Vector3d(tileX, tileY, tileZ),
-				0,
+				tileZ,
 				true,
 				event.eventId
 			);
@@ -1973,11 +1997,14 @@ export class RoomEngine extends Component implements IRoomEngine,
 	}
 
 	/**
-	 * Create and add a visualization for a room object
+	 * Create and add a visualization for a room object.
+	 * Uses the visualization factory for creating visualization instances.
+	 *
+	 * @see AS3 RoomManager.createRoomObject() visualization creation
 	 */
 	private createVisualizationForObject(roomId: number, objectId: number, type: string): IRoomObjectSpriteVisualization | null
 	{
-		const visualization = this._roomObjectFactory.createRoomObjectVisualization(type);
+		const visualization = this._visualizationFactory.createRoomObjectVisualization(type);
 
 		if (visualization === null)
 		{
@@ -2187,18 +2214,24 @@ export class RoomEngine extends Component implements IRoomEngine,
 
 	/**
 	 * Create a visualization for a furniture item using loaded content.
+	 * Uses the visualization factory for creating instances and caching viz data.
 	 *
 	 * @param roomId The room ID
 	 * @param objectId The object ID
 	 * @param className The furniture className
 	 * @param category The object category
+	 *
+	 * @see AS3 RoomManager.createRoomObject() lines 335-356
 	 */
 	private createVisualizationForFurniture(roomId: number, objectId: number, className: string, category: number): void
 	{
+		console.debug(`[RoomEngine] createVisualizationForFurniture: roomId=${roomId}, objectId=${objectId}, className=${className}, category=${category}`);
+
 		const room = this.getRoomInstance(roomId);
 
 		if (!room)
 		{
+			console.debug(`[RoomEngine] createVisualizationForFurniture: room not found`);
 			return;
 		}
 
@@ -2206,6 +2239,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 
 		if (!object)
 		{
+			console.debug(`[RoomEngine] createVisualizationForFurniture: object not found (id=${objectId}, cat=${category})`);
 			return;
 		}
 
@@ -2231,8 +2265,8 @@ export class RoomEngine extends Component implements IRoomEngine,
 			vizType = bundleVizType;
 		}
 
-		// Create visualization instance from factory
-		const visualization = this._roomObjectFactory.createRoomObjectVisualization(vizType);
+		// Create visualization instance from visualization factory
+		const visualization = this._visualizationFactory.createRoomObjectVisualization(vizType);
 
 		if (!visualization)
 		{
@@ -2255,12 +2289,17 @@ export class RoomEngine extends Component implements IRoomEngine,
 			spriteVisualization.assetCollection = assetCollection;
 		}
 
-		// Initialize with visualization data from content loader
-		const vizData = this._contentLoader.getVisualizationData(className);
+		// Get or create visualization data via the visualization factory (cached)
+		const rawVizData = this._contentLoader.getVisualizationConfig(className);
 
-		if (vizData)
+		if (rawVizData)
 		{
-			spriteVisualization.initialize(vizData);
+			const vizData = this._visualizationFactory.getRoomObjectVisualizationData(className, vizType, rawVizData);
+
+			if (vizData)
+			{
+				spriteVisualization.initialize(vizData);
+			}
 		}
 
 		// Assign the room object

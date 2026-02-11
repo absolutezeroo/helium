@@ -12,11 +12,11 @@ import {RoomObjectTileCursorUpdateMessage} from '@habbo/room/messages/RoomObject
 
 export class RoomTileCursorLogic extends ObjectLogicBase
 {
-	private static readonly STATE_ENABLED = 0;
-	private static readonly STATE_DISABLED = 1;
-	private static readonly STATE_SHOW_TILE_HEIGHT = 6;
+	private static readonly STATE_ENABLED: number = 0;
+	private static readonly STATE_DISABLED: number = 1;
+	private static readonly STATE_SHOW_TILE_HEIGHT: number = 6;
 
-	private _lastSourceEventId: string = '';
+	private _lastSourceEventId: string | null = null;
 	private _hiddenOnPurpose: boolean = false;
 
 	override getEventTypes(): string[]
@@ -24,80 +24,72 @@ export class RoomTileCursorLogic extends ObjectLogicBase
 		return [];
 	}
 
+	/**
+	 * @see AS3 RoomTileCursorLogic.initialize()
+	 */
 	override initialize(data: unknown): void
 	{
-		const model = this.object?.getModelController();
-
-		if (model)
+		if (this.object !== null)
 		{
-			model.setNumber('furniture_alpha_multiplier', 1);
+			const model = this.object.getModelController();
+
+			if (model !== null)
+			{
+				model.setNumber('furniture_alpha_multiplier', 1);
+				this.object.setState(RoomTileCursorLogic.STATE_DISABLED, 0);
+			}
 		}
 	}
 
 	/**
 	 * Process tile cursor update messages.
-	 * Based on AS3 RoomTileCursorLogic.processUpdateMessage()
+	 *
+	 * @see AS3 RoomTileCursorLogic.processUpdateMessage()
 	 */
 	override processUpdateMessage(message: RoomObjectUpdateMessage): void
 	{
-		if (message instanceof RoomObjectTileCursorUpdateMessage)
+		const cursorMessage = message instanceof RoomObjectTileCursorUpdateMessage ? message : null;
+
+		if (cursorMessage === null)
 		{
-			// Skip duplicate events from the same source
-			if (message.sourceEventId === this._lastSourceEventId && !message.toggleVisibility)
-			{
-				return;
-			}
-
-			this._lastSourceEventId = message.sourceEventId;
-
-			// Handle visibility toggle (user pressing hide cursor)
-			if (message.toggleVisibility)
-			{
-				this._hiddenOnPurpose = !this._hiddenOnPurpose;
-			}
-
-			if (this._hiddenOnPurpose)
-			{
-				return;
-			}
-
-			if (message.visible && this.object)
-			{
-				// Set state based on height value
-				const model = this.object.getModelController();
-
-				if (model)
-				{
-					if (message.height > 0.8)
-					{
-						model.setNumber('furniture_state', RoomTileCursorLogic.STATE_SHOW_TILE_HEIGHT);
-					}
-					else
-					{
-						model.setNumber('furniture_state', RoomTileCursorLogic.STATE_ENABLED);
-					}
-				}
-
-				// Update position
-				if (message.loc)
-				{
-					this.object.setLocation(message.loc);
-				}
-			}
-			else if (this.object)
-			{
-				const model = this.object.getModelController();
-
-				if (model)
-				{
-					model.setNumber('furniture_state', RoomTileCursorLogic.STATE_DISABLED);
-				}
-			}
-
 			return;
 		}
 
+		// Skip duplicate events from the same source
+		if (this._lastSourceEventId !== null && this._lastSourceEventId === cursorMessage.sourceEventId)
+		{
+			return;
+		}
+
+		// Handle visibility toggle
+		if (cursorMessage.toggleVisibility)
+		{
+			this._hiddenOnPurpose = !this._hiddenOnPurpose;
+		}
+
+		// Call super to set location/direction from message
 		super.processUpdateMessage(message);
+
+		if (this.object !== null)
+		{
+			if (this._hiddenOnPurpose)
+			{
+				this.object.setState(RoomTileCursorLogic.STATE_DISABLED, 0);
+			}
+			else if (!cursorMessage.visible)
+			{
+				this.object.setState(RoomTileCursorLogic.STATE_DISABLED, 0);
+			}
+			else
+			{
+				const height = cursorMessage.height;
+				this.object.getModelController().setNumber('tile_cursor_height', height);
+				const state = height > 0.8 ? RoomTileCursorLogic.STATE_SHOW_TILE_HEIGHT : RoomTileCursorLogic.STATE_ENABLED;
+				this.object.setState(state, 0);
+			}
+		}
+
+		this._lastSourceEventId = cursorMessage.sourceEventId;
 	}
 
 	override update(time: number): void

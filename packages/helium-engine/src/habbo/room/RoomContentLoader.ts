@@ -11,7 +11,6 @@ import {EventEmitter} from 'eventemitter3';
 import type {IRoomContentLoader} from '@room/IRoomContentLoader';
 import type {IRoomObject} from '@room/object/IRoomObject';
 import type {IRoomObjectController} from '@room/object/IRoomObjectController';
-import type {IRoomObjectVisualizationData} from '@room/object/visualization/IRoomObjectVisualizationData';
 import type {IGraphicAssetCollection} from '@room/object/visualization/utils/IGraphicAssetCollection';
 import type {IAssetLibrary} from '@core/assets/IAssetLibrary';
 import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
@@ -21,8 +20,6 @@ import type {IFurniDataListener} from '@habbo/session/furniture/IFurniDataListen
 import type {NitroAsset} from '@core/assets/NitroAsset';
 import {AssetLoaderEvent, AssetLoaderEventType} from '@core/assets/loaders/AssetLoaderEvent';
 import {GraphicAssetCollection} from '@room/object/visualization/utils/GraphicAssetCollection';
-import {FurnitureVisualizationData} from './object/visualization/furniture/FurnitureVisualizationData';
-import {AnimatedFurnitureVisualizationData} from './object/visualization/furniture/AnimatedFurnitureVisualizationData';
 import {RoomObjectCategoryEnum} from './object/RoomObjectCategoryEnum';
 import {getVisualizationType} from './object/RoomObjectUserTypes';
 import {Logger} from '@core';
@@ -62,27 +59,6 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 		'selection_arrow',
 	]);
 
-	private static readonly ANIMATED_VIZ_TYPES = new Set([
-		'furniture_animated',
-		'furniture_resetting_animated',
-		'furniture_fireworks',
-		'furniture_gift_wrapped_fireworks',
-		'furniture_habbowheel',
-		'furniture_val_randomizer',
-		'furniture_bottle',
-		'furniture_planet_system',
-		'furniture_queue_tile',
-		'furniture_party_beamer',
-		'furniture_gift_wrapped',
-		'furniture_counter_clock',
-		'furniture_water_area',
-		'furniture_score_board',
-		'furniture_soundblock',
-		'furniture_vote_counter',
-		'furniture_vote_majority',
-		'tile_cursor',
-	]);
-
 	private _floorItems: Map<string, number> = new Map();
 	private _wallItems: Map<string, number> = new Map();
 	private _pets: Map<string, number> = new Map();
@@ -97,7 +73,7 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 	private _loadedTypes: Map<string, boolean> = new Map();
 	private _loadingTypes: Map<string, Promise<void>> = new Map();
 	private _assetCollections: Map<string, GraphicAssetCollection> = new Map();
-	private _visualizationDataMap: Map<string, IRoomObjectVisualizationData> = new Map();
+	private _visualizationConfigMap: Map<string, unknown> = new Map();
 	private _visualizationTypeMap: Map<string, string> = new Map();
 	private _logicTypeMap: Map<string, string> = new Map();
 
@@ -210,13 +186,7 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 		}
 
 		this._assetCollections.clear();
-
-		for (const vizData of this._visualizationDataMap.values())
-		{
-			vizData.dispose();
-		}
-
-		this._visualizationDataMap.clear();
+		this._visualizationConfigMap.clear();
 		this._visualizationTypeMap.clear();
 		this._logicTypeMap.clear();
 		this._loadedTypes.clear();
@@ -383,11 +353,13 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 	}
 
 	/**
-	 * Get the cached visualization data for a furniture type.
+	 * Get the raw visualization config JSON for a furniture type.
+	 * The RoomObjectVisualizationFactory uses this to create and cache
+	 * IRoomObjectVisualizationData instances.
 	 */
-	getVisualizationData(type: string): IRoomObjectVisualizationData | null
+	getVisualizationConfig(type: string): unknown | null
 	{
-		return this._visualizationDataMap.get(type) ?? null;
+		return this._visualizationConfigMap.get(type) ?? null;
 	}
 
 	/**
@@ -599,24 +571,10 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 
 		this._assetCollections.set(type, collection);
 
-		// Create FurnitureVisualizationData from bundle JSON
-		// Nitro bundle format: visualizations[] array is at the TOP LEVEL of jsonData,
-		// and the furniture name is in jsonData.name (not inside a nested visualization object)
-		let vizData: FurnitureVisualizationData;
-
-		if (RoomContentLoader.ANIMATED_VIZ_TYPES.has(vizType))
-		{
-			vizData = new AnimatedFurnitureVisualizationData();
-		}
-		else
-		{
-			vizData = new FurnitureVisualizationData();
-		}
-
-		// Pass the whole jsonData — it has 'name' and 'visualizations' at the top level
-		vizData.initialize(jsonData);
-
-		this._visualizationDataMap.set(type, vizData);
+		// Store the raw visualization config JSON for the visualization factory to consume.
+		// The factory handles creating and caching the appropriate
+		// FurnitureVisualizationData / AnimatedFurnitureVisualizationData instances.
+		this._visualizationConfigMap.set(type, jsonData);
 
 		// Mark as loaded
 		this._loadedTypes.set(type, true);
