@@ -9,7 +9,8 @@ export const RoomObjectSpriteType = {
 	DEFAULT: 1,
 	ROOM_PLANE: 2,
 	AVATAR: 3,
-	FURNITURE: 4,
+	AVATAR_OWN: 4,
+	FURNITURE: 5,
 } as const;
 
 export type RoomObjectSpriteType = typeof RoomObjectSpriteType[keyof typeof RoomObjectSpriteType];

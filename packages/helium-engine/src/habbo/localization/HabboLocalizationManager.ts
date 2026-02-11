@@ -260,6 +260,7 @@ export class HabboLocalizationManager extends CoreLocalizationManager implements
 	protected override initComponent(): void
 	{
 		super.initComponent();
+
 		log.debug('HabboLocalizationManager initialized');
 	}
 
@@ -326,7 +327,9 @@ export class HabboLocalizationManager extends CoreLocalizationManager implements
 	private fixBadLocalization(localizationKey: string): string
 	{
 		let fixedKey = localizationKey.replace('${', '$');
+
 		fixedKey = fixedKey.replace('{', '$');
+
 		return fixedKey.replace('}', '$');
 	}
 }

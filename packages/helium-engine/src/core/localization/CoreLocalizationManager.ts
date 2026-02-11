@@ -55,8 +55,9 @@ export class CoreLocalizationManager extends Component implements ICoreLocalizat
 		{
 			this._activeDefinitionId = id;
 			this._activeEnvironmentId = definition.languageCode;
-			// Load directly from definition URL (not through hashes)
+
 			this.loadExternalTexts(definition.url);
+
 			return true;
 		}
 

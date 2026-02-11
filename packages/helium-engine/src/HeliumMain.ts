@@ -16,6 +16,7 @@ import {HabboGroupsManager} from '@habbo/groups/HabboGroupsManager';
 import {HabboNotifications} from '@habbo/notifications/HabboNotifications';
 import {HabboToolbar} from '@habbo/toolbar/HabboToolbar';
 import {HabboFreeFlowChat} from '@habbo/freeflowchat/HabboFreeFlowChat';
+import {AvatarRenderManager} from '@habbo/avatar/AvatarRenderManager';
 import {Logger} from '@core/utils/Logger';
 
 import {IID_HabboCommunicationManager} from '@iid/IIDHabboCommunicationManager';
@@ -28,6 +29,7 @@ import {IID_RoomEngine} from '@iid/IIDRoomEngine';
 import {IID_RoomManager} from '@iid/IIDRoomManager';
 import {IID_RoomSessionManager} from '@iid/IIDRoomSessionManager';
 import {IID_SessionDataManager} from '@iid/IIDSessionDataManager';
+import {IID_AvatarRenderManager} from '@iid/IIDAvatarRenderManager';
 import {HabboProperty} from '@habbo/configuration';
 
 import type {HeliumCore} from '@core/HeliumCore';
@@ -63,6 +65,17 @@ export class HeliumMain implements IHeliumMain
 	private _notifications: HabboNotifications | null = null;
 	private _toolbar: HabboToolbar | null = null;
 	private _freeFlowChat: HabboFreeFlowChat | null = null;
+	private _avatarRenderManager: AvatarRenderManager | null = null;
+
+	get avatarRenderManager(): AvatarRenderManager
+	{
+		if (!this._avatarRenderManager)
+		{
+			throw new Error('[HabboMain] Not initialized');
+		}
+
+		return this._avatarRenderManager;
+	}
 
 	protected _disposed: boolean = false;
 
@@ -256,6 +269,7 @@ export class HeliumMain implements IHeliumMain
 		this._tracking = null;
 		this._adManager = null;
 		this._campaigns = null;
+		this._avatarRenderManager = null;
 		this._roomEngine = null;
 		this._inventory = null;
 		this._newNavigator = null;
@@ -377,6 +391,10 @@ export class HeliumMain implements IHeliumMain
 		this._roomEngine = new RoomEngine(ctx, this._core!.assets);
 		ctx.attachComponent(this._roomEngine, [IID_RoomEngine]);
 
+		// 12a. Avatar Render Manager
+		this._avatarRenderManager = new AvatarRenderManager(ctx);
+		ctx.attachComponent(this._avatarRenderManager, [IID_AvatarRenderManager]);
+
 		// 12b. Campaign Calendar
 		this._campaigns = new HabboCampaigns(ctx);
 		ctx.attachComponent(this._campaigns, []);
@@ -457,8 +475,6 @@ export class HeliumMain implements IHeliumMain
 		}
 
 		// Trigger furnidata/productdata loading now that URLs are available
-		// AS3: This happens via onConfigurationComplete callback on SessionDataManager
-		// Must happen BEFORE the await below so fetch starts immediately
 		if (this._sessionDataManager)
 		{
 			this._sessionDataManager.onConfigurationComplete();

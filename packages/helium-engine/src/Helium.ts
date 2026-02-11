@@ -9,6 +9,7 @@ import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
 import type {IRoomSessionManager} from '@habbo/session/IRoomSessionManager';
 import type {HabboCommunicationManager} from '@habbo/communication/HabboCommunicationManager';
 import type {RoomEngine} from '@habbo/room';
+import type {IAvatarRenderManager} from '@habbo/avatar/IAvatarRenderManager';
 import type {IHabboNavigator} from '@habbo/navigator/IHabboNavigator';
 import type {IHabboNewNavigator} from '@habbo/navigator/IHabboNewNavigator';
 import type {IHabboInventory} from '@habbo/inventory/IHabboInventory';
@@ -138,6 +139,11 @@ export class Helium implements IHelium
 	get habboCommunication(): HabboCommunicationManager
 	{
 		return this._habboMain!.habboCommunication;
+	}
+
+	get avatarRenderManager(): IAvatarRenderManager
+	{
+		return this._habboMain!.avatarRenderManager;
 	}
 
 	get roomEngine(): RoomEngine

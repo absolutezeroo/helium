@@ -1,0 +1,152 @@
+import { ActionDefinition } from './ActionDefinition';
+import { ActiveActionData } from './ActiveActionData';
+import type { IActiveActionData } from './IActiveActionData';
+
+/**
+ * Manages avatar action definitions, sorting and filtering.
+ *
+ * @see sources/win63_version/habbo/avatar/actions/AvatarActionManager.as
+ */
+export class AvatarActionManager
+{
+    private _actions: Map<string, ActionDefinition>;
+    private _defaultAction: ActionDefinition | null = null;
+
+    constructor(data: any)
+    {
+        this._actions = new Map();
+        this.updateActions(data);
+    }
+
+    public updateActions(data: any): void
+    {
+        if(!data || !data.actions) return;
+
+        for(const actionData of data.actions)
+        {
+            const state = String(actionData.state || '');
+
+            if(state !== '')
+            {
+                const definition = new ActionDefinition(actionData);
+
+                this._actions.set(state, definition);
+            }
+        }
+    }
+
+    public getActionDefinition(id: string): ActionDefinition | null
+    {
+        for(const action of this._actions.values())
+        {
+            if(action.id === id) return action;
+        }
+
+        return null;
+    }
+
+    public getActionDefinitionWithState(state: string): ActionDefinition | null
+    {
+        return this._actions.get(state) || null;
+    }
+
+    public getDefaultAction(): ActionDefinition | null
+    {
+        if(this._defaultAction) return this._defaultAction;
+
+        for(const action of this._actions.values())
+        {
+            if(action.isDefault)
+            {
+                this._defaultAction = action;
+
+                return action;
+            }
+        }
+
+        return null;
+    }
+
+    public getCanvasOffsets(actions: IActiveActionData[], scale: string, direction: number): number[] | null
+    {
+        let offsets: number[] | null = null;
+
+        for(const activeAction of actions)
+        {
+            const actionDef = this._actions.get(activeAction.actionType);
+
+            if(actionDef)
+            {
+                const actionOffsets = actionDef.getOffsets(scale, direction);
+
+                if(actionOffsets) offsets = actionOffsets;
+            }
+        }
+
+        return offsets;
+    }
+
+    public sortActions(actions: IActiveActionData[]): IActiveActionData[]
+    {
+        const filtered = this.filterActions(actions);
+        const result: IActiveActionData[] = [];
+
+        for(const action of filtered)
+        {
+            const definition = this._actions.get(action.actionType);
+
+            if(definition)
+            {
+                action.definition = definition;
+                result.push(action);
+            }
+        }
+
+        result.sort((a, b) =>
+        {
+            const precA = a.definition.precedence;
+            const precB = b.definition.precedence;
+
+            if(precA < precB) return 1;
+            if(precA > precB) return -1;
+
+            return 0;
+        });
+
+        return result;
+    }
+
+    private filterActions(actions: IActiveActionData[]): IActiveActionData[]
+    {
+        let prevents: string[] = [];
+
+        for(const action of actions)
+        {
+            const definition = this._actions.get(action.actionType);
+
+            if(definition)
+            {
+                prevents = prevents.concat(definition.getPrevents(action.actionParameter));
+            }
+        }
+
+        const result: IActiveActionData[] = [];
+
+        for(const action of actions)
+        {
+            let key = action.actionType;
+
+            if(action.actionType === 'fx')
+            {
+                key += '.' + action.actionParameter;
+            }
+
+            if(prevents.indexOf(key) === -1)
+            {
+                result.push(action);
+            }
+        }
+
+        return result;
+    }
+}

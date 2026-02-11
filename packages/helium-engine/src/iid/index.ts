@@ -3,6 +3,7 @@
 
 // Exports
 export {IID_AssetLibrary} from './IIDAssetLibrary';
+export {IID_AvatarRenderManager} from './IIDAvatarRenderManager';
 export {IID_CoreCommunicationManager} from './IIDCoreCommunicationManager';
 export {IID_HabboCommunicationManager} from './IIDHabboCommunicationManager';
 export {IID_HabboConfigurationManager} from './IIDHabboConfigurationManager';

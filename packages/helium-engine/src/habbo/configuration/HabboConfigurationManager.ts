@@ -331,7 +331,7 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 
 	private initEmbeddedConfigurations(): void
 	{
-		const environment = this._environmentId || localStorage.getItem('habbo_environment') || '';
+		const environment = this._environmentId || localStorage.getItem('helium_environment') || '';
 
 		if (!environment)
 		{

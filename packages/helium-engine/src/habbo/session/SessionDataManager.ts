@@ -1264,7 +1264,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		this.addMessageEvent(new NavigatorSettingsMessageEvent(this.onNavigatorSettings.bind(this)));
 		this.addMessageEvent(new FavouritesMessageEvent(this.onFavourites.bind(this)));
 
-		// Notifications events
+		// Notification events
 		this.addMessageEvent(new ActivityPointsMessageEvent(this.onActivityPoints.bind(this)));
 		this.addMessageEvent(new InfoFeedEnableMessageEvent(this.onInfoFeedEnable.bind(this)));
 

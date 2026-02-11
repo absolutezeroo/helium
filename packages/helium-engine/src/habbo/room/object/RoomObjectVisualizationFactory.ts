@@ -48,6 +48,10 @@ import {FurnitureMannequinVisualization} from './visualization/furniture/Furnitu
 import {FurnitureWaterAreaVisualization} from './visualization/furniture/FurnitureWaterAreaVisualization';
 import {FurniturePlanetSystemVisualization} from './visualization/furniture/FurniturePlanetSystemVisualization';
 
+// Avatar Visualization
+import {AvatarVisualization} from './visualization/avatar/AvatarVisualization';
+import {AvatarVisualizationData} from './visualization/avatar/AvatarVisualizationData';
+
 // Visualization Data
 import {FurnitureVisualizationData} from './visualization/furniture/FurnitureVisualizationData';
 import {AnimatedFurnitureVisualizationData} from './visualization/furniture/AnimatedFurnitureVisualizationData';
@@ -196,14 +200,11 @@ export class RoomObjectVisualizationFactory implements IRoomObjectVisualizationF
 			case RoomObjectVisualizationEnum.FURNITURE_PLANET_SYSTEM:
 				return new FurniturePlanetSystemVisualization();
 
-			// Avatar types (deferred - requires AvatarRenderManager)
-			// case RoomObjectVisualizationEnum.USER:
-			// case RoomObjectVisualizationEnum.BOT:
-			// case RoomObjectVisualizationEnum.RENTABLE_BOT:
-			// 	return new AvatarVisualization();
-
-			// case RoomObjectVisualizationEnum.PET_ANIMATED:
-			// 	return new AnimatedPetVisualization();
+			// Avatar types
+			case RoomObjectVisualizationEnum.USER:
+			case RoomObjectVisualizationEnum.BOT:
+			case RoomObjectVisualizationEnum.RENTABLE_BOT:
+				return new AvatarVisualization();
 
 			default:
 				return null;
@@ -224,6 +225,22 @@ export class RoomObjectVisualizationFactory implements IRoomObjectVisualizationF
 		if (cached)
 		{
 			return cached;
+		}
+
+		// Avatar visualization types use AvatarVisualizationData
+		if (type === 'user' || type === 'bot' || type === 'rentable_bot' || type === 'pet_animated')
+		{
+			const avatarVizData = new AvatarVisualizationData();
+
+			if (!avatarVizData.initialize(data))
+			{
+				avatarVizData.dispose();
+				return null;
+			}
+
+			this._visualizationDataCache.set(id, avatarVizData);
+
+			return avatarVizData;
 		}
 
 		// Create the appropriate visualization data based on type
