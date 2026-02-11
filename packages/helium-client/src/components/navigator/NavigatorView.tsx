@@ -1,4 +1,4 @@
-import {createEffect, createSignal, For, JSX, Show} from 'solid-js';
+import {createEffect, createSignal, For, JSX, onCleanup, Show} from 'solid-js';
 import {useNavigator} from '@ui/hooks/navigator/useNavigator';
 import {useLocalization} from '@ui/common';
 import {HeliumCardContentView, HeliumCardHeaderView, HeliumCardView} from '@ui/common/card';
@@ -49,6 +49,16 @@ export function NavigatorView(): JSX.Element
 		setIsLoading(false);
 
 		if (resultsRef) resultsRef.scrollTop = 0;
+	});
+
+	// Timeout safety: if loading lasts > 5s, disable it
+	createEffect(() =>
+	{
+		if(!isLoading()) return;
+
+		const timer = setTimeout(() => setIsLoading(false), 5000);
+
+		onCleanup(() => clearTimeout(timer));
 	});
 
 	// Auto-search on first ready: when isReady and no results yet
@@ -104,6 +114,8 @@ export function NavigatorView(): JSX.Element
 			<Show when={nav.isVisible}>
 				<HeliumCardView
 					uniqueKey="navigator"
+					width={leftPaneVisible() ? 578 : 425}
+					height={535}
 					class={`helium-navigator${leftPaneVisible() ? '' : ' left-pane-hidden'}`}
 				>
 					<HeliumCardHeaderView
@@ -157,6 +169,8 @@ export function NavigatorView(): JSX.Element
 													class={`navigator-tab${nav.currentSearchCode === ctx.searchCode ? ' active' : ''}`}
 													onClick={() =>
 													{
+														if(nav.currentSearchCode === ctx.searchCode) return;
+
 														actions.closeCreator();
 														actions.search(ctx.searchCode, '');
 														setIsLoading(true);

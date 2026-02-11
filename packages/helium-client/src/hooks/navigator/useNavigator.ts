@@ -172,15 +172,25 @@ const actions = {
 		setState('isVisible', false);
 	},
 
+	/**
+	 * Toggle navigator visibility. Refreshes results on every open.
+	 * @see HabboNewNavigator.as toggle() line 561-572: performLastSearch() on visible
+	 */
 	toggle()
 	{
-		if (state.isVisible)
+		if(state.isVisible)
 		{
 			actions.close();
 		}
 		else
 		{
 			actions.open();
+
+			// AS3: performLastSearch() on every open via toggle
+			if(state.isReady && state.searchResult)
+			{
+				actions.performLastSearch();
+			}
 		}
 	},
 
