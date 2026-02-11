@@ -146,7 +146,8 @@ export class CoreLocalizationManager extends Component implements ICoreLocalizat
 					log.info(`Loading external_texts from: ${finalUrl}`);
 
 					this.loadExternalTexts(finalUrl, acceptEmpty);
-				} catch (error)
+				}
+				catch (error)
 				{
 					log.error(`Failed parsing hashes: ${error}`);
 
@@ -422,7 +423,8 @@ export class CoreLocalizationManager extends Component implements ICoreLocalizat
 			}
 
 			log.debug(`Parsed ${result.size} localization entries from JSON`);
-		} catch (error)
+		}
+		catch (error)
 		{
 			log.error(`Failed to parse JSON localization data: ${error}`);
 		}

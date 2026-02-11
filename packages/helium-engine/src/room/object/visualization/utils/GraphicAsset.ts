@@ -12,18 +12,99 @@ import type {IGraphicAsset} from './IGraphicAsset';
 export class GraphicAsset implements IGraphicAsset
 {
 	private static _pool: GraphicAsset[] = [];
+	private _initialized: boolean = false;
 
 	private _assetName: string = '';
+
+	get assetName(): string
+	{
+		return this._assetName;
+	}
+
 	private _libraryAssetName: string = '';
+
+	get libraryAssetName(): string
+	{
+		return this._libraryAssetName;
+	}
+
 	private _texture: Texture | null = null;
+
+	get texture(): Texture | null
+	{
+		return this._texture;
+	}
+
 	private _flipH: boolean = false;
+
+	get flipH(): boolean
+	{
+		return this._flipH;
+	}
+
 	private _flipV: boolean = false;
+
+	get flipV(): boolean
+	{
+		return this._flipV;
+	}
+
 	private _usesPalette: boolean = false;
+
+	get usesPalette(): boolean
+	{
+		return this._usesPalette;
+	}
+
 	private _offsetX: number = 0;
+
+	get offsetX(): number
+	{
+		if (!this._flipH)
+		{
+			return this._offsetX;
+		}
+
+		return -(this.width + this._offsetX);
+	}
+
 	private _offsetY: number = 0;
+
+	get offsetY(): number
+	{
+		if (!this._flipV)
+		{
+			return this._offsetY;
+		}
+
+		return -(this.height + this._offsetY);
+	}
+
 	private _width: number = 0;
+
+	get width(): number
+	{
+		this.initialize();
+		return this._width;
+	}
+
 	private _height: number = 0;
-	private _initialized: boolean = false;
+
+	get height(): number
+	{
+		this.initialize();
+		return this._height;
+	}
+
+	get originalOffsetX(): number
+	{
+		return this._offsetX;
+	}
+
+	get originalOffsetY(): number
+	{
+		return this._offsetY;
+	}
 
 	/**
 	 * Allocate a GraphicAsset from the object pool or create a new one.
@@ -64,78 +145,6 @@ export class GraphicAsset implements IGraphicAsset
 		asset._usesPalette = usesPalette;
 
 		return asset;
-	}
-
-	get flipH(): boolean
-	{
-		return this._flipH;
-	}
-
-	get flipV(): boolean
-	{
-		return this._flipV;
-	}
-
-	get width(): number
-	{
-		this.initialize();
-		return this._width;
-	}
-
-	get height(): number
-	{
-		this.initialize();
-		return this._height;
-	}
-
-	get assetName(): string
-	{
-		return this._assetName;
-	}
-
-	get libraryAssetName(): string
-	{
-		return this._libraryAssetName;
-	}
-
-	get texture(): Texture | null
-	{
-		return this._texture;
-	}
-
-	get usesPalette(): boolean
-	{
-		return this._usesPalette;
-	}
-
-	get offsetX(): number
-	{
-		if (!this._flipH)
-		{
-			return this._offsetX;
-		}
-
-		return -(this.width + this._offsetX);
-	}
-
-	get offsetY(): number
-	{
-		if (!this._flipV)
-		{
-			return this._offsetY;
-		}
-
-		return -(this.height + this._offsetY);
-	}
-
-	get originalOffsetX(): number
-	{
-		return this._offsetX;
-	}
-
-	get originalOffsetY(): number
-	{
-		return this._offsetY;
 	}
 
 	recycle(): void

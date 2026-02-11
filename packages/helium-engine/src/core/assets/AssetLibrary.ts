@@ -227,7 +227,8 @@ export class AssetLibrary extends Component implements IAssetLibrary
 			this._isReady = isReady;
 			this._libraryEvents.emit(AssetLibraryEvents.LOADED);
 			this._libraryEvents.emit(AssetLibraryEvents.READY);
-		} catch (error)
+		}
+		catch (error)
 		{
 			Logger.getLogger('AssetLibrary').error(`Failed to load from ${url}:`, error);
 			this._isReady = false;
@@ -696,7 +697,8 @@ export class AssetLibrary extends Component implements IAssetLibrary
 				this.setAsset(struct.assetName, asset);
 
 				struct.dispatchEvent(new AssetLoaderEvent(AssetLoaderEventType.COMPLETE, event.status));
-			} catch (error)
+			}
+			catch (error)
 			{
 				Logger.getLogger('AssetLibrary').error('Error creating asset:', error);
 				struct.dispatchEvent(new AssetLoaderEvent(AssetLoaderEventType.ERROR, event.status));

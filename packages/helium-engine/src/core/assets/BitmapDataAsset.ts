@@ -138,7 +138,8 @@ export class BitmapDataAsset implements ILazyAsset
 				{
 					BitmapDataAsset._allocatedByteCount -= this._bitmap.width * this._bitmap.height * 4;
 					this._bitmap.destroy(true);
-				} catch (_e)
+				}
+				catch (_e)
 				{
 				}
 			}

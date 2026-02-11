@@ -258,7 +258,8 @@ export class ComponentContext extends Component implements IContext
 				try
 				{
 					entry.receiver.update(deltaTime);
-				} catch (e)
+				}
+				catch (e)
 				{
 					log.error('Update error:', e);
 				}
@@ -471,7 +472,8 @@ export class ComponentContext extends Component implements IContext
 			try
 			{
 				callback(iid, instance);
-			} catch (e)
+			}
+			catch (e)
 			{
 				log.error('Callback error:', e);
 			}

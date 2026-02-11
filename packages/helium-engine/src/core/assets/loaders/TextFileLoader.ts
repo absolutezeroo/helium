@@ -93,7 +93,8 @@ export class TextFileLoader extends BinaryFileLoader
 		{
 			const decoder = new TextDecoder('utf-8');
 			this._textContent = decoder.decode(this._data);
-		} catch (e)
+		}
+		catch (e)
 		{
 			Logger.getLogger('TextFileLoader').error('Error decoding content:', e);
 			this._textContent = '';

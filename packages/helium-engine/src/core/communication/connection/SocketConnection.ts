@@ -106,7 +106,8 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 			this.setupEventListeners();
 			this.startTimeout();
 			return true;
-		} catch (error)
+		}
+		catch (error)
 		{
 			log.error(`WebSocket error: ${(error as Error).message}`);
 			this.callback?.connectionError?.(error as Error);
@@ -221,13 +222,15 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 									try
 									{
 										event.callback(event);
-									} catch (error)
+									}
+									catch (error)
 									{
 										log.error(`Handler error for ${messageId}: ${(error as Error).message}`);
 									}
 								}
 							}
-						} catch (error)
+						}
+						catch (error)
 						{
 							log.error(`Parse error for ${messageId}: ${(error as Error).message}`);
 
@@ -236,7 +239,8 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 					}
 				}
 			}
-		} catch (error)
+		}
+		catch (error)
 		{
 			log.error(`Process error: ${(error as Error).message}`);
 		}
@@ -391,7 +395,8 @@ export class SocketConnection extends EventEmitter<ConnectionEvents> implements 
 				const messageName = this.messageRegistry.getOutgoingMessageName(messageId);
 			}
 			return true;
-		} catch (error)
+		}
+		catch (error)
 		{
 			log.error(`Send error: ${(error as Error).message}`);
 			return false;

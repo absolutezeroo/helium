@@ -12,14 +12,24 @@ import type {IGraphicAsset} from './IGraphicAsset';
 export interface IGraphicAssetCollection extends IDisposable
 {
 	addReference(): void;
+
 	removeReference(): void;
+
 	getReferenceCount(): number;
+
 	getLastReferenceTimestamp(): number;
+
 	define(data: Record<string, unknown>): boolean;
+
 	getAsset(name: string): IGraphicAsset | null;
+
 	getAssetWithPalette(name: string, paletteName: string): IGraphicAsset | null;
+
 	getPaletteNames(): string[];
+
 	getPaletteColors(paletteName: string): [number, number] | null;
+
 	addAsset(name: string, texture: Texture, override: boolean, offsetX?: number, offsetY?: number, flipH?: boolean, flipV?: boolean): boolean;
+
 	disposeAsset(name: string): void;
 }

@@ -9,8 +9,6 @@
 export class GraphicAssetPalette
 {
 	private _palette: number[] = [];
-	private _primaryColor: number = 0;
-	private _secondaryColor: number = 0;
 
 	constructor(data: Uint8Array, primaryColor: number, secondaryColor: number)
 	{
@@ -35,10 +33,14 @@ export class GraphicAssetPalette
 		this._secondaryColor = secondaryColor;
 	}
 
+	private _primaryColor: number = 0;
+
 	get primaryColor(): number
 	{
 		return this._primaryColor;
 	}
+
+	private _secondaryColor: number = 0;
 
 	get secondaryColor(): number
 	{

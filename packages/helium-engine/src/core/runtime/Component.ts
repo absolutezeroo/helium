@@ -274,7 +274,8 @@ export class Component implements IDisposable
 			try
 			{
 				cleanup();
-			} catch (e)
+			}
+			catch (e)
 			{
 				log.error('[Component] Cleanup error:', e);
 			}
@@ -619,7 +620,8 @@ export class Component implements IDisposable
 					{
 						this.initComponent();
 						this.unlock();
-					} catch (e)
+					}
+					catch (e)
 					{
 						log.error(`[Component] Error in initComponent for ${this.constructor.name}:`, e);
 						throw e;
@@ -634,7 +636,8 @@ export class Component implements IDisposable
 					this.initComponent();
 
 					this.unlock();
-				} catch (e)
+				}
+				catch (e)
 				{
 					log.error(`[Component] Error in initComponent for ${this.constructor.name}:`, e);
 					throw e;

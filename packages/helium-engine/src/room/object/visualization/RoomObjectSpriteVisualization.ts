@@ -25,7 +25,6 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 	protected _scale: number = -1;
 	protected _updateModelCounter: number = -1;
 	protected _direction: number = -1;
-	private _assetCollection: IGraphicAssetCollection | null = null;
 	private _sprites: RoomObjectSprite[] = [];
 	private _instanceId: number;
 	private _updateId: number = 0;
@@ -35,6 +34,18 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 	constructor()
 	{
 		this._instanceId = visualizationInstanceCounter++;
+	}
+
+	private _assetCollection: IGraphicAssetCollection | null = null;
+
+	get assetCollection(): IGraphicAssetCollection | null
+	{
+		return this._assetCollection;
+	}
+
+	set assetCollection(value: IGraphicAssetCollection | null)
+	{
+		this._assetCollection = value;
 	}
 
 	private _object: IRoomObject | null = null;
@@ -49,16 +60,6 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 		this._object = value;
 	}
 
-	get assetCollection(): IGraphicAssetCollection | null
-	{
-		return this._assetCollection;
-	}
-
-	set assetCollection(value: IGraphicAssetCollection | null)
-	{
-		this._assetCollection = value;
-	}
-
 	get spriteCount(): number
 	{
 		return this._sprites.length;
@@ -69,7 +70,7 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 	 */
 	get boundingRectangle(): { x: number; y: number; width: number; height: number }
 	{
-		if(!this._boundsDirty)
+		if (!this._boundsDirty)
 		{
 			return this._cachedBounds;
 		}
@@ -80,16 +81,16 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 		let bottom = 0;
 		let first = true;
 
-		for(let i = 0; i < this._sprites.length; i++)
+		for (let i = 0; i < this._sprites.length; i++)
 		{
 			const sprite = this._sprites[i];
 
-			if(sprite !== null && sprite.visible && sprite.texture !== null)
+			if (sprite !== null && sprite.visible && sprite.texture !== null)
 			{
 				const x = sprite.offsetX;
 				const y = sprite.offsetY;
 
-				if(first)
+				if (first)
 				{
 					left = x;
 					top = y;
@@ -99,10 +100,10 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 				}
 				else
 				{
-					if(x < left) left = x;
-					if(y < top) top = y;
-					if(x + sprite.width > right) right = x + sprite.width;
-					if(y + sprite.height > bottom) bottom = y + sprite.height;
+					if (x < left) left = x;
+					if (y < top) top = y;
+					if (x + sprite.width > right) right = x + sprite.width;
+					if (y + sprite.height > bottom) bottom = y + sprite.height;
 				}
 			}
 		}
@@ -118,13 +119,13 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 
 	dispose(): void
 	{
-		if(this._sprites !== null)
+		if (this._sprites !== null)
 		{
-			while(this._sprites.length > 0)
+			while (this._sprites.length > 0)
 			{
 				const sprite = this._sprites[0];
 
-				if(sprite !== null)
+				if (sprite !== null)
 				{
 					sprite.dispose();
 				}
@@ -157,7 +158,7 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 	{
 		const sprite = new RoomObjectSprite();
 
-		if(index >= this._sprites.length)
+		if (index >= this._sprites.length)
 		{
 			this._sprites.push(sprite);
 		}
@@ -173,7 +174,7 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 	{
 		const index = this._sprites.indexOf(sprite as RoomObjectSprite);
 
-		if(index === -1)
+		if (index === -1)
 		{
 			throw new Error('Trying to remove non-existing sprite!');
 		}
@@ -184,7 +185,7 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 
 	getSprite(index: number): IRoomObjectSprite | null
 	{
-		if(index >= 0 && index < this._sprites.length)
+		if (index >= 0 && index < this._sprites.length)
 		{
 			return this._sprites[index];
 		}
@@ -210,11 +211,11 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 	protected createSprites(count: number): void
 	{
 		// Remove excess sprites
-		while(this._sprites.length > count)
+		while (this._sprites.length > count)
 		{
 			const sprite = this._sprites[this._sprites.length - 1];
 
-			if(sprite !== null)
+			if (sprite !== null)
 			{
 				sprite.dispose();
 			}
@@ -223,7 +224,7 @@ export class RoomObjectSpriteVisualization implements IRoomObjectSpriteVisualiza
 		}
 
 		// Add missing sprites
-		while(this._sprites.length < count)
+		while (this._sprites.length < count)
 		{
 			const sprite = new RoomObjectSprite();
 			this._sprites.push(sprite);

@@ -96,7 +96,8 @@ export class SoundFileLoader extends BinaryFileLoader
 			this._audioBuffer = await this._audioContext.decodeAudioData(this._data.slice(0));
 
 			super.handleLoadEvent('complete');
-		} catch (e)
+		}
+		catch (e)
 		{
 			Logger.getLogger('SoundFileLoader').error('Error decoding audio:', e);
 

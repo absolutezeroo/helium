@@ -17,7 +17,6 @@ import type {IRoomObjectController} from './object/IRoomObjectController';
 import type {IRoomObjectManager} from './IRoomObjectManager';
 import type {IRoomObjectFactory} from './IRoomObjectFactory';
 import type {IRoomObjectVisualizationFactory} from './object/IRoomObjectVisualizationFactory';
-import type {IRoomObjectSpriteVisualization} from './object/visualization/IRoomObjectSpriteVisualization';
 import {RoomInstance} from './RoomInstance';
 
 /**
