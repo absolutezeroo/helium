@@ -21,140 +21,173 @@
 @use '../../abstracts' as *;
 @use 'sass:color';
 
+$_img: '@/assets/images';
+
 // --- Doorbell dialog ---
 .helium-navigator-doorbell
 {
-    width: $nav-doorbell-width;
+	width: $nav-doorbell-width;
 
-    .doorbell-info
-    {
-        font-size: $font-size-base;
-        line-height: 1.4;
-    }
+	.doorbell-info
+	{
+		font-size: $font-size-base;
+		line-height: 1.4;
+	}
 
-    .doorbell-actions
-    {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 8px;
-        margin-top: 8px;
-        padding: 4px 0;
-        background-color: $bg-action-bar;
-        border-radius: 2px;
+	.doorbell-actions
+	{
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 8px;
+		margin-top: 8px;
+		padding: 4px 0;
+		background-color: $bg-action-bar;
+		border-radius: 2px;
 
-        .doorbell-cancel-btn
-        {
-            font-size: $font-size-base;
-            text-decoration: underline;
-            color: $text-primary;
-            cursor: pointer;
-            padding: 4px 8px;
+		.doorbell-cancel-btn
+		{
+			font-size: $font-size-base;
+			text-decoration: underline;
+			color: $text-primary;
+			cursor: pointer;
+			padding: 4px 8px;
 
-            &:hover
-            {
-                color: $accent-blue;
-            }
-        }
+			&:hover
+			{
+				color: $accent-blue;
+			}
+		}
 
-        .doorbell-ring-btn
-        {
-            flex: 1;
-            height: 28px;
-            font-size: $font-size-base;
-            font-weight: bold;
-            color: $text-white;
-            background-color: $accent-blue;
-            border: 1px solid color.adjust($accent-blue, $lightness: -10%);
-            border-radius: 3px;
-            cursor: pointer;
+		// Ring button uses button_green.png bitmap
+		.doorbell-ring-btn
+		{
+			flex: 1;
+			height: 28px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: $font-size-base;
+			font-weight: bold;
+			color: $text-white;
+			cursor: pointer;
+			background: none;
+			box-sizing: border-box;
 
-            &:hover
-            {
-                background-color: color.adjust($accent-blue, $lightness: 5%);
-            }
+			border-style: solid;
+			border-width: 5px;
+			border-color: transparent;
+			border-image-source: url('#{$_img}/button_green.png');
+			border-image-slice: 5 fill;
+			border-image-repeat: stretch;
+			image-rendering: pixelated;
 
-            &:active
-            {
-                background-color: color.adjust($accent-blue, $lightness: -5%);
-            }
-        }
-    }
+			&:hover
+			{
+				border-image-source: url('#{$_img}/button_green_rollover.png');
+			}
+
+			&:active
+			{
+				border-image-source: url('#{$_img}/button_green_pressed.png');
+			}
+		}
+	}
 }
 
 // --- Password dialog ---
 .helium-navigator-password
 {
-    width: $nav-password-width;
+	width: $nav-password-width;
 
-    .password-info
-    {
-        font-size: $font-size-base;
-        line-height: 1.4;
-    }
+	.password-info
+	{
+		font-size: $font-size-base;
+		line-height: 1.4;
+	}
 
-    .password-input
-    {
-        width: 100px;
-        height: 19px;
-        font-size: $font-size-base;
-        padding: 2px 4px;
-        border: 1px solid $frame-border-color;
-        border-radius: 2px;
-        outline: none;
+	// Password input uses border_sunk.png bitmap
+	.password-input
+	{
+		width: 100px;
+		height: 19px;
+		font-size: $font-size-base;
+		padding: 2px 4px;
+		background: none;
+		outline: none;
+		box-sizing: border-box;
 
-        &:focus
-        {
-            border-color: $accent-blue;
-        }
-    }
+		border-style: solid;
+		border-width: 3px;
+		border-color: transparent;
+		border-image-source: url('#{$_img}/border_sunk.png');
+		border-image-slice: 5 fill;
+		border-image-repeat: stretch;
+		image-rendering: pixelated;
 
-    .password-actions
-    {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 8px;
-        margin-top: 8px;
-        padding: 4px 0;
-        background-color: $bg-action-bar;
-        border-radius: 2px;
+		&:focus
+		{
+			filter: brightness(0.97);
+		}
+	}
 
-        .password-cancel-btn
-        {
-            font-size: $font-size-base;
-            text-decoration: underline;
-            color: $text-primary;
-            cursor: pointer;
-            padding: 4px 8px;
+	.password-actions
+	{
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 8px;
+		margin-top: 8px;
+		padding: 4px 0;
+		background-color: $bg-action-bar;
+		border-radius: 2px;
 
-            &:hover
-            {
-                color: $accent-blue;
-            }
-        }
+		.password-cancel-btn
+		{
+			font-size: $font-size-base;
+			text-decoration: underline;
+			color: $text-primary;
+			cursor: pointer;
+			padding: 4px 8px;
 
-        .password-try-btn
-        {
-            flex: 1;
-            height: 28px;
-            font-size: $font-size-base;
-            font-weight: bold;
-            color: $text-white;
-            background-color: $accent-blue;
-            border: 1px solid color.adjust($accent-blue, $lightness: -10%);
-            border-radius: 3px;
-            cursor: pointer;
+			&:hover
+			{
+				color: $accent-blue;
+			}
+		}
 
-            &:hover
-            {
-                background-color: color.adjust($accent-blue, $lightness: 5%);
-            }
+		// Try button uses button_green.png bitmap
+		.password-try-btn
+		{
+			flex: 1;
+			height: 28px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: $font-size-base;
+			font-weight: bold;
+			color: $text-white;
+			cursor: pointer;
+			background: none;
+			box-sizing: border-box;
 
-            &:active
-            {
-                background-color: color.adjust($accent-blue, $lightness: -5%);
-            }
-        }
-    }
+			border-style: solid;
+			border-width: 5px;
+			border-color: transparent;
+			border-image-source: url('#{$_img}/button_green.png');
+			border-image-slice: 5 fill;
+			border-image-repeat: stretch;
+			image-rendering: pixelated;
+
+			&:hover
+			{
+				border-image-source: url('#{$_img}/button_green_rollover.png');
+			}
+
+			&:active
+			{
+				border-image-source: url('#{$_img}/button_green_pressed.png');
+			}
+		}
+	}
 }

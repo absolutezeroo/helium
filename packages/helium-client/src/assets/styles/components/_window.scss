@@ -21,146 +21,154 @@
 @use 'sass:color';
 @use 'sass:map';
 
+$_img: '@/assets/images';
+
 .habbo-window
 {
-    display: flex;
-    flex-direction: column;
-    border-radius: $frame-border-radius;
-    overflow: hidden;
-    pointer-events: all;
-    border: 3px solid #93918a;
-    background-color: $frame-body-bg;
-    box-shadow: $frame-shadow;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	pointer-events: all;
+	box-shadow: $frame-shadow;
 
-    &.no-select
-    {
-        user-select: none;
-    }
+	// Frame border using actual Flash bitmap (skin_ubuntu_bg_9.png 13x14)
+	border-style: solid;
+	border-width: 5px;
+	border-color: transparent;
+	border-image-source: url('#{$_img}/skin_ubuntu_bg_9.png');
+	border-image-slice: 5 5 6 5 fill;
+	border-image-repeat: stretch;
+	image-rendering: pixelated;
 
-    // --- Header (drag handle + title + close button) ---
-    &__header
-    {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        min-height: $frame-header-height;
-        max-height: $frame-header-height;
-        margin: 3px 3px 0 3px;
-        border-radius: 7px 7px 0 0;
-        $grad: header-gradient($frame-header-color);
-        background: linear-gradient(
-            to bottom,
-            map.get($grad, top) 0%,
-            map.get($grad, mid) 45%,
-            map.get($grad, bottom) 100%
-        );
-        cursor: grab;
-        user-select: none;
-        flex-shrink: 0;
+	&.no-select
+	{
+		user-select: none;
+	}
 
-        &:active
-        {
-            cursor: grabbing;
-        }
-    }
+	// --- Header (drag handle + title + close button) ---
+	&__header
+	{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+		min-height: $frame-header-height;
+		max-height: $frame-header-height;
+		margin: 0;
+		border-radius: 5px 5px 0 0;
+		$grad: header-gradient($frame-header-color);
+		background: linear-gradient(
+			to bottom,
+			map.get($grad, top) 0%,
+			map.get($grad, mid) 45%,
+			map.get($grad, bottom) 100%
+		);
+		cursor: grab;
+		user-select: none;
+		flex-shrink: 0;
 
-    // --- Title text ---
-    &__title
-    {
-        @include text-style('frame-title');
-        padding: 1px 8px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+		&:active
+		{
+			cursor: grabbing;
+		}
+	}
 
-    // --- Close button ---
-    &__close
-    {
-        position: absolute;
-        right: 8px;
-        top: 50%;
-        transform: translateY(-50%);
-        @include habbo-close-button;
-    }
+	// --- Title text ---
+	&__title
+	{
+		@include text-style('frame-title');
+		padding: 1px 8px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
 
-    // --- Sub-header ---
-    &__subheader
-    {
-        flex-shrink: 0;
-        border-bottom: 1px solid $frame-border-color;
-    }
+	// --- Close button ---
+	&__close
+	{
+		position: absolute;
+		right: 8px;
+		top: 50%;
+		transform: translateY(-50%);
+		@include habbo-close-button;
+	}
 
-    // --- Tabs container ---
-    &__tabs
-    {
-        display: flex;
-        align-items: flex-end;
-        justify-content: center;
-        gap: 4px;
-        min-height: $frame-tab-height;
-        max-height: $frame-tab-height;
-        padding: 4px 4px 0;
-        background-color: $frame-border-color;
-        flex-shrink: 0;
-    }
+	// --- Sub-header ---
+	&__subheader
+	{
+		flex-shrink: 0;
+		border-bottom: 1px solid $frame-border-color;
+	}
 
-    // --- Content area ---
-    &__content
-    {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        background-color: $frame-body-bg;
-        overflow: auto;
-        padding: $frame-side-border;
-        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.08);
-        @include habbo-scrollbar;
-    }
+	// --- Tabs container ---
+	&__tabs
+	{
+		display: flex;
+		align-items: flex-end;
+		justify-content: center;
+		gap: 4px;
+		min-height: $frame-tab-height;
+		max-height: $frame-tab-height;
+		padding: 4px 4px 0;
+		background-color: $frame-border-color;
+		flex-shrink: 0;
+	}
 
-    // --- Footer ---
-    &__footer
-    {
-        flex-shrink: 0;
-        padding: $frame-side-border;
-        border-top: 1px solid $frame-border-color;
-    }
+	// --- Content area ---
+	&__content
+	{
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		background-color: $frame-body-bg;
+		overflow: auto;
+		padding: $frame-side-border;
+		box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.08);
+		@include habbo-scrollbar;
+	}
 
-    // --- Variants ---
+	// --- Footer ---
+	&__footer
+	{
+		flex-shrink: 0;
+		padding: $frame-side-border;
+		border-top: 1px solid $frame-border-color;
+	}
 
-    // Alert variant (red header)
-    &--alert &__header
-    {
-        $grad: header-gradient(#c43030);
-        background: linear-gradient(
-            to bottom,
-            map.get($grad, top) 0%,
-            map.get($grad, mid) 45%,
-            map.get($grad, bottom) 100%
-        );
-    }
+	// --- Variants ---
 
-    // Notification variant (yellow header)
-    &--notify &__header
-    {
-        $grad: header-gradient($btn-yellow-bg);
-        background: linear-gradient(
-            to bottom,
-            map.get($grad, top) 0%,
-            map.get($grad, mid) 45%,
-            map.get($grad, bottom) 100%
-        );
-    }
+	// Alert variant (red header)
+	&--alert &__header
+	{
+		$grad: header-gradient(#c43030);
+		background: linear-gradient(
+			to bottom,
+			map.get($grad, top) 0%,
+			map.get($grad, mid) 45%,
+			map.get($grad, bottom) 100%
+		);
+	}
 
-    // Headerless variant
-    &--no-header &__header
-    {
-        display: none;
-    }
+	// Notification variant (yellow header)
+	&--notify &__header
+	{
+		$grad: header-gradient($btn-yellow-bg);
+		background: linear-gradient(
+			to bottom,
+			map.get($grad, top) 0%,
+			map.get($grad, mid) 45%,
+			map.get($grad, bottom) 100%
+		);
+	}
 
-    &--no-header &__content
-    {
-        border-radius: 7px;
-    }
+	// Headerless variant
+	&--no-header &__header
+	{
+		display: none;
+	}
+
+	&--no-header &__content
+	{
+		border-radius: 5px;
+	}
 }

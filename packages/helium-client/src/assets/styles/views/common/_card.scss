@@ -20,12 +20,13 @@
 {
     display: flex;
     flex-direction: column;
-    border-radius: $frame-border-radius;
     overflow: hidden;
     pointer-events: all;
-    border: 3px solid #93918a; // ~3px border matching Flash 9-slice bitmap
-    background-color: $frame-body-bg; // beige visible around inset header
     box-shadow: $frame-shadow;
+
+    // Frame border using actual Flash bitmap (skin_ubuntu_bg_9.png)
+    border: 5px solid transparent;
+    border-image: url('@/assets/images/skin_ubuntu_bg_9.png') 5 5 6 5 fill stretch;
 
     &.no-select
     {
@@ -47,9 +48,8 @@
     position: relative;
     min-height: $frame-header-height;
     max-height: $frame-header-height;
-    // Inset header to expose beige frame bg (Flash: header at x=6, y=6 inside frame)
-    margin: 3px 3px 0 3px;
-    border-radius: 7px 7px 0 0; // inner radius = 10px frame radius - 3px border
+    margin: 0;
+    border-radius: 5px 5px 0 0;
     background: linear-gradient(
         to bottom,
         color.adjust($frame-header-color, $lightness: 10%) 0%,

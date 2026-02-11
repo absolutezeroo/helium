@@ -1,98 +1,146 @@
 // ============================================================
 // Button (.habbo-button) - BEM
-// Maps AS3 ButtonController button states
-// @see habbo_skin_button_3_xml.bin
+// Uses actual Flash button bitmaps via CSS border-image (9-slice)
+// @see habbo_skin_button_default_xml.bin
 //
 // .habbo-button
-//   .habbo-button--green
-//   .habbo-button--red
-//   .habbo-button--yellow
+//   .habbo-button--green / --red / --yellow
 //   .habbo-button--disabled
-//   .habbo-button--pressed
-//   .habbo-button--small
-//   .habbo-button--large
+//   .habbo-button--small / --large
 // ============================================================
 
 @use '../abstracts' as *;
-@use 'sass:color';
+
+$_img: '@/assets/images';
 
 .habbo-button
 {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 28px;
-    padding: 0 12px;
-    font-size: $font-size-base;
-    font-weight: bold;
-    color: $text-primary;
-    cursor: pointer;
-    user-select: none;
-    border: 1px solid color.adjust($btn-default-bg, $lightness: -15%);
-    border-radius: 4px;
-    background-color: $btn-default-bg;
-    transition: filter 0.1s ease;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 24px;
+	padding: 2px 10px;
+	font-size: $font-size-base;
+	font-weight: bold;
+	color: $text-primary;
+	cursor: pointer;
+	user-select: none;
+	background: none;
+	box-sizing: border-box;
 
-    &:hover
-    {
-        filter: brightness(1.08);
-    }
+	// Default grey button (button.png 11x13, ~3px corners)
+	border: 3px solid transparent;
+	border-image: url('#{$_img}/button.png') 3 fill stretch;
 
-    &:active
-    {
-        filter: brightness(0.92);
-    }
+	&:hover
+	{
+		filter: brightness(1.1);
+	}
 
-    // --- Color variants ---
+	&:active
+	{
+		border-image-source: url('#{$_img}/button_pressed.png');
+		filter: none;
+	}
 
-    &--green
-    {
-        background-color: $btn-green-bg;
-        border-color: color.adjust($btn-green-bg, $lightness: -12%);
-        color: $text-white;
-    }
+	// --- Color variants (24x24 bitmaps, ~5px corners) ---
 
-    &--red
-    {
-        background-color: $btn-red-bg;
-        border-color: color.adjust($btn-red-bg, $lightness: -12%);
-        color: $text-white;
-    }
+	&--green
+	{
+		border-width: 5px;
+		border-image: url('#{$_img}/button_green.png') 5 fill stretch;
+		color: $text-white;
 
-    &--yellow
-    {
-        background-color: $btn-yellow-bg;
-        border-color: color.adjust($btn-yellow-bg, $lightness: -12%);
-        color: $text-white;
-    }
+		&:hover
+		{
+			border-image-source: url('#{$_img}/button_green_rollover.png');
+			filter: none;
+		}
 
-    // --- State modifiers ---
+		&:active
+		{
+			border-image-source: url('#{$_img}/button_green_pressed.png');
+			filter: none;
+		}
+	}
 
-    &--disabled
-    {
-        opacity: 0.5;
-        pointer-events: none;
-        cursor: default;
-    }
+	&--green#{&}--disabled
+	{
+		border-image-source: url('#{$_img}/button_green_inactive.png');
+	}
 
-    &--pressed
-    {
-        filter: brightness(0.88);
-    }
+	&--red
+	{
+		border-width: 5px;
+		border-image: url('#{$_img}/button_red.png') 5 fill stretch;
+		color: $text-white;
 
-    // --- Size variants ---
+		&:hover
+		{
+			border-image-source: url('#{$_img}/button_red_rollover.png');
+			filter: none;
+		}
 
-    &--small
-    {
-        height: 22px;
-        padding: 0 8px;
-        font-size: $font-size-sm;
-    }
+		&:active
+		{
+			border-image-source: url('#{$_img}/button_red_pressed.png');
+			filter: none;
+		}
+	}
 
-    &--large
-    {
-        height: 34px;
-        padding: 0 16px;
-        font-size: $font-size-lg;
-    }
+	&--red#{&}--disabled
+	{
+		border-image-source: url('#{$_img}/button_red_inactive.png');
+	}
+
+	&--yellow
+	{
+		border-width: 5px;
+		border-image: url('#{$_img}/button_yellow.png') 5 fill stretch;
+		color: $text-white;
+
+		&:hover
+		{
+			border-image-source: url('#{$_img}/button_yellow_rollover.png');
+			filter: none;
+		}
+
+		&:active
+		{
+			border-image-source: url('#{$_img}/button_yellow_pressed.png');
+			filter: none;
+		}
+	}
+
+	&--yellow#{&}--disabled
+	{
+		border-image-source: url('#{$_img}/button_yellow_inactive.png');
+	}
+
+	// --- State modifiers ---
+
+	&--disabled
+	{
+		border-image-source: url('#{$_img}/button_inactive.png');
+		opacity: 0.7;
+		pointer-events: none;
+		cursor: default;
+		filter: none;
+	}
+
+	// --- Size variants ---
+
+	&--small
+	{
+		min-height: 20px;
+		padding: 1px 6px;
+		font-size: $font-size-sm;
+	}
+
+	&--large
+	{
+		min-height: 30px;
+		padding: 3px 14px;
+		font-size: $font-size-lg;
+	}
 }

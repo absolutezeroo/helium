@@ -15,6 +15,7 @@ import type { AvatarImageBodyPartContainer } from './AvatarImageBodyPartContaine
 import type { AvatarCanvas } from './structure/AvatarCanvas';
 import type { IPartColor } from './structure/figure/IPartColor';
 import type { ActionDefinition } from './actions/ActionDefinition';
+import { AvatarImageCache } from './cache/AvatarImageCache';
 import { ActiveActionData } from './actions/ActiveActionData';
 import { AvatarAction } from './enum/AvatarAction';
 import { AvatarScaleType } from './enum/AvatarScaleType';
@@ -107,9 +108,7 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener
 
         this._figure = figure;
 
-        // AvatarImageCache will be created when that class exists.
-        // For now, store a null placeholder.
-        // this._cache = new AvatarImageCache(this._structure, this, this._assets, this._scale);
+        this._cache = new AvatarImageCache(this._structure, this, this._assets, this._scale);
 
         this.setDirection(AvatarImage.DEFAULT_AVATAR_SET, AvatarImage.DEFAULT_DIR);
 
@@ -625,8 +624,12 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener
 
         const bodyParts = this.getBodyParts(setType, this._mainAction.definition.geometryType, this._mainDirection);
 
-        // Compositing would happen here with PixiJS RenderTexture.
-        // For now, iterate through body parts to populate cache entries.
+        // Create OffscreenCanvas for compositing (equivalent to AS3 BitmapData)
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+        const offscreen = new OffscreenCanvas(canvasWidth, canvasHeight);
+        const ctx = offscreen.getContext('2d')!;
+
         let isCacheable = true;
 
         for(let i = bodyParts.length - 1; i >= 0; i--)
@@ -641,14 +644,39 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener
                 {
                     isCacheable = isCacheable && container.isCacheable;
 
-                    // TODO: Composite container.image at container.regPoint + canvas.offset + canvas.regPoint
+                    if(container.image)
+                    {
+                        // AS3: copyPixels at offset = regPoint + canvas.offset + canvas.regPoint
+                        const regPoint = container.regPoint;
+                        const destX = regPoint.x + canvas.offset.x + canvas.regPoint.x;
+                        const destY = regPoint.y + canvas.offset.y + canvas.regPoint.y;
+
+                        const source = container.image.source?.resource;
+
+                        if(source)
+                        {
+                            const frame = container.image.frame;
+
+                            ctx.drawImage(
+                                source as ImageBitmapSource,
+                                frame.x, frame.y, frame.width, frame.height,
+                                destX, destY, frame.width, frame.height
+                            );
+                        }
+                    }
                 }
             }
         }
 
-        this._needsUpdate = false;
+        // Convert to PixiJS Texture
+        if(!this._fullImageFromCache && this._image)
+        {
+            this._image.destroy();
+        }
 
-        // TODO: Apply avatar data (grayscale + palette map) if this._avatarDataContainer is set
+        this._image = Texture.from({ resource: offscreen, alphaMode: 'premultiply-alpha-on-upload' });
+        this._fullImageFromCache = false;
+        this._needsUpdate = false;
 
         // Cache the result if eligible
         if(cacheKey != null && isCacheable && this._image)
@@ -687,9 +715,43 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener
 
         const bodyParts = this._structure.getBodyParts(setType, this._mainAction.definition.geometryType, this._mainDirection);
 
-        // TODO: Composite and crop to bounding box of body parts
+        // Composite body parts then crop to content bounds
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+        const offscreen = new OffscreenCanvas(canvasWidth, canvasHeight);
+        const ctx = offscreen.getContext('2d')!;
 
-        return null;
+        for(let i = bodyParts.length - 1; i >= 0; i--)
+        {
+            const partId = bodyParts[i];
+
+            if(this._cache)
+            {
+                const container = this._cache.getImageContainer(partId, this._frameCounter);
+
+                if(container && container.image)
+                {
+                    const regPoint = container.regPoint;
+                    const destX = regPoint.x + canvas.offset.x + canvas.regPoint.x;
+                    const destY = regPoint.y + canvas.offset.y + canvas.regPoint.y;
+
+                    const source = container.image.source?.resource;
+
+                    if(source)
+                    {
+                        const frame = container.image.frame;
+
+                        ctx.drawImage(
+                            source as ImageBitmapSource,
+                            frame.x, frame.y, frame.width, frame.height,
+                            destX, destY, frame.width, frame.height
+                        );
+                    }
+                }
+            }
+        }
+
+        return Texture.from({ resource: offscreen, alphaMode: 'premultiply-alpha-on-upload' });
     }
 
     /**

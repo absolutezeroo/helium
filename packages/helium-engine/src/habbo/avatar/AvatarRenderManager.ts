@@ -370,10 +370,14 @@ export class AvatarRenderManager extends Component implements IAvatarRenderManag
             return;
         }
 
+        // Connect alias collection to asset library for sprite resolution
+        this._aliasCollection.setAssetLibrary(this._assetLibrary);
+
         this._avatarAssetDownloadManager = new AvatarAssetDownloadManager(
             avatarDownloadUrl,
             this._structure,
-            this._assetLibrary
+            this._assetLibrary,
+            this._aliasCollection
         );
 
         this._effectAssetDownloadManager = new EffectAssetDownloadManager(

@@ -1,49 +1,70 @@
 // ============================================================
 // Border Containers (.habbo-border) - BEM
-// Maps AS3 WindowType border styles
-// @see border_sunk.png, illumina_light_border_raised.png
+// Uses actual Flash border bitmaps via CSS border-image (9-slice)
+// @see habbo_skin_border_xml.bin, illumina_light_skin_border_xml.bin
 //
-// .habbo-border
-//   .habbo-border--raised
-//   .habbo-border--etched
-//   .habbo-border--frame
-//   .habbo-border--thin
-//   .habbo-border--thick
+// .habbo-border              - default sunken (border_sunk.png 20x20)
+//   .habbo-border--raised    - raised (illumina_light_border_raised.png 27x15)
+//   .habbo-border--etched    - etched (illumina_light_border_etched.png 9x9)
+//   .habbo-border--sunk      - illumina sunk (illumina_light_border_sunk.png 30x30)
+//   .habbo-border--frame     - frame border (illumina_light_border_frame.png 11x13)
+//   .habbo-border--light     - light border (illumina_light_border_light.png 9x19)
 // ============================================================
 
 @use '../abstracts' as *;
 
+$_img: '@/assets/images';
+
 .habbo-border
 {
-    border: 1px solid $border-sunk-color;
-    border-radius: 3px;
-    background-color: $bg-white;
+	background: none;
 
-    &--raised
-    {
-        border-color: $border-raised-color;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
-    }
+	// Default: border_sunk.png (20x20, ~5px corners)
+	border: 5px solid transparent;
+	border-image: url('#{$_img}/border_sunk.png') 5 fill stretch;
 
-    &--etched
-    {
-        border-color: $border-etched-color;
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
-    }
+	&--raised
+	{
+		// illumina_light_border_raised.png (27x15, ~4px corners)
+		border-width: 4px;
+		border-image: url('#{$_img}/illumina_light_border_raised.png') 4 fill stretch;
+	}
 
-    &--frame
-    {
-        border: $frame-side-border solid $frame-border-color;
-        border-radius: $frame-border-radius;
-    }
+	&--etched
+	{
+		// illumina_light_border_etched.png (9x9, ~3px corners)
+		border-width: 3px;
+		border-image: url('#{$_img}/illumina_light_border_etched.png') 3 fill stretch;
+	}
 
-    &--thin
-    {
-        border-width: 1px;
-    }
+	&--sunk
+	{
+		// illumina_light_border_sunk.png (30x30, ~6px corners)
+		border-width: 6px;
+		border-image: url('#{$_img}/illumina_light_border_sunk.png') 6 fill stretch;
+	}
 
-    &--thick
-    {
-        border-width: 2px;
-    }
+	&--frame
+	{
+		// illumina_light_border_frame.png (11x13, ~4px corners)
+		border-width: 4px;
+		border-image: url('#{$_img}/illumina_light_border_frame.png') 4 fill stretch;
+	}
+
+	&--light
+	{
+		// illumina_light_border_light.png (9x19, ~3px corners)
+		border-width: 3px;
+		border-image: url('#{$_img}/illumina_light_border_light.png') 3 fill stretch;
+	}
+
+	&--thin
+	{
+		border-width: 2px;
+	}
+
+	&--thick
+	{
+		border-width: 6px;
+	}
 }

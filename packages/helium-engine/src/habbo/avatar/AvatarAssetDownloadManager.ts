@@ -3,6 +3,7 @@ import type {IAssetLibrary} from '@core/assets';
 import type { IAvatarFigureContainer } from './IAvatarFigureContainer';
 import type { IAvatarImageListener } from './IAvatarImageListener';
 import type { AvatarStructure } from './AvatarStructure';
+import type { AssetAliasCollection } from './alias/AssetAliasCollection';
 import { AvatarAssetDownloadLibrary } from './AvatarAssetDownloadLibrary';
 
 /**
@@ -38,12 +39,14 @@ export class AvatarAssetDownloadManager extends EventEmitter
     private _isReady: boolean;
     private _downloadUrl: string;
     private _assetLibrary: IAssetLibrary;
+    private _aliasCollection: AssetAliasCollection | null;
     private _mandatoryLibs: string[];
 
     constructor(
         downloadUrl: string,
         structure: AvatarStructure,
-        assetLibrary: IAssetLibrary
+        assetLibrary: IAssetLibrary,
+        aliasCollection: AssetAliasCollection | null = null
     )
     {
         super();
@@ -51,6 +54,7 @@ export class AvatarAssetDownloadManager extends EventEmitter
         this._structure = structure;
         this._downloadUrl = downloadUrl;
         this._assetLibrary = assetLibrary;
+        this._aliasCollection = aliasCollection;
         this._libraries = new Map();
         this._figureMap = new Map();
         this._incompleteFigures = new Map();
@@ -275,6 +279,12 @@ export class AvatarAssetDownloadManager extends EventEmitter
         if(downloadIndex !== -1)
         {
             this._currentDownloads.splice(downloadIndex, 1);
+        }
+
+        // Register assets and aliases from the loaded library
+        if(this._aliasCollection)
+        {
+            this._aliasCollection.onAvatarAssetsLibraryReady(library.libraryName);
         }
 
         // Check which pending figures are now complete

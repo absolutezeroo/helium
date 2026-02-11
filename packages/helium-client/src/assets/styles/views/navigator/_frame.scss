@@ -31,8 +31,8 @@ $nav-width-collapsed: 425px;
         padding: 0;
         box-shadow: none;
         overflow: hidden; // Navigator manages its own scroll
-        margin: 0 3px 3px 3px; // beige gap on sides/bottom matching Flash frame inset
-        border-radius: 0 0 7px 7px; // inner radius at bottom corners
+        margin: 0; // bitmap border handles the inset
+        border-radius: 0 0 5px 5px; // inner radius at bottom corners
     }
 
     // --- Two-pane body ---
@@ -59,14 +59,20 @@ $nav-width-collapsed: 425px;
         overflow: hidden;
 
         // Inner white bordered container (quicklinks_border style="2")
+        // Uses border_sunk.png for authentic Flash sunken border
         .left-pane-content
         {
             flex: 1;
             display: flex;
             flex-direction: column;
-            background-color: $bg-white;
-            border: 1px solid $frame-border-color;
-            border-radius: 3px;
+            background: none;
+            border-style: solid;
+            border-color: transparent;
+            border-width: 5px;
+            border-image-source: url('@/assets/images/border_sunk.png');
+            border-image-slice: 5 fill;
+            border-image-repeat: stretch;
+            image-rendering: pixelated;
             overflow: hidden;
         }
 
@@ -191,21 +197,27 @@ $nav-width-collapsed: 425px;
         text-overflow: ellipsis;
         white-space: nowrap;
         color: $text-primary;
-        // Bitmap tab skin via 3-slice border-image (9px left/right caps)
+        box-sizing: border-box;
+
+        // Bitmap tab skin via 9-slice border-image
+        // tab_bg_unsel.png (30x30, ~9px top corners, ~2px bottom)
+        background: none;
         border-style: solid;
-        border-width: 0 9px;
-        border-image: url('@/assets/images/habbo_tab_default.png') 0 9 0 9 fill stretch;
-        border-radius: 0; // bitmap handles rounded corners
-        background: none; // border-image fill provides background
+        border-color: transparent;
+        border-width: 9px 9px 2px 9px;
+        border-image-source: url('@/assets/images/tab_bg_unsel.png');
+        border-image-slice: 9 9 2 9 fill;
+        border-image-repeat: stretch;
+        image-rendering: pixelated;
 
         &:hover
         {
-            border-image-source: url('@/assets/images/habbo_tab_hover.png');
+            border-image-source: url('@/assets/images/tab_bg_hilite.png');
         }
 
         &.active
         {
-            border-image-source: url('@/assets/images/habbo_tab_selected.png');
+            border-image-source: url('@/assets/images/tab_bg_sel.png');
             font-weight: bold;
         }
     }

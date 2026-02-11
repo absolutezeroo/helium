@@ -1,45 +1,52 @@
 // ============================================================
 // Tab Button (.habbo-tab) - BEM
-// Maps AS3 tab button skins (3-slice border-image)
+// Uses actual Flash tab bitmaps via CSS border-image (9-slice)
 // @see habbo_skin_button_tab_3_xml.bin
+//
+// tab_bg_unsel.png (30x30) - unselected
+// tab_bg_sel.png   (30x30) - selected/active
+// tab_bg_hilite.png(30x30) - hover highlight
 //
 // .habbo-tab
 //   .habbo-tab--active
 //   .habbo-tab--hovering
-//
-// Note: Bitmap tab skins (border-image) are applied per-view
-// (e.g. navigator/_frame.scss). This provides CSS-only fallback.
 // ============================================================
+
 @use '../abstracts' as *;
+
+$_img: '@/assets/images';
 
 .habbo-tab
 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: calc(#{$frame-tab-height} - 2px);
-    padding: 0 6px;
-    font-size: $font-size-base;
-    cursor: pointer;
-    user-select: none;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    color: $text-primary;
-    background-color: $border-sunk-color;
-    border: 1px solid $frame-border-color;
-    border-bottom: none;
-    border-radius: $frame-tab-radius $frame-tab-radius 0 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: calc(#{$frame-tab-height} - 2px);
+	padding: 2px 8px;
+	font-size: $font-size-base;
+	cursor: pointer;
+	user-select: none;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: $text-primary;
+	background: none;
+	box-sizing: border-box;
 
-    &:hover,
-    &--hovering
-    {
-        background-color: $border-raised-color;
-    }
+	// Tab bitmaps (30x30, ~9px top corners, ~2px bottom)
+	border: 9px solid transparent;
+	border-bottom-width: 2px;
+	border-image: url('#{$_img}/tab_bg_unsel.png') 9 9 2 9 fill stretch;
 
-    &--active
-    {
-        background-color: $bg-white;
-        font-weight: bold;
-    }
+	&:hover,
+	&--hovering
+	{
+		border-image-source: url('#{$_img}/tab_bg_hilite.png');
+	}
+
+	&--active
+	{
+		border-image-source: url('#{$_img}/tab_bg_sel.png');
+		font-weight: bold;
+	}
 }
