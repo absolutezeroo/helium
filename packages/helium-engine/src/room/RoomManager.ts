@@ -43,7 +43,7 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 		super(context);
 	}
 
-	private _state: number = RoomManagerState.INITIALIZED; // Start initialized for now until content loader is implemented
+	private _state: number = RoomManagerState.INITIALIZED;
 
 	get state(): number
 	{
@@ -269,14 +269,20 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 		// Cast to RoomInstance to access createObjectInternal
 		const roomInstance = room as RoomInstance;
 
-		// Get visualization and logic types from content loader
+		// Get visualization and logic types from content loader.
+		// Fall back to the object type itself if the content loader doesn't have
+		// the info yet (e.g. bundle not loaded). The factory handles built-in types
+		// like 'room', 'tile_cursor' directly.
 		let visualizationType: string | null = type;
 		let logicType: string | null = type;
 
 		if (this._contentLoader && !this._contentLoader.hasInternalContent(type))
 		{
-			visualizationType = this._contentLoader.getVisualizationType(type);
-			logicType = this._contentLoader.getLogicType(type);
+			const contentVizType = this._contentLoader.getVisualizationType(type);
+			const contentLogicType = this._contentLoader.getLogicType(type);
+
+			if (contentVizType) visualizationType = contentVizType;
+			if (contentLogicType) logicType = contentLogicType;
 		}
 
 		// Create the object using createObjectInternal (not createRoomObject to avoid recursion)
