@@ -4,7 +4,7 @@ Port TypeScript/PixiJS v8 du client Habbo Hotel Flash. Monorepo : `helium-engine
 
 ## Source de vérité
 
-Le code source AS3 dans `sources/source_as_win63/` est la source de vérité pour toutes les implémentations. Toujours lire le fichier AS3 correspondant avant d'implémenter.
+Le code source AS3 dans `sources/win63_version/` est la source de vérité pour toutes les implémentations. Toujours lire le fichier AS3 correspondant avant d'implémenter.
 
 ## Style de code
 

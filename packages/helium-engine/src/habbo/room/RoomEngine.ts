@@ -1591,9 +1591,18 @@ export class RoomEngine extends Component implements IRoomEngine,
 		canvas.addEventListener('dblclick', this._boundOnDblClick);
 	}
 
+	private _pointerMoveLogCount: number = 0;
+
 	private onCanvasPointerMove(e: PointerEvent): void
 	{
 		const canvas = this.getActiveRenderingCanvas();
+
+		if (this._pointerMoveLogCount < 5)
+		{
+			console.debug(`[RoomEngine] onCanvasPointerMove: x=${e.offsetX}, y=${e.offsetY}, activeRoom=${this._activeRoomId}, canvas=${!!canvas}, vizCount=${canvas ? '?' : 'N/A'}`);
+			this._pointerMoveLogCount++;
+		}
+
 		if (canvas)
 		{
 			canvas.handleMouseEvent(e.offsetX, e.offsetY, 'mouse_move', e.altKey, e.ctrlKey, e.shiftKey, e.buttons > 0);

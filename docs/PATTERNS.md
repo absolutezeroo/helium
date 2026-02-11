@@ -29,7 +29,7 @@ import { MessageComposer } from '@core/communication/messages/MessageComposer';
 /**
  * Sends a request to open a flat connection.
  *
- * @see sources/source_as_win63/habbo/communication/messages/outgoing/room/OpenFlatConnectionMessageComposer.as
+ * @see sources/win63_version/habbo/communication/messages/outgoing/room/OpenFlatConnectionMessageComposer.as
  */
 export class OpenFlatConnectionMessageComposer extends MessageComposer<ConstructorParameters<typeof OpenFlatConnectionMessageComposer>>
 {
@@ -77,7 +77,7 @@ import type { IMessageParser } from '@core/communication/messages/IMessageParser
 /**
  * Parses room info data from the server.
  *
- * @see sources/source_as_win63/habbo/communication/messages/parser/room/RoomInfoParser.as
+ * @see sources/win63_version/habbo/communication/messages/parser/room/RoomInfoParser.as
  */
 export class RoomInfoParser implements IMessageParser
 {
@@ -150,7 +150,7 @@ import { RoomInfoParser } from './RoomInfoParser';
 /**
  * Event fired when room info is received.
  *
- * @see sources/source_as_win63/habbo/communication/messages/incoming/room/RoomInfoEvent.as
+ * @see sources/win63_version/habbo/communication/messages/incoming/room/RoomInfoEvent.as
  */
 export class RoomInfoEvent extends MessageEvent implements IMessageEvent
 {
@@ -188,7 +188,7 @@ import type { IRoomEngine } from '@room/IRoomEngine';
 /**
  * Manages room instances and their lifecycle.
  *
- * @see sources/source_as_win63/room/RoomManager.as
+ * @see sources/win63_version/room/RoomManager.as
  */
 export class RoomManager extends Component implements IRoomManager
 {
@@ -271,7 +271,7 @@ import type { IConnection } from '@core/communication/connections/IConnection';
 /**
  * Handles room-related messages from the server.
  *
- * @see sources/source_as_win63/habbo/session/handler/RoomDataHandler.as
+ * @see sources/win63_version/habbo/session/handler/RoomDataHandler.as
  */
 export class RoomDataHandler
 {
@@ -340,7 +340,7 @@ import type { IMessageDataWrapper } from '@core/communication/messages/IMessageD
 /**
  * Represents a room entry from navigation results.
  *
- * @see sources/source_as_win63/habbo/navigator/RoomDataParser.as
+ * @see sources/win63_version/habbo/navigator/RoomDataParser.as
  */
 export class RoomDataParser
 {
@@ -389,7 +389,7 @@ import type { IRoomInstance } from './IRoomInstance';
 /**
  * Interface for the room manager.
  *
- * @see sources/source_as_win63/room/IRoomManager.as
+ * @see sources/win63_version/room/IRoomManager.as
  */
 export interface IRoomManager
 {

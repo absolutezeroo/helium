@@ -15,8 +15,8 @@ pnpm build                   # Build de production
 
 **Lire le code source AS3 avant d'écrire TOUTE implémentation.**
 
-- Primaire : `sources/source_as_win63/habbo/<module>/<Classe>.as`
-- Secondaire : `sources/source_as_flash/com/sulake/habbo/<module>/<Classe>.as`
+- Primaire : `sources/win63_version/habbo/<module>/<Classe>.as`
+- Secondaire : `sources/flash_version/com/sulake/habbo/<module>/<Classe>.as`
 
 Pas de source AS3 lue = implémentation invalide. Point final.
 
@@ -89,8 +89,8 @@ Référence complète : `docs/STYLEGUIDE.md`
 
 | Dossier | Priorité | Racine des packages | Fichiers |
 |---------|----------|---------------------|----------|
-| `sources/source_as_win63/` | PRIMAIRE | `habbo/`, `room/` | ~4 465 |
-| `sources/source_as_flash/` | Secondaire | `com/sulake/habbo/` | ~7 160 |
+| `sources/win63_version/` | PRIMAIRE | `habbo/`, `room/` | ~4 465 |
+| `sources/flash_version/` | Secondaire | `com/sulake/habbo/` | ~7 160 |
 
 Classification des fichiers AS3 :
 - **ENGINE** : Logique métier, modèles de données, handlers, parsers, composers → **À IMPLÉMENTER**

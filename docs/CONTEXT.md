@@ -174,14 +174,14 @@ L'engine ne sait JAMAIS rien des stores ou composants. La séparation est strict
 
 | Dossier | Fichiers | Racine des packages | Usage |
 |---------|----------|---------------------|-------|
-| `sources/source_as_win63/` | ~4 465 | `habbo/`, `room/` | **PRIMAIRE** — contient tout le moteur core |
-| `sources/source_as_flash/` | ~7 160 | `com/sulake/habbo/` | **SECONDAIRE** — version Nitro, plus détaillée |
+| `sources/win63_version/` | ~4 465 | `habbo/`, `room/` | **PRIMAIRE** — contient tout le moteur core |
+| `sources/flash_version/` | ~7 160 | `com/sulake/habbo/` | **SECONDAIRE** — version Nitro, plus détaillée |
 
 ### Mapping des chemins
 
 ```
-sources/source_as_win63/habbo/<module>/   ↔   sources/source_as_flash/com/sulake/habbo/<module>/
-sources/source_as_win63/room/             ↔   sources/source_as_flash/com/sulake/room/
+sources/win63_version/habbo/<module>/   ↔   sources/flash_version/com/sulake/habbo/<module>/
+sources/win63_version/room/             ↔   sources/flash_version/com/sulake/room/
 ```
 
 ### Classification ENGINE vs VIEW
