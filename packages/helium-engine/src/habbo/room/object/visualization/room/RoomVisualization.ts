@@ -6,7 +6,6 @@
  * Main visualization class for room rendering. Creates and manages planes
  * (floors, walls, landscapes) from RoomPlaneParser data.
  */
-import {Container} from 'pixi.js';
 import type {IRoomGeometry} from '@room/utils/IRoomGeometry';
 import type {IRoomObjectSprite} from '@room/object/visualization/IRoomObjectSprite';
 import type {IRoomObjectVisualizationData} from '@room/object/visualization/IRoomObjectVisualizationData';
@@ -77,8 +76,6 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 
 	private _visualizationData: RoomVisualizationData | null = null;
 
-	private _planeContainer: Container;
-
 	constructor()
 	{
 		super();
@@ -89,10 +86,6 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 		this._planeTypeVisibility[RoomPlane.TYPE_LANDSCAPE] = true;
 
 		this._maskParser = new RoomPlaneBitmapMaskParser();
-		this._planeContainer = new Container();
-		this._planeContainer.label = 'RoomVisualization_Planes';
-		this._planeContainer.sortableChildren = true;
-		this.container.addChild(this._planeContainer);
 	}
 
 	get floorRelativeDepth(): number
@@ -119,7 +112,6 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 		this._visiblePlaneSpriteNumbers = [];
 
 		this._maskParser.dispose();
-		this._planeContainer.destroy({children: true});
 
 		super.dispose();
 	}
@@ -514,8 +506,6 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 
 			this._planeIndexMap.set(i, this._planes.length);
 			this._planes.push(plane);
-
-			this._planeContainer.addChild(plane.displayObject);
 		}
 
 		// Apply door masks to floor planes
@@ -858,6 +848,12 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 		}
 	}
 
+	/**
+	 * Update sprite data from a plane.
+	 * AS3: updateSprite() sets sprite.asset = getPlaneBitmap(plane, name).
+	 *
+	 * @see sources/win63_version/habbo/room/object/visualization/room/RoomVisualization.as
+	 */
 	private updateSprite(sprite: IRoomObjectSprite, plane: RoomPlane, name: string, depth: number): void
 	{
 		const offset = plane.offset;
@@ -866,6 +862,15 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 		sprite.offsetY = -offset.y;
 		sprite.relativeDepth = depth;
 		sprite.color = plane.color;
+
+		// AS3: sprite.asset = getPlaneBitmap(plane, name)
+		const planeTexture = plane.copyBitmapData();
+
+		if(planeTexture !== null)
+		{
+			sprite.texture = planeTexture;
+		}
+
 		sprite.assetName = `${name}_${this._updateCount}`;
 	}
 

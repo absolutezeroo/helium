@@ -1591,17 +1591,9 @@ export class RoomEngine extends Component implements IRoomEngine,
 		canvas.addEventListener('dblclick', this._boundOnDblClick);
 	}
 
-	private _pointerMoveLogCount: number = 0;
-
 	private onCanvasPointerMove(e: PointerEvent): void
 	{
 		const canvas = this.getActiveRenderingCanvas();
-
-		if (this._pointerMoveLogCount < 5)
-		{
-			console.debug(`[RoomEngine] onCanvasPointerMove: x=${e.offsetX}, y=${e.offsetY}, activeRoom=${this._activeRoomId}, canvas=${!!canvas}, vizCount=${canvas ? '?' : 'N/A'}`);
-			this._pointerMoveLogCount++;
-		}
 
 		if (canvas)
 		{
@@ -1955,7 +1947,6 @@ export class RoomEngine extends Component implements IRoomEngine,
 	 */
 	private handleTileMouseEvent(event: RoomObjectTileMouseEvent): void
 	{
-		console.debug(`[RoomEngine] handleTileMouseEvent: type=${event.type}, tile=(${event.tileXAsInt},${event.tileYAsInt},${event.tileZ})`);
 		if (this._activeRoomId < 0) return;
 
 		const tileCursor = this.getTileCursor(this._activeRoomId);
@@ -2023,11 +2014,6 @@ export class RoomEngine extends Component implements IRoomEngine,
 		// Check if visualization is sprite-based
 		const spriteVisualization = visualization as IRoomObjectSpriteVisualization;
 
-		if (!('container' in spriteVisualization))
-		{
-			return null;
-		}
-
 		const room = this.getRoomInstance(roomId);
 
 		if (!room)
@@ -2055,16 +2041,18 @@ export class RoomEngine extends Component implements IRoomEngine,
 		// Add to rendering canvas
 		const canvas = this.getRenderingCanvas(roomId);
 
-		if (canvas)
+		if (canvas && object)
 		{
-			canvas.addVisualization(spriteVisualization.container, 0, spriteVisualization);
+			canvas.addVisualization(spriteVisualization, object);
 		}
 
 		return spriteVisualization;
 	}
 
 	/**
-	 * Update visualizations for a room
+	 * Update visualizations for a room.
+	 * Canvas.render() handles visualization updates and screen positioning.
+	 * Based on AS3: RoomSpriteCanvas.render() calling visualization.update() internally.
 	 */
 	private updateRoomVisualizations(roomId: number, time: number): void
 	{
@@ -2075,32 +2063,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 			return;
 		}
 
-		const geometry = canvas.geometry;
-
-		// Update all visualizations for this room
-		for (const [key, visualization] of this._roomVisualizations)
-		{
-			if (key.startsWith(`${roomId}_`))
-			{
-				visualization.update(geometry, time, false, false);
-
-				// Position visualization container based on room object's world coordinates
-				const object = visualization.object;
-
-				if (object)
-				{
-					const location = object.getLocation();
-					const screenPos = geometry.getScreenPosition(location);
-
-					if (screenPos)
-					{
-						visualization.container.x = screenPos.x;
-						visualization.container.y = screenPos.y;
-						visualization.container.zIndex = -screenPos.z;
-					}
-				}
-			}
-		}
+		canvas.render(time);
 	}
 
 	/**
@@ -2234,13 +2197,10 @@ export class RoomEngine extends Component implements IRoomEngine,
 	 */
 	private createVisualizationForFurniture(roomId: number, objectId: number, className: string, category: number): void
 	{
-		console.debug(`[RoomEngine] createVisualizationForFurniture: roomId=${roomId}, objectId=${objectId}, className=${className}, category=${category}`);
-
 		const room = this.getRoomInstance(roomId);
 
 		if (!room)
 		{
-			console.debug(`[RoomEngine] createVisualizationForFurniture: room not found`);
 			return;
 		}
 
@@ -2248,7 +2208,6 @@ export class RoomEngine extends Component implements IRoomEngine,
 
 		if (!object)
 		{
-			console.debug(`[RoomEngine] createVisualizationForFurniture: object not found (id=${objectId}, cat=${category})`);
 			return;
 		}
 
@@ -2285,11 +2244,6 @@ export class RoomEngine extends Component implements IRoomEngine,
 
 		const spriteVisualization = visualization as IRoomObjectSpriteVisualization;
 
-		if (!('container' in spriteVisualization))
-		{
-			return;
-		}
-
 		// Set asset collection from content loader
 		const assetCollection = this._contentLoader.getAssetCollection(className);
 
@@ -2323,7 +2277,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 
 		if (canvas)
 		{
-			canvas.addVisualization(spriteVisualization.container, 0, spriteVisualization);
+			canvas.addVisualization(spriteVisualization, object);
 		}
 	}
 }
