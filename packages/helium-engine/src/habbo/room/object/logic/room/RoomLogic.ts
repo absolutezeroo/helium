@@ -15,12 +15,14 @@ import type {IRoomGeometry} from '@room/utils/IRoomGeometry';
 import {RoomObjectMouseEvent} from '@room/events/RoomObjectMouseEvent';
 import {RoomObjectRoomUpdateMessage} from '@habbo/room/messages/RoomObjectRoomUpdateMessage';
 import {RoomObjectRoomMaskUpdateMessage} from '@habbo/room/messages/RoomObjectRoomMaskUpdateMessage';
-import {RoomObjectRoomPlaneVisibilityUpdateMessage} from '@habbo/room/messages/RoomObjectRoomPlaneVisibilityUpdateMessage';
+import {
+	RoomObjectRoomPlaneVisibilityUpdateMessage
+} from '@habbo/room/messages/RoomObjectRoomPlaneVisibilityUpdateMessage';
 import {RoomObjectRoomPlanePropertyUpdateMessage} from '@habbo/room/messages/RoomObjectRoomPlanePropertyUpdateMessage';
 import {RoomObjectRoomFloorHoleUpdateMessage} from '@habbo/room/messages/RoomObjectRoomFloorHoleUpdateMessage';
 import {RoomObjectRoomColorUpdateMessage} from '@habbo/room/messages/RoomObjectRoomColorUpdateMessage';
 import {RoomPlaneBitmapMaskParser} from '@habbo/room/object/RoomPlaneBitmapMaskParser';
-import type {RoomPlaneParser} from '@habbo/room/object/RoomPlaneParser';
+import {RoomPlaneParser} from '@habbo/room/object/RoomPlaneParser';
 import {RoomPlaneData} from '@habbo/room/object/RoomPlaneData';
 import {RoomObjectVariableEnum} from '@habbo/room/object/RoomObjectVariableEnum';
 import {RoomObjectTileMouseEvent} from '@habbo/room/events/RoomObjectTileMouseEvent';
@@ -28,7 +30,7 @@ import {RoomObjectWallMouseEvent} from '@habbo/room/events/RoomObjectWallMouseEv
 
 export class RoomLogic extends ObjectLogicBase
 {
-	private _planeParser: RoomPlaneParser | null = null;
+	private _planeParser: RoomPlaneParser;
 	private _planeMaskParser: RoomPlaneBitmapMaskParser;
 	private _needsFloorHoleUpdate: boolean = false;
 	private _colorTransitionTarget: number = 0xFFFFFF;
@@ -37,9 +39,13 @@ export class RoomLogic extends ObjectLogicBase
 	private _colorTransitionDuration: number = 500;
 	private _isTransitioning: boolean = false;
 
+	/**
+	 * @see sources/win63_version/habbo/room/object/logic/room/RoomLogic.as lines 28-33
+	 */
 	constructor()
 	{
 		super();
+		this._planeParser = new RoomPlaneParser();
 		this._planeMaskParser = new RoomPlaneBitmapMaskParser();
 	}
 
@@ -50,21 +56,30 @@ export class RoomLogic extends ObjectLogicBase
 	}
 
 	/**
-	 * Initialize room logic with config data.
-	 * Based on AS3 RoomLogic.initialize()
+	 * Initialize room logic.
+	 * AS3: initialize(xml) calls _planeParser.initializeFromXML(xml)
+	 * and sets default model values.
+	 *
+	 * @param data - RoomPlaneParser with plane data (equivalent of AS3 XML param)
+	 * @see sources/win63_version/habbo/room/object/logic/room/RoomLogic.as lines 57-72
 	 */
 	override initialize(data: unknown): void
 	{
-		if (data === null || this.object === null)
+		if(this.object === null)
 		{
 			return;
 		}
 
+		// AS3: _planeParser.initializeFromXML(param1)
+		if(data instanceof RoomPlaneParser)
+		{
+			this._planeParser = data;
+		}
+
 		const model = this.object.getModelController();
 
-		if (model)
+		if(model)
 		{
-			// Set default values for room visualization
 			model.setNumber(RoomObjectVariableEnum.ROOM_BACKGROUND_COLOR, 0xFFFFFF);
 			model.setNumber(RoomObjectVariableEnum.ROOM_FLOOR_VISIBILITY, 1);
 			model.setNumber(RoomObjectVariableEnum.ROOM_WALL_VISIBILITY, 1);
@@ -162,11 +177,146 @@ export class RoomLogic extends ObjectLogicBase
 	}
 
 	/**
-	 * Set the plane parser reference (from RoomEngine when room is created).
+	 * Handle mouse events on the room object.
+	 * Parses sprite tag for plane index, computes tile coordinates,
+	 * and dispatches RoomObjectTileMouseEvent or RoomObjectWallMouseEvent.
+	 * Based on AS3 RoomLogic.mouseEvent()
 	 */
-	set planeParser(parser: RoomPlaneParser | null)
+	override mouseEvent(event: RoomSpriteMouseEvent, geometry: IRoomGeometry): void
 	{
-		this._planeParser = parser;
+		if (!event || !this.object || !this._planeParser)
+		{
+			return;
+		}
+
+		// Extract plane index from sprite tag (format: "<name>@<planeIndex>")
+		const spriteTag = event.spriteTag;
+		let planeIndex = -1;
+
+		if (spriteTag && spriteTag.indexOf('@') >= 0)
+		{
+			planeIndex = parseInt(spriteTag.substring(spriteTag.indexOf('@') + 1));
+		}
+
+		if (planeIndex < 1 || planeIndex > this._planeParser.planeCount)
+		{
+			// Handle roll_out: clear selected plane
+			if (event.type === 'roll_out')
+			{
+				const model = this.object.getModelController();
+
+				if (model)
+				{
+					model.setNumber(RoomObjectVariableEnum.ROOM_SELECTED_PLANE, 0);
+				}
+			}
+
+			return;
+		}
+
+		// Convert to 0-based
+		planeIndex--;
+
+		const planeLoc = this._planeParser.getPlaneLocation(planeIndex);
+		const planeLeftSide = this._planeParser.getPlaneLeftSide(planeIndex);
+		const planeRightSide = this._planeParser.getPlaneRightSide(planeIndex);
+		const planeType = this._planeParser.getPlaneType(planeIndex);
+
+		if (!planeLoc || !planeLeftSide || !planeRightSide)
+		{
+			return;
+		}
+
+		// Convert screen coordinates to plane-local coordinates
+		const screenPoint = {x: event.screenX, y: event.screenY};
+		const planePoint = geometry.getPlanePosition(screenPoint, planeLoc, planeLeftSide, planeRightSide);
+
+		if (!planePoint)
+		{
+			return;
+		}
+
+		// Determine event type
+		let eventType: string;
+
+		if (event.type === 'mouse_move' || event.type === 'roll_over')
+		{
+			eventType = RoomObjectMouseEvent.ROE_MOUSE_MOVE;
+		}
+		else if (event.type === 'click')
+		{
+			eventType = RoomObjectMouseEvent.ROE_MOUSE_CLICK;
+		}
+		else if (event.type === 'double_click')
+		{
+			eventType = RoomObjectMouseEvent.ROE_MOUSE_DOUBLE_CLICK;
+		}
+		else
+		{
+			return;
+		}
+
+		// Dispatch appropriate event based on plane type
+		if (this.eventDispatcher)
+		{
+			if (planeType === RoomPlaneData.PLANE_FLOOR)
+			{
+				// Floor tile: plane coordinates are tile coordinates
+				const tileX = planeLoc.x + planePoint.x;
+				const tileY = planeLoc.y + planePoint.y;
+				const tileZ = planeLoc.z;
+
+				const tileEvent = new RoomObjectTileMouseEvent(
+					eventType, this.object, event.eventId,
+					tileX, tileY, tileZ,
+					event.altKey, event.ctrlKey, event.shiftKey, event.buttonDown
+				);
+
+				this.eventDispatcher.emit(eventType, tileEvent);
+			}
+			else if (planeType === RoomPlaneData.PLANE_WALL || planeType === RoomPlaneData.PLANE_LANDSCAPE)
+			{
+				// Direction: 90 for left-facing walls, 180 for right-facing
+				const direction = (planeLeftSide.x === 0) ? 90 : 180;
+
+				const wallEvent = new RoomObjectWallMouseEvent(
+					eventType, this.object, event.eventId,
+					planeLoc, planeLeftSide, planeRightSide,
+					planePoint.x, planePoint.y,
+					direction,
+					event.altKey, event.ctrlKey, event.shiftKey, event.buttonDown
+				);
+
+				this.eventDispatcher.emit(eventType, wallEvent);
+			}
+		}
+
+		// Update selected plane in model
+		const model = this.object.getModelController();
+
+		if (model)
+		{
+			model.setNumber(RoomObjectVariableEnum.ROOM_SELECTED_PLANE, planeIndex + 1);
+		}
+	}
+
+	/**
+	 * @see sources/win63_version/habbo/room/object/logic/room/RoomLogic.as lines 44-55
+	 */
+	override dispose(): void
+	{
+		if(this._planeParser)
+		{
+			this._planeParser.dispose();
+			(this as any)._planeParser = null;
+		}
+
+		if(this._planeMaskParser)
+		{
+			this._planeMaskParser.dispose();
+		}
+
+		super.dispose();
 	}
 
 	/**
@@ -354,143 +504,5 @@ export class RoomLogic extends ObjectLogicBase
 		this._colorTransitionTarget = (r << 16) | (g << 8) | b;
 		this._colorTransitionStart = performance.now();
 		this._isTransitioning = true;
-	}
-
-	/**
-	 * Handle mouse events on the room object.
-	 * Parses sprite tag for plane index, computes tile coordinates,
-	 * and dispatches RoomObjectTileMouseEvent or RoomObjectWallMouseEvent.
-	 * Based on AS3 RoomLogic.mouseEvent()
-	 */
-	override mouseEvent(event: RoomSpriteMouseEvent, geometry: IRoomGeometry): void
-	{
-		if (!event || !this.object || !this._planeParser)
-		{
-			console.debug(`[RoomLogic] mouseEvent skipped: event=${!!event}, object=${!!this.object}, planeParser=${!!this._planeParser}`);
-			return;
-		}
-
-		// Extract plane index from sprite tag (format: "<name>@<planeIndex>")
-		const spriteTag = event.spriteTag;
-		let planeIndex = -1;
-
-		if (spriteTag && spriteTag.indexOf('@') >= 0)
-		{
-			planeIndex = parseInt(spriteTag.substring(spriteTag.indexOf('@') + 1));
-		}
-
-		if (planeIndex < 1 || planeIndex > this._planeParser.planeCount)
-		{
-			// Handle roll_out: clear selected plane
-			if (event.type === 'roll_out')
-			{
-				const model = this.object.getModelController();
-
-				if (model)
-				{
-					model.setNumber(RoomObjectVariableEnum.ROOM_SELECTED_PLANE, 0);
-				}
-			}
-
-			return;
-		}
-
-		// Convert to 0-based
-		planeIndex--;
-
-		const planeLoc = this._planeParser.getPlaneLocation(planeIndex);
-		const planeLeftSide = this._planeParser.getPlaneLeftSide(planeIndex);
-		const planeRightSide = this._planeParser.getPlaneRightSide(planeIndex);
-		const planeType = this._planeParser.getPlaneType(planeIndex);
-
-		if (!planeLoc || !planeLeftSide || !planeRightSide)
-		{
-			return;
-		}
-
-		// Convert screen coordinates to plane-local coordinates
-		const screenPoint = {x: event.screenX, y: event.screenY};
-		const planePoint = geometry.getPlanePosition(screenPoint, planeLoc, planeLeftSide, planeRightSide);
-
-		if (!planePoint)
-		{
-			return;
-		}
-
-		// Determine event type
-		let eventType: string;
-
-		if (event.type === 'mouse_move' || event.type === 'roll_over')
-		{
-			eventType = RoomObjectMouseEvent.ROE_MOUSE_MOVE;
-		}
-		else if (event.type === 'click')
-		{
-			eventType = RoomObjectMouseEvent.ROE_MOUSE_CLICK;
-		}
-		else if (event.type === 'double_click')
-		{
-			eventType = RoomObjectMouseEvent.ROE_MOUSE_DOUBLE_CLICK;
-		}
-		else
-		{
-			return;
-		}
-
-		console.debug(`[RoomLogic] mouseEvent: type=${event.type}, tag=${event.spriteTag}, planeIndex=${planeIndex}, planeType=${planeType}, eventType=${eventType}`);
-
-		// Dispatch appropriate event based on plane type
-		if (this.eventDispatcher)
-		{
-			if (planeType === RoomPlaneData.PLANE_FLOOR)
-			{
-				// Floor tile: plane coordinates are tile coordinates
-				const tileX = planeLoc.x + planePoint.x;
-				const tileY = planeLoc.y + planePoint.y;
-				const tileZ = planeLoc.z;
-
-				const tileEvent = new RoomObjectTileMouseEvent(
-					eventType, this.object, event.eventId,
-					tileX, tileY, tileZ,
-					event.altKey, event.ctrlKey, event.shiftKey, event.buttonDown
-				);
-
-				this.eventDispatcher.emit(eventType, tileEvent);
-			}
-			else if (planeType === RoomPlaneData.PLANE_WALL || planeType === RoomPlaneData.PLANE_LANDSCAPE)
-			{
-				// Direction: 90 for left-facing walls, 180 for right-facing
-				const direction = (planeLeftSide.x === 0) ? 90 : 180;
-
-				const wallEvent = new RoomObjectWallMouseEvent(
-					eventType, this.object, event.eventId,
-					planeLoc, planeLeftSide, planeRightSide,
-					planePoint.x, planePoint.y,
-					direction,
-					event.altKey, event.ctrlKey, event.shiftKey, event.buttonDown
-				);
-
-				this.eventDispatcher.emit(eventType, wallEvent);
-			}
-		}
-
-		// Update selected plane in model
-		const model = this.object.getModelController();
-
-		if (model)
-		{
-			model.setNumber(RoomObjectVariableEnum.ROOM_SELECTED_PLANE, planeIndex + 1);
-		}
-	}
-
-	override dispose(): void
-	{
-		if (this._planeMaskParser)
-		{
-			this._planeMaskParser.dispose();
-		}
-
-		this._planeParser = null;
-		super.dispose();
 	}
 }

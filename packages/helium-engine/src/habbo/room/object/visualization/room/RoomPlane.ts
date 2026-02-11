@@ -848,7 +848,7 @@ export class RoomPlane
 				])
 				.fill(this._color);
 
-			if(this._rectangleMasks.length > 0)
+			if(this._rectangleMasks.length > 0 || this._bitmapMasks.length > 0)
 			{
 				const leftLen = this._leftSide.length;
 				const rightLen = this._rightSide.length;
@@ -856,6 +856,16 @@ export class RoomPlane
 				for(const mask of this._rectangleMasks)
 				{
 					const maskPoints = this.getRectMaskScreenPoints(mask, leftLen, rightLen);
+
+					if(maskPoints !== null)
+					{
+						this._graphics.poly(maskPoints).cut();
+					}
+				}
+
+				for(const mask of this._bitmapMasks)
+				{
+					const maskPoints = this.getMaskHolePoints(mask, leftLen, rightLen);
 
 					if(maskPoints !== null)
 					{
@@ -981,36 +991,38 @@ export class RoomPlane
 	 * Maps mask position (scalar projection along leftSide/rightSide) to screen-space quad.
 	 *
 	 * Based on AS3 RoomPlane.updateMask() — pixel position calculation.
+	 * AS3 uses actual bitmap assets (via PlaneMaskManager) for mask shapes.
+	 * Without bitmaps, we approximate doors as 1-tile-wide cutouts extending
+	 * from rightSideLoc upward by DOOR_HEIGHT_TILES (standard Habbo door height).
 	 */
 	private getMaskHolePoints(mask: RoomPlaneBitmapMask, leftLen: number, rightLen: number): number[] | null
 	{
-		// Normalize position along each side (0..1)
-		const u = mask.leftSideLoc / leftLen;
-		const v = mask.rightSideLoc / rightLen;
+		if(leftLen < 0.001 || rightLen < 0.001) return null;
 
-		// Door hole ≈ 1 tile in each direction
+		const MASK_INSET = 0.002;
+
+		// AS3: door bitmap is ~32px wide (1 tile) × ~90px tall at scale 64
+		// Standard Habbo door height ≈ 2.5 tiles (fixed, independent of wall height)
+		const DOOR_HEIGHT_TILES = 2.5;
 		const halfTileU = 0.5 / leftLen;
-		const halfTileV = 0.5 / rightLen;
 
-		const u0 = Math.max(0, u - halfTileU);
-		const u1 = Math.min(1, u + halfTileU);
-		const v0 = Math.max(0, v - halfTileV);
-		const v1 = Math.min(1, v + halfTileV);
+		const u0 = Math.max(MASK_INSET, mask.leftSideLoc / leftLen - halfTileU);
+		const u1 = Math.min(1 - MASK_INSET, mask.leftSideLoc / leftLen + halfTileU);
+		const v0 = Math.max(MASK_INSET, mask.rightSideLoc / rightLen);
+		const v1 = Math.min(1 - MASK_INSET, (mask.rightSideLoc + DOOR_HEIGHT_TILES) / rightLen);
 
-		// Skip if hole is outside plane bounds or degenerate
-		if (u0 >= u1 || v0 >= v1) return null;
+		if(u0 >= u1 || v0 >= v1) return null;
 
-		// Map (u,v) to screen coordinates: P = A + u*(D-A) + v*(B-A)
-		const dxL = this._cornerD.x - this._cornerA.x;
-		const dyL = this._cornerD.y - this._cornerA.y;
-		const dxR = this._cornerB.x - this._cornerA.x;
-		const dyR = this._cornerB.y - this._cornerA.y;
+		const dlx = this._cornerD.x - this._cornerA.x;
+		const dly = this._cornerD.y - this._cornerA.y;
+		const drx = this._cornerB.x - this._cornerA.x;
+		const dry = this._cornerB.y - this._cornerA.y;
 
 		return [
-			this._cornerA.x + u0 * dxL + v0 * dxR, this._cornerA.y + u0 * dyL + v0 * dyR,
-			this._cornerA.x + u1 * dxL + v0 * dxR, this._cornerA.y + u1 * dyL + v0 * dyR,
-			this._cornerA.x + u1 * dxL + v1 * dxR, this._cornerA.y + u1 * dyL + v1 * dyR,
-			this._cornerA.x + u0 * dxL + v1 * dxR, this._cornerA.y + u0 * dyL + v1 * dyR
+			this._cornerA.x + u0 * dlx + v0 * drx, this._cornerA.y + u0 * dly + v0 * dry,
+			this._cornerA.x + u1 * dlx + v0 * drx, this._cornerA.y + u1 * dly + v0 * dry,
+			this._cornerA.x + u1 * dlx + v1 * drx, this._cornerA.y + u1 * dly + v1 * dry,
+			this._cornerA.x + u0 * dlx + v1 * drx, this._cornerA.y + u0 * dly + v1 * dry
 		];
 	}
 

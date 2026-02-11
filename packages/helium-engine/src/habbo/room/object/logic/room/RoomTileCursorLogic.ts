@@ -36,6 +36,7 @@ export class RoomTileCursorLogic extends ObjectLogicBase
 			if (model !== null)
 			{
 				model.setNumber('furniture_alpha_multiplier', 1);
+
 				this.object.setState(RoomTileCursorLogic.STATE_DISABLED, 0);
 			}
 		}
@@ -83,17 +84,15 @@ export class RoomTileCursorLogic extends ObjectLogicBase
 			else
 			{
 				const height = cursorMessage.height;
+
 				this.object.getModelController().setNumber('tile_cursor_height', height);
+
 				const state = height > 0.8 ? RoomTileCursorLogic.STATE_SHOW_TILE_HEIGHT : RoomTileCursorLogic.STATE_ENABLED;
+
 				this.object.setState(state, 0);
 			}
 		}
 
 		this._lastSourceEventId = cursorMessage.sourceEventId;
-	}
-
-	override update(time: number): void
-	{
-		// Tile cursor visibility is handled via processUpdateMessage
 	}
 }

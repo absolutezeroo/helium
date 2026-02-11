@@ -508,87 +508,9 @@ export class RoomVisualization extends RoomObjectSpriteVisualization
 			this._planes.push(plane);
 		}
 
-		// Apply door masks to floor planes
-		// Based on AS3 RoomEngine.createRoom() lines 3044-3076
-		this.applyDoorMasks();
-
 		this._initialized = true;
 
 		this.defineSprites();
-	}
-
-	/**
-	 * Apply door masks to wall planes at the entrance position.
-	 *
-	 * AS3 approach (RoomVisualization.updatePlaneMasks):
-	 * 1. For each mask, compute diff = maskPos - plane.location
-	 * 2. Check normalDist = |scalarProjection(diff, plane.normal)| < 0.01
-	 *    (the door position must be ON the wall surface)
-	 * 3. Compute leftSideLoc and rightSideLoc via scalar projections
-	 * 4. Add bitmap mask to the plane
-	 *
-	 * For flat-color rendering, we use rectangle masks instead of bitmap masks
-	 * to create a rectangular cutout in the wall at the door position.
-	 */
-	private applyDoorMasks(): void
-	{
-		const model = this.object?.getModel();
-		if (!model) return;
-
-		const doorX = model.getNumber(RoomObjectVariableEnum.ROOM_DOOR_X);
-		const doorY = model.getNumber(RoomObjectVariableEnum.ROOM_DOOR_Y);
-		const doorZ = model.getNumber(RoomObjectVariableEnum.ROOM_DOOR_Z);
-
-		if (isNaN(doorX) || isNaN(doorY) || isNaN(doorZ)) return;
-
-		const doorPos = new Vector3d(doorX, doorY, doorZ);
-
-		for (let i = 0; i < this._planes.length; i++)
-		{
-			const plane = this._planes[i];
-
-			// AS3: masks apply to wall (type 1) and landscape (type 3) planes
-			if (plane.type !== RoomPlane.TYPE_WALL) continue;
-
-			const leftSide = plane.leftSide as Vector3d;
-			const rightSide = plane.rightSide as Vector3d;
-			const leftLen = leftSide.length;
-			const rightLen = rightSide.length;
-
-			// Skip thin edge/thickness planes
-			if (leftLen < 1 || rightLen < 1) continue;
-
-			const normal = plane.normal as Vector3d;
-			const loc = plane.location as Vector3d;
-			const diff = Vector3d.dif(doorPos, loc)!;
-
-			// AS3: check if door position is ON the wall surface
-			// normalDist = perpendicular distance from door to the wall plane
-			const normalDist = Math.abs(Vector3d.scalarProjection(diff, normal));
-			if (normalDist > 0.5) continue;
-
-			// Project door position onto wall axes
-			const leftSideLoc = Vector3d.scalarProjection(diff, leftSide);
-			const rightSideLoc = Vector3d.scalarProjection(diff, rightSide);
-
-			// Door must be within the wall span along leftSide
-			if (leftSideLoc < -0.5 || leftSideLoc > leftLen + 0.5) continue;
-
-			// Rectangle mask: 1 tile wide, full wall height from door base
-			const maskLeftStart = Math.max(0, leftSideLoc - 0.5);
-			const maskLeftEnd = Math.min(leftLen, leftSideLoc + 0.5);
-			const maskLeftLength = maskLeftEnd - maskLeftStart;
-
-			if (maskLeftLength > 0.01)
-			{
-				plane.addRectangleMask(
-					maskLeftStart,
-					rightSideLoc,
-					maskLeftLength,
-					rightLen - rightSideLoc
-				);
-			}
-		}
 	}
 
 	/**

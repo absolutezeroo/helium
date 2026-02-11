@@ -66,6 +66,7 @@ import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
 import {EventEmitter} from 'eventemitter3';
 import {RoomContentLoader} from './RoomContentLoader';
 import {RoomObjectTileCursorUpdateMessage} from './messages/RoomObjectTileCursorUpdateMessage';
+import {RoomObjectRoomMaskUpdateMessage} from './messages/RoomObjectRoomMaskUpdateMessage';
 import {RoomObjectTileMouseEvent} from './events/RoomObjectTileMouseEvent';
 import {RoomObjectMouseEvent} from '@room/events/RoomObjectMouseEvent';
 
@@ -101,7 +102,11 @@ export class RoomEngine extends Component implements IRoomEngine,
 	private _sessionDataManager: ISessionDataManager | null = null;
 	private _contentLoader: RoomContentLoader;
 	private _contentLoaderEvents: EventEmitter = new EventEmitter();
-	private _pendingFurnitureViz: Map<string, Array<{ roomId: number; objectId: number; category: number }>> = new Map();
+	private _pendingFurnitureViz: Map<string, Array<{
+		roomId: number;
+		objectId: number;
+		category: number
+	}>> = new Map();
 	private _canvasElement: HTMLCanvasElement | null = null;
 	private _boundOnPointerMove: ((e: PointerEvent) => void) | null = null;
 	private _boundOnPointerDown: ((e: PointerEvent) => void) | null = null;
@@ -1069,6 +1074,14 @@ export class RoomEngine extends Component implements IRoomEngine,
 					// (equivalent of AS3 model.setString("room_plane_xml", xml))
 					model.setObject(RoomObjectVariableEnum.ROOM_PLANE_PARSER, planeParser);
 
+					// AS3: RoomLogic.initialize(xml) → _planeParser.initializeFromXML(xml)
+					const eventHandler = roomObject.getEventHandler();
+
+					if (eventHandler !== null)
+					{
+						eventHandler.initialize(planeParser);
+					}
+
 					// Store dimensions for compatibility
 					model.setNumber(RoomObjectVariableEnum.ROOM_FLOOR_HEIGHT, planeParser.floorHeight, true);
 					model.setNumber(RoomObjectVariableEnum.ROOM_WALL_HEIGHT, planeParser.wallHeight, true);
@@ -1076,8 +1089,35 @@ export class RoomEngine extends Component implements IRoomEngine,
 					// Store door position if detected (AS3: <doors> XML element)
 					if (doorX !== undefined && doorDir !== undefined)
 					{
-						model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_X, doorX, true);
-						model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_Y, doorY!, true);
+						// AS3: Send door mask to RoomLogic via RoomObjectRoomMaskUpdateMessage
+						// (RoomEngine.createRoom() lines 3044-3076)
+						const doorMaskLocation = new Vector3d(doorX, doorY!, doorZ!);
+						const doorMaskMessage = new RoomObjectRoomMaskUpdateMessage(
+							RoomObjectRoomMaskUpdateMessage.ADD_MASK,
+							'door_0',
+							RoomObjectRoomMaskUpdateMessage.MASK_TYPE_DOOR,
+							doorMaskLocation,
+							RoomObjectRoomMaskUpdateMessage.MASK_CATEGORY_HOLE
+						);
+
+						if (eventHandler !== null)
+						{
+							eventHandler.processUpdateMessage(doorMaskMessage);
+						}
+
+						// AS3: door position on model uses -0.5 offset in door direction
+						if (doorDir === 90)
+						{
+							model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_X, doorX - 0.5, true);
+							model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_Y, doorY!, true);
+						}
+
+						if (doorDir === 180)
+						{
+							model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_X, doorX, true);
+							model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_Y, doorY! - 0.5, true);
+						}
+
 						model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_Z, doorZ!, true);
 						model.setNumber(RoomObjectVariableEnum.ROOM_DOOR_DIR, doorDir, true);
 
@@ -1591,49 +1631,6 @@ export class RoomEngine extends Component implements IRoomEngine,
 		canvas.addEventListener('dblclick', this._boundOnDblClick);
 	}
 
-	private onCanvasPointerMove(e: PointerEvent): void
-	{
-		const canvas = this.getActiveRenderingCanvas();
-
-		if (canvas)
-		{
-			canvas.handleMouseEvent(e.offsetX, e.offsetY, 'mouse_move', e.altKey, e.ctrlKey, e.shiftKey, e.buttons > 0);
-		}
-	}
-
-	private onCanvasPointerDown(e: PointerEvent): void
-	{
-		const canvas = this.getActiveRenderingCanvas();
-		if (canvas)
-		{
-			canvas.handleMouseEvent(e.offsetX, e.offsetY, 'mouse_down', e.altKey, e.ctrlKey, e.shiftKey, true);
-		}
-	}
-
-	private onCanvasClick(e: MouseEvent): void
-	{
-		const canvas = this.getActiveRenderingCanvas();
-		if (canvas)
-		{
-			canvas.handleMouseEvent(e.offsetX, e.offsetY, 'click', e.altKey, e.ctrlKey, e.shiftKey, false);
-		}
-	}
-
-	private onCanvasDblClick(e: MouseEvent): void
-	{
-		const canvas = this.getActiveRenderingCanvas();
-		if (canvas)
-		{
-			canvas.handleMouseEvent(e.offsetX, e.offsetY, 'double_click', e.altKey, e.ctrlKey, e.shiftKey, false);
-		}
-	}
-
-	private getActiveRenderingCanvas(): RoomRenderingCanvas | null
-	{
-		if (this._activeRoomId < 0) return null;
-		return this.getRenderingCanvas(this._activeRoomId);
-	}
-
 	/**
 	 * Get or create a rendering canvas for a room
 	 */
@@ -1772,6 +1769,50 @@ export class RoomEngine extends Component implements IRoomEngine,
 		this.registerUpdateReceiver(this, 10);
 	}
 
+	private onCanvasPointerMove(e: PointerEvent): void
+	{
+		const canvas = this.getActiveRenderingCanvas();
+
+		if (canvas)
+		{
+			canvas.handleMouseEvent(e.offsetX, e.offsetY, 'mouse_move', e.altKey, e.ctrlKey, e.shiftKey, e.buttons > 0);
+		}
+	}
+
+	private onCanvasPointerDown(e: PointerEvent): void
+	{
+		const canvas = this.getActiveRenderingCanvas();
+		if (canvas)
+		{
+			canvas.handleMouseEvent(e.offsetX, e.offsetY, 'mouse_down', e.altKey, e.ctrlKey, e.shiftKey, true);
+		}
+	}
+
+	private onCanvasClick(e: MouseEvent): void
+	{
+		const canvas = this.getActiveRenderingCanvas();
+		if (canvas)
+		{
+			canvas.handleMouseEvent(e.offsetX, e.offsetY, 'click', e.altKey, e.ctrlKey, e.shiftKey, false);
+		}
+	}
+
+	private onCanvasDblClick(e: MouseEvent): void
+	{
+		const canvas = this.getActiveRenderingCanvas();
+		if (canvas)
+		{
+			canvas.handleMouseEvent(e.offsetX, e.offsetY, 'double_click', e.altKey, e.ctrlKey, e.shiftKey, false);
+		}
+	}
+
+	private getActiveRenderingCanvas(): RoomRenderingCanvas | null
+	{
+		if (this._activeRoomId < 0) return null;
+
+		return this.getRenderingCanvas(this._activeRoomId);
+	}
+
 	/**
 	 * Load the room content bundle (.nitro) containing floor/wall textures.
 	 * Based on AS3: RoomContentLoader loading room assets.
@@ -1884,8 +1925,10 @@ export class RoomEngine extends Component implements IRoomEngine,
 			if (frame.width < 1 || frame.height < 1) return null;
 
 			const canvas = document.createElement('canvas');
+
 			canvas.width = frame.width;
 			canvas.height = frame.height;
+
 			const ctx = canvas.getContext('2d');
 
 			if (!ctx) return null;
@@ -1899,6 +1942,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 					frame.x, frame.y, frame.width, frame.height,
 					0, 0, frame.width, frame.height
 				);
+
 				return canvas;
 			}
 
@@ -1910,11 +1954,13 @@ export class RoomEngine extends Component implements IRoomEngine,
 					frame.x, frame.y, frame.width, frame.height,
 					0, 0, frame.width, frame.height
 				);
+
 				return canvas;
 			}
 
 			return null;
-		} catch
+		}
+		catch
 		{
 			return null;
 		}
