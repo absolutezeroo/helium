@@ -1,0 +1,36 @@
+// ============================================================
+// Tooltip & Bubble (.habbo-tooltip / .habbo-bubble) - BEM
+// Maps AS3 ToolTipController / BubbleController
+//
+// .habbo-tooltip
+// .habbo-bubble
+// ============================================================
+
+@use '../abstracts' as *;
+
+.habbo-tooltip
+{
+    position: absolute;
+    z-index: 1000;
+    padding: 4px 8px;
+    font-size: $font-size-sm;
+    color: $text-primary;
+    background-color: $bg-white;
+    border: 1px solid $frame-border-color;
+    border-radius: 3px;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15);
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.habbo-bubble
+{
+    position: absolute;
+    z-index: 20;
+    background-color: $bg-white;
+    border: 1px solid $frame-border-color;
+    border-radius: 4px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+    font-size: $font-size-base;
+    color: $text-primary;
+}

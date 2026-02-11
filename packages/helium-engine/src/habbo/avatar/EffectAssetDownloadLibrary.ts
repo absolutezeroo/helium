@@ -1,4 +1,10 @@
 import EventEmitter from 'eventemitter3';
+import type {IAssetLibrary} from '@core/assets';
+import type {NitroAsset} from '@core/assets/NitroAsset';
+import {AssetLoaderEvent, AssetLoaderEventType} from '@core/assets/loaders/AssetLoaderEvent';
+import {Logger} from '@core/utils/Logger';
+
+const log = Logger.getLogger('EffectAssetDownloadLibrary');
 
 /**
  * Manages downloading a single avatar effect asset library.
@@ -23,16 +29,18 @@ export class EffectAssetDownloadLibrary extends EventEmitter
     private _name: string;
     private _revision: string;
     private _downloadUrl: string;
+    private _assetLibrary: IAssetLibrary;
     private _state: number;
     private _animation: any | null;
 
-    constructor(name: string, revision: string, downloadUrl: string)
+    constructor(name: string, revision: string, downloadUrl: string, assetLibrary: IAssetLibrary)
     {
         super();
 
         this._name = name;
         this._revision = revision;
         this._downloadUrl = downloadUrl;
+        this._assetLibrary = assetLibrary;
         this._state = EffectAssetDownloadLibrary.STATE_IDLE;
         this._animation = null;
     }
@@ -57,7 +65,7 @@ export class EffectAssetDownloadLibrary extends EventEmitter
      * The animation data extracted from the loaded effect library.
      *
      * In AS3, this is XML data extracted from the loaded SWF resource's animation property.
-     * In our port, this will be JSON animation data.
+     * In our port, this is JSON animation data from the .nitro bundle.
      */
     public get animation(): any | null
     {
@@ -70,28 +78,74 @@ export class EffectAssetDownloadLibrary extends EventEmitter
      * In AS3 this creates a URLRequest and loads via LibraryLoader.
      * On completion, extracts animation data from the resource and emits COMPLETE.
      */
-    public async startDownloading(): Promise<void>
+    public startDownloading(): void
     {
         if(this._state !== EffectAssetDownloadLibrary.STATE_IDLE) return;
 
         this._state = EffectAssetDownloadLibrary.STATE_DOWNLOADING;
 
-        try
+        // Check if already loaded in asset library
+        if(this._assetLibrary.hasAsset(this._name))
         {
-            const url = this._downloadUrl
-                .replace('%libname%', this._name)
-                .replace('%revision%', this._revision);
+            this.extractAnimation();
+            this._state = EffectAssetDownloadLibrary.STATE_READY;
+            this.emit(EffectAssetDownloadLibrary.COMPLETE, this);
 
-            // In PixiJS v8, effect assets and animation data will be loaded via Assets.load()
-            // For now, mark as ready - actual loading will be connected with PixiJS Assets system
-            this._state = EffectAssetDownloadLibrary.STATE_READY;
-            this.emit(EffectAssetDownloadLibrary.COMPLETE, this);
+            return;
         }
-        catch(error)
+
+        const url = this._downloadUrl
+            .replace('%libname%', this._name)
+            .replace('%revision%', this._revision);
+
+        log.debug(`Downloading effect: ${this._name} from ${url}`);
+
+        const loader = this._assetLibrary.loadAssetFromFile(this._name, url, 'application/x-nitro-bundle');
+
+        if(!loader)
         {
-            console.error(`[EffectAssetDownloadLibrary] Failed to load: ${this._name}`, error);
+            log.warn(`Failed to start loading effect: ${this._name}`);
             this._state = EffectAssetDownloadLibrary.STATE_READY;
             this.emit(EffectAssetDownloadLibrary.COMPLETE, this);
+
+            return;
+        }
+
+        loader.events.on('event', (event: AssetLoaderEvent) =>
+        {
+            if(event.type === AssetLoaderEventType.COMPLETE)
+            {
+                log.debug(`Loaded effect: ${this._name}`);
+                this.extractAnimation();
+                this._state = EffectAssetDownloadLibrary.STATE_READY;
+                this.emit(EffectAssetDownloadLibrary.COMPLETE, this);
+            }
+            else if(event.type === AssetLoaderEventType.ERROR)
+            {
+                log.warn(`Failed to load effect: ${this._name}`);
+                this._state = EffectAssetDownloadLibrary.STATE_READY;
+                this.emit(EffectAssetDownloadLibrary.COMPLETE, this);
+            }
+        });
+    }
+
+    /**
+     * Extracts animation data from the loaded .nitro bundle's JSON.
+     *
+     * In AS3, this is extracted from the loaded SWF resource.
+     */
+    private extractAnimation(): void
+    {
+        const asset = this._assetLibrary.getAssetByName(this._name) as NitroAsset | null;
+
+        if(asset)
+        {
+            const jsonData = (asset as any).jsonData;
+
+            if(jsonData?.animations)
+            {
+                this._animation = jsonData.animations;
+            }
         }
     }
 

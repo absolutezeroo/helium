@@ -1,0 +1,49 @@
+// ============================================================
+// Border Containers (.habbo-border) - BEM
+// Maps AS3 WindowType border styles
+// @see border_sunk.png, illumina_light_border_raised.png
+//
+// .habbo-border
+//   .habbo-border--raised
+//   .habbo-border--etched
+//   .habbo-border--frame
+//   .habbo-border--thin
+//   .habbo-border--thick
+// ============================================================
+
+@use '../abstracts' as *;
+
+.habbo-border
+{
+    border: 1px solid $border-sunk-color;
+    border-radius: 3px;
+    background-color: $bg-white;
+
+    &--raised
+    {
+        border-color: $border-raised-color;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    }
+
+    &--etched
+    {
+        border-color: $border-etched-color;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+
+    &--frame
+    {
+        border: $frame-side-border solid $frame-border-color;
+        border-radius: $frame-border-radius;
+    }
+
+    &--thin
+    {
+        border-width: 1px;
+    }
+
+    &--thick
+    {
+        border-width: 2px;
+    }
+}

@@ -17,6 +17,7 @@ import type {IRoomObjectController} from './object/IRoomObjectController';
 import type {IRoomObjectManager} from './IRoomObjectManager';
 import type {IRoomObjectFactory} from './IRoomObjectFactory';
 import type {IRoomObjectVisualizationFactory} from './object/IRoomObjectVisualizationFactory';
+import type {IRoomObjectSpriteVisualization} from './object/visualization/IRoomObjectSpriteVisualization';
 import {RoomInstance} from './RoomInstance';
 
 /**
@@ -315,6 +316,30 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 		}
 
 		const controller = object as IRoomObjectController;
+
+		// Create visualization
+		// AS3 RoomManager.createRoomObject() lines 335-350
+		if (this._visualizationFactory && visualizationType)
+		{
+			const visualization = this._visualizationFactory.createRoomObjectVisualization(visualizationType);
+
+			if (visualization)
+			{
+				const spriteViz = visualization as IRoomObjectSpriteVisualization;
+
+				// Get or create cached visualization data
+				const vizData = this._visualizationFactory.getRoomObjectVisualizationData(
+					contentType, visualizationType, null
+				);
+
+				if (vizData)
+				{
+					spriteViz.initialize(vizData);
+				}
+
+				controller.setVisualization(visualization);
+			}
+		}
 
 		// Create and assign logic
 		// AS3: logic is created, event handler set, then initialized with config data

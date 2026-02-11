@@ -1,10 +1,15 @@
 import EventEmitter from 'eventemitter3';
+import type {IAssetLibrary} from '@core/assets';
+import {AssetLoaderEvent, AssetLoaderEventType} from '@core/assets/loaders/AssetLoaderEvent';
+import {Logger} from '@core/utils/Logger';
+
+const log = Logger.getLogger('AvatarAssetDownloadLibrary');
 
 /**
  * Manages downloading a single avatar asset library (spritesheet).
  *
  * In AS3, this extends EventDispatcherWrapper and loads SWF libraries via LibraryLoader.
- * In our PixiJS v8 port, we use EventEmitter and fetch/Assets.load for JSON spritesheets.
+ * In our PixiJS v8 port, we use the AssetLibrary system to load .nitro bundles.
  *
  * @see sources/win63_version/habbo/avatar/AvatarAssetDownloadLibrary.as
  * @see sources/flash_version/com/sulake/habbo/avatar/AvatarAssetDownloadLibrary.as
@@ -20,16 +25,18 @@ export class AvatarAssetDownloadLibrary extends EventEmitter
     private _libraryName: string;
     private _revision: string;
     private _downloadUrl: string;
+    private _assetLibrary: IAssetLibrary;
     private _state: number;
     private _isMandatory: boolean;
 
-    constructor(libraryName: string, revision: string, downloadUrl: string)
+    constructor(libraryName: string, revision: string, downloadUrl: string, assetLibrary: IAssetLibrary)
     {
         super();
 
         this._libraryName = libraryName;
         this._revision = revision;
         this._downloadUrl = downloadUrl;
+        this._assetLibrary = assetLibrary;
         this._state = AvatarAssetDownloadLibrary.STATE_IDLE;
         this._isMandatory = false;
     }
@@ -67,32 +74,56 @@ export class AvatarAssetDownloadLibrary extends EventEmitter
      * Begins downloading this library's assets.
      *
      * In AS3 this creates a URLRequest and loads via LibraryLoader into the asset library.
-     * Here we build the URL from the template and trigger the load.
+     * Here we use the AssetLibrary.loadAssetFromFile() system to load the .nitro bundle.
      * On completion (or error), emits COMPLETE.
      */
-    public async startDownloading(): Promise<void>
+    public startDownloading(): void
     {
         if(this._state !== AvatarAssetDownloadLibrary.STATE_IDLE) return;
 
         this._state = AvatarAssetDownloadLibrary.STATE_DOWNLOADING;
 
-        try
+        // Check if already loaded in asset library
+        if(this._assetLibrary.hasAsset(this._libraryName))
         {
-            const url = this._downloadUrl
-                .replace('%libname%', this._libraryName)
-                .replace('%revision%', this._revision);
+            this._state = AvatarAssetDownloadLibrary.STATE_READY;
+            this.emit(AvatarAssetDownloadLibrary.COMPLETE, this);
 
-            // In PixiJS v8, assets are loaded via Assets.load()
-            // For now, mark as ready - actual loading will be connected with PixiJS Assets system
-            this._state = AvatarAssetDownloadLibrary.STATE_READY;
-            this.emit(AvatarAssetDownloadLibrary.COMPLETE, this);
+            return;
         }
-        catch(error)
+
+        const url = this._downloadUrl
+            .replace('%libname%', this._libraryName)
+            .replace('%revision%', this._revision);
+
+        log.debug(`Downloading: ${this._libraryName} from ${url}`);
+
+        const loader = this._assetLibrary.loadAssetFromFile(this._libraryName, url, 'application/x-nitro-bundle');
+
+        if(!loader)
         {
-            console.error(`[AvatarAssetDownloadLibrary] Failed to load: ${this._libraryName}`, error);
+            log.warn(`Failed to start loading: ${this._libraryName}`);
             this._state = AvatarAssetDownloadLibrary.STATE_READY;
             this.emit(AvatarAssetDownloadLibrary.COMPLETE, this);
+
+            return;
         }
+
+        loader.events.on('event', (event: AssetLoaderEvent) =>
+        {
+            if(event.type === AssetLoaderEventType.COMPLETE)
+            {
+                log.debug(`Loaded: ${this._libraryName}`);
+                this._state = AvatarAssetDownloadLibrary.STATE_READY;
+                this.emit(AvatarAssetDownloadLibrary.COMPLETE, this);
+            }
+            else if(event.type === AssetLoaderEventType.ERROR)
+            {
+                log.warn(`Failed to load: ${this._libraryName}`);
+                this._state = AvatarAssetDownloadLibrary.STATE_READY;
+                this.emit(AvatarAssetDownloadLibrary.COMPLETE, this);
+            }
+        });
     }
 
     /**
@@ -102,7 +133,6 @@ export class AvatarAssetDownloadLibrary extends EventEmitter
      */
     public purge(): void
     {
-        // TODO: Remove loaded assets from PixiJS cache when asset integration is complete
         this._state = AvatarAssetDownloadLibrary.STATE_IDLE;
     }
 

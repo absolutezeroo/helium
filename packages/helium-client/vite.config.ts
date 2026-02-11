@@ -29,6 +29,22 @@ export default defineConfig({
 			'@ui': resolve(__dirname, 'src'),
 		},
 	},
+	css: {
+		preprocessorOptions: {
+			scss: {
+				additionalData: (content: string, filename: string) =>
+				{
+					// Skip injection for abstracts files to avoid circular dependency
+					if(filename.replace(/\\/g, '/').includes('assets/styles/abstracts'))
+					{
+						return content;
+					}
+
+					return `@use "@/assets/styles/abstracts" as *;\n${content}`;
+				},
+			},
+		},
+	},
 	optimizeDeps: {
 		exclude: ['solid-icons'],
 	},

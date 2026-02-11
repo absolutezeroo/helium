@@ -480,6 +480,12 @@ export class HeliumMain implements IHeliumMain
 			this._sessionDataManager.onConfigurationComplete();
 		}
 
+		// Trigger avatar resource loading now that hash-based URLs are available
+		if (this._avatarRenderManager)
+		{
+			this._avatarRenderManager.onGameDataReady();
+		}
+
 		// Load external UI variables if available (separated from renderer variables)
 		if (resources.externalUIVariablesUrl && resources.externalUIVariablesHash)
 		{

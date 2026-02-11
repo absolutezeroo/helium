@@ -1,0 +1,19 @@
+// ============================================================
+// Scrollbar (.habbo-scrollbar) - CSS-only custom scrollbar
+// Applied to any element needing the Habbo-style scrollbar
+//
+// .habbo-scrollbar
+//   .habbo-scrollbar--thin
+// ============================================================
+
+@use '../abstracts' as *;
+
+.habbo-scrollbar
+{
+    @include habbo-scrollbar;
+
+    &--thin
+    {
+        @include habbo-scrollbar($width: 6px, $radius: 3px);
+    }
+}

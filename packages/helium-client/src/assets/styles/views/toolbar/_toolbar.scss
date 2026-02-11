@@ -7,7 +7,8 @@
 // collapse arrows: 15×45
 // border: style=2 color=0x03b3933
 // ============================================================
-@use '../../tokens' as *;
+
+@use '../../abstracts' as *;
 
 // --- Design tokens (toolbar-specific) ---
 $toolbar-height: 46px;
@@ -22,7 +23,8 @@ $toolbar-collapse-width: 15px;
 $toolbar-collapse-height: 45px;
 
 // --- Bottom toolbar bar ---
-.helium-toolbar {
+.helium-toolbar
+{
     position: fixed;
     bottom: 0;
     left: 0;
@@ -35,7 +37,8 @@ $toolbar-collapse-height: 45px;
     filter: drop-shadow(3px 0 6px rgba(0, 0, 0, 0.6));
 
     // Collapse arrow (left/right)
-    .toolbar-collapse {
+    .toolbar-collapse
+    {
         width: $toolbar-collapse-width;
         height: $toolbar-collapse-height;
         display: flex;
@@ -44,14 +47,16 @@ $toolbar-collapse-height: 45px;
         cursor: pointer;
         flex-shrink: 0;
 
-        img {
+        img
+        {
             width: 13px;
             height: 45px;
         }
     }
 
     // Icon container (boxsizer)
-    .toolbar-items {
+    .toolbar-items
+    {
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -60,7 +65,8 @@ $toolbar-collapse-height: 45px;
     }
 
     // Individual icon region
-    .toolbar-icon {
+    .toolbar-icon
+    {
         width: $toolbar-icon-width;
         height: $toolbar-icon-height;
         display: flex;
@@ -70,24 +76,28 @@ $toolbar-collapse-height: 45px;
         border-radius: 3px;
         position: relative;
 
-        &:hover {
+        &:hover
+        {
             background-color: $toolbar-icon-bg-over;
         }
 
-        img {
+        img
+        {
             pointer-events: none;
         }
     }
 
     // Divider line between icon groups
-    .toolbar-divider {
+    .toolbar-divider
+    {
         width: 1px;
         height: 40px;
         flex-shrink: 0;
     }
 
     // Border accent (left edge)
-    .toolbar-border-accent {
+    .toolbar-border-accent
+    {
         width: 6px;
         height: 43px;
         background-color: $toolbar-border-color;

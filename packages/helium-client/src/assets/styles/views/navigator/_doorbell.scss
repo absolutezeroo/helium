@@ -18,19 +18,22 @@
 //       cancel: underline, x=0 y=5
 //       try btn: x=110 y=3 w=188 h=28
 // ============================================================
+@use '../../abstracts' as *;
 @use 'sass:color';
-@use '../../tokens' as *;
 
 // --- Doorbell dialog ---
-.helium-navigator-doorbell {
+.helium-navigator-doorbell
+{
     width: $nav-doorbell-width;
 
-    .doorbell-info {
+    .doorbell-info
+    {
         font-size: $font-size-base;
         line-height: 1.4;
     }
 
-    .doorbell-actions {
+    .doorbell-actions
+    {
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -40,19 +43,22 @@
         background-color: $bg-action-bar;
         border-radius: 2px;
 
-        .doorbell-cancel-btn {
+        .doorbell-cancel-btn
+        {
             font-size: $font-size-base;
             text-decoration: underline;
             color: $text-primary;
             cursor: pointer;
             padding: 4px 8px;
 
-            &:hover {
+            &:hover
+            {
                 color: $accent-blue;
             }
         }
 
-        .doorbell-ring-btn {
+        .doorbell-ring-btn
+        {
             flex: 1;
             height: 28px;
             font-size: $font-size-base;
@@ -63,11 +69,13 @@
             border-radius: 3px;
             cursor: pointer;
 
-            &:hover {
+            &:hover
+            {
                 background-color: color.adjust($accent-blue, $lightness: 5%);
             }
 
-            &:active {
+            &:active
+            {
                 background-color: color.adjust($accent-blue, $lightness: -5%);
             }
         }
@@ -75,15 +83,18 @@
 }
 
 // --- Password dialog ---
-.helium-navigator-password {
+.helium-navigator-password
+{
     width: $nav-password-width;
 
-    .password-info {
+    .password-info
+    {
         font-size: $font-size-base;
         line-height: 1.4;
     }
 
-    .password-input {
+    .password-input
+    {
         width: 100px;
         height: 19px;
         font-size: $font-size-base;
@@ -92,12 +103,14 @@
         border-radius: 2px;
         outline: none;
 
-        &:focus {
+        &:focus
+        {
             border-color: $accent-blue;
         }
     }
 
-    .password-actions {
+    .password-actions
+    {
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -107,19 +120,22 @@
         background-color: $bg-action-bar;
         border-radius: 2px;
 
-        .password-cancel-btn {
+        .password-cancel-btn
+        {
             font-size: $font-size-base;
             text-decoration: underline;
             color: $text-primary;
             cursor: pointer;
             padding: 4px 8px;
 
-            &:hover {
+            &:hover
+            {
                 color: $accent-blue;
             }
         }
 
-        .password-try-btn {
+        .password-try-btn
+        {
             flex: 1;
             height: 28px;
             font-size: $font-size-base;
@@ -130,11 +146,13 @@
             border-radius: 3px;
             cursor: pointer;
 
-            &:hover {
+            &:hover
+            {
                 background-color: color.adjust($accent-blue, $lightness: 5%);
             }
 
-            &:active {
+            &:active
+            {
                 background-color: color.adjust($accent-blue, $lightness: -5%);
             }
         }

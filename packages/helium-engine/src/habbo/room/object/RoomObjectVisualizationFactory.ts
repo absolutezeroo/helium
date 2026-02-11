@@ -11,6 +11,7 @@
 import type {IRoomObjectVisualizationFactory} from '@room/object/IRoomObjectVisualizationFactory';
 import type {IRoomObjectVisualization} from '@room/object/visualization/IRoomObjectVisualization';
 import type {IRoomObjectVisualizationData} from '@room/object/visualization/IRoomObjectVisualizationData';
+import type {IAvatarRenderManager} from '@habbo/avatar/IAvatarRenderManager';
 import {RoomObjectVisualizationEnum} from './RoomObjectVisualizationEnum';
 
 // Room Visualizations
@@ -91,7 +92,18 @@ const ANIMATED_VIZ_DATA_TYPES = new Set([
 export class RoomObjectVisualizationFactory implements IRoomObjectVisualizationFactory
 {
 	private _visualizationDataCache: Map<string, IRoomObjectVisualizationData> = new Map();
+	private _avatarRenderManager: IAvatarRenderManager | null = null;
 	private _disposed: boolean = false;
+
+	/**
+	 * Set the avatar render manager reference for avatar visualization data injection.
+	 *
+	 * @see AS3 RoomObjectVisualizationFactory._habboAvatar
+	 */
+	set avatarRenderManager(value: IAvatarRenderManager | null)
+	{
+		this._avatarRenderManager = value;
+	}
 
 	/**
 	 * Create a visualization instance for the given type.
@@ -228,6 +240,7 @@ export class RoomObjectVisualizationFactory implements IRoomObjectVisualizationF
 		}
 
 		// Avatar visualization types use AvatarVisualizationData
+		// AS3: if (_loc7_ is AvatarVisualizationData) { _loc6_.avatarRenderer = _habboAvatar; }
 		if (type === 'user' || type === 'bot' || type === 'rentable_bot' || type === 'pet_animated')
 		{
 			const avatarVizData = new AvatarVisualizationData();
@@ -237,6 +250,8 @@ export class RoomObjectVisualizationFactory implements IRoomObjectVisualizationF
 				avatarVizData.dispose();
 				return null;
 			}
+
+			avatarVizData.avatarRenderManager = this._avatarRenderManager;
 
 			this._visualizationDataCache.set(id, avatarVizData);
 

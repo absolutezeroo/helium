@@ -1,0 +1,35 @@
+// ============================================================
+// Typography Classes - mapped from AS3 text_styles_css.bin
+// @see sources/flash_version/binaryData/text_styles_css.bin
+// ============================================================
+@use '../abstracts' as *;
+
+.text-frame-title
+{
+    @include text-style('frame-title');
+}
+
+.text-heading
+{
+    @include text-style('heading');
+}
+
+.text-body
+{
+    @include text-style('body');
+}
+
+.text-small
+{
+    @include text-style('small');
+}
+
+.text-link
+{
+    @include text-style('link');
+}
+
+.text-etched
+{
+    @include text-style('etched');
+}

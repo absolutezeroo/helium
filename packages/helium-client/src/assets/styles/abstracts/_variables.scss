@@ -1,6 +1,7 @@
 // ============================================================
-// Design Tokens - extracted from Flash XML layouts
+// Design Variables - extracted from Flash XML layouts
 // Source: source_as_flash/binaryData/*_xml.bin
+// Extended with HabboWindowManagerCom skinning system tokens
 // ============================================================
 
 // --- Frame / Window Colors ---
@@ -40,6 +41,31 @@ $font-size-base: 12px;
 $font-size-sm: 10px;
 $font-size-md: 12px;
 $font-size-lg: 14px;
+
+// --- Button Colors (from button bitmap assets) ---
+$btn-default-bg: #c8c5bc; // button.png base color
+$btn-green-bg: #5fa033; // button_green.png
+$btn-red-bg: #c43030; // button_red.png
+$btn-yellow-bg: #d4a017; // button_yellow.png
+
+// --- Border variants (from illumina border bitmaps) ---
+$border-sunk-color: #d0cec7; // border_sunk.png fill
+$border-raised-color: #e8e6df; // illumina_light_border_raised.png
+$border-etched-color: #b5b3aa; // illumina_light_border_etched.png
+
+// --- Scrollbar ---
+$scrollbar-track-color: #e0ddd5;
+$scrollbar-thumb-color: #a8a59c;
+$scrollbar-thumb-hover: #8a877f;
+$scrollbar-width: 12px;
+$scrollbar-arrow-height: 19px;
+
+// --- Input ---
+$input-bg: #ffffff;
+$input-border-color: #b5b3aa;
+$input-focus-border: #418db0;
+$input-height: 24px;
+$input-padding: 4px 6px;
 
 // --- Navigator Dimensions (from navigator_frame_2_xml.bin) ---
 $nav-width: 578px;

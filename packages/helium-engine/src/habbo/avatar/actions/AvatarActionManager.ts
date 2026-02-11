@@ -20,9 +20,13 @@ export class AvatarActionManager
 
     public updateActions(data: any): void
     {
-        if(!data || !data.actions) return;
+        const actions = data?.actions ?? data?.action;
 
-        for(const actionData of data.actions)
+        if(!actions) return;
+
+        const actionList = Array.isArray(actions) ? actions : [actions];
+
+        for(const actionData of actionList)
         {
             const state = String(actionData.state || '');
 

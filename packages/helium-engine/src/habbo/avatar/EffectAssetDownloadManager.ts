@@ -1,4 +1,5 @@
 import EventEmitter from 'eventemitter3';
+import type {IAssetLibrary} from '@core/assets';
 import type { IAvatarEffectListener } from './IAvatarEffectListener';
 import type { AvatarStructure } from './AvatarStructure';
 import { EffectAssetDownloadLibrary } from './EffectAssetDownloadLibrary';
@@ -36,16 +37,19 @@ export class EffectAssetDownloadManager extends EventEmitter
     private _initDownloadBuffer: [number, IAvatarEffectListener | null][];
     private _isReady: boolean;
     private _downloadUrl: string;
+    private _assetLibrary: IAssetLibrary;
 
     constructor(
         downloadUrl: string,
-        structure: AvatarStructure
+        structure: AvatarStructure,
+        assetLibrary: IAssetLibrary
     )
     {
         super();
 
         this._structure = structure;
         this._downloadUrl = downloadUrl;
+        this._assetLibrary = assetLibrary;
         this._effectMap = new Map();
         this._incompleteEffects = new Map();
         this._listeners = new Map();
@@ -72,6 +76,7 @@ export class EffectAssetDownloadManager extends EventEmitter
         this.generateMap(data);
         this.loadMandatoryLibs();
         this._isReady = true;
+        this.processInitBuffer();
     }
 
     /**
@@ -95,7 +100,8 @@ export class EffectAssetDownloadManager extends EventEmitter
             const library = new EffectAssetDownloadLibrary(
                 libName,
                 revision,
-                this._downloadUrl
+                this._downloadUrl,
+                this._assetLibrary
             );
 
             library.on(EffectAssetDownloadLibrary.COMPLETE, () => this.onLibraryComplete(library));

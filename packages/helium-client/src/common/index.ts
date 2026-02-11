@@ -47,6 +47,18 @@ export type {
 	LayoutCurrencyIconProps,
 } from './layout';
 
+// Window system (BEM)
+export {
+	WindowFrame,
+	WindowHeader,
+	WindowContent,
+} from './window';
+export type {
+	WindowFrameProps,
+	WindowHeaderProps,
+	WindowContentProps,
+} from './window';
+
 // Transitions
 export {TransitionAnimation} from './transitions';
 export type {TransitionAnimationProps} from './transitions';

@@ -1,0 +1,178 @@
+// ============================================================
+// Core Mixins - Window Manager Skinning System
+// Maps AS3 SkinLayoutEntity scaling to CSS border-image
+// @see sources/flash_version/com/sulake/core/window/graphics/SkinLayoutEntity.as
+// ============================================================
+@use 'variables' as *;
+
+/// 9-slice bitmap scaling mixin.
+/// Maps directly to Flash SkinLayoutEntity region-based scaling.
+///
+/// @param {String} $image - Path to bitmap asset
+/// @param {List} $slice - border-image-slice values (top right bottom left, in px)
+/// @param {String} $repeat [stretch] - stretch | repeat | round (maps to AS3 STRETCH/TILED)
+/// @param {Boolean} $fill [true] - Whether to render center region
+/// @param {List|null} $width [null] - border-image-width override (defaults to slice values)
+@mixin nine-slice($image, $slice, $repeat: stretch, $fill: true, $width: null)
+{
+    border-style: solid;
+    border-color: transparent;
+    border-image-source: url($image);
+    @if $fill
+    {
+        border-image-slice: $slice fill;
+    }
+    @else
+    {
+        border-image-slice: $slice;
+    }
+    border-image-repeat: $repeat;
+
+    @if $width
+    {
+        border-image-width: $width;
+        border-width: $width;
+    }
+    @else
+    {
+        border-width: $slice;
+    }
+
+    background: none;
+}
+
+/// Window state modifier generator.
+/// Maps AS3 WindowState bitmask names to BEM modifiers.
+///
+/// @param {String} $state - State name (active, focused, hovering, selected, pressed, disabled, locked)
+@mixin habbo-state($state)
+{
+    &--#{$state}
+    {
+        @content;
+    }
+}
+
+/// Text style mixin based on AS3 TextStyle.as
+/// @param {String} $style - Style name from text_styles_css.bin
+@mixin text-style($style)
+{
+    @if $style == 'frame-title'
+    {
+        font-size: $font-size-base;
+        font-weight: bold;
+        color: $text-white;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    @else if $style == 'heading'
+    {
+        font-size: $font-size-lg;
+        font-weight: bold;
+    }
+    @else if $style == 'body'
+    {
+        font-size: $font-size-base;
+        font-weight: normal;
+    }
+    @else if $style == 'small'
+    {
+        font-size: $font-size-sm;
+        font-weight: normal;
+    }
+    @else if $style == 'link'
+    {
+        font-size: $font-size-base;
+        color: $text-link;
+        cursor: pointer;
+
+        &:hover
+        {
+            text-decoration: underline;
+        }
+    }
+    @else if $style == 'etched'
+    {
+        text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
+    }
+}
+
+/// Habbo close button (reusable across all window types)
+/// @see habbo_skin_button_close_3_xml.bin
+@mixin habbo-close-button
+{
+    width: $frame-close-width;
+    height: $frame-close-height;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    box-shadow: 0 0 0 1.6px $text-white;
+    border: 2px solid #921911;
+    background: repeating-linear-gradient(
+        rgba(245, 80, 65, 1),
+        rgba(245, 80, 65, 1) 50%,
+        rgba(194, 48, 39, 1) 50%,
+        rgba(194, 48, 39, 1) 100%
+    );
+
+    &:hover
+    {
+        filter: brightness(1.2);
+    }
+
+    &:active
+    {
+        filter: brightness(0.8);
+    }
+
+    img
+    {
+        width: 8px;
+        height: 8px;
+        filter: brightness(10);
+    }
+}
+
+/// Custom scrollbar styling (CSS-only approach)
+/// @param {Length} $width [$scrollbar-width] - Scrollbar width
+/// @param {Color} $track [$scrollbar-track-color] - Track background
+/// @param {Color} $thumb [$scrollbar-thumb-color] - Thumb color
+/// @param {Color} $thumb-hover [$scrollbar-thumb-hover] - Thumb hover color
+/// @param {Length} $radius [4px] - Thumb border radius
+@mixin habbo-scrollbar($width: $scrollbar-width, $track: $scrollbar-track-color, $thumb: $scrollbar-thumb-color, $thumb-hover: $scrollbar-thumb-hover, $radius: 4px)
+{
+    // Firefox
+    scrollbar-width: thin;
+    scrollbar-color: $thumb $track;
+
+    // WebKit/Chromium
+    &::-webkit-scrollbar
+    {
+        width: $width;
+        height: $width;
+    }
+
+    &::-webkit-scrollbar-track
+    {
+        background: $track;
+        border-radius: $radius;
+    }
+
+    &::-webkit-scrollbar-thumb
+    {
+        background: $thumb;
+        border-radius: $radius;
+        border: 2px solid $track;
+
+        &:hover
+        {
+            background: $thumb-hover;
+        }
+    }
+
+    &::-webkit-scrollbar-corner
+    {
+        background: $track;
+    }
+}

@@ -8,7 +8,8 @@
 //   field_text: y=32, font_size=9, white, on hover=0x21CFF4
 //   icon_color visible on hover, icon_grey visible by default
 // ============================================================
-@use '../../tokens' as *;
+
+@use '../../abstracts' as *;
 
 $memenu-bg: #3b3933;
 $memenu-height: 53px;
@@ -19,7 +20,8 @@ $memenu-spacing: 8px;
 $memenu-text-color: #ffffff;
 $memenu-text-hover: #21cff4;
 
-.helium-toolbar-me {
+.helium-toolbar-me
+{
     position: fixed;
     bottom: 47px; // just above toolbar
     left: 0;
@@ -36,7 +38,8 @@ $memenu-text-hover: #21cff4;
     filter: drop-shadow(2px -2px 4px rgba(0, 0, 0, 0.4));
 
     // Individual me-menu item
-    .memenu-item {
+    .memenu-item
+    {
         width: $memenu-item-width;
         height: $memenu-item-height;
         display: flex;
@@ -48,25 +51,30 @@ $memenu-text-hover: #21cff4;
         padding-top: 2px;
         position: relative;
 
-        &:hover {
+        &:hover
+        {
             background-color: rgba(255, 255, 255, 0.08);
 
-            .memenu-icon-color {
+            .memenu-icon-color
+            {
                 display: block;
             }
 
-            .memenu-icon-grey {
+            .memenu-icon-grey
+            {
                 display: none;
             }
 
-            .memenu-label {
+            .memenu-label
+            {
                 color: $memenu-text-hover;
             }
         }
     }
 
     // Icon wrapper
-    .memenu-icon {
+    .memenu-icon
+    {
         width: $memenu-icon-size;
         height: 30px;
         display: flex;
@@ -76,17 +84,20 @@ $memenu-text-hover: #21cff4;
     }
 
     // Color icon (hidden by default, shown on hover)
-    .memenu-icon-color {
+    .memenu-icon-color
+    {
         display: none;
     }
 
     // Grey icon (shown by default, hidden on hover)
-    .memenu-icon-grey {
+    .memenu-icon-grey
+    {
         display: block;
     }
 
     // Label text
-    .memenu-label {
+    .memenu-label
+    {
         font-size: 9px;
         color: $memenu-text-color;
         text-align: center;

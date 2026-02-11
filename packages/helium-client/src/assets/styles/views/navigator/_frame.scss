@@ -9,13 +9,14 @@
 // When shown, the window EXPANDS from ~425px to 578px.
 // @see source_as_win63/habbo/navigator/view/NavigatorView.as
 // ============================================================
+@use '../../abstracts' as *;
 @use 'sass:color';
-@use '../../tokens' as *;
 
 // Hidden (default) width: AS3 calculates 578 - (159 - 6 + 7) + 7 = 425px
 $nav-width-collapsed: 425px;
 
-.helium-navigator {
+.helium-navigator
+{
     width: $nav-width;
     font-family: $font-family;
     font-size: $font-size-base;
@@ -24,7 +25,8 @@ $nav-width-collapsed: 425px;
 
     // Override card content-area defaults (padding + box-shadow) that interfere with navigator layout
     // Margin exposes the beige frame background on left, right, and bottom edges (Flash 9-slice inset)
-    .content-area {
+    .content-area
+    {
         padding: 0;
         box-shadow: none;
         overflow: hidden; // Navigator manages its own scroll
@@ -33,7 +35,8 @@ $nav-width-collapsed: 425px;
     }
 
     // --- Two-pane body ---
-    .navigator-body {
+    .navigator-body
+    {
         display: flex;
         flex-direction: row;
         flex: 1; // fill available space (adapts to header margin + content margin)
@@ -45,7 +48,8 @@ $nav-width-collapsed: 425px;
     // ===========================
     // XML: itemlist_vertical x=6 y=35 w=149 h=440
     //   quicklinks_border style="2" w=141 h=494 = WHITE bg with border
-    .navigator-left-pane {
+    .navigator-left-pane
+    {
         width: $nav-left-pane-width;
         flex-shrink: 0;
         display: flex;
@@ -54,7 +58,8 @@ $nav-width-collapsed: 425px;
         overflow: hidden;
 
         // Inner white bordered container (quicklinks_border style="2")
-        .left-pane-content {
+        .left-pane-content
+        {
             flex: 1;
             display: flex;
             flex-direction: column;
@@ -66,7 +71,8 @@ $nav-width-collapsed: 425px;
 
         // Toggle title bar (orange background)
         // XML: border w=141 h=27 color=0x0fba800
-        .left-pane-title {
+        .left-pane-title
+        {
             width: 100%;
             height: 27px;
             display: flex;
@@ -81,7 +87,8 @@ $nav-width-collapsed: 425px;
             gap: 4px;
             flex-shrink: 0;
 
-            img {
+            img
+            {
                 width: 18px;
                 height: 18px;
             }
@@ -89,7 +96,8 @@ $nav-width-collapsed: 425px;
 
         // Scrollable links list
         // XML: quicklinks_list x=5 y=25 w=132 h=420 spacing=2
-        .left-pane-links {
+        .left-pane-links
+        {
             flex: 1;
             overflow-y: auto;
             overflow-x: hidden;
@@ -100,10 +108,12 @@ $nav-width-collapsed: 425px;
 
     // When left pane is hidden per AS3: setLeftPaneVisibility(false)
     // Window SHRINKS to collapsed width (right pane only + margins)
-    &.left-pane-hidden {
+    &.left-pane-hidden
+    {
         width: $nav-width-collapsed;
 
-        .navigator-left-pane {
+        .navigator-left-pane
+        {
             display: none;
         }
     }
@@ -112,7 +122,8 @@ $nav-width-collapsed: 425px;
     // RIGHT PANE
     // ===========================
     // XML: container x=159 y=25 w=410 h=455
-    .navigator-right-pane {
+    .navigator-right-pane
+    {
         flex: 1;
         display: flex;
         flex-direction: column;
@@ -123,7 +134,8 @@ $nav-width-collapsed: 425px;
     // --- Tab bar ---
     // XML: white_background x=-2 y=-5 w=576 h=33 (white behind tabs)
     //      separator line at y=28 (1px)
-    .navigator-tabs {
+    .navigator-tabs
+    {
         display: flex;
         flex-direction: row;
         align-items: flex-end;
@@ -138,7 +150,8 @@ $nav-width-collapsed: 425px;
     // Toggle left pane button (inside tab bar, left side)
     // XML: temp_back x=4 y=2 w=28 h=25
     // @see NavigatorView.as: left_hide_container / left_show_container
-    .toggle-left-pane-btn {
+    .toggle-left-pane-btn
+    {
         width: 28px;
         height: 25px;
         display: flex;
@@ -148,11 +161,13 @@ $nav-width-collapsed: 425px;
         flex-shrink: 0;
         opacity: 0.7;
 
-        &:hover {
+        &:hover
+        {
             opacity: 1;
         }
 
-        img {
+        img
+        {
             display: block;
         }
     }
@@ -160,7 +175,8 @@ $nav-width-collapsed: 425px;
     // Source: text_styles_css.bin → u_button_tab: Ubuntu, 12px, normal
     // XML: tab_button w=88 h=32
     // Skin: habbo_skin_button_tab_3 - 9px left/right caps from bitmap
-    .navigator-tab {
+    .navigator-tab
+    {
         width: $nav-tab-width;
         height: calc(#{$nav-tab-height} - 2px);
         display: flex;
@@ -181,11 +197,13 @@ $nav-width-collapsed: 425px;
         border-radius: 0; // bitmap handles rounded corners
         background: none; // border-image fill provides background
 
-        &:hover {
+        &:hover
+        {
             border-image-source: url('@/assets/images/habbo_tab_hover.png');
         }
 
-        &.active {
+        &.active
+        {
             border-image-source: url('@/assets/images/habbo_tab_selected.png');
             font-weight: bold;
         }
@@ -193,7 +211,8 @@ $nav-width-collapsed: 425px;
 
     // --- Navigation bar (back + search) ---
     // XML: search_tools x=0 y=3 w=408 h=36
-    .navigator-nav-bar {
+    .navigator-nav-bar
+    {
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -202,7 +221,8 @@ $nav-width-collapsed: 425px;
         flex-shrink: 0;
         background-color: $bg-white; // white background matching Flash
 
-        .nav-btn {
+        .nav-btn
+        {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -215,16 +235,19 @@ $nav-width-collapsed: 425px;
             border: none;
             padding: 0;
 
-            &:hover {
+            &:hover
+            {
                 opacity: 1;
             }
 
-            &:disabled {
+            &:disabled
+            {
                 opacity: 0.3;
                 cursor: default;
             }
 
-            img {
+            img
+            {
                 display: block;
             }
         }
@@ -232,7 +255,8 @@ $nav-width-collapsed: 425px;
 
     // --- Results scroll area ---
     // XML: block_results x=1 y=45 w=407 h=330
-    .navigator-results {
+    .navigator-results
+    {
         flex: 1;
         overflow-y: auto;
         overflow-x: hidden;
@@ -248,7 +272,8 @@ $nav-width-collapsed: 425px;
     // Each button = image (186x59) + white text overlay at x=60 y=22 w=125
     // text_style: id_heading_2 (white bold ~14px)
     // etching_color: 0x3f000000 (25% black shadow), bottom-right
-    .navigator-bottom-buttons {
+    .navigator-bottom-buttons
+    {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -257,7 +282,8 @@ $nav-width-collapsed: 425px;
         background-color: $bg-white; // white background matching Flash
     }
 
-    .bottom-btn {
+    .bottom-btn
+    {
         position: relative;
         width: $nav-bottom-btn-width;
         height: $nav-bottom-btn-height;
@@ -265,15 +291,18 @@ $nav-width-collapsed: 425px;
         user-select: none;
         overflow: hidden;
 
-        &:hover {
+        &:hover
+        {
             filter: brightness(1.05);
         }
 
-        &:active {
+        &:active
+        {
             filter: brightness(0.95);
         }
 
-        img {
+        img
+        {
             display: block;
             width: 100%;
             height: 100%;
@@ -281,7 +310,8 @@ $nav-width-collapsed: 425px;
 
         // White text label overlaid on the button image
         // XML: text x=60 y=22 w=125 h=17, auto_size=center
-        .bottom-btn-text {
+        .bottom-btn-text
+        {
             position: absolute;
             left: 60px;
             top: 22px;
@@ -303,7 +333,8 @@ $nav-width-collapsed: 425px;
 
     // --- Loading mask ---
     // XML: search_waiting_for_results_mask color=0x6f6feceae0
-    .navigator-loading-mask {
+    .navigator-loading-mask
+    {
         position: absolute;
         top: 0;
         left: 0;

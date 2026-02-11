@@ -1,14 +1,19 @@
 // ============================================================
 // Helium Styles - Main entry point
+// 7-1 SCSS Architecture
 // Based on Flash XML layouts (source_as_flash/binaryData/)
+//
+// Note: abstracts/ (variables, mixins, functions) is NOT @use'd here
+// because it is auto-injected into every SCSS file via Vite additionalData.
 // ============================================================
 
 // Foundation
-@use 'reset';
+@use 'base';
+@use 'layout';
 @use 'utilities';
-@use 'fonts';
 
-// Components
-@use 'components/common/index' as common;
-@use 'components/navigator/index' as navigator;
-@use 'components/toolbar/index' as toolbar;
+// Primitives
+@use 'components';
+
+// Feature views (existing - backward compat)
+@use 'views';

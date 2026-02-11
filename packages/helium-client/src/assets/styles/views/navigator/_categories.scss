@@ -13,13 +13,16 @@
 //   expand icon: x=5 y=4 w=11 h=18
 //   controls: x=331 y=1, w=52 (show_more + quicklink only)
 // ============================================================
-@use '../../tokens' as *;
 
-.navigator-category {
+@use '../../abstracts' as *;
+
+.navigator-category
+{
     margin-bottom: 2px;
 
     // --- Category header ---
-    .navigator-category-header {
+    .navigator-category-header
+    {
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -29,7 +32,8 @@
         padding: 0 4px;
         user-select: none;
 
-        .category-title {
+        .category-title
+        {
             display: flex;
             align-items: center;
             gap: 4px;
@@ -37,13 +41,15 @@
             flex: 1;
             min-width: 0;
 
-            .collapse-icon {
+            .collapse-icon
+            {
                 width: 11px;
                 height: 19px;
                 flex-shrink: 0;
             }
 
-            .category-name {
+            .category-name
+            {
                 font-size: $nav-cat-name-font-size;
                 color: $nav-cat-name-color;
                 overflow: hidden;
@@ -52,31 +58,36 @@
             }
         }
 
-        .category-controls {
+        .category-controls
+        {
             display: flex;
             flex-direction: row;
             align-items: center;
             gap: $nav-cat-controls-spacing;
             flex-shrink: 0;
 
-            .control-icon {
+            .control-icon
+            {
                 width: 11px;
                 height: 19px;
                 cursor: pointer;
                 opacity: 0.8;
 
-                &:hover {
+                &:hover
+                {
                     opacity: 1;
                 }
             }
 
-            .show-more-btn {
+            .show-more-btn
+            {
                 width: 11px;
                 height: 19px;
                 cursor: pointer;
                 opacity: 0.8;
 
-                &:hover {
+                &:hover
+                {
                     opacity: 1;
                 }
             }
@@ -84,7 +95,8 @@
     }
 
     // --- Room entries (row mode) ---
-    .navigator-rows {
+    .navigator-rows
+    {
         display: flex;
         flex-direction: column;
         gap: 0;
@@ -92,7 +104,8 @@
     }
 
     // --- Room entries (tile mode) ---
-    .navigator-tiles {
+    .navigator-tiles
+    {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
@@ -101,7 +114,8 @@
     }
 
     // --- Empty state ---
-    .navigator-empty {
+    .navigator-empty
+    {
         padding: 8px 12px;
         color: $text-muted;
         font-size: $font-size-base;

@@ -1,0 +1,16 @@
+@use 'sass:color';
+@use 'sass:math';
+
+/// Extract header gradient colors from a base color.
+/// Mimics AS3 BitmapSkinRenderer colorization via ColorTransform.
+///
+/// @param {Color} $base - Header base color (e.g. $frame-header-color)
+/// @returns {Map} - (top, mid, bottom) gradient stops
+@function header-gradient($base)
+{
+    @return (
+        top: color.adjust($base, $lightness: 10%),
+        mid: $base,
+        bottom: color.adjust($base, $lightness: -5%)
+    );
+}

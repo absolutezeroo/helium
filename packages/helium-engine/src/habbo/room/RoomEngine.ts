@@ -63,6 +63,8 @@ import {IID_HabboConfigurationManager} from '@iid/IIDHabboConfigurationManager';
 import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
 import {IID_SessionDataManager} from '@iid/IIDSessionDataManager';
 import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
+import {IID_AvatarRenderManager} from '@iid/IIDAvatarRenderManager';
+import type {IAvatarRenderManager} from '@habbo/avatar/IAvatarRenderManager';
 import {EventEmitter} from 'eventemitter3';
 import {RoomContentLoader} from './RoomContentLoader';
 import {RoomObjectTileCursorUpdateMessage} from './messages/RoomObjectTileCursorUpdateMessage';
@@ -218,6 +220,14 @@ export class RoomEngine extends Component implements IRoomEngine,
 					}
 				},
 				false // Optional - needed for furniture className lookup
+			),
+			new ComponentDependency(
+				IID_AvatarRenderManager,
+				(avatarRenderer: IAvatarRenderManager | null) =>
+				{
+					this._visualizationFactory.avatarRenderManager = avatarRenderer;
+				},
+				false // Optional - needed for avatar visualization
 			),
 		];
 	}
@@ -473,6 +483,25 @@ export class RoomEngine extends Component implements IRoomEngine,
 
 		(object as IRoomObjectController).setLocation(location);
 		(object as IRoomObjectController).setDirection(direction);
+
+		// Register visualization in canvas if one was created by RoomManager
+		const visualization = (object as IRoomObjectController).getVisualization();
+
+		if (visualization)
+		{
+			const spriteViz = visualization as IRoomObjectSpriteVisualization;
+			spriteViz.object = object;
+
+			const key = `${roomId}_${id}_user`;
+			this._roomVisualizations.set(key, spriteViz);
+
+			const canvas = this.getRenderingCanvas(roomId);
+
+			if (canvas)
+			{
+				canvas.addVisualization(spriteViz, object);
+			}
+		}
 
 		this.events.emit(
 			RoomEngineObjectEvent.REOE_OBJECT_ADDED,

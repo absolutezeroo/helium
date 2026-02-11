@@ -1018,7 +1018,7 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener
      */
     private resetBodyPartCache(action: IActiveActionData): void
     {
-        if(action == null)
+        if(action == null || !action.definition)
         {
             return;
         }

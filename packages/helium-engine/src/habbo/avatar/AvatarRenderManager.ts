@@ -216,81 +216,94 @@ export class AvatarRenderManager extends Component implements IAvatarRenderManag
         super.dispose();
     }
 
+    /**
+     * AS3 initComponent(): loads geometry/partsets from asset library (embedded in .nitro bundles),
+     * registers a hardcoded Default action, and marks animations ready (per-effect only).
+     *
+     * @see sources/flash_version/com/sulake/habbo/avatar/AvatarRenderManager.as lines 67-82
+     */
     private onConfigurationReady(): void
     {
         if(!this._configuration) return;
 
-        log.info('Configuration ready, initializing avatar system...');
+        log.info('Configuration ready, loading embedded avatar data...');
 
-        // Load geometry data
-        this.loadGeometry();
+        // AS3 line 71: hardcoded Default action as initial fallback
+        this._structure.initActions({
+            action: [{
+                id: 'Default',
+                precedence: '1000',
+                state: 'std',
+                main: '1',
+                isdefault: '1',
+                geometrytype: 'vertical',
+                activepartset: 'figure',
+                assetpartdefinition: 'std'
+            }]
+        });
+        this._actionsReady = true;
 
-        // Load part sets data
-        this.loadPartSets();
+        // AS3 lines 74-75: load geometry/partsets from asset library (.nitro bundles)
+        if(this._assetLibrary)
+        {
+            if(this._assetLibrary.hasAsset('HabboAvatarGeometry'))
+            {
+                const asset = this._assetLibrary.getAssetByName('HabboAvatarGeometry');
 
-        // Load actions data
+                if(asset?.content)
+                {
+                    this._structure.initGeometry(asset.content);
+                    log.info('Loaded geometry from asset library');
+                }
+            }
+
+            if(this._assetLibrary.hasAsset('HabboAvatarPartSets'))
+            {
+                const asset = this._assetLibrary.getAssetByName('HabboAvatarPartSets');
+
+                if(asset?.content)
+                {
+                    this._structure.initPartSets(asset.content);
+                    log.info('Loaded partsets from asset library');
+                }
+            }
+        }
+
+        this._geometryReady = true;
+        this._partSetsReady = true;
+
+        // Animation data comes per-effect from EffectAssetDownloadLibrary, not a global file
+        this._animationsReady = true;
+
+        this.checkReady();
+    }
+
+    /**
+     * Called by HeliumMain when game_data hash URLs become available.
+     * Loads all avatar resources whose URLs are derived from game_data hashes
+     * (avatar.actions.url, avatar.figuredata.url, avatar.figuremap.url, etc.)
+     * and any remaining resources not yet loaded.
+     */
+    public onGameDataReady(): void
+    {
+        if(!this._configuration) return;
+
+        log.info('Game data URLs available, loading avatar resources...');
+
+        // Load hash-based resources (URLs set by HeliumMain.onGameDataResourcesReady)
         this.loadActions();
-
-        // Load animation data
-        this.loadAnimations();
-
-        // Load figure data
         this.loadFigureData();
 
-        // Initialize download managers
+        // Initialize download managers (figure map + effect map)
         this.initDownloadManagers();
     }
 
-    private async loadGeometry(): Promise<void>
-    {
-        try
-        {
-            const url = this._configuration?.getProperty('avatar.geometry.url');
-
-            if(url)
-            {
-                const response = await fetch(url);
-                const data = await response.json();
-
-                this._structure.initGeometry(data);
-            }
-
-            this._geometryReady = true;
-            this.checkReady();
-        }
-        catch(error)
-        {
-            log.error('Failed to load geometry data', error);
-            this._geometryReady = true;
-            this.checkReady();
-        }
-    }
-
-    private async loadPartSets(): Promise<void>
-    {
-        try
-        {
-            const url = this._configuration?.getProperty('avatar.partsets.url');
-
-            if(url)
-            {
-                const response = await fetch(url);
-                const data = await response.json();
-
-                this._structure.initPartSets(data);
-            }
-
-            this._partSetsReady = true;
-            this.checkReady();
-        }
-        catch(error)
-        {
-            log.error('Failed to load part sets data', error);
-            this._partSetsReady = true;
-            this.checkReady();
-        }
-    }
-
+    /**
+     * Load actions from habbo_avatar_actions URL.
+     * Uses updateActions() to append to the hardcoded Default action.
+     *
+     * @see AS3 RoomEngine._Str_1200() loads HabboAvatarActions.xml externally
+     */
     private async loadActions(): Promise<void>
     {
         try
@@ -302,42 +315,14 @@ export class AvatarRenderManager extends Component implements IAvatarRenderManag
                 const response = await fetch(url);
                 const data = await response.json();
 
-                this._structure.initActions(data);
+                this._structure.updateActions(data);
             }
 
-            this._actionsReady = true;
             this.checkReady();
         }
         catch(error)
         {
             log.error('Failed to load actions data', error);
-            this._actionsReady = true;
-            this.checkReady();
-        }
-    }
-
-    private async loadAnimations(): Promise<void>
-    {
-        try
-        {
-            const url = this._configuration?.getProperty('avatar.animation.url');
-
-            if(url)
-            {
-                const response = await fetch(url);
-                const data = await response.json();
-
-                this._structure.initAnimation(data);
-            }
-
-            this._animationsReady = true;
-            this.checkReady();
-        }
-        catch(error)
-        {
-            log.error('Failed to load animation data', error);
-            this._animationsReady = true;
-            this.checkReady();
         }
     }
 
@@ -368,17 +353,30 @@ export class AvatarRenderManager extends Component implements IAvatarRenderManag
 
     private initDownloadManagers(): void
     {
-        const avatarDownloadUrl = this._configuration?.getProperty('avatar.asset.url') || '';
-        const effectDownloadUrl = this._configuration?.getProperty('avatar.effect.url') || '';
+        const avatarDownloadUrl = this._configuration?.getProperty('avatar.asset.url')
+            || this._configuration?.getProperty('flash.dynamic.avatar.download.url')
+            || '';
+        const effectDownloadUrl = this._configuration?.getProperty('avatar.effect.url')
+            || this._configuration?.getProperty('flash.dynamic.avatar.download.url')
+            || '';
+
+        if(!this._assetLibrary)
+        {
+            log.error('AssetLibrary not available for download managers');
+
+            return;
+        }
 
         this._avatarAssetDownloadManager = new AvatarAssetDownloadManager(
             avatarDownloadUrl,
-            this._structure
+            this._structure,
+            this._assetLibrary
         );
 
         this._effectAssetDownloadManager = new EffectAssetDownloadManager(
             effectDownloadUrl,
-            this._structure
+            this._structure,
+            this._assetLibrary
         );
 
         // Load figure map
