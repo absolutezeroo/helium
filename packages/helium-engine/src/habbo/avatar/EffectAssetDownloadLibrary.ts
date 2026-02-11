@@ -1,7 +1,7 @@
 import EventEmitter from 'eventemitter3';
 import type {IAssetLibrary} from '@core/assets';
-import type {NitroAsset} from '@core/assets/NitroAsset';
-import {AssetLoaderEvent, AssetLoaderEventType} from '@core/assets/loaders/AssetLoaderEvent';
+import type {NitroAsset} from '@core/assets';
+import {AssetLoaderEvent, AssetLoaderEventType} from '@core/assets';
 import {Logger} from '@core/utils/Logger';
 
 const log = Logger.getLogger('EffectAssetDownloadLibrary');
@@ -98,35 +98,53 @@ export class EffectAssetDownloadLibrary extends EventEmitter
             .replace('%libname%', this._name)
             .replace('%revision%', this._revision);
 
-        log.debug(`Downloading effect: ${this._name} from ${url}`);
-
-        const loader = this._assetLibrary.loadAssetFromFile(this._name, url, 'application/x-nitro-bundle');
-
-        if(!loader)
+        if(!url || url === this._downloadUrl)
         {
-            log.warn(`Failed to start loading effect: ${this._name}`);
+            log.warn(`No valid download URL for effect: ${this._name}`);
             this._state = EffectAssetDownloadLibrary.STATE_READY;
             this.emit(EffectAssetDownloadLibrary.COMPLETE, this);
 
             return;
         }
 
-        loader.events.on('event', (event: AssetLoaderEvent) =>
+        log.debug(`Downloading effect: ${this._name} from ${url}`);
+
+        try
         {
-            if(event.type === AssetLoaderEventType.COMPLETE)
+            const loader = this._assetLibrary.loadAssetFromFile(this._name, url, 'application/x-nitro-bundle');
+
+            if(!loader)
             {
-                log.debug(`Loaded effect: ${this._name}`);
-                this.extractAnimation();
+                log.warn(`Failed to start loading effect: ${this._name}`);
                 this._state = EffectAssetDownloadLibrary.STATE_READY;
                 this.emit(EffectAssetDownloadLibrary.COMPLETE, this);
+
+                return;
             }
-            else if(event.type === AssetLoaderEventType.ERROR)
+
+            loader.events.on('event', (event: AssetLoaderEvent) =>
             {
-                log.warn(`Failed to load effect: ${this._name}`);
-                this._state = EffectAssetDownloadLibrary.STATE_READY;
-                this.emit(EffectAssetDownloadLibrary.COMPLETE, this);
-            }
-        });
+                if(event.type === AssetLoaderEventType.COMPLETE)
+                {
+                    log.debug(`Loaded effect: ${this._name}`);
+                    this.extractAnimation();
+                    this._state = EffectAssetDownloadLibrary.STATE_READY;
+                    this.emit(EffectAssetDownloadLibrary.COMPLETE, this);
+                }
+                else if(event.type === AssetLoaderEventType.ERROR)
+                {
+                    log.warn(`Failed to load effect: ${this._name}`);
+                    this._state = EffectAssetDownloadLibrary.STATE_READY;
+                    this.emit(EffectAssetDownloadLibrary.COMPLETE, this);
+                }
+            });
+        }
+        catch(error)
+        {
+            log.warn(`Error loading effect ${this._name}: ${error}`);
+            this._state = EffectAssetDownloadLibrary.STATE_READY;
+            this.emit(EffectAssetDownloadLibrary.COMPLETE, this);
+        }
     }
 
     /**

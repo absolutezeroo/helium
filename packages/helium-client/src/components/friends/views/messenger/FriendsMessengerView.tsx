@@ -1,6 +1,6 @@
 import type {JSX} from 'solid-js';
 import {createSignal, Show} from 'solid-js';
-import {HeliumCardContentView, HeliumCardHeaderView, HeliumCardView} from '@ui/common/card';
+import {WindowFrame, WindowHeader, WindowContent} from '@ui/common/window';
 
 export function FriendsMessengerView(): JSX.Element
 {
@@ -8,12 +8,12 @@ export function FriendsMessengerView(): JSX.Element
 
 	return (
 		<Show when={isOpen()}>
-			<HeliumCardView uniqueKey="messenger" width={400} height={500}>
-				<HeliumCardHeaderView title="Messenger" onClose={() => setIsOpen(false)}/>
-				<HeliumCardContentView>
-					<p class="text-muted text-center py-5">Coming Soon</p>
-				</HeliumCardContentView>
-			</HeliumCardView>
+			<WindowFrame uniqueKey="messenger" title="Messenger" width={400} height={500} onClose={() => setIsOpen(false)}>
+				<WindowHeader title="Messenger" onClose={() => setIsOpen(false)}/>
+				<WindowContent>
+					<p class="text-muted text-center">Coming Soon</p>
+				</WindowContent>
+			</WindowFrame>
 		</Show>
 	);
 }

@@ -1,7 +1,7 @@
 import {createEffect, createSignal, For, JSX, onCleanup, Show} from 'solid-js';
 import {useNavigator} from '@ui/hooks/navigator/useNavigator';
 import {useLocalization} from '@ui/common';
-import {HeliumCardContentView, HeliumCardHeaderView, HeliumCardView} from '@ui/common/card';
+import {WindowFrame, WindowHeader, WindowContent} from '@ui/common/window';
 import {SearchView} from './views/search/SearchView';
 import {BlockResultsView} from './views/search/results/BlockResultsView';
 import {QuickLinksView} from './views/QuickLinksView';
@@ -112,18 +112,20 @@ export function NavigatorView(): JSX.Element
 	return (
 		<>
 			<Show when={nav.isVisible}>
-				<HeliumCardView
+				<WindowFrame
 					uniqueKey="navigator"
+					title={t(nav.isCreatorOpen ? 'navigator.createroom.title' : 'navigator.title', nav.isCreatorOpen ? 'Create Room' : 'Navigator')}
 					width={leftPaneVisible() ? 578 : 425}
 					height={535}
 					class={`helium-navigator${leftPaneVisible() ? '' : ' left-pane-hidden'}`}
+					onClose={() => actions.close()}
 				>
-					<HeliumCardHeaderView
+					<WindowHeader
 						title={t(nav.isCreatorOpen ? 'navigator.createroom.title' : 'navigator.title', nav.isCreatorOpen ? 'Create Room' : 'Navigator')}
 						onClose={() => actions.close()}
 					/>
 
-					<HeliumCardContentView position="relative" overflow="hidden">
+					<WindowContent class="navigator-content" overflow="hidden">
 						{/* Loading overlay */}
 						<Show when={isLoading()}>
 							<div class="navigator-loading-mask" />
@@ -242,8 +244,8 @@ export function NavigatorView(): JSX.Element
 								</div>
 							</div>
 						</Show>
-					</HeliumCardContentView>
-				</HeliumCardView>
+					</WindowContent>
+				</WindowFrame>
 			</Show>
 
 			{/* Modal dialogs */}

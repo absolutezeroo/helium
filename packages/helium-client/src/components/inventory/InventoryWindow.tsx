@@ -1,6 +1,6 @@
 import type {JSX} from 'solid-js';
 import {Match, Show, Switch} from 'solid-js';
-import {HeliumCardContentView, HeliumCardHeaderView, HeliumCardView} from '@ui/common/card';
+import {WindowFrame, WindowHeader, WindowContent} from '@ui/common/window';
 import type {InventoryTab} from './tabs';
 import {InventoryTabs} from './tabs';
 import type {FurniGridItem} from './furni';
@@ -37,18 +37,9 @@ export function InventoryWindow(props: InventoryWindowProps): JSX.Element
 {
 	return (
 		<Show when={props.isOpen}>
-			<HeliumCardView uniqueKey="inventory" width={480} height={520}>
+			<WindowFrame uniqueKey="inventory" title="Inventory" width={480} height={520} onClose={props.onClose}>
 				{/* Header */}
-				<HeliumCardHeaderView
-					title="Inventory"
-					icon={
-						<svg class="w-4 h-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-								  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-						</svg>
-					}
-					onClose={props.onClose}
-				/>
+				<WindowHeader title="Inventory" onClose={props.onClose}/>
 
 				{/* Tabs */}
 				<InventoryTabs
@@ -58,7 +49,7 @@ export function InventoryWindow(props: InventoryWindowProps): JSX.Element
 				/>
 
 				{/* Content */}
-				<HeliumCardContentView overflow="hidden" class="flex overflow-hidden">
+				<WindowContent class="flex overflow-hidden">
 					<Switch>
 						{/* Furni View */}
 						<Match when={props.activeTab === 'furni' || props.activeTab === 'rentables'}>
@@ -137,8 +128,8 @@ export function InventoryWindow(props: InventoryWindowProps): JSX.Element
 							</div>
 						</Match>
 					</Switch>
-				</HeliumCardContentView>
-			</HeliumCardView>
+				</WindowContent>
+			</WindowFrame>
 		</Show>
 	);
 }

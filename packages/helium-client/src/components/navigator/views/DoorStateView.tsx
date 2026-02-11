@@ -2,7 +2,7 @@ import type {JSX} from 'solid-js';
 import {createEffect, createSignal, Show} from 'solid-js';
 import {useNavigator, DoorStateType} from '@ui/hooks/navigator/useNavigator';
 import {useLocalization} from '@ui/common';
-import {HeliumCardContentView, HeliumCardHeaderView, HeliumCardView} from '@ui/common/card';
+import {WindowFrame, WindowHeader, WindowContent} from '@ui/common/window';
 
 const VISIBLE_STATES: number[] = [
 	DoorStateType.START_DOORBELL,
@@ -90,16 +90,17 @@ export function DoorStateView(): JSX.Element
 
 	return (
 		<Show when={isVisible()}>
-			<HeliumCardView
+			<WindowFrame
 				uniqueKey="navigator-doorbell"
+				title={t(isDoorbell() ? 'navigator.doorbell.title' : 'navigator.password.title', isDoorbell() ? 'Doorbell' : 'Password')}
 				class={isDoorbell() ? 'helium-navigator-doorbell' : 'helium-navigator-password'}
-				theme="primary-slim"
+				onClose={onClose}
 			>
-				<HeliumCardHeaderView
+				<WindowHeader
 					title={t(isDoorbell() ? 'navigator.doorbell.title' : 'navigator.password.title', isDoorbell() ? 'Doorbell' : 'Password')}
 					onClose={onClose}
 				/>
-				<HeliumCardContentView>
+				<WindowContent>
 					<div class="door-state-info">
 						<span class="door-room-name">{doorData()?.roomInfo?.roomName}</span>
 
@@ -155,8 +156,8 @@ export function DoorStateView(): JSX.Element
 							</button>
 						</div>
 					</Show>
-				</HeliumCardContentView>
-			</HeliumCardView>
+				</WindowContent>
+			</WindowFrame>
 		</Show>
 	);
 }

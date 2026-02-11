@@ -23,9 +23,10 @@ $nav-width-collapsed: 425px;
     color: $text-primary;
     line-height: 1.2; // Tighter than the 1.4 global reset, closer to Flash rendering
 
-    // Override card content-area defaults (padding + box-shadow) that interfere with navigator layout
+    // Override window content defaults (padding + box-shadow) that interfere with navigator layout
     // Margin exposes the beige frame background on left, right, and bottom edges (Flash 9-slice inset)
-    .content-area
+    .content-area,
+    .habbo-window__content
     {
         padding: 0;
         box-shadow: none;

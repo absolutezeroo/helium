@@ -5,7 +5,7 @@ import {FaSolidLink} from 'solid-icons/fa';
 import {useNavigator} from '@ui/hooks/navigator/useNavigator';
 import {sessionStore} from '@ui/stores/sessionStore';
 import {useLocalization} from '@ui/common';
-import {HeliumCardContentView, HeliumCardHeaderView, HeliumCardView} from '@ui/common/card';
+import {WindowFrame, WindowHeader, WindowContent} from '@ui/common/window';
 
 /**
  * NavigatorRoomInfoView - Room info panel for the currently entered room.
@@ -87,12 +87,17 @@ export function NavigatorRoomInfoView(): JSX.Element
 
 	return (
 		<Show when={nav.isRoomInfoOpen && enteredRoom()}>
-			<HeliumCardView uniqueKey="room-info" class="helium-room-info" theme="primary-slim">
-				<HeliumCardHeaderView
+			<WindowFrame
+				uniqueKey="room-info"
+				title={t('navigator.roomsettings.roominfo', 'Room Info')}
+				class="helium-room-info"
+				onClose={() => processAction('close')}
+			>
+				<WindowHeader
 					title={t('navigator.roomsettings.roominfo', 'Room Info')}
 					onClose={() => processAction('close')}
 				/>
-				<HeliumCardContentView class="text-black">
+				<WindowContent class="text-black">
 					<div class="d-flex gap-2 overflow-hidden">
 						{/* Room thumbnail */}
 						<div
@@ -216,8 +221,8 @@ export function NavigatorRoomInfoView(): JSX.Element
 							</button>
 						</Show>
 					</div>
-				</HeliumCardContentView>
-			</HeliumCardView>
+				</WindowContent>
+			</WindowFrame>
 		</Show>
 	);
 }

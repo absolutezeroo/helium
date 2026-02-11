@@ -1,6 +1,6 @@
 import EventEmitter from 'eventemitter3';
 import type {IAssetLibrary} from '@core/assets';
-import {AssetLoaderEvent, AssetLoaderEventType} from '@core/assets/loaders/AssetLoaderEvent';
+import {AssetLoaderEvent, AssetLoaderEventType} from '@core/assets';
 import {Logger} from '@core/utils/Logger';
 
 const log = Logger.getLogger('AvatarAssetDownloadLibrary');
@@ -96,34 +96,52 @@ export class AvatarAssetDownloadLibrary extends EventEmitter
             .replace('%libname%', this._libraryName)
             .replace('%revision%', this._revision);
 
-        log.debug(`Downloading: ${this._libraryName} from ${url}`);
-
-        const loader = this._assetLibrary.loadAssetFromFile(this._libraryName, url, 'application/x-nitro-bundle');
-
-        if(!loader)
+        if(!url || url === this._downloadUrl)
         {
-            log.warn(`Failed to start loading: ${this._libraryName}`);
+            log.warn(`No valid download URL for: ${this._libraryName}`);
             this._state = AvatarAssetDownloadLibrary.STATE_READY;
             this.emit(AvatarAssetDownloadLibrary.COMPLETE, this);
 
             return;
         }
 
-        loader.events.on('event', (event: AssetLoaderEvent) =>
+        log.debug(`Downloading: ${this._libraryName} from ${url}`);
+
+        try
         {
-            if(event.type === AssetLoaderEventType.COMPLETE)
+            const loader = this._assetLibrary.loadAssetFromFile(this._libraryName, url, 'application/x-nitro-bundle');
+
+            if(!loader)
             {
-                log.debug(`Loaded: ${this._libraryName}`);
+                log.warn(`Failed to start loading: ${this._libraryName}`);
                 this._state = AvatarAssetDownloadLibrary.STATE_READY;
                 this.emit(AvatarAssetDownloadLibrary.COMPLETE, this);
+
+                return;
             }
-            else if(event.type === AssetLoaderEventType.ERROR)
+
+            loader.events.on('event', (event: AssetLoaderEvent) =>
             {
-                log.warn(`Failed to load: ${this._libraryName}`);
-                this._state = AvatarAssetDownloadLibrary.STATE_READY;
-                this.emit(AvatarAssetDownloadLibrary.COMPLETE, this);
-            }
-        });
+                if(event.type === AssetLoaderEventType.COMPLETE)
+                {
+                    log.debug(`Loaded: ${this._libraryName}`);
+                    this._state = AvatarAssetDownloadLibrary.STATE_READY;
+                    this.emit(AvatarAssetDownloadLibrary.COMPLETE, this);
+                }
+                else if(event.type === AssetLoaderEventType.ERROR)
+                {
+                    log.warn(`Failed to load: ${this._libraryName}`);
+                    this._state = AvatarAssetDownloadLibrary.STATE_READY;
+                    this.emit(AvatarAssetDownloadLibrary.COMPLETE, this);
+                }
+            });
+        }
+        catch(error)
+        {
+            log.warn(`Error loading ${this._libraryName}: ${error}`);
+            this._state = AvatarAssetDownloadLibrary.STATE_READY;
+            this.emit(AvatarAssetDownloadLibrary.COMPLETE, this);
+        }
     }
 
     /**

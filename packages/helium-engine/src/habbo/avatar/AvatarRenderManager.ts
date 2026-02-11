@@ -360,6 +360,9 @@ export class AvatarRenderManager extends Component implements IAvatarRenderManag
             || this._configuration?.getProperty('flash.dynamic.avatar.download.url')
             || '';
 
+        log.info(`Avatar download URL: ${avatarDownloadUrl}`);
+        log.info(`Effect download URL: ${effectDownloadUrl}`);
+
         if(!this._assetLibrary)
         {
             log.error('AssetLibrary not available for download managers');

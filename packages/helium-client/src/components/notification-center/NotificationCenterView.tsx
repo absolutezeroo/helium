@@ -1,6 +1,6 @@
 import type {JSX} from 'solid-js';
 import {createSignal, Show} from 'solid-js';
-import {HeliumCardContentView, HeliumCardHeaderView, HeliumCardView} from '@ui/common/card';
+import {WindowFrame, WindowHeader, WindowContent} from '@ui/common/window';
 
 export function NotificationCenterView(): JSX.Element
 {
@@ -8,12 +8,12 @@ export function NotificationCenterView(): JSX.Element
 
 	return (
 		<Show when={isOpen()}>
-			<HeliumCardView uniqueKey="notification-center" width={380} height={450}>
-				<HeliumCardHeaderView title="Notifications" onClose={() => setIsOpen(false)}/>
-				<HeliumCardContentView>
-					<p class="text-muted text-center py-5">Coming Soon</p>
-				</HeliumCardContentView>
-			</HeliumCardView>
+			<WindowFrame uniqueKey="notification-center" title="Notifications" width={380} height={450} onClose={() => setIsOpen(false)}>
+				<WindowHeader title="Notifications" onClose={() => setIsOpen(false)}/>
+				<WindowContent>
+					<p class="text-muted text-center">Coming Soon</p>
+				</WindowContent>
+			</WindowFrame>
 		</Show>
 	);
 }

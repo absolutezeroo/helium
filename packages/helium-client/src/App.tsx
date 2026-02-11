@@ -2,6 +2,7 @@ import {createEffect, createSignal, JSX, onCleanup, onMount, Show} from 'solid-j
 import type {IHeliumConfig} from 'helium-engine';
 import {Helium, IConnectionConfig} from 'helium-engine';
 import {HabboCommunicationEvent} from '@habbo/communication/enum';
+import {AvatarRenderEvent} from '@habbo/avatar/enum/AvatarRenderEvent';
 import {connectionStore} from '@ui/stores/connectionStore';
 import {initStores} from '@ui/stores';
 import {LoadingView} from './components/loading';
@@ -29,6 +30,8 @@ export function App(): JSX.Element
 	const {state: connection} = connectionStore;
 
 	const [isReady, setIsReady] = createSignal(false);
+	const [isAvatarReady, setIsAvatarReady] = createSignal(false);
+	const [isAuthenticated, setIsAuthenticated] = createSignal(false);
 	const [message, setMessage] = createSignal('Getting Ready');
 	const [percent, setPercent] = createSignal(0);
 	const [isError, setIsError] = createSignal(false);
@@ -50,14 +53,35 @@ export function App(): JSX.Element
 				setPercent(40);
 				break;
 			case 'authenticated':
-				setMessage('Loading...');
-				setPercent(100);
-				setTimeout(() => setIsReady(true), 300);
+				setIsAuthenticated(true);
+
+				if(isAvatarReady())
+				{
+					setMessage('Ready!');
+					setPercent(100);
+					setTimeout(() => setIsReady(true), 300);
+				}
+				else
+				{
+					setMessage('Loading avatars...');
+					setPercent(85);
+				}
 				break;
 			case 'error':
 				setIsError(true);
 				setMessage(connection.error || 'Connection Error');
 				break;
+		}
+	});
+
+	// Wait for avatar render system to be ready
+	createEffect(() =>
+	{
+		if(isAvatarReady() && isAuthenticated())
+		{
+			setMessage('Ready!');
+			setPercent(100);
+			setTimeout(() => setIsReady(true), 300);
 		}
 	});
 
@@ -95,6 +119,21 @@ export function App(): JSX.Element
 		const config: IHeliumConfig = {...userConfig, connection: {...userConfig.connection, autoConnect: false} as IConnectionConfig};
 
 		const helium = await Helium.bootstrap(config);
+
+		// Listen for avatar render system readiness
+		const avatarManager = helium.avatarRenderManager;
+
+		if(avatarManager.isReady)
+		{
+			setIsAvatarReady(true);
+		}
+		else
+		{
+			avatarManager.events.on(AvatarRenderEvent.AVATAR_RENDER_READY, () =>
+			{
+				setIsAvatarReady(true);
+			});
+		}
 
 		// Wire stores to the engine
 		initStores();

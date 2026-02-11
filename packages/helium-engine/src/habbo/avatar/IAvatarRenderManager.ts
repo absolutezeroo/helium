@@ -1,3 +1,4 @@
+import type EventEmitter from 'eventemitter3';
 import type { IAvatarFigureContainer } from './IAvatarFigureContainer';
 import type { IAvatarImage } from './IAvatarImage';
 import type { IAvatarImageListener } from './IAvatarImageListener';
@@ -36,6 +37,8 @@ export interface IAvatarRenderManager
     injectFigureData(data: any): void;
 
     get isReady(): boolean;
+
+    get events(): EventEmitter;
 
     get effectMap(): Map<string, any>;
 }

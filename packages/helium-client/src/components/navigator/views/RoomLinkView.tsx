@@ -2,7 +2,7 @@ import type {JSX} from 'solid-js';
 import {Show} from 'solid-js';
 import {useNavigator} from '@ui/hooks/navigator/useNavigator';
 import {useLocalization} from '@ui/common';
-import {HeliumCardContentView, HeliumCardHeaderView, HeliumCardView} from '@ui/common/card';
+import {WindowFrame, WindowHeader, WindowContent} from '@ui/common/window';
 
 /**
  * RoomLinkView - Room embed/share link dialog.
@@ -18,12 +18,17 @@ export function RoomLinkView(): JSX.Element
 
 	return (
 		<Show when={nav.isRoomLinkOpen && roomData()}>
-			<HeliumCardView uniqueKey="room-link" class="helium-room-link" theme="primary-slim">
-				<HeliumCardHeaderView
+			<WindowFrame
+				uniqueKey="room-link"
+				title={t('navigator.embed.title', 'Room Link')}
+				class="helium-room-link"
+				onClose={() => actions.closeRoomLink()}
+			>
+				<WindowHeader
 					title={t('navigator.embed.title', 'Room Link')}
 					onClose={() => actions.closeRoomLink()}
 				/>
-				<HeliumCardContentView class="text-black d-flex align-items-center">
+				<WindowContent class="text-black d-flex align-items-center">
 					<div class="d-flex gap-2">
 						{/* Room thumbnail */}
 						<div
@@ -62,8 +67,8 @@ export function RoomLinkView(): JSX.Element
 							/>
 						</div>
 					</div>
-				</HeliumCardContentView>
-			</HeliumCardView>
+				</WindowContent>
+			</WindowFrame>
 		</Show>
 	);
 }

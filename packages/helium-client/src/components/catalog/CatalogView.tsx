@@ -1,6 +1,6 @@
 import type {JSX} from 'solid-js';
 import {createSignal, Show} from 'solid-js';
-import {HeliumCardContentView, HeliumCardHeaderView, HeliumCardView} from '@ui/common/card';
+import {WindowFrame, WindowHeader, WindowContent} from '@ui/common/window';
 
 export function CatalogView(): JSX.Element
 {
@@ -8,12 +8,12 @@ export function CatalogView(): JSX.Element
 
 	return (
 		<Show when={isOpen()}>
-			<HeliumCardView uniqueKey="catalog" width={600} height={500}>
-				<HeliumCardHeaderView title="Catalog" onClose={() => setIsOpen(false)}/>
-				<HeliumCardContentView>
-					<p class="text-muted text-center py-5">Coming Soon</p>
-				</HeliumCardContentView>
-			</HeliumCardView>
+			<WindowFrame uniqueKey="catalog" title="Catalog" width={600} height={500} onClose={() => setIsOpen(false)}>
+				<WindowHeader title="Catalog" onClose={() => setIsOpen(false)}/>
+				<WindowContent>
+					<p class="text-muted text-center">Coming Soon</p>
+				</WindowContent>
+			</WindowFrame>
 		</Show>
 	);
 }

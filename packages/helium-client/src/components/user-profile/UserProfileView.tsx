@@ -1,6 +1,6 @@
 import type {JSX} from 'solid-js';
 import {createSignal, Show} from 'solid-js';
-import {HeliumCardContentView, HeliumCardHeaderView, HeliumCardView} from '@ui/common/card';
+import {WindowFrame, WindowHeader, WindowContent} from '@ui/common/window';
 
 export function UserProfileView(): JSX.Element
 {
@@ -8,12 +8,12 @@ export function UserProfileView(): JSX.Element
 
 	return (
 		<Show when={isOpen()}>
-			<HeliumCardView uniqueKey="user-profile" width={400} height={450}>
-				<HeliumCardHeaderView title="User Profile" onClose={() => setIsOpen(false)}/>
-				<HeliumCardContentView>
-					<p class="text-muted text-center py-5">Coming Soon</p>
-				</HeliumCardContentView>
-			</HeliumCardView>
+			<WindowFrame uniqueKey="user-profile" title="User Profile" width={400} height={450} onClose={() => setIsOpen(false)}>
+				<WindowHeader title="User Profile" onClose={() => setIsOpen(false)}/>
+				<WindowContent>
+					<p class="text-muted text-center">Coming Soon</p>
+				</WindowContent>
+			</WindowFrame>
 		</Show>
 	);
 }
