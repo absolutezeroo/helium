@@ -131,11 +131,21 @@ import {RespectUserMessageComposer} from '../communication/messages/outgoing/roo
 import {RespectPetMessageComposer} from '../communication/messages/outgoing/room/RespectPetMessageComposer';
 import {ChatMessageComposer} from '../communication/messages/outgoing/room/chat/ChatMessageComposer';
 import {SetUIFlagsMessageComposer} from '../communication/messages/outgoing/preferences/SetUIFlagsMessageComposer';
-import {GiveStarGemToUserMessageComposer} from '../communication/messages/outgoing/inventory/GiveStarGemToUserMessageComposer';
-import {CreditVaultStatusMessageComposer} from '../communication/messages/outgoing/inventory/CreditVaultStatusMessageComposer';
-import {WithdrawCreditVaultMessageComposer} from '../communication/messages/outgoing/inventory/WithdrawCreditVaultMessageComposer';
-import {IncomeRewardStatusMessageComposer} from '../communication/messages/outgoing/inventory/IncomeRewardStatusMessageComposer';
-import {IncomeRewardClaimMessageComposer} from '../communication/messages/outgoing/inventory/IncomeRewardClaimMessageComposer';
+import {
+	GiveStarGemToUserMessageComposer
+} from '../communication/messages/outgoing/inventory/GiveStarGemToUserMessageComposer';
+import {
+	CreditVaultStatusMessageComposer
+} from '../communication/messages/outgoing/inventory/CreditVaultStatusMessageComposer';
+import {
+	WithdrawCreditVaultMessageComposer
+} from '../communication/messages/outgoing/inventory/WithdrawCreditVaultMessageComposer';
+import {
+	IncomeRewardStatusMessageComposer
+} from '../communication/messages/outgoing/inventory/IncomeRewardStatusMessageComposer';
+import {
+	IncomeRewardClaimMessageComposer
+} from '../communication/messages/outgoing/inventory/IncomeRewardClaimMessageComposer';
 
 // Session events
 import {UserNameUpdateEvent} from './events/UserNameUpdateEvent';
@@ -713,7 +723,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	 */
 	giveStarGem(userId: number): void
 	{
-		if(userId >= 0)
+		if (userId >= 0)
 		{
 			this.send(new GiveStarGemToUserMessageComposer(userId));
 		}

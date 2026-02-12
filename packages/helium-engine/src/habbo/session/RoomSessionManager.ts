@@ -9,7 +9,9 @@ import type {IRoomSession} from './IRoomSession';
 import {RoomSessionState} from './IRoomSession';
 import {RoomSession} from './RoomSession';
 import {RoomSessionEvent} from './events/RoomSessionEvent';
-import {RoomNetworkOpenConnectionMessageComposer} from '../communication/messages/outgoing/room/session/RoomNetworkOpenConnectionMessageComposer';
+import {
+	RoomNetworkOpenConnectionMessageComposer
+} from '../communication/messages/outgoing/room/session/RoomNetworkOpenConnectionMessageComposer';
 import {BaseHandler} from './handler/BaseHandler';
 import {RoomSessionHandler, RoomSessionHandlerState} from './handler/RoomSessionHandler';
 import {RoomPermissionsHandler} from './handler/RoomPermissionsHandler';
@@ -215,12 +217,12 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 		session.roomId = 1;
 		session.isGameSession = true;
 
-		if(this._communication?.connection)
+		if (this._communication?.connection)
 		{
 			session.connection = this._communication.connection;
 		}
 
-		if(this._habboTracking)
+		if (this._habboTracking)
 		{
 			session.habboTracking = this._habboTracking;
 		}
@@ -347,7 +349,7 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 
 	private createHandlers(): void
 	{
-		if(!this._communication)
+		if (!this._communication)
 		{
 			return;
 		}
@@ -391,13 +393,13 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 		}
 
 		// Set connection
-		if(this._communication?.connection)
+		if (this._communication?.connection)
 		{
 			session.connection = this._communication.connection;
 		}
 
 		// Propagate tracking to session
-		if(this._habboTracking)
+		if (this._habboTracking)
 		{
 			session.habboTracking = this._habboTracking;
 		}

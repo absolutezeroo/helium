@@ -106,6 +106,7 @@ export interface ISessionDataManager extends IDisposable
 
 	// Talent
 	readonly currentTalentTrack: string;
+	newFurniDataHash: string;
 
 	hasSecurity(level: number): boolean;
 
@@ -113,22 +114,30 @@ export interface ISessionDataManager extends IDisposable
 
 	// Respect
 	giveRespect(userId: number): void;
+
 	givePetRespect(petId: number): void;
+
 	giveRespectFailed(): void;
+
 	giveStarGem(userId: number): void;
 
 	// UI preferences
 	setRoomCameraFollowDisabled(disabled: boolean): void;
+
 	setFriendBarState(open: boolean): void;
+
 	setRoomToolsState(open: boolean): void;
 
 	// Perks
 	isPerkAllowed(perk: string): boolean;
+
 	getPerkErrorMessage(perk: string): string;
 
 	// Ignored users
 	isIgnored(userId: number): boolean;
+
 	ignoreUser(userId: number): void;
+
 	unignoreUser(userId: number): void;
 
 	// Safety
@@ -136,48 +145,74 @@ export interface ISessionDataManager extends IDisposable
 
 	// Badge images
 	getBadgeImage(badge: string): HTMLImageElement | null;
+
 	getBadgeSmallImage(badge: string): HTMLImageElement | null;
+
 	getBadgeImageAssetName(badge: string): string;
+
 	getBadgeImageSmallAssetName(badge: string): string;
+
 	requestBadgeImage(badge: string): HTMLImageElement | null;
+
 	getBadgeImageWithInfo(badge: string): BadgeInfo;
 
 	// Group badge images
 	getGroupBadgeId(groupId: number): string;
+
 	getGroupBadgeImage(badge: string): HTMLImageElement | null;
+
 	getGroupBadgeSmallImage(badge: string): HTMLImageElement | null;
+
 	getGroupBadgeAssetName(badge: string): string;
+
 	getGroupBadgeSmallAssetName(badge: string): string;
 
 	// Furniture data
 	getProductData(productCode: string): IProductData | null;
+
 	getFloorItemData(itemId: number): IFurnitureData | null;
+
 	getFloorItemsDataByCategory(category: number): IFurnitureData[];
+
 	getWallItemData(itemId: number): IFurnitureData | null;
+
 	getFloorItemDataByName(name: string, index?: number): IFurnitureData | null;
+
 	getWallItemDataByName(name: string, index?: number): IFurnitureData | null;
+
 	loadProductData(listener?: IProductDataListener): boolean;
+
 	getFurniData(listener: IFurniDataListener): IFurnitureData[];
+
 	addProductsReadyEventListener(listener: IProductDataListener): void;
+
 	removeFurniDataListener(listener: IFurniDataListener): void;
+
 	refreshFurniData(): void;
-	newFurniDataHash: string;
 
 	// Configuration callback
 	onConfigurationComplete(): void;
 
 	// Room actions
 	openHabboHomePage(userId: number, userName: string): void;
+
 	pickAllFurniture(roomId: number): void;
+
 	resetScores(roomId: number): void;
+
 	ejectAllFurniture(roomId: number, message: string): void;
+
 	ejectPets(roomId: number): void;
+
 	pickAllBuilderFurniture(roomId: number): void;
 
 	// Credit vault & rewards
 	getCreditVaultStatus(): void;
+
 	getIncomeRewardStatus(): void;
+
 	withdrawCreditVault(): void;
+
 	claimReward(rewardId: number): void;
 
 	// NFT

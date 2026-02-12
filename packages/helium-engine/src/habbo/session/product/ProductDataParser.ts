@@ -26,7 +26,6 @@ export interface ProductDataParserEvents
 export class ProductDataParser
 {
 	private _products: Map<string, IProductData>;
-	private _events: EventEmitter<ProductDataParserEvents> = new EventEmitter();
 	private _disposed: boolean = false;
 
 	constructor(url: string, products: Map<string, IProductData>)
@@ -36,9 +35,22 @@ export class ProductDataParser
 		this.loadData(url);
 	}
 
+	private _events: EventEmitter<ProductDataParserEvents> = new EventEmitter();
+
 	get events(): EventEmitter<ProductDataParserEvents>
 	{
 		return this._events;
+	}
+
+	/**
+	 * Dispose the parser
+	 */
+	dispose(): void
+	{
+		if (this._disposed) return;
+
+		this._events.removeAllListeners();
+		this._disposed = true;
 	}
 
 	/**
@@ -94,16 +106,5 @@ export class ProductDataParser
 
 			this._products.set(code, new ProductData(code, name, description));
 		}
-	}
-
-	/**
-	 * Dispose the parser
-	 */
-	dispose(): void
-	{
-		if (this._disposed) return;
-
-		this._events.removeAllListeners();
-		this._disposed = true;
 	}
 }

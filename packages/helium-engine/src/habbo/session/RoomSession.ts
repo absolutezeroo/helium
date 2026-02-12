@@ -50,8 +50,10 @@ import {PollAnswerComposer, PollRejectComposer, PollStartComposer,} from '../com
 import {VisitUserMessageComposer,} from '../communication/messages/outgoing/friendlist';
 import {EventLogMessageComposer,} from '../communication/messages/outgoing';
 import {NewUserExperienceScriptProceedComposer,} from '../communication/messages/outgoing/handshake';
-import {PeerUsersClassificationMessageComposer,} from '../communication/messages/outgoing/moderation';
-import {RoomUsersClassificationMessageComposer,} from '../communication/messages/outgoing/moderation';
+import {
+	PeerUsersClassificationMessageComposer,
+	RoomUsersClassificationMessageComposer,
+} from '../communication/messages/outgoing/moderation';
 
 /**
  * Ban duration types
@@ -78,7 +80,28 @@ export class RoomSession implements IRoomSession
 	private _chatTrackingMap: Map<number, number> = new Map();
 	private _eventLogTracked: Map<string, boolean> = new Map();
 	private _habboTracking: IHabboTracking | null = null;
+
+	get habboTracking(): IHabboTracking | null
+	{
+		return this._habboTracking;
+	}
+
+	set habboTracking(value: IHabboTracking | null)
+	{
+		this._habboTracking = value;
+	}
+
 	private _openConnectionComposer: IMessageComposer<unknown[]> | null = null;
+
+	get openConnectionComposer(): IMessageComposer<unknown[]> | null
+	{
+		return this._openConnectionComposer;
+	}
+
+	set openConnectionComposer(value: IMessageComposer<unknown[]> | null)
+	{
+		this._openConnectionComposer = value;
+	}
 
 	private _connection: IConnection | null = null;
 
@@ -164,7 +187,7 @@ export class RoomSession implements IRoomSession
 
 	get roomControllerLevel(): number
 	{
-		if(this._playTestMode) return 0;
+		if (this._playTestMode) return 0;
 
 		return this._roomControllerLevel;
 	}
@@ -312,26 +335,6 @@ export class RoomSession implements IRoomSession
 		this._isNuxNotComplete = value;
 	}
 
-	get habboTracking(): IHabboTracking | null
-	{
-		return this._habboTracking;
-	}
-
-	set habboTracking(value: IHabboTracking | null)
-	{
-		this._habboTracking = value;
-	}
-
-	get openConnectionComposer(): IMessageComposer<unknown[]> | null
-	{
-		return this._openConnectionComposer;
-	}
-
-	set openConnectionComposer(value: IMessageComposer<unknown[]> | null)
-	{
-		this._openConnectionComposer = value;
-	}
-
 	/**
 	 * Start the room session.
 	 *
@@ -349,7 +352,7 @@ export class RoomSession implements IRoomSession
 
 		this._state = RoomSessionState.STARTED;
 
-		if(this._openConnectionComposer !== null)
+		if (this._openConnectionComposer !== null)
 		{
 			this._connection.send(this._openConnectionComposer);
 		}
@@ -405,9 +408,9 @@ export class RoomSession implements IRoomSession
 
 	sendChatMessage(message: string, styleId: number = 0): void
 	{
-		if(this._connection === null) return;
+		if (this._connection === null) return;
 
-		if(this._isGameSession)
+		if (this._isGameSession)
 		{
 			this._connection.send(new Game2GameChatMessageComposer(message));
 			return;
@@ -432,7 +435,7 @@ export class RoomSession implements IRoomSession
 
 	sendWhisperMessage(recipientName: string, message: string, styleId: number = 0): void
 	{
-		if(this._connection === null) return;
+		if (this._connection === null) return;
 
 		this._connection.send(new WhisperMessageComposer(recipientName, message, styleId));
 	}
@@ -455,11 +458,11 @@ export class RoomSession implements IRoomSession
 	{
 		const sentTime = this._chatTrackingMap.get(trackingId);
 
-		if(sentTime !== undefined)
+		if (sentTime !== undefined)
 		{
 			const elapsed = Date.now() - sentTime;
 
-			if(elapsed > 2500 && this._habboTracking !== null)
+			if (elapsed > 2500 && this._habboTracking !== null)
 			{
 				this._habboTracking.chatLagDetected(elapsed);
 			}
@@ -477,8 +480,8 @@ export class RoomSession implements IRoomSession
 
 	sendSignMessage(signId: number): void
 	{
-		if(this._connection === null) return;
-		if(signId < 0 || signId > 17) return;
+		if (this._connection === null) return;
+		if (signId < 0 || signId > 17) return;
 
 		this._connection.send(new SignMessageComposer(signId));
 	}
@@ -576,14 +579,14 @@ export class RoomSession implements IRoomSession
 
 	sendPeerUsersClassificationMessage(data: string): void
 	{
-		if(this._connection === null) return;
+		if (this._connection === null) return;
 
 		this._connection.send(new PeerUsersClassificationMessageComposer(data));
 	}
 
 	sendRoomUsersClassificationMessage(data: string): void
 	{
-		if(this._connection === null) return;
+		if (this._connection === null) return;
 
 		this._connection.send(new RoomUsersClassificationMessageComposer(data));
 	}
@@ -725,7 +728,7 @@ export class RoomSession implements IRoomSession
 
 	plantSeed(itemId: number): void
 	{
-		if(this._connection === null) return;
+		if (this._connection === null) return;
 
 		this._connection.send(new UseFurnitureMessageComposer(itemId));
 	}
@@ -759,7 +762,7 @@ export class RoomSession implements IRoomSession
 
 	sendScriptProceed(): void
 	{
-		if(this._connection === null) return;
+		if (this._connection === null) return;
 
 		this._connection.send(new NewUserExperienceScriptProceedComposer());
 	}

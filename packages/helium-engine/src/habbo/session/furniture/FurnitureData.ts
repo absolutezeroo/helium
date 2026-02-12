@@ -10,33 +10,6 @@ import type {IFurnitureData} from './IFurnitureData';
  */
 export class FurnitureData implements IFurnitureData
 {
-	private _type: string;
-	private _id: number;
-	private _fullName: string;
-	private _className: string;
-	private _localizedName: string;
-	private _description: string;
-	private _revision: number;
-	private _tileSizeX: number;
-	private _tileSizeY: number;
-	private _tileSizeZ: number;
-	private _colours: number[];
-	private _hasIndexedColor: boolean;
-	private _colourIndex: number;
-	private _adUrl: string;
-	private _purchaseOfferId: number;
-	private _purchaseCouldBeUsedForBuyout: boolean;
-	private _rentOfferId: number;
-	private _rentCouldBeUsedForBuyout: boolean;
-	private _availableForBuildersClub: boolean;
-	private _customParams: string;
-	private _category: number;
-	private _canStandOn: boolean;
-	private _canSitOn: boolean;
-	private _canLayOn: boolean;
-	private _excludedFromDynamic: boolean;
-	private _furniLine: string;
-
 	constructor(
 		type: string,
 		id: number,
@@ -94,138 +67,190 @@ export class FurnitureData implements IFurnitureData
 		this._furniLine = furniLine;
 	}
 
+	private _type: string;
+
 	get type(): string
 	{
 		return this._type;
 	}
+
+	private _id: number;
 
 	get id(): number
 	{
 		return this._id;
 	}
 
-	get className(): string
-	{
-		return this._className;
-	}
+	private _fullName: string;
 
 	get fullName(): string
 	{
 		return this._fullName;
 	}
 
-	get hasIndexedColor(): boolean
+	private _className: string;
+
+	get className(): string
 	{
-		return this._hasIndexedColor;
+		return this._className;
 	}
 
-	get colourIndex(): number
-	{
-		return this._colourIndex;
-	}
-
-	get revision(): number
-	{
-		return this._revision;
-	}
-
-	get tileSizeX(): number
-	{
-		return this._tileSizeX;
-	}
-
-	get tileSizeY(): number
-	{
-		return this._tileSizeY;
-	}
-
-	get tileSizeZ(): number
-	{
-		return this._tileSizeZ;
-	}
-
-	get colours(): number[]
-	{
-		return this._colours;
-	}
+	private _localizedName: string;
 
 	get localizedName(): string
 	{
 		return this._localizedName;
 	}
 
+	private _description: string;
+
 	get description(): string
 	{
 		return this._description;
 	}
+
+	private _revision: number;
+
+	get revision(): number
+	{
+		return this._revision;
+	}
+
+	private _tileSizeX: number;
+
+	get tileSizeX(): number
+	{
+		return this._tileSizeX;
+	}
+
+	private _tileSizeY: number;
+
+	get tileSizeY(): number
+	{
+		return this._tileSizeY;
+	}
+
+	private _tileSizeZ: number;
+
+	get tileSizeZ(): number
+	{
+		return this._tileSizeZ;
+	}
+
+	private _colours: number[];
+
+	get colours(): number[]
+	{
+		return this._colours;
+	}
+
+	private _hasIndexedColor: boolean;
+
+	get hasIndexedColor(): boolean
+	{
+		return this._hasIndexedColor;
+	}
+
+	private _colourIndex: number;
+
+	get colourIndex(): number
+	{
+		return this._colourIndex;
+	}
+
+	private _adUrl: string;
 
 	get adUrl(): string
 	{
 		return this._adUrl;
 	}
 
+	private _purchaseOfferId: number;
+
 	get purchaseOfferId(): number
 	{
 		return this._purchaseOfferId;
 	}
 
-	get rentOfferId(): number
-	{
-		return this._rentOfferId;
-	}
-
-	get customParams(): string
-	{
-		return this._customParams;
-	}
-
-	get category(): number
-	{
-		return this._category;
-	}
+	private _purchaseCouldBeUsedForBuyout: boolean;
 
 	get purchaseCouldBeUsedForBuyout(): boolean
 	{
 		return this._purchaseCouldBeUsedForBuyout;
 	}
 
+	private _rentOfferId: number;
+
+	get rentOfferId(): number
+	{
+		return this._rentOfferId;
+	}
+
+	private _rentCouldBeUsedForBuyout: boolean;
+
 	get rentCouldBeUsedForBuyout(): boolean
 	{
 		return this._rentCouldBeUsedForBuyout;
 	}
+
+	private _availableForBuildersClub: boolean;
 
 	get availableForBuildersClub(): boolean
 	{
 		return this._availableForBuildersClub;
 	}
 
+	private _customParams: string;
+
+	get customParams(): string
+	{
+		return this._customParams;
+	}
+
+	private _category: number;
+
+	get category(): number
+	{
+		return this._category;
+	}
+
+	private _canStandOn: boolean;
+
 	get canStandOn(): boolean
 	{
 		return this._canStandOn;
 	}
+
+	private _canSitOn: boolean;
 
 	get canSitOn(): boolean
 	{
 		return this._canSitOn;
 	}
 
+	private _canLayOn: boolean;
+
 	get canLayOn(): boolean
 	{
 		return this._canLayOn;
 	}
 
-	get isExternalImageType(): boolean
-	{
-		return (this._adUrl !== null && this._adUrl.length > 0);
-	}
+	private _excludedFromDynamic: boolean;
 
 	get excludedFromDynamic(): boolean
 	{
 		return this._excludedFromDynamic;
 	}
 
+	private _furniLine: string;
+
 	get furniLine(): string
 	{
 		return this._furniLine;
+	}
+
+	get isExternalImageType(): boolean
+	{
+		return (this._adUrl !== null && this._adUrl.length > 0);
 	}
 }

@@ -8,10 +8,6 @@ import type {IProductData} from './IProductData';
  */
 export class ProductData implements IProductData
 {
-	private _type: string;
-	private _name: string;
-	private _description: string;
-
 	constructor(type: string, name: string, description: string = '')
 	{
 		this._type = type;
@@ -19,15 +15,21 @@ export class ProductData implements IProductData
 		this._description = description;
 	}
 
+	private _type: string;
+
 	get type(): string
 	{
 		return this._type;
 	}
 
+	private _name: string;
+
 	get name(): string
 	{
 		return this._name;
 	}
+
+	private _description: string;
 
 	get description(): string
 	{
