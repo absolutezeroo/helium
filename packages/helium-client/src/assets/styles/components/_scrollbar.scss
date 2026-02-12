@@ -1,19 +1,194 @@
 // ============================================================
-// Scrollbar (.habbo-scrollbar) - CSS-only custom scrollbar
-// Applied to any element needing the Habbo-style scrollbar
+// HabboScrollbar - Custom bitmap scrollbar (Ubuntu/style 3 skin)
+// Source: HabboHabboWindowManagerCom_habbo_skin_scrollbar_3_xml.bin
+//         HabboHabboWindowManagerCom_habbo_window_layout_scrollbar_vertical_xml.bin
 //
-// .habbo-scrollbar
-//   .habbo-scrollbar--thin
+// Layout (vertical):
+//   scrollbar: width=17
+//     decrement (up arrow): 17x16
+//     slider_track: 17x(stretch), tiled background (17x2)
+//       slider_bar (thumb): 17x(variable, min 12)
+//         top cap: 17x5
+//         mid (tiled): 17x(stretch, 16px pattern)
+//         bottom cap: 17x5
+//     increment (down arrow): 17x16
+//
+// Bitmap source: habbo_skin_ubuntu_png atlas (extracted to individual PNGs)
+// @see source_as_win63/core/window/components/ScrollBarController.as
 // ============================================================
 
 @use '../abstracts' as *;
 
+$_img: '@/assets/images';
+
+// --- Container (viewport + scrollbar side by side) ---
+.habbo-scrollbar-container
+{
+	display: flex;
+	flex-direction: row;
+	flex: 1;
+	min-height: 0;
+	overflow: hidden;
+}
+
+// --- Viewport (hidden native scrollbar) ---
+.habbo-scrollbar-viewport
+{
+	flex: 1;
+	overflow-y: auto;
+	overflow-x: hidden;
+	min-height: 0;
+
+	// Hide native scrollbar
+	scrollbar-width: none; // Firefox
+
+	&::-webkit-scrollbar
+	{
+		display: none; // WebKit/Blink
+	}
+}
+
+// --- Scrollbar (17px wide column) ---
 .habbo-scrollbar
 {
-    @include habbo-scrollbar;
+	width: 17px;
+	flex-shrink: 0;
+	display: flex;
+	flex-direction: column;
+	user-select: none;
+}
 
-    &--thin
-    {
-        @include habbo-scrollbar($width: 6px, $radius: 3px);
-    }
+// --- Arrow buttons (17x16 each) ---
+.habbo-scrollbar__arrow
+{
+	width: 17px;
+	height: 16px;
+	flex-shrink: 0;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	border: none;
+	background: none;
+
+	img
+	{
+		display: block;
+		width: 17px;
+		height: 16px;
+		image-rendering: pixelated;
+	}
+}
+
+// --- Track (stretchy, tiled 17x2 background) ---
+.habbo-scrollbar__track
+{
+	flex: 1;
+	position: relative;
+	min-height: 0;
+	background-image: url('#{$_img}/scrollbar_track.png');
+	background-repeat: repeat-y;
+	background-size: 17px 2px;
+	image-rendering: pixelated;
+	cursor: pointer;
+}
+
+// --- Thumb (3-part: top cap + tiled mid + bottom cap) ---
+.habbo-scrollbar__thumb
+{
+	position: absolute;
+	left: 0;
+	width: 17px;
+	display: flex;
+	flex-direction: column;
+	cursor: pointer;
+	min-height: 12px; // AS3: height_min="12"
+}
+
+.habbo-scrollbar__thumb-top
+{
+	width: 17px;
+	height: 5px;
+	flex-shrink: 0;
+	background-image: url('#{$_img}/scrollbar_thumb_top.png');
+	background-size: 17px 5px;
+	background-repeat: no-repeat;
+	image-rendering: pixelated;
+}
+
+.habbo-scrollbar__thumb-mid
+{
+	flex: 1;
+	width: 17px;
+	min-height: 2px;
+	background-image: url('#{$_img}/scrollbar_thumb_mid.png');
+	background-size: 17px 16px;
+	background-repeat: repeat-y; // tiled vertically (AS3 SCALE_TYPE_TILED)
+	image-rendering: pixelated;
+}
+
+.habbo-scrollbar__thumb-btm
+{
+	width: 17px;
+	height: 5px;
+	flex-shrink: 0;
+	background-image: url('#{$_img}/scrollbar_thumb_btm.png');
+	background-size: 17px 5px;
+	background-repeat: no-repeat;
+	image-rendering: pixelated;
+}
+
+// --- Thumb hover state ---
+.habbo-scrollbar__thumb--hover
+{
+	.habbo-scrollbar__thumb-top
+	{
+		background-image: url('#{$_img}/scrollbar_thumb_top_hover.png');
+	}
+
+	.habbo-scrollbar__thumb-mid
+	{
+		background-image: url('#{$_img}/scrollbar_thumb_mid_hover.png');
+	}
+
+	.habbo-scrollbar__thumb-btm
+	{
+		background-image: url('#{$_img}/scrollbar_thumb_btm_hover.png');
+	}
+}
+
+// --- Thumb pressed state ---
+.habbo-scrollbar__thumb--pressed
+{
+	.habbo-scrollbar__thumb-top
+	{
+		background-image: url('#{$_img}/scrollbar_thumb_top_pressed.png');
+	}
+
+	.habbo-scrollbar__thumb-mid
+	{
+		background-image: url('#{$_img}/scrollbar_thumb_mid_pressed.png');
+	}
+
+	.habbo-scrollbar__thumb-btm
+	{
+		background-image: url('#{$_img}/scrollbar_thumb_btm_pressed.png');
+	}
+}
+
+// --- Disabled state (always visible, no thumb, disabled track + arrows) ---
+// AS3: ScrollBarController.disable() disables all children, lift_vertical_disabled has empty entities
+.habbo-scrollbar--disabled
+{
+	.habbo-scrollbar__track
+	{
+		background-image: url('#{$_img}/scrollbar_track_disabled.png');
+		cursor: default;
+	}
+
+	.habbo-scrollbar__arrow
+	{
+		cursor: default;
+	}
 }

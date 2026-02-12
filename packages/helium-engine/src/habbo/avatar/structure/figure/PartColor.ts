@@ -25,9 +25,10 @@ export class PartColor implements IPartColor
         this._id = parseInt(data.id) || 0;
         this._index = parseInt(data.index) || 0;
         this._clubLevel = parseInt(data.club) || 0;
-        this._isSelectable = Boolean(parseInt(data.selectable));
+        this._isSelectable = Boolean(typeof data.selectable === 'boolean' ? data.selectable : parseInt(data.selectable));
 
-        const colorHex: string = String(data.color || '0');
+        // Nitro format: data.hexCode, XML-JSON format: data.color
+        const colorHex: string = String(data.hexCode || data.color || '0');
         this._rgb = parseInt(colorHex, 16);
         this._r = (this._rgb >> 16) & 0xFF;
         this._g = (this._rgb >> 8) & 0xFF;

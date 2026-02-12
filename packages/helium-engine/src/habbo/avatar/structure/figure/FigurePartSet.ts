@@ -26,16 +26,19 @@ export class FigurePartSet implements IFigurePartSet
         this._id = parseInt(data.id) || 0;
         this._gender = String(data.gender || '');
         this._clubLevel = parseInt(data.club) || 0;
-        this._isColorable = Boolean(parseInt(data.colorable));
-        this._isSelectable = Boolean(parseInt(data.selectable));
-        this._isPreSelectable = Boolean(parseInt(data.preselectable));
-        this._isSellable = Boolean(parseInt(data.sellable));
+        this._isColorable = Boolean(typeof data.colorable === 'boolean' ? data.colorable : parseInt(data.colorable));
+        this._isSelectable = Boolean(typeof data.selectable === 'boolean' ? data.selectable : parseInt(data.selectable));
+        this._isPreSelectable = Boolean(typeof data.preselectable === 'boolean' ? data.preselectable : parseInt(data.preselectable));
+        this._isSellable = Boolean(typeof data.sellable === 'boolean' ? data.sellable : parseInt(data.sellable));
         this._parts = [];
         this._hiddenLayers = [];
 
-        if(data.part)
+        // Nitro format: data.parts, XML-JSON format: data.part
+        const rawParts = data.parts || data.part;
+
+        if(rawParts)
         {
-            const parts: any[] = Array.isArray(data.part) ? data.part : [data.part];
+            const parts: any[] = Array.isArray(rawParts) ? rawParts : [rawParts];
 
             for(const partData of parts)
             {
@@ -53,7 +56,17 @@ export class FigurePartSet implements IFigurePartSet
             }
         }
 
-        if(data.hiddenlayers && data.hiddenlayers.layer)
+        // Nitro format: data.hiddenLayers (array of {partType}), XML-JSON format: data.hiddenlayers.layer (array of {parttype})
+        if(data.hiddenLayers)
+        {
+            const layers: any[] = Array.isArray(data.hiddenLayers) ? data.hiddenLayers : [data.hiddenLayers];
+
+            for(const layer of layers)
+            {
+                this._hiddenLayers.push(String(layer.partType || layer.parttype));
+            }
+        }
+        else if(data.hiddenlayers && data.hiddenlayers.layer)
         {
             const layers: any[] = Array.isArray(data.hiddenlayers.layer)
                 ? data.hiddenlayers.layer

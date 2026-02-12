@@ -11,7 +11,8 @@ export class AnimationFrame
     constructor(data: any)
     {
         this._number = parseInt(data.number) || 0;
-        this._assetPartDefinition = String(data.assetpartdefinition ?? '');
+        // Nitro: assetPartDefinition (camelCase), XML-JSON: assetpartdefinition (lowercase)
+        this._assetPartDefinition = String(data.assetPartDefinition ?? data.assetpartdefinition ?? '');
     }
 
     public get number(): number

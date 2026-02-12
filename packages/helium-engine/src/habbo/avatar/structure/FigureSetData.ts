@@ -5,6 +5,9 @@ import type { IFigurePartSet } from './figure/IFigurePartSet';
 import type { IPalette } from './figure/IPalette';
 import { Palette } from './figure/Palette';
 import { SetType } from './figure/SetType';
+import { Logger } from '@core/utils/Logger';
+
+const log = Logger.getLogger('FigureSetData');
 
 /**
  * Manages figure set data including palettes and set types.
@@ -41,12 +44,22 @@ export class FigureSetData implements IStructureData, IFigureData
     {
         if(!data) return false;
 
-        if(data.colors && data.colors.palette)
+        // Resolve palettes: Nitro format (data.palettes) or XML-JSON format (data.colors.palette)
+        let palettes: any[] | null = null;
+
+        if(Array.isArray(data.palettes))
         {
-            const palettes: any[] = Array.isArray(data.colors.palette)
+            palettes = data.palettes;
+        }
+        else if(data.colors && data.colors.palette)
+        {
+            palettes = Array.isArray(data.colors.palette)
                 ? data.colors.palette
                 : [data.colors.palette];
+        }
 
+        if(palettes)
+        {
             for(const paletteData of palettes)
             {
                 const id = String(paletteData.id);
@@ -54,18 +67,30 @@ export class FigureSetData implements IStructureData, IFigureData
             }
         }
 
-        if(data.sets && data.sets.settype)
+        // Resolve set types: Nitro format (data.setTypes) or XML-JSON format (data.sets.settype)
+        let setTypes: any[] | null = null;
+
+        if(Array.isArray(data.setTypes))
         {
-            const setTypes: any[] = Array.isArray(data.sets.settype)
+            setTypes = data.setTypes;
+        }
+        else if(data.sets && data.sets.settype)
+        {
+            setTypes = Array.isArray(data.sets.settype)
                 ? data.sets.settype
                 : [data.sets.settype];
+        }
 
+        if(setTypes)
+        {
             for(const setTypeData of setTypes)
             {
                 const type = String(setTypeData.type);
                 this._setTypes.set(type, new SetType(setTypeData));
             }
         }
+
+        log.info(`Parsed figure data: ${this._palettes.size} palettes, ${this._setTypes.size} set types [${Array.from(this._setTypes.keys()).join(', ')}]`);
 
         return true;
     }
@@ -77,12 +102,21 @@ export class FigureSetData implements IStructureData, IFigureData
      */
     public injectJSON(data: any): void
     {
-        if(data.sets && data.sets.settype)
+        let setTypes: any[] | null = null;
+
+        if(Array.isArray(data.setTypes))
         {
-            const setTypes: any[] = Array.isArray(data.sets.settype)
+            setTypes = data.setTypes;
+        }
+        else if(data.sets && data.sets.settype)
+        {
+            setTypes = Array.isArray(data.sets.settype)
                 ? data.sets.settype
                 : [data.sets.settype];
+        }
 
+        if(setTypes)
+        {
             for(const setTypeData of setTypes)
             {
                 const type = String(setTypeData.type);
@@ -112,12 +146,21 @@ export class FigureSetData implements IStructureData, IFigureData
     {
         if(!data) return false;
 
-        if(data.colors && data.colors.palette)
+        let palettes: any[] | null = null;
+
+        if(Array.isArray(data.palettes))
         {
-            const palettes: any[] = Array.isArray(data.colors.palette)
+            palettes = data.palettes;
+        }
+        else if(data.colors && data.colors.palette)
+        {
+            palettes = Array.isArray(data.colors.palette)
                 ? data.colors.palette
                 : [data.colors.palette];
+        }
 
+        if(palettes)
+        {
             for(const paletteData of palettes)
             {
                 const id = String(paletteData.id);
@@ -134,12 +177,21 @@ export class FigureSetData implements IStructureData, IFigureData
             }
         }
 
-        if(data.sets && data.sets.settype)
+        let setTypes: any[] | null = null;
+
+        if(Array.isArray(data.setTypes))
         {
-            const setTypes: any[] = Array.isArray(data.sets.settype)
+            setTypes = data.setTypes;
+        }
+        else if(data.sets && data.sets.settype)
+        {
+            setTypes = Array.isArray(data.sets.settype)
                 ? data.sets.settype
                 : [data.sets.settype];
+        }
 
+        if(setTypes)
+        {
             for(const setTypeData of setTypes)
             {
                 const type = String(setTypeData.type);

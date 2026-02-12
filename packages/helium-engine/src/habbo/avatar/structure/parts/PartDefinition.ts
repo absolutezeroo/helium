@@ -14,9 +14,10 @@ export class PartDefinition
 
     constructor(data: any)
     {
-        this._setType = String(data['set-type'] ?? '');
-        this._flippedSetType = String(data['flipped-set-type'] ?? '');
-        this._removeSetType = String(data['remove-set-type'] ?? '');
+        // Nitro: camelCase (setType), XML-JSON: hyphenated (set-type)
+        this._setType = String(data.setType ?? data['set-type'] ?? '');
+        this._flippedSetType = String(data.flippedSetType ?? data['flipped-set-type'] ?? '');
+        this._removeSetType = String(data.removeSetType ?? data['remove-set-type'] ?? '');
         this._appendToFigure = false;
         this._staticId = -1;
     }

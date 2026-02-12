@@ -15,15 +15,17 @@ export class AvatarSet
     {
         this._id = String(data.id);
 
-        const mainStr = data.main;
-
-        this._isMain = mainStr == null ? false : Boolean(parseInt(mainStr));
+        // Nitro: data.main (boolean), XML-JSON: data.main (string "1"/"0")
+        this._isMain = Boolean(typeof data.main === 'boolean' ? data.main : parseInt(data.main));
         this._subSets = new Map();
         this._bodyPartIds = [];
 
-        if(data.avatarsets)
+        // Nitro: avatarSets (camelCase), XML-JSON: avatarsets (lowercase)
+        const subSets = data.avatarSets || data.avatarsets;
+
+        if(subSets)
         {
-            for(const subData of data.avatarsets)
+            for(const subData of subSets)
             {
                 const subSet = new AvatarSet(subData);
 
@@ -31,9 +33,12 @@ export class AvatarSet
             }
         }
 
-        if(data.bodyparts)
+        // Nitro: bodyParts (camelCase), XML-JSON: bodyparts (lowercase)
+        const bodyParts = data.bodyParts || data.bodyparts;
+
+        if(bodyParts)
         {
-            for(const bp of data.bodyparts)
+            for(const bp of bodyParts)
             {
                 this._bodyPartIds.push(String(bp.id));
             }

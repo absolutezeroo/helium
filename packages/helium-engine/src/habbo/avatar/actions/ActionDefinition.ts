@@ -36,21 +36,37 @@ export class ActionDefinition implements IActionDefinition
         this._id = String(data.id ?? '');
         this._state = String(data.state ?? '');
         this._precedence = parseInt(data.precedence) || 0;
-        this._activePartSet = String(data.activepartset ?? '');
-        this._assetPartDefinition = String(data.assetpartdefinition ?? '');
+        // Nitro: activePartSet, XML-JSON: activepartset
+        this._activePartSet = String(data.activePartSet ?? data.activepartset ?? '');
+        // Nitro: assetPartDefinition, XML-JSON: assetpartdefinition
+        this._assetPartDefinition = String(data.assetPartDefinition ?? data.assetpartdefinition ?? '');
         this._lay = String(data.lay ?? '');
-        this._geometryType = String(data.geometrytype ?? '');
-        this._isMain = Boolean(parseInt(data.main));
-        this._isDefault = Boolean(parseInt(data.isdefault));
-        this._isAnimation = Boolean(parseInt(data.animation));
-        this._startFromFrameZero = (String(data.startfromframezero) === 'true');
-        this._preventHeadTurn = (String(data.preventheadturn) === 'true');
+        // Nitro: geometryType, XML-JSON: geometrytype
+        this._geometryType = String(data.geometryType ?? data.geometrytype ?? '');
+        // Nitro: data.main (boolean), XML-JSON: data.main (string "1"/"0")
+        this._isMain = Boolean(typeof data.main === 'boolean' ? data.main : parseInt(data.main));
+        // Nitro: data.isDefault (boolean), XML-JSON: data.isdefault (string "1"/"0")
+        this._isDefault = Boolean(data.isDefault ?? (data.isdefault !== undefined ? parseInt(data.isdefault) : false));
+        // Nitro: data.animation (boolean), XML-JSON: data.animation (string "1"/"0")
+        this._isAnimation = Boolean(typeof data.animation === 'boolean' ? data.animation : parseInt(data.animation));
+        // Nitro: data.startFromFrameZero (boolean), XML-JSON: data.startfromframezero (string "true")
+        this._startFromFrameZero = Boolean(data.startFromFrameZero ?? (String(data.startfromframezero) === 'true'));
+        // Nitro: data.preventHeadTurn (boolean), XML-JSON: data.preventheadturn (string "true")
+        this._preventHeadTurn = Boolean(data.preventHeadTurn ?? (String(data.preventheadturn) === 'true'));
 
-        const prevents: string = String(data.prevents ?? '');
-
-        if(prevents !== '')
+        // Nitro: data.prevents is already an array, XML-JSON: comma-separated string
+        if(Array.isArray(data.prevents))
         {
-            this._prevents = prevents.split(',');
+            this._prevents = data.prevents;
+        }
+        else
+        {
+            const prevents: string = String(data.prevents ?? '');
+
+            if(prevents !== '')
+            {
+                this._prevents = prevents.split(',');
+            }
         }
 
         if(data.params)

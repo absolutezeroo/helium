@@ -1,9 +1,12 @@
-import type { AvatarCanvas } from '../structure/AvatarCanvas';
+import { AvatarCanvas } from '../structure/AvatarCanvas';
 import type { IAvatarImage } from '../IAvatarImage';
 import { AvatarSet } from './AvatarSet';
 import { GeometryBodyPart } from './GeometryBodyPart';
 import { Matrix4x4 } from './Matrix4x4';
 import { Vector3D } from './Vector3D';
+import { Logger } from '@core/utils/Logger';
+
+const log = Logger.getLogger('AvatarModelGeometry');
 
 /**
  * Avatar model geometry that manages body parts, transforms and depth sorting.
@@ -27,7 +30,11 @@ export class AvatarModelGeometry
         this._itemToBodyPart = new Map();
         this._canvases = new Map();
 
-        this._avatarSet = new AvatarSet(data.avatarset || data.avatarsets?.[0] || {});
+        log.info(`constructor: top-level keys = [${Object.keys(data).join(', ')}]`);
+
+        // Nitro: data.avatarSets[0], XML-JSON: data.avatarset
+        const avatarSetData = data.avatarSets?.[0] ?? data.avatarset ?? {};
+        this._avatarSet = new AvatarSet(avatarSetData);
 
         if(data.camera)
         {
@@ -38,22 +45,36 @@ export class AvatarModelGeometry
 
         if(data.canvases)
         {
+            log.info(`constructor: found ${data.canvases.length} canvas groups`);
+
             for(const canvasGroup of data.canvases)
             {
                 const scale = String(canvasGroup.scale);
                 const canvasMap = new Map<string, AvatarCanvas>();
 
+                log.info(`constructor: canvas group scale="${scale}" keys=[${Object.keys(canvasGroup).join(', ')}]`);
+
                 if(canvasGroup.geometries)
                 {
                     for(const geom of canvasGroup.geometries)
                     {
-                        // AvatarCanvas will be imported dynamically — store raw data for now
-                        canvasMap.set(String(geom.id), geom);
+                        const avatarCanvas = new AvatarCanvas(geom, scale);
+
+                        log.info(`constructor: canvas id="${avatarCanvas.id}" ${avatarCanvas.width}x${avatarCanvas.height} for scale="${scale}"`);
+                        canvasMap.set(avatarCanvas.id, avatarCanvas);
                     }
+                }
+                else
+                {
+                    log.warn(`constructor: canvas group scale="${scale}" has no 'geometries' key`);
                 }
 
                 this._canvases.set(scale, canvasMap);
             }
+        }
+        else
+        {
+            log.warn(`constructor: data has no 'canvases' key`);
         }
 
         if(data.types)
@@ -63,9 +84,12 @@ export class AvatarModelGeometry
                 const bodyPartMap = new Map<string, GeometryBodyPart>();
                 const itemMap = new Map<string, GeometryBodyPart>();
 
-                if(typeData.bodyparts)
+                // Nitro: bodyParts (camelCase), XML-JSON: bodyparts (lowercase)
+                const bodyParts = typeData.bodyParts || typeData.bodyparts;
+
+                if(bodyParts)
                 {
-                    for(const bpData of typeData.bodyparts)
+                    for(const bpData of bodyParts)
                     {
                         const bodyPart = new GeometryBodyPart(bpData);
 
@@ -81,6 +105,12 @@ export class AvatarModelGeometry
                 this._bodyParts.set(String(typeData.id), bodyPartMap);
                 this._itemToBodyPart.set(String(typeData.id), itemMap);
             }
+        }
+
+        log.info(`constructor: ${this._canvases.size} scale entries, ${this._bodyParts.size} type entries`);
+        for(const [scale, canvasMap] of this._canvases)
+        {
+            log.info(`constructor: scale="${scale}" → [${[...canvasMap.keys()].join(', ')}]`);
         }
     }
 

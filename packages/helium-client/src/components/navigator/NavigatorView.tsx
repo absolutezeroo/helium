@@ -1,6 +1,6 @@
 import {createEffect, createSignal, For, JSX, onCleanup, Show} from 'solid-js';
 import {useNavigator} from '@ui/hooks/navigator/useNavigator';
-import {useLocalization} from '@ui/common';
+import {useLocalization, HabboScrollbar} from '@ui/common';
 import {WindowFrame, WindowHeader, WindowContent} from '@ui/common/window';
 import {SearchView} from './views/search/SearchView';
 import {BlockResultsView} from './views/search/results/BlockResultsView';
@@ -145,9 +145,9 @@ export function NavigatorView(): JSX.Element
 											<img src={quickLinkAddIcon} alt="" />
 											{t('navigator.quick.links.title', 'Quick Links')}
 										</div>
-										<div class="left-pane-links">
+										<HabboScrollbar class="left-pane-links">
 											<QuickLinksView />
-										</div>
+										</HabboScrollbar>
 									</div>
 								</div>
 
@@ -201,11 +201,9 @@ export function NavigatorView(): JSX.Element
 									{/* Lifted rooms carousel */}
 									<LiftView />
 
-									{/* Results */}
-									<div
-										class="navigator-results"
-										ref={resultsRef}
-									>
+									{/* Results - custom bitmap scrollbar
+									    XML: block_results x=1 y=45 w=407 h=330 */}
+									<HabboScrollbar class="navigator-results" viewportRef={(el) => { resultsRef = el; }}>
 										<Show when={nav.searchResult}>
 											<For each={nav.searchResult!.blocks}>
 												{(block) => (
@@ -213,7 +211,7 @@ export function NavigatorView(): JSX.Element
 												)}
 											</For>
 										</Show>
-									</div>
+									</HabboScrollbar>
 
 									{/* Bottom buttons: Create Room / Random Room
 								    XML: create_room_border x=0 y=395 w=189 h=60

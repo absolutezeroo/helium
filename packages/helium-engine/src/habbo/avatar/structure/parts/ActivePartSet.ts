@@ -13,13 +13,17 @@ export class ActivePartSet
         this._id = String(data.id ?? '');
         this._parts = [];
 
-        if(data.activePart)
+        // Nitro: activeParts (camelCase array), XML-JSON: activePart
+        const rawParts = data.activeParts || data.activePart;
+
+        if(rawParts)
         {
-            const activeParts: any[] = Array.isArray(data.activePart) ? data.activePart : [data.activePart];
+            const activeParts: any[] = Array.isArray(rawParts) ? rawParts : [rawParts];
 
             for(const part of activeParts)
             {
-                this._parts.push(String(part['set-type']));
+                // Nitro: camelCase (setType), XML-JSON: hyphenated (set-type)
+                this._parts.push(String(part.setType ?? part['set-type']));
             }
         }
     }

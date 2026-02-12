@@ -1,7 +1,8 @@
 // ============================================================
 // Input (.habbo-input) - BEM
-// Uses border_sunk.png for authentic Flash sunken input look
-// @see habbo_skin_border_xml.bin
+// Skin: Ubuntu/style 3 (HabboHabboWindowManagerCom)
+// Uses border_sunk.png for sunken input border
+// @see habbo_skin_border_sunk_xml.bin
 //
 // .habbo-input
 //   .habbo-input--search
@@ -25,9 +26,14 @@ $_img: '@/assets/images';
 	outline: none;
 	box-sizing: border-box;
 
-	// border_sunk.png (20x20, ~5px corners) for authentic sunken border
-	border: 5px solid transparent;
-	border-image: url('#{$_img}/border_sunk.png') 5 fill stretch;
+	// border_sunk.png (20x20)
+	border-style: solid;
+	border-width: 5px;
+	border-color: transparent;
+	border-image-source: url('#{$_img}/border_sunk.png');
+	border-image-slice: 5 fill;
+	border-image-repeat: stretch;
+	image-rendering: pixelated;
 
 	&:focus
 	{

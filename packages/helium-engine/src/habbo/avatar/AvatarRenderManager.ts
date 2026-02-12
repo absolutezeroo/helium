@@ -332,12 +332,44 @@ export class AvatarRenderManager extends Component implements IAvatarRenderManag
         {
             const url = this._configuration?.getProperty('avatar.figuredata.url');
 
+            log.info(`Loading figure data from: ${url}`);
+
             if(url)
             {
                 const response = await fetch(url);
-                const data = await response.json();
 
-                this._structure.initFigureData(data);
+                if(!response.ok)
+                {
+                    log.error(`Figure data fetch failed: ${response.status} ${response.statusText}`);
+                }
+                else
+                {
+                    const text = await response.text();
+
+                    // Try parsing as JSON first
+                    try
+                    {
+                        const data = JSON.parse(text);
+
+                        log.info(`Figure data parsed as JSON. Top keys: ${Object.keys(data).join(', ')}`);
+                        this._structure.initFigureData(data);
+                    }
+                    catch(parseError)
+                    {
+                        // If JSON parsing fails, try as XML
+                        log.info('Figure data is not JSON, trying XML parser...');
+                        const xmlData = this.parseFigureDataXml(text);
+
+                        if(xmlData)
+                        {
+                            this._structure.initFigureData(xmlData);
+                        }
+                        else
+                        {
+                            log.error('Failed to parse figure data as JSON or XML');
+                        }
+                    }
+                }
             }
 
             this._structureReady = true;
@@ -399,12 +431,43 @@ export class AvatarRenderManager extends Component implements IAvatarRenderManag
         {
             const url = this._configuration?.getProperty('avatar.figuremap.url');
 
+            log.info(`Loading figure map from: ${url}`);
+
             if(url && this._avatarAssetDownloadManager)
             {
                 const response = await fetch(url);
-                const data = await response.json();
 
-                this._avatarAssetDownloadManager.loadFigureMap(data);
+                if(!response.ok)
+                {
+                    log.error(`Figure map fetch failed: ${response.status} ${response.statusText}`);
+                }
+                else
+                {
+                    const text = await response.text();
+
+                    // Try parsing as JSON first
+                    try
+                    {
+                        const data = JSON.parse(text);
+
+                        this._avatarAssetDownloadManager.loadFigureMap(data);
+                    }
+                    catch(parseError)
+                    {
+                        // If JSON parsing fails, try as XML
+                        log.info('Figure map is not JSON, trying XML parser...');
+                        const xmlData = this.parseFigureMapXml(text);
+
+                        if(xmlData)
+                        {
+                            this._avatarAssetDownloadManager.loadFigureMap(xmlData);
+                        }
+                        else
+                        {
+                            log.error('Failed to parse figure map as JSON or XML');
+                        }
+                    }
+                }
             }
 
             this._figureMapReady = true;
@@ -415,6 +478,170 @@ export class AvatarRenderManager extends Component implements IAvatarRenderManag
             log.error('Failed to load figure map', error);
             this._figureMapReady = true;
             this.checkReady();
+        }
+    }
+
+    /**
+     * Parses figure map XML into the JSON format expected by generateMap.
+     *
+     * AS3 uses XML natively. The figure map XML format is:
+     * <map><lib id="..." revision="..."><part type="..." id="..."/></lib></map>
+     */
+    private parseFigureMapXml(xmlText: string): any | null
+    {
+        try
+        {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(xmlText, 'text/xml');
+            const libElements = doc.querySelectorAll('lib');
+
+            if(libElements.length === 0) return null;
+
+            const libraries: any[] = [];
+
+            for(const libEl of libElements)
+            {
+                const id = libEl.getAttribute('id') || '';
+                const revision = libEl.getAttribute('revision') || '';
+                const parts: any[] = [];
+
+                const partElements = libEl.querySelectorAll('part');
+
+                for(const partEl of partElements)
+                {
+                    parts.push({
+                        type: partEl.getAttribute('type') || '',
+                        id: partEl.getAttribute('id') || ''
+                    });
+                }
+
+                libraries.push({ id, revision, parts });
+            }
+
+            log.info(`Parsed XML figure map: ${libraries.length} libraries`);
+
+            return { libraries };
+        }
+        catch(error)
+        {
+            log.error('XML parsing error', error);
+
+            return null;
+        }
+    }
+
+    /**
+     * Parses figure data XML into the JSON format expected by FigureSetData.parse().
+     *
+     * XML format:
+     * <figuredata>
+     *   <colors><palette id="1"><color id="0" index="0" club="0" selectable="1">FFFFFF</color></palette></colors>
+     *   <sets><settype type="hd" paletteid="1" ...><set id="1" gender="M" ...><part type="hd" id="1" .../></set></settype></sets>
+     * </figuredata>
+     */
+    private parseFigureDataXml(xmlText: string): any | null
+    {
+        try
+        {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(xmlText, 'text/xml');
+
+            // Parse palettes
+            const palettes: any[] = [];
+            const paletteElements = doc.querySelectorAll('colors > palette');
+
+            for(const paletteEl of paletteElements)
+            {
+                const colors: any[] = [];
+                const colorElements = paletteEl.querySelectorAll('color');
+
+                for(const colorEl of colorElements)
+                {
+                    colors.push({
+                        id: parseInt(colorEl.getAttribute('id') || '0'),
+                        index: parseInt(colorEl.getAttribute('index') || '0'),
+                        club: parseInt(colorEl.getAttribute('club') || '0'),
+                        selectable: colorEl.getAttribute('selectable') === '1',
+                        hexCode: colorEl.textContent?.trim() || '0'
+                    });
+                }
+
+                palettes.push({
+                    id: parseInt(paletteEl.getAttribute('id') || '0'),
+                    colors
+                });
+            }
+
+            // Parse set types
+            const setTypes: any[] = [];
+            const setTypeElements = doc.querySelectorAll('sets > settype');
+
+            for(const setTypeEl of setTypeElements)
+            {
+                const sets: any[] = [];
+                const setElements = setTypeEl.querySelectorAll('set');
+
+                for(const setEl of setElements)
+                {
+                    const parts: any[] = [];
+                    const partElements = setEl.querySelectorAll('part');
+
+                    for(const partEl of partElements)
+                    {
+                        parts.push({
+                            id: parseInt(partEl.getAttribute('id') || '0'),
+                            type: partEl.getAttribute('type') || '',
+                            colorable: partEl.getAttribute('colorable') === '1',
+                            index: parseInt(partEl.getAttribute('index') || '0'),
+                            colorindex: parseInt(partEl.getAttribute('colorindex') || '0')
+                        });
+                    }
+
+                    const hiddenLayers: any[] = [];
+                    const layerElements = setEl.querySelectorAll('hiddenlayers > layer');
+
+                    for(const layerEl of layerElements)
+                    {
+                        hiddenLayers.push({
+                            partType: layerEl.getAttribute('parttype') || ''
+                        });
+                    }
+
+                    sets.push({
+                        id: parseInt(setEl.getAttribute('id') || '0'),
+                        gender: setEl.getAttribute('gender') || '',
+                        club: parseInt(setEl.getAttribute('club') || '0'),
+                        colorable: setEl.getAttribute('colorable') === '1',
+                        selectable: setEl.getAttribute('selectable') === '1',
+                        preselectable: setEl.getAttribute('preselectable') === '1',
+                        sellable: setEl.getAttribute('sellable') === '1',
+                        parts,
+                        hiddenLayers: hiddenLayers.length > 0 ? hiddenLayers : undefined
+                    });
+                }
+
+                setTypes.push({
+                    type: setTypeEl.getAttribute('type') || '',
+                    paletteId: parseInt(setTypeEl.getAttribute('paletteid') || '0'),
+                    mandatory_m_0: setTypeEl.getAttribute('mand_m_0') === '1',
+                    mandatory_m_1: setTypeEl.getAttribute('mand_m_1') === '1',
+                    mandatory_f_0: setTypeEl.getAttribute('mand_f_0') === '1',
+                    mandatory_f_1: setTypeEl.getAttribute('mand_f_1') === '1',
+                    sets
+                });
+            }
+
+            if(palettes.length === 0 && setTypes.length === 0) return null;
+
+            log.info(`Parsed XML figure data: ${palettes.length} palettes, ${setTypes.length} set types`);
+
+            return { palettes, setTypes };
+        }
+        catch(error)
+        {
+            log.error('Figure data XML parsing error', error);
+
+            return null;
         }
     }
 

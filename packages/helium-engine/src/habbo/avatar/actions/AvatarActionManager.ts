@@ -37,6 +37,40 @@ export class AvatarActionManager
                 this._actions.set(state, definition);
             }
         }
+
+        // Parse action offsets (Nitro format: data.actionOffsets)
+        if(data.actionOffsets)
+        {
+            this.parseActionOffsets(data.actionOffsets);
+        }
+    }
+
+    private parseActionOffsets(offsets: any[]): void
+    {
+        if(!offsets || offsets.length === 0) return;
+
+        for(const offset of offsets)
+        {
+            const action = this._actions.get(offset.action);
+
+            if(!action) continue;
+
+            if(!offset.offsets) continue;
+
+            for(const canvasOffset of offset.offsets)
+            {
+                const size = String(canvasOffset.size || '');
+                const direction = canvasOffset.direction;
+
+                if(size === '' || direction === undefined) continue;
+
+                const x = canvasOffset.x || 0;
+                const y = canvasOffset.y || 0;
+                const z = canvasOffset.z || 0;
+
+                action.setOffsets(size, direction, [x, y, z]);
+            }
+        }
     }
 
     public getActionDefinition(id: string): ActionDefinition | null

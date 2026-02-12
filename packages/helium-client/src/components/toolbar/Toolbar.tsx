@@ -3,6 +3,8 @@ import {createSignal, Show} from 'solid-js';
 import {useNavigator} from '@ui/hooks/navigator/useNavigator';
 import {inventoryStore} from '@ui/stores/inventoryStore';
 import {roomStore} from '@ui/stores/roomStore';
+import {sessionStore} from '@ui/stores/sessionStore';
+import {LayoutAvatarImageView} from '@ui/common/layout/LayoutAvatarImageView';
 import {ToolbarMeView} from './ToolbarMeView';
 
 import logoIcon from '@/assets/images/bottom_bar_logo.png';
@@ -12,7 +14,6 @@ import shopIcon from '@/assets/images/bottom_bar_shop.png';
 import inventoryIcon from '@/assets/images/bottom_bar_inventory.png';
 import cameraIcon from '@/assets/images/bottom_bar_camera.png';
 import dividerIcon from '@/assets/images/bottom_bar_divider_1px.png';
-import meMenuPlaceholder from '@/assets/images/icons_toolbar_me_menu_placeholder.png';
 
 /**
  * Toolbar - Bottom bar with navigation icons.
@@ -25,6 +26,7 @@ export function Toolbar(): JSX.Element
 	const {state: room, actions: roomActions} = roomStore;
 	const {actions: navActions} = useNavigator();
 	const {actions: invActions} = inventoryStore;
+	const session = sessionStore.state;
 
 	const [isMeExpanded, setMeExpanded] = createSignal(false);
 
@@ -106,7 +108,7 @@ export function Toolbar(): JSX.Element
 
 					{/* Me Menu */}
 					<div
-						class={`toolbar-icon${isMeExpanded() ? ' active' : ''}`}
+						class={`toolbar-icon toolbar-me-icon${isMeExpanded() ? ' active' : ''}`}
 						onClick={(e) =>
 						{
 							e.stopPropagation();
@@ -114,7 +116,19 @@ export function Toolbar(): JSX.Element
 						}}
 						title="Me"
 					>
-						<img src={meMenuPlaceholder} alt="" />
+						<Show when={session.userData?.figure} fallback={
+							<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+									d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+							</svg>
+						}>
+							<LayoutAvatarImageView
+								figure={session.userData?.figure}
+								gender={session.userData?.gender}
+								direction={2}
+								class="toolbar-avatar"
+							/>
+						</Show>
 					</div>
 				</div>
 

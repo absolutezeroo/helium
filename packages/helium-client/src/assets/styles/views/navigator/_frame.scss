@@ -103,13 +103,16 @@ $nav-width-collapsed: 425px;
 
         // Scrollable links list
         // XML: quicklinks_list x=5 y=25 w=132 h=420 spacing=2
+        // Now uses HabboScrollbar component
         .left-pane-links
         {
             flex: 1;
-            overflow-y: auto;
-            overflow-x: hidden;
-            scrollbar-width: thin;
-            padding: 5px;
+            min-height: 0;
+
+            .habbo-scrollbar-viewport
+            {
+                padding: 5px;
+            }
         }
     }
 
@@ -268,14 +271,17 @@ $nav-width-collapsed: 425px;
 
     // --- Results scroll area ---
     // XML: block_results x=1 y=45 w=407 h=330
+    // Now uses HabboScrollbar component (habbo-scrollbar-container)
     .navigator-results
     {
         flex: 1;
-        overflow-y: auto;
-        overflow-x: hidden;
-        scrollbar-width: thin;
-        padding: 2px;
+        min-height: 0;
         background-color: $bg-white; // white background matching Flash
+
+        .habbo-scrollbar-viewport
+        {
+            padding: 2px;
+        }
     }
 
     // --- Bottom buttons (Create Room / Random Room) ---

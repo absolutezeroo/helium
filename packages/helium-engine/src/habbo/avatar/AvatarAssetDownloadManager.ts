@@ -5,6 +5,9 @@ import type { IAvatarImageListener } from './IAvatarImageListener';
 import type { AvatarStructure } from './AvatarStructure';
 import type { AssetAliasCollection } from './alias/AssetAliasCollection';
 import { AvatarAssetDownloadLibrary } from './AvatarAssetDownloadLibrary';
+import { Logger } from '@core/utils/Logger';
+
+const log = Logger.getLogger('AvatarAssetDownloadManager');
 
 /**
  * Manages downloading avatar asset libraries based on figure data.
@@ -84,6 +87,9 @@ export class AvatarAssetDownloadManager extends EventEmitter
         if(typeof data === 'object' && Object.keys(data).length === 0) return;
 
         this.generateMap(data);
+
+        log.info(`Figure map loaded: ${this._libraries.size} libraries, ${this._figureMap.size} part mappings`);
+
         this.loadMandatoryLibs();
         this._isReady = true;
         this.processInitBuffer();
@@ -94,12 +100,46 @@ export class AvatarAssetDownloadManager extends EventEmitter
      *
      * In AS3, iterates XML `<lib>` elements, creating AvatarAssetDownloadLibrary instances
      * and mapping their `<part>` children by "type:id" keys.
+     *
+     * Handles multiple JSON formats:
+     * - { libraries: [...] } or { libs: [...] }
+     * - Root-level array [...]
+     * - { lib: [...] } (converted from XML)
      */
     private generateMap(data: any): void
     {
-        if(!data || !data.libraries) return;
+        if(!data) return;
 
-        for(const libData of data.libraries)
+        // Resolve the library array from various possible formats
+        let libraries: any[] | null = null;
+
+        if(Array.isArray(data))
+        {
+            libraries = data;
+        }
+        else if(Array.isArray(data.libraries))
+        {
+            libraries = data.libraries;
+        }
+        else if(Array.isArray(data.libs))
+        {
+            libraries = data.libs;
+        }
+        else if(Array.isArray(data.lib))
+        {
+            libraries = data.lib;
+        }
+
+        if(!libraries || libraries.length === 0)
+        {
+            log.warn(`Figure map data has no recognized library array. Keys: ${Object.keys(data).join(', ')}`);
+
+            return;
+        }
+
+        log.debug(`Parsing figure map with ${libraries.length} library entries`);
+
+        for(const libData of libraries)
         {
             const libName = String(libData.id || '');
             const revision = String(libData.revision || '');
@@ -117,24 +157,27 @@ export class AvatarAssetDownloadManager extends EventEmitter
 
             this._libraries.set(libName, library);
 
-            if(libData.parts)
+            // Handle parts in multiple formats
+            const parts = libData.parts || libData.part || [];
+            const partsArray = Array.isArray(parts) ? parts : [parts];
+
+            for(const partData of partsArray)
             {
-                for(const partData of libData.parts)
+                if(!partData) continue;
+
+                const partType = String(partData.type || '');
+                const partId = String(partData.id || '');
+
+                if(partType === '' || partId === '') continue;
+
+                const key = partType + ':' + partId;
+
+                if(!this._figureMap.has(key))
                 {
-                    const partType = String(partData.type || '');
-                    const partId = String(partData.id || '');
-
-                    if(partType === '' || partId === '') continue;
-
-                    const key = partType + ':' + partId;
-
-                    if(!this._figureMap.has(key))
-                    {
-                        this._figureMap.set(key, []);
-                    }
-
-                    this._figureMap.get(key)!.push(library);
+                    this._figureMap.set(key, []);
                 }
+
+                this._figureMap.get(key)!.push(library);
             }
         }
     }
@@ -184,6 +227,8 @@ export class AvatarAssetDownloadManager extends EventEmitter
         const figureString = figure.getFigureString();
         const libs = this.getLibsToDownload(figure);
 
+        log.debug(`loadFigureSetData: ${figureString} → ${libs.length} libs to download: [${libs.map(l => l.libraryName).join(', ')}]`);
+
         if(libs.length > 0)
         {
             if(listener && !listener.disposed)
@@ -226,7 +271,12 @@ export class AvatarAssetDownloadManager extends EventEmitter
 
         const figureData = this._structure.figureData;
 
-        if(!figureData) return result;
+        if(!figureData)
+        {
+            log.warn('getLibsToDownload: figureData is null');
+
+            return result;
+        }
 
         const partTypes = figure.getPartTypeIds();
 
@@ -234,27 +284,33 @@ export class AvatarAssetDownloadManager extends EventEmitter
         {
             const setType = figureData.getSetType(partType);
 
-            if(setType)
+            if(!setType)
             {
-                const partSetId = figure.getPartSetId(partType);
-                const partSet = setType.getPartSet(partSetId);
+                log.debug(`getLibsToDownload: no setType for partType "${partType}"`);
+                continue;
+            }
 
-                if(partSet)
+            const partSetId = figure.getPartSetId(partType);
+            const partSet = setType.getPartSet(partSetId);
+
+            if(!partSet)
+            {
+                log.debug(`getLibsToDownload: no partSet for ${partType}:${partSetId}`);
+                continue;
+            }
+
+            for(const part of partSet.parts)
+            {
+                const key = part.type + ':' + part.id;
+                const libs = this._figureMap.get(key);
+
+                if(libs)
                 {
-                    for(const part of partSet.parts)
+                    for(const lib of libs)
                     {
-                        const key = part.type + ':' + part.id;
-                        const libs = this._figureMap.get(key);
-
-                        if(libs)
+                        if(lib && !lib.isReady && result.indexOf(lib) === -1)
                         {
-                            for(const lib of libs)
-                            {
-                                if(lib && !lib.isReady && result.indexOf(lib) === -1)
-                                {
-                                    result.push(lib);
-                                }
-                            }
+                            result.push(lib);
                         }
                     }
                 }

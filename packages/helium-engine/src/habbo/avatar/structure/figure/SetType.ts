@@ -18,16 +18,18 @@ export class SetType implements ISetType
     constructor(data: any)
     {
         this._type = String(data.type || '');
-        this._paletteID = parseInt(data.paletteid) || 0;
+        // Nitro: paletteId, XML-JSON: paletteid
+        this._paletteID = parseInt(data.paletteId ?? data.paletteid) || 0;
 
         this._isMandatory = new Map();
+        // Nitro: mandatory_f_0, XML-JSON: mand_f_0
         this._isMandatory.set('F', [
-            Boolean(parseInt(data.mand_f_0)),
-            Boolean(parseInt(data.mand_f_1))
+            Boolean(data.mandatory_f_0 ?? parseInt(data.mand_f_0)),
+            Boolean(data.mandatory_f_1 ?? parseInt(data.mand_f_1))
         ]);
         this._isMandatory.set('M', [
-            Boolean(parseInt(data.mand_m_0)),
-            Boolean(parseInt(data.mand_m_1))
+            Boolean(data.mandatory_m_0 ?? parseInt(data.mand_m_0)),
+            Boolean(data.mandatory_m_1 ?? parseInt(data.mand_m_1))
         ]);
 
         this._partSets = new Map();
@@ -41,9 +43,12 @@ export class SetType implements ISetType
      */
     public append(data: any): void
     {
-        if(!data.set) return;
+        // Nitro format: data.sets, XML-JSON format: data.set
+        const rawSets = data.sets || data.set;
 
-        const sets: any[] = Array.isArray(data.set) ? data.set : [data.set];
+        if(!rawSets) return;
+
+        const sets: any[] = Array.isArray(rawSets) ? rawSets : [rawSets];
 
         for(const setData of sets)
         {
@@ -59,9 +64,11 @@ export class SetType implements ISetType
      */
     public cleanUp(data: any): void
     {
-        if(!data.set) return;
+        const rawSets = data.sets || data.set;
 
-        const sets: any[] = Array.isArray(data.set) ? data.set : [data.set];
+        if(!rawSets) return;
+
+        const sets: any[] = Array.isArray(rawSets) ? rawSets : [rawSets];
 
         for(const setData of sets)
         {

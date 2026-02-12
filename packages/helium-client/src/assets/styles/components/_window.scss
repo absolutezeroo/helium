@@ -2,7 +2,12 @@
 // Window Frame (.habbo-window) - BEM
 // Maps AS3 FrameController + HeaderController
 // @see sources/win63_version/core/window/components/FrameController.as
-// @see habbo_skin_frame_3_xml.bin, habbo_window_layout_frame_3_xml.bin
+// @see HabboHabboWindowManagerCom_habbo_skin_frame_3_xml.bin
+// @see HabboHabboWindowManagerCom_habbo_window_layout_frame_3_xml.bin
+//
+// Skin: Ubuntu/style 3 (habbo_skin_ubuntu_png atlas)
+// Frame border: skin_ubuntu_bg_9.png (9-slice)
+// Close button: habbo_skin_button_close_3 (red gradient CSS)
 //
 // .habbo-window
 //   .habbo-window__header
@@ -31,13 +36,9 @@ $_img: '@/assets/images';
 	pointer-events: all;
 	box-shadow: $frame-shadow;
 
-	// Frame border using actual Flash bitmap (skin_ubuntu_bg_9.png 13x14)
-	border-style: solid;
-	border-width: 5px;
-	border-color: transparent;
-	border-image-source: url('#{$_img}/skin_ubuntu_bg_9.png');
-	border-image-slice: 5 5 6 5 fill;
-	border-image-repeat: stretch;
+	// Frame border: skin_ubuntu_bg_9.png (9-slice bitmap)
+	border: 5px solid transparent;
+	border-image: url('#{$_img}/skin_ubuntu_bg_9.png') 5 5 6 5 fill stretch;
 	image-rendering: pixelated;
 
 	&.no-select
@@ -46,6 +47,8 @@ $_img: '@/assets/images';
 	}
 
 	// --- Header (drag handle + title + close button) ---
+	// Source: habbo_skin_header_3_xml.bin, habbo_window_layout_header_3_xml.bin
+	// Layout: full width, 33px tall, colored gradient background
 	&__header
 	{
 		display: flex;
@@ -74,6 +77,7 @@ $_img: '@/assets/images';
 	}
 
 	// --- Title text ---
+	// Source: text_styles_css.bin → u_frame_title: Ubuntu, 12px, bold
 	&__title
 	{
 		@include text-style('frame-title');
@@ -83,7 +87,8 @@ $_img: '@/assets/images';
 		text-overflow: ellipsis;
 	}
 
-	// --- Close button ---
+	// --- Close button (red gradient, habbo_skin_button_close_3) ---
+	// Source: habbo_skin_button_close_3_xml.bin (3 states: default, hover, pressed)
 	&__close
 	{
 		position: absolute;
@@ -115,6 +120,8 @@ $_img: '@/assets/images';
 	}
 
 	// --- Content area ---
+	// Source: content_area in frame layout at x=3, y=36
+	// Background: frame body bg (#eceae0)
 	&__content
 	{
 		flex: 1;
@@ -124,7 +131,6 @@ $_img: '@/assets/images';
 		overflow: auto;
 		padding: $frame-side-border;
 		box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.08);
-		@include habbo-scrollbar;
 	}
 
 	// --- Footer ---
@@ -169,6 +175,6 @@ $_img: '@/assets/images';
 
 	&--no-header &__content
 	{
-		border-radius: 5px;
+		border-radius: 3px;
 	}
 }

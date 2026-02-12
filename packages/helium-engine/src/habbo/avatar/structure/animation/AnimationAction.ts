@@ -25,23 +25,31 @@ export class AnimationAction
         this._frameCount = 0;
         this._offsetFrames = [];
 
-        if(data.part)
+        // Nitro: parts (camelCase), XML-JSON: part
+        const rawParts = data.parts || data.part;
+
+        if(rawParts)
         {
-            const parts: any[] = Array.isArray(data.part) ? data.part : [data.part];
+            const parts: any[] = Array.isArray(rawParts) ? rawParts : [rawParts];
 
             for(const partData of parts)
             {
                 const actionPart = new AnimationActionPart(partData);
-                this._parts.set(String(partData['set-type']), actionPart);
+
+                // Nitro: setType (camelCase), XML-JSON: set-type (hyphenated)
+                this._parts.set(String(partData.setType ?? partData['set-type']), actionPart);
                 this._frameCount = Math.max(this._frameCount, actionPart.frames.length);
             }
         }
 
-        if(data.offsets && data.offsets.frame)
-        {
-            const frames: any[] = Array.isArray(data.offsets.frame) ? data.offsets.frame : [data.offsets.frame];
+        // Nitro: offsets is array of frames directly, XML-JSON: data.offsets.frame
+        const rawOffsetFrames = Array.isArray(data.offsets)
+            ? data.offsets
+            : (data.offsets?.frame ? (Array.isArray(data.offsets.frame) ? data.offsets.frame : [data.offsets.frame]) : null);
 
-            for(const frameData of frames)
+        if(rawOffsetFrames)
+        {
+            for(const frameData of rawOffsetFrames)
             {
                 const frameId: number = parseInt(frameData.id) || 0;
                 this._frameCount = Math.max(this._frameCount, frameId);
@@ -49,23 +57,27 @@ export class AnimationAction
                 const directionMap = new Map<number, Map<string, { x: number; y: number }>>();
                 this._offsets.set(frameId, directionMap);
 
-                if(frameData.directions && frameData.directions.direction)
-                {
-                    const directions: any[] = Array.isArray(frameData.directions.direction)
-                        ? frameData.directions.direction
-                        : [frameData.directions.direction];
+                // Nitro: directions is array directly, XML-JSON: directions.direction
+                const rawDirections = Array.isArray(frameData.directions)
+                    ? frameData.directions
+                    : (frameData.directions?.direction
+                        ? (Array.isArray(frameData.directions.direction) ? frameData.directions.direction : [frameData.directions.direction])
+                        : null);
 
-                    for(const directionData of directions)
+                if(rawDirections)
+                {
+                    for(const directionData of rawDirections)
                     {
                         const directionId: number = parseInt(directionData.id) || 0;
                         const bodyPartMap = new Map<string, { x: number; y: number }>();
                         directionMap.set(directionId, bodyPartMap);
 
-                        if(directionData.bodypart)
+                        // Nitro: bodyParts (camelCase), XML-JSON: bodypart
+                        const rawBodyParts = directionData.bodyParts || directionData.bodypart;
+
+                        if(rawBodyParts)
                         {
-                            const bodyParts: any[] = Array.isArray(directionData.bodypart)
-                                ? directionData.bodypart
-                                : [directionData.bodypart];
+                            const bodyParts: any[] = Array.isArray(rawBodyParts) ? rawBodyParts : [rawBodyParts];
 
                             for(const bodyPartData of bodyParts)
                             {

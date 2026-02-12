@@ -19,6 +19,9 @@ import { AvatarImageCache } from './cache/AvatarImageCache';
 import { ActiveActionData } from './actions/ActiveActionData';
 import { AvatarAction } from './enum/AvatarAction';
 import { AvatarScaleType } from './enum/AvatarScaleType';
+import { Logger } from '@core/utils/Logger';
+
+const log = Logger.getLogger('AvatarImage');
 
 /**
  * Main avatar image rendering class. Manages actions, directions,
@@ -585,6 +588,8 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener
 
         if(this._mainAction == null)
         {
+            log.warn('getImage: mainAction is null');
+
             return null;
         }
 
@@ -615,14 +620,19 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener
             }
         }
 
-        const canvas = this._structure.getCanvas(this._scale, this._mainAction.definition.geometryType);
+        const geometryType = this._mainAction.definition.geometryType;
+        const canvas = this._structure.getCanvas(this._scale, geometryType);
 
         if(canvas == null)
         {
+            log.warn(`getImage: canvas is null for scale="${this._scale}" geometry="${geometryType}"`);
+
             return null;
         }
 
-        const bodyParts = this.getBodyParts(setType, this._mainAction.definition.geometryType, this._mainDirection);
+        const bodyParts = this.getBodyParts(setType, geometryType, this._mainDirection);
+
+        log.debug(`getImage: ${bodyParts.length} body parts for set="${setType}" geometry="${geometryType}" dir=${this._mainDirection}: [${bodyParts.join(', ')}]`);
 
         // Create OffscreenCanvas for compositing (equivalent to AS3 BitmapData)
         const canvasWidth = canvas.width;
@@ -631,6 +641,7 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener
         const ctx = offscreen.getContext('2d')!;
 
         let isCacheable = true;
+        let partsDrawn = 0;
 
         for(let i = bodyParts.length - 1; i >= 0; i--)
         {
@@ -658,15 +669,31 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener
                             const frame = container.image.frame;
 
                             ctx.drawImage(
-                                source as ImageBitmapSource,
+                                source as CanvasImageSource,
                                 frame.x, frame.y, frame.width, frame.height,
                                 destX, destY, frame.width, frame.height
                             );
+
+                            partsDrawn++;
+                        }
+                        else
+                        {
+                            log.debug(`getImage: part "${partId}" has image but no drawable source`);
                         }
                     }
+                    else
+                    {
+                        log.debug(`getImage: part "${partId}" container has no image`);
+                    }
+                }
+                else
+                {
+                    log.debug(`getImage: no container for part "${partId}"`);
                 }
             }
         }
+
+        log.debug(`getImage: drew ${partsDrawn}/${bodyParts.length} parts to ${canvasWidth}x${canvasHeight} canvas`);
 
         // Convert to PixiJS Texture
         if(!this._fullImageFromCache && this._image)
@@ -742,7 +769,7 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener
                         const frame = container.image.frame;
 
                         ctx.drawImage(
-                            source as ImageBitmapSource,
+                            source as CanvasImageSource,
                             frame.x, frame.y, frame.width, frame.height,
                             destX, destY, frame.width, frame.height
                         );
@@ -1226,22 +1253,6 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener
         this._canvasOffsets = [];
         this._disposed = true;
     }
-}
-
-/**
- * Temporary type placeholder for AvatarImageCache until it is implemented.
- * This avoids compile errors while the cache module is being built.
- */
-interface AvatarImageCache
-{
-    setDirection(setType: string, direction: number): void;
-    setGeometryType(geometryType: string): void;
-    setAction(action: IActiveActionData, frameCount: number): void;
-    resetBodyPartCache(action: IActiveActionData): void;
-    getImageContainer(partId: string, frameCount: number, forceGenerate?: boolean): AvatarImageBodyPartContainer | null;
-    getServerRenderData(): any[];
-    disposeInactiveActions(threshold?: number): void;
-    dispose(): void;
 }
 
 /**

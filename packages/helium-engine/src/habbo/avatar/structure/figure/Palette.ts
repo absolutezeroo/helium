@@ -26,9 +26,12 @@ export class Palette implements IPalette
      */
     public append(data: any): void
     {
-        if(!data.color) return;
+        // Nitro format: data.colors, XML-JSON format: data.color
+        const rawColors = data.colors || data.color;
 
-        const colors: any[] = Array.isArray(data.color) ? data.color : [data.color];
+        if(!rawColors) return;
+
+        const colors: any[] = Array.isArray(rawColors) ? rawColors : [rawColors];
 
         for(const colorData of colors)
         {

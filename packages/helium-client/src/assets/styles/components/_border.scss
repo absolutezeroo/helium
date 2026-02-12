@@ -1,14 +1,11 @@
 // ============================================================
 // Border Containers (.habbo-border) - BEM
-// Uses actual Flash border bitmaps via CSS border-image (9-slice)
-// @see habbo_skin_border_xml.bin, illumina_light_skin_border_xml.bin
+// Skin: Ubuntu/style 3 (HabboHabboWindowManagerCom)
+// @see habbo_skin_border_sunk_xml.bin
 //
 // .habbo-border              - default sunken (border_sunk.png 20x20)
-//   .habbo-border--raised    - raised (illumina_light_border_raised.png 27x15)
-//   .habbo-border--etched    - etched (illumina_light_border_etched.png 9x9)
-//   .habbo-border--sunk      - illumina sunk (illumina_light_border_sunk.png 30x30)
-//   .habbo-border--frame     - frame border (illumina_light_border_frame.png 11x13)
-//   .habbo-border--light     - light border (illumina_light_border_light.png 9x19)
+//   .habbo-border--raised    - raised variant
+//   .habbo-border--etched    - etched variant
 // ============================================================
 
 @use '../abstracts' as *;
@@ -19,52 +16,12 @@ $_img: '@/assets/images';
 {
 	background: none;
 
-	// Default: border_sunk.png (20x20, ~5px corners)
-	border: 5px solid transparent;
-	border-image: url('#{$_img}/border_sunk.png') 5 fill stretch;
-
-	&--raised
-	{
-		// illumina_light_border_raised.png (27x15, ~4px corners)
-		border-width: 4px;
-		border-image: url('#{$_img}/illumina_light_border_raised.png') 4 fill stretch;
-	}
-
-	&--etched
-	{
-		// illumina_light_border_etched.png (9x9, ~3px corners)
-		border-width: 3px;
-		border-image: url('#{$_img}/illumina_light_border_etched.png') 3 fill stretch;
-	}
-
-	&--sunk
-	{
-		// illumina_light_border_sunk.png (30x30, ~6px corners)
-		border-width: 6px;
-		border-image: url('#{$_img}/illumina_light_border_sunk.png') 6 fill stretch;
-	}
-
-	&--frame
-	{
-		// illumina_light_border_frame.png (11x13, ~4px corners)
-		border-width: 4px;
-		border-image: url('#{$_img}/illumina_light_border_frame.png') 4 fill stretch;
-	}
-
-	&--light
-	{
-		// illumina_light_border_light.png (9x19, ~3px corners)
-		border-width: 3px;
-		border-image: url('#{$_img}/illumina_light_border_light.png') 3 fill stretch;
-	}
-
-	&--thin
-	{
-		border-width: 2px;
-	}
-
-	&--thick
-	{
-		border-width: 6px;
-	}
+	// Default: border_sunk.png (20x20)
+	border-style: solid;
+	border-width: 5px;
+	border-color: transparent;
+	border-image-source: url('#{$_img}/border_sunk.png');
+	border-image-slice: 5 fill;
+	border-image-repeat: stretch;
+	image-rendering: pixelated;
 }

@@ -14,9 +14,12 @@ export class AnimationActionPart
     {
         this._frames = [];
 
-        if(data.frame)
+        // Nitro: frames (camelCase), XML-JSON: frame
+        const rawFrames = data.frames || data.frame;
+
+        if(rawFrames)
         {
-            const frames: any[] = Array.isArray(data.frame) ? data.frame : [data.frame];
+            const frames: any[] = Array.isArray(rawFrames) ? rawFrames : [rawFrames];
 
             for(const frameData of frames)
             {

@@ -1,3 +1,4 @@
+import { Texture } from 'pixi.js';
 import type { AvatarStructure } from '../AvatarStructure';
 import type { AssetAliasCollection } from '../alias/AssetAliasCollection';
 import type { IAvatarImage } from '../IAvatarImage';
@@ -11,6 +12,7 @@ import { AvatarImageActionCache } from './AvatarImageActionCache';
 import { AvatarImageDirectionCache } from './AvatarImageDirectionCache';
 import { AvatarImageBodyPartContainer } from '../AvatarImageBodyPartContainer';
 import { ImageData } from './ImageData';
+import type { ColorTransformData } from './ImageData';
 
 /**
  * Main cache manager for avatar image rendering.
@@ -511,22 +513,77 @@ export class AvatarImageCache
                 + AvatarImageCache.UNDERSCORE + assetDirection
                 + AvatarImageCache.UNDERSCORE + frameNumber;
 
-            // Resolve the asset name through the alias collection
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const resolvedName = this._assets.getAssetName(assetName);
+            // Resolve asset through alias collection (AS3 line 499)
+            let graphicAsset = this._assets.getAsset(assetName);
 
-            // TODO: When the asset system provides getAssetByName(), resolve the
-            // actual texture and offset here. Fallback to std action, frame 0.
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const fallbackName = this._scale
-                + AvatarImageCache.UNDERSCORE + AvatarImageCache.BASE_ACTION
-                + AvatarImageCache.UNDERSCORE + currentPartType
-                + AvatarImageCache.UNDERSCORE + partId
-                + AvatarImageCache.UNDERSCORE + assetDirection
-                + AvatarImageCache.UNDERSCORE + '0';
+            // Fallback: try std action, frame 0 (AS3 lines 500-507)
+            if(!graphicAsset)
+            {
+                const fallbackName = this._scale
+                    + AvatarImageCache.UNDERSCORE + AvatarImageCache.BASE_ACTION
+                    + AvatarImageCache.UNDERSCORE + currentPartType
+                    + AvatarImageCache.UNDERSCORE + partId
+                    + AvatarImageCache.UNDERSCORE + assetDirection
+                    + AvatarImageCache.UNDERSCORE + '0';
 
-            // Asset resolution will be connected when AvatarRenderManager integrates
-            // the sprite sheet / asset bundle system. The cache structure is ready.
+                graphicAsset = this._assets.getAsset(fallbackName);
+            }
+
+            if(graphicAsset && graphicAsset.texture)
+            {
+                // Build color transform (AS3 lines 536-556)
+                let hasColorTransform = false;
+                const colorMult = { redMultiplier: 1, greenMultiplier: 1, blueMultiplier: 1, alphaMultiplier: 1 };
+
+                if(partContainer.isColorable && partContainer.color)
+                {
+                    const ct = partContainer.color.colorTransform;
+
+                    colorMult.redMultiplier = ct.redMultiplier;
+                    colorMult.greenMultiplier = ct.greenMultiplier;
+                    colorMult.blueMultiplier = ct.blueMultiplier;
+                    hasColorTransform = true;
+                }
+
+                if(partContainer.isBlendable)
+                {
+                    const blend = partContainer.blendTransform;
+
+                    colorMult.redMultiplier *= blend.redMultiplier;
+                    colorMult.greenMultiplier *= blend.greenMultiplier;
+                    colorMult.blueMultiplier *= blend.blueMultiplier;
+                    colorMult.alphaMultiplier *= blend.alphaMultiplier;
+                    hasColorTransform = true;
+                }
+
+                // Compute offset point (AS3 lines 558-562)
+                const offset = { x: -graphicAsset.offsetX, y: -graphicAsset.offsetY };
+
+                if(isPartFlipped)
+                {
+                    offset.x += this._scale === AvatarScaleType.LARGE ? 65 : 31;
+                }
+
+                const colorTransform: ColorTransformData | null = hasColorTransform ? colorMult : null;
+
+                // Combine asset-level flip with alias flip for draw-time flipping
+                // In AS3, BitmapData is pre-flipped; we flip at draw time instead
+                const aliasFlipH = this._assets.getAliasFlipH(assetName);
+                const totalAssetFlipH = aliasFlipH !== graphicAsset.flipH;
+                const effectiveFlipH = isPartFlipped !== totalAssetFlipH;
+
+                this._unionImages.push(new ImageData(
+                    graphicAsset.texture,
+                    { x: 0, y: 0, width: graphicAsset.width, height: graphicAsset.height },
+                    offset,
+                    effectiveFlipH,
+                    colorTransform
+                ));
+            }
+            else
+            {
+                isCacheable = false;
+            }
         }
 
         if(this._unionImages.length === 0) return null;
@@ -586,22 +643,129 @@ export class AvatarImageCache
             maxY = Math.max(maxY, offsetRect.y + offsetRect.height);
         }
 
-        const width = maxX - minX;
-        const height = maxY - minY;
+        const width = Math.max(1, maxX - minX);
+        const height = Math.max(1, maxY - minY);
         const regPoint = { x: -minX, y: -minY };
 
-        // Actual pixel compositing requires PixiJS RenderTexture.
-        // When the asset system is connected, this method will create a
-        // RenderTexture, draw each part with correct transforms, and return
-        // the result. The spatial math (union rect, regPoint) is ready.
+        // Create OffscreenCanvas for compositing (AS3 BitmapData equivalent)
+        const canvas = new OffscreenCanvas(width, height);
+        const ctx = canvas.getContext('2d')!;
+
+        for(const imageData of imageDataList)
+        {
+            const texture = imageData.texture;
+
+            if(!texture) continue;
+
+            const source = texture.source?.resource;
+            const frame = texture.frame;
+
+            if(!source) continue;
+
+            // Compute draw position: union regPoint - imageData regPoint (AS3 line 632)
+            let drawX = regPoint.x - imageData.regPoint.x;
+            let drawY = regPoint.y - imageData.regPoint.y;
+
+            // If global direction is flipped, mirror the x position (AS3 line 636)
+            if(isFlipped)
+            {
+                drawX = width - (drawX + imageData.rect.width);
+            }
+
+            // Determine if we need draw-time flip (AS3 line 638: XOR of global + per-part)
+            const needsFlip = (isFlipped && !imageData.flipH) || (!isFlipped && imageData.flipH);
+
+            ctx.save();
+
+            if(needsFlip)
+            {
+                // Draw with horizontal flip via matrix (AS3 lines 640-647)
+                ctx.translate(drawX + imageData.rect.width, drawY);
+                ctx.scale(-1, 1);
+
+                if(imageData.colorTransform)
+                {
+                    this.drawWithColorTransform(ctx, source as CanvasImageSource, frame, 0, 0, imageData.rect.width, imageData.rect.height, imageData.colorTransform);
+                }
+                else
+                {
+                    ctx.drawImage(
+                        source as CanvasImageSource,
+                        frame.x, frame.y, frame.width, frame.height,
+                        0, 0, imageData.rect.width, imageData.rect.height
+                    );
+                }
+            }
+            else if(imageData.colorTransform)
+            {
+                // Draw with color transform (AS3 lines 651-658)
+                this.drawWithColorTransform(ctx, source as CanvasImageSource, frame, drawX, drawY, imageData.rect.width, imageData.rect.height, imageData.colorTransform);
+            }
+            else
+            {
+                // Fast path: direct copy (AS3 copyPixels, line 661)
+                ctx.drawImage(
+                    source as CanvasImageSource,
+                    frame.x, frame.y, frame.width, frame.height,
+                    drawX, drawY, imageData.rect.width, imageData.rect.height
+                );
+            }
+
+            ctx.restore();
+        }
+
+        const resultTexture = Texture.from({ resource: canvas, alphaMode: 'premultiply-alpha-on-upload' });
 
         return new ImageData(
-            null,
+            resultTexture,
             { x: 0, y: 0, width, height },
             regPoint,
             isFlipped,
             null
         );
+    }
+
+    /**
+     * Draws a sprite to the canvas context with a color transform applied.
+     * Uses a temporary canvas for per-pixel color multiplication.
+     *
+     * Equivalent to AS3's BitmapData.draw() with ColorTransform parameter.
+     */
+    private drawWithColorTransform(
+        ctx: OffscreenCanvasRenderingContext2D,
+        source: CanvasImageSource,
+        frame: { x: number; y: number; width: number; height: number },
+        destX: number,
+        destY: number,
+        width: number,
+        height: number,
+        colorTransform: ColorTransformData
+    ): void
+    {
+        if(width <= 0 || height <= 0) return;
+
+        const tempCanvas = new OffscreenCanvas(width, height);
+        const tempCtx = tempCanvas.getContext('2d')!;
+
+        tempCtx.drawImage(
+            source,
+            frame.x, frame.y, frame.width, frame.height,
+            0, 0, width, height
+        );
+
+        const pixelData = tempCtx.getImageData(0, 0, width, height);
+        const data = pixelData.data;
+
+        for(let i = 0; i < data.length; i += 4)
+        {
+            data[i] = Math.min(255, (data[i] * colorTransform.redMultiplier) | 0);
+            data[i + 1] = Math.min(255, (data[i + 1] * colorTransform.greenMultiplier) | 0);
+            data[i + 2] = Math.min(255, (data[i + 2] * colorTransform.blueMultiplier) | 0);
+            data[i + 3] = Math.min(255, (data[i + 3] * colorTransform.alphaMultiplier) | 0);
+        }
+
+        tempCtx.putImageData(pixelData, 0, 0);
+        ctx.drawImage(tempCanvas, destX, destY);
     }
 
     /**

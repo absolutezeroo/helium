@@ -59,6 +59,10 @@ export type {
 	WindowContentProps,
 } from './window';
 
+// Scrollbar
+export {HabboScrollbar} from './HabboScrollbar';
+export type {HabboScrollbarProps} from './HabboScrollbar';
+
 // Transitions
 export {TransitionAnimation} from './transitions';
 export type {TransitionAnimationProps} from './transitions';

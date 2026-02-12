@@ -14,10 +14,10 @@ export interface WindowHeaderProps extends ParentProps
  * WindowHeader - Standard window header using .habbo-window BEM classes.
  *
  * Acts as the drag handle for WindowFrame.
- * Close button uses Flash close icon asset.
+ * Close button uses the classic red gradient CSS (habbo_skin_button_close_3).
  *
  * @see sources/win63_version/core/window/components/HeaderController.as
- * @see habbo_window_layout_header_3_xml.bin
+ * @see HabboHabboWindowManagerCom_habbo_window_layout_header_3_xml.bin
  */
 export function WindowHeader(props: WindowHeaderProps): JSX.Element
 {
