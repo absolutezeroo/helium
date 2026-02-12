@@ -2,12 +2,14 @@ import {EventEmitter} from 'eventemitter3';
 import {Component, ComponentDependency, type IContext} from '@core/runtime';
 import {IID_RoomEngine} from '@iid/IIDRoomEngine';
 import type {IHabboCommunicationManager} from '../communication/IHabboCommunicationManager';
+import type {IHabboTracking} from '../tracking/IHabboTracking';
 import type {IRoomSessionManager} from './IRoomSessionManager';
 import type {IRoomHandlerListener} from './IRoomHandlerListener';
 import type {IRoomSession} from './IRoomSession';
 import {RoomSessionState} from './IRoomSession';
 import {RoomSession} from './RoomSession';
 import {RoomSessionEvent} from './events/RoomSessionEvent';
+import {RoomNetworkOpenConnectionMessageComposer} from '../communication/messages/outgoing/room/session/RoomNetworkOpenConnectionMessageComposer';
 import {BaseHandler} from './handler/BaseHandler';
 import {RoomSessionHandler, RoomSessionHandlerState} from './handler/RoomSessionHandler';
 import {RoomPermissionsHandler} from './handler/RoomPermissionsHandler';
@@ -47,6 +49,7 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 {
 	private _communication: IHabboCommunicationManager | null = null;
 	private _roomEngine: IRoomEngine | null = null;
+	private _habboTracking: IHabboTracking | null = null;
 	private _handlers: BaseHandler[] = [];
 	private _sessions: Map<string, RoomSession> = new Map();
 	private _pendingSession: RoomSession | null = null;
@@ -124,13 +127,15 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 
 	/**
 	 * Go to a room via network (for room forwarding)
+	 *
+	 * @see sources/win63_version/habbo/session/RoomSessionManager.as gotoRoomNetwork()
 	 */
-	gotoRoomNetwork(roomId: number, _homeRoomId: number): boolean
+	gotoRoomNetwork(roomId: number, homeRoomId: number): boolean
 	{
 		const session = new RoomSession();
 		session.roomId = 1;
 		session.roomPassword = '';
-		// session.openConnectionComposer = new RoomNetworkOpenConnectionMessageComposer(roomId, homeRoomId);
+		session.openConnectionComposer = new RoomNetworkOpenConnectionMessageComposer(roomId, homeRoomId);
 
 		return this.createSession(session);
 	}
@@ -210,9 +215,14 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 		session.roomId = 1;
 		session.isGameSession = true;
 
-		if (this._communication?.connection)
+		if(this._communication?.connection)
 		{
 			session.connection = this._communication.connection;
+		}
+
+		if(this._habboTracking)
+		{
+			session.habboTracking = this._habboTracking;
 		}
 
 		const key = this.getRoomIdentifier(session.roomId);
@@ -337,26 +347,27 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 
 	private createHandlers(): void
 	{
-		if (!this._communication)
+		if(!this._communication)
 		{
 			return;
 		}
 
 		const connection = this._communication.connection;
 
-		// Create handlers - they register message events on construction
+		// Create handlers in AS3 order
+		// @see sources/win63_version/habbo/session/RoomSessionManager.as line 159-175
 		this._handlers.push(new RoomSessionHandler(connection, this));
-		this._handlers.push(new RoomPermissionsHandler(connection, this));
-		this._handlers.push(new RoomDataHandler(connection, this));
 		this._handlers.push(new RoomChatHandler(connection, this));
 		this._handlers.push(new RoomUsersHandler(connection, this));
+		this._handlers.push(new RoomPermissionsHandler(connection, this));
+		this._handlers.push(new AvatarEffectsHandler(connection, this));
+		this._handlers.push(new RoomDataHandler(connection, this));
+		this._handlers.push(new PresentHandler(connection, this));
 		this._handlers.push(new GenericErrorHandler(connection, this));
 		this._handlers.push(new PollHandler(connection, this));
-		this._handlers.push(new RoomDimmerPresetsHandler(connection, this));
 		this._handlers.push(new WordQuizHandler(connection, this));
-		this._handlers.push(new PresentHandler(connection, this));
+		this._handlers.push(new RoomDimmerPresetsHandler(connection, this));
 		this._handlers.push(new PetPackageHandler(connection, this));
-		this._handlers.push(new AvatarEffectsHandler(connection, this));
 
 		log.debug(`Created ${this._handlers.length} handlers`);
 	}
@@ -380,9 +391,15 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 		}
 
 		// Set connection
-		if (this._communication?.connection)
+		if(this._communication?.connection)
 		{
 			session.connection = this._communication.connection;
+		}
+
+		// Propagate tracking to session
+		if(this._habboTracking)
+		{
+			session.habboTracking = this._habboTracking;
 		}
 
 		this._sessions.set(key, session);

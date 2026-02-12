@@ -131,6 +131,11 @@ import {RespectUserMessageComposer} from '../communication/messages/outgoing/roo
 import {RespectPetMessageComposer} from '../communication/messages/outgoing/room/RespectPetMessageComposer';
 import {ChatMessageComposer} from '../communication/messages/outgoing/room/chat/ChatMessageComposer';
 import {SetUIFlagsMessageComposer} from '../communication/messages/outgoing/preferences/SetUIFlagsMessageComposer';
+import {GiveStarGemToUserMessageComposer} from '../communication/messages/outgoing/inventory/GiveStarGemToUserMessageComposer';
+import {CreditVaultStatusMessageComposer} from '../communication/messages/outgoing/inventory/CreditVaultStatusMessageComposer';
+import {WithdrawCreditVaultMessageComposer} from '../communication/messages/outgoing/inventory/WithdrawCreditVaultMessageComposer';
+import {IncomeRewardStatusMessageComposer} from '../communication/messages/outgoing/inventory/IncomeRewardStatusMessageComposer';
+import {IncomeRewardClaimMessageComposer} from '../communication/messages/outgoing/inventory/IncomeRewardClaimMessageComposer';
 
 // Session events
 import {UserNameUpdateEvent} from './events/UserNameUpdateEvent';
@@ -643,12 +648,16 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	}
 
 	/**
-	 * Set room camera follow the disabled preference
+	 * Set room camera follow disabled preference.
+	 *
+	 * Only updates the local flag. The SetUIFlagsMessageComposer is
+	 * sent by setUIFlag() when the UI flags actually change.
+	 *
+	 * @see sources/win63_version/habbo/session/SessionDataManager.as setRoomCameraFollowDisabled()
 	 */
 	setRoomCameraFollowDisabled(disabled: boolean): void
 	{
 		this._isRoomCameraFollowDisabled = disabled;
-		this.send(new SetUIFlagsMessageComposer(this._uiFlags));
 	}
 
 	/**
@@ -697,9 +706,17 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		return this._accountSafetyLocked;
 	}
 
-	giveStarGem(_userId: number): void
+	/**
+	 * Give a star gem to a user.
+	 *
+	 * @see sources/win63_version/habbo/session/SessionDataManager.as giveStarGem()
+	 */
+	giveStarGem(userId: number): void
 	{
-		// TODO: Implement star gem gifting
+		if(userId >= 0)
+		{
+			this.send(new GiveStarGemToUserMessageComposer(userId));
+		}
 	}
 
 	getBadgeImage(_badge: string): HTMLImageElement | null
@@ -954,54 +971,94 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		log.debug(`Open Habbo home page: ${_userName}`);
 	}
 
+	/**
+	 * Pick up all furniture in a room via special chat command.
+	 *
+	 * @see sources/win63_version/habbo/session/SessionDataManager.as pickAllFurniture()
+	 */
 	pickAllFurniture(_roomId: number): void
 	{
-		// Requires PickAllFurnitureMessageComposer (not yet implemented)
-		log.debug(`Pick all furniture in room ${_roomId}`);
+		this.sendSpecialCommandMessage(':pickall');
 	}
 
+	/**
+	 * Reset game scores in a room via special chat command.
+	 *
+	 * @see sources/win63_version/habbo/session/SessionDataManager.as resetScores()
+	 */
 	resetScores(_roomId: number): void
 	{
-		// Requires ResetScoresMessageComposer (not yet implemented)
-		log.debug(`Reset scores in room ${_roomId}`);
+		this.sendSpecialCommandMessage(':resetscores');
 	}
 
+	/**
+	 * Eject all furniture from a room via special chat command.
+	 *
+	 * @see sources/win63_version/habbo/session/SessionDataManager.as ejectAllFurniture()
+	 */
 	ejectAllFurniture(_roomId: number, _message: string): void
 	{
-		// Requires EjectAllFurnitureMessageComposer (not yet implemented)
-		log.debug(`Eject all furniture in room ${_roomId}`);
+		this.sendSpecialCommandMessage(':ejectall');
 	}
 
+	/**
+	 * Eject all pets from a room via special chat command.
+	 *
+	 * @see sources/win63_version/habbo/session/SessionDataManager.as ejectPets()
+	 */
 	ejectPets(_roomId: number): void
 	{
-		// Requires EjectPetsMessageComposer (not yet implemented)
-		log.debug(`Eject pets in room ${_roomId}`);
+		this.sendSpecialCommandMessage(':ejectpets');
 	}
 
+	/**
+	 * Pick up all builder club furniture via special chat command.
+	 *
+	 * @see sources/win63_version/habbo/session/SessionDataManager.as pickAllBuilderFurniture()
+	 */
 	pickAllBuilderFurniture(_roomId: number): void
 	{
-		// Requires PickAllBuilderFurnitureMessageComposer (not yet implemented)
-		log.debug(`Pick all builder furniture in room ${_roomId}`);
+		this.sendSpecialCommandMessage(':pickallbc');
 	}
 
+	/**
+	 * Request credit vault status from server.
+	 *
+	 * @see sources/win63_version/habbo/session/SessionDataManager.as getCreditVaultStatus()
+	 */
 	getCreditVaultStatus(): void
 	{
-		// Requires GetCreditVaultStatusComposer (not yet implemented)
+		this.send(new CreditVaultStatusMessageComposer());
 	}
 
+	/**
+	 * Request income reward status from server.
+	 *
+	 * @see sources/win63_version/habbo/session/SessionDataManager.as getIncomeRewardStatus()
+	 */
 	getIncomeRewardStatus(): void
 	{
-		// Requires GetIncomeRewardStatusComposer (not yet implemented)
+		this.send(new IncomeRewardStatusMessageComposer());
 	}
 
+	/**
+	 * Withdraw credits from the credit vault.
+	 *
+	 * @see sources/win63_version/habbo/session/SessionDataManager.as withdrawCreditVault()
+	 */
 	withdrawCreditVault(): void
 	{
-		// Requires WithdrawCreditVaultComposer (not yet implemented)
+		this.send(new WithdrawCreditVaultMessageComposer());
 	}
 
-	claimReward(_rewardId: number): void
+	/**
+	 * Claim an income reward.
+	 *
+	 * @see sources/win63_version/habbo/session/SessionDataManager.as claimReward()
+	 */
+	claimReward(rewardId: number): void
 	{
-		// Requires ClaimRewardComposer (not yet implemented)
+		this.send(new IncomeRewardClaimMessageComposer(rewardId));
 	}
 
 	hasNftChatStyle(styleId: number): boolean

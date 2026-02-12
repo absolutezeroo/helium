@@ -7,3 +7,4 @@ export {UniqueIDMessageComposer} from './UniqueIDMessageComposer';
 export {PongMessageComposer} from './PongMessageComposer';
 export {DisconnectMessageComposer} from './DisconnectMessageComposer';
 export {InfoRetrieveMessageComposer} from './InfoRetrieveMessageComposer';
+export {NewUserExperienceScriptProceedComposer} from './NewUserExperienceScriptProceedComposer';

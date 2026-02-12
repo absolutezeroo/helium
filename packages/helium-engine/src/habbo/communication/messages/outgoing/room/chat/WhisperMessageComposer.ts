@@ -1,21 +1,24 @@
 import {MessageComposer} from '@core/communication/messages/MessageComposer';
 
 /**
- * Send a whisper message to a specific user
+ * Send a whisper message to a specific user.
  *
- * Based on AS3: com.sulake.habbo.communication.messages.outgoing.room.chat.WhisperMessageComposer
+ * AS3 concatenates recipientName + " " + message into a single string,
+ * and sends [concatenatedString, styleId].
+ *
+ * @see sources/win63_version/habbo/communication/messages/outgoing/room/chat/WhisperMessageComposer.as
  */
-export class WhisperMessageComposer extends MessageComposer<[string, number, number]>
+export class WhisperMessageComposer extends MessageComposer<[string, number]>
 {
-	private _data: [string, number, number];
+	private _data: [string, number];
 
-	constructor(message: string, styleId: number, targetUserId: number)
+	constructor(recipientName: string, message: string, styleId: number = 0)
 	{
 		super();
-		this._data = [message, styleId, targetUserId];
+		this._data = [recipientName + ' ' + message, styleId];
 	}
 
-	getMessageArray(): [string, number, number]
+	getMessageArray(): [string, number]
 	{
 		return this._data;
 	}

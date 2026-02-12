@@ -27,3 +27,14 @@ export {RemoveItemFromTradeComposer} from './RemoveItemFromTradeComposer';
 
 // Unseen
 export {ResetUnseenItemsComposer} from './ResetUnseenItemsComposer';
+
+// Star Gems
+export {GiveStarGemToUserMessageComposer} from './GiveStarGemToUserMessageComposer';
+
+// Credit Vault
+export {CreditVaultStatusMessageComposer} from './CreditVaultStatusMessageComposer';
+export {WithdrawCreditVaultMessageComposer} from './WithdrawCreditVaultMessageComposer';
+
+// Income Reward
+export {IncomeRewardStatusMessageComposer} from './IncomeRewardStatusMessageComposer';
+export {IncomeRewardClaimMessageComposer} from './IncomeRewardClaimMessageComposer';

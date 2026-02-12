@@ -314,6 +314,7 @@ import {
 	ChangeQueueMessageComposer,
 	OpenFlatConnectionMessageComposer,
 	QuitMessageComposer,
+	RoomNetworkOpenConnectionMessageComposer,
 } from './messages/outgoing/room/session';
 
 // Outgoing Composers - Room Engine
@@ -323,6 +324,7 @@ import {GetFurnitureAliasesMessageComposer, GetHeightMapMessageComposer, MoveAva
 import {
 	CancelTypingMessageComposer,
 	ChatMessageComposer,
+	Game2GameChatMessageComposer,
 	ShoutMessageComposer,
 	StartTypingMessageComposer,
 	WhisperMessageComposer,
@@ -364,6 +366,7 @@ import {
 	RoomDimmerGetPresetsComposer,
 	RoomDimmerSavePresetComposer,
 	UpdateClothingChangeFurnitureComposer,
+	UseFurnitureMessageComposer,
 } from './messages/outgoing/room/furniture';
 
 // Outgoing Composers - Room Pet
@@ -428,6 +431,9 @@ import {OpenCampaignCalendarDoorAsStaffComposer, OpenCampaignCalendarDoorCompose
 // Outgoing Composers - Advertisement
 import {GetInterstitialMessageComposer, InterstitialShownMessageComposer,} from './messages/outgoing/advertisement';
 
+// Outgoing Composers - Handshake (NUX)
+import {NewUserExperienceScriptProceedComposer,} from './messages/outgoing/handshake';
+
 // Outgoing Composers - Inventory
 import {
 	AcceptTradingComposer,
@@ -446,6 +452,11 @@ import {
 	ResetUnseenItemsComposer,
 	SetActivatedBadgesComposer,
 	UnacceptTradingComposer,
+	GiveStarGemToUserMessageComposer,
+	CreditVaultStatusMessageComposer,
+	WithdrawCreditVaultMessageComposer,
+	IncomeRewardStatusMessageComposer,
+	IncomeRewardClaimMessageComposer,
 } from './messages/outgoing/inventory';
 
 /**
@@ -785,6 +796,7 @@ export class HabboMessages implements IMessageConfiguration
 		this._composers.set(2729, OpenFlatConnectionMessageComposer);
 		this._composers.set(3093, ChangeQueueMessageComposer);
 		this._composers.set(2722, QuitMessageComposer);
+		this._composers.set(625, RoomNetworkOpenConnectionMessageComposer);
 
 		// === ROOM AVATAR ===
 		this._composers.set(2228, ChangeMottoMessageComposer);
@@ -815,6 +827,7 @@ export class HabboMessages implements IMessageConfiguration
 		this._composers.set(1648, RoomDimmerSavePresetComposer);
 		this._composers.set(2296, RoomDimmerChangeStateComposer);
 		this._composers.set(924, UpdateClothingChangeFurnitureComposer);
+		this._composers.set(147, UseFurnitureMessageComposer);
 
 		// === ROOM PET ===
 		this._composers.set(1581, PickUpPetComposer);
@@ -883,6 +896,7 @@ export class HabboMessages implements IMessageConfiguration
 		this._composers.set(2065, WhisperMessageComposer);
 		this._composers.set(2678, StartTypingMessageComposer);
 		this._composers.set(3878, CancelTypingMessageComposer);
+		this._composers.set(2265, Game2GameChatMessageComposer);
 
 		// === INVENTORY ===
 		this._composers.set(3181, RequestFurniInventoryComposer);
@@ -912,5 +926,15 @@ export class HabboMessages implements IMessageConfiguration
 		this._composers.set(1626, ConfirmDeclineTradingComposer);
 		this._composers.set(3472, AddItemToTradeComposer);
 		this._composers.set(1709, RemoveItemFromTradeComposer);
+
+		// === INVENTORY - STAR GEMS / VAULT / REWARD ===
+		this._composers.set(1833, GiveStarGemToUserMessageComposer);
+		this._composers.set(758, CreditVaultStatusMessageComposer);
+		this._composers.set(1355, WithdrawCreditVaultMessageComposer);
+		this._composers.set(2477, IncomeRewardStatusMessageComposer);
+		this._composers.set(1931, IncomeRewardClaimMessageComposer);
+
+		// === NUX ===
+		this._composers.set(3066, NewUserExperienceScriptProceedComposer);
 	}
 }
