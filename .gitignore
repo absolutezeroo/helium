@@ -13,4 +13,5 @@ dist/
 .env.local
 configurations/
 mockup/
+tools/flash2html/output/
 CLAUDE.md
