@@ -19,7 +19,6 @@
 //       try btn: x=110 y=3 w=188 h=28
 // ============================================================
 @use '../../abstracts' as *;
-@use 'sass:color';
 
 $_img: '@/assets/images';
 
@@ -106,24 +105,16 @@ $_img: '@/assets/images';
 		line-height: 1.4;
 	}
 
-	// Password input uses border_sunk.png bitmap
+	// Password input uses border style 5 (habbo_skin_border_5)
 	.password-input
 	{
 		width: 100px;
 		height: 19px;
 		font-size: $font-size-base;
 		padding: 2px 4px;
-		background: none;
 		outline: none;
 		box-sizing: border-box;
-
-		border-style: solid;
-		border-width: 3px;
-		border-color: transparent;
-		border-image-source: url('#{$_img}/border_sunk.png');
-		border-image-slice: 5 fill;
-		border-image-repeat: stretch;
-		image-rendering: pixelated;
+		@include habbo-border('5');
 
 		&:focus
 		{

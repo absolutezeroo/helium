@@ -14,8 +14,6 @@
 
 @use '../abstracts' as *;
 
-$_img: '@/assets/images';
-
 .habbo-tab
 {
 	display: flex;
@@ -30,23 +28,17 @@ $_img: '@/assets/images';
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	color: $text-primary;
-	background: none;
 	box-sizing: border-box;
-
-	// Tab bitmaps (30x30, ~9px top corners, ~2px bottom)
-	border: 9px solid transparent;
-	border-bottom-width: 2px;
-	border-image: url('#{$_img}/tab_bg_unsel.png') 9 9 2 9 fill stretch;
+	@include habbo-tab('default');
 
 	&:hover,
 	&--hovering
 	{
-		border-image-source: url('#{$_img}/tab_bg_hilite.png');
+		@include habbo-tab('hover');
 	}
 
 	&--active
 	{
-		border-image-source: url('#{$_img}/tab_bg_sel.png');
-		font-weight: bold;
+		@include habbo-tab('active');
 	}
 }

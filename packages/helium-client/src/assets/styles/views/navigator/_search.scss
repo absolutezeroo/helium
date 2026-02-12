@@ -12,9 +12,6 @@
 // @see source_as_win63/habbo/navigator/view/search/SearchView.as
 // ============================================================
 @use '../../abstracts' as *;
-@use 'sass:color';
-
-$_img: '@/assets/images';
 
 .navigator-search
 {
@@ -25,7 +22,7 @@ $_img: '@/assets/images';
 	gap: 4px;
 
 	// --- Filter dropdown ---
-	// Uses border_sunk.png for Flash sunken border look
+	// XML: filter_type_drop_menu style="5" → habbo_skin_border_5
 	.search-filter-dropdown
 	{
 		width: $nav-filter-width;
@@ -33,19 +30,11 @@ $_img: '@/assets/images';
 		flex-shrink: 0;
 		padding: 2px 4px;
 		font-size: $font-size-base;
-		background: none;
 		outline: none;
 		cursor: pointer;
 		appearance: auto;
 		box-sizing: border-box;
-
-		border-style: solid;
-		border-width: 3px;
-		border-color: transparent;
-		border-image-source: url('#{$_img}/border_sunk.png');
-		border-image-slice: 5 fill;
-		border-image-repeat: stretch;
-		image-rendering: pixelated;
+		@include habbo-border('5');
 	}
 
 	// --- Input wrapper (input + icon) ---
@@ -55,24 +44,16 @@ $_img: '@/assets/images';
 		flex: 1;
 		height: $nav-input-height;
 
-		// Uses border_sunk.png for Flash sunken border look
+		// XML: input border style="5" → habbo_skin_border_5
 		input
 		{
 			width: 100%;
 			height: 100%;
 			padding: 2px 22px 2px 6px; // right padding for icon
 			font-size: $font-size-base;
-			background: none;
 			outline: none;
 			box-sizing: border-box;
-
-			border-style: solid;
-			border-width: 3px;
-			border-color: transparent;
-			border-image-source: url('#{$_img}/border_sunk.png');
-			border-image-slice: 5 fill;
-			border-image-repeat: stretch;
-			image-rendering: pixelated;
+			@include habbo-border('5');
 
 			&:focus
 			{

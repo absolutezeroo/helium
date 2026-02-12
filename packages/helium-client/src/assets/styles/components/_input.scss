@@ -1,7 +1,6 @@
 // ============================================================
 // Input (.habbo-input) - BEM
-// Skin: Ubuntu/style 3 (HabboHabboWindowManagerCom)
-// Uses border_sunk.png for sunken input border
+// Skin: habbo_skin_border_sunk (HabboHabboWindowManagerCom)
 // @see habbo_skin_border_sunk_xml.bin
 //
 // .habbo-input
@@ -12,8 +11,6 @@
 
 @use '../abstracts' as *;
 
-$_img: '@/assets/images';
-
 .habbo-input
 {
 	width: 100%;
@@ -22,18 +19,9 @@ $_img: '@/assets/images';
 	font-family: $font-family;
 	font-size: $font-size-base;
 	color: $text-primary;
-	background: none;
 	outline: none;
 	box-sizing: border-box;
-
-	// border_sunk.png (20x20)
-	border-style: solid;
-	border-width: 5px;
-	border-color: transparent;
-	border-image-source: url('#{$_img}/border_sunk.png');
-	border-image-slice: 5 fill;
-	border-image-repeat: stretch;
-	image-rendering: pixelated;
+	@include habbo-border('sunk');
 
 	&:focus
 	{
