@@ -68,6 +68,7 @@ import type {IAvatarRenderManager} from '@habbo/avatar/IAvatarRenderManager';
 import {EventEmitter} from 'eventemitter3';
 import {RoomContentLoader} from './RoomContentLoader';
 import {RoomObjectTileCursorUpdateMessage} from './messages/RoomObjectTileCursorUpdateMessage';
+import {MoveAvatarMessageComposer} from '@habbo/communication/messages/outgoing/room/engine/MoveAvatarMessageComposer';
 import {RoomObjectRoomMaskUpdateMessage} from './messages/RoomObjectRoomMaskUpdateMessage';
 import {RoomObjectTileMouseEvent} from './events/RoomObjectTileMouseEvent';
 import {RoomObjectMouseEvent} from '@room/events/RoomObjectMouseEvent';
@@ -688,6 +689,8 @@ export class RoomEngine extends Component implements IRoomEngine,
 
 		if (!room)
 		{
+			log.debug(`[UPDATE_USER] room not found for roomId=${roomId}`);
+
 			return false;
 		}
 
@@ -695,8 +698,12 @@ export class RoomEngine extends Component implements IRoomEngine,
 
 		if (!object || !object.getEventHandler())
 		{
+			log.debug(`[UPDATE_USER] object not found: objectId=${objectId} in room=${roomId}`);
+
 			return false;
 		}
+
+		log.debug(`[UPDATE_USER] objectId=${objectId} loc=(${location.x},${location.y},${location.z}) target=${targetLocation ? `(${targetLocation.x},${targetLocation.y},${targetLocation.z})` : 'null'}`);
 
 		const message = new RoomObjectMoveUpdateMessage(location, direction, targetLocation);
 		object.getEventHandler()!.processUpdateMessage(message);
@@ -1822,7 +1829,13 @@ export class RoomEngine extends Component implements IRoomEngine,
 		const canvas = this.getActiveRenderingCanvas();
 		if (canvas)
 		{
-			canvas.handleMouseEvent(e.offsetX, e.offsetY, 'click', e.altKey, e.ctrlKey, e.shiftKey, false);
+			log.debug(`[CLICK] at (${e.offsetX}, ${e.offsetY})`);
+			const hit = canvas.handleMouseEvent(e.offsetX, e.offsetY, 'click', e.altKey, e.ctrlKey, e.shiftKey, false);
+			log.debug(`[CLICK] hit = ${hit}`);
+		}
+		else
+		{
+			log.debug(`[CLICK] no active canvas`);
 		}
 	}
 
@@ -2013,7 +2026,10 @@ export class RoomEngine extends Component implements IRoomEngine,
 		}
 
 		// Forward object events
-		this.events.emit('roomObjectEvent', event);
+		if(event && typeof event === 'object' && 'type' in event)
+		{
+			this.events.emit('roomObjectEvent', event);
+		}
 	}
 
 	/**
@@ -2024,28 +2040,34 @@ export class RoomEngine extends Component implements IRoomEngine,
 	{
 		if (this._activeRoomId < 0) return;
 
-		const tileCursor = this.getTileCursor(this._activeRoomId);
-
-		if (!tileCursor || !tileCursor.getEventHandler()) return;
-
 		const tileX = event.tileXAsInt;
 		const tileY = event.tileYAsInt;
 		const tileZ = event.tileZ;
 
 		if (event.type === RoomObjectMouseEvent.ROE_MOUSE_MOVE)
 		{
-			const cursorUpdate = new RoomObjectTileCursorUpdateMessage(
-				new Vector3d(tileX, tileY, tileZ),
-				tileZ,
-				true,
-				event.eventId
-			);
+			const tileCursor = this.getTileCursor(this._activeRoomId);
 
-			tileCursor.getEventHandler()!.processUpdateMessage(cursorUpdate);
+			if(tileCursor && tileCursor.getEventHandler())
+			{
+				const cursorUpdate = new RoomObjectTileCursorUpdateMessage(
+					new Vector3d(tileX, tileY, tileZ),
+					tileZ,
+					true,
+					event.eventId
+				);
+
+				tileCursor.getEventHandler()!.processUpdateMessage(cursorUpdate);
+			}
 		}
 		else if (event.type === RoomObjectMouseEvent.ROE_MOUSE_CLICK)
 		{
-			log.info(`[CLICK] Floor tile (${tileX}, ${tileY}, z=${tileZ.toFixed(2)})`);
+			log.info(`[WALK] Tile (${tileX}, ${tileY}) connection=${!!this._connection}`);
+
+			if(this._connection)
+			{
+				this._connection.send(new MoveAvatarMessageComposer(tileX, tileY));
+			}
 		}
 	}
 

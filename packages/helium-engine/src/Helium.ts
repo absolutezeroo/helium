@@ -228,6 +228,7 @@ export class Helium implements IHelium
 		if (comm.connection)
 		{
 			handler.connection = comm.connection;
+			this._habboMain.roomEngine.connection = comm.connection;
 		}
 	}
 

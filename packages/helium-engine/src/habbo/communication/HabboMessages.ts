@@ -317,7 +317,7 @@ import {
 } from './messages/outgoing/room/session';
 
 // Outgoing Composers - Room Engine
-import {GetFurnitureAliasesMessageComposer, GetHeightMapMessageComposer,} from './messages/outgoing/room/engine';
+import {GetFurnitureAliasesMessageComposer, GetHeightMapMessageComposer, MoveAvatarMessageComposer,} from './messages/outgoing/room/engine';
 
 // Outgoing Composers - Room Chat
 import {
@@ -875,6 +875,7 @@ export class HabboMessages implements IMessageConfiguration
 		// === ROOM ENGINE ===
 		this._composers.set(2064, GetFurnitureAliasesMessageComposer);
 		this._composers.set(1935, GetHeightMapMessageComposer);
+		this._composers.set(2363, MoveAvatarMessageComposer);
 
 		// === ROOM CHAT ===
 		this._composers.set(2057, ChatMessageComposer);

@@ -840,22 +840,13 @@ export class RoomMessageHandler implements IRoomMessageHandler
 	{
 		const updateEvent = event as UserUpdateMessageEvent;
 
-		if (updateEvent === null)
-		{
-			return;
-		}
+		if (updateEvent === null) return;
 
-		if (this._roomCreator === null)
-		{
-			return;
-		}
+		if (this._roomCreator === null) return;
 
 		const parser = updateEvent.getParser() as UserUpdateMessageParser;
 
-		if (parser === null)
-		{
-			return;
-		}
+		if (parser === null) return;
 
 		for (let i = 0; i < parser.userCount; i++)
 		{
@@ -889,6 +880,8 @@ export class RoomMessageHandler implements IRoomMessageHandler
 						}
 					}
 				}
+
+				console.log(`[RoomMsgHandler] onUserUpdate: roomIndex=${data.roomIndex} loc=(${data.x},${data.y},${data.z}) actions="${data.actions}" target=${target ? `(${target.x},${target.y},${target.z})` : 'null'}`);
 
 				this._roomCreator.updateObjectUser(
 					this._currentRoomId,
