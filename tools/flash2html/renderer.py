@@ -7,6 +7,7 @@ Converts resolved layout nodes into self-contained HTML preview files.
 from __future__ import annotations
 
 import html
+import re
 from pathlib import Path
 
 import shutil
@@ -20,6 +21,41 @@ from models import (
 )
 from resolver import ElementResolver, ResolvedElement, decode_params, resolve_atlas_path
 from slicer import SlicedSprite, slice_all_skin_states
+
+
+def to_snake_case(text: str) -> str:
+    """
+    Convert text to strictly lowercase snake_case.
+
+    Handles:
+    - CamelCase/PascalCase -> snake_case (e.g., AvatarEditor -> avatar_editor)
+    - Mixed_case -> lowercase (e.g., Achievement_competition -> achievement_competition)
+    - Multiple underscores -> single underscore cleanup
+
+    Examples:
+        >>> to_snake_case("AvatarEditor")
+        'avatar_editor'
+        >>> to_snake_case("Achievement_competition_hall_of_fame")
+        'achievement_competition_hall_of_fame'
+        >>> to_snake_case("Inventory_furni")
+        'inventory_furni'
+    """
+    # Step 1: Insert underscore before uppercase letters that follow lowercase letters
+    # e.g., "AvatarEditor" -> "Avatar_Editor"
+    s1 = re.sub(r'([a-z])([A-Z])', r'\1_\2', text)
+
+    # Step 2: Insert underscore before uppercase letters that are followed by lowercase letters
+    # This handles cases like "HTTPSConnection" -> "HTTPS_Connection"
+    s2 = re.sub(r'([A-Z]+)([A-Z][a-z])', r'\1_\2', s1)
+
+    # Step 3: Convert to lowercase
+    s3 = s2.lower()
+
+    # Step 4: Replace multiple consecutive underscores with a single underscore
+    s4 = re.sub(r'_+', '_', s3)
+
+    # Step 5: Strip leading/trailing underscores
+    return s4.strip('_')
 
 
 def _color_to_css(color: int | None) -> str | None:
@@ -81,9 +117,9 @@ class HtmlRenderer:
         css_text = "\n".join(self._css_rules)
 
         # Determine output path
-        module_dir = self._output_dir / layout.module
+        module_dir = self._output_dir / to_snake_case(layout.module)
         # Derive a clean layout name
-        clean_name = layout.layout_name.replace(" ", "_")
+        clean_name = to_snake_case(layout.layout_name.replace(" ", "_"))
         layout_dir = module_dir / clean_name
         layout_dir.mkdir(parents=True, exist_ok=True)
         output_path = layout_dir / "index.html"
@@ -113,7 +149,7 @@ class HtmlRenderer:
 
         # Generate a unique selector
         self._selector_count += 1
-        data_name = node.name or f"anon_{self._selector_count}"
+        data_name = to_snake_case(node.name) if node.name else f"anon_{self._selector_count}"
         selector = f".hwm-{node.tag}[data-name=\"{data_name}\"]"
         if not node.name:
             # Use a numbered class for anonymous nodes

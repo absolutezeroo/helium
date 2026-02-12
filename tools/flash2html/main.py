@@ -26,7 +26,7 @@ from parsers import (
     parse_element_registry,
     parse_text_styles,
 )
-from renderer import HtmlRenderer, render_base_css, render_master_index
+from renderer import HtmlRenderer, render_base_css, render_master_index, to_snake_case
 from resolver import ElementResolver
 from slicer import clear_cache
 
@@ -214,9 +214,12 @@ def main() -> int:
         try:
             output_path = renderer.render_module_layout(layout)
             if output_path:
-                if layout.module not in layouts_by_module:
-                    layouts_by_module[layout.module] = []
-                layouts_by_module[layout.module].append((layout.layout_name, output_path))
+                # Normalize module and layout names for consistent indexing
+                normalized_module = to_snake_case(layout.module)
+                normalized_layout = to_snake_case(layout.layout_name)
+                if normalized_module not in layouts_by_module:
+                    layouts_by_module[normalized_module] = []
+                layouts_by_module[normalized_module].append((normalized_layout, output_path))
                 success_count += 1
             else:
                 error_count += 1
