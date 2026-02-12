@@ -226,7 +226,7 @@ export class AvatarRenderManager extends Component implements IAvatarRenderManag
     {
         if(!this._configuration) return;
 
-        log.info('Configuration ready, loading embedded avatar data...');
+        log.info('Configuration ready, loading avatar data...');
 
         // AS3 line 71: hardcoded Default action as initial fallback
         this._structure.initActions({
@@ -243,37 +243,12 @@ export class AvatarRenderManager extends Component implements IAvatarRenderManag
         });
         this._actionsReady = true;
 
-        // AS3 lines 74-75: load geometry/partsets from asset library (.nitro bundles)
-        if(this._assetLibrary)
-        {
-            if(this._assetLibrary.hasAsset('HabboAvatarGeometry'))
-            {
-                const asset = this._assetLibrary.getAssetByName('HabboAvatarGeometry');
-
-                if(asset?.content)
-                {
-                    this._structure.initGeometry(asset.content);
-                    log.info('Loaded geometry from asset library');
-                }
-            }
-
-            if(this._assetLibrary.hasAsset('HabboAvatarPartSets'))
-            {
-                const asset = this._assetLibrary.getAssetByName('HabboAvatarPartSets');
-
-                if(asset?.content)
-                {
-                    this._structure.initPartSets(asset.content);
-                    log.info('Loaded partsets from asset library');
-                }
-            }
-        }
-
-        this._geometryReady = true;
-        this._partSetsReady = true;
-
         // Animation data comes per-effect from EffectAssetDownloadLibrary, not a global file
         this._animationsReady = true;
+
+        // Fetch geometry + partsets from configured URLs
+        this.loadGeometry();
+        this.loadPartSets();
 
         this.checkReady();
     }
@@ -323,6 +298,96 @@ export class AvatarRenderManager extends Component implements IAvatarRenderManag
         catch(error)
         {
             log.error('Failed to load actions data', error);
+        }
+    }
+
+    /**
+     * Fetches avatar geometry JSON from configured URL.
+     * The geometry defines body part positions, canvas sizes, and depth sorting.
+     */
+    private async loadGeometry(): Promise<void>
+    {
+        try
+        {
+            const url = this._configuration?.getProperty('avatar.geometry.url');
+
+            if(url)
+            {
+                log.info(`Loading geometry from: ${url}`);
+
+                const response = await fetch(url);
+
+                if(!response.ok)
+                {
+                    log.error(`Geometry fetch failed: ${response.status} ${response.statusText}`);
+                }
+                else
+                {
+                    const data = await response.json();
+
+                    // Support both { geometry: { ... } } wrapper and direct format
+                    this._structure.initGeometry(data.geometry ?? data);
+                    log.info('Loaded geometry data');
+                }
+            }
+            else
+            {
+                log.warn('No avatar.geometry.url configured');
+            }
+
+            this._geometryReady = true;
+            this.checkReady();
+        }
+        catch(error)
+        {
+            log.error('Failed to load geometry data', error);
+            this._geometryReady = true;
+            this.checkReady();
+        }
+    }
+
+    /**
+     * Fetches avatar part sets JSON from configured URL.
+     * Part sets define body part flipping, removal, and active part groupings.
+     */
+    private async loadPartSets(): Promise<void>
+    {
+        try
+        {
+            const url = this._configuration?.getProperty('avatar.partsets.url');
+
+            if(url)
+            {
+                log.info(`Loading partsets from: ${url}`);
+
+                const response = await fetch(url);
+
+                if(!response.ok)
+                {
+                    log.error(`PartSets fetch failed: ${response.status} ${response.statusText}`);
+                }
+                else
+                {
+                    const data = await response.json();
+
+                    // Support both { partSets: { ... } } wrapper and direct format
+                    this._structure.initPartSets(data.partSets ?? data);
+                    log.info('Loaded partsets data');
+                }
+            }
+            else
+            {
+                log.warn('No avatar.partsets.url configured');
+            }
+
+            this._partSetsReady = true;
+            this.checkReady();
+        }
+        catch(error)
+        {
+            log.error('Failed to load partsets data', error);
+            this._partSetsReady = true;
+            this.checkReady();
         }
     }
 

@@ -21,6 +21,12 @@ export interface IGameDataResources
 	readonly furnitureDataHash: string;
 	readonly habboAvatarActionsUrl: string;
 	readonly habboAvatarActionsHash: string;
+	readonly habboAvatarAnimationsUrl: string;
+	readonly habboAvatarAnimationsHash: string;
+	readonly habboAvatarGeometryUrl: string;
+	readonly habboAvatarGeometryHash: string;
+	readonly habboAvatarPartSetsUrl: string;
+	readonly habboAvatarPartSetsHash: string;
 	readonly productDataUrl: string;
 	readonly productDataHash: string;
 

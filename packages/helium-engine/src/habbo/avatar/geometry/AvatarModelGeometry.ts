@@ -30,8 +30,6 @@ export class AvatarModelGeometry
         this._itemToBodyPart = new Map();
         this._canvases = new Map();
 
-        log.info(`constructor: top-level keys = [${Object.keys(data).join(', ')}]`);
-
         // Nitro: data.avatarSets[0], XML-JSON: data.avatarset
         const avatarSetData = data.avatarSets?.[0] ?? data.avatarset ?? {};
         this._avatarSet = new AvatarSet(avatarSetData);
@@ -45,14 +43,10 @@ export class AvatarModelGeometry
 
         if(data.canvases)
         {
-            log.info(`constructor: found ${data.canvases.length} canvas groups`);
-
             for(const canvasGroup of data.canvases)
             {
                 const scale = String(canvasGroup.scale);
                 const canvasMap = new Map<string, AvatarCanvas>();
-
-                log.info(`constructor: canvas group scale="${scale}" keys=[${Object.keys(canvasGroup).join(', ')}]`);
 
                 if(canvasGroup.geometries)
                 {
@@ -60,21 +54,12 @@ export class AvatarModelGeometry
                     {
                         const avatarCanvas = new AvatarCanvas(geom, scale);
 
-                        log.info(`constructor: canvas id="${avatarCanvas.id}" ${avatarCanvas.width}x${avatarCanvas.height} for scale="${scale}"`);
                         canvasMap.set(avatarCanvas.id, avatarCanvas);
                     }
-                }
-                else
-                {
-                    log.warn(`constructor: canvas group scale="${scale}" has no 'geometries' key`);
                 }
 
                 this._canvases.set(scale, canvasMap);
             }
-        }
-        else
-        {
-            log.warn(`constructor: data has no 'canvases' key`);
         }
 
         if(data.types)
@@ -107,11 +92,7 @@ export class AvatarModelGeometry
             }
         }
 
-        log.info(`constructor: ${this._canvases.size} scale entries, ${this._bodyParts.size} type entries`);
-        for(const [scale, canvasMap] of this._canvases)
-        {
-            log.info(`constructor: scale="${scale}" → [${[...canvasMap.keys()].join(', ')}]`);
-        }
+        log.info(`Geometry loaded: ${this._canvases.size} scales, ${this._bodyParts.size} types`);
     }
 
     public removeDynamicItems(avatar: IAvatarImage): void
@@ -143,7 +124,7 @@ export class AvatarModelGeometry
         return false;
     }
 
-    public getCanvas(scale: string, geometryId: string): any
+    public getCanvas(scale: string, geometryId: string): AvatarCanvas | null
     {
         const canvasMap = this._canvases.get(scale);
 

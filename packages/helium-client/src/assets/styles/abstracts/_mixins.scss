@@ -41,6 +41,83 @@
     background: none;
 }
 
+/// Habbo border mixin - applies a named border style via 9-slice.
+/// Maps to AS3 habbo_skin_border_*_xml.bin definitions.
+///
+/// Available styles:
+///   'sunk'  - Default sunken border (border_sunk.png 20x20, slice 5)
+///   '4'     - Small classic (habbo_border_4.png 13x13, slice 6)
+///   '5'     - Small smooth (habbo_border_5.png 11x11, slice 5)
+///   '6'     - Medium ubuntu (habbo_border_6.png 20x20, slice 8)
+///   '7'     - Tiled grid (habbo_border_7.png 18x19, slice 6 6 7 6)
+///   '8'     - Large bold (habbo_border_8.png 34x34, slice 10)
+///   'black' - Dark border (habbo_border_black.png 13x13, slice 6)
+///   'white' - Light border (habbo_border_white.png 13x13, slice 6)
+///   'slot'  - Inventory slot (habbo_border_slot.png 7x7, slice 3)
+///   'frame' - Window frame (skin_ubuntu_bg_9.png, slice 5 5 6 5)
+///
+/// @param {String} $style ['sunk'] - Border style name
+/// @see HabboHabboWindowManagerCom_habbo_skin_border_*_xml.bin
+@mixin habbo-border($style: 'sunk')
+{
+    $_img: '@/assets/images';
+    border-style: solid;
+    border-color: transparent;
+    background: none;
+    image-rendering: pixelated;
+
+    @if $style == 'sunk'
+    {
+        border-width: 5px;
+        border-image: url('#{$_img}/border_sunk.png') 5 fill stretch;
+    }
+    @else if $style == '4'
+    {
+        border-width: 6px;
+        border-image: url('#{$_img}/habbo_border_4.png') 6 fill stretch;
+    }
+    @else if $style == '5'
+    {
+        border-width: 5px;
+        border-image: url('#{$_img}/habbo_border_5.png') 5 fill stretch;
+    }
+    @else if $style == '6'
+    {
+        border-width: 8px;
+        border-image: url('#{$_img}/habbo_border_6.png') 8 fill stretch;
+    }
+    @else if $style == '7'
+    {
+        border-width: 6px 6px 7px 6px;
+        border-image: url('#{$_img}/habbo_border_7.png') 6 6 7 6 fill stretch;
+    }
+    @else if $style == '8'
+    {
+        border-width: 10px;
+        border-image: url('#{$_img}/habbo_border_8.png') 10 fill stretch;
+    }
+    @else if $style == 'black'
+    {
+        border-width: 6px;
+        border-image: url('#{$_img}/habbo_border_black.png') 6 fill stretch;
+    }
+    @else if $style == 'white'
+    {
+        border-width: 6px;
+        border-image: url('#{$_img}/habbo_border_white.png') 6 fill stretch;
+    }
+    @else if $style == 'slot'
+    {
+        border-width: 3px;
+        border-image: url('#{$_img}/habbo_border_slot.png') 3 fill stretch;
+    }
+    @else if $style == 'frame'
+    {
+        border-width: 5px 5px 6px 5px;
+        border-image: url('#{$_img}/skin_ubuntu_bg_9.png') 5 5 6 5 fill stretch;
+    }
+}
+
 /// Window state modifier generator.
 /// Maps AS3 WindowState bitmask names to BEM modifiers.
 ///

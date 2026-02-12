@@ -131,6 +131,48 @@ export class GameDataResources implements IGameDataResources
 		return this._habboAvatarActionsHash;
 	}
 
+	private _habboAvatarAnimationsUrl: string = '';
+
+	get habboAvatarAnimationsUrl(): string
+	{
+		return this._habboAvatarAnimationsUrl;
+	}
+
+	private _habboAvatarAnimationsHash: string = '';
+
+	get habboAvatarAnimationsHash(): string
+	{
+		return this._habboAvatarAnimationsHash;
+	}
+
+	private _habboAvatarGeometryUrl: string = '';
+
+	get habboAvatarGeometryUrl(): string
+	{
+		return this._habboAvatarGeometryUrl;
+	}
+
+	private _habboAvatarGeometryHash: string = '';
+
+	get habboAvatarGeometryHash(): string
+	{
+		return this._habboAvatarGeometryHash;
+	}
+
+	private _habboAvatarPartSetsUrl: string = '';
+
+	get habboAvatarPartSetsUrl(): string
+	{
+		return this._habboAvatarPartSetsUrl;
+	}
+
+	private _habboAvatarPartSetsHash: string = '';
+
+	get habboAvatarPartSetsHash(): string
+	{
+		return this._habboAvatarPartSetsHash;
+	}
+
 	private _productDataUrl: string = '';
 
 	get productDataUrl(): string
@@ -196,6 +238,18 @@ export class GameDataResources implements IGameDataResources
 				case 'habbo_avatar_actions':
 					resources._habboAvatarActionsUrl = entry.url;
 					resources._habboAvatarActionsHash = entry.hash;
+					break;
+				case 'habbo_avatar_animations':
+					resources._habboAvatarAnimationsUrl = entry.url;
+					resources._habboAvatarAnimationsHash = entry.hash;
+					break;
+				case 'habbo_avatar_geometry':
+					resources._habboAvatarGeometryUrl = entry.url;
+					resources._habboAvatarGeometryHash = entry.hash;
+					break;
+				case 'habbo_avatar_part_sets':
+					resources._habboAvatarPartSetsUrl = entry.url;
+					resources._habboAvatarPartSetsHash = entry.hash;
 					break;
 				case 'product_data':
 					resources._productDataUrl = entry.url;

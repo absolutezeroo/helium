@@ -474,6 +474,21 @@ export class HeliumMain implements IHeliumMain
 			config.setProperty('avatar.actions.url', `${resources.habboAvatarActionsUrl}/${resources.habboAvatarActionsHash}`);
 		}
 
+		if (resources.habboAvatarAnimationsUrl && resources.habboAvatarAnimationsHash)
+		{
+			config.setProperty('avatar.animations.url', `${resources.habboAvatarAnimationsUrl}/${resources.habboAvatarAnimationsHash}`);
+		}
+
+		if (resources.habboAvatarGeometryUrl && resources.habboAvatarGeometryHash)
+		{
+			config.setProperty('avatar.geometry.url', `${resources.habboAvatarGeometryUrl}/${resources.habboAvatarGeometryHash}`);
+		}
+
+		if (resources.habboAvatarPartSetsUrl && resources.habboAvatarPartSetsHash)
+		{
+			config.setProperty('avatar.partsets.url', `${resources.habboAvatarPartSetsUrl}/${resources.habboAvatarPartSetsHash}`);
+		}
+
 		// Trigger furnidata/productdata loading now that URLs are available
 		if (this._sessionDataManager)
 		{

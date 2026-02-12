@@ -488,6 +488,9 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 		this.setProperty('generic.asset.url', '${asset.url}/bundled/generic/%libname%.nitro');
 		this.setProperty('avatar.asset.url', '${asset.url}/bundled/figure/%libname%.nitro');
 		this.setProperty('avatar.effect.url', '${asset.url}/bundled/effect/%libname%.nitro');
+		this.setProperty('avatar.animations.url', '${asset.url}/gamedata/habbo_avatar_animations/1');
+		this.setProperty('avatar.geometry.url', '${asset.url}/gamedata/habbo_avatar_geometry/1');
+		this.setProperty('avatar.partsets.url', '${asset.url}/gamedata/habbo_avatar_part_sets/1');
 	}
 
 	private configurationsLoaded(): void

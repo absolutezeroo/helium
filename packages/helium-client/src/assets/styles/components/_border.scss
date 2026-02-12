@@ -1,27 +1,36 @@
 // ============================================================
 // Border Containers (.habbo-border) - BEM
-// Skin: Ubuntu/style 3 (HabboHabboWindowManagerCom)
-// @see habbo_skin_border_sunk_xml.bin
+// Skin: HabboHabboWindowManagerCom (habbo_skin_border_*_xml.bin)
 //
-// .habbo-border              - default sunken (border_sunk.png 20x20)
-//   .habbo-border--raised    - raised variant
-//   .habbo-border--etched    - etched variant
+// Usage SCSS:  @include habbo-border('sunk');
+// Usage HTML:  <div class="habbo-border habbo-border--5">...</div>
+//
+// .habbo-border              - default sunken (border_sunk.png)
+//   .habbo-border--4         - small classic (habbo_blue_skin)
+//   .habbo-border--5         - small smooth (habbo_blue_skin)
+//   .habbo-border--6         - medium (habbo_skin_ubuntu)
+//   .habbo-border--7         - tiled grid (habbo_skin_ubuntu)
+//   .habbo-border--8         - large bold (habbo_skin_ubuntu)
+//   .habbo-border--black     - dark border
+//   .habbo-border--white     - light border
+//   .habbo-border--slot      - inventory slot (tiny)
+//   .habbo-border--frame     - window frame (skin_ubuntu_bg_9)
 // ============================================================
 
 @use '../abstracts' as *;
 
-$_img: '@/assets/images';
-
+// Default: sunken border
 .habbo-border
 {
-	background: none;
+	@include habbo-border('sunk');
 
-	// Default: border_sunk.png (20x20)
-	border-style: solid;
-	border-width: 5px;
-	border-color: transparent;
-	border-image-source: url('#{$_img}/border_sunk.png');
-	border-image-slice: 5 fill;
-	border-image-repeat: stretch;
-	image-rendering: pixelated;
+	&--4      { @include habbo-border('4'); }
+	&--5      { @include habbo-border('5'); }
+	&--6      { @include habbo-border('6'); }
+	&--7      { @include habbo-border('7'); }
+	&--8      { @include habbo-border('8'); }
+	&--black  { @include habbo-border('black'); }
+	&--white  { @include habbo-border('white'); }
+	&--slot   { @include habbo-border('slot'); }
+	&--frame  { @include habbo-border('frame'); }
 }
