@@ -1,8 +1,6 @@
 import type {JSX, ParentProps} from 'solid-js';
 import {Show} from 'solid-js';
 
-import closeIcon from '@/assets/images/icons_close.png';
-
 export interface WindowHeaderProps extends ParentProps
 {
 	title: string;
@@ -14,10 +12,12 @@ export interface WindowHeaderProps extends ParentProps
  * WindowHeader - Standard window header using .habbo-window BEM classes.
  *
  * Acts as the drag handle for WindowFrame.
- * Close button uses the classic red gradient CSS (habbo_skin_button_close_3).
+ * Header uses header_strip.png bitmap tinted via background-blend-mode: multiply.
+ * Close button uses bitmap states (close_button_default/hover/pressed.png).
  *
  * @see sources/win63_version/core/window/components/HeaderController.as
- * @see HabboHabboWindowManagerCom_habbo_window_layout_header_3_xml.bin
+ * @see HabboHabboWindowManagerCom_habbo_skin_frame_3_xml.bin
+ * @see HabboHabboWindowManagerCom_habbo_skin_button_close_3_xml.bin
  */
 export function WindowHeader(props: WindowHeaderProps): JSX.Element
 {
@@ -35,9 +35,7 @@ export function WindowHeader(props: WindowHeaderProps): JSX.Element
 					class="habbo-window__close"
 					onMouseDown={onMouseDown}
 					onClick={() => props.onClose?.()}
-				>
-					<img src={closeIcon} alt="" />
-				</div>
+				/>
 			</Show>
 		</div>
 	);

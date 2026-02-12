@@ -8,7 +8,8 @@
 // ============================================================
 
 @use '../../abstracts' as *;
-@use 'sass:color';
+
+$_img: '@/assets/images';
 
 // --- Card (Window Frame) ---
 
@@ -18,6 +19,9 @@
 // Source: habbo_skin_frame_3_xml.bin, habbo_skin_ubuntu_png
 .helium-card
 {
+    // Default header color (overridable via CSS custom property)
+    --habbo-header-color: #{$frame-header-color};
+
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -26,7 +30,8 @@
 
     // Frame border using actual Flash bitmap (skin_ubuntu_bg_9.png)
     border: 5px solid transparent;
-    border-image: url('@/assets/images/skin_ubuntu_bg_9.png') 5 5 6 5 fill stretch;
+    border-image: url('#{$_img}/skin_ubuntu_bg_9.png') 5 5 6 5 fill stretch;
+    image-rendering: pixelated;
 
     &.no-select
     {
@@ -35,10 +40,9 @@
 }
 
 // --- Header (drag handle + title + close button) ---
-// Layout: full width, 33px tall, colored gradient background, white centered title
-// The Ubuntu skin atlas header pieces have a subtle top-to-bottom gradient
-// (lighter top → base color → slightly darker bottom) that shows through colorization.
-// Source: habbo_skin_header_3_xml.bin, habbo_window_layout_header_3_xml.bin
+// Flash renders a gray bitmap (header_strip.png, 1x33) and applies ColorTransform multiply.
+// CSS equivalent: background-blend-mode: multiply with the bitmap + tint color.
+// Source: habbo_skin_frame_3_xml.bin → top row (33px, colorize=true)
 
 .helium-card-header
 {
@@ -50,12 +54,11 @@
     max-height: $frame-header-height;
     margin: 0;
     border-radius: 5px 5px 0 0;
-    background: linear-gradient(
-        to bottom,
-        color.adjust($frame-header-color, $lightness: 10%) 0%,
-        $frame-header-color 45%,
-        color.adjust($frame-header-color, $lightness: -5%) 100%
-    );
+    background-image: url('#{$_img}/header_strip.png');
+    background-size: 100% 100%;
+    background-color: var(--habbo-header-color);
+    background-blend-mode: multiply;
+    image-rendering: pixelated;
     cursor: grab;
     user-select: none;
     flex-shrink: 0;
@@ -81,7 +84,7 @@
     text-overflow: ellipsis;
 }
 
-// Close button: 19×20px, red gradient, X icon
+// Close button: 19×20px, bitmap states from habbo_skin_ubuntu_png atlas
 // Source: habbo_skin_button_close_3_xml.bin (3 states: default, hover, pressed)
 .helium-card-header-close
 {

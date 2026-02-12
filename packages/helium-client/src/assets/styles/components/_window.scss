@@ -7,7 +7,8 @@
 //
 // Skin: Ubuntu/style 3 (habbo_skin_ubuntu_png atlas)
 // Frame border: skin_ubuntu_bg_9.png (9-slice)
-// Close button: habbo_skin_button_close_3 (red gradient CSS)
+// Header: header_strip.png (1x33) tinted via background-blend-mode: multiply
+// Close button: close_button_default/hover/pressed.png (19x20 bitmaps)
 //
 // .habbo-window
 //   .habbo-window__header
@@ -23,13 +24,14 @@
 // ============================================================
 
 @use '../abstracts' as *;
-@use 'sass:color';
-@use 'sass:map';
 
 $_img: '@/assets/images';
 
 .habbo-window
 {
+	// Default header color (overridable via CSS custom property or variant modifiers)
+	--habbo-header-color: #{$frame-header-color};
+
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
@@ -47,8 +49,15 @@ $_img: '@/assets/images';
 	}
 
 	// --- Header (drag handle + title + close button) ---
-	// Source: habbo_skin_header_3_xml.bin, habbo_window_layout_header_3_xml.bin
-	// Layout: full width, 33px tall, colored gradient background
+	// Source: habbo_skin_frame_3_xml.bin → top row (33px, colorize=true)
+	// Flash renders a gray bitmap (#d7dbdc) and applies ColorTransform multiply
+	// CSS equivalent: background-blend-mode: multiply with header_strip.png
+	//
+	// header_strip.png pixel rows (1x33):
+	//   y=0:     #000000 (black top border)
+	//   y=1-2:   #ffffff (white highlight → becomes pure tint color)
+	//   y=3-31:  #d7dbdc (gray body → tinted shade)
+	//   y=32:    #0d1c23 (dark bottom separator)
 	&__header
 	{
 		display: flex;
@@ -59,13 +68,11 @@ $_img: '@/assets/images';
 		max-height: $frame-header-height;
 		margin: 0;
 		border-radius: 5px 5px 0 0;
-		$grad: header-gradient($frame-header-color);
-		background: linear-gradient(
-			to bottom,
-			map.get($grad, top) 0%,
-			map.get($grad, mid) 45%,
-			map.get($grad, bottom) 100%
-		);
+		background-image: url('#{$_img}/header_strip.png');
+		background-size: 100% 100%;
+		background-color: var(--habbo-header-color);
+		background-blend-mode: multiply;
+		image-rendering: pixelated;
 		cursor: grab;
 		user-select: none;
 		flex-shrink: 0;
@@ -87,15 +94,32 @@ $_img: '@/assets/images';
 		text-overflow: ellipsis;
 	}
 
-	// --- Close button (red gradient, habbo_skin_button_close_3) ---
-	// Source: habbo_skin_button_close_3_xml.bin (3 states: default, hover, pressed)
+	// --- Close button (bitmap, habbo_skin_button_close_3) ---
+	// Source: habbo_skin_button_close_3_xml.bin
+	// 3 bitmap states from habbo_skin_ubuntu_png atlas (19x20 each)
 	&__close
 	{
 		position: absolute;
 		right: 8px;
 		top: 50%;
 		transform: translateY(-50%);
-		@include habbo-close-button;
+		width: $frame-close-width;
+		height: $frame-close-height;
+		cursor: pointer;
+		background: url('#{$_img}/close_button_default.png') no-repeat center / contain;
+		border: none;
+		padding: 0;
+		image-rendering: pixelated;
+
+		&:hover
+		{
+			background-image: url('#{$_img}/close_button_hover.png');
+		}
+
+		&:active
+		{
+			background-image: url('#{$_img}/close_button_pressed.png');
+		}
 	}
 
 	// --- Sub-header ---
@@ -144,27 +168,15 @@ $_img: '@/assets/images';
 	// --- Variants ---
 
 	// Alert variant (red header)
-	&--alert &__header
+	&--alert
 	{
-		$grad: header-gradient(#c43030);
-		background: linear-gradient(
-			to bottom,
-			map.get($grad, top) 0%,
-			map.get($grad, mid) 45%,
-			map.get($grad, bottom) 100%
-		);
+		--habbo-header-color: #{$btn-red-bg};
 	}
 
 	// Notification variant (yellow header)
-	&--notify &__header
+	&--notify
 	{
-		$grad: header-gradient($btn-yellow-bg);
-		background: linear-gradient(
-			to bottom,
-			map.get($grad, top) 0%,
-			map.get($grad, mid) 45%,
-			map.get($grad, bottom) 100%
-		);
+		--habbo-header-color: #{$btn-yellow-bg};
 	}
 
 	// Headerless variant
