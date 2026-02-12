@@ -146,36 +146,43 @@
 }
 
 /// Habbo tab button mixin - applies tab bitmap skin via 9-slice.
-/// Maps to AS3 habbo_skin_button_tab_3_xml.bin.
+/// Maps to AS3 habbo_skin_button_tab_xml.bin (standard blue tab).
+/// Source atlas: habbo_blue_skin_png
+///
+/// Tab structure (11x21 assembled from 6-part atlas):
+///   Top row (5px): rounded corner caps
+///   Body (16px):   straight vertical sides + center fill
+///   Bottom: open (tab sits on separator line)
 ///
 /// @param {String} $state ['default'] - Tab state: 'default', 'hover', 'active'
-/// @see HabboHabboWindowManagerCom_habbo_skin_button_tab_3_xml.bin
+/// @see HabboWindowManagerCom_habbo_skin_button_tab_xml.bin
 @mixin habbo-tab($state: 'default')
 {
     $_img: '@/assets/images';
 
-    // tab_bg_*.png (30x30, ~9px top corners, ~2px bottom)
+    // tab_*.png (11x21, 6-part from habbo_blue_skin_png)
+    // slice: 5px top (corners), 5px left/right (sides), 0px bottom (open)
     background: none;
     border-style: solid;
     border-color: transparent;
-    border-width: 9px 9px 2px 9px;
+    border-width: 5px 5px 0 5px;
     border-image-repeat: stretch;
     image-rendering: pixelated;
 
     @if $state == 'default'
     {
-        border-image-source: url('#{$_img}/tab_bg_unsel.png');
-        border-image-slice: 9 9 2 9 fill;
+        border-image-source: url('#{$_img}/tab_default.png');
+        border-image-slice: 5 5 0 5 fill;
     }
     @else if $state == 'hover'
     {
-        border-image-source: url('#{$_img}/tab_bg_hilite.png');
-        border-image-slice: 9 9 2 9 fill;
+        border-image-source: url('#{$_img}/tab_hover.png');
+        border-image-slice: 5 5 0 5 fill;
     }
     @else if $state == 'active'
     {
-        border-image-source: url('#{$_img}/tab_bg_sel.png');
-        border-image-slice: 9 9 2 9 fill;
+        border-image-source: url('#{$_img}/tab_selected.png');
+        border-image-slice: 5 5 0 5 fill;
         font-weight: bold;
     }
 }

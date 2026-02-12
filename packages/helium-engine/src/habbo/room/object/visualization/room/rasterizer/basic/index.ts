@@ -13,6 +13,7 @@ export {PlaneTexture} from './PlaneTexture';
 export {PlaneTextureBitmap} from './PlaneTextureBitmap';
 export {PlaneVisualization} from './PlaneVisualization';
 export {PlaneVisualizationLayer} from './PlaneVisualizationLayer';
+export {WallAdRasterizer} from './WallAdRasterizer';
 export {WallPlane} from './WallPlane';
 export {WallRasterizer} from './WallRasterizer';
 
@@ -23,6 +24,7 @@ export type {
 	IAssetPlane,
 	IAssetPlaneVisualization,
 	IAssetPlaneVisualizationLayer,
+	IAssetPlaneAnimationItem,
 	IAssetPlaneMaterial,
 	IAssetPlaneMaterialCellMatrix,
 	IAssetPlaneMaterialCellColumn,

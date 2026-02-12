@@ -12,6 +12,8 @@ export {AnimatedFurnitureVisualizationData} from './AnimatedFurnitureVisualizati
 export {FurnitureVisualization} from './FurnitureVisualization';
 export {AnimatedFurnitureVisualization} from './AnimatedFurnitureVisualization';
 export {FurnitureResettingAnimatedVisualization} from './FurnitureResettingAnimatedVisualization';
+export {FurnitureCuboidVisualization} from './FurnitureCuboidVisualization';
+export {FurniturePlane} from './FurniturePlane';
 
 // Specialized - trivial
 export {FurniturePosterVisualization} from './FurniturePosterVisualization';

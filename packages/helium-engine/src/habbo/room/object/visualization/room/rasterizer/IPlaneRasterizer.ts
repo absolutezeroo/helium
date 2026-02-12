@@ -7,7 +7,6 @@
  */
 import type {IVector3d} from '@room/utils/IVector3d';
 import type {PlaneBitmapData} from '../utils/PlaneBitmapData';
-import type {PlaneVisualizationLayer} from './basic/PlaneVisualizationLayer';
 
 export interface IPlaneRasterizer
 {
@@ -30,7 +29,7 @@ export interface IPlaneRasterizer
 
 	getTextureIdentifier(scale: number, normal: IVector3d): string;
 
-	getLayers(id: string): (PlaneVisualizationLayer | null)[];
+	getLayers(id: string): (unknown | null)[];
 
 	reinitialize(): void;
 }

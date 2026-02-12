@@ -7,7 +7,6 @@
  */
 import type {IRoomGeometry} from '@room/utils/IRoomGeometry';
 import {PlaneVisualization} from './PlaneVisualization';
-import type {PlaneVisualizationLayer} from './PlaneVisualizationLayer';
 
 export class Plane
 {
@@ -61,7 +60,7 @@ export class Plane
 		return vis;
 	}
 
-	getLayers(): (PlaneVisualizationLayer | null)[]
+	getLayers(): (unknown | null)[]
 	{
 		const vis = this.getPlaneVisualization(this._cachedSize);
 		if (vis !== null)

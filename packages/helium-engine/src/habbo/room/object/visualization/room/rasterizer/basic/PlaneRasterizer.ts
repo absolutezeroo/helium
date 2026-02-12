@@ -18,7 +18,6 @@ import {PlaneMaterialCell} from './PlaneMaterialCell';
 import {PlaneMaterialCellColumn} from './PlaneMaterialCellColumn';
 import {PlaneMaterialCellMatrix} from './PlaneMaterialCellMatrix';
 import {Plane} from './Plane';
-import type {PlaneVisualizationLayer} from './PlaneVisualizationLayer';
 import type {
 	IAssetPlaneMaterial,
 	IAssetPlaneMaterialCell,
@@ -129,7 +128,7 @@ export class PlaneRasterizer implements IPlaneRasterizer
 		return String(scale);
 	}
 
-	getLayers(id: string): (PlaneVisualizationLayer | null)[]
+	getLayers(id: string): (unknown | null)[]
 	{
 		let plane = this.getPlane(id);
 		if (plane === null)

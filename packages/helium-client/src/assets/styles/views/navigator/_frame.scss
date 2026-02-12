@@ -174,17 +174,16 @@ $nav-width-collapsed: 425px;
         }
     }
 
-    // Source: text_styles_css.bin → u_button_tab: Ubuntu, 12px, normal
-    // XML: tab_button w=88 h=32
-    // Skin: habbo_skin_button_tab_3
+    // Source: habbo_skin_button_tab_xml.bin (standard blue tab)
+    // Layout: habbo_window_layout_tab_button_xml.bin (20x22)
+    // Skin: tab_button_skin from habbo_blue_skin_png atlas
     .navigator-tab
     {
         width: $nav-tab-width;
-        height: calc(#{$nav-tab-height} - 2px);
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 0 6px;
+        padding: 2px 8px 4px 8px; // Flash margins: top=2, lr=8, bottom=4
         font-size: $font-size-base;
         cursor: pointer;
         user-select: none;
@@ -216,7 +215,6 @@ $nav-width-collapsed: 425px;
         padding: 3px 4px;
         gap: 4px;
         flex-shrink: 0;
-        background-color: $bg-white; // white background matching Flash
 
         .nav-btn
         {

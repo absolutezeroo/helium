@@ -40,6 +40,24 @@ export interface IAssetPlaneVisualizationLayer
 	color?: number;
 	offset?: number;
 	align?: string;
+
+	/** Layer type: 'visualization' (default) or 'animation' (for landscape animation layers) */
+	type?: string;
+
+	/** Animation items for animation layers */
+	items?: IAssetPlaneAnimationItem[];
+}
+
+export interface IAssetPlaneAnimationItem
+{
+	id?: number;
+	assetId?: string;
+	x?: string;
+	y?: string;
+	speedX?: number;
+	speedY?: number;
+	randomX?: string;
+	randomY?: string;
 }
 
 export interface IAssetPlaneMaterial

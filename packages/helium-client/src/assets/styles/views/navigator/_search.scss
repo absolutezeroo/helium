@@ -40,6 +40,7 @@
 	// --- Input wrapper (input + icon) ---
 	.search-input-wrapper
 	{
+		max-width: 235px;
 		position: relative;
 		flex: 1;
 		height: $nav-input-height;
