@@ -7,6 +7,7 @@ Converts resolved layout nodes into self-contained HTML preview files.
 from __future__ import annotations
 
 import html
+import json
 import re
 from pathlib import Path
 
@@ -80,6 +81,69 @@ def _escape(text: str | None) -> str:
     return html.escape(text)
 
 
+def load_external_texts(json_path: Path) -> dict[str, str]:
+    """
+    Load ExternalTexts.json and return a dictionary of text keys to values.
+
+    Args:
+        json_path: Path to ExternalTexts.json
+
+    Returns:
+        Dictionary mapping text keys to their values
+    """
+    if not json_path.exists():
+        return {}
+
+    try:
+        with open(json_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except (json.JSONDecodeError, OSError) as e:
+        print(f"Warning: Failed to load ExternalTexts.json: {e}")
+        return {}
+
+
+def replace_text_variables(text: str | None, external_texts: dict[str, str], max_depth: int = 5) -> str:
+    """
+    Replace ${...} variables in text with values from ExternalTexts.json.
+
+    Handles nested variables (e.g., "${ACH_pinatabreaker1_badge_name}" -> "Piñata Breaker %roman%").
+
+    Args:
+        text: Text potentially containing ${...} variables
+        external_texts: Dictionary of text keys to values from ExternalTexts.json
+        max_depth: Maximum recursion depth to prevent infinite loops
+
+    Returns:
+        Text with all ${...} variables replaced, or original text if no variables found
+
+    Examples:
+        >>> texts = {"floor.plan.editor.import.export": "Import / Export"}
+        >>> replace_text_variables("${floor.plan.editor.import.export}", texts)
+        'Import / Export'
+    """
+    if text is None or not text:
+        return ""
+
+    if max_depth <= 0:
+        return text  # Prevent infinite recursion
+
+    # Pattern to match ${variable.name}
+    pattern = re.compile(r'\$\{([^}]+)\}')
+
+    def replacer(match: re.Match) -> str:
+        key = match.group(1)
+        # Look up the key in external_texts
+        if key in external_texts:
+            value = external_texts[key]
+            # Recursively replace variables in the value (for nested variables)
+            return replace_text_variables(value, external_texts, max_depth - 1)
+        else:
+            # Keep original if not found
+            return match.group(0)
+
+    return pattern.sub(replacer, text)
+
+
 class HtmlRenderer:
     """Generates HTML + CSS files from resolved layout trees."""
 
@@ -91,6 +155,7 @@ class HtmlRenderer:
         output_dir: Path,
         skip_slicing: bool = False,
         verbose: bool = False,
+        external_texts: dict[str, str] | None = None,
     ):
         self._resolver = resolver
         self._text_styles = text_styles
@@ -98,6 +163,7 @@ class HtmlRenderer:
         self._output_dir = output_dir
         self._skip_slicing = skip_slicing
         self._verbose = verbose
+        self._external_texts = external_texts or {}
         self._shared_assets_dir = output_dir / "shared" / "assets"
         self._css_rules: list[str] = []
         self._selector_count: int = 0
@@ -169,7 +235,7 @@ class HtmlRenderer:
         indent = "  " * (depth + 2)
         attrs = f'class="{css_class}{extra_classes}"'
         if node.name:
-            attrs += f' data-name="{_escape(node.name)}"'
+            attrs += f' data-name="{_escape(data_name)}"'
         if node.style:
             attrs += f' data-style="{node.style}"'
         if node.id_attr:
@@ -180,11 +246,27 @@ class HtmlRenderer:
             attrs += f' data-tags="{_escape(node.tags)}"'
 
         parts: list[str] = []
-        parts.append(f"{indent}<div {attrs}>")
 
-        # Caption
+        # Caption handling: text elements display caption as content, others use it as tooltip
+        # Elements that should display caption as visible text
+        text_display_tags = {
+            "text", "label", "formatted_text", "link", "password", "input",
+            "button", "button_thick", "tab_button", "container_button",
+            "tab_container_button", "closebutton"
+        }
+
         if node.caption:
-            parts.append(f"{indent}  <span class=\"hwm-caption\">{_escape(node.caption)}</span>")
+            resolved_caption = replace_text_variables(node.caption, self._external_texts)
+            if node.tag in text_display_tags:
+                # Display caption as visible text content
+                parts.append(f"{indent}<div {attrs}>")
+                parts.append(f"{indent}  <span class=\"hwm-caption\">{_escape(resolved_caption)}</span>")
+            else:
+                # Use caption as tooltip (title attribute)
+                attrs += f' title="{_escape(resolved_caption)}"'
+                parts.append(f"{indent}<div {attrs}>")
+        else:
+            parts.append(f"{indent}<div {attrs}>")
 
         # Frame margin offset: wrap children in a content area container
         margin_top = int(node.variables.get("margin_top", "0") or "0")
@@ -239,19 +321,23 @@ class HtmlRenderer:
             props.append("position: absolute")
 
         # Horizontal positioning based on h_scale
+        # For root element (depth=0), don't apply left/top offsets (they're relative to page, not parent)
         if params.h_scale == "fixed":
-            props.append(f"left: {node.x}px")
+            if not is_root:
+                props.append(f"left: {node.x}px")
             if node.width > 0:
                 props.append(f"width: {node.width}px")
         elif params.h_scale == "stretch":
-            props.append(f"left: {node.x}px")
+            if not is_root:
+                props.append(f"left: {node.x}px")
             # right = parent doesn't know size, use width as default but mark as stretch
             if node.width > 0:
                 props.append(f"width: {node.width}px")
             props.append("/* h_scale: stretch */")
         elif params.h_scale == "move":
             # Anchored to right
-            props.append(f"left: {node.x}px")
+            if not is_root:
+                props.append(f"left: {node.x}px")
             if node.width > 0:
                 props.append(f"width: {node.width}px")
             props.append("/* h_scale: move (right-anchored) */")
@@ -263,16 +349,19 @@ class HtmlRenderer:
 
         # Vertical positioning based on v_scale
         if params.v_scale == "fixed":
-            props.append(f"top: {node.y}px")
+            if not is_root:
+                props.append(f"top: {node.y}px")
             if node.height > 0:
                 props.append(f"height: {node.height}px")
         elif params.v_scale == "stretch":
-            props.append(f"top: {node.y}px")
+            if not is_root:
+                props.append(f"top: {node.y}px")
             if node.height > 0:
                 props.append(f"height: {node.height}px")
             props.append("/* v_scale: stretch */")
         elif params.v_scale == "move":
-            props.append(f"top: {node.y}px")
+            if not is_root:
+                props.append(f"top: {node.y}px")
             if node.height > 0:
                 props.append(f"height: {node.height}px")
             props.append("/* v_scale: move (bottom-anchored) */")
@@ -602,6 +691,8 @@ def render_base_css(
             "",
             "/* Habbo Volter pixel font */",
             "@font-face { font-family: 'Volter'; src: url('fonts/Volter.ttf'); font-weight: normal; font-style: normal; }",
+            "@font-face { font-family: 'Volter'; src: url('fonts/Volter Bold.ttf'); font-weight: bold; font-style: normal; }",
+            "/* Legacy: Volter Bold as separate family for backwards compatibility */",
             "@font-face { font-family: 'Volter Bold'; src: url('fonts/Volter Bold.ttf'); font-weight: normal; font-style: normal; }",
             "",
         ])

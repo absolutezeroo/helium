@@ -12,41 +12,41 @@
 Progression globale ENGINE: ████████░░░░░░░░░░░░ ~40%
 ```
 
-| Module                             | AS3 ENGINE | TS Impl | %    | Statut                   |
-|------------------------------------|------------|---------|------|--------------------------|
+| Module                             | AS3 ENGINE | TS Impl | %    | Statut                                |
+|------------------------------------|------------|---------|------|---------------------------------------|
 | **core/communication**             | 22         | 31      | 100% | ✅ Complet (obfuscated internals only) |
-| **core/assets**                    | 25         | 23      | 100% | ✅ Complet (Flash-specific=SKIP) |
-| **core/runtime**                   | 32         | 8       | 25%  | 🔄 Partiel               |
-| **configuration**                  | 2          | 8       | 100% | ✅ Complet                |
-| **localization**                   | 3          | 7       | 100% | ✅ Complet                |
-| **inventory**                      | 33         | 33      | 100% | ✅ Complet                |
-| **session**                        | 77         | 77      | 100% | ✅ Complet                |
-| **navigator** (ENGINE)             | 25         | 28      | 100% | ✅ Complet                |
-| **communication** (root/demo/enum) | 10         | 5       | 50%  | 🔄 Partiel (WebApi=SKIP) |
-| **communication/messages**         | 1150       | 404     | 35%  | 🔄 Partiel               |
-| **room** (total)                   | 313        | 321     | 100% | ✅ Complet                |
-| **avatar**                         | 70         | 83      | 100% | ✅ Complet                |
-| **catalog**                        | 62         | 0       | 0%   | ❌ Non commencé           |
-| **sound**                          | 28         | 0       | 0%   | ❌ Non commencé           |
-| **friendlist**                     | 21         | 0       | 0%   | ❌ Non commencé           |
-| **moderation**                     | 36         | 0       | 0%   | ❌ Non commencé           |
-| **help**                           | 13         | 0       | 0%   | ❌ Non commencé           |
-| **quest**                          | 21         | 0       | 0%   | ❌ Non commencé           |
-| **tracking**                       | 10         | 10      | 100% | ✅ Complet (GarbageTester=SKIP Flash) |
-| **toolbar**                        | 12         | 10      | 100% | ✅ Complet ENGINE (reste=VIEW) |
-| **groups**                         | 14         | 8       | 57%  | 🔄 En cours              |
-| **game**                           | 4          | 0       | 0%   | ❌ Non commencé           |
-| **notifications**                  | 6          | 13      | 100% | ✅ Complet                |
-| **roomevents**                     | 5          | 0       | 0%   | ❌ Non commencé           |
-| **messenger**                      | 5          | 6       | 100% | ✅ Complet                |
-| **freeflowchat**                   | 3          | 13      | 100% | ✅ Complet                |
-| **advertisement**                  | 3          | 6       | 100% | ✅ Complet                |
-| **campaign**                       | 1          | 7       | 100% | ✅ Complet                |
-| **friendbar**                      | 5          | 0       | 0%   | ❌ Non commencé           |
-| **utils**                          | 19         | 14      | 74%  | 🔄 Avancé                |
-| **nux**                            | 4          | 0       | -    | ❌ VIEW (skip)            |
-| **phonenumber**                    | 7          | 0       | -    | ❌ VIEW (skip)            |
-| **window**                         | 5          | 0       | -    | ❌ VIEW (skip)            |
+| **core/assets**                    | 25         | 23      | 100% | ✅ Complet (Flash-specific=SKIP)       |
+| **core/runtime**                   | 32         | 8       | 25%  | 🔄 Partiel                            |
+| **configuration**                  | 2          | 8       | 100% | ✅ Complet                             |
+| **localization**                   | 3          | 7       | 100% | ✅ Complet                             |
+| **inventory**                      | 33         | 33      | 100% | ✅ Complet                             |
+| **session**                        | 77         | 77      | 100% | ✅ Complet                             |
+| **navigator** (ENGINE)             | 25         | 28      | 100% | ✅ Complet                             |
+| **communication** (root/demo/enum) | 10         | 5       | 50%  | 🔄 Partiel (WebApi=SKIP)              |
+| **communication/messages**         | 1150       | 404     | 35%  | 🔄 Partiel                            |
+| **room** (total)                   | 313        | 321     | 100% | ✅ Complet                             |
+| **avatar**                         | 70         | 83      | 100% | ✅ Complet                             |
+| **catalog**                        | 62         | 0       | 0%   | ❌ Non commencé                        |
+| **sound**                          | 28         | 0       | 0%   | ❌ Non commencé                        |
+| **friendlist**                     | 21         | 0       | 0%   | ❌ Non commencé                        |
+| **moderation**                     | 36         | 0       | 0%   | ❌ Non commencé                        |
+| **help**                           | 13         | 0       | 0%   | ❌ Non commencé                        |
+| **quest**                          | 21         | 0       | 0%   | ❌ Non commencé                        |
+| **tracking**                       | 10         | 10      | 100% | ✅ Complet (GarbageTester=SKIP Flash)  |
+| **toolbar**                        | 12         | 10      | 100% | ✅ Complet ENGINE (reste=VIEW)         |
+| **groups**                         | 14         | 8       | 57%  | 🔄 En cours                           |
+| **game**                           | 4          | 0       | 0%   | ❌ Non commencé                        |
+| **notifications**                  | 6          | 13      | 100% | ✅ Complet                             |
+| **roomevents**                     | 5          | 0       | 0%   | ❌ Non commencé                        |
+| **messenger**                      | 5          | 6       | 100% | ✅ Complet                             |
+| **freeflowchat**                   | 3          | 13      | 100% | ✅ Complet                             |
+| **advertisement**                  | 3          | 6       | 100% | ✅ Complet                             |
+| **campaign**                       | 1          | 7       | 100% | ✅ Complet                             |
+| **friendbar**                      | 5          | 0       | 0%   | ❌ Non commencé                        |
+| **utils**                          | 19         | 14      | 74%  | 🔄 Avancé                             |
+| **nux**                            | 4          | 0       | -    | ❌ VIEW (skip)                         |
+| **phonenumber**                    | 7          | 0       | -    | ❌ VIEW (skip)                         |
+| **window**                         | 5          | 0       | -    | ❌ VIEW (skip)                         |
 
 ---
 
@@ -120,21 +120,21 @@ Progression: ████████████████████ ~100%
 AS3: 77 fichiers | TS: 77 fichiers
 ```
 
-| Statut | Élément                                                                                                                                                             |
-|--------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| ✅      | SessionDataManager, RoomSessionManager, RoomSession complets                                                                                                        |
-| ✅      | 12/12 handlers (Session, Users, Chat, Permissions, Data, GenericError, Poll, WordQuiz, Present, PetPackage, DimmerPresets, AvatarEffects)                           |
-| ✅      | 24/24 events                                                                                                                                                        |
-| ✅      | 7/7 enums                                                                                                                                                           |
-| ✅      | UserDataManager, PerkManager, IgnoredUsersManager, HabboGroupInfoManager                                                                                            |
-| ✅      | PetInfo, IPetInfo                                                                                                                                                   |
-| ✅      | FurnitureData/ProductData délégués au GameDataManager (19 méthodes implémentées)                                                                                    |
-| ✅      | 9 message listeners ajoutés (AccountSafetyLock, ChangeUserName, UserNameChanged, Email, RoomReady, UserChange, PetRespectFailed, AccountPreferences, NftChatStyles) |
-| ✅      | Events dispatched: UserNameUpdateEvent, SessionDataPreferencesEvent, MysteryBoxKeysUpdateEvent                                                                      |
-| ✅      | SetUIFlagsMessageComposer wired dans setUIFlag()                                                                                                                    |
-| ✅      | WhisperMessageComposer corrigé (AS3: `[recipientName + " " + message, styleId]`)                                                                                    |
+| Statut | Élément                                                                                                                                                               |
+|--------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ✅      | SessionDataManager, RoomSessionManager, RoomSession complets                                                                                                          |
+| ✅      | 12/12 handlers (Session, Users, Chat, Permissions, Data, GenericError, Poll, WordQuiz, Present, PetPackage, DimmerPresets, AvatarEffects)                             |
+| ✅      | 24/24 events                                                                                                                                                          |
+| ✅      | 7/7 enums                                                                                                                                                             |
+| ✅      | UserDataManager, PerkManager, IgnoredUsersManager, HabboGroupInfoManager                                                                                              |
+| ✅      | PetInfo, IPetInfo                                                                                                                                                     |
+| ✅      | FurnitureData/ProductData délégués au GameDataManager (19 méthodes implémentées)                                                                                      |
+| ✅      | 9 message listeners ajoutés (AccountSafetyLock, ChangeUserName, UserNameChanged, Email, RoomReady, UserChange, PetRespectFailed, AccountPreferences, NftChatStyles)   |
+| ✅      | Events dispatched: UserNameUpdateEvent, SessionDataPreferencesEvent, MysteryBoxKeysUpdateEvent                                                                        |
+| ✅      | SetUIFlagsMessageComposer wired dans setUIFlag()                                                                                                                      |
+| ✅      | WhisperMessageComposer corrigé (AS3: `[recipientName + " " + message, styleId]`)                                                                                      |
 | ✅      | RoomSession: 11 corrections (sendSignMessage guard, game session chat, lag detection, openConnectionComposer, playTestMode, classification messages, plantSeed, etc.) |
-| ✅      | RoomSessionManager: handler order aligné AS3, gotoRoomNetwork() décommenté, habboTracking propagé                                                                    |
+| ✅      | RoomSessionManager: handler order aligné AS3, gotoRoomNetwork() décommenté, habboTracking propagé                                                                     |
 | ✅      | SessionDataManager: room actions via sendSpecialCommandMessage(), giveStarGem, credit vault, income reward, setRoomCameraFollowDisabled fix                           |
 
 ### 1.7 Navigator ENGINE (100%)
@@ -340,29 +340,29 @@ AS3: 32 fichiers | TS: 8 fichiers
 
 ### Tier 2 — Fonctionnalités importantes
 
-| Module         | AS3 ENGINE | Description                  |
-|----------------|------------|------------------------------|
-| **friendlist** | ~18        | Amis, requêtes, relations    |
-| **help**       | ~13        | CFH, guide, safety booklet   |
-| **moderation** | ~20        | Outils de modération, issues |
-| **quest**      | ~15        | Achievements, quêtes         |
+| Module         | AS3 ENGINE | Description                                        |
+|----------------|------------|----------------------------------------------------|
+| **friendlist** | ~18        | Amis, requêtes, relations                          |
+| **help**       | ~13        | CFH, guide, safety booklet                         |
+| **moderation** | ~20        | Outils de modération, issues                       |
+| **quest**      | ~15        | Achievements, quêtes                               |
 | **toolbar**    | ~5         | Barre d'outils, icônes (✅ ENGINE 100%, reste=VIEW) |
 
 ### Tier 3 — Secondaire
 
-| Module            | AS3 ENGINE | Description                                         | Statut                           |
-|-------------------|------------|-----------------------------------------------------|----------------------------------|
+| Module            | AS3 ENGINE | Description                                         | Statut                            |
+|-------------------|------------|-----------------------------------------------------|-----------------------------------|
 | **tracking**      | 10         | Analytics, latence, FPS, performance                | ✅ 100% (GarbageTester=SKIP Flash) |
-| **groups**        | ~6         | Guildes                                             | 🔄 En cours                      |
-| **game**          | 4          | SnowWar game manager                                | ❌ Non commencé                   |
-| **notifications** | ~4         | Popups de notification                              | ✅ Implémenté                     |
-| **roomevents**    | 5          | Wired system                                        | ❌ Non commencé                   |
-| **messenger**     | ~3         | Messages privés                                     | ✅ Implémenté                     |
-| **utils**         | ~10        | StringUtil, CommunicationUtils, FigureDataContainer | ✅ Avancé (74%)                   |
-| **freeflowchat**  | ~2         | Bulles de chat                                      | ✅ Implémenté                     |
-| **advertisement** | 3          | Pubs                                                | ✅ Implémenté                     |
-| **campaign**      | 1          | Calendrier                                          | ✅ Implémenté                     |
-| **friendbar**     | 5          | Barre d'amis                                        | ❌ Non commencé                   |
+| **groups**        | ~6         | Guildes                                             | 🔄 En cours                       |
+| **game**          | 4          | SnowWar game manager                                | ❌ Non commencé                    |
+| **notifications** | ~4         | Popups de notification                              | ✅ Implémenté                      |
+| **roomevents**    | 5          | Wired system                                        | ❌ Non commencé                    |
+| **messenger**     | ~3         | Messages privés                                     | ✅ Implémenté                      |
+| **utils**         | ~10        | StringUtil, CommunicationUtils, FigureDataContainer | ✅ Avancé (74%)                    |
+| **freeflowchat**  | ~2         | Bulles de chat                                      | ✅ Implémenté                      |
+| **advertisement** | 3          | Pubs                                                | ✅ Implémenté                      |
+| **campaign**      | 1          | Calendrier                                          | ✅ Implémenté                      |
+| **friendbar**     | 5          | Barre d'amis                                        | ❌ Non commencé                    |
 
 ---
 
@@ -400,15 +400,15 @@ AS3: 32 fichiers | TS: 8 fichiers
 
 ## 7. Statistiques finales
 
-| Métrique                      | Valeur                                                                                                                    |
-|-------------------------------|---------------------------------------------------------------------------------------------------------------------------|
-| Fichiers AS3 ENGINE totaux    | ~1 150+                                                                                                                   |
-| Fichiers TS implémentés       | ~710+                                                                                                                     |
-| Fichiers manquants            | ~440+                                                                                                                     |
-| Modules complets (100%)       | Configuration, Localization, Inventory, Campaign, Advertisement, Notifications, Messenger, FreeFlowChat, Navigator ENGINE, Avatar, Session, Room, core/comm, core/assets, Tracking, Toolbar ENGINE |
-| Modules avancés (50-90%)      | Groups (57%), Utils (74%)                                                                                                 |
-| Modules en cours (<50%)       | core/runtime (25%), Communication messages (35%)                                                                          |
-| Modules non commencés         | 9 modules (catalog, sound, help, moderation, quest, game, roomevents, friendbar, friendlist)                              |
+| Métrique                   | Valeur                                                                                                                                                                                             |
+|----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Fichiers AS3 ENGINE totaux | ~1 150+                                                                                                                                                                                            |
+| Fichiers TS implémentés    | ~710+                                                                                                                                                                                              |
+| Fichiers manquants         | ~440+                                                                                                                                                                                              |
+| Modules complets (100%)    | Configuration, Localization, Inventory, Campaign, Advertisement, Notifications, Messenger, FreeFlowChat, Navigator ENGINE, Avatar, Session, Room, core/comm, core/assets, Tracking, Toolbar ENGINE |
+| Modules avancés (50-90%)   | Groups (57%), Utils (74%)                                                                                                                                                                          |
+| Modules en cours (<50%)    | core/runtime (25%), Communication messages (35%)                                                                                                                                                   |
+| Modules non commencés      | 9 modules (catalog, sound, help, moderation, quest, game, roomevents, friendbar, friendlist)                                                                                                       |
 
 ---
 

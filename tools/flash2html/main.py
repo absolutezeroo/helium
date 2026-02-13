@@ -26,7 +26,13 @@ from parsers import (
     parse_element_registry,
     parse_text_styles,
 )
-from renderer import HtmlRenderer, render_base_css, render_master_index, to_snake_case
+from renderer import (
+    HtmlRenderer,
+    load_external_texts,
+    render_base_css,
+    render_master_index,
+    to_snake_case,
+)
 from resolver import ElementResolver
 from slicer import clear_cache
 
@@ -130,7 +136,17 @@ def main() -> int:
         text_styles = parse_text_styles(text_styles_path)
         print(f"    -> {len(text_styles)} text styles")
 
-    # 1e. Module layouts
+    # 1e. External texts
+    external_texts_path = Path("tools/flash2html/ExternalTexts.json")
+    external_texts = {}
+    if external_texts_path.exists():
+        print(f"  Loading external texts...")
+        external_texts = load_external_texts(external_texts_path)
+        print(f"    -> {len(external_texts)} text entries")
+    else:
+        print(f"  Warning: ExternalTexts.json not found at {external_texts_path}")
+
+    # 1f. Module layouts
     print(f"  Parsing module layouts...")
     all_layouts = parse_all_module_layouts(binary_dir)
     print(f"    -> {len(all_layouts)} module layouts")
@@ -201,6 +217,7 @@ def main() -> int:
         output_dir=output_dir,
         skip_slicing=args.skip_slicing,
         verbose=verbose,
+        external_texts=external_texts,
     )
 
     layouts_by_module: dict[str, list[tuple[str, Path]]] = {}
