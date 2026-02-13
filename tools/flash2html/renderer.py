@@ -81,6 +81,65 @@ def _escape(text: str | None) -> str:
     return html.escape(text)
 
 
+def _get_image_size(path: Path) -> tuple[int, int] | None:
+    """Return image size for PNG/GIF assets without external deps."""
+    suffix = path.suffix.lower()
+    try:
+        with path.open("rb") as f:
+            if suffix == ".png":
+                sig = f.read(8)
+                if sig != b"\x89PNG\r\n\x1a\n":
+                    return None
+                f.read(4)
+                chunk = f.read(4)
+                if chunk != b"IHDR":
+                    return None
+                data = f.read(8)
+                if len(data) != 8:
+                    return None
+                w = int.from_bytes(data[:4], "big")
+                h = int.from_bytes(data[4:], "big")
+                return (w, h)
+            if suffix == ".gif":
+                header = f.read(10)
+                if len(header) < 10 or not header.startswith(b"GIF"):
+                    return None
+                w = int.from_bytes(header[6:8], "little")
+                h = int.from_bytes(header[8:10], "little")
+                return (w, h)
+    except OSError:
+        return None
+    return None
+
+
+def _resolve_asset_path(assets_dir: Path, asset_uri: str) -> Path | None:
+    """Resolve asset_uri to a file path in assets_dir."""
+    if not asset_uri:
+        return None
+
+    candidates = []
+    if asset_uri.lower().endswith((".png", ".gif")):
+        candidates.append(assets_dir / asset_uri)
+    else:
+        candidates.append(assets_dir / f"{asset_uri}.png")
+        candidates.append(assets_dir / f"{asset_uri}.gif")
+
+    base = asset_uri
+    if base.endswith("_png"):
+        base = base[:-4]
+    elif base.endswith("_gif"):
+        base = base[:-4]
+
+    if base != asset_uri:
+        candidates.append(assets_dir / f"{base}.png")
+        candidates.append(assets_dir / f"{base}.gif")
+
+    for p in candidates:
+        if p.exists():
+            return p
+    return None
+
+
 def load_external_texts(json_path: Path) -> dict[str, str]:
     """
     Load ExternalTexts.json and return a dictionary of text keys to values.
@@ -526,16 +585,7 @@ class HtmlRenderer:
         asset_uri: str,
     ) -> None:
         """Add background-image CSS for elements with asset_uri variable."""
-        # Try to find the PNG in the assets directory
-        candidates = [
-            self._assets_dir / f"{asset_uri}.png",
-            self._assets_dir / f"{asset_uri}.gif",
-        ]
-        source_path = None
-        for p in candidates:
-            if p.exists():
-                source_path = p
-                break
+        source_path = _resolve_asset_path(self._assets_dir, asset_uri)
 
         if source_path is None:
             return
@@ -548,6 +598,10 @@ class HtmlRenderer:
         asset_rel = f"../../shared/assets/{source_path.name}"
         stretched_x = node.variables.get("stretched_x", "true").lower() == "true"
         stretched_y = node.variables.get("stretched_y", "true").lower() == "true"
+        fit_to_contents = node.variables.get("fit_size_to_contents", "false").lower() == "true"
+        if fit_to_contents:
+            stretched_x = False
+            stretched_y = False
 
         props.append(f"background-image: url('{asset_rel}')")
         if stretched_x and stretched_y:
@@ -561,9 +615,14 @@ class HtmlRenderer:
             props.append("background-repeat: no-repeat")
             props.append("background-position: center")
         else:
-            props.append("background-size: contain")
+            props.append("background-size: auto")
             props.append("background-repeat: no-repeat")
             props.append("background-position: center")
+            if fit_to_contents:
+                size = _get_image_size(source_path)
+                if size:
+                    props.append(f"width: {size[0]}px")
+                    props.append(f"height: {size[1]}px")
 
     def _generate_text_css(self, props: list[str], node: LayoutNode) -> None:
         """Add text styling CSS properties."""
@@ -603,6 +662,22 @@ class HtmlRenderer:
             props.append("text-align: right")
         elif auto_size == "left":
             props.append("text-align: left")
+
+        # Margins -> padding to keep node dimensions while offsetting text
+        def _pad(name: str, css: str) -> None:
+            val = node.variables.get(name)
+            if val is None:
+                return
+            try:
+                num = float(val)
+            except ValueError:
+                return
+            props.append(f"{css}: {num:g}px")
+
+        _pad("margin_top", "padding-top")
+        _pad("margin_bottom", "padding-bottom")
+        _pad("margin_left", "padding-left")
+        _pad("margin_right", "padding-right")
 
         # Color from node
         if node.color is not None:

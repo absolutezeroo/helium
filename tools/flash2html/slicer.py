@@ -97,6 +97,7 @@ POSITION_ALIASES: dict[str, str] = {
     "center_left": "mid_left",
     "mid_center": "center_center",
     "center_center": "mid_center",
+    "center": "center_center",
     "mid_right": "center_right",
     "center_right": "mid_right",
     "btm_left": "bottom_left",
@@ -110,7 +111,7 @@ POSITION_ALIASES: dict[str, str] = {
 # All canonical 9-slice positions (used for suffix detection)
 _CANONICAL_POSITIONS = {
     "top_left", "top_center", "top_right",
-    "center_left", "mid_left", "center_center", "mid_center", "center_right", "mid_right",
+    "center_left", "mid_left", "center_center", "mid_center", "center", "center_right", "mid_right",
     "bottom_left", "btm_left", "bottom_center", "btm_center", "bottom_right", "btm_right",
 }
 
@@ -139,8 +140,29 @@ def _normalize_position(name: str) -> str:
         "btm_left": "bottom_left",
         "btm_center": "bottom_center",
         "btm_right": "bottom_right",
+        "center": "center_center",
     }
     return mapping.get(name, name)
+
+
+def _split_entity_name(name: str) -> tuple[str | None, str | None]:
+    """Split an entity name into (prefix, normalized_position) if it matches a 9-slice position."""
+    if name in _CANONICAL_POSITIONS:
+        return ("", _normalize_position(name))
+    for pos in _CANONICAL_POSITIONS:
+        suffix = "_" + pos
+        if name.endswith(suffix):
+            prefix = name[: -len(suffix)]
+            return (prefix, _normalize_position(pos))
+    return (None, None)
+
+
+def _entity_key(name: str) -> str:
+    """Return a normalized key to match template and layout entities."""
+    prefix, pos = _split_entity_name(name)
+    if pos is None:
+        return name
+    return f"{prefix}:{pos}"
 
 
 def _group_entities_by_layer(
@@ -200,6 +222,10 @@ def _compute_layer_layout(layer: dict[str, SkinEntity]) -> tuple[int, int, int, 
     bl = layer.get("bottom_left")
     br = layer.get("bottom_right")
     mc = layer.get("center_center")
+    tc = layer.get("top_center")
+    bc = layer.get("bottom_center")
+    cl = layer.get("center_left")
+    cr = layer.get("center_right")
 
     if tl is None:
         return None
@@ -208,8 +234,12 @@ def _compute_layer_layout(layer: dict[str, SkinEntity]) -> tuple[int, int, int, 
     b_top = tl.region.height
     b_right = tr.region.width if tr else b_left
     b_bottom = bl.region.height if bl else b_top
-    c_w = mc.region.width if mc else 1
-    c_h = mc.region.height if mc else 1
+    if mc:
+        c_w = mc.region.width
+        c_h = mc.region.height
+    else:
+        c_w = tc.region.width if tc else (bc.region.width if bc else 1)
+        c_h = cl.region.height if cl else (cr.region.height if cr else 1)
 
     return (b_left, b_top, b_right, b_bottom, c_w, c_h,
             b_left + c_w + b_right, b_top + c_h + b_bottom)
@@ -238,113 +268,77 @@ def slice_nine_patch(
         print(f"  [WARN] Cannot open atlas {atlas_path}: {e}")
         return None
 
-    # Try standard (unprefixed) entity names first
-    tl_l = _find_entity(layout_entities, "top_left")
-    br_l = _find_entity(layout_entities, "btm_right", "bottom_right")
+    if not template_entities or not layout_entities:
+        return None
 
-    if tl_l is not None and br_l is not None:
-        # Standard 9-slice: use original single-layer path
-        return _slice_standard_nine_patch(
-            atlas, template_entities, layout_entities, color, output_dir, sprite_name
-        )
+    # Map layout entities by normalized key for matching
+    layout_map: dict[str, SkinEntity] = {}
+    for le in layout_entities:
+        layout_map[_entity_key(le.name)] = le
 
-    # Try multi-layer approach: group entities by prefix
-    tmpl_layers = _group_entities_by_layer(template_entities)
-    layout_layers = _group_entities_by_layer(layout_entities)
+    # Group template entities by prefix to control draw order
+    template_layers: dict[str, list[SkinEntity]] = {}
+    layer_order: list[str] = []
+    for te in template_entities:
+        prefix, pos = _split_entity_name(te.name)
+        layer = prefix if prefix is not None else ""
+        if layer not in template_layers:
+            template_layers[layer] = []
+            layer_order.append(layer)
+        template_layers[layer].append(te)
 
-    if not tmpl_layers or not layout_layers:
-        return _slice_simple(atlas, template_entities, layout_entities, color, output_dir, sprite_name)
+    if "background" in layer_order:
+        layer_order = ["background"] + [p for p in layer_order if p != "background"]
 
-    # Find the outermost layer (the one with the largest total composite size)
-    # and the fill layer (typically "background")
-    best_prefix = None
-    best_layout = None
-    best_dims = None
-    max_area = 0
+    # Composite bounds from layout positions
+    max_w = 0
+    max_h = 0
+    for le in layout_entities:
+        max_w = max(max_w, le.region.x + le.region.width)
+        max_h = max(max_h, le.region.y + le.region.height)
 
-    for prefix, layer_map in layout_layers.items():
-        dims = _compute_layer_layout(layer_map)
-        if dims is None:
-            continue
-        area = dims[6] * dims[7]  # total_w * total_h
-        if area > max_area:
-            max_area = area
-            best_prefix = prefix
-            best_layout = layer_map
-            best_dims = dims
+    if max_w == 0 or max_h == 0:
+        return None
 
-    if best_dims is None:
-        return _slice_simple(atlas, template_entities, layout_entities, color, output_dir, sprite_name)
-
-    b_left, b_top, b_right, b_bottom, c_w, c_h, total_w, total_h = best_dims
-
-    composite = Image.new("RGBA", (total_w, total_h), (0, 0, 0, 0))
+    composite = Image.new("RGBA", (max_w, max_h), (0, 0, 0, 0))
     rgba_color = _color_to_rgba(color)
 
-    # Determine layer draw order: "background" first, then others (border/button)
-    sorted_prefixes = sorted(
-        layout_layers.keys(),
-        key=lambda p: (0 if p == "background" else 1, p),
-    )
-
-    for prefix in sorted_prefixes:
-        l_layer = layout_layers.get(prefix, {})
-        t_layer = tmpl_layers.get(prefix, {})
-        if not l_layer or not t_layer:
-            continue
-
-        layer_dims = _compute_layer_layout(l_layer)
-        if layer_dims is None:
-            continue
-
-        lb_left, lb_top, lb_right, lb_bottom, lc_w, lc_h, _lw, _lh = layer_dims
-
-        # The nine positions for this layer
-        positions = [
-            ("top_left",      0,             0,             lb_left,  lb_top),
-            ("top_center",    lb_left,       0,             lc_w,     lb_top),
-            ("top_right",     lb_left+lc_w,  0,             lb_right, lb_top),
-            ("center_left",   0,             lb_top,        lb_left,  lc_h),
-            ("center_center", lb_left,       lb_top,        lc_w,     lc_h),
-            ("center_right",  lb_left+lc_w,  lb_top,        lb_right, lc_h),
-            ("bottom_left",   0,             lb_top+lc_h,   lb_left,  lb_bottom),
-            ("bottom_center", lb_left,       lb_top+lc_h,   lc_w,     lb_bottom),
-            ("bottom_right",  lb_left+lc_w,  lb_top+lc_h,   lb_right, lb_bottom),
-        ]
-
-        # Calculate offset of this layer within the overall composite
-        # (background may be inset from border)
-        layer_tl = l_layer.get("top_left")
-        if layer_tl:
-            offset_x = layer_tl.region.x
-            offset_y = layer_tl.region.y
-        else:
-            offset_x = 0
-            offset_y = 0
-
-        for pos_name, dx, dy, dw, dh in positions:
-            t_ent = t_layer.get(pos_name)
-            l_ent = l_layer.get(pos_name)
-            if t_ent is None or l_ent is None:
-                continue
-            if dw <= 0 or dh <= 0:
+    for prefix in layer_order:
+        for te in template_layers.get(prefix, []):
+            key = _entity_key(te.name)
+            le = layout_map.get(key) or layout_map.get(te.name)
+            if le is None:
                 continue
 
-            r = t_ent.region
+            r = te.region
             try:
                 piece = atlas.crop((r.x, r.y, r.x + r.width, r.y + r.height))
             except Exception:
                 continue
 
-            if piece.width != dw or piece.height != dh:
-                piece = piece.resize((dw, dh), Image.NEAREST)
+            dest_w = le.region.width if le.region.width > 0 else piece.width
+            dest_h = le.region.height if le.region.height > 0 else piece.height
 
-            if l_ent.colorize and color is not None:
+            if piece.width != dest_w or piece.height != dest_h:
+                if dest_w > 0 and dest_h > 0:
+                    piece = piece.resize((dest_w, dest_h), Image.NEAREST)
+
+            if le.colorize and color is not None:
                 piece = _tint_image(piece, rgba_color)
 
-            composite.paste(piece, (offset_x + dx, offset_y + dy), piece)
+            composite.paste(piece, (le.region.x, le.region.y), piece)
 
-    # Border values for CSS come from the outermost layer (largest)
+    # Border values for CSS: prefer "border" layer if present
+    border_entities: list[SkinEntity] = []
+    for le in layout_entities:
+        prefix, pos = _split_entity_name(le.name)
+        if prefix == "border":
+            border_entities.append(le)
+    if not border_entities:
+        border_entities = layout_entities
+
+    b_top, b_right, b_bottom, b_left = _infer_border_values(border_entities)
+
     output_dir.mkdir(parents=True, exist_ok=True)
     safe_name = _sanitize_filename(sprite_name)
     output_path = output_dir / f"{safe_name}.png"
@@ -352,8 +346,8 @@ def slice_nine_patch(
 
     return SlicedSprite(
         path=output_path,
-        width=total_w,
-        height=total_h,
+        width=max_w,
+        height=max_h,
         border_top=b_top,
         border_right=b_right,
         border_bottom=b_bottom,
@@ -375,7 +369,7 @@ def _slice_standard_nine_patch(
     tc_t = _find_entity(template_entities, "top_center")
     tr_t = _find_entity(template_entities, "top_right")
     ml_t = _find_entity(template_entities, "mid_left", "center_left")
-    mc_t = _find_entity(template_entities, "mid_center", "center_center")
+    mc_t = _find_entity(template_entities, "mid_center", "center_center", "center")
     mr_t = _find_entity(template_entities, "mid_right", "center_right")
     bl_t = _find_entity(template_entities, "btm_left", "bottom_left")
     bc_t = _find_entity(template_entities, "btm_center", "bottom_center")
@@ -385,7 +379,7 @@ def _slice_standard_nine_patch(
     tc_l = _find_entity(layout_entities, "top_center")
     tr_l = _find_entity(layout_entities, "top_right")
     ml_l = _find_entity(layout_entities, "mid_left", "center_left")
-    mc_l = _find_entity(layout_entities, "mid_center", "center_center")
+    mc_l = _find_entity(layout_entities, "mid_center", "center_center", "center")
     mr_l = _find_entity(layout_entities, "mid_right", "center_right")
     bl_l = _find_entity(layout_entities, "btm_left", "bottom_left")
     bc_l = _find_entity(layout_entities, "btm_center", "bottom_center")

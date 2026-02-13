@@ -87,10 +87,10 @@ Référence complète : `docs/STYLEGUIDE.md`
 
 ## Sources AS3
 
-| Dossier | Priorité | Racine des packages | Fichiers |
-|---------|----------|---------------------|----------|
-| `sources/win63_version/` | PRIMAIRE | `habbo/`, `room/` | ~4 465 |
-| `sources/flash_version/` | Secondaire | `com/sulake/habbo/` | ~7 160 |
+| Dossier                  | Priorité   | Racine des packages | Fichiers |
+|--------------------------|------------|---------------------|----------|
+| `sources/win63_version/` | PRIMAIRE   | `habbo/`, `room/`   | ~4 465   |
+| `sources/flash_version/` | Secondaire | `com/sulake/habbo/` | ~7 160   |
 
 Classification des fichiers AS3 :
 - **ENGINE** : Logique métier, modèles de données, handlers, parsers, composers → **À IMPLÉMENTER**
