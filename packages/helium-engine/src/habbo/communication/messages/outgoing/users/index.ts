@@ -1,0 +1,1 @@
+export { GetHabboGroupBadgesMessageComposer } from './GetHabboGroupBadgesMessageComposer';

@@ -120,6 +120,7 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 	gotoRoom(roomId: number, password: string = '', roomResources: string = ''): boolean
 	{
 		const session = new RoomSession();
+
 		session.roomId = roomId;
 		session.roomPassword = password;
 		session.roomResources = roomResources;
@@ -135,6 +136,7 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 	gotoRoomNetwork(roomId: number, homeRoomId: number): boolean
 	{
 		const session = new RoomSession();
+
 		session.roomId = 1;
 		session.roomPassword = '';
 		session.openConnectionComposer = new RoomNetworkOpenConnectionMessageComposer(roomId, homeRoomId);
@@ -169,6 +171,7 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 		}
 
 		this.disposeSession(session.roomId);
+
 		this._sessionStarting = false;
 
 		return false;
@@ -180,6 +183,7 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 	getSession(roomId: number): IRoomSession | null
 	{
 		const key = this.getRoomIdentifier(roomId);
+
 		return this._sessions.get(key) ?? null;
 	}
 
@@ -214,6 +218,7 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 	startGameSession(): void
 	{
 		const session = new RoomSession();
+
 		session.roomId = 1;
 		session.isGameSession = true;
 
@@ -228,6 +233,7 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 		}
 
 		const key = this.getRoomIdentifier(session.roomId);
+
 		this._sessions.set(key, session);
 
 		this._sessionEvents.emit(RoomSessionEvent.RSE_CREATED, new RoomSessionEvent(RoomSessionEvent.RSE_CREATED, session));
@@ -284,18 +290,21 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 		if (session)
 		{
 			this._sessions.delete(oldKey);
+
 			session.reset(newRoomId);
 
 			const newKey = this.getRoomIdentifier(newRoomId);
 
 			// Remove any existing session at new key
 			const existingSession = this._sessions.get(newKey);
+
 			if (existingSession)
 			{
 				existingSession.dispose();
 			}
 
 			this._sessions.set(newKey, session);
+
 			this.updateHandlers(session);
 		}
 
@@ -310,6 +319,7 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 		for (const [key, session] of this._sessions)
 		{
 			session.dispose();
+
 			this._sessions.delete(key);
 		}
 
@@ -318,6 +328,7 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 		{
 			handler.dispose();
 		}
+
 		this._handlers = [];
 
 		this._sessionEvents.removeAllListeners();
@@ -330,7 +341,9 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 	protected override initComponent(): void
 	{
 		this.createHandlers();
+
 		this._initialized = true;
+
 		this.executePendingSessionRequest();
 
 		log.info('RoomSessionManager initialized');
@@ -379,11 +392,14 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 		if (!this.initialized)
 		{
 			log.debug(`Not initialized, creating pending session for room: ${session.roomId}`);
+
 			this._pendingSession = session;
+
 			return false;
 		}
 
 		const key = this.getRoomIdentifier(session.roomId);
+
 		this._sessionStarting = true;
 
 		// Dispose existing session for this room

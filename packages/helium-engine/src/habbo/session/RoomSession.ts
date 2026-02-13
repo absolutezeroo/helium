@@ -54,6 +54,8 @@ import {
 	PeerUsersClassificationMessageComposer,
 	RoomUsersClassificationMessageComposer,
 } from '../communication/messages/outgoing/moderation';
+import {IUserDataManager} from "@habbo/session/IUserDataManager";
+import {UserDataManager} from "@habbo/session/UserDataManager";
 
 /**
  * Ban duration types
@@ -89,6 +91,13 @@ export class RoomSession implements IRoomSession
 	set habboTracking(value: IHabboTracking | null)
 	{
 		this._habboTracking = value;
+	}
+
+	private _userDataManager: UserDataManager = new UserDataManager();
+
+	get userDataManager(): IUserDataManager
+	{
+		return this._userDataManager;
 	}
 
 	private _openConnectionComposer: IMessageComposer<unknown[]> | null = null;
@@ -404,6 +413,7 @@ export class RoomSession implements IRoomSession
 		this._state = RoomSessionState.ENDED;
 		this._chatTrackingMap.clear();
 		this._eventLogTracked.clear();
+		this._userDataManager.dispose();
 	}
 
 	sendChatMessage(message: string, styleId: number = 0): void
@@ -413,23 +423,27 @@ export class RoomSession implements IRoomSession
 		if (this._isGameSession)
 		{
 			this._connection.send(new Game2GameChatMessageComposer(message));
+
 			return;
 		}
 
 		this._chatTrackingMap.set(this._chatTrackingId, Date.now());
 		this._connection.send(new ChatMessageComposer(message, styleId, this._chatTrackingId));
+
 		this._chatTrackingId++;
 	}
 
 	sendChangeMottoMessage(motto: string): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new ChangeMottoMessageComposer(motto));
 	}
 
 	sendShoutMessage(message: string, styleId: number = 0): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new ShoutMessageComposer(message, styleId));
 	}
 
@@ -481,6 +495,7 @@ export class RoomSession implements IRoomSession
 	sendSignMessage(signId: number): void
 	{
 		if (this._connection === null) return;
+
 		if (signId < 0 || signId > 17) return;
 
 		this._connection.send(new SignMessageComposer(signId));
@@ -750,6 +765,7 @@ export class RoomSession implements IRoomSession
 	compostPlant(petId: number): void
 	{
 		if (this._connection === null) return;
+
 		this._connection.send(new CompostPlantComposer(petId));
 	}
 

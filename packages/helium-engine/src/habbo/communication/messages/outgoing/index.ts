@@ -20,3 +20,4 @@ export * from './quest';
 export * from './room';
 export * from './preferences';
 export * from './tracking';
+export * from './users';

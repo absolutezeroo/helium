@@ -16,6 +16,8 @@ import type {DoorbellMessageParser} from '../../communication/messages/parser/na
 // Events
 import {RoomSessionUserDataUpdateEvent} from '../events/RoomSessionUserDataUpdateEvent';
 import {RoomSessionDoorbellEvent} from '../events/RoomSessionDoorbellEvent';
+import {IUserData, UserData} from "@habbo/session";
+import {RoomUserData} from "@habbo/communication";
 
 /**
  * Room users handler
@@ -57,6 +59,39 @@ export class RoomUsersHandler extends BaseHandler
 		// this.addMessageEvent(connection, new DanceMessageEvent(this.onDance.bind(this)));
 	}
 
+	/**
+	 * Convert a RoomUserData (from parser) into a UserData (for session storage)
+	 */
+	private static createUserDataFromRoomUser(roomUser: RoomUserData): UserData
+	{
+		const userData = new UserData(roomUser.roomIndex);
+
+		userData.type = roomUser.userType;
+		userData.webID = roomUser.webID;
+		userData.name = roomUser.name;
+		userData.figure = roomUser.figure;
+		userData.sex = roomUser.sex;
+		userData.custom = roomUser.custom;
+		userData.achievementScore = roomUser.achievementScore;
+		userData.groupID = roomUser.groupID;
+		userData.groupName = roomUser.groupName;
+		userData.groupStatus = roomUser.groupStatus;
+		userData.isModerator = roomUser.isModerator;
+		userData.ownerId = roomUser.ownerId;
+		userData.ownerName = roomUser.ownerName;
+		userData.petLevel = roomUser.petLevel;
+		userData.rarityLevel = roomUser.rarityLevel;
+		userData.hasSaddle = roomUser.hasSaddle;
+		userData.isRiding = roomUser.isRiding;
+		userData.canBreed = roomUser.canBreed;
+		userData.canHarvest = roomUser.canHarvest;
+		userData.canRevive = roomUser.canRevive;
+		userData.hasBreedingPermission = roomUser.hasBreedingPermission;
+		userData.botSkills = roomUser.botSkills;
+
+		return userData;
+	}
+
 	override dispose(): void
 	{
 		if (this.connection)
@@ -89,35 +124,33 @@ export class RoomUsersHandler extends BaseHandler
 		}
 
 		const parser = usersEvent.parser as UsersMessageParser;
+
 		if (parser === null)
 		{
 			return;
 		}
 
 		const session = this.listener.getSession(this.roomId);
+
 		if (session === null)
 		{
 			return;
 		}
 
 		// Collect added users for the event
-		const addedUsers: unknown[] = [];
+		const addedUsers: IUserData[] = [];
 
 		for (let i = 0; i < parser.userCount; i++)
 		{
-			const userData = parser.getUser(i);
-			if (userData !== null)
+			const roomUserData = parser.getUser(i);
+
+			if (roomUserData !== null)
 			{
-				// TODO: Create UserData objects and add to session.userDataManager
-				// For now, just collect the raw data
-				addedUsers.push({
-					roomIndex: userData.roomIndex,
-					name: userData.name,
-					figure: userData.figure,
-					userType: userData.userType,
-					webID: userData.webID,
-					sex: userData.sex,
-				});
+				const userData = RoomUsersHandler.createUserDataFromRoomUser(roomUserData);
+
+				session.userDataManager.setUserData(userData);
+
+				addedUsers.push(userData);
 			}
 		}
 
@@ -137,25 +170,27 @@ export class RoomUsersHandler extends BaseHandler
 	private onUserRemove(event: IMessageEvent): void
 	{
 		const removeEvent = event as UserRemoveMessageEvent;
+
 		if (removeEvent === null)
 		{
 			return;
 		}
 
 		const parser = removeEvent.parser as UserRemoveMessageParser;
+
 		if (parser === null)
 		{
 			return;
 		}
 
 		const session = this.listener.getSession(this.roomId);
+
 		if (session === null)
 		{
 			return;
 		}
 
-		// TODO: Remove user from session.userDataManager
-		// session.userDataManager.removeUserDataByRoomIndex(parser.roomIndex);
+		session.userDataManager.removeUserDataByRoomIndex(parser.roomIndex);
 	}
 
 	/**
@@ -164,18 +199,21 @@ export class RoomUsersHandler extends BaseHandler
 	private onDoorbell(event: IMessageEvent): void
 	{
 		const doorbellEvent = event as DoorbellMessageEvent;
+
 		if (doorbellEvent === null)
 		{
 			return;
 		}
 
 		const userName = (doorbellEvent.parser as DoorbellMessageParser)?.userName;
+
 		if (!userName || userName === '')
 		{
 			return;
 		}
 
 		const session = this.listener.getSession(this.roomId);
+
 		if (session === null)
 		{
 			return;

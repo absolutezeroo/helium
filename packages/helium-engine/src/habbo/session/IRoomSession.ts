@@ -1,5 +1,6 @@
 import type {IConnection} from '@core/communication/connection/IConnection';
 import type {RoomModerationSettings} from '../communication/messages/incoming/navigator';
+import {IUserDataManager} from "@habbo/session/IUserDataManager";
 
 /**
  * Room session state constants
@@ -27,6 +28,7 @@ export interface IRoomSession
 	// Core properties
 	readonly roomId: number;
 	readonly state: RoomSessionStateType;
+	readonly userDataManager: IUserDataManager;
 
 	// Connection
 	connection: IConnection | null;

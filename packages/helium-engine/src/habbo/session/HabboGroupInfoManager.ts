@@ -2,6 +2,11 @@ import type {IHabboGroupInfoManager} from './IHabboGroupInfoManager';
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
 import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
 import type {IHabboCommunicationManager} from '../communication/IHabboCommunicationManager';
+import {HabboGroupBadgesMessageEvent, RoomReadyMessageEvent} from "@habbo/communication";
+import {
+	GetHabboGroupBadgesMessageComposer
+} from "@habbo/communication/messages/outgoing/users/GetHabboGroupBadgesMessageComposer";
+import {HabboGroupBadgesMessageParser} from "@habbo/communication/messages/parser/users/HabboGroupBadgesMessageParser";
 
 /**
  * Habbo group info manager
@@ -18,6 +23,7 @@ export class HabboGroupInfoManager implements IHabboGroupInfoManager
 	{
 		this._communication = communication;
 		this._sendCallback = sendCallback;
+
 		this.registerMessageEvents();
 	}
 
@@ -32,7 +38,7 @@ export class HabboGroupInfoManager implements IHabboGroupInfoManager
 	}
 
 	/**
-	 * Set group badge (called by message handler)
+	 * Set a group badge (called by message handler)
 	 */
 	setGroupBadge(groupId: number, badgeId: string): void
 	{
@@ -51,15 +57,14 @@ export class HabboGroupInfoManager implements IHabboGroupInfoManager
 	}
 
 	/**
-	 * Request group badges for current room (called on room ready)
+	 * Request group badges for the current room (called on room ready)
 	 */
 	requestGroupBadges(): void
 	{
-		// TODO: Send GetHabboGroupBadgesMessageComposer when implemented
-		// if (this._sendCallback)
-		// {
-		//     this._sendCallback(new GetHabboGroupBadgesMessageComposer());
-		// }
+		if (this._sendCallback)
+		{
+			this._sendCallback(new GetHabboGroupBadgesMessageComposer());
+		}
 	}
 
 	dispose(): void
@@ -79,28 +84,34 @@ export class HabboGroupInfoManager implements IHabboGroupInfoManager
 
 	private registerMessageEvents(): void
 	{
-		// TODO: Register RoomReadyMessageEvent and HabboGroupBadgesMessageEvent when implemented
-		// if (this._communication)
-		// {
-		//     const roomReadyEvent = new RoomReadyMessageEvent(this.onRoomReady.bind(this));
-		//     this._communication.addMessageEvent(roomReadyEvent);
-		//     this._messageEvents.push(roomReadyEvent);
-		//
-		//     const groupBadgesEvent = new HabboGroupBadgesMessageEvent(this.onGroupBadges.bind(this));
-		//     this._communication.addMessageEvent(groupBadgesEvent);
-		//     this._messageEvents.push(groupBadgesEvent);
-		// }
+		if (this._communication)
+		{
+			const roomReadyEvent = new RoomReadyMessageEvent(this.onRoomReady.bind(this));
+
+			this._communication.addMessageEvent(roomReadyEvent);
+			this._messageEvents.push(roomReadyEvent);
+
+			const groupBadgesEvent = new HabboGroupBadgesMessageEvent(this.onGroupBadges.bind(this));
+
+			this._communication.addMessageEvent(groupBadgesEvent);
+			this._messageEvents.push(groupBadgesEvent);
+		}
 	}
 
-	// private onRoomReady(event: IMessageEvent): void
-	// {
-	//     this.requestGroupBadges();
-	// }
-	//
-	// private onGroupBadges(event: IMessageEvent): void
-	// {
-	//     const parser = event.parser as HabboGroupBadgesMessageParser;
-	//     if (!parser) return;
-	//     this.setGroupBadges(parser.badges);
-	// }
+	private onRoomReady(event: IMessageEvent): void
+	{
+		this.requestGroupBadges();
+	}
+
+
+	private onGroupBadges(event: IMessageEvent): void
+	{
+		const parser = event.parser as HabboGroupBadgesMessageParser;
+
+		if (!parser) return;
+
+		if (!parser.badges) return;
+
+		this.setGroupBadges(parser.badges);
+	}
 }
