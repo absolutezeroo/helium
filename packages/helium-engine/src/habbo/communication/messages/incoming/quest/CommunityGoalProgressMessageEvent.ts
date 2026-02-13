@@ -1,6 +1,6 @@
-import { MessageEvent } from '@core/communication/messages/MessageEvent';
-import type { IMessageEvent } from '@core/communication/messages/IMessageEvent';
-import { CommunityGoalProgressMessageParser } from '../../parser/quest/CommunityGoalProgressMessageParser';
+import {MessageEvent} from '@core/communication/messages/MessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import {CommunityGoalProgressMessageParser} from '../../parser/quest/CommunityGoalProgressMessageParser';
 
 /**
  * Event fired when community goal progress is received.
@@ -9,13 +9,8 @@ import { CommunityGoalProgressMessageParser } from '../../parser/quest/Community
  */
 export class CommunityGoalProgressMessageEvent extends MessageEvent implements IMessageEvent
 {
-    constructor(callBack: Function)
+    constructor(callBack: MessageEventCallback)
     {
         super(callBack, CommunityGoalProgressMessageParser);
-    }
-
-    get parser(): CommunityGoalProgressMessageParser
-    {
-        return this.getParser() as CommunityGoalProgressMessageParser;
     }
 }

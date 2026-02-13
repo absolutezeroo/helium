@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {QuizResultsMessageParser} from '../../parser/help/QuizResultsMessageParser';
 
 /**
@@ -9,13 +9,8 @@ import {QuizResultsMessageParser} from '../../parser/help/QuizResultsMessagePars
  */
 export class QuizResultsMessageEvent extends MessageEvent implements IMessageEvent
 {
-	constructor(callBack: Function)
+	constructor(callBack: MessageEventCallback)
 	{
 		super(callBack, QuizResultsMessageParser);
-	}
-
-	get parser(): QuizResultsMessageParser
-	{
-		return this.getParser() as QuizResultsMessageParser;
 	}
 }

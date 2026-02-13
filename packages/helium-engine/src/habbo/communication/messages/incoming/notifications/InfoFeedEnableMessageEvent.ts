@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {InfoFeedEnableMessageParser} from '../../parser/notifications/InfoFeedEnableMessageParser';
 
 /**
@@ -7,7 +7,7 @@ import {InfoFeedEnableMessageParser} from '../../parser/notifications/InfoFeedEn
  *
  * @see source_as_win63/habbo/communication/messages/incoming/notifications/InfoFeedEnableMessageEvent.as
  */
-export class InfoFeedEnableMessageEvent extends MessageEvent
+export class InfoFeedEnableMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

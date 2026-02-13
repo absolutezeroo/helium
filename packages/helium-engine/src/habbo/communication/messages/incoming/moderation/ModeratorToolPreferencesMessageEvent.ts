@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {ModeratorToolPreferencesParser} from '../../parser/moderation/ModeratorToolPreferencesParser';
 
 /**
@@ -7,7 +7,7 @@ import {ModeratorToolPreferencesParser} from '../../parser/moderation/ModeratorT
  *
  * @see source_as_win63/habbo/communication/messages/incoming/moderation/ModeratorToolPreferencesEvent.as
  */
-export class ModeratorToolPreferencesMessageEvent extends MessageEvent
+export class ModeratorToolPreferencesMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

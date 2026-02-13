@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {GuideSessionErrorMessageParser} from '../../parser/help/GuideSessionErrorMessageParser';
 
 /**
@@ -9,13 +9,8 @@ import {GuideSessionErrorMessageParser} from '../../parser/help/GuideSessionErro
  */
 export class GuideSessionErrorMessageEvent extends MessageEvent implements IMessageEvent
 {
-	constructor(callBack: Function)
+	constructor(callBack: MessageEventCallback)
 	{
 		super(callBack, GuideSessionErrorMessageParser);
-	}
-
-	get parser(): GuideSessionErrorMessageParser
-	{
-		return this.getParser() as GuideSessionErrorMessageParser;
 	}
 }

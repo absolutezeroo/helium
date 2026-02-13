@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {IdentityAccountsEventParser} from '../../parser/handshake/IdentityAccountsEventParser';
 
 /**
@@ -7,7 +7,7 @@ import {IdentityAccountsEventParser} from '../../parser/handshake/IdentityAccoun
  *
  * @see source_as_win63/habbo/communication/messages/incoming/handshake/IdentityAccountsEvent.as
  */
-export class IdentityAccountsEvent extends MessageEvent
+export class IdentityAccountsEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

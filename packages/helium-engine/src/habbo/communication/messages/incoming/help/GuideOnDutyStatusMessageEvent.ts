@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {GuideOnDutyStatusMessageParser} from '../../parser/help/GuideOnDutyStatusMessageParser';
 
 /**
@@ -8,7 +8,7 @@ import {GuideOnDutyStatusMessageParser} from '../../parser/help/GuideOnDutyStatu
  *
  * @see source_as_win63/habbo/communication/messages/incoming/help/GuideOnDutyStatusMessageEvent.as
  */
-export class GuideOnDutyStatusMessageEvent extends MessageEvent
+export class GuideOnDutyStatusMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

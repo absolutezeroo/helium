@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {FigureUpdateMessageParser} from '../../parser/avatar/FigureUpdateMessageParser';
 
 /**
@@ -8,7 +8,7 @@ import {FigureUpdateMessageParser} from '../../parser/avatar/FigureUpdateMessage
  *
  * @see source_as_win63/habbo/communication/messages/incoming/avatar/FigureUpdateEvent.as
  */
-export class FigureUpdateMessageEvent extends MessageEvent
+export class FigureUpdateMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

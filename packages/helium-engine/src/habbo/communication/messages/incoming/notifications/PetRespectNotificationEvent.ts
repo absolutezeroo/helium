@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {PetRespectNotificationEventParser} from '../../parser/notifications/PetRespectNotificationEventParser';
 
 /**
@@ -7,7 +7,7 @@ import {PetRespectNotificationEventParser} from '../../parser/notifications/PetR
  *
  * @see source_as_win63/habbo/communication/messages/incoming/users/PetRespectNotificationEvent.as
  */
-export class PetRespectNotificationEvent extends MessageEvent
+export class PetRespectNotificationEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

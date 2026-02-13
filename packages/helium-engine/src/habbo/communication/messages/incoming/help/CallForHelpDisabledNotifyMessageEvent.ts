@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {CallForHelpDisabledNotifyMessageParser} from '../../parser/help/CallForHelpDisabledNotifyMessageParser';
 
 /**
@@ -7,7 +7,7 @@ import {CallForHelpDisabledNotifyMessageParser} from '../../parser/help/CallForH
  *
  * @see source_as_win63/habbo/communication/messages/incoming/help/CallForHelpDisabledNotifyMessageEvent.as
  */
-export class CallForHelpDisabledNotifyMessageEvent extends MessageEvent
+export class CallForHelpDisabledNotifyMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

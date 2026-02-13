@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {FigureSetIdsMessageParser} from '../../parser/inventory/FigureSetIdsMessageParser';
 
 /**
@@ -7,7 +7,7 @@ import {FigureSetIdsMessageParser} from '../../parser/inventory/FigureSetIdsMess
  *
  * @see source_as_win63/habbo/communication/messages/incoming/inventory/clothing/FigureSetIdsEvent.as
  */
-export class FigureSetIdsMessageEvent extends MessageEvent
+export class FigureSetIdsMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

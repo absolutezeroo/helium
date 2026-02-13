@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {QuestionAnsweredEventParser} from '../../parser/poll/QuestionAnsweredEventParser';
 
 /**
@@ -7,7 +7,7 @@ import {QuestionAnsweredEventParser} from '../../parser/poll/QuestionAnsweredEve
  *
  * @see source_as_win63/habbo/communication/messages/incoming/poll/QuestionAnsweredEvent.as
  */
-export class QuestionAnsweredEvent extends MessageEvent
+export class QuestionAnsweredEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

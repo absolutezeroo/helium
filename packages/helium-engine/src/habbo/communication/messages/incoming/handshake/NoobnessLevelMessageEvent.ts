@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {NoobnessLevelMessageParser} from '../../parser/handshake/NoobnessLevelMessageParser';
 
 /**
@@ -8,7 +8,7 @@ import {NoobnessLevelMessageParser} from '../../parser/handshake/NoobnessLevelMe
  *
  * @see source_as_win63/habbo/communication/messages/incoming/handshake/NoobnessLevelMessageEvent.as
  */
-export class NoobnessLevelMessageEvent extends MessageEvent
+export class NoobnessLevelMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

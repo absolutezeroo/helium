@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {NavigatorCollapsedCategoriesMessageParser} from '../../parser/newnavigator';
 
 /**
@@ -7,7 +7,7 @@ import {NavigatorCollapsedCategoriesMessageParser} from '../../parser/newnavigat
  *
  * @see source_as_win63/habbo/communication/messages/incoming/newnavigator/NavigatorCollapsedCategoriesMessageEvent.as
  */
-export class NavigatorCollapsedCategoriesMessageEvent extends MessageEvent
+export class NavigatorCollapsedCategoriesMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

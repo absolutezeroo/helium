@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {CfhTopicsInitMessageParser} from '../../parser/help/CfhTopicsInitMessageParser';
 
 /**
@@ -8,7 +8,7 @@ import {CfhTopicsInitMessageParser} from '../../parser/help/CfhTopicsInitMessage
  *
  * @see source_as_win63/habbo/communication/messages/incoming/callforhelp/CfhTopicsInitMessageEvent.as
  */
-export class CfhTopicsInitMessageEvent extends MessageEvent
+export class CfhTopicsInitMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

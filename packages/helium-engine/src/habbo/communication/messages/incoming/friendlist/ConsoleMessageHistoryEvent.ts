@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {ConsoleMessageHistoryEventParser} from '../../parser/friendlist/ConsoleMessageHistoryEventParser';
 
 /**
@@ -8,7 +8,7 @@ import {ConsoleMessageHistoryEventParser} from '../../parser/friendlist/ConsoleM
  *
  * @see source_as_win63/habbo/communication/messages/incoming/friendlist/ConsoleMessageHistoryEvent.as
  */
-export class ConsoleMessageHistoryEvent extends MessageEvent
+export class ConsoleMessageHistoryEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

@@ -1,6 +1,6 @@
-import { MessageEvent } from '@core/communication/messages/MessageEvent';
-import type { IMessageEvent } from '@core/communication/messages/IMessageEvent';
-import { EpicPopupMessageParser } from '../../parser/quest/EpicPopupMessageParser';
+import {MessageEvent} from '@core/communication/messages/MessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import {EpicPopupMessageParser} from '../../parser/quest/EpicPopupMessageParser';
 
 /**
  * Event fired when an epic popup is received.
@@ -9,13 +9,8 @@ import { EpicPopupMessageParser } from '../../parser/quest/EpicPopupMessageParse
  */
 export class EpicPopupMessageEvent extends MessageEvent implements IMessageEvent
 {
-    constructor(callBack: Function)
+    constructor(callBack: MessageEventCallback)
     {
         super(callBack, EpicPopupMessageParser);
-    }
-
-    get parser(): EpicPopupMessageParser
-    {
-        return this.getParser() as EpicPopupMessageParser;
     }
 }

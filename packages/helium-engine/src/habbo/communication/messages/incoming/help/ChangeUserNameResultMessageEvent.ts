@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {ChangeUserNameResultMessageParser} from '../../parser/help/ChangeUserNameResultMessageParser';
 
 /**
@@ -8,7 +8,7 @@ import {ChangeUserNameResultMessageParser} from '../../parser/help/ChangeUserNam
  *
  * @see source_as_win63/habbo/communication/messages/incoming/avatar/ChangeUserNameResultMessageEvent.as
  */
-export class ChangeUserNameResultMessageEvent extends MessageEvent
+export class ChangeUserNameResultMessageEvent extends MessageEvent implements IMessageEvent
 {
 	public static readonly NAME_OK: number = 0;
 	public static readonly ERROR_NAME_REQUIRED: number = 1;

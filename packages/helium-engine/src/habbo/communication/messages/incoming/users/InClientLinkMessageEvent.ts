@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {InClientLinkMessageParser} from '../../parser/users/InClientLinkMessageParser';
 
 /**
@@ -10,7 +10,7 @@ import {InClientLinkMessageParser} from '../../parser/users/InClientLinkMessageP
  *
  * @see source_as_win63/habbo/communication/messages/incoming/users/InClientLinkMessageEvent.as
  */
-export class InClientLinkMessageEvent extends MessageEvent
+export class InClientLinkMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

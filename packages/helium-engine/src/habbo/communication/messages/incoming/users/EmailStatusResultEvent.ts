@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {EmailStatusResultParser} from '../../parser/users/EmailStatusResultParser';
 
 /**
@@ -7,7 +7,7 @@ import {EmailStatusResultParser} from '../../parser/users/EmailStatusResultParse
  *
  * @see source_as_win63/habbo/communication/messages/incoming/users/EmailStatusResultEvent.as
  */
-export class EmailStatusResultEvent extends MessageEvent
+export class EmailStatusResultEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

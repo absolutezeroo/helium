@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {NavigatorSearchResultSetMessageParser} from '../../parser/newnavigator';
 
 /**
@@ -7,7 +7,7 @@ import {NavigatorSearchResultSetMessageParser} from '../../parser/newnavigator';
  *
  * @see source_as_win63/habbo/communication/messages/incoming/newnavigator/NavigatorSearchResultSetMessageEvent.as
  */
-export class NavigatorSearchResultSetMessageEvent extends MessageEvent
+export class NavigatorSearchResultSetMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

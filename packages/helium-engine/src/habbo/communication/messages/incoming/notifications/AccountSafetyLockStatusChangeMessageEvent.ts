@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {
 	AccountSafetyLockStatusChangeMessageEventParser
 } from '../../parser/notifications/AccountSafetyLockStatusChangeMessageEventParser';
@@ -9,7 +9,7 @@ import {
  *
  * @see source_as_win63/habbo/communication/messages/incoming/users/AccountSafetyLockStatusChangeMessageEvent.as
  */
-export class AccountSafetyLockStatusChangeMessageEvent extends MessageEvent
+export class AccountSafetyLockStatusChangeMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

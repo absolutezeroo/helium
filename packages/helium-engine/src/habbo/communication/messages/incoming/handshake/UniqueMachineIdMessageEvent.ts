@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {UniqueMachineIdMessageParser} from '../../parser/handshake/UniqueMachineIdMessageParser';
 
 /**
@@ -8,7 +8,7 @@ import {UniqueMachineIdMessageParser} from '../../parser/handshake/UniqueMachine
  *
  * @see source_as_win63/habbo/communication/messages/incoming/handshake/UniqueMachineIDEvent.as
  */
-export class UniqueMachineIdMessageEvent extends MessageEvent
+export class UniqueMachineIdMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

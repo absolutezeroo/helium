@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {CompetitionRoomsDataMessageParser} from '../../parser/navigator/CompetitionRoomsDataMessageParser';
 
 /**
@@ -7,7 +7,7 @@ import {CompetitionRoomsDataMessageParser} from '../../parser/navigator/Competit
  *
  * @see source_as_win63/habbo/communication/messages/incoming/navigator/CompetitionRoomsDataMessageEvent.as
  */
-export class CompetitionRoomsDataMessageEvent extends MessageEvent
+export class CompetitionRoomsDataMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

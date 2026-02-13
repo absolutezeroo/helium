@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {UserClassificationMessageParser} from '../../parser/moderation/UserClassificationMessageParser';
 
 /**
@@ -7,7 +7,7 @@ import {UserClassificationMessageParser} from '../../parser/moderation/UserClass
  *
  * @see source_as_win63/habbo/communication/messages/incoming/userclassification/UserClassificationMessageEvent.as
  */
-export class UserClassificationMessageEvent extends MessageEvent
+export class UserClassificationMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

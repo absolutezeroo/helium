@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {
 	CompetitionEntrySubmitResultMessageEventParser
 } from '../../parser/competition/CompetitionEntrySubmitResultMessageEventParser';
@@ -9,7 +9,7 @@ import {
  *
  * @see source_as_win63/habbo/communication/messages/incoming/competition/CompetitionEntrySubmitResultMessageEvent.as
  */
-export class CompetitionEntrySubmitResultMessageEvent extends MessageEvent
+export class CompetitionEntrySubmitResultMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

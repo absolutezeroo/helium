@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {FriendListFragmentMessageParser} from '../../parser/friendlist/FriendListFragmentMessageParser';
 
 /**
@@ -8,7 +8,7 @@ import {FriendListFragmentMessageParser} from '../../parser/friendlist/FriendLis
  *
  * @see source_as_win63/habbo/communication/messages/incoming/friendlist/FriendListFragmentMessageEvent.as
  */
-export class FriendListFragmentMessageEvent extends MessageEvent
+export class FriendListFragmentMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

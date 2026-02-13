@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {GenericErrorMessageParser} from '../../parser/handshake/GenericErrorMessageParser';
 
 /**
@@ -8,7 +8,7 @@ import {GenericErrorMessageParser} from '../../parser/handshake/GenericErrorMess
  *
  * @see source_as_win63/habbo/communication/messages/incoming/handshake/GenericErrorEvent.as
  */
-export class GenericErrorMessageEvent extends MessageEvent
+export class GenericErrorMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

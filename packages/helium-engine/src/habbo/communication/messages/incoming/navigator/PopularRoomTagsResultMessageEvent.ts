@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {PopularRoomTagsResultMessageParser} from '../../parser/navigator/PopularRoomTagsResultMessageParser';
 
 /**
@@ -7,7 +7,7 @@ import {PopularRoomTagsResultMessageParser} from '../../parser/navigator/Popular
  *
  * @see source_as_win63/habbo/communication/messages/incoming/navigator/PopularRoomTagsResultEvent.as
  */
-export class PopularRoomTagsResultMessageEvent extends MessageEvent
+export class PopularRoomTagsResultMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

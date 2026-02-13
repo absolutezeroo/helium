@@ -20,7 +20,13 @@ from models import (
     TextStyle,
     WindowLayout,
 )
-from resolver import ElementResolver, ResolvedElement, decode_params, resolve_atlas_path
+from resolver import (
+    ElementResolver,
+    ResolvedElement,
+    decode_params,
+    named_params_to_int,
+    resolve_atlas_path,
+)
 from slicer import SlicedSprite, slice_all_skin_states
 
 
@@ -215,6 +221,7 @@ class HtmlRenderer:
         skip_slicing: bool = False,
         verbose: bool = False,
         external_texts: dict[str, str] | None = None,
+        translate_texts: bool = True,
     ):
         self._resolver = resolver
         self._text_styles = text_styles
@@ -223,6 +230,7 @@ class HtmlRenderer:
         self._skip_slicing = skip_slicing
         self._verbose = verbose
         self._external_texts = external_texts or {}
+        self._translate_texts = translate_texts
         self._shared_assets_dir = output_dir / "shared" / "assets"
         self._css_rules: list[str] = []
         self._selector_count: int = 0
@@ -315,7 +323,10 @@ class HtmlRenderer:
         }
 
         if node.caption:
-            resolved_caption = replace_text_variables(node.caption, self._external_texts)
+            if self._translate_texts:
+                resolved_caption = replace_text_variables(node.caption, self._external_texts)
+            else:
+                resolved_caption = node.caption
             if node.tag in text_display_tags:
                 # Display caption as visible text content
                 parts.append(f"{indent}<div {attrs}>")
@@ -349,9 +360,14 @@ class HtmlRenderer:
             self._css_rules.append(wrapper_css)
             parts.append(f"{indent}  <div class=\"hwm-content-{self._selector_count}\">")
 
+        # Window layout children (internal structure like dropmenu title/region)
+        layout_children: list[LayoutNode] = []
+        if resolved.window_layout and node.tag in ("dropmenu", "dropmenu_item", "droplist"):
+            layout_children = self._build_window_layout_children(node, resolved.window_layout)
+
         # Children
         child_depth = depth + 2 if has_margins else depth + 1
-        for child in node.children:
+        for child in layout_children + node.children:
             parts.append(self._render_node(child, child_depth))
 
         if has_margins:
@@ -389,17 +405,18 @@ class HtmlRenderer:
         elif params.h_scale == "stretch":
             if not is_root:
                 props.append(f"left: {node.x}px")
-            # right = parent doesn't know size, use width as default but mark as stretch
             if node.width > 0:
+                right = node.x + node.width
+                props.append(f"right: calc(100% - {right}px)")
+            else:
                 props.append(f"width: {node.width}px")
-            props.append("/* h_scale: stretch */")
         elif params.h_scale == "move":
-            # Anchored to right
-            if not is_root:
-                props.append(f"left: {node.x}px")
             if node.width > 0:
+                right = node.x + node.width
+                props.append(f"right: calc(100% - {right}px)")
                 props.append(f"width: {node.width}px")
-            props.append("/* h_scale: move (right-anchored) */")
+            elif not is_root:
+                props.append(f"left: {node.x}px")
         elif params.h_scale == "center":
             props.append("left: 50%")
             if node.width > 0:
@@ -416,14 +433,17 @@ class HtmlRenderer:
             if not is_root:
                 props.append(f"top: {node.y}px")
             if node.height > 0:
+                bottom = node.y + node.height
+                props.append(f"bottom: calc(100% - {bottom}px)")
+            else:
                 props.append(f"height: {node.height}px")
-            props.append("/* v_scale: stretch */")
         elif params.v_scale == "move":
-            if not is_root:
-                props.append(f"top: {node.y}px")
             if node.height > 0:
+                bottom = node.y + node.height
+                props.append(f"bottom: calc(100% - {bottom}px)")
                 props.append(f"height: {node.height}px")
-            props.append("/* v_scale: move (bottom-anchored) */")
+            elif not is_root:
+                props.append(f"top: {node.y}px")
         elif params.v_scale == "center":
             props.append("top: 50%")
             if node.height > 0:
@@ -496,6 +516,33 @@ class HtmlRenderer:
         lines.append("}")
 
         return "\n".join(lines)
+
+    def _build_window_layout_children(
+        self,
+        node: LayoutNode,
+        window_layout: WindowLayout,
+    ) -> list[LayoutNode]:
+        """Convert window layout children to LayoutNode instances."""
+        children: list[LayoutNode] = []
+        for child in window_layout.children:
+            params_value = named_params_to_int(child.params)
+            layout_node = LayoutNode(
+                tag=child.tag,
+                name=child.name,
+                x=child.x,
+                y=child.y,
+                width=child.width,
+                height=child.height,
+                params=params_value,
+                style=child.style,
+                visible=child.visible,
+                tags=child.tags,
+            )
+            layout_node.variables.update(child.variables)
+            if "inherit_caption" in child.params and node.caption:
+                layout_node.caption = node.caption
+            children.append(layout_node)
+        return children
 
     # Composite widget types that should NOT render their parent skin as a background.
     # These are assembled from child components (track + buttons + lift) in Flash.

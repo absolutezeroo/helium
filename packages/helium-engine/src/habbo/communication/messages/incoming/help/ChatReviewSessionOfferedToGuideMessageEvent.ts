@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {
 	ChatReviewSessionOfferedToGuideMessageParser
 } from '../../parser/help/ChatReviewSessionOfferedToGuideMessageParser';
@@ -11,13 +11,8 @@ import {
  */
 export class ChatReviewSessionOfferedToGuideMessageEvent extends MessageEvent implements IMessageEvent
 {
-	constructor(callBack: Function)
+	constructor(callBack: MessageEventCallback)
 	{
 		super(callBack, ChatReviewSessionOfferedToGuideMessageParser);
-	}
-
-	get parser(): ChatReviewSessionOfferedToGuideMessageParser
-	{
-		return this.getParser() as ChatReviewSessionOfferedToGuideMessageParser;
 	}
 }

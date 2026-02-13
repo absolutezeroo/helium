@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {
 	AchievementResolutionsMessageEventParser
 } from '../../../parser/game/lobby/AchievementResolutionsMessageEventParser';
@@ -10,7 +10,7 @@ import {
  *
  * @see source_as_win63/habbo/communication/messages/incoming/game/lobby/AchievementResolutionsMessageEvent.as
  */
-export class AchievementResolutionsMessageEvent extends MessageEvent
+export class AchievementResolutionsMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

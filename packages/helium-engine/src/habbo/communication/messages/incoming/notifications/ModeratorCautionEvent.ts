@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {ModeratorCautionEventParser} from '../../parser/notifications/ModeratorCautionEventParser';
 
 /**
@@ -7,7 +7,7 @@ import {ModeratorCautionEventParser} from '../../parser/notifications/ModeratorC
  *
  * @see source_as_win63/habbo/communication/messages/incoming/moderation/ModeratorCautionEvent.as
  */
-export class ModeratorCautionEvent extends MessageEvent
+export class ModeratorCautionEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

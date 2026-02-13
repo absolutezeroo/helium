@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {GetGuestRoomResultMessageParser} from '../../parser/navigator/GetGuestRoomResultMessageParser';
 
 /**
@@ -7,7 +7,7 @@ import {GetGuestRoomResultMessageParser} from '../../parser/navigator/GetGuestRo
  *
  * @see source_as_win63/habbo/communication/messages/incoming/navigator/GetGuestRoomResultEvent.as
  */
-export class GetGuestRoomResultMessageEvent extends MessageEvent
+export class GetGuestRoomResultMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

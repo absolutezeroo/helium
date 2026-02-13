@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {ClubGiftNotificationEventParser} from '../../parser/notifications/ClubGiftNotificationEventParser';
 
 /**
@@ -7,7 +7,7 @@ import {ClubGiftNotificationEventParser} from '../../parser/notifications/ClubGi
  *
  * @see source_as_win63/habbo/communication/messages/incoming/notifications/ClubGiftNotificationEvent.as
  */
-export class ClubGiftNotificationEvent extends MessageEvent
+export class ClubGiftNotificationEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

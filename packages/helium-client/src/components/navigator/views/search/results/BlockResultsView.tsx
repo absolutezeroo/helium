@@ -16,7 +16,7 @@ import viewRowIcon from '@/assets/images/newnavigator_nav_view_row.png';
 import viewThumbsIcon from '@/assets/images/newnavigator_nav_view_thumbs.png';
 import showMoreIcon from '@/assets/images/newnavigator_button_category_show_more.png';
 import quickLinkAddIcon from '@/assets/images/newnavigator_button_quicklink_add.png';
-import backIcon from '@/assets/images/newnavigator_button_back.png';
+import backIcon from '@/assets/images/newnavigator_nav_view_mini.png';
 
 export interface BlockResultsViewProps
 {
@@ -110,7 +110,7 @@ export function BlockResultsView(props: BlockResultsViewProps): JSX.Element
 
 		if (action === NavigatorSearchAction.GO_BACK)
 		{
-			actions.search(props.block.searchCode, '');
+			actions.goBack();
 		}
 		else if (action === NavigatorSearchAction.CAN_EXPAND)
 		{
@@ -131,7 +131,7 @@ export function BlockResultsView(props: BlockResultsViewProps): JSX.Element
 	const isTileMode = () => viewMode() === ResultsModeEnum.TILES;
 
 	return (
-		<div class="navigator-category">
+		<div class={`navigator-category${isCollapsed() ? ' collapsed' : ''}`}>
 			{/* Category header */}
 			<div class="navigator-category-header">
 				<div class="category-title" onClick={toggleCollapse}>
@@ -189,7 +189,7 @@ export function BlockResultsView(props: BlockResultsViewProps): JSX.Element
 					</Show>
 					{/* Quick link button */}
 					<img
-						class="control-icon"
+						class="control-icon quicklink-icon"
 						src={quickLinkAddIcon}
 						onClick={handleAddQuickLink}
 						title={t('navigator.quicklink.add', 'Save search')}

@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {FollowFriendFailedMessageParser} from '../../parser/friendlist/FollowFriendFailedMessageParser';
 
 /**
@@ -7,7 +7,7 @@ import {FollowFriendFailedMessageParser} from '../../parser/friendlist/FollowFri
  *
  * @see source_as_win63/habbo/communication/messages/incoming/friendlist/FollowFriendFailedEvent.as
  */
-export class FollowFriendFailedMessageEvent extends MessageEvent
+export class FollowFriendFailedMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

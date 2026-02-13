@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {InstantMessageErrorEventParser} from '../../parser/friendlist/InstantMessageErrorEventParser';
 
 /**
@@ -8,7 +8,7 @@ import {InstantMessageErrorEventParser} from '../../parser/friendlist/InstantMes
  *
  * @see source_as_win63/habbo/communication/messages/incoming/friendlist/InstantMessageErrorEvent.as
  */
-export class InstantMessageErrorEvent extends MessageEvent
+export class InstantMessageErrorEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

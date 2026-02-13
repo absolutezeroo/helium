@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {QuestCancelledMessageEventParser} from '../../parser/quest/QuestCancelledMessageEventParser';
 
 /**
@@ -7,7 +7,7 @@ import {QuestCancelledMessageEventParser} from '../../parser/quest/QuestCancelle
  *
  * @see source_as_win63/habbo/communication/messages/incoming/quest/QuestCancelledMessageEvent.as
  */
-export class QuestCancelledMessageEvent extends MessageEvent
+export class QuestCancelledMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

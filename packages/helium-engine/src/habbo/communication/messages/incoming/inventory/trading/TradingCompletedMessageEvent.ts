@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {
 	TradingCompletedMessageParser
 } from '@habbo/communication/messages/parser/inventory/trading/TradingCompletedMessageParser';
@@ -7,7 +7,7 @@ import {
 /**
  * @see source_as_win63/habbo/communication/messages/incoming/inventory/trading/TradingCompletedEvent.as
  */
-export class TradingCompletedMessageEvent extends MessageEvent
+export class TradingCompletedMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

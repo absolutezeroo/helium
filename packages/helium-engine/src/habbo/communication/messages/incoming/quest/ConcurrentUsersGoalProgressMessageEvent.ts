@@ -1,6 +1,6 @@
-import { MessageEvent } from '@core/communication/messages/MessageEvent';
-import type { IMessageEvent } from '@core/communication/messages/IMessageEvent';
-import { ConcurrentUsersGoalProgressMessageParser } from '../../parser/quest/ConcurrentUsersGoalProgressMessageParser';
+import {MessageEvent} from '@core/communication/messages/MessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import {ConcurrentUsersGoalProgressMessageParser} from '../../parser/quest/ConcurrentUsersGoalProgressMessageParser';
 
 /**
  * Event fired when concurrent users goal progress is received.
@@ -9,13 +9,8 @@ import { ConcurrentUsersGoalProgressMessageParser } from '../../parser/quest/Con
  */
 export class ConcurrentUsersGoalProgressMessageEvent extends MessageEvent implements IMessageEvent
 {
-    constructor(callBack: Function)
+    constructor(callBack: MessageEventCallback)
     {
         super(callBack, ConcurrentUsersGoalProgressMessageParser);
-    }
-
-    get parser(): ConcurrentUsersGoalProgressMessageParser
-    {
-        return this.getParser() as ConcurrentUsersGoalProgressMessageParser;
     }
 }

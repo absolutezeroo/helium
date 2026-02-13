@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {NavigatorLiftedRoomsMessageParser} from '../../parser/newnavigator';
 
 /**
@@ -7,7 +7,7 @@ import {NavigatorLiftedRoomsMessageParser} from '../../parser/newnavigator';
  *
  * @see source_as_win63/habbo/communication/messages/incoming/newnavigator/NavigatorLiftedRoomsMessageEvent.as
  */
-export class NavigatorLiftedRoomsMessageEvent extends MessageEvent
+export class NavigatorLiftedRoomsMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

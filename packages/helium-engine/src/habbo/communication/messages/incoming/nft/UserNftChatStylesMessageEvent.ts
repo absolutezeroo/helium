@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {UserNftChatStylesMessageParser} from '../../parser/nft/UserNftChatStylesMessageParser';
 
 /**
@@ -7,7 +7,7 @@ import {UserNftChatStylesMessageParser} from '../../parser/nft/UserNftChatStyles
  *
  * @see source_as_win63/habbo/communication/messages/incoming/nft/UserNftChatStylesMessageEvent.as
  */
-export class UserNftChatStylesMessageEvent extends MessageEvent
+export class UserNftChatStylesMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {AuthenticationOKMessageParser} from '../../parser/handshake/AuthenticationOKMessageParser';
 
 /**
@@ -7,7 +7,7 @@ import {AuthenticationOKMessageParser} from '../../parser/handshake/Authenticati
  *
  * @see source_as_win63/habbo/communication/messages/incoming/handshake/AuthenticationOKMessageEvent.as
  */
-export class AuthenticationOKMessageEvent extends MessageEvent
+export class AuthenticationOKMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

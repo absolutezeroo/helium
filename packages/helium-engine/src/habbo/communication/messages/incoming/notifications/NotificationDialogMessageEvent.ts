@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {NotificationDialogMessageEventParser} from '../../parser/notifications/NotificationDialogMessageEventParser';
 
 /**
@@ -7,7 +7,7 @@ import {NotificationDialogMessageEventParser} from '../../parser/notifications/N
  *
  * @see source_as_win63/habbo/communication/messages/incoming/notifications/NotificationDialogMessageEvent.as
  */
-export class NotificationDialogMessageEvent extends MessageEvent
+export class NotificationDialogMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

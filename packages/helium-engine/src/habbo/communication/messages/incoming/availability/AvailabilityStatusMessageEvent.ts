@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {AvailabilityStatusMessageParser} from '../../parser/availability/AvailabilityStatusMessageParser';
 
 /**
@@ -8,7 +8,7 @@ import {AvailabilityStatusMessageParser} from '../../parser/availability/Availab
  *
  * @see source_as_win63/habbo/communication/messages/incoming/availability/AvailabilityStatusMessageEvent.as
  */
-export class AvailabilityStatusMessageEvent extends MessageEvent
+export class AvailabilityStatusMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

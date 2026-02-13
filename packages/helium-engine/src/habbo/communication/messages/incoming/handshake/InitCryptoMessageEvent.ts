@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {InitDiffieHandshakeMessageParser} from '../../parser/handshake/InitCryptoMessageParser';
 
 /**
@@ -8,7 +8,7 @@ import {InitDiffieHandshakeMessageParser} from '../../parser/handshake/InitCrypt
  *
  * @see source_as_win63/habbo/communication/messages/incoming/handshake/InitDiffieHandshakeEvent.as
  */
-export class InitDiffieHandshakeMessageEvent extends MessageEvent
+export class InitDiffieHandshakeMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

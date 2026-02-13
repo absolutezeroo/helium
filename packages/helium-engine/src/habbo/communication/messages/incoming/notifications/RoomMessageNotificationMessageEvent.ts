@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {
 	RoomMessageNotificationMessageEventParser
 } from '../../parser/notifications/RoomMessageNotificationMessageEventParser';
@@ -9,7 +9,7 @@ import {
  *
  * @see source_as_win63/habbo/communication/messages/incoming/room/furniture/RoomMessageNotificationMessageEvent.as
  */
-export class RoomMessageNotificationMessageEvent extends MessageEvent
+export class RoomMessageNotificationMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

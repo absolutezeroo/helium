@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {RestoreClientMessageEventParser} from '../../parser/notifications/RestoreClientMessageEventParser';
 
 /**
@@ -7,7 +7,7 @@ import {RestoreClientMessageEventParser} from '../../parser/notifications/Restor
  *
  * @see source_as_win63/habbo/communication/messages/incoming/notifications/RestoreClientMessageEvent.as
  */
-export class RestoreClientMessageEvent extends MessageEvent
+export class RestoreClientMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

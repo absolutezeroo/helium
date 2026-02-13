@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {GuideSessionInviteRequesterMessageParser} from '../../parser/help/GuideSessionInviteRequesterMessageParser';
 
 /**
@@ -8,7 +8,7 @@ import {GuideSessionInviteRequesterMessageParser} from '../../parser/help/GuideS
  *
  * @see source_as_win63/habbo/communication/messages/incoming/help/GuideSessionInvitedToGuideRoomMessageEvent.as
  */
-export class GuideSessionInviteRequesterMessageEvent extends MessageEvent
+export class GuideSessionInviteRequesterMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

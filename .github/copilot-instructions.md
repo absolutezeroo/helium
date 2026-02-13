@@ -76,7 +76,7 @@ export class ExampleParser implements IMessageParser
 ```typescript
 export class ExampleEvent extends MessageEvent implements IMessageEvent
 {
-    constructor(callBack: Function)
+    constructor(callBack: MessageEventCallback)
     {
         super(callBack, ExampleParser);
     }

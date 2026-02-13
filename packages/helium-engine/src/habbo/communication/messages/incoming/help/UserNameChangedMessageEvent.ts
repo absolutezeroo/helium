@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {UserNameChangedMessageParser} from '../../parser/help/UserNameChangedMessageParser';
 
 /**
@@ -8,7 +8,7 @@ import {UserNameChangedMessageParser} from '../../parser/help/UserNameChangedMes
  *
  * @see source_as_win63/habbo/communication/messages/incoming/users/UserNameChangedMessageEvent.as
  */
-export class UserNameChangedMessageEvent extends MessageEvent
+export class UserNameChangedMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

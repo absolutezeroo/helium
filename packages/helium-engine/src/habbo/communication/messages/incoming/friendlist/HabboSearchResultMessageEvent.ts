@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {HabboSearchResultMessageParser} from '../../parser/friendlist/HabboSearchResultMessageParser';
 
 /**
@@ -7,7 +7,7 @@ import {HabboSearchResultMessageParser} from '../../parser/friendlist/HabboSearc
  *
  * @see source_as_win63/habbo/communication/messages/incoming/friendlist/HabboSearchResultEvent.as
  */
-export class HabboSearchResultMessageEvent extends MessageEvent
+export class HabboSearchResultMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

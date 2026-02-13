@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {RoomInviteErrorMessageParser} from '../../parser/friendlist/RoomInviteErrorMessageParser';
 
 /**
@@ -7,7 +7,7 @@ import {RoomInviteErrorMessageParser} from '../../parser/friendlist/RoomInviteEr
  *
  * @see source_as_win63/habbo/communication/messages/incoming/friendlist/RoomInviteErrorEvent.as
  */
-export class RoomInviteErrorMessageEvent extends MessageEvent
+export class RoomInviteErrorMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

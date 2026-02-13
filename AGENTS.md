@@ -104,7 +104,7 @@ Voir `docs/PATTERNS.md` pour les templates complets avec exemples de code.
 
 - **Composers** : `extends MessageComposer<TupleType>` avec `_data` et `getMessageArray()`
 - **Parsers** : `implements IMessageParser` avec `flush()` + `parse(wrapper)`
-- **Events** : `extends MessageEvent` avec paramètre `callback` dans le constructeur
+- **Events** : `extends MessageEvent implements IMessageEvent` avec paramètre `callback` dans le constructeur
 - **Managers** : DI Component avec enregistrement IID
 
 ## Pièges connus

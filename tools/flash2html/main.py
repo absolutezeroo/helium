@@ -72,6 +72,11 @@ def main() -> int:
         help="Glob pattern to filter files (e.g. 'HabboHabboNavigatorCom_*')",
     )
     parser.add_argument(
+        "--no-translate",
+        action="store_true",
+        help="Disable ${...} replacement using ExternalTexts.json",
+    )
+    parser.add_argument(
         "--skip-slicing",
         action="store_true",
         help="Skip atlas slicing, reuse existing assets",
@@ -139,8 +144,10 @@ def main() -> int:
     # 1e. External texts
     external_texts_path = Path("tools/flash2html/ExternalTexts.json")
     external_texts = {}
-    if external_texts_path.exists():
-        print(f"  Loading external texts...")
+    if args.no_translate:
+        print("  Skipping external texts (--no-translate)")
+    elif external_texts_path.exists():
+        print("  Loading external texts...")
         external_texts = load_external_texts(external_texts_path)
         print(f"    -> {len(external_texts)} text entries")
     else:
@@ -218,6 +225,7 @@ def main() -> int:
         skip_slicing=args.skip_slicing,
         verbose=verbose,
         external_texts=external_texts,
+        translate_texts=not args.no_translate,
     )
 
     layouts_by_module: dict[str, list[tuple[str, Path]]] = {}

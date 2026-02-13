@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {SanctionStatusMessageParser} from '../../parser/help/SanctionStatusMessageParser';
 
 /**
@@ -8,7 +8,7 @@ import {SanctionStatusMessageParser} from '../../parser/help/SanctionStatusMessa
  *
  * @see source_as_win63/habbo/communication/messages/incoming/callforhelp/SanctionStatusEvent.as
  */
-export class SanctionStatusMessageEvent extends MessageEvent
+export class SanctionStatusMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

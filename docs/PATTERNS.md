@@ -144,7 +144,7 @@ Les Events lient un Parser à un callback pour le traitement des messages entran
 
 ```typescript
 import { MessageEvent } from '@core/communication/messages/MessageEvent';
-import type { IMessageEvent } from '@core/communication/messages/IMessageEvent';
+import type { IMessageEvent, MessageEventCallback } from '@core/communication/messages/IMessageEvent';
 import { RoomInfoParser } from './RoomInfoParser';
 
 /**
@@ -154,14 +154,9 @@ import { RoomInfoParser } from './RoomInfoParser';
  */
 export class RoomInfoEvent extends MessageEvent implements IMessageEvent
 {
-    constructor(callBack: Function)
+    constructor(callBack: MessageEventCallback)
     {
         super(callBack, RoomInfoParser);
-    }
-
-    get parser(): RoomInfoParser
-    {
-        return this.getParser() as RoomInfoParser;
     }
 }
 ```

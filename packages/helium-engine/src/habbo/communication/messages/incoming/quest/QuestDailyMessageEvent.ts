@@ -1,6 +1,6 @@
-import { MessageEvent } from '@core/communication/messages/MessageEvent';
-import type { IMessageEvent } from '@core/communication/messages/IMessageEvent';
-import { QuestDailyMessageParser } from '../../parser/quest/QuestDailyMessageParser';
+import {MessageEvent} from '@core/communication/messages/MessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import {QuestDailyMessageParser} from '../../parser/quest/QuestDailyMessageParser';
 
 /**
  * Event fired when daily quest data is received.
@@ -9,13 +9,8 @@ import { QuestDailyMessageParser } from '../../parser/quest/QuestDailyMessagePar
  */
 export class QuestDailyMessageEvent extends MessageEvent implements IMessageEvent
 {
-    constructor(callBack: Function)
+    constructor(callBack: MessageEventCallback)
     {
         super(callBack, QuestDailyMessageParser);
-    }
-
-    get parser(): QuestDailyMessageParser
-    {
-        return this.getParser() as QuestDailyMessageParser;
     }
 }

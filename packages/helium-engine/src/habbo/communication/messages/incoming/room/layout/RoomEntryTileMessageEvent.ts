@@ -6,10 +6,10 @@
  * Event fired when the room entry tile position is received.
  */
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {RoomEntryTileMessageParser} from '@habbo/communication/messages/parser/room/layout/RoomEntryTileMessageParser';
 
-export class RoomEntryTileMessageEvent extends MessageEvent
+export class RoomEntryTileMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

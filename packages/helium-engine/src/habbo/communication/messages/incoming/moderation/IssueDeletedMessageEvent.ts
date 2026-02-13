@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {IssueDeletedMessageParser} from '../../parser/moderation/IssueDeletedMessageParser';
 
 /**
@@ -7,7 +7,7 @@ import {IssueDeletedMessageParser} from '../../parser/moderation/IssueDeletedMes
  *
  * @see source_as_win63/habbo/communication/messages/incoming/moderation/IssueDeletedMessageEvent.as
  */
-export class IssueDeletedMessageEvent extends MessageEvent
+export class IssueDeletedMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

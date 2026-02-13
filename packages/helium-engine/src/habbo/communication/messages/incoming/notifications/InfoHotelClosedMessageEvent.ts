@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {InfoHotelClosedMessageEventParser} from '../../parser/notifications/InfoHotelClosedMessageEventParser';
 
 /**
@@ -7,7 +7,7 @@ import {InfoHotelClosedMessageEventParser} from '../../parser/notifications/Info
  *
  * @see source_as_win63/habbo/communication/messages/incoming/availability/InfoHotelClosedMessageEvent.as
  */
-export class InfoHotelClosedMessageEvent extends MessageEvent
+export class InfoHotelClosedMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

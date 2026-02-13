@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {FlatAccessDeniedMessageParser} from '../../parser/navigator/FlatAccessDeniedMessageParser';
 
 /**
@@ -7,7 +7,7 @@ import {FlatAccessDeniedMessageParser} from '../../parser/navigator/FlatAccessDe
  *
  * @see source_as_win63/habbo/communication/messages/incoming/navigator/FlatAccessDeniedMessageEvent.as
  */
-export class FlatAccessDeniedMessageEvent extends MessageEvent
+export class FlatAccessDeniedMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

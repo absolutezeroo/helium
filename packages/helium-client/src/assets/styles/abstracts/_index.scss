@@ -1,8 +1,30 @@
 // ============================================================
-// Abstracts - auto-injected into every SCSS file via Vite
-// Contains variables, mixins, and functions (no output CSS)
+// Helium SCSS abstracts (mixins, helpers)
 // ============================================================
 
-@forward 'variables';
-@forward 'mixins';
-@forward 'functions';
+@mixin habbo-nine-slice($image, $slice, $width: null, $repeat: stretch, $fill: true) {
+  $w: if($width == null, $slice, $width);
+
+  border-style: solid;
+  border-width: 0;
+  border-image-source: url($image);
+
+  @if $fill {
+    border-image-slice: $slice fill;
+  } @else {
+    border-image-slice: $slice;
+  }
+
+  border-image-width: $w;
+  border-image-repeat: $repeat;
+  box-sizing: border-box;
+}
+
+@mixin habbo-bitmap($image, $width, $height, $position: center, $repeat: no-repeat, $size: auto) {
+  width: $width;
+  height: $height;
+  background-image: url($image);
+  background-repeat: $repeat;
+  background-position: $position;
+  background-size: $size;
+}

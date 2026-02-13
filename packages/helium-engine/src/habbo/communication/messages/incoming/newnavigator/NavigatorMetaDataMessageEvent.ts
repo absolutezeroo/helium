@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {NavigatorMetaDataMessageParser} from '../../parser/newnavigator';
 
 /**
@@ -7,7 +7,7 @@ import {NavigatorMetaDataMessageParser} from '../../parser/newnavigator';
  *
  * @see source_as_win63/habbo/communication/messages/incoming/newnavigator/NavigatorMetaDataMessageEvent.as
  */
-export class NavigatorMetaDataMessageEvent extends MessageEvent
+export class NavigatorMetaDataMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

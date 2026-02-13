@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {IssueCloseNotificationMessageParser} from '../../parser/help/IssueCloseNotificationMessageParser';
 
 /**
@@ -9,13 +9,8 @@ import {IssueCloseNotificationMessageParser} from '../../parser/help/IssueCloseN
  */
 export class IssueCloseNotificationMessageEvent extends MessageEvent implements IMessageEvent
 {
-	constructor(callBack: Function)
+	constructor(callBack: MessageEventCallback)
 	{
 		super(callBack, IssueCloseNotificationMessageParser);
-	}
-
-	get parser(): IssueCloseNotificationMessageParser
-	{
-		return this.getParser() as IssueCloseNotificationMessageParser;
 	}
 }

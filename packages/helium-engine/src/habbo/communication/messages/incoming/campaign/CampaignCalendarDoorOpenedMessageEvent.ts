@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {CampaignCalendarDoorOpenedMessageParser} from '../../parser/campaign/CampaignCalendarDoorOpenedMessageParser';
 
 /**
@@ -7,7 +7,7 @@ import {CampaignCalendarDoorOpenedMessageParser} from '../../parser/campaign/Cam
  *
  * @see source_as_win63/habbo/communication/messages/incoming/campaign/CampaignCalendarDoorOpenedMessageEvent.as
  */
-export class CampaignCalendarDoorOpenedMessageEvent extends MessageEvent
+export class CampaignCalendarDoorOpenedMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

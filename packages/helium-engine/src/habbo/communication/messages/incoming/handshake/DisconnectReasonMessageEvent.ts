@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {DisconnectReasonMessageParser} from '../../parser/handshake/DisconnectReasonMessageParser';
 
 /**
@@ -8,7 +8,7 @@ import {DisconnectReasonMessageParser} from '../../parser/handshake/DisconnectRe
  *
  * @see source_as_win63/habbo/communication/messages/incoming/handshake/DisconnectReasonEvent.as
  */
-export class DisconnectReasonMessageEvent extends MessageEvent
+export class DisconnectReasonMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

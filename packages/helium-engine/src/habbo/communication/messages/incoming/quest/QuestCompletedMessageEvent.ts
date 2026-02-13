@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {QuestCompletedMessageEventParser} from '../../parser/quest/QuestCompletedMessageEventParser';
 
 /**
@@ -7,7 +7,7 @@ import {QuestCompletedMessageEventParser} from '../../parser/quest/QuestComplete
  *
  * @see source_as_win63/habbo/communication/messages/incoming/quest/QuestCompletedMessageEvent.as
  */
-export class QuestCompletedMessageEvent extends MessageEvent
+export class QuestCompletedMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

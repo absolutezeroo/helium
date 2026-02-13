@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {HabboBroadcastMessageEventParser} from '../../parser/notifications/HabboBroadcastMessageEventParser';
 
 /**
@@ -7,7 +7,7 @@ import {HabboBroadcastMessageEventParser} from '../../parser/notifications/Habbo
  *
  * @see source_as_win63/habbo/communication/messages/incoming/notifications/HabboBroadcastMessageEvent.as
  */
-export class HabboBroadcastMessageEvent extends MessageEvent
+export class HabboBroadcastMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

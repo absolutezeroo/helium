@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {FindFriendsProcessResultMessageParser} from '../../parser/friendlist/FindFriendsProcessResultMessageParser';
 
 /**
@@ -7,7 +7,7 @@ import {FindFriendsProcessResultMessageParser} from '../../parser/friendlist/Fin
  *
  * @see source_as_win63/habbo/communication/messages/incoming/friendlist/FindFriendsProcessResultEvent.as
  */
-export class FindFriendsProcessResultMessageEvent extends MessageEvent
+export class FindFriendsProcessResultMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

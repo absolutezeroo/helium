@@ -1,5 +1,5 @@
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {PingMessageParser} from '../../parser/handshake/PingMessageParser';
 
 /**
@@ -8,7 +8,7 @@ import {PingMessageParser} from '../../parser/handshake/PingMessageParser';
  *
  * @see source_as_win63/habbo/communication/messages/incoming/handshake/PingMessageEvent.as
  */
-export class PingMessageEvent extends MessageEvent
+export class PingMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

@@ -1,6 +1,6 @@
-import { MessageEvent } from '@core/communication/messages/MessageEvent';
-import type { IMessageEvent } from '@core/communication/messages/IMessageEvent';
-import { CompetitionEntryMessageParser } from '../../parser/quest/CompetitionEntryMessageParser';
+import {MessageEvent} from '@core/communication/messages/MessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import {CompetitionEntryMessageParser} from '../../parser/quest/CompetitionEntryMessageParser';
 
 /**
  * Event fired when competition entry prizes are received.
@@ -9,13 +9,8 @@ import { CompetitionEntryMessageParser } from '../../parser/quest/CompetitionEnt
  */
 export class CompetitionEntryMessageEvent extends MessageEvent implements IMessageEvent
 {
-    constructor(callBack: Function)
+    constructor(callBack: MessageEventCallback)
     {
         super(callBack, CompetitionEntryMessageParser);
-    }
-
-    get parser(): CompetitionEntryMessageParser
-    {
-        return this.getParser() as CompetitionEntryMessageParser;
     }
 }

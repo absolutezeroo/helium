@@ -4,10 +4,10 @@
  * Based on AS3: com.sulake.habbo.communication.messages.incoming.room.engine.ObjectRemoveMessageEvent
  */
 import {MessageEvent} from '@core/communication/messages/MessageEvent';
-import type {MessageEventCallback} from '@core/communication/messages/IMessageEvent';
+import type {IMessageEvent, MessageEventCallback} from '@core/communication/messages/IMessageEvent';
 import {ObjectRemoveMessageParser} from '@habbo/communication/messages/parser/room/engine/ObjectRemoveMessageParser';
 
-export class ObjectRemoveMessageEvent extends MessageEvent
+export class ObjectRemoveMessageEvent extends MessageEvent implements IMessageEvent
 {
 	constructor(callback: MessageEventCallback)
 	{

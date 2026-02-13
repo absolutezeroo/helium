@@ -1,17 +1,15 @@
 import {createEffect, createSignal, For, JSX, onCleanup, Show} from 'solid-js';
 import {useNavigator} from '@ui/hooks/navigator/useNavigator';
-import {useLocalization, HabboScrollbar} from '@ui/common';
-import {WindowFrame, WindowHeader, WindowContent} from '@ui/common/window';
+import {HabboScrollbar, useLocalization} from '@ui/common';
+import {WindowContent, WindowFrame, WindowHeader} from '@ui/common/window';
 import {SearchView} from './views/search/SearchView';
 import {BlockResultsView} from './views/search/results/BlockResultsView';
 import {QuickLinksView} from './views/QuickLinksView';
-import {LiftView} from './views/LiftView';
 import {DoorStateView} from './views/DoorStateView';
 import {RoomCreatorView} from './views/RoomCreatorView';
 import {NavigatorRoomInfoView} from './views/NavigatorRoomInfoView';
 import {RoomLinkView} from './views/RoomLinkView';
 
-import backIcon from '@/assets/images/newnavigator_button_back.png';
 import createRoomIcon from '@/assets/images/newnavigator_create_room.png';
 import randomRoomIcon from '@/assets/images/newnavigator_random_room.png';
 import quickLinkAddIcon from '@/assets/images/newnavigator_button_quicklink_add.png';
@@ -81,13 +79,6 @@ export function NavigatorView(): JSX.Element
 		setIsLoading(true);
 	};
 
-	const handleBack = () =>
-	{
-		actions.goBack();
-
-		setIsLoading(true);
-	};
-
 	const handleRefresh = () =>
 	{
 		actions.performLastSearch();
@@ -126,117 +117,103 @@ export function NavigatorView(): JSX.Element
 					/>
 
 					<WindowContent class="navigator-content" overflow="hidden">
-						{/* Loading overlay */}
-						<Show when={isLoading()}>
-							<div class="navigator-loading-mask" />
-						</Show>
-
 						<Show
 							when={!nav.isCreatorOpen}
 							fallback={<RoomCreatorView />}
 						>
-							<div class="navigator-body">
-								{/* Left pane - Quick Links
-							    XML: itemlist_vertical x=6 y=35 w=149 h=440
-							    quicklinks_border style="2" = white bg with border */}
-								<div class="navigator-left-pane">
-									<div class="left-pane-content">
-										<div class="left-pane-title">
-											<img src={quickLinkAddIcon} alt="" />
-											{t('navigator.quick.links.title', 'Quick Links')}
-										</div>
-										<HabboScrollbar class="left-pane-links">
-											<QuickLinksView />
-										</HabboScrollbar>
-									</div>
+							<div class="navigator-shell">
+								{/* Left pane toggle (temp_back) */}
+								<div
+									class="navigator-left-toggle"
+									onClick={toggleLeftPane}
+									title={t('navigator.tooltip.left.show.hide', 'Toggle quick links')}
+								>
+									<img src={leftPaneVisible() ? leftPaneHideIcon : leftPaneShowIcon} alt="" />
 								</div>
 
-								{/* Right pane - Tabs + Search + Results + Bottom buttons */}
-								<div class="navigator-right-pane">
-									{/* Tabs */}
-									<div class="navigator-tabs">
-										{/* Toggle left pane button (show/hide)
-										    @see NavigatorView.as: left_hide_container / left_show_container */}
-										<div
-											class="toggle-left-pane-btn"
-											onClick={toggleLeftPane}
-											title={t('navigator.tooltip.left.show.hide', 'Toggle quick links')}
-										>
-											<img src={leftPaneVisible() ? leftPaneHideIcon : leftPaneShowIcon} alt="" />
+								{/* Top view tabs */}
+								<div class="navigator-tabs">
+									<For each={nav.topLevelContexts}>
+										{(ctx) => (
+											<div
+												class={`navigator-tab${nav.currentSearchCode === ctx.searchCode ? ' active' : ''}`}
+												onClick={() =>
+												{
+													if(nav.currentSearchCode === ctx.searchCode) return;
+
+													actions.closeCreator();
+													actions.search(ctx.searchCode, '');
+													setIsLoading(true);
+												}}
+											>
+												{t('navigator.toplevelview.' + ctx.searchCode, ctx.searchCode)}
+											</div>
+										)}
+									</For>
+								</div>
+
+								<div class="navigator-tabs-divider" />
+
+								<div class="navigator-body">
+									{/* Left pane - Quick Links */}
+									<div class="navigator-left-pane">
+										<div class="left-pane-content">
+											<div class="left-pane-title">
+												<img src={quickLinkAddIcon} alt="" />
+												{t('navigator.quick.links.title', 'Quick Links')}
+											</div>
+											<HabboScrollbar class="left-pane-links">
+												<QuickLinksView />
+											</HabboScrollbar>
 										</div>
-
-										<For each={nav.topLevelContexts}>
-											{(ctx) => (
-												<div
-													class={`navigator-tab${nav.currentSearchCode === ctx.searchCode ? ' active' : ''}`}
-													onClick={() =>
-													{
-														if(nav.currentSearchCode === ctx.searchCode) return;
-
-														actions.closeCreator();
-														actions.search(ctx.searchCode, '');
-														setIsLoading(true);
-													}}
-												>
-													{t('navigator.toplevelview.' + ctx.searchCode, ctx.searchCode)}
-												</div>
-											)}
-										</For>
 									</div>
 
-									{/* Navigation bar: back + search (+ refresh inside SearchView) */}
-									<div class="navigator-nav-bar">
-										<button
-											class="nav-btn"
-											disabled={!nav.searchResult}
-											onClick={handleBack}
-											title={t('navigator.back', 'Back')}
-										>
-											<img src={backIcon} alt="" />
-										</button>
-
-										<SearchView onSearch={handleSearch} onRefresh={handleRefresh} />
-									</div>
-
-									{/* Lifted rooms carousel */}
-									<LiftView />
-
-									{/* Results - custom bitmap scrollbar
-									    XML: block_results x=1 y=45 w=407 h=330 */}
-									<HabboScrollbar class="navigator-results" viewportRef={(el) => { resultsRef = el; }}>
-										<Show when={nav.searchResult}>
-											<For each={nav.searchResult!.blocks}>
-												{(block) => (
-													<BlockResultsView block={block} />
-												)}
-											</For>
+									{/* Right pane - Search + Results + Bottom buttons */}
+									<div class="navigator-right-pane">
+										{/* Loading overlay (results only) */}
+										<Show when={isLoading()}>
+											<div class="navigator-loading-mask" />
 										</Show>
-									</HabboScrollbar>
 
-									{/* Bottom buttons: Create Room / Random Room
-								    XML: create_room_border x=0 y=395 w=189 h=60
-								         random_room_border x=205 y=395 w=189 h=60
-								    Each: image + white text overlay at x=60 y=22 w=125 */}
-									<div class="navigator-bottom-buttons">
-										<div
-											class="bottom-btn"
-											onClick={() => actions.openCreator()}
-											title={t('navigator.tooltip.create.room', 'Create Room')}
-										>
-											<img src={createRoomIcon} alt="" />
-											<span class="bottom-btn-text">
-												{t('navigator.create.room', 'Create Room')}
-											</span>
+										{/* Navigation bar: search (+ refresh inside SearchView) */}
+										<div class="navigator-nav-bar">
+											<SearchView onSearch={handleSearch} onRefresh={handleRefresh} />
 										</div>
-										<div
-											class="bottom-btn"
-											onClick={handleRandomRoom}
-											title={t('navigator.tooltip.random.room', 'Random Room')}
-										>
-											<img src={randomRoomIcon} alt="" />
-											<span class="bottom-btn-text">
-												{t('navigator.random.room', 'Random Room')}
-											</span>
+
+										{/* Results - custom bitmap scrollbar
+									    XML: block_results x=1 y=45 w=407 h=330 */}
+										<HabboScrollbar class="navigator-results" viewportRef={(el) => { resultsRef = el; }}>
+											<Show when={nav.searchResult}>
+												<For each={nav.searchResult!.blocks}>
+													{(block) => (
+														<BlockResultsView block={block} />
+													)}
+												</For>
+											</Show>
+										</HabboScrollbar>
+
+										{/* Bottom buttons: Create Room / Random Room */}
+										<div class="navigator-bottom-buttons">
+											<div
+												class="bottom-btn bottom-btn-create"
+												onClick={() => actions.openCreator()}
+												title={t('navigator.tooltip.create.room', 'Create Room')}
+											>
+												<img src={createRoomIcon} alt="" />
+												<span class="bottom-btn-text">
+													{t('navigator.create.room', 'Create Room')}
+												</span>
+											</div>
+											<div
+												class="bottom-btn bottom-btn-random"
+												onClick={handleRandomRoom}
+												title={t('navigator.tooltip.random.room', 'Random Room')}
+											>
+												<img src={randomRoomIcon} alt="" />
+												<span class="bottom-btn-text">
+													{t('navigator.random.room', 'Random Room')}
+												</span>
+											</div>
 										</div>
 									</div>
 								</div>
