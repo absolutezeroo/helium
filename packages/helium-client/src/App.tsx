@@ -1,6 +1,5 @@
 import {JSX} from 'solid-js';
 import type {IHeliumConfig} from 'helium-engine';
-import {WindowPreview} from './components/windowing/WindowPreview';
 import './styles/window-preview.css';
 import './styles/window-theme.css';
 import './styles/window-skin.css';
@@ -25,8 +24,6 @@ export function App(): JSX.Element
 {
 	return (
 		<div class="helium-app">
-			<WindowPreview />
-			<div id="draggable-windows-container" />
 		</div>
 	);
 }
