@@ -1,0 +1,97 @@
+{
+  "name": "trophyWidget",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbotrophy_widget_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "attributes": {
+          "x": "28",
+          "y": "75",
+          "width": "110",
+          "height": "127",
+          "params": "16",
+          "style": "0",
+          "name": "trophyWidget"
+        },
+        "children": [
+          {
+            "tag": "bitmap",
+            "attributes": {
+              "x": "4",
+              "y": "0",
+              "width": "102",
+              "height": "127",
+              "params": "16",
+              "style": "0",
+              "name": "ctlg_teaserimg_1"
+            },
+            "children": []
+          },
+          {
+            "tag": "container_button",
+            "attributes": {
+              "x": "0",
+              "y": "56",
+              "width": "30",
+              "height": "30",
+              "params": "393361",
+              "style": "3",
+              "name": "ctlg_prevmodel_button",
+              "width_max": "100"
+            },
+            "children": [
+              {
+                "tag": "icon",
+                "attributes": {
+                  "x": "9",
+                  "y": "8",
+                  "width": "13",
+                  "height": "13",
+                  "params": "16",
+                  "style": "2",
+                  "name": "icon",
+                  "color": "0x00"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "container_button",
+            "attributes": {
+              "x": "80",
+              "y": "56",
+              "width": "30",
+              "height": "30",
+              "params": "393361",
+              "style": "3",
+              "name": "ctlg_nextmodel_button",
+              "width_max": "100"
+            },
+            "children": [
+              {
+                "tag": "icon",
+                "attributes": {
+                  "x": "9",
+                  "y": "8",
+                  "width": "13",
+                  "height": "13",
+                  "params": "16",
+                  "style": "3",
+                  "name": "icon",
+                  "color": "0x00"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {},
+  "filters": []
+}

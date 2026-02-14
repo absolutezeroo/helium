@@ -1,0 +1,149 @@
+{
+  "name": "habbo_window_layout_dropmenu_3",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_window_layout_dropmenu_3_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "label",
+        "attributes": {
+          "name": "_DROPLIST_TITLETEXT",
+          "x": "6",
+          "y": "4",
+          "width": "10",
+          "height": "12",
+          "tags": "_EXCLUDE, _INTERNAL, title"
+        },
+        "children": [
+          {
+            "tag": "params",
+            "attributes": {},
+            "children": [
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "relative_horizontal_scale_strech"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "relative_vertical_scale_fixed"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "use_parent_graphic_context"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "inherit_caption"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tag": "scrollable_itemlist_vertical",
+        "attributes": {
+          "name": "_DROPLIST_ITEMLIST",
+          "x": "2",
+          "y": "2",
+          "width": "36",
+          "height": "14",
+          "tags": "_EXCLUDE, list"
+        },
+        "children": [
+          {
+            "tag": "params",
+            "attributes": {},
+            "children": [
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "relative_horizontal_scale_strech"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "use_parent_graphic_context"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "expand_to_accommodate_children"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tag": "region",
+        "attributes": {
+          "x": "6",
+          "y": "2",
+          "width": "28",
+          "height": "18",
+          "name": "_DROPLIST_REGION",
+          "treshold": "0",
+          "tags": "_EXCLUDE, _INTERNAL"
+        },
+        "children": [
+          {
+            "tag": "params",
+            "attributes": {},
+            "children": [
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "input_event_processor"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "use_parent_graphic_context"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "inherit_caption"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "relative_horizontal_scale_strech"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "text_style": "u_regular"
+  },
+  "filters": []
+}

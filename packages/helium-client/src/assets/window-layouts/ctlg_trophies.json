@@ -1,0 +1,221 @@
+{
+  "name": "ctlg_trophies",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_trophies_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "360",
+          "height": "460",
+          "params": "16",
+          "style": "0",
+          "name": "ctlg_trophies"
+        },
+        "children": [
+          {
+            "tag": "formatted_text",
+            "attributes": {
+              "x": "0",
+              "y": "70",
+              "width": "360",
+              "height": "135",
+              "params": "16",
+              "style": "3",
+              "name": "trophy.description",
+              "caption": "%24%7Bloremipsum.html%7D"
+            },
+            "children": []
+          },
+          {
+            "tag": "container",
+            "attributes": {
+              "x": "0",
+              "y": "165",
+              "width": "360",
+              "height": "127",
+              "params": "16",
+              "style": "0",
+              "name": "trophyWidget",
+              "tags": "EMBEDDED"
+            },
+            "children": [
+              {
+                "tag": "bitmap",
+                "attributes": {
+                  "x": "0",
+                  "y": "0",
+                  "width": "360",
+                  "height": "127",
+                  "params": "16",
+                  "style": "0",
+                  "name": "ctlg_teaserimg_1"
+                },
+                "children": []
+              },
+              {
+                "tag": "container_button",
+                "attributes": {
+                  "x": "130",
+                  "y": "96",
+                  "width": "30",
+                  "height": "30",
+                  "params": "393233",
+                  "style": "3",
+                  "name": "ctlg_prevmodel_button",
+                  "width_max": "100"
+                },
+                "children": [
+                  {
+                    "tag": "icon",
+                    "attributes": {
+                      "x": "9",
+                      "y": "8",
+                      "width": "13",
+                      "height": "13",
+                      "params": "16",
+                      "style": "2",
+                      "name": "icon",
+                      "color": "0x00"
+                    },
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "tag": "container_button",
+                "attributes": {
+                  "x": "190",
+                  "y": "96",
+                  "width": "30",
+                  "height": "30",
+                  "params": "393233",
+                  "style": "3",
+                  "name": "ctlg_nextmodel_button",
+                  "width_max": "100"
+                },
+                "children": [
+                  {
+                    "tag": "icon",
+                    "attributes": {
+                      "x": "9",
+                      "y": "8",
+                      "width": "13",
+                      "height": "13",
+                      "params": "16",
+                      "style": "3",
+                      "name": "icon",
+                      "color": "0x00"
+                    },
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "container",
+            "attributes": {
+              "x": "0",
+              "y": "295",
+              "width": "360",
+              "height": "40",
+              "params": "16",
+              "style": "0",
+              "name": "colourGridWidget"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "3",
+              "y": "339",
+              "width": "356",
+              "height": "15",
+              "params": "16",
+              "style": "3",
+              "name": "trophy.enscription",
+              "caption": "%24%7Blorem.title%7D"
+            },
+            "children": []
+          },
+          {
+            "tag": "border",
+            "attributes": {
+              "x": "0",
+              "y": "355",
+              "width": "360",
+              "height": "70",
+              "params": "16",
+              "style": "5"
+            },
+            "children": [
+              {
+                "tag": "container",
+                "attributes": {
+                  "x": "6",
+                  "y": "7",
+                  "width": "349",
+                  "height": "58",
+                  "params": "16",
+                  "style": "0",
+                  "name": "textInputWidget",
+                  "caption": "EMBEDDED"
+                },
+                "children": [
+                  {
+                    "tag": "input",
+                    "attributes": {
+                      "x": "0",
+                      "y": "0",
+                      "width": "349",
+                      "height": "58",
+                      "params": "1",
+                      "style": "3",
+                      "name": "input_text"
+                    },
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "container",
+            "attributes": {
+              "x": "0",
+              "y": "430",
+              "width": "360",
+              "height": "30",
+              "params": "16",
+              "style": "0",
+              "name": "purchaseWidget"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "mouse_wheel_enabled": false,
+    "multiline": true,
+    "word_wrap": true,
+    "spacing": 0,
+    "leading": 0,
+    "pivot_point": "center",
+    "stretched_x": false,
+    "stretched_y": false,
+    "auto_size": "left",
+    "text_style": "u_small",
+    "always_show_selection": true,
+    "max_chars": 300,
+    "bold": true
+  },
+  "filters": []
+}

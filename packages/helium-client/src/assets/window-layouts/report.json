@@ -1,0 +1,1014 @@
+{
+  "name": "report",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_topics_flow_help_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "frame",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "448",
+          "height": "522",
+          "params": "1",
+          "style": "3",
+          "caption": "%24%7Bhelp.button.cfh%7D",
+          "color": "0xff418db0"
+        },
+        "children": [
+          {
+            "tag": "container",
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "446",
+              "height": "480",
+              "params": "16",
+              "style": "3",
+              "name": "start_container",
+              "visible": "false"
+            },
+            "children": [
+              {
+                "tag": "static_bitmap",
+                "attributes": {
+                  "x": "32",
+                  "y": "59",
+                  "width": "124",
+                  "height": "126",
+                  "params": "16",
+                  "style": "3"
+                },
+                "children": []
+              },
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "32",
+                  "y": "22",
+                  "width": "382",
+                  "height": "33",
+                  "params": "16",
+                  "style": "3",
+                  "caption": "%24%7Bhelp.main.frame.title%7D"
+                },
+                "children": []
+              },
+              {
+                "tag": "html",
+                "attributes": {
+                  "x": "170",
+                  "y": "61",
+                  "width": "250",
+                  "height": "117",
+                  "params": "1",
+                  "style": "3",
+                  "caption": "%24%7Bhelp.main.frame.description%7D"
+                },
+                "children": []
+              },
+              {
+                "tag": "itemlist_vertical",
+                "attributes": {
+                  "x": "32",
+                  "y": "230",
+                  "width": "380",
+                  "height": "150",
+                  "params": "16",
+                  "style": "3"
+                },
+                "children": [
+                  {
+                    "tag": "container_button",
+                    "attributes": {
+                      "x": "0",
+                      "y": "0",
+                      "width": "380",
+                      "height": "40",
+                      "params": "17",
+                      "style": "6",
+                      "name": "button_habbo_help",
+                      "color": "0x0aa00",
+                      "visible": "false"
+                    },
+                    "children": [
+                      {
+                        "tag": "text",
+                        "attributes": {
+                          "x": "0",
+                          "y": "7",
+                          "width": "365",
+                          "height": "21",
+                          "params": "16",
+                          "style": "3",
+                          "caption": "%24%7Bhelp.main.help.title%7D",
+                          "visible": "false"
+                        },
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "container_button",
+                    "attributes": {
+                      "x": "0",
+                      "y": "45",
+                      "width": "380",
+                      "height": "40",
+                      "params": "17",
+                      "style": "6",
+                      "name": "button_user_report",
+                      "color": "0x0aa00"
+                    },
+                    "children": [
+                      {
+                        "tag": "text",
+                        "attributes": {
+                          "x": "0",
+                          "y": "7",
+                          "width": "365",
+                          "height": "21",
+                          "params": "16",
+                          "style": "3",
+                          "caption": "%24%7Bhelp.main.bully.subtitle%7D"
+                        },
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "container_button",
+                    "attributes": {
+                      "x": "0",
+                      "y": "90",
+                      "width": "380",
+                      "height": "40",
+                      "params": "17",
+                      "style": "6",
+                      "name": "button_account",
+                      "color": "0x0aa00"
+                    },
+                    "children": [
+                      {
+                        "tag": "text",
+                        "attributes": {
+                          "x": "0",
+                          "y": "7",
+                          "width": "365",
+                          "height": "21",
+                          "params": "16",
+                          "style": "3",
+                          "caption": "%24%7Bhelp.main.self.tips.title%7D"
+                        },
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "static_bitmap",
+                "attributes": {
+                  "x": "32",
+                  "y": "378",
+                  "width": "18",
+                  "height": "19",
+                  "params": "16",
+                  "style": "3",
+                  "treshold": "0"
+                },
+                "children": []
+              },
+              {
+                "tag": "link",
+                "attributes": {
+                  "x": "54",
+                  "y": "377",
+                  "width": "354",
+                  "height": "20",
+                  "params": "1",
+                  "style": "3",
+                  "name": "faq_link",
+                  "caption": "%24%7Bhelp.main.faq.link.text%7D",
+                  "treshold": "0"
+                },
+                "children": []
+              },
+              {
+                "tag": "static_bitmap",
+                "attributes": {
+                  "x": "32",
+                  "y": "406",
+                  "width": "18",
+                  "height": "19",
+                  "params": "16",
+                  "style": "3",
+                  "treshold": "0"
+                },
+                "children": []
+              },
+              {
+                "tag": "link",
+                "attributes": {
+                  "x": "54",
+                  "y": "404",
+                  "width": "354",
+                  "height": "20",
+                  "params": "1",
+                  "style": "3",
+                  "name": "sanction_info_link",
+                  "caption": "%24%7Bhelp.main.my.sanction.status%7D",
+                  "treshold": "0"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "container",
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "446",
+              "height": "480",
+              "params": "16",
+              "style": "3",
+              "name": "help_container"
+            },
+            "children": [
+              {
+                "tag": "static_bitmap",
+                "attributes": {
+                  "x": "32",
+                  "y": "59",
+                  "width": "124",
+                  "height": "126",
+                  "params": "16",
+                  "style": "3"
+                },
+                "children": []
+              },
+              {
+                "tag": "html",
+                "attributes": {
+                  "x": "170",
+                  "y": "61",
+                  "width": "250",
+                  "height": "117",
+                  "params": "1",
+                  "style": "3",
+                  "caption": "%24%7Bhelp.main.self.description%7D"
+                },
+                "children": []
+              },
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "32",
+                  "y": "22",
+                  "width": "382",
+                  "height": "33",
+                  "params": "16",
+                  "style": "3",
+                  "caption": "%24%7Bhelp.main.frame.title%7D"
+                },
+                "children": []
+              },
+              {
+                "tag": "itemlist_vertical",
+                "attributes": {
+                  "x": "32",
+                  "y": "230",
+                  "width": "380",
+                  "height": "150",
+                  "params": "16",
+                  "style": "3"
+                },
+                "children": [
+                  {
+                    "tag": "container_button",
+                    "attributes": {
+                      "x": "0",
+                      "y": "0",
+                      "width": "380",
+                      "height": "40",
+                      "params": "17",
+                      "style": "6",
+                      "name": "instructions_button",
+                      "color": "0x0aa00"
+                    },
+                    "children": [
+                      {
+                        "tag": "text",
+                        "attributes": {
+                          "x": "0",
+                          "y": "7",
+                          "width": "380",
+                          "height": "21",
+                          "params": "16",
+                          "style": "3",
+                          "caption": "%24%7Bhelp.main2.tour.subtitle%7D"
+                        },
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "container_button",
+                    "attributes": {
+                      "x": "0",
+                      "y": "45",
+                      "width": "380",
+                      "height": "40",
+                      "params": "17",
+                      "style": "6",
+                      "name": "safetybooklet_link",
+                      "color": "0x0aa00"
+                    },
+                    "children": [
+                      {
+                        "tag": "text",
+                        "attributes": {
+                          "x": "0",
+                          "y": "7",
+                          "width": "380",
+                          "height": "21",
+                          "params": "16",
+                          "style": "3",
+                          "caption": "%24%7Bhelp.main.button.self_help%7D"
+                        },
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "container_button",
+                    "attributes": {
+                      "x": "0",
+                      "y": "90",
+                      "width": "380",
+                      "height": "40",
+                      "params": "17",
+                      "style": "6",
+                      "name": "habboway_link",
+                      "color": "0x0aa00"
+                    },
+                    "children": [
+                      {
+                        "tag": "text",
+                        "attributes": {
+                          "x": "0",
+                          "y": "7",
+                          "width": "380",
+                          "height": "21",
+                          "params": "16",
+                          "style": "3",
+                          "caption": "%24%7Bhelp.main2.habboway.button%7D"
+                        },
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "container_button",
+            "attributes": {
+              "x": "229",
+              "y": "435",
+              "width": "189",
+              "height": "41",
+              "params": "131089",
+              "style": "5",
+              "name": "continue_button",
+              "color": "0x0aa00"
+            },
+            "children": [
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "10",
+                  "y": "9",
+                  "width": "169",
+                  "height": "21",
+                  "params": "16",
+                  "style": "5",
+                  "name": "continue_button",
+                  "caption": "%24%7Bhelp.emergency.main.submit.button%7D"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "container",
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "446",
+              "height": "430",
+              "params": "16",
+              "style": "3",
+              "name": "users_container",
+              "visible": "false"
+            },
+            "children": [
+              {
+                "tag": "label",
+                "attributes": {
+                  "x": "30",
+                  "y": "30",
+                  "width": "278",
+                  "height": "21",
+                  "params": "16",
+                  "style": "3",
+                  "caption": "%24%7Bhelp.emergency.main.step.two.title%7D"
+                },
+                "children": []
+              },
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "30",
+                  "y": "60",
+                  "width": "380",
+                  "height": "37",
+                  "params": "16",
+                  "style": "3",
+                  "caption": "%24%7Bhelp.emergency.main.step.two.description%7D",
+                  "visible": "false"
+                },
+                "children": []
+              },
+              {
+                "tag": "scrollable_itemlist_vertical",
+                "attributes": {
+                  "x": "30",
+                  "y": "100",
+                  "width": "400",
+                  "height": "330",
+                  "params": "16",
+                  "style": "3",
+                  "name": "user_list"
+                },
+                "children": [
+                  {
+                    "tag": "container",
+                    "attributes": {
+                      "x": "3",
+                      "y": "0",
+                      "width": "367",
+                      "height": "57",
+                      "params": "17",
+                      "style": "2",
+                      "name": "user_prototype",
+                      "treshold": "0"
+                    },
+                    "children": [
+                      {
+                        "tag": "border",
+                        "attributes": {
+                          "x": "0",
+                          "y": "0",
+                          "width": "367",
+                          "height": "52",
+                          "params": "16",
+                          "style": "2",
+                          "name": "user_bg",
+                          "tags": "BACKGROUND"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "label",
+                        "attributes": {
+                          "x": "61",
+                          "y": "11",
+                          "width": "42",
+                          "height": "15",
+                          "params": "16",
+                          "style": "100",
+                          "name": "user_name",
+                          "caption": "user123"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "label",
+                        "attributes": {
+                          "x": "61",
+                          "y": "24",
+                          "width": "218",
+                          "height": "16",
+                          "params": "16",
+                          "style": "100",
+                          "name": "room_name",
+                          "caption": "%24%7Bhelp.emergency.main.step.two.room.name%7D"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "widget",
+                        "attributes": {
+                          "x": "-11",
+                          "y": "-29",
+                          "width": "90",
+                          "height": "130",
+                          "params": "16",
+                          "style": "100",
+                          "name": "user_avatar"
+                        },
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "container",
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "446",
+              "height": "90",
+              "params": "16",
+              "style": "3",
+              "name": "user",
+              "visible": "false"
+            },
+            "children": [
+              {
+                "tag": "background",
+                "attributes": {
+                  "x": "0",
+                  "y": "0",
+                  "width": "446",
+                  "height": "90",
+                  "params": "16",
+                  "style": "3",
+                  "color": "0xffff8899a2",
+                  "background": "true"
+                },
+                "children": []
+              },
+              {
+                "tag": "background",
+                "attributes": {
+                  "x": "0",
+                  "y": "89",
+                  "width": "446",
+                  "height": "1",
+                  "params": "16",
+                  "style": "3",
+                  "color": "0xffff000000",
+                  "background": "true"
+                },
+                "children": []
+              },
+              {
+                "tag": "widget",
+                "attributes": {
+                  "x": "50",
+                  "y": "23",
+                  "width": "33",
+                  "height": "34",
+                  "params": "16",
+                  "style": "3",
+                  "name": "reported_user_avatar"
+                },
+                "children": []
+              },
+              {
+                "tag": "label",
+                "attributes": {
+                  "x": "110",
+                  "y": "10",
+                  "width": "160",
+                  "height": "17",
+                  "params": "16",
+                  "style": "3",
+                  "name": "user_info_title",
+                  "caption": "%24%7Bhelp.cfh.selected_user.title%7D"
+                },
+                "children": []
+              },
+              {
+                "tag": "label",
+                "attributes": {
+                  "x": "110",
+                  "y": "30",
+                  "width": "93",
+                  "height": "24",
+                  "params": "16",
+                  "style": "3",
+                  "name": "reported_user_name",
+                  "caption": "UserName"
+                },
+                "children": []
+              },
+              {
+                "tag": "link",
+                "attributes": {
+                  "x": "110",
+                  "y": "60",
+                  "width": "256",
+                  "height": "16",
+                  "params": "1",
+                  "style": "3",
+                  "name": "change_user",
+                  "caption": "%24%7Bhelp.cfh.selected_user.change%7D",
+                  "treshold": "0"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "container",
+            "attributes": {
+              "x": "0",
+              "y": "90",
+              "width": "445",
+              "height": "340",
+              "params": "16",
+              "style": "3",
+              "name": "reason_container",
+              "visible": "false"
+            },
+            "children": [
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "30",
+                  "y": "12",
+                  "width": "405",
+                  "height": "59",
+                  "params": "16",
+                  "style": "3",
+                  "caption": "%24%7Bhelp.cfh.pick.topic%7D"
+                },
+                "children": []
+              },
+              {
+                "tag": "scrollable_itemlist_vertical",
+                "attributes": {
+                  "x": "30",
+                  "y": "70",
+                  "width": "385",
+                  "height": "270",
+                  "params": "16",
+                  "style": "3",
+                  "name": "reason_list"
+                },
+                "children": [
+                  {
+                    "tag": "container_button",
+                    "attributes": {
+                      "x": "0",
+                      "y": "0",
+                      "width": "355",
+                      "height": "40",
+                      "params": "17",
+                      "style": "5",
+                      "name": "reason_prototype",
+                      "color": "0x0aa0000"
+                    },
+                    "children": [
+                      {
+                        "tag": "text",
+                        "attributes": {
+                          "x": "10",
+                          "y": "8",
+                          "width": "335",
+                          "height": "21",
+                          "params": "16",
+                          "style": "3",
+                          "name": "name",
+                          "caption": "Category%20Name"
+                        },
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "container",
+            "attributes": {
+              "x": "0",
+              "y": "100",
+              "width": "445",
+              "height": "330",
+              "params": "16",
+              "style": "3",
+              "name": "message_container",
+              "visible": "false"
+            },
+            "children": [
+              {
+                "tag": "label",
+                "attributes": {
+                  "x": "30",
+                  "y": "20",
+                  "width": "278",
+                  "height": "21",
+                  "params": "16",
+                  "style": "3",
+                  "name": "message_phase_title",
+                  "caption": "%24%7Bhelp.emergency.main.step.one.title%7D"
+                },
+                "children": []
+              },
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "30",
+                  "y": "50",
+                  "width": "380",
+                  "height": "57",
+                  "params": "16",
+                  "style": "3",
+                  "caption": "%24%7Bhelp.emergency.main.step.one.description%7D"
+                },
+                "children": []
+              },
+              {
+                "tag": "widget",
+                "attributes": {
+                  "x": "30",
+                  "y": "100",
+                  "width": "390",
+                  "height": "220",
+                  "params": "16",
+                  "style": "105",
+                  "name": "help_message"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "container",
+            "attributes": {
+              "x": "0",
+              "y": "100",
+              "width": "444",
+              "height": "330",
+              "params": "16",
+              "style": "3",
+              "name": "chat_container",
+              "visible": "false"
+            },
+            "children": [
+              {
+                "tag": "label",
+                "attributes": {
+                  "x": "30",
+                  "y": "20",
+                  "width": "287",
+                  "height": "21",
+                  "params": "16",
+                  "style": "3",
+                  "caption": "%24%7Bhelp.emergency.chat_report.subtitle%7D"
+                },
+                "children": []
+              },
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "30",
+                  "y": "40",
+                  "width": "380",
+                  "height": "57",
+                  "params": "16",
+                  "style": "3",
+                  "caption": "%24%7Bhelp.emergency.chat_report.description%7D"
+                },
+                "children": []
+              },
+              {
+                "tag": "border",
+                "attributes": {
+                  "x": "30",
+                  "y": "100",
+                  "width": "390",
+                  "height": "220",
+                  "params": "16",
+                  "style": "105"
+                },
+                "children": [
+                  {
+                    "tag": "scrollable_itemlist_vertical",
+                    "attributes": {
+                      "x": "5",
+                      "y": "5",
+                      "width": "380",
+                      "height": "209",
+                      "params": "16",
+                      "style": "3",
+                      "name": "chat_list"
+                    },
+                    "children": [
+                      {
+                        "tag": "container",
+                        "attributes": {
+                          "x": "0",
+                          "y": "0",
+                          "width": "360",
+                          "height": "20",
+                          "params": "16",
+                          "style": "3",
+                          "name": "chat_prototype"
+                        },
+                        "children": [
+                          {
+                            "tag": "checkbox",
+                            "attributes": {
+                              "x": "2",
+                              "y": "2",
+                              "width": "16",
+                              "height": "16",
+                              "params": "17",
+                              "style": "3",
+                              "name": "chat_check",
+                              "caption": "This%20is%20a%20chatline"
+                            },
+                            "children": []
+                          },
+                          {
+                            "tag": "link",
+                            "attributes": {
+                              "x": "20",
+                              "y": "2",
+                              "width": "336",
+                              "height": "17",
+                              "params": "1",
+                              "style": "3",
+                              "name": "chat_text",
+                              "caption": "This%20is%20a%20chat%20line",
+                              "treshold": "0"
+                            },
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "container_button",
+            "attributes": {
+              "x": "30",
+              "y": "435",
+              "width": "189",
+              "height": "41",
+              "params": "131089",
+              "style": "5",
+              "name": "back_button",
+              "color": "0x0aaaaaa",
+              "visible": "false"
+            },
+            "children": [
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "10",
+                  "y": "9",
+                  "width": "169",
+                  "height": "21",
+                  "params": "16",
+                  "style": "3",
+                  "name": "button_text",
+                  "caption": "%24%7Bgeneric.back%7D"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "container",
+            "attributes": {
+              "x": "0",
+              "y": "100",
+              "width": "444",
+              "height": "380",
+              "params": "16",
+              "style": "3",
+              "name": "summary_container",
+              "visible": "false"
+            },
+            "children": [
+              {
+                "tag": "label",
+                "attributes": {
+                  "x": "30",
+                  "y": "20",
+                  "width": "164",
+                  "height": "21",
+                  "params": "16",
+                  "style": "3",
+                  "caption": "%24%7Bhelp.cfh.button.send%7D"
+                },
+                "children": []
+              },
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "30",
+                  "y": "50",
+                  "width": "390",
+                  "height": "107",
+                  "params": "16",
+                  "style": "3",
+                  "caption": "%24%7Bhelp.main.summary%7D"
+                },
+                "children": []
+              },
+              {
+                "tag": "container_button",
+                "attributes": {
+                  "x": "229",
+                  "y": "335",
+                  "width": "189",
+                  "height": "41",
+                  "params": "131089",
+                  "style": "5",
+                  "name": "submit_button",
+                  "color": "0x0aa0000"
+                },
+                "children": [
+                  {
+                    "tag": "text",
+                    "attributes": {
+                      "x": "10",
+                      "y": "9",
+                      "width": "169",
+                      "height": "21",
+                      "params": "16",
+                      "style": "3",
+                      "caption": "%24%7Bhelp.emergency.chat_report.submit.button%7D"
+                    },
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "asset_uri": "help_help_duck",
+    "pivot_point": "center",
+    "stretched_x": false,
+    "stretched_y": false,
+    "font_size": 36,
+    "text_style": "u_headline_medium",
+    "mouse_wheel_enabled": false,
+    "spacing": 0,
+    "leading": 0,
+    "multiline": true,
+    "word_wrap": true,
+    "editable": false,
+    "selectable": false,
+    "auto_size": "center",
+    "text_color": 16777215,
+    "sharpness": 0,
+    "thickness": 0,
+    "scale_to_fit_items": true,
+    "underline": true,
+    "widget_type": "illumina_input",
+    "avatar_image:only_head": true,
+    "avatar_image:cropped": true,
+    "illumina_input:button_caption": "",
+    "illumina_input:empty_message": "${help.emergency.main.step.one.entry.instruction}",
+    "illumina_input:multiline": true,
+    "margin_left": 1,
+    "margin_top": 33,
+    "margin_right": 1,
+    "margin_bottom": 3
+  },
+  "filters": [
+    {
+      "type": "DropShadowFilter",
+      "attributes": {
+        "distance": "4",
+        "alpha": "0.34901960784313724",
+        "blurX": "4",
+        "blurY": "4"
+      }
+    }
+  ]
+}

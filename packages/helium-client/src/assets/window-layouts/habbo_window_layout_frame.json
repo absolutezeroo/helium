@@ -1,0 +1,180 @@
+{
+  "name": "habbo_window_layout_frame",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_window_layout_frame_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "header",
+        "attributes": {
+          "name": "titlebar",
+          "x": "6",
+          "y": "6",
+          "width": "28",
+          "height": "15",
+          "tags": "_HEADER, _EXCLUDE, _INTERNAL, _COLORIZE"
+        },
+        "children": [
+          {
+            "tag": "params",
+            "attributes": {},
+            "children": [
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "relative_horizontal_scale_strech"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "relative_vertical_scale_fixed"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "input_event_processor"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "use_parent_graphic_context"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "mouse_dragging_trigger"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "inherit_caption"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tag": "container",
+        "attributes": {
+          "name": "content_area",
+          "x": "6",
+          "y": "25",
+          "width": "28",
+          "height": "8",
+          "tags": "_CONTENT, _INTERNAL, _EXCLUDE"
+        },
+        "children": [
+          {
+            "tag": "params",
+            "attributes": {},
+            "children": [
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "relative_horizontal_scale_strech"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "relative_vertical_scale_strech"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "use_parent_graphic_context"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "reflect_resize_to_parent"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tag": "scaler",
+        "attributes": {
+          "name": "_FRAME_SCALER",
+          "x": "25",
+          "y": "25",
+          "width": "15",
+          "height": "15",
+          "visible": "true",
+          "tags": "_SCALER, _EXCLUDE, _INTERNAL, _COLORIZE"
+        },
+        "children": [
+          {
+            "tag": "params",
+            "attributes": {},
+            "children": [
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "relative_horizontal_scale_move"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "relative_vertical_scale_move"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "use_parent_graphic_context"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "bound_to_parent_rect"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {},
+  "filters": [
+    {
+      "type": "DropShadowFilter",
+      "attributes": {
+        "distance": "4",
+        "angle": "45",
+        "color": "0",
+        "alpha": "0.35",
+        "blurX": "4",
+        "blurY": "4"
+      }
+    }
+  ]
+}

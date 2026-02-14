@@ -1,0 +1,100 @@
+{
+  "name": "inventory_subwindow_get_more_music",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboplaylisteditor_inventory_subwindow_get_more_music_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "278",
+          "height": "110",
+          "params": "16",
+          "style": "0",
+          "name": "get_more_music_container"
+        },
+        "children": [
+          {
+            "tag": "bitmap",
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "278",
+              "height": "110",
+              "params": "16",
+              "style": "0",
+              "name": "get_more_music_background_image"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "15",
+              "y": "12",
+              "width": "236",
+              "height": "19",
+              "params": "16",
+              "style": "0",
+              "caption": "%24%7Bplaylist.editor.text.get.more.music%7D"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "15",
+              "y": "35",
+              "width": "285",
+              "height": "17",
+              "params": "16",
+              "style": "0",
+              "caption": "%24%7Bplaylist.editor.text.you.have.no.songdisks.available%7D"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "15",
+              "y": "50",
+              "width": "319",
+              "height": "17",
+              "params": "16",
+              "style": "0",
+              "caption": "%24%7Bplaylist.editor.text.you.can.buy.some.from.the.catalogue%7D"
+            },
+            "children": []
+          },
+          {
+            "tag": "button_thick",
+            "attributes": {
+              "x": "15",
+              "y": "73",
+              "width": "233",
+              "height": "29",
+              "params": "131089",
+              "style": "3",
+              "name": "open_catalog_button",
+              "caption": "%24%7Bplaylist.editor.button.open.catalogue%7D"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "antialias_type": "advanced",
+    "auto_size": "left",
+    "font_face": "Ubuntu",
+    "font_size": 18,
+    "text_style": "bold",
+    "mouse_wheel_enabled": false,
+    "bold": true
+  },
+  "filters": []
+}

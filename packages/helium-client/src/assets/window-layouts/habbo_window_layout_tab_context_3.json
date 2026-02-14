@@ -1,0 +1,113 @@
+{
+  "name": "habbo_window_layout_tab_context_3",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_window_layout_tab_context_3_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "tab_content",
+        "attributes": {
+          "name": "content",
+          "x": "0",
+          "y": "30",
+          "width": "64",
+          "height": "32",
+          "tags": "_CONTENT, _EXCLUDE, _INTERNAL"
+        },
+        "children": [
+          {
+            "tag": "params",
+            "attributes": {},
+            "children": [
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "relative_horizontal_scale_strech"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "relative_vertical_scale_strech"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "use_parent_graphic_context"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "input_event_processor"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "inherit_caption"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tag": "tab_selector",
+        "attributes": {
+          "name": "selector",
+          "x": "8",
+          "y": "0",
+          "width": "48",
+          "height": "32",
+          "tags": "_SELECTOR, _EXCLUDE, _INTERNAL"
+        },
+        "children": [
+          {
+            "tag": "params",
+            "attributes": {},
+            "children": [
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "relative_horizontal_scale_strech"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "relative_vertical_scale_fixed"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "use_parent_graphic_context"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "input_event_processor"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {},
+  "filters": []
+}

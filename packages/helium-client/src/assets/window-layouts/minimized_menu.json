@@ -1,0 +1,60 @@
+{
+  "name": "minimized_menu",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbominimized_menu_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "bubble",
+        "attributes": {
+          "x": "0",
+          "y": "1",
+          "width": "45",
+          "height": "35",
+          "params": "1048865",
+          "style": "0",
+          "color": "0x06e6b67",
+          "treshold": "0"
+        },
+        "children": [
+          {
+            "tag": "region",
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "38",
+              "height": "30",
+              "params": "17",
+              "style": "0",
+              "name": "minimize",
+              "treshold": "0"
+            },
+            "children": [
+              {
+                "tag": "icon",
+                "attributes": {
+                  "x": "14",
+                  "y": "11",
+                  "width": "15",
+                  "height": "15",
+                  "params": "16",
+                  "style": "6",
+                  "name": "icon"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "margin_left": 4,
+    "margin_top": 4,
+    "margin_right": 4,
+    "margin_bottom": 4
+  },
+  "filters": []
+}

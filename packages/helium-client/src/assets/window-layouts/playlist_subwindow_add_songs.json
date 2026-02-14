@@ -1,0 +1,90 @@
+{
+  "name": "playlist_subwindow_add_songs",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboplaylisteditor_playlist_subwindow_add_songs_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "261",
+          "height": "56",
+          "params": "16",
+          "style": "0"
+        },
+        "children": [
+          {
+            "tag": "bitmap",
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "180",
+              "height": "56",
+              "params": "16",
+              "style": "0",
+              "name": "background_image",
+              "clipping": "false",
+              "background": "true"
+            },
+            "children": []
+          },
+          {
+            "tag": "bitmap",
+            "attributes": {
+              "x": "8",
+              "y": "3",
+              "width": "46",
+              "height": "46",
+              "params": "16",
+              "style": "0",
+              "name": "add_songs_icon_image",
+              "tags": "ICON"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "63",
+              "y": "1",
+              "width": "270",
+              "height": "19",
+              "params": "16",
+              "style": "0",
+              "caption": "%24%7Bplaylist.editor.add.songs.to.your.playlist%7D"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "63",
+              "y": "21",
+              "width": "200",
+              "height": "32",
+              "params": "16",
+              "style": "0",
+              "caption": "%24%7Bplaylist.editor.text.click.song.to.choose.click.again.to.move%7D"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "antialias_type": "advanced",
+    "auto_size": "left",
+    "font_face": "Ubuntu",
+    "font_size": 18,
+    "text_style": "bold",
+    "mouse_wheel_enabled": false,
+    "bold": true,
+    "multiline": true,
+    "word_wrap": true
+  },
+  "filters": []
+}

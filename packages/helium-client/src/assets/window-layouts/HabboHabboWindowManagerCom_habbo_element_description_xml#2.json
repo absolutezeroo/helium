@@ -1,0 +1,16 @@
+{
+  "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#2",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {
+      "type": "bitmap",
+      "intent": "default",
+      "style": "0",
+      "renderer": "bitmap"
+    },
+    "children": []
+  },
+  "vars": {},
+  "filters": []
+}

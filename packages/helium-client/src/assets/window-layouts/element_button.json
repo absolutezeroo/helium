@@ -1,0 +1,30 @@
+{
+  "name": "element_button",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_element_button_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "button",
+        "attributes": {
+          "x": "-11",
+          "y": "0",
+          "width": "200",
+          "height": "48",
+          "params": "131089",
+          "style": "100",
+          "name": "action_button",
+          "caption": "Button%20Text%20PH",
+          "width_min": "200",
+          "width_max": "200",
+          "height_min": "48",
+          "height_max": "48"
+        },
+        "children": []
+      }
+    ]
+  },
+  "vars": {},
+  "filters": []
+}

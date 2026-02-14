@@ -1,0 +1,106 @@
+{
+  "name": "avatarinfo",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboavatar_info_widget_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "bubble",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "129",
+          "height": "39",
+          "params": "1",
+          "style": "5",
+          "name": "border",
+          "color": "0x03d3d3d"
+        },
+        "children": [
+          {
+            "tag": "static_bitmap",
+            "attributes": {
+              "x": "2",
+              "y": "4",
+              "width": "16",
+              "height": "14",
+              "params": "16",
+              "style": "100",
+              "name": "relationship_status"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "16",
+              "y": "3",
+              "width": "81",
+              "height": "16",
+              "params": "4194320",
+              "style": "0",
+              "name": "name",
+              "caption": "my_name_here"
+            },
+            "children": []
+          },
+          {
+            "tag": "container",
+            "attributes": {
+              "x": "0",
+              "y": "19",
+              "width": "123",
+              "height": "18",
+              "params": "209",
+              "style": "0",
+              "name": "change_name_container",
+              "treshold": "0"
+            },
+            "children": [
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "20",
+                  "y": "0",
+                  "width": "106",
+                  "height": "18",
+                  "params": "16",
+                  "style": "0",
+                  "caption": "%24%7Bwidget.avatar.change_name%7D"
+                },
+                "children": []
+              },
+              {
+                "tag": "bitmap",
+                "attributes": {
+                  "x": "7",
+                  "y": "1",
+                  "width": "12",
+                  "height": "12",
+                  "params": "16",
+                  "style": "0",
+                  "name": "pen_icon"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "stretched_x": false,
+    "stretched_y": false,
+    "auto_size": "left",
+    "font_size": 16,
+    "text_color": 16433664,
+    "text_style": "u_italic",
+    "mouse_wheel_enabled": false,
+    "spacing": 0,
+    "leading": 0,
+    "underline": true
+  },
+  "filters": []
+}

@@ -1,0 +1,162 @@
+{
+  "name": "name_configuration",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_name_configuration_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "bubble",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "209",
+          "height": "119",
+          "params": "33025",
+          "style": "100",
+          "color": "0x06e6b67"
+        },
+        "children": [
+          {
+            "tag": "container",
+            "attributes": {
+              "x": "1",
+              "y": "1",
+              "width": "191",
+              "height": "20",
+              "params": "144",
+              "style": "100",
+              "color": "0xffff000000",
+              "background": "true"
+            },
+            "children": [
+              {
+                "tag": "label",
+                "attributes": {
+                  "x": "1",
+                  "y": "2",
+                  "width": "189",
+                  "height": "17",
+                  "params": "786640",
+                  "style": "100",
+                  "caption": "%24%7Bbot.skill.name.configuration.title%7D"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "itemlist",
+            "attributes": {
+              "x": "7",
+              "y": "25",
+              "width": "183",
+              "height": "81",
+              "params": "16",
+              "style": "100",
+              "name": "configuration_items"
+            },
+            "children": [
+              {
+                "tag": "label",
+                "attributes": {
+                  "x": "0",
+                  "y": "0",
+                  "width": "181",
+                  "height": "15",
+                  "params": "16",
+                  "style": "100",
+                  "caption": "%24%7Bbot.skill.name.configuration.new.name%7D"
+                },
+                "children": []
+              },
+              {
+                "tag": "input",
+                "attributes": {
+                  "x": "0",
+                  "y": "17",
+                  "width": "180",
+                  "height": "18",
+                  "params": "1",
+                  "style": "100",
+                  "name": "name_input"
+                },
+                "children": []
+              },
+              {
+                "tag": "container",
+                "attributes": {
+                  "x": "0",
+                  "y": "37",
+                  "width": "181",
+                  "height": "36",
+                  "params": "16",
+                  "style": "100"
+                },
+                "children": [
+                  {
+                    "tag": "itemlist_horizontal",
+                    "attributes": {
+                      "x": "58",
+                      "y": "7",
+                      "width": "124",
+                      "height": "35",
+                      "params": "262224",
+                      "style": "100"
+                    },
+                    "children": [
+                      {
+                        "tag": "button_thick",
+                        "attributes": {
+                          "x": "0",
+                          "y": "0",
+                          "width": "60",
+                          "height": "28",
+                          "params": "131089",
+                          "style": "3",
+                          "name": "cancel_button",
+                          "caption": "%24%7Bcancel%7D",
+                          "width_max": "120"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "button_thick",
+                        "attributes": {
+                          "x": "64",
+                          "y": "0",
+                          "width": "60",
+                          "height": "28",
+                          "params": "393233",
+                          "style": "5",
+                          "name": "save_button",
+                          "caption": "%24%7Bsave%7D",
+                          "color": "0x03f9f3f",
+                          "width_min": "60",
+                          "width_max": "120"
+                        },
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "text_style": "u_small",
+    "text_color": 16777215,
+    "border": true,
+    "border_color": 16777215,
+    "etching_color": 0,
+    "spacing": 2,
+    "leading": 0,
+    "scale_to_fit_items": true,
+    "resize_on_item_update": true
+  },
+  "filters": []
+}

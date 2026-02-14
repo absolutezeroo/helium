@@ -1,0 +1,189 @@
+{
+  "name": "AchievementCategory",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboachievement_category_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "112",
+          "height": "105",
+          "params": "16",
+          "style": "0",
+          "name": "achievement_category_container"
+        },
+        "children": [
+          {
+            "tag": "static_bitmap",
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "112",
+              "height": "105",
+              "params": "3089",
+              "style": "0",
+              "name": "category_bg_act",
+              "visible": "false"
+            },
+            "children": []
+          },
+          {
+            "tag": "static_bitmap",
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "112",
+              "height": "105",
+              "params": "3089",
+              "style": "0",
+              "name": "category_bg_act_hover",
+              "visible": "false"
+            },
+            "children": []
+          },
+          {
+            "tag": "static_bitmap",
+            "attributes": {
+              "x": "0",
+              "y": "1",
+              "width": "110",
+              "height": "103",
+              "params": "3088",
+              "style": "0",
+              "name": "category_bg_inact",
+              "visible": "false"
+            },
+            "children": []
+          },
+          {
+            "tag": "container",
+            "attributes": {
+              "x": "1",
+              "y": "1",
+              "width": "115",
+              "height": "104",
+              "params": "16",
+              "style": "0",
+              "name": "hover_container"
+            },
+            "children": [
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "23",
+                  "y": "7",
+                  "width": "65",
+                  "height": "17",
+                  "params": "208",
+                  "style": "0",
+                  "name": "header_txt",
+                  "caption": "Decoration"
+                },
+                "children": []
+              },
+              {
+                "tag": "static_bitmap",
+                "attributes": {
+                  "x": "12",
+                  "y": "27",
+                  "width": "86",
+                  "height": "72",
+                  "params": "16",
+                  "style": "0",
+                  "name": "category_pic_bitmap"
+                },
+                "children": []
+              },
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "40",
+                  "y": "70",
+                  "width": "30",
+                  "height": "14",
+                  "params": "208",
+                  "style": "0",
+                  "name": "completion_txt",
+                  "caption": "1/10"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "region",
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "110",
+              "height": "103",
+              "params": "17",
+              "style": "0",
+              "name": "category_region",
+              "treshold": "0",
+              "tags": "FIT%3AachievementsSelectCategory"
+            },
+            "children": []
+          },
+          {
+            "tag": "border",
+            "attributes": {
+              "x": "71",
+              "y": "27",
+              "width": "18",
+              "height": "20",
+              "params": "409616",
+              "style": "7",
+              "name": "unseen_count_border",
+              "color": "0x0de4537"
+            },
+            "children": [
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "0",
+                  "y": "0",
+                  "width": "18",
+                  "height": "20",
+                  "params": "16",
+                  "style": "3",
+                  "name": "unseen_count",
+                  "caption": "0"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "asset_uri": "${image.library.questing.url}achievement_category_bkg_empty_3.png",
+    "antialias_type": "advanced",
+    "auto_size": "left",
+    "font_face": "Ubuntu",
+    "font_size": 18,
+    "mouse_wheel_enabled": false,
+    "sharpness": 0,
+    "thickness": 0,
+    "bold": true,
+    "kerning": false,
+    "spacing": 0,
+    "leading": 0,
+    "pivot_point": "center",
+    "stretched_x": false,
+    "stretched_y": false,
+    "text_color": 16777215,
+    "text_style": "u_bold",
+    "margin_left": 3,
+    "margin_top": 1,
+    "margin_right": 5,
+    "margin_bottom": 2
+  },
+  "filters": []
+}

@@ -1,0 +1,47 @@
+{
+  "name": "textInputWidget",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbotext_input_widget_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "attributes": {
+          "x": "61",
+          "y": "282",
+          "width": "229",
+          "height": "71",
+          "params": "16",
+          "style": "0",
+          "name": "textInputWidget"
+        },
+        "children": [
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "229",
+              "height": "17",
+              "params": "16",
+              "style": "3",
+              "name": "input_text",
+              "caption": "lorem%20ipsum"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "auto_size": "left",
+    "mouse_wheel_enabled": false,
+    "multiline": true,
+    "word_wrap": true,
+    "spacing": 0,
+    "leading": 0
+  },
+  "filters": []
+}

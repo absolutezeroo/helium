@@ -1,0 +1,190 @@
+{
+  "name": "playlist_item",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboplaylisteditor_playlist_item_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "region",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "229",
+          "height": "52",
+          "params": "17",
+          "style": "0",
+          "name": "playlist_item",
+          "clipping": "false",
+          "treshold": "0"
+        },
+        "children": [
+          {
+            "tag": "border",
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "229",
+              "height": "52",
+              "params": "16",
+              "style": "0",
+              "name": "selected",
+              "tags": "SELECTED"
+            },
+            "children": []
+          },
+          {
+            "tag": "border",
+            "attributes": {
+              "x": "3",
+              "y": "3",
+              "width": "223",
+              "height": "46",
+              "params": "16",
+              "style": "2",
+              "name": "background",
+              "color": "0x0f1f1f1",
+              "tags": "BG_COLOR"
+            },
+            "children": []
+          },
+          {
+            "tag": "bitmap",
+            "attributes": {
+              "x": "7",
+              "y": "7",
+              "width": "38",
+              "height": "38",
+              "params": "16",
+              "style": "0",
+              "name": "disk_image",
+              "tags": "ICON"
+            },
+            "children": []
+          },
+          {
+            "tag": "container",
+            "attributes": {
+              "x": "4",
+              "y": "4",
+              "width": "44",
+              "height": "44",
+              "params": "16",
+              "style": "0",
+              "name": "action_buttons",
+              "tags": "BUTTONS"
+            },
+            "children": [
+              {
+                "tag": "border",
+                "attributes": {
+                  "x": "0",
+                  "y": "0",
+                  "width": "44",
+                  "height": "44",
+                  "params": "16",
+                  "style": "2",
+                  "name": "button_border",
+                  "color": "0x0658da0"
+                },
+                "children": [
+                  {
+                    "tag": "container_button",
+                    "attributes": {
+                      "x": "4",
+                      "y": "4",
+                      "width": "36",
+                      "height": "36",
+                      "params": "17",
+                      "style": "0",
+                      "name": "button_remove_from_playlist",
+                      "tags": "REMOVE_FROM_PLAYLIST"
+                    },
+                    "children": [
+                      {
+                        "tag": "bitmap",
+                        "attributes": {
+                          "x": "3",
+                          "y": "3",
+                          "width": "30",
+                          "height": "30",
+                          "params": "3934352",
+                          "style": "0",
+                          "name": "button_remove_from_playlist_image"
+                        },
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "70",
+              "y": "11",
+              "width": "4",
+              "height": "4",
+              "params": "16",
+              "style": "0",
+              "name": "song_title_text",
+              "tags": "SONG_TITLE"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "70",
+              "y": "27",
+              "width": "4",
+              "height": "4",
+              "params": "16",
+              "style": "0",
+              "name": "song_author_text",
+              "tags": "SONG_AUTHOR"
+            },
+            "children": []
+          },
+          {
+            "tag": "bitmap",
+            "attributes": {
+              "x": "54",
+              "y": "13",
+              "width": "14",
+              "height": "14",
+              "params": "16",
+              "style": "0",
+              "name": "song_name_icon_bitmap"
+            },
+            "children": []
+          },
+          {
+            "tag": "bitmap",
+            "attributes": {
+              "x": "54",
+              "y": "27",
+              "width": "14",
+              "height": "14",
+              "params": "16",
+              "style": "0",
+              "name": "author_name_icon_bitmap"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "antialias_type": "advanced",
+    "auto_size": "left",
+    "font_face": "Ubuntu",
+    "font_size": 16,
+    "mouse_wheel_enabled": false,
+    "bitmap_asset_name": "jb_icon_composer"
+  },
+  "filters": []
+}

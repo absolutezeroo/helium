@@ -1,0 +1,156 @@
+{
+  "name": "habboween_engraving",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_habboween_engraving_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "375",
+          "height": "210",
+          "params": "1",
+          "style": "100",
+          "dynamic_style": "",
+          "caption": "%24%7Bhabboween.engraving.caption%7D"
+        },
+        "children": [
+          {
+            "tag": "static_bitmap",
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "375",
+              "height": "210",
+              "params": "16",
+              "style": "100",
+              "dynamic_style": "",
+              "name": "background"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "82",
+              "y": "130",
+              "width": "217",
+              "height": "17",
+              "params": "16",
+              "style": "100",
+              "dynamic_style": "",
+              "name": "header",
+              "caption": "%24%7Bhabboween.engraving.caption%7D"
+            },
+            "children": []
+          },
+          {
+            "tag": "bitmap",
+            "attributes": {
+              "x": "115",
+              "y": "7",
+              "width": "70",
+              "height": "115",
+              "params": "16",
+              "style": "100",
+              "dynamic_style": "",
+              "name": "avatar_left"
+            },
+            "children": []
+          },
+          {
+            "tag": "bitmap",
+            "attributes": {
+              "x": "186",
+              "y": "7",
+              "width": "70",
+              "height": "115",
+              "params": "16",
+              "style": "100",
+              "dynamic_style": "",
+              "name": "avatar_right"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "20",
+              "y": "175",
+              "width": "150",
+              "height": "17",
+              "params": "16",
+              "style": "100",
+              "dynamic_style": "",
+              "name": "name_left",
+              "caption": "%24%7Bhabboween.engraving.left%7D"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "190",
+              "y": "175",
+              "width": "161",
+              "height": "17",
+              "params": "16",
+              "style": "100",
+              "dynamic_style": "",
+              "name": "name_right",
+              "caption": "%24%7Bhabboween.engraving.right%7D"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "143",
+              "y": "154",
+              "width": "97",
+              "height": "4",
+              "params": "16",
+              "style": "100",
+              "dynamic_style": "",
+              "name": "date"
+            },
+            "children": []
+          },
+          {
+            "tag": "region",
+            "attributes": {
+              "x": "330",
+              "y": "33",
+              "width": "21",
+              "height": "17",
+              "params": "17",
+              "style": "100",
+              "dynamic_style": "",
+              "name": "header_button_close",
+              "treshold": "0"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "asset_uri": "${image.library.url}furniextras/loveLock_hween14.png",
+    "pivot_point": "center",
+    "stretched_x": false,
+    "stretched_y": false,
+    "auto_size": "center",
+    "etching_color": 4287991189,
+    "etching_position": "bottom",
+    "text_color": 2761760,
+    "text_style": "u_bold",
+    "mouse_wheel_enabled": false,
+    "spacing": 0,
+    "leading": 0
+  },
+  "filters": []
+}

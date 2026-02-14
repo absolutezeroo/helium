@@ -42,6 +42,9 @@ importers:
       '@types/node':
         specifier: ^22.10.0
         version: 22.19.10
+      '@xmldom/xmldom':
+        specifier: ^0.9.7
+        version: 0.9.8
       sass-embedded:
         specifier: ^1.97.3
         version: 1.97.3
@@ -781,6 +784,10 @@ packages:
   '@xmldom/xmldom@0.8.11':
     resolution: {integrity: sha512-cQzWCtO6C8TQiYl1ruKNn2U6Ao4o4WBBcbL61yJl84x+j5sOWWFU9X7DpND8XZG3daDppSsigMdfAIl2upQBRw==}
     engines: {node: '>=10.0.0'}
+
+  '@xmldom/xmldom@0.9.8':
+    resolution: {integrity: sha512-p96FSY54r+WJ50FIOsCOjyj/wavs8921hG5+kVMmZgKcvIKxMXHTrjNJvRgWa/zuX3B6t2lijLNFaOyuxUH+2A==}
+    engines: {node: '>=14.6'}
 
   babel-plugin-jsx-dom-expressions@0.40.3:
     resolution: {integrity: sha512-5HOwwt0BYiv/zxl7j8Pf2bGL6rDXfV6nUhLs8ygBX+EFJXzBPHM/euj9j/6deMZ6wa52Wb2PBaAV5U/jKwIY1w==}
@@ -1811,6 +1818,8 @@ snapshots:
   '@webgpu/types@0.1.69': {}
 
   '@xmldom/xmldom@0.8.11': {}
+
+  '@xmldom/xmldom@0.9.8': {}
 
   babel-plugin-jsx-dom-expressions@0.40.3(@babel/core@7.29.0):
     dependencies:

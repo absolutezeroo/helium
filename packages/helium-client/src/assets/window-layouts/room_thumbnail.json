@@ -1,0 +1,46 @@
+{
+  "name": "room_thumbnail",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_room_thumbnail_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "112",
+          "height": "112",
+          "params": "16",
+          "style": "3",
+          "name": "room_thumbnail_container",
+          "color": "0xffff000000",
+          "background": "true"
+        },
+        "children": [
+          {
+            "tag": "static_bitmap",
+            "attributes": {
+              "x": "1",
+              "y": "1",
+              "width": "110",
+              "height": "110",
+              "params": "16",
+              "style": "3",
+              "name": "room_thumbnail"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "asset_uri": "newnavigator_default_room",
+    "pivot_point": "center",
+    "stretched_x": false,
+    "stretched_y": false
+  },
+  "filters": []
+}

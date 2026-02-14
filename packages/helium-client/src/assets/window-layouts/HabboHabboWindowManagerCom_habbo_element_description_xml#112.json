@@ -1,0 +1,19 @@
+{
+  "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#112",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {
+      "type": "button_thick",
+      "intent": "default",
+      "style": "3",
+      "renderer": "skin",
+      "asset": "habbo_skin_button_shiny_thick_xml",
+      "window_layout": "habbo_window_layout_button_shiny_thick_xml",
+      "layout": "button_shiny_thick"
+    },
+    "children": []
+  },
+  "vars": {},
+  "filters": []
+}

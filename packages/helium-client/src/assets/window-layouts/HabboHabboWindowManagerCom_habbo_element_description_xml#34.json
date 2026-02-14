@@ -1,0 +1,21 @@
+{
+  "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#34",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {
+      "type": "header",
+      "intent": "blue",
+      "style": "0",
+      "renderer": "skin",
+      "asset": "habbo_skin_header_xml",
+      "window_layout": "habbo_window_layout_header_xml",
+      "layout": "header",
+      "color": "0xff418db0",
+      "treshold": "1"
+    },
+    "children": []
+  },
+  "vars": {},
+  "filters": []
+}

@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:layouts": "node ./tools/compile-window-layouts.mjs"
   },
   "dependencies": {
     "helium-engine": "workspace:*",
@@ -19,6 +20,7 @@
     "@babel/plugin-proposal-decorators": "^7.28.6",
     "@babel/plugin-transform-class-properties": "^7.28.6",
     "@types/node": "^22.10.0",
+    "@xmldom/xmldom": "^0.9.7",
     "sass-embedded": "^1.97.3",
     "sharp": "^0.34.5",
     "typescript": "^5.7.2",

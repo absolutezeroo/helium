@@ -1,0 +1,319 @@
+{
+  "name": "illumina_light_frame",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_illumina_light_frame_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "attributes": {
+          "name": "content_area",
+          "x": "1",
+          "y": "30",
+          "width": "48",
+          "height": "19",
+          "tags": "_CONTENT, _INTERNAL, _EXCLUDE"
+        },
+        "children": [
+          {
+            "tag": "params",
+            "attributes": {},
+            "children": [
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "relative_horizontal_scale_strech"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "relative_vertical_scale_strech"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "use_parent_graphic_context"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "reflect_resize_to_parent"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tag": "container",
+        "attributes": {
+          "name": "titlebar",
+          "x": "0",
+          "y": "0",
+          "width": "50",
+          "height": "30",
+          "treshold": "0",
+          "tags": "_EXCLUDE, _INTERNAL"
+        },
+        "children": [
+          {
+            "tag": "params",
+            "attributes": {},
+            "children": [
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "relative_horizontal_scale_strech"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "relative_vertical_scale_fixed"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "input_event_processor"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "use_parent_graphic_context"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "mouse_dragging_trigger"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tag": "label",
+        "attributes": {
+          "name": "header_title_text",
+          "x": "8",
+          "y": "11",
+          "width": "20",
+          "height": "20",
+          "background": "false",
+          "tags": "_TITLE, _EXCLUDE, _INTERNAL"
+        },
+        "children": [
+          {
+            "tag": "params",
+            "attributes": {},
+            "children": [
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "relative_horizontal_scale_fixed"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "relative_vertical_scale_fixed"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "use_parent_graphic_context"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "inherit_caption"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tag": "region",
+        "attributes": {
+          "name": "header_button_close",
+          "x": "22",
+          "y": "9",
+          "width": "20",
+          "height": "20",
+          "treshold": "0",
+          "tags": "_EXCLUDE, _INTERNAL, close"
+        },
+        "children": [
+          {
+            "tag": "params",
+            "attributes": {},
+            "children": [
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "relative_horizontal_scale_move"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "relative_vertical_scale_fixed"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "use_parent_graphic_context"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "input_event_processor"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "static_bitmap",
+            "attributes": {
+              "name": "header_button_image",
+              "x": "0",
+              "y": "0",
+              "width": "20",
+              "height": "20",
+              "style": "0",
+              "tags": "_EXCLUDE, _INTERNAL"
+            },
+            "children": [
+              {
+                "tag": "params",
+                "attributes": {},
+                "children": [
+                  {
+                    "tag": "param",
+                    "attributes": {
+                      "name": "relative_horizontal_scale_move"
+                    },
+                    "children": []
+                  },
+                  {
+                    "tag": "param",
+                    "attributes": {
+                      "name": "relative_vertical_scale_fixed"
+                    },
+                    "children": []
+                  },
+                  {
+                    "tag": "param",
+                    "attributes": {
+                      "name": "use_parent_graphic_context"
+                    },
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tag": "scaler",
+        "attributes": {
+          "name": "_FRAME_SCALER",
+          "x": "0",
+          "y": "40",
+          "width": "50",
+          "height": "10",
+          "visible": "true",
+          "treshold": "0",
+          "tags": "_SCALER, _EXCLUDE, _INTERNAL"
+        },
+        "children": [
+          {
+            "tag": "params",
+            "attributes": {},
+            "children": [
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "relative_horizontal_scale_strech"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "relative_vertical_scale_move"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "use_parent_graphic_context"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "bound_to_parent_rect"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "text_style": "il_frame_title",
+    "auto_size": "left",
+    "grid_fit_type": "subpixel",
+    "asset_uri": "illumina_light_button_frame_close_png",
+    "stretched_x": false,
+    "stretched_y": false
+  },
+  "filters": [
+    {
+      "type": "DropShadowFilter",
+      "attributes": {
+        "distance": "0",
+        "angle": "0",
+        "color": "0",
+        "alpha": "0.35",
+        "blurX": "20",
+        "blurY": "20"
+      }
+    }
+  ]
+}

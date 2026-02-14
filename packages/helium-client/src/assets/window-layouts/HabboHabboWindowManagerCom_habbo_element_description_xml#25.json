@@ -1,0 +1,18 @@
+{
+  "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#25",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {
+      "type": "bubble_pointer_right",
+      "intent": "default",
+      "style": "7",
+      "renderer": "skin",
+      "asset": "habbo_skin_bubble_pointer_right_7_xml",
+      "layout": "pointer_right_7"
+    },
+    "children": []
+  },
+  "vars": {},
+  "filters": []
+}

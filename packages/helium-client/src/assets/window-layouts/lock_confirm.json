@@ -1,0 +1,179 @@
+{
+  "name": "lock_confirm",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_lock_confirm_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "frame",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "309",
+          "height": "198",
+          "params": "49153",
+          "style": "100",
+          "caption": "%24%7Bfriend.furniture.confirm.lock.caption%7D"
+        },
+        "children": [
+          {
+            "tag": "itemlist",
+            "attributes": {
+              "x": "9",
+              "y": "1",
+              "width": "290",
+              "height": "163",
+              "params": "8536080",
+              "style": "100",
+              "name": "top_list"
+            },
+            "children": [
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "12",
+                  "y": "0",
+                  "width": "249",
+                  "height": "35",
+                  "params": "786512",
+                  "style": "100",
+                  "name": "subtitle",
+                  "caption": "%24%7Bfriend.furniture.confirm.lock.subtitle%7D"
+                },
+                "children": []
+              },
+              {
+                "tag": "container",
+                "attributes": {
+                  "x": "0",
+                  "y": "40",
+                  "width": "290",
+                  "height": "65",
+                  "params": "16",
+                  "style": "100",
+                  "name": "other_locked_container"
+                },
+                "children": [
+                  {
+                    "tag": "static_bitmap",
+                    "attributes": {
+                      "x": "122",
+                      "y": "4",
+                      "width": "44",
+                      "height": "44",
+                      "params": "16",
+                      "style": "100",
+                      "name": "lock"
+                    },
+                    "children": []
+                  },
+                  {
+                    "tag": "formatted_text",
+                    "attributes": {
+                      "x": "0",
+                      "y": "49",
+                      "width": "291",
+                      "height": "24",
+                      "params": "1049616",
+                      "style": "100",
+                      "name": "message",
+                      "caption": "%24%7Bfriend.furniture.confirm.lock.other.locked%7D",
+                      "width_min": "291",
+                      "width_max": "291"
+                    },
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "tag": "static_bitmap",
+                "attributes": {
+                  "x": "0",
+                  "y": "110",
+                  "width": "285",
+                  "height": "2",
+                  "params": "16",
+                  "style": "100"
+                },
+                "children": []
+              },
+              {
+                "tag": "container",
+                "attributes": {
+                  "x": "0",
+                  "y": "117",
+                  "width": "288",
+                  "height": "46",
+                  "params": "16",
+                  "style": "100"
+                },
+                "children": [
+                  {
+                    "tag": "button",
+                    "attributes": {
+                      "x": "0",
+                      "y": "-2",
+                      "width": "140",
+                      "height": "48",
+                      "params": "131089",
+                      "style": "101",
+                      "name": "cancel_button",
+                      "caption": "%24%7Bfriend.furniture.confirm.lock.button.cancel%7D",
+                      "color": "0x0bbbbbb",
+                      "width_max": "140"
+                    },
+                    "children": []
+                  },
+                  {
+                    "tag": "button",
+                    "attributes": {
+                      "x": "144",
+                      "y": "-2",
+                      "width": "140",
+                      "height": "48",
+                      "params": "393297",
+                      "style": "101",
+                      "name": "confirm_button",
+                      "caption": "%24%7Bfriend.furniture.confirm.lock.button.confirm%7D",
+                      "color": "0x0bbbbbb",
+                      "width_max": "140"
+                    },
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "auto_size": "center",
+    "text_style": "il_heading_1",
+    "mouse_wheel_enabled": false,
+    "multiline": true,
+    "word_wrap": true,
+    "max_lines": 3,
+    "spacing": 5,
+    "leading": 0,
+    "asset_uri": "illumina_horizontal_separator",
+    "stretched_x": false,
+    "stretched_y": false,
+    "margin_bottom": 8,
+    "scale_to_fit_items": true,
+    "resize_on_item_update": true
+  },
+  "filters": [
+    {
+      "type": "DropShadowFilter",
+      "attributes": {
+        "angle": "0",
+        "alpha": "0.34901960784313724",
+        "blurX": "20",
+        "blurY": "20"
+      }
+    }
+  ]
+}

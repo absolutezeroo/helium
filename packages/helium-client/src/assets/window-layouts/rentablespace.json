@@ -1,0 +1,303 @@
+{
+  "name": "rentablespace",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_rentablespace_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "frame",
+        "attributes": {
+          "x": "17",
+          "y": "13",
+          "width": "256",
+          "height": "224",
+          "params": "164097",
+          "style": "3",
+          "caption": "%24%7Brentablespace.widget.title%7D",
+          "color": "0xff67a3bf"
+        },
+        "children": [
+          {
+            "tag": "itemlist_vertical",
+            "attributes": {
+              "x": "2",
+              "y": "4",
+              "width": "243",
+              "height": "216",
+              "params": "8519696",
+              "style": "3",
+              "name": "rent_view"
+            },
+            "children": [
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "1",
+                  "y": "0",
+                  "width": "241",
+                  "height": "22",
+                  "params": "8388624",
+                  "style": "3",
+                  "name": "rent_instructions",
+                  "caption": "%24%7Brentablespace.widget.instructions%7D",
+                  "clipping": "false"
+                },
+                "children": []
+              },
+              {
+                "tag": "container_button",
+                "attributes": {
+                  "x": "0",
+                  "y": "32",
+                  "width": "270",
+                  "height": "44",
+                  "params": "147665",
+                  "style": "3",
+                  "name": "rent_button"
+                },
+                "children": [
+                  {
+                    "tag": "itemlist_horizontal",
+                    "attributes": {
+                      "x": "0",
+                      "y": "0",
+                      "width": "270",
+                      "height": "44",
+                      "params": "147472",
+                      "style": "3"
+                    },
+                    "children": [
+                      {
+                        "tag": "label",
+                        "attributes": {
+                          "x": "0",
+                          "y": "11",
+                          "width": "56",
+                          "height": "21",
+                          "params": "16",
+                          "style": "3",
+                          "name": "price_label",
+                          "caption": "100%20x"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "icon",
+                        "attributes": {
+                          "x": "61",
+                          "y": "10",
+                          "width": "28",
+                          "height": "24",
+                          "params": "16",
+                          "style": "10"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "label",
+                        "attributes": {
+                          "x": "94",
+                          "y": "11",
+                          "width": "176",
+                          "height": "21",
+                          "params": "16",
+                          "style": "3",
+                          "name": "rent_label",
+                          "caption": "%24%7Brentablespace.widget.rent%7D"
+                        },
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "1",
+                  "y": "126",
+                  "width": "245",
+                  "height": "40",
+                  "params": "147472",
+                  "style": "3",
+                  "name": "cant_rent_error",
+                  "caption": "Only%20HabboClub%20members%20can%20rent%20spaces.",
+                  "color": "0x0ff0000"
+                },
+                "children": []
+              },
+              {
+                "tag": "icon",
+                "attributes": {
+                  "x": "209",
+                  "y": "112",
+                  "width": "37",
+                  "height": "40",
+                  "params": "16",
+                  "style": "15",
+                  "name": "icon_habboclub"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "itemlist_vertical",
+            "attributes": {
+              "x": "2",
+              "y": "4",
+              "width": "245",
+              "height": "97",
+              "params": "8536080",
+              "style": "3",
+              "name": "rented_view",
+              "visible": "false"
+            },
+            "children": [
+              {
+                "tag": "label",
+                "attributes": {
+                  "x": "0",
+                  "y": "0",
+                  "width": "268",
+                  "height": "29",
+                  "params": "16",
+                  "style": "3",
+                  "name": "rented_to_label",
+                  "caption": "%24%7Brentablespace.widget.rented_to_label%7D"
+                },
+                "children": []
+              },
+              {
+                "tag": "label",
+                "attributes": {
+                  "x": "0",
+                  "y": "34",
+                  "width": "37",
+                  "height": "17",
+                  "params": "16",
+                  "style": "3",
+                  "name": "renter_name",
+                  "caption": "User"
+                },
+                "children": []
+              },
+              {
+                "tag": "label",
+                "attributes": {
+                  "x": "0",
+                  "y": "56",
+                  "width": "249",
+                  "height": "19",
+                  "params": "16",
+                  "style": "3",
+                  "name": "time_label",
+                  "caption": "%24%7Brentablespace.widget.expires_label%7D"
+                },
+                "children": []
+              },
+              {
+                "tag": "label",
+                "attributes": {
+                  "x": "0",
+                  "y": "80",
+                  "width": "113",
+                  "height": "17",
+                  "params": "16",
+                  "style": "3",
+                  "name": "time_remaining_label",
+                  "caption": "5%20days%20and%202%20hours"
+                },
+                "children": []
+              },
+              {
+                "tag": "button",
+                "attributes": {
+                  "x": "20",
+                  "y": "102",
+                  "width": "204",
+                  "height": "30",
+                  "params": "131281",
+                  "style": "3",
+                  "name": "cancel_rent_button",
+                  "caption": "%24%7Brentablespace.widget.cancel_rent%7D",
+                  "visible": "false"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "itemlist_vertical",
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "253",
+              "height": "182",
+              "params": "131088",
+              "style": "3",
+              "name": "error_view",
+              "visible": "false"
+            },
+            "children": [
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "0",
+                  "y": "0",
+                  "width": "252",
+                  "height": "119",
+                  "params": "16",
+                  "style": "3",
+                  "name": "error_message",
+                  "caption": "Somebody%20else%20already%20rented%20this%20space."
+                },
+                "children": []
+              },
+              {
+                "tag": "button",
+                "attributes": {
+                  "x": "42",
+                  "y": "119",
+                  "width": "169",
+                  "height": "22",
+                  "params": "147473",
+                  "style": "3",
+                  "name": "error_button_close",
+                  "caption": "%24%7Brentablespace.widget.close%7D"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "auto_size": "left",
+    "margin_left": 1,
+    "margin_top": 30,
+    "margin_right": 5,
+    "mouse_wheel_enabled": false,
+    "multiline": true,
+    "word_wrap": true,
+    "spacing": 0,
+    "leading": 0,
+    "text_style": "u_italic",
+    "text_color": 16711680,
+    "margin_bottom": 0
+  },
+  "filters": [
+    {
+      "type": "DropShadowFilter",
+      "attributes": {
+        "distance": "4",
+        "alpha": "0.34901960784313724",
+        "blurX": "4",
+        "blurY": "4"
+      }
+    }
+  ]
+}

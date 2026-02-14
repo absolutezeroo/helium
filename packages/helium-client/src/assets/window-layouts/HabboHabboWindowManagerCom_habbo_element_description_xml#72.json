@@ -1,0 +1,20 @@
+{
+  "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#72",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {
+      "type": "closebutton",
+      "intent": "black",
+      "style": "1",
+      "renderer": "skin",
+      "asset": "habbo_skin_button_close_black_xml",
+      "layout": "button_close_black",
+      "treshold": "0",
+      "background": "true"
+    },
+    "children": []
+  },
+  "vars": {},
+  "filters": []
+}

@@ -1,0 +1,100 @@
+{
+  "name": "respect_giving_failed_notification",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_respect_giving_failed_notification_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "frame",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "369",
+          "height": "220",
+          "params": "163841",
+          "style": "100",
+          "caption": "%24%7Brespect.giving.failed.title%7D"
+        },
+        "children": [
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "10",
+              "y": "12",
+              "width": "250",
+              "height": "46",
+              "params": "16",
+              "style": "100",
+              "name": "caption_txt",
+              "caption": "%24%7Brespect.giving.failed.caption%7D"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "10",
+              "y": "49",
+              "width": "250",
+              "height": "100",
+              "params": "16",
+              "style": "100",
+              "name": "body_txt"
+            },
+            "children": []
+          },
+          {
+            "tag": "static_bitmap",
+            "attributes": {
+              "x": "269",
+              "y": "60",
+              "width": "100",
+              "height": "100",
+              "params": "16",
+              "style": "100",
+              "name": "respectFailedNotificationBitmap"
+            },
+            "children": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "x": "141",
+              "y": "130",
+              "width": "140",
+              "height": "50",
+              "params": "131281",
+              "style": "101",
+              "name": "close",
+              "caption": "%24%7Brespect.giving.failed.button%7D",
+              "color": "0x0bbbbbb"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "text_color": 3355443,
+    "text_style": "il_heading_title",
+    "mouse_wheel_enabled": false,
+    "multiline": true,
+    "word_wrap": true,
+    "spacing": 0,
+    "leading": 0,
+    "fit_size_to_contents": true
+  },
+  "filters": [
+    {
+      "type": "DropShadowFilter",
+      "attributes": {
+        "angle": "0",
+        "alpha": "0.34901960784313724",
+        "blurX": "20",
+        "blurY": "20"
+      }
+    }
+  ]
+}

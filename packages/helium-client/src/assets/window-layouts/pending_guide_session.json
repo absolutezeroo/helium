@@ -1,0 +1,132 @@
+{
+  "name": "pending_guide_session",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_pending_guide_session_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "frame",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "369",
+          "height": "153",
+          "params": "163841",
+          "style": "100",
+          "name": "pending_request",
+          "caption": "%24%7Bguide.pending.guide.title%7D"
+        },
+        "children": [
+          {
+            "tag": "itemlist_vertical",
+            "attributes": {
+              "x": "8",
+              "y": "6",
+              "width": "351",
+              "height": "113",
+              "params": "8536080",
+              "style": "100",
+              "clipping": "false"
+            },
+            "children": [
+              {
+                "tag": "label",
+                "attributes": {
+                  "x": "0",
+                  "y": "0",
+                  "width": "194",
+                  "height": "19",
+                  "params": "16",
+                  "style": "100",
+                  "caption": "%24%7Bguide.pending.guide.subtitle%7D"
+                },
+                "children": []
+              },
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "0",
+                  "y": "28",
+                  "width": "295",
+                  "height": "24",
+                  "params": "16",
+                  "style": "100",
+                  "caption": "%24%7Bguide.pending.guide.description%7D",
+                  "width_min": "295",
+                  "width_max": "295"
+                },
+                "children": []
+              },
+              {
+                "tag": "container",
+                "attributes": {
+                  "x": "-10",
+                  "y": "61",
+                  "width": "370",
+                  "height": "52",
+                  "params": "16",
+                  "style": "100",
+                  "clipping": "false"
+                },
+                "children": [
+                  {
+                    "tag": "button",
+                    "attributes": {
+                      "x": "115",
+                      "y": "0",
+                      "width": "140",
+                      "height": "48",
+                      "params": "131281",
+                      "style": "101",
+                      "name": "close_button",
+                      "caption": "%24%7Balert.close.button%7D",
+                      "color": "0x0bbbbbb"
+                    },
+                    "children": []
+                  },
+                  {
+                    "tag": "static_bitmap",
+                    "attributes": {
+                      "x": "272",
+                      "y": "-80",
+                      "width": "90",
+                      "height": "128",
+                      "params": "1040",
+                      "style": "100",
+                      "clipping": "false"
+                    },
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "text_style": "il_heading_1",
+    "text_color": 12779520,
+    "auto_size": "left",
+    "margin_bottom": 8,
+    "mouse_wheel_enabled": false,
+    "multiline": true,
+    "word_wrap": true,
+    "spacing": 9,
+    "leading": 0,
+    "asset_uri": "help_illustrations_question"
+  },
+  "filters": [
+    {
+      "type": "DropShadowFilter",
+      "attributes": {
+        "angle": "0",
+        "alpha": "0.34901960784313724",
+        "blurX": "20",
+        "blurY": "20"
+      }
+    }
+  ]
+}

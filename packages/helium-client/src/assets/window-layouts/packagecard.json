@@ -1,0 +1,61 @@
+{
+  "name": "packagecard",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboplaceholder_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "frame",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "250",
+          "height": "150",
+          "params": "32784",
+          "style": "0",
+          "name": "ph_frame",
+          "caption": "This feature is not yet available!"
+        },
+        "children": [
+          {
+            "tag": "border",
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "238",
+              "height": "118",
+              "params": "16",
+              "style": "0",
+              "name": "ph_border"
+            },
+            "children": [
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "82",
+                  "y": "17",
+                  "width": "134",
+                  "height": "44",
+                  "params": "16",
+                  "style": "0",
+                  "name": "ph_msg",
+                  "caption": "Coming soon!"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "font_face": "Volter",
+    "font_size": 9,
+    "text_color": 0,
+    "embed_fonts": true,
+    "word_wrap": true
+  },
+  "filters": []
+}

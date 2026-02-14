@@ -1,0 +1,72 @@
+{
+  "name": "nav_error_popup",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_nav_error_popup_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "184",
+          "height": "33",
+          "params": "1",
+          "style": "0",
+          "name": "popup_container"
+        },
+        "children": [
+          {
+            "tag": "border",
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "184",
+              "height": "23",
+              "params": "16",
+              "style": "0",
+              "name": "border"
+            },
+            "children": [
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "8",
+                  "y": "4",
+                  "width": "173",
+                  "height": "20",
+                  "params": "0",
+                  "style": "0",
+                  "name": "error_text",
+                  "caption": "PH%20loren%20ipsum%20dolor%20pubba%20hubba%20duppa%20papatiti"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "bitmap",
+            "attributes": {
+              "x": "50",
+              "y": "22",
+              "width": "11",
+              "height": "11",
+              "params": "16",
+              "style": "0",
+              "name": "popup_arrow_down"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "font_face": "Volter",
+    "font_size": 9,
+    "text_color": 0,
+    "embed_fonts": true
+  },
+  "filters": []
+}

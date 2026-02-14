@@ -1,0 +1,27 @@
+{
+  "name": "memenu",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbomemenu_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "border",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "200",
+          "height": "260",
+          "params": "32",
+          "style": "6",
+          "name": "main_content",
+          "color": "0x05b5953",
+          "tags": "MAIN_CONTENT"
+        },
+        "children": []
+      }
+    ]
+  },
+  "vars": {},
+  "filters": []
+}

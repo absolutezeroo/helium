@@ -1,0 +1,111 @@
+{
+  "name": "strip_club_items_dialog",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboAvatarEditorCom_Habbostrip_club_items_info_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "frame",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "278",
+          "height": "154",
+          "params": "32769",
+          "style": "3",
+          "name": "_frame",
+          "caption": "%24%7Bavatareditor.invalidclubitems.title%7D",
+          "color": "0xff418db0"
+        },
+        "children": [
+          {
+            "tag": "container",
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "266",
+              "height": "122",
+              "params": "8390800",
+              "style": "0",
+              "name": "_border",
+              "caption": "Border"
+            },
+            "children": [
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "27",
+                  "y": "10",
+                  "width": "210",
+                  "height": "30",
+                  "params": "8388624",
+                  "style": "3",
+                  "name": "_strip_description",
+                  "caption": "%24%7Bavatareditor.invalidclubitems.description%7D",
+                  "tags": "DESCRIPTION"
+                },
+                "children": []
+              },
+              {
+                "tag": "button_thick",
+                "attributes": {
+                  "x": "110",
+                  "y": "93",
+                  "width": "244",
+                  "height": "22",
+                  "params": "132113",
+                  "style": "3",
+                  "name": "strip_button_club_info",
+                  "caption": "%24%7Bavatareditor.invalidclubitems.moreinfo%7D",
+                  "tags": "OK",
+                  "width_min": "50"
+                },
+                "children": []
+              },
+              {
+                "tag": "button",
+                "attributes": {
+                  "x": "18",
+                  "y": "93",
+                  "width": "78",
+                  "height": "22",
+                  "params": "918545",
+                  "style": "3",
+                  "name": "strip_button_ok",
+                  "caption": "%24%7Bgeneric.ok%7D",
+                  "tags": "OK",
+                  "width_min": "50"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "auto_size": "left",
+    "mouse_wheel_enabled": false,
+    "multiline": true,
+    "word_wrap": true,
+    "spacing": 0,
+    "leading": 0,
+    "margin_left": 6,
+    "margin_top": 25,
+    "margin_right": 6,
+    "margin_bottom": 7
+  },
+  "filters": [
+    {
+      "type": "DropShadowFilter",
+      "attributes": {
+        "distance": "4",
+        "alpha": "0.34901960784313724",
+        "blurX": "4",
+        "blurY": "4"
+      }
+    }
+  ]
+}

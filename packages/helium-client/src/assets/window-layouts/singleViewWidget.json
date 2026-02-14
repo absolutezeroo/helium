@@ -1,0 +1,75 @@
+{
+  "name": "singleViewWidget",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbosingle_view_widget_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "attributes": {
+          "x": "174",
+          "y": "154",
+          "width": "158",
+          "height": "207",
+          "params": "16",
+          "style": "0",
+          "name": "singleViewWidget"
+        },
+        "children": [
+          {
+            "tag": "bitmap",
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "162",
+              "height": "162",
+              "params": "16",
+              "style": "0",
+              "name": "ctlg_teaserimg_1"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "0",
+              "y": "156",
+              "width": "71",
+              "height": "17",
+              "params": "16",
+              "style": "3",
+              "name": "ctlg_product_name",
+              "caption": "lorem%20ipsum"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "-2",
+              "y": "173",
+              "width": "162",
+              "height": "17",
+              "params": "16",
+              "style": "3",
+              "name": "ctlg_description",
+              "caption": "lorem%20ipsum"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "auto_size": "left",
+    "text_style": "u_bold",
+    "mouse_wheel_enabled": false,
+    "spacing": 0,
+    "leading": 0,
+    "multiline": true,
+    "word_wrap": true
+  },
+  "filters": []
+}

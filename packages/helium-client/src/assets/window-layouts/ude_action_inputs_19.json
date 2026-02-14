@@ -1,0 +1,84 @@
+{
+  "name": "ude_action_inputs_19",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboUserDefinedRoomEventsCom_ude_action_inputs_19_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "228",
+          "height": "38",
+          "params": "17",
+          "style": "0",
+          "name": "cont",
+          "color": "0xffff3d3d3d",
+          "background": "true"
+        },
+        "children": [
+          {
+            "tag": "container",
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "228",
+              "height": "1",
+              "params": "16",
+              "style": "0",
+              "name": "ruler",
+              "color": "0xffff232323",
+              "background": "true"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "5",
+              "y": "5",
+              "width": "218",
+              "height": "13",
+              "params": "786432",
+              "style": "0",
+              "name": "desc_txt",
+              "caption": "%24%7Bwiredfurni.params.message%7D"
+            },
+            "children": []
+          },
+          {
+            "tag": "input",
+            "attributes": {
+              "x": "5",
+              "y": "21",
+              "width": "218",
+              "height": "15",
+              "params": "1",
+              "style": "0",
+              "name": "chat_message"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "font_face": "Volter Bold",
+    "text_color": 16777215,
+    "mouse_wheel_enabled": false,
+    "sharpness": 0,
+    "thickness": 0,
+    "word_wrap": true,
+    "kerning": false,
+    "spacing": 0,
+    "leading": 0,
+    "always_show_selection": true,
+    "border": true,
+    "border_color": 16777215,
+    "tool_tip_caption": "${wiredfurni.tooltip.chatmessage}"
+  },
+  "filters": []
+}

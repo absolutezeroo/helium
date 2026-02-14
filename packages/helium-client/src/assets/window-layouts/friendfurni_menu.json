@@ -1,0 +1,185 @@
+{
+  "name": "friendfurni_menu",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbofriendfurni_menu_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "bubble",
+        "attributes": {
+          "x": "0",
+          "y": "27",
+          "width": "115",
+          "height": "86",
+          "params": "1048865",
+          "style": "0",
+          "color": "0x06e6b67",
+          "treshold": "0"
+        },
+        "children": [
+          {
+            "tag": "container",
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "107",
+              "height": "76",
+              "params": "12582928",
+              "style": "0",
+              "name": "border",
+              "color": "0x06e6b67"
+            },
+            "children": [
+              {
+                "tag": "region",
+                "attributes": {
+                  "x": "0",
+                  "y": "7",
+                  "width": "107",
+                  "height": "16",
+                  "params": "17",
+                  "style": "0",
+                  "treshold": "0"
+                },
+                "children": [
+                  {
+                    "tag": "text",
+                    "attributes": {
+                      "x": "0",
+                      "y": "0",
+                      "width": "130",
+                      "height": "16",
+                      "params": "208",
+                      "style": "0",
+                      "caption": "%24%7Bfriendfurni.context.title%7D"
+                    },
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "tag": "background",
+                "attributes": {
+                  "x": "2",
+                  "y": "27",
+                  "width": "103",
+                  "height": "1",
+                  "params": "144",
+                  "style": "0",
+                  "color": "0xffff000000",
+                  "background": "true"
+                },
+                "children": []
+              },
+              {
+                "tag": "itemlist_vertical",
+                "attributes": {
+                  "x": "2",
+                  "y": "28",
+                  "width": "103",
+                  "height": "26",
+                  "params": "8519888",
+                  "style": "0",
+                  "name": "buttons"
+                },
+                "children": [
+                  {
+                    "tag": "container",
+                    "attributes": {
+                      "x": "1",
+                      "y": "0",
+                      "width": "101",
+                      "height": "26",
+                      "params": "144",
+                      "style": "3",
+                      "name": "use",
+                      "color": "0x00",
+                      "tags": "action"
+                    },
+                    "children": [
+                      {
+                        "tag": "container_button",
+                        "attributes": {
+                          "x": "-3",
+                          "y": "-4",
+                          "width": "107",
+                          "height": "35",
+                          "params": "2193",
+                          "style": "3",
+                          "name": "button",
+                          "color": "0x02d2a27",
+                          "tags": "action"
+                        },
+                        "children": [
+                          {
+                            "tag": "text",
+                            "attributes": {
+                              "x": "3",
+                              "y": "9",
+                              "width": "101",
+                              "height": "16",
+                              "params": "144",
+                              "style": "0",
+                              "name": "label",
+                              "caption": "%24%7Bfriendfurni.context.use%7D"
+                            },
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "region",
+                "attributes": {
+                  "x": "4",
+                  "y": "55",
+                  "width": "100",
+                  "height": "18",
+                  "params": "1041",
+                  "style": "0",
+                  "name": "minimize",
+                  "treshold": "0"
+                },
+                "children": [
+                  {
+                    "tag": "icon",
+                    "attributes": {
+                      "x": "45",
+                      "y": "7",
+                      "width": "13",
+                      "height": "10",
+                      "params": "16",
+                      "style": "7",
+                      "name": "icon"
+                    },
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "auto_size": "center",
+    "font_size": 17,
+    "text_color": 16777215,
+    "text_style": "u_regular",
+    "mouse_wheel_enabled": false,
+    "spacing": 1,
+    "leading": 0,
+    "scale_to_fit_items": true,
+    "resize_on_item_update": true,
+    "margin_left": 4,
+    "margin_top": 4,
+    "margin_right": 4,
+    "margin_bottom": 4
+  },
+  "filters": []
+}

@@ -1,0 +1,42 @@
+{
+  "name": "setting_category",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_setting_category_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "region",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "120",
+          "height": "17",
+          "params": "17",
+          "style": "3",
+          "treshold": "0"
+        },
+        "children": [
+          {
+            "tag": "label",
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "60",
+              "height": "17",
+              "params": "16",
+              "style": "3",
+              "name": "button_label",
+              "caption": "Settings%201"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "text_color": 16777215
+  },
+  "filters": []
+}

@@ -1,0 +1,283 @@
+{
+  "name": "bonus_rare_promo",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_bonus_rare_promo_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "602",
+          "height": "75",
+          "params": "16",
+          "style": "105"
+        },
+        "children": [
+          {
+            "tag": "border",
+            "attributes": {
+              "x": "1",
+              "y": "5",
+              "width": "600",
+              "height": "63",
+              "params": "4194320",
+              "style": "105",
+              "blend": "0.2"
+            },
+            "children": [
+              {
+                "tag": "itemlist_horizontal",
+                "attributes": {
+                  "x": "0",
+                  "y": "0",
+                  "width": "600",
+                  "height": "63",
+                  "params": "4194320",
+                  "style": "3"
+                },
+                "children": [
+                  {
+                    "tag": "container",
+                    "attributes": {
+                      "x": "0",
+                      "y": "0",
+                      "width": "96",
+                      "height": "63",
+                      "params": "16",
+                      "style": "3",
+                      "name": "teaser_image_container"
+                    },
+                    "children": [
+                      {
+                        "tag": "bitmap",
+                        "attributes": {
+                          "x": "27",
+                          "y": "12",
+                          "width": "44",
+                          "height": "38",
+                          "params": "16",
+                          "style": "0",
+                          "name": "preview",
+                          "visible": "false"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "static_bitmap",
+                        "attributes": {
+                          "x": "8",
+                          "y": "-9",
+                          "width": "80",
+                          "height": "80",
+                          "params": "0",
+                          "style": "3",
+                          "name": "promo_image"
+                        },
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "container",
+                    "attributes": {
+                      "x": "96",
+                      "y": "0",
+                      "width": "304",
+                      "height": "53",
+                      "params": "147472",
+                      "style": "3",
+                      "name": "mid_container"
+                    },
+                    "children": [
+                      {
+                        "tag": "text",
+                        "attributes": {
+                          "x": "29",
+                          "y": "5",
+                          "width": "246",
+                          "height": "21",
+                          "params": "786640",
+                          "style": "0",
+                          "name": "header",
+                          "caption": "%24%7Blanding.view.bonus.rare.header%7D",
+                          "tags": "COLORABLE"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "container",
+                        "attributes": {
+                          "x": "2",
+                          "y": "30",
+                          "width": "302",
+                          "height": "23",
+                          "params": "786512",
+                          "style": "0",
+                          "name": "progress_bar_cont"
+                        },
+                        "children": [
+                          {
+                            "tag": "static_bitmap",
+                            "attributes": {
+                              "x": "0",
+                              "y": "0",
+                              "width": "4",
+                              "height": "23",
+                              "params": "16",
+                              "style": "0",
+                              "name": "bar_l"
+                            },
+                            "children": []
+                          },
+                          {
+                            "tag": "static_bitmap",
+                            "attributes": {
+                              "x": "4",
+                              "y": "0",
+                              "width": "291",
+                              "height": "23",
+                              "params": "144",
+                              "style": "0",
+                              "name": "bar_c"
+                            },
+                            "children": []
+                          },
+                          {
+                            "tag": "static_bitmap",
+                            "attributes": {
+                              "x": "295",
+                              "y": "0",
+                              "width": "4",
+                              "height": "23",
+                              "params": "262224",
+                              "style": "0",
+                              "name": "bar_r"
+                            },
+                            "children": []
+                          },
+                          {
+                            "tag": "background",
+                            "attributes": {
+                              "x": "4",
+                              "y": "3",
+                              "width": "292",
+                              "height": "17",
+                              "params": "144",
+                              "style": "100",
+                              "name": "bar_a_bkg",
+                              "color": "0xffffffff00",
+                              "visible": "false",
+                              "background": "true"
+                            },
+                            "children": []
+                          },
+                          {
+                            "tag": "static_bitmap",
+                            "attributes": {
+                              "x": "4",
+                              "y": "3",
+                              "width": "142",
+                              "height": "17",
+                              "params": "16",
+                              "style": "0",
+                              "name": "bar_a_c"
+                            },
+                            "children": []
+                          },
+                          {
+                            "tag": "static_bitmap",
+                            "attributes": {
+                              "x": "145",
+                              "y": "3",
+                              "width": "2",
+                              "height": "17",
+                              "params": "16",
+                              "style": "0",
+                              "name": "bar_a_r"
+                            },
+                            "children": []
+                          },
+                          {
+                            "tag": "text",
+                            "attributes": {
+                              "x": "56",
+                              "y": "3",
+                              "width": "178",
+                              "height": "17",
+                              "params": "786513",
+                              "style": "0",
+                              "name": "status",
+                              "caption": "%24%7Blanding.view.bonus.rare.status%7D"
+                            },
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "container",
+                    "attributes": {
+                      "x": "400",
+                      "y": "0",
+                      "width": "200",
+                      "height": "56",
+                      "params": "147472",
+                      "style": "3",
+                      "name": "button_container"
+                    },
+                    "children": [
+                      {
+                        "tag": "button",
+                        "attributes": {
+                          "x": "0",
+                          "y": "5",
+                          "width": "200",
+                          "height": "51",
+                          "params": "131153",
+                          "style": "100",
+                          "name": "buy_button",
+                          "caption": "%24%7Blanding.view.bonus.rare.open.credits.page%7D",
+                          "width_max": "200"
+                        },
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "stretched_x": false,
+    "stretched_y": false,
+    "pivot_point": "center",
+    "auto_size": "left",
+    "text_style": "u_headline_medium",
+    "mouse_wheel_enabled": false,
+    "sharpness": 0,
+    "thickness": 0,
+    "spacing": 0,
+    "leading": 0,
+    "asset_uri": "achievement_ach_progressbar5",
+    "antialias_type": "advanced",
+    "etching_color": 1342177280,
+    "etching_position": "bottom-right",
+    "font_face": "Ubuntu",
+    "font_size": 18,
+    "text_color": 16777215,
+    "multiline": true,
+    "bold": true,
+    "kerning": false,
+    "scale_to_fit_items": true,
+    "resize_on_item_update": true
+  },
+  "filters": []
+}

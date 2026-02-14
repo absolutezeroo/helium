@@ -1,0 +1,78 @@
+{
+  "name": "element_title",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_element_title_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "250",
+          "height": "18",
+          "params": "147600",
+          "style": "0",
+          "color": "0x00",
+          "background": "true"
+        },
+        "children": [
+          {
+            "tag": "static_bitmap",
+            "attributes": {
+              "x": "0",
+              "y": "10",
+              "width": "12",
+              "height": "4",
+              "params": "16",
+              "style": "100",
+              "name": "border_bar"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "18",
+              "y": "4",
+              "width": "133",
+              "height": "14",
+              "params": "16",
+              "style": "100",
+              "name": "title_txt",
+              "caption": "%24%7Blanding.view.pageexpiry.title%7D",
+              "tags": "COLORABLE"
+            },
+            "children": []
+          },
+          {
+            "tag": "static_bitmap",
+            "attributes": {
+              "x": "150",
+              "y": "10",
+              "width": "100",
+              "height": "4",
+              "params": "144",
+              "style": "100",
+              "name": "hdr_line"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "asset_uri": "illumina_light_border_top_center",
+    "pivot_point": "center left",
+    "stretched_y": false,
+    "auto_size": "left",
+    "font_size": 9,
+    "text_style": "il_heading_3",
+    "mouse_wheel_enabled": false,
+    "spacing": 0,
+    "leading": 0
+  },
+  "filters": []
+}

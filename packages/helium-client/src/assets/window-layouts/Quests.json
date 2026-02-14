@@ -1,0 +1,69 @@
+{
+  "name": "Quests",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboquests_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "frame",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "512",
+          "height": "416",
+          "params": "32769",
+          "style": "3",
+          "name": "quest_main_window",
+          "caption": "%24%7Bquests.list.caption%7D",
+          "color": "0xff418db0"
+        },
+        "children": [
+          {
+            "tag": "itemlist",
+            "attributes": {
+              "x": "10",
+              "y": "7",
+              "width": "473",
+              "height": "362",
+              "params": "2177",
+              "style": "0",
+              "name": "quest_list",
+              "background": "true"
+            },
+            "children": []
+          },
+          {
+            "tag": "scrollbar_vertical",
+            "attributes": {
+              "x": "484",
+              "y": "7",
+              "width": "17",
+              "height": "364",
+              "params": "2113",
+              "style": "0",
+              "name": "scroller",
+              "caption": "%24%7Bnavigator.title%7D"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "test_id_key": "quests",
+    "scrollable": "quest_list"
+  },
+  "filters": [
+    {
+      "type": "DropShadowFilter",
+      "attributes": {
+        "distance": "4",
+        "alpha": "0.34901960784313724",
+        "blurX": "4",
+        "blurY": "4"
+      }
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#175",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {
+      "type": "checkbox",
+      "intent": "basic",
+      "style": "101",
+      "renderer": "skin",
+      "asset": "illumina_light_skin_checkbox_basic_xml",
+      "window_layout": "illumina_light_checkbox_basic_xml",
+      "layout": "button_checkbox",
+      "treshold": "0",
+      "height_min": "21",
+      "height_max": "21"
+    },
+    "children": []
+  },
+  "vars": {},
+  "filters": []
+}

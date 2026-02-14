@@ -1,0 +1,63 @@
+{
+  "name": "usercount",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_grs_usercount_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "region",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "34",
+          "height": "13",
+          "params": "81",
+          "style": "0",
+          "name": "usercount",
+          "treshold": "0"
+        },
+        "children": [
+          {
+            "tag": "bitmap",
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "34",
+              "height": "13",
+              "params": "16",
+              "style": "0",
+              "name": "usercount_bg"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "20",
+              "y": "1",
+              "width": "9",
+              "height": "13",
+              "params": "786448",
+              "style": "0",
+              "name": "txt",
+              "caption": "0"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "auto_size": "left",
+    "text_color": 16777215,
+    "mouse_wheel_enabled": false,
+    "sharpness": 0,
+    "thickness": 0,
+    "kerning": false,
+    "spacing": 0,
+    "leading": 0
+  },
+  "filters": []
+}

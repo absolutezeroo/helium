@@ -1,0 +1,64 @@
+{
+  "name": "habbo_window_layout_button_thick_black",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_window_layout_button_thick_black_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "label",
+        "attributes": {
+          "name": "_BTN_TEXT",
+          "style": "2",
+          "x": "0",
+          "y": "0",
+          "width": "20",
+          "height": "22",
+          "tags": "_EXCLUDE, _INTERNAL, title"
+        },
+        "children": [
+          {
+            "tag": "params",
+            "attributes": {},
+            "children": [
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "relative_horizontal_scale_center"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "relative_vertical_scale_center"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "use_parent_graphic_context"
+                },
+                "children": []
+              },
+              {
+                "tag": "param",
+                "attributes": {
+                  "name": "inherit_caption"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "text_style": "button_bold",
+    "text_color": 4294967295,
+    "margins": null
+  },
+  "filters": []
+}

@@ -1,0 +1,24 @@
+{
+  "name": "Achievement competition hall of fame",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_user_list_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "800",
+          "height": "220",
+          "params": "148496",
+          "style": "0"
+        },
+        "children": []
+      }
+    ]
+  },
+  "vars": {},
+  "filters": []
+}

@@ -1,0 +1,554 @@
+{
+  "name": "breed_pets_result",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_breed_pets_result_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "frame",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "275",
+          "height": "300",
+          "params": "32769",
+          "style": "3",
+          "caption": "%24%7Bbreedpetsresult.widget.title%7D",
+          "color": "0xff418db0"
+        },
+        "children": [
+          {
+            "tag": "itemlist_vertical",
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "274",
+              "height": "291",
+              "params": "147472",
+              "style": "3",
+              "name": "element_list",
+              "width_min": "274",
+              "width_max": "274"
+            },
+            "children": [
+              {
+                "tag": "container",
+                "attributes": {
+                  "x": "0",
+                  "y": "0",
+                  "width": "274",
+                  "height": "1",
+                  "params": "16",
+                  "style": "3",
+                  "name": "separator"
+                },
+                "children": []
+              },
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "11",
+                  "y": "11",
+                  "width": "254",
+                  "height": "18",
+                  "params": "16",
+                  "style": "3",
+                  "name": "description",
+                  "caption": "%24%7Bbreedpetsresult.widget.text%20"
+                },
+                "children": []
+              },
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "9",
+                  "y": "39",
+                  "width": "254",
+                  "height": "18",
+                  "params": "16",
+                  "style": "3",
+                  "name": "description_sorry",
+                  "caption": "%24%7Bbreedpetsresult.widget.text.sorry%7D",
+                  "visible": "false"
+                },
+                "children": []
+              },
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "10",
+                  "y": "39",
+                  "width": "254",
+                  "height": "18",
+                  "params": "16",
+                  "style": "3",
+                  "name": "info",
+                  "caption": "%24%7Bbreedpetsresult.widget.info%7D"
+                },
+                "children": []
+              },
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "10",
+                  "y": "82",
+                  "width": "254",
+                  "height": "18",
+                  "params": "16",
+                  "style": "3",
+                  "name": "info_sorry",
+                  "caption": "%24%7Bbreedpetsresult.widget.info.sorry%7D",
+                  "visible": "false"
+                },
+                "children": []
+              },
+              {
+                "tag": "itemlist_horizontal",
+                "attributes": {
+                  "x": "10",
+                  "y": "67",
+                  "width": "254",
+                  "height": "122",
+                  "params": "4079632",
+                  "style": "3",
+                  "name": "preview_list",
+                  "width_max": "254"
+                },
+                "children": [
+                  {
+                    "tag": "itemlist_vertical",
+                    "attributes": {
+                      "x": "0",
+                      "y": "0",
+                      "width": "122",
+                      "height": "122",
+                      "params": "147472",
+                      "style": "3",
+                      "name": "seed1_itemlist",
+                      "width_min": "122",
+                      "width_max": "122"
+                    },
+                    "children": [
+                      {
+                        "tag": "text",
+                        "attributes": {
+                          "x": "0",
+                          "y": "0",
+                          "width": "122",
+                          "height": "17",
+                          "params": "16",
+                          "style": "3",
+                          "name": "seed_name",
+                          "caption": "%24%7Bbreedpetsresult.widget.seed1.name%7D"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "region",
+                        "attributes": {
+                          "x": "0",
+                          "y": "18",
+                          "width": "122",
+                          "height": "130",
+                          "params": "17",
+                          "style": "3",
+                          "name": "preview_image_region",
+                          "treshold": "0",
+                          "width_min": "122",
+                          "width_max": "122",
+                          "height_min": "130",
+                          "height_max": "130"
+                        },
+                        "children": [
+                          {
+                            "tag": "bitmap",
+                            "attributes": {
+                              "x": "0",
+                              "y": "0",
+                              "width": "122",
+                              "height": "130",
+                              "params": "16",
+                              "style": "3",
+                              "name": "preview_image",
+                              "treshold": "0",
+                              "width_min": "122",
+                              "width_max": "122",
+                              "height_min": "130",
+                              "height_max": "130"
+                            },
+                            "children": []
+                          }
+                        ]
+                      },
+                      {
+                        "tag": "text",
+                        "attributes": {
+                          "x": "0",
+                          "y": "149",
+                          "width": "134",
+                          "height": "30",
+                          "params": "16",
+                          "style": "3",
+                          "name": "seed_rarity_level",
+                          "caption": "%24%7Bbreedpetsresult.widget.seed1.raritylevel%7D"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "text",
+                        "attributes": {
+                          "x": "0",
+                          "y": "180",
+                          "width": "122",
+                          "height": "30",
+                          "params": "16",
+                          "style": "3",
+                          "name": "seed_description",
+                          "caption": "%24%7Bbreedpetsresult.widget.seed1.description%7D"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "text",
+                        "attributes": {
+                          "x": "0",
+                          "y": "185",
+                          "width": "122",
+                          "height": "33",
+                          "params": "16",
+                          "style": "3",
+                          "name": "info_mutate1",
+                          "caption": "%24%7Bbreedpetsresult.widget.info.mutation%7D",
+                          "visible": "false",
+                          "width_min": "122",
+                          "width_max": "122"
+                        },
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "itemlist_vertical",
+                    "attributes": {
+                      "x": "132",
+                      "y": "0",
+                      "width": "122",
+                      "height": "122",
+                      "params": "147472",
+                      "style": "3",
+                      "name": "seed2_itemlist",
+                      "width_min": "122",
+                      "width_max": "122"
+                    },
+                    "children": [
+                      {
+                        "tag": "text",
+                        "attributes": {
+                          "x": "0",
+                          "y": "0",
+                          "width": "122",
+                          "height": "17",
+                          "params": "16",
+                          "style": "3",
+                          "name": "seed_name",
+                          "caption": "%24%7Bbreedpetsresult.widget.seed2.name%7D"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "region",
+                        "attributes": {
+                          "x": "0",
+                          "y": "18",
+                          "width": "122",
+                          "height": "130",
+                          "params": "17",
+                          "style": "3",
+                          "name": "preview_image_region2",
+                          "treshold": "0",
+                          "width_min": "122",
+                          "width_max": "122",
+                          "height_min": "130",
+                          "height_max": "130"
+                        },
+                        "children": [
+                          {
+                            "tag": "bitmap",
+                            "attributes": {
+                              "x": "0",
+                              "y": "0",
+                              "width": "122",
+                              "height": "130",
+                              "params": "16",
+                              "style": "3",
+                              "name": "preview_image2",
+                              "treshold": "0",
+                              "width_min": "122",
+                              "width_max": "122",
+                              "height_min": "130",
+                              "height_max": "130"
+                            },
+                            "children": []
+                          }
+                        ]
+                      },
+                      {
+                        "tag": "text",
+                        "attributes": {
+                          "x": "0",
+                          "y": "149",
+                          "width": "134",
+                          "height": "30",
+                          "params": "16",
+                          "style": "3",
+                          "name": "seed_rarity_level",
+                          "caption": "%24%7Bbreedpetsresult.widget.seed2.raritylevel%7D"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "text",
+                        "attributes": {
+                          "x": "0",
+                          "y": "180",
+                          "width": "122",
+                          "height": "30",
+                          "params": "16",
+                          "style": "3",
+                          "name": "seed_description",
+                          "caption": "%24%7Bbreedpetsresult.widget.seed2.description%7D"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "text",
+                        "attributes": {
+                          "x": "0",
+                          "y": "185",
+                          "width": "122",
+                          "height": "33",
+                          "params": "16",
+                          "style": "3",
+                          "name": "info_mutate2",
+                          "caption": "%24%7Bbreedpetsresult.widget.info.mutation%7D",
+                          "visible": "false",
+                          "width_min": "122",
+                          "width_max": "122"
+                        },
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "container",
+                "attributes": {
+                  "x": "10",
+                  "y": "199",
+                  "width": "244",
+                  "height": "1",
+                  "params": "16",
+                  "style": "100",
+                  "height_min": "1",
+                  "height_max": "1"
+                },
+                "children": []
+              },
+              {
+                "tag": "itemlist_horizontal",
+                "attributes": {
+                  "x": "77",
+                  "y": "210",
+                  "width": "120",
+                  "height": "30",
+                  "params": "4079632",
+                  "style": "3",
+                  "name": "preview_buttonlist",
+                  "width_max": "254"
+                },
+                "children": [
+                  {
+                    "tag": "itemlist_vertical",
+                    "attributes": {
+                      "x": "0",
+                      "y": "0",
+                      "width": "122",
+                      "height": "0",
+                      "params": "933904",
+                      "style": "3",
+                      "name": "seed1_buttonlist",
+                      "width_min": "122",
+                      "width_max": "122"
+                    },
+                    "children": [
+                      {
+                        "tag": "button_thick",
+                        "attributes": {
+                          "x": "0",
+                          "y": "0",
+                          "width": "120",
+                          "height": "30",
+                          "params": "131089",
+                          "style": "5",
+                          "name": "place_button1",
+                          "caption": "%24%7Bbreedpetsresult.widget.seed2.use%7D",
+                          "color": "0x0aa00",
+                          "visible": "false",
+                          "width_min": "120",
+                          "width_max": "120"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "button",
+                        "attributes": {
+                          "x": "0",
+                          "y": "0",
+                          "width": "120",
+                          "height": "30",
+                          "params": "131089",
+                          "style": "3",
+                          "name": "pick_button1",
+                          "caption": "%24%7Bbreedpetsresult.widget.seed2.pick%7D",
+                          "visible": "false",
+                          "width_min": "120",
+                          "width_max": "120"
+                        },
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "itemlist_vertical",
+                    "attributes": {
+                      "x": "132",
+                      "y": "0",
+                      "width": "122",
+                      "height": "0",
+                      "params": "933904",
+                      "style": "3",
+                      "name": "seed2_buttonlist",
+                      "width_min": "122",
+                      "width_max": "122"
+                    },
+                    "children": [
+                      {
+                        "tag": "button_thick",
+                        "attributes": {
+                          "x": "0",
+                          "y": "0",
+                          "width": "120",
+                          "height": "30",
+                          "params": "131089",
+                          "style": "5",
+                          "name": "place_button2",
+                          "caption": "%24%7Bbreedpetsresult.widget.seed2.use%7D",
+                          "color": "0x0aa00",
+                          "visible": "false",
+                          "width_min": "120",
+                          "width_max": "120"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "button",
+                        "attributes": {
+                          "x": "0",
+                          "y": "0",
+                          "width": "120",
+                          "height": "30",
+                          "params": "131089",
+                          "style": "3",
+                          "name": "pick_button2",
+                          "caption": "%24%7Bbreedpetsresult.widget.seed2.pick%7D",
+                          "visible": "false",
+                          "width_min": "120",
+                          "width_max": "120"
+                        },
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "itemlist_horizontal",
+                "attributes": {
+                  "x": "76",
+                  "y": "250",
+                  "width": "122",
+                  "height": "30",
+                  "params": "4079632",
+                  "style": "100",
+                  "name": "button_list"
+                },
+                "children": [
+                  {
+                    "tag": "button",
+                    "attributes": {
+                      "x": "0",
+                      "y": "0",
+                      "width": "122",
+                      "height": "30",
+                      "params": "131089",
+                      "style": "3",
+                      "name": "close_button",
+                      "caption": "%24%7Bbreedpetsresult.widget.close%7D",
+                      "width_min": "122",
+                      "width_max": "122"
+                    },
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "tag": "container",
+                "attributes": {
+                  "x": "0",
+                  "y": "290",
+                  "width": "274",
+                  "height": "1",
+                  "params": "16",
+                  "style": "3",
+                  "name": "separator",
+                  "width_min": "274",
+                  "height_min": "1"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "auto_size": "center",
+    "font_size": 19,
+    "mouse_wheel_enabled": false,
+    "multiline": true,
+    "word_wrap": true,
+    "spacing": 10,
+    "leading": 0,
+    "text_style": "u_italic",
+    "scale_to_fit_items": true,
+    "resize_on_item_update": true,
+    "margin_left": 3,
+    "margin_top": 36,
+    "margin_right": 3,
+    "margin_bottom": 0
+  },
+  "filters": [
+    {
+      "type": "DropShadowFilter",
+      "attributes": {
+        "distance": "4",
+        "alpha": "0.34901960784313724",
+        "blurX": "4",
+        "blurY": "4"
+      }
+    }
+  ]
+}

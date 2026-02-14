@@ -1,0 +1,123 @@
+{
+  "name": "use_product_purchasable_clothing",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_use_product_controller_purchasable_clothing_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "386",
+          "height": "180",
+          "params": "16",
+          "style": "0"
+        },
+        "children": [
+          {
+            "tag": "button_thick",
+            "attributes": {
+              "x": "230",
+              "y": "112",
+              "width": "145",
+              "height": "28",
+              "params": "131089",
+              "style": "3",
+              "name": "save_button",
+              "caption": "%24%7Buseproduct.widget.bind_clothing%7D",
+              "width_min": "130",
+              "width_max": "145"
+            },
+            "children": []
+          },
+          {
+            "tag": "widget",
+            "attributes": {
+              "x": "10",
+              "y": "10",
+              "width": "90",
+              "height": "130",
+              "params": "16",
+              "style": "3",
+              "name": "avatar_preview"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "140",
+              "y": "15",
+              "width": "200",
+              "height": "61",
+              "params": "16",
+              "style": "3",
+              "name": "description",
+              "caption": "%24%7Buseproduct.widget.text.bind_clothing%7D",
+              "width_min": "200",
+              "width_max": "200"
+            },
+            "children": []
+          },
+          {
+            "tag": "region",
+            "attributes": {
+              "x": "160",
+              "y": "118",
+              "width": "65",
+              "height": "25",
+              "params": "17",
+              "style": "0",
+              "name": "cancel_text",
+              "treshold": "0"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "160",
+              "y": "120",
+              "width": "70",
+              "height": "25",
+              "params": "16",
+              "style": "3",
+              "caption": "%24%7Buseproduct.widget.cancel%7D"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "140",
+              "y": "60",
+              "width": "200",
+              "height": "40",
+              "params": "16",
+              "style": "3",
+              "name": "info",
+              "caption": "%24%7Buseproduct.widget.info.bind_clothing%7D",
+              "width_min": "200",
+              "width_max": "200"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "widget_type": "avatar_image",
+    "font_size": 19,
+    "mouse_wheel_enabled": false,
+    "multiline": true,
+    "word_wrap": true,
+    "spacing": 0,
+    "leading": 0,
+    "underline": true,
+    "text_style": "u_italic"
+  },
+  "filters": []
+}

@@ -1,0 +1,41 @@
+{
+  "name": "badge_entity",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbobadge_entity_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "border",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "50",
+          "height": "50",
+          "params": "17",
+          "style": "0",
+          "name": "border.entity",
+          "background": "false"
+        },
+        "children": [
+          {
+            "tag": "bitmap",
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "50",
+              "height": "50",
+              "params": "16",
+              "style": "0",
+              "name": "badge.image",
+              "tags": "THUMB_BITMAP"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {},
+  "filters": []
+}

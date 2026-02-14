@@ -1,0 +1,129 @@
+{
+  "name": "vimeo_viewer",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_vimeo_viewer_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "frame",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "451",
+          "height": "356",
+          "params": "98305",
+          "style": "3",
+          "name": "video_viewer",
+          "color": "0xff67a3bf",
+          "width_min": "400",
+          "height_min": "350"
+        },
+        "children": [
+          {
+            "tag": "background",
+            "attributes": {
+              "x": "7",
+              "y": "6",
+              "width": "431",
+              "height": "302",
+              "params": "18576",
+              "style": "100",
+              "name": "video_background",
+              "color": "0xffff000000",
+              "background": "true"
+            },
+            "children": [
+              {
+                "tag": "label",
+                "attributes": {
+                  "x": "122",
+                  "y": "143",
+                  "width": "187",
+                  "height": "16",
+                  "params": "3280",
+                  "style": "100",
+                  "name": "no_videos_label",
+                  "caption": "%24%7Bwidget.furni.video_viewer.no_videos%7D"
+                },
+                "children": []
+              },
+              {
+                "tag": "display_object_wrapper",
+                "attributes": {
+                  "x": "0",
+                  "y": "0",
+                  "width": "431",
+                  "height": "302",
+                  "params": "2176",
+                  "style": "3",
+                  "name": "video_wrapper",
+                  "visible": "false"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "border",
+            "attributes": {
+              "x": "12",
+              "y": "12",
+              "width": "421",
+              "height": "19",
+              "params": "128",
+              "style": "3",
+              "name": "video_id_editor"
+            },
+            "children": [
+              {
+                "tag": "label",
+                "attributes": {
+                  "x": "1",
+                  "y": "1",
+                  "width": "52",
+                  "height": "17",
+                  "params": "16",
+                  "style": "3",
+                  "caption": "Video%20id%3A"
+                },
+                "children": []
+              },
+              {
+                "tag": "input",
+                "attributes": {
+                  "x": "53",
+                  "y": "1",
+                  "width": "366",
+                  "height": "17",
+                  "params": "129",
+                  "style": "3",
+                  "name": "video_id",
+                  "caption": "40036380"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "text_style": "u_bold",
+    "restrict": "0123456789",
+    "spacing": 0,
+    "leading": 0
+  },
+  "filters": [
+    {
+      "type": "DropShadowFilter",
+      "attributes": {
+        "distance": "4",
+        "alpha": "0.34901960784313724",
+        "blurX": "4",
+        "blurY": "4"
+      }
+    }
+  ]
+}

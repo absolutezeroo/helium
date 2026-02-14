@@ -1,0 +1,203 @@
+{
+  "name": "rent_confirmation",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habborent_confirmation_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "frame",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "370",
+          "height": "300",
+          "params": "32769",
+          "style": "3",
+          "caption": "%24%7Brent.confirmation.title.extend%7D",
+          "color": "0xff67a3bf"
+        },
+        "children": [
+          {
+            "tag": "border",
+            "attributes": {
+              "x": "20",
+              "y": "25",
+              "width": "160",
+              "height": "180",
+              "params": "16",
+              "style": "0"
+            },
+            "children": [
+              {
+                "tag": "bitmap",
+                "attributes": {
+                  "x": "0",
+                  "y": "0",
+                  "width": "160",
+                  "height": "180",
+                  "params": "2192",
+                  "style": "3",
+                  "name": "image"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "x": "20",
+              "y": "220",
+              "width": "99",
+              "height": "30",
+              "params": "132113",
+              "style": "3",
+              "name": "cancel_button",
+              "caption": "%24%7Bgeneric.cancel%7D"
+            },
+            "children": []
+          },
+          {
+            "tag": "button_thick",
+            "attributes": {
+              "x": "268",
+              "y": "220",
+              "width": "82",
+              "height": "30",
+              "params": "394321",
+              "style": "5",
+              "name": "ok_button",
+              "caption": "%24%7Bgeneric.ok%7D",
+              "color": "0x0cc00"
+            },
+            "children": []
+          },
+          {
+            "tag": "itemlist",
+            "attributes": {
+              "x": "200",
+              "y": "60",
+              "width": "150",
+              "height": "99",
+              "params": "3293200",
+              "style": "100",
+              "name": "content_list"
+            },
+            "children": [
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "0",
+                  "y": "0",
+                  "width": "150",
+                  "height": "30",
+                  "params": "16",
+                  "style": "3",
+                  "name": "rental_description",
+                  "caption": "%24%7Brent.confirmation.rental.description%7D"
+                },
+                "children": []
+              },
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "0",
+                  "y": "40",
+                  "width": "150",
+                  "height": "30",
+                  "params": "16",
+                  "style": "100",
+                  "name": "furni_name",
+                  "caption": "The%20name%20of%20the%20furni%20in%20question"
+                },
+                "children": []
+              },
+              {
+                "tag": "itemlist_horizontal",
+                "attributes": {
+                  "x": "0",
+                  "y": "80",
+                  "width": "150",
+                  "height": "19",
+                  "params": "16",
+                  "style": "100"
+                },
+                "children": [
+                  {
+                    "tag": "label",
+                    "attributes": {
+                      "x": "0",
+                      "y": "0",
+                      "width": "237",
+                      "height": "17",
+                      "params": "16",
+                      "style": "100",
+                      "caption": "%24%7Bcatalog.purchase.confirmation.dialog.cost%7D"
+                    },
+                    "children": []
+                  },
+                  {
+                    "tag": "label",
+                    "attributes": {
+                      "x": "240",
+                      "y": "0",
+                      "width": "22",
+                      "height": "17",
+                      "params": "16",
+                      "style": "100",
+                      "name": "price_amount",
+                      "caption": "000"
+                    },
+                    "children": []
+                  },
+                  {
+                    "tag": "static_bitmap",
+                    "attributes": {
+                      "x": "265",
+                      "y": "0",
+                      "width": "17",
+                      "height": "18",
+                      "params": "16",
+                      "style": "3",
+                      "name": "price_type"
+                    },
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "pivot_point": "center",
+    "stretched_x": false,
+    "stretched_y": false,
+    "auto_size": "left",
+    "mouse_wheel_enabled": false,
+    "multiline": true,
+    "word_wrap": true,
+    "spacing": 10,
+    "leading": 0,
+    "text_style": "u_regular",
+    "asset_uri": "toolbar_duckat_icon_0",
+    "margin_left": 1,
+    "margin_top": 30,
+    "margin_right": 1,
+    "margin_bottom": 1
+  },
+  "filters": [
+    {
+      "type": "DropShadowFilter",
+      "attributes": {
+        "distance": "4",
+        "alpha": "0.34901960784313724",
+        "blurX": "4",
+        "blurY": "4"
+      }
+    }
+  ]
+}

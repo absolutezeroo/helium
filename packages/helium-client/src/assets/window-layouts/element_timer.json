@@ -1,0 +1,64 @@
+{
+  "name": "element_timer",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_element_timer_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "149",
+          "height": "56",
+          "params": "16",
+          "style": "0",
+          "color": "0x00",
+          "background": "true"
+        },
+        "children": [
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "146",
+              "height": "14",
+              "params": "16",
+              "style": "100",
+              "name": "timer_caption_txt",
+              "caption": "Timer%20caption%20ph",
+              "tags": "COLORABLE"
+            },
+            "children": []
+          },
+          {
+            "tag": "widget",
+            "attributes": {
+              "x": "25",
+              "y": "19",
+              "width": "99",
+              "height": "37",
+              "params": "147472",
+              "style": "0",
+              "name": "countdown_widget"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "auto_size": "center",
+    "font_size": 9,
+    "text_style": "il_heading_3",
+    "mouse_wheel_enabled": false,
+    "spacing": 0,
+    "leading": 0,
+    "widget_type": "countdown",
+    "countdown:running": true
+  },
+  "filters": []
+}

@@ -1,0 +1,11 @@
+{
+  "name": "habbo_window_layout_scaler",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_window_layout_scaler_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": []
+  },
+  "vars": {},
+  "filters": []
+}

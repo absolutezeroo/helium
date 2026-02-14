@@ -1,0 +1,133 @@
+{
+  "name": "mannequin_owner_save",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_mannequin_controller_save_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "386",
+          "height": "180",
+          "params": "16",
+          "style": "0"
+        },
+        "children": [
+          {
+            "tag": "button_thick",
+            "attributes": {
+              "x": "227",
+              "y": "141",
+              "width": "145",
+              "height": "28",
+              "params": "131089",
+              "style": "3",
+              "name": "save_button",
+              "caption": "%24%7Bmannequin.widget.save%7D",
+              "width_min": "130",
+              "width_max": "145"
+            },
+            "children": []
+          },
+          {
+            "tag": "bitmap",
+            "attributes": {
+              "x": "20",
+              "y": "10",
+              "width": "83",
+              "height": "130",
+              "params": "16",
+              "style": "3",
+              "name": "preview_image"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "126",
+              "y": "30",
+              "width": "254",
+              "height": "33",
+              "params": "16",
+              "style": "3",
+              "name": "outfit_name_show"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "126",
+              "y": "60",
+              "width": "197",
+              "height": "61",
+              "params": "16",
+              "style": "3",
+              "name": "description",
+              "caption": "%24%7Bmannequin.widget.savetext%20"
+            },
+            "children": []
+          },
+          {
+            "tag": "icon",
+            "attributes": {
+              "x": "80",
+              "y": "110",
+              "width": "43",
+              "height": "29",
+              "params": "16",
+              "style": "0",
+              "name": "club_icon"
+            },
+            "children": []
+          },
+          {
+            "tag": "region",
+            "attributes": {
+              "x": "15",
+              "y": "147",
+              "width": "151",
+              "height": "20",
+              "params": "17",
+              "style": "0",
+              "name": "back_region",
+              "treshold": "0"
+            },
+            "children": [
+              {
+                "tag": "text",
+                "attributes": {
+                  "x": "0",
+                  "y": "0",
+                  "width": "144",
+                  "height": "18",
+                  "params": "12582928",
+                  "style": "3",
+                  "name": "back_text",
+                  "caption": "mannequin.widget.back"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "font_size": 19,
+    "text_style": "u_regular",
+    "mouse_wheel_enabled": false,
+    "sharpness": 80,
+    "thickness": -15,
+    "multiline": true,
+    "word_wrap": true,
+    "auto_size": "left",
+    "underline": true
+  },
+  "filters": []
+}

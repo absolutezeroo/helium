@@ -1,0 +1,41 @@
+{
+  "name": "ctlg_club_buy",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_club_buy_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "360",
+          "height": "460",
+          "params": "16",
+          "style": "0",
+          "name": "ctlg_club_buy",
+          "color": "0x2121ffffff",
+          "background": "true"
+        },
+        "children": [
+          {
+            "tag": "container",
+            "attributes": {
+              "x": "10",
+              "y": "70",
+              "width": "340",
+              "height": "390",
+              "params": "16",
+              "style": "0",
+              "name": "clubBuyWidget"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {},
+  "filters": []
+}

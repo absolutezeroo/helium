@@ -1,0 +1,170 @@
+{
+  "name": "passwd_input",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_password_input_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "frame",
+        "attributes": {
+          "x": "100",
+          "y": "74",
+          "width": "237",
+          "height": "217",
+          "params": "32801",
+          "style": "3",
+          "caption": "%24%7Bnavigator.password.title%7D",
+          "color": "0x0418db0"
+        },
+        "children": [
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "10",
+              "y": "16",
+              "width": "176",
+              "height": "16",
+              "params": "16",
+              "style": "0",
+              "name": "room_name",
+              "caption": "Room%20name"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "10",
+              "y": "35",
+              "width": "205",
+              "height": "68",
+              "params": "16",
+              "style": "0",
+              "name": "info",
+              "caption": "%24%7Bnavigator.password.info%7D"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "10",
+              "y": "107",
+              "width": "97",
+              "height": "21",
+              "params": "16",
+              "style": "0",
+              "caption": "%24%7Bnavigator.password.enter%7D"
+            },
+            "children": []
+          },
+          {
+            "tag": "password",
+            "attributes": {
+              "x": "113",
+              "y": "107",
+              "width": "100",
+              "height": "19",
+              "params": "1",
+              "style": "0",
+              "name": "password_input"
+            },
+            "children": []
+          },
+          {
+            "tag": "container",
+            "attributes": {
+              "x": "10",
+              "y": "142",
+              "width": "207",
+              "height": "34",
+              "params": "16",
+              "style": "0",
+              "color": "0xffffeaece8",
+              "background": "true"
+            },
+            "children": [
+              {
+                "tag": "region",
+                "attributes": {
+                  "x": "0",
+                  "y": "5",
+                  "width": "83",
+                  "height": "26",
+                  "params": "131221",
+                  "style": "0",
+                  "name": "cancel_region",
+                  "treshold": "0"
+                },
+                "children": [
+                  {
+                    "tag": "text",
+                    "attributes": {
+                      "x": "0",
+                      "y": "3",
+                      "width": "83",
+                      "height": "17",
+                      "params": "16",
+                      "style": "0",
+                      "name": "cancel",
+                      "caption": "%24%7Bgeneric.cancel%7D"
+                    },
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "tag": "button",
+                "attributes": {
+                  "x": "110",
+                  "y": "3",
+                  "width": "188",
+                  "height": "28",
+                  "params": "131089",
+                  "style": "3",
+                  "name": "try",
+                  "caption": "%24%7Bnavigator.password.button.try%7D"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "antialias_type": "advanced",
+    "font_face": "Ubuntu",
+    "font_size": 18,
+    "mouse_wheel_enabled": false,
+    "sharpness": 0,
+    "thickness": 0,
+    "bold": true,
+    "kerning": false,
+    "spacing": 0,
+    "leading": 0,
+    "word_wrap": true,
+    "always_show_selection": true,
+    "border": true,
+    "display_as_password": true,
+    "auto_size": "left",
+    "underline": true,
+    "margin_left": 6,
+    "margin_top": 25,
+    "margin_right": 6,
+    "margin_bottom": 7
+  },
+  "filters": [
+    {
+      "type": "DropShadowFilter",
+      "attributes": {
+        "distance": "4",
+        "alpha": "0.34901960784313724",
+        "blurX": "4",
+        "blurY": "4"
+      }
+    }
+  ]
+}

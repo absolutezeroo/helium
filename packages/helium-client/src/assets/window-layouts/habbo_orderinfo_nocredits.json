@@ -1,0 +1,91 @@
+{
+  "name": "habbo_orderinfo_nocredits",
+  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbohabbo_orderinfo_nocredits_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "284",
+          "height": "125",
+          "params": "16",
+          "style": "0",
+          "name": "habbo_orderinfo_nocredits"
+        },
+        "children": [
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "16",
+              "y": "14",
+              "width": "250",
+              "height": "17",
+              "params": "16",
+              "style": "3",
+              "name": "habbo_message_text_a",
+              "caption": "%24%7Bshopping_costs%7D"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "attributes": {
+              "x": "16",
+              "y": "34",
+              "width": "250",
+              "height": "17",
+              "params": "16",
+              "style": "3",
+              "name": "habbo_message_text_b",
+              "caption": "%24%7Bshopping_nocash%7D"
+            },
+            "children": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "x": "77",
+              "y": "90",
+              "width": "33",
+              "height": "22",
+              "params": "393361",
+              "style": "3",
+              "name": "nobalance_ok",
+              "caption": "%24%7Bok%7D",
+              "width_max": "80"
+            },
+            "children": []
+          },
+          {
+            "tag": "button",
+            "attributes": {
+              "x": "193",
+              "y": "90",
+              "width": "54",
+              "height": "22",
+              "params": "393361",
+              "style": "3",
+              "name": "button_cancel",
+              "caption": "%24%7Bcancel%7D",
+              "width_max": "80"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "auto_size": "left",
+    "mouse_wheel_enabled": false,
+    "multiline": true,
+    "word_wrap": true,
+    "spacing": 0,
+    "leading": 0
+  },
+  "filters": []
+}
