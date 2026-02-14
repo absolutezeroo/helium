@@ -3,10 +3,7 @@ import type {IHeliumConfig} from 'helium-engine';
 import {Helium} from 'helium-engine';
 import {WindowLayerManager} from './components/window/WindowLayerManager';
 import {initWindowStore} from './stores/windowStore';
-import './assets/styles/window-theme.css';
-import './assets/styles/window-elements.css';
-import './assets/styles/window-skin.css';
-import './assets/styles/window-preview.css';
+import './_index.scss';
 
 // Register all window element components (side effect import)
 import './components/window/elements';
@@ -65,10 +62,8 @@ export function App(): JSX.Element
 	});
 
 	return (
-		<div class="helium-app">
-			<Show when={ready()} fallback={<div class="hw-loading">Loading...</div>}>
-				<WindowLayerManager />
-			</Show>
-		</div>
+		<Show when={ready()} fallback={<div class="hw-loading">Loading...</div>}>
+			<WindowLayerManager />
+		</Show>
 	);
 }
