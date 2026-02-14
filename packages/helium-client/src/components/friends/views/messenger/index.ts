@@ -1,1 +1,0 @@
-export {FriendsMessengerView} from './FriendsMessengerView';

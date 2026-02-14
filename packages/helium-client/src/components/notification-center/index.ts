@@ -1,1 +1,0 @@
-export {NotificationCenterView} from './NotificationCenterView';

@@ -1,1 +1,0 @@
-export {PurseView} from './PurseView';
