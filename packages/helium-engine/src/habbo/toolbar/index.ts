@@ -5,7 +5,14 @@ export {HabboToolbar} from './HabboToolbar';
 export {HabboToolbarEnum} from './HabboToolbarEnum';
 export {HabboToolbarIconEnum} from './HabboToolbarIconEnum';
 export {ToolbarDisplayExtensionIds} from './ToolbarDisplayExtensionIds';
+export {ToolbarView} from './ToolbarView';
+export {BottomBarLeft} from './BottomBarLeft';
+export {ExtensionView} from './ExtensionView';
+export {BottomBackgroundBorder} from './BottomBackgroundBorder';
 export * from './events';
+export * from './extensions';
+export * from './memenu';
+export * from './offers';
 
 // Types
 export type {HabboToolbarEvents} from './HabboToolbar';

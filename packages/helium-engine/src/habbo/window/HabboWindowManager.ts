@@ -1,187 +1,545 @@
-import {EventEmitter} from 'eventemitter3';
-import {Component} from '@core/runtime/Component';
-import {Logger} from '@core/utils/Logger';
-import {WindowLayoutParser} from './WindowLayoutParser';
-import {ElementRegistry} from './ElementRegistry';
-import {WindowContextLayer} from './enum/WindowContextLayer';
-import type {IHabboWindowManager} from './IHabboWindowManager';
-import {WindowManagerEvents} from './IHabboWindowManager';
-import type {IWindowInstance} from './IWindowInstance';
-import type {IWindowLayout} from './IWindowLayout';
-import type {IElementDescriptionData} from './IElementDescriptor';
+import { EventEmitter } from 'eventemitter3';
+import { Component } from '@core/runtime/Component';
+import { Logger } from '@core/utils/Logger';
+import { WindowLayoutParser } from './WindowLayoutParser';
+import { ElementRegistry } from './ElementRegistry';
+import { WindowContextLayer } from './enum/WindowContextLayer';
+import type { IHabboWindowManager } from './IHabboWindowManager';
+import { WindowManagerEvents } from './IHabboWindowManager';
+import type { IWindowInstance } from './IWindowInstance';
+import type { IWindowLayout } from './IWindowLayout';
+import type { IElementDescriptionData } from './IElementDescriptor';
+import type { IWindow } from '@core/window/IWindow';
+import type { IWindowContext } from '@core/window/IWindowContext';
+import type { IInputEventTracker } from '@core/window/IInputEventTracker';
+import type { IWindowContainer } from '@core/window/IWindowContainer';
+import { WindowContext } from '@core/window/WindowContext';
+import type { IContext } from '@core/runtime/IContext';
+import type { IAssetLibrary } from '@core/assets/IAssetLibrary';
+import type { IModalDialog } from './utils/IModalDialog';
+import { ModalDialog } from './utils/ModalDialog';
 
 const log = Logger.getLogger('HabboWindowManager');
 
 /**
- * Manages the lifecycle of declarative windows.
+ * Habbo Window Manager Component.
  *
- * Engine-side component that handles window creation, variable resolution,
- * and instance tracking. Emits events for the UI layer to react to.
+ * Manages the lifecycle of declarative windows AND provides the AS3-compatible
+ * ICoreWindowManager + IHabboWindowManager API. This is the central orchestrator
+ * of the window system.
+ *
+ * In AS3, this class extended Component and implemented IHabboWindowManager,
+ * ICoreWindowManager, IWindowFactory, IUpdateReceiver, IInputEventTracker,
+ * and IWidgetFactory. It managed 4 WindowContexts (one per layer), a
+ * WindowRenderer, SkinContainer, ThemeManager, and ResourceManager.
  *
  * Uses a separate `_windowEvents` emitter (NOT `events`) to avoid
  * the Component DI override bug.
  *
- * @see sources/win63_version/habbo/window/HabboWindowManagerComponent.as
+ * @see sources/win63_2021_version/com/sulake/habbo/window/HabboWindowManagerComponent.as
  */
 export class HabboWindowManager extends Component implements IHabboWindowManager
 {
-	private _windows: Map<number, IWindowInstance> = new Map();
-	private _layouts: Map<string, IWindowLayout> = new Map();
-	private _nextId: number = 1;
+    private static readonly NUMBER_OF_CONTEXT_LAYERS: number = 4;
+    private static readonly DEFAULT_CONTEXT_LAYER_INDEX: number = 1;
 
-	private _windowEvents: EventEmitter = new EventEmitter();
+    // ── Declarative window system (existing) ───────────────────────────
 
-	/**
-	 * Event emitter for window lifecycle events.
-	 */
-	get windowEvents(): EventEmitter
-	{
-		return this._windowEvents;
-	}
+    private _windows: Map<number, IWindowInstance> = new Map();
+    private _layouts: Map<string, IWindowLayout> = new Map();
+    private _nextId: number = 1;
+    private _windowEvents: EventEmitter = new EventEmitter();
+    private _elementRegistry: ElementRegistry = new ElementRegistry();
 
-	private _elementRegistry: ElementRegistry = new ElementRegistry();
+    // ── AS3-compatible window context system ────────────────────────────
 
-	/**
-	 * The element registry.
-	 */
-	get elementRegistry(): ElementRegistry
-	{
-		return this._elementRegistry;
-	}
+    private _windowContextArray: IWindowContext[] = [];
+    private _defaultContext: IWindowContext | null = null;
+    private _initialized: boolean = false;
 
-	/**
-	 * Load element description data into the registry.
-	 *
-	 * @param data - Parsed element-description.json content
-	 */
-	loadElementDescription(data: IElementDescriptionData): void
-	{
-		this._elementRegistry.load(data);
-		log.info(`Element registry loaded: ${data.elements.length} descriptors`);
-	}
+    constructor(context: IContext, flags: number = 0, assetLibrary: IAssetLibrary | null = null)
+    {
+        super(context, flags, assetLibrary);
 
-	/**
-	 * Register a layout by name.
-	 *
-	 * Mirrors AS3's asset system where layouts were available via
-	 * `assets.getAssetByName("navigator_frame_2_xml")`.
-	 */
-	registerLayout(name: string, layout: IWindowLayout): void
-	{
-		this._layouts.set(name, layout);
-		log.debug(`Layout registered: ${name}`);
-	}
+        this.initContexts();
+    }
 
-	/**
-	 * Get a registered layout by name.
-	 */
-	getLayout(name: string): IWindowLayout | null
-	{
-		return this._layouts.get(name) ?? null;
-	}
+    // ── Declarative API (existing, preserved for client compatibility) ──
 
-	/**
-	 * Open a window from a layout.
-	 *
-	 * @param layout - The layout data
-	 * @param vars - Variable overrides
-	 * @param layer - Context layer (default: DEFAULT = 1)
-	 * @returns The created window instance
-	 */
-	openWindow(layout: IWindowLayout, vars?: Record<string, unknown>, layer: number = WindowContextLayer.DEFAULT): IWindowInstance
-	{
-		const resolvedTree = WindowLayoutParser.resolve(layout, vars);
+    /**
+     * Event emitter for window lifecycle events.
+     */
+    get windowEvents(): EventEmitter
+    {
+        return this._windowEvents;
+    }
 
-		const instance: IWindowInstance = {
-			id: this._nextId++,
-			layoutName: layout.name,
-			layer,
-			layoutTree: resolvedTree,
-			visible: true,
-			zOrder: this.getMaxZOrder(layer) + 1,
-			vars: vars ?? {},
-		};
+    /**
+     * The element registry.
+     */
+    get elementRegistry(): ElementRegistry
+    {
+        return this._elementRegistry;
+    }
 
-		this._windows.set(instance.id, instance);
+    /**
+     * Load element description data into the registry.
+     */
+    loadElementDescription(data: IElementDescriptionData): void
+    {
+        this._elementRegistry.load(data);
+        log.info(`Element registry loaded: ${ data.elements.length } descriptors`);
+    }
 
-		log.debug(`Window opened: ${layout.name} (id=${instance.id}, layer=${layer})`);
+    /**
+     * Register a layout by name.
+     */
+    registerLayout(name: string, layout: IWindowLayout): void
+    {
+        this._layouts.set(name, layout);
+        log.debug(`Layout registered: ${ name }`);
+    }
 
-		this._windowEvents.emit(WindowManagerEvents.WINDOW_OPEN, instance);
+    /**
+     * Get a registered layout by name.
+     */
+    getLayout(name: string): IWindowLayout | null
+    {
+        return this._layouts.get(name) ?? null;
+    }
 
-		return instance;
-	}
+    /**
+     * Open a window from a layout.
+     */
+    openWindow(layout: IWindowLayout, vars?: Record<string, unknown>, layer: number = WindowContextLayer.DEFAULT): IWindowInstance
+    {
+        const resolvedTree = WindowLayoutParser.resolve(layout, vars);
 
-	/**
-	 * Close a window by ID.
-	 */
-	closeWindow(id: number): void
-	{
-		const instance = this._windows.get(id);
+        const instance: IWindowInstance = {
+            id: this._nextId++,
+            layoutName: layout.name,
+            layer,
+            layoutTree: resolvedTree,
+            visible: true,
+            zOrder: this.getMaxZOrder(layer) + 1,
+            vars: vars ?? {},
+        };
 
-		if (!instance) return;
+        this._windows.set(instance.id, instance);
 
-		this._windows.delete(id);
+        log.debug(`Window opened: ${ layout.name } (id=${ instance.id }, layer=${ layer })`);
 
-		log.debug(`Window closed: ${instance.layoutName} (id=${id})`);
+        this._windowEvents.emit(WindowManagerEvents.WINDOW_OPEN, instance);
 
-		this._windowEvents.emit(WindowManagerEvents.WINDOW_CLOSE, instance);
-	}
+        return instance;
+    }
 
-	/**
-	 * Get a window by ID.
-	 */
-	getWindow(id: number): IWindowInstance | null
-	{
-		return this._windows.get(id) ?? null;
-	}
+    /**
+     * Close a window by ID.
+     */
+    closeWindow(id: number): void
+    {
+        const instance = this._windows.get(id);
 
-	/**
-	 * Get all open windows, optionally filtered by layer.
-	 */
-	getWindows(layer?: number): IWindowInstance[]
-	{
-		const all = Array.from(this._windows.values());
+        if(!instance) return;
 
-		if (layer !== undefined)
-		{
-			return all.filter((w) => w.layer === layer);
-		}
+        this._windows.delete(id);
 
-		return all;
-	}
+        log.debug(`Window closed: ${ instance.layoutName } (id=${ id })`);
 
-	/**
-	 * Dispose the window manager.
-	 */
-	dispose(): void
-	{
-		if (this._disposed) return;
+        this._windowEvents.emit(WindowManagerEvents.WINDOW_CLOSE, instance);
+    }
 
-		this._disposed = true;
+    /**
+     * Get a window by ID.
+     */
+    getWindow(id: number): IWindowInstance | null
+    {
+        return this._windows.get(id) ?? null;
+    }
 
-		this._windows.clear();
-		this._layouts.clear();
-		this._windowEvents.removeAllListeners();
-		this._elementRegistry.dispose();
+    /**
+     * Get all open windows, optionally filtered by layer.
+     */
+    getWindows(layer?: number): IWindowInstance[]
+    {
+        const all = Array.from(this._windows.values());
 
-		super.dispose();
-	}
+        if(layer !== undefined)
+        {
+            return all.filter((w) => w.layer === layer);
+        }
 
-	/**
-	 * Get the maximum z-order in a given layer.
-	 */
-	private getMaxZOrder(layer: number): number
-	{
-		let max = -1;
+        return all;
+    }
 
-		for (const instance of this._windows.values())
-		{
-			if (instance.layer === layer && instance.zOrder > max)
-			{
-				max = instance.zOrder;
-			}
-		}
+    // ── AS3-compatible API ──────────────────────────────────────────────
 
-		return max;
-	}
+    /**
+     * Create a window using the core factory.
+     *
+     * In AS3: create(name, type, style, param, rect, procedure, dynamicStyle, id, tags, parent, properties)
+     * Delegates to the default context layer.
+     */
+    public create(
+        name: string,
+        type: number,
+        style: number,
+        param: number,
+        rect: { x: number; y: number; width: number; height: number },
+        procedure?: ((event: unknown, window: IWindow) => void) | null,
+        dynamicStyle?: string,
+        id?: number,
+        tags?: string[] | null,
+        parent?: IWindow | null,
+        properties?: unknown[] | null
+    ): IWindow
+    {
+        return this._defaultContext!.create(
+            name, '', type, style, param, rect,
+            procedure ?? null, parent ?? null,
+            id ?? 0, tags ?? null, dynamicStyle ?? '', properties ?? null
+        );
+    }
+
+    /**
+     * Destroy a window.
+     */
+    public destroy(window: IWindow): void
+    {
+        window.destroy();
+    }
+
+    /**
+     * Build a window tree from a JSON layout definition.
+     *
+     * In AS3 this was buildFromXML. We use JSON instead.
+     */
+    public buildFromJSON(json: unknown, layer: number = 1, _vars?: Map<string, string> | null): IWindow
+    {
+        const context = this.getWindowContext(layer);
+        const parser = context.getWindowParser();
+
+        if(parser)
+        {
+            return parser.parseAndConstruct(json as Record<string, unknown>, null!, null) as IWindow;
+        }
+
+        throw new Error('Window parser not available');
+    }
+
+    /**
+     * Build a modal dialog from a JSON layout definition.
+     *
+     * Creates a dimmed background overlay and a centered content
+     * window. Delegates to ModalDialog which manages the shared
+     * modal container.
+     *
+     * In AS3: buildModalDialogFromXML(xml: XML): IModalDialog
+     */
+    public buildModalDialogFromJSON(json: unknown): IModalDialog
+    {
+        return new ModalDialog(this, json);
+    }
+
+    /**
+     * Create a window by name, type, style, param in a given context layer.
+     *
+     * In AS3: createWindow(name, caption, type, style, param, rect, procedure, id, layer, dynamicStyle)
+     */
+    public createWindow(
+        name: string,
+        caption: string = '',
+        type: number = 0,
+        style: number = 0,
+        param: number = 0,
+        rect: { x: number; y: number; width: number; height: number } | null = null,
+        procedure: ((event: unknown, window: IWindow) => void) | null = null,
+        id: number = 0,
+        layer: number = 1,
+        dynamicStyle: string = ''
+    ): IWindow
+    {
+        const effectiveRect = rect ?? { x: 0, y: 0, width: 0, height: 0 };
+
+        return this._windowContextArray[layer].create(
+            name, caption, type, style, param, effectiveRect,
+            procedure, null, id, null, dynamicStyle, null
+        );
+    }
+
+    /**
+     * Remove a window by name from a context layer.
+     */
+    public removeWindow(name: string, layer: number = 1): void
+    {
+        const desktop = this._windowContextArray[layer]?.getDesktopWindow();
+
+        if(!desktop) return;
+
+        const child = (desktop as IWindowContainer).getChildByName?.(name) ?? null;
+
+        if(child)
+        {
+            child.destroy();
+        }
+    }
+
+    /**
+     * Get a window by name from a context layer.
+     */
+    public getWindowByName(name: string, layer: number = 1): IWindow | null
+    {
+        const desktop = this._windowContextArray[layer]?.getDesktopWindow();
+
+        if(!desktop) return null;
+
+        return (desktop as IWindowContainer).getChildByName?.(name) ?? null;
+    }
+
+    /**
+     * Get the topmost active window in a context layer.
+     */
+    public getActiveWindow(layer: number = 1): IWindow | null
+    {
+        const desktop = this._windowContextArray[layer]?.getDesktopWindow();
+
+        if(!desktop) return null;
+
+        const container = desktop as IWindowContainer;
+        const count = container.numChildren;
+
+        if(count <= 0) return null;
+
+        return container.getChildAt(count - 1);
+    }
+
+    /**
+     * Toggle fullscreen mode.
+     */
+    public toggleFullScreen(): void
+    {
+        if(document.fullscreenElement)
+        {
+            document.exitFullscreen();
+        }
+        else
+        {
+            document.documentElement.requestFullscreen();
+        }
+    }
+
+    /**
+     * Get a window context by layer index.
+     */
+    public getWindowContext(layer: number): IWindowContext
+    {
+        return this._windowContextArray[layer];
+    }
+
+    /**
+     * Get the desktop window for a given context layer.
+     */
+    public getDesktop(layer: number): IWindow | null
+    {
+        const context = this._windowContextArray[layer];
+
+        return context ? context.getDesktopWindow() : null;
+    }
+
+    /**
+     * Search for a window by name across all context layers.
+     */
+    public findWindowByName(name: string): IWindow | null
+    {
+        for(const context of this._windowContextArray)
+        {
+            const found = context.findWindowByName(name);
+
+            if(found) return found;
+        }
+
+        return null;
+    }
+
+    /**
+     * Search for a window by tag across all context layers.
+     */
+    public findWindowByTag(tag: string): IWindow | null
+    {
+        for(const context of this._windowContextArray)
+        {
+            const found = context.findWindowByTag(tag);
+
+            if(found) return found;
+        }
+
+        return null;
+    }
+
+    /**
+     * Add an input event tracker to all context layers.
+     */
+    public addMouseEventTracker(tracker: IInputEventTracker): void
+    {
+        for(const context of this._windowContextArray)
+        {
+            context.addMouseEventTracker(tracker);
+        }
+    }
+
+    /**
+     * Remove an input event tracker from all context layers.
+     */
+    public removeMouseEventTracker(tracker: IInputEventTracker): void
+    {
+        for(const context of this._windowContextArray)
+        {
+            context.removeMouseEventTracker(tracker);
+        }
+    }
+
+    /**
+     * Register a localization parameter.
+     */
+    public registerLocalizationParameter(_key: string, _parameter: string, _value: string, _delimiter: string = '%'): void
+    {
+        // Localization integration - to be connected when IHabboLocalizationManager is available
+    }
+
+    /**
+     * Create an unseen item counter widget.
+     */
+    public createUnseenItemCounter(): IWindowContainer | null
+    {
+        // Requires asset system integration
+        return null;
+    }
+
+    /**
+     * Register a hint window.
+     */
+    public registerHintWindow(_hintId: string, _window: IWindow, _direction: number = 1): void
+    {
+        // HintManager integration - to be connected
+    }
+
+    /**
+     * Unregister a hint window.
+     */
+    public unregisterHintWindow(_hintId: string): void
+    {
+        // HintManager integration - to be connected
+    }
+
+    /**
+     * Show a hint by ID.
+     */
+    public showHint(_hintId: string, _rect?: { x: number; y: number; width: number; height: number } | null): void
+    {
+        // HintManager integration - to be connected
+    }
+
+    /**
+     * Hide the current hint.
+     */
+    public hideHint(): void
+    {
+        // HintManager integration - to be connected
+    }
+
+    /**
+     * Hide a hint matching the given ID.
+     */
+    public hideMatchingHint(_hintId: string): void
+    {
+        // HintManager integration - to be connected
+    }
+
+    /**
+     * Open a help page.
+     */
+    public openHelpPage(_pageId: string): void
+    {
+        // HabboPagesViewer integration - to be connected
+    }
+
+    /**
+     * Display the floor plan editor.
+     */
+    public displayFloorPlanEditor(): void
+    {
+        // BCFloorPlanEditor integration - to be connected
+    }
+
+    // ── Private helpers ────────────────────────────────────────────────
+
+    /**
+     * Initialize the 4 window context layers.
+     */
+    private initContexts(): void
+    {
+        if(this._initialized) return;
+
+        this._initialized = true;
+
+        const factory = this as unknown as { create: Function };
+
+        for(let i = 0; i < HabboWindowManager.NUMBER_OF_CONTEXT_LAYERS; i++)
+        {
+            const context = new WindowContext(`layer_${ i }`, factory as any);
+            this._windowContextArray.push(context);
+        }
+
+        this._defaultContext = this._windowContextArray[HabboWindowManager.DEFAULT_CONTEXT_LAYER_INDEX];
+
+        log.info(`Window manager initialized with ${ HabboWindowManager.NUMBER_OF_CONTEXT_LAYERS } context layers`);
+    }
+
+    /**
+     * Get the maximum z-order in a given layer.
+     */
+    private getMaxZOrder(layer: number): number
+    {
+        let max = -1;
+
+        for(const instance of this._windows.values())
+        {
+            if(instance.layer === layer && instance.zOrder > max)
+            {
+                max = instance.zOrder;
+            }
+        }
+
+        return max;
+    }
+
+    // ── Dispose ────────────────────────────────────────────────────────
+
+    /**
+     * Dispose the window manager.
+     */
+    dispose(): void
+    {
+        if(this._disposed) return;
+
+        this._disposed = true;
+
+        // Dispose window contexts
+        for(const context of this._windowContextArray)
+        {
+            context.dispose();
+        }
+
+        this._windowContextArray.length = 0;
+        this._defaultContext = null;
+
+        // Clean up declarative window system
+        this._windows.clear();
+        this._layouts.clear();
+        this._windowEvents.removeAllListeners();
+        this._elementRegistry.dispose();
+
+        super.dispose();
+    }
 }

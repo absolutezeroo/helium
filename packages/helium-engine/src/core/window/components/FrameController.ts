@@ -1,0 +1,310 @@
+import type { IWindow } from '../IWindow';
+import type { IWindowContainer } from '../IWindowContainer';
+import type { IWindowContext } from '../IWindowContext';
+import type { IFrameWindow } from './IFrameWindow';
+import type { IHeaderWindow } from './IHeaderWindow';
+import type { ILabelWindow } from './ILabelWindow';
+import type { IScalerWindow } from './IScalerWindow';
+import type { IMargins } from '../utils/IMargins';
+import type { IIterator } from '../utils/IIterator';
+import { ContainerController } from './ContainerController';
+import { ContainerIterator } from '../iterators/ContainerIterator';
+import { WindowController } from '../WindowController';
+import { WindowEvent } from '../events/WindowEvent';
+import { TextMargins } from '../utils/TextMargins';
+
+/**
+ * Controller for frame windows.
+ *
+ * A frame is a windowed container with a title bar (header),
+ * content region, optional scaler for resizing, and margins.
+ *
+ * @see sources/win63_2021_version/com/sulake/core/window/components/FrameController.as
+ */
+export class FrameController extends ContainerController implements IFrameWindow
+{
+    private static readonly TAG_TITLE_ELEMENT: string = '_TITLE';
+    private static readonly TAG_HEADER_ELEMENT: string = '_HEADER';
+    private static readonly TAG_CONTENT_ELEMENT: string = '_CONTENT';
+    private static readonly TAG_SCALER_ELEMENT: string = '_SCALER';
+
+    private _title: ILabelWindow | null = null;
+    private _header: IHeaderWindow | null = null;
+    private _content: IWindowContainer | null = null;
+    private _margins: IMargins | null = null;
+    private _constructed: boolean = false;
+    private _helpPage: string = '';
+    private _helpButtonAction: Function | null = null;
+
+    constructor(
+        name: string,
+        type: number,
+        style: number,
+        param: number,
+        context: IWindowContext,
+        rect: { x: number; y: number; width: number; height: number },
+        parent: IWindow | null = null,
+        procedure: ((event: WindowEvent, window: IWindow) => void) | null = null,
+        tags: string[] | null = null,
+        properties: unknown[] | null = null,
+        id: number = 0,
+        dynamicStyle: string = ''
+    )
+    {
+        param = param | 0x01;
+        param = param & (~0x10);
+
+        super(name, type, style, param, context, rect, parent, procedure, tags, properties, id);
+
+        this._constructed = true;
+        this.activate();
+        this.setupScaling();
+
+        const helpButton = this.findChildByName('header_button_help');
+
+        if(helpButton !== null)
+        {
+            helpButton.procedure = this.helpButtonProcedure.bind(this);
+        }
+
+        this.helpPage = this._helpPage;
+    }
+
+    /**
+     * Returns the title label window.
+     */
+    public get title(): ILabelWindow
+    {
+        if(!this._title)
+        {
+            this._title = this.findChildByTag(FrameController.TAG_TITLE_ELEMENT) as unknown as ILabelWindow;
+        }
+
+        return this._title!;
+    }
+
+    /**
+     * Returns the header window.
+     */
+    public get header(): IHeaderWindow
+    {
+        if(!this._header)
+        {
+            this._header = this.findChildByTag(FrameController.TAG_HEADER_ELEMENT) as unknown as IHeaderWindow;
+        }
+
+        return this._header!;
+    }
+
+    /**
+     * Returns the content container window.
+     */
+    public get content(): IWindowContainer
+    {
+        if(!this._content)
+        {
+            this._content = this.findChildByTag(FrameController.TAG_CONTENT_ELEMENT) as unknown as IWindowContainer;
+        }
+
+        return this._content!;
+    }
+
+    /**
+     * Returns the scaler window for frame resizing.
+     */
+    public get scaler(): IScalerWindow
+    {
+        return this.findChildByTag(FrameController.TAG_SCALER_ELEMENT) as unknown as IScalerWindow;
+    }
+
+    /**
+     * Returns the content margins.
+     */
+    public get margins(): IMargins
+    {
+        if(!this._margins)
+        {
+            this._margins = new TextMargins(
+                this.content.left,
+                this.content.top,
+                this.content.right,
+                this.content.bottom
+            );
+        }
+
+        return this._margins;
+    }
+
+    public override set caption(value: string)
+    {
+        super.caption = value;
+
+        try
+        {
+            this.title.text = value;
+        }
+        catch(_e: unknown)
+        {
+            // Ignored
+        }
+    }
+
+    public override get caption(): string
+    {
+        return super.caption;
+    }
+
+    public override set color(value: number)
+    {
+        super.color = value;
+
+        const colorized: IWindow[] = [];
+
+        this.groupChildrenWithTag(WindowController.TAG_COLORIZE, colorized);
+
+        for(const child of colorized)
+        {
+            child.color = value;
+        }
+    }
+
+    public override get color(): number
+    {
+        return super.color;
+    }
+
+    public override iterator(): IIterator
+    {
+        if(this.content !== null && this._constructed)
+        {
+            return (this.content as unknown as ContainerController).iterator();
+        }
+
+        return new ContainerIterator(this._children ?? []);
+    }
+
+    /**
+     * Returns the help page identifier.
+     */
+    public get helpPage(): string
+    {
+        return this._helpPage;
+    }
+
+    /**
+     * Sets the help page identifier and updates help button visibility.
+     */
+    public set helpPage(value: string)
+    {
+        this._helpPage = value;
+
+        const helpButton = this.findChildByName('header_button_help');
+
+        if(helpButton !== null)
+        {
+            helpButton.visible = (this._helpPage !== '');
+        }
+    }
+
+    /**
+     * Sets the help button action callback.
+     */
+    public set helpButtonAction(value: Function)
+    {
+        this._helpButtonAction = value;
+    }
+
+    /**
+     * Gets the help button action callback.
+     */
+    public get helpButtonAction(): Function
+    {
+        return this._helpButtonAction!;
+    }
+
+    /**
+     * Resizes the frame to fit its content children.
+     */
+    public resizeToFitContent(): void
+    {
+        this.resizeToAccommodateChildren(this.content as unknown as WindowController);
+    }
+
+    public override setParamFlag(flag: number, value: boolean = true): void
+    {
+        super.setParamFlag(flag, value);
+        this.setupScaling();
+    }
+
+    /**
+     * Configures the scaler visibility based on scaling param flags.
+     */
+    private setupScaling(): void
+    {
+        const scalerWindow = this.scaler;
+        const noScale = this.testParamFlag(0x10000);
+        const scaleH = this.testParamFlag(0x2000);
+        const scaleV = this.testParamFlag(0x1000);
+
+        if(scalerWindow)
+        {
+            scalerWindow.setParamFlag(0x2000, scaleH || noScale);
+            scalerWindow.setParamFlag(0x1000, scaleV || noScale);
+            scalerWindow.visible = (scaleH || scaleV || noScale);
+        }
+    }
+
+    /**
+     * Handles help button click events.
+     */
+    private helpButtonProcedure(event: WindowEvent, _window: IWindow): void
+    {
+        if(event.type === 'WME_CLICK' && this._helpPage !== '' && this._helpButtonAction !== null)
+        {
+            this._helpButtonAction(this._helpPage);
+        }
+    }
+
+    /**
+     * Called when margins change to update content rectangle.
+     */
+    private marginsCallback(margins: IMargins): void
+    {
+        const contentWindow = this.content;
+        const savedParam = contentWindow.param;
+        const anchorFlags = savedParam & (0xC0 | 0x0C00);
+
+        if(anchorFlags)
+        {
+            contentWindow.setParamFlag(0xC0 | 0x0C00, false);
+        }
+
+        const stretchFlags = savedParam & 0xC00000;
+
+        if(stretchFlags)
+        {
+            contentWindow.setParamFlag(0xC00000, false);
+        }
+
+        contentWindow.rectangle = {
+            x: margins.left,
+            y: margins.top,
+            width: margins.right - margins.left,
+            height: margins.bottom - margins.top
+        };
+
+        if(anchorFlags || stretchFlags)
+        {
+            contentWindow.setParamFlag(0xFFFFFFFF, false);
+            contentWindow.setParamFlag(savedParam, true);
+        }
+    }
+
+    /**
+     * Resizes this frame to accommodate all children of the given container.
+     */
+    protected resizeToAccommodateChildren(_container: WindowController): void
+    {
+        // Stub - to be extended if needed
+    }
+}

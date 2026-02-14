@@ -1,0 +1,137 @@
+import type { IWindow } from '../IWindow';
+import type { IWindowContext } from '../IWindowContext';
+import type { IIterator } from '../utils/IIterator';
+import type { IDropListWindow } from './IDropListWindow';
+import { WindowEvent } from '../events/WindowEvent';
+import { DropBaseController } from './DropBaseController';
+
+/**
+ * Controller for drop list windows.
+ *
+ * Extends DropBaseController with IDropListWindow compliance: menu
+ * item management (add, remove, get) with IWindow values.
+ *
+ * @see sources/win63_2021_version/com/sulake/core/window/components/DropListController.as
+ */
+export class DropListController extends DropBaseController implements IDropListWindow
+{
+    constructor(
+        name: string,
+        type: number,
+        style: number,
+        param: number,
+        context: IWindowContext,
+        rect: { x: number; y: number; width: number; height: number },
+        parent: IWindow | null = null,
+        procedure: ((event: WindowEvent, window: IWindow) => void) | null = null,
+        tags: string[] | null = null,
+        properties: unknown[] | null = null,
+        id: number = 0
+    )
+    {
+        super(name, type, style, param, context, rect, parent, procedure, tags, properties, id);
+    }
+
+    /**
+     * Returns an iterator over the menu items.
+     */
+    public iterator(): IIterator
+    {
+        let index = 0;
+        const items = this._itemArray;
+
+        return {
+            next(): IWindow | null
+            {
+                if(index < items.length)
+                {
+                    return items[index++];
+                }
+
+                return null;
+            },
+            reset(): void
+            {
+                index = 0;
+            },
+            count(): number
+            {
+                return items.length;
+            }
+        };
+    }
+
+    /**
+     * Adds a menu item at the end of the list.
+     */
+    public addMenuItem(item: IWindow): IWindow | null
+    {
+        return this.addMenuItemAt(item, this._itemArray.length);
+    }
+
+    /**
+     * Adds a menu item at the specified index.
+     */
+    public addMenuItemAt(item: IWindow, index: number): IWindow | null
+    {
+        if(item && this._itemArray.indexOf(item) === -1)
+        {
+            this._itemArray.splice(index, 0, item);
+            return item;
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the menu item at the specified index.
+     */
+    public getMenuItemAt(index: number): IWindow | null
+    {
+        if(this._itemArray && index > -1 && index < this._itemArray.length)
+        {
+            return this._itemArray[index];
+        }
+
+        return null;
+    }
+
+    /**
+     * Removes a menu item.
+     */
+    public removeMenuItem(item: IWindow): IWindow | null
+    {
+        const index = this._itemArray.indexOf(item);
+
+        if(index > -1)
+        {
+            if(index === this._selection)
+            {
+                this._selection = -1;
+            }
+
+            this._itemArray.splice(index, 1);
+            return item;
+        }
+
+        return null;
+    }
+
+    /**
+     * Removes the menu item at the specified index.
+     */
+    public removeMenuItemAt(index: number): IWindow | null
+    {
+        const item = this._itemArray[index];
+
+        return item ? this.removeMenuItem(item) : null;
+    }
+
+    /**
+     * Returns the index of a menu item.
+     */
+    public getMenuItemIndex(item: IWindow): number
+    {
+        return this._itemArray.indexOf(item);
+    }
+}

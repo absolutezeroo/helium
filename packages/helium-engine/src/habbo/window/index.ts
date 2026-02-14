@@ -3,6 +3,9 @@
 
 // Re-exports
 export * from './enum';
+export * from './theme';
+export * from './utils';
+export * from './widgets';
 
 // Exports
 export { ElementRegistry } from './ElementRegistry';
