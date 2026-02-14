@@ -1,0 +1,33 @@
+{
+  "name": "habbo_window_layout_tooltip",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_window_layout_tooltip_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "label",
+        "typeId": 12,
+        "attributes": {
+          "name": "_BTN_TEXT",
+          "style": "0",
+          "x": "0",
+          "y": "6",
+          "width": "20",
+          "height": "22",
+          "background": "false",
+          "tags": "_EXCLUDE, _INTERNAL, title"
+        },
+        "children": [],
+        "params": 0
+      }
+    ]
+  },
+  "vars": {
+    "text_style": "u_tool_tip",
+    "background": false,
+    "margins": null
+  },
+  "filters": []
+}

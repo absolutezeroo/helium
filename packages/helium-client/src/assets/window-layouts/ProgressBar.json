@@ -1,0 +1,144 @@
+{
+  "name": "ProgressBar",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboprogress_bar_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "typeId": 4,
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "300",
+          "height": "23",
+          "params": "144",
+          "style": "0",
+          "name": "progress_bar_cont"
+        },
+        "children": [
+          {
+            "tag": "static_bitmap",
+            "typeId": 23,
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "4",
+              "height": "23",
+              "params": "16",
+              "style": "0",
+              "name": "bar_l"
+            },
+            "children": []
+          },
+          {
+            "tag": "static_bitmap",
+            "typeId": 23,
+            "attributes": {
+              "x": "4",
+              "y": "0",
+              "width": "1",
+              "height": "23",
+              "params": "16",
+              "style": "0",
+              "name": "bar_c"
+            },
+            "children": []
+          },
+          {
+            "tag": "static_bitmap",
+            "typeId": 23,
+            "attributes": {
+              "x": "5",
+              "y": "0",
+              "width": "4",
+              "height": "23",
+              "params": "16",
+              "style": "0",
+              "name": "bar_r"
+            },
+            "children": []
+          },
+          {
+            "tag": "background",
+            "typeId": 2,
+            "attributes": {
+              "x": "4",
+              "y": "3",
+              "width": "1",
+              "height": "17",
+              "params": "16",
+              "style": "100",
+              "name": "bar_a_bkg",
+              "color": "0xffffffff00",
+              "background": "true"
+            },
+            "children": []
+          },
+          {
+            "tag": "static_bitmap",
+            "typeId": 23,
+            "attributes": {
+              "x": "4",
+              "y": "3",
+              "width": "1",
+              "height": "17",
+              "params": "16",
+              "style": "0",
+              "name": "bar_a_c"
+            },
+            "children": []
+          },
+          {
+            "tag": "static_bitmap",
+            "typeId": 23,
+            "attributes": {
+              "x": "5",
+              "y": "3",
+              "width": "1",
+              "height": "17",
+              "params": "16",
+              "style": "0",
+              "name": "bar_a_r"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "typeId": 10,
+            "attributes": {
+              "x": "7",
+              "y": "3",
+              "width": "82",
+              "height": "17",
+              "params": "145",
+              "style": "0",
+              "name": "progress_txt",
+              "caption": "Progress%20text"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "asset_uri": "achievement_ach_progressbar5",
+    "antialias_type": "advanced",
+    "auto_size": "left",
+    "font_face": "Ubuntu",
+    "font_size": 18,
+    "text_color": 16777215,
+    "mouse_wheel_enabled": false,
+    "multiline": true,
+    "sharpness": 0,
+    "thickness": 0,
+    "bold": true,
+    "kerning": false,
+    "spacing": 0,
+    "leading": 0
+  },
+  "filters": []
+}

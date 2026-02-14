@@ -1,0 +1,290 @@
+/**
+ * Window Element Styles
+ *
+ * Base styles for all window element components.
+ * Convention: .hw-{element}.hw-style-{N}.hw-state-{name}
+ */
+
+/* ── Layer Manager ───────────────────────────────────────── */
+
+.hw-layer-manager
+{
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	z-index: 1000;
+}
+
+.hw-layer
+{
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+}
+
+.hw-window
+{
+	pointer-events: auto;
+}
+
+/* ── Container ───────────────────────────────────────────── */
+
+.hw-container
+{
+	position: absolute;
+}
+
+/* ── Frame ───────────────────────────────────────────────── */
+
+.hw-frame
+{
+	position: absolute;
+	background: var(--hw-frame-bg);
+	border: var(--hw-frame-border);
+	border-radius: var(--hw-frame-radius);
+	box-shadow: var(--hw-frame-shadow);
+	overflow: hidden;
+}
+
+.hw-frame-header
+{
+	background: var(--hw-frame-header-bg);
+	height: var(--hw-frame-header-height);
+	display: flex;
+	align-items: center;
+	padding: 0 10px;
+	color: var(--hw-frame-header-color);
+	font: var(--hw-frame-header-font);
+	cursor: move;
+	user-select: none;
+}
+
+.hw-frame-content
+{
+	position: relative;
+}
+
+/* ── Button ──────────────────────────────────────────────── */
+
+.hw-button
+{
+	position: absolute;
+	background: var(--hw-button-bg);
+	color: var(--hw-button-color);
+	border: var(--hw-button-border);
+	border-radius: var(--hw-button-radius);
+	padding: var(--hw-button-padding);
+	font: var(--hw-button-font);
+	text-align: center;
+	cursor: pointer;
+	user-select: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.hw-button.hw-state-hover
+{
+	background: var(--hw-button-bg-hover);
+}
+
+.hw-button.hw-state-pressed
+{
+	background: var(--hw-button-bg-pressed);
+}
+
+.hw-button.hw-state-disabled
+{
+	background: var(--hw-button-bg-disabled);
+	cursor: default;
+	opacity: 0.6;
+}
+
+/* ── Close Button ────────────────────────────────────────── */
+
+.hw-closebutton
+{
+	position: absolute;
+	width: var(--hw-close-size);
+	height: var(--hw-close-size);
+	background: var(--hw-close-bg);
+	border-radius: 50%;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.hw-closebutton:hover
+{
+	background: var(--hw-close-bg-hover);
+}
+
+.hw-closebutton::after
+{
+	content: '\00d7';
+	color: var(--hw-close-color);
+	font-size: 14px;
+	line-height: 1;
+}
+
+/* ── Text ────────────────────────────────────────────────── */
+
+.hw-text
+{
+	position: absolute;
+	color: var(--hw-text-primary);
+	font: var(--hw-text-font);
+	word-wrap: break-word;
+}
+
+/* ── Label ───────────────────────────────────────────────── */
+
+.hw-label
+{
+	position: absolute;
+	color: var(--hw-text-primary);
+	font: var(--hw-label-font);
+	white-space: nowrap;
+}
+
+/* ── Input ────────────────────────────────────────────────── */
+
+.hw-input
+{
+	position: absolute;
+	background: var(--hw-input-bg);
+	color: var(--hw-input-color);
+	border: var(--hw-input-border);
+	border-radius: var(--hw-input-radius);
+	padding: var(--hw-input-padding);
+	font: var(--hw-input-font);
+	outline: none;
+	box-sizing: border-box;
+}
+
+.hw-input:focus
+{
+	border-color: var(--hw-border-light);
+}
+
+/* ── Checkbox ────────────────────────────────────────────── */
+
+.hw-checkbox
+{
+	position: absolute;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	color: var(--hw-text-primary);
+	font: var(--hw-label-font);
+	cursor: pointer;
+	user-select: none;
+}
+
+.hw-checkbox::before
+{
+	content: '';
+	width: var(--hw-checkbox-size);
+	height: var(--hw-checkbox-size);
+	background: var(--hw-checkbox-bg);
+	border: var(--hw-checkbox-border);
+	border-radius: 2px;
+	flex-shrink: 0;
+}
+
+.hw-checkbox.hw-state-selected::before
+{
+	background: var(--hw-checkbox-checked-bg);
+}
+
+/* ── Item List ───────────────────────────────────────────── */
+
+.hw-itemlist
+{
+	position: absolute;
+	background: var(--hw-itemlist-bg);
+	gap: var(--hw-itemlist-gap);
+}
+
+/* ── Scrollbar ───────────────────────────────────────────── */
+
+.hw-scrollbar
+{
+	position: absolute;
+	background: var(--hw-scrollbar-track-bg);
+}
+
+.hw-scrollbar-v
+{
+	width: var(--hw-scrollbar-width);
+}
+
+.hw-scrollbar-h
+{
+	height: var(--hw-scrollbar-width);
+}
+
+/* ── Tab ─────────────────────────────────────────────────── */
+
+.hw-tab
+{
+	position: absolute;
+	background: var(--hw-tab-bg);
+	color: var(--hw-tab-color);
+	border: var(--hw-tab-border);
+}
+
+/* ── Border ──────────────────────────────────────────────── */
+
+.hw-border
+{
+	position: absolute;
+	border: var(--hw-border-width) var(--hw-border-style) var(--hw-border-color);
+}
+
+/* ── Bitmap ──────────────────────────────────────────────── */
+
+.hw-bitmap
+{
+	position: absolute;
+	overflow: hidden;
+}
+
+/* ── Widget ──────────────────────────────────────────────── */
+
+.hw-widget
+{
+	position: absolute;
+}
+
+/* ── Menu ────────────────────────────────────────────────── */
+
+.hw-menu
+{
+	position: absolute;
+	background: var(--hw-bg-primary);
+	border: var(--hw-frame-border);
+}
+
+/* ── Slider ──────────────────────────────────────────────── */
+
+.hw-slider
+{
+	position: absolute;
+}
+
+/* ── Dragbar ─────────────────────────────────────────────── */
+
+.hw-dragbar
+{
+	position: absolute;
+	cursor: move;
+}
+
+/* ── Unknown / Fallback ──────────────────────────────────── */
+
+.hw-unknown
+{
+	position: absolute;
+}

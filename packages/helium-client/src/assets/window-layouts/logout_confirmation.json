@@ -1,0 +1,84 @@
+{
+  "name": "logout_confirmation",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_logout_confirmation_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "border",
+        "typeId": 30,
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "192",
+          "height": "90",
+          "params": "64",
+          "style": "1"
+        },
+        "children": [
+          {
+            "tag": "text",
+            "typeId": 10,
+            "attributes": {
+              "x": "11",
+              "y": "9",
+              "width": "170",
+              "height": "41",
+              "params": "16",
+              "style": "0",
+              "caption": "%24%7Btoolbar.logout.confirmation%7D"
+            },
+            "children": []
+          },
+          {
+            "tag": "button",
+            "typeId": 60,
+            "attributes": {
+              "x": "7",
+              "y": "58",
+              "width": "85",
+              "height": "25",
+              "params": "131089",
+              "style": "4",
+              "name": "confirm",
+              "caption": "%24%7Btoolbar.logout.ok%7D",
+              "width_min": "85",
+              "width_max": "85",
+              "height_max": "25"
+            },
+            "children": []
+          },
+          {
+            "tag": "button",
+            "typeId": 60,
+            "attributes": {
+              "x": "99",
+              "y": "58",
+              "width": "85",
+              "height": "25",
+              "params": "131089",
+              "style": "4",
+              "name": "cancel",
+              "caption": "%24%7Btoolbar.logout.cancel%7D",
+              "width_min": "85",
+              "width_max": "85",
+              "height_max": "25"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "text_style": "il_regular_white",
+    "mouse_wheel_enabled": false,
+    "word_wrap": true,
+    "bold": true,
+    "spacing": 0,
+    "leading": 0
+  },
+  "filters": []
+}

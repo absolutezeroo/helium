@@ -15,6 +15,7 @@ import type {IHabboNavigator} from '@habbo/navigator/IHabboNavigator';
 import type {IHabboNewNavigator} from '@habbo/navigator/IHabboNewNavigator';
 import type {IHabboInventory} from '@habbo/inventory/IHabboInventory';
 import type {IHabboLocalizationManager} from '@habbo/localization/IHabboLocalizationManager';
+import type {IHabboWindowManager} from '@habbo/window/IHabboWindowManager';
 import {IHelium} from "./IHelium";
 import {IHeliumCoreConfig} from "@core";
 
@@ -226,6 +227,11 @@ export class Helium implements IHelium
 		return this._habboMain!.localization;
 	}
 
+	get windowManager(): IHabboWindowManager
+	{
+		return this._habboMain!.windowManager;
+	}
+
 	/**
 	 * Bootstrap the application
 	 */
@@ -421,10 +427,22 @@ export class Helium implements IHelium
 
 			log.success('Ready!');
 
-			// Auto-connect if configured
+			// Auto-connect if configured (non-fatal — engine is already ready)
 			if(config?.connection?.autoConnect)
 			{
-				this.connect();
+				try
+				{
+					this.connect();
+				}
+				catch(connectError)
+				{
+					Helium.reportCrash(
+						connectError instanceof Error ? connectError.message : String(connectError),
+						'connect',
+						false,
+						connectError instanceof Error ? connectError : undefined
+					);
+				}
 			}
 		}
 		catch(error)

@@ -12,6 +12,86 @@ const repoRoot = path.resolve(__dirname, '..', '..', '..');
 const DEFAULT_INPUT = path.resolve(repoRoot, 'sources', 'win63_2021_version', 'binaryData');
 const DEFAULT_OUTPUT = path.resolve(__dirname, '../src/assets/window-layouts');
 
+/**
+ * Element type name -> type ID mapping.
+ * Must stay in sync with compile-window-skins.mjs TYPE_MAP.
+ */
+const TYPE_MAP =
+{
+    'null': 0, 'icon': 1, 'background': 2, 'container': 4, 'region': 5,
+    'header': 6, 'toolbar': 7, 'tooltip': 8, 'notify': 9, 'text': 10,
+    'html': 11, 'label': 12, 'link': 14, 'formatted_text': 15, 'widget': 16,
+    'boxsizer': 17, 'display_object_wrapper': 20, 'bitmap': 21,
+    'shape_wrapper': 22, 'static_bitmap': 23, 'border': 30, 'border_thin': 31,
+    'border_thick': 32, 'border_notify': 33, 'frame': 35, 'frame_thin': 36,
+    'frame_thick': 37, 'frame_notify': 38, 'activator': 40,
+    'container_button': 41, 'selector': 42, 'selector_list': 43, 'bubble': 45,
+    'bubble_pointer_up': 46, 'bubble_pointer_right': 47,
+    'bubble_pointer_down': 48, 'bubble_pointer_left': 49, 'itemlist': 50,
+    'itemlist_vertical': 50, 'itemlist_horizontal': 51, 'itemgrid': 52,
+    'itemgrid_vertical': 53, 'itemgrid_horizontal': 54,
+    'scrollable_itemlist': 55, 'scrollable_itemlist_vertical': 56,
+    'scrollable_itemlist_horizontal': 57, 'button': 60, 'button_thick': 61,
+    'button_icon': 62, 'button_up': 63, 'button_down': 64, 'button_left': 65,
+    'button_right': 66, 'button_group_left': 67, 'button_group_center': 68,
+    'button_group_right': 69, 'checkbox': 70, 'radiobutton': 71,
+    'closebutton': 72, 'minimizebox': 73, 'maximizebox': 74,
+    'restorebox': 75, 'dragbar': 76, 'input': 77, 'password': 78,
+    'tab_content': 90, 'tab_context': 91, 'tab_selector': 92,
+    'tab_button': 93, 'tab_container_button': 94, 'menu': 100,
+    'menu_item': 101, 'dropmenu': 102, 'dropmenu_item': 103, 'submenu': 104,
+    'droplist': 105, 'droplist_item': 106, 'slider': 110,
+    'slider_horizontal': 111, 'slider_vertical': 112, 'scaler': 120,
+    'scaler_vertical': 121, 'scaler_horizontal': 122,
+    'scrollbar_horizontal': 130, 'scrollbar_vertical': 131,
+    'scrollbar_slider_bar_horizontal': 132, 'scrollbar_slider_bar_vertical': 133,
+    'scrollbar_slider_track_horizontal': 134,
+    'scrollbar_slider_track_vertical': 135,
+    'scrollbar_slider_button_right': 136, 'scrollbar_slider_button_down': 137,
+    'scrollbar_slider_button_left': 138, 'scrollbar_slider_button_up': 139,
+    'scrollable_itemgrid_vertical': 140
+};
+
+/**
+ * Param name -> bitwise flag mapping for resolving <params> children.
+ */
+const PARAM_MAP =
+{
+    'null': 0x0, 'input_event_processor': 0x1,
+    'route_input_events_to_parent': 0x3, 'observe_parent_input_events': 0x5,
+    'internal_event_handling': 0x9, 'use_parent_graphic_context': 0x10,
+    'bound_to_parent_rect': 0x20, 'relative_horizontal_scale_fixed': 0x0,
+    'relative_horizontal_scale_move': 0x40,
+    'relative_horizontal_scale_strech': 0x80,
+    'relative_horizontal_scale_center': 0xC0,
+    'relative_vertical_scale_fixed': 0x0,
+    'relative_vertical_scale_move': 0x400,
+    'relative_vertical_scale_strech': 0x800,
+    'relative_vertical_scale_center': 0xC00,
+    'relative_scale_fixed': 0x0, 'relative_scale_move': 0x440,
+    'relative_scale_strech': 0x880, 'relative_scale_center': 0xCC0,
+    'expand_to_accommodate_children': 0x20000,
+    'resize_to_accommodate_children': 0x24000,
+    'mouse_dragging_target': 0x8000, 'mouse_dragging_trigger': 0x101,
+    'draggable_with_mouse': 0x8101, 'mouse_scaling_target': 0x10000,
+    'horizontal_mouse_scaling_trigger': 0x1000,
+    'vertical_mouse_scaling_trigger': 0x2000,
+    'mouse_scaling_trigger': 0x3000, 'scalable_with_mouse': 0x13000,
+    'on_accommodate_align_left': 0x0, 'on_accommodate_align_right': 0x40000,
+    'on_accommodate_align_center': 0xC0000,
+    'on_accommodate_align_top': 0x0,
+    'on_accommodate_align_bottom': 0x100000,
+    'on_accommodate_align_middle': 0x300000,
+    'on_resize_align_left': 0x0, 'on_resize_align_right': 0x40000,
+    'on_resize_align_center': 0xC0000, 'on_resize_align_top': 0x0,
+    'on_resize_align_bottom': 0x100000, 'on_resize_align_middle': 0x300000,
+    'reflect_horizontal_resize_to_parent': 0x400000,
+    'reflect_vertical_resize_to_parent': 0x800000,
+    'reflect_resize_to_parent': 0xC00000, 'parent_window': 0x1,
+    'child_window': 0x21, 'embedded_controller': 0x33,
+    'force_clipping': 0x40000000, 'inherit_caption': 0x80000000
+};
+
 function readArgs()
 {
     const [, , ...argv] = process.argv;
@@ -206,10 +286,41 @@ function parseFilters(filterContainer)
     return filters;
 }
 
+function resolveParams(paramsNode)
+{
+    let flags = 0;
+
+    Array.from(paramsNode.childNodes)
+        .filter((child) => child.nodeType === child.ELEMENT_NODE && child.nodeName === 'param')
+        .forEach((param) =>
+        {
+            const text = (param.textContent ?? '').trim().toLowerCase();
+
+            if (PARAM_MAP[text] !== undefined)
+            {
+                flags |= PARAM_MAP[text];
+            }
+            else
+            {
+                const numValue = Number(text);
+
+                if (!Number.isNaN(numValue))
+                {
+                    flags |= numValue;
+                }
+            }
+        });
+
+    return flags;
+}
+
 function buildNode(element)
 {
+    const tag = element.nodeName;
+    const typeId = TYPE_MAP[tag] ?? -1;
     const node = {
-        tag: element.nodeName,
+        tag,
+        typeId,
         attributes: readAttributes(element),
         children: []
     };
@@ -223,6 +334,10 @@ function buildNode(element)
                 Array.from(child.childNodes)
                     .filter((grandChild) => grandChild.nodeType === grandChild.ELEMENT_NODE)
                     .forEach((grandChild) => node.children.push(buildNode(grandChild)));
+            }
+            else if (child.nodeName === 'params')
+            {
+                node.params = resolveParams(child);
             }
             else if (child.nodeName !== 'variables' && child.nodeName !== 'filters')
             {

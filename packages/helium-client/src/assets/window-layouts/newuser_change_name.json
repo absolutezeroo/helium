@@ -1,0 +1,161 @@
+{
+  "name": "newuser_change_name",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_welcome_name_selection_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "typeId": 4,
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "303",
+          "height": "193",
+          "params": "16",
+          "style": "101"
+        },
+        "children": [
+          {
+            "tag": "text",
+            "typeId": 10,
+            "attributes": {
+              "x": "10",
+              "y": "9",
+              "width": "284",
+              "height": "29",
+              "params": "16",
+              "style": "0",
+              "name": "static_info_text",
+              "caption": "%24%7Btutorial.name_change.info.select%7D"
+            },
+            "children": []
+          },
+          {
+            "tag": "border",
+            "typeId": 30,
+            "attributes": {
+              "x": "10",
+              "y": "45",
+              "width": "167",
+              "height": "25",
+              "params": "16",
+              "style": "105",
+              "name": "input_border"
+            },
+            "children": [
+              {
+                "tag": "input",
+                "typeId": 77,
+                "attributes": {
+                  "x": "8",
+                  "y": "5",
+                  "width": "154",
+                  "height": "17",
+                  "params": "1",
+                  "style": "0",
+                  "name": "input",
+                  "background": "true"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "button",
+            "typeId": 60,
+            "attributes": {
+              "x": "185",
+              "y": "41",
+              "width": "108",
+              "height": "32",
+              "params": "131089",
+              "style": "3",
+              "name": "check_name_button",
+              "caption": "%24%7Btutorial.name_change.check%7D",
+              "color": "0x0bbbbbb",
+              "width_max": "108"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "typeId": 10,
+            "attributes": {
+              "x": "10",
+              "y": "76",
+              "width": "280",
+              "height": "4",
+              "params": "16",
+              "style": "0",
+              "name": "info_text"
+            },
+            "children": []
+          },
+          {
+            "tag": "container",
+            "typeId": 4,
+            "attributes": {
+              "x": "10",
+              "y": "116",
+              "width": "280",
+              "height": "31",
+              "params": "131089",
+              "style": "0",
+              "name": "suggestions"
+            },
+            "children": []
+          },
+          {
+            "tag": "button",
+            "typeId": 60,
+            "attributes": {
+              "x": "10",
+              "y": "152",
+              "width": "166",
+              "height": "33",
+              "params": "131089",
+              "style": "3",
+              "name": "select_name_button",
+              "caption": "%24%7Btutorial.name_change.pick%7D",
+              "color": "0x0bbbbbb"
+            },
+            "children": []
+          },
+          {
+            "tag": "button",
+            "typeId": 60,
+            "attributes": {
+              "x": "194",
+              "y": "152",
+              "width": "99",
+              "height": "33",
+              "params": "393233",
+              "style": "3",
+              "name": "cancel_selection_button",
+              "caption": "%24%7Bgeneric.cancel%7D",
+              "color": "0x0bbbbbb"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "text_style": "il_regular",
+    "mouse_wheel_enabled": false,
+    "word_wrap": true,
+    "spacing": 0,
+    "leading": 0,
+    "always_show_selection": true,
+    "max_chars": 15,
+    "sharpness": 0,
+    "thickness": 0,
+    "kerning": false,
+    "auto_size": "null"
+  },
+  "filters": []
+}

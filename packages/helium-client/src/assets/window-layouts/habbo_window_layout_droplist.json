@@ -1,0 +1,58 @@
+{
+  "name": "habbo_window_layout_droplist",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_window_layout_droplist_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "label",
+        "typeId": 12,
+        "attributes": {
+          "name": "_DROPLIST_TITLETEXT",
+          "x": "10",
+          "y": "4",
+          "width": "10",
+          "height": "14",
+          "tags": "_EXCLUDE, _INTERNAL, title"
+        },
+        "children": [],
+        "params": 0
+      },
+      {
+        "tag": "scrollable_itemlist_vertical",
+        "typeId": 56,
+        "attributes": {
+          "name": "_DROPLIST_ITEMLIST",
+          "x": "6",
+          "y": "2",
+          "width": "28",
+          "height": "18",
+          "tags": "_EXCLUDE, list"
+        },
+        "children": [],
+        "params": 0
+      },
+      {
+        "tag": "region",
+        "typeId": 5,
+        "attributes": {
+          "x": "6",
+          "y": "2",
+          "width": "28",
+          "height": "18",
+          "name": "_DROPLIST_REGION",
+          "treshold": "0",
+          "tags": "_EXCLUDE, _INTERNAL"
+        },
+        "children": [],
+        "params": 0
+      }
+    ]
+  },
+  "vars": {
+    "text_style": "regular"
+  },
+  "filters": []
+}

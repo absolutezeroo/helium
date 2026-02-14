@@ -1,0 +1,18 @@
+{
+  "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#183",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {
+      "type": "scrollable_itemlist_vertical",
+      "intent": "default",
+      "style": "100",
+      "renderer": "null",
+      "window_layout": "illumina_light_scrollable_itemlist_vertical_xml"
+    },
+    "children": []
+  },
+  "vars": {},
+  "filters": []
+}

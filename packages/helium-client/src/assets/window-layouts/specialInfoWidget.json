@@ -1,0 +1,69 @@
+{
+  "name": "specialInfoWidget",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbospecial_info_widget_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "typeId": 4,
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "142",
+          "height": "73",
+          "params": "16",
+          "style": "0",
+          "name": "specialInfoWidget"
+        },
+        "children": [
+          {
+            "tag": "bitmap",
+            "typeId": 21,
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "142",
+              "height": "73",
+              "params": "16",
+              "style": "0",
+              "name": "ctlg_special_img"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "typeId": 10,
+            "attributes": {
+              "x": "2",
+              "y": "28",
+              "width": "139",
+              "height": "16",
+              "params": "3935440",
+              "style": "3",
+              "name": "ctlg_special_txt",
+              "caption": "lorem%20ipsum"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "pivot_point": "bottom center",
+    "stretched_x": false,
+    "stretched_y": false,
+    "auto_size": "center",
+    "font_size": 17,
+    "text_color": 3355443,
+    "mouse_wheel_enabled": false,
+    "word_wrap": true,
+    "italic": true,
+    "spacing": 0,
+    "leading": 0
+  },
+  "filters": []
+}

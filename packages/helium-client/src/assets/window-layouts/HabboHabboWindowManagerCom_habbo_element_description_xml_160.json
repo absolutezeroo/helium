@@ -1,0 +1,20 @@
+{
+  "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#160",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {
+      "type": "border",
+      "intent": "info box",
+      "style": "108",
+      "renderer": "skin",
+      "asset": "illumina_light_skin_border_infobox_xml",
+      "layout": "illumina_light_border_infobox",
+      "color": "0x676767"
+    },
+    "children": []
+  },
+  "vars": {},
+  "filters": []
+}

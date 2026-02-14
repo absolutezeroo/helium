@@ -1,0 +1,278 @@
+{
+  "name": "video_viewer",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_video_viewer_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "frame",
+        "typeId": 35,
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "738",
+          "height": "356",
+          "params": "98305",
+          "style": "3",
+          "name": "video_viewer",
+          "color": "0xff67a3bf",
+          "width_min": "400",
+          "height_min": "350"
+        },
+        "children": [
+          {
+            "tag": "background",
+            "typeId": 2,
+            "attributes": {
+              "x": "7",
+              "y": "6",
+              "width": "431",
+              "height": "302",
+              "params": "18448",
+              "style": "100",
+              "name": "video_background",
+              "color": "0xffff000000",
+              "background": "true"
+            },
+            "children": [
+              {
+                "tag": "label",
+                "typeId": 12,
+                "attributes": {
+                  "x": "122",
+                  "y": "143",
+                  "width": "187",
+                  "height": "16",
+                  "params": "3280",
+                  "style": "100",
+                  "name": "no_videos_label",
+                  "caption": "%24%7Bwidget.furni.video_viewer.no_videos%7D"
+                },
+                "children": []
+              },
+              {
+                "tag": "display_object_wrapper",
+                "typeId": 20,
+                "attributes": {
+                  "x": "0",
+                  "y": "0",
+                  "width": "431",
+                  "height": "302",
+                  "params": "2176",
+                  "style": "3",
+                  "name": "video_wrapper",
+                  "visible": "false"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "container",
+            "typeId": 4,
+            "attributes": {
+              "x": "447",
+              "y": "6",
+              "width": "278",
+              "height": "302",
+              "params": "2064",
+              "style": "3",
+              "name": "right_pane"
+            },
+            "children": [
+              {
+                "tag": "container_button",
+                "typeId": 41,
+                "attributes": {
+                  "x": "0",
+                  "y": "0",
+                  "width": "40",
+                  "height": "29",
+                  "params": "17",
+                  "style": "3",
+                  "name": "playlist_prev"
+                },
+                "children": [
+                  {
+                    "tag": "static_bitmap",
+                    "typeId": 23,
+                    "attributes": {
+                      "x": "10",
+                      "y": "6",
+                      "width": "21",
+                      "height": "16",
+                      "params": "3280",
+                      "style": "3"
+                    },
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "tag": "container_button",
+                "typeId": 41,
+                "attributes": {
+                  "x": "44",
+                  "y": "0",
+                  "width": "40",
+                  "height": "29",
+                  "params": "17",
+                  "style": "3",
+                  "name": "playlist_next"
+                },
+                "children": [
+                  {
+                    "tag": "static_bitmap",
+                    "typeId": 23,
+                    "attributes": {
+                      "x": "10",
+                      "y": "6",
+                      "width": "21",
+                      "height": "16",
+                      "params": "3280",
+                      "style": "3"
+                    },
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "tag": "label",
+                "typeId": 12,
+                "attributes": {
+                  "x": "0",
+                  "y": "33",
+                  "width": "194",
+                  "height": "17",
+                  "params": "16",
+                  "style": "3",
+                  "caption": "%24%7Bwidget.furni.video_viewer.playlists%7D"
+                },
+                "children": []
+              },
+              {
+                "tag": "scrollable_itemlist_vertical",
+                "typeId": 56,
+                "attributes": {
+                  "x": "0",
+                  "y": "50",
+                  "width": "278",
+                  "height": "252",
+                  "params": "2192",
+                  "style": "3",
+                  "name": "playlists"
+                },
+                "children": [
+                  {
+                    "tag": "region",
+                    "typeId": 5,
+                    "attributes": {
+                      "x": "0",
+                      "y": "0",
+                      "width": "278",
+                      "height": "121",
+                      "params": "147473",
+                      "style": "3",
+                      "name": "item",
+                      "treshold": "0"
+                    },
+                    "children": [
+                      {
+                        "tag": "border",
+                        "typeId": 30,
+                        "attributes": {
+                          "x": "0",
+                          "y": "0",
+                          "width": "278",
+                          "height": "121",
+                          "params": "147472",
+                          "style": "103",
+                          "name": "item_background"
+                        },
+                        "children": [
+                          {
+                            "tag": "itemlist_vertical",
+                            "typeId": 50,
+                            "attributes": {
+                              "x": "0",
+                              "y": "0",
+                              "width": "278",
+                              "height": "121",
+                              "params": "147472",
+                              "style": "3",
+                              "name": "item_contents"
+                            },
+                            "children": [
+                              {
+                                "tag": "label",
+                                "typeId": 12,
+                                "attributes": {
+                                  "x": "0",
+                                  "y": "0",
+                                  "width": "57",
+                                  "height": "20",
+                                  "params": "16",
+                                  "style": "3",
+                                  "name": "item_title",
+                                  "caption": "Item%20Title"
+                                },
+                                "children": []
+                              },
+                              {
+                                "tag": "text",
+                                "typeId": 10,
+                                "attributes": {
+                                  "x": "0",
+                                  "y": "20",
+                                  "width": "256",
+                                  "height": "101",
+                                  "params": "16",
+                                  "style": "3",
+                                  "name": "item_description",
+                                  "caption": "Integer%20rutrum%2C%20lorem%20quis%20interdum%20laoreet%2C%20nibh%20nulla%20tempus%20magna%2C%20tristique%20tincidunt%20mi%20nisi%20in%20mi.%20Etiam%20at%20sem%20quis%20mi%20rutrum%20placerat.%20Aliquam%20erat%20volutpat.%20Phasellus%20eu%20nibh%20sed%20enim%20pulvinar%20pulvinar%20vitae%20nec%20dolor.%20Etiam%20in%20ligula%20diam%2C%20et%20ornare%20purus.%20Integer%20condimentum%20lacus%20in%20diam%20ultrices%20suscipit.%20Duis%20sed%20libero%20vel%20neque%20hendrerit%20mollis%20sit%20amet%20eu%20nibh.%20Integer%20sed%20turpis%20orci%2C%20ac%20luctus%20sapien."
+                                },
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "text_style": "u_small",
+    "asset_uri": "icons_next",
+    "zoom_x": -1,
+    "fit_size_to_contents": true,
+    "tool_tip_caption": "${widget.furni.video_viewer.tooltip.next}",
+    "margin_top": 3,
+    "auto_size": "left",
+    "margin_bottom": 8,
+    "mouse_wheel_enabled": false,
+    "multiline": true,
+    "word_wrap": true,
+    "spacing": 0,
+    "leading": 0
+  },
+  "filters": [
+    {
+      "type": "DropShadowFilter",
+      "attributes": {
+        "distance": "4",
+        "alpha": "0.34901960784313724",
+        "blurX": "4",
+        "blurY": "4"
+      }
+    }
+  ]
+}

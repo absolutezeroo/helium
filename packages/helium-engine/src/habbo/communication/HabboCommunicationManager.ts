@@ -264,21 +264,21 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 	{
 		log.info(`Connecting to ${host}:${port}...`);
 
-		this.connectionActions.setConnecting();
+		this._connectionActions?.setConnecting();
 	}
 
 	connectionOpened(): void
 	{
 		log.success('Connected to server');
 
-		this.connectionActions.setConnected();
+		this._connectionActions?.setConnected();
 	}
 
 	connectionClosed(): void
 	{
 		log.info('Connection closed');
 
-		this.connectionActions.setDisconnected();
+		this._connectionActions?.setDisconnected();
 	}
 
 	connectionError(error: Error): void
@@ -288,7 +288,7 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 		if (this.connectionAttempt >= this.maxConnectionAttempts &&
 			this.portIndex >= (this.config?.ports.length ?? 0) - 1)
 		{
-			this.connectionActions.setError(error.message);
+			this._connectionActions?.setError(error.message);
 		}
 		this.tryNextPort();
 	}

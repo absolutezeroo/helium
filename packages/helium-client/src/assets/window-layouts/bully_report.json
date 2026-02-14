@@ -1,0 +1,186 @@
+{
+  "name": "bully_report",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_bully_report_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "frame",
+        "typeId": 35,
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "289",
+          "height": "491",
+          "params": "32769",
+          "style": "100",
+          "name": "emergency_help_request",
+          "caption": "%24%7Bhelp.bully.title%7D"
+        },
+        "children": [
+          {
+            "tag": "itemlist_vertical",
+            "typeId": 50,
+            "attributes": {
+              "x": "9",
+              "y": "8",
+              "width": "282",
+              "height": "388",
+              "params": "131088",
+              "style": "100",
+              "name": "user_panel"
+            },
+            "children": [
+              {
+                "tag": "label",
+                "typeId": 12,
+                "attributes": {
+                  "x": "0",
+                  "y": "0",
+                  "width": "122",
+                  "height": "19",
+                  "params": "16",
+                  "style": "100",
+                  "caption": "%24%7Bhelp.bully.subtitle%7D"
+                },
+                "children": []
+              },
+              {
+                "tag": "text",
+                "typeId": 10,
+                "attributes": {
+                  "x": "0",
+                  "y": "27",
+                  "width": "270",
+                  "height": "16",
+                  "params": "16",
+                  "style": "100",
+                  "caption": "%24%7Bhelp.bully.description%7D",
+                  "width_min": "270",
+                  "width_max": "270"
+                },
+                "children": []
+              },
+              {
+                "tag": "scrollable_itemlist_vertical",
+                "typeId": 56,
+                "attributes": {
+                  "x": "0",
+                  "y": "51",
+                  "width": "270",
+                  "height": "337",
+                  "params": "16",
+                  "style": "100",
+                  "name": "user_list"
+                },
+                "children": [
+                  {
+                    "tag": "border",
+                    "typeId": 30,
+                    "attributes": {
+                      "x": "3",
+                      "y": "0",
+                      "width": "257",
+                      "height": "43",
+                      "params": "17",
+                      "style": "102",
+                      "treshold": "0"
+                    },
+                    "children": [
+                      {
+                        "tag": "label",
+                        "typeId": 12,
+                        "attributes": {
+                          "x": "37",
+                          "y": "8",
+                          "width": "42",
+                          "height": "15",
+                          "params": "16",
+                          "style": "100",
+                          "name": "user_name",
+                          "caption": "user123"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "label",
+                        "typeId": 12,
+                        "attributes": {
+                          "x": "37",
+                          "y": "21",
+                          "width": "218",
+                          "height": "16",
+                          "params": "16",
+                          "style": "100",
+                          "name": "room_name",
+                          "caption": "%24%7Bhelp.emergency.main.step.two.room.name%7D"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "widget",
+                        "typeId": 16,
+                        "attributes": {
+                          "x": "3",
+                          "y": "4",
+                          "width": "33",
+                          "height": "34",
+                          "params": "16",
+                          "style": "100",
+                          "name": "user_avatar"
+                        },
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "button",
+            "typeId": 60,
+            "attributes": {
+              "x": "76",
+              "y": "409",
+              "width": "135",
+              "height": "43",
+              "params": "131281",
+              "style": "101",
+              "name": "submit_button",
+              "caption": "%24%7Bhelp.bully.submit%7D",
+              "color": "0x0bbbbbb"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "text_style": "il_border",
+    "text_color": 4473924,
+    "auto_size": "left",
+    "mouse_wheel_enabled": false,
+    "multiline": true,
+    "word_wrap": true,
+    "spacing": 8,
+    "leading": 0,
+    "widget_type": "avatar_image",
+    "avatar_image:only_head": true,
+    "avatar_image:cropped": true
+  },
+  "filters": [
+    {
+      "type": "DropShadowFilter",
+      "attributes": {
+        "angle": "0",
+        "alpha": "0.34901960784313724",
+        "blurX": "20",
+        "blurY": "20"
+      }
+    }
+  ]
+}

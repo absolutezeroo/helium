@@ -17,6 +17,7 @@ import {HabboNotifications} from '@habbo/notifications/HabboNotifications';
 import {HabboToolbar} from '@habbo/toolbar/HabboToolbar';
 import {HabboFreeFlowChat} from '@habbo/freeflowchat/HabboFreeFlowChat';
 import {AvatarRenderManager} from '@habbo/avatar/AvatarRenderManager';
+import {HabboWindowManager} from '@habbo/window/HabboWindowManager';
 import {Logger} from '@core/utils/Logger';
 import type {IHeliumConfig} from './Helium';
 import {Helium} from './Helium';
@@ -32,10 +33,12 @@ import {IID_RoomManager} from '@iid/IIDRoomManager';
 import {IID_RoomSessionManager} from '@iid/IIDRoomSessionManager';
 import {IID_SessionDataManager} from '@iid/IIDSessionDataManager';
 import {IID_AvatarRenderManager} from '@iid/IIDAvatarRenderManager';
+import {IID_HabboWindowManager} from '@iid/IIDHabboWindowManager';
 import {HabboProperty} from '@habbo/configuration';
 
 import type {HeliumCore} from '@core/HeliumCore';
 import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
+import type {IHabboWindowManager} from '@habbo/window/IHabboWindowManager';
 import type {IGameDataResources} from '@core/localization/IGameDataResources';
 import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
 import {IHeliumMain} from "./IHeliumMain";
@@ -68,6 +71,7 @@ export class HeliumMain implements IHeliumMain
 	private _toolbar: HabboToolbar | null = null;
 	private _freeFlowChat: HabboFreeFlowChat | null = null;
 	private _avatarRenderManager: AvatarRenderManager | null = null;
+	private _windowManager: HabboWindowManager | null = null;
 
 	get avatarRenderManager(): AvatarRenderManager
 	{
@@ -77,6 +81,16 @@ export class HeliumMain implements IHeliumMain
 		}
 
 		return this._avatarRenderManager;
+	}
+
+	get windowManager(): IHabboWindowManager
+	{
+		if (!this._windowManager)
+		{
+			throw new Error('[HabboMain] Not initialized');
+		}
+
+		return this._windowManager;
 	}
 
 	protected _disposed: boolean = false;
@@ -268,6 +282,7 @@ export class HeliumMain implements IHeliumMain
 		this._roomMessageHandler = null;
 
 		// 3. Nullify Habbo manager refs (inverse init order)
+		this._windowManager = null;
 		this._freeFlowChat = null;
 		this._toolbar = null;
 		this._notifications = null;
@@ -424,6 +439,10 @@ export class HeliumMain implements IHeliumMain
 		// 12h. FreeFlowChat
 		this._freeFlowChat = new HabboFreeFlowChat(ctx);
 		ctx.attachComponent(this._freeFlowChat, []);
+
+		// 12i. Window Manager
+		this._windowManager = new HabboWindowManager(ctx);
+		ctx.attachComponent(this._windowManager, [IID_HabboWindowManager]);
 
 		// Set PixiJS stage on room engine for rendering
 		this._roomEngine.setStage(this._core!.application.stage);

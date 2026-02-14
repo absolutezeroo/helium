@@ -9,6 +9,7 @@ import {IRoomSessionManager, ISessionDataManager} from "@habbo/session";
 import {IRoomEngine} from "@habbo/room";
 import {IHeliumConfig} from "./Helium";
 import {IRoomMessageHandler} from "@habbo/room/IRoomMessageHandler";
+import type {IHabboWindowManager} from "@habbo/window/IHabboWindowManager";
 
 export interface IHeliumMain extends IDisposable
 {
@@ -24,6 +25,7 @@ export interface IHeliumMain extends IDisposable
 	readonly roomEngine: IRoomEngine;
 	readonly sessionDataManager: ISessionDataManager;
 	readonly habboCommunication: IHabboCommunicationManager;
+	readonly windowManager: IHabboWindowManager;
 
 	/**
 	 * Initialize the engine orchestrator

@@ -1,0 +1,29 @@
+{
+  "name": "element_concurrentusersmeter",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_element_concurrentusersmeter_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "static_bitmap",
+        "typeId": 23,
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "63",
+          "height": "157",
+          "params": "16",
+          "style": "100",
+          "name": "image"
+        },
+        "children": []
+      }
+    ]
+  },
+  "vars": {
+    "fit_size_to_contents": true
+  },
+  "filters": []
+}

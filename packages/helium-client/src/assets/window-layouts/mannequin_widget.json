@@ -1,0 +1,38 @@
+{
+  "name": "mannequin_widget",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_mannequin_widget_frame_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "frame",
+        "typeId": 35,
+        "attributes": {
+          "x": "33",
+          "y": "26",
+          "width": "388",
+          "height": "220",
+          "params": "32769",
+          "style": "3",
+          "caption": "%24%7Bmannequin.widget.title%7D",
+          "color": "0xff418db0"
+        },
+        "children": []
+      }
+    ]
+  },
+  "vars": {},
+  "filters": [
+    {
+      "type": "DropShadowFilter",
+      "attributes": {
+        "distance": "4",
+        "alpha": "0.34901960784313724",
+        "blurX": "4",
+        "blurY": "4"
+      }
+    }
+  ]
+}

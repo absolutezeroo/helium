@@ -1,0 +1,261 @@
+{
+  "name": "guardian_chat_review_wait_for_results",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_guardian_chat_review_wait_for_results_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "frame",
+        "typeId": 35,
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "248",
+          "height": "280",
+          "params": "32769",
+          "style": "100",
+          "name": "guardian_chat_review_wait_for_results",
+          "caption": "%24%7Bguide.bully.request.guide.results.title%7D"
+        },
+        "children": [
+          {
+            "tag": "label",
+            "typeId": 12,
+            "attributes": {
+              "x": "0",
+              "y": "12",
+              "width": "308",
+              "height": "19",
+              "params": "208",
+              "style": "100",
+              "caption": "%24%7Bguide.bully.request.guide.results.waiting.title%7D"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "typeId": 10,
+            "attributes": {
+              "x": "38",
+              "y": "37",
+              "width": "170",
+              "height": "24",
+              "params": "208",
+              "style": "100",
+              "caption": "%24%7Bguide.bully.request.guide.results.waiting.description%7D"
+            },
+            "children": []
+          },
+          {
+            "tag": "label",
+            "typeId": 12,
+            "attributes": {
+              "x": "5",
+              "y": "77",
+              "width": "191",
+              "height": "15",
+              "params": "16",
+              "style": "100",
+              "caption": "%24%7Bguide.bully.request.guide.results.votes%7D"
+            },
+            "children": []
+          },
+          {
+            "tag": "border",
+            "typeId": 30,
+            "attributes": {
+              "x": "7",
+              "y": "96",
+              "width": "232",
+              "height": "46",
+              "params": "8536080",
+              "style": "102"
+            },
+            "children": [
+              {
+                "tag": "itemlist_vertical",
+                "typeId": 50,
+                "attributes": {
+                  "x": "0",
+                  "y": "0",
+                  "width": "232",
+                  "height": "46",
+                  "params": "147472",
+                  "style": "100",
+                  "name": "results"
+                },
+                "children": [
+                  {
+                    "tag": "container",
+                    "typeId": 4,
+                    "attributes": {
+                      "x": "0",
+                      "y": "0",
+                      "width": "232",
+                      "height": "46",
+                      "params": "16",
+                      "style": "100"
+                    },
+                    "children": [
+                      {
+                        "tag": "label",
+                        "typeId": 12,
+                        "attributes": {
+                          "x": "20",
+                          "y": "16",
+                          "width": "91",
+                          "height": "15",
+                          "params": "3088",
+                          "style": "100",
+                          "name": "vote_text",
+                          "caption": "User%20behaved%20well"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "static_bitmap",
+                        "typeId": 23,
+                        "attributes": {
+                          "x": "180",
+                          "y": "0",
+                          "width": "52",
+                          "height": "47",
+                          "params": "16",
+                          "style": "100",
+                          "name": "vote_image"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "static_bitmap",
+                        "typeId": 23,
+                        "attributes": {
+                          "x": "8",
+                          "y": "44",
+                          "width": "216",
+                          "height": "3",
+                          "params": "16",
+                          "style": "100",
+                          "name": "vote_separator"
+                        },
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "container",
+            "typeId": 4,
+            "attributes": {
+              "x": "0",
+              "y": "150",
+              "width": "246",
+              "height": "99",
+              "params": "1040",
+              "style": "100"
+            },
+            "children": [
+              {
+                "tag": "text",
+                "typeId": 10,
+                "attributes": {
+                  "x": "34",
+                  "y": "12",
+                  "width": "179",
+                  "height": "28",
+                  "params": "3145936",
+                  "style": "100",
+                  "caption": "%24%7Bguide.bully.request.guide.results.wait%7D"
+                },
+                "children": []
+              },
+              {
+                "tag": "button",
+                "typeId": 60,
+                "attributes": {
+                  "x": "53",
+                  "y": "41",
+                  "width": "140",
+                  "height": "52",
+                  "params": "131281",
+                  "style": "101",
+                  "name": "close_button",
+                  "caption": "%24%7Balert.close.button%7D",
+                  "color": "0x0bbbbbb"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "widget",
+            "typeId": 16,
+            "attributes": {
+              "x": "229",
+              "y": "105",
+              "width": "238",
+              "height": "25",
+              "params": "147456",
+              "style": "100",
+              "color": "0x0a3201d"
+            },
+            "children": [
+              {
+                "tag": "text",
+                "typeId": 10,
+                "attributes": {
+                  "x": "0",
+                  "y": "0",
+                  "width": "233",
+                  "height": "25",
+                  "params": "16",
+                  "style": "100",
+                  "caption": "%24%7Bguide.bully.request.guide.results.your_vote%7D"
+                },
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {
+    "text_style": "il_regular_white",
+    "text_color": 4473924,
+    "auto_size": "left",
+    "mouse_wheel_enabled": false,
+    "multiline": true,
+    "word_wrap": true,
+    "spacing": 0,
+    "leading": 0,
+    "asset_uri": "illumina_light_separator_horizontal",
+    "pivot_point": "center",
+    "stretched_x": false,
+    "stretched_y": false,
+    "font_size": 16,
+    "margin_left": 10,
+    "margin_top": 5,
+    "margin_right": 10,
+    "margin_bottom": 5,
+    "bold": true,
+    "widget_type": "balloon",
+    "balloon:arrow_pivot": "left, middle"
+  },
+  "filters": [
+    {
+      "type": "DropShadowFilter",
+      "attributes": {
+        "angle": "0",
+        "alpha": "0.34901960784313724",
+        "blurX": "20",
+        "blurY": "20"
+      }
+    }
+  ]
+}
