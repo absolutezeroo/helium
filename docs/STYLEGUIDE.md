@@ -83,20 +83,20 @@ x=a+b                   // FAUX
 
 ## Nommage
 
-| Élément | Convention | Exemples |
-|---------|-----------|----------|
-| Classes | PascalCase | `RoomSessionManager`, `AvatarRenderManager` |
-| Interfaces | `I` + PascalCase | `IRoomSessionManager`, `IMessageParser` |
-| Champs privés | `_` + camelCase | `_roomId`, `_sessions`, `_disposed` |
-| Champs protégés | `_` + camelCase | `_connection`, `_listener` |
-| Champs publics | camelCase | `roomId`, `name` (rare, préférer des getters) |
-| Méthodes publiques | camelCase | `getSession()`, `createRoom()` |
-| Méthodes privées | camelCase | `processEvent()`, `parseData()` |
-| Constantes | UPPER_SNAKE_CASE | `MAX_ROOM_COUNT`, `DEFAULT_TIMEOUT` |
-| Enums | PascalCase | `RoomType.Public`, `ObjectCategory.Floor` |
-| Paramètres de type | Lettre majuscule | `T`, `K`, `V` |
-| Fichiers de classe | PascalCase | `RoomSession.ts`, `IRoomSession.ts` |
-| Fichiers utilitaires | camelCase | `colorUtils.ts`, `mathHelper.ts` |
+| Élément              | Convention       | Exemples                                      |
+|----------------------|------------------|-----------------------------------------------|
+| Classes              | PascalCase       | `RoomSessionManager`, `AvatarRenderManager`   |
+| Interfaces           | `I` + PascalCase | `IRoomSessionManager`, `IMessageParser`       |
+| Champs privés        | `_` + camelCase  | `_roomId`, `_sessions`, `_disposed`           |
+| Champs protégés      | `_` + camelCase  | `_connection`, `_listener`                    |
+| Champs publics       | camelCase        | `roomId`, `name` (rare, préférer des getters) |
+| Méthodes publiques   | camelCase        | `getSession()`, `createRoom()`                |
+| Méthodes privées     | camelCase        | `processEvent()`, `parseData()`               |
+| Constantes           | UPPER_SNAKE_CASE | `MAX_ROOM_COUNT`, `DEFAULT_TIMEOUT`           |
+| Enums                | PascalCase       | `RoomType.Public`, `ObjectCategory.Floor`     |
+| Paramètres de type   | Lettre majuscule | `T`, `K`, `V`                                 |
+| Fichiers de classe   | PascalCase       | `RoomSession.ts`, `IRoomSession.ts`           |
+| Fichiers utilitaires | camelCase        | `colorUtils.ts`, `mathHelper.ts`              |
 
 ### Correspondance AS3
 
@@ -431,20 +431,20 @@ source_as_win63/habbo/session/
 
 ### Mapping AS3 → TypeScript
 
-| AS3 | TypeScript |
-|-----|-----------|
-| `int` | `number` |
-| `uint` | `number` |
-| `Number` | `number` |
-| `String` | `string` |
-| `Boolean` | `boolean` |
-| `Array` | Type précis (`string[]`, `Map<K,V>`) |
-| `Dictionary` | `Map<K, V>` |
-| `Vector.<T>` | `T[]` |
-| `Object` | Type précis ou `Record<string, unknown>` |
-| `null` | `null` (pas `undefined`) |
-| `Event` | `MessageEvent` ou event spécifique |
-| `EventDispatcher` | `EventEmitter` (EventEmitter3) |
+| AS3               | TypeScript                               |
+|-------------------|------------------------------------------|
+| `int`             | `number`                                 |
+| `uint`            | `number`                                 |
+| `Number`          | `number`                                 |
+| `String`          | `string`                                 |
+| `Boolean`         | `boolean`                                |
+| `Array`           | Type précis (`string[]`, `Map<K,V>`)     |
+| `Dictionary`      | `Map<K, V>`                              |
+| `Vector.<T>`      | `T[]`                                    |
+| `Object`          | Type précis ou `Record<string, unknown>` |
+| `null`            | `null` (pas `undefined`)                 |
+| `Event`           | `MessageEvent` ou event spécifique       |
+| `EventDispatcher` | `EventEmitter` (EventEmitter3)           |
 
 ### Éviter `any`
 

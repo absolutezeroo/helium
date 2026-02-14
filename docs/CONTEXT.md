@@ -8,14 +8,14 @@ Ce document fournit le contexte complet de l'architecture et du projet. À lire 
 
 ### Stack technique
 
-| Technologie | Rôle |
-|-------------|------|
-| TypeScript | Langage principal (strict mode) |
-| PixiJS v8 | Rendu 2D (rooms, avatars, mobilier) |
-| SolidJS | Framework UI réactif (remplace les fenêtres Flash) |
-| EventEmitter3 | Communication inter-composants dans l'engine |
-| pnpm workspaces | Gestion du monorepo |
-| Vite | Bundler et serveur de développement |
+| Technologie     | Rôle                                               |
+|-----------------|----------------------------------------------------|
+| TypeScript      | Langage principal (strict mode)                    |
+| PixiJS v8       | Rendu 2D (rooms, avatars, mobilier)                |
+| SolidJS         | Framework UI réactif (remplace les fenêtres Flash) |
+| EventEmitter3   | Communication inter-composants dans l'engine       |
+| pnpm workspaces | Gestion du monorepo                                |
+| Vite            | Bundler et serveur de développement                |
 
 ### Monorepo
 
@@ -118,14 +118,14 @@ Client WebSocket
 
 ### Alias de chemins
 
-| Alias | Engine résout vers | Client résout vers |
-|-------|-------------------|-------------------|
-| `@core/` | `src/core/` | `../helium-engine/src/core/` |
-| `@habbo/` | `src/habbo/` | `../helium-engine/src/habbo/` |
-| `@room/` | `src/room/` | `../helium-engine/src/room/` |
-| `@iid/` | `src/iid/` | `../helium-engine/src/iid/` |
-| `@ui/` | N/A (interdit dans engine) | `src/` |
-| `@/` | N/A (interdit dans engine) | `src/` |
+| Alias     | Engine résout vers         | Client résout vers            |
+|-----------|----------------------------|-------------------------------|
+| `@core/`  | `src/core/`                | `../helium-engine/src/core/`  |
+| `@habbo/` | `src/habbo/`               | `../helium-engine/src/habbo/` |
+| `@room/`  | `src/room/`                | `../helium-engine/src/room/`  |
+| `@iid/`   | `src/iid/`                 | `../helium-engine/src/iid/`   |
+| `@ui/`    | N/A (interdit dans engine) | `src/`                        |
+| `@/`      | N/A (interdit dans engine) | `src/`                        |
 
 ## Architecture client
 
@@ -172,10 +172,10 @@ L'engine ne sait JAMAIS rien des stores ou composants. La séparation est strict
 
 ### Deux dossiers disponibles
 
-| Dossier | Fichiers | Racine des packages | Usage |
-|---------|----------|---------------------|-------|
-| `sources/win63_version/` | ~4 465 | `habbo/`, `room/` | **PRIMAIRE** — contient tout le moteur core |
-| `sources/flash_version/` | ~7 160 | `com/sulake/habbo/` | **SECONDAIRE** — version Nitro, plus détaillée |
+| Dossier                  | Fichiers | Racine des packages | Usage                                          |
+|--------------------------|----------|---------------------|------------------------------------------------|
+| `sources/win63_version/` | ~4 465   | `habbo/`, `room/`   | **PRIMAIRE** — contient tout le moteur core    |
+| `sources/flash_version/` | ~7 160   | `com/sulake/habbo/` | **SECONDAIRE** — version Nitro, plus détaillée |
 
 ### Mapping des chemins
 
@@ -197,27 +197,27 @@ Chaque fichier AS3 est classé comme ENGINE ou VIEW dans `docs/architectures/<mo
 
 ## Documentation par module
 
-| Doc | ENGINE | VIEW | Description |
-|-----|--------|------|-------------|
-| `room-architecture.md` | 313 | 0 | Moteur de room (CORE) |
-| `session-architecture.md` | 77 | 0 | Gestion des sessions |
-| `ui-architecture.md` | 95 | 274 | Handlers UI, events, messages |
-| `avatar-architecture.md` | ~70 | ~50 | Système de rendu avatar |
-| `catalog-architecture.md` | 62 | 43 | Système de catalogue |
-| `inventory-architecture.md` | 33 | 18 | Gestion d'inventaire |
-| `sound-architecture.md` | 28 | 0 | Système audio |
-| `navigator-architecture.md` | 25 | 45+ | Navigateur de rooms |
-| `game-architecture.md` | 42 | 16 | SnowWar |
-| Autres (20+ modules) | ~200 | ~500 | Voir `docs/architectures/` |
+| Doc                         | ENGINE | VIEW | Description                   |
+|-----------------------------|--------|------|-------------------------------|
+| `room-architecture.md`      | 313    | 0    | Moteur de room (CORE)         |
+| `session-architecture.md`   | 77     | 0    | Gestion des sessions          |
+| `ui-architecture.md`        | 95     | 274  | Handlers UI, events, messages |
+| `avatar-architecture.md`    | ~70    | ~50  | Système de rendu avatar       |
+| `catalog-architecture.md`   | 62     | 43   | Système de catalogue          |
+| `inventory-architecture.md` | 33     | 18   | Gestion d'inventaire          |
+| `sound-architecture.md`     | 28     | 0    | Système audio                 |
+| `navigator-architecture.md` | 25     | 45+  | Navigateur de rooms           |
+| `game-architecture.md`      | 42     | 16   | SnowWar                       |
+| Autres (20+ modules)        | ~200   | ~500 | Voir `docs/architectures/`    |
 
 ## Points d'entrée clés
 
-| Fichier | Rôle |
-|---------|------|
-| `packages/helium-client/index.html` | Point d'entrée HTML |
-| `packages/helium-client/src/Helium.ts` | Singleton applicatif, bootstrap |
-| `packages/helium-client/src/HeliumMain.ts` | Enregistrement des managers engine |
-| `packages/helium-engine/src/habbo/communication/HabboMessages.ts` | Registre de tous les messages |
-| `packages/helium-engine/src/habbo/communication/HabboCommunicationManager.ts` | Couche protocole |
-| `packages/helium-engine/src/room/RoomManager.ts` | Gestionnaire de rooms |
-| `packages/helium-engine/src/iid/index.ts` | Tous les symboles DI |
+| Fichier                                                                       | Rôle                               |
+|-------------------------------------------------------------------------------|------------------------------------|
+| `packages/helium-client/index.html`                                           | Point d'entrée HTML                |
+| `packages/helium-client/src/Helium.ts`                                        | Singleton applicatif, bootstrap    |
+| `packages/helium-client/src/HeliumMain.ts`                                    | Enregistrement des managers engine |
+| `packages/helium-engine/src/habbo/communication/HabboMessages.ts`             | Registre de tous les messages      |
+| `packages/helium-engine/src/habbo/communication/HabboCommunicationManager.ts` | Couche protocole                   |
+| `packages/helium-engine/src/room/RoomManager.ts`                              | Gestionnaire de rooms              |
+| `packages/helium-engine/src/iid/index.ts`                                     | Tous les symboles DI               |

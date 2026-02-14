@@ -18,6 +18,7 @@ import {HabboToolbar} from '@habbo/toolbar/HabboToolbar';
 import {HabboFreeFlowChat} from '@habbo/freeflowchat/HabboFreeFlowChat';
 import {AvatarRenderManager} from '@habbo/avatar/AvatarRenderManager';
 import {Logger} from '@core/utils/Logger';
+import type {IHeliumConfig} from './Helium';
 import {Helium} from './Helium';
 
 import {IID_HabboCommunicationManager} from '@iid/IIDHabboCommunicationManager';
@@ -37,7 +38,6 @@ import type {HeliumCore} from '@core/HeliumCore';
 import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
 import type {IGameDataResources} from '@core/localization/IGameDataResources';
 import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
-import type {IHeliumConfig} from './Helium';
 import {IHeliumMain} from "./IHeliumMain";
 
 const log = Logger.getLogger('HabboMain');
@@ -246,9 +246,7 @@ export class HeliumMain implements IHeliumMain
 	/**
 	 * Dispose engine resources
 	 *
-	 * Disposes module system and RoomMessageHandler.
-	 * Nullifies all manager references.
-	 * Does NOT dispose HeliumCore (owned by Helium shell).
+	 * Disposes module system.
 	 */
 	dispose(): void
 	{
@@ -270,7 +268,6 @@ export class HeliumMain implements IHeliumMain
 		this._roomMessageHandler = null;
 
 		// 3. Nullify Habbo manager refs (inverse init order)
-		// These are Components - they will be disposed by context.dispose() in Helium
 		this._freeFlowChat = null;
 		this._toolbar = null;
 		this._notifications = null;
@@ -297,10 +294,6 @@ export class HeliumMain implements IHeliumMain
 
 	/**
 	 * Initialize Habbo-specific managers
-	 *
-	 * Order follows AS3 HabboMain.as initialization sequence:
-	 * Config → Communication → Demo → Localization → RoomManager → RoomSessionManager
-	 * → SessionDataManager → Navigator → Inventory → RoomEngine → RoomMessageHandler
 	 */
 	async initHabboManagers(config?: IHeliumConfig): Promise<void>
 	{
@@ -447,72 +440,6 @@ export class HeliumMain implements IHeliumMain
 	}
 
 	/**
-	 * Start the SPA heartbeat if configured.
-	 *
-	 * In AS3, if config `spaweb=1`, a heartbeat is sent every 10 seconds
-	 * via HabboWebTools to keep the session alive.
-	 *
-	 * @see sources/win63_version/Habbo.as
-	 */
-	private startHeartbeatIfNeeded(): void
-	{
-		const config = this._configurationManager;
-
-		if(!config) return;
-
-		const spaweb = config.propertyExists('spaweb')
-			? config.getProperty('spaweb')
-			: '0';
-
-		if(spaweb === '1')
-		{
-			log.info('SPA heartbeat enabled');
-
-			this._heartbeatTimer = setInterval(() =>
-			{
-				this.sendHeartBeat();
-			}, 10000);
-		}
-	}
-
-	/**
-	 * Send a heartbeat signal.
-	 *
-	 * Emits a 'heartbeat' event on the Helium instance.
-	 * The client can listen to POST this to a server endpoint.
-	 *
-	 * @see sources/win63_version/Habbo.as sendHeartBeat()
-	 */
-	private sendHeartBeat(): void
-	{
-		Helium.instance.heliumEvents.emit('heartbeat');
-	}
-
-	/**
-	 * Handle a core component error.
-	 *
-	 * @see sources/win63_version/HabboMain.as onCoreError()
-	 */
-	private onCoreError(message: string): void
-	{
-		log.error(`Core error: ${message}`);
-
-		Helium.reportCrash(message, 'core', false);
-	}
-
-	/**
-	 * Handle a core component reboot request.
-	 *
-	 * @see sources/win63_version/HabboMain.as onCoreReboot()
-	 */
-	private onCoreReboot(): void
-	{
-		log.warn('Core reboot requested');
-
-		Helium.instance.heliumEvents.emit('reboot');
-	}
-
-	/**
 	 * Called when game data resources (hashes) are available.
 	 * Sets config properties from hashes for game data loading.
 	 */
@@ -578,6 +505,7 @@ export class HeliumMain implements IHeliumMain
 		if (this._avatarRenderManager)
 		{
 			this._avatarRenderManager.onGameDataReady();
+
 		}
 
 		// Load external UI variables if available (separated from renderer variables)
@@ -682,5 +610,71 @@ export class HeliumMain implements IHeliumMain
 
 			this._localizationManager!.activateLocalizationDefinition(locName);
 		}
+	}
+
+	/**
+	 * Start the SPA heartbeat if configured.
+	 *
+	 * In AS3, if config `spaweb=1`, a heartbeat is sent every 10 seconds
+	 * via HabboWebTools to keep the session alive.
+	 *
+	 * @see sources/win63_version/Habbo.as
+	 */
+	private startHeartbeatIfNeeded(): void
+	{
+		const config = this._configurationManager;
+
+		if(!config) return;
+
+		const spaweb = config.propertyExists('spaweb')
+			? config.getProperty('spaweb')
+			: '0';
+
+		if(spaweb === '1')
+		{
+			log.info('SPA heartbeat enabled');
+
+			this._heartbeatTimer = setInterval(() =>
+			{
+				this.sendHeartBeat();
+			}, 10000);
+		}
+	}
+
+	/**
+	 * Send a heartbeat signal.
+	 *
+	 * Emits a 'heartbeat' event on the Helium instance.
+	 * The client can listen to POST this to a server endpoint.
+	 *
+	 * @see sources/win63_version/Habbo.as sendHeartBeat()
+	 */
+	private sendHeartBeat(): void
+	{
+		Helium.instance.heliumEvents.emit('heartbeat');
+	}
+
+	/**
+	 * Handle a core component error.
+	 *
+	 * @see sources/win63_version/HabboMain.as onCoreError()
+	 */
+	private onCoreError(message: string): void
+	{
+		log.error(`Core error: ${message}`);
+
+		Helium.reportCrash(message, 'core', false);
+	}
+
+	/**
+	 * Handle a core component reboot request.
+	 *
+	 * @see sources/win63_version/HabboMain.as onCoreReboot()
+	 */
+	private onCoreReboot(): void
+	{
+		log.warn('Core reboot requested');
+
+		Helium.instance.heliumEvents.emit('reboot');
 	}
 }

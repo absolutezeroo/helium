@@ -69,26 +69,28 @@ export class WindowContext
     private createWindowFromNode(node: LayoutNode, vars: Record<string, unknown>, parent: IWindowContainer | null): IWindowContainer
     {
         const attributes = node.attributes || {};
+        const resolvedAttributes = this.resolveAttributes(attributes, vars);
         const windowInit: WindowInit = {};
 
-        windowInit.name = this.resolveString(attributes.name, vars);
+        windowInit.name = this.resolveString(resolvedAttributes.name, vars);
         windowInit.tag = node.tag;
-        windowInit.type = this.resolveType(node.tag, attributes.type);
-        windowInit.style = this.resolveNumber(attributes.style, 0);
-        windowInit.param = this.resolveParam(attributes.params);
-        windowInit.caption = this.decodeCaption(attributes.caption);
-        windowInit.x = this.resolveNumber(attributes.x, 0);
-        windowInit.y = this.resolveNumber(attributes.y, 0);
-        windowInit.width = this.resolveNumber(attributes.width, 0);
-        windowInit.height = this.resolveNumber(attributes.height, 0);
-        windowInit.visible = this.resolveBoolean(attributes.visible, true);
-        windowInit.background = this.resolveBoolean(attributes.background, false);
-        windowInit.blend = this.resolveNumber(attributes.blend, 1);
-        windowInit.color = this.resolveColor(attributes.color, 0xffffff);
-        windowInit.tags = this.resolveTags(attributes.tags);
-        windowInit.id = this.resolveNumber(attributes.id, 0);
+        windowInit.type = this.resolveType(node.tag, resolvedAttributes.type);
+        windowInit.style = this.resolveNumber(resolvedAttributes.style, 0);
+        windowInit.param = this.resolveParam(resolvedAttributes.params);
+        windowInit.caption = this.decodeCaption(resolvedAttributes.caption);
+        windowInit.x = this.resolveNumber(resolvedAttributes.x, 0);
+        windowInit.y = this.resolveNumber(resolvedAttributes.y, 0);
+        windowInit.width = this.resolveNumber(resolvedAttributes.width, 0);
+        windowInit.height = this.resolveNumber(resolvedAttributes.height, 0);
+        windowInit.visible = this.resolveBoolean(resolvedAttributes.visible, true);
+        windowInit.background = this.resolveBoolean(resolvedAttributes.background, false);
+        windowInit.blend = this.resolveNumber(resolvedAttributes.blend, 1);
+        windowInit.color = this.resolveColor(resolvedAttributes.color, 0xffffff);
+        windowInit.clipping = this.resolveBoolean(resolvedAttributes.clipping, true);
+        windowInit.tags = this.resolveTags(resolvedAttributes.tags);
+        windowInit.id = this.resolveNumber(resolvedAttributes.id, 0);
 
-        windowInit.attributes = { ...attributes };
+        windowInit.attributes = { ...resolvedAttributes };
         windowInit.layoutVars = vars;
 
         const window = new WindowContainer(windowInit, parent);
@@ -107,6 +109,18 @@ export class WindowContext
         }
 
         return window;
+    }
+
+    private resolveAttributes(attributes: Record<string, string>, vars: Record<string, unknown>): Record<string, string>
+    {
+        const resolved: Record<string, string> = {};
+
+        Object.entries(attributes).forEach(([key, value]) =>
+        {
+            resolved[key] = this.resolveString(value, vars);
+        });
+
+        return resolved;
     }
 
     private resolveType(tag: string, explicit?: string): number

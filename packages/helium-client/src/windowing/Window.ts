@@ -23,6 +23,7 @@ export interface WindowInit
     background?: boolean;
     blend?: number;
     color?: number;
+    clipping?: boolean;
     tags?: string[];
     attributes?: Record<string, string>;
     layoutVars?: Record<string, unknown>;
@@ -45,6 +46,7 @@ export class Window implements IWindow
     public background: boolean;
     public blend: number;
     public color: number;
+    public clipping: boolean;
     public tags: string[];
     public state: WindowStateFlag;
     public parent: IWindow | null;
@@ -72,6 +74,7 @@ export class Window implements IWindow
         this.background = options.background ?? false;
         this.blend = options.blend ?? 1;
         this.color = options.color ?? 0xffffff;
+        this.clipping = options.clipping ?? true;
         this.tags = options.tags ?? [];
         this.state = WINDOW_STATE.DEFAULT;
         this.parent = parent;

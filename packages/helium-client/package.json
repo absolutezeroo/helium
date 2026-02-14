@@ -6,7 +6,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "build:layouts": "node ./tools/compile-window-layouts.mjs"
+    "build:layouts": "node ./tools/compile-window-layouts.mjs",
+    "build:skins": "node ./tools/compile-window-skins.mjs"
   },
   "dependencies": {
     "helium-engine": "workspace:*",

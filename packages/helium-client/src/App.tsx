@@ -3,6 +3,7 @@ import type {IHeliumConfig} from 'helium-engine';
 import {WindowPreview} from './components/windowing/WindowPreview';
 import './styles/window-preview.css';
 import './styles/window-theme.css';
+import './styles/window-skin.css';
 
 declare global
 {

@@ -6,6 +6,7 @@ export * from './enum';
 export * from './events';
 export * from './interfaces';
 export * from './loaders';
+export * from './skins';
 export * from './types';
 
 // Exports

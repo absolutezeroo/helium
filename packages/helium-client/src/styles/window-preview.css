@@ -1,19 +1,74 @@
 .window-preview {
-    font-family: Arial, sans-serif;
+    font-family: "Fira Sans", "Segoe UI", sans-serif;
+    color: #1f2428;
 }
 
-.window-preview select {
-    padding: 4px 6px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
+.window-preview-controls {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.window-preview-controls label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+
+.window-preview-controls select {
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid #c5cbd3;
+    background: linear-gradient(180deg, #ffffff, #e8edf3);
+    color: #1f2428;
+    font: 12px/1 "Fira Sans", "Segoe UI", sans-serif;
+}
+
+.window-preview-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+}
+
+.window-preview-toggle input {
+    accent-color: #1c6a9b;
+}
+
+.window-stage {
+    position: relative;
+    min-height: 420px;
+    border: 1px solid #c7ced8;
+    border-radius: 16px;
+    background:
+        radial-gradient(circle at 15% 10%, rgba(255, 255, 255, 0.8), transparent 55%),
+        repeating-linear-gradient(90deg, rgba(14, 36, 66, 0.04) 0, rgba(14, 36, 66, 0.04) 1px, transparent 1px, transparent 14px),
+        linear-gradient(180deg, #f7f6f2, #ece7df);
+    padding: 18px;
+    overflow: auto;
+}
+
+.window-root {
+    position: relative;
 }
 
 .window-node {
     box-sizing: border-box;
 }
 
-.window-node[data-tag="frame"] {
-    border: 1px solid #888;
-    border-radius: 2px;
-    background: linear-gradient(#fafafa, #f0f0f0);
+.window-preview.show-labels .window-node::after {
+    content: attr(data-name);
+    position: absolute;
+    left: 4px;
+    bottom: 4px;
+    font-size: 10px;
+    line-height: 1;
+    padding: 3px 6px;
+    border-radius: 6px;
+    background: rgba(12, 24, 38, 0.7);
+    color: #f8f8f8;
+    pointer-events: none;
+    z-index: 2;
 }

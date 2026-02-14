@@ -19,6 +19,7 @@ export interface IWindow
     background: boolean;
     blend: number;
     color: number;
+    clipping: boolean;
     tags: string[];
     state: WindowStateFlag;
     parent: IWindow | null;

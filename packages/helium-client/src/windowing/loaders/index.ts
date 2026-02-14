@@ -3,3 +3,9 @@
 
 // Exports
 export { getCompiledLayout, getAllCompiledLayouts, registerAllLayouts, } from './layoutRegistry';
+export { 
+  getCompiledSkin,
+  getCompiledSkins,
+  getElementDescription,
+  getSkinMap,
+ } from './skinRegistry';
