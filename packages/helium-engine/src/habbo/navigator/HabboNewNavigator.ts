@@ -1,11 +1,19 @@
+import {EventEmitter} from 'eventemitter3';
 import {Component, ComponentDependency, type IContext} from '@core/runtime';
 import {IID_RoomSessionManager} from '@iid/IIDRoomSessionManager';
+import {IID_HabboToolbar} from '@iid/IIDHabboToolbar';
+import {IID_HabboWindowManager} from '@iid/IIDHabboWindowManager';
 import type {IHabboNewNavigator} from './IHabboNewNavigator';
 import type {IHabboNavigator} from './IHabboNavigator';
+import type {IHabboToolbar} from '../toolbar/IHabboToolbar';
+import {HabboToolbarEvent} from '../toolbar/events/HabboToolbarEvent';
+import {HabboToolbarIconEnum} from '../toolbar/HabboToolbarIconEnum';
 import type {IRoomSessionManager} from '../session/IRoomSessionManager';
+import type {IHabboWindowManager} from '../window/IHabboWindowManager';
 import {NavigatorData} from './domain';
 import {NavigatorCache} from './cache';
 import {ContextContainer, SearchContext, SearchContextHistoryManager} from './context';
+import {NavigatorView} from './view/NavigatorView';
 import {NewIncomingMessages} from './NewIncomingMessages';
 import type {
 	NavigatorLiftedRoomData,
@@ -36,19 +44,21 @@ const log = Logger.getLogger('NewNavigator');
 /**
  * New Habbo Navigator component
  *
- * This is the main navigator component that uses HabboNavigator (legacy)
+ * This is the main navigator part that uses HabboNavigator (legacy)
  * for shared data and functionality through delegation.
  *
  */
 export class HabboNewNavigator extends Component implements IHabboNewNavigator
 {
 	private _incomingMessages: NewIncomingMessages | null = null;
-	private _isOpen: boolean = false;
 	private _isInitialized: boolean = false;
 	private _noPushToHistoryDueToNavigation: boolean = false;
 	private _lastSearchCode: string = ViewModeCode.OFFICIAL_VIEW;
 	private _lastFiltering: string = '';
 	private _roomSessionManager: IRoomSessionManager | null = null;
+	private _toolbar: IHabboToolbar | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
+	private _view: NavigatorView | null = null;
 
 	constructor(context: IContext)
 	{
@@ -57,6 +67,39 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		this._contextContainer = new ContextContainer();
 		this._historyManager = new SearchContextHistoryManager();
 		this._cache = new NavigatorCache();
+	}
+
+	/**
+	 * The window manager.
+	 *
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as get windowManager()
+	 */
+	get windowManager(): IHabboWindowManager | null
+	{
+		return this._windowManager;
+	}
+
+	/**
+	 * The navigator view.
+	 *
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as get view()
+	 */
+	get view(): NavigatorView | null
+	{
+		return this._view;
+	}
+
+	private _navigatorEvents: EventEmitter = new EventEmitter();
+
+	/**
+	 * Custom navigator event emitter (NOT the Component events)
+	 *
+	 * Uses a separate EventEmitter to avoid overriding Component.events
+	 * which would break the dependency injection unlock mechanism.
+	 */
+	get navigatorEvents(): EventEmitter
+	{
+		return this._navigatorEvents;
 	}
 
 	private _communication: IHabboCommunicationManager | null = null;
@@ -158,16 +201,35 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 				},
 				true
 			),
+			new ComponentDependency(
+				IID_HabboToolbar,
+				(toolbar: IHabboToolbar | null) =>
+				{
+					this._toolbar = toolbar;
+				},
+				false,
+				[{
+					type: HabboToolbarEvent.TOOLBAR_CLICK,
+					callback: ((...args: unknown[]) => this.onHabboToolbarEvent(args[0] as HabboToolbarEvent))
+				}]
+			),
+			new ComponentDependency(
+				IID_HabboWindowManager,
+				(manager: IHabboWindowManager | null) =>
+				{
+					this._windowManager = manager;
+				}
+			),
 		];
 	}
 
 	/**
-	 * Initialize the navigator (send init message to server)
-	 * Should be called after connection is established
+	 * Initialize the navigator (send init message to server).
+	 * Called from outside if needed before initComponent runs.
 	 */
 	init(): void
 	{
-		if (this._isInitialized) return;
+		if(this._isInitialized) return;
 
 		this._isInitialized = true;
 
@@ -183,9 +245,16 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 
 		this._isReady = true;
 
+		this._navigatorEvents.emit('navigator:initialized');
+
 		log.info(`Navigator initialized with ${topLevelContexts.length} contexts`);
 	}
 
+	/**
+	 * Handle search results from the server.
+	 *
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as onSearchResult()
+	 */
 	onSearchResult(results: NavigatorSearchResultSet): void
 	{
 		this._currentResults = results;
@@ -202,6 +271,14 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 
 		this._noPushToHistoryDueToNavigation = false;
 
+		// Update the view if visible (like AS3)
+		if(this._view && this._view.visible)
+		{
+			this._view.onSearchResults(results);
+		}
+
+		this._navigatorEvents.emit('navigator:searchResults', results);
+
 		log.debug(`Search results: ${results.blocks.length} blocks`);
 	}
 
@@ -210,9 +287,21 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		log.debug(`Lifted rooms: ${rooms.length}`);
 	}
 
+	/**
+	 * Handle saved searches from the server.
+	 *
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as onSavedSearches()
+	 */
 	onSavedSearches(searches: NavigatorSavedSearch[]): void
 	{
 		this._contextContainer.savedSearches = searches;
+
+		if(this._view)
+		{
+			this._view.onSavedSearches(searches);
+		}
+
+		this._navigatorEvents.emit('navigator:savedSearches', searches);
 
 		log.debug(`Saved searches: ${searches.length}`);
 	}
@@ -221,61 +310,86 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	{
 		this._collapsedCategories = categories;
 
+		this._navigatorEvents.emit('navigator:collapsed', categories);
+
 		log.debug(`Collapsed categories: ${categories.length}`);
 	}
 
+	/**
+	 * Open the navigator.
+	 *
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as open()
+	 */
 	open(): void
 	{
-		if (this._isOpen) return;
+		if(this._view === null) return;
 
-		// Initialize on first open if not already done
-		if (!this._isInitialized)
+		if(!this._view.visible)
 		{
-			this.init();
+			this._view.visible = true;
 		}
-
-		this._isOpen = true;
-
-		log.debug('Navigator opened');
 	}
 
+	/**
+	 * Close the navigator.
+	 *
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as close()
+	 */
 	close(): void
 	{
-		if (!this._isOpen) return;
+		if(this._view === null) return;
 
-		this._isOpen = false;
-
-		log.debug('Navigator closed');
+		if(this._view.visible)
+		{
+			this._view.visible = false;
+		}
 	}
 
+	/**
+	 * Toggle the navigator.
+	 *
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as toggle()
+	 */
 	toggle(): void
 	{
-		if (this._isOpen)
+		if(this._view === null) return;
+
+		this._view.visible = !this._view.visible;
+
+		if(this._view.visible)
 		{
-			this.close();
-		}
-		else
-		{
-			this.open();
+			this.performLastSearch();
 		}
 	}
 
+	/**
+	 * Perform a search.
+	 *
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as performSearch()
+	 */
 	performSearch(searchCode: string, filtering: string = '', _source: string = ''): void
 	{
+		if(this._view)
+		{
+			this._view.isBusy = true;
+		}
+
 		this._lastSearchCode = searchCode;
 		this._lastFiltering = filtering;
 
 		// Check cache first
 		const cached = this._cache.getEntry(`${searchCode}/${filtering}`);
 
-		if (cached)
+		if(cached)
 		{
 			this.onSearchResult(cached);
-			
+
 			return;
 		}
 
 		this.send(new NewNavigatorSearchComposer(searchCode, filtering));
+
+		this.open();
 
 		log.debug(`Searching: ${searchCode}, filter: ${filtering}`);
 	}
@@ -404,19 +518,53 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	{
 		if (this.disposed) return;
 
+		this._view?.dispose();
+		this._view = null;
 		this._incomingMessages?.dispose();
+		this._navigatorEvents.removeAllListeners();
+		this._toolbar = null;
+		this._windowManager = null;
 
 		log.info('New Navigator disposed');
 
 		super.dispose();
 	}
 
+	/**
+	 * Initialize the navigator component.
+	 *
+	 * Creates incoming message handlers and the navigator view,
+	 * then sends the init message to the server.
+	 *
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as initComponent()
+	 */
 	protected override initComponent(): void
 	{
-		// Create message handler - accesses communication and data via this navigator
 		this._incomingMessages = new NewIncomingMessages(this);
+		this._view = new NavigatorView(this);
 
-		log.info('New Navigator created');
+		this.send(new NewNavigatorInitComposer());
+		this._isInitialized = true;
+
+		log.info('New Navigator initialized');
+	}
+
+	/**
+	 * Handle toolbar click events.
+	 *
+	 * Toggles the navigator when the NAVIGATOR icon is clicked.
+	 *
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as onHabboToolbarEvent()
+	 */
+	private onHabboToolbarEvent(event: HabboToolbarEvent): void
+	{
+		if(event.type === HabboToolbarEvent.TOOLBAR_CLICK)
+		{
+			if(event.iconId === HabboToolbarIconEnum.NAVIGATOR)
+			{
+				this.toggle();
+			}
+		}
 	}
 
 	private send(composer: IMessageComposer<unknown[]>): void

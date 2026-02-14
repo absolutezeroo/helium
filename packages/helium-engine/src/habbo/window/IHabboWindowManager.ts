@@ -13,6 +13,7 @@ export const WindowManagerEvents =
 		WINDOW_OPEN: 'window:open',
 		WINDOW_CLOSE: 'window:close',
 		WINDOW_UPDATE: 'window:update',
+		WINDOW_ELEMENT_CLICK: 'window:element:click',
 	} as const;
 
 /**
@@ -78,4 +79,23 @@ export interface IHabboWindowManager extends IDisposable
 	 * @returns Array of window instances
 	 */
 	getWindows(layer?: number): IWindowInstance[];
+
+	/**
+	 * Register a layout by name for later retrieval.
+	 *
+	 * This mirrors AS3's asset system where layouts were available by name
+	 * via `assets.getAssetByName("navigator_frame_2_xml")`.
+	 *
+	 * @param name - The layout name (e.g. 'navigator_frame_2')
+	 * @param layout - The layout data
+	 */
+	registerLayout(name: string, layout: IWindowLayout): void;
+
+	/**
+	 * Get a registered layout by name.
+	 *
+	 * @param name - The layout name
+	 * @returns The layout data, or null if not registered
+	 */
+	getLayout(name: string): IWindowLayout | null;
 }

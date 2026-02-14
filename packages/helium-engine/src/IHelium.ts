@@ -8,6 +8,7 @@ import type {IHabboNavigator, IHabboNewNavigator} from "@habbo/navigator";
 import type {IHabboInventory} from "@habbo/inventory";
 import type {IHabboLocalizationManager} from "@habbo/localization";
 import type {IHabboWindowManager} from "@habbo/window/IHabboWindowManager";
+import type {IHabboToolbar} from "@habbo/toolbar/IHabboToolbar";
 import {IHeliumConfig} from "./Helium";
 
 export interface IHelium extends IDisposable
@@ -27,6 +28,7 @@ export interface IHelium extends IDisposable
 	readonly inventory: IHabboInventory;
 	readonly localization: IHabboLocalizationManager;
 	readonly windowManager: IHabboWindowManager;
+	readonly toolbar: IHabboToolbar;
 
 	/**
 	 * Connect to the Habbo server

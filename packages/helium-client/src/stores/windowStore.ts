@@ -61,7 +61,7 @@ export function initWindowStore(windowManager: IHabboWindowManager): void
 }
 
 /**
- * Dispose the window store and clean up event listeners.
+ * Dispose of the window store and clean up event listeners.
  */
 export function disposeWindowStore(): void
 {

@@ -41,6 +41,8 @@ import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfig
 import type {IHabboWindowManager} from '@habbo/window/IHabboWindowManager';
 import type {IGameDataResources} from '@core/localization/IGameDataResources';
 import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
+import type {IHabboToolbar} from '@habbo/toolbar/IHabboToolbar';
+import {IID_HabboToolbar} from '@iid/IIDHabboToolbar';
 import {IHeliumMain} from "./IHeliumMain";
 
 const log = Logger.getLogger('HabboMain');
@@ -91,6 +93,16 @@ export class HeliumMain implements IHeliumMain
 		}
 
 		return this._windowManager;
+	}
+
+	get toolbar(): IHabboToolbar
+	{
+		if(!this._toolbar)
+		{
+			throw new Error('[HabboMain] Not initialized');
+		}
+
+		return this._toolbar;
 	}
 
 	protected _disposed: boolean = false;
@@ -434,7 +446,7 @@ export class HeliumMain implements IHeliumMain
 
 		// 12g. Toolbar
 		this._toolbar = new HabboToolbar(ctx);
-		ctx.attachComponent(this._toolbar, []);
+		ctx.attachComponent(this._toolbar, [IID_HabboToolbar]);
 
 		// 12h. FreeFlowChat
 		this._freeFlowChat = new HabboFreeFlowChat(ctx);

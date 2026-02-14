@@ -1,3 +1,4 @@
+import type {EventEmitter} from 'eventemitter3';
 import type {IHabboNavigator} from './IHabboNavigator';
 import type {NavigatorData} from './domain';
 import type {ContextContainer, SearchContextHistoryManager} from './context';
@@ -11,6 +12,11 @@ import {IDisposable} from "@core";
  */
 export interface IHabboNewNavigator extends IDisposable
 {
+	/**
+	 * Custom navigator event emitter (NOT the Component events)
+	 */
+	readonly navigatorEvents: EventEmitter;
+
 	/**
 	 * Check if navigator is ready
 	 */

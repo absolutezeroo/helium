@@ -16,6 +16,7 @@ import type {IHabboNewNavigator} from '@habbo/navigator/IHabboNewNavigator';
 import type {IHabboInventory} from '@habbo/inventory/IHabboInventory';
 import type {IHabboLocalizationManager} from '@habbo/localization/IHabboLocalizationManager';
 import type {IHabboWindowManager} from '@habbo/window/IHabboWindowManager';
+import type {IHabboToolbar} from '@habbo/toolbar/IHabboToolbar';
 import {IHelium} from "./IHelium";
 import {IHeliumCoreConfig} from "@core";
 
@@ -230,6 +231,11 @@ export class Helium implements IHelium
 	get windowManager(): IHabboWindowManager
 	{
 		return this._habboMain!.windowManager;
+	}
+
+	get toolbar(): IHabboToolbar
+	{
+		return this._habboMain!.toolbar;
 	}
 
 	/**

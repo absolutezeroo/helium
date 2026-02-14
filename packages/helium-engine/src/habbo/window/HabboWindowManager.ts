@@ -26,6 +26,7 @@ const log = Logger.getLogger('HabboWindowManager');
 export class HabboWindowManager extends Component implements IHabboWindowManager
 {
 	private _windows: Map<number, IWindowInstance> = new Map();
+	private _layouts: Map<string, IWindowLayout> = new Map();
 	private _nextId: number = 1;
 
 	private _windowEvents: EventEmitter = new EventEmitter();
@@ -57,6 +58,26 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 	{
 		this._elementRegistry.load(data);
 		log.info(`Element registry loaded: ${data.elements.length} descriptors`);
+	}
+
+	/**
+	 * Register a layout by name.
+	 *
+	 * Mirrors AS3's asset system where layouts were available via
+	 * `assets.getAssetByName("navigator_frame_2_xml")`.
+	 */
+	registerLayout(name: string, layout: IWindowLayout): void
+	{
+		this._layouts.set(name, layout);
+		log.debug(`Layout registered: ${name}`);
+	}
+
+	/**
+	 * Get a registered layout by name.
+	 */
+	getLayout(name: string): IWindowLayout | null
+	{
+		return this._layouts.get(name) ?? null;
 	}
 
 	/**
@@ -139,6 +160,7 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 		this._disposed = true;
 
 		this._windows.clear();
+		this._layouts.clear();
 		this._windowEvents.removeAllListeners();
 		this._elementRegistry.dispose();
 
