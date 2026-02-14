@@ -1,6 +1,6 @@
 {
   "name": "group_info",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboGroupsCom_Habbogroup_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGroupsCom_Habbogroup_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

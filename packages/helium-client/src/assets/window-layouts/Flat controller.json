@@ -1,6 +1,6 @@
 {
   "name": "Flat controller",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_ros_flat_controller_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_ros_flat_controller_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

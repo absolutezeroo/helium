@@ -1,6 +1,6 @@
 {
   "name": "new_controls",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_new_controls_piece_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_new_controls_piece_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

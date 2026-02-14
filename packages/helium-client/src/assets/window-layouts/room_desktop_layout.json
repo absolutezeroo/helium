@@ -1,6 +1,6 @@
 {
   "name": "room_desktop_layout",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_room_desktop_layout_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_room_desktop_layout_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

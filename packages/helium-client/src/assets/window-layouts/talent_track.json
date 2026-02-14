@@ -1,6 +1,6 @@
 {
   "name": "talent_track",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_talent_track_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_talent_track_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

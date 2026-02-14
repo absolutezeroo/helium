@@ -1,6 +1,6 @@
 {
   "name": "abusive_notice",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_abusive_notice_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_abusive_notice_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

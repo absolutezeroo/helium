@@ -1,6 +1,6 @@
 {
   "name": "marketplace_no_credits",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboInventoryCom_marketplace_no_credits_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboInventoryCom_marketplace_no_credits_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,6 +1,6 @@
 {
   "name": "roc_vip_promo",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_roc_vip_promo_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_roc_vip_promo_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

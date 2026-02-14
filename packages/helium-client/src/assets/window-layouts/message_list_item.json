@@ -1,6 +1,6 @@
 {
   "name": "message_list_item",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_groupforum_message_list_item_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_groupforum_message_list_item_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

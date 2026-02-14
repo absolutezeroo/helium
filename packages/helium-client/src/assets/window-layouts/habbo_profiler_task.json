@@ -1,6 +1,6 @@
 {
   "name": "habbo_profiler_task",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboProfilerOutput_profiler_task_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboProfilerOutput_profiler_task_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

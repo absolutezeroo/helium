@@ -1,6 +1,6 @@
 {
   "name": "room_hopper_network",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_room_hopper_network_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_room_hopper_network_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

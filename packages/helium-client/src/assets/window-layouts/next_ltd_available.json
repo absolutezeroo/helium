@@ -1,6 +1,6 @@
 {
   "name": "next_ltd_available",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_next_ltd_available_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_next_ltd_available_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

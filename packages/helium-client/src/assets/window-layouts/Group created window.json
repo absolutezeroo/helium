@@ -1,6 +1,6 @@
 {
   "name": "Group created window",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboGroupsCom_Habbogroup_created_window_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGroupsCom_Habbogroup_created_window_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

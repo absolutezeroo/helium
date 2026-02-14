@@ -1,6 +1,6 @@
 {
   "name": "pending_guide_session",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_pending_guide_session_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_pending_guide_session_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,6 +1,6 @@
 {
   "name": "snowwar_lobby_player",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habbosnowwar_lobby_player_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habbosnowwar_lobby_player_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

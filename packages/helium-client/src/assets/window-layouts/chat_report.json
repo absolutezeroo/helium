@@ -1,6 +1,6 @@
 {
   "name": "chat_report",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_chat_report_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_chat_report_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

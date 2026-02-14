@@ -1,6 +1,6 @@
 {
   "name": "notifications_browser",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboNotificationsCom_layout_notifications_browser_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNotificationsCom_layout_notifications_browser_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

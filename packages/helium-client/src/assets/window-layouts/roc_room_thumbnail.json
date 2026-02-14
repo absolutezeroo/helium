@@ -1,6 +1,6 @@
 {
   "name": "roc_room_thumbnail",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_roc_room_thumbnail_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_roc_room_thumbnail_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

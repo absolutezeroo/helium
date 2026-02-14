@@ -1,6 +1,6 @@
 {
   "name": "vip_quests_promo",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_vip_quests_promo_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_vip_quests_promo_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,6 +1,6 @@
 {
   "name": "grs_front_page_search_small",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_grs_front_page_search_small_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_grs_front_page_search_small_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

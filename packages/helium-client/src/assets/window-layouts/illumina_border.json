@@ -1,6 +1,6 @@
 {
   "name": "illumina_border",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_updating_timestamp_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_updating_timestamp_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

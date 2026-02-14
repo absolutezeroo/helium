@@ -1,6 +1,6 @@
 {
   "name": "habbo_orderinfo_nocredits",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbohabbo_orderinfo_nocredits_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbohabbo_orderinfo_nocredits_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

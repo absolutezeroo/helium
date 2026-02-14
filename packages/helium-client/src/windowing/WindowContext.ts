@@ -33,13 +33,37 @@ export class WindowContext
 
     public build(layout: CompiledLayout, options?: BuildOptions): IWindowContainer
     {
-        const vars = {
+        const vars =
+        {
             ...(layout.vars || {}),
             ...(options?.overrides || {})
         };
 
-        const root = this.createWindowFromNode(layout.window, vars, null);
+        const rootNode = this.normalizeRootNode(layout.window);
+        const root = this.createWindowFromNode(rootNode, vars, null);
         return root as IWindowContainer;
+    }
+
+    private normalizeRootNode(node: LayoutNode): LayoutNode
+    {
+        if (node.tag !== 'window')
+        {
+            return node;
+        }
+
+        if (node.children.length === 1)
+        {
+            return node.children[0];
+        }
+
+        return {
+            tag: 'container',
+            attributes: {
+                clipping: 'false',
+                ...node.attributes
+            },
+            children: node.children
+        };
     }
 
     private createWindowFromNode(node: LayoutNode, vars: Record<string, unknown>, parent: IWindowContainer | null): IWindowContainer
@@ -48,6 +72,7 @@ export class WindowContext
         const windowInit: WindowInit = {};
 
         windowInit.name = this.resolveString(attributes.name, vars);
+        windowInit.tag = node.tag;
         windowInit.type = this.resolveType(node.tag, attributes.type);
         windowInit.style = this.resolveNumber(attributes.style, 0);
         windowInit.param = this.resolveParam(attributes.params);
@@ -102,8 +127,7 @@ export class WindowContext
             return 0;
         }
 
-        // Params can be numeric or comma-separated flag names
-        const numeric = this.resolveNumber(value, NaN);
+        const numeric = this.resolveNumber(value, Number.NaN);
 
         if (!Number.isNaN(numeric))
         {
@@ -156,7 +180,11 @@ export class WindowContext
         }
 
         const str = String(value).toLowerCase();
-        return str === 'true' ? true : str === 'false' ? false : fallback;
+        return str === 'true'
+            ? true
+            : str === 'false'
+                ? false
+                : fallback;
     }
 
     private resolveColor(value: unknown, fallback: number): number

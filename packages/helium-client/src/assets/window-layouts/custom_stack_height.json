@@ -1,6 +1,6 @@
 {
   "name": "custom_stack_height",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_custom_stack_height_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_custom_stack_height_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

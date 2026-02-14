@@ -1,6 +1,6 @@
 {
   "name": "guide_closed",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_guide_closed_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_guide_closed_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

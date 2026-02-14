@@ -1,6 +1,6 @@
 {
   "name": "bully_report",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_bully_report_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_bully_report_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

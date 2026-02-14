@@ -1,6 +1,6 @@
 {
   "name": "chat_msg_notification",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_chat_msg_notification_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_chat_msg_notification_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

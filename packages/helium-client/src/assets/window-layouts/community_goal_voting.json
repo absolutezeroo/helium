@@ -1,6 +1,6 @@
 {
   "name": "community_goal_voting",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_community_goal_voting_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_community_goal_voting_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

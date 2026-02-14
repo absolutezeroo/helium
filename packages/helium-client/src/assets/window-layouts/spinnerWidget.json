@@ -1,6 +1,6 @@
 {
   "name": "spinnerWidget",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbospinner_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbospinner_widget_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

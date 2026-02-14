@@ -1,6 +1,6 @@
 {
   "name": "clock_base",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_clock_base_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_clock_base_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

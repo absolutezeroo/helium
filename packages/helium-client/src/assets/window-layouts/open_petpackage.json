@@ -1,6 +1,6 @@
 {
   "name": "open_petpackage",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbopetpackage_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbopetpackage_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

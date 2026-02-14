@@ -1,6 +1,6 @@
 {
   "name": "use_product_custom_part",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_use_product_controller_custom_part_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_use_product_controller_custom_part_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,6 +1,6 @@
 {
   "name": "AvatarEditor",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboAvatarEditorCom_Habboavatar_editor_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboAvatarEditorCom_Habboavatar_editor_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

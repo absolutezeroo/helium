@@ -1,6 +1,6 @@
 {
   "name": "welcome_tour_popup",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_welcome_tour_popup_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_welcome_tour_popup_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

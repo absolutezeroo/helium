@@ -1,6 +1,6 @@
 {
   "name": "unique_item_overlay_griditem",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_unique_item_overlay_griditem_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_unique_item_overlay_griditem_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

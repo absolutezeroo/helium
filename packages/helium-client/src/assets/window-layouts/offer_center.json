@@ -1,6 +1,6 @@
 {
   "name": "offer_center",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_offer_center_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_offer_center_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

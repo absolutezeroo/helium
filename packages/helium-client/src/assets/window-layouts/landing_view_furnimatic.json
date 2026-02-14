@@ -1,6 +1,6 @@
 {
   "name": "landing_view_furnimatic",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_landing_view_furnimatic_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_landing_view_furnimatic_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

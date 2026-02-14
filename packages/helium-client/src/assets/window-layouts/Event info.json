@@ -1,6 +1,6 @@
 {
   "name": "Event info",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_iro_event_info_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_iro_event_info_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

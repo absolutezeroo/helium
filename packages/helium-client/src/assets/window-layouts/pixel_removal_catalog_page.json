@@ -1,6 +1,6 @@
 {
   "name": "pixel_removal_catalog_page",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_pixel_removal_credit_promo_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_pixel_removal_credit_promo_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

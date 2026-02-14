@@ -1,6 +1,6 @@
 {
   "name": "stories_image_widget",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_stories_image_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_stories_image_widget_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

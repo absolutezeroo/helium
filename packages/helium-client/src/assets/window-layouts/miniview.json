@@ -1,6 +1,6 @@
 {
   "name": "miniview",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_returnusergifting_miniview_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_returnusergifting_miniview_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

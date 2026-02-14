@@ -1,6 +1,6 @@
 {
   "name": "inventory_trading_minimized",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboInventoryCom_inventory_trading_minimized_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboInventoryCom_inventory_trading_minimized_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

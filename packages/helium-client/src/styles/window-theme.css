@@ -1,0 +1,72 @@
+:root {
+    --win-bg: #f5f7fb;
+    --win-border: #b6c2d2;
+    --win-header-bg: linear-gradient(#fdfefe, #e7ecf5);
+    --win-header-text: #2d3545;
+    --win-text: #1f2430;
+    --win-muted: #5f6b7a;
+    --btn-bg: linear-gradient(#ffffff, #e4e8f0);
+    --btn-bg-hover: linear-gradient(#ffffff, #d9e0eb);
+    --btn-bg-active: linear-gradient(#dbe2ec, #c5cedc);
+    --btn-border: #99a7bd;
+    --btn-text: #1f2430;
+    --shadow: 0 8px 20px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.win-frame {
+    border: 1px solid var(--win-border);
+    border-radius: 6px;
+    background: var(--win-bg);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.win-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: var(--win-header-bg);
+    color: var(--win-header-text);
+    font: 13px/16px "Ubuntu", "Segoe UI", sans-serif;
+    border-bottom: 1px solid #ccd5e6;
+    user-select: none;
+}
+
+.win-body {
+    position: relative;
+    padding: 10px;
+    color: var(--win-text);
+    font: 12px/16px "Ubuntu", "Segoe UI", sans-serif;
+}
+
+.win-text {
+    color: var(--win-text);
+    font: 12px/16px "Ubuntu", "Segoe UI", sans-serif;
+}
+
+.win-muted {
+    color: var(--win-muted);
+}
+
+.win-button {
+    width: 100%;
+    height: 100%;
+    border: 1px solid var(--btn-border);
+    border-radius: 4px;
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    font: 12px/14px "Ubuntu", "Segoe UI", sans-serif;
+    cursor: pointer;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    transition: background 120ms ease, transform 80ms ease;
+}
+
+.win-button:hover {
+    background: var(--btn-bg-hover);
+}
+
+.win-button:active {
+    background: var(--btn-bg-active);
+    transform: translateY(1px);
+}

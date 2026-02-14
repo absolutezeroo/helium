@@ -1,0 +1,19 @@
+{
+  "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#184",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {
+      "type": "frame",
+      "intent": "default",
+      "style": "200",
+      "renderer": "skin",
+      "asset": "illumina_dark_skin_frame_xml",
+      "window_layout": "illumina_dark_frame_xml",
+      "layout": "illumina_dark_frame"
+    },
+    "children": []
+  },
+  "vars": {},
+  "filters": []
+}

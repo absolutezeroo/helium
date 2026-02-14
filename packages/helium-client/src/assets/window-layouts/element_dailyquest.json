@@ -1,6 +1,6 @@
 {
   "name": "element_dailyquest",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_element_dailyquest_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_element_dailyquest_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

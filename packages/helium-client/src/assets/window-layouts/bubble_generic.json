@@ -1,6 +1,6 @@
 {
   "name": "bubble_generic",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_roomchat_styles_generic_bubble_generic_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_roomchat_styles_generic_bubble_generic_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

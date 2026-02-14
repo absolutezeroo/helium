@@ -1,6 +1,6 @@
 {
   "name": "marketplace_search_simple",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbomarketplace_search_simple_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbomarketplace_search_simple_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

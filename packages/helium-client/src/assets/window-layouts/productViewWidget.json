@@ -1,6 +1,6 @@
 {
   "name": "productViewWidget",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboproduct_view_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboproduct_view_widget_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

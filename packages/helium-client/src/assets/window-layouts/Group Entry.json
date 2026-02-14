@@ -1,6 +1,6 @@
 {
   "name": "Group Entry",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboGroupsCom_Habbogroup_entry_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGroupsCom_Habbogroup_entry_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,6 +1,6 @@
 {
   "name": "forum_permissions",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_groupforum_forum_settings_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_groupforum_forum_settings_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

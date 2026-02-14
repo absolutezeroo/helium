@@ -1,6 +1,6 @@
 {
   "name": "grs_official_room_row",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_grs_official_room_row_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_grs_official_room_row_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

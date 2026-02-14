@@ -1,6 +1,6 @@
 {
   "name": "nav_error_popup",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_nav_error_popup_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_nav_error_popup_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

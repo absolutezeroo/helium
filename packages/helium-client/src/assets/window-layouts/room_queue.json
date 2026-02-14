@@ -1,6 +1,6 @@
 {
   "name": "room_queue",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboroom_queue_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboroom_queue_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

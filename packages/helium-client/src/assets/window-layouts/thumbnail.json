@@ -1,6 +1,6 @@
 {
   "name": "thumbnail",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboInventoryCom_inventory_thumb_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboInventoryCom_inventory_thumb_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

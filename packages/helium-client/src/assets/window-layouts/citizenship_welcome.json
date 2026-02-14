@@ -1,6 +1,6 @@
 {
   "name": "citizenship_welcome",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_citizenship_welcome_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_citizenship_welcome_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

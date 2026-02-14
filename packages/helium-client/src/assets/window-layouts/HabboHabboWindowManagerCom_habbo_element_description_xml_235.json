@@ -1,0 +1,34 @@
+{
+  "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#235",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {
+      "type": "icon",
+      "intent": "Credit And Nut Combo Big",
+      "style": "40",
+      "renderer": "skin",
+      "asset": "habbo_skin_icon_set_xml",
+      "layout": "iconCreditAndNutBig"
+    },
+    "children": [
+      {
+        "tag": "states",
+        "attributes": {},
+        "children": [
+          {
+            "tag": "state",
+            "attributes": {
+              "name": "default",
+              "layout": "iconCreditAndNutBig",
+              "template": "icon_40"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {},
+  "filters": []
+}

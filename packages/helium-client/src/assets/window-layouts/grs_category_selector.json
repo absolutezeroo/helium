@@ -1,6 +1,6 @@
 {
   "name": "grs_category_selector",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_grs_category_selector_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_grs_category_selector_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

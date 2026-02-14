@@ -1,6 +1,6 @@
 {
   "name": "usercount",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_grs_usercount_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_grs_usercount_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

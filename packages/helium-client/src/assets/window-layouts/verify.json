@@ -1,6 +1,6 @@
 {
   "name": "verify",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_phonenumber_verify_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_phonenumber_verify_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

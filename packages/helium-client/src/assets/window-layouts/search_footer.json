@@ -1,6 +1,6 @@
 {
   "name": "search_footer",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendListCom_search_footer_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendListCom_search_footer_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

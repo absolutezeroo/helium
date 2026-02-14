@@ -1,6 +1,6 @@
 {
   "name": "memenu_chat_settings",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_me_menu_other_settings_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_me_menu_other_settings_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,6 +1,6 @@
 {
   "name": "snowwar_snowballs",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habbosnowwar_snowballs_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habbosnowwar_snowballs_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

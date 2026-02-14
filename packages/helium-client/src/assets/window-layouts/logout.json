@@ -1,6 +1,6 @@
 {
   "name": "logout",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_logout_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_logout_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

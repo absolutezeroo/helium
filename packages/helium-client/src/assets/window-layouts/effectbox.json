@@ -1,6 +1,6 @@
 {
   "name": "effectbox",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_effectbox_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_effectbox_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

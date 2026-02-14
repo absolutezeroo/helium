@@ -1,6 +1,6 @@
 {
   "name": "ctlg_pets",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_pets_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_pets_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

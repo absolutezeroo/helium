@@ -1,6 +1,6 @@
 {
   "name": "unique_item_overlay_preview",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_unique_item_overlay_preview_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_unique_item_overlay_preview_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

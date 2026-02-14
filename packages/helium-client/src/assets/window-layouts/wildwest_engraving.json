@@ -1,6 +1,6 @@
 {
   "name": "wildwest_engraving",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_wildwest_engraving_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_wildwest_engraving_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

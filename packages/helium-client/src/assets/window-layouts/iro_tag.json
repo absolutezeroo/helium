@@ -1,6 +1,6 @@
 {
   "name": "iro_tag",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_iro_tag_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_iro_tag_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

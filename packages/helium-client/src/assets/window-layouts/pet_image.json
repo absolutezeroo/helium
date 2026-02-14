@@ -1,6 +1,6 @@
 {
   "name": "pet_image",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_pet_image_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_pet_image_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

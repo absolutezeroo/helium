@@ -1,6 +1,6 @@
 {
   "name": "toolbar_view_squeezed",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_toolbar_view_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_toolbar_view_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

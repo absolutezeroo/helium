@@ -1,6 +1,6 @@
 {
   "name": "club_buy_info_item",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboclub_buy_vip_upgrade_item_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboclub_buy_vip_upgrade_item_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

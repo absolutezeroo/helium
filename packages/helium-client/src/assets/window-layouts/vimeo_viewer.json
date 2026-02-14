@@ -1,6 +1,6 @@
 {
   "name": "vimeo_viewer",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_vimeo_viewer_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_vimeo_viewer_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

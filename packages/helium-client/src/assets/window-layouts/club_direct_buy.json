@@ -1,6 +1,6 @@
 {
   "name": "club_direct_buy",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_club_direct_buy_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_club_direct_buy_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

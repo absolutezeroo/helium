@@ -1,6 +1,6 @@
 {
   "name": "habbo_window_layout_button_shiny_large_5",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_window_layout_button_shiny_large_5_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_window_layout_button_shiny_large_5_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,0 +1,34 @@
+{
+  "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#218",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {
+      "type": "icon",
+      "intent": "Loading animation frame 1",
+      "style": "23",
+      "renderer": "skin",
+      "asset": "habbo_skin_icon_set_xml",
+      "layout": "icon15x15"
+    },
+    "children": [
+      {
+        "tag": "states",
+        "attributes": {},
+        "children": [
+          {
+            "tag": "state",
+            "attributes": {
+              "name": "default",
+              "layout": "icon15x15",
+              "template": "icon_23"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {},
+  "filters": []
+}

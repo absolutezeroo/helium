@@ -1,6 +1,6 @@
 {
   "name": "mannequin_peer_no_club",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_mannequin_no_club_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_mannequin_no_club_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,6 +1,6 @@
 {
   "name": "safety_locked_notification",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboNotificationsCom_safety_locked_notification_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNotificationsCom_safety_locked_notification_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

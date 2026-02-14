@@ -1,6 +1,6 @@
 {
   "name": "Quest",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboseasonal_calendar_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboseasonal_calendar_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

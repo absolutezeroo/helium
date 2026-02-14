@@ -1,6 +1,6 @@
 {
   "name": "landing_view_jetset",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_landing_view_jetset_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_landing_view_jetset_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

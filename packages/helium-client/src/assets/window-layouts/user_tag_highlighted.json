@@ -1,6 +1,6 @@
 {
   "name": "user_tag_highlighted",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbouser_tag_highlighted_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbouser_tag_highlighted_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

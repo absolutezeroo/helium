@@ -1,6 +1,6 @@
 {
   "name": "feed_display",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboUnknownAsset_feed_display_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboUnknownAsset_feed_display_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

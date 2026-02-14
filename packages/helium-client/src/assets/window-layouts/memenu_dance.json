@@ -1,6 +1,6 @@
 {
   "name": "memenu_dance",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_me_menu_settings_menu_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_me_menu_settings_menu_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

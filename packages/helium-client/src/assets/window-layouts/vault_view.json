@@ -1,6 +1,6 @@
 {
   "name": "vault_view",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_vault_view_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_vault_view_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

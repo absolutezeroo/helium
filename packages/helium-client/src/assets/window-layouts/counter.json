@@ -1,6 +1,6 @@
 {
   "name": "counter",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habbocounter_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habbocounter_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

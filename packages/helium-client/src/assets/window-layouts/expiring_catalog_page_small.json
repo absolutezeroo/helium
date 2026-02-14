@@ -1,6 +1,6 @@
 {
   "name": "expiring_catalog_page_small",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_expiring_catalog_page_small_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_expiring_catalog_page_small_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

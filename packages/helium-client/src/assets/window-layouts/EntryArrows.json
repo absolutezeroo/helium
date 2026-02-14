@@ -1,6 +1,6 @@
 {
   "name": "EntryArrows",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboentry_arrows_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboentry_arrows_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

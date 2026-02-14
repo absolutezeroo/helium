@@ -1,6 +1,6 @@
 {
   "name": "chatstyle_template",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_chatinput_chatstyle_template_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_chatinput_chatstyle_template_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

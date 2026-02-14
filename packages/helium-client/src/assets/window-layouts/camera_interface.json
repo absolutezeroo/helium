@@ -1,6 +1,6 @@
 {
   "name": "camera_interface",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_camera_interface_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_camera_interface_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,6 +1,6 @@
 {
   "name": "room_info_popup_bubble",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboNewNavigatorCom_room_info_popup_bubble_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNewNavigatorCom_room_info_popup_bubble_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

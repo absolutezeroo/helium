@@ -1,6 +1,6 @@
 {
   "name": "chatlog",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboModerationCom_evidence_frame_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboModerationCom_evidence_frame_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

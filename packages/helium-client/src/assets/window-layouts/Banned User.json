@@ -1,6 +1,6 @@
 {
   "name": "Banned User",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_ros_banned_user_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_ros_banned_user_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

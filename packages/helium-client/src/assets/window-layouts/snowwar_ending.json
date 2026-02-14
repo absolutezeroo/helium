@@ -1,6 +1,6 @@
 {
   "name": "snowwar_ending",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habbosnowwar_ending_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habbosnowwar_ending_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

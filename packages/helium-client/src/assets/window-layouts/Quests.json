@@ -1,6 +1,6 @@
 {
   "name": "Quests",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboquests_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboquests_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

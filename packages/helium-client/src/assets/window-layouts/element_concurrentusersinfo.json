@@ -1,6 +1,6 @@
 {
   "name": "element_concurrentusersinfo",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_element_concurrentusersinfo_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_element_concurrentusersinfo_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

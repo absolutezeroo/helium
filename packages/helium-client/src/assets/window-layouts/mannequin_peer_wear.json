@@ -1,6 +1,6 @@
 {
   "name": "mannequin_peer_wear",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_mannequin_peer_main_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_mannequin_peer_main_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,6 +1,6 @@
 {
   "name": "nux_offer_old_user",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_nux_offer_old_user_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_nux_offer_old_user_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

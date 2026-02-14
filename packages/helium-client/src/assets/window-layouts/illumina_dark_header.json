@@ -1,6 +1,6 @@
 {
   "name": "illumina_dark_header",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_illumina_dark_header_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_illumina_dark_header_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,6 +1,6 @@
 {
   "name": "roomvisits_frame",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboModerationCom_roomvisits_frame_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboModerationCom_roomvisits_frame_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

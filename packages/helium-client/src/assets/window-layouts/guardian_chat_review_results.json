@@ -1,6 +1,6 @@
 {
   "name": "guardian_chat_review_results",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_guardian_chat_review_results_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_guardian_chat_review_results_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

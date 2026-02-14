@@ -1,6 +1,6 @@
 {
   "name": "bottom_bar_left",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_bottom_bar_left_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_bottom_bar_left_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

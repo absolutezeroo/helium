@@ -1,6 +1,6 @@
 {
   "name": "item_popup",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboInventoryCom_item_popup_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboInventoryCom_item_popup_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

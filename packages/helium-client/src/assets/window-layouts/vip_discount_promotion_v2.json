@@ -1,6 +1,6 @@
 {
   "name": "vip_discount_promotion_v2",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_vip_discount_promotion_v2_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_vip_discount_promotion_v2_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

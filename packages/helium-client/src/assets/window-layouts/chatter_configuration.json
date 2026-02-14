@@ -1,6 +1,6 @@
 {
   "name": "chatter_configuration",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_chatter_configuration_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_chatter_configuration_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

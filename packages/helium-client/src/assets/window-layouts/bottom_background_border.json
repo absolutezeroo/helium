@@ -1,6 +1,6 @@
 {
   "name": "bottom_background_border",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_bottom_background_border_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_bottom_background_border_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

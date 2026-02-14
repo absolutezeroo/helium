@@ -1,6 +1,6 @@
 {
   "name": "notification_popup",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboNotificationsCom_layout_notification_popup_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNotificationsCom_layout_notification_popup_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

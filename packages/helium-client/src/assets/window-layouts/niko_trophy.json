@@ -1,6 +1,6 @@
 {
   "name": "niko_trophy",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboniko_trophy_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboniko_trophy_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

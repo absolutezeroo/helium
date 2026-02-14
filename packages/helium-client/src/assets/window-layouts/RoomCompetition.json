@@ -1,6 +1,6 @@
 {
   "name": "RoomCompetition",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboroom_competition_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboroom_competition_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

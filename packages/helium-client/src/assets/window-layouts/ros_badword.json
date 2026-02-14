@@ -1,6 +1,6 @@
 {
   "name": "ros_badword",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_ros_badword_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_ros_badword_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

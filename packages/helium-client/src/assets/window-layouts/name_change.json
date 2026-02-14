@@ -1,6 +1,6 @@
 {
   "name": "name_change",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_welcome_name_change_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_welcome_name_change_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

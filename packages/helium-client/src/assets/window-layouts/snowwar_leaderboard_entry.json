@@ -1,6 +1,6 @@
 {
   "name": "snowwar_leaderboard_entry",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habbosnowwar_leaderboard_entry_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habbosnowwar_leaderboard_entry_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

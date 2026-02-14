@@ -1,6 +1,6 @@
 {
   "name": "QuestTracker",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboquest_tracker_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboquest_tracker_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,6 +1,6 @@
 {
   "name": "traxPreviewWidget",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbotrax_preview_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbotrax_preview_widget_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

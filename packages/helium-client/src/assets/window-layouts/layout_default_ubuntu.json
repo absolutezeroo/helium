@@ -1,6 +1,6 @@
 {
   "name": "layout_default_ubuntu",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbolayout_default_3x3_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbolayout_default_3x3_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

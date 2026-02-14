@@ -1,6 +1,6 @@
 {
   "name": "iro_room_thumbnail_camera",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_iro_room_thumbnail_camera_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_iro_room_thumbnail_camera_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

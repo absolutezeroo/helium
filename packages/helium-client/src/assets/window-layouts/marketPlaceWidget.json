@@ -1,6 +1,6 @@
 {
   "name": "marketPlaceWidget",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbomarket_place_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbomarket_place_widget_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

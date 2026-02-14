@@ -7,7 +7,7 @@ import {DOMParser} from '@xmldom/xmldom';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const repoRoot = path.resolve(__dirname, '..', '..');
+const repoRoot = path.resolve(__dirname, '..', '..', '..');
 
 const DEFAULT_INPUT = path.resolve(repoRoot, 'sources', 'win63_2021_version', 'binaryData');
 const DEFAULT_OUTPUT = path.resolve(__dirname, '../src/assets/window-layouts');
@@ -287,7 +287,8 @@ function compileLayout(xml, sourcePath, outDir)
 
     layouts.forEach((layout) =>
     {
-        const targetPath = path.join(outDir, `${layout.name}.json`);
+        const safeName = layout.name.replace(/[\\/:*?"<>|#]/g, '_');
+        const targetPath = path.join(outDir, `${safeName}.json`);
         fs.mkdirSync(path.dirname(targetPath), { recursive: true });
         fs.writeFileSync(targetPath, JSON.stringify(layout, null, 2), 'utf8');
     });

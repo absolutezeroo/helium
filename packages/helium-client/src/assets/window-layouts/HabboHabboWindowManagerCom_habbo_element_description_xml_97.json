@@ -1,0 +1,18 @@
+{
+  "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#97",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {
+      "type": "container_button",
+      "intent": "white",
+      "style": "2",
+      "renderer": "skin",
+      "asset": "habbo_skin_button_default_white_xml",
+      "layout": "button_white"
+    },
+    "children": []
+  },
+  "vars": {},
+  "filters": []
+}

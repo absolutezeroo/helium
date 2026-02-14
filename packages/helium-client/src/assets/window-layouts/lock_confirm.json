@@ -1,6 +1,6 @@
 {
   "name": "lock_confirm",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_lock_confirm_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_lock_confirm_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

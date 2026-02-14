@@ -1,6 +1,6 @@
 {
   "name": "main",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_main_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_main_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

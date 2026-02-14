@@ -1,0 +1,18 @@
+{
+  "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#158",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {
+      "type": "border",
+      "intent": "chat bubble",
+      "style": "106",
+      "renderer": "skin",
+      "asset": "illumina_light_skin_border_chat_bubble_xml",
+      "layout": "illumina_light_border_chat_bubble"
+    },
+    "children": []
+  },
+  "vars": {},
+  "filters": []
+}

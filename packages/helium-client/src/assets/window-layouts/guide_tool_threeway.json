@@ -1,6 +1,6 @@
 {
   "name": "guide_tool_threeway",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_guide_tool_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_guide_tool_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,6 +1,6 @@
 {
   "name": "avatar_menu_widget",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboavatar_menu_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboavatar_menu_widget_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

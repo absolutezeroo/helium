@@ -1,6 +1,6 @@
 {
   "name": "rentablespace",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_rentablespace_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_rentablespace_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

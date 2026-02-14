@@ -1,0 +1,34 @@
+{
+  "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#224",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {
+      "type": "icon",
+      "intent": "Valentines",
+      "style": "29",
+      "renderer": "skin",
+      "asset": "habbo_skin_icon_set_xml",
+      "layout": "iconValentines"
+    },
+    "children": [
+      {
+        "tag": "states",
+        "attributes": {},
+        "children": [
+          {
+            "tag": "state",
+            "attributes": {
+              "name": "default",
+              "layout": "iconValentines",
+              "template": "icon_29"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {},
+  "filters": []
+}

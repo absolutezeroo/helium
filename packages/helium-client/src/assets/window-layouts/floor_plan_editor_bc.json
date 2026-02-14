@@ -1,6 +1,6 @@
 {
   "name": "floor_plan_editor_bc",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboBCFloorPlanEditor_Habbofloor_plan_editor_layout_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboBCFloorPlanEditor_Habbofloor_plan_editor_layout_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

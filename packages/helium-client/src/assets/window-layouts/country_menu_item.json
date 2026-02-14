@@ -1,6 +1,6 @@
 {
   "name": "country_menu_item",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_phonenumber_country_menu_item_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_phonenumber_country_menu_item_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

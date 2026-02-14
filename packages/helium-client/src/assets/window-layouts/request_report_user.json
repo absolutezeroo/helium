@@ -1,6 +1,6 @@
 {
   "name": "request_report_user",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_report_window_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_report_window_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,6 +1,6 @@
 {
   "name": "confirm_pet_breeding",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_confirm_pet_breeding_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_confirm_pet_breeding_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

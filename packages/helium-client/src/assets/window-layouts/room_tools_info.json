@@ -1,6 +1,6 @@
 {
   "name": "room_tools_info",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_room_tools_info_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_room_tools_info_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

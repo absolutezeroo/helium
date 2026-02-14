@@ -1,6 +1,6 @@
 {
   "name": "memenu_effects",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_me_menu_sound_settings_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_me_menu_sound_settings_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,6 +1,6 @@
 {
   "name": "login_user_list_item",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCommunicationDemoCom_Habbologin_environment_list_item_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCommunicationDemoCom_Habbologin_environment_list_item_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

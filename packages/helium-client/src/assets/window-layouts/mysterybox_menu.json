@@ -1,6 +1,6 @@
 {
   "name": "mysterybox_menu",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbomysterybox_menu_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbomysterybox_menu_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,6 +1,6 @@
 {
   "name": "vip_buy_item",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbovip_buy_item_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbovip_buy_item_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

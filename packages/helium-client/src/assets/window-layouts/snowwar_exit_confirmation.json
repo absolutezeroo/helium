@@ -1,6 +1,6 @@
 {
   "name": "snowwar_exit_confirmation",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habbosnowwar_exit_confirmation_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habbosnowwar_exit_confirmation_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

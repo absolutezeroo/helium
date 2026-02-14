@@ -1,6 +1,6 @@
 {
   "name": "targetedoffers_minimized",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_targeted_offer_minimized_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_targeted_offer_minimized_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

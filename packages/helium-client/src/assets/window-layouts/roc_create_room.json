@@ -1,6 +1,6 @@
 {
   "name": "roc_create_room",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_roc_create_room_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_roc_create_room_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

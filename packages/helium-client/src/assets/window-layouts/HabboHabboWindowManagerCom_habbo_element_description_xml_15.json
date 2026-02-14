@@ -1,0 +1,18 @@
+{
+  "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#15",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {
+      "type": "border",
+      "intent": "white with thick dark border",
+      "style": "8",
+      "renderer": "skin",
+      "asset": "habbo_skin_border_8_xml",
+      "layout": "border_8"
+    },
+    "children": []
+  },
+  "vars": {},
+  "filters": []
+}

@@ -1,6 +1,6 @@
 {
   "name": "chat_review_reporter_feedback",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_chat_review_reporter_feedback_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_chat_review_reporter_feedback_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

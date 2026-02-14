@@ -1,6 +1,6 @@
 {
   "name": "collect_minimized",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_phonenumber_collect_minimized_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_phonenumber_collect_minimized_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

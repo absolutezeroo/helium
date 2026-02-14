@@ -1,6 +1,6 @@
 {
   "name": "safety_quiz_promo",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_safety_quiz_promo_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_safety_quiz_promo_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,6 +1,6 @@
 {
   "name": "itemGridWidget",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboitem_grid_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboitem_grid_widget_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

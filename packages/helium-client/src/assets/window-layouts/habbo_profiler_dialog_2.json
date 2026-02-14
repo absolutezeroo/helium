@@ -1,6 +1,6 @@
 {
   "name": "habbo_profiler_dialog_2",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboProfilerOutput_profiler_dialog_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboProfilerOutput_profiler_dialog_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

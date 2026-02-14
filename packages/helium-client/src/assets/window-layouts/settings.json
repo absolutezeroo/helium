@@ -1,6 +1,6 @@
 {
   "name": "settings",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_settings_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_settings_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

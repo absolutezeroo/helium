@@ -1,6 +1,6 @@
 {
   "name": "context_menu_widget",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbouse_product_menu_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbouse_product_menu_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

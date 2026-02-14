@@ -1,6 +1,6 @@
 {
   "name": "report",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_topics_flow_help_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_topics_flow_help_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

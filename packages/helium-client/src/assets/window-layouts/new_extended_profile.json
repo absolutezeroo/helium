@@ -1,6 +1,6 @@
 {
   "name": "new_extended_profile",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboGroupsCom_Habbonew_extended_profile_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGroupsCom_Habbonew_extended_profile_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

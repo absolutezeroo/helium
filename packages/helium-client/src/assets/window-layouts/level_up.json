@@ -1,6 +1,6 @@
 {
   "name": "level_up",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_track_promo_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_track_promo_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,6 +1,6 @@
 {
   "name": "instructions_list_item",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habboinstructions_list_item_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habboinstructions_list_item_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

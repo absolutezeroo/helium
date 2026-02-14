@@ -1,6 +1,6 @@
 {
   "name": "new_items_counter",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_unseen_item_counter_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_unseen_item_counter_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

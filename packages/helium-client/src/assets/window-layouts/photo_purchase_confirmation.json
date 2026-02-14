@@ -1,6 +1,6 @@
 {
   "name": "photo_purchase_confirmation",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_photo_purchase_confirmation_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_photo_purchase_confirmation_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

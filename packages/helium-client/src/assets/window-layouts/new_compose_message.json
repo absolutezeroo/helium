@@ -1,6 +1,6 @@
 {
   "name": "new_compose_message",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_groupforum_compose_message_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_groupforum_compose_message_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,6 +1,6 @@
 {
   "name": "setting_category",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_setting_category_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_setting_category_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,6 +1,6 @@
 {
   "name": "ProgressBar",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboprogress_bar_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboprogress_bar_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

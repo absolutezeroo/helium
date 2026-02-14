@@ -1,6 +1,6 @@
 {
   "name": "ctlg_trophies",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_trophies_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_trophies_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

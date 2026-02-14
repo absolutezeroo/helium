@@ -1,6 +1,6 @@
 {
   "name": "chatinput_window_new",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbochatinput_window_new_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbochatinput_window_new_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

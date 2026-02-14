@@ -1,6 +1,6 @@
 {
   "name": "extend_confirmation",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboclub_extend_confirmation_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboclub_extend_confirmation_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

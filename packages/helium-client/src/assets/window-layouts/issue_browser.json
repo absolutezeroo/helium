@@ -1,6 +1,6 @@
 {
   "name": "issue_browser",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboModerationCom_issue_browser_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboModerationCom_issue_browser_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

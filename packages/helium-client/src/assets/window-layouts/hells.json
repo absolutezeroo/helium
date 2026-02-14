@@ -1,6 +1,6 @@
 {
   "name": "hells",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_grs_promoted_room_category_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_grs_promoted_room_category_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

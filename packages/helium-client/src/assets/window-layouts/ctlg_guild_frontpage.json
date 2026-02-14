@@ -1,6 +1,6 @@
 {
   "name": "ctlg_guild_frontpage",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_guild_frontpage_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_guild_frontpage_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

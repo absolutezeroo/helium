@@ -1,6 +1,6 @@
 {
   "name": "ui_help_modal",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboui_help_modal_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboui_help_modal_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

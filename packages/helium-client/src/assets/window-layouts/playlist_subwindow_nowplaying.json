@@ -1,6 +1,6 @@
 {
   "name": "playlist_subwindow_nowplaying",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboplaylisteditor_playlist_subwindow_nowplaying_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboplaylisteditor_playlist_subwindow_nowplaying_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

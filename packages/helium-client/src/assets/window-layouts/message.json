@@ -1,6 +1,6 @@
 {
   "name": "message",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_message_piece_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_message_piece_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

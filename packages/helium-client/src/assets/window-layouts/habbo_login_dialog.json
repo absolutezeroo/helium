@@ -1,6 +1,6 @@
 {
   "name": "habbo_login_dialog",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCommunicationDemoCom_Habbologin_window_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCommunicationDemoCom_Habbologin_window_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

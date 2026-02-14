@@ -1,6 +1,6 @@
 {
   "name": "moving object",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_moving_object_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_moving_object_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

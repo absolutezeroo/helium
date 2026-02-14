@@ -1,6 +1,6 @@
 {
   "name": "pet_view",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbopet_view_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbopet_view_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

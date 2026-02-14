@@ -1,6 +1,6 @@
 {
   "name": "messenger",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboMessengerCom_messenger_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboMessengerCom_messenger_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

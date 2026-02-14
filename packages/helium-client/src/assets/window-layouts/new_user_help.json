@@ -1,6 +1,6 @@
 {
   "name": "new_user_help",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbonew_user_help_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbonew_user_help_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

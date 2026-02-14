@@ -1,6 +1,6 @@
 {
   "name": "ctlg_default_3x3",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_default_3x3_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_default_3x3_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

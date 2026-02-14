@@ -1,6 +1,6 @@
 {
   "name": "epic_popup_frame",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_epic_popup_frame_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_epic_popup_frame_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

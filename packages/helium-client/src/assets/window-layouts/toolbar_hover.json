@@ -1,6 +1,6 @@
 {
   "name": "toolbar_hover",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_toolbar_hover_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_toolbar_hover_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

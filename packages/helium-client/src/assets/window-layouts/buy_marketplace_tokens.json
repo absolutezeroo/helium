@@ -1,6 +1,6 @@
 {
   "name": "buy_marketplace_tokens",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboInventoryCom_buy_marketplace_tokens_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboInventoryCom_buy_marketplace_tokens_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

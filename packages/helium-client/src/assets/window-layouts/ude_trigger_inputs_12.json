@@ -1,6 +1,6 @@
 {
   "name": "ude_trigger_inputs_12",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboUserDefinedRoomEventsCom_ude_trigger_inputs_12_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboUserDefinedRoomEventsCom_ude_trigger_inputs_12_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

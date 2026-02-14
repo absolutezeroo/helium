@@ -1,6 +1,6 @@
 {
   "name": "rent_confirmation",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habborent_confirmation_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habborent_confirmation_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

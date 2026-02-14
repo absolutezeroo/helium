@@ -1,6 +1,6 @@
 {
   "name": "room_info_usercount",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_room_usercount_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_room_usercount_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

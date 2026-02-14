@@ -1,6 +1,6 @@
 {
   "name": "pending_tour_request",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_pending_tour_request_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_pending_tour_request_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

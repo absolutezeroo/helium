@@ -1,6 +1,6 @@
 {
   "name": "toggle",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_toggle_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_toggle_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

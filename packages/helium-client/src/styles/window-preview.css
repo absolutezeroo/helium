@@ -1,0 +1,19 @@
+.window-preview {
+    font-family: Arial, sans-serif;
+}
+
+.window-preview select {
+    padding: 4px 6px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.window-node {
+    box-sizing: border-box;
+}
+
+.window-node[data-tag="frame"] {
+    border: 1px solid #888;
+    border-radius: 2px;
+    background: linear-gradient(#fafafa, #f0f0f0);
+}

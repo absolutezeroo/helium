@@ -1,6 +1,6 @@
 {
   "name": "badge_entity",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbobadge_entity_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbobadge_entity_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

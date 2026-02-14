@@ -1,6 +1,6 @@
 {
   "name": "tag",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboNewNavigatorCom_tag_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNewNavigatorCom_tag_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

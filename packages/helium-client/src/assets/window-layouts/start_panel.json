@@ -1,6 +1,6 @@
 {
   "name": "start_panel",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboModerationCom_start_panel_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboModerationCom_start_panel_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,6 +1,6 @@
 {
   "name": "ctlg_soundmachine",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_soundmachine_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_soundmachine_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

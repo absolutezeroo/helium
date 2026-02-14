@@ -1,6 +1,6 @@
 {
   "name": "memenu_effect_selected",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbomemenu_effect_selected_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbomemenu_effect_selected_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

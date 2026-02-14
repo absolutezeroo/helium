@@ -1,6 +1,6 @@
 {
   "name": "user_info",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboModerationCom_user_info_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboModerationCom_user_info_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

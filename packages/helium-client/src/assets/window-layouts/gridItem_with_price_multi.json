@@ -1,6 +1,6 @@
 {
   "name": "gridItem_with_price_multi",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbogrid_item_with_price_multi_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbogrid_item_with_price_multi_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

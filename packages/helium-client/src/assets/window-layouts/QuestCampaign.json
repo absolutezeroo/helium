@@ -1,6 +1,6 @@
 {
   "name": "QuestCampaign",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habbocampaign_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habbocampaign_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

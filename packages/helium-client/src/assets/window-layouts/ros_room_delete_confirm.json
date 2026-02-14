@@ -1,6 +1,6 @@
 {
   "name": "ros_room_delete_confirm",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_ros_confirm_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_ros_confirm_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

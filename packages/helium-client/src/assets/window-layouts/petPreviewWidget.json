@@ -1,6 +1,6 @@
 {
   "name": "petPreviewWidget",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbopet_preview_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbopet_preview_widget_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

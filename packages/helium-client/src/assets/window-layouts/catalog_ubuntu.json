@@ -1,6 +1,6 @@
 {
   "name": "catalog_ubuntu",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbocatalog_ubuntu_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbocatalog_ubuntu_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

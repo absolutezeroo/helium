@@ -10,6 +10,7 @@ export interface WindowInit
 {
     id?: number;
     name?: string;
+    tag?: string;
     type?: number;
     style?: number;
     param?: number;
@@ -31,6 +32,7 @@ export class Window implements IWindow
 {
     public id: number;
     public name: string;
+    public tag: string;
     public type: number;
     public style: number;
     public param: number;
@@ -57,6 +59,7 @@ export class Window implements IWindow
     {
         this.id = options.id ?? 0;
         this.name = options.name ?? '';
+        this.tag = options.tag ?? '';
         this.type = options.type ?? 0;
         this.style = options.style ?? 0;
         this.param = options.param ?? 0;
@@ -82,6 +85,23 @@ export class Window implements IWindow
     public get children(): IWindow[]
     {
         return this._children;
+    }
+
+    public setStateFlag(flag: WindowStateFlag, enabled: boolean = true): void
+    {
+        if (enabled)
+        {
+            this.state |= flag;
+        }
+        else
+        {
+            this.state &= ~flag;
+        }
+    }
+
+    public testStateFlag(flag: WindowStateFlag): boolean
+    {
+        return (this.state & flag) === flag;
     }
 
     public addEventListener(type: string, listener: (event: WindowEvent | WindowMouseEvent) => void, priority = 0): void

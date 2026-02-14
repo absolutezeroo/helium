@@ -1,6 +1,6 @@
 {
   "name": "ctlg_spaces_new",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_spaces_new_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_spaces_new_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,6 +1,6 @@
 {
   "name": "AchievementSimple",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboachievement_simple_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboachievement_simple_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

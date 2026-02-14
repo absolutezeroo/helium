@@ -1,6 +1,6 @@
 {
   "name": "habbopedia_edit",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboPagesViewer_Habbohabbopedia_edit_layout_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboPagesViewer_Habbohabbopedia_edit_layout_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

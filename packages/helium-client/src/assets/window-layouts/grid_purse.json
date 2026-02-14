@@ -1,6 +1,6 @@
 {
   "name": "grid_purse",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_purse_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_purse_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

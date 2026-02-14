@@ -1,6 +1,6 @@
 {
   "name": "relationship_chooser",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendListCom_relationship_chooser_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendListCom_relationship_chooser_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

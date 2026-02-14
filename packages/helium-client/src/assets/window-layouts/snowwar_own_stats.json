@@ -1,6 +1,6 @@
 {
   "name": "snowwar_own_stats",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habbosnowwar_own_stats_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habbosnowwar_own_stats_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

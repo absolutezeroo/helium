@@ -1,6 +1,6 @@
 {
   "name": "userview_test",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbouser_view_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbouser_view_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

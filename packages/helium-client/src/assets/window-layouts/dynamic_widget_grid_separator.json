@@ -1,6 +1,6 @@
 {
   "name": "dynamic_widget_grid_separator",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_dynamic_widget_grid_separator_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_dynamic_widget_grid_separator_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

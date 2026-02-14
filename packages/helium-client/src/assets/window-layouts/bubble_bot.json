@@ -1,6 +1,6 @@
 {
   "name": "bubble_bot",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_roomchat_styles_bot_bubble_bot_whisper_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_roomchat_styles_bot_bubble_bot_whisper_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

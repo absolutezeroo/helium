@@ -1,6 +1,6 @@
 {
   "name": "simple_alert",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_simple_alert_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_simple_alert_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

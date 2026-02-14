@@ -1,6 +1,6 @@
 {
   "name": "badge_editor",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboGroupsCom_Habbobadge_editor_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGroupsCom_Habbobadge_editor_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

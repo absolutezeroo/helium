@@ -1,6 +1,6 @@
 {
   "name": "purchaseWidgetBuyVipStub",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbopurchase_widget_buy_vip_stub_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbopurchase_widget_buy_vip_stub_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

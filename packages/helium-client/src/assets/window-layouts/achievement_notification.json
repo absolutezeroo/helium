@@ -1,6 +1,6 @@
 {
   "name": "achievement_notification",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboquest_completed_dialog_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboquest_completed_dialog_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

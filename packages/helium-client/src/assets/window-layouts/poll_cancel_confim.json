@@ -1,6 +1,6 @@
 {
   "name": "poll_cancel_confim",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbopoll_cancel_confirm_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbopoll_cancel_confirm_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,6 +1,6 @@
 {
   "name": "room_invite_confirm",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendListCom_room_invite_confirm_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendListCom_room_invite_confirm_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

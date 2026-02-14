@@ -1,6 +1,6 @@
 {
   "name": "offer_extension",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_offer_extension_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_offer_extension_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

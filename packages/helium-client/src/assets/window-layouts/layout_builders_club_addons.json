@@ -1,6 +1,6 @@
 {
   "name": "layout_builders_club_addons",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbolayout_builders_club_addons_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbolayout_builders_club_addons_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

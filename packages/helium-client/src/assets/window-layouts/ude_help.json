@@ -1,6 +1,6 @@
 {
   "name": "ude_help",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboUserDefinedRoomEventsCom_ude_help_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboUserDefinedRoomEventsCom_ude_help_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

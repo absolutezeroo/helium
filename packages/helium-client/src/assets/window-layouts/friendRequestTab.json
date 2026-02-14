@@ -1,6 +1,6 @@
 {
   "name": "friendRequestTab",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_friend_request_tab_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_friend_request_tab_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

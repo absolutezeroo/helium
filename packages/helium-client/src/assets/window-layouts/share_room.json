@@ -1,6 +1,6 @@
 {
   "name": "share_room",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_share_room_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_share_room_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

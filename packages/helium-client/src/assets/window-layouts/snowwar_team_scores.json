@@ -1,6 +1,6 @@
 {
   "name": "snowwar_team_scores",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habbosnowwar_team_scores_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habbosnowwar_team_scores_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,6 +1,6 @@
 {
   "name": "user_ongoing",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_user_ongoing_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_user_ongoing_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

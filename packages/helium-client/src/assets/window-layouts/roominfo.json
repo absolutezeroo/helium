@@ -1,6 +1,6 @@
 {
   "name": "roominfo",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_iro_room_details_framed_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_iro_room_details_framed_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

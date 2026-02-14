@@ -1,6 +1,6 @@
 {
   "name": "purse_indicator_seasonal",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_purse_indicator_seasonal_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_purse_indicator_seasonal_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

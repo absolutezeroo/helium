@@ -1,6 +1,6 @@
 {
   "name": "mystery_box_reward",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbomystery_box_reward_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbomystery_box_reward_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

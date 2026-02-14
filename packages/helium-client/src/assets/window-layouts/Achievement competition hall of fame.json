@@ -1,6 +1,6 @@
 {
   "name": "Achievement competition hall of fame",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_user_list_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_user_list_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

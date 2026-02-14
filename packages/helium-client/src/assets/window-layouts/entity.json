@@ -1,6 +1,6 @@
 {
   "name": "entity",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_entity_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_entity_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

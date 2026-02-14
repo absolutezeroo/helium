@@ -1,6 +1,6 @@
 {
   "name": "landing_view_default_dynamic_layout",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_landing_view_default_dynamic_layout_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_landing_view_default_dynamic_layout_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

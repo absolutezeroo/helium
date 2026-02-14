@@ -1,6 +1,6 @@
 {
   "name": "AchievementResolutionCompleted",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboachievement_resolution_completed_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboachievement_resolution_completed_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

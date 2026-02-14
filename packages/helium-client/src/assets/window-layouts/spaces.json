@@ -1,6 +1,6 @@
 {
   "name": "spaces",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbospaces_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbospaces_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

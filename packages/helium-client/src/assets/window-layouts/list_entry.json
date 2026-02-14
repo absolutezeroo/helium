@@ -1,6 +1,6 @@
 {
   "name": "list_entry",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbodoorbell_list_entry_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbodoorbell_list_entry_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

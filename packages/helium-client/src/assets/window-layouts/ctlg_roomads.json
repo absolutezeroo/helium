@@ -1,6 +1,6 @@
 {
   "name": "ctlg_roomads",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_roomads_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_roomads_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

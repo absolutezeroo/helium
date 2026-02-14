@@ -1,6 +1,6 @@
 {
   "name": "roomchat_bubble_shout",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_roomchat_styles_zombie_hand_bubble_shout_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_roomchat_styles_zombie_hand_bubble_shout_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,6 +1,6 @@
 {
   "name": "illumina_light_checkbox_basic",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_illumina_light_checkbox_basic_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_illumina_light_checkbox_basic_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

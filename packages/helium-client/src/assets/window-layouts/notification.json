@@ -1,6 +1,6 @@
 {
   "name": "notification",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbonotification_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbonotification_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

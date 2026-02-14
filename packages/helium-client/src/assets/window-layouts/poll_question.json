@@ -1,6 +1,6 @@
 {
   "name": "poll_question",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbopoll_question_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbopoll_question_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

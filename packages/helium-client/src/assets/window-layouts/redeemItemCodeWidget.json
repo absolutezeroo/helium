@@ -1,6 +1,6 @@
 {
   "name": "redeemItemCodeWidget",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboredeem_item_code_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboredeem_item_code_widget_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,6 +1,6 @@
 {
   "name": "mannequin_widget",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_mannequin_widget_frame_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_mannequin_widget_frame_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

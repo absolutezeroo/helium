@@ -1,6 +1,6 @@
 {
   "name": "ui_help_bubble",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboui_help_bubble_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboui_help_bubble_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

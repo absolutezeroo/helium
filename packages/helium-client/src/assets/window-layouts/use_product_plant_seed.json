@@ -1,6 +1,6 @@
 {
   "name": "use_product_plant_seed",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_use_product_controller_plant_seed_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_use_product_controller_plant_seed_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

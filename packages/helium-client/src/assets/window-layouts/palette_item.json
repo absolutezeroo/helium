@@ -1,6 +1,6 @@
 {
   "name": "palette_item",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbogift_palette_item_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbogift_palette_item_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

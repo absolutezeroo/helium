@@ -1,6 +1,6 @@
 {
   "name": "avatareditor_wardrobe",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboAvatarEditorCom_Habboavatareditor_wardrobe_base_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboAvatarEditorCom_Habboavatareditor_wardrobe_base_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

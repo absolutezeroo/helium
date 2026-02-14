@@ -1,0 +1,19 @@
+{
+  "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#83",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {
+      "type": "scrollbar_vertical",
+      "intent": "black",
+      "style": "1",
+      "renderer": "skin",
+      "asset": "habbo_skin_scrollbar_black_xml",
+      "window_layout": "habbo_window_layout_scrollbar_vertical_xml",
+      "layout": "scrollbar_vertical_black"
+    },
+    "children": []
+  },
+  "vars": {},
+  "filters": []
+}

@@ -1,0 +1,17 @@
+{
+  "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#7",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {
+      "type": "label",
+      "intent": "default",
+      "style": "0",
+      "renderer": "label",
+      "asset": "text_styles_css"
+    },
+    "children": []
+  },
+  "vars": {},
+  "filters": []
+}

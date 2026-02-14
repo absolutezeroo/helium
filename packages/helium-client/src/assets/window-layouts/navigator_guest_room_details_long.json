@@ -1,6 +1,6 @@
 {
   "name": "navigator_guest_room_details_long",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_grs_guest_room_details_long_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_grs_guest_room_details_long_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

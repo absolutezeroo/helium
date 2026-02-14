@@ -1,6 +1,6 @@
 {
   "name": "purse_indicator_pixels",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_purse_indicator_pixels_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_purse_indicator_pixels_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

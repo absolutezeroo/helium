@@ -1,6 +1,6 @@
 {
   "name": "habbo_way",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_safety_booklet_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_safety_booklet_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

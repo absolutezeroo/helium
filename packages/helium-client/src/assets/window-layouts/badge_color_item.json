@@ -1,6 +1,6 @@
 {
   "name": "badge_color_item",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboGroupsCom_Habbobadge_color_item_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGroupsCom_Habbobadge_color_item_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

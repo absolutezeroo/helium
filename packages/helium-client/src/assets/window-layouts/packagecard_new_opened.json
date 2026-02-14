@@ -1,6 +1,6 @@
 {
   "name": "packagecard_new_opened",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbopackagecard_new_opened_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbopackagecard_new_opened_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

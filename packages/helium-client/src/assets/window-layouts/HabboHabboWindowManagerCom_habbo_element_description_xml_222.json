@@ -1,0 +1,34 @@
+{
+  "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#222",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
+  "window": {
+    "tag": "window",
+    "attributes": {
+      "type": "icon",
+      "intent": "Snowflake",
+      "style": "27",
+      "renderer": "skin",
+      "asset": "habbo_skin_icon_set_xml",
+      "layout": "iconSnowflake"
+    },
+    "children": [
+      {
+        "tag": "states",
+        "attributes": {},
+        "children": [
+          {
+            "tag": "state",
+            "attributes": {
+              "name": "default",
+              "layout": "iconSnowflake",
+              "template": "icon_27"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {},
+  "filters": []
+}

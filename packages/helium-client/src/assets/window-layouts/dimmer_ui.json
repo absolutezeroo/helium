@@ -1,6 +1,6 @@
 {
   "name": "dimmer_ui",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbodimmer_ui_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbodimmer_ui_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

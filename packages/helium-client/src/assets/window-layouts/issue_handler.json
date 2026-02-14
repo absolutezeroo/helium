@@ -1,6 +1,6 @@
 {
   "name": "issue_handler",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboModerationCom_issue_handler_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboModerationCom_issue_handler_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

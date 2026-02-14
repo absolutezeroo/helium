@@ -1,6 +1,6 @@
 {
   "name": "furni_view_branding_element",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbofurni_view_branding_element_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbofurni_view_branding_element_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

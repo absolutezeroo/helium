@@ -1,6 +1,6 @@
 {
   "name": "gift_wrapping",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbogift_wrapping_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbogift_wrapping_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

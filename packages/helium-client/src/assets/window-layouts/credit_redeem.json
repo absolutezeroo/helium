@@ -1,6 +1,6 @@
 {
   "name": "credit_redeem",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbocredit_redeem_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbocredit_redeem_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

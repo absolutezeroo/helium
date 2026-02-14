@@ -1,6 +1,6 @@
 {
   "name": "ctlg_guild_custom_furni",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_guild_custom_furni_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_guild_custom_furni_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

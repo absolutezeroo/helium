@@ -1,6 +1,6 @@
 {
   "name": "avatarinfo",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboavatar_info_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboavatar_info_widget_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

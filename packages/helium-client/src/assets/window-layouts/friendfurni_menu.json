@@ -1,6 +1,6 @@
 {
   "name": "friendfurni_menu",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbofriendfurni_menu_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbofriendfurni_menu_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

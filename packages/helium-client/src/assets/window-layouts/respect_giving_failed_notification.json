@@ -1,6 +1,6 @@
 {
   "name": "respect_giving_failed_notification",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_respect_giving_failed_notification_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_respect_giving_failed_notification_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

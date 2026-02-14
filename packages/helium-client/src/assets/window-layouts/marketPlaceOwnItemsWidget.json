@@ -1,6 +1,6 @@
 {
   "name": "marketPlaceOwnItemsWidget",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbomarket_place_own_items_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbomarket_place_own_items_widget_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

@@ -1,6 +1,6 @@
 {
   "name": "memenu_clothes",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboAvatarEditorCom_Habboavatar_editor_frame_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboAvatarEditorCom_Habboavatar_editor_frame_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},

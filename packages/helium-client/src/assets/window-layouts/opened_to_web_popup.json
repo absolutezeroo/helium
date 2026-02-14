@@ -1,6 +1,6 @@
 {
   "name": "opened_to_web_popup",
-  "source": "..\\sources\\win63_2021_version\\binaryData\\HabboHabboFriendListCom_opened_to_web_popup_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendListCom_opened_to_web_popup_xml.bin",
   "window": {
     "tag": "window",
     "attributes": {},
