@@ -1,4 +1,49 @@
 import { WindowType } from './enum/WindowType';
+import { WindowController } from './WindowController';
+import { IconController } from './components/IconController';
+import { BackgroundController } from './components/BackgroundController';
+import { ContainerController } from './components/ContainerController';
+import { RegionController } from './components/RegionController';
+import { HeaderController } from './components/HeaderController';
+import { ToolTipController } from './components/ToolTipController';
+import { TextController } from './components/TextController';
+import { HTMLTextController } from './components/HTMLTextController';
+import { TextLabelController } from './components/TextLabelController';
+import { TextLinkController } from './components/TextLinkController';
+import { FormattedTextController } from './components/FormattedTextController';
+import { WidgetWindowController } from './components/WidgetWindowController';
+import { BoxSizerController } from './components/BoxSizerController';
+import { DisplayObjectWrapperController } from './components/DisplayObjectWrapperController';
+import { BitmapWrapperController } from './components/BitmapWrapperController';
+import { StaticBitmapWrapperController } from './components/StaticBitmapWrapperController';
+import { BorderController } from './components/BorderController';
+import { FrameController } from './components/FrameController';
+import { ActivatorController } from './components/ActivatorController';
+import { ContainerButtonController } from './components/ContainerButtonController';
+import { SelectorController } from './components/SelectorController';
+import { SelectorListController } from './components/SelectorListController';
+import { BubbleController } from './components/BubbleController';
+import { ItemListController } from './components/ItemListController';
+import { ItemGridController } from './components/ItemGridController';
+import { ScrollableItemListWindow } from './components/ScrollableItemListWindow';
+import { ScrollableItemGridWindow } from './components/ScrollableItemGridWindow';
+import { ButtonController } from './components/ButtonController';
+import { CheckBoxController } from './components/CheckBoxController';
+import { RadioButtonController } from './components/RadioButtonController';
+import { CloseButtonController } from './components/CloseButtonController';
+import { InteractiveController } from './components/InteractiveController';
+import { TextFieldController } from './components/TextFieldController';
+import { PasswordFieldController } from './components/PasswordFieldController';
+import { TabContextController } from './components/TabContextController';
+import { TabButtonController } from './components/TabButtonController';
+import { TabContainerButtonController } from './components/TabContainerButtonController';
+import { DropMenuController } from './components/DropMenuController';
+import { DropMenuItemController } from './components/DropMenuItemController';
+import { DropListController } from './components/DropListController';
+import { DropListItemController } from './components/DropListItemController';
+import { ScalerController } from './components/ScalerController';
+import { ScrollBarController } from './components/ScrollBarController';
+import { ScrollBarLiftController } from './components/ScrollBarLiftController';
 
 /**
  * Registry mapping window type IDs to their controller constructors.
@@ -26,9 +71,142 @@ export class Classes
 
         Classes._registry = new Map();
 
-        // Registration happens when component controllers are imported.
-        // Each controller module calls Classes.register() to register itself.
-        // This avoids circular dependency issues with the controllers.
+        // ── Basic types ─────────────────────────────────────────────
+        Classes.register(WindowType.ICON, IconController as any);
+        Classes.register(WindowType.BACKGROUND, BackgroundController as any);
+        Classes.register(WindowType.CONTAINER, ContainerController as any);
+        Classes.register(WindowType.REGION, RegionController as any);
+        Classes.register(WindowType.HEADER, HeaderController as any);
+        Classes.register(WindowType.TOOLBAR, ContainerController as any);
+        Classes.register(WindowType.TOOLTIP, ToolTipController as any);
+        Classes.register(WindowType.NOTIFY, ContainerController as any);
+
+        // ── Text types ──────────────────────────────────────────────
+        Classes.register(WindowType.TEXT, TextController as any);
+        Classes.register(WindowType.HTML, HTMLTextController as any);
+        Classes.register(WindowType.LABEL, TextLabelController as any);
+        Classes.register(WindowType.LINK, TextLinkController as any);
+        Classes.register(WindowType.FORMATTED_TEXT, FormattedTextController as any);
+
+        // ── Widget / Layout types ───────────────────────────────────
+        Classes.register(WindowType.WIDGET, WidgetWindowController as any);
+        Classes.register(WindowType.BOXSIZER, BoxSizerController as any);
+
+        // ── Display wrappers ────────────────────────────────────────
+        Classes.register(WindowType.DISPLAY_OBJECT_WRAPPER, DisplayObjectWrapperController as any);
+        Classes.register(WindowType.BITMAP_WRAPPER, BitmapWrapperController as any);
+        Classes.register(WindowType.SHAPE_WRAPPER, WindowController as any);
+        Classes.register(WindowType.STATIC_BITMAP_WRAPPER, StaticBitmapWrapperController as any);
+
+        // ── Borders ─────────────────────────────────────────────────
+        Classes.registerMultiple([
+            WindowType.BORDER, WindowType.BORDER_THIN,
+            WindowType.BORDER_THICK, WindowType.BORDER_NOTIFY,
+        ], BorderController as any);
+
+        // ── Frames ──────────────────────────────────────────────────
+        Classes.registerMultiple([
+            WindowType.FRAME, WindowType.FRAME_THIN,
+            WindowType.FRAME_THICK, WindowType.FRAME_NOTIFY,
+        ], FrameController as any);
+
+        // ── Interactive containers ──────────────────────────────────
+        Classes.register(WindowType.ACTIVATOR, ActivatorController as any);
+        Classes.register(WindowType.CONTAINER_BUTTON, ContainerButtonController as any);
+        Classes.register(WindowType.SELECTOR, SelectorController as any);
+        Classes.register(WindowType.SELECTOR_LIST, SelectorListController as any);
+
+        // ── Bubbles ─────────────────────────────────────────────────
+        Classes.registerMultiple([
+            WindowType.BUBBLE, WindowType.BUBBLE_POINTER_UP,
+            WindowType.BUBBLE_POINTER_RIGHT, WindowType.BUBBLE_POINTER_DOWN,
+            WindowType.BUBBLE_POINTER_LEFT,
+        ], BubbleController as any);
+
+        // ── Item lists ──────────────────────────────────────────────
+        Classes.registerMultiple([
+            WindowType.ITEMLIST, WindowType.ITEMLIST_HORIZONTAL,
+        ], ItemListController as any);
+
+        // ── Item grids ──────────────────────────────────────────────
+        Classes.registerMultiple([
+            WindowType.ITEMGRID, WindowType.ITEMGRID_VERTICAL,
+            WindowType.ITEMGRID_HORIZONTAL,
+        ], ItemGridController as any);
+
+        // ── Scrollable item lists ───────────────────────────────────
+        Classes.registerMultiple([
+            WindowType.SCROLLABLE_ITEMLIST, WindowType.SCROLLABLE_ITEMLIST_VERTICAL,
+            WindowType.SCROLLABLE_ITEMLIST_HORIZONTAL,
+        ], ScrollableItemListWindow as any);
+
+        // ── Buttons ─────────────────────────────────────────────────
+        Classes.registerMultiple([
+            WindowType.BUTTON, WindowType.BUTTON_THICK, WindowType.BUTTON_ICON,
+            WindowType.BUTTON_UP, WindowType.BUTTON_DOWN,
+            WindowType.BUTTON_LEFT, WindowType.BUTTON_RIGHT,
+            WindowType.BUTTON_GROUP_LEFT, WindowType.BUTTON_GROUP_CENTER,
+            WindowType.BUTTON_GROUP_RIGHT,
+        ], ButtonController as any);
+
+        // ── Checkable / selectable buttons ──────────────────────────
+        Classes.register(WindowType.CHECKBOX, CheckBoxController as any);
+        Classes.register(WindowType.RADIOBUTTON, RadioButtonController as any);
+        Classes.register(WindowType.CLOSEBUTTON, CloseButtonController as any);
+        Classes.registerMultiple([
+            WindowType.MINIMIZEBOX, WindowType.MAXIMIZEBOX, WindowType.RESTOREBOX,
+        ], CloseButtonController as any);
+
+        // ── Drag bar ────────────────────────────────────────────────
+        Classes.register(WindowType.DRAGBAR, InteractiveController as any);
+
+        // ── Text input ──────────────────────────────────────────────
+        Classes.register(WindowType.TEXTFIELD, TextFieldController as any);
+        Classes.register(WindowType.PASSWORD, PasswordFieldController as any);
+
+        // ── Tabs ────────────────────────────────────────────────────
+        Classes.register(WindowType.TAB_CONTENT, ContainerController as any);
+        Classes.register(WindowType.TAB_CONTEXT, TabContextController as any);
+        Classes.register(WindowType.TAB_SELECTOR, SelectorController as any);
+        Classes.register(WindowType.TAB_BUTTON, TabButtonController as any);
+        Classes.register(WindowType.TAB_CONTAINER_BUTTON, TabContainerButtonController as any);
+
+        // ── Menus ───────────────────────────────────────────────────
+        Classes.registerMultiple([
+            WindowType.MENU, WindowType.SUBMENU,
+        ], ContainerController as any);
+        Classes.register(WindowType.MENU_ITEM, InteractiveController as any);
+        Classes.register(WindowType.DROPMENU, DropMenuController as any);
+        Classes.register(WindowType.DROPMENU_ITEM, DropMenuItemController as any);
+        Classes.register(WindowType.DROPLIST, DropListController as any);
+        Classes.register(WindowType.DROPLIST_ITEM, DropListItemController as any);
+
+        // ── Sliders / Scalers ───────────────────────────────────────
+        Classes.registerMultiple([
+            WindowType.SLIDER, WindowType.SLIDER_HORIZONTAL, WindowType.SLIDER_VERTICAL,
+            WindowType.SCALER, WindowType.SCALER_VERTICAL, WindowType.SCALER_HORIZONTAL,
+        ], ScalerController as any);
+
+        // ── Scrollbars ──────────────────────────────────────────────
+        Classes.registerMultiple([
+            WindowType.SCROLLBAR_HORIZONTAL, WindowType.SCROLLBAR_VERTICAL,
+        ], ScrollBarController as any);
+
+        Classes.registerMultiple([
+            WindowType.SCROLLBAR_SLIDER_BAR_HORIZONTAL, WindowType.SCROLLBAR_SLIDER_BAR_VERTICAL,
+        ], ScrollBarLiftController as any);
+
+        Classes.registerMultiple([
+            WindowType.SCROLLBAR_SLIDER_TRACK_HORIZONTAL, WindowType.SCROLLBAR_SLIDER_TRACK_VERTICAL,
+        ], InteractiveController as any);
+
+        Classes.registerMultiple([
+            WindowType.SCROLLBAR_SLIDER_BUTTON_RIGHT, WindowType.SCROLLBAR_SLIDER_BUTTON_DOWN,
+            WindowType.SCROLLBAR_SLIDER_BUTTON_LEFT, WindowType.SCROLLBAR_SLIDER_BUTTON_UP,
+        ], ButtonController as any);
+
+        // ── Scrollable item grid ────────────────────────────────────
+        Classes.register(WindowType.SCROLLABLE_ITEMGRID_VERTICAL, ScrollableItemGridWindow as any);
     }
 
     /**

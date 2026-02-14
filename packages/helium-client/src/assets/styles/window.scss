@@ -1,0 +1,28 @@
+// ── IWindow Layer Renderer Styles ────────────────────────────────────
+// Styles for the AS3-compatible IWindow rendering system.
+// These windows are created by the engine and rendered via IWindowLayerRenderer.
+
+.hw-iwindow-layers {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+}
+
+.hw-iwindow-layer {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+}
+
+.hw-iwindow {
+	position: absolute;
+	overflow: hidden;
+	box-sizing: border-box;
+}
+
+.hw-caption {
+	display: block;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}

@@ -14,6 +14,10 @@ import type { IWindowContext } from '@core/window/IWindowContext';
 import type { IInputEventTracker } from '@core/window/IInputEventTracker';
 import type { IWindowContainer } from '@core/window/IWindowContainer';
 import { WindowContext } from '@core/window/WindowContext';
+import { Classes } from '@core/window/Classes';
+import { WindowType } from '@core/window/enum/WindowType';
+import { DesktopController } from '@core/window/components/DesktopController';
+import { WindowParser } from '@core/window/utils/WindowParser';
 import type { IContext } from '@core/runtime/IContext';
 import type { IAssetLibrary } from '@core/assets/IAssetLibrary';
 import type { IModalDialog } from './utils/IModalDialog';
@@ -219,13 +223,14 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
     {
         const context = this.getWindowContext(layer);
         const parser = context.getWindowParser();
+        const desktop = context.getDesktopWindow();
 
-        if(parser)
+        if(parser && desktop)
         {
-            return parser.parseAndConstruct(json as Record<string, unknown>, null!, null) as IWindow;
+            return parser.parseAndConstruct(json as Record<string, unknown>, desktop, null) as IWindow;
         }
 
-        throw new Error('Window parser not available');
+        throw new Error('Window parser or desktop not available');
     }
 
     /**
@@ -476,6 +481,9 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 
     /**
      * Initialize the 4 window context layers.
+     *
+     * Creates a WindowContext per layer, each with its own DesktopController
+     * root and WindowParser for JSON layout building.
      */
     private initContexts(): void
     {
@@ -483,17 +491,36 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 
         this._initialized = true;
 
+        Classes.init();
+
         const factory = this as unknown as { create: Function };
 
         for(let i = 0; i < HabboWindowManager.NUMBER_OF_CONTEXT_LAYERS; i++)
         {
             const context = new WindowContext(`layer_${ i }`, factory as any);
+
+            // Create desktop root for this layer
+            const desktop = new DesktopController(
+                `desktop_${ i }`,
+                WindowType.CONTAINER,
+                0,
+                0,
+                context,
+                { x: 0, y: 0, width: 0, height: 0 }
+            );
+
+            context.setDesktop(desktop);
+
+            // Create parser for JSON layout building
+            const parser = new WindowParser();
+            context.setParser(parser);
+
             this._windowContextArray.push(context);
         }
 
         this._defaultContext = this._windowContextArray[HabboWindowManager.DEFAULT_CONTEXT_LAYER_INDEX];
 
-        log.info(`Window manager initialized with ${ HabboWindowManager.NUMBER_OF_CONTEXT_LAYERS } context layers`);
+        log.info(`Window manager initialized with ${ HabboWindowManager.NUMBER_OF_CONTEXT_LAYERS } context layers (${ Classes.getRegisteredTypes().length } types registered)`);
     }
 
     /**

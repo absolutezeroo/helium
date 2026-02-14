@@ -1,46 +1,52 @@
-import {createStore, produce} from 'solid-js/store';
+import type {Accessor} from 'solid-js';
+import {createSignal} from 'solid-js';
 import type {IHabboWindowManager} from '@habbo/window/IHabboWindowManager';
-import {WindowManagerEvents} from '@habbo/window/IHabboWindowManager';
-import type {IWindowInstance} from '@habbo/window/IWindowInstance';
+import type {IWindow} from '@core/window/IWindow';
+import {WindowEvent} from '@core/window/events/WindowEvent';
 import {WindowContextLayer} from '@habbo/window/enum/WindowContextLayer';
 
 /**
- * Window store state structure.
+ * IWindow store state.
  *
- * Groups open windows by context layer for efficient rendering.
+ * Exposes the desktop IWindow for each of the 4 context layers,
+ * along with reactive signals that track child changes on each desktop.
  */
-export interface WindowStoreState
+export interface IWindowStoreState
 {
-	/** Windows indexed by layer */
-	layers: IWindowInstance[][];
+	/** Desktop IWindow per layer (index 0-3). */
+	desktops: (IWindow | null)[];
 
-	/** Whether the store has been initialized */
+	/** Reactive version counter per layer — increments on child add/remove. */
+	versions: Accessor<number>[];
+
+	/** Whether the store has been initialized. */
 	initialized: boolean;
 }
 
-function createInitialState(): WindowStoreState
+let _windowManager: IHabboWindowManager | null = null;
+let _desktops: (IWindow | null)[] = [];
+let _versionSetters: ((fn: (prev: number) => number) => void)[] = [];
+
+const _versions: Accessor<number>[] = [];
+const _versionSignals: ReturnType<typeof createSignal<number>>[] = [];
+
+for(let i = 0; i < WindowContextLayer.COUNT; i++)
 {
-	const layers: IWindowInstance[][] = [];
-
-	for(let i = 0; i < WindowContextLayer.COUNT; i++)
-	{
-		layers.push([]);
-	}
-
-	return {
-		layers,
-		initialized: false,
-	};
+	const [get, set] = createSignal(0);
+	_versionSignals.push([get, set]);
+	_versions.push(get);
+	_versionSetters.push(set);
 }
 
-const [windowState, setWindowState] = createStore<WindowStoreState>(createInitialState());
+const [initialized, setInitialized] = createSignal(false);
 
-let _windowManager: IHabboWindowManager | null = null;
+const _listeners: Map<number, { onAdd: Function; onRemove: Function }> = new Map();
 
 /**
- * Initialize the window store by connecting it to the engine's window manager.
+ * Initialize the IWindow store by connecting it to the engine's window manager.
  *
- * Listens to window lifecycle events and updates the SolidJS store reactively.
+ * Listens to child add/remove events on each layer's desktop to trigger
+ * reactive updates in the SolidJS rendering layer.
  *
  * @param windowManager - The engine's window manager instance
  */
@@ -48,92 +54,92 @@ export function initWindowStore(windowManager: IHabboWindowManager): void
 {
 	if(_windowManager)
 	{
-		disposeWindowStore();
+		disposeIWindowStore();
 	}
 
 	_windowManager = windowManager;
+	_desktops = [];
 
-	windowManager.windowEvents.on(WindowManagerEvents.WINDOW_OPEN, onWindowOpen);
-	windowManager.windowEvents.on(WindowManagerEvents.WINDOW_CLOSE, onWindowClose);
-	windowManager.windowEvents.on(WindowManagerEvents.WINDOW_UPDATE, onWindowUpdate);
-
-	setWindowState('initialized', true);
-}
-
-/**
- * Dispose of the window store and clean up event listeners.
- */
-export function disposeWindowStore(): void
-{
-	if(_windowManager)
+	for(let i = 0; i < WindowContextLayer.COUNT; i++)
 	{
-		_windowManager.windowEvents.off(WindowManagerEvents.WINDOW_OPEN, onWindowOpen);
-		_windowManager.windowEvents.off(WindowManagerEvents.WINDOW_CLOSE, onWindowClose);
-		_windowManager.windowEvents.off(WindowManagerEvents.WINDOW_UPDATE, onWindowUpdate);
-		_windowManager = null;
+		const desktop = windowManager.getDesktop(i);
+		_desktops.push(desktop);
+
+		if(desktop)
+		{
+			const layerIndex = i;
+
+			const onAdd = (): void =>
+			{
+				_versionSetters[layerIndex]((v: number) => v + 1);
+			};
+
+			const onRemove = (): void =>
+			{
+				_versionSetters[layerIndex]((v: number) => v + 1);
+			};
+
+			desktop.addEventListener(WindowEvent.WE_CHILD_ADDED, onAdd);
+			desktop.addEventListener(WindowEvent.WE_CHILD_REMOVED, onRemove);
+
+			_listeners.set(i, { onAdd, onRemove });
+		}
 	}
 
-	setWindowState(createInitialState());
-}
-
-function onWindowOpen(instance: IWindowInstance): void
-{
-	const layer = instance.layer;
-
-	if(layer < 0 || layer >= WindowContextLayer.COUNT) return;
-
-	setWindowState(produce((state) =>
-	{
-		state.layers[layer].push(instance);
-	}));
-}
-
-function onWindowClose(instance: IWindowInstance): void
-{
-	const layer = instance.layer;
-
-	if(layer < 0 || layer >= WindowContextLayer.COUNT) return;
-
-	setWindowState(produce((state) =>
-	{
-		const idx = state.layers[layer].findIndex((w) => w.id === instance.id);
-
-		if(idx >= 0)
-		{
-			state.layers[layer].splice(idx, 1);
-		}
-	}));
-}
-
-function onWindowUpdate(instance: IWindowInstance): void
-{
-	const layer = instance.layer;
-
-	if(layer < 0 || layer >= WindowContextLayer.COUNT) return;
-
-	setWindowState(produce((state) =>
-	{
-		const idx = state.layers[layer].findIndex((w) => w.id === instance.id);
-
-		if(idx >= 0)
-		{
-			state.layers[layer][idx] = instance;
-		}
-	}));
+	setInitialized(true);
 }
 
 /**
- * Get the window store state.
+ * Dispose of the IWindow store and clean up event listeners.
  */
-export function useWindowStore(): WindowStoreState
+export function disposeIWindowStore(): void
 {
-	return windowState;
+	for(const [layerIndex, entry] of _listeners)
+	{
+		const desktop = _desktops[layerIndex];
+
+		if(desktop && !desktop.disposed)
+		{
+			desktop.removeEventListener(WindowEvent.WE_CHILD_ADDED, entry.onAdd);
+			desktop.removeEventListener(WindowEvent.WE_CHILD_REMOVED, entry.onRemove);
+		}
+	}
+
+	_listeners.clear();
+	_desktops = [];
+	_windowManager = null;
+	setInitialized(false);
 }
 
 /**
- * Get the engine window manager instance.
+ * Get the desktop IWindow for a given layer.
+ *
+ * @param layer - The context layer index
+ * @returns The desktop IWindow or null
  */
-export function getWindowManager(): IHabboWindowManager | null
+export function getIWindowDesktop(layer: number): IWindow | null
 {
-	return _windowManager;
+	return _desktops[layer] ?? null;
+}
+
+/**
+ * Get the reactive version accessor for a layer.
+ *
+ * Reading this signal causes SolidJS to re-render when
+ * children are added or removed from the desktop.
+ *
+ * @param layer - The context layer index
+ * @returns The version accessor
+ */
+export function getIWindowVersion(layer: number): Accessor<number>
+{
+	return _versions[layer];
+}
+
+/**
+ * Whether the IWindow store has been initialized.
+ */
+export function isIWindowStoreInitialized(): Accessor<boolean>
+{
+	return initialized;
 }
