@@ -9,6 +9,14 @@ import type {IStaticBitmapWrapperWindow} from '@core/window/components/IStaticBi
 import type {IBitmapWrapperWindow} from '@core/window/components/IBitmapWrapperWindow';
 import type {IAssetReceiver} from '@core/window/IAssetReceiver';
 import {HabboToolbarIconEnum} from './HabboToolbarIconEnum';
+import {Motion} from '@core/window/motion/Motion';
+import {Motions} from '@core/window/motion/Motions';
+import {Queue} from '@core/window/motion/Queue';
+import {Wait} from '@core/window/motion/Wait';
+import {EaseOut} from '@core/window/motion/EaseOut';
+import {JumpBy} from '@core/window/motion/JumpBy';
+import {DropBounce} from '@core/window/motion/DropBounce';
+import {Dispose} from '@core/window/motion/Dispose';
 import {Logger} from '@core/utils/Logger';
 
 const log = Logger.getLogger('BottomBarLeft');
@@ -529,6 +537,112 @@ export class BottomBarLeft
 	}
 
 	/**
+	 * Animate a bitmap from a source position to a toolbar icon.
+	 *
+	 * Creates a temporary BitmapWrapper window at the source position,
+	 * adds it to the overlay desktop layer, then animates it toward the
+	 * target icon with a JumpBy + EaseOut motion. When the animation
+	 * arrives, the target icon plays a DropBounce.
+	 *
+	 * @param iconId The target icon identifier (e.g. 'HTIE_ICON_INVENTORY')
+	 * @param bitmap The bitmap to animate (ownership is transferred)
+	 * @param startX Source X position in global coordinates
+	 * @param startY Source Y position in global coordinates
+	 * @returns The fly motion, or null if the icon was not found
+	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as animateToIcon()
+	 */
+	public animateToIcon(iconId: string, bitmap: ImageBitmap | null, startX: number, startY: number): Motion | null
+	{
+		if(!this._windowManager || !this._window) return null;
+
+		const defaultSize = 20;
+		const bitmapWidth = bitmap ? bitmap.width : defaultSize;
+		const bitmapHeight = bitmap ? bitmap.height : defaultSize;
+
+		// Create a temporary BitmapWrapper window at the source position
+		const transitionWindow = this._windowManager.create(
+			'ToolBarTransition',
+			21, // BITMAP_WRAPPER type
+			0,
+			0,
+			{ x: startX, y: startY, width: bitmapWidth, height: bitmapHeight }
+		) as unknown as IBitmapWrapperWindow;
+
+		if(bitmap)
+		{
+			transitionWindow.bitmap = bitmap;
+			transitionWindow.disposesBitmap = true;
+		}
+
+		// Add to the overlay desktop layer (layer 2)
+		const overlayDesktop = this._windowManager.getDesktop(2);
+
+		if(overlayDesktop)
+		{
+			(overlayDesktop as unknown as IWindowContainer).addChild(transitionWindow as unknown as IWindow);
+		}
+
+		// Find the target icon child window
+		const iconChildName = this.getIconChildName(iconId);
+		let targetWindow: IWindow | null = null;
+
+		if(iconChildName)
+		{
+			targetWindow = (this._window as IWindowContainer).findChildByName(iconChildName);
+		}
+
+		if(!targetWindow)
+		{
+			(transitionWindow as unknown as IWindow).dispose();
+			return null;
+		}
+
+		// Calculate positions
+		const sourceRect = { x: 0, y: 0, width: 0, height: 0 };
+		(transitionWindow as unknown as IWindow).getGlobalRectangle(sourceRect);
+
+		const targetRect = { x: 0, y: 0, width: 0, height: 0 };
+		targetWindow.getGlobalRectangle(targetRect);
+
+		const dx = sourceRect.x - targetRect.x;
+		const dy = sourceRect.y - targetRect.y;
+		const distance = Math.sqrt(dx * dx + dy * dy);
+
+		// Duration decreases with distance (max ~500ms)
+		const duration = 500 - Math.abs(1 / distance * 100 * 500 * 0.5);
+		const bounceOffset = 20;
+
+		// DropBounce on the target icon when the fly animation arrives
+		const bounceTag = 'ToolBarBouncing[ ' + iconChildName + ' ]';
+
+		if(!Motions.getMotionByTag(bounceTag))
+		{
+			Motions.runMotion(
+				new Queue(new Wait(duration + 8), new DropBounce(targetWindow, 400, 12))
+			).tag = bounceTag;
+		}
+
+		// JumpBy fly animation from source to target, then dispose the temp window
+		const transitionIWindow = transitionWindow as unknown as IWindow;
+		const flyMotion: Motion = new Queue(
+			new EaseOut(
+				new JumpBy(
+					transitionIWindow,
+					duration,
+					targetRect.x - sourceRect.x + bounceOffset,
+					targetRect.y - sourceRect.y,
+					100,
+					1
+				),
+				1
+			),
+			new Dispose(transitionIWindow)
+		);
+
+		return Motions.runMotion(flyMotion);
+	}
+
+	/**
 	 * Map an icon ID to its child window name in the toolbar layout
 	 *
 	 * Delegates to HabboToolbarIconEnum.getIconName() which returns
@@ -652,12 +766,20 @@ export class BottomBarLeft
 	{
 		if(!iconBmp) return;
 
-		// IStaticBitmapWrapperWindow — set assetUri = name + suffix
+		// IStaticBitmapWrapperWindow — swap between _normal and _hover variants
 		const sbmp = iconBmp as unknown as IStaticBitmapWrapperWindow;
 
 		if(typeof sbmp.assetUri === 'string')
 		{
-			sbmp.assetUri = iconBmp.name + suffix;
+			// Only swap if the current assetUri already has a _normal/_hover suffix.
+			// Assets loaded from the XML variable (e.g. "bottom_bar_home") have no
+			// suffix and no hover variants — skip the swap for those.
+			if(sbmp.assetUri.endsWith('_normal') || sbmp.assetUri.endsWith('_hover'))
+			{
+				const base = sbmp.assetUri.replace(/_(?:normal|hover)$/, '');
+				sbmp.assetUri = base + suffix;
+			}
+
 			return;
 		}
 

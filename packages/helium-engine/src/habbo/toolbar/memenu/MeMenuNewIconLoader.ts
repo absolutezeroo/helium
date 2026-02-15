@@ -1,4 +1,5 @@
 import type {HabboToolbar} from '../HabboToolbar';
+import type {IAvatarImageListener} from '@habbo/avatar/IAvatarImageListener';
 import {Logger} from '@core/utils/Logger';
 
 const log = Logger.getLogger('MeMenuNewIconLoader');
@@ -6,20 +7,22 @@ const log = Logger.getLogger('MeMenuNewIconLoader');
 /**
  * Icon loading for the new me menu variant
  *
- * In AS3 this implements IAvatarImageListener, listens for UserObjectEvent
- * and FigureUpdateEvent to update the me-menu avatar icon. Creates cropped
- * avatar images and sets them as the toolbar icon bitmap.
- * In Helium, avatar rendering is handled by the UI layer.
+ * Implements IAvatarImageListener. Listens for UserObjectEvent and
+ * FigureUpdateEvent to update the me-menu avatar icon. Creates cropped
+ * avatar images via AvatarRenderManager and sets them as the toolbar
+ * icon bitmap.
  *
  * @see sources/win63_version/habbo/toolbar/memenu/MeMenuNewIconLoader.as
  */
-export class MeMenuNewIconLoader
+export class MeMenuNewIconLoader implements IAvatarImageListener
 {
 	private static readonly MAX_ICON_HEIGHT: number = 50;
 	private static readonly HEAD_MARGIN: number = 3;
 
 	private _toolbar: HabboToolbar | null;
 	private _currentFigure: string = '';
+	private _fullBitmap: ImageBitmap | null = null;
+	private _headBitmap: ImageBitmap | null = null;
 
 	constructor(toolbar: HabboToolbar)
 	{
@@ -49,9 +52,10 @@ export class MeMenuNewIconLoader
 	}
 
 	/**
-	 * Called when the avatar image becomes ready
+	 * Called when the avatar image becomes ready (IAvatarImageListener)
 	 *
 	 * @param _key The avatar image key
+	 * @see sources/win63_version/habbo/toolbar/memenu/MeMenuNewIconLoader.as avatarImageReady()
 	 */
 	public avatarImageReady(_key: string): void
 	{
@@ -81,27 +85,170 @@ export class MeMenuNewIconLoader
 		this.setMeMenuToolbarIcon(figure);
 	}
 
+	/**
+	 * Render the avatar and set it as the toolbar icon bitmap.
+	 *
+	 * Uses AvatarRenderManager to create a cropped avatar image,
+	 * converts it to ImageBitmap, and passes it to toolbar.setIconBitmap().
+	 * If the avatar is taller than MAX_ICON_HEIGHT, crops from the top.
+	 *
+	 * @param figure Optional figure string override
+	 * @see sources/win63_version/habbo/toolbar/memenu/MeMenuNewIconLoader.as setMeMenuToolbarIcon()
+	 */
 	private setMeMenuToolbarIcon(figure?: string): void
 	{
 		if(!this._toolbar) return;
 
+		const avatarRenderManager = this._toolbar.avatarRenderManager;
 		const currentFigure = figure ?? this._toolbar.sessionDataManager?.figure ?? '';
 
-		if(currentFigure === this._currentFigure) return;
+		if(!currentFigure) return;
 
-		this._currentFigure = currentFigure;
+		let fullBitmap: ImageBitmap | null = null;
+		let headBitmap: ImageBitmap | null = null;
 
-		// In AS3: creates avatar image, crops it, and calls toolbar.setIconBitmap
-		// In Helium, the UI layer renders the avatar based on the figure string
-		this._toolbar.setIconBitmap('HTIE_ICON_MEMENU', this._currentFigure);
+		if(avatarRenderManager)
+		{
+			if(currentFigure !== this._currentFigure)
+			{
+				const gender = this._toolbar.sessionDataManager?.gender ?? '';
+				const avatarImage = avatarRenderManager.createAvatarImage(currentFigure, 'h', gender, this, null);
+
+				if(avatarImage)
+				{
+					avatarImage.setDirection('full', 2);
+
+					// Get cropped full and head images (returns Texture with OffscreenCanvas source)
+					const fullTexture = avatarImage.getCroppedImage('full');
+					const headTexture = avatarImage.getCroppedImage('head');
+
+					if(fullTexture?.source?.resource instanceof OffscreenCanvas)
+					{
+						fullBitmap = this.offscreenToImageBitmap(fullTexture.source.resource);
+					}
+
+					if(headTexture?.source?.resource instanceof OffscreenCanvas)
+					{
+						headBitmap = this.offscreenToImageBitmap(headTexture.source.resource);
+					}
+
+					avatarImage.dispose();
+				}
+
+				this._currentFigure = currentFigure;
+
+				if(this._fullBitmap)
+				{
+					this._fullBitmap.close();
+				}
+
+				this._fullBitmap = fullBitmap;
+
+				if(this._headBitmap)
+				{
+					this._headBitmap.close();
+				}
+
+				this._headBitmap = headBitmap;
+			}
+			else
+			{
+				fullBitmap = this._fullBitmap;
+				headBitmap = this._headBitmap;
+			}
+		}
+
+		if(!this._toolbar) return;
+
+		let iconBitmap: ImageBitmap | null = null;
+
+		if(fullBitmap && headBitmap)
+		{
+			if(fullBitmap.height > MeMenuNewIconLoader.MAX_ICON_HEIGHT)
+			{
+				// Crop to MAX_ICON_HEIGHT from the top, adjusting for head
+				const cropped = new OffscreenCanvas(fullBitmap.width, MeMenuNewIconLoader.MAX_ICON_HEIGHT);
+				const ctx = cropped.getContext('2d')!;
+
+				let sy = 0;
+
+				if(headBitmap.height > MeMenuNewIconLoader.MAX_ICON_HEIGHT - MeMenuNewIconLoader.HEAD_MARGIN)
+				{
+					sy = headBitmap.height - MeMenuNewIconLoader.MAX_ICON_HEIGHT + MeMenuNewIconLoader.HEAD_MARGIN;
+				}
+
+				ctx.drawImage(
+					fullBitmap,
+					0, sy, fullBitmap.width, MeMenuNewIconLoader.MAX_ICON_HEIGHT,
+					0, 0, fullBitmap.width, MeMenuNewIconLoader.MAX_ICON_HEIGHT
+				);
+
+				iconBitmap = this.offscreenToImageBitmap(cropped);
+			}
+			else
+			{
+				iconBitmap = this.cloneImageBitmap(fullBitmap);
+			}
+		}
+
+		this._toolbar.setIconBitmap('HTIE_ICON_MEMENU', iconBitmap);
+	}
+
+	/**
+	 * Synchronously create an ImageBitmap from an OffscreenCanvas.
+	 *
+	 * Uses transferToImageBitmap() for zero-copy transfer.
+	 */
+	private offscreenToImageBitmap(canvas: OffscreenCanvas): ImageBitmap | null
+	{
+		try
+		{
+			return canvas.transferToImageBitmap();
+		}
+		catch
+		{
+			return null;
+		}
+	}
+
+	/**
+	 * Clone an ImageBitmap by drawing it to an OffscreenCanvas and transferring.
+	 */
+	private cloneImageBitmap(bitmap: ImageBitmap): ImageBitmap | null
+	{
+		try
+		{
+			const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
+			const ctx = canvas.getContext('2d')!;
+			ctx.drawImage(bitmap, 0, 0);
+			return canvas.transferToImageBitmap();
+		}
+		catch
+		{
+			return null;
+		}
 	}
 
 	/**
 	 * Dispose of this icon loader
+	 *
+	 * @see sources/win63_version/habbo/toolbar/memenu/MeMenuNewIconLoader.as dispose()
 	 */
 	public dispose(): void
 	{
 		if(this.disposed) return;
+
+		if(this._fullBitmap)
+		{
+			this._fullBitmap.close();
+			this._fullBitmap = null;
+		}
+
+		if(this._headBitmap)
+		{
+			this._headBitmap.close();
+			this._headBitmap = null;
+		}
 
 		// In AS3: removes UserObjectEvent and FigureUpdateEvent handlers
 		this._toolbar = null;

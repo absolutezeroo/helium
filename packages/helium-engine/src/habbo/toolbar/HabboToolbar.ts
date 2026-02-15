@@ -15,9 +15,12 @@ import {HabboToolbarEvent} from './events/HabboToolbarEvent';
 import {HabboToolbarEnum} from './HabboToolbarEnum';
 import {HabboToolbarIconEnum} from './HabboToolbarIconEnum';
 import {EventLogMessageComposer} from '../communication/messages/outgoing/tracking/EventLogMessageComposer';
+import type {Motion} from '@core/window/motion/Motion';
 import {Logger} from '@core/utils/Logger';
 import {IID_HabboConfigurationManager} from "@iid/IIDHabboConfigurationManager";
 import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
+import {IID_AvatarRenderManager} from "@iid/IIDAvatarRenderManager";
+import type {IAvatarRenderManager} from '../avatar/IAvatarRenderManager';
 
 const log = Logger.getLogger('HabboToolbar');
 
@@ -48,6 +51,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	private _communication: IHabboCommunicationManager | null = null;
 	private _windowManager: IHabboWindowManager | null = null;
 	private _roomSessionManager: IRoomSessionManager | null = null;
+	private _avatarRenderManager: IAvatarRenderManager | null = null;
 	private _messageEvents: IMessageEvent[] = [];
 	private _extensionsInitialized: boolean = false;
 
@@ -147,6 +151,16 @@ export class HabboToolbar extends Component implements IHabboToolbar
 		return this._communication;
 	}
 
+	/**
+	 * The avatar render manager
+	 *
+	 * @see sources/win63_version/habbo/toolbar/HabboToolbar.as avatarRenderManager
+	 */
+	get avatarRenderManager(): IAvatarRenderManager | null
+	{
+		return this._avatarRenderManager;
+	}
+
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	protected override get dependencies(): Array<ComponentDependency<any>>
 	{
@@ -193,6 +207,14 @@ export class HabboToolbar extends Component implements IHabboToolbar
 				(manager: IRoomSessionManager | null) =>
 				{
 					this._roomSessionManager = manager;
+				},
+				false
+			),
+			new ComponentDependency(
+				IID_AvatarRenderManager,
+				(manager: IAvatarRenderManager | null) =>
+				{
+					this._avatarRenderManager = manager;
 				},
 				false
 			),
@@ -348,6 +370,36 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	}
 
 	/**
+	 * Animate a bitmap from a source position to a toolbar icon.
+	 *
+	 * Creates a temporary floating bitmap that flies from (startX, startY) to
+	 * the target icon with a jump arc, then bounces the icon on arrival.
+	 * Used when purchasing catalog items (fly to inventory) or picking up furni.
+	 *
+	 * @param iconId Target icon identifier (e.g. 'HTIE_ICON_INVENTORY')
+	 * @param bitmap The bitmap to animate (ownership is transferred)
+	 * @param startX Source X position in global coordinates
+	 * @param startY Source Y position in global coordinates
+	 * @returns The fly motion, or null if the icon was not found
+	 * @see sources/win63_version/habbo/toolbar/HabboToolbar.as createTransitionToIcon()
+	 */
+	createTransitionToIcon(iconId: string, bitmap: ImageBitmap | null, startX: number, startY: number): Motion | null
+	{
+		if(this._bottomBarLeft && !this._bottomBarLeft.disposed)
+		{
+			return this._bottomBarLeft.animateToIcon(iconId, bitmap, startX, startY);
+		}
+
+		// No toolbar view — dispose the bitmap to avoid leaks
+		if(bitmap)
+		{
+			bitmap.close();
+		}
+
+		return null;
+	}
+
+	/**
 	 * Get the bounding rectangle of the toolbar
 	 *
 	 * Returns the BottomBarLeft window's rectangle.
@@ -453,6 +505,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 		this._windowManager = null;
 		this._sessionDataManager = null;
 		this._roomSessionManager = null;
+		this._avatarRenderManager = null;
 		this._extensionsInitialized = false;
 
 		super.dispose();

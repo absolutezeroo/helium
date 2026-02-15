@@ -8,6 +8,7 @@ export { EaseRate } from './EaseRate';
 export { Interval } from './Interval';
 export { JumpBy } from './JumpBy';
 export { Motion } from './Motion';
+export { Motions } from './Motions';
 export { MoveBy } from './MoveBy';
 export { MoveTo } from './MoveTo';
 export { Queue } from './Queue';

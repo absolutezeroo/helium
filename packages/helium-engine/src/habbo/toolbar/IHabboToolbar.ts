@@ -1,4 +1,5 @@
 import type {EventEmitter} from 'eventemitter3';
+import type {Motion} from '@core/window/motion/Motion';
 import type {IExtensionView} from './IExtensionView';
 
 /**
@@ -74,4 +75,19 @@ export interface IHabboToolbar
 	 * @param iconName Icon name to toggle
 	 */
 	toggleWindowVisibility(iconName: string): void;
+
+	/**
+	 * Animate a bitmap from a source position to a toolbar icon.
+	 *
+	 * Creates a temporary floating bitmap that flies from (startX, startY)
+	 * to the target icon with a jump arc, then bounces the icon on arrival.
+	 *
+	 * @param iconId Target icon identifier (e.g. 'HTIE_ICON_INVENTORY')
+	 * @param bitmap The bitmap to animate (ownership is transferred)
+	 * @param startX Source X position in global coordinates
+	 * @param startY Source Y position in global coordinates
+	 * @returns The fly motion, or null if the icon was not found
+	 * @see sources/win63_version/habbo/toolbar/IHabboToolbar.as createTransitionToIcon()
+	 */
+	createTransitionToIcon(iconId: string, bitmap: ImageBitmap | null, startX: number, startY: number): Motion | null;
 }
