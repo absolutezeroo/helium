@@ -1,0 +1,26 @@
+{
+  "name": "pet_breeding_pet_preview",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_pet_breeding_pet_preview.xml",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "bitmap",
+        "typeId": 21,
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "29",
+          "height": "25",
+          "params": "0",
+          "style": "100"
+        },
+        "children": []
+      }
+    ]
+  },
+  "vars": {},
+  "filters": []
+}

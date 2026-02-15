@@ -1,6 +1,6 @@
 {
   "name": "element_bodytext",
-  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_element_subcaption.xml",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_element_bodytext.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -13,7 +13,7 @@
           "x": "0",
           "y": "0",
           "width": "250",
-          "height": "15",
+          "height": "16",
           "params": "144",
           "style": "100",
           "caption": "Desc PH",
@@ -22,7 +22,6 @@
         "children": [],
         "vars": {
           "auto_size": "left",
-          "text_style": "il_heading_3",
           "mouse_wheel_enabled": false,
           "multiline": true,
           "word_wrap": true,

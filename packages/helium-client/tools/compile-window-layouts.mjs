@@ -478,9 +478,12 @@ function compileLayout(xml, sourcePath, outDir)
 
     windowElements.forEach((element, index) =>
     {
-        const layoutName = (layoutElements[0] && layoutElements[0].getAttribute('name'))
-            || element.getAttribute('name')
-            || path.basename(sourcePath, '.xml');
+        // Derive layout name from filename, stripping the module prefix.
+        // e.g. "HabboCatalogCom_bundles_info_item.xml" → "bundles_info_item"
+        //      "HabboToolbarCom_bottom_bar_left.xml"   → "bottom_bar_left"
+        const basename = path.basename(sourcePath, path.extname(sourcePath));
+        const underscoreIdx = basename.indexOf('_');
+        const layoutName = underscoreIdx >= 0 ? basename.substring(underscoreIdx + 1) : basename;
 
         layouts.push({
             name: layoutName + (windowElements.length > 1 ? `#${index}` : ''),

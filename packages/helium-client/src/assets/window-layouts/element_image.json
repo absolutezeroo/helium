@@ -1,0 +1,30 @@
+{
+  "name": "element_image",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_element_image.xml",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "static_bitmap",
+        "typeId": 23,
+        "attributes": {
+          "x": "4",
+          "y": "3",
+          "width": "38",
+          "height": "38",
+          "params": "16",
+          "style": "100",
+          "name": "image"
+        },
+        "children": [],
+        "vars": {
+          "fit_size_to_contents": true
+        }
+      }
+    ]
+  },
+  "vars": {},
+  "filters": []
+}

@@ -1,6 +1,6 @@
 {
   "name": "club_buy_info_item",
-  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_club_buy_vip_upgrade_item.xml",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_club_buy_info_item.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -13,10 +13,10 @@
           "x": "0",
           "y": "0",
           "width": "151",
-          "height": "67",
+          "height": "139",
           "params": "16",
           "style": "2",
-          "color": "0x0969696"
+          "color": "0x09b9448"
         },
         "children": [
           {
@@ -26,10 +26,10 @@
               "x": "1",
               "y": "1",
               "width": "149",
-              "height": "65",
+              "height": "137",
               "params": "16",
               "style": "2",
-              "color": "0x0dfdfdf"
+              "color": "0x0ebeada"
             },
             "children": []
           },
@@ -43,7 +43,7 @@
               "height": "25",
               "params": "16",
               "style": "2",
-              "color": "0x0969696"
+              "color": "0x09b9448"
             },
             "children": [
               {
@@ -57,7 +57,7 @@
                   "params": "786448",
                   "style": "3",
                   "name": "item_header",
-                  "caption": "catalog.club.item.header"
+                  "caption": "${catalog.club.info.header}"
                 },
                 "children": [],
                 "vars": {
@@ -76,36 +76,21 @@
             "attributes": {
               "x": "9",
               "y": "44",
-              "width": "101",
-              "height": "17",
+              "width": "134",
+              "height": "30",
               "params": "16",
               "style": "3",
-              "name": "item_price",
-              "caption": "catalog.club.price"
+              "name": "info_content",
+              "caption": "${catalog.club.info.content}"
             },
             "children": [],
             "vars": {
               "auto_size": "left",
               "mouse_wheel_enabled": false,
+              "word_wrap": true,
               "spacing": 0,
               "leading": 0
             }
-          },
-          {
-            "tag": "button",
-            "typeId": 60,
-            "attributes": {
-              "x": "-8",
-              "y": "38",
-              "width": "151",
-              "height": "22",
-              "params": "393233",
-              "style": "3",
-              "name": "item_buy",
-              "caption": "${catalog.club.button.buy}",
-              "width_min": "40"
-            },
-            "children": []
           }
         ]
       }

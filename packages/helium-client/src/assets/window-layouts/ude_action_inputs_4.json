@@ -1,0 +1,551 @@
+{
+  "name": "ude_action_inputs_4",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboUserDefinedRoomEventsCom_ude_action_inputs_4.xml",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "typeId": 4,
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "228",
+          "height": "181",
+          "params": "17",
+          "style": "0",
+          "name": "cont",
+          "color": "0xff3d3d3d",
+          "background": "true"
+        },
+        "children": [
+          {
+            "tag": "container",
+            "typeId": 4,
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "228",
+              "height": "1",
+              "params": "16",
+              "style": "0",
+              "name": "ruler",
+              "color": "0xFF232323",
+              "background": "true"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "typeId": 10,
+            "attributes": {
+              "x": "5",
+              "y": "5",
+              "width": "218",
+              "height": "13",
+              "params": "786432",
+              "style": "0",
+              "name": "desc_txt",
+              "caption": "${wiredfurni.params.movefurni}",
+              "color": "0xFFffffff"
+            },
+            "children": [],
+            "vars": {
+              "font_face": "Volter Bold",
+              "font_size": 9,
+              "text_color": 16777215,
+              "embed_fonts": true,
+              "mouse_wheel_enabled": true,
+              "word_wrap": true
+            }
+          },
+          {
+            "tag": "selector",
+            "typeId": 42,
+            "attributes": {
+              "x": "5",
+              "y": "21",
+              "width": "218",
+              "height": "57",
+              "params": "17",
+              "style": "0",
+              "name": "move_selector"
+            },
+            "children": [
+              {
+                "tag": "radiobutton",
+                "typeId": 71,
+                "attributes": {
+                  "x": "0",
+                  "y": "0",
+                  "width": "20",
+                  "height": "20",
+                  "params": "17",
+                  "style": "1",
+                  "id": "0",
+                  "name": "move_0_radio"
+                },
+                "children": []
+              },
+              {
+                "tag": "text",
+                "typeId": 10,
+                "attributes": {
+                  "x": "20",
+                  "y": "0",
+                  "width": "190",
+                  "height": "13",
+                  "params": "0",
+                  "style": "0",
+                  "caption": "${wiredfurni.params.movefurni.0}"
+                },
+                "children": [],
+                "vars": {
+                  "font_face": "Volter",
+                  "font_size": 9,
+                  "text_color": 16777215,
+                  "embed_fonts": true,
+                  "mouse_wheel_enabled": true
+                }
+              },
+              {
+                "tag": "radiobutton",
+                "typeId": 71,
+                "attributes": {
+                  "x": "0",
+                  "y": "20",
+                  "width": "20",
+                  "height": "20",
+                  "params": "17",
+                  "style": "1",
+                  "id": "4",
+                  "name": "move_4_radio"
+                },
+                "children": []
+              },
+              {
+                "tag": "bitmap",
+                "typeId": 21,
+                "attributes": {
+                  "x": "17",
+                  "y": "20",
+                  "width": "15",
+                  "height": "15",
+                  "params": "17",
+                  "style": "0",
+                  "name": "move_0"
+                },
+                "children": []
+              },
+              {
+                "tag": "radiobutton",
+                "typeId": 71,
+                "attributes": {
+                  "x": "55",
+                  "y": "20",
+                  "width": "20",
+                  "height": "20",
+                  "params": "17",
+                  "style": "1",
+                  "id": "5",
+                  "name": "move_5_radio"
+                },
+                "children": []
+              },
+              {
+                "tag": "bitmap",
+                "typeId": 21,
+                "attributes": {
+                  "x": "72",
+                  "y": "20",
+                  "width": "15",
+                  "height": "15",
+                  "params": "17",
+                  "style": "0",
+                  "name": "move_2"
+                },
+                "children": []
+              },
+              {
+                "tag": "radiobutton",
+                "typeId": 71,
+                "attributes": {
+                  "x": "110",
+                  "y": "20",
+                  "width": "20",
+                  "height": "20",
+                  "params": "17",
+                  "style": "1",
+                  "id": "6",
+                  "name": "move_6_radio"
+                },
+                "children": []
+              },
+              {
+                "tag": "bitmap",
+                "typeId": 21,
+                "attributes": {
+                  "x": "127",
+                  "y": "20",
+                  "width": "15",
+                  "height": "15",
+                  "params": "17",
+                  "style": "0",
+                  "name": "move_4"
+                },
+                "children": []
+              },
+              {
+                "tag": "radiobutton",
+                "typeId": 71,
+                "attributes": {
+                  "x": "165",
+                  "y": "20",
+                  "width": "20",
+                  "height": "20",
+                  "params": "17",
+                  "style": "1",
+                  "id": "7",
+                  "name": "move_7_radio"
+                },
+                "children": []
+              },
+              {
+                "tag": "bitmap",
+                "typeId": 21,
+                "attributes": {
+                  "x": "182",
+                  "y": "20",
+                  "width": "15",
+                  "height": "15",
+                  "params": "17",
+                  "style": "0",
+                  "name": "move_6"
+                },
+                "children": []
+              },
+              {
+                "tag": "radiobutton",
+                "typeId": 71,
+                "attributes": {
+                  "x": "0",
+                  "y": "40",
+                  "width": "20",
+                  "height": "20",
+                  "params": "17",
+                  "style": "1",
+                  "id": "2",
+                  "name": "move_2_radio"
+                },
+                "children": []
+              },
+              {
+                "tag": "bitmap",
+                "typeId": 21,
+                "attributes": {
+                  "x": "17",
+                  "y": "40",
+                  "width": "15",
+                  "height": "15",
+                  "params": "17",
+                  "style": "0",
+                  "name": "move_diag"
+                },
+                "children": []
+              },
+              {
+                "tag": "radiobutton",
+                "typeId": 71,
+                "attributes": {
+                  "x": "55",
+                  "y": "40",
+                  "width": "20",
+                  "height": "20",
+                  "params": "17",
+                  "style": "1",
+                  "id": "3",
+                  "name": "move_3_radio"
+                },
+                "children": []
+              },
+              {
+                "tag": "bitmap",
+                "typeId": 21,
+                "attributes": {
+                  "x": "72",
+                  "y": "40",
+                  "width": "15",
+                  "height": "15",
+                  "params": "17",
+                  "style": "0",
+                  "name": "move_vrt"
+                },
+                "children": []
+              },
+              {
+                "tag": "radiobutton",
+                "typeId": 71,
+                "attributes": {
+                  "x": "110",
+                  "y": "40",
+                  "width": "20",
+                  "height": "20",
+                  "params": "17",
+                  "style": "1",
+                  "id": "1",
+                  "name": "move_1_radio"
+                },
+                "children": []
+              },
+              {
+                "tag": "bitmap",
+                "typeId": 21,
+                "attributes": {
+                  "x": "127",
+                  "y": "40",
+                  "width": "15",
+                  "height": "15",
+                  "params": "17",
+                  "style": "0",
+                  "name": "move_rnd"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "container",
+            "typeId": 4,
+            "attributes": {
+              "x": "0",
+              "y": "82",
+              "width": "228",
+              "height": "1",
+              "params": "16",
+              "style": "0",
+              "name": "ruler",
+              "color": "0xFF232323",
+              "background": "true"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "typeId": 10,
+            "attributes": {
+              "x": "5",
+              "y": "87",
+              "width": "218",
+              "height": "13",
+              "params": "786432",
+              "style": "0",
+              "name": "desc_txt",
+              "caption": "${wiredfurni.params.rotatefurni}",
+              "color": "0xFFffffff"
+            },
+            "children": [],
+            "vars": {
+              "font_face": "Volter Bold",
+              "font_size": 9,
+              "text_color": 16777215,
+              "embed_fonts": true,
+              "mouse_wheel_enabled": true,
+              "word_wrap": true
+            }
+          },
+          {
+            "tag": "selector",
+            "typeId": 42,
+            "attributes": {
+              "x": "5",
+              "y": "103",
+              "width": "218",
+              "height": "80",
+              "params": "17",
+              "style": "0",
+              "name": "rotate_selector"
+            },
+            "children": [
+              {
+                "tag": "radiobutton",
+                "typeId": 71,
+                "attributes": {
+                  "x": "0",
+                  "y": "0",
+                  "width": "20",
+                  "height": "20",
+                  "params": "17",
+                  "style": "1",
+                  "id": "0",
+                  "name": "rotate_0_radio"
+                },
+                "children": []
+              },
+              {
+                "tag": "text",
+                "typeId": 10,
+                "attributes": {
+                  "x": "20",
+                  "y": "0",
+                  "width": "190",
+                  "height": "13",
+                  "params": "0",
+                  "style": "0",
+                  "caption": "${wiredfurni.params.rotatefurni.0}"
+                },
+                "children": [],
+                "vars": {
+                  "font_face": "Volter",
+                  "font_size": 9,
+                  "text_color": 16777215,
+                  "embed_fonts": true,
+                  "mouse_wheel_enabled": true
+                }
+              },
+              {
+                "tag": "radiobutton",
+                "typeId": 71,
+                "attributes": {
+                  "x": "0",
+                  "y": "20",
+                  "width": "20",
+                  "height": "20",
+                  "params": "17",
+                  "style": "1",
+                  "id": "1",
+                  "name": "rotate_1_radio"
+                },
+                "children": []
+              },
+              {
+                "tag": "bitmap",
+                "typeId": 21,
+                "attributes": {
+                  "x": "20",
+                  "y": "21",
+                  "width": "15",
+                  "height": "15",
+                  "params": "17",
+                  "style": "0",
+                  "name": "rotate_cw"
+                },
+                "children": []
+              },
+              {
+                "tag": "text",
+                "typeId": 10,
+                "attributes": {
+                  "x": "40",
+                  "y": "20",
+                  "width": "190",
+                  "height": "13",
+                  "params": "0",
+                  "style": "0",
+                  "caption": "${wiredfurni.params.rotatefurni.1}"
+                },
+                "children": [],
+                "vars": {
+                  "font_face": "Volter",
+                  "font_size": 9,
+                  "text_color": 16777215,
+                  "embed_fonts": true,
+                  "mouse_wheel_enabled": true
+                }
+              },
+              {
+                "tag": "radiobutton",
+                "typeId": 71,
+                "attributes": {
+                  "x": "0",
+                  "y": "40",
+                  "width": "20",
+                  "height": "20",
+                  "params": "17",
+                  "style": "1",
+                  "id": "2",
+                  "name": "rotate_2_radio"
+                },
+                "children": []
+              },
+              {
+                "tag": "bitmap",
+                "typeId": 21,
+                "attributes": {
+                  "x": "20",
+                  "y": "41",
+                  "width": "15",
+                  "height": "15",
+                  "params": "17",
+                  "style": "0",
+                  "name": "rotate_ccw"
+                },
+                "children": []
+              },
+              {
+                "tag": "text",
+                "typeId": 10,
+                "attributes": {
+                  "x": "40",
+                  "y": "40",
+                  "width": "190",
+                  "height": "13",
+                  "params": "0",
+                  "style": "0",
+                  "caption": "${wiredfurni.params.rotatefurni.2}"
+                },
+                "children": [],
+                "vars": {
+                  "font_face": "Volter",
+                  "font_size": 9,
+                  "text_color": 16777215,
+                  "embed_fonts": true,
+                  "mouse_wheel_enabled": true
+                }
+              },
+              {
+                "tag": "radiobutton",
+                "typeId": 71,
+                "attributes": {
+                  "x": "0",
+                  "y": "60",
+                  "width": "20",
+                  "height": "20",
+                  "params": "17",
+                  "style": "1",
+                  "id": "3",
+                  "name": "rotate_3_radio"
+                },
+                "children": []
+              },
+              {
+                "tag": "text",
+                "typeId": 10,
+                "attributes": {
+                  "x": "20",
+                  "y": "60",
+                  "width": "190",
+                  "height": "13",
+                  "params": "0",
+                  "style": "0",
+                  "caption": "${wiredfurni.params.rotatefurni.3}"
+                },
+                "children": [],
+                "vars": {
+                  "font_face": "Volter",
+                  "font_size": 9,
+                  "text_color": 16777215,
+                  "embed_fonts": true,
+                  "mouse_wheel_enabled": true
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {},
+  "filters": []
+}

@@ -1,31 +1,57 @@
 {
   "name": "illumina_border",
-  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_updating_timestamp.xml",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_illumina_border.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
     "attributes": {},
     "children": [
       {
-        "tag": "text",
-        "typeId": 10,
+        "tag": "container",
+        "typeId": 4,
         "attributes": {
           "x": "0",
           "y": "0",
-          "width": "100",
-          "height": "16",
-          "params": "2192",
-          "style": "100",
-          "caption": "Just now."
+          "width": "30",
+          "height": "30",
+          "params": "16",
+          "style": "0"
         },
-        "children": [],
-        "vars": {
-          "auto_size": "right",
-          "text_color": 5592405,
-          "mouse_wheel_enabled": false,
-          "spacing": 0,
-          "leading": 0
-        }
+        "children": [
+          {
+            "tag": "bitmap",
+            "typeId": 21,
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "30",
+              "height": "30",
+              "params": "16",
+              "style": "0",
+              "name": "canvas"
+            },
+            "children": [],
+            "vars": {
+              "handle_bitmap_disposing": false,
+              "stretched_x": false,
+              "stretched_y": false
+            }
+          },
+          {
+            "tag": "container",
+            "typeId": 4,
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "30",
+              "height": "30",
+              "params": "16",
+              "style": "0",
+              "name": "children"
+            },
+            "children": []
+          }
+        ]
       }
     ]
   },

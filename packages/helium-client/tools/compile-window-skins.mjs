@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..', '..', '..');
 
-const DEFAULT_INPUT = path.resolve(repoRoot, 'sources', 'win63_2021_version', 'binaryData');
+const DEFAULT_INPUT = path.resolve(repoRoot, 'sources', 'win63_2021_version', 'binaryDataXml');
 const DEFAULT_OUTPUT = path.resolve(__dirname, '../src/assets/window-skins');
 
 const SCALE_TYPE =
@@ -575,14 +575,14 @@ function parseElementDescriptionXml(xml, sourcePath, assetId)
 function findBinFiles(dir, filter)
 {
     return fs.readdirSync(dir, { withFileTypes: true })
-        .filter((entry) => entry.isFile() && entry.name.toLowerCase().endsWith('_xml.bin'))
+        .filter((entry) => entry.isFile() && entry.name.toLowerCase().endsWith('.xml'))
         .map((entry) => path.join(dir, entry.name))
         .filter((filePath) => !filter || path.basename(filePath).includes(filter));
 }
 
 function toAssetId(filePath)
 {
-    return path.basename(filePath, '.bin')
+    return path.basename(filePath, '.xml')
         .replace(/^HabboHabboWindowManagerCom_/, '')
         .replace(/^HabboWindowManagerCom_/, '');
 }
@@ -602,11 +602,11 @@ function main()
 
     const elementDescription = fs.readdirSync(args.input)
         .map((entry) => path.join(args.input, entry))
-        .find((entry) => entry.includes('HabboHabboWindowManagerCom_habbo_element_description_xml.bin'));
-
+        .find((entry) => entry.includes('HabboWindowManagerCom_habbo_element_description.xml'));
+    
     if (!elementDescription)
     {
-        throw new Error('Unable to locate HabboHabboWindowManagerCom_habbo_element_description_xml.bin.');
+        throw new Error('Unable to locate HabboWindowManagerCom_habbo_element_description.xml.');
     }
 
     const elementAssetId = toAssetId(elementDescription);
@@ -617,7 +617,7 @@ function main()
     const skinFiles = findBinFiles(args.input, args.filter);
     if (skinFiles.length === 0)
     {
-        console.warn('No skin .bin files found matching the provided criteria.');
+        console.warn('No skin .xml files found matching the provided criteria.');
         return;
     }
 

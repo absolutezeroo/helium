@@ -1,6 +1,6 @@
 {
   "name": "habbo_window_layout_dropmenu",
-  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_habbo_window_layout_dropmenu_black.xml",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_habbo_window_layout_dropmenu.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -20,8 +20,7 @@
         },
         "children": [],
         "vars": {
-          "text_style": "regular",
-          "text_color": 4294967295
+          "text_style": "regular"
         }
       },
       {
@@ -33,7 +32,7 @@
           "y": "2",
           "width": "28",
           "height": "18",
-          "tags": "_EXCLUDE, _INTERNAL, list",
+          "tags": "_EXCLUDE, list",
           "params": "0"
         },
         "children": []

@@ -1,6 +1,6 @@
 {
-  "id": "habbo_element_description_xml",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
+  "id": "habbo_element_description",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_habbo_element_description.xml",
   "typeMap": {
     "null": 0,
     "icon": 1,

@@ -1,0 +1,27 @@
+{
+  "name": "quest_entry",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboQuestEngineCom_quest_entry.xml",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "typeId": 4,
+        "attributes": {
+          "name": "entry_container",
+          "x": "0",
+          "y": "0",
+          "width": "135",
+          "height": "122",
+          "params": "16",
+          "style": "0"
+        },
+        "children": []
+      }
+    ]
+  },
+  "vars": {},
+  "filters": []
+}

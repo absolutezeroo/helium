@@ -1,0 +1,68 @@
+{
+  "name": "element_rewardbadge",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_element_rewardbadge.xml",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "typeId": 4,
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "250",
+          "height": "46",
+          "params": "16",
+          "style": "100"
+        },
+        "children": [
+          {
+            "tag": "static_bitmap",
+            "typeId": 23,
+            "attributes": {
+              "x": "9",
+              "y": "3",
+              "width": "38",
+              "height": "38",
+              "params": "16",
+              "style": "100",
+              "name": "badge_image"
+            },
+            "children": [],
+            "vars": {
+              "fit_size_to_contents": true
+            }
+          },
+          {
+            "tag": "formatted_text",
+            "typeId": 15,
+            "attributes": {
+              "x": "50",
+              "y": "7",
+              "width": "188",
+              "height": "33",
+              "params": "16",
+              "style": "100",
+              "name": "badge_desc",
+              "caption": "klj hklj hlkj hlkj hkljh lkjh kljh lkjh klj hlkj hlkjh kljh",
+              "tags": "COLORABLE"
+            },
+            "children": [],
+            "vars": {
+              "text_style": "il_heading_3",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {},
+  "filters": []
+}

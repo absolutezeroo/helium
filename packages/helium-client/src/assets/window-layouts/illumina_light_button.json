@@ -1,6 +1,6 @@
 {
   "name": "illumina_light_button",
-  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_illumina_light_switch.xml",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_illumina_light_button.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -10,12 +10,12 @@
         "tag": "label",
         "typeId": 12,
         "attributes": {
-          "name": "_CAPTION_TEXT",
+          "name": "_BTN_TEXT",
           "style": "0",
           "x": "0",
           "y": "0",
-          "width": "2",
-          "height": "2",
+          "width": "28",
+          "height": "28",
           "tags": "_EXCLUDE, _INTERNAL, title",
           "params": "0"
         },

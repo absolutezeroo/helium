@@ -1,0 +1,26 @@
+{
+  "name": "hover_bitmap",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_hover_bitmap.xml",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "static_bitmap",
+        "typeId": 23,
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "30",
+          "height": "30",
+          "params": "2197",
+          "style": "0"
+        },
+        "children": []
+      }
+    ]
+  },
+  "vars": {},
+  "filters": []
+}
