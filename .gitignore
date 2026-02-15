@@ -5,8 +5,8 @@ _bmad/
 _bmad-output/
 node_modules/
 sources/
-old_docs/
 dist/
+tools/
 *.log
 .DS_Store
 .env

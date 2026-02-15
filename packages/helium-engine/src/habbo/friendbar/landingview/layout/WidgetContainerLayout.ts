@@ -202,8 +202,9 @@ export class WidgetContainerLayout
 	/**
 	 * Resize using custom (non-dynamic) layout rules.
 	 *
-	 * Centers the window on the desktop or positions it at the bottom
-	 * if the desktop is shorter than the window.
+	 * Stretches the window to fill the desktop. Children with relative
+	 * scale params (STRETCH/MOVE/CENTER) will auto-adjust via the
+	 * WE_PARENT_RESIZED propagation.
 	 *
 	 * @see sources/win63_version/habbo/friendbar/landingview/layout/WidgetContainerLayout.as resizeCustomLayout()
 	 */
@@ -214,21 +215,12 @@ export class WidgetContainerLayout
 			return;
 		}
 
-		this._window.x = 0;
-		this._window.y = 0;
-
 		const rect = this._window.desktop.rectangle;
 
-		this._window.x = Math.max(0, (rect.width - this._window.width) / 2);
-
-		if(rect.height > this._window.height)
-		{
-			this._window.y = Math.max(0, (rect.height - this._window.height) / 2);
-		}
-		else
-		{
-			this._window.y = rect.height - this._window.height;
-		}
+		this._window.x = 0;
+		this._window.y = 0;
+		this._window.width = rect.width;
+		this._window.height = rect.height;
 	}
 
 	/**

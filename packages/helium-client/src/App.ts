@@ -1,10 +1,10 @@
-import type { IHeliumConfig } from 'helium-engine';
-import { Helium } from 'helium-engine';
-import type { ISkinData } from '@core/window';
-import type { IWindow } from '@core/window/IWindow';
-import { WindowController } from '@core/window/WindowController';
-import { WindowMouseEvent } from '@core/window/events/WindowMouseEvent';
-import type { WindowMouseOperator } from '@core/window/services/WindowMouseOperator';
+import type {IHeliumConfig} from 'helium-engine';
+import {Helium} from 'helium-engine';
+import type {ISkinData} from '@core/window';
+import type {IWindow} from '@core/window/IWindow';
+import {WindowController} from '@core/window/WindowController';
+import {WindowMouseEvent} from '@core/window/events/WindowMouseEvent';
+import type {WindowMouseOperator} from '@core/window/services/WindowMouseOperator';
 import './_index.scss';
 
 // Skin spritesheet PNGs — Vite resolves these to URLs
@@ -14,6 +14,7 @@ import skinIlluminaDarkUrl from './assets/images/habbo_skin_illumina_dark.png';
 import skinIlluminaLightUrl from './assets/images/habbo_skin_illumina_light.png';
 import habboIconsUrl from './assets/images/habbo_icons.png';
 import skinUbuntuBg9Url from './assets/images/skin_ubuntu_bg_9.png';
+import {IElementDescriptionData} from "@habbo/window";
 
 // Eagerly import all skin JSONs via Vite glob
 const skinModules = import.meta.glob('./assets/window-skins/habbo_skin_*.json', { eager: true }) as Record<string, { default: ISkinData }>;
@@ -107,61 +108,42 @@ export class HeliumApp
 
         const helium = Helium.instance;
 
-        // 2. Load element description
+        // 2. Load element descriptions + skin assets in parallel
         try
         {
-            const elementDescription = await import('./assets/window-skins/element-description.json');
-            const data = 'default' in elementDescription ? elementDescription.default : elementDescription;
+            const [elementDescription, bitmaps] = await Promise.all([
+                import('./assets/window-skins/element-description.json')
+                    .then(mod => this.unwrapDefault<IElementDescriptionData>(mod)),
+                Promise.all(Object.values(ATLAS_MAP).map(loadImageBitmap)),
+            ]);
 
-            helium.windowManager.loadElementDescription(data);
-        }
-        catch(error)
-        {
-            console.warn('[HeliumApp] Failed to load element descriptions:', error);
-        }
+            helium.windowManager.loadElementDescription(elementDescription);
 
-        // 3. Load skin spritesheet PNGs and skin JSON data
-        try
-        {
-            const atlases = new Map<string, ImageBitmap>();
-            const atlasEntries = Object.entries(ATLAS_MAP);
-            const bitmaps = await Promise.all(atlasEntries.map(([, url]) => loadImageBitmap(url)));
+            const atlasKeys = Object.keys(ATLAS_MAP);
+            const atlases = new Map<string, ImageBitmap>(
+                atlasKeys.map((key, i) => [key, bitmaps[i]])
+            );
 
-            for(let i = 0; i < atlasEntries.length; i++)
-            {
-                atlases.set(atlasEntries[i][0], bitmaps[i]);
-            }
-
-            const skins = new Map<string, ISkinData>();
-
-            for(const [, mod] of Object.entries(skinModules))
-            {
-                const skinData = ('default' in mod ? mod.default : mod) as ISkinData;
-
-                skins.set(skinData.id, skinData);
-            }
+            const skins = new Map<string, ISkinData>(
+                Object.values(skinModules).map(mod =>
+                {
+                    const skin = this.unwrapDefault<ISkinData>(mod);
+                    return [skin.id, skin];
+                })
+            );
 
             helium.windowManager.loadSkinAssets(skins, atlases);
         }
         catch(error)
         {
-            console.warn('[HeliumApp] Failed to load skin assets:', error);
+            console.warn('[HeliumApp] Failed to load skin/element assets:', error);
         }
 
-        // 4. Register all window layouts
+        // 3. Register all window layouts
+        for(const [path, mod] of Object.entries(layoutModules))
         {
-            let count = 0;
-
-            for(const [path, mod] of Object.entries(layoutModules))
-            {
-                const name = path.split('/').pop()?.replace('.json', '') ?? '';
-                const data = 'default' in mod ? mod.default : mod;
-
-                helium.windowManager.registerWidgetLayout(name, data);
-                count++;
-            }
-
-            console.log(`[HeliumApp] Registered ${ count } window layouts`);
+            const name = path.split('/').pop()!.replace('.json', '');
+            helium.windowManager.registerWidgetLayout(name, this.unwrapDefault(mod));
         }
 
         // 5. Create the canvas and set desktop sizes BEFORE creating windows
@@ -176,6 +158,52 @@ export class HeliumApp
         // 8. Start input and render loop
         this.setupMouseEvents();
         this.startRenderLoop();
+    }
+
+    /**
+     * Disposes the application and cleans up resources.
+     */
+    public dispose(): void
+    {
+        if(this._disposed) return;
+
+        this._disposed = true;
+
+        // Stop render loop
+        if(this._animFrameId)
+        {
+            cancelAnimationFrame(this._animFrameId);
+            this._animFrameId = 0;
+        }
+
+        // Remove event listeners
+        window.removeEventListener('resize', this._onResize);
+
+        if(this._canvas)
+        {
+            this._canvas.removeEventListener('mousedown', this._onMouseDown);
+            this._canvas.removeEventListener('mousemove', this._onMouseMove);
+            this._canvas.removeEventListener('mouseup', this._onMouseUp);
+            this._canvas.removeEventListener('wheel', this._onWheel);
+            this._canvas.removeEventListener('contextmenu', this._onContextMenu);
+        }
+
+        if(this._docMoveHandler)
+        {
+            document.removeEventListener('mousemove', this._docMoveHandler);
+        }
+
+        if(this._docUpHandler)
+        {
+            document.removeEventListener('mouseup', this._docUpHandler);
+        }
+
+        // Remove canvas from DOM
+        this._canvas?.remove();
+        this._canvas = null;
+        this._ctx = null;
+        this._lastHoveredWindow = null;
+        this._mouseDownWindow = null;
     }
 
     /**
@@ -513,49 +541,8 @@ export class HeliumApp
         e.preventDefault();
     };
 
-    /**
-     * Disposes the application and cleans up resources.
-     */
-    public dispose(): void
+    private unwrapDefault<T>(mod: any): T
     {
-        if(this._disposed) return;
-
-        this._disposed = true;
-
-        // Stop render loop
-        if(this._animFrameId)
-        {
-            cancelAnimationFrame(this._animFrameId);
-            this._animFrameId = 0;
-        }
-
-        // Remove event listeners
-        window.removeEventListener('resize', this._onResize);
-
-        if(this._canvas)
-        {
-            this._canvas.removeEventListener('mousedown', this._onMouseDown);
-            this._canvas.removeEventListener('mousemove', this._onMouseMove);
-            this._canvas.removeEventListener('mouseup', this._onMouseUp);
-            this._canvas.removeEventListener('wheel', this._onWheel);
-            this._canvas.removeEventListener('contextmenu', this._onContextMenu);
-        }
-
-        if(this._docMoveHandler)
-        {
-            document.removeEventListener('mousemove', this._docMoveHandler);
-        }
-
-        if(this._docUpHandler)
-        {
-            document.removeEventListener('mouseup', this._docUpHandler);
-        }
-
-        // Remove canvas from DOM
-        this._canvas?.remove();
-        this._canvas = null;
-        this._ctx = null;
-        this._lastHoveredWindow = null;
-        this._mouseDownWindow = null;
+        return 'default' in mod ? mod.default : mod;
     }
 }
