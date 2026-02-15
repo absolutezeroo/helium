@@ -1,7 +1,10 @@
 import type {IWidget} from './IWidget';
 import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
 import type {IHabboWindowManager} from '../IHabboWindowManager';
+import type {IWindow} from '@core/window/IWindow';
+import type {IStaticBitmapWrapperWindow} from '@core/window/components/IStaticBitmapWrapperWindow';
 import {PropertyStruct} from '@core/window/utils/PropertyStruct';
+import {WindowMouseEvent} from '@core/window/events/WindowMouseEvent';
 
 /**
  * Hover bitmap effect widget.
@@ -10,8 +13,7 @@ import {PropertyStruct} from '@core/window/utils/PropertyStruct';
  * based on mouse interaction state.
  *
  * In the AS3 version, uses IStaticBitmapWrapperWindow and mouse events.
- * In the TypeScript port, asset URIs and hover state are stored for
- * the UI layer.
+ * The bitmap IS the rootWindow (no IWindowContainer wrapper).
  *
  * @see sources/win63_version/habbo/window/widgets/HoverBitmapWidget.as
  */
@@ -24,11 +26,33 @@ export class HoverBitmapWidget implements IWidget
 
 	private _widgetWindow: IWidgetWindow | null = null;
 	private _windowManager: IHabboWindowManager | null = null;
+	private _bitmap: IStaticBitmapWrapperWindow | null = null;
+
+	private _onMouseOverBound: Function;
+	private _onMouseOutBound: Function;
 
 	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
 		this._widgetWindow = window;
 		this._windowManager = windowManager;
+
+		this._onMouseOverBound = this.onMouseOver.bind(this);
+		this._onMouseOutBound = this.onMouseOut.bind(this);
+
+		const bitmap = this._windowManager.buildWidgetLayout('hover_bitmap') as IStaticBitmapWrapperWindow | null;
+
+		if(bitmap)
+		{
+			this._bitmap = bitmap;
+
+			this._bitmap.addEventListener(WindowMouseEvent.OVER, this._onMouseOverBound);
+			this._bitmap.addEventListener(WindowMouseEvent.OUT, this._onMouseOutBound);
+
+			this._widgetWindow.rootWindow = this._bitmap as unknown as IWindow;
+			this._bitmap.width = this._widgetWindow.width;
+			this._bitmap.height = this._widgetWindow.height;
+			this._bitmap.invalidate();
+		}
 	}
 
 	private _disposed: boolean = false;
@@ -48,6 +72,11 @@ export class HoverBitmapWidget implements IWidget
 	public set normalAsset(value: string)
 	{
 		this._normalAsset = value;
+
+		if(!this._isHovering && this._bitmap)
+		{
+			this._bitmap.imageUrl = value;
+		}
 	}
 
 	private _hoverAsset: string = '';
@@ -60,6 +89,11 @@ export class HoverBitmapWidget implements IWidget
 	public set hoverAsset(value: string)
 	{
 		this._hoverAsset = value;
+
+		if(this._isHovering && this._bitmap)
+		{
+			this._bitmap.imageUrl = value;
+		}
 	}
 
 	private _isHovering: boolean = false;
@@ -89,10 +123,28 @@ export class HoverBitmapWidget implements IWidget
 	{
 		if(this._disposed) return [];
 
-		return [
+		const result: PropertyStruct[] = [
 			new PropertyStruct(HoverBitmapWidget.NORMAL_ASSET_KEY, this._normalAsset),
 			new PropertyStruct(HoverBitmapWidget.HOVER_ASSET_KEY, this._hoverAsset),
 		];
+
+		if(this._bitmap)
+		{
+			const bitmapProps = (this._bitmap as IWindow).properties as PropertyStruct[];
+
+			if(bitmapProps)
+			{
+				for(const prop of bitmapProps)
+				{
+					if(prop.key !== 'asset_uri')
+					{
+						result.push(prop);
+					}
+				}
+			}
+		}
+
+		return result;
 	}
 
 	public set properties(values: PropertyStruct[])
@@ -109,14 +161,60 @@ export class HoverBitmapWidget implements IWidget
 					break;
 			}
 		}
+
+		if(this._bitmap)
+		{
+			(this._bitmap as IWindow).properties = values;
+			this._bitmap.invalidate();
+		}
+	}
+
+	/**
+	 * Handle mouse over event. Switches to hover asset.
+	 */
+	private onMouseOver(): void
+	{
+		this._isHovering = true;
+
+		if(this._bitmap)
+		{
+			this._bitmap.imageUrl = this._hoverAsset;
+		}
+	}
+
+	/**
+	 * Handle mouse out event. Switches to normal asset.
+	 */
+	private onMouseOut(): void
+	{
+		this._isHovering = false;
+
+		if(this._bitmap)
+		{
+			this._bitmap.imageUrl = this._normalAsset;
+		}
 	}
 
 	public dispose(): void
 	{
 		if(this._disposed) return;
 
+		this._disposed = true;
+
+		if(this._bitmap)
+		{
+			this._bitmap.removeEventListener(WindowMouseEvent.OVER, this._onMouseOverBound);
+			this._bitmap.removeEventListener(WindowMouseEvent.OUT, this._onMouseOutBound);
+			this._bitmap.dispose();
+			this._bitmap = null;
+		}
+
+		if(this._widgetWindow)
+		{
+			this._widgetWindow.rootWindow = null;
+		}
+
 		this._widgetWindow = null;
 		this._windowManager = null;
-		this._disposed = true;
 	}
 }

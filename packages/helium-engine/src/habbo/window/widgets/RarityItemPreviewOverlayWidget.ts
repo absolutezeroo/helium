@@ -1,6 +1,8 @@
 import type {IRarityItemPreviewOverlayWidget} from './IRarityItemPreviewOverlayWidget';
 import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
 import type {IHabboWindowManager} from '../IHabboWindowManager';
+import type {IWindow} from '@core/window/IWindow';
+import type {IWindowContainer} from '@core/window/IWindowContainer';
 import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
@@ -16,14 +18,25 @@ export class RarityItemPreviewOverlayWidget implements IRarityItemPreviewOverlay
 
 	private static readonly RARITY_LEVEL_KEY: string = 'rarity_item_overlay_preview:level';
 
+	private _widgetWindow: IWidgetWindow | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
+
+	private _root: IWindowContainer | null = null;
+
 	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
 		this._widgetWindow = window;
 		this._windowManager = windowManager;
-	}
 
-	private _widgetWindow: IWidgetWindow | null = null;
-	private _windowManager: IHabboWindowManager | null = null;
+		const root = this._windowManager.buildWidgetLayout('rarity_item_overlay_preview') as IWindowContainer | null;
+
+		if(root)
+		{
+			this._root = root;
+
+			this._widgetWindow.rootWindow = root as unknown as IWindow;
+		}
+	}
 
 	private _disposed: boolean = false;
 
@@ -68,8 +81,20 @@ export class RarityItemPreviewOverlayWidget implements IRarityItemPreviewOverlay
 	{
 		if(this._disposed) return;
 
+		this._disposed = true;
+
+		if(this._root)
+		{
+			this._root.dispose();
+			this._root = null;
+		}
+
+		if(this._widgetWindow)
+		{
+			this._widgetWindow.rootWindow = null;
+		}
+
 		this._widgetWindow = null;
 		this._windowManager = null;
-		this._disposed = true;
 	}
 }

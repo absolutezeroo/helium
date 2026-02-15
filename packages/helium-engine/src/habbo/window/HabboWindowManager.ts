@@ -64,6 +64,9 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
     private _windowContextArray: IWindowContext[] = [];
     private _defaultContext: IWindowContext | null = null;
 
+    // ── Widget layout asset registry ─────────────────────────────────────
+    private _widgetLayouts: Map<string, unknown> = new Map();
+
     // ── AS3-compatible window context system ────────────────────────────
     private _serviceManager: ServiceManager | null = null;
     private _initialized: boolean = false;
@@ -272,6 +275,45 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
         }
 
         throw new Error('Window parser or desktop not available');
+    }
+
+    /**
+     * Register a widget layout JSON asset by name.
+     *
+     * In AS3, widget layouts were stored as XML assets in the SWF asset library.
+     * Here we register JSON layout objects by name so widgets can build their
+     * internal window trees via buildWidgetLayout().
+     *
+     * @param name - The layout asset name (e.g. "hover_bitmap", "avatar_image")
+     * @param json - The JSON layout object
+     */
+    public registerWidgetLayout(name: string, json: unknown): void
+    {
+        this._widgetLayouts.set(name, json);
+    }
+
+    /**
+     * Build a widget's internal window tree from a registered layout asset.
+     *
+     * Equivalent to AS3:
+     * `buildFromXML(assets.getAssetByName("widget_xml").content as XML)`
+     *
+     * @param name - The layout asset name
+     * @param layer - Context layer (default 1)
+     * @returns The root IWindow of the built tree, or null
+     */
+    public buildWidgetLayout(name: string, layer: number = 1): IWindow | null
+    {
+        const json = this._widgetLayouts.get(name);
+
+        if(!json)
+        {
+            log.warn(`Widget layout not found: ${ name }`);
+
+            return null;
+        }
+
+        return this.buildFromJSON(json, layer);
     }
 
     /**
@@ -594,6 +636,9 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
         // Clean up skin container and theme manager
         this._skinContainer.dispose();
         this._themeManager = null;
+
+        // Clean up widget layouts
+        this._widgetLayouts.clear();
 
         // Clean up declarative window system
         this._windows.clear();

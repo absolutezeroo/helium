@@ -1,7 +1,9 @@
-import type {IWidget} from './IWidget';
-import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
-import type {IHabboWindowManager} from '../IHabboWindowManager';
-import {PropertyStruct} from '@core/window/utils/PropertyStruct';
+import type { IWidget } from './IWidget';
+import type { IWidgetWindow } from '@core/window/components/IWidgetWindow';
+import type { IHabboWindowManager } from '../IHabboWindowManager';
+import type { IWindowContainer } from '@core/window/IWindowContainer';
+import type { IWindow } from '@core/window/IWindow';
+import { PropertyStruct } from '@core/window/utils/PropertyStruct';
 
 /**
  * Pet image rendering widget.
@@ -37,11 +39,29 @@ export class PetImageWidget implements IWidget
 
 	private _widgetWindow: IWidgetWindow | null = null;
 	private _windowManager: IHabboWindowManager | null = null;
+	private _root: IWindowContainer | null = null;
+	private _bitmap: IWindow | null = null;
+	private _region: IWindow | null = null;
 
 	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
 		this._widgetWindow = window;
 		this._windowManager = windowManager;
+
+		const root = this._windowManager.buildWidgetLayout('pet_image') as IWindowContainer;
+
+		if(root)
+		{
+			this._root = root;
+			this._bitmap = root.findChildByName('bitmap');
+			this._region = root.findChildByName('region');
+
+			this.refresh();
+
+			this._widgetWindow.rootWindow = root;
+			root.width = this._widgetWindow.width;
+			root.height = this._widgetWindow.height;
+		}
 	}
 
 	private _disposed: boolean = false;
@@ -195,11 +215,42 @@ export class PetImageWidget implements IWidget
 		}
 	}
 
+	/**
+	 * Refresh the pet bitmap rendering.
+	 *
+	 * In AS3, this fetches the pet image from the room engine and draws
+	 * to the bitmap wrapper. Stubbed for now — the UI layer handles
+	 * pet rendering.
+	 */
+	private refresh(): void
+	{
+		// TODO: pet bitmap rendering (Flash BitmapData logic)
+	}
+
 	public dispose(): void
 	{
 		if(this._disposed) return;
 
-		this._widgetWindow = null;
+		if(this._region)
+		{
+			this._region.dispose();
+			this._region = null;
+		}
+
+		this._bitmap = null;
+
+		if(this._root)
+		{
+			this._root.dispose();
+			this._root = null;
+		}
+
+		if(this._widgetWindow)
+		{
+			this._widgetWindow.rootWindow = null;
+			this._widgetWindow = null;
+		}
+
 		this._windowManager = null;
 		this._disposed = true;
 	}

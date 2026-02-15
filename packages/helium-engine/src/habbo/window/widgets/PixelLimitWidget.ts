@@ -1,6 +1,9 @@
 import type {IWidget} from './IWidget';
 import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
 import type {IHabboWindowManager} from '../IHabboWindowManager';
+import type {IWindowContainer} from '@core/window/IWindowContainer';
+import type {IWindow} from '@core/window/IWindow';
+import type {IStaticBitmapWrapperWindow} from '@core/window/components/IStaticBitmapWrapperWindow';
 import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
@@ -10,9 +13,8 @@ import {PropertyStruct} from '@core/window/utils/PropertyStruct';
  * The limit value (0-100) is rounded to the nearest 20% step and
  * used to select the corresponding meter asset.
  *
- * In the AS3 version, extends IStaticBitmapWrapperWindow properties.
- * In the TypeScript port, the limit and asset URI are stored for
- * the UI layer.
+ * In the AS3 version, reuses the badge_image layout and extends
+ * IStaticBitmapWrapperWindow properties.
  *
  * @see sources/win63_version/habbo/window/widgets/PixelLimitWidget.as
  */
@@ -24,11 +26,31 @@ export class PixelLimitWidget implements IWidget
 	private _batchUpdate: boolean = false;
 	private _widgetWindow: IWidgetWindow | null = null;
 	private _windowManager: IHabboWindowManager | null = null;
+	private _root: IWindowContainer | null = null;
+	private _bitmap: IStaticBitmapWrapperWindow | null = null;
 
 	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
 		this._widgetWindow = window;
 		this._windowManager = windowManager;
+
+		const root = this._windowManager.buildWidgetLayout('badge_image') as IWindowContainer | null;
+
+		if(root)
+		{
+			this._root = root;
+
+			const bitmap = root.findChildByName('bitmap') as IStaticBitmapWrapperWindow | null;
+
+			if(bitmap)
+			{
+				this._bitmap = bitmap;
+			}
+
+			this._widgetWindow.rootWindow = this._root as unknown as IWindow;
+			this._root.width = this._widgetWindow.width;
+			this._root.height = this._widgetWindow.height;
+		}
 	}
 
 	private _disposed: boolean = false;
@@ -89,8 +111,22 @@ export class PixelLimitWidget implements IWidget
 	{
 		if(this._disposed) return;
 
+		this._disposed = true;
+
+		if(this._root)
+		{
+			this._root.dispose();
+			this._root = null;
+		}
+
+		this._bitmap = null;
+
+		if(this._widgetWindow)
+		{
+			this._widgetWindow.rootWindow = null;
+		}
+
 		this._widgetWindow = null;
 		this._windowManager = null;
-		this._disposed = true;
 	}
 }

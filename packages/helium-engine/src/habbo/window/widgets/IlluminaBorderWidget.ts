@@ -1,7 +1,10 @@
 import type {IIlluminaBorderWidget} from './IIlluminaBorderWidget';
 import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
 import type {IHabboWindowManager} from '../IHabboWindowManager';
+import type {IWindow} from '@core/window/IWindow';
+import type {IWindowContainer} from '@core/window/IWindowContainer';
 import {PropertyStruct} from '@core/window/utils/PropertyStruct';
+import {WindowEvent} from '@core/window/events/WindowEvent';
 
 /**
  * Illumina theme border widget.
@@ -41,14 +44,50 @@ export class IlluminaBorderWidget implements IIlluminaBorderWidget
 		'top_left', 'top_center', 'top_right', 'center_right',
 		'bottom_right', 'bottom_center', 'bottom_left', 'center_left'
 	];
+
 	private _batchUpdate: boolean = false;
 	private _widgetWindow: IWidgetWindow | null = null;
 	private _windowManager: IHabboWindowManager | null = null;
+
+	private _root: IWindowContainer | null = null;
+	private _canvas: IWindow | null = null;
+	private _children: IWindowContainer | null = null;
+
+	private _onChangeBound: Function;
 
 	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
 		this._widgetWindow = window;
 		this._windowManager = windowManager;
+
+		this._onChangeBound = this.onChange.bind(this);
+
+		const root = this._windowManager.buildWidgetLayout('illumina_border') as IWindowContainer | null;
+
+		if(root)
+		{
+			this._root = root;
+			this._canvas = root.findChildByName('canvas');
+			this._children = root.findChildByName('children') as IWindowContainer | null;
+
+			if(this._canvas)
+			{
+				this._canvas.addEventListener(WindowEvent.WE_RESIZE, this._onChangeBound);
+				this._canvas.addEventListener(WindowEvent.WE_RESIZED, this._onChangeBound);
+			}
+
+			if(this._children)
+			{
+				this._children.addEventListener(WindowEvent.WE_CHILD_ADDED, this._onChangeBound);
+				this._children.addEventListener(WindowEvent.WE_CHILD_REMOVED, this._onChangeBound);
+				this._children.addEventListener(WindowEvent.WE_CHILD_RELOCATED, this._onChangeBound);
+				this._children.addEventListener(WindowEvent.WE_CHILD_RESIZED, this._onChangeBound);
+			}
+
+			this._widgetWindow.rootWindow = root as unknown as IWindow;
+			root.width = this._widgetWindow.width;
+			root.height = this._widgetWindow.height;
+		}
 	}
 
 	private _disposed: boolean = false;
@@ -202,6 +241,19 @@ export class IlluminaBorderWidget implements IIlluminaBorderWidget
 		this._landingViewMode = value;
 	}
 
+	/**
+	 * Returns the children container's iterator if available.
+	 */
+	public get iterator(): unknown
+	{
+		if(this._children)
+		{
+			return this._children.iterator;
+		}
+
+		return null;
+	}
+
 	public get properties(): PropertyStruct[]
 	{
 		if(this._disposed) return [];
@@ -272,12 +324,58 @@ export class IlluminaBorderWidget implements IIlluminaBorderWidget
 		this._batchUpdate = false;
 	}
 
+	/**
+	 * Handle change events. Calls refresh to redraw the border.
+	 */
+	private onChange(): void
+	{
+		this.refresh();
+	}
+
+	/**
+	 * Refresh the border rendering.
+	 *
+	 * Border drawing is handled by the CSS layer in the TypeScript port.
+	 */
+	private refresh(): void
+	{
+		// TODO: Border drawing stub - CSS layer handles it
+	}
+
 	public dispose(): void
 	{
 		if(this._disposed) return;
 
+		this._disposed = true;
+
+		if(this._canvas)
+		{
+			this._canvas.removeEventListener(WindowEvent.WE_RESIZE, this._onChangeBound);
+			this._canvas.removeEventListener(WindowEvent.WE_RESIZED, this._onChangeBound);
+			this._canvas = null;
+		}
+
+		if(this._children)
+		{
+			this._children.removeEventListener(WindowEvent.WE_CHILD_ADDED, this._onChangeBound);
+			this._children.removeEventListener(WindowEvent.WE_CHILD_REMOVED, this._onChangeBound);
+			this._children.removeEventListener(WindowEvent.WE_CHILD_RELOCATED, this._onChangeBound);
+			this._children.removeEventListener(WindowEvent.WE_CHILD_RESIZED, this._onChangeBound);
+			this._children = null;
+		}
+
+		if(this._root)
+		{
+			this._root.dispose();
+			this._root = null;
+		}
+
+		if(this._widgetWindow)
+		{
+			this._widgetWindow.rootWindow = null;
+		}
+
 		this._widgetWindow = null;
 		this._windowManager = null;
-		this._disposed = true;
 	}
 }

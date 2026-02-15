@@ -1,7 +1,11 @@
 import type {IRoomPreviewerWidget} from './IRoomPreviewerWidget';
 import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
 import type {IHabboWindowManager} from '../IHabboWindowManager';
+import type {IWindow} from '@core/window/IWindow';
+import type {IWindowContainer} from '@core/window/IWindowContainer';
 import {PropertyStruct} from '@core/window/utils/PropertyStruct';
+import {WindowEvent} from '@core/window/events/WindowEvent';
+import {WindowMouseEvent} from '@core/window/events/WindowMouseEvent';
 
 /**
  * Room previewer widget.
@@ -26,14 +30,40 @@ export class RoomPreviewerWidget implements IRoomPreviewerWidget
 
 	private static _roomIdCounter: number = 2;
 
+	private _widgetWindow: IWidgetWindow | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
+
+	private _root: IWindowContainer | null = null;
+
+	private _onClickRoomViewBound: Function;
+	private _onResizeCanvasBound: Function;
+
 	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
 		this._widgetWindow = window;
 		this._windowManager = windowManager;
-	}
 
-	private _widgetWindow: IWidgetWindow | null = null;
-	private _windowManager: IHabboWindowManager | null = null;
+		this._onClickRoomViewBound = this.onClickRoomView.bind(this);
+		this._onResizeCanvasBound = this.onResizeCanvas.bind(this);
+
+		const root = this._windowManager.buildWidgetLayout('room_previewer') as IWindowContainer | null;
+
+		if(root)
+		{
+			this._root = root;
+
+			// RoomPreviewer integration is complex - stub for now
+			// In AS3: creates RoomPreviewer with unique ROOM_ID_COUNTER
+			RoomPreviewerWidget._roomIdCounter++;
+
+			root.addEventListener(WindowMouseEvent.CLICK, this._onClickRoomViewBound);
+			root.addEventListener(WindowEvent.WE_RESIZE, this._onResizeCanvasBound);
+
+			this._widgetWindow.rootWindow = root as unknown as IWindow;
+			root.width = this._widgetWindow.width;
+			root.height = this._widgetWindow.height;
+		}
+	}
 
 	private _disposed: boolean = false;
 
@@ -146,13 +176,47 @@ export class RoomPreviewerWidget implements IRoomPreviewerWidget
 		}
 	}
 
+	/**
+	 * Handle click on the room preview canvas.
+	 *
+	 * In AS3, forwards click coordinates to the RoomPreviewer.
+	 */
+	private onClickRoomView(): void
+	{
+		// TODO: Forward click to RoomPreviewer when integrated
+	}
+
+	/**
+	 * Handle resize of the room preview canvas.
+	 *
+	 * In AS3, updates the RoomPreviewer canvas dimensions.
+	 */
+	private onResizeCanvas(): void
+	{
+		// TODO: Update RoomPreviewer dimensions when integrated
+	}
+
 	public dispose(): void
 	{
 		if(this._disposed) return;
 
+		this._disposed = true;
+
+		if(this._root)
+		{
+			this._root.removeEventListener(WindowMouseEvent.CLICK, this._onClickRoomViewBound);
+			this._root.removeEventListener(WindowEvent.WE_RESIZE, this._onResizeCanvasBound);
+			this._root.dispose();
+			this._root = null;
+		}
+
+		if(this._widgetWindow)
+		{
+			this._widgetWindow.rootWindow = null;
+		}
+
 		this._widgetWindow = null;
 		this._windowManager = null;
 		this._roomPreviewer = null;
-		this._disposed = true;
 	}
 }

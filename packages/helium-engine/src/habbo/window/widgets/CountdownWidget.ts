@@ -1,6 +1,7 @@
 import type {IWidget} from './IWidget';
 import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
 import type {IHabboWindowManager} from '../IHabboWindowManager';
+import type {IWindow} from '@core/window/IWindow';
 import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
@@ -33,11 +34,39 @@ export class CountdownWidget implements IWidget
 
 	private _widgetWindow: IWidgetWindow | null = null;
 	private _windowManager: IHabboWindowManager | null = null;
+	private _root: IWindow | null = null;
+	private _counterTemplate: IWindow | null = null;
+	private _separatorTemplate: IWindow | null = null;
 
 	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
 		this._widgetWindow = window;
 		this._windowManager = windowManager;
+
+		const root = this._windowManager.buildWidgetLayout('clock_base');
+
+		if(root)
+		{
+			this._root = root;
+
+			// AS3: counter = root.getListItemByName("counter") as IWindowContainer
+			// AS3: separator = root.getListItemByName("separator") as ITextWindow
+			// These are templates used for cloning digit groups.
+			// For now, store as generic IWindow references via findChildByName on the container.
+			const rootContainer = root as unknown as { findChildByName(name: string): IWindow | null };
+
+			if(typeof rootContainer.findChildByName === 'function')
+			{
+				this._counterTemplate = rootContainer.findChildByName('counter');
+				this._separatorTemplate = rootContainer.findChildByName('separator');
+			}
+		}
+
+		this._digits = 3;
+
+		// AS3: _windowManager.registerUpdateReceiver(this, 10) — skipped for now
+		this._widgetWindow.setParamFlag(147456);
+		this._widgetWindow.rootWindow = this._root;
 	}
 
 	private _disposed: boolean = false;
@@ -188,7 +217,31 @@ export class CountdownWidget implements IWidget
 	{
 		if(this._disposed) return;
 
-		this._widgetWindow = null;
+		if(this._root)
+		{
+			this._root.dispose();
+			this._root = null;
+		}
+
+		if(this._counterTemplate)
+		{
+			this._counterTemplate.dispose();
+			this._counterTemplate = null;
+		}
+
+		if(this._separatorTemplate)
+		{
+			this._separatorTemplate.dispose();
+			this._separatorTemplate = null;
+		}
+
+		if(this._widgetWindow)
+		{
+			this._widgetWindow.rootWindow = null;
+			this._widgetWindow = null;
+		}
+
+		// AS3: _windowManager.removeUpdateReceiver(this) — skipped for now
 		this._windowManager = null;
 		this._disposed = true;
 	}

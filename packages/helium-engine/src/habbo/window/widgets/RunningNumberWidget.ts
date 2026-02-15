@@ -1,6 +1,7 @@
 import type {IRunningNumberWidget} from './IRunningNumberWidget';
 import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
 import type {IHabboWindowManager} from '../IHabboWindowManager';
+import type {IWindowContainer} from '@core/window/IWindowContainer';
 import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
@@ -25,14 +26,26 @@ export class RunningNumberWidget implements IRunningNumberWidget
 	private static readonly UPDATE_FREQUENCY_KEY: string = 'running_number:update_frequency';
 	private _millisSinceLastUpdate: number = 0;
 
+	private _widgetWindow: IWidgetWindow | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
+	private _root: IWindowContainer | null = null;
+
 	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
 		this._widgetWindow = window;
 		this._windowManager = windowManager;
-	}
 
-	private _widgetWindow: IWidgetWindow | null = null;
-	private _windowManager: IHabboWindowManager | null = null;
+		const root = this._windowManager.buildWidgetLayout('running_number') as IWindowContainer;
+
+		if(root)
+		{
+			this._root = root;
+		}
+
+		// AS3: _windowManager.registerUpdateReceiver(this, updateFrequency) — skipped for now
+		this._widgetWindow.setParamFlag(147456);
+		this._widgetWindow.rootWindow = this._root;
+	}
 
 	private _disposed: boolean = false;
 
@@ -180,7 +193,19 @@ export class RunningNumberWidget implements IRunningNumberWidget
 	{
 		if(this._disposed) return;
 
-		this._widgetWindow = null;
+		if(this._root)
+		{
+			this._root.dispose();
+			this._root = null;
+		}
+
+		if(this._widgetWindow)
+		{
+			this._widgetWindow.rootWindow = null;
+			this._widgetWindow = null;
+		}
+
+		// AS3: _windowManager.removeUpdateReceiver(this) — skipped for now
 		this._windowManager = null;
 		this._disposed = true;
 	}

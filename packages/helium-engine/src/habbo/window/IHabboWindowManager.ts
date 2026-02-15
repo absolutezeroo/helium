@@ -136,6 +136,30 @@ export interface IHabboWindowManager extends IDisposable
     buildFromJSON(json: unknown, layer?: number, vars?: Map<string, string> | null): IWindow;
 
     /**
+     * Register a widget layout JSON asset by name.
+     *
+     * In AS3, widget layouts were stored as XML assets in the SWF asset library.
+     * Here we register JSON layout objects by name so widgets can build their
+     * internal window trees.
+     *
+     * @param name - The layout asset name (e.g. "hover_bitmap", "avatar_image")
+     * @param json - The JSON layout object
+     */
+    registerWidgetLayout(name: string, json: unknown): void;
+
+    /**
+     * Build a widget's internal window tree from a registered layout asset.
+     *
+     * Equivalent to AS3:
+     * `buildFromXML(assets.getAssetByName("widget_xml").content as XML)`
+     *
+     * @param name - The layout asset name
+     * @param layer - Context layer (default 1)
+     * @returns The root IWindow of the built tree, or null
+     */
+    buildWidgetLayout(name: string, layer?: number): IWindow | null;
+
+    /**
      * Create a window by name, type, style, param in a given context layer.
      *
      * @param name - Window name

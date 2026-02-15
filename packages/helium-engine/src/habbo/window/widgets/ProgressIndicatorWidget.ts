@@ -1,6 +1,7 @@
 import type {IWidget} from './IWidget';
 import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
 import type {IHabboWindowManager} from '../IHabboWindowManager';
+import type {IWindow} from '@core/window/IWindow';
 import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
@@ -26,14 +27,25 @@ export class ProgressIndicatorWidget implements IWidget
 
 	private static readonly MAXIMUM_SIZE: number = 1000;
 
+	private _widgetWindow: IWidgetWindow | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
+	private _root: IWindow | null = null;
+
 	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
 		this._widgetWindow = window;
 		this._windowManager = windowManager;
-	}
 
-	private _widgetWindow: IWidgetWindow | null = null;
-	private _windowManager: IHabboWindowManager | null = null;
+		const root = this._windowManager.buildWidgetLayout('progress_indicator');
+
+		if(root)
+		{
+			this._root = root;
+		}
+
+		this._widgetWindow.setParamFlag(147456);
+		this._widgetWindow.rootWindow = this._root;
+	}
 
 	private _disposed: boolean = false;
 
@@ -165,7 +177,18 @@ export class ProgressIndicatorWidget implements IWidget
 	{
 		if(this._disposed) return;
 
-		this._widgetWindow = null;
+		if(this._root)
+		{
+			this._root.dispose();
+			this._root = null;
+		}
+
+		if(this._widgetWindow)
+		{
+			this._widgetWindow.rootWindow = null;
+			this._widgetWindow = null;
+		}
+
 		this._windowManager = null;
 		this._disposed = true;
 	}

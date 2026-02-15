@@ -1,6 +1,8 @@
 import type {IRarityItemGridOverlayWidget} from './IRarityItemGridOverlayWidget';
 import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
 import type {IHabboWindowManager} from '../IHabboWindowManager';
+import type {IWindow} from '@core/window/IWindow';
+import type {IWindowContainer} from '@core/window/IWindowContainer';
 import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
@@ -15,14 +17,27 @@ export class RarityItemGridOverlayWidget implements IRarityItemGridOverlayWidget
 {
 	public static readonly TYPE: string = 'rarity_item_overlay_grid';
 
+	private _widgetWindow: IWidgetWindow | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
+
+	private _root: IWindowContainer | null = null;
+	private _plaqueBitmap: IWindow | null = null;
+
 	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
 		this._widgetWindow = window;
 		this._windowManager = windowManager;
-	}
 
-	private _widgetWindow: IWidgetWindow | null = null;
-	private _windowManager: IHabboWindowManager | null = null;
+		const root = this._windowManager.buildWidgetLayout('rarity_item_overlay_griditem') as IWindowContainer | null;
+
+		if(root)
+		{
+			this._root = root;
+			this._plaqueBitmap = root.findChildByName('rarity_item_overlay_plaque_background_bitmap');
+
+			this._widgetWindow.rootWindow = root as unknown as IWindow;
+		}
+	}
 
 	private _disposed: boolean = false;
 
@@ -57,8 +72,22 @@ export class RarityItemGridOverlayWidget implements IRarityItemGridOverlayWidget
 	{
 		if(this._disposed) return;
 
+		this._disposed = true;
+
+		this._plaqueBitmap = null;
+
+		if(this._root)
+		{
+			this._root.dispose();
+			this._root = null;
+		}
+
+		if(this._widgetWindow)
+		{
+			this._widgetWindow.rootWindow = null;
+		}
+
 		this._widgetWindow = null;
 		this._windowManager = null;
-		this._disposed = true;
 	}
 }

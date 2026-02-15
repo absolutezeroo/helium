@@ -1,6 +1,7 @@
 import type {IWidget} from './IWidget';
 import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
 import type {IHabboWindowManager} from '../IHabboWindowManager';
+import type {IWindow} from '@core/window/IWindow';
 import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
@@ -21,15 +22,71 @@ export class UpdatingTimeStampWidget implements IWidget
 
 	private static readonly UPDATE_INTERVAL_MS: number = 60000;
 
-	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
+	/**
+	 * Shared static interval timer for all UpdatingTimeStampWidget instances.
+	 * In AS3, this was a static Timer(60000) that was started in the class initializer.
+	 */
+	private static _updateTimerId: ReturnType<typeof setInterval> | null = null;
+	private static _instances: Set<UpdatingTimeStampWidget> = new Set();
+
+	/**
+	 * Start the shared update timer if not already running.
+	 */
+	private static startUpdateTimer(): void
 	{
-		this._widgetWindow = window;
-		this._windowManager = windowManager;
-		this.reset();
+		if(UpdatingTimeStampWidget._updateTimerId === null)
+		{
+			UpdatingTimeStampWidget._updateTimerId = setInterval(() =>
+			{
+				for(const instance of UpdatingTimeStampWidget._instances)
+				{
+					instance.onTimerTick();
+				}
+			}, UpdatingTimeStampWidget.UPDATE_INTERVAL_MS);
+		}
+	}
+
+	/**
+	 * Stop the shared update timer if no instances remain.
+	 */
+	private static stopUpdateTimer(): void
+	{
+		if(UpdatingTimeStampWidget._instances.size === 0 && UpdatingTimeStampWidget._updateTimerId !== null)
+		{
+			clearInterval(UpdatingTimeStampWidget._updateTimerId);
+			UpdatingTimeStampWidget._updateTimerId = null;
+		}
 	}
 
 	private _widgetWindow: IWidgetWindow | null = null;
 	private _windowManager: IHabboWindowManager | null = null;
+	private _label: IWindow | null = null;
+
+	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
+	{
+		this._widgetWindow = window;
+		this._windowManager = windowManager;
+
+		// AS3: label = _windowManager.create("", 12, 100, 16, new Rectangle()) as ILabelWindow
+		// TypeId 12 = Label window type
+		this._label = this._windowManager.create(
+			'', 12, 100, 16,
+			{ x: 0, y: 0, width: 0, height: 0 }
+		);
+
+		if(this._label)
+		{
+			// AS3: label.textColor = 5592405 (0x555555)
+			this._label.color = 5592405;
+			this._widgetWindow.rootWindow = this._label;
+		}
+
+		// Register with the shared static timer
+		UpdatingTimeStampWidget._instances.add(this);
+		UpdatingTimeStampWidget.startUpdateTimer();
+
+		this.reset();
+	}
 
 	private _disposed: boolean = false;
 
@@ -48,6 +105,7 @@ export class UpdatingTimeStampWidget implements IWidget
 	public set timeStamp(value: number)
 	{
 		this._timeStamp = value;
+		this.onTimerTick();
 	}
 
 	private _align: string = '';
@@ -84,6 +142,7 @@ export class UpdatingTimeStampWidget implements IWidget
 	public reset(): void
 	{
 		this._timeStamp = Date.now();
+		this.onTimerTick();
 	}
 
 	public set properties(_values: PropertyStruct[])
@@ -91,11 +150,39 @@ export class UpdatingTimeStampWidget implements IWidget
 		// AS3: properties setter is a no-op for this widget
 	}
 
+	/**
+	 * Timer tick handler called every 60 seconds by the shared static timer.
+	 *
+	 * In AS3, this updates the label caption via FriendlyTime.getFriendlyTime().
+	 * In TS, this is a stub — the UI layer reads elapsedSeconds directly.
+	 */
+	private onTimerTick(): void
+	{
+		if(this._disposed) return;
+
+		// TODO: update label caption via localization/FriendlyTime
+	}
+
 	public dispose(): void
 	{
 		if(this._disposed) return;
 
-		this._widgetWindow = null;
+		// Unregister from the shared static timer
+		UpdatingTimeStampWidget._instances.delete(this);
+		UpdatingTimeStampWidget.stopUpdateTimer();
+
+		if(this._label)
+		{
+			this._label.dispose();
+			this._label = null;
+		}
+
+		if(this._widgetWindow)
+		{
+			this._widgetWindow.rootWindow = null;
+			this._widgetWindow = null;
+		}
+
 		this._windowManager = null;
 		this._disposed = true;
 	}

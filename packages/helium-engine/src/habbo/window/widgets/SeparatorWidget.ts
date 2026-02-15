@@ -1,7 +1,10 @@
 import type {ISeparatorWidget} from './ISeparatorWidget';
 import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
 import type {IHabboWindowManager} from '../IHabboWindowManager';
+import type {IWindowContainer} from '@core/window/IWindowContainer';
+import type {IWindow} from '@core/window/IWindow';
 import {PropertyStruct} from '@core/window/utils/PropertyStruct';
+import {WindowEvent} from '@core/window/events/WindowEvent';
 
 /**
  * Visual separator widget.
@@ -25,11 +28,50 @@ export class SeparatorWidget implements ISeparatorWidget
 
 	private _widgetWindow: IWidgetWindow | null = null;
 	private _windowManager: IHabboWindowManager | null = null;
+	private _root: IWindowContainer | null = null;
+	private _canvas: IWindow | null = null;
+	private _children: IWindowContainer | null = null;
+
+	private _onChangeBound: Function;
 
 	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
 		this._widgetWindow = window;
 		this._windowManager = windowManager;
+
+		this._onChangeBound = this.onChange.bind(this);
+
+		const root = this._windowManager.buildWidgetLayout('separator') as IWindowContainer | null;
+
+		if(root)
+		{
+			this._root = root;
+
+			const canvas = root.getChildByName('canvas');
+			const children = root.getChildByName('children') as IWindowContainer | null;
+
+			if(canvas)
+			{
+				this._canvas = canvas;
+
+				this._canvas.addEventListener(WindowEvent.WE_RESIZE, this._onChangeBound);
+				this._canvas.addEventListener(WindowEvent.WE_RESIZED, this._onChangeBound);
+			}
+
+			if(children)
+			{
+				this._children = children;
+
+				this._children.addEventListener(WindowEvent.WE_CHILD_ADDED, this._onChangeBound);
+				this._children.addEventListener(WindowEvent.WE_CHILD_REMOVED, this._onChangeBound);
+				this._children.addEventListener(WindowEvent.WE_CHILD_RELOCATED, this._onChangeBound);
+				this._children.addEventListener(WindowEvent.WE_CHILD_RESIZED, this._onChangeBound);
+			}
+
+			this._widgetWindow.rootWindow = this._root as unknown as IWindow;
+			this._root.width = this._widgetWindow.width;
+			this._root.height = this._widgetWindow.height;
+		}
 	}
 
 	private _disposed: boolean = false;
@@ -81,12 +123,59 @@ export class SeparatorWidget implements ISeparatorWidget
 		}
 	}
 
+	/**
+	 * Called when the canvas resizes or children change.
+	 * Triggers a refresh of the separator rendering.
+	 */
+	private onChange(): void
+	{
+		this.refresh();
+	}
+
+	/**
+	 * Refresh the separator rendering based on current layout.
+	 */
+	private refresh(): void
+	{
+		// AS3: Redraws the separator BitmapData with tiled border images
+		// and punch-through holes for children. In TS, the UI layer
+		// handles rendering based on stored state.
+	}
+
 	public dispose(): void
 	{
 		if(this._disposed) return;
 
+		this._disposed = true;
+
+		if(this._canvas)
+		{
+			this._canvas.removeEventListener(WindowEvent.WE_RESIZE, this._onChangeBound);
+			this._canvas.removeEventListener(WindowEvent.WE_RESIZED, this._onChangeBound);
+			this._canvas = null;
+		}
+
+		if(this._children)
+		{
+			this._children.removeEventListener(WindowEvent.WE_CHILD_ADDED, this._onChangeBound);
+			this._children.removeEventListener(WindowEvent.WE_CHILD_REMOVED, this._onChangeBound);
+			this._children.removeEventListener(WindowEvent.WE_CHILD_RELOCATED, this._onChangeBound);
+			this._children.removeEventListener(WindowEvent.WE_CHILD_RESIZED, this._onChangeBound);
+			this._children = null;
+		}
+
+		if(this._root)
+		{
+			this._root.dispose();
+			this._root = null;
+		}
+
+		if(this._widgetWindow)
+		{
+			this._widgetWindow.rootWindow = null;
+		}
+
 		this._widgetWindow = null;
 		this._windowManager = null;
-		this._disposed = true;
 	}
 }
