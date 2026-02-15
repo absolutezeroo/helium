@@ -1,5 +1,5 @@
-import type { ILimitedItemGridOverlayWidget } from './ILimitedItemGridOverlayWidget';
-import type { IWidgetProperty } from './IWidget';
+import type {ILimitedItemGridOverlayWidget} from './ILimitedItemGridOverlayWidget';
+import type {IWidgetProperty} from './IWidget';
 
 /**
  * Limited item grid overlay widget.
@@ -16,70 +16,73 @@ import type { IWidgetProperty } from './IWidget';
  */
 export class LimitedItemGridOverlayWidget implements ILimitedItemGridOverlayWidget
 {
-    public static readonly TYPE: string = 'limited_item_overlay_grid';
+	public static readonly TYPE: string = 'limited_item_overlay_grid';
 
-    private readonly SHINE_INTERVAL_MS: number = 10000;
-    private readonly SHINE_LENGTH_MS: number = 250;
+	private readonly SHINE_INTERVAL_MS: number = 10000;
+	private readonly SHINE_LENGTH_MS: number = 250;
 
-    private _disposed: boolean = false;
-    private _serialNumber: number = 0;
-    private _seriesSize: number = 0;
-    private _animated: boolean = false;
+	constructor()
+	{
+	}
 
-    constructor()
-    {
-    }
+	private _disposed: boolean = false;
 
-    public get serialNumber(): number
-    {
-        return this._serialNumber;
-    }
+	public get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
-    public set serialNumber(value: number)
-    {
-        this._serialNumber = value;
-    }
+	private _serialNumber: number = 0;
 
-    public get seriesSize(): number
-    {
-        return this._seriesSize;
-    }
+	public get serialNumber(): number
+	{
+		return this._serialNumber;
+	}
 
-    public set seriesSize(_value: number)
-    {
-        // AS3: seriesSize setter is a no-op for grid overlay
-    }
+	public set serialNumber(value: number)
+	{
+		this._serialNumber = value;
+	}
 
-    public get animated(): boolean
-    {
-        return this._animated;
-    }
+	private _seriesSize: number = 0;
 
-    public set animated(value: boolean)
-    {
-        this._animated = value;
-    }
+	public get seriesSize(): number
+	{
+		return this._seriesSize;
+	}
 
-    public get properties(): IWidgetProperty[]
-    {
-        return [];
-    }
+	public set seriesSize(_value: number)
+	{
+		// AS3: seriesSize setter is a no-op for grid overlay
+	}
 
-    public setProperties(_values: IWidgetProperty[]): void
-    {
-        // AS3: properties setter is a no-op for this widget
-    }
+	private _animated: boolean = false;
 
-    public get disposed(): boolean
-    {
-        return this._disposed;
-    }
+	public get animated(): boolean
+	{
+		return this._animated;
+	}
 
-    public dispose(): void
-    {
-        if(this._disposed) return;
+	public set animated(value: boolean)
+	{
+		this._animated = value;
+	}
 
-        this._disposed = true;
-    }
+	public get properties(): IWidgetProperty[]
+	{
+		return [];
+	}
+
+	public setProperties(_values: IWidgetProperty[]): void
+	{
+		// AS3: properties setter is a no-op for this widget
+	}
+
+	public dispose(): void
+	{
+		if (this._disposed) return;
+
+		this._disposed = true;
+	}
 }
 

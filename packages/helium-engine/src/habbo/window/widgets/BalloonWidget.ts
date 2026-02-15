@@ -1,4 +1,4 @@
-import type { IWidget, IWidgetProperty } from './IWidget';
+import type {IWidget, IWidgetProperty} from './IWidget';
 
 /**
  * Balloon / speech bubble widget.
@@ -15,83 +15,85 @@ import type { IWidget, IWidgetProperty } from './IWidget';
  */
 export class BalloonWidget implements IWidget
 {
-    public static readonly TYPE: string = 'balloon';
+	public static readonly TYPE: string = 'balloon';
 
-    private static readonly ARROW_PIVOT_KEY: string = 'balloon:arrow_pivot';
-    private static readonly ARROW_DISPLACEMENT_KEY: string = 'balloon:arrow_displacement';
-    private static readonly ARROW_FREE_PADDING: number = 6;
-    private static readonly ARROW_LENGTH: number = 6;
-    private static readonly ARROW_WIDTH: number = 9;
+	private static readonly ARROW_PIVOT_KEY: string = 'balloon:arrow_pivot';
+	private static readonly ARROW_DISPLACEMENT_KEY: string = 'balloon:arrow_displacement';
+	private static readonly ARROW_FREE_PADDING: number = 6;
+	private static readonly ARROW_LENGTH: number = 6;
+	private static readonly ARROW_WIDTH: number = 9;
+	private _batchUpdate: boolean = false;
 
-    private _disposed: boolean = false;
-    private _arrowPivot: string = 'up, center';
-    private _arrowDisplacement: number = 0;
-    private _batchUpdate: boolean = false;
+	constructor()
+	{
+	}
 
-    constructor()
-    {
-    }
+	private _disposed: boolean = false;
 
-    public get arrowPivot(): string
-    {
-        return this._arrowPivot;
-    }
+	public get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
-    public set arrowPivot(value: string)
-    {
-        this._arrowPivot = value;
-    }
+	private _arrowPivot: string = 'up, center';
 
-    public get arrowDisplacement(): number
-    {
-        return this._arrowDisplacement;
-    }
+	public get arrowPivot(): string
+	{
+		return this._arrowPivot;
+	}
 
-    public set arrowDisplacement(value: number)
-    {
-        this._arrowDisplacement = value;
-    }
+	public set arrowPivot(value: string)
+	{
+		this._arrowPivot = value;
+	}
 
-    public get properties(): IWidgetProperty[]
-    {
-        if(this._disposed) return [];
+	private _arrowDisplacement: number = 0;
 
-        return [
-            { key: BalloonWidget.ARROW_PIVOT_KEY, value: this._arrowPivot, type: 'String' },
-            { key: BalloonWidget.ARROW_DISPLACEMENT_KEY, value: this._arrowDisplacement, type: 'int' },
-        ];
-    }
+	public get arrowDisplacement(): number
+	{
+		return this._arrowDisplacement;
+	}
 
-    public setProperties(values: IWidgetProperty[]): void
-    {
-        this._batchUpdate = true;
+	public set arrowDisplacement(value: number)
+	{
+		this._arrowDisplacement = value;
+	}
 
-        for(const prop of values)
-        {
-            switch(prop.key)
-            {
-                case BalloonWidget.ARROW_PIVOT_KEY:
-                    this.arrowPivot = String(prop.value);
-                    break;
-                case BalloonWidget.ARROW_DISPLACEMENT_KEY:
-                    this.arrowDisplacement = Number(prop.value);
-                    break;
-            }
-        }
+	public get properties(): IWidgetProperty[]
+	{
+		if (this._disposed) return [];
 
-        this._batchUpdate = false;
-    }
+		return [
+			{key: BalloonWidget.ARROW_PIVOT_KEY, value: this._arrowPivot, type: 'String'},
+			{key: BalloonWidget.ARROW_DISPLACEMENT_KEY, value: this._arrowDisplacement, type: 'int'},
+		];
+	}
 
-    public get disposed(): boolean
-    {
-        return this._disposed;
-    }
+	public setProperties(values: IWidgetProperty[]): void
+	{
+		this._batchUpdate = true;
 
-    public dispose(): void
-    {
-        if(this._disposed) return;
+		for (const prop of values)
+		{
+			switch (prop.key)
+			{
+				case BalloonWidget.ARROW_PIVOT_KEY:
+					this.arrowPivot = String(prop.value);
+					break;
+				case BalloonWidget.ARROW_DISPLACEMENT_KEY:
+					this.arrowDisplacement = Number(prop.value);
+					break;
+			}
+		}
 
-        this._disposed = true;
-    }
+		this._batchUpdate = false;
+	}
+
+	public dispose(): void
+	{
+		if (this._disposed) return;
+
+		this._disposed = true;
+	}
 }
 

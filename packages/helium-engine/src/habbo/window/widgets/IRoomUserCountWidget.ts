@@ -1,4 +1,4 @@
-import type { IWidget } from './IWidget';
+import type {IWidget} from './IWidget';
 
 /**
  * Interface for the room user count widget.
@@ -9,9 +9,9 @@ import type { IWidget } from './IWidget';
  */
 export interface IRoomUserCountWidget extends IWidget
 {
-    /**
-     * Set the user count to display.
-     */
-    set userCount(value: number);
+	/**
+	 * Set the user count to display.
+	 */
+	set userCount(value: number);
 }
 

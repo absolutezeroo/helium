@@ -1,5 +1,5 @@
-import type { IRunningNumberWidget } from './IRunningNumberWidget';
-import type { IWidgetProperty } from './IWidget';
+import type {IRunningNumberWidget} from './IRunningNumberWidget';
+import type {IWidgetProperty} from './IWidget';
 
 /**
  * Animated running number widget.
@@ -15,160 +15,165 @@ import type { IWidgetProperty } from './IWidget';
  */
 export class RunningNumberWidget implements IRunningNumberWidget
 {
-    public static readonly TYPE: string = 'running_number';
+	public static readonly TYPE: string = 'running_number';
 
-    private static readonly NUMBER_KEY: string = 'running_number:number';
-    private static readonly DIGITS_KEY: string = 'running_number:digits';
-    private static readonly COLOR_STYLE_KEY: string = 'running_number:color_style';
-    private static readonly UPDATE_FREQUENCY_KEY: string = 'running_number:update_frequency';
+	private static readonly NUMBER_KEY: string = 'running_number:number';
+	private static readonly DIGITS_KEY: string = 'running_number:digits';
+	private static readonly COLOR_STYLE_KEY: string = 'running_number:color_style';
+	private static readonly UPDATE_FREQUENCY_KEY: string = 'running_number:update_frequency';
+	private _millisSinceLastUpdate: number = 0;
 
-    private _disposed: boolean = false;
-    private _number: number = 0;
-    private _displayedNumber: number = 0;
-    private _digits: number = 8;
-    private _colorStyle: number = 0;
-    private _updateFrequency: number = 50;
-    private _millisSinceLastUpdate: number = 0;
+	constructor()
+	{
+	}
 
-    constructor()
-    {
-    }
+	private _disposed: boolean = false;
 
-    public get number(): number
-    {
-        return this._number;
-    }
+	public get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
-    public set number(value: number)
-    {
-        this._number = value;
-    }
+	private _number: number = 0;
 
-    public set initialNumber(value: number)
-    {
-        this._displayedNumber = value;
-        this._number = value;
-    }
+	public get number(): number
+	{
+		return this._number;
+	}
 
-    public get digits(): number
-    {
-        return this._digits;
-    }
+	public set number(value: number)
+	{
+		this._number = value;
+	}
 
-    public set digits(value: number)
-    {
-        this._digits = value;
-    }
+	private _displayedNumber: number = 0;
 
-    public get colorStyle(): number
-    {
-        return this._colorStyle;
-    }
+	/**
+	 * The currently displayed number (may differ from target during animation).
+	 */
+	public get displayedNumber(): number
+	{
+		return this._displayedNumber;
+	}
 
-    public set colorStyle(value: number)
-    {
-        this._colorStyle = value;
-    }
+	private _digits: number = 8;
 
-    public get updateFrequency(): number
-    {
-        return this._updateFrequency;
-    }
+	public get digits(): number
+	{
+		return this._digits;
+	}
 
-    public set updateFrequency(value: number)
-    {
-        this._updateFrequency = value;
-    }
+	public set digits(value: number)
+	{
+		this._digits = value;
+	}
 
-    /**
-     * The currently displayed number (may differ from target during animation).
-     */
-    public get displayedNumber(): number
-    {
-        return this._displayedNumber;
-    }
+	private _colorStyle: number = 0;
 
-    /**
-     * Get the formatted display string with leading zeros.
-     */
-    public get formattedValue(): string
-    {
-        let str = Math.floor(this._displayedNumber).toString();
+	public get colorStyle(): number
+	{
+		return this._colorStyle;
+	}
 
-        while(str.length < this._digits)
-        {
-            str = '0' + str;
-        }
+	public set colorStyle(value: number)
+	{
+		this._colorStyle = value;
+	}
 
-        return str;
-    }
+	private _updateFrequency: number = 50;
 
-    /**
-     * Update the animation by the given elapsed milliseconds.
-     *
-     * @param elapsed - Milliseconds since last update
-     */
-    public update(elapsed: number): void
-    {
-        if(this._displayedNumber < this._number)
-        {
-            this._millisSinceLastUpdate += elapsed;
+	public get updateFrequency(): number
+	{
+		return this._updateFrequency;
+	}
 
-            if(this._millisSinceLastUpdate > this._updateFrequency)
-            {
-                this._displayedNumber = Math.min(
-                    this._number,
-                    this._displayedNumber + this._millisSinceLastUpdate / this._updateFrequency
-                );
-                this._millisSinceLastUpdate -= this._updateFrequency;
-            }
-        }
-    }
+	public set updateFrequency(value: number)
+	{
+		this._updateFrequency = value;
+	}
 
-    public get properties(): IWidgetProperty[]
-    {
-        if(this._disposed) return [];
+	public set initialNumber(value: number)
+	{
+		this._displayedNumber = value;
+		this._number = value;
+	}
 
-        return [
-            { key: RunningNumberWidget.NUMBER_KEY, value: this._number, type: 'int' },
-            { key: RunningNumberWidget.DIGITS_KEY, value: this._digits, type: 'uint' },
-            { key: RunningNumberWidget.COLOR_STYLE_KEY, value: this._colorStyle, type: 'int' },
-            { key: RunningNumberWidget.UPDATE_FREQUENCY_KEY, value: this._updateFrequency, type: 'int' },
-        ];
-    }
+	/**
+	 * Get the formatted display string with leading zeros.
+	 */
+	public get formattedValue(): string
+	{
+		let str = Math.floor(this._displayedNumber).toString();
 
-    public setProperties(values: IWidgetProperty[]): void
-    {
-        for(const prop of values)
-        {
-            switch(prop.key)
-            {
-                case RunningNumberWidget.NUMBER_KEY:
-                    this.number = Number(prop.value);
-                    break;
-                case RunningNumberWidget.DIGITS_KEY:
-                    this.digits = Number(prop.value);
-                    break;
-                case RunningNumberWidget.COLOR_STYLE_KEY:
-                    this.colorStyle = Number(prop.value);
-                    break;
-                case RunningNumberWidget.UPDATE_FREQUENCY_KEY:
-                    this.updateFrequency = Number(prop.value);
-                    break;
-            }
-        }
-    }
+		while (str.length < this._digits)
+		{
+			str = '0' + str;
+		}
 
-    public get disposed(): boolean
-    {
-        return this._disposed;
-    }
+		return str;
+	}
 
-    public dispose(): void
-    {
-        if(this._disposed) return;
+	public get properties(): IWidgetProperty[]
+	{
+		if (this._disposed) return [];
 
-        this._disposed = true;
-    }
+		return [
+			{key: RunningNumberWidget.NUMBER_KEY, value: this._number, type: 'int'},
+			{key: RunningNumberWidget.DIGITS_KEY, value: this._digits, type: 'uint'},
+			{key: RunningNumberWidget.COLOR_STYLE_KEY, value: this._colorStyle, type: 'int'},
+			{key: RunningNumberWidget.UPDATE_FREQUENCY_KEY, value: this._updateFrequency, type: 'int'},
+		];
+	}
+
+	/**
+	 * Update the animation by the given elapsed milliseconds.
+	 *
+	 * @param elapsed - Milliseconds since last update
+	 */
+	public update(elapsed: number): void
+	{
+		if (this._displayedNumber < this._number)
+		{
+			this._millisSinceLastUpdate += elapsed;
+
+			if (this._millisSinceLastUpdate > this._updateFrequency)
+			{
+				this._displayedNumber = Math.min(
+					this._number,
+					this._displayedNumber + this._millisSinceLastUpdate / this._updateFrequency
+				);
+				this._millisSinceLastUpdate -= this._updateFrequency;
+			}
+		}
+	}
+
+	public setProperties(values: IWidgetProperty[]): void
+	{
+		for (const prop of values)
+		{
+			switch (prop.key)
+			{
+				case RunningNumberWidget.NUMBER_KEY:
+					this.number = Number(prop.value);
+					break;
+				case RunningNumberWidget.DIGITS_KEY:
+					this.digits = Number(prop.value);
+					break;
+				case RunningNumberWidget.COLOR_STYLE_KEY:
+					this.colorStyle = Number(prop.value);
+					break;
+				case RunningNumberWidget.UPDATE_FREQUENCY_KEY:
+					this.updateFrequency = Number(prop.value);
+					break;
+			}
+		}
+	}
+
+	public dispose(): void
+	{
+		if (this._disposed) return;
+
+		this._disposed = true;
+	}
 }
 

@@ -1,4 +1,4 @@
-import type { ILimitedItemOverlayWidget } from './ILimitedItemOverlayWidget';
+import type {ILimitedItemOverlayWidget} from './ILimitedItemOverlayWidget';
 
 /**
  * Interface for the limited item supply left overlay widget.
@@ -10,9 +10,9 @@ import type { ILimitedItemOverlayWidget } from './ILimitedItemOverlayWidget';
  */
 export interface ILimitedItemSupplyLeftOverlayWidget extends ILimitedItemOverlayWidget
 {
-    /**
-     * The number of items remaining in the supply.
-     */
-    supplyLeft: number;
+	/**
+	 * The number of items remaining in the supply.
+	 */
+	supplyLeft: number;
 }
 

@@ -1,5 +1,5 @@
-import type { IRoomUserCountWidget } from './IRoomUserCountWidget';
-import type { IWidgetProperty } from './IWidget';
+import type {IRoomUserCountWidget} from './IRoomUserCountWidget';
+import type {IWidgetProperty} from './IWidget';
 
 /**
  * Room user count display widget.
@@ -11,45 +11,46 @@ import type { IWidgetProperty } from './IWidget';
  */
 export class RoomUserCountWidget implements IRoomUserCountWidget
 {
-    public static readonly TYPE: string = 'room_user_count';
+	public static readonly TYPE: string = 'room_user_count';
 
-    private _disposed: boolean = false;
-    private _userCount: number = 0;
+	constructor()
+	{
+	}
 
-    constructor()
-    {
-    }
+	private _disposed: boolean = false;
 
-    public set userCount(value: number)
-    {
-        this._userCount = value;
-    }
+	public get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
-    public get userCount(): number
-    {
-        return this._userCount;
-    }
+	private _userCount: number = 0;
 
-    public get properties(): IWidgetProperty[]
-    {
-        return [];
-    }
+	public get userCount(): number
+	{
+		return this._userCount;
+	}
 
-    public setProperties(_values: IWidgetProperty[]): void
-    {
-        // AS3: properties setter is a no-op for this widget
-    }
+	public set userCount(value: number)
+	{
+		this._userCount = value;
+	}
 
-    public get disposed(): boolean
-    {
-        return this._disposed;
-    }
+	public get properties(): IWidgetProperty[]
+	{
+		return [];
+	}
 
-    public dispose(): void
-    {
-        if(this._disposed) return;
+	public setProperties(_values: IWidgetProperty[]): void
+	{
+		// AS3: properties setter is a no-op for this widget
+	}
 
-        this._disposed = true;
-    }
+	public dispose(): void
+	{
+		if (this._disposed) return;
+
+		this._disposed = true;
+	}
 }
 

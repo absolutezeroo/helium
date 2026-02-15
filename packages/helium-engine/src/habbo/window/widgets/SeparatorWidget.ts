@@ -1,5 +1,5 @@
-import type { ISeparatorWidget } from './ISeparatorWidget';
-import type { IWidgetProperty } from './IWidget';
+import type {ISeparatorWidget} from './ISeparatorWidget';
+import type {IWidgetProperty} from './IWidget';
 
 /**
  * Visual separator widget.
@@ -15,69 +15,70 @@ import type { IWidgetProperty } from './IWidget';
  */
 export class SeparatorWidget implements ISeparatorWidget
 {
-    public static readonly TYPE: string = 'separator';
+	public static readonly TYPE: string = 'separator';
 
-    private static readonly VERTICAL_KEY: string = 'separator:vertical';
-    private static readonly BORDER_IMAGE_HORIZONTAL: string = 'illumina_light_separator_horizontal';
-    private static readonly BORDER_IMAGE_VERTICAL: string = 'illumina_light_separator_vertical';
+	private static readonly VERTICAL_KEY: string = 'separator:vertical';
+	private static readonly BORDER_IMAGE_HORIZONTAL: string = 'illumina_light_separator_horizontal';
+	private static readonly BORDER_IMAGE_VERTICAL: string = 'illumina_light_separator_vertical';
 
-    private _disposed: boolean = false;
-    private _vertical: boolean = false;
+	constructor()
+	{
+	}
 
-    constructor()
-    {
-    }
+	private _disposed: boolean = false;
 
-    public get vertical(): boolean
-    {
-        return this._vertical;
-    }
+	public get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
-    public set vertical(value: boolean)
-    {
-        this._vertical = value;
-    }
+	private _vertical: boolean = false;
 
-    /**
-     * Get the border image asset name for the current orientation.
-     */
-    public get borderImageName(): string
-    {
-        return this._vertical
-            ? SeparatorWidget.BORDER_IMAGE_VERTICAL
-            : SeparatorWidget.BORDER_IMAGE_HORIZONTAL;
-    }
+	public get vertical(): boolean
+	{
+		return this._vertical;
+	}
 
-    public get properties(): IWidgetProperty[]
-    {
-        if(this._disposed) return [];
+	public set vertical(value: boolean)
+	{
+		this._vertical = value;
+	}
 
-        return [
-            { key: SeparatorWidget.VERTICAL_KEY, value: this._vertical, type: 'Boolean' },
-        ];
-    }
+	/**
+	 * Get the border image asset name for the current orientation.
+	 */
+	public get borderImageName(): string
+	{
+		return this._vertical
+			? SeparatorWidget.BORDER_IMAGE_VERTICAL
+			: SeparatorWidget.BORDER_IMAGE_HORIZONTAL;
+	}
 
-    public setProperties(values: IWidgetProperty[]): void
-    {
-        for(const prop of values)
-        {
-            if(prop.key === SeparatorWidget.VERTICAL_KEY)
-            {
-                this.vertical = Boolean(prop.value);
-            }
-        }
-    }
+	public get properties(): IWidgetProperty[]
+	{
+		if (this._disposed) return [];
 
-    public get disposed(): boolean
-    {
-        return this._disposed;
-    }
+		return [
+			{key: SeparatorWidget.VERTICAL_KEY, value: this._vertical, type: 'Boolean'},
+		];
+	}
 
-    public dispose(): void
-    {
-        if(this._disposed) return;
+	public setProperties(values: IWidgetProperty[]): void
+	{
+		for (const prop of values)
+		{
+			if (prop.key === SeparatorWidget.VERTICAL_KEY)
+			{
+				this.vertical = Boolean(prop.value);
+			}
+		}
+	}
 
-        this._disposed = true;
-    }
+	public dispose(): void
+	{
+		if (this._disposed) return;
+
+		this._disposed = true;
+	}
 }
 

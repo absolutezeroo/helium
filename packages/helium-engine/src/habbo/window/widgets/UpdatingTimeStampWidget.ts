@@ -1,4 +1,4 @@
-import type { IWidget, IWidgetProperty } from './IWidget';
+import type {IWidget, IWidgetProperty} from './IWidget';
 
 /**
  * Updating timestamp display widget.
@@ -14,78 +14,80 @@ import type { IWidget, IWidgetProperty } from './IWidget';
  */
 export class UpdatingTimeStampWidget implements IWidget
 {
-    public static readonly TYPE: string = 'updating_timestamp';
+	public static readonly TYPE: string = 'updating_timestamp';
 
-    private static readonly UPDATE_INTERVAL_MS: number = 60000;
+	private static readonly UPDATE_INTERVAL_MS: number = 60000;
 
-    private _disposed: boolean = false;
-    private _timeStamp: number = 0;
-    private _align: string = '';
+	constructor()
+	{
+		this.reset();
+	}
 
-    constructor()
-    {
-        this.reset();
-    }
+	private _disposed: boolean = false;
 
-    /**
-     * Reset the timestamp to the current time.
-     */
-    public reset(): void
-    {
-        this._timeStamp = Date.now();
-    }
+	public get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
-    public get timeStamp(): number
-    {
-        return this._timeStamp;
-    }
+	private _timeStamp: number = 0;
 
-    public set timeStamp(value: number)
-    {
-        this._timeStamp = value;
-    }
+	public get timeStamp(): number
+	{
+		return this._timeStamp;
+	}
 
-    /**
-     * The text alignment for the display label.
-     */
-    public get align(): string
-    {
-        return this._align;
-    }
+	public set timeStamp(value: number)
+	{
+		this._timeStamp = value;
+	}
 
-    public set align(value: string)
-    {
-        this._align = value;
-    }
+	private _align: string = '';
 
-    /**
-     * Get the elapsed seconds since the timestamp.
-     */
-    public get elapsedSeconds(): number
-    {
-        return (Date.now() - Math.abs(this._timeStamp)) / 1000;
-    }
+	/**
+	 * The text alignment for the display label.
+	 */
+	public get align(): string
+	{
+		return this._align;
+	}
 
-    public get properties(): IWidgetProperty[]
-    {
-        return [];
-    }
+	public set align(value: string)
+	{
+		this._align = value;
+	}
 
-    public setProperties(_values: IWidgetProperty[]): void
-    {
-        // AS3: properties setter is a no-op for this widget
-    }
+	/**
+	 * Get the elapsed seconds since the timestamp.
+	 */
+	public get elapsedSeconds(): number
+	{
+		return (Date.now() - Math.abs(this._timeStamp)) / 1000;
+	}
 
-    public get disposed(): boolean
-    {
-        return this._disposed;
-    }
+	public get properties(): IWidgetProperty[]
+	{
+		return [];
+	}
 
-    public dispose(): void
-    {
-        if(this._disposed) return;
+	/**
+	 * Reset the timestamp to the current time.
+	 */
+	public reset(): void
+	{
+		this._timeStamp = Date.now();
+	}
 
-        this._disposed = true;
-    }
+	public setProperties(_values: IWidgetProperty[]): void
+	{
+		// AS3: properties setter is a no-op for this widget
+	}
+
+	public dispose(): void
+	{
+		if (this._disposed) return;
+
+		this._disposed = true;
+	}
 }
 

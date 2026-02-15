@@ -1,4 +1,4 @@
-import type { IRarityItemOverlayWidget } from './IRarityItemOverlayWidget';
+import type {IRarityItemOverlayWidget} from './IRarityItemOverlayWidget';
 
 /**
  * Interface for the rarity item grid overlay widget.

@@ -1,4 +1,4 @@
-import type { IWidget } from './IWidget';
+import type {IWidget} from './IWidget';
 
 /**
  * Interface for the running number widget.
@@ -10,29 +10,26 @@ import type { IWidget } from './IWidget';
  */
 export interface IRunningNumberWidget extends IWidget
 {
-    /**
-     * The target number to animate towards.
-     */
-    number: number;
+	/**
+	 * The target number to animate towards.
+	 */
+	number: number;
+	/**
+	 * The number of display digits (leading zeros).
+	 */
+	digits: number;
+	/**
+	 * The color style index.
+	 */
+	colorStyle: number;
+	/**
+	 * The update frequency in milliseconds.
+	 */
+	updateFrequency: number;
 
-    /**
-     * Set the initial number (skips animation).
-     */
-    set initialNumber(value: number);
-
-    /**
-     * The number of display digits (leading zeros).
-     */
-    digits: number;
-
-    /**
-     * The color style index.
-     */
-    colorStyle: number;
-
-    /**
-     * The update frequency in milliseconds.
-     */
-    updateFrequency: number;
+	/**
+	 * Set the initial number (skips animation).
+	 */
+	set initialNumber(value: number);
 }
 

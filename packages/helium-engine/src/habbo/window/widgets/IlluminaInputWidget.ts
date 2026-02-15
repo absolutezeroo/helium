@@ -1,6 +1,6 @@
-import type { IIlluminaInputWidget } from './IIlluminaInputWidget';
-import type { IIlluminaInputHandler } from './IIlluminaInputHandler';
-import type { IWidgetProperty } from './IWidget';
+import type {IIlluminaInputWidget} from './IIlluminaInputWidget';
+import type {IIlluminaInputHandler} from './IIlluminaInputHandler';
+import type {IWidgetProperty} from './IWidget';
 
 /**
  * Illumina input field widget.
@@ -17,145 +17,151 @@ import type { IWidgetProperty } from './IWidget';
  */
 export class IlluminaInputWidget implements IIlluminaInputWidget
 {
-    public static readonly TYPE: string = 'illumina_input';
+	public static readonly TYPE: string = 'illumina_input';
 
-    private static readonly BUTTON_CAPTION_KEY: string = 'illumina_input:button_caption';
-    private static readonly EMPTY_MESSAGE_KEY: string = 'illumina_input:empty_message';
-    private static readonly MULTILINE_KEY: string = 'illumina_input:multiline';
-    private static readonly MAX_CHARS_KEY: string = 'illumina_input:max_chars';
+	private static readonly BUTTON_CAPTION_KEY: string = 'illumina_input:button_caption';
+	private static readonly EMPTY_MESSAGE_KEY: string = 'illumina_input:empty_message';
+	private static readonly MULTILINE_KEY: string = 'illumina_input:multiline';
+	private static readonly MAX_CHARS_KEY: string = 'illumina_input:max_chars';
 
-    private static readonly SINGLE_LINE_HEIGHT: number = 28;
+	private static readonly SINGLE_LINE_HEIGHT: number = 28;
 
-    private _disposed: boolean = false;
-    private _message: string = '';
-    private _submitHandler: IIlluminaInputHandler | null = null;
-    private _buttonCaption: string = '${widgets.chatinput.say}';
-    private _emptyMessage: string = '';
-    private _multiline: boolean = false;
-    private _maxChars: number = 0;
+	constructor()
+	{
+	}
 
-    constructor()
-    {
-    }
+	private _disposed: boolean = false;
 
-    public get message(): string
-    {
-        return this._message;
-    }
+	public get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
-    public set message(value: string)
-    {
-        this._message = value;
-    }
+	private _message: string = '';
 
-    public get submitHandler(): IIlluminaInputHandler | null
-    {
-        return this._submitHandler;
-    }
+	public get message(): string
+	{
+		return this._message;
+	}
 
-    public set submitHandler(value: IIlluminaInputHandler | null)
-    {
-        this._submitHandler = value;
-    }
+	public set message(value: string)
+	{
+		this._message = value;
+	}
 
-    public get buttonCaption(): string
-    {
-        return this._buttonCaption;
-    }
+	private _submitHandler: IIlluminaInputHandler | null = null;
 
-    public set buttonCaption(value: string)
-    {
-        this._buttonCaption = value;
-    }
+	public get submitHandler(): IIlluminaInputHandler | null
+	{
+		return this._submitHandler;
+	}
 
-    public get emptyMessage(): string
-    {
-        return this._emptyMessage;
-    }
+	public set submitHandler(value: IIlluminaInputHandler | null)
+	{
+		this._submitHandler = value;
+	}
 
-    public set emptyMessage(value: string)
-    {
-        this._emptyMessage = value;
-    }
+	private _buttonCaption: string = '${widgets.chatinput.say}';
 
-    public get multiline(): boolean
-    {
-        return this._multiline;
-    }
+	public get buttonCaption(): string
+	{
+		return this._buttonCaption;
+	}
 
-    public set multiline(value: boolean)
-    {
-        this._multiline = value;
-    }
+	public set buttonCaption(value: string)
+	{
+		this._buttonCaption = value;
+	}
 
-    public get maxChars(): number
-    {
-        return this._maxChars;
-    }
+	private _emptyMessage: string = '';
 
-    public set maxChars(value: number)
-    {
-        this._maxChars = value;
-    }
+	public get emptyMessage(): string
+	{
+		return this._emptyMessage;
+	}
 
-    /**
-     * Submit the current message via the handler.
-     *
-     * @param widgetId - The widget identifier
-     */
-    public submitMessage(widgetId: string): void
-    {
-        if(this._submitHandler)
-        {
-            this._submitHandler.onInput(widgetId, this._message);
-        }
-    }
+	public set emptyMessage(value: string)
+	{
+		this._emptyMessage = value;
+	}
 
-    public get properties(): IWidgetProperty[]
-    {
-        if(this._disposed) return [];
+	private _multiline: boolean = false;
 
-        return [
-            { key: IlluminaInputWidget.BUTTON_CAPTION_KEY, value: this._buttonCaption, type: 'String' },
-            { key: IlluminaInputWidget.EMPTY_MESSAGE_KEY, value: this._emptyMessage, type: 'String' },
-            { key: IlluminaInputWidget.MULTILINE_KEY, value: this._multiline, type: 'Boolean' },
-            { key: IlluminaInputWidget.MAX_CHARS_KEY, value: this._maxChars, type: 'int' },
-        ];
-    }
+	public get multiline(): boolean
+	{
+		return this._multiline;
+	}
 
-    public setProperties(values: IWidgetProperty[]): void
-    {
-        for(const prop of values)
-        {
-            switch(prop.key)
-            {
-                case IlluminaInputWidget.BUTTON_CAPTION_KEY:
-                    this.buttonCaption = String(prop.value);
-                    break;
-                case IlluminaInputWidget.EMPTY_MESSAGE_KEY:
-                    this.emptyMessage = String(prop.value);
-                    break;
-                case IlluminaInputWidget.MULTILINE_KEY:
-                    this.multiline = Boolean(prop.value);
-                    break;
-                case IlluminaInputWidget.MAX_CHARS_KEY:
-                    this.maxChars = Number(prop.value);
-                    break;
-            }
-        }
-    }
+	public set multiline(value: boolean)
+	{
+		this._multiline = value;
+	}
 
-    public get disposed(): boolean
-    {
-        return this._disposed;
-    }
+	private _maxChars: number = 0;
 
-    public dispose(): void
-    {
-        if(this._disposed) return;
+	public get maxChars(): number
+	{
+		return this._maxChars;
+	}
 
-        this._submitHandler = null;
-        this._disposed = true;
-    }
+	public set maxChars(value: number)
+	{
+		this._maxChars = value;
+	}
+
+	public get properties(): IWidgetProperty[]
+	{
+		if (this._disposed) return [];
+
+		return [
+			{key: IlluminaInputWidget.BUTTON_CAPTION_KEY, value: this._buttonCaption, type: 'String'},
+			{key: IlluminaInputWidget.EMPTY_MESSAGE_KEY, value: this._emptyMessage, type: 'String'},
+			{key: IlluminaInputWidget.MULTILINE_KEY, value: this._multiline, type: 'Boolean'},
+			{key: IlluminaInputWidget.MAX_CHARS_KEY, value: this._maxChars, type: 'int'},
+		];
+	}
+
+	/**
+	 * Submit the current message via the handler.
+	 *
+	 * @param widgetId - The widget identifier
+	 */
+	public submitMessage(widgetId: string): void
+	{
+		if (this._submitHandler)
+		{
+			this._submitHandler.onInput(widgetId, this._message);
+		}
+	}
+
+	public setProperties(values: IWidgetProperty[]): void
+	{
+		for (const prop of values)
+		{
+			switch (prop.key)
+			{
+				case IlluminaInputWidget.BUTTON_CAPTION_KEY:
+					this.buttonCaption = String(prop.value);
+					break;
+				case IlluminaInputWidget.EMPTY_MESSAGE_KEY:
+					this.emptyMessage = String(prop.value);
+					break;
+				case IlluminaInputWidget.MULTILINE_KEY:
+					this.multiline = Boolean(prop.value);
+					break;
+				case IlluminaInputWidget.MAX_CHARS_KEY:
+					this.maxChars = Number(prop.value);
+					break;
+			}
+		}
+	}
+
+	public dispose(): void
+	{
+		if (this._disposed) return;
+
+		this._submitHandler = null;
+		this._disposed = true;
+	}
 }
 

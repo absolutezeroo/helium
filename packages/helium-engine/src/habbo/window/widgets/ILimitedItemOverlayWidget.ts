@@ -1,4 +1,4 @@
-import type { IWidget } from './IWidget';
+import type {IWidget} from './IWidget';
 
 /**
  * Interface for the limited item overlay widget (base).
@@ -9,14 +9,14 @@ import type { IWidget } from './IWidget';
  */
 export interface ILimitedItemOverlayWidget extends IWidget
 {
-    /**
-     * The serial number of the limited item.
-     */
-    serialNumber: number;
+	/**
+	 * The serial number of the limited item.
+	 */
+	serialNumber: number;
 
-    /**
-     * The total series size.
-     */
-    seriesSize: number;
+	/**
+	 * The total series size.
+	 */
+	seriesSize: number;
 }
 

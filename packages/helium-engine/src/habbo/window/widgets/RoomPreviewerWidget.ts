@@ -1,5 +1,5 @@
-import type { IRoomPreviewerWidget } from './IRoomPreviewerWidget';
-import type { IWidgetProperty } from './IWidget';
+import type {IRoomPreviewerWidget} from './IRoomPreviewerWidget';
+import type {IWidgetProperty} from './IWidget';
 
 /**
  * Room previewer widget.
@@ -15,130 +15,136 @@ import type { IWidgetProperty } from './IWidget';
  */
 export class RoomPreviewerWidget implements IRoomPreviewerWidget
 {
-    public static readonly TYPE: string = 'room_previewer';
+	public static readonly TYPE: string = 'room_previewer';
 
-    private static readonly SCALE_KEY: string = 'room_previewer:scale';
-    private static readonly OFFSET_X_KEY: string = 'room_previewer:offsetx';
-    private static readonly OFFSET_Y_KEY: string = 'room_previewer:offsety';
-    private static readonly ZOOM_KEY: string = 'room_previewer:zoom';
+	private static readonly SCALE_KEY: string = 'room_previewer:scale';
+	private static readonly OFFSET_X_KEY: string = 'room_previewer:offsetx';
+	private static readonly OFFSET_Y_KEY: string = 'room_previewer:offsety';
+	private static readonly ZOOM_KEY: string = 'room_previewer:zoom';
 
-    private static _roomIdCounter: number = 2;
+	private static _roomIdCounter: number = 2;
 
-    private _disposed: boolean = false;
-    private _scale: number = 64;
-    private _offsetX: number = 0;
-    private _offsetY: number = 0;
-    private _zoom: number = 1;
-    private _roomPreviewer: unknown = null;
-    private _previewImageUrl: string = '';
+	constructor()
+	{
+	}
 
-    constructor()
-    {
-    }
+	private _disposed: boolean = false;
 
-    public get scale(): number
-    {
-        return this._scale;
-    }
+	public get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
-    public set scale(value: number)
-    {
-        this._scale = value;
-    }
+	private _scale: number = 64;
 
-    public get offsetX(): number
-    {
-        return this._offsetX;
-    }
+	public get scale(): number
+	{
+		return this._scale;
+	}
 
-    public set offsetX(value: number)
-    {
-        this._offsetX = value;
-    }
+	public set scale(value: number)
+	{
+		this._scale = value;
+	}
 
-    public get offsetY(): number
-    {
-        return this._offsetY;
-    }
+	private _offsetX: number = 0;
 
-    public set offsetY(value: number)
-    {
-        this._offsetY = value;
-    }
+	public get offsetX(): number
+	{
+		return this._offsetX;
+	}
 
-    public get zoom(): number
-    {
-        return this._zoom;
-    }
+	public set offsetX(value: number)
+	{
+		this._offsetX = value;
+	}
 
-    public set zoom(value: number)
-    {
-        this._zoom = value;
-    }
+	private _offsetY: number = 0;
 
-    public get roomPreviewer(): unknown
-    {
-        return this._roomPreviewer;
-    }
+	public get offsetY(): number
+	{
+		return this._offsetY;
+	}
 
-    public showPreview(imageUrl: string): void
-    {
-        this._previewImageUrl = imageUrl;
-    }
+	public set offsetY(value: number)
+	{
+		this._offsetY = value;
+	}
 
-    /**
-     * The static preview image URL, if set via showPreview().
-     */
-    public get previewImageUrl(): string
-    {
-        return this._previewImageUrl;
-    }
+	private _zoom: number = 1;
 
-    public get properties(): IWidgetProperty[]
-    {
-        if(this._disposed) return [];
+	public get zoom(): number
+	{
+		return this._zoom;
+	}
 
-        return [
-            { key: RoomPreviewerWidget.SCALE_KEY, value: this._scale, type: 'int' },
-            { key: RoomPreviewerWidget.OFFSET_X_KEY, value: this._offsetX, type: 'int' },
-            { key: RoomPreviewerWidget.OFFSET_Y_KEY, value: this._offsetY, type: 'int' },
-            { key: RoomPreviewerWidget.ZOOM_KEY, value: this._zoom, type: 'int' },
-        ];
-    }
+	public set zoom(value: number)
+	{
+		this._zoom = value;
+	}
 
-    public setProperties(values: IWidgetProperty[]): void
-    {
-        for(const prop of values)
-        {
-            switch(prop.key)
-            {
-                case RoomPreviewerWidget.SCALE_KEY:
-                    this.scale = Number(prop.value);
-                    break;
-                case RoomPreviewerWidget.OFFSET_X_KEY:
-                    this.offsetX = Number(prop.value);
-                    break;
-                case RoomPreviewerWidget.OFFSET_Y_KEY:
-                    this.offsetY = Number(prop.value);
-                    break;
-                case RoomPreviewerWidget.ZOOM_KEY:
-                    this.zoom = Number(prop.value);
-                    break;
-            }
-        }
-    }
+	private _roomPreviewer: unknown = null;
 
-    public get disposed(): boolean
-    {
-        return this._disposed;
-    }
+	public get roomPreviewer(): unknown
+	{
+		return this._roomPreviewer;
+	}
 
-    public dispose(): void
-    {
-        if(this._disposed) return;
+	private _previewImageUrl: string = '';
 
-        this._roomPreviewer = null;
-        this._disposed = true;
-    }
+	/**
+	 * The static preview image URL, if set via showPreview().
+	 */
+	public get previewImageUrl(): string
+	{
+		return this._previewImageUrl;
+	}
+
+	public get properties(): IWidgetProperty[]
+	{
+		if (this._disposed) return [];
+
+		return [
+			{key: RoomPreviewerWidget.SCALE_KEY, value: this._scale, type: 'int'},
+			{key: RoomPreviewerWidget.OFFSET_X_KEY, value: this._offsetX, type: 'int'},
+			{key: RoomPreviewerWidget.OFFSET_Y_KEY, value: this._offsetY, type: 'int'},
+			{key: RoomPreviewerWidget.ZOOM_KEY, value: this._zoom, type: 'int'},
+		];
+	}
+
+	public showPreview(imageUrl: string): void
+	{
+		this._previewImageUrl = imageUrl;
+	}
+
+	public setProperties(values: IWidgetProperty[]): void
+	{
+		for (const prop of values)
+		{
+			switch (prop.key)
+			{
+				case RoomPreviewerWidget.SCALE_KEY:
+					this.scale = Number(prop.value);
+					break;
+				case RoomPreviewerWidget.OFFSET_X_KEY:
+					this.offsetX = Number(prop.value);
+					break;
+				case RoomPreviewerWidget.OFFSET_Y_KEY:
+					this.offsetY = Number(prop.value);
+					break;
+				case RoomPreviewerWidget.ZOOM_KEY:
+					this.zoom = Number(prop.value);
+					break;
+			}
+		}
+	}
+
+	public dispose(): void
+	{
+		if (this._disposed) return;
+
+		this._roomPreviewer = null;
+		this._disposed = true;
+	}
 }
 

@@ -1,4 +1,4 @@
-import type { ILimitedItemOverlayWidget } from './ILimitedItemOverlayWidget';
+import type {ILimitedItemOverlayWidget} from './ILimitedItemOverlayWidget';
 
 /**
  * Interface for the limited item preview overlay widget.

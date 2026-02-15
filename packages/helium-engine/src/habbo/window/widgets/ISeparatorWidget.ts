@@ -1,4 +1,4 @@
-import type { IWidget } from './IWidget';
+import type {IWidget} from './IWidget';
 
 /**
  * Interface for the separator widget.
@@ -11,9 +11,9 @@ import type { IWidget } from './IWidget';
  */
 export interface ISeparatorWidget extends IWidget
 {
-    /**
-     * Whether the separator is vertical (true) or horizontal (false).
-     */
-    vertical: boolean;
+	/**
+	 * Whether the separator is vertical (true) or horizontal (false).
+	 */
+	vertical: boolean;
 }
 

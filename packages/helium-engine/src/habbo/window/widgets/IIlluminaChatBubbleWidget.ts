@@ -1,4 +1,4 @@
-import type { IWidget } from './IWidget';
+import type {IWidget} from './IWidget';
 
 /**
  * Interface for the Illumina chat bubble widget.
@@ -11,87 +11,86 @@ import type { IWidget } from './IWidget';
  */
 export interface IIlluminaChatBubbleWidget extends IWidget
 {
-    /**
-     * Whether the bubble layout is flipped (avatar on right).
-     */
-    flipped: boolean;
+	/**
+	 * Whether the bubble layout is flipped (avatar on right).
+	 */
+	flipped: boolean;
 
-    /**
-     * The display name of the user.
-     */
-    userName: string;
+	/**
+	 * The display name of the user.
+	 */
+	userName: string;
 
-    /**
-     * The user ID for click-to-profile behavior.
-     */
-    userId: number;
+	/**
+	 * The user ID for click-to-profile behavior.
+	 */
+	userId: number;
 
-    /**
-     * The avatar figure string.
-     */
-    figure: string;
+	/**
+	 * The avatar figure string.
+	 */
+	figure: string;
 
-    /**
-     * The number of messages in the bubble.
-     */
-    readonly numMessages: number;
+	/**
+	 * The number of messages in the bubble.
+	 */
+	readonly numMessages: number;
+	/**
+	 * The timestamp of the message (milliseconds since epoch).
+	 */
+	timeStamp: number;
 
-    /**
-     * Get a message by index.
-     *
-     * @param index - The message index
-     * @returns The message text
-     */
-    getMessage(index: number): string;
+	/**
+	 * Get a message by index.
+	 *
+	 * @param index - The message index
+	 * @returns The message text
+	 */
+	getMessage(index: number): string;
 
-    /**
-     * Set a message at the given index.
-     *
-     * @param index - The message index
-     * @param text - The message text
-     */
-    setMessage(index: number, text: string): void;
+	/**
+	 * Set a message at the given index.
+	 *
+	 * @param index - The message index
+	 * @param text - The message text
+	 */
+	setMessage(index: number, text: string): void;
 
-    /**
-     * Append a message to the bubble.
-     *
-     * @param text - The message text
-     * @param prepend - Whether to insert at the beginning
-     * @param confirmationId - Optional awaiting confirmation ID
-     */
-    appendMessage(text: string, prepend?: boolean, confirmationId?: number): void;
+	/**
+	 * Append a message to the bubble.
+	 *
+	 * @param text - The message text
+	 * @param prepend - Whether to insert at the beginning
+	 * @param confirmationId - Optional awaiting confirmation ID
+	 */
+	appendMessage(text: string, prepend?: boolean, confirmationId?: number): void;
 
-    /**
-     * The timestamp of the message (milliseconds since epoch).
-     */
-    timeStamp: number;
+	/**
+	 * Set the friend online status indicator.
+	 */
+	set friendOnlineStatus(value: boolean);
 
-    /**
-     * Set the friend online status indicator.
-     */
-    set friendOnlineStatus(value: boolean);
+	/**
+	 * Set an awaiting confirmation ID on a message.
+	 *
+	 * @param messageIndex - The message index
+	 * @param confirmationId - The confirmation ID
+	 */
+	setAwaitingConfirmationId(messageIndex: number, confirmationId: number): void;
 
-    /**
-     * Set an awaiting confirmation ID on a message.
-     *
-     * @param messageIndex - The message index
-     * @param confirmationId - The confirmation ID
-     */
-    setAwaitingConfirmationId(messageIndex: number, confirmationId: number): void;
+	/**
+	 * Clear an awaiting confirmation ID on a message.
+	 *
+	 * @param messageIndex - The message index
+	 */
+	clearAwaitingConfirmationId(messageIndex: number): void;
 
-    /**
-     * Clear an awaiting confirmation ID on a message.
-     *
-     * @param messageIndex - The message index
-     */
-    clearAwaitingConfirmationId(messageIndex: number): void;
-
-    /**
-     * Get the awaiting confirmation ID for a message.
-     *
-     * @param messageIndex - The message index
-     * @returns The confirmation ID, or 0
-     */
-    getAwaitingConfirmationId(messageIndex: number): number;
+	/**
+	 * Get the awaiting confirmation ID for a message.
+	 *
+	 * @param messageIndex - The message index
+	 * @returns The confirmation ID, or 0
+	 */
+	getAwaitingConfirmationId(messageIndex: number): number;
 }
 

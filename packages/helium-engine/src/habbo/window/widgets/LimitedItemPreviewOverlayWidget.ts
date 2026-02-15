@@ -1,5 +1,5 @@
-import type { ILimitedItemPreviewOverlayWidget } from './ILimitedItemPreviewOverlayWidget';
-import type { IWidgetProperty } from './IWidget';
+import type {ILimitedItemPreviewOverlayWidget} from './ILimitedItemPreviewOverlayWidget';
+import type {IWidgetProperty} from './IWidget';
 
 /**
  * Limited item preview overlay widget.
@@ -11,56 +11,58 @@ import type { IWidgetProperty } from './IWidget';
  */
 export class LimitedItemPreviewOverlayWidget implements ILimitedItemPreviewOverlayWidget
 {
-    public static readonly TYPE: string = 'limited_item_overlay_preview';
+	public static readonly TYPE: string = 'limited_item_overlay_preview';
 
-    private _disposed: boolean = false;
-    private _serialNumber: number = 0;
-    private _seriesSize: number = 0;
+	constructor()
+	{
+	}
 
-    constructor()
-    {
-    }
+	private _disposed: boolean = false;
 
-    public get serialNumber(): number
-    {
-        return this._serialNumber;
-    }
+	public get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
-    public set serialNumber(value: number)
-    {
-        this._serialNumber = value;
-    }
+	private _serialNumber: number = 0;
 
-    public get seriesSize(): number
-    {
-        return this._seriesSize;
-    }
+	public get serialNumber(): number
+	{
+		return this._serialNumber;
+	}
 
-    public set seriesSize(value: number)
-    {
-        this._seriesSize = value;
-    }
+	public set serialNumber(value: number)
+	{
+		this._serialNumber = value;
+	}
 
-    public get properties(): IWidgetProperty[]
-    {
-        return [];
-    }
+	private _seriesSize: number = 0;
 
-    public setProperties(_values: IWidgetProperty[]): void
-    {
-        // AS3: properties setter is a no-op for this widget
-    }
+	public get seriesSize(): number
+	{
+		return this._seriesSize;
+	}
 
-    public get disposed(): boolean
-    {
-        return this._disposed;
-    }
+	public set seriesSize(value: number)
+	{
+		this._seriesSize = value;
+	}
 
-    public dispose(): void
-    {
-        if(this._disposed) return;
+	public get properties(): IWidgetProperty[]
+	{
+		return [];
+	}
 
-        this._disposed = true;
-    }
+	public setProperties(_values: IWidgetProperty[]): void
+	{
+		// AS3: properties setter is a no-op for this widget
+	}
+
+	public dispose(): void
+	{
+		if (this._disposed) return;
+
+		this._disposed = true;
+	}
 }
 

@@ -1,4 +1,4 @@
-import type { ILimitedItemOverlayWidget } from './ILimitedItemOverlayWidget';
+import type {ILimitedItemOverlayWidget} from './ILimitedItemOverlayWidget';
 
 /**
  * Interface for the limited item grid overlay widget.
@@ -10,9 +10,9 @@ import type { ILimitedItemOverlayWidget } from './ILimitedItemOverlayWidget';
  */
 export interface ILimitedItemGridOverlayWidget extends ILimitedItemOverlayWidget
 {
-    /**
-     * Whether the shine animation is active.
-     */
-    animated: boolean;
+	/**
+	 * Whether the shine animation is active.
+	 */
+	animated: boolean;
 }
 

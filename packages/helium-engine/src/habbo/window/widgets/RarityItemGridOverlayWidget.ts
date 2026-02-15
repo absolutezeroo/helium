@@ -1,5 +1,5 @@
-import type { IRarityItemGridOverlayWidget } from './IRarityItemGridOverlayWidget';
-import type { IWidgetProperty } from './IWidget';
+import type {IRarityItemGridOverlayWidget} from './IRarityItemGridOverlayWidget';
+import type {IWidgetProperty} from './IWidget';
 
 /**
  * Rarity item grid overlay widget.
@@ -11,45 +11,46 @@ import type { IWidgetProperty } from './IWidget';
  */
 export class RarityItemGridOverlayWidget implements IRarityItemGridOverlayWidget
 {
-    public static readonly TYPE: string = 'rarity_item_overlay_grid';
+	public static readonly TYPE: string = 'rarity_item_overlay_grid';
 
-    private _disposed: boolean = false;
-    private _rarityLevel: number = 0;
+	constructor()
+	{
+	}
 
-    constructor()
-    {
-    }
+	private _disposed: boolean = false;
 
-    public get rarityLevel(): number
-    {
-        return this._rarityLevel;
-    }
+	public get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
-    public set rarityLevel(value: number)
-    {
-        this._rarityLevel = value;
-    }
+	private _rarityLevel: number = 0;
 
-    public get properties(): IWidgetProperty[]
-    {
-        return [];
-    }
+	public get rarityLevel(): number
+	{
+		return this._rarityLevel;
+	}
 
-    public setProperties(_values: IWidgetProperty[]): void
-    {
-        // AS3: properties setter is a no-op for this widget
-    }
+	public set rarityLevel(value: number)
+	{
+		this._rarityLevel = value;
+	}
 
-    public get disposed(): boolean
-    {
-        return this._disposed;
-    }
+	public get properties(): IWidgetProperty[]
+	{
+		return [];
+	}
 
-    public dispose(): void
-    {
-        if(this._disposed) return;
+	public setProperties(_values: IWidgetProperty[]): void
+	{
+		// AS3: properties setter is a no-op for this widget
+	}
 
-        this._disposed = true;
-    }
+	public dispose(): void
+	{
+		if (this._disposed) return;
+
+		this._disposed = true;
+	}
 }
 

@@ -1,5 +1,5 @@
-import type { IRarityItemPreviewOverlayWidget } from './IRarityItemPreviewOverlayWidget';
-import type { IWidgetProperty } from './IWidget';
+import type {IRarityItemPreviewOverlayWidget} from './IRarityItemPreviewOverlayWidget';
+import type {IWidgetProperty} from './IWidget';
 
 /**
  * Rarity item preview overlay widget.
@@ -10,57 +10,58 @@ import type { IWidgetProperty } from './IWidget';
  */
 export class RarityItemPreviewOverlayWidget implements IRarityItemPreviewOverlayWidget
 {
-    public static readonly TYPE: string = 'rarity_item_overlay_preview';
+	public static readonly TYPE: string = 'rarity_item_overlay_preview';
 
-    private static readonly RARITY_LEVEL_KEY: string = 'rarity_item_overlay_preview:level';
+	private static readonly RARITY_LEVEL_KEY: string = 'rarity_item_overlay_preview:level';
 
-    private _disposed: boolean = false;
-    private _rarityLevel: number = 0;
+	constructor()
+	{
+	}
 
-    constructor()
-    {
-    }
+	private _disposed: boolean = false;
 
-    public get rarityLevel(): number
-    {
-        return this._rarityLevel;
-    }
+	public get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
-    public set rarityLevel(value: number)
-    {
-        this._rarityLevel = value;
-    }
+	private _rarityLevel: number = 0;
 
-    public get properties(): IWidgetProperty[]
-    {
-        if(this._disposed) return [];
+	public get rarityLevel(): number
+	{
+		return this._rarityLevel;
+	}
 
-        return [
-            { key: RarityItemPreviewOverlayWidget.RARITY_LEVEL_KEY, value: this._rarityLevel, type: 'int' },
-        ];
-    }
+	public set rarityLevel(value: number)
+	{
+		this._rarityLevel = value;
+	}
 
-    public setProperties(values: IWidgetProperty[]): void
-    {
-        for(const prop of values)
-        {
-            if(prop.key === RarityItemPreviewOverlayWidget.RARITY_LEVEL_KEY)
-            {
-                this.rarityLevel = Number(prop.value);
-            }
-        }
-    }
+	public get properties(): IWidgetProperty[]
+	{
+		if (this._disposed) return [];
 
-    public get disposed(): boolean
-    {
-        return this._disposed;
-    }
+		return [
+			{key: RarityItemPreviewOverlayWidget.RARITY_LEVEL_KEY, value: this._rarityLevel, type: 'int'},
+		];
+	}
 
-    public dispose(): void
-    {
-        if(this._disposed) return;
+	public setProperties(values: IWidgetProperty[]): void
+	{
+		for (const prop of values)
+		{
+			if (prop.key === RarityItemPreviewOverlayWidget.RARITY_LEVEL_KEY)
+			{
+				this.rarityLevel = Number(prop.value);
+			}
+		}
+	}
 
-        this._disposed = true;
-    }
+	public dispose(): void
+	{
+		if (this._disposed) return;
+
+		this._disposed = true;
+	}
 }
 

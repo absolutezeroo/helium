@@ -1,5 +1,5 @@
-import type { ILimitedItemSupplyLeftOverlayWidget } from './ILimitedItemSupplyLeftOverlayWidget';
-import type { IWidgetProperty } from './IWidget';
+import type {ILimitedItemSupplyLeftOverlayWidget} from './ILimitedItemSupplyLeftOverlayWidget';
+import type {IWidgetProperty} from './IWidget';
 
 /**
  * Limited supply left overlay widget.
@@ -11,75 +11,77 @@ import type { IWidgetProperty } from './IWidget';
  */
 export class LimitedItemSupplyLeftOverlayWidget implements ILimitedItemSupplyLeftOverlayWidget
 {
-    public static readonly TYPE: string = 'limited_item_overlay_supply';
+	public static readonly TYPE: string = 'limited_item_overlay_supply';
 
-    private _disposed: boolean = false;
-    private _supplyLeft: number = 0;
-    private _seriesSize: number = 0;
+	constructor()
+	{
+	}
 
-    constructor()
-    {
-    }
+	private _disposed: boolean = false;
 
-    public get supplyLeft(): number
-    {
-        return this._supplyLeft;
-    }
+	public get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
-    public set supplyLeft(value: number)
-    {
-        this._supplyLeft = value;
-    }
+	private _supplyLeft: number = 0;
 
-    public get serialNumber(): number
-    {
-        // AS3: serialNumber always returns 0 for supply widget
-        return 0;
-    }
+	public get supplyLeft(): number
+	{
+		return this._supplyLeft;
+	}
 
-    public set serialNumber(_value: number)
-    {
-        // AS3: serialNumber setter is a no-op for supply widget
-    }
+	public set supplyLeft(value: number)
+	{
+		this._supplyLeft = value;
+	}
 
-    public get seriesSize(): number
-    {
-        return this._seriesSize;
-    }
+	private _seriesSize: number = 0;
 
-    public set seriesSize(value: number)
-    {
-        this._seriesSize = value;
-    }
+	public get seriesSize(): number
+	{
+		return this._seriesSize;
+	}
 
-    /**
-     * Whether the item is sold out (supply <= 0).
-     */
-    public get isSoldOut(): boolean
-    {
-        return this._supplyLeft <= 0;
-    }
+	public set seriesSize(value: number)
+	{
+		this._seriesSize = value;
+	}
 
-    public get properties(): IWidgetProperty[]
-    {
-        return [];
-    }
+	public get serialNumber(): number
+	{
+		// AS3: serialNumber always returns 0 for supply widget
+		return 0;
+	}
 
-    public setProperties(_values: IWidgetProperty[]): void
-    {
-        // AS3: properties setter is a no-op for this widget
-    }
+	public set serialNumber(_value: number)
+	{
+		// AS3: serialNumber setter is a no-op for supply widget
+	}
 
-    public get disposed(): boolean
-    {
-        return this._disposed;
-    }
+	/**
+	 * Whether the item is sold out (supply <= 0).
+	 */
+	public get isSoldOut(): boolean
+	{
+		return this._supplyLeft <= 0;
+	}
 
-    public dispose(): void
-    {
-        if(this._disposed) return;
+	public get properties(): IWidgetProperty[]
+	{
+		return [];
+	}
 
-        this._disposed = true;
-    }
+	public setProperties(_values: IWidgetProperty[]): void
+	{
+		// AS3: properties setter is a no-op for this widget
+	}
+
+	public dispose(): void
+	{
+		if (this._disposed) return;
+
+		this._disposed = true;
+	}
 }
 

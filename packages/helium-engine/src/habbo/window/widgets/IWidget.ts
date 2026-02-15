@@ -1,16 +1,16 @@
-import type { IDisposable } from '@core/runtime/IDisposable';
+import type {IDisposable} from '@core/runtime/IDisposable';
 
 /**
  * Property definition for a widget.
  */
 export interface IWidgetProperty
 {
-    /** Property key identifier. */
-    key: string;
-    /** Property value. */
-    value: unknown;
-    /** Property type name. */
-    type: string;
+	/** Property key identifier. */
+	key: string;
+	/** Property value. */
+	value: unknown;
+	/** Property type name. */
+	type: string;
 }
 
 /**
@@ -23,14 +23,14 @@ export interface IWidgetProperty
  */
 export interface IWidget extends IDisposable
 {
-    /**
-     * Get all configurable properties of this widget.
-     */
-    readonly properties: IWidgetProperty[];
+	/**
+	 * Get all configurable properties of this widget.
+	 */
+	readonly properties: IWidgetProperty[];
 
-    /**
-     * Set widget properties from an array of key-value pairs.
-     */
-    setProperties(values: IWidgetProperty[]): void;
+	/**
+	 * Set widget properties from an array of key-value pairs.
+	 */
+	setProperties(values: IWidgetProperty[]): void;
 }
 

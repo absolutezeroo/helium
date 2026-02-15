@@ -1,4 +1,4 @@
-import type { IWidget, IWidgetProperty } from './IWidget';
+import type {IWidget, IWidgetProperty} from './IWidget';
 
 /**
  * Pixel limit display widget.
@@ -15,73 +15,74 @@ import type { IWidget, IWidgetProperty } from './IWidget';
  */
 export class PixelLimitWidget implements IWidget
 {
-    public static readonly TYPE: string = 'pixel_limit';
+	public static readonly TYPE: string = 'pixel_limit';
 
-    private static readonly LIMIT_KEY: string = 'pixel_limit:limit';
+	private static readonly LIMIT_KEY: string = 'pixel_limit:limit';
+	private _batchUpdate: boolean = false;
 
-    private _disposed: boolean = false;
-    private _limit: number = 0;
-    private _batchUpdate: boolean = false;
+	constructor()
+	{
+	}
 
-    constructor()
-    {
-    }
+	private _disposed: boolean = false;
 
-    public get limit(): number
-    {
-        return this._limit;
-    }
+	public get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
-    public set limit(value: number)
-    {
-        this._limit = Math.max(0, Math.min(100, value));
-    }
+	private _limit: number = 0;
 
-    /**
-     * Compute the asset URI for the current limit value.
-     */
-    public get assetUri(): string
-    {
-        let step = Math.floor(this._limit / 20) * 20;
-        step = Math.max(step, 20);
+	public get limit(): number
+	{
+		return this._limit;
+	}
 
-        return '${image.library.url}reception/challenge_meter_' + step.toString() + '.png';
-    }
+	public set limit(value: number)
+	{
+		this._limit = Math.max(0, Math.min(100, value));
+	}
 
-    public get properties(): IWidgetProperty[]
-    {
-        if(this._disposed) return [];
+	/**
+	 * Compute the asset URI for the current limit value.
+	 */
+	public get assetUri(): string
+	{
+		let step = Math.floor(this._limit / 20) * 20;
+		step = Math.max(step, 20);
 
-        return [
-            { key: PixelLimitWidget.LIMIT_KEY, value: this._limit, type: 'String' },
-        ];
-    }
+		return '${image.library.url}reception/challenge_meter_' + step.toString() + '.png';
+	}
 
-    public setProperties(values: IWidgetProperty[]): void
-    {
-        this._batchUpdate = true;
+	public get properties(): IWidgetProperty[]
+	{
+		if (this._disposed) return [];
 
-        for(const prop of values)
-        {
-            if(prop.key === PixelLimitWidget.LIMIT_KEY)
-            {
-                this.limit = Number(prop.value);
-            }
-        }
+		return [
+			{key: PixelLimitWidget.LIMIT_KEY, value: this._limit, type: 'String'},
+		];
+	}
 
-        this._batchUpdate = false;
-    }
+	public setProperties(values: IWidgetProperty[]): void
+	{
+		this._batchUpdate = true;
 
-    public get disposed(): boolean
-    {
-        return this._disposed;
-    }
+		for (const prop of values)
+		{
+			if (prop.key === PixelLimitWidget.LIMIT_KEY)
+			{
+				this.limit = Number(prop.value);
+			}
+		}
 
-    public dispose(): void
-    {
-        if(this._disposed) return;
+		this._batchUpdate = false;
+	}
 
-        this._disposed = true;
-    }
+	public dispose(): void
+	{
+		if (this._disposed) return;
+
+		this._disposed = true;
+	}
 }
 

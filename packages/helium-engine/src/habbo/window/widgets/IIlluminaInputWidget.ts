@@ -1,5 +1,5 @@
-import type { IWidget } from './IWidget';
-import type { IIlluminaInputHandler } from './IIlluminaInputHandler';
+import type {IWidget} from './IWidget';
+import type {IIlluminaInputHandler} from './IIlluminaInputHandler';
 
 /**
  * Interface for the Illumina input widget.
@@ -11,34 +11,34 @@ import type { IIlluminaInputHandler } from './IIlluminaInputHandler';
  */
 export interface IIlluminaInputWidget extends IWidget
 {
-    /**
-     * The current message text.
-     */
-    message: string;
+	/**
+	 * The current message text.
+	 */
+	message: string;
 
-    /**
-     * The submit handler called when the user submits input.
-     */
-    submitHandler: IIlluminaInputHandler | null;
+	/**
+	 * The submit handler called when the user submits input.
+	 */
+	submitHandler: IIlluminaInputHandler | null;
 
-    /**
-     * The caption displayed on the submit button.
-     */
-    buttonCaption: string;
+	/**
+	 * The caption displayed on the submit button.
+	 */
+	buttonCaption: string;
 
-    /**
-     * The placeholder text shown when the input is empty.
-     */
-    emptyMessage: string;
+	/**
+	 * The placeholder text shown when the input is empty.
+	 */
+	emptyMessage: string;
 
-    /**
-     * Whether the input supports multiple lines.
-     */
-    multiline: boolean;
+	/**
+	 * Whether the input supports multiple lines.
+	 */
+	multiline: boolean;
 
-    /**
-     * The maximum number of characters allowed (0 = unlimited).
-     */
-    maxChars: number;
+	/**
+	 * The maximum number of characters allowed (0 = unlimited).
+	 */
+	maxChars: number;
 }
 

@@ -1,4 +1,4 @@
-import type { IWidget } from './IWidget';
+import type {IWidget} from './IWidget';
 
 /**
  * Interface for the room previewer widget.
@@ -10,36 +10,33 @@ import type { IWidget } from './IWidget';
  */
 export interface IRoomPreviewerWidget extends IWidget
 {
-    /**
-     * The rendering scale (32 = small, 64 = normal).
-     */
-    scale: number;
+	/**
+	 * The rendering scale (32 = small, 64 = normal).
+	 */
+	scale: number;
 
-    /**
-     * The room previewer instance.
-     */
-    readonly roomPreviewer: unknown;
+	/**
+	 * The room previewer instance.
+	 */
+	readonly roomPreviewer: unknown;
+	/**
+	 * The horizontal offset of the preview camera.
+	 */
+	offsetX: number;
+	/**
+	 * The vertical offset of the preview camera.
+	 */
+	offsetY: number;
+	/**
+	 * The zoom level of the preview.
+	 */
+	zoom: number;
 
-    /**
-     * Show a static bitmap preview.
-     *
-     * @param imageUrl - The URL or data of the preview image
-     */
-    showPreview(imageUrl: string): void;
-
-    /**
-     * The horizontal offset of the preview camera.
-     */
-    offsetX: number;
-
-    /**
-     * The vertical offset of the preview camera.
-     */
-    offsetY: number;
-
-    /**
-     * The zoom level of the preview.
-     */
-    zoom: number;
+	/**
+	 * Show a static bitmap preview.
+	 *
+	 * @param imageUrl - The URL or data of the preview image
+	 */
+	showPreview(imageUrl: string): void;
 }
 

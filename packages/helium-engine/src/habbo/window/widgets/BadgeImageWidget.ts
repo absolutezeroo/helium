@@ -1,5 +1,5 @@
-import type { IBadgeImageWidget } from './IBadgeImageWidget';
-import type { IWidgetProperty } from './IWidget';
+import type {IBadgeImageWidget} from './IBadgeImageWidget';
+import type {IWidgetProperty} from './IWidget';
 
 /**
  * Badge image rendering widget.
@@ -15,112 +15,115 @@ import type { IWidgetProperty } from './IWidget';
  */
 export class BadgeImageWidget implements IBadgeImageWidget
 {
-    public static readonly TYPE: string = 'badge_image';
+	public static readonly TYPE: string = 'badge_image';
 
-    private static readonly TYPE_KEY: string = 'badge_image:type';
-    private static readonly BADGE_ID_KEY: string = 'badge_image:badge_id';
+	private static readonly TYPE_KEY: string = 'badge_image:type';
+	private static readonly BADGE_ID_KEY: string = 'badge_image:badge_id';
+	private _batchUpdate: boolean = false;
 
-    private _disposed: boolean = false;
-    private _type: string = 'normal';
-    private _badgeId: string = '';
-    private _groupId: number = 0;
-    private _batchUpdate: boolean = false;
+	constructor()
+	{
+	}
 
-    constructor()
-    {
-    }
+	private _disposed: boolean = false;
 
-    public get type(): string
-    {
-        return this._type;
-    }
+	public get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
-    public set type(value: string)
-    {
-        this._type = value;
-    }
+	private _type: string = 'normal';
 
-    public get badgeId(): string
-    {
-        return this._badgeId;
-    }
+	public get type(): string
+	{
+		return this._type;
+	}
 
-    public set badgeId(value: string)
-    {
-        this._badgeId = value;
-    }
+	public set type(value: string)
+	{
+		this._type = value;
+	}
 
-    public get groupId(): number
-    {
-        return this._groupId;
-    }
+	private _badgeId: string = '';
 
-    public set groupId(value: number)
-    {
-        this._groupId = value;
-    }
+	public get badgeId(): string
+	{
+		return this._badgeId;
+	}
 
-    /**
-     * Compute the asset URI for the current badge.
-     */
-    public get assetUri(): string
-    {
-        if(!this._badgeId || this._badgeId.length === 0) return '';
+	public set badgeId(value: string)
+	{
+		this._badgeId = value;
+	}
 
-        switch(this._type)
-        {
-            case 'normal':
-                return '${image.library.url}album1584/' + this._badgeId + '.png';
-            case 'group':
-                return this._badgeId;
-            case 'perk':
-                return '${image.library.url}perk/' + this._badgeId + '.png';
-            default:
-                return '';
-        }
-    }
+	private _groupId: number = 0;
 
-    public get properties(): IWidgetProperty[]
-    {
-        if(this._disposed) return [];
+	public get groupId(): number
+	{
+		return this._groupId;
+	}
 
-        return [
-            { key: BadgeImageWidget.TYPE_KEY, value: this._type, type: 'String' },
-            { key: BadgeImageWidget.BADGE_ID_KEY, value: this._badgeId, type: 'String' },
-        ];
-    }
+	public set groupId(value: number)
+	{
+		this._groupId = value;
+	}
 
-    public setProperties(values: IWidgetProperty[]): void
-    {
-        this._batchUpdate = true;
+	/**
+	 * Compute the asset URI for the current badge.
+	 */
+	public get assetUri(): string
+	{
+		if (!this._badgeId || this._badgeId.length === 0) return '';
 
-        for(const prop of values)
-        {
-            switch(prop.key)
-            {
-                case BadgeImageWidget.TYPE_KEY:
-                    this.type = String(prop.value);
-                    break;
-                case BadgeImageWidget.BADGE_ID_KEY:
-                    this.badgeId = String(prop.value);
-                    break;
-            }
-        }
+		switch (this._type)
+		{
+			case 'normal':
+				return '${image.library.url}album1584/' + this._badgeId + '.png';
+			case 'group':
+				return this._badgeId;
+			case 'perk':
+				return '${image.library.url}perk/' + this._badgeId + '.png';
+			default:
+				return '';
+		}
+	}
 
-        this._batchUpdate = false;
-    }
+	public get properties(): IWidgetProperty[]
+	{
+		if (this._disposed) return [];
 
-    public get disposed(): boolean
-    {
-        return this._disposed;
-    }
+		return [
+			{key: BadgeImageWidget.TYPE_KEY, value: this._type, type: 'String'},
+			{key: BadgeImageWidget.BADGE_ID_KEY, value: this._badgeId, type: 'String'},
+		];
+	}
 
-    public dispose(): void
-    {
-        if(this._disposed) return;
+	public setProperties(values: IWidgetProperty[]): void
+	{
+		this._batchUpdate = true;
 
-        this._groupId = 0;
-        this._disposed = true;
-    }
+		for (const prop of values)
+		{
+			switch (prop.key)
+			{
+				case BadgeImageWidget.TYPE_KEY:
+					this.type = String(prop.value);
+					break;
+				case BadgeImageWidget.BADGE_ID_KEY:
+					this.badgeId = String(prop.value);
+					break;
+			}
+		}
+
+		this._batchUpdate = false;
+	}
+
+	public dispose(): void
+	{
+		if (this._disposed) return;
+
+		this._groupId = 0;
+		this._disposed = true;
+	}
 }
 

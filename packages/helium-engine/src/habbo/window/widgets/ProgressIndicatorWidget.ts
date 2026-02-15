@@ -1,4 +1,4 @@
-import type { IWidget, IWidgetProperty } from './IWidget';
+import type {IWidget, IWidgetProperty} from './IWidget';
 
 /**
  * Progress bar widget.
@@ -14,146 +14,150 @@ import type { IWidget, IWidgetProperty } from './IWidget';
  */
 export class ProgressIndicatorWidget implements IWidget
 {
-    public static readonly TYPE: string = 'progress_indicator';
+	public static readonly TYPE: string = 'progress_indicator';
 
-    private static readonly STYLE_KEY: string = 'progress_indicator:style';
-    private static readonly SIZE_KEY: string = 'progress_indicator:size';
-    private static readonly POSITION_KEY: string = 'progress_indicator:position';
-    private static readonly MODE_KEY: string = 'progress_indicator:mode';
+	private static readonly STYLE_KEY: string = 'progress_indicator:style';
+	private static readonly SIZE_KEY: string = 'progress_indicator:size';
+	private static readonly POSITION_KEY: string = 'progress_indicator:position';
+	private static readonly MODE_KEY: string = 'progress_indicator:mode';
 
-    private static readonly MAXIMUM_SIZE: number = 1000;
+	private static readonly MAXIMUM_SIZE: number = 1000;
 
-    private _disposed: boolean = false;
-    private _style: string = 'flat';
-    private _size: number = 1;
-    private _position: number = 0;
-    private _mode: string = 'position';
+	constructor()
+	{
+	}
 
-    constructor()
-    {
-    }
+	private _disposed: boolean = false;
 
-    public get style(): string
-    {
-        return this._style;
-    }
+	public get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
-    public set style(value: string)
-    {
-        this._style = value;
-    }
+	private _style: string = 'flat';
 
-    public get size(): number
-    {
-        return this._size;
-    }
+	public get style(): string
+	{
+		return this._style;
+	}
 
-    public set size(value: number)
-    {
-        this._size = Math.min(Math.max(value, 1), ProgressIndicatorWidget.MAXIMUM_SIZE);
-    }
+	public set style(value: string)
+	{
+		this._style = value;
+	}
 
-    public get position(): number
-    {
-        return this._position;
-    }
+	private _size: number = 1;
 
-    public set position(value: number)
-    {
-        this._position = value;
-    }
+	public get size(): number
+	{
+		return this._size;
+	}
 
-    public get mode(): string
-    {
-        return this._mode;
-    }
+	public set size(value: number)
+	{
+		this._size = Math.min(Math.max(value, 1), ProgressIndicatorWidget.MAXIMUM_SIZE);
+	}
 
-    public set mode(value: string)
-    {
-        this._mode = value;
-    }
+	private _position: number = 0;
 
-    /**
-     * Get the active state of each disk for rendering.
-     *
-     * @returns Array of booleans, one per disk
-     */
-    public getDiskStates(): boolean[]
-    {
-        const states: boolean[] = [];
+	public get position(): number
+	{
+		return this._position;
+	}
 
-        for(let i = 0; i < this._size; i++)
-        {
-            switch(this._mode)
-            {
-                case 'position':
-                    states.push(i + 1 === this._position);
-                    break;
-                case 'progress':
-                    states.push(i < this._position);
-                    break;
-                default:
-                    states.push(false);
-            }
-        }
+	public set position(value: number)
+	{
+		this._position = value;
+	}
 
-        return states;
-    }
+	private _mode: string = 'position';
 
-    /**
-     * Get the asset name for a disk at the given index.
-     */
-    public getDiskAssetName(index: number): string
-    {
-        const active = this.getDiskStates()[index] ?? false;
+	public get mode(): string
+	{
+		return this._mode;
+	}
 
-        return 'progress_disk_' + this._style + (active ? '_on' : '_off');
-    }
+	public set mode(value: string)
+	{
+		this._mode = value;
+	}
 
-    public get properties(): IWidgetProperty[]
-    {
-        if(this._disposed) return [];
+	public get properties(): IWidgetProperty[]
+	{
+		if (this._disposed) return [];
 
-        return [
-            { key: ProgressIndicatorWidget.STYLE_KEY, value: this._style, type: 'String' },
-            { key: ProgressIndicatorWidget.SIZE_KEY, value: this._size, type: 'uint' },
-            { key: ProgressIndicatorWidget.POSITION_KEY, value: this._position, type: 'uint' },
-            { key: ProgressIndicatorWidget.MODE_KEY, value: this._mode, type: 'String' },
-        ];
-    }
+		return [
+			{key: ProgressIndicatorWidget.STYLE_KEY, value: this._style, type: 'String'},
+			{key: ProgressIndicatorWidget.SIZE_KEY, value: this._size, type: 'uint'},
+			{key: ProgressIndicatorWidget.POSITION_KEY, value: this._position, type: 'uint'},
+			{key: ProgressIndicatorWidget.MODE_KEY, value: this._mode, type: 'String'},
+		];
+	}
 
-    public setProperties(values: IWidgetProperty[]): void
-    {
-        for(const prop of values)
-        {
-            switch(prop.key)
-            {
-                case ProgressIndicatorWidget.STYLE_KEY:
-                    this.style = String(prop.value);
-                    break;
-                case ProgressIndicatorWidget.SIZE_KEY:
-                    this.size = Number(prop.value);
-                    break;
-                case ProgressIndicatorWidget.POSITION_KEY:
-                    this.position = Number(prop.value);
-                    break;
-                case ProgressIndicatorWidget.MODE_KEY:
-                    this.mode = String(prop.value);
-                    break;
-            }
-        }
-    }
+	/**
+	 * Get the active state of each disk for rendering.
+	 *
+	 * @returns Array of booleans, one per disk
+	 */
+	public getDiskStates(): boolean[]
+	{
+		const states: boolean[] = [];
 
-    public get disposed(): boolean
-    {
-        return this._disposed;
-    }
+		for (let i = 0; i < this._size; i++)
+		{
+			switch (this._mode)
+			{
+				case 'position':
+					states.push(i + 1 === this._position);
+					break;
+				case 'progress':
+					states.push(i < this._position);
+					break;
+				default:
+					states.push(false);
+			}
+		}
 
-    public dispose(): void
-    {
-        if(this._disposed) return;
+		return states;
+	}
 
-        this._disposed = true;
-    }
+	/**
+	 * Get the asset name for a disk at the given index.
+	 */
+	public getDiskAssetName(index: number): string
+	{
+		const active = this.getDiskStates()[index] ?? false;
+
+		return 'progress_disk_' + this._style + (active ? '_on' : '_off');
+	}
+
+	public setProperties(values: IWidgetProperty[]): void
+	{
+		for (const prop of values)
+		{
+			switch (prop.key)
+			{
+				case ProgressIndicatorWidget.STYLE_KEY:
+					this.style = String(prop.value);
+					break;
+				case ProgressIndicatorWidget.SIZE_KEY:
+					this.size = Number(prop.value);
+					break;
+				case ProgressIndicatorWidget.POSITION_KEY:
+					this.position = Number(prop.value);
+					break;
+				case ProgressIndicatorWidget.MODE_KEY:
+					this.mode = String(prop.value);
+					break;
+			}
+		}
+	}
+
+	public dispose(): void
+	{
+		if (this._disposed) return;
+
+		this._disposed = true;
+	}
 }
 
