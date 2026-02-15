@@ -13,11 +13,16 @@ import type { IWindow } from '@core/window/IWindow';
 import type { IWindowContext } from '@core/window/IWindowContext';
 import type { IInputEventTracker } from '@core/window/IInputEventTracker';
 import type { IWindowContainer } from '@core/window/IWindowContainer';
+import type { IWindowFactory } from '@core/window/IWindowFactory';
+import type { IThemeManager } from '@core/window/theme/IThemeManager';
 import { WindowContext } from '@core/window/WindowContext';
 import { Classes } from '@core/window/Classes';
 import { WindowType } from '@core/window/enum/WindowType';
 import { DesktopController } from '@core/window/components/DesktopController';
 import { WindowParser } from '@core/window/utils/WindowParser';
+import { SkinContainer } from '@core/window/graphics/SkinContainer';
+import { DefaultAttStruct } from '@core/window/utils/DefaultAttStruct';
+import { ThemeManager } from './theme/ThemeManager';
 import type { IContext } from '@core/runtime/IContext';
 import type { IAssetLibrary } from '@core/assets/IAssetLibrary';
 import type { IModalDialog } from './utils/IModalDialog';
@@ -54,6 +59,8 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
     private _nextId: number = 1;
     private _windowEvents: EventEmitter = new EventEmitter();
     private _elementRegistry: ElementRegistry = new ElementRegistry();
+    private _skinContainer: SkinContainer = new SkinContainer();
+    private _themeManager: ThemeManager | null = null;
 
     // ── AS3-compatible window context system ────────────────────────────
 
@@ -92,7 +99,37 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
     loadElementDescription(data: IElementDescriptionData): void
     {
         this._elementRegistry.load(data);
-        log.info(`Element registry loaded: ${ data.elements.length } descriptors`);
+
+        // Populate SkinContainer from element descriptors
+        for(const element of data.elements)
+        {
+            if(element.typeId < 0) continue;
+
+            const defaults = new DefaultAttStruct(
+                element.defaults.blend,
+                element.defaults.threshold,
+                element.defaults.background,
+                element.defaults.color,
+                element.defaults.widthMin,
+                element.defaults.widthMax,
+                element.defaults.heightMin,
+                element.defaults.heightMax
+            );
+
+            this._skinContainer.addSkinRenderer(
+                element.typeId,
+                element.style,
+                element.intent,
+                element.renderer || true,
+                null,
+                defaults
+            );
+        }
+
+        // Create ThemeManager now that SkinContainer is populated
+        this._themeManager = new ThemeManager(this._skinContainer);
+
+        log.info(`Element registry loaded: ${ data.elements.length } descriptors, ThemeManager initialized`);
     }
 
     /**
@@ -477,6 +514,42 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
         // BCFloorPlanEditor integration - to be connected
     }
 
+    // ── IWindowFactory theme/defaults API ─────────────────────────────
+
+    /**
+     * Returns the theme manager.
+     *
+     * @returns The theme manager instance
+     */
+    public getThemeManager(): IThemeManager
+    {
+        return this._themeManager!;
+    }
+
+    /**
+     * Returns the default attributes for a given window type and style.
+     *
+     * @param type - The window type
+     * @param style - The window style
+     * @returns The default attributes, or null
+     */
+    public getDefaultsByTypeAndStyle(type: number, style: number): DefaultAttStruct | null
+    {
+        return this._skinContainer.getDefaultAttributesByTypeAndStyle(type, style);
+    }
+
+    /**
+     * Returns the window layout for a given type and style.
+     *
+     * @param type - The window type
+     * @param style - The window style
+     * @returns The layout object, or null
+     */
+    public getLayoutByTypeAndStyle(type: number, style: number): Record<string, unknown> | null
+    {
+        return this._skinContainer.getWindowLayoutByTypeAndStyle(type, style);
+    }
+
     // ── Private helpers ────────────────────────────────────────────────
 
     /**
@@ -493,11 +566,11 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 
         Classes.init();
 
-        const factory = this as unknown as { create: Function };
+        const factory = this as unknown as IWindowFactory;
 
         for(let i = 0; i < HabboWindowManager.NUMBER_OF_CONTEXT_LAYERS; i++)
         {
-            const context = new WindowContext(`layer_${ i }`, factory as any);
+            const context = new WindowContext(`layer_${ i }`, factory);
 
             // Create desktop root for this layer
             const desktop = new DesktopController(
@@ -560,6 +633,10 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 
         this._windowContextArray.length = 0;
         this._defaultContext = null;
+
+        // Clean up skin container and theme manager
+        this._skinContainer.dispose();
+        this._themeManager = null;
 
         // Clean up declarative window system
         this._windows.clear();
