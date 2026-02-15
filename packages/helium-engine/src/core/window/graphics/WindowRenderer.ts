@@ -3,6 +3,7 @@ import type { ISkinContainer } from './ISkinContainer';
 import type { IWindow } from '../IWindow';
 import type { IWindowContext } from '../IWindowContext';
 import type { IWindowContainer } from '../IWindowContainer';
+import { WindowType } from '../enum/WindowType';
 import { WindowRendererItem } from './WindowRendererItem';
 
 /**
@@ -435,6 +436,17 @@ export class WindowRenderer implements IWindowRenderer
         if(buffer && buffer.width > 0 && buffer.height > 0)
         {
             ctx.drawImage(buffer, absX, absY);
+        }
+
+        // Draw bitmap content for bitmap/static_bitmap wrapper windows
+        if(window.type === WindowType.BITMAP_WRAPPER || window.type === WindowType.STATIC_BITMAP_WRAPPER)
+        {
+            const bmp = (window as unknown as { bitmap?: ImageBitmap | null }).bitmap;
+
+            if(bmp)
+            {
+                ctx.drawImage(bmp, absX, absY, w, h);
+            }
         }
 
         // Recurse into children

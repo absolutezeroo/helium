@@ -21,6 +21,7 @@ export class BitmapWrapperController extends WindowController implements IBitmap
 {
     private _imageUrl: string = '';
     private _texture: Texture | null = null;
+    private _bitmap: ImageBitmap | null = null;
     private _disposesBitmap: boolean = false;
 
     constructor(
@@ -49,6 +50,21 @@ export class BitmapWrapperController extends WindowController implements IBitmap
     public set imageUrl(value: string)
     {
         this._imageUrl = value ?? '';
+    }
+
+    /**
+     * The decoded bitmap content for this window.
+     *
+     * @see sources/win63_version/core/window/components/BitmapDataController.as
+     */
+    public get bitmap(): ImageBitmap | null
+    {
+        return this._bitmap;
+    }
+
+    public set bitmap(value: ImageBitmap | null)
+    {
+        this._bitmap = value;
     }
 
     /**

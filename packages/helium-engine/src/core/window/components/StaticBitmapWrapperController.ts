@@ -15,6 +15,7 @@ import { WindowEvent } from '../events/WindowEvent';
 export class StaticBitmapWrapperController extends WindowController implements IStaticBitmapWrapperWindow
 {
     private _imageUrl: string = '';
+    private _bitmap: ImageBitmap | null = null;
 
     constructor(
         name: string,
@@ -42,5 +43,24 @@ export class StaticBitmapWrapperController extends WindowController implements I
     public set imageUrl(value: string)
     {
         this._imageUrl = value ?? '';
+    }
+
+    /**
+     * The decoded bitmap content for this window.
+     *
+     * Equivalent to AS3's `BitmapDataController._bitmapData`.
+     * When set via `receiveAsset()` or programmatically, this is the
+     * image that will be drawn during compositing.
+     *
+     * @see sources/win63_version/core/window/components/BitmapDataController.as
+     */
+    public get bitmap(): ImageBitmap | null
+    {
+        return this._bitmap;
+    }
+
+    public set bitmap(value: ImageBitmap | null)
+    {
+        this._bitmap = value;
     }
 }

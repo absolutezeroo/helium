@@ -26,6 +26,15 @@ export interface IBitmapWrapperWindow extends IWindow
     texture: Texture | null;
 
     /**
+     * The decoded bitmap content for this window.
+     *
+     * Equivalent to AS3's `BitmapDataController._bitmapData`.
+     * When set, this image is drawn during compositing.
+     * Takes priority over texture for canvas-based rendering.
+     */
+    bitmap: ImageBitmap | null;
+
+    /**
      * Whether this window owns the texture and should dispose it.
      *
      * In AS3: `disposesBitmap`

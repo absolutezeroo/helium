@@ -2,6 +2,9 @@ import type {IHeliumConfig} from 'helium-engine';
 import {Helium} from 'helium-engine';
 import type {ISkinData} from '@core/window';
 import type {IWindow} from '@core/window/IWindow';
+import type {IWindowContainer} from '@core/window/IWindowContainer';
+import type {IStaticBitmapWrapperWindow} from '@core/window/components/IStaticBitmapWrapperWindow';
+import {WindowType} from '@core/window/enum/WindowType';
 import {WindowController} from '@core/window/WindowController';
 import {WindowMouseEvent} from '@core/window/events/WindowMouseEvent';
 import type {WindowMouseOperator} from '@core/window/services/WindowMouseOperator';
@@ -21,6 +24,9 @@ const skinModules = import.meta.glob('./assets/window-skins/habbo_skin_*.json', 
 
 // Eagerly import all window layout JSONs via Vite glob
 const layoutModules = import.meta.glob('./assets/window-layouts/*.json', { eager: true }) as Record<string, { default: unknown }>;
+
+// Eagerly import all toolbar icon PNGs (normal state) via Vite glob → { path: { default: url } }
+const toolbarIconModules = import.meta.glob('./assets/images/icons_toolbar_*_normal.png', { eager: true }) as Record<string, { default: string }>;
 
 /** Atlas asset name → URL mapping. */
 const ATLAS_MAP: Record<string, string> = {
@@ -152,10 +158,13 @@ export class HeliumApp
         // 6. Initialize the Friend Bar (landing view) — desktops are now sized
         helium.initFriendBar();
 
-        // 7. Flush microtasks
+        // 7. Load toolbar icon bitmaps onto static_bitmap windows
+        await this.loadToolbarIcons();
+
+        // 8. Flush microtasks
         await Promise.resolve();
 
-        // 8. Start input and render loop
+        // 9. Start input and render loop
         this.setupMouseEvents();
         this.startRenderLoop();
     }
@@ -204,6 +213,80 @@ export class HeliumApp
         this._ctx = null;
         this._lastHoveredWindow = null;
         this._mouseDownWindow = null;
+    }
+
+    /**
+     * Loads toolbar icon PNGs and sets them on the ICON_BMP tagged windows.
+     *
+     * In AS3, `StaticBitmapWrapperController.assetUri` triggered an async
+     * asset load via the resource manager. Here, we load the PNGs via fetch
+     * and set the decoded ImageBitmap on each window's `bitmap` property.
+     *
+     * The icon file naming convention is `{windowName}_normal.png`.
+     *
+     * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as constructor
+     */
+    private async loadToolbarIcons(): Promise<void>
+    {
+        const helium = Helium.instance;
+
+        // Build name → URL map from Vite glob imports
+        // e.g. './assets/images/icons_toolbar_reception_normal.png' → 'icons_toolbar_reception'
+        const iconUrlMap = new Map<string, string>();
+
+        for(const [path, mod] of Object.entries(toolbarIconModules))
+        {
+            const filename = path.split('/').pop()!.replace('_normal.png', '');
+
+            iconUrlMap.set(filename, mod.default);
+        }
+
+        // Find all ICON_BMP tagged windows across all layers
+        const iconWindows: IWindow[] = [];
+
+        for(let layer = 0; layer < 4; layer++)
+        {
+            const desktop = helium.windowManager.getDesktop(layer);
+
+            if(!desktop) continue;
+
+            const container = desktop as unknown as IWindowContainer;
+
+            if(typeof container.groupChildrenWithTag === 'function')
+            {
+                container.groupChildrenWithTag('ICON_BMP', iconWindows, -1);
+            }
+        }
+
+        if(iconWindows.length === 0) return;
+
+        // Load bitmaps in parallel
+        const loadPromises: Promise<void>[] = [];
+
+        for(const win of iconWindows)
+        {
+            if(win.type !== WindowType.STATIC_BITMAP_WRAPPER && win.type !== WindowType.BITMAP_WRAPPER)
+            {
+                continue;
+            }
+
+            const url = iconUrlMap.get(win.name);
+
+            if(!url) continue;
+
+            loadPromises.push(
+                loadImageBitmap(url).then(bmp =>
+                {
+                    (win as IStaticBitmapWrapperWindow).bitmap = bmp;
+                    win.invalidate();
+                }).catch(() =>
+                {
+                    // Silently ignore missing icons
+                })
+            );
+        }
+
+        await Promise.all(loadPromises);
     }
 
     /**
