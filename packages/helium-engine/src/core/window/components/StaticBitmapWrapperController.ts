@@ -84,6 +84,11 @@ export class StaticBitmapWrapperController extends BitmapDataController implemen
     /**
      * Callback from ResourceManager when the asset is loaded.
      *
+     * The bitmap is owned by the ResourceManager cache — we must NOT
+     * close it, otherwise the cache entry becomes unusable. In AS3 the
+     * ResourceManager provided cloned BitmapData; here we share the
+     * same ImageBitmap instance, so `_ownsBitmapData` stays `false`.
+     *
      * In AS3: `receiveAsset(asset: IAsset, name: String)`
      *
      * @param bitmap - The decoded bitmap
@@ -98,14 +103,9 @@ export class StaticBitmapWrapperController extends BitmapDataController implemen
 
         if(resourceManager && !resourceManager.isSameAsset(this._assetUri, uri)) return;
 
-        // Dispose old bitmap if we own it
-        if(this._ownsBitmapData && this._bitmapData && this._bitmapData !== bitmap)
-        {
-            this._bitmapData.close();
-        }
-
+        // Do NOT close old bitmap — it belongs to the ResourceManager cache
         this._bitmapData = bitmap;
-        this._ownsBitmapData = true;
+        this._ownsBitmapData = false;
 
         this.fitSize();
         this._context.invalidate(this, null, 1);

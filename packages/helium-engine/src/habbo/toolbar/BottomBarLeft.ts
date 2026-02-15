@@ -26,8 +26,8 @@ export class BottomBarLeft
 {
 	private static readonly DEFAULT_LOCATION = { x: 0, y: 500 };
 	private static readonly LANDING_VIEW_LOCATION = { x: 0, y: 500 };
-	private static readonly ICON_BG_COLOR_OVER: number = 0xFF716769;
-	private static readonly ICON_BG_COLOR_OUT: number = 0xFF57504D;
+	private static readonly ICON_BG_COLOR_OVER: number = 7433577;
+	private static readonly ICON_BG_COLOR_OUT: number = 5723213;
 	private static readonly ICON_MOUSE_OVER: string = '_hover';
 	private static readonly ICON_MOUSE_OUT: string = '_normal';
 	private static readonly COUNTER_MARGIN: number = 0;
@@ -101,6 +101,8 @@ export class BottomBarLeft
 		}
 
 		// Register click listeners on all TOGGLE-tagged regions
+		// AS3 win63 BottomBarLeft only registers CLICK — hover visual comes
+		// from the lifted_hover dynamic style on each TOGGLE region.
 		const toggleChildren: IWindow[] = [];
 		(this._window as IWindowContainer).groupChildrenWithTag('TOGGLE', toggleChildren, -1);
 
@@ -109,8 +111,8 @@ export class BottomBarLeft
 			if(child)
 			{
 				child.addEventListener(WindowMouseEvent.CLICK, this.onIconClick);
-				child.addEventListener(WindowMouseEvent.OVER, this.onIconHoverIn);
-				child.addEventListener(WindowMouseEvent.OUT, this.onIconHoverOut);
+				child.addEventListener(WindowMouseEvent.OVER, this.onIconHoverMouseEvent);
+				child.addEventListener(WindowMouseEvent.OUT, this.onIconHoverMouseEvent);
 			}
 		}
 
@@ -529,27 +531,16 @@ export class BottomBarLeft
 	/**
 	 * Map an icon ID to its child window name in the toolbar layout
 	 *
+	 * Delegates to HabboToolbarIconEnum.getIconName() which returns
+	 * the TOGGLE region name (CATALOGUE, NAVIGATOR, etc.).
+	 *
 	 * @param iconId The icon identifier
 	 * @returns The child window name, or null
 	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as getIconName()
 	 */
 	private getIconChildName(iconId: string): string | null
 	{
-		switch(iconId)
-		{
-			case 'HTIE_ICON_CATALOGUE': return 'icons_toolbar_catalogue';
-			case 'HTIE_ICON_INVENTORY': return 'icons_toolbar_inventory';
-			case 'HTIE_ICON_MEMENU': return 'MEMENU';
-			case 'HTIE_ICON_NAVIGATOR': return 'icons_toolbar_navigator';
-			case 'HTIE_ICON_QUESTS': return 'icons_toolbar_quests';
-			case 'HTIE_ICON_GAMES': return 'icons_toolbar_games';
-			case 'HTIE_ICON_STORIES': return 'icons_toolbar_stories';
-			case 'HTIE_ICON_RECEPTION': return 'icons_toolbar_reception';
-			case 'HTIE_ICON_BUILDER': return 'icons_toolbar_builder';
-			case 'HTIE_ICON_CAMERA': return 'icons_toolbar_camera';
-			case 'HTIE_ICON_WIRED_MENU': return 'icons_toolbar_wired_menu';
-			default: return null;
-		}
+		return HabboToolbarIconEnum.getIconName(iconId) ?? null;
 	}
 
 	/**
@@ -622,76 +613,80 @@ export class BottomBarLeft
 	/**
 	 * Handle icon hover mouse events (OVER / OUT).
 	 *
-	 * In AS3, swaps the ICON_BMP child's assetUri between _normal and _hover,
-	 * and changes the ICON_BORDER background color.
+	 * Finds the ICON_BMP and ICON_BORDER children of the target region,
+	 * then swaps the bitmap asset and background color.
 	 *
 	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as onIconHoverMouseEvent()
 	 */
-	private onIconHoverIn = (event: WindowEvent): void =>
+	private onIconHoverMouseEvent = (event: WindowEvent): void =>
 	{
 		const target = event.window as unknown as IWindowContainer;
 
 		if(!target) return;
 
-		this.setIconHoverState(target, BottomBarLeft.ICON_MOUSE_OVER);
-		this.setIconBgHoverState(target, BottomBarLeft.ICON_MOUSE_OVER);
-	};
+		const iconBorder = target.findChildByTag?.('ICON_BORDER') as IWindowContainer | null;
+		const iconBmp = target.findChildByTag?.('ICON_BMP') ?? null;
 
-	private onIconHoverOut = (event: WindowEvent): void =>
-	{
-		const target = event.window as unknown as IWindowContainer;
-
-		if(!target) return;
-
-		this.setIconHoverState(target, BottomBarLeft.ICON_MOUSE_OUT);
-		this.setIconBgHoverState(target, BottomBarLeft.ICON_MOUSE_OUT);
+		switch(event.type)
+		{
+			case WindowMouseEvent.OVER:
+				this.setIconHoverState(iconBmp, BottomBarLeft.ICON_MOUSE_OVER);
+				this.setIconBgHoverState(iconBorder, BottomBarLeft.ICON_MOUSE_OVER);
+				break;
+			case WindowMouseEvent.OUT:
+				this.setIconHoverState(iconBmp, BottomBarLeft.ICON_MOUSE_OUT);
+				this.setIconBgHoverState(iconBorder, BottomBarLeft.ICON_MOUSE_OUT);
+				break;
+		}
 	};
 
 	/**
 	 * Swap the icon bitmap asset between _normal and _hover.
 	 *
-	 * Uses `findChildByTag("ICON_BMP")` to locate the bitmap,
-	 * then sets `assetUri = name + suffix` (e.g. "icons_toolbar_navigator_hover").
+	 * If the child is IStaticBitmapWrapperWindow, sets assetUri = name + suffix.
+	 * If it's IBitmapWrapperWindow named "icon_me_menu", restores the cached bitmap.
 	 *
 	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as setIconHoverState()
 	 */
-	private setIconHoverState(container: IWindowContainer, suffix: string): void
+	private setIconHoverState(iconBmp: IWindow | null, suffix: string): void
 	{
-		if(!container.findChildByTag) return;
-
-		const iconBmp = container.findChildByTag('ICON_BMP');
-
 		if(!iconBmp) return;
 
 		// IStaticBitmapWrapperWindow — set assetUri = name + suffix
-		const bmp = iconBmp as unknown as IStaticBitmapWrapperWindow;
+		const sbmp = iconBmp as unknown as IStaticBitmapWrapperWindow;
 
-		if(typeof bmp.assetUri === 'string')
+		if(typeof sbmp.assetUri === 'string')
 		{
-			bmp.assetUri = iconBmp.name + suffix;
+			sbmp.assetUri = iconBmp.name + suffix;
+			return;
+		}
+
+		// IBitmapWrapperWindow (me menu icon) — restore cached bitmap
+		const bbmp = iconBmp as unknown as IBitmapWrapperWindow;
+
+		if(bbmp.bitmapData !== undefined && iconBmp.name === BottomBarLeft.ME_MENU_ICON_NAME)
+		{
+			// In AS3, restores var_2595 (_meMenuNormalBitmap)
+			// For now, we don't swap — the me menu always shows its current bitmap
 		}
 	}
 
 	/**
 	 * Change the ICON_BORDER background color on hover.
 	 *
-	 * In AS3, this targets the ICON_BORDER tagged child. If that child
-	 * doesn't exist in the layout (win63), falls back to the region itself.
-	 *
 	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as setIconBgHoverState()
 	 */
-	private setIconBgHoverState(container: IWindowContainer, suffix: string): void
+	private setIconBgHoverState(border: IWindowContainer | null, suffix: string): void
 	{
-		// AS3 targets ICON_BORDER child; fall back to container if absent
-		const target = container.findChildByTag?.('ICON_BORDER') ?? container;
+		if(!border) return;
 
 		if(suffix === BottomBarLeft.ICON_MOUSE_OVER)
 		{
-			(target as unknown as IWindow).color = BottomBarLeft.ICON_BG_COLOR_OVER;
+			(border as unknown as IWindow).color = BottomBarLeft.ICON_BG_COLOR_OVER;
 		}
 		else
 		{
-			(target as unknown as IWindow).color = BottomBarLeft.ICON_BG_COLOR_OUT;
+			(border as unknown as IWindow).color = BottomBarLeft.ICON_BG_COLOR_OUT;
 		}
 	}
 
