@@ -1,5 +1,7 @@
 import type {IIlluminaBorderWidget} from './IIlluminaBorderWidget';
-import type {IWidgetProperty} from './IWidget';
+import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
+import type {IHabboWindowManager} from '../IHabboWindowManager';
+import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
  * Illumina theme border widget.
@@ -40,9 +42,13 @@ export class IlluminaBorderWidget implements IIlluminaBorderWidget
 		'bottom_right', 'bottom_center', 'bottom_left', 'center_left'
 	];
 	private _batchUpdate: boolean = false;
+	private _widgetWindow: IWidgetWindow | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
 
-	constructor()
+	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
+		this._widgetWindow = window;
+		this._windowManager = windowManager;
 	}
 
 	private _disposed: boolean = false;
@@ -196,33 +202,33 @@ export class IlluminaBorderWidget implements IIlluminaBorderWidget
 		this._landingViewMode = value;
 	}
 
-	public get properties(): IWidgetProperty[]
+	public get properties(): PropertyStruct[]
 	{
-		if (this._disposed) return [];
+		if(this._disposed) return [];
 
 		return [
-			{key: IlluminaBorderWidget.BORDER_STYLE_KEY, value: this._borderStyle, type: 'String'},
-			{key: IlluminaBorderWidget.CONTENT_CHILD_KEY, value: this._contentChild, type: 'String'},
-			{key: IlluminaBorderWidget.CONTENT_PADDING_KEY, value: this._contentPadding, type: 'uint'},
-			{key: IlluminaBorderWidget.SIDE_PADDING_KEY, value: this._sidePadding, type: 'uint'},
-			{key: IlluminaBorderWidget.CHILD_MARGIN_KEY, value: this._childMargin, type: 'uint'},
-			{key: IlluminaBorderWidget.TOP_LEFT_CHILD_KEY, value: this._topLeftChild, type: 'String'},
-			{key: IlluminaBorderWidget.TOP_CENTER_CHILD_KEY, value: this._topCenterChild, type: 'String'},
-			{key: IlluminaBorderWidget.TOP_RIGHT_CHILD_KEY, value: this._topRightChild, type: 'String'},
-			{key: IlluminaBorderWidget.BOTTOM_LEFT_CHILD_KEY, value: this._bottomLeftChild, type: 'String'},
-			{key: IlluminaBorderWidget.BOTTOM_CENTER_CHILD_KEY, value: this._bottomCenterChild, type: 'String'},
-			{key: IlluminaBorderWidget.BOTTOM_RIGHT_CHILD_KEY, value: this._bottomRightChild, type: 'String'},
-			{key: IlluminaBorderWidget.LANDING_VIEW_MODE_KEY, value: this._landingViewMode, type: 'Boolean'},
+			new PropertyStruct(IlluminaBorderWidget.BORDER_STYLE_KEY, this._borderStyle),
+			new PropertyStruct(IlluminaBorderWidget.CONTENT_CHILD_KEY, this._contentChild),
+			new PropertyStruct(IlluminaBorderWidget.CONTENT_PADDING_KEY, this._contentPadding),
+			new PropertyStruct(IlluminaBorderWidget.SIDE_PADDING_KEY, this._sidePadding),
+			new PropertyStruct(IlluminaBorderWidget.CHILD_MARGIN_KEY, this._childMargin),
+			new PropertyStruct(IlluminaBorderWidget.TOP_LEFT_CHILD_KEY, this._topLeftChild),
+			new PropertyStruct(IlluminaBorderWidget.TOP_CENTER_CHILD_KEY, this._topCenterChild),
+			new PropertyStruct(IlluminaBorderWidget.TOP_RIGHT_CHILD_KEY, this._topRightChild),
+			new PropertyStruct(IlluminaBorderWidget.BOTTOM_LEFT_CHILD_KEY, this._bottomLeftChild),
+			new PropertyStruct(IlluminaBorderWidget.BOTTOM_CENTER_CHILD_KEY, this._bottomCenterChild),
+			new PropertyStruct(IlluminaBorderWidget.BOTTOM_RIGHT_CHILD_KEY, this._bottomRightChild),
+			new PropertyStruct(IlluminaBorderWidget.LANDING_VIEW_MODE_KEY, this._landingViewMode),
 		];
 	}
 
-	public setProperties(values: IWidgetProperty[]): void
+	public set properties(values: PropertyStruct[])
 	{
 		this._batchUpdate = true;
 
-		for (const prop of values)
+		for(const prop of values)
 		{
-			switch (prop.key)
+			switch(prop.key)
 			{
 				case IlluminaBorderWidget.BORDER_STYLE_KEY:
 					this.borderStyle = String(prop.value);
@@ -268,9 +274,10 @@ export class IlluminaBorderWidget implements IIlluminaBorderWidget
 
 	public dispose(): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
+		this._widgetWindow = null;
+		this._windowManager = null;
 		this._disposed = true;
 	}
 }
-

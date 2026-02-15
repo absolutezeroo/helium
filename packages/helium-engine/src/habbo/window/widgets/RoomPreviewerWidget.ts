@@ -1,5 +1,7 @@
 import type {IRoomPreviewerWidget} from './IRoomPreviewerWidget';
-import type {IWidgetProperty} from './IWidget';
+import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
+import type {IHabboWindowManager} from '../IHabboWindowManager';
+import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
  * Room previewer widget.
@@ -24,9 +26,14 @@ export class RoomPreviewerWidget implements IRoomPreviewerWidget
 
 	private static _roomIdCounter: number = 2;
 
-	constructor()
+	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
+		this._widgetWindow = window;
+		this._windowManager = windowManager;
 	}
+
+	private _widgetWindow: IWidgetWindow | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
 
 	private _disposed: boolean = false;
 
@@ -100,15 +107,15 @@ export class RoomPreviewerWidget implements IRoomPreviewerWidget
 		return this._previewImageUrl;
 	}
 
-	public get properties(): IWidgetProperty[]
+	public get properties(): PropertyStruct[]
 	{
-		if (this._disposed) return [];
+		if(this._disposed) return [];
 
 		return [
-			{key: RoomPreviewerWidget.SCALE_KEY, value: this._scale, type: 'int'},
-			{key: RoomPreviewerWidget.OFFSET_X_KEY, value: this._offsetX, type: 'int'},
-			{key: RoomPreviewerWidget.OFFSET_Y_KEY, value: this._offsetY, type: 'int'},
-			{key: RoomPreviewerWidget.ZOOM_KEY, value: this._zoom, type: 'int'},
+			new PropertyStruct(RoomPreviewerWidget.SCALE_KEY, this._scale),
+			new PropertyStruct(RoomPreviewerWidget.OFFSET_X_KEY, this._offsetX),
+			new PropertyStruct(RoomPreviewerWidget.OFFSET_Y_KEY, this._offsetY),
+			new PropertyStruct(RoomPreviewerWidget.ZOOM_KEY, this._zoom),
 		];
 	}
 
@@ -117,11 +124,11 @@ export class RoomPreviewerWidget implements IRoomPreviewerWidget
 		this._previewImageUrl = imageUrl;
 	}
 
-	public setProperties(values: IWidgetProperty[]): void
+	public set properties(values: PropertyStruct[])
 	{
-		for (const prop of values)
+		for(const prop of values)
 		{
-			switch (prop.key)
+			switch(prop.key)
 			{
 				case RoomPreviewerWidget.SCALE_KEY:
 					this.scale = Number(prop.value);
@@ -141,10 +148,11 @@ export class RoomPreviewerWidget implements IRoomPreviewerWidget
 
 	public dispose(): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
+		this._widgetWindow = null;
+		this._windowManager = null;
 		this._roomPreviewer = null;
 		this._disposed = true;
 	}
 }
-

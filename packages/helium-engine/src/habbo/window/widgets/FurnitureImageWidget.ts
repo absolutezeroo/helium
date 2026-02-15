@@ -1,4 +1,7 @@
-import type {IWidget, IWidgetProperty} from './IWidget';
+import type {IWidget} from './IWidget';
+import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
+import type {IHabboWindowManager} from '../IHabboWindowManager';
+import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
  * Furniture image widget.
@@ -27,8 +30,13 @@ export class FurnitureImageWidget implements IWidget
 	private static readonly ITEM_TYPE_FLOOR: number = 0;
 	private static readonly ITEM_TYPE_WALL: number = 1;
 
-	constructor()
+	private _widgetWindow: IWidgetWindow | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
+
+	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
+		this._widgetWindow = window;
+		this._windowManager = windowManager;
 	}
 
 	private _disposed: boolean = false;
@@ -89,26 +97,22 @@ export class FurnitureImageWidget implements IWidget
 		this._itemType = value;
 	}
 
-	public get properties(): IWidgetProperty[]
+	public get properties(): PropertyStruct[]
 	{
-		if (this._disposed) return [];
+		if(this._disposed) return [];
 
 		return [
-			{key: FurnitureImageWidget.FURNITURE_TYPE_KEY, value: this._furnitureType, type: 'String'},
-			{key: FurnitureImageWidget.SCALE_KEY, value: this._scale, type: 'int'},
-			{
-				key: FurnitureImageWidget.DIRECTION_KEY,
-				value: FurnitureImageWidget.DIRECTIONS[this._direction],
-				type: 'String'
-			},
+			new PropertyStruct(FurnitureImageWidget.FURNITURE_TYPE_KEY, this._furnitureType),
+			new PropertyStruct(FurnitureImageWidget.SCALE_KEY, this._scale),
+			new PropertyStruct(FurnitureImageWidget.DIRECTION_KEY, FurnitureImageWidget.DIRECTIONS[this._direction]),
 		];
 	}
 
-	public setProperties(values: IWidgetProperty[]): void
+	public set properties(values: PropertyStruct[])
 	{
-		for (const prop of values)
+		for(const prop of values)
 		{
-			switch (prop.key)
+			switch(prop.key)
 			{
 				case FurnitureImageWidget.FURNITURE_TYPE_KEY:
 					this.furnitureType = String(prop.value);
@@ -125,9 +129,10 @@ export class FurnitureImageWidget implements IWidget
 
 	public dispose(): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
+		this._widgetWindow = null;
+		this._windowManager = null;
 		this._disposed = true;
 	}
 }
-

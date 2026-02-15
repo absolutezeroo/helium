@@ -1,4 +1,7 @@
-import type {IWidget, IWidgetProperty} from './IWidget';
+import type {IWidget} from './IWidget';
+import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
+import type {IHabboWindowManager} from '../IHabboWindowManager';
+import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
  * Hover bitmap effect widget.
@@ -19,8 +22,13 @@ export class HoverBitmapWidget implements IWidget
 	private static readonly HOVER_ASSET_KEY: string = 'hover_bitmap:hover_asset';
 	private static readonly NORMAL_ASSET_KEY: string = 'hover_bitmap:normal_asset';
 
-	constructor()
+	private _widgetWindow: IWidgetWindow | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
+
+	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
+		this._widgetWindow = window;
+		this._windowManager = windowManager;
 	}
 
 	private _disposed: boolean = false;
@@ -77,21 +85,21 @@ export class HoverBitmapWidget implements IWidget
 		return this._isHovering ? this._hoverAsset : this._normalAsset;
 	}
 
-	public get properties(): IWidgetProperty[]
+	public get properties(): PropertyStruct[]
 	{
-		if (this._disposed) return [];
+		if(this._disposed) return [];
 
 		return [
-			{key: HoverBitmapWidget.NORMAL_ASSET_KEY, value: this._normalAsset, type: 'String'},
-			{key: HoverBitmapWidget.HOVER_ASSET_KEY, value: this._hoverAsset, type: 'String'},
+			new PropertyStruct(HoverBitmapWidget.NORMAL_ASSET_KEY, this._normalAsset),
+			new PropertyStruct(HoverBitmapWidget.HOVER_ASSET_KEY, this._hoverAsset),
 		];
 	}
 
-	public setProperties(values: IWidgetProperty[]): void
+	public set properties(values: PropertyStruct[])
 	{
-		for (const prop of values)
+		for(const prop of values)
 		{
-			switch (prop.key)
+			switch(prop.key)
 			{
 				case HoverBitmapWidget.NORMAL_ASSET_KEY:
 					this.normalAsset = String(prop.value);
@@ -105,9 +113,10 @@ export class HoverBitmapWidget implements IWidget
 
 	public dispose(): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
+		this._widgetWindow = null;
+		this._windowManager = null;
 		this._disposed = true;
 	}
 }
-

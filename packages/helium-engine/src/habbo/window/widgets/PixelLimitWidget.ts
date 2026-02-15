@@ -1,4 +1,7 @@
-import type {IWidget, IWidgetProperty} from './IWidget';
+import type {IWidget} from './IWidget';
+import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
+import type {IHabboWindowManager} from '../IHabboWindowManager';
+import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
  * Pixel limit display widget.
@@ -19,9 +22,13 @@ export class PixelLimitWidget implements IWidget
 
 	private static readonly LIMIT_KEY: string = 'pixel_limit:limit';
 	private _batchUpdate: boolean = false;
+	private _widgetWindow: IWidgetWindow | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
 
-	constructor()
+	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
+		this._widgetWindow = window;
+		this._windowManager = windowManager;
 	}
 
 	private _disposed: boolean = false;
@@ -54,22 +61,22 @@ export class PixelLimitWidget implements IWidget
 		return '${image.library.url}reception/challenge_meter_' + step.toString() + '.png';
 	}
 
-	public get properties(): IWidgetProperty[]
+	public get properties(): PropertyStruct[]
 	{
-		if (this._disposed) return [];
+		if(this._disposed) return [];
 
 		return [
-			{key: PixelLimitWidget.LIMIT_KEY, value: this._limit, type: 'String'},
+			new PropertyStruct(PixelLimitWidget.LIMIT_KEY, this._limit),
 		];
 	}
 
-	public setProperties(values: IWidgetProperty[]): void
+	public set properties(values: PropertyStruct[])
 	{
 		this._batchUpdate = true;
 
-		for (const prop of values)
+		for(const prop of values)
 		{
-			if (prop.key === PixelLimitWidget.LIMIT_KEY)
+			if(prop.key === PixelLimitWidget.LIMIT_KEY)
 			{
 				this.limit = Number(prop.value);
 			}
@@ -80,9 +87,10 @@ export class PixelLimitWidget implements IWidget
 
 	public dispose(): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
+		this._widgetWindow = null;
+		this._windowManager = null;
 		this._disposed = true;
 	}
 }
-

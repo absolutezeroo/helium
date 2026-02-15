@@ -1,4 +1,7 @@
-import type {IWidget, IWidgetProperty} from './IWidget';
+import type {IWidget} from './IWidget';
+import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
+import type {IHabboWindowManager} from '../IHabboWindowManager';
+import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
  * Pet image rendering widget.
@@ -32,8 +35,13 @@ export class PetImageWidget implements IWidget
 
 	private static readonly FIGURE_DEFAULT: string = '1 0 ffffff';
 
-	constructor()
+	private _widgetWindow: IWidgetWindow | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
+
+	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
+		this._widgetWindow = window;
+		this._windowManager = windowManager;
 	}
 
 	private _disposed: boolean = false;
@@ -135,17 +143,17 @@ export class PetImageWidget implements IWidget
 		return this._petHeight;
 	}
 
-	public get properties(): IWidgetProperty[]
+	public get properties(): PropertyStruct[]
 	{
-		if (this._disposed) return [];
+		if(this._disposed) return [];
 
 		return [
-			{key: PetImageWidget.FIGURE_KEY, value: this._figure, type: 'String'},
-			{key: PetImageWidget.SCALE_KEY, value: this._scale, type: 'int'},
-			{key: PetImageWidget.DIRECTION_KEY, value: PetImageWidget.DIRECTIONS[this._direction], type: 'String'},
-			{key: PetImageWidget.ZOOM_X_KEY, value: this._zoomX, type: 'Number'},
-			{key: PetImageWidget.ZOOM_Y_KEY, value: this._zoomY, type: 'Number'},
-			{key: PetImageWidget.SHRINK_ON_OVERFLOW_KEY, value: this._shrinkOnOverflow, type: 'Boolean'},
+			new PropertyStruct(PetImageWidget.FIGURE_KEY, this._figure),
+			new PropertyStruct(PetImageWidget.SCALE_KEY, this._scale),
+			new PropertyStruct(PetImageWidget.DIRECTION_KEY, PetImageWidget.DIRECTIONS[this._direction]),
+			new PropertyStruct(PetImageWidget.ZOOM_X_KEY, this._zoomX),
+			new PropertyStruct(PetImageWidget.ZOOM_Y_KEY, this._zoomY),
+			new PropertyStruct(PetImageWidget.SHRINK_ON_OVERFLOW_KEY, this._shrinkOnOverflow),
 		];
 	}
 
@@ -154,16 +162,16 @@ export class PetImageWidget implements IWidget
 	 */
 	private static cleanupAvatarString(figure: string): string
 	{
-		if (!figure) return PetImageWidget.FIGURE_DEFAULT;
+		if(!figure) return PetImageWidget.FIGURE_DEFAULT;
 
 		return figure.replace(/NaN/g, '');
 	}
 
-	public setProperties(values: IWidgetProperty[]): void
+	public set properties(values: PropertyStruct[])
 	{
-		for (const prop of values)
+		for(const prop of values)
 		{
-			switch (prop.key)
+			switch(prop.key)
 			{
 				case PetImageWidget.FIGURE_KEY:
 					this.figure = String(prop.value);
@@ -189,9 +197,10 @@ export class PetImageWidget implements IWidget
 
 	public dispose(): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
+		this._widgetWindow = null;
+		this._windowManager = null;
 		this._disposed = true;
 	}
 }
-

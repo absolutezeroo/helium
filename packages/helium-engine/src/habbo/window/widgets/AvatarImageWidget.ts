@@ -1,5 +1,7 @@
 import type {IAvatarImageWidget} from './IAvatarImageWidget';
-import type {IWidgetProperty} from './IWidget';
+import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
+import type {IHabboWindowManager} from '../IHabboWindowManager';
+import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
  * Avatar image rendering widget.
@@ -35,8 +37,13 @@ export class AvatarImageWidget implements IAvatarImageWidget
 	private static readonly CROPPED_DEFAULT: boolean = false;
 	private static readonly DIRECTION_DEFAULT: number = 2;
 
-	constructor()
+	private _widgetWindow: IWidgetWindow | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
+
+	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
+		this._widgetWindow = window;
+		this._windowManager = windowManager;
 	}
 
 	private _disposed: boolean = false;
@@ -55,7 +62,7 @@ export class AvatarImageWidget implements IAvatarImageWidget
 
 	public set figure(value: string)
 	{
-		if (value !== this._figure)
+		if(value !== this._figure)
 		{
 			this._figureEmpty = !value || value.length === 0;
 			this._figure = AvatarImageWidget.cleanupAvatarString(value);
@@ -71,7 +78,7 @@ export class AvatarImageWidget implements IAvatarImageWidget
 
 	public set scale(value: string)
 	{
-		if (value !== this._scale)
+		if(value !== this._scale)
 		{
 			this._scale = value;
 		}
@@ -86,7 +93,7 @@ export class AvatarImageWidget implements IAvatarImageWidget
 
 	public set onlyHead(value: boolean)
 	{
-		if (value !== this._onlyHead)
+		if(value !== this._onlyHead)
 		{
 			this._onlyHead = value;
 		}
@@ -101,7 +108,7 @@ export class AvatarImageWidget implements IAvatarImageWidget
 
 	public set cropped(value: boolean)
 	{
-		if (value !== this._cropped)
+		if(value !== this._cropped)
 		{
 			this._cropped = value;
 		}
@@ -116,7 +123,7 @@ export class AvatarImageWidget implements IAvatarImageWidget
 
 	public set direction(value: number)
 	{
-		if (value !== this._direction)
+		if(value !== this._direction)
 		{
 			this._direction = value;
 		}
@@ -131,7 +138,7 @@ export class AvatarImageWidget implements IAvatarImageWidget
 
 	public set userId(value: number)
 	{
-		if (this._userId !== value)
+		if(this._userId !== value)
 		{
 			this._userId = value;
 		}
@@ -147,20 +154,16 @@ export class AvatarImageWidget implements IAvatarImageWidget
 		return this._figureEmpty;
 	}
 
-	public get properties(): IWidgetProperty[]
+	public get properties(): PropertyStruct[]
 	{
-		if (this._disposed) return [];
+		if(this._disposed) return [];
 
 		return [
-			{key: AvatarImageWidget.FIGURE_KEY, value: this._figure, type: 'String'},
-			{key: AvatarImageWidget.SCALE_KEY, value: this._scale, type: 'String'},
-			{key: AvatarImageWidget.ONLY_HEAD_KEY, value: this._onlyHead, type: 'Boolean'},
-			{key: AvatarImageWidget.CROPPED_KEY, value: this._cropped, type: 'Boolean'},
-			{
-				key: AvatarImageWidget.DIRECTION_KEY,
-				value: AvatarImageWidget.DIRECTIONS[this._direction],
-				type: 'String'
-			},
+			new PropertyStruct(AvatarImageWidget.FIGURE_KEY, this._figure),
+			new PropertyStruct(AvatarImageWidget.SCALE_KEY, this._scale),
+			new PropertyStruct(AvatarImageWidget.ONLY_HEAD_KEY, this._onlyHead),
+			new PropertyStruct(AvatarImageWidget.CROPPED_KEY, this._cropped),
+			new PropertyStruct(AvatarImageWidget.DIRECTION_KEY, AvatarImageWidget.DIRECTIONS[this._direction]),
 		];
 	}
 
@@ -169,7 +172,7 @@ export class AvatarImageWidget implements IAvatarImageWidget
 	 */
 	private static cleanupAvatarString(figure: string): string
 	{
-		if (!figure || figure.length === 0)
+		if(!figure || figure.length === 0)
 		{
 			return AvatarImageWidget.FIGURE_DEFAULT;
 		}
@@ -177,11 +180,11 @@ export class AvatarImageWidget implements IAvatarImageWidget
 		return figure.replace(/NaN/g, '');
 	}
 
-	public setProperties(values: IWidgetProperty[]): void
+	public set properties(values: PropertyStruct[])
 	{
-		for (const prop of values)
+		for(const prop of values)
 		{
-			switch (prop.key)
+			switch(prop.key)
 			{
 				case AvatarImageWidget.FIGURE_KEY:
 					this.figure = String(prop.value);
@@ -204,9 +207,10 @@ export class AvatarImageWidget implements IAvatarImageWidget
 
 	public dispose(): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
+		this._widgetWindow = null;
+		this._windowManager = null;
 		this._disposed = true;
 	}
 }
-

@@ -24,6 +24,7 @@ import {SkinContainer} from '@core/window/graphics/SkinContainer';
 import {DefaultAttStruct} from '@core/window/utils/DefaultAttStruct';
 import {ThemeManager} from './theme/ThemeManager';
 import {ServiceManager} from '@core/window/services/ServiceManager';
+import {HabboWidgetFactory} from './HabboWidgetFactory';
 import type {IContext} from '@core/runtime/IContext';
 import type {IAssetLibrary} from '@core/assets/IAssetLibrary';
 import type {IModalDialog} from './utils/IModalDialog';
@@ -619,6 +620,7 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 
         const factory = this as unknown as IWindowFactory;
         const serviceManager = new ServiceManager();
+        const widgetFactory = new HabboWidgetFactory(this);
 
         this._serviceManager = serviceManager;
 
@@ -628,6 +630,9 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 
             // Inject shared service manager into each context
             context.setServices(serviceManager);
+
+            // Inject widget factory for WidgetWindowController
+            context.setWidgetFactory(widgetFactory);
 
             // Create desktop root for this layer
             const desktop = new DesktopController(

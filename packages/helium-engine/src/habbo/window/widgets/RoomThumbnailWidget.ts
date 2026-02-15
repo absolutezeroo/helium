@@ -1,5 +1,7 @@
 import type {IRoomThumbnailWidget} from './IRoomThumbnailWidget';
-import type {IWidgetProperty} from './IWidget';
+import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
+import type {IHabboWindowManager} from '../IHabboWindowManager';
+import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
  * Room thumbnail widget.
@@ -13,8 +15,13 @@ export class RoomThumbnailWidget implements IRoomThumbnailWidget
 {
 	public static readonly TYPE: string = 'room_thumbnail';
 
-	constructor()
+	private _widgetWindow: IWidgetWindow | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
+
+	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
+		this._widgetWindow = window;
+		this._windowManager = windowManager;
 	}
 
 	private _disposed: boolean = false;
@@ -36,7 +43,7 @@ export class RoomThumbnailWidget implements IRoomThumbnailWidget
 		this._flatId = value;
 	}
 
-	public get properties(): IWidgetProperty[]
+	public get properties(): PropertyStruct[]
 	{
 		return [];
 	}
@@ -46,16 +53,17 @@ export class RoomThumbnailWidget implements IRoomThumbnailWidget
 		this._flatId = 0;
 	}
 
-	public setProperties(_values: IWidgetProperty[]): void
+	public set properties(_values: PropertyStruct[])
 	{
 		// AS3: properties setter is a no-op for this widget
 	}
 
 	public dispose(): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
+		this._widgetWindow = null;
+		this._windowManager = null;
 		this._disposed = true;
 	}
 }
-

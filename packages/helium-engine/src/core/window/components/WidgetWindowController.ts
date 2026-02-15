@@ -1,5 +1,6 @@
 import type { IWindow } from '../IWindow';
 import type { IWindowContext } from '../IWindowContext';
+import type { IWidgetFactory } from '../IWidgetFactory';
 import type { IIterator } from '../utils/IIterator';
 import type { IWidgetWindow } from './IWidgetWindow';
 import { WindowController } from '../WindowController';
@@ -13,10 +14,15 @@ import { PropertyStruct } from '../utils/PropertyStruct';
  * The widget type is configured through properties and created via
  * the context's widget factory.
  *
- * @see sources/win63_2021_version/com/sulake/core/window/components/WidgetWindowController.as
+ * When the `widget_type` property is set, the controller uses the
+ * widget factory to create the appropriate widget, which then builds
+ * its own window tree and sets it as rootWindow.
+ *
+ * @see sources/win63_version/core/window/components/WidgetWindowController.as
  */
 export class WidgetWindowController extends WindowController implements IWidgetWindow
 {
+    private _widgetFactory: IWidgetFactory | null = null;
     private _widgetType: string = '';
     private _widget: unknown = null;
 
@@ -35,6 +41,8 @@ export class WidgetWindowController extends WindowController implements IWidgetW
     )
     {
         super(name, type, style, param, context, rect, parent, procedure, tags, properties, id);
+
+        this._widgetFactory = context.getWidgetFactory();
     }
 
     /**
@@ -75,6 +83,11 @@ export class WidgetWindowController extends WindowController implements IWidgetW
      */
     public iterator(): IIterator
     {
+        if(this._widget && typeof (this._widget as any).iterator === 'function')
+        {
+            return (this._widget as any).iterator();
+        }
+
         return {
             next: () => null,
             reset: () => {},
@@ -102,14 +115,30 @@ export class WidgetWindowController extends WindowController implements IWidgetW
 
     public override get properties(): unknown[]
     {
-        const widgetProps: unknown[] = [];
-        widgetProps.unshift(this.createProperty('widget_type', this._widgetType));
+        const props = super.properties;
 
-        return super.properties.concat(widgetProps);
+        props.push(this.createProperty('widget_type', this._widgetType));
+
+        if(this._widget && typeof (this._widget as any).properties !== 'undefined')
+        {
+            const widgetProps = (this._widget as any).properties as unknown[];
+
+            if(widgetProps)
+            {
+                for(const wp of widgetProps)
+                {
+                    props.push(wp);
+                }
+            }
+        }
+
+        return props;
     }
 
     public override set properties(value: unknown[])
     {
+        let widgetTypeChanged = false;
+
         for(const item of value)
         {
             const prop = item as PropertyStruct;
@@ -120,11 +149,35 @@ export class WidgetWindowController extends WindowController implements IWidgetW
 
                 if(this._widgetType !== newType)
                 {
+                    // Remove old widget root window
+                    this.removeChildAt(0);
+
+                    // Dispose old widget
+                    if(this._widget && typeof (this._widget as any).dispose === 'function')
+                    {
+                        (this._widget as any).dispose();
+                    }
+
+                    this._widget = null;
                     this._widgetType = newType;
+
+                    // Create new widget via factory
+                    if(this._widgetFactory && newType.length > 0)
+                    {
+                        this._widget = this._widgetFactory.createWidget(newType, this);
+                    }
+
+                    widgetTypeChanged = true;
                 }
 
                 break;
             }
+        }
+
+        // Delegate remaining properties to the widget
+        if(this._widget && typeof (this._widget as any).properties !== 'undefined')
+        {
+            (this._widget as any).properties = value;
         }
 
         super.properties = value;
@@ -134,7 +187,14 @@ export class WidgetWindowController extends WindowController implements IWidgetW
     {
         if(!this.disposed)
         {
+            if(this._widget && typeof (this._widget as any).dispose === 'function')
+            {
+                (this._widget as any).dispose();
+            }
+
             this._widget = null;
+            this._widgetFactory = null;
+
             super.dispose();
         }
     }

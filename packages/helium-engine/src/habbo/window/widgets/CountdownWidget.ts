@@ -1,4 +1,7 @@
-import type {IWidget, IWidgetProperty} from './IWidget';
+import type {IWidget} from './IWidget';
+import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
+import type {IHabboWindowManager} from '../IHabboWindowManager';
+import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
  * Countdown timer widget.
@@ -28,8 +31,13 @@ export class CountdownWidget implements IWidget
 	private _startTime: number = Date.now();
 	private _displayedTime: number = -1;
 
-	constructor()
+	private _widgetWindow: IWidgetWindow | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
+
+	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
+		this._widgetWindow = window;
+		this._windowManager = windowManager;
 	}
 
 	private _disposed: boolean = false;
@@ -48,12 +56,12 @@ export class CountdownWidget implements IWidget
 
 	public set running(value: boolean)
 	{
-		if (this._running && !value)
+		if(this._running && !value)
 		{
 			this._startSeconds = this.seconds;
 		}
 
-		if (!this._running && value)
+		if(!this._running && value)
 		{
 			this._startTime = Date.now();
 		}
@@ -87,7 +95,7 @@ export class CountdownWidget implements IWidget
 
 	public get seconds(): number
 	{
-		if (this._running)
+		if(this._running)
 		{
 			return Math.max(0, this._startSeconds - (Date.now() - this._startTime) / 1000);
 		}
@@ -101,15 +109,15 @@ export class CountdownWidget implements IWidget
 		this._startTime = Date.now();
 	}
 
-	public get properties(): IWidgetProperty[]
+	public get properties(): PropertyStruct[]
 	{
-		if (this._disposed) return [];
+		if(this._disposed) return [];
 
 		return [
-			{key: CountdownWidget.RUNNING_KEY, value: this._running, type: 'Boolean'},
-			{key: CountdownWidget.DIGITS_KEY, value: this._digits, type: 'uint'},
-			{key: CountdownWidget.SECONDS_KEY, value: this.seconds, type: 'int'},
-			{key: CountdownWidget.COLOR_STYLE_KEY, value: this._colorStyle, type: 'int'},
+			new PropertyStruct(CountdownWidget.RUNNING_KEY, this._running),
+			new PropertyStruct(CountdownWidget.DIGITS_KEY, this._digits),
+			new PropertyStruct(CountdownWidget.SECONDS_KEY, this.seconds),
+			new PropertyStruct(CountdownWidget.COLOR_STYLE_KEY, this._colorStyle),
 		];
 	}
 
@@ -118,9 +126,9 @@ export class CountdownWidget implements IWidget
 	 */
 	private static getMaxUnitIndex(digits: number, totalSeconds: number): number
 	{
-		for (let i = 0; i < CountdownWidget.UNIT_SECONDS.length - digits; i++)
+		for(let i = 0; i < CountdownWidget.UNIT_SECONDS.length - digits; i++)
 		{
-			if (totalSeconds >= CountdownWidget.UNIT_SECONDS[i])
+			if(totalSeconds >= CountdownWidget.UNIT_SECONDS[i])
 			{
 				return i;
 			}
@@ -140,7 +148,7 @@ export class CountdownWidget implements IWidget
 		const maxUnitIndex = CountdownWidget.getMaxUnitIndex(this._digits, totalSeconds);
 		const result: { value: number; unit: string }[] = [];
 
-		for (let i = 0; i < this._digits; i++)
+		for(let i = 0; i < this._digits; i++)
 		{
 			const unitIndex = maxUnitIndex + i;
 			const unitValue = Math.floor(totalSeconds / CountdownWidget.UNIT_SECONDS[unitIndex]) % CountdownWidget.UNIT_MAX_VALUES[unitIndex];
@@ -154,11 +162,11 @@ export class CountdownWidget implements IWidget
 		return result;
 	}
 
-	public setProperties(values: IWidgetProperty[]): void
+	public set properties(values: PropertyStruct[])
 	{
-		for (const prop of values)
+		for(const prop of values)
 		{
-			switch (prop.key)
+			switch(prop.key)
 			{
 				case CountdownWidget.RUNNING_KEY:
 					this.running = Boolean(prop.value);
@@ -178,9 +186,10 @@ export class CountdownWidget implements IWidget
 
 	public dispose(): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
+		this._widgetWindow = null;
+		this._windowManager = null;
 		this._disposed = true;
 	}
 }
-

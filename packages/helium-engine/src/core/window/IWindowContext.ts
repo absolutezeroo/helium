@@ -16,6 +16,7 @@ export interface IWindowContext
     getWindowServices(): IInternalWindowServices;
     getWindowParser(): IWindowParser;
     getWindowFactory(): IWindowFactory;
+    getWidgetFactory(): IWidgetFactory | null;
     getDesktopWindow(): IWindow | null;
     registerLocalizationListener(key: string, window: IWindow): void;
     removeLocalizationListener(key: string, window: IWindow): void;
@@ -50,3 +51,4 @@ export interface IWindowContext
 import type { IInputEventTracker } from './IInputEventTracker';
 import type { IInternalWindowServices } from './services/IInternalWindowServices';
 import type { IWindowFactory } from './IWindowFactory';
+import type { IWidgetFactory } from './IWidgetFactory';

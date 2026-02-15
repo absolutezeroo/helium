@@ -1,4 +1,7 @@
-import type {IWidget, IWidgetProperty} from './IWidget';
+import type {IWidget} from './IWidget';
+import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
+import type {IHabboWindowManager} from '../IHabboWindowManager';
+import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
  * Progress bar widget.
@@ -23,9 +26,14 @@ export class ProgressIndicatorWidget implements IWidget
 
 	private static readonly MAXIMUM_SIZE: number = 1000;
 
-	constructor()
+	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
+		this._widgetWindow = window;
+		this._windowManager = windowManager;
 	}
+
+	private _widgetWindow: IWidgetWindow | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
 
 	private _disposed: boolean = false;
 
@@ -82,15 +90,15 @@ export class ProgressIndicatorWidget implements IWidget
 		this._mode = value;
 	}
 
-	public get properties(): IWidgetProperty[]
+	public get properties(): PropertyStruct[]
 	{
-		if (this._disposed) return [];
+		if(this._disposed) return [];
 
 		return [
-			{key: ProgressIndicatorWidget.STYLE_KEY, value: this._style, type: 'String'},
-			{key: ProgressIndicatorWidget.SIZE_KEY, value: this._size, type: 'uint'},
-			{key: ProgressIndicatorWidget.POSITION_KEY, value: this._position, type: 'uint'},
-			{key: ProgressIndicatorWidget.MODE_KEY, value: this._mode, type: 'String'},
+			new PropertyStruct(ProgressIndicatorWidget.STYLE_KEY, this._style),
+			new PropertyStruct(ProgressIndicatorWidget.SIZE_KEY, this._size),
+			new PropertyStruct(ProgressIndicatorWidget.POSITION_KEY, this._position),
+			new PropertyStruct(ProgressIndicatorWidget.MODE_KEY, this._mode),
 		];
 	}
 
@@ -103,9 +111,9 @@ export class ProgressIndicatorWidget implements IWidget
 	{
 		const states: boolean[] = [];
 
-		for (let i = 0; i < this._size; i++)
+		for(let i = 0; i < this._size; i++)
 		{
-			switch (this._mode)
+			switch(this._mode)
 			{
 				case 'position':
 					states.push(i + 1 === this._position);
@@ -131,11 +139,11 @@ export class ProgressIndicatorWidget implements IWidget
 		return 'progress_disk_' + this._style + (active ? '_on' : '_off');
 	}
 
-	public setProperties(values: IWidgetProperty[]): void
+	public set properties(values: PropertyStruct[])
 	{
-		for (const prop of values)
+		for(const prop of values)
 		{
-			switch (prop.key)
+			switch(prop.key)
 			{
 				case ProgressIndicatorWidget.STYLE_KEY:
 					this.style = String(prop.value);
@@ -155,9 +163,10 @@ export class ProgressIndicatorWidget implements IWidget
 
 	public dispose(): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
+		this._widgetWindow = null;
+		this._windowManager = null;
 		this._disposed = true;
 	}
 }
-

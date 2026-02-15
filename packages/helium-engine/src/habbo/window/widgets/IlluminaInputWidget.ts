@@ -1,6 +1,8 @@
 import type {IIlluminaInputWidget} from './IIlluminaInputWidget';
 import type {IIlluminaInputHandler} from './IIlluminaInputHandler';
-import type {IWidgetProperty} from './IWidget';
+import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
+import type {IHabboWindowManager} from '../IHabboWindowManager';
+import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
  * Illumina input field widget.
@@ -26,8 +28,13 @@ export class IlluminaInputWidget implements IIlluminaInputWidget
 
 	private static readonly SINGLE_LINE_HEIGHT: number = 28;
 
-	constructor()
+	private _widgetWindow: IWidgetWindow | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
+
+	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
+		this._widgetWindow = window;
+		this._windowManager = windowManager;
 	}
 
 	private _disposed: boolean = false;
@@ -109,15 +116,15 @@ export class IlluminaInputWidget implements IIlluminaInputWidget
 		this._maxChars = value;
 	}
 
-	public get properties(): IWidgetProperty[]
+	public get properties(): PropertyStruct[]
 	{
-		if (this._disposed) return [];
+		if(this._disposed) return [];
 
 		return [
-			{key: IlluminaInputWidget.BUTTON_CAPTION_KEY, value: this._buttonCaption, type: 'String'},
-			{key: IlluminaInputWidget.EMPTY_MESSAGE_KEY, value: this._emptyMessage, type: 'String'},
-			{key: IlluminaInputWidget.MULTILINE_KEY, value: this._multiline, type: 'Boolean'},
-			{key: IlluminaInputWidget.MAX_CHARS_KEY, value: this._maxChars, type: 'int'},
+			new PropertyStruct(IlluminaInputWidget.BUTTON_CAPTION_KEY, this._buttonCaption),
+			new PropertyStruct(IlluminaInputWidget.EMPTY_MESSAGE_KEY, this._emptyMessage),
+			new PropertyStruct(IlluminaInputWidget.MULTILINE_KEY, this._multiline),
+			new PropertyStruct(IlluminaInputWidget.MAX_CHARS_KEY, this._maxChars),
 		];
 	}
 
@@ -128,17 +135,17 @@ export class IlluminaInputWidget implements IIlluminaInputWidget
 	 */
 	public submitMessage(widgetId: string): void
 	{
-		if (this._submitHandler)
+		if(this._submitHandler)
 		{
 			this._submitHandler.onInput(widgetId, this._message);
 		}
 	}
 
-	public setProperties(values: IWidgetProperty[]): void
+	public set properties(values: PropertyStruct[])
 	{
-		for (const prop of values)
+		for(const prop of values)
 		{
-			switch (prop.key)
+			switch(prop.key)
 			{
 				case IlluminaInputWidget.BUTTON_CAPTION_KEY:
 					this.buttonCaption = String(prop.value);
@@ -158,10 +165,11 @@ export class IlluminaInputWidget implements IIlluminaInputWidget
 
 	public dispose(): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
+		this._widgetWindow = null;
+		this._windowManager = null;
 		this._submitHandler = null;
 		this._disposed = true;
 	}
 }
-

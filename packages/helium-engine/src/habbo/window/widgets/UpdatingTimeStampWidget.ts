@@ -1,4 +1,7 @@
-import type {IWidget, IWidgetProperty} from './IWidget';
+import type {IWidget} from './IWidget';
+import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
+import type {IHabboWindowManager} from '../IHabboWindowManager';
+import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
  * Updating timestamp display widget.
@@ -18,10 +21,15 @@ export class UpdatingTimeStampWidget implements IWidget
 
 	private static readonly UPDATE_INTERVAL_MS: number = 60000;
 
-	constructor()
+	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
+		this._widgetWindow = window;
+		this._windowManager = windowManager;
 		this.reset();
 	}
+
+	private _widgetWindow: IWidgetWindow | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
 
 	private _disposed: boolean = false;
 
@@ -65,7 +73,7 @@ export class UpdatingTimeStampWidget implements IWidget
 		return (Date.now() - Math.abs(this._timeStamp)) / 1000;
 	}
 
-	public get properties(): IWidgetProperty[]
+	public get properties(): PropertyStruct[]
 	{
 		return [];
 	}
@@ -78,16 +86,17 @@ export class UpdatingTimeStampWidget implements IWidget
 		this._timeStamp = Date.now();
 	}
 
-	public setProperties(_values: IWidgetProperty[]): void
+	public set properties(_values: PropertyStruct[])
 	{
 		// AS3: properties setter is a no-op for this widget
 	}
 
 	public dispose(): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
+		this._widgetWindow = null;
+		this._windowManager = null;
 		this._disposed = true;
 	}
 }
-

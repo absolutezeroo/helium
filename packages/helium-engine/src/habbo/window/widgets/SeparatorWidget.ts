@@ -1,5 +1,7 @@
 import type {ISeparatorWidget} from './ISeparatorWidget';
-import type {IWidgetProperty} from './IWidget';
+import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
+import type {IHabboWindowManager} from '../IHabboWindowManager';
+import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
  * Visual separator widget.
@@ -21,8 +23,13 @@ export class SeparatorWidget implements ISeparatorWidget
 	private static readonly BORDER_IMAGE_HORIZONTAL: string = 'illumina_light_separator_horizontal';
 	private static readonly BORDER_IMAGE_VERTICAL: string = 'illumina_light_separator_vertical';
 
-	constructor()
+	private _widgetWindow: IWidgetWindow | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
+
+	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
+		this._widgetWindow = window;
+		this._windowManager = windowManager;
 	}
 
 	private _disposed: boolean = false;
@@ -54,20 +61,20 @@ export class SeparatorWidget implements ISeparatorWidget
 			: SeparatorWidget.BORDER_IMAGE_HORIZONTAL;
 	}
 
-	public get properties(): IWidgetProperty[]
+	public get properties(): PropertyStruct[]
 	{
-		if (this._disposed) return [];
+		if(this._disposed) return [];
 
 		return [
-			{key: SeparatorWidget.VERTICAL_KEY, value: this._vertical, type: 'Boolean'},
+			new PropertyStruct(SeparatorWidget.VERTICAL_KEY, this._vertical),
 		];
 	}
 
-	public setProperties(values: IWidgetProperty[]): void
+	public set properties(values: PropertyStruct[])
 	{
-		for (const prop of values)
+		for(const prop of values)
 		{
-			if (prop.key === SeparatorWidget.VERTICAL_KEY)
+			if(prop.key === SeparatorWidget.VERTICAL_KEY)
 			{
 				this.vertical = Boolean(prop.value);
 			}
@@ -76,9 +83,10 @@ export class SeparatorWidget implements ISeparatorWidget
 
 	public dispose(): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
+		this._widgetWindow = null;
+		this._windowManager = null;
 		this._disposed = true;
 	}
 }
-

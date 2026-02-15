@@ -1,5 +1,7 @@
 import type {IRoomUserCountWidget} from './IRoomUserCountWidget';
-import type {IWidgetProperty} from './IWidget';
+import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
+import type {IHabboWindowManager} from '../IHabboWindowManager';
+import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
  * Room user count display widget.
@@ -13,9 +15,14 @@ export class RoomUserCountWidget implements IRoomUserCountWidget
 {
 	public static readonly TYPE: string = 'room_user_count';
 
-	constructor()
+	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
+		this._widgetWindow = window;
+		this._windowManager = windowManager;
 	}
+
+	private _widgetWindow: IWidgetWindow | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
 
 	private _disposed: boolean = false;
 
@@ -36,21 +43,22 @@ export class RoomUserCountWidget implements IRoomUserCountWidget
 		this._userCount = value;
 	}
 
-	public get properties(): IWidgetProperty[]
+	public get properties(): PropertyStruct[]
 	{
 		return [];
 	}
 
-	public setProperties(_values: IWidgetProperty[]): void
+	public set properties(_values: PropertyStruct[])
 	{
 		// AS3: properties setter is a no-op for this widget
 	}
 
 	public dispose(): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
+		this._widgetWindow = null;
+		this._windowManager = null;
 		this._disposed = true;
 	}
 }
-

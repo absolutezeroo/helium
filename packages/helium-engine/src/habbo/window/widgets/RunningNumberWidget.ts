@@ -1,5 +1,7 @@
 import type {IRunningNumberWidget} from './IRunningNumberWidget';
-import type {IWidgetProperty} from './IWidget';
+import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
+import type {IHabboWindowManager} from '../IHabboWindowManager';
+import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
  * Animated running number widget.
@@ -23,9 +25,14 @@ export class RunningNumberWidget implements IRunningNumberWidget
 	private static readonly UPDATE_FREQUENCY_KEY: string = 'running_number:update_frequency';
 	private _millisSinceLastUpdate: number = 0;
 
-	constructor()
+	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
+		this._widgetWindow = window;
+		this._windowManager = windowManager;
 	}
+
+	private _widgetWindow: IWidgetWindow | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
 
 	private _disposed: boolean = false;
 
@@ -105,7 +112,7 @@ export class RunningNumberWidget implements IRunningNumberWidget
 	{
 		let str = Math.floor(this._displayedNumber).toString();
 
-		while (str.length < this._digits)
+		while(str.length < this._digits)
 		{
 			str = '0' + str;
 		}
@@ -113,15 +120,15 @@ export class RunningNumberWidget implements IRunningNumberWidget
 		return str;
 	}
 
-	public get properties(): IWidgetProperty[]
+	public get properties(): PropertyStruct[]
 	{
-		if (this._disposed) return [];
+		if(this._disposed) return [];
 
 		return [
-			{key: RunningNumberWidget.NUMBER_KEY, value: this._number, type: 'int'},
-			{key: RunningNumberWidget.DIGITS_KEY, value: this._digits, type: 'uint'},
-			{key: RunningNumberWidget.COLOR_STYLE_KEY, value: this._colorStyle, type: 'int'},
-			{key: RunningNumberWidget.UPDATE_FREQUENCY_KEY, value: this._updateFrequency, type: 'int'},
+			new PropertyStruct(RunningNumberWidget.NUMBER_KEY, this._number),
+			new PropertyStruct(RunningNumberWidget.DIGITS_KEY, this._digits),
+			new PropertyStruct(RunningNumberWidget.COLOR_STYLE_KEY, this._colorStyle),
+			new PropertyStruct(RunningNumberWidget.UPDATE_FREQUENCY_KEY, this._updateFrequency),
 		];
 	}
 
@@ -132,11 +139,11 @@ export class RunningNumberWidget implements IRunningNumberWidget
 	 */
 	public update(elapsed: number): void
 	{
-		if (this._displayedNumber < this._number)
+		if(this._displayedNumber < this._number)
 		{
 			this._millisSinceLastUpdate += elapsed;
 
-			if (this._millisSinceLastUpdate > this._updateFrequency)
+			if(this._millisSinceLastUpdate > this._updateFrequency)
 			{
 				this._displayedNumber = Math.min(
 					this._number,
@@ -147,11 +154,11 @@ export class RunningNumberWidget implements IRunningNumberWidget
 		}
 	}
 
-	public setProperties(values: IWidgetProperty[]): void
+	public set properties(values: PropertyStruct[])
 	{
-		for (const prop of values)
+		for(const prop of values)
 		{
-			switch (prop.key)
+			switch(prop.key)
 			{
 				case RunningNumberWidget.NUMBER_KEY:
 					this.number = Number(prop.value);
@@ -171,9 +178,10 @@ export class RunningNumberWidget implements IRunningNumberWidget
 
 	public dispose(): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
+		this._widgetWindow = null;
+		this._windowManager = null;
 		this._disposed = true;
 	}
 }
-

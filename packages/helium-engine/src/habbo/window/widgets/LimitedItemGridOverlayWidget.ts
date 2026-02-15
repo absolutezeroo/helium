@@ -1,5 +1,7 @@
 import type {ILimitedItemGridOverlayWidget} from './ILimitedItemGridOverlayWidget';
-import type {IWidgetProperty} from './IWidget';
+import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
+import type {IHabboWindowManager} from '../IHabboWindowManager';
+import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
  * Limited item grid overlay widget.
@@ -21,8 +23,13 @@ export class LimitedItemGridOverlayWidget implements ILimitedItemGridOverlayWidg
 	private readonly SHINE_INTERVAL_MS: number = 10000;
 	private readonly SHINE_LENGTH_MS: number = 250;
 
-	constructor()
+	private _widgetWindow: IWidgetWindow | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
+
+	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
+		this._widgetWindow = window;
+		this._windowManager = windowManager;
 	}
 
 	private _disposed: boolean = false;
@@ -68,21 +75,22 @@ export class LimitedItemGridOverlayWidget implements ILimitedItemGridOverlayWidg
 		this._animated = value;
 	}
 
-	public get properties(): IWidgetProperty[]
+	public get properties(): PropertyStruct[]
 	{
 		return [];
 	}
 
-	public setProperties(_values: IWidgetProperty[]): void
+	public set properties(_values: PropertyStruct[])
 	{
 		// AS3: properties setter is a no-op for this widget
 	}
 
 	public dispose(): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
+		this._widgetWindow = null;
+		this._windowManager = null;
 		this._disposed = true;
 	}
 }
-

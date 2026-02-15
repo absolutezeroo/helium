@@ -45,4 +45,4 @@ export type {IRoomThumbnailWidget} from './IRoomThumbnailWidget';
 export type {IRoomUserCountWidget} from './IRoomUserCountWidget';
 export type {IRunningNumberWidget} from './IRunningNumberWidget';
 export type {ISeparatorWidget} from './ISeparatorWidget';
-export type {IWidgetProperty, IWidget,} from './IWidget';
+export type {IWidget} from './IWidget';

@@ -1,5 +1,7 @@
 import type {IBadgeImageWidget} from './IBadgeImageWidget';
-import type {IWidgetProperty} from './IWidget';
+import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
+import type {IHabboWindowManager} from '../IHabboWindowManager';
+import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
  * Badge image rendering widget.
@@ -21,8 +23,13 @@ export class BadgeImageWidget implements IBadgeImageWidget
 	private static readonly BADGE_ID_KEY: string = 'badge_image:badge_id';
 	private _batchUpdate: boolean = false;
 
-	constructor()
+	private _widgetWindow: IWidgetWindow | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
+
+	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
+		this._widgetWindow = window;
+		this._windowManager = windowManager;
 	}
 
 	private _disposed: boolean = false;
@@ -73,9 +80,9 @@ export class BadgeImageWidget implements IBadgeImageWidget
 	 */
 	public get assetUri(): string
 	{
-		if (!this._badgeId || this._badgeId.length === 0) return '';
+		if(!this._badgeId || this._badgeId.length === 0) return '';
 
-		switch (this._type)
+		switch(this._type)
 		{
 			case 'normal':
 				return '${image.library.url}album1584/' + this._badgeId + '.png';
@@ -88,23 +95,23 @@ export class BadgeImageWidget implements IBadgeImageWidget
 		}
 	}
 
-	public get properties(): IWidgetProperty[]
+	public get properties(): PropertyStruct[]
 	{
-		if (this._disposed) return [];
+		if(this._disposed) return [];
 
 		return [
-			{key: BadgeImageWidget.TYPE_KEY, value: this._type, type: 'String'},
-			{key: BadgeImageWidget.BADGE_ID_KEY, value: this._badgeId, type: 'String'},
+			new PropertyStruct(BadgeImageWidget.TYPE_KEY, this._type),
+			new PropertyStruct(BadgeImageWidget.BADGE_ID_KEY, this._badgeId),
 		];
 	}
 
-	public setProperties(values: IWidgetProperty[]): void
+	public set properties(values: PropertyStruct[])
 	{
 		this._batchUpdate = true;
 
-		for (const prop of values)
+		for(const prop of values)
 		{
-			switch (prop.key)
+			switch(prop.key)
 			{
 				case BadgeImageWidget.TYPE_KEY:
 					this.type = String(prop.value);
@@ -120,10 +127,11 @@ export class BadgeImageWidget implements IBadgeImageWidget
 
 	public dispose(): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
+		this._widgetWindow = null;
+		this._windowManager = null;
 		this._groupId = 0;
 		this._disposed = true;
 	}
 }
-

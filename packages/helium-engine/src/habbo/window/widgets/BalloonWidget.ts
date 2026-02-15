@@ -1,4 +1,7 @@
-import type {IWidget, IWidgetProperty} from './IWidget';
+import type {IWidget} from './IWidget';
+import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
+import type {IHabboWindowManager} from '../IHabboWindowManager';
+import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
  * Balloon / speech bubble widget.
@@ -24,8 +27,13 @@ export class BalloonWidget implements IWidget
 	private static readonly ARROW_WIDTH: number = 9;
 	private _batchUpdate: boolean = false;
 
-	constructor()
+	private _widgetWindow: IWidgetWindow | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
+
+	constructor(window: IWidgetWindow, windowManager: IHabboWindowManager)
 	{
+		this._widgetWindow = window;
+		this._windowManager = windowManager;
 	}
 
 	private _disposed: boolean = false;
@@ -59,23 +67,23 @@ export class BalloonWidget implements IWidget
 		this._arrowDisplacement = value;
 	}
 
-	public get properties(): IWidgetProperty[]
+	public get properties(): PropertyStruct[]
 	{
-		if (this._disposed) return [];
+		if(this._disposed) return [];
 
 		return [
-			{key: BalloonWidget.ARROW_PIVOT_KEY, value: this._arrowPivot, type: 'String'},
-			{key: BalloonWidget.ARROW_DISPLACEMENT_KEY, value: this._arrowDisplacement, type: 'int'},
+			new PropertyStruct(BalloonWidget.ARROW_PIVOT_KEY, this._arrowPivot),
+			new PropertyStruct(BalloonWidget.ARROW_DISPLACEMENT_KEY, this._arrowDisplacement),
 		];
 	}
 
-	public setProperties(values: IWidgetProperty[]): void
+	public set properties(values: PropertyStruct[])
 	{
 		this._batchUpdate = true;
 
-		for (const prop of values)
+		for(const prop of values)
 		{
-			switch (prop.key)
+			switch(prop.key)
 			{
 				case BalloonWidget.ARROW_PIVOT_KEY:
 					this.arrowPivot = String(prop.value);
@@ -91,9 +99,10 @@ export class BalloonWidget implements IWidget
 
 	public dispose(): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
+		this._widgetWindow = null;
+		this._windowManager = null;
 		this._disposed = true;
 	}
 }
-
