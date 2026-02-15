@@ -1,8 +1,6 @@
-/**
- * Room Object Logic
- *
- * Based on AS3: com.sulake.room.object.logic.*
- */
-export type {IRoomObjectMouseHandler} from './IRoomObjectMouseHandler';
-export type {IRoomObjectEventHandler} from './IRoomObjectEventHandler';
-export {ObjectLogicBase} from './ObjectLogicBase';
+// Exports
+export { ObjectLogicBase } from './ObjectLogicBase';
+
+// Types
+export type { IRoomObjectEventHandler } from './IRoomObjectEventHandler';
+export type { IRoomObjectMouseHandler } from './IRoomObjectMouseHandler';

@@ -205,13 +205,27 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 				IID_HabboToolbar,
 				(toolbar: IHabboToolbar | null) =>
 				{
+					// Unsubscribe from previous toolbar
+					if(this._toolbar)
+					{
+						this._toolbar.toolbarEvents.off(
+							HabboToolbarEvent.TOOLBAR_CLICK,
+							this.onHabboToolbarEvent
+						);
+					}
+
 					this._toolbar = toolbar;
+
+					// Subscribe to toolbarEvents (NOT Component.events — see MEMORY.md)
+					if(toolbar)
+					{
+						toolbar.toolbarEvents.on(
+							HabboToolbarEvent.TOOLBAR_CLICK,
+							this.onHabboToolbarEvent
+						);
+					}
 				},
-				false,
-				[{
-					type: HabboToolbarEvent.TOOLBAR_CLICK,
-					callback: ((...args: unknown[]) => this.onHabboToolbarEvent(args[0] as HabboToolbarEvent))
-				}]
+				false
 			),
 			new ComponentDependency(
 				IID_HabboWindowManager,
@@ -518,11 +532,20 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	{
 		if (this.disposed) return;
 
+		// Unsubscribe from toolbar events
+		if(this._toolbar)
+		{
+			this._toolbar.toolbarEvents.off(
+				HabboToolbarEvent.TOOLBAR_CLICK,
+				this.onHabboToolbarEvent
+			);
+			this._toolbar = null;
+		}
+
 		this._view?.dispose();
 		this._view = null;
 		this._incomingMessages?.dispose();
 		this._navigatorEvents.removeAllListeners();
-		this._toolbar = null;
 		this._windowManager = null;
 
 		log.info('New Navigator disposed');
@@ -556,7 +579,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	 *
 	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as onHabboToolbarEvent()
 	 */
-	private onHabboToolbarEvent(event: HabboToolbarEvent): void
+	private onHabboToolbarEvent = (event: HabboToolbarEvent): void =>
 	{
 		if(event.type === HabboToolbarEvent.TOOLBAR_CLICK)
 		{
@@ -565,7 +588,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 				this.toggle();
 			}
 		}
-	}
+	};
 
 	private send(composer: IMessageComposer<unknown[]>): void
 	{

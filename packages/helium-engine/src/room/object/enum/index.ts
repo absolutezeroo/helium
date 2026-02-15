@@ -1,2 +1,3 @@
-export * from './AlphaTolerance';
-export * from './RoomObjectSpriteType';
+// Exports
+export { AlphaTolerance } from './AlphaTolerance';
+export { RoomObjectSpriteType } from './RoomObjectSpriteType';

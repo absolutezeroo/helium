@@ -1,7 +1,11 @@
 import {Component, ComponentDependency, type IContext} from '@core/runtime';
 import {IID_RoomSessionManager} from '@iid/IIDRoomSessionManager';
+import {IID_HabboToolbar} from '@iid/IIDHabboToolbar';
 import type {IHabboNavigator} from './IHabboNavigator';
 import type {IRoomSessionManager} from '../session/IRoomSessionManager';
+import type {IHabboToolbar} from '../toolbar/IHabboToolbar';
+import {HabboToolbarEvent} from '../toolbar/events/HabboToolbarEvent';
+import {HabboToolbarIconEnum} from '../toolbar/HabboToolbarIconEnum';
 import {NavigatorData} from './domain';
 import {IncomingMessages} from './IncomingMessages';
 import type {CompetitionRoomsData, EventCategory, GuestRoomData} from '../communication/messages/incoming/navigator';
@@ -32,6 +36,7 @@ export class HabboNavigator extends Component implements IHabboNavigator
 	private _isOpen: boolean = false;
 	private _isRoomInfoOpen: boolean = false;
 	private _roomSessionManager: IRoomSessionManager | null = null;
+	private _toolbar: IHabboToolbar | null = null;
 
 	constructor(context: IContext)
 	{
@@ -90,6 +95,33 @@ export class HabboNavigator extends Component implements IHabboNavigator
 					this._roomSessionManager = manager;
 				},
 				true
+			),
+			new ComponentDependency(
+				IID_HabboToolbar,
+				(toolbar: IHabboToolbar | null) =>
+				{
+					// Unsubscribe from previous toolbar
+					if(this._toolbar)
+					{
+						this._toolbar.toolbarEvents.off(
+							HabboToolbarEvent.TOOLBAR_CLICK,
+							this.onHabboToolbarEvent
+						);
+					}
+
+					this._toolbar = toolbar;
+
+					// Subscribe to new toolbar's custom event emitter
+					// (toolbarEvents, NOT Component.events — see MEMORY.md)
+					if(toolbar)
+					{
+						toolbar.toolbarEvents.on(
+							HabboToolbarEvent.TOOLBAR_CLICK,
+							this.onHabboToolbarEvent
+						);
+					}
+				},
+				false
 			),
 		];
 	}
@@ -233,7 +265,7 @@ export class HabboNavigator extends Component implements IHabboNavigator
 
 		this._isOpen = true;
 
-		log.debug('Navigator opened');
+		log.info('Navigator opened');
 	}
 
 	closeNavigator(): void
@@ -242,7 +274,7 @@ export class HabboNavigator extends Component implements IHabboNavigator
 
 		this._isOpen = false;
 
-		log.debug('Navigator closed');
+		log.info('Navigator closed');
 	}
 
 	toggleRoomInfoVisibility(): void
@@ -276,6 +308,16 @@ export class HabboNavigator extends Component implements IHabboNavigator
 	{
 		if (this.disposed) return;
 
+		// Unsubscribe from toolbar events
+		if(this._toolbar)
+		{
+			this._toolbar.toolbarEvents.off(
+				HabboToolbarEvent.TOOLBAR_CLICK,
+				this.onHabboToolbarEvent
+			);
+			this._toolbar = null;
+		}
+
 		this._incomingMessages?.dispose();
 		this._data.dispose();
 
@@ -289,6 +331,37 @@ export class HabboNavigator extends Component implements IHabboNavigator
 
 		log.info('Navigator initialized');
 	}
+
+	/**
+	 * Handle toolbar click events.
+	 *
+	 * Switches on the icon ID to perform the appropriate navigator action.
+	 * @param event The toolbar event
+	 * @see sources/win63_version/habbo/navigator/HabboNavigator.as onHabboToolbarEvent()
+	 */
+	private onHabboToolbarEvent = (event: HabboToolbarEvent): void =>
+	{
+		if(event.type !== HabboToolbarEvent.TOOLBAR_CLICK) return;
+
+		switch(event.iconId)
+		{
+			case HabboToolbarIconEnum.ROOMINFO:
+				this.toggleRoomInfoVisibility();
+				break;
+			case HabboToolbarIconEnum.NAVIGATOR_ME_TAB:
+				this.showOwnRooms();
+				break;
+			case HabboToolbarIconEnum.GAMES:
+				if(this.getBoolean('game.center.enabled'))
+				{
+					this.closeNavigator();
+				}
+				break;
+			case HabboToolbarIconEnum.HOME:
+				this.goToHomeRoom();
+				break;
+		}
+	};
 
 	private openRoomInfo(): void
 	{
