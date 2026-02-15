@@ -1,6 +1,6 @@
 {
   "name": "poll_answer_text_input",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbopoll_answer_text_input_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_poll_answer_text_input.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,7 +31,16 @@
               "style": "0",
               "name": "poll_answer_input"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "always_show_selection": true,
+              "text_style": "u_bold",
+              "mouse_wheel_enabled": false,
+              "max_chars": 512,
+              "multiline": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "static_bitmap",
@@ -45,21 +54,15 @@
               "style": "0",
               "name": "write_deco"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "common_small_pen"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "always_show_selection": true,
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "max_chars": 512,
-    "multiline": true,
-    "spacing": 0,
-    "leading": 0,
-    "asset_uri": "common_small_pen"
-  },
+  "vars": {},
   "filters": []
 }

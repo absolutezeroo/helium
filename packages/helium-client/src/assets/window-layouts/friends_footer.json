@@ -1,6 +1,6 @@
 {
   "name": "friends_footer",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendListCom_friends_footer_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendListCom_friends_footer.xml",
   "window": {
     "tag": "window",
     "typeId": -1,

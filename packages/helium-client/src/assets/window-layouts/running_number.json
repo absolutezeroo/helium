@@ -1,6 +1,6 @@
 {
   "name": "running_number",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_running_number_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_running_number.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -30,7 +30,10 @@
               "style": "100",
               "name": "left"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "illumina_light_clock_background_left_png"
+            }
           },
           {
             "tag": "static_bitmap",
@@ -44,7 +47,10 @@
               "style": "100",
               "name": "middle"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "illumina_light_clock_background_mid_png"
+            }
           },
           {
             "tag": "static_bitmap",
@@ -58,7 +64,10 @@
               "style": "100",
               "name": "right"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "illumina_light_clock_background_right_png"
+            }
           },
           {
             "tag": "text",
@@ -73,22 +82,22 @@
               "name": "number_field",
               "width_min": "60"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "text_color": 16777215,
+              "text_style": "u_bold",
+              "margin_left": 5,
+              "margin_right": 5,
+              "mouse_wheel_enabled": false,
+              "spacing": 1,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "illumina_light_clock_background_right_png",
-    "auto_size": "left",
-    "text_color": 16777215,
-    "text_style": "u_bold",
-    "margin_left": 5,
-    "margin_right": 5,
-    "mouse_wheel_enabled": false,
-    "spacing": 1,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

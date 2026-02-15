@@ -1,6 +1,6 @@
 {
   "name": "badge_details",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbobadge_details_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_badge_details.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,7 +32,14 @@
               "name": "name",
               "caption": ""
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_face": "Volter Bold",
+              "font_size": 9,
+              "text_color": 0,
+              "embed_fonts": true,
+              "word_wrap": true
+            }
           },
           {
             "tag": "text",
@@ -48,18 +55,19 @@
               "caption": "",
               "clipping": "false"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_face": "Volter",
+              "font_size": 9,
+              "text_color": 0,
+              "embed_fonts": true,
+              "word_wrap": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter",
-    "font_size": 9,
-    "text_color": 0,
-    "embed_fonts": true,
-    "word_wrap": true
-  },
+  "vars": {},
   "filters": []
 }

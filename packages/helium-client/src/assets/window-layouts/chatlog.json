@@ -1,6 +1,6 @@
 {
   "name": "chatlog",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboModerationCom_evidence_frame_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboModerationCom_evidence_frame.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -83,7 +83,11 @@
                           "color": "0xffff418db0",
                           "background": "true"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_style": "u_headline_small",
+                          "text_color": 16777215
+                        }
                       },
                       {
                         "tag": "button",
@@ -148,7 +152,10 @@
                           "name": "time_txt",
                           "caption": "18:30"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_style": "u_bold"
+                        }
                       },
                       {
                         "tag": "text",
@@ -164,7 +171,20 @@
                           "caption": "ROBIN_WAN_PERSI",
                           "background": "true"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "antialias_type": "advanced",
+                          "font_face": "Ubuntu",
+                          "font_size": 18,
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "bold": true,
+                          "underline": true,
+                          "kerning": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -179,7 +199,14 @@
                           "name": "msg_txt",
                           "caption": "Sharing your password or personal details online is dangerous. The moderators might monitor these conversations for your safety."
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   }
@@ -198,41 +225,28 @@
                   "name": "scroller",
                   "caption": "Chatlog"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "scrollable": "evidence_list"
+                }
               }
             ]
+          }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "text_style": "u_bold",
-    "text_color": 16777215,
-    "antialias_type": "advanced",
-    "font_face": "Ubuntu",
-    "font_size": 18,
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "bold": true,
-    "underline": true,
-    "kerning": true,
-    "spacing": 0,
-    "leading": 0,
-    "multiline": true,
-    "word_wrap": true,
-    "scrollable": "evidence_list"
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

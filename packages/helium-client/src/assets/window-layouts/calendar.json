@@ -1,6 +1,6 @@
 {
   "name": "calendar",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_campaign_calendar_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_campaign_calendar.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -85,7 +85,12 @@
                               "style": "3",
                               "name": "bitmap_item"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "campaign_day_generic_bg",
+                              "stretched_x": false,
+                              "stretched_y": false
+                            }
                           },
                           {
                             "tag": "container",
@@ -112,7 +117,12 @@
                                   "style": "3",
                                   "name": "bitmap_bg"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               },
                               {
                                 "tag": "static_bitmap",
@@ -127,7 +137,13 @@
                                   "name": "bitmap_opened_bg",
                                   "visible": "false"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "campaign_opened",
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               },
                               {
                                 "tag": "bitmap",
@@ -141,7 +157,12 @@
                                   "style": "3",
                                   "name": "bitmap_icon2"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               },
                               {
                                 "tag": "static_bitmap",
@@ -155,7 +176,13 @@
                                   "style": "3",
                                   "name": "bitmap_icon"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "",
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               }
                             ]
                           },
@@ -171,7 +198,13 @@
                               "style": "3",
                               "name": "bitmap_lock"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "campaign_generic_lock",
+                              "pivot_point": "center",
+                              "stretched_x": false,
+                              "stretched_y": false
+                            }
                           }
                         ]
                       },
@@ -198,7 +231,12 @@
                               "params": "16",
                               "style": "3"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "campaign_day_generic_bg",
+                              "stretched_x": false,
+                              "stretched_y": false
+                            }
                           }
                         ]
                       },
@@ -225,7 +263,12 @@
                               "params": "16",
                               "style": "3"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "campaign_day_generic_bg",
+                              "stretched_x": false,
+                              "stretched_y": false
+                            }
                           }
                         ]
                       },
@@ -252,7 +295,12 @@
                               "params": "16",
                               "style": "3"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "campaign_day_generic_bg",
+                              "stretched_x": false,
+                              "stretched_y": false
+                            }
                           }
                         ]
                       },
@@ -279,11 +327,19 @@
                               "params": "16",
                               "style": "3"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "campaign_day_generic_bg",
+                              "stretched_x": false,
+                              "stretched_y": false
+                            }
                           }
                         ]
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 4
+                    }
                   },
                   {
                     "tag": "bitmap",
@@ -297,7 +353,10 @@
                       "style": "3",
                       "name": "gradient1"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "fit_size_to_contents": true
+                    }
                   },
                   {
                     "tag": "bitmap",
@@ -311,7 +370,10 @@
                       "style": "3",
                       "name": "gradient2"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "fit_size_to_contents": true
+                    }
                   }
                 ]
               }
@@ -328,7 +390,10 @@
               "params": "16",
               "style": "3"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "campaign_calendar_icon"
+            }
           },
           {
             "tag": "itemlist_vertical",
@@ -358,7 +423,18 @@
                   "color": "0x07ecaed",
                   "width_max": "500"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 32,
+                  "text_color": 8309485,
+                  "text_style": "ubuntu_condensed_title",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -374,9 +450,21 @@
                   "caption": "This spell will produce xxxxxx xxx xxxxx",
                   "width_max": "500"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 3
+            }
           },
           {
             "tag": "region",
@@ -403,7 +491,11 @@
                   "params": "16",
                   "style": "100"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "icons_forward",
+                  "fit_size_to_contents": true
+                }
               }
             ]
           },
@@ -432,7 +524,11 @@
                   "params": "16",
                   "style": "100"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "icons_back",
+                  "fit_size_to_contents": true
+                }
               }
             ]
           },
@@ -455,35 +551,21 @@
             },
             "children": []
           }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "icons_back",
-    "stretched_x": false,
-    "stretched_y": false,
-    "pivot_point": "center",
-    "spacing": 3,
-    "fit_size_to_contents": true,
-    "auto_size": "left",
-    "font_size": 32,
-    "text_color": 16777215,
-    "text_style": "ubuntu_condensed_title",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "leading": 0
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

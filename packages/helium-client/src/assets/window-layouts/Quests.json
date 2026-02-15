@@ -1,6 +1,6 @@
 {
   "name": "Quests",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboquests_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboQuestEngineCom_quests.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -49,25 +49,29 @@
               "name": "scroller",
               "caption": "${navigator.title}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "scrollable": "quest_list"
+            }
+          }
+        ],
+        "vars": {
+          "test_id_key": "quests"
+        },
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "test_id_key": "quests",
-    "scrollable": "quest_list"
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

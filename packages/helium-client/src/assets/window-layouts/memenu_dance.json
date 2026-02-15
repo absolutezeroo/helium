@@ -1,6 +1,6 @@
 {
   "name": "memenu_dance",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_me_menu_settings_menu_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_me_menu_settings_menu.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -34,7 +34,14 @@
               "caption": "${widget.memenu.settings}",
               "width_max": "150"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "text_color": 16777215,
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "container",
@@ -115,7 +122,14 @@
               "caption": "${widget.memenu.settings.no_identity}",
               "visible": "false"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_color": 16777215,
+              "mouse_wheel_enabled": false,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "button",
@@ -138,13 +152,6 @@
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "word_wrap": true
-  },
+  "vars": {},
   "filters": []
 }

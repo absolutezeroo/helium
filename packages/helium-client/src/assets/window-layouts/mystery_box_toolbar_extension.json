@@ -1,6 +1,6 @@
 {
   "name": "mystery_box_toolbar_extension",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbomystery_box_toolbar_extension_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_mystery_box_toolbar_extension.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -60,7 +60,18 @@
                   "style": "3",
                   "caption": "${mysterybox.tracker.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 16,
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "bold": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -74,7 +85,17 @@
                   "style": "100",
                   "caption": "${mysterybox.tracker.description}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "etching_color": 0,
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container",
@@ -113,7 +134,10 @@
                           "params": "16",
                           "style": "3"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "mysterybox_tracker_border"
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -128,7 +152,13 @@
                           "name": "box_colour",
                           "color": "0x0ff0000"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "mysterybox_box_base",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -142,7 +172,13 @@
                           "style": "100",
                           "name": "box_overlay"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "mysterybox_box_overlay",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -171,7 +207,10 @@
                           "params": "16",
                           "style": "3"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "mysterybox_tracker_border"
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -186,7 +225,13 @@
                           "name": "key_colour",
                           "color": "0x0ff0000"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "mysterybox_key_base",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -200,7 +245,13 @@
                           "style": "100",
                           "name": "key_overlay"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "mysterybox_key_overlay",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   }
@@ -220,7 +271,15 @@
                   "caption": "${mysterybox.tracker.link}",
                   "treshold": "0"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_color": 48895,
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -249,7 +308,10 @@
                   "params": "16",
                   "style": "100"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "common_minimize_unetched"
+                }
               }
             ]
           },
@@ -279,7 +341,10 @@
                   "params": "16",
                   "style": "100"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "common_maximize_unetched"
+                }
               }
             ]
           },
@@ -297,7 +362,11 @@
               "color": "0x0ff0000",
               "visible": "false"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "mysterybox_box_small",
+              "fit_size_to_contents": true
+            }
           },
           {
             "tag": "static_bitmap",
@@ -313,29 +382,16 @@
               "color": "0x0ff0000",
               "visible": "false"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "mysterybox_key_small",
+              "fit_size_to_contents": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "font_size": 16,
-    "text_color": 48895,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "bold": true,
-    "spacing": 0,
-    "leading": 0,
-    "etching_color": 0,
-    "asset_uri": "mysterybox_key_small",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "text_style": "u_bold",
-    "fit_size_to_contents": true
-  },
+  "vars": {},
   "filters": []
 }

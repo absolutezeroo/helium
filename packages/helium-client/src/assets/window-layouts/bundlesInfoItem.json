@@ -1,6 +1,6 @@
 {
   "name": "bundlesInfoItem",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbobundles_info_item_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_bundles_info_item.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,7 +31,10 @@
               "style": "0",
               "name": "background_bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "catalogue_clakboard"
+            }
           },
           {
             "tag": "text",
@@ -46,7 +49,18 @@
               "name": "header_text",
               "caption": "${catalog.bundlewidget.info.header}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "font_size": 16,
+              "text_color": 16777215,
+              "margin_right": 2,
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "static_bitmap",
@@ -60,7 +74,13 @@
               "style": "0",
               "name": "formula_bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.catalogue.url}clakboard_formula.png",
+              "pivot_point": "center",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "container",
@@ -91,7 +111,15 @@
               "name": "free_text",
               "caption": "${catalog.bundlewidget.info.for.free}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "font_size": 16,
+              "text_color": 16777215,
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -106,7 +134,16 @@
               "name": "equals_bundle_text",
               "caption": "${catalog.bundlewidget.info.equals.bundle}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "font_size": 19,
+              "text_color": 16777215,
+              "text_style": "u_bold",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -121,7 +158,18 @@
               "name": "footer_text",
               "caption": "${catalog.bundlewidget.info.footer}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "font_size": 16,
+              "text_color": 16777215,
+              "margin_right": 2,
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "region",
@@ -142,21 +190,6 @@
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.catalogue.url}clakboard_formula.png",
-    "auto_size": "center",
-    "font_size": 16,
-    "text_color": 16777215,
-    "margin_right": 2,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "text_style": "u_bold"
-  },
+  "vars": {},
   "filters": []
 }

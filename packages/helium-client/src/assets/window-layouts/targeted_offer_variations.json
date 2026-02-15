@@ -1,6 +1,6 @@
 {
   "name": "targeted_offer_variations",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_targeted_offer_dialog_variation_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_targeted_offer_dialog_variation.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -59,7 +59,15 @@
                   "name": "txt_status",
                   "caption": "${targeted.offer.not.enough.credits}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "font_size": 22,
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "itemlist_horizontal",
@@ -101,7 +109,15 @@
                           "color": "0x00",
                           "width_max": "100"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_color": 6710886,
+                          "margin_right": 4,
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "border",
@@ -129,7 +145,15 @@
                               "caption": "1",
                               "color": "0x00"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "text_style": "u_small",
+                              "margin_right": 4,
+                              "mouse_wheel_enabled": false,
+                              "restrict": "0123456789",
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -167,7 +191,11 @@
                     },
                     "children": []
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 10,
+                  "scale_to_fit_items": true
+                }
               }
             ]
           },
@@ -222,7 +250,15 @@
                           "name": "txt_time_left_label_1",
                           "caption": "..."
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "font_size": 22,
+                          "text_color": 16777215,
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -238,7 +274,15 @@
                           "caption": "00:00",
                           "treshold": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "font_size": 36,
+                          "text_color": 16777215,
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -253,43 +297,47 @@
                           "name": "txt_time_left_label_2",
                           "caption": "..."
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "font_size": 22,
+                          "text_color": 16777215,
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "scale_to_fit_items": true,
+                      "resize_on_item_update": true
+                    }
                   }
                 ]
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 1,
+          "margin_top": 32,
+          "margin_right": 1,
+          "margin_bottom": 3
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "font_size": 22,
-    "text_style": "u_small",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "text_color": 16777215,
-    "margin_right": 1,
-    "restrict": "0123456789",
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true,
-    "margin_left": 1,
-    "margin_top": 32,
-    "margin_bottom": 3
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

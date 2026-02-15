@@ -1,6 +1,6 @@
 {
   "name": "inventory_trading_minimized",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboInventoryCom_inventory_trading_minimized_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboInventoryCom_inventory_trading_minimized.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -76,7 +76,16 @@
               "caption": "${inventory.trading.minimized.trade_in_progress}",
               "tags": "HELP_TEXT"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "text_style": "u_headline_big",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "static_bitmap",
@@ -89,24 +98,18 @@
               "params": "16",
               "style": "100"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "icons_panic",
+              "pivot_point": "center",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "text_style": "u_headline_big",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "asset_uri": "icons_panic",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false
-  },
+  "vars": {},
   "filters": []
 }

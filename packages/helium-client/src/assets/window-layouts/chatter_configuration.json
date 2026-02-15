@@ -1,6 +1,6 @@
 {
   "name": "chatter_configuration",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_chatter_configuration_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_chatter_configuration.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -45,7 +45,11 @@
                   "style": "100",
                   "caption": "${bot.skill.chatter.configuration.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_bold",
+                  "text_color": 16777215
+                }
               }
             ]
           },
@@ -74,7 +78,11 @@
                   "style": "100",
                   "caption": "${bot.skill.chatter.configuration.chat.text}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_small",
+                  "text_color": 16777215
+                }
               },
               {
                 "tag": "input",
@@ -89,7 +97,20 @@
                   "name": "chat_text",
                   "caption": "${bot.skill.chatter.configuration.text.placeholder}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "border": true,
+                  "border_color": 16777215,
+                  "font_size": 16,
+                  "text_color": 16777215,
+                  "text_style": "u_regular",
+                  "mouse_wheel_enabled": false,
+                  "max_chars": 1000,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container",
@@ -116,7 +137,11 @@
                       "style": "100",
                       "caption": "${bot.skill.chatter.configuration.automatic.chat}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "u_small",
+                      "text_color": 16777215
+                    }
                   },
                   {
                     "tag": "checkbox",
@@ -162,7 +187,11 @@
                       "style": "100",
                       "caption": "${bot.skill.chatter.configuration.markov}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "u_small",
+                      "text_color": 16777215
+                    }
                   },
                   {
                     "tag": "checkbox",
@@ -208,7 +237,11 @@
                       "style": "100",
                       "caption": "${bot.skill.chatter.configuration.chat.delay}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "u_small",
+                      "text_color": 16777215
+                    }
                   },
                   {
                     "tag": "input",
@@ -223,7 +256,16 @@
                       "name": "chat_delay_text",
                       "height_max": "21"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "border": true,
+                      "border_color": 16777215,
+                      "text_color": 16777215,
+                      "text_style": "u_small",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -241,7 +283,15 @@
                   "caption": "${bot.skill.chatter.configuration.help.link}",
                   "treshold": "0"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_color": 12566527,
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "underline": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container",
@@ -301,31 +351,24 @@
                         },
                         "children": []
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 4,
+                      "scale_to_fit_items": true,
+                      "resize_on_item_update": true
+                    }
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 2
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "text_style": "u_bold",
-    "text_color": 12566527,
-    "border": true,
-    "border_color": 16777215,
-    "font_size": 16,
-    "mouse_wheel_enabled": false,
-    "max_chars": 1000,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 2,
-    "leading": 0,
-    "underline": true,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true
-  },
+  "vars": {},
   "filters": []
 }

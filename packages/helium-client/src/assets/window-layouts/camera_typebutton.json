@@ -1,6 +1,6 @@
 {
   "name": "camera_typebutton",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_camera_typebutton_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_camera_typebutton.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -63,16 +63,17 @@
               "style": "3",
               "name": "icon"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "pivot_point": "center",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false
-  },
+  "vars": {},
   "filters": []
 }

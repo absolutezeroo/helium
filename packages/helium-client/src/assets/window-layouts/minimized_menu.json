@@ -1,6 +1,6 @@
 {
   "name": "minimized_menu",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbominimized_menu_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_minimized_menu.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -50,15 +50,16 @@
               }
             ]
           }
-        ]
+        ],
+        "vars": {
+          "margin_left": 4,
+          "margin_top": 4,
+          "margin_right": 4,
+          "margin_bottom": 4
+        }
       }
     ]
   },
-  "vars": {
-    "margin_left": 4,
-    "margin_top": 4,
-    "margin_right": 4,
-    "margin_bottom": 4
-  },
+  "vars": {},
   "filters": []
 }

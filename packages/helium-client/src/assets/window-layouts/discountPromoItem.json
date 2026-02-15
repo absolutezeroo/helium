@@ -1,6 +1,6 @@
 {
   "name": "discountPromoItem",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbodiscount_promo_item_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_discount_promo_item.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -67,7 +67,14 @@
               "caption": "test 1 get 2 tests for free!",
               "blend": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "mouse_wheel_enabled": false,
+              "bold": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -82,7 +89,15 @@
               "name": "promo_text",
               "caption": "test 1 get 2 tests for free!"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "text_color": 16777215,
+              "mouse_wheel_enabled": false,
+              "bold": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "region",
@@ -103,13 +118,6 @@
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "mouse_wheel_enabled": false,
-    "bold": true,
-    "spacing": 0,
-    "leading": 0,
-    "text_color": 16777215
-  },
+  "vars": {},
   "filters": []
 }

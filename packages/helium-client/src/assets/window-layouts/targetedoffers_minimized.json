@@ -1,6 +1,6 @@
 {
   "name": "targetedoffers_minimized",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_targeted_offer_minimized_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_targeted_offer_minimized.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -61,7 +61,17 @@
                       "name": "txt_title",
                       "width_max": "162"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_style": "il_regular_white",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "bold": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -75,9 +85,19 @@
                       "style": "100",
                       "name": "txt_time_left"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "il_regular_white",
+                      "mouse_wheel_enabled": false,
+                      "bold": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 2
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -99,15 +119,6 @@
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "text_style": "il_regular_white",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "bold": true,
-    "spacing": 2,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

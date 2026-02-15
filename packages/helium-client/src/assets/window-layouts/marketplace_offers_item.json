@@ -1,6 +1,6 @@
 {
   "name": "marketplace_offers_item",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboclub_gift_list_item_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_club_gift_list_item.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,7 +32,10 @@
               "name": "gift_name",
               "caption": "lorem ipsum"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "u_bold"
+            }
           },
           {
             "tag": "label",
@@ -47,7 +50,10 @@
               "name": "gift_desc",
               "caption": "lorem ipsum"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "u_small"
+            }
           },
           {
             "tag": "text",
@@ -61,7 +67,13 @@
               "style": "3",
               "name": "months_required"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "u_small",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "button",
@@ -120,7 +132,15 @@
                   "name": "bundleCounter",
                   "caption": "0"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 16,
+                  "text_color": 13421670,
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "border",
@@ -149,7 +169,15 @@
                       "name": "multiCounter",
                       "caption": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_size": 17,
+                      "text_color": 13421670,
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               }
@@ -173,14 +201,6 @@
       }
     ]
   },
-  "vars": {
-    "text_style": "u_small",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "auto_size": "left",
-    "font_size": 17,
-    "text_color": 13421670
-  },
+  "vars": {},
   "filters": []
 }

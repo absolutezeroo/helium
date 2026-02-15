@@ -1,6 +1,6 @@
 {
   "name": "fastfood_game_promo",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_pixel_removal_promo_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_pixel_removal_promo.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -47,7 +47,13 @@
                   "style": "0",
                   "name": "teaser_image"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}reception/pixrem_promo.png",
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               }
             ]
           },
@@ -76,7 +82,15 @@
                   "name": "caption_txt",
                   "caption": "${landing.view.pixelremovalpromo.caption}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 24,
+                  "text_style": "il_heading_1",
+                  "mouse_wheel_enabled": false,
+                  "spacing": -0.6,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container",
@@ -107,7 +121,16 @@
                   "name": "title_txt",
                   "caption": "${landing.view.pixelremovalpromo.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "il_heading_3",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "formatted_text",
@@ -122,7 +145,15 @@
                   "name": "info_txt",
                   "caption": "${landing.view.pixelremovalpromo.info}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "button",
@@ -139,27 +170,16 @@
                 },
                 "children": []
               }
-            ]
+            ],
+            "vars": {
+              "scale_to_fit_items": true,
+              "resize_on_item_update": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.url}reception/pixrem_promo.png",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "auto_size": "left",
-    "font_size": 24,
-    "text_style": "il_heading_3",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "multiline": true,
-    "word_wrap": true,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true
-  },
+  "vars": {},
   "filters": []
 }

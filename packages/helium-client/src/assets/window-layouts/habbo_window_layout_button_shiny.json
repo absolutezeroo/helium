@@ -1,6 +1,6 @@
 {
   "name": "habbo_window_layout_button_shiny",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_window_layout_button_shiny_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_habbo_window_layout_button_shiny.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -19,13 +19,14 @@
           "tags": "_EXCLUDE, _INTERNAL, title",
           "params": "0"
         },
-        "children": []
+        "children": [],
+        "vars": {
+          "text_style": "button_shiny_regular",
+          "margins": null
+        }
       }
     ]
   },
-  "vars": {
-    "text_style": "button_shiny_regular",
-    "margins": null
-  },
+  "vars": {},
   "filters": []
 }

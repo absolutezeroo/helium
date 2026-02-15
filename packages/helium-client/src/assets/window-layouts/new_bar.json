@@ -1,6 +1,6 @@
 {
   "name": "new_bar",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_new_bar_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_new_bar.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -51,7 +51,10 @@
                   "name": "line",
                   "background": "true"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "bottom_bar_divider_1px"
+                }
               },
               {
                 "tag": "region",
@@ -98,7 +101,13 @@
                       "treshold": "0",
                       "tags": "ICON_BMP,#icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "roomtools_minimizebutton",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               },
@@ -130,9 +139,16 @@
                       "dynamic_style": "",
                       "tags": "#icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "friend_bar_all_friends",
+                      "etching_color": 1207959552
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${friend.bar.friends.title)"
+                }
               },
               {
                 "tag": "region",
@@ -162,9 +178,16 @@
                       "dynamic_style": "",
                       "tags": "#icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "friend_bar_search_habbos",
+                      "etching_color": 1207959552
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${friend.bar.search.title}"
+                }
               },
               {
                 "tag": "region",
@@ -195,7 +218,11 @@
                       "name": "icon",
                       "tags": "#icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "friend_bar_friendlist_messenger",
+                      "etching_color": 1207959552
+                    }
                   },
                   {
                     "tag": "static_bitmap",
@@ -210,7 +237,10 @@
                       "dynamic_style": "",
                       "name": "icon_1"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "friend_bar_friendlist_messenger_notify_0"
+                    }
                   },
                   {
                     "tag": "static_bitmap",
@@ -225,7 +255,10 @@
                       "dynamic_style": "",
                       "name": "icon_2"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "friend_bar_friendlist_messenger_notify_1"
+                    }
                   }
                 ]
               }
@@ -261,7 +294,14 @@
                   "color": "0x03b3933",
                   "tags": "#bg"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "friend_bar_friends_browse_bg",
+                  "stretched_x": false,
+                  "stretched_y": false,
+                  "zoom_x": -1,
+                  "fit_size_to_contents": true
+                }
               },
               {
                 "tag": "icon",
@@ -296,7 +336,12 @@
               "color": "0xffffff00",
               "clipping": "false"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "spacing": 3,
+              "scale_to_fit_items": true,
+              "resize_on_item_update": true
+            }
           },
           {
             "tag": "region",
@@ -329,7 +374,13 @@
                   "color": "0x03b3933",
                   "tags": "#bg"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "friend_bar_friends_browse_bg",
+                  "stretched_x": false,
+                  "stretched_y": false,
+                  "fit_size_to_contents": true
+                }
               },
               {
                 "tag": "icon",
@@ -394,7 +445,14 @@
                   "treshold": "0",
                   "tags": "ICON_BMP,#icon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "roomtools_minimizebutton",
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false,
+                  "zoom_x": -1
+                }
               }
             ]
           }
@@ -402,18 +460,6 @@
       }
     ]
   },
-  "vars": {
-    "asset_uri": "roomtools_minimizebutton",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "etching_color": 1207959552,
-    "tool_tip_caption": "${friend.bar.search.title}",
-    "zoom_x": -1,
-    "fit_size_to_contents": true,
-    "spacing": 3,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true
-  },
+  "vars": {},
   "filters": []
 }

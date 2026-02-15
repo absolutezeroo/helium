@@ -1,6 +1,6 @@
 {
   "name": "user_tag",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbouser_tag_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_user_tag.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -21,17 +21,18 @@
           "background": "true",
           "height_min": "15"
         },
-        "children": []
+        "children": [],
+        "vars": {
+          "font_face": "Volter",
+          "font_size": 9,
+          "text_color": 376926741,
+          "auto_size": "left",
+          "embed_fonts": true,
+          "margins": null
+        }
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter",
-    "font_size": 9,
-    "text_color": 376926741,
-    "auto_size": "left",
-    "embed_fonts": true,
-    "margins": null
-  },
+  "vars": {},
   "filters": []
 }

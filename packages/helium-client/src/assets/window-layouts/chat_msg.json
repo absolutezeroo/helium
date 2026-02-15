@@ -1,6 +1,6 @@
 {
   "name": "chat_msg",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_chat_msg_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboHelpCom_chat_msg.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -18,12 +18,13 @@
           "style": "100",
           "name": "msg_widget"
         },
-        "children": []
+        "children": [],
+        "vars": {
+          "widget_type": "illumina_chat_bubble"
+        }
       }
     ]
   },
-  "vars": {
-    "widget_type": "illumina_chat_bubble"
-  },
+  "vars": {},
   "filters": []
 }

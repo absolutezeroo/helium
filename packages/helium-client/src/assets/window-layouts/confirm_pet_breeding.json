@@ -1,6 +1,6 @@
 {
   "name": "confirm_pet_breeding",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_confirm_pet_breeding_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_confirm_pet_breeding.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -48,7 +48,15 @@
                   "name": "title",
                   "caption": "${breedpets.confirmation.widget.request}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "border",
@@ -106,7 +114,14 @@
                               "name": "pet_name",
                               "caption": "${breedpets.widget.pet1.name}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "text_style": "il_heading_2",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "bitmap",
@@ -139,7 +154,15 @@
                               "name": "pet_level",
                               "caption": "${breedpets.widget.pet1.level}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "text_style": "il_heading_3",
+                              "mouse_wheel_enabled": false,
+                              "word_wrap": true,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -154,9 +177,21 @@
                               "name": "pet_description",
                               "caption": "${breedpets.widget.pet1.description}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "mouse_wheel_enabled": false,
+                              "word_wrap": true,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "spacing": 1,
+                          "scale_to_fit_items": true,
+                          "resize_on_item_update": true
+                        }
                       },
                       {
                         "tag": "itemlist_vertical",
@@ -186,7 +221,14 @@
                               "name": "pet_name",
                               "caption": "${breedpets.widget.pet2.name}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "text_style": "il_heading_2",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "bitmap",
@@ -219,7 +261,15 @@
                               "name": "pet_level",
                               "caption": "${breedpets.widget.pet2.level}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "text_style": "il_heading_3",
+                              "mouse_wheel_enabled": false,
+                              "word_wrap": true,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -234,11 +284,26 @@
                               "name": "pet_description",
                               "caption": "${breedpets.widget.pet2.description}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "mouse_wheel_enabled": false,
+                              "word_wrap": true,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "spacing": 1,
+                          "scale_to_fit_items": true,
+                          "resize_on_item_update": true
+                        }
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 10
+                    }
                   }
                 ]
               },
@@ -268,7 +333,10 @@
                       "style": "100",
                       "caption": "${breedpets.confirmation.widget.baby.name}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "il_heading_3"
+                    }
                   },
                   {
                     "tag": "border",
@@ -295,11 +363,20 @@
                           "style": "100",
                           "name": "puppy.name.input"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "mouse_wheel_enabled": false,
+                          "max_chars": 32,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 2
+                }
               },
               {
                 "tag": "label",
@@ -314,7 +391,10 @@
                   "name": "breeding.title",
                   "caption": "${breedpets.confirmation.widget.breeding.info}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "il_heading_3"
+                }
               },
               {
                 "tag": "border",
@@ -353,7 +433,15 @@
                           "name": "text",
                           "caption": "${breedpets.confirmation.widget.text}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -369,7 +457,14 @@
                           "caption": "${breedpets.confirmation.widget.info}",
                           "width_min": "290"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "mouse_wheel_enabled": false,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "itemlist_vertical",
@@ -410,7 +505,10 @@
                                   "caption": "${breedpets.confirmation.widget.raritycategory.1}",
                                   "width_min": "100"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "text_style": "il_heading_3"
+                                }
                               },
                               {
                                 "tag": "itemlist_horizontal",
@@ -424,7 +522,10 @@
                                   "style": "100",
                                   "name": "breeds1"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "spacing": 2
+                                }
                               }
                             ]
                           },
@@ -454,7 +555,10 @@
                                   "caption": "${breedpets.confirmation.widget.raritycategory.2}",
                                   "width_min": "100"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "text_style": "il_heading_3"
+                                }
                               },
                               {
                                 "tag": "itemlist_horizontal",
@@ -468,7 +572,10 @@
                                   "style": "100",
                                   "name": "breeds2"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "spacing": 2
+                                }
                               }
                             ]
                           },
@@ -498,7 +605,10 @@
                                   "caption": "${breedpets.confirmation.widget.raritycategory.3}",
                                   "width_min": "100"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "text_style": "il_heading_3"
+                                }
                               },
                               {
                                 "tag": "itemlist_horizontal",
@@ -512,7 +622,10 @@
                                   "style": "100",
                                   "name": "breeds3"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "spacing": 2
+                                }
                               }
                             ]
                           },
@@ -542,7 +655,10 @@
                                   "caption": "${breedpets.confirmation.widget.raritycategory.4}",
                                   "width_min": "100"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "text_style": "il_heading_3"
+                                }
                               },
                               {
                                 "tag": "itemlist_horizontal",
@@ -556,17 +672,30 @@
                                   "style": "100",
                                   "name": "breeds4"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "spacing": 2
+                                }
                               }
                             ]
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "spacing": 2
+                        }
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 5
+                    }
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 10,
+              "resize_on_item_update": true
+            }
           },
           {
             "tag": "itemlist_vertical",
@@ -631,41 +760,43 @@
                       "width_min": "295",
                       "width_max": "295"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "text_style": "il_link_regular",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 3
+            }
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 3,
+          "margin_top": 36,
+          "margin_right": 3,
+          "margin_bottom": 0
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 3,
-    "leading": 0,
-    "text_style": "il_link_regular",
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true,
-    "max_chars": 32,
-    "margin_left": 3,
-    "margin_top": 36,
-    "margin_right": 3,
-    "margin_bottom": 0
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

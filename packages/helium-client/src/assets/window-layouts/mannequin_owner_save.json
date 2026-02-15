@@ -1,6 +1,6 @@
 {
   "name": "mannequin_owner_save",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_mannequin_controller_save_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_mannequin_controller_save.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -61,7 +61,14 @@
               "style": "3",
               "name": "outfit_name_show"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_size": 19,
+              "text_style": "u_bold",
+              "mouse_wheel_enabled": false,
+              "sharpness": 80,
+              "thickness": -15
+            }
           },
           {
             "tag": "text",
@@ -76,7 +83,16 @@
               "name": "description",
               "caption": "${mannequin.widget.savetext "
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_size": 19,
+              "text_style": "u_regular",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "sharpness": 80,
+              "thickness": -15,
+              "word_wrap": true
+            }
           },
           {
             "tag": "icon",
@@ -119,7 +135,16 @@
                   "name": "back_text",
                   "caption": "mannequin.widget.back"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 19,
+                  "text_style": "u_regular",
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 80,
+                  "thickness": -15,
+                  "underline": true
+                }
               }
             ]
           }
@@ -127,16 +152,6 @@
       }
     ]
   },
-  "vars": {
-    "font_size": 19,
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "sharpness": 80,
-    "thickness": -15,
-    "multiline": true,
-    "word_wrap": true,
-    "auto_size": "left",
-    "underline": true
-  },
+  "vars": {},
   "filters": []
 }

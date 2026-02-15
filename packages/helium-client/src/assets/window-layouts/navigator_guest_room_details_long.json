@@ -1,6 +1,6 @@
 {
   "name": "navigator_guest_room_details_long",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_grs_guest_room_details_long_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboNavigatorCom_grs_guest_room_details_long.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -45,7 +45,17 @@
                   "name": "roomname",
                   "caption": "PH Room Name: Neque porro quisquam est que"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_face": "Volter Bold",
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "word_wrap": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "region",
@@ -74,7 +84,17 @@
                       "name": "roomowner.caption",
                       "caption": "${navigator.roomownercaption}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_face": "Volter Bold",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "container",
@@ -135,9 +155,23 @@
                       "background": "true",
                       "treshold": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "underline": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${infostand.profile.link.tooltip}",
+                  "tool_tip_delay": 256
+                }
               },
               {
                 "tag": "container",
@@ -165,7 +199,17 @@
                       "name": "roomctg.caption",
                       "caption": "${navigator.roomctg}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_face": "Volter Bold",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -181,7 +225,16 @@
                       "caption": "PH Category",
                       "background": "true"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -198,7 +251,17 @@
                   "name": "roomdesc",
                   "caption": "PH Room Desc: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_color": 8421504,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "word_wrap": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container",
@@ -253,7 +316,17 @@
                           "name": "startedat.caption",
                           "caption": "${navigator.eventstartedat}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "font_face": "Volter Bold",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -269,7 +342,16 @@
                           "caption": "PH: 15:48",
                           "background": "true"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   },
@@ -299,7 +381,17 @@
                           "name": "rating.caption",
                           "caption": "${navigator.ratingcaption}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "font_face": "Volter Bold",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -315,7 +407,16 @@
                           "caption": "999",
                           "background": "true"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   }
@@ -361,7 +462,16 @@
                       "name": "infotxt",
                       "caption": "${navigator.info.doorbell}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "word_wrap": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -405,7 +515,16 @@
                       "name": "infotxt",
                       "caption": "${navigator.info.invisible}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "word_wrap": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -449,7 +568,16 @@
                       "name": "infotxt",
                       "caption": "${navigator.info.password}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "word_wrap": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -493,7 +621,16 @@
                       "name": "infotxt",
                       "caption": "${navigator.info.tradingallowed}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "word_wrap": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -523,7 +660,18 @@
                       "name": "eventinfo.caption",
                       "caption": "${roomad.event}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "antialias_type": "advanced",
+                      "etching_color": 0,
+                      "etching_position": "top-left",
+                      "font_face": "Volter Bold",
+                      "font_size": 9,
+                      "text_style": "il_regular",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "container",
@@ -551,7 +699,15 @@
                           "name": "eventinfo_name",
                           "caption": "BLA"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_face": "Volter",
+                          "font_size": 9,
+                          "text_style": "il_regular",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -567,7 +723,17 @@
                           "caption": "Eventinfo lalala",
                           "height_max": "100"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_color": 8421504,
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "word_wrap": true,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -581,7 +747,15 @@
                           "style": "0",
                           "name": "eventinfo_expirationtime"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_face": "Volter",
+                          "font_size": 9,
+                          "text_style": "il_regular",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   }
@@ -614,7 +788,17 @@
                       "name": "roomsettings",
                       "caption": "${navigator.roomsettings}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "underline": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               }
@@ -624,25 +808,6 @@
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter",
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "word_wrap": true,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0,
-    "auto_size": "left",
-    "underline": true,
-    "tool_tip_caption": "${infostand.profile.link.tooltip}",
-    "tool_tip_delay": 256,
-    "text_color": 8421504,
-    "antialias_type": "advanced",
-    "etching_color": 0,
-    "etching_position": "top-left",
-    "font_size": 9,
-    "text_style": "il_regular"
-  },
+  "vars": {},
   "filters": []
 }

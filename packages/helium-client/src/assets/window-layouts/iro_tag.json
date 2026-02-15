@@ -1,6 +1,6 @@
 {
   "name": "iro_tag",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_iro_tag_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboNavigatorCom_iro_tag.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -76,20 +76,21 @@
               "caption": "0",
               "color": "0x01a7aaf"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "grid_fit_type": "subpixel",
+              "text_color": 930105,
+              "text_style": "u_small",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "grid_fit_type": "subpixel",
-    "text_color": 930105,
-    "text_style": "u_small",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "rent_confirmation",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habborent_confirmation_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_rent_confirmation.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -44,7 +44,12 @@
                   "style": "3",
                   "name": "image"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               }
             ]
           },
@@ -105,7 +110,15 @@
                   "name": "rental_description",
                   "caption": "${rent.confirmation.rental.description}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -120,7 +133,16 @@
                   "name": "furni_name",
                   "caption": "The name of the furni in question"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "itemlist_horizontal",
@@ -146,7 +168,10 @@
                       "style": "100",
                       "caption": "${catalog.purchase.confirmation.dialog.cost}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "u_regular"
+                    }
                   },
                   {
                     "tag": "label",
@@ -161,7 +186,10 @@
                       "name": "price_amount",
                       "caption": "000"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "u_regular"
+                    }
                   },
                   {
                     "tag": "static_bitmap",
@@ -175,42 +203,45 @@
                       "style": "3",
                       "name": "price_type"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "toolbar_duckat_icon_0",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 3
+                }
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 10
+            }
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 1,
+          "margin_top": 30,
+          "margin_right": 1,
+          "margin_bottom": 1
+        }
       }
     ]
   },
-  "vars": {
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "auto_size": "left",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 10,
-    "leading": 0,
-    "text_style": "u_regular",
-    "asset_uri": "toolbar_duckat_icon_0",
-    "margin_left": 1,
-    "margin_top": 30,
-    "margin_right": 1,
-    "margin_bottom": 1
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

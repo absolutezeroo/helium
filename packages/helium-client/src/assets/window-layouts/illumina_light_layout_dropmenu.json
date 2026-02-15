@@ -1,6 +1,6 @@
 {
   "name": "illumina_light_layout_dropmenu",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_illumina_light_dropmenu_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_illumina_light_dropmenu.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -18,7 +18,10 @@
           "tags": "_EXCLUDE, _INTERNAL, title",
           "params": "0"
         },
-        "children": []
+        "children": [],
+        "vars": {
+          "text_style": "il_regular"
+        }
       },
       {
         "tag": "scrollable_itemlist_vertical",
@@ -51,8 +54,6 @@
       }
     ]
   },
-  "vars": {
-    "text_style": "il_regular"
-  },
+  "vars": {},
   "filters": []
 }

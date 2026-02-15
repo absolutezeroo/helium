@@ -1,6 +1,6 @@
 {
   "name": "element_button",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_element_button_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_element_button.xml",
   "window": {
     "tag": "window",
     "typeId": -1,

@@ -1,6 +1,6 @@
 {
   "name": "boygirl",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboboygirl_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_boygirl.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -78,7 +78,13 @@
                   "style": "0",
                   "caption": "${widget.furni.clothingchange.gender.info}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_face": "Volter",
+                  "font_size": 9,
+                  "text_color": 0,
+                  "embed_fonts": true
+                }
               }
             ]
           }
@@ -86,11 +92,6 @@
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter",
-    "font_size": 9,
-    "text_color": 0,
-    "embed_fonts": true
-  },
+  "vars": {},
   "filters": []
 }

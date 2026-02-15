@@ -1,6 +1,6 @@
 {
   "name": "habbo_window_layout_droplist",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_window_layout_droplist_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_habbo_window_layout_droplist.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -18,7 +18,10 @@
           "tags": "_EXCLUDE, _INTERNAL, title",
           "params": "0"
         },
-        "children": []
+        "children": [],
+        "vars": {
+          "text_style": "regular"
+        }
       },
       {
         "tag": "scrollable_itemlist_vertical",
@@ -51,8 +54,6 @@
       }
     ]
   },
-  "vars": {
-    "text_style": "regular"
-  },
+  "vars": {},
   "filters": []
 }

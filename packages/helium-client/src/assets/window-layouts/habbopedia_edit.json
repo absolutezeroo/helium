@@ -1,6 +1,6 @@
 {
   "name": "habbopedia_edit",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboPagesViewer_Habbohabbopedia_edit_layout_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboPagesViewer_habbopedia_edit_layout.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -43,7 +43,13 @@
                   "style": "100",
                   "name": "data"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_face": "Courier",
+                  "multiline": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -79,25 +85,21 @@
             },
             "children": []
           }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
+          }
         ]
       }
     ]
   },
-  "vars": {
-    "font_face": "Courier",
-    "multiline": true,
-    "spacing": 0,
-    "leading": 0
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

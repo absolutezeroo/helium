@@ -1,6 +1,6 @@
 {
   "name": "habbo_window_layout_header",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_window_layout_header_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_habbo_window_layout_header.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,7 +32,11 @@
               "tags": "_TITLE, _EXCLUDE, _INTERNAL, _COLORIZE",
               "params": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "frame_title",
+              "margins": null
+            }
           },
           {
             "tag": "itemlist_horizontal",
@@ -68,9 +72,6 @@
       }
     ]
   },
-  "vars": {
-    "text_style": "frame_title",
-    "margins": null
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "friendRequestTab",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_friend_request_tab_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_friend_request_tab.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -64,7 +64,14 @@
                       "name": "name",
                       "tags": "label"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_color": 16777215,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 80,
+                      "thickness": -15
+                    }
                   },
                   {
                     "tag": "region",
@@ -113,7 +120,11 @@
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "scale_to_fit_items": true,
+              "resize_on_item_update": true
+            }
           },
           {
             "tag": "bubble",
@@ -142,7 +153,16 @@
                   "name": "message",
                   "caption": "${friendbar.request.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_color": 16777215,
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 80,
+                  "thickness": -15,
+                  "word_wrap": true
+                }
               },
               {
                 "tag": "closebutton",
@@ -202,7 +222,14 @@
                       "name": "caption",
                       "caption": "${friendbar.request.accept}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "text_style": "button_shiny_bold",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 80,
+                      "thickness": -15
+                    }
                   }
                 ]
               },
@@ -248,7 +275,14 @@
                       "name": "caption",
                       "caption": "${friendbar.request.profile}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "text_style": "button_shiny_bold",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 80,
+                      "thickness": -15
+                    }
                   }
                 ]
               },
@@ -279,7 +313,16 @@
                       "name": "link_reject",
                       "caption": "${friendbar.request.decline}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "text_color": 16777215,
+                      "text_style": "u_small",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 80,
+                      "thickness": -15,
+                      "underline": true
+                    }
                   }
                 ]
               }
@@ -298,24 +341,17 @@
               "name": "icons",
               "clipping": "false"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "spacing": 2,
+              "scale_to_fit_items": true,
+              "resize_on_item_update": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "text_color": 16777215,
-    "text_style": "u_small",
-    "mouse_wheel_enabled": false,
-    "sharpness": 80,
-    "thickness": -15,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true,
-    "auto_size": "center",
-    "word_wrap": true,
-    "underline": true,
-    "spacing": 2
-  },
+  "vars": {},
   "filters": []
 }

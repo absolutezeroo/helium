@@ -1,6 +1,6 @@
 {
   "name": "roomtool_frame",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboModerationCom_roomtool_frame_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboModerationCom_roomtool_frame.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -76,7 +76,17 @@
                           "name": "name",
                           "caption": "PH Room Name: Neque porro quisquam est que"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_face": "Volter Bold",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "word_wrap": true,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -91,7 +101,17 @@
                           "name": "desc",
                           "caption": "PH Room Desc: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_color": 8421504,
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "word_wrap": true,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "container",
@@ -119,7 +139,16 @@
                               "style": "0",
                               "caption": "Tags:"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "font_face": "Volter Bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -134,7 +163,17 @@
                               "name": "tags_txt",
                               "caption": "PH Room Name: Neque porro quisquam est que"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "font_face": "Volter Bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "word_wrap": true,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -183,7 +222,16 @@
                       "style": "0",
                       "caption": "Room owner:"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter Bold",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -197,7 +245,16 @@
                       "style": "0",
                       "caption": "Users in room:"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter Bold",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -211,7 +268,16 @@
                       "style": "0",
                       "caption": "Owner in room:"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter Bold",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -225,7 +291,16 @@
                       "style": "0",
                       "caption": "Has event:"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter Bold",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -241,7 +316,16 @@
                       "caption": "sulka",
                       "background": "true"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "underline": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -256,7 +340,15 @@
                       "name": "owner_in_room_txt",
                       "caption": "yes"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -271,7 +363,15 @@
                       "name": "user_count_txt",
                       "caption": "18"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -286,7 +386,15 @@
                       "name": "has_event_txt",
                       "caption": "no"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "button",
@@ -457,7 +565,16 @@
                       "style": "0",
                       "caption": "Kick users out of the room (automatically stops the event)"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "word_wrap": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -471,7 +588,15 @@
                       "style": "0",
                       "caption": "Change room lock to doorbell"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -485,7 +610,16 @@
                       "style": "0",
                       "caption": "Change room name to 'Inappropriate to hotel management'"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "word_wrap": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -549,7 +683,18 @@
                   "color": "0xffffffffff",
                   "background": "true"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "always_show_selection": true,
+                  "border": true,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "word_wrap": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container",
@@ -631,37 +776,27 @@
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "scale_to_fit_items": true,
+              "resize_on_item_update": true
+            }
+          }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter Bold",
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "word_wrap": true,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0,
-    "text_color": 8421504,
-    "underline": true,
-    "always_show_selection": true,
-    "border": true,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

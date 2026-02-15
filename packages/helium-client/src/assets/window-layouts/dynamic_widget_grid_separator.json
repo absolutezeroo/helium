@@ -1,6 +1,6 @@
 {
   "name": "dynamic_widget_grid_separator",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_dynamic_widget_grid_separator_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_dynamic_widget_grid_separator.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,7 +32,12 @@
               "height_min": "4",
               "height_max": "4"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "illumina_light_border_top_center",
+              "pivot_point": "center left",
+              "stretched_y": false
+            }
           },
           {
             "tag": "text",
@@ -48,7 +53,15 @@
               "caption": "Title PH",
               "tags": "COLORABLE"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "font_size": 9,
+              "text_style": "il_heading_3",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "static_bitmap",
@@ -64,22 +77,20 @@
               "height_min": "4",
               "height_max": "4"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "illumina_light_border_top_center",
+              "pivot_point": "center left",
+              "stretched_y": false
+            }
           }
-        ]
+        ],
+        "vars": {
+          "spacing": 6
+        }
       }
     ]
   },
-  "vars": {
-    "asset_uri": "illumina_light_border_top_center",
-    "pivot_point": "center left",
-    "stretched_y": false,
-    "auto_size": "left",
-    "font_size": 9,
-    "text_style": "il_heading_3",
-    "mouse_wheel_enabled": false,
-    "spacing": 6,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

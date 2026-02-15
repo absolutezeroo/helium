@@ -1,6 +1,6 @@
 {
   "name": "nestBreedingSuccessDialog",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_nest_breeding_success_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_nest_breeding_success.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,7 +31,13 @@
               "style": "100",
               "caption": "${breedpets.nestbreeding.success.title}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -46,7 +52,14 @@
               "name": "pet.name",
               "caption": "${breedpets.nestbreeding.success.name}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "text_style": "il_heading_3",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -61,7 +74,13 @@
               "name": "pet.raritycategory",
               "caption": "${breedpets.nestbreeding.success.raritycategory.0}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "button",
@@ -90,7 +109,12 @@
               "params": "16",
               "style": "100"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "icons_hilighter_yellow",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "bitmap",
@@ -106,29 +130,21 @@
             },
             "children": []
           }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
+          }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "text_style": "il_heading_3",
-    "asset_uri": "icons_hilighter_yellow",
-    "stretched_x": false,
-    "stretched_y": false
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

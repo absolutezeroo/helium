@@ -1,6 +1,6 @@
 {
   "name": "avatareditor_wardrobe",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboAvatarEditorCom_Habboavatareditor_wardrobe_base_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboAvatarEditorCom_avatareditor_wardrobe_base.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -30,7 +30,15 @@
               "style": "3",
               "caption": "${avatareditor.wardrobe.title}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "text_color": 8618622,
+              "text_style": "u_bold",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "border",
@@ -111,7 +119,13 @@
                               "params": "16",
                               "style": "5"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "icons_forward_small",
+                              "pivot_point": "center",
+                              "stretched_x": false,
+                              "stretched_y": false
+                            }
                           }
                         ]
                       },
@@ -140,7 +154,13 @@
                               "params": "16",
                               "style": "4"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "icons_back_small",
+                              "pivot_point": "center",
+                              "stretched_x": false,
+                              "stretched_y": false
+                            }
                           }
                         ]
                       },
@@ -175,7 +195,10 @@
                       }
                     ]
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 3
+                }
               },
               {
                 "tag": "itemlist_vertical",
@@ -189,7 +212,10 @@
                   "style": "0",
                   "name": "vip_slots"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "spacing": 3
+                }
               }
             ]
           },
@@ -245,17 +271,6 @@
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "text_color": 8618622,
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "spacing": 3,
-    "leading": 0,
-    "asset_uri": "icons_back_small",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "badgeGridItem",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbobadge_grid_item_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_badge_grid_item.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -44,7 +44,13 @@
                   "style": "100",
                   "name": "badgeWidget"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "widget_type": "badge_image",
+                  "badge_image:pivot_point": "center",
+                  "badge_image:stretched_x": false,
+                  "badge_image:stretched_y": false
+                }
               }
             ]
           }
@@ -52,11 +58,6 @@
       }
     ]
   },
-  "vars": {
-    "widget_type": "badge_image",
-    "badge_image:pivot_point": "center",
-    "badge_image:stretched_x": false,
-    "badge_image:stretched_y": false
-  },
+  "vars": {},
   "filters": []
 }

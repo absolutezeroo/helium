@@ -1,6 +1,6 @@
 {
   "name": "hc_center",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_club_center_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_club_center.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -59,7 +59,12 @@
                       "style": "3",
                       "name": "coverpic"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "hc_center_hc_center_cover",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   },
                   {
                     "tag": "itemlist_horizontal",
@@ -106,7 +111,12 @@
                         },
                         "children": []
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 14,
+                      "scale_to_fit_items": true,
+                      "resize_on_item_update": true
+                    }
                   }
                 ]
               },
@@ -148,7 +158,12 @@
                           "style": "3",
                           "name": "hc_badge"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -177,7 +192,15 @@
                           "style": "3",
                           "name": "status_title"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0,
+                          "editable": false,
+                          "selectable": false
+                        }
                       },
                       {
                         "tag": "html",
@@ -191,9 +214,21 @@
                           "style": "3",
                           "name": "status_info"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0,
+                          "editable": false,
+                          "selectable": false
+                        }
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "scale_to_fit_items": true
+                    }
                   }
                 ]
               },
@@ -248,7 +283,15 @@
                               "name": "special_title",
                               "caption": "${hccenter.special.title}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "font_size": 22,
+                              "text_color": 16777215,
+                              "text_style": "u_bold",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -263,7 +306,15 @@
                               "name": "special_info",
                               "caption": "${hccenter.special.info}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "text_color": 16777215,
+                              "mouse_wheel_enabled": false,
+                              "multiline": true,
+                              "word_wrap": true,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "link",
@@ -279,7 +330,16 @@
                               "caption": "${hccenter.special.infolink}",
                               "treshold": "0"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "text_color": 16777215,
+                              "mouse_wheel_enabled": false,
+                              "multiline": true,
+                              "word_wrap": true,
+                              "underline": true,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -312,7 +372,15 @@
                           "name": "gift_title",
                           "caption": "${hccenter.gift.title}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_size": 22,
+                          "text_color": 16777215,
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "html",
@@ -327,7 +395,17 @@
                           "name": "gift_info",
                           "caption": "${hccenter.gift.info}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_color": 16777215,
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0,
+                          "editable": false,
+                          "selectable": false
+                        }
                       },
                       {
                         "tag": "button_thick",
@@ -347,7 +425,11 @@
                       }
                     ]
                   }
-                ]
+                ],
+                "vars": {
+                  "scale_to_fit_items": true,
+                  "resize_on_item_update": true
+                }
               },
               {
                 "tag": "container",
@@ -376,7 +458,15 @@
                       "name": "general_title",
                       "caption": "${hccenter.general.title}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_size": 22,
+                      "text_color": 4886193,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "html",
@@ -391,7 +481,16 @@
                       "name": "general_info",
                       "caption": "${hccenter.general.info}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0,
+                      "editable": false,
+                      "selectable": false
+                    }
                   },
                   {
                     "tag": "link",
@@ -407,7 +506,16 @@
                       "caption": "${hccenter.general.infolink}",
                       "treshold": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_color": 4886193,
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "underline": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "static_bitmap",
@@ -421,11 +529,20 @@
                       "style": "3",
                       "name": "hc_center_illustration"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "hc_center_hc_center_illustration",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "scale_to_fit_items": true,
+              "resize_on_item_update": true
+            }
           },
           {
             "tag": "widget",
@@ -439,7 +556,12 @@
               "style": "100",
               "name": "avatar"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "widget_type": "room_previewer",
+              "room_previewer:offsety": -30,
+              "room_previewer:zoom": 2
+            }
           },
           {
             "tag": "container",
@@ -466,7 +588,12 @@
                   "style": "3",
                   "name": "hc_postit_bg"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "hc_center_hc_postit_bg",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "text",
@@ -481,7 +608,15 @@
                   "name": "special_time_title",
                   "caption": "${hccenter.special.time.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 22,
+                  "text_color": 6828547,
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "html",
@@ -495,7 +630,16 @@
                   "style": "3",
                   "name": "special_time_content"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 22,
+                  "text_color": 6828547,
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0,
+                  "editable": false,
+                  "selectable": false
+                }
               },
               {
                 "tag": "text",
@@ -510,7 +654,15 @@
                   "name": "special_amount_title",
                   "caption": "${hccenter.special.amount.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 22,
+                  "text_color": 6828547,
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "html",
@@ -524,7 +676,16 @@
                   "style": "3",
                   "name": "special_amount_content"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 22,
+                  "text_color": 6828547,
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0,
+                  "editable": false,
+                  "selectable": false
+                }
               },
               {
                 "tag": "link",
@@ -540,7 +701,17 @@
                   "caption": "${hccenter.breakdown.infolink}",
                   "treshold": "0"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "right",
+                  "text_color": 4886193,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "underline": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -554,7 +725,10 @@
                   "style": "3",
                   "name": "special_time_icon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "hc_center_hc_center_timer"
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -568,51 +742,35 @@
                   "style": "3",
                   "name": "special_amount_icon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "hc_center_icon_credits"
+                }
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "help_page": "habboclub",
+          "margin_left": 0,
+          "margin_top": 32,
+          "margin_right": 0,
+          "margin_bottom": -10
+        }
       }
     ]
   },
-  "vars": {
-    "asset_uri": "hc_center_icon_credits",
-    "stretched_x": false,
-    "stretched_y": false,
-    "spacing": 0,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true,
-    "pivot_point": "center",
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "leading": 0,
-    "editable": false,
-    "selectable": false,
-    "multiline": true,
-    "word_wrap": true,
-    "font_size": 22,
-    "text_color": 4886193,
-    "underline": true,
-    "widget_type": "room_previewer",
-    "room_previewer:offsety": -30,
-    "room_previewer:zoom": 2,
-    "auto_size": "right",
-    "help_page": "habboclub",
-    "margin_left": 0,
-    "margin_top": 32,
-    "margin_right": 0,
-    "margin_bottom": -10
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "history_item",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_room_tools_history_item_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_room_tools_history_item.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -34,14 +34,15 @@
               "caption": "the greatest room on earth",
               "tags": "#icon"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_color": 16777215
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "text_color": 16777215
-  },
+  "vars": {},
   "filters": []
 }

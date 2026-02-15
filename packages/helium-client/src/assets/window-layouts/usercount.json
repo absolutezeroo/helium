@@ -1,6 +1,6 @@
 {
   "name": "usercount",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_grs_usercount_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboNavigatorCom_grs_usercount.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -47,21 +47,22 @@
               "name": "txt",
               "caption": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "text_color": 16777215,
+              "mouse_wheel_enabled": false,
+              "sharpness": 0,
+              "thickness": 0,
+              "kerning": false,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

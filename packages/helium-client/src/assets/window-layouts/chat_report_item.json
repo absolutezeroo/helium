@@ -1,6 +1,6 @@
 {
   "name": "chat_report_item",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_chat_report_item_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboHelpCom_chat_report_item.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,21 +31,22 @@
               "name": "text",
               "caption": "foo faa fee"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "margin_top": 4,
+              "margin_bottom": 4,
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "margin_top": 4,
-    "margin_bottom": 4,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

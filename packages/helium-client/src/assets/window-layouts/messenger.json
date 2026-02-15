@@ -1,6 +1,6 @@
 {
   "name": "messenger",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboMessengerCom_messenger_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboMessengerCom_messenger.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -58,7 +58,12 @@
                       "style": "100",
                       "name": "avatar_image"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "widget_type": "avatar_image",
+                      "avatar_image:scale": "sh",
+                      "avatar_image:only_head": true
+                    }
                   },
                   {
                     "tag": "widget",
@@ -73,7 +78,17 @@
                       "name": "group_badge_image",
                       "visible": "false"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "widget_type": "badge_image",
+                      "badge_image:type": "group",
+                      "badge_image:fit_size_to_contents": true,
+                      "badge_image:stretched_x": false,
+                      "badge_image:stretched_y": false,
+                      "badge_image:zoom_x": 0.5,
+                      "badge_image:zoom_y": 0.5,
+                      "badge_image:pivot_point": "center"
+                    }
                   },
                   {
                     "tag": "static_bitmap",
@@ -88,7 +103,10 @@
                       "name": "chat_indicator",
                       "visible": "false"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "common_chat_indicator"
+                    }
                   },
                   {
                     "tag": "region",
@@ -134,7 +152,13 @@
                   "params": "16",
                   "style": "100"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "help_habboway_prev",
+                  "pivot_point": "center left",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               }
             ]
           },
@@ -163,7 +187,13 @@
                   "params": "16",
                   "style": "100"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "help_habboway_next",
+                  "pivot_point": "center left",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               }
             ]
           },
@@ -192,9 +222,18 @@
                   "name": "separator_label",
                   "caption": "${messenger.window.separator}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "il_border",
+                  "text_color": 4473924,
+                  "margin_left": 5,
+                  "margin_right": 5
+                }
               }
-            ]
+            ],
+            "vars": {
+              "widget_type": "separator"
+            }
           },
           {
             "tag": "itemlist_horizontal",
@@ -235,9 +274,16 @@
                       "params": "16",
                       "style": "100"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "messenger_visit_icon",
+                      "fit_size_to_contents": true
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${messenger.followfriend.tooltip}"
+                }
               },
               {
                 "tag": "container_button",
@@ -265,9 +311,16 @@
                       "params": "16",
                       "style": "100"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "messenger_profile_icon",
+                      "fit_size_to_contents": true
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${infostand.profile.link.tooltip}"
+                }
               },
               {
                 "tag": "button",
@@ -283,9 +336,15 @@
                   "caption": "${messenger.window.button.report}",
                   "height_max": "20"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "tool_tip_caption": "${messenger.window.button.report.tooltip}"
+                }
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 4
+            }
           },
           {
             "tag": "region",
@@ -313,7 +372,10 @@
                   "params": "16",
                   "style": "100"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "illumina_light_button_frame_close_png"
+                }
               }
             ]
           },
@@ -342,7 +404,10 @@
                   "style": "100",
                   "name": "msg_normal"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "widget_type": "illumina_chat_bubble"
+                }
               },
               {
                 "tag": "border",
@@ -368,7 +433,13 @@
                       "params": "16",
                       "style": "100"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "messenger_caution",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   },
                   {
                     "tag": "text",
@@ -382,7 +453,17 @@
                       "style": "100",
                       "name": "content"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "margin_top": 7,
+                      "margin_bottom": 9,
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -411,7 +492,13 @@
                       "params": "16",
                       "style": "100"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "messenger_notification_icon",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   },
                   {
                     "tag": "text",
@@ -425,7 +512,17 @@
                       "style": "100",
                       "name": "content"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "margin_top": 7,
+                      "margin_bottom": 9,
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -456,7 +553,17 @@
                       "width_min": "255",
                       "width_max": "255"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "margin_top": 10,
+                      "margin_bottom": 10,
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               }
@@ -474,53 +581,34 @@
               "style": "100",
               "name": "input_widget"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "widget_type": "illumina_input",
+              "illumina_input:empty_message": "${messenger.window.input.default}",
+              "illumina_input:max_chars": 120
+            }
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 1,
+          "margin_top": 40,
+          "margin_right": 1,
+          "margin_bottom": 0
+        }
       }
     ]
   },
-  "vars": {
-    "widget_type": "illumina_input",
-    "avatar_image:scale": "sh",
-    "avatar_image:only_head": true,
-    "badge_image:type": "group",
-    "badge_image:fit_size_to_contents": true,
-    "badge_image:stretched_x": false,
-    "badge_image:stretched_y": false,
-    "badge_image:zoom_x": 0.5,
-    "badge_image:zoom_y": 0.5,
-    "badge_image:pivot_point": "center",
-    "asset_uri": "messenger_notification_icon",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "text_style": "il_border",
-    "text_color": 4473924,
-    "margin_left": 1,
-    "margin_right": 1,
-    "fit_size_to_contents": true,
-    "tool_tip_caption": "${messenger.window.button.report.tooltip}",
-    "spacing": 0,
-    "auto_size": "center",
-    "margin_top": 40,
-    "margin_bottom": 0,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "leading": 0,
-    "illumina_input:empty_message": "${messenger.window.input.default}",
-    "illumina_input:max_chars": 120
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

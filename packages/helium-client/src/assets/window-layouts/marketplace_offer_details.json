@@ -1,6 +1,6 @@
 {
   "name": "marketplace_offer_details",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbomarketplace_offer_details_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_marketplace_offer_details.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -75,7 +75,10 @@
               "name": "unique_item_overlay_widget",
               "visible": "false"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "widget_type": "limited_item_overlay_preview"
+            }
           },
           {
             "tag": "widget",
@@ -89,7 +92,10 @@
               "style": "3",
               "name": "rarity_item_overlay_widget"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "widget_type": "rarity_item_overlay_grid"
+            }
           },
           {
             "tag": "container",
@@ -117,7 +123,14 @@
                   "name": "item_name",
                   "caption": "${lorem.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -132,7 +145,14 @@
                   "name": "item_description",
                   "caption": "${lorem.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "u_italic",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -147,7 +167,14 @@
                   "name": "item_price",
                   "caption": "${catalog.marketplace.offer_details.price}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "u_small",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -162,7 +189,14 @@
                   "name": "offer_count",
                   "caption": "${catalog.marketplace.offer_details.offer_count}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "u_small",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -177,7 +211,14 @@
                   "name": "average_price",
                   "caption": "${catalog.marketplace.offer_details.average_price}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "u_small",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -258,7 +299,13 @@
               "name": "chart_title",
               "caption": "${lorem.title}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "border",
@@ -284,7 +331,12 @@
                   "style": "0",
                   "name": "chart_bitmap"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               }
             ]
           }
@@ -292,16 +344,6 @@
       }
     ]
   },
-  "vars": {
-    "widget_type": "rarity_item_overlay_grid",
-    "auto_size": "left",
-    "text_style": "u_small",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "gift_wrapping",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbogift_wrapping_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_gift_wrapping.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -58,7 +58,16 @@
                       "style": "0",
                       "name": "name_input"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "always_show_selection": true,
+                      "font_size": 19,
+                      "text_style": "u_italic",
+                      "mouse_wheel_enabled": false,
+                      "max_chars": 32,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -73,7 +82,15 @@
                       "name": "name_input_hint",
                       "visible": "false"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_size": 19,
+                      "text_color": 7829367,
+                      "text_style": "u_italic",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -89,7 +106,10 @@
                   "style": "0",
                   "name": "write_deco"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "common_small_pen"
+                }
               },
               {
                 "tag": "container",
@@ -139,7 +159,11 @@
                           "width_min": "148",
                           "width_max": "262"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "scale_to_fit_items": true,
+                          "resize_on_item_update": true
+                        }
                       }
                     ]
                   }
@@ -157,7 +181,10 @@
                   "style": "0",
                   "name": "gift_card"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "catalogue_giftcard_blank"
+                }
               },
               {
                 "tag": "container",
@@ -204,7 +231,17 @@
                   "style": "0",
                   "name": "message_input"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_regular",
+                  "mouse_wheel_enabled": false,
+                  "max_chars": 140,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "max_lines": 5,
+                  "spacing": 0,
+                  "leading": 4
+                }
               },
               {
                 "tag": "text",
@@ -219,7 +256,15 @@
                   "name": "message_input_hint",
                   "visible": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 19,
+                  "text_color": 7829367,
+                  "text_style": "u_italic",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -233,7 +278,14 @@
                   "style": "0",
                   "name": "message_from"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "right",
+                  "text_style": "u_italic",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "checkbox",
@@ -262,7 +314,13 @@
                   "name": "show_face_checkbox_title",
                   "caption": "${catalog.gift_wrapping.show_face.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_regular",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container",
@@ -320,7 +378,13 @@
                       "name": "pick_box_title",
                       "caption": "${catalog.gift_wrapping.pick_box}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "itemlist_horizontal",
@@ -348,7 +412,14 @@
                           "name": "pick_box_price_title",
                           "caption": "${catalog.gift_wrapping.price}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -362,7 +433,10 @@
                           "style": "0",
                           "name": "small_coin"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "common_small_coin"
+                        }
                       }
                     ]
                   },
@@ -437,7 +511,13 @@
                       "name": "pick_ribbon_title",
                       "caption": "${catalog.gift_wrapping.pick_ribbon.title}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "container_button",
@@ -512,7 +592,13 @@
                   "name": "box_color_title",
                   "caption": "${catalog.gift_wrapping.pick_color}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container",
@@ -540,7 +626,11 @@
                       "style": "0",
                       "name": "color_grid"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "spacing": 2,
+                      "scale_to_fit_items": true
+                    }
                   }
                 ]
               },
@@ -588,47 +678,40 @@
                       "name": "cancel_link",
                       "caption": "${catalog.gift_wrapping.cancel}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "u_regular",
+                      "mouse_wheel_enabled": false,
+                      "underline": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 6,
+          "margin_top": 25,
+          "margin_right": 6,
+          "margin_bottom": 7
+        }
       }
     ]
   },
-  "vars": {
-    "always_show_selection": true,
-    "font_size": 19,
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "max_chars": 140,
-    "spacing": 0,
-    "leading": 0,
-    "text_color": 7829367,
-    "asset_uri": "common_small_coin",
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true,
-    "multiline": true,
-    "word_wrap": true,
-    "max_lines": 5,
-    "auto_size": "left",
-    "underline": true,
-    "margin_left": 6,
-    "margin_top": 25,
-    "margin_right": 6,
-    "margin_bottom": 7
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

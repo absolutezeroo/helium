@@ -1,6 +1,6 @@
 {
   "name": "styleselector_menu_new",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_styleselector_menu_new_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_styleselector_menu_new.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,16 +32,17 @@
               "style": "0",
               "name": "itemgrid"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "spacing": 1,
+              "scale_to_fit_items": true,
+              "resize_on_item_update": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "spacing": 1,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true
-  },
+  "vars": {},
   "filters": []
 }

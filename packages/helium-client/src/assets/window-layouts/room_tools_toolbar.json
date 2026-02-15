@@ -1,6 +1,6 @@
 {
   "name": "room_tools_toolbar",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_room_tools_toolbar_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_room_tools_toolbar.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -92,7 +92,14 @@
                           "clipping": "false",
                           "tags": "#icon"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "roomtools_gear",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false,
+                          "etching_color": 1207959552
+                        }
                       },
                       {
                         "tag": "text",
@@ -108,9 +115,20 @@
                           "caption": "${room.settings.button.text}",
                           "width_max": "90"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_size": 17,
+                          "text_color": 13421772,
+                          "mouse_wheel_enabled": false,
+                          "underline": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "tool_tip_caption": "${room.settings.button.tooltip}"
+                    }
                   },
                   {
                     "tag": "region",
@@ -158,7 +176,14 @@
                           "clipping": "false",
                           "tags": "#icon"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "roomtools_magnifier",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false,
+                          "etching_color": 1207959552
+                        }
                       },
                       {
                         "tag": "text",
@@ -175,9 +200,21 @@
                           "color": "0x0999999",
                           "width_max": "90"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_size": 17,
+                          "text_color": 12303291,
+                          "text_style": "u_button_tab",
+                          "mouse_wheel_enabled": false,
+                          "underline": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "tool_tip_caption": "${toolbar.icon.tooltip.zoom}"
+                    }
                   },
                   {
                     "tag": "region",
@@ -225,7 +262,14 @@
                           "clipping": "false",
                           "tags": "#icon"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "roomtools_chat_history",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false,
+                          "etching_color": 1207959552
+                        }
                       },
                       {
                         "tag": "text",
@@ -242,9 +286,21 @@
                           "color": "0x0999999",
                           "width_max": "90"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_size": 17,
+                          "text_color": 12303291,
+                          "text_style": "u_button_tab",
+                          "mouse_wheel_enabled": false,
+                          "underline": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "tool_tip_caption": "${chat.history.button.tooltip}"
+                    }
                   },
                   {
                     "tag": "region",
@@ -292,7 +348,14 @@
                           "clipping": "false",
                           "tags": "#icon"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "roomtools_like",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false,
+                          "etching_color": 1207959552
+                        }
                       },
                       {
                         "tag": "text",
@@ -309,9 +372,21 @@
                           "color": "0x0999999",
                           "width_max": "90"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_size": 17,
+                          "text_color": 12303291,
+                          "text_style": "u_button_tab",
+                          "mouse_wheel_enabled": false,
+                          "underline": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "tool_tip_caption": "${room.like.button.tooltip}"
+                    }
                   },
                   {
                     "tag": "region",
@@ -359,7 +434,14 @@
                           "clipping": "false",
                           "tags": "#icon"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "roomtools_camera",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false,
+                          "etching_color": 1207959552
+                        }
                       },
                       {
                         "tag": "text",
@@ -376,9 +458,21 @@
                           "color": "0x0999999",
                           "width_max": "90"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_size": 17,
+                          "text_color": 12303291,
+                          "text_style": "u_button_tab",
+                          "mouse_wheel_enabled": false,
+                          "underline": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "tool_tip_caption": "${room.camera.button.tooltip}"
+                    }
                   },
                   {
                     "tag": "region",
@@ -426,7 +520,14 @@
                           "clipping": "false",
                           "tags": "#icon"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "navigation_icon_weblink",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false,
+                          "etching_color": 1207959552
+                        }
                       },
                       {
                         "tag": "text",
@@ -443,9 +544,21 @@
                           "color": "0x0999999",
                           "width_max": "90"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_size": 17,
+                          "text_color": 12303291,
+                          "text_style": "u_button_tab",
+                          "mouse_wheel_enabled": false,
+                          "underline": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "tool_tip_caption": "${room.camera.button.tooltip}"
+                    }
                   },
                   {
                     "tag": "container",
@@ -493,7 +606,15 @@
                               "clipping": "false",
                               "tags": "#bg"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "roomtools_history_forward_bg",
+                              "stretched_x": false,
+                              "stretched_y": false,
+                              "zoom_x": -1,
+                              "etching_color": 1207959552,
+                              "fit_size_to_contents": true
+                            }
                           },
                           {
                             "tag": "static_bitmap",
@@ -508,9 +629,19 @@
                               "clipping": "false",
                               "tags": "#icon"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "roomtools_history_back_icon",
+                              "pivot_point": "center",
+                              "stretched_x": false,
+                              "stretched_y": false,
+                              "etching_color": 1207959552
+                            }
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "tool_tip_caption": "${room.history.button.back.tooltip}"
+                        }
                       },
                       {
                         "tag": "region",
@@ -544,7 +675,14 @@
                               "treshold": "0",
                               "tags": "#icon"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "roomtools_history_open_bg",
+                              "stretched_x": false,
+                              "stretched_y": false,
+                              "etching_color": 1207959552,
+                              "fit_size_to_contents": true
+                            }
                           },
                           {
                             "tag": "static_bitmap",
@@ -559,9 +697,19 @@
                               "clipping": "false",
                               "tags": "#icon"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "roomtools_history_open_icon",
+                              "pivot_point": "center",
+                              "stretched_x": false,
+                              "stretched_y": false,
+                              "etching_color": 1207959552
+                            }
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "tool_tip_caption": "${room.history.button.tooltip}"
+                        }
                       },
                       {
                         "tag": "region",
@@ -594,7 +742,14 @@
                               "clipping": "false",
                               "tags": "#bg"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "roomtools_history_forward_bg",
+                              "stretched_x": false,
+                              "stretched_y": false,
+                              "etching_color": 1207959552,
+                              "fit_size_to_contents": true
+                            }
                           },
                           {
                             "tag": "static_bitmap",
@@ -609,9 +764,20 @@
                               "clipping": "false",
                               "tags": "#icon"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "roomtools_history_back_icon",
+                              "pivot_point": "center",
+                              "stretched_x": false,
+                              "stretched_y": false,
+                              "zoom_x": -1,
+                              "etching_color": 1207959552
+                            }
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "tool_tip_caption": "${room.history.button.forward.tooltip}"
+                        }
                       }
                     ]
                   }
@@ -660,7 +826,13 @@
                       "name": "arrow_collapse",
                       "tags": "#icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "roomtools_minimizebutton",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "fit_size_to_contents": true
+                    }
                   }
                 ]
               }
@@ -706,7 +878,14 @@
                       "style": "3",
                       "name": "arrow_expand"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "roomtools_minimizebutton",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "zoom_x": -1,
+                      "fit_size_to_contents": true
+                    }
                   }
                 ]
               }
@@ -716,22 +895,6 @@
       }
     ]
   },
-  "vars": {
-    "asset_uri": "roomtools_minimizebutton",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "etching_color": 1207959552,
-    "font_size": 17,
-    "text_color": 12303291,
-    "mouse_wheel_enabled": false,
-    "underline": true,
-    "spacing": 0,
-    "leading": 0,
-    "tool_tip_caption": "${room.history.button.forward.tooltip}",
-    "text_style": "u_button_tab",
-    "zoom_x": -1,
-    "fit_size_to_contents": true
-  },
+  "vars": {},
   "filters": []
 }

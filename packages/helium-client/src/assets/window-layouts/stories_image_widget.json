@@ -1,6 +1,6 @@
 {
   "name": "stories_image_widget",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_stories_image_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_stories_image_widget.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -64,7 +64,12 @@
               "clipping": "false",
               "treshold": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "pivot_point": "center",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "html",
@@ -82,7 +87,16 @@
               "width_min": "308",
               "width_max": "308"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "text_style": "id_regular",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "boxsizer",
@@ -138,7 +152,13 @@
                       "params": "16",
                       "style": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "icons_flag",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               },
@@ -185,7 +205,14 @@
                       "treshold": "0",
                       "tags": "#icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "common_trashcan_small",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "etching_color": 1207959552
+                    }
                   }
                 ]
               },
@@ -221,7 +248,12 @@
                 },
                 "children": []
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 5,
+              "padding_horizontal": 8,
+              "padding_vertical": 5
+            }
           },
           {
             "tag": "button",
@@ -268,7 +300,10 @@
                   "name": "shareButton",
                   "color": "0x04eaac1"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "tool_tip_caption": "${info.share.button}"
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -281,7 +316,13 @@
                   "params": "16",
                   "style": "0"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "icons_share",
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               }
             ]
           },
@@ -327,7 +368,17 @@
                       "width_min": "200",
                       "width_max": "200"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "border_color": 16777215,
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "input",
@@ -345,7 +396,12 @@
                       "width_min": "200",
                       "width_max": "200"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -361,7 +417,17 @@
                       "width_min": "200",
                       "width_max": "200"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "border_color": 16777215,
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "container",
@@ -409,7 +475,13 @@
                               "width_min": "32",
                               "height_min": "32"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "icons_facebook",
+                              "stretched_x": false,
+                              "stretched_y": false,
+                              "etching_color": 1207959552
+                            }
                           }
                         ]
                       },
@@ -446,7 +518,13 @@
                               "width_min": "32",
                               "height_min": "32"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "icons_twitter",
+                              "stretched_x": false,
+                              "stretched_y": false,
+                              "etching_color": 1207959552
+                            }
                           }
                         ]
                       }
@@ -465,7 +543,13 @@
                     },
                     "children": []
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 5,
+                  "vertical": true,
+                  "padding_horizontal": 8,
+                  "padding_vertical": 8
+                }
               }
             ]
           },
@@ -497,7 +581,14 @@
                   "caption": "Sent by Joopekki-xxOO",
                   "color": "0x0cccccc"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "id_link_regular",
+                  "margin_left": 4,
+                  "margin_top": 4,
+                  "margin_right": 4,
+                  "margin_bottom": 4
+                }
               }
             ]
           },
@@ -528,7 +619,14 @@
               "name": "creationDate",
               "caption": "10.4.2014 15:44"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "id_regular",
+              "margin_left": 4,
+              "margin_top": 4,
+              "margin_right": 4,
+              "margin_bottom": 4
+            }
           },
           {
             "tag": "region",
@@ -555,7 +653,14 @@
                   "params": "16",
                   "style": "3"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "camera_browse_ffwd",
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false,
+                  "fit_size_to_contents": true
+                }
               }
             ]
           },
@@ -584,7 +689,15 @@
                   "params": "16",
                   "style": "3"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "camera_browse_ffwd",
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false,
+                  "zoom_x": -1,
+                  "fit_size_to_contents": true
+                }
               }
             ]
           },
@@ -614,7 +727,14 @@
                   "style": "3",
                   "name": "captionText"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           }
@@ -622,31 +742,6 @@
       }
     ]
   },
-  "vars": {
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "auto_size": "left",
-    "text_style": "id_regular",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "asset_uri": "camera_browse_ffwd",
-    "etching_color": 1207959552,
-    "padding_horizontal": 8,
-    "padding_vertical": 8,
-    "tool_tip_caption": "${info.share.button}",
-    "border_color": 16777215,
-    "text_color": 16777215,
-    "vertical": true,
-    "margin_left": 4,
-    "margin_top": 4,
-    "margin_right": 4,
-    "margin_bottom": 4,
-    "fit_size_to_contents": true,
-    "zoom_x": -1
-  },
+  "vars": {},
   "filters": []
 }

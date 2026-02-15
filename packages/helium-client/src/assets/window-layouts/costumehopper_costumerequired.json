@@ -1,6 +1,6 @@
 {
   "name": "costumehopper_costumerequired",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_costumehopper_costumerequired_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_costumehopper_costumerequired.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,7 +31,12 @@
               "style": "100",
               "name": "illustration"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "stretched_x": false,
+              "stretched_y": false,
+              "fit_size_to_contents": true
+            }
           },
           {
             "tag": "itemlist_vertical",
@@ -73,7 +78,11 @@
                       "name": "title",
                       "caption": "${costumehopper.costumerequired.title}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "il_heading_1",
+                      "text_color": 12779520
+                    }
                   },
                   {
                     "tag": "formatted_text",
@@ -90,7 +99,16 @@
                       "width_min": "291",
                       "width_max": "291"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "margin_bottom": 8,
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -118,7 +136,12 @@
                       "params": "16",
                       "style": "100"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "illumina_horizontal_separator",
+                      "pivot_point": "bottom center",
+                      "stretched_y": false
+                    }
                   },
                   {
                     "tag": "static_bitmap",
@@ -132,7 +155,11 @@
                       "style": "100",
                       "name": "spacer"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "pivot_point": "bottom center",
+                      "stretched_y": false
+                    }
                   },
                   {
                     "tag": "button_thick",
@@ -150,39 +177,31 @@
                     },
                     "children": []
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 1
+                }
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 3
+            }
+          }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "stretched_x": false,
-    "stretched_y": false,
-    "fit_size_to_contents": true,
-    "text_style": "il_heading_1",
-    "text_color": 12779520,
-    "auto_size": "left",
-    "margin_bottom": 8,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 3,
-    "leading": 0,
-    "asset_uri": "illumina_horizontal_separator",
-    "pivot_point": "bottom center"
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

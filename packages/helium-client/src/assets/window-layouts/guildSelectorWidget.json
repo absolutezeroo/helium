@@ -1,6 +1,6 @@
 {
   "name": "guildSelectorWidget",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboguild_selector_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_guild_selector_widget.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -59,7 +59,14 @@
                   "style": "3",
                   "caption": "${catalog.guild_selector.members_only}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "button",
@@ -82,12 +89,6 @@
       }
     ]
   },
-  "vars": {
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

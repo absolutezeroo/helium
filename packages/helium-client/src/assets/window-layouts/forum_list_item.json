@@ -1,6 +1,6 @@
 {
   "name": "forum_list_item",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_groupforum_forum_list_item_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_groupforum_forum_list_item.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -46,7 +46,12 @@
                   "style": "3",
                   "name": "group_icon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "widget_type": "badge_image",
+                  "badge_image:stretched_x": false,
+                  "badge_image:stretched_y": false
+                }
               }
             ]
           },
@@ -94,7 +99,13 @@
                       "name": "header",
                       "caption": "Some group header"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -111,7 +122,16 @@
                   "name": "details",
                   "caption": "Rating 1000, last message by LongLongLongName 30 seconds ago"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 16,
+                  "grid_fit_type": "subpixel",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0,
+                  "editable": false,
+                  "selectable": false
+                }
               }
             ]
           },
@@ -157,7 +177,19 @@
                   "name": "messages1",
                   "caption": "100 messages"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "font_face": "Ubuntu",
+                  "font_size": 16,
+                  "text_style": "regular",
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -172,34 +204,31 @@
                   "name": "messages2",
                   "caption": "12 new"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "font_face": "Ubuntu",
+                  "font_size": 16,
+                  "text_style": "regular",
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           }
-        ]
+        ],
+        "vars": {
+          "spacing": 1,
+          "padding_horizontal": 0,
+          "padding_vertical": 0
+        }
       }
     ]
   },
-  "vars": {
-    "widget_type": "badge_image",
-    "badge_image:stretched_x": false,
-    "badge_image:stretched_y": false,
-    "auto_size": "left",
-    "mouse_wheel_enabled": false,
-    "spacing": 1,
-    "leading": 0,
-    "font_size": 16,
-    "grid_fit_type": "subpixel",
-    "editable": false,
-    "selectable": false,
-    "antialias_type": "advanced",
-    "font_face": "Ubuntu",
-    "text_style": "regular",
-    "sharpness": 0,
-    "thickness": 0,
-    "kerning": false,
-    "padding_horizontal": 0,
-    "padding_vertical": 0
-  },
+  "vars": {},
   "filters": []
 }

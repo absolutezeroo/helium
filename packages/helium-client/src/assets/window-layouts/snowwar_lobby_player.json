@@ -1,6 +1,6 @@
 {
   "name": "snowwar_lobby_player",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habbosnowwar_lobby_player_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboGamesCom_snowwar_lobby_player.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,7 +33,10 @@
               "name": "bg_image",
               "tags": "bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "bitmap_asset_name": "blue_square"
+            }
           },
           {
             "tag": "bitmap",
@@ -50,13 +53,13 @@
             },
             "children": []
           }
-        ]
+        ],
+        "vars": {
+          "tool_tip_delay": 16
+        }
       }
     ]
   },
-  "vars": {
-    "bitmap_asset_name": "blue_square",
-    "tool_tip_delay": 16
-  },
+  "vars": {},
   "filters": []
 }

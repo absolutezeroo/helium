@@ -1,6 +1,6 @@
 {
   "name": "Quest",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboseasonal_calendar_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboQuestEngineCom_seasonal_calendar.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -116,7 +116,16 @@
                           "name": "entity_indicator_text",
                           "caption": "date"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "center",
+                          "font_size": 19,
+                          "text_color": 16777215,
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "bitmap",
@@ -130,7 +139,10 @@
                           "style": "0",
                           "name": "entity_indicator_status"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "handle_bitmap_disposing": false
+                        }
                       }
                     ]
                   },
@@ -205,7 +217,10 @@
                   "style": "0",
                   "name": "button_right"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "handle_bitmap_disposing": false
+                }
               },
               {
                 "tag": "bitmap",
@@ -219,7 +234,10 @@
                   "style": "0",
                   "name": "button_left"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "handle_bitmap_disposing": false
+                }
               }
             ]
           },
@@ -323,7 +341,14 @@
                           "name": "promo_header",
                           "caption": "${quests.seasonalcalendar.promo.header}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -337,7 +362,14 @@
                           "style": "0",
                           "name": "promo_info"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "button",
@@ -426,7 +458,14 @@
                           "name": "your_balance_txt",
                           "caption": "${quests.seasonalcalendar.promo.balance}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   },
@@ -442,7 +481,10 @@
                       "style": "0",
                       "name": "furni_preview_background"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "${image.library.questing.url}calendar_promobg.png"
+                    }
                   },
                   {
                     "tag": "bitmap",
@@ -796,7 +838,15 @@
                       "name": "teaser_header",
                       "caption": "${quests.seasonalcalendar.rareteaser.header}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_size": 17,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -811,36 +861,35 @@
                       "name": "teaser_info",
                       "caption": "${quests.seasonalcalendar.rareteaser.info}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_size": 17,
+                      "text_style": "u_regular",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               }
             ]
           }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "font_size": 17,
-    "text_color": 16777215,
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "handle_bitmap_disposing": false,
-    "asset_uri": "${image.library.questing.url}calendar_promobg.png"
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "crackable_furni_view",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbocrackable_furni_view_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_crackable_furni_view.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -73,7 +73,18 @@
                       "name": "name_text",
                       "caption": "Furni name"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter Bold",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "word_wrap": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "container",
@@ -103,7 +114,12 @@
                       "style": "0",
                       "name": "image"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   },
                   {
                     "tag": "container",
@@ -161,7 +177,17 @@
                           "style": "0",
                           "name": "owner_name"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_color": 16777215,
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "word_wrap": true,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   },
@@ -194,7 +220,17 @@
                       "name": "hits_remaining",
                       "caption": "${infostand.crackable_furni.hits_remaining}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "word_wrap": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -209,7 +245,18 @@
                       "name": "expiration_text",
                       "caption": "${infostand.rent.expiration}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_color": 16777215,
+                      "margin_top": 6,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "word_wrap": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "itemlist_horizontal",
@@ -285,9 +332,17 @@
                         },
                         "children": []
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 5
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 5,
+                  "scale_to_fit_items": true,
+                  "resize_on_item_update": true
+                }
               }
             ]
           },
@@ -364,28 +419,20 @@
                 },
                 "children": []
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 10
+            }
           }
-        ]
+        ],
+        "vars": {
+          "spacing": 10,
+          "scale_to_fit_items": true,
+          "resize_on_item_update": true
+        }
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter Bold",
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "word_wrap": true,
-    "kerning": false,
-    "spacing": 10,
-    "leading": 0,
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "margin_top": 6,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true
-  },
+  "vars": {},
   "filters": []
 }

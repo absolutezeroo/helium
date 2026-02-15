@@ -1,6 +1,6 @@
 {
   "name": "Achievement",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboachievement_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboQuestEngineCom_achievement.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,7 +32,10 @@
               "style": "0",
               "name": "bg_unselected_bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.questing.url}achievement_inactive.png"
+            }
           },
           {
             "tag": "static_bitmap",
@@ -47,7 +50,10 @@
               "name": "bg_selected_bitmap",
               "visible": "false"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.questing.url}achievement_active.png"
+            }
           },
           {
             "tag": "widget",
@@ -61,7 +67,13 @@
               "style": "0",
               "name": "achievement_pic_bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "widget_type": "badge_image",
+              "badge_image:pivot_point": "center",
+              "badge_image:stretched_x": false,
+              "badge_image:stretched_y": false
+            }
           },
           {
             "tag": "region",
@@ -83,12 +95,6 @@
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.questing.url}achievement_active.png",
-    "widget_type": "badge_image",
-    "badge_image:pivot_point": "center",
-    "badge_image:stretched_x": false,
-    "badge_image:stretched_y": false
-  },
+  "vars": {},
   "filters": []
 }

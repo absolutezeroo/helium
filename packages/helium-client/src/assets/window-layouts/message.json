@@ -1,6 +1,6 @@
 {
   "name": "message",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_message_piece_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_message_piece.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -48,7 +48,17 @@
                   "name": "title",
                   "caption": "Title"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 17,
+                  "text_color": 16777215,
+                  "text_style": "u_italic",
+                  "mouse_wheel_enabled": false,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -63,26 +73,30 @@
                   "name": "message",
                   "caption": "Message"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 17,
+                  "text_color": 16777215,
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
-            ]
+            ],
+            "vars": {
+              "spacing": -1,
+              "scale_to_fit_items": true,
+              "resize_on_item_update": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "font_size": 17,
-    "text_color": 16777215,
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "word_wrap": true,
-    "spacing": -1,
-    "leading": 0,
-    "multiline": true,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true
-  },
+  "vars": {},
   "filters": []
 }

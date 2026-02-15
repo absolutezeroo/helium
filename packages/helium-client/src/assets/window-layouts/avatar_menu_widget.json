@@ -1,6 +1,6 @@
 {
   "name": "avatar_menu_widget",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboavatar_menu_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_avatar_menu_widget.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -61,7 +61,16 @@
                       "name": "name",
                       "caption": "my_name_here"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_size": 17,
+                      "text_color": 16777215,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "static_bitmap",
@@ -75,7 +84,11 @@
                       "style": "100",
                       "name": "relationship_status"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               },
@@ -150,7 +163,16 @@
                               "name": "label",
                               "caption": "${infostand.button.friend}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -199,7 +221,16 @@
                               "name": "label",
                               "caption": "${infostand.button.trade}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -248,7 +279,16 @@
                               "name": "label",
                               "caption": "${infostand.button.whisper}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -297,7 +337,16 @@
                               "name": "label",
                               "caption": "${profile.give_gem}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "static_bitmap",
@@ -312,7 +361,13 @@
                               "treshold": "0",
                               "tags": "#icon"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "pursearea_duckets_icon",
+                              "stretched_x": false,
+                              "stretched_y": false,
+                              "etching_color": 1207959552
+                            }
                           }
                         ]
                       }
@@ -361,7 +416,16 @@
                               "name": "label",
                               "caption": "infostand.button.blow"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -410,7 +474,16 @@
                               "name": "label",
                               "caption": "${infostand.link.perform}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "icon",
@@ -474,7 +547,16 @@
                               "name": "label",
                               "caption": "${infostand.link.relationship}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "icon",
@@ -538,7 +620,16 @@
                               "name": "label",
                               "caption": "${infostand.button.kick}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16744755,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -587,7 +678,16 @@
                               "name": "label",
                               "caption": "${infostand.button.mute}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16744755,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "icon",
@@ -651,7 +751,16 @@
                               "name": "label",
                               "caption": "${infostand.button.mute_2min}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16744755,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -700,7 +809,16 @@
                               "name": "label",
                               "caption": "${infostand.button.mute_5min}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16744755,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -749,7 +867,16 @@
                               "name": "label",
                               "caption": "${infostand.button.mute_10min}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16744755,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -798,7 +925,16 @@
                               "name": "label",
                               "caption": "${infostand.button.ban}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16744755,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "icon",
@@ -862,7 +998,16 @@
                               "name": "label",
                               "caption": "${infostand.button.ban_hour}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16744755,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -911,7 +1056,16 @@
                               "name": "label",
                               "caption": "${infostand.button.ban_day}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16744755,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -960,7 +1114,16 @@
                               "name": "label",
                               "caption": "${infostand.button.perm_ban}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16744755,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -1009,7 +1172,16 @@
                               "name": "label",
                               "caption": "${infostand.button.giverights}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16744755,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -1058,7 +1230,16 @@
                               "name": "label",
                               "caption": "${infostand.button.removerights}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16744755,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -1107,7 +1288,16 @@
                               "name": "label",
                               "caption": "${infostand.button.unignore}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16744755,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -1156,7 +1346,16 @@
                               "name": "label",
                               "caption": "${infostand.button.ignore}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16744755,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -1205,7 +1404,16 @@
                               "name": "label",
                               "caption": "${infostand.button.report}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16744755,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -1254,7 +1462,16 @@
                               "name": "label",
                               "caption": "${infostand.link.moderate}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "icon",
@@ -1328,7 +1545,13 @@
                                   "style": "3",
                                   "caption": "1"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "relationship_status_heart",
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               }
                             ]
                           }
@@ -1373,7 +1596,13 @@
                                   "style": "3",
                                   "caption": "2"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "relationship_status_smile",
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               }
                             ]
                           }
@@ -1418,13 +1647,23 @@
                                   "style": "3",
                                   "caption": "3"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "relationship_status_bobba",
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               }
                             ]
                           }
                         ]
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 1,
+                      "scale_to_fit_items": true
+                    }
                   },
                   {
                     "tag": "container",
@@ -1469,7 +1708,16 @@
                               "name": "label",
                               "caption": "${avatar.widget.clear_relationship}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -1518,7 +1766,16 @@
                               "name": "label",
                               "caption": "${infostand.link.actions}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "icon",
@@ -1582,7 +1839,16 @@
                               "name": "label",
                               "caption": "${avatar.widget.pass_hand_item}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -1631,7 +1897,17 @@
                               "name": "label",
                               "caption": "${avatar.widget.change_bot_name}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "underline": true,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -1680,7 +1956,16 @@
                               "name": "label",
                               "caption": "${avatar.widget.dress_up}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -1729,7 +2014,16 @@
                               "name": "label",
                               "caption": "${avatar.widget.setup_chat}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -1778,7 +2072,16 @@
                               "name": "label",
                               "caption": "${avatar.widget.random_walk}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -1827,7 +2130,16 @@
                               "name": "label",
                               "caption": "${avatar.widget.dance}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -1876,7 +2188,16 @@
                               "name": "label",
                               "caption": "${avatar.widget.pick_up}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -1926,7 +2247,16 @@
                               "name": "label",
                               "caption": "${avatar.widget.nux.proceed}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -1975,7 +2305,16 @@
                               "name": "label",
                               "caption": "${avatar.widget.nux.take.tour}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -2024,7 +2363,16 @@
                               "name": "label",
                               "caption": "${avatar.widget.nux.again}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -2073,7 +2421,16 @@
                               "name": "label",
                               "caption": "NUX RESTART"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -2122,7 +2479,16 @@
                               "name": "label",
                               "caption": "NUX NEXT DAY"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -2172,7 +2538,16 @@
                               "name": "label",
                               "caption": "PH"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -2221,7 +2596,16 @@
                               "name": "label",
                               "caption": "${infostand.link.ambassador}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "icon",
@@ -2285,7 +2669,16 @@
                               "name": "label",
                               "caption": "${infostand.ambassador.alert}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16744755,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -2334,7 +2727,16 @@
                               "name": "label",
                               "caption": "${infostand.button.kick}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16744755,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -2383,7 +2785,16 @@
                               "name": "label",
                               "caption": "${infostand.button.mute_2min}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16744755,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -2432,7 +2843,16 @@
                               "name": "label",
                               "caption": "${infostand.button.mute_10min}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16744755,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -2481,7 +2901,16 @@
                               "name": "label",
                               "caption": "${infostand.button.mute_15min}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16744755,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -2530,7 +2959,16 @@
                               "name": "label",
                               "caption": "${infostand.button.mute_60min}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16744755,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -2579,7 +3017,16 @@
                               "name": "label",
                               "caption": "${infostand.button.mute_18hour}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16744755,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -2628,7 +3075,16 @@
                               "name": "label",
                               "caption": "${infostand.button.mute_36hour}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16744755,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -2677,7 +3133,16 @@
                               "name": "label",
                               "caption": "${infostand.button.mute_72hour}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16744755,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -2726,7 +3191,16 @@
                               "name": "label",
                               "caption": "${infostand.button.unmute}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16744755,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -2775,7 +3249,17 @@
                               "name": "label",
                               "caption": "${avatar.widget.dta}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "underline": true,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -2824,13 +3308,28 @@
                               "name": "label",
                               "caption": "${avatar.widget.dtu}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "underline": true,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
                     ]
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 1,
+                  "scale_to_fit_items": true,
+                  "resize_on_item_update": true
+                }
               },
               {
                 "tag": "region",
@@ -2864,30 +3363,16 @@
               }
             ]
           }
-        ]
+        ],
+        "vars": {
+          "margin_left": 4,
+          "margin_top": 4,
+          "margin_right": 4,
+          "margin_bottom": 4
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "font_size": 17,
-    "text_color": 16777215,
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "spacing": 1,
-    "leading": 0,
-    "stretched_x": false,
-    "stretched_y": false,
-    "asset_uri": "relationship_status_bobba",
-    "etching_color": 1207959552,
-    "pivot_point": "center",
-    "scale_to_fit_items": true,
-    "underline": true,
-    "resize_on_item_update": true,
-    "margin_left": 4,
-    "margin_top": 4,
-    "margin_right": 4,
-    "margin_bottom": 4
-  },
+  "vars": {},
   "filters": []
 }

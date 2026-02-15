@@ -1,6 +1,6 @@
 {
   "name": "spaces",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbospaces_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_spaces.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -46,19 +46,20 @@
               "name": "pageText",
               "caption": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vitae est id tellus laoreet molestie. Integer quis dui eget erat dapibus dignissim. Curabitur lorem. Vestibulum id elit. Nulla eget sem malesuada magna iaculis ultrices. Duis aute irure dolor in reprehenderit in voluptate"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_face": "Volter",
+              "font_size": 9,
+              "text_color": 0,
+              "embed_fonts": true,
+              "multiline": true,
+              "word_wrap": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter",
-    "font_size": 9,
-    "text_color": 0,
-    "embed_fonts": true,
-    "multiline": true,
-    "word_wrap": true
-  },
+  "vars": {},
   "filters": []
 }

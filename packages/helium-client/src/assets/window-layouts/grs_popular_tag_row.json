@@ -1,6 +1,6 @@
 {
   "name": "grs_popular_tag_row",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_grs_popular_tag_row_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboNavigatorCom_grs_popular_tag_row.xml",
   "window": {
     "tag": "window",
     "typeId": -1,

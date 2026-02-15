@@ -1,6 +1,6 @@
 {
   "name": "soldLtdItemsWidget",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbosold_ltd_items_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_sold_ltd_items_widget.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,7 +31,13 @@
               "params": "16",
               "style": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "unique_item_large_na_button_wide",
+              "pivot_point": "top right",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "text",
@@ -47,7 +53,16 @@
               "caption": "${sold.ltd.items.not.available}",
               "blend": "0.7"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "etching_color": 4294967295,
+              "text_color": 1052711,
+              "text_style": "u_bold",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "link",
@@ -64,26 +79,21 @@
               "treshold": "0",
               "visible": "false"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "font_size": 16,
+              "text_color": 1052720,
+              "mouse_wheel_enabled": false,
+              "underline": true,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "unique_item_large_na_button_wide",
-    "pivot_point": "top right",
-    "stretched_x": false,
-    "stretched_y": false,
-    "auto_size": "center",
-    "etching_color": 4294967295,
-    "text_color": 1052720,
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "font_size": 16,
-    "underline": true
-  },
+  "vars": {},
   "filters": []
 }

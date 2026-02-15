@@ -1,6 +1,6 @@
 {
   "name": "logout",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_logout_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_logout.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -76,7 +76,15 @@
                           "caption": "${toolbar.help}",
                           "tags": "TEXT"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "center",
+                          "text_style": "il_regular_white",
+                          "mouse_wheel_enabled": false,
+                          "bold": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   }
@@ -141,7 +149,15 @@
                           "caption": "${toolbar.logout}",
                           "tags": "TEXT"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "center",
+                          "text_style": "il_regular_white",
+                          "mouse_wheel_enabled": false,
+                          "bold": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   }
@@ -153,13 +169,6 @@
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "text_style": "il_regular_white",
-    "mouse_wheel_enabled": false,
-    "bold": true,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

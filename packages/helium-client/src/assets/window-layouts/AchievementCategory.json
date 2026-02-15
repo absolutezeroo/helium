@@ -1,6 +1,6 @@
 {
   "name": "AchievementCategory",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboachievement_category_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboQuestEngineCom_achievement_category.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,7 +32,10 @@
               "name": "category_bg_act",
               "visible": "false"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.questing.url}achievement_background_active_1.png"
+            }
           },
           {
             "tag": "static_bitmap",
@@ -47,7 +50,10 @@
               "name": "category_bg_act_hover",
               "visible": "false"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.questing.url}achievement_background_active_2.png"
+            }
           },
           {
             "tag": "static_bitmap",
@@ -62,7 +68,10 @@
               "name": "category_bg_inact",
               "visible": "false"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.questing.url}achievement_category_bkg_empty_3.png"
+            }
           },
           {
             "tag": "container",
@@ -90,7 +99,20 @@
                   "name": "header_txt",
                   "caption": "Decoration"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "bold": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -104,7 +126,12 @@
                   "style": "0",
                   "name": "category_pic_bitmap"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "text",
@@ -119,7 +146,21 @@
                   "name": "completion_txt",
                   "caption": "1/10"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "bold": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -166,7 +207,19 @@
                   "name": "unseen_count",
                   "caption": "0"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_color": 16777215,
+                  "text_style": "u_bold",
+                  "margin_left": 3,
+                  "margin_top": 1,
+                  "margin_right": 5,
+                  "margin_bottom": 2,
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           }
@@ -174,28 +227,6 @@
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.questing.url}achievement_category_bkg_empty_3.png",
-    "antialias_type": "advanced",
-    "auto_size": "left",
-    "font_face": "Ubuntu",
-    "font_size": 18,
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "bold": true,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0,
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "text_color": 16777215,
-    "text_style": "u_bold",
-    "margin_left": 3,
-    "margin_top": 1,
-    "margin_right": 5,
-    "margin_bottom": 2
-  },
+  "vars": {},
   "filters": []
 }

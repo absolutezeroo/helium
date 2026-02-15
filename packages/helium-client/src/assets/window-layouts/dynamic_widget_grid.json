@@ -1,6 +1,6 @@
 {
   "name": "dynamic_widget_grid",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_dynamic_widget_grid_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_dynamic_widget_grid.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -127,9 +127,18 @@
                                 },
                                 "children": []
                               }
-                            ]
+                            ],
+                            "vars": {
+                              "scale_to_fit_items": true,
+                              "resize_on_item_update": true
+                            }
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "spacing": 50,
+                          "scale_to_fit_items": true,
+                          "resize_on_item_update": true
+                        }
                       },
                       {
                         "tag": "container",
@@ -199,13 +208,27 @@
                                     },
                                     "children": []
                                   }
-                                ]
+                                ],
+                                "vars": {
+                                  "scale_to_fit_items": true,
+                                  "resize_on_item_update": true
+                                }
                               }
-                            ]
+                            ],
+                            "vars": {
+                              "spacing": 50,
+                              "scale_to_fit_items": true,
+                              "resize_on_item_update": true
+                            }
                           }
                         ]
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 50,
+                      "scale_to_fit_items": true,
+                      "resize_on_item_update": true
+                    }
                   },
                   {
                     "tag": "container",
@@ -223,7 +246,10 @@
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 10
+            }
           },
           {
             "tag": "scrollbar_vertical",
@@ -237,17 +263,15 @@
               "style": "100",
               "name": "center_container_scrollbar"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "scrollable": "widgetlist_fromtop"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true,
-    "spacing": 10,
-    "scrollable": "widgetlist_fromtop"
-  },
+  "vars": {},
   "filters": []
 }

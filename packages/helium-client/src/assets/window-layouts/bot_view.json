@@ -1,6 +1,6 @@
 {
   "name": "bot_view",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbobot_view_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_bot_view.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -75,7 +75,18 @@
                       "color": "0x03d3d3d",
                       "background": "true"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_face": "Volter Bold",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "container",
@@ -134,7 +145,12 @@
                               "style": "0",
                               "name": "avatar_image"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "widget_type": "avatar_image",
+                              "avatar_image:cropped": true,
+                              "avatar_image:direction": "southwest"
+                            }
                           }
                         ]
                       },
@@ -151,7 +167,13 @@
                           "name": "badge_0",
                           "treshold": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "widget_type": "badge_image",
+                          "badge_image:pivot_point": "center",
+                          "badge_image:stretched_x": false,
+                          "badge_image:stretched_y": false
+                        }
                       },
                       {
                         "tag": "widget",
@@ -166,7 +188,14 @@
                           "name": "badge_group",
                           "treshold": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "widget_type": "badge_image",
+                          "badge_image:type": "group",
+                          "badge_image:pivot_point": "center",
+                          "badge_image:stretched_x": false,
+                          "badge_image:stretched_y": false
+                        }
                       },
                       {
                         "tag": "widget",
@@ -181,7 +210,13 @@
                           "name": "badge_1",
                           "treshold": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "widget_type": "badge_image",
+                          "badge_image:pivot_point": "center",
+                          "badge_image:stretched_x": false,
+                          "badge_image:stretched_y": false
+                        }
                       },
                       {
                         "tag": "widget",
@@ -196,7 +231,13 @@
                           "name": "badge_2",
                           "treshold": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "widget_type": "badge_image",
+                          "badge_image:pivot_point": "center",
+                          "badge_image:stretched_x": false,
+                          "badge_image:stretched_y": false
+                        }
                       },
                       {
                         "tag": "widget",
@@ -211,7 +252,13 @@
                           "name": "badge_3",
                           "treshold": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "widget_type": "badge_image",
+                          "badge_image:pivot_point": "center",
+                          "badge_image:stretched_x": false,
+                          "badge_image:stretched_y": false
+                        }
                       },
                       {
                         "tag": "widget",
@@ -226,7 +273,13 @@
                           "name": "badge_4",
                           "treshold": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "widget_type": "badge_image",
+                          "badge_image:pivot_point": "center",
+                          "badge_image:stretched_x": false,
+                          "badge_image:stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -274,7 +327,20 @@
                           "style": "0",
                           "name": "motto_text"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "always_show_selection": true,
+                          "text_color": 16777215,
+                          "margin_top": 6,
+                          "mouse_wheel_enabled": false,
+                          "max_chars": 38,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "word_wrap": true,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   },
@@ -307,37 +373,32 @@
                       "name": "handitem_txt",
                       "caption": "${infostand.text.handitem}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "word_wrap": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 3
+                }
               }
             ]
           }
-        ]
+        ],
+        "vars": {
+          "spacing": 10
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "font_face": "Volter Bold",
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "kerning": false,
-    "spacing": 10,
-    "leading": 0,
-    "widget_type": "badge_image",
-    "avatar_image:cropped": true,
-    "avatar_image:direction": "southwest",
-    "badge_image:pivot_point": "center",
-    "badge_image:stretched_x": false,
-    "badge_image:stretched_y": false,
-    "badge_image:type": "group",
-    "always_show_selection": true,
-    "margin_top": 6,
-    "max_chars": 38,
-    "word_wrap": true
-  },
+  "vars": {},
   "filters": []
 }

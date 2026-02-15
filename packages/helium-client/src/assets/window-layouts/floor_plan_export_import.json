@@ -1,6 +1,6 @@
 {
   "name": "floor_plan_export_import",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboBCFloorPlanEditor_Habbofloor_plan_editor_export_import_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboBCFloorPlanEditor_floor_plan_editor_export_import.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -46,7 +46,14 @@
                   "style": "100",
                   "name": "data"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_face": "Courier",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -61,7 +68,10 @@
               "params": "264273",
               "style": "3"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "scrollable": "data"
+            }
           },
           {
             "tag": "scrollbar_horizontal",
@@ -74,7 +84,10 @@
               "params": "1049745",
               "style": "3"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "scrollable": "data"
+            }
           },
           {
             "tag": "button",
@@ -110,31 +123,27 @@
             },
             "children": []
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 1,
+          "margin_top": 30,
+          "margin_right": 1,
+          "margin_bottom": 1
+        }
       }
     ]
   },
-  "vars": {
-    "font_face": "Courier",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "spacing": 0,
-    "leading": 0,
-    "scrollable": "data",
-    "margin_left": 1,
-    "margin_top": 30,
-    "margin_right": 1,
-    "margin_bottom": 1
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

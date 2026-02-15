@@ -1,6 +1,6 @@
 {
   "name": "purchaseWidget",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbopurchase_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_purchase_widget.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -44,7 +44,17 @@
                   "style": "3",
                   "caption": "${catalog.purchase.select.info}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "text_color": 6710886,
+                  "text_style": "u_headline_small",
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -95,7 +105,15 @@
                       "width_min": "160",
                       "width_max": "160"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "bold": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -124,16 +142,6 @@
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "text_color": 16777215,
-    "text_style": "u_headline_small",
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "spacing": 0,
-    "leading": 0,
-    "bold": true
-  },
+  "vars": {},
   "filters": []
 }

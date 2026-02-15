@@ -1,6 +1,6 @@
 {
   "name": "marketPlaceOwnItemsWidget",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbomarket_place_own_items_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_market_place_own_items_widget.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,7 +33,15 @@
               "name": "redeem_info",
               "caption": "${lorem.header}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "text_style": "u_italic",
+              "mouse_wheel_enabled": false,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "label",
@@ -48,7 +56,10 @@
               "name": "status_text",
               "caption": "${lorem.title}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "u_small"
+            }
           },
           {
             "tag": "scrollable_itemlist_vertical",
@@ -104,7 +115,10 @@
                           "name": "unique_item_background_bitmap",
                           "visible": "false"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "unique_item_label_1"
+                        }
                       },
                       {
                         "tag": "bitmap",
@@ -136,7 +150,10 @@
                           "name": "unique_item_overlay_widget",
                           "visible": "false"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "widget_type": "limited_item_overlay_grid"
+                        }
                       },
                       {
                         "tag": "widget",
@@ -151,7 +168,10 @@
                           "name": "rarity_item_overlay_widget",
                           "visible": "false"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "widget_type": "rarity_item_overlay_grid"
+                        }
                       }
                     ]
                   },
@@ -168,7 +188,14 @@
                       "name": "item_name",
                       "caption": "${lorem.title}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -183,7 +210,15 @@
                       "name": "item_desc",
                       "caption": "${lorem.title}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_style": "u_small",
+                      "mouse_wheel_enabled": false,
+                      "italic": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -198,7 +233,14 @@
                       "name": "item_price",
                       "caption": "${lorem.title}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_style": "u_small",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -213,7 +255,14 @@
                       "name": "item_time",
                       "caption": "${lorem.title}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_style": "u_small",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "button",
@@ -273,7 +322,10 @@
                           "name": "unique_item_background_bitmap",
                           "visible": "false"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "unique_item_label_1"
+                        }
                       },
                       {
                         "tag": "bitmap",
@@ -305,7 +357,10 @@
                           "name": "unique_item_overlay_widget",
                           "visible": "false"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "widget_type": "limited_item_overlay_grid"
+                        }
                       },
                       {
                         "tag": "widget",
@@ -320,7 +375,10 @@
                           "name": "rarity_item_overlay_widget",
                           "visible": "false"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "widget_type": "rarity_item_overlay_grid"
+                        }
                       }
                     ]
                   },
@@ -337,7 +395,14 @@
                       "name": "item_name",
                       "caption": "${lorem.title}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -352,7 +417,15 @@
                       "name": "item_desc",
                       "caption": "${lorem.title}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_style": "u_small",
+                      "mouse_wheel_enabled": false,
+                      "italic": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -367,7 +440,14 @@
                       "name": "item_price",
                       "caption": "${lorem.title}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_style": "u_small",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -382,7 +462,14 @@
                       "name": "item_sold",
                       "caption": "${lorem.title}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_style": "u_small",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -426,7 +513,10 @@
                           "name": "unique_item_background_bitmap",
                           "visible": "false"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "unique_item_label_1"
+                        }
                       },
                       {
                         "tag": "bitmap",
@@ -458,7 +548,10 @@
                           "name": "unique_item_overlay_widget",
                           "visible": "false"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "widget_type": "limited_item_overlay_grid"
+                        }
                       },
                       {
                         "tag": "widget",
@@ -473,7 +566,10 @@
                           "name": "rarity_item_overlay_widget",
                           "visible": "false"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "widget_type": "rarity_item_overlay_grid"
+                        }
                       }
                     ]
                   },
@@ -490,7 +586,14 @@
                       "name": "item_name",
                       "caption": "${lorem.title}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -505,7 +608,15 @@
                       "name": "item_desc",
                       "caption": "${lorem.title}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_style": "u_small",
+                      "mouse_wheel_enabled": false,
+                      "italic": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -520,27 +631,27 @@
                       "name": "item_expired",
                       "caption": "${lorem.title}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_style": "u_small",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 1,
+              "scale_to_fit_items": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "text_style": "u_small",
-    "mouse_wheel_enabled": false,
-    "word_wrap": true,
-    "spacing": 1,
-    "leading": 0,
-    "asset_uri": "unique_item_label_1",
-    "widget_type": "rarity_item_overlay_grid",
-    "italic": true,
-    "scale_to_fit_items": true
-  },
+  "vars": {},
   "filters": []
 }

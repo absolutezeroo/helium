@@ -1,6 +1,6 @@
 {
   "name": "room_interstitial",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboroom_loading_bar_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_room_loading_bar.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -45,7 +45,11 @@
               "name": "region",
               "treshold": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "tool_tip_caption": "${ads.interstitial.tooltip}",
+              "tool_tip_delay": 0
+            }
           },
           {
             "tag": "text",
@@ -60,20 +64,19 @@
               "name": "loading_text",
               "caption": "${room.loading}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_face": "Volter",
+              "font_size": 9,
+              "text_color": 0,
+              "embed_fonts": true,
+              "auto_size": "center"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "tool_tip_caption": "${ads.interstitial.tooltip}",
-    "tool_tip_delay": 0,
-    "font_face": "Volter",
-    "font_size": 9,
-    "text_color": 0,
-    "embed_fonts": true,
-    "auto_size": "center"
-  },
+  "vars": {},
   "filters": []
 }

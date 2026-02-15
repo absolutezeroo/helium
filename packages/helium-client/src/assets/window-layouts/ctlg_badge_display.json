@@ -1,6 +1,6 @@
 {
   "name": "ctlg_badge_display",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_badge_display_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_old_layout_badge_display.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,7 +32,10 @@
               "name": "ctlg_selectproduct",
               "caption": "${catalog_selectproduct}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "u_small"
+            }
           },
           {
             "tag": "container",
@@ -115,7 +118,10 @@
                   "style": "3",
                   "name": "unique_item_overlay_container"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "widget_type": "limited_item_overlay_supply"
+                }
               }
             ]
           },
@@ -132,7 +138,10 @@
               "name": "ctlg_selectbadge",
               "caption": "${catalog_selectbadge}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "u_small"
+            }
           },
           {
             "tag": "container",
@@ -159,7 +168,11 @@
                   "style": "3",
                   "name": "badgeGrid"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "spacing": 1,
+                  "scale_to_fit_items": true
+                }
               }
             ]
           }
@@ -167,11 +180,6 @@
       }
     ]
   },
-  "vars": {
-    "text_style": "u_small",
-    "widget_type": "limited_item_overlay_supply",
-    "spacing": 1,
-    "scale_to_fit_items": true
-  },
+  "vars": {},
   "filters": []
 }

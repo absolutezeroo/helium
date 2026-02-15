@@ -1,6 +1,6 @@
 {
   "name": "petPreviewWidget",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbopet_preview_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_pet_preview_widget.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -46,7 +46,14 @@
               "name": "ctlg_product_name",
               "caption": "lorem ipsum"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "text_style": "u_bold",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -61,20 +68,20 @@
               "name": "ctlg_description",
               "caption": "lorem ipsum"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "multiline": true,
-    "word_wrap": true
-  },
+  "vars": {},
   "filters": []
 }

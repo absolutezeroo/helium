@@ -1,6 +1,6 @@
 {
   "name": "background_color_ui",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_background_color_ui_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_background_color_ui.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -76,7 +76,15 @@
                           "name": "dimmer_info",
                           "caption": "${widget.backgroundcolor.info}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_style": "u_small",
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "border",
@@ -102,7 +110,10 @@
                               "style": "100",
                               "name": "color_preview_bitmap"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "handle_bitmap_disposing": false
+                            }
                           }
                         ]
                       }
@@ -148,7 +159,15 @@
                           "name": "parameter",
                           "caption": "${widget.backgroundcolor.hue}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_style": "u_small",
+                          "mouse_wheel_enabled": false,
+                          "bold": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "bitmap",
@@ -224,7 +243,15 @@
                           "name": "parameter",
                           "caption": "${widget.backgroundcolor.saturation}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_style": "u_small",
+                          "mouse_wheel_enabled": false,
+                          "bold": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "bitmap",
@@ -300,7 +327,15 @@
                           "name": "parameter",
                           "caption": "${widget.backgroundcolor.lightness}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_style": "u_small",
+                          "mouse_wheel_enabled": false,
+                          "bold": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "bitmap",
@@ -384,34 +419,27 @@
             },
             "children": []
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 6,
+          "margin_top": 25,
+          "margin_right": 6,
+          "margin_bottom": 7
+        }
       }
     ]
   },
-  "vars": {
-    "text_style": "u_small",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "handle_bitmap_disposing": false,
-    "auto_size": "left",
-    "bold": true,
-    "margin_left": 6,
-    "margin_top": 25,
-    "margin_right": 6,
-    "margin_bottom": 7
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

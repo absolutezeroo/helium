@@ -1,6 +1,6 @@
 {
   "name": "emergency_help_request",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_emergency_help_request_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboHelpCom_emergency_help_request.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -44,7 +44,11 @@
                   "style": "100",
                   "caption": "${help.emergency.main.step.one.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "il_heading_1",
+                  "text_color": 5592405
+                }
               },
               {
                 "tag": "text",
@@ -60,7 +64,15 @@
                   "width_min": "280",
                   "width_max": "280"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "widget",
@@ -74,7 +86,14 @@
                   "style": "100",
                   "name": "help_message"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "widget_type": "illumina_input",
+                  "illumina_input:button_caption": "",
+                  "illumina_input:empty_message": "${help.emergency.main.step.one.entry.instruction}",
+                  "illumina_input:multiline": true,
+                  "illumina_input:max_chars": 700
+                }
               },
               {
                 "tag": "selector_list",
@@ -161,9 +180,16 @@
                     },
                     "children": []
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 5,
+                  "vertical": true
+                }
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 8
+            }
           },
           {
             "tag": "itemlist_vertical",
@@ -191,7 +217,11 @@
                   "style": "100",
                   "caption": "${help.emergency.main.step.two.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "il_heading_1",
+                  "text_color": 5592405
+                }
               },
               {
                 "tag": "text",
@@ -207,7 +237,15 @@
                   "width_min": "270",
                   "width_max": "270"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "scrollable_itemlist_vertical",
@@ -248,7 +286,10 @@
                           "name": "user_name",
                           "caption": "user123"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_style": "il_border"
+                        }
                       },
                       {
                         "tag": "label",
@@ -263,7 +304,10 @@
                           "name": "room_name",
                           "caption": "${help.emergency.main.step.two.room.name}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_color": 4473924
+                        }
                       },
                       {
                         "tag": "widget",
@@ -277,13 +321,21 @@
                           "style": "100",
                           "name": "user_avatar"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "widget_type": "avatar_image",
+                          "avatar_image:scale": "sh",
+                          "avatar_image:only_head": true
+                        }
                       }
                     ]
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 8
+            }
           },
           {
             "tag": "itemlist_vertical",
@@ -311,7 +363,11 @@
                   "name": "room_panel_title",
                   "caption": "${help.emergency.main.report.room}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "il_heading_1",
+                  "text_color": 5592405
+                }
               },
               {
                 "tag": "text",
@@ -328,7 +384,15 @@
                   "width_min": "270",
                   "width_max": "270"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -345,7 +409,16 @@
                   "width_min": "270",
                   "width_max": "270"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "italic": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -362,9 +435,21 @@
                   "width_min": "270",
                   "width_max": "270"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "italic": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 8
+            }
           },
           {
             "tag": "border",
@@ -392,7 +477,14 @@
                   "style": "100",
                   "caption": "${help.emergency.main.submit.description}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "il_regular_white",
+                  "mouse_wheel_enabled": false,
+                  "bold": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "link",
@@ -408,7 +500,14 @@
                   "visible": "false",
                   "treshold": "0"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "il_regular_white",
+                  "mouse_wheel_enabled": false,
+                  "underline": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "button",
@@ -453,7 +552,18 @@
                   "style": "100",
                   "caption": "${guide.help.request.emergency.help.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "font_size": 18,
+                  "text_style": "il_regular_white",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "bold": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "link",
@@ -470,7 +580,15 @@
                   "visible": "false",
                   "treshold": "0"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "text_style": "il_regular_white",
+                  "mouse_wheel_enabled": false,
+                  "underline": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "button",
@@ -504,44 +622,27 @@
               "style": "100",
               "name": "separator"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "widget_type": "separator",
+              "separator:vertical": true
+            }
+          }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "text_style": "il_regular_white",
-    "text_color": 5592405,
-    "auto_size": "center",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "widget_type": "separator",
-    "illumina_input:button_caption": "",
-    "illumina_input:empty_message": "${help.emergency.main.step.one.entry.instruction}",
-    "illumina_input:multiline": true,
-    "illumina_input:max_chars": 700,
-    "vertical": true,
-    "avatar_image:scale": "sh",
-    "avatar_image:only_head": true,
-    "italic": true,
-    "bold": true,
-    "underline": true,
-    "font_size": 18,
-    "separator:vertical": true
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "poll_offer",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbopoll_offer_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_poll_offer.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -49,7 +49,10 @@
                   "name": "preview_image_bg",
                   "tags": "bitmap"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "poll_poll_prompt_frank"
+                }
               },
               {
                 "tag": "itemlist_vertical",
@@ -77,7 +80,14 @@
                       "name": "poll_offer_headline",
                       "caption": "${poll_offer_title}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_color": 16777215,
+                      "text_style": "u_headline_big",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               }
@@ -122,7 +132,16 @@
                       "name": "poll_offer_summary",
                       "caption": "${poll_offer_summary}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_style": "u_regular",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -155,7 +174,15 @@
                       "width_min": "74",
                       "width_max": "74"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_color": 3355443,
+                      "text_style": "u_regular",
+                      "mouse_wheel_enabled": false,
+                      "underline": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -174,7 +201,15 @@
                       "width_min": "74",
                       "width_max": "74"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_color": 3355443,
+                      "text_style": "u_regular",
+                      "mouse_wheel_enabled": false,
+                      "underline": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "button_thick",
@@ -198,35 +233,27 @@
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 6,
+          "margin_top": 25,
+          "margin_right": 6,
+          "margin_bottom": 7
+        }
       }
     ]
   },
-  "vars": {
-    "asset_uri": "poll_poll_prompt_frank",
-    "text_color": 3355443,
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "auto_size": "left",
-    "multiline": true,
-    "word_wrap": true,
-    "underline": true,
-    "margin_left": 6,
-    "margin_top": 25,
-    "margin_right": 6,
-    "margin_bottom": 7
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

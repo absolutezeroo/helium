@@ -1,6 +1,6 @@
 {
   "name": "vault_view",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_vault_view_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_vault_view.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -181,7 +181,14 @@
                                       "name": "dailygiftDucketValue",
                                       "caption": "0"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "font_size": 20,
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "icon",
@@ -210,7 +217,14 @@
                                       "name": "dailygiftCreditValue",
                                       "caption": "0"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "font_size": 20,
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   }
                                 ]
                               },
@@ -240,7 +254,12 @@
                                       "name": "dailygift_bitmap",
                                       "tags": "#icon"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "asset_uri": "earnings_icon_dailygift",
+                                      "pivot_point": "center",
+                                      "etching_color": 1207959552
+                                    }
                                   },
                                   {
                                     "tag": "text",
@@ -255,7 +274,13 @@
                                       "name": "dailygift_label",
                                       "caption": "${earnings.dailygift.label}"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   }
                                 ]
                               },
@@ -332,7 +357,14 @@
                                       "name": "achievementsDucketValue",
                                       "caption": "0"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "font_size": 20,
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "icon",
@@ -361,7 +393,14 @@
                                       "name": "achievementsCreditValue",
                                       "caption": "0"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "font_size": 20,
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   }
                                 ]
                               },
@@ -391,7 +430,12 @@
                                       "name": "achievements_bitmap",
                                       "tags": "#icon"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "asset_uri": "earnings_icon_achievements",
+                                      "pivot_point": "center",
+                                      "etching_color": 1207959552
+                                    }
                                   },
                                   {
                                     "tag": "text",
@@ -406,7 +450,13 @@
                                       "name": "achievements_label",
                                       "caption": "${earnings.achievements.label}"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   }
                                 ]
                               },
@@ -483,7 +533,14 @@
                                       "name": "marketplaceDucketValue",
                                       "caption": "0"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "font_size": 20,
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "icon",
@@ -512,7 +569,14 @@
                                       "name": "marketplaceCreditValue",
                                       "caption": "0"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "font_size": 20,
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   }
                                 ]
                               },
@@ -542,7 +606,12 @@
                                       "name": "marketplace_bitmap",
                                       "tags": "#icon"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "asset_uri": "earnings_icon_marketplace",
+                                      "pivot_point": "center",
+                                      "etching_color": 1207959552
+                                    }
                                   },
                                   {
                                     "tag": "text",
@@ -557,7 +626,13 @@
                                       "name": "marketplace_label",
                                       "caption": "${earnings.marketplace.label}"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   }
                                 ]
                               },
@@ -634,7 +709,14 @@
                                       "name": "habboclubDucketValue",
                                       "caption": "0"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "font_size": 20,
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "icon",
@@ -663,7 +745,14 @@
                                       "name": "habboclubCreditValue",
                                       "caption": "0"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "font_size": 20,
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   }
                                 ]
                               },
@@ -693,7 +782,12 @@
                                       "name": "habboclub_bitmap",
                                       "tags": "#icon"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "asset_uri": "earnings_icon_hcpayday",
+                                      "pivot_point": "center",
+                                      "etching_color": 1207959552
+                                    }
                                   },
                                   {
                                     "tag": "text",
@@ -708,7 +802,13 @@
                                       "name": "habboclub_label",
                                       "caption": "${earnings.hc.label}"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   }
                                 ]
                               },
@@ -785,7 +885,14 @@
                                       "name": "levelprogressionDucketValue",
                                       "caption": "0"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "font_size": 20,
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "icon",
@@ -814,7 +921,14 @@
                                       "name": "levelprogressionCreditValue",
                                       "caption": "0"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "font_size": 20,
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   }
                                 ]
                               },
@@ -844,7 +958,12 @@
                                       "name": "levelprogression_bitmap",
                                       "tags": "#icon"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "asset_uri": "earnings_icon_levelprogression",
+                                      "pivot_point": "center",
+                                      "etching_color": 1207959552
+                                    }
                                   },
                                   {
                                     "tag": "text",
@@ -859,7 +978,13 @@
                                       "name": "levelprogression_label",
                                       "caption": "${earnings.levelprogression.label}"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   }
                                 ]
                               },
@@ -936,7 +1061,14 @@
                                       "name": "donationDucketValue",
                                       "caption": "0"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "font_size": 20,
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "icon",
@@ -965,7 +1097,14 @@
                                       "name": "donationCreditValue",
                                       "caption": "0"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "font_size": 20,
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   }
                                 ]
                               },
@@ -995,7 +1134,12 @@
                                       "name": "donation_bitmap",
                                       "tags": "#icon"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "asset_uri": "earnings_icon_donations",
+                                      "pivot_point": "center",
+                                      "etching_color": 1207959552
+                                    }
                                   },
                                   {
                                     "tag": "text",
@@ -1010,7 +1154,13 @@
                                       "name": "donation_label",
                                       "caption": "${earnings.donations.label}"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   }
                                 ]
                               },
@@ -1088,7 +1238,14 @@
                                       "name": "bonusbagProductValue",
                                       "caption": "0"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "font_size": 20,
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "icon",
@@ -1119,7 +1276,14 @@
                                       "caption": "0",
                                       "visible": "false"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "font_size": 20,
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "static_bitmap",
@@ -1133,7 +1297,12 @@
                                       "style": "3",
                                       "name": "productIcon"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "asset_uri": "icon_present",
+                                      "stretched_x": false,
+                                      "stretched_y": false
+                                    }
                                   }
                                 ]
                               },
@@ -1163,7 +1332,12 @@
                                       "name": "bonusbag_bitmap",
                                       "tags": "#icon"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "asset_uri": "earnings_icon_bonusbag",
+                                      "pivot_point": "center",
+                                      "etching_color": 1207959552
+                                    }
                                   },
                                   {
                                     "tag": "text",
@@ -1178,7 +1352,13 @@
                                       "name": "bonusbag_label",
                                       "caption": "${earnings.bonusbag.label}"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   }
                                 ]
                               },
@@ -1255,7 +1435,14 @@
                                       "name": "surpriseDucketValue",
                                       "caption": "0"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "font_size": 20,
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "icon",
@@ -1284,7 +1471,14 @@
                                       "name": "surpriseCreditValue",
                                       "caption": "0"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "font_size": 20,
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   }
                                 ]
                               },
@@ -1314,7 +1508,12 @@
                                       "name": "surprise_bitmap",
                                       "tags": "#icon"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "asset_uri": "earnings_icon_surprise",
+                                      "pivot_point": "center",
+                                      "etching_color": 1207959552
+                                    }
                                   },
                                   {
                                     "tag": "text",
@@ -1329,7 +1528,13 @@
                                       "name": "donation_label",
                                       "caption": "${earnings.surpriseboxes.label}"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   }
                                 ]
                               },
@@ -1406,7 +1611,14 @@
                                       "name": "snowstormDucketValue",
                                       "caption": "0"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "font_size": 20,
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "icon",
@@ -1436,7 +1648,14 @@
                                       "name": "snowstormCreditValue",
                                       "caption": "0"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "font_size": 20,
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "static_bitmap",
@@ -1450,7 +1669,12 @@
                                       "style": "3",
                                       "name": "productIcon"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "asset_uri": "icon_present",
+                                      "stretched_x": false,
+                                      "stretched_y": false
+                                    }
                                   }
                                 ]
                               },
@@ -1480,7 +1704,12 @@
                                       "name": "snowstorm_bitmap",
                                       "tags": "#icon"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "asset_uri": "earnings_icon_snowstorm",
+                                      "pivot_point": "center",
+                                      "etching_color": 1207959552
+                                    }
                                   },
                                   {
                                     "tag": "text",
@@ -1495,7 +1724,13 @@
                                       "name": "donation_label",
                                       "caption": "${earnings.snowstorm.label}"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   }
                                 ]
                               },
@@ -1518,7 +1753,10 @@
                               }
                             ]
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "spacing": 2
+                        }
                       }
                     ]
                   },
@@ -1595,7 +1833,20 @@
                               "caption": "${earnings.vault.withdraw.info}",
                               "color": "0x01"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "font_size": 18,
+                              "text_style": "u_headline_small",
+                              "mouse_wheel_enabled": false,
+                              "multiline": true,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "word_wrap": true,
+                              "max_lines": 6,
+                              "bold": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "border",
@@ -1641,7 +1892,14 @@
                               "caption": "0",
                               "color": "0x00"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "right",
+                              "text_style": "u_bold",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       },
@@ -1730,7 +1988,14 @@
                               "name": "vaultCreditsPending_amount",
                               "caption": "0"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "right",
+                              "text_style": "u_bold",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -1745,7 +2010,14 @@
                               "name": "titleLabel",
                               "caption": "${earnings.my.vault.title}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "font_size": 20,
+                              "text_style": "u_bold",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "static_bitmap",
@@ -1759,7 +2031,10 @@
                               "style": "3",
                               "name": "vaultClosed_bitmap"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "vault_window_vault_closed"
+                            }
                           },
                           {
                             "tag": "container",
@@ -1791,7 +2066,16 @@
                                   "height_min": "42",
                                   "height_max": "42"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "text_color": 16777215,
+                                  "mouse_wheel_enabled": false,
+                                  "multiline": true,
+                                  "word_wrap": true,
+                                  "max_lines": 3,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               },
                               {
                                 "tag": "static_bitmap",
@@ -1806,7 +2090,14 @@
                                   "name": "vaultKey_bitmap",
                                   "tags": "#icon"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "vault_window_vault_opener",
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false,
+                                  "etching_color": 1207959552
+                                }
                               },
                               {
                                 "tag": "button",
@@ -1839,7 +2130,16 @@
                                   "caption": "${earnings.vault.info}",
                                   "color": "0x00"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "text_color": 16777215,
+                                  "mouse_wheel_enabled": false,
+                                  "multiline": true,
+                                  "word_wrap": true,
+                                  "max_lines": 10,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               }
                             ]
                           },
@@ -1870,7 +2170,16 @@
                                   "caption": "${earnings.vault.member.info}",
                                   "color": "0x00"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "text_color": 16777215,
+                                  "mouse_wheel_enabled": false,
+                                  "multiline": true,
+                                  "word_wrap": true,
+                                  "max_lines": 10,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               },
                               {
                                 "tag": "button",
@@ -1914,43 +2223,27 @@
             },
             "children": []
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 6,
+          "margin_top": 35,
+          "margin_right": 6,
+          "margin_bottom": 6
+        }
       }
     ]
   },
-  "vars": {
-    "font_size": 20,
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "asset_uri": "vault_window_vault_opener",
-    "pivot_point": "center",
-    "etching_color": 1207959552,
-    "stretched_x": false,
-    "stretched_y": false,
-    "multiline": true,
-    "sharpness": 0,
-    "thickness": 0,
-    "word_wrap": true,
-    "max_lines": 10,
-    "bold": false,
-    "auto_size": "right",
-    "text_color": 16777215,
-    "margin_left": 6,
-    "margin_top": 35,
-    "margin_right": 6,
-    "margin_bottom": 6
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

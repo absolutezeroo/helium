@@ -1,6 +1,6 @@
 {
   "name": "effects_widget",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboeffects_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_effects_widget.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -47,7 +47,15 @@
               "caption": "${widget.memenu.effects}",
               "treshold": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "text_color": 16777215,
+              "text_style": "u_frame_title",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "closebutton",
@@ -104,7 +112,21 @@
                   "style": "0",
                   "caption": "${widget.memenu.effects.info}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "center",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "italic": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           }
@@ -112,20 +134,6 @@
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "text_color": 16777215,
-    "text_style": "u_frame_title",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "antialias_type": "advanced",
-    "font_face": "Ubuntu",
-    "font_size": 18,
-    "sharpness": 0,
-    "thickness": 0,
-    "italic": true,
-    "kerning": false
-  },
+  "vars": {},
   "filters": []
 }

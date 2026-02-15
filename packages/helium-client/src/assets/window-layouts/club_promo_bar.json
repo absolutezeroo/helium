@@ -1,6 +1,6 @@
 {
   "name": "club_promo_bar",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_club_discount_promotion_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_club_discount_promotion.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -63,7 +63,22 @@
                   "width_min": "160",
                   "width_max": "160"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "word_wrap": true,
+                  "underline": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -80,7 +95,23 @@
                   "width_min": "160",
                   "width_max": "160"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "word_wrap": true,
+                  "underline": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -102,21 +133,6 @@
       }
     ]
   },
-  "vars": {
-    "antialias_type": "advanced",
-    "auto_size": "left",
-    "font_face": "Ubuntu",
-    "font_size": 18,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "sharpness": 0,
-    "thickness": 0,
-    "word_wrap": true,
-    "underline": true,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0,
-    "text_color": 16777215
-  },
+  "vars": {},
   "filters": []
 }

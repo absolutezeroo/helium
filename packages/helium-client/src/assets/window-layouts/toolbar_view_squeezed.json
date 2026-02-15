@@ -1,6 +1,6 @@
 {
   "name": "toolbar_view_squeezed",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_toolbar_view_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_toolbar_view.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -78,7 +78,13 @@
                           "name": "icons_toolbar_reception",
                           "tags": "ICON_BMP"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "icons_toolbar_reception_normal",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -93,7 +99,13 @@
                       "params": "16",
                       "style": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "icons_toolbar_divider",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               },
@@ -141,7 +153,13 @@
                           "name": "icons_toolbar_home",
                           "tags": "ICON_BMP"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "icons_toolbar_home_normal",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -156,7 +174,13 @@
                       "params": "16",
                       "style": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "icons_toolbar_divider",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               },
@@ -204,7 +228,13 @@
                           "name": "icons_toolbar_navigator",
                           "tags": "ICON_BMP"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "icons_toolbar_navigator_normal",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -221,7 +251,24 @@
                       "name": "text",
                       "caption": "${toolbar.icon.label.navigator}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "antialias_type": "advanced",
+                      "auto_size": "center",
+                      "etching_color": 4278190080,
+                      "etching_position": "bottom-right",
+                      "font_face": "Ubuntu",
+                      "font_size": 18,
+                      "grid_fit_type": "subpixel",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "bold": true,
+                      "kerning": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -269,7 +316,13 @@
                           "name": "icons_toolbar_quests",
                           "tags": "ICON_BMP"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "icons_toolbar_quests_normal",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -286,7 +339,24 @@
                       "name": "text",
                       "caption": "${toolbar.icon.label.quests}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "antialias_type": "advanced",
+                      "auto_size": "center",
+                      "etching_color": 4278190080,
+                      "etching_position": "bottom-right",
+                      "font_face": "Ubuntu",
+                      "font_size": 18,
+                      "grid_fit_type": "subpixel",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "bold": true,
+                      "kerning": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -334,7 +404,13 @@
                           "name": "icons_toolbar_games",
                           "tags": "ICON_BMP"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "icons_toolbar_games_normal",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -351,7 +427,24 @@
                       "name": "text",
                       "caption": "${toolbar.icon.label.games}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "antialias_type": "advanced",
+                      "auto_size": "center",
+                      "etching_color": 4278190080,
+                      "etching_position": "bottom-right",
+                      "font_face": "Ubuntu",
+                      "font_size": 18,
+                      "grid_fit_type": "subpixel",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "bold": true,
+                      "kerning": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -399,7 +492,13 @@
                           "name": "icons_toolbar_stories",
                           "tags": "ICON_BMP"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "icons_toolbar_stories_normal",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -416,7 +515,24 @@
                       "name": "text",
                       "caption": "${toolbar.icon.label.stories}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "antialias_type": "advanced",
+                      "auto_size": "center",
+                      "etching_color": 4278190080,
+                      "etching_position": "bottom-right",
+                      "font_face": "Ubuntu",
+                      "font_size": 18,
+                      "grid_fit_type": "subpixel",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "bold": true,
+                      "kerning": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -464,7 +580,13 @@
                           "name": "icons_toolbar_achievements",
                           "tags": "ICON_BMP"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "icons_toolbar_achievements_normal",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -481,7 +603,24 @@
                       "name": "text",
                       "caption": "${toolbar.icon.label.achievements}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "antialias_type": "advanced",
+                      "auto_size": "center",
+                      "etching_color": 4278190080,
+                      "etching_position": "bottom-right",
+                      "font_face": "Ubuntu",
+                      "font_size": 18,
+                      "grid_fit_type": "subpixel",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "bold": true,
+                      "kerning": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -529,7 +668,13 @@
                           "name": "icons_toolbar_catalogue",
                           "tags": "ICON_BMP"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "icons_toolbar_catalogue_normal",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -546,7 +691,24 @@
                       "name": "text",
                       "caption": "${toolbar.icon.label.catalogue}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "antialias_type": "advanced",
+                      "auto_size": "center",
+                      "etching_color": 4278190080,
+                      "etching_position": "bottom-right",
+                      "font_face": "Ubuntu",
+                      "font_size": 18,
+                      "grid_fit_type": "subpixel",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "bold": true,
+                      "kerning": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -594,7 +756,13 @@
                           "name": "icons_toolbar_builder",
                           "tags": "ICON_BMP"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "icons_toolbar_builder_normal",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -611,7 +779,24 @@
                       "name": "text",
                       "caption": "${toolbar.icon.label.builder}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "antialias_type": "advanced",
+                      "auto_size": "center",
+                      "etching_color": 4278190080,
+                      "etching_position": "bottom-right",
+                      "font_face": "Ubuntu",
+                      "font_size": 18,
+                      "grid_fit_type": "subpixel",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "bold": true,
+                      "kerning": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -659,7 +844,13 @@
                           "name": "icons_toolbar_inventory",
                           "tags": "ICON_BMP"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "icons_toolbar_inventory_normal",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -676,7 +867,24 @@
                       "name": "text",
                       "caption": "${toolbar.icon.label.inventory}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "antialias_type": "advanced",
+                      "auto_size": "center",
+                      "etching_color": 4278190080,
+                      "etching_position": "bottom-right",
+                      "font_face": "Ubuntu",
+                      "font_size": 18,
+                      "grid_fit_type": "subpixel",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "bold": true,
+                      "kerning": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -724,7 +932,13 @@
                           "name": "icon_me_menu",
                           "tags": "ICON_BMP"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "handle_bitmap_disposing": false,
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -741,7 +955,24 @@
                       "name": "text",
                       "caption": "${toolbar.icon.label.memenu}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "antialias_type": "advanced",
+                      "auto_size": "center",
+                      "etching_color": 4278190080,
+                      "etching_position": "bottom-right",
+                      "font_face": "Ubuntu",
+                      "font_size": 18,
+                      "grid_fit_type": "subpixel",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "bold": true,
+                      "kerning": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "static_bitmap",
@@ -756,7 +987,10 @@
                       "name": "guide_icon",
                       "visible": "false"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "help_guide_icon"
+                    }
                   }
                 ]
               },
@@ -776,39 +1010,19 @@
               }
             ]
           }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "3",
+              "alpha": "0.6"
+            }
+          }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "help_guide_icon",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "antialias_type": "advanced",
-    "auto_size": "center",
-    "etching_color": 4278190080,
-    "etching_position": "bottom-right",
-    "font_face": "Ubuntu",
-    "font_size": 18,
-    "grid_fit_type": "subpixel",
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "bold": true,
-    "kerning": true,
-    "spacing": 0,
-    "leading": 0,
-    "handle_bitmap_disposing": false
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "3",
-        "alpha": "0.6"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

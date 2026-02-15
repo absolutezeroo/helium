@@ -1,6 +1,6 @@
 {
   "name": "setting_category",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_setting_category_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_setting_category.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,14 +32,15 @@
               "name": "button_label",
               "caption": "Settings 1"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_color": 16777215
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "text_color": 16777215
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "habbo_window_confirm",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_window_confirm_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_habbo_window_confirm.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -35,7 +35,16 @@
               "caption": "Alert",
               "tags": "DESCRIPTION"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "text_style": "u_regular",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "link",
@@ -51,7 +60,14 @@
               "caption": "${generic.cancel}",
               "treshold": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "mouse_wheel_enabled": false,
+              "underline": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "button_thick",
@@ -71,33 +87,27 @@
             },
             "children": []
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 6,
+          "margin_top": 25,
+          "margin_right": 6,
+          "margin_bottom": 7
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "underline": true,
-    "margin_left": 6,
-    "margin_top": 25,
-    "margin_right": 6,
-    "margin_bottom": 7
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

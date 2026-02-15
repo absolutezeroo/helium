@@ -1,6 +1,6 @@
 {
   "name": "chat_msg_notification",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_chat_msg_notification_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboHelpCom_chat_msg_notification.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -30,7 +30,13 @@
               "params": "16",
               "style": "100"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "help_notification",
+              "pivot_point": "center",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "text",
@@ -44,24 +50,21 @@
               "style": "100",
               "name": "content"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "margin_bottom": 10,
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "help_notification",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "auto_size": "left",
-    "margin_bottom": 10,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

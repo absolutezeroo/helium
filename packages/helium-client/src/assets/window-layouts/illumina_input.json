@@ -1,6 +1,6 @@
 {
   "name": "illumina_input",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_illumina_input_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_illumina_input.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -46,7 +46,10 @@
               "style": "100",
               "name": "empty_message"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_color": 8947848
+            }
           },
           {
             "tag": "input",
@@ -60,17 +63,17 @@
               "style": "100",
               "name": "input"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "text_color": 8947848,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

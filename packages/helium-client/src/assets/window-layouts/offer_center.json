@@ -1,6 +1,6 @@
 {
   "name": "offer_center",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_offer_center_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_offer_center.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -34,7 +34,16 @@
               "style": "100",
               "caption": "${offers.center.rewards.label}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "text_style": "u_headline_small",
+              "mouse_wheel_enabled": false,
+              "sharpness": 0,
+              "thickness": 0,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "border",
@@ -114,7 +123,17 @@
                               "name": "reward_date",
                               "caption": "2013.01.15, 16:48"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_color": 6261919,
+                              "text_style": "u_small",
+                              "mouse_wheel_enabled": false,
+                              "bold": true,
+                              "italic": true,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -129,7 +148,15 @@
                               "name": "reward_name",
                               "caption": "Reward name"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_color": 16777215,
+                              "text_style": "u_bold",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       },
@@ -145,7 +172,12 @@
                           "style": "100",
                           "name": "reward_icon"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   }
@@ -153,38 +185,27 @@
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 1,
+          "margin_top": 30,
+          "margin_right": 1,
+          "margin_bottom": 1
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "spacing": 0,
-    "leading": 0,
-    "text_color": 16777215,
-    "bold": true,
-    "italic": true,
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "margin_left": 1,
-    "margin_top": 30,
-    "margin_right": 1,
-    "margin_bottom": 1
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "memenu_chat_settings",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_me_menu_other_settings_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_me_menu_other_settings.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,7 +33,15 @@
               "name": "settings_title",
               "caption": "${widget.memenu.other.settings.title}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "text_color": 16777215,
+              "text_style": "u_regular",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "container",
@@ -63,7 +71,11 @@
               "style": "100",
               "caption": "${memenu.settings.chat.prefer.old.chat}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "u_regular",
+              "text_color": 16777215
+            }
           },
           {
             "tag": "button",
@@ -127,7 +139,11 @@
               "name": "ignore_room_invites_labe",
               "caption": "${memenu.settings.other.ignore.room.invites}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "u_regular",
+              "text_color": 16777215
+            }
           },
           {
             "tag": "checkbox",
@@ -158,7 +174,11 @@
               "name": "disable_room_camera_follow_label",
               "caption": "${memenu.settings.other.disable.room.camera.follow}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "u_regular",
+              "text_color": 16777215
+            }
           },
           {
             "tag": "button",
@@ -180,13 +200,6 @@
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "text_color": 16777215,
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

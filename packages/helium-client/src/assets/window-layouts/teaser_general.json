@@ -1,6 +1,6 @@
 {
   "name": "teaser_general",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbonotification_teaser_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_notification_teaser.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -69,7 +69,16 @@
                   "caption": "${widget.furni.teaser.congrats}",
                   "color": "0x0666666"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "text_color": 6710886,
+                  "text_style": "bold",
+                  "mouse_wheel_enabled": false,
+                  "bold": true
+                }
               },
               {
                 "tag": "text",
@@ -85,7 +94,16 @@
                   "caption": "${widget.furni.teaser.description}",
                   "color": "0x0888888"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "text_color": 8947848,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true
+                }
               },
               {
                 "tag": "container_button",
@@ -149,7 +167,17 @@
                       "name": "ok",
                       "caption": "${widget.furni.teaser.get}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "antialias_type": "advanced",
+                      "auto_size": "center",
+                      "font_face": "Ubuntu",
+                      "font_size": 24,
+                      "text_color": 16777215,
+                      "text_style": "bold",
+                      "mouse_wheel_enabled": false,
+                      "bold": true
+                    }
                   }
                 ]
               },
@@ -193,17 +221,6 @@
       }
     ]
   },
-  "vars": {
-    "antialias_type": "advanced",
-    "font_face": "Ubuntu",
-    "font_size": 24,
-    "text_color": 16777215,
-    "text_style": "bold",
-    "mouse_wheel_enabled": false,
-    "bold": true,
-    "multiline": true,
-    "word_wrap": true,
-    "auto_size": "center"
-  },
+  "vars": {},
   "filters": []
 }

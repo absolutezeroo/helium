@@ -1,6 +1,6 @@
 {
   "name": "room_hopper_network",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_room_hopper_network_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_room_hopper_network.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,7 +33,12 @@
               "style": "100",
               "name": "border_bar"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "illumina_light_border_top_center",
+              "pivot_point": "center left",
+              "stretched_y": false
+            }
           },
           {
             "tag": "text",
@@ -48,7 +53,15 @@
               "name": "title",
               "caption": "${landing.view.roomhoppernetwork.title}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "font_size": 9,
+              "text_style": "il_heading_3",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "static_bitmap",
@@ -62,7 +75,12 @@
               "style": "100",
               "name": "hdr_line"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "illumina_light_border_top_center",
+              "pivot_point": "center left",
+              "stretched_y": false
+            }
           },
           {
             "tag": "itemlist_vertical",
@@ -89,7 +107,15 @@
                   "name": "header",
                   "caption": "${landing.view.roomhoppernetwork.caption}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 24,
+                  "text_style": "il_heading_1",
+                  "mouse_wheel_enabled": false,
+                  "spacing": -0.6,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container",
@@ -131,7 +157,12 @@
                       "style": "100",
                       "name": "bitmap"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "${image.library.url}reception/catalog_teaser_set_mnstr_gothic.png",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   },
                   {
                     "tag": "text",
@@ -146,7 +177,14 @@
                       "name": "info",
                       "caption": "${landing.view.roomhoppernetwork.info}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -167,27 +205,16 @@
                 },
                 "children": []
               }
-            ]
+            ],
+            "vars": {
+              "scale_to_fit_items": true,
+              "resize_on_item_update": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.url}reception/catalog_teaser_set_mnstr_gothic.png",
-    "pivot_point": "center left",
-    "stretched_y": false,
-    "auto_size": "left",
-    "font_size": 24,
-    "text_style": "il_heading_1",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "stretched_x": false,
-    "multiline": true,
-    "word_wrap": true,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true
-  },
+  "vars": {},
   "filters": []
 }

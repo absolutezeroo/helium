@@ -1,6 +1,6 @@
 {
   "name": "achievement_notification",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboquest_completed_dialog_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboQuestEngineCom_quest_completed_dialog.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -47,7 +47,13 @@
               "style": "0",
               "name": "reward_icon"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.questing.url}quest_doneicon.png",
+              "pivot_point": "center",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "static_bitmap",
@@ -61,7 +67,13 @@
               "style": "0",
               "name": "campaign_reward_icon"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.questing.url}ach_receive_star.png",
+              "pivot_point": "center",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "static_bitmap",
@@ -75,7 +87,12 @@
               "style": "0",
               "name": "campaign_pic_bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "pivot_point": "center",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "bitmap",
@@ -104,7 +121,23 @@
               "name": "congrats_txt",
               "caption": "${quests.completed.congrats}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "font_face": "Ubuntu",
+              "font_size": 32,
+              "text_color": 16777215,
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "sharpness": 0,
+              "thickness": 0,
+              "bold": true,
+              "kerning": false,
+              "spacing": 0,
+              "leading": 0,
+              "editable": false,
+              "selectable": false
+            }
           },
           {
             "tag": "html",
@@ -119,7 +152,23 @@
               "name": "desc_txt",
               "caption": "desc_txt jhg kjh gjkhg kjh gjkh gkjh gkjh gkjh gkjhg kjhg kjh"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "font_face": "Ubuntu",
+              "font_size": 18,
+              "text_color": 16777215,
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "sharpness": 0,
+              "thickness": 0,
+              "word_wrap": true,
+              "kerning": false,
+              "spacing": 0,
+              "leading": 0,
+              "editable": false,
+              "selectable": false
+            }
           },
           {
             "tag": "html",
@@ -134,7 +183,22 @@
               "name": "reward_txt",
               "caption": "reward_txt"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "font_face": "Ubuntu",
+              "font_size": 18,
+              "text_color": 16777215,
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "sharpness": 0,
+              "thickness": 0,
+              "kerning": false,
+              "spacing": 0,
+              "leading": 0,
+              "editable": false,
+              "selectable": false
+            }
           },
           {
             "tag": "button_thick",
@@ -180,7 +244,20 @@
                   "name": "catalog_link_txt",
                   "caption": "catalog_link_txt"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "underline": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -201,46 +278,27 @@
             },
             "children": []
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 0,
+          "margin_top": 33,
+          "margin_right": 0,
+          "margin_bottom": 3
+        }
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.questing.url}ach_receive_star.png",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "antialias_type": "advanced",
-    "font_face": "Ubuntu",
-    "font_size": 18,
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "sharpness": 0,
-    "thickness": 0,
-    "bold": true,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0,
-    "editable": false,
-    "selectable": false,
-    "word_wrap": true,
-    "auto_size": "left",
-    "underline": true,
-    "margin_left": 0,
-    "margin_top": 33,
-    "margin_right": 0,
-    "margin_bottom": 3
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "use_product_widget_frame_monsterplant",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_use_product_widget_frame_monsterplant_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_use_product_widget_frame_monsterplant.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -19,20 +19,21 @@
           "caption": "${useproduct.widget.title.monsterplant}",
           "color": "0xff418db0"
         },
-        "children": []
+        "children": [],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ]
       }
     ]
   },
   "vars": {},
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "filters": []
 }

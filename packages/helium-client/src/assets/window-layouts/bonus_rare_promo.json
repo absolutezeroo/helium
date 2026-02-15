@@ -1,6 +1,6 @@
 {
   "name": "bonus_rare_promo",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_bonus_rare_promo_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_bonus_rare_promo.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -69,7 +69,11 @@
                           "name": "preview",
                           "visible": "false"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -83,7 +87,12 @@
                           "style": "3",
                           "name": "promo_image"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -114,7 +123,16 @@
                           "caption": "${landing.view.bonus.rare.header}",
                           "tags": "COLORABLE"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_style": "u_headline_medium",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "container",
@@ -141,7 +159,10 @@
                               "style": "0",
                               "name": "bar_l"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "achievement_ach_progressbar1"
+                            }
                           },
                           {
                             "tag": "static_bitmap",
@@ -155,7 +176,10 @@
                               "style": "0",
                               "name": "bar_c"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "achievement_ach_progressbar2"
+                            }
                           },
                           {
                             "tag": "static_bitmap",
@@ -169,7 +193,10 @@
                               "style": "0",
                               "name": "bar_r"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "achievement_ach_progressbar3"
+                            }
                           },
                           {
                             "tag": "background",
@@ -200,7 +227,10 @@
                               "style": "0",
                               "name": "bar_a_c"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "achievement_ach_progressbar4"
+                            }
                           },
                           {
                             "tag": "static_bitmap",
@@ -214,7 +244,10 @@
                               "style": "0",
                               "name": "bar_a_r"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "achievement_ach_progressbar5"
+                            }
                           },
                           {
                             "tag": "text",
@@ -229,7 +262,24 @@
                               "name": "status",
                               "caption": "${landing.view.bonus.rare.status}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "antialias_type": "advanced",
+                              "auto_size": "left",
+                              "etching_color": 1342177280,
+                              "etching_position": "bottom-right",
+                              "font_face": "Ubuntu",
+                              "font_size": 18,
+                              "text_color": 16777215,
+                              "mouse_wheel_enabled": false,
+                              "multiline": true,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "bold": true,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -266,7 +316,11 @@
                       }
                     ]
                   }
-                ]
+                ],
+                "vars": {
+                  "scale_to_fit_items": true,
+                  "resize_on_item_update": true
+                }
               }
             ]
           }
@@ -274,29 +328,6 @@
       }
     ]
   },
-  "vars": {
-    "stretched_x": false,
-    "stretched_y": false,
-    "pivot_point": "center",
-    "auto_size": "left",
-    "text_style": "u_headline_medium",
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "spacing": 0,
-    "leading": 0,
-    "asset_uri": "achievement_ach_progressbar5",
-    "antialias_type": "advanced",
-    "etching_color": 1342177280,
-    "etching_position": "bottom-right",
-    "font_face": "Ubuntu",
-    "font_size": 18,
-    "text_color": 16777215,
-    "multiline": true,
-    "bold": true,
-    "kerning": false,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "habboween_engraving",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_habboween_engraving_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_habboween_engraving.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,7 +33,13 @@
               "dynamic_style": "",
               "name": "background"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.url}furniextras/loveLock_hween14.png",
+              "pivot_point": "center",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "text",
@@ -49,7 +55,17 @@
               "name": "header",
               "caption": "${habboween.engraving.caption}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "etching_color": 4287991189,
+              "etching_position": "bottom",
+              "text_color": 2761760,
+              "text_style": "u_bold",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "bitmap",
@@ -64,7 +80,11 @@
               "dynamic_style": "",
               "name": "avatar_left"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "bitmap",
@@ -95,7 +115,17 @@
               "name": "name_left",
               "caption": "${habboween.engraving.left}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "right",
+              "etching_color": 4287991189,
+              "etching_position": "bottom",
+              "text_color": 7016796,
+              "text_style": "u_bold",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -111,7 +141,17 @@
               "name": "name_right",
               "caption": "${habboween.engraving.right}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "etching_color": 4287991189,
+              "etching_position": "bottom",
+              "text_color": 7016796,
+              "text_style": "u_bold",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -126,7 +166,17 @@
               "dynamic_style": "",
               "name": "date"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "etching_color": 4287991189,
+              "etching_position": "bottom",
+              "text_color": 2761760,
+              "text_style": "u_bold",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "region",
@@ -148,19 +198,6 @@
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.url}furniextras/loveLock_hween14.png",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "auto_size": "center",
-    "etching_color": 4287991189,
-    "etching_position": "bottom",
-    "text_color": 2761760,
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

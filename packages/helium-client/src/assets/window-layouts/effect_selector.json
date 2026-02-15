@@ -1,6 +1,6 @@
 {
   "name": "effect_selector",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboeffect_selector_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_effect_selector.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -62,33 +62,37 @@
                   "caption": "None",
                   "background": "true"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_regular",
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 80,
+                  "thickness": -15
+                }
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 8,
+          "margin_top": 25,
+          "margin_right": 8,
+          "margin_bottom": 8
+        }
       }
     ]
   },
-  "vars": {
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "sharpness": 80,
-    "thickness": -15,
-    "margin_left": 8,
-    "margin_top": 25,
-    "margin_right": 8,
-    "margin_bottom": 8
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

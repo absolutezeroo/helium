@@ -1,6 +1,6 @@
 {
   "name": "avatar_popup",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendListCom_avatar_popup_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendListCom_avatar_popup.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -46,7 +46,15 @@
               "name": "name_text_online",
               "caption": "PH Avatar Name"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_face": "Volter Bold",
+              "font_size": 9,
+              "text_color": 0,
+              "embed_fonts": true,
+              "mouse_wheel_enabled": true,
+              "auto_size": "null"
+            }
           },
           {
             "tag": "text",
@@ -61,7 +69,14 @@
               "name": "name_text_offline",
               "caption": "PH Avatar Name"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_face": "Volter Bold",
+              "font_size": 9,
+              "text_color": 0,
+              "embed_fonts": true,
+              "mouse_wheel_enabled": true
+            }
           },
           {
             "tag": "text",
@@ -76,7 +91,15 @@
               "name": "motto_text",
               "caption": "PH Room Desc: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_face": "Volter",
+              "font_size": 9,
+              "text_color": 0,
+              "embed_fonts": true,
+              "mouse_wheel_enabled": true,
+              "word_wrap": true
+            }
           },
           {
             "tag": "text",
@@ -91,7 +114,14 @@
               "name": "online_text",
               "caption": "${friendlist.avatarpopup.online}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_face": "Volter",
+              "font_size": 9,
+              "text_color": 0,
+              "embed_fonts": true,
+              "mouse_wheel_enabled": true
+            }
           },
           {
             "tag": "bitmap",
@@ -120,20 +150,19 @@
               "name": "last_access_text",
               "caption": "${friendlist.avatarpopup.lastaccess}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_face": "Volter",
+              "font_size": 9,
+              "text_color": 0,
+              "embed_fonts": true,
+              "mouse_wheel_enabled": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter",
-    "font_size": 9,
-    "text_color": 0,
-    "embed_fonts": true,
-    "mouse_wheel_enabled": true,
-    "auto_size": "null",
-    "word_wrap": true
-  },
+  "vars": {},
   "filters": []
 }

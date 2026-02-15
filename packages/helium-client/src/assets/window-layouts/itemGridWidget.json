@@ -1,6 +1,6 @@
 {
   "name": "itemGridWidget",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboitem_grid_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_item_grid_widget.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -44,15 +44,16 @@
               "style": "3",
               "name": "itemGrid"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "spacing": 3,
+              "scale_to_fit_items": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "spacing": 3,
-    "scale_to_fit_items": true
-  },
+  "vars": {},
   "filters": []
 }

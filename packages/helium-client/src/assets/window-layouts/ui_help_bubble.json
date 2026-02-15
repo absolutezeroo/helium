@@ -1,6 +1,6 @@
 {
   "name": "ui_help_bubble",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboui_help_bubble_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_ui_help_bubble.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -68,7 +68,19 @@
                       "caption": "Testing Testing!testingdsf",
                       "width_max": "200"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_size": 21,
+                      "text_style": "u_bold",
+                      "margin_left": 8,
+                      "margin_top": 8,
+                      "margin_right": 8,
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -88,24 +100,18 @@
                 },
                 "children": []
               }
-            ]
+            ],
+            "vars": {
+              "margin_left": 8,
+              "margin_top": 8,
+              "margin_right": 8,
+              "margin_bottom": 8
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "font_size": 21,
-    "text_style": "u_bold",
-    "margin_left": 8,
-    "margin_top": 8,
-    "margin_right": 8,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "margin_bottom": 8
-  },
+  "vars": {},
   "filters": []
 }

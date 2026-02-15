@@ -1,6 +1,6 @@
 {
   "name": "avatarEditorContent",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboAvatarEditorCom_Habboavatar_editor_content_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboAvatarEditorCom_avatar_editor_content.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -62,7 +62,16 @@
                   "caption": "${avatareditor.title}",
                   "color": "0x00"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "font_size": 40,
+                  "text_color": 16777215,
+                  "text_style": "u_headline_big",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "html",
@@ -78,7 +87,19 @@
                   "caption": "${avatareditor.name.change}",
                   "visible": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 17,
+                  "grid_fit_type": "subpixel",
+                  "text_color": 1800619,
+                  "mouse_wheel_enabled": false,
+                  "underline": true,
+                  "spacing": 0,
+                  "leading": 0,
+                  "editable": false,
+                  "selectable": false
+                }
               }
             ]
           },
@@ -147,7 +168,13 @@
                               "name": "bitmap",
                               "tags": "BITMAP"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "avatar_editor_tabs_ae_tabs_generic",
+                              "pivot_point": "center",
+                              "stretched_x": false,
+                              "stretched_y": false
+                            }
                           }
                         ]
                       },
@@ -177,7 +204,13 @@
                               "name": "bitmap",
                               "tags": "BITMAP"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "avatar_editor_tabs_ae_tabs_head",
+                              "pivot_point": "center",
+                              "stretched_x": false,
+                              "stretched_y": false
+                            }
                           }
                         ]
                       },
@@ -207,7 +240,13 @@
                               "name": "bitmap",
                               "tags": "BITMAP"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "avatar_editor_tabs_ae_tabs_torso",
+                              "pivot_point": "center",
+                              "stretched_x": false,
+                              "stretched_y": false
+                            }
                           }
                         ]
                       },
@@ -237,7 +276,13 @@
                               "name": "bitmap",
                               "tags": "BITMAP"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "avatar_editor_tabs_ae_tabs_legs",
+                              "pivot_point": "center",
+                              "stretched_x": false,
+                              "stretched_y": false
+                            }
                           }
                         ]
                       },
@@ -267,7 +312,13 @@
                               "name": "bitmap",
                               "tags": "BITMAP"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "avatar_editor_tabs_ae_tabs_hotlooks",
+                              "pivot_point": "center",
+                              "stretched_x": false,
+                              "stretched_y": false
+                            }
                           }
                         ]
                       },
@@ -297,7 +348,13 @@
                               "name": "bitmap",
                               "tags": "BITMAP"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "avatar_editor_tabs_ae_tabs_effects",
+                              "pivot_point": "center",
+                              "stretched_x": false,
+                              "stretched_y": false
+                            }
                           }
                         ]
                       }
@@ -357,7 +414,13 @@
                                   "name": "tab_boy",
                                   "tags": "BITMAP"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "avatar_editor_tabs_gender_male_on",
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               }
                             ]
                           },
@@ -374,7 +437,14 @@
                               "name": "tab_boy_title",
                               "caption": "${avatareditor.generic.boy}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "mouse_wheel_enabled": false,
+                              "bold": true,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "region",
@@ -403,7 +473,13 @@
                                   "name": "tab_girl",
                                   "tags": "BITMAP"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "avatar_editor_tabs_gender_female_on",
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               }
                             ]
                           },
@@ -420,7 +496,14 @@
                               "name": "tab_girl_title",
                               "caption": "${avatareditor.generic.girl}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "mouse_wheel_enabled": false,
+                              "bold": true,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       },
@@ -465,7 +548,13 @@
                                   "name": "tab_hair",
                                   "tags": "BITMAP"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "avatar_editor_tabs_head_hair_on",
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               }
                             ]
                           },
@@ -496,7 +585,13 @@
                                   "name": "tab_hat",
                                   "tags": "BITMAP"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "avatar_editor_tabs_head_hats_on",
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               }
                             ]
                           },
@@ -527,7 +622,13 @@
                                   "name": "tab_accessories",
                                   "tags": "BITMAP"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "avatar_editor_tabs_head_accessories_on",
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               }
                             ]
                           },
@@ -558,7 +659,13 @@
                                   "name": "tab_eyewear",
                                   "tags": "BITMAP"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "avatar_editor_tabs_head_eyewear_on",
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               }
                             ]
                           },
@@ -589,7 +696,13 @@
                                   "name": "tab_masks",
                                   "tags": "BITMAP"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "avatar_editor_tabs_head_face_accessories_on",
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               }
                             ]
                           }
@@ -636,7 +749,13 @@
                                   "name": "tab_shirt",
                                   "tags": "BITMAP"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "avatar_editor_tabs_top_shirt_on",
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               }
                             ]
                           },
@@ -667,7 +786,13 @@
                                   "name": "tab_prints",
                                   "tags": "BITMAP"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "avatar_editor_tabs_top_prints_on",
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               }
                             ]
                           },
@@ -698,7 +823,13 @@
                                   "name": "tab_jacket",
                                   "tags": "BITMAP"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "avatar_editor_tabs_top_jacket_on",
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               }
                             ]
                           },
@@ -729,7 +860,13 @@
                                   "name": "tab_accessories",
                                   "tags": "BITMAP"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "avatar_editor_tabs_top_accessories_on",
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               }
                             ]
                           }
@@ -775,7 +912,13 @@
                                   "name": "tab_pants",
                                   "tags": "BITMAP"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "avatar_editor_tabs_bottom_trousers_on",
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               }
                             ]
                           },
@@ -806,7 +949,13 @@
                                   "name": "tab_shoes",
                                   "tags": "BITMAP"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "avatar_editor_tabs_bottom_shoes_on",
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               }
                             ]
                           },
@@ -837,7 +986,13 @@
                                   "name": "tab_belts",
                                   "tags": "BITMAP"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "avatar_editor_tabs_bottom_accessories_on",
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               }
                             ]
                           }
@@ -870,7 +1025,15 @@
                               "name": "hotlooksTitle",
                               "caption": "${avatareditor.hotlooks.title}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "font_size": 32,
+                              "mouse_wheel_enabled": false,
+                              "bold": true,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -885,7 +1048,13 @@
                               "name": "hotlooksChoose",
                               "caption": "${avatareditor.hotlooks.choose}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "itemgrid_vertical",
@@ -900,7 +1069,11 @@
                               "name": "hotlooks",
                               "tags": "WARDROBE_HOTLOOKS_ITEM_GRID"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "spacing": 7,
+                              "scale_to_fit_items": true
+                            }
                           }
                         ]
                       },
@@ -930,7 +1103,13 @@
                               "name": "tab_effects",
                               "tags": "BITMAP"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "avatar_editor_tabs_effects_fx",
+                              "pivot_point": "center",
+                              "stretched_x": false,
+                              "stretched_y": false
+                            }
                           },
                           {
                             "tag": "text",
@@ -945,7 +1124,15 @@
                               "name": "effectsTitle",
                               "caption": "${inventory.effects}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "font_size": 32,
+                              "mouse_wheel_enabled": false,
+                              "bold": true,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "region",
@@ -1034,7 +1221,13 @@
                                   "name": "hover",
                                   "tags": "BG_COLOR"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "avatar_editor_parts_hilite",
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               },
                               {
                                 "tag": "bitmap",
@@ -1066,7 +1259,13 @@
                                   "name": "club_icon",
                                   "tags": "CLUB_ICON"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "icons_hc_icon_small",
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               },
                               {
                                 "tag": "static_bitmap",
@@ -1081,11 +1280,20 @@
                                   "name": "sellable_icon",
                                   "tags": "SELLABLE_ICON"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "icons_wearable",
+                                  "pivot_point": "bottom left",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               }
                             ]
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "scale_to_fit_items": true
+                        }
                       },
                       {
                         "tag": "scrollable_itemgrid_vertical",
@@ -1128,7 +1336,12 @@
                                   "name": "color",
                                   "tags": "COLOR_IMAGE"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               },
                               {
                                 "tag": "static_bitmap",
@@ -1143,7 +1356,13 @@
                                   "name": "border",
                                   "tags": "BORDER"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "avatar_editor_editor_clr_13x21_1",
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               },
                               {
                                 "tag": "static_bitmap",
@@ -1158,11 +1377,20 @@
                                   "name": "club_icon",
                                   "tags": "CLUB_ICON"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "icons_hc_icon_small",
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               }
                             ]
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "scale_to_fit_items": true
+                        }
                       },
                       {
                         "tag": "scrollable_itemgrid_vertical",
@@ -1177,7 +1405,10 @@
                           "name": "palette1",
                           "tags": "CATEGORY_COLOUR_ITEM_GRID"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "scale_to_fit_items": true
+                        }
                       },
                       {
                         "tag": "text",
@@ -1192,7 +1423,12 @@
                           "name": "content_notification",
                           "caption": "${avatar.editor.content.notification}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -1207,7 +1443,14 @@
                           "name": "content_title",
                           "caption": "${avatar.editor.content.title}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_size": 32,
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   }
@@ -1226,7 +1469,13 @@
                   "name": "avatarWidget",
                   "tags": "AVATAR"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "widget_type": "room_previewer",
+                  "room_previewer:offsetx": -65,
+                  "room_previewer:offsety": -30,
+                  "room_previewer:zoom": 2
+                }
               },
               {
                 "tag": "button_thick",
@@ -1284,7 +1533,13 @@
                       "name": "wardrobe_icon",
                       "tags": "BITMAP"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "avatar_editor_tabs_ae_tabs_wardrobe",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               },
@@ -1328,7 +1583,17 @@
                       "name": "effect_name",
                       "caption": "xxx"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "text_color": 6710886,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "container",
@@ -1370,7 +1635,14 @@
                           "name": "effect_time_left",
                           "caption": "00:00 left"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "center",
+                          "text_color": 6710886,
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   },
@@ -1387,7 +1659,16 @@
                       "name": "save_to_activate",
                       "caption": "${avatareditor.save.to.activate}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "text_color": 6710886,
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "button_thick",
@@ -1433,7 +1714,13 @@
                       "params": "16",
                       "style": "100"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "avatar_editor_rotate_avatar_button",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "fit_size_to_contents": true
+                    }
                   }
                 ]
               }
@@ -1443,31 +1730,6 @@
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "font_size": 32,
-    "text_color": 6710886,
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "grid_fit_type": "subpixel",
-    "underline": true,
-    "editable": false,
-    "selectable": false,
-    "asset_uri": "avatar_editor_rotate_avatar_button",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "bold": true,
-    "scale_to_fit_items": true,
-    "widget_type": "room_previewer",
-    "room_previewer:offsetx": -65,
-    "room_previewer:offsety": -30,
-    "room_previewer:zoom": 2,
-    "multiline": true,
-    "word_wrap": true,
-    "fit_size_to_contents": true
-  },
+  "vars": {},
   "filters": []
 }

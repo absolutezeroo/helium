@@ -1,6 +1,6 @@
 {
   "name": "ros_badword",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_ros_badword_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboNavigatorCom_ros_badword.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -51,18 +51,19 @@
               "caption": "PH Badword",
               "color": "0x00"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "always_show_selection": true,
+              "text_style": "u_regular",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "always_show_selection": true,
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "habbo_way",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_safety_booklet_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboHelpCom_safety_booklet.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -56,7 +56,12 @@
                       "style": "100",
                       "name": "page_widget"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "widget_type": "progress_indicator",
+                      "progress_indicator:style": "etched",
+                      "progress_indicator:size": 7
+                    }
                   },
                   {
                     "tag": "static_bitmap",
@@ -70,9 +75,18 @@
                       "style": "100",
                       "name": "safety_image"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "${image.library.url}safetyquiz/safety_off.png",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 2
+                }
               },
               {
                 "tag": "container",
@@ -99,7 +113,11 @@
                       "params": "16",
                       "style": "100"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "widget_type": "separator",
+                      "separator:vertical": true
+                    }
                   },
                   {
                     "tag": "static_bitmap",
@@ -113,7 +131,13 @@
                       "style": "100",
                       "name": "illustration"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   },
                   {
                     "tag": "itemlist_vertical",
@@ -140,7 +164,16 @@
                           "name": "title",
                           "caption": "Title"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_style": "il_heading_1",
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -155,9 +188,20 @@
                           "name": "description",
                           "caption": "Keep your full name, address, phone numbers, photos and school name secret so nobody can scam, bully you or place you in danger."
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 20
+                    }
                   },
                   {
                     "tag": "container_button",
@@ -209,7 +253,13 @@
                               "params": "16",
                               "style": "100"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "help_habboway_prev",
+                              "pivot_point": "center",
+                              "stretched_x": false,
+                              "stretched_y": false
+                            }
                           },
                           {
                             "tag": "widget",
@@ -222,7 +272,11 @@
                               "params": "16",
                               "style": "100"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "widget_type": "separator",
+                              "separator:vertical": true
+                            }
                           },
                           {
                             "tag": "text",
@@ -236,7 +290,15 @@
                               "style": "100",
                               "caption": "${habbo.way.previous.button}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_style": "il_button",
+                              "margin_left": 5,
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "container",
@@ -306,7 +368,15 @@
                               "style": "100",
                               "caption": "${habbo.way.next.button}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_style": "il_button",
+                              "margin_right": 5,
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "widget",
@@ -319,7 +389,11 @@
                               "params": "16",
                               "style": "100"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "widget_type": "separator",
+                              "separator:vertical": true
+                            }
                           },
                           {
                             "tag": "static_bitmap",
@@ -332,7 +406,13 @@
                               "params": "16",
                               "style": "100"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "help_habboway_next",
+                              "pivot_point": "center",
+                              "stretched_x": false,
+                              "stretched_y": false
+                            }
                           },
                           {
                             "tag": "container",
@@ -379,7 +459,14 @@
                       "style": "100",
                       "caption": "${safety.booklet.end.title}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "text_style": "il_heading_1",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -393,7 +480,15 @@
                       "style": "100",
                       "caption": "${safety.booklet.end.content}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "widget",
@@ -406,7 +501,10 @@
                       "params": "16",
                       "style": "100"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "widget_type": "separator"
+                    }
                   },
                   {
                     "tag": "container_button",
@@ -459,7 +557,13 @@
                               "style": "100",
                               "name": "illustration"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "help_habboway_prev",
+                              "pivot_point": "center",
+                              "stretched_x": false,
+                              "stretched_y": false
+                            }
                           },
                           {
                             "tag": "widget",
@@ -472,7 +576,11 @@
                               "params": "16",
                               "style": "100"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "widget_type": "separator",
+                              "separator:vertical": true
+                            }
                           },
                           {
                             "tag": "text",
@@ -486,7 +594,15 @@
                               "style": "100",
                               "caption": "${habbo.way.back.button}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_style": "il_button",
+                              "margin_left": 5,
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "container",
@@ -532,7 +648,13 @@
                       "params": "16",
                       "style": "100"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "${image.library.url}safetyquiz/start_quiz.png",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               },
@@ -562,7 +684,14 @@
                       "style": "100",
                       "caption": "${safety.booklet.ok.title}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "text_style": "il_heading_1",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -576,7 +705,15 @@
                       "style": "100",
                       "caption": "${safety.booklet.ok.content}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "widget",
@@ -589,7 +726,10 @@
                       "params": "16",
                       "style": "100"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "widget_type": "separator"
+                    }
                   },
                   {
                     "tag": "container_button",
@@ -642,7 +782,13 @@
                               "style": "100",
                               "name": "illustration"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "help_habboway_prev",
+                              "pivot_point": "center",
+                              "stretched_x": false,
+                              "stretched_y": false
+                            }
                           },
                           {
                             "tag": "widget",
@@ -655,7 +801,11 @@
                               "params": "16",
                               "style": "100"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "widget_type": "separator",
+                              "separator:vertical": true
+                            }
                           },
                           {
                             "tag": "text",
@@ -669,7 +819,15 @@
                               "style": "100",
                               "caption": "${habbo.way.back.button}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_style": "il_button",
+                              "margin_left": 5,
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "container",
@@ -715,7 +873,13 @@
                       "params": "16",
                       "style": "100"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "${image.library.url}safetyquiz/start_quiz.png",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               },
@@ -743,7 +907,10 @@
                       "params": "16",
                       "style": "100"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "common_info_icon_grey"
+                    }
                   },
                   {
                     "tag": "text",
@@ -757,7 +924,15 @@
                       "style": "100",
                       "caption": "${safety.booklet.explanation.1}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_color": 2236962,
+                      "mouse_wheel_enabled": false,
+                      "bold": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -771,11 +946,35 @@
                       "style": "100",
                       "caption": "${safety.booklet.explanation.2}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_color": 2236962,
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               }
-            ]
+            ],
+            "filters": [
+              {
+                "type": "DropShadowFilter",
+                "attributes": {
+                  "angle": "0",
+                  "alpha": "0.7490196078431373",
+                  "blurX": "80",
+                  "blurY": "80"
+                }
+              }
+            ],
+            "vars": {
+              "margin_left": 1,
+              "margin_top": 50,
+              "margin_right": 1,
+              "margin_bottom": 1
+            }
           },
           {
             "tag": "container",
@@ -801,7 +1000,15 @@
                   "style": "100",
                   "caption": "${safety.booklet.frame.subtitle}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 18,
+                  "text_style": "il_frame_modal_title",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -815,7 +1022,14 @@
                   "style": "100",
                   "caption": "${safety.booklet.frame.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "il_frame_modal_title",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           }
@@ -823,39 +1037,6 @@
       }
     ]
   },
-  "vars": {
-    "widget_type": "separator",
-    "progress_indicator:style": "etched",
-    "progress_indicator:size": 7,
-    "asset_uri": "common_info_icon_grey",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "spacing": 0,
-    "separator:vertical": true,
-    "auto_size": "left",
-    "text_style": "il_frame_modal_title",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "leading": 0,
-    "margin_left": 1,
-    "margin_right": 1,
-    "text_color": 2236962,
-    "bold": true,
-    "margin_top": 50,
-    "margin_bottom": 1,
-    "font_size": 18
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.7490196078431373",
-        "blurX": "80",
-        "blurY": "80"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

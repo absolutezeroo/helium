@@ -1,6 +1,6 @@
 {
   "name": "tag",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNewNavigatorCom_tag_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboNewNavigatorCom_tag.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -47,7 +47,16 @@
                   "name": "tag_text",
                   "caption": "#tag"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "grid_fit_type": "subpixel",
+                  "text_color": 16777215,
+                  "text_style": "u_small",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           }
@@ -55,14 +64,6 @@
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "grid_fit_type": "subpixel",
-    "text_color": 16777215,
-    "text_style": "u_small",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "feed_entity",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboUnknownAsset_feed_entity_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboUnknownAsset_feed_entity.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,7 +32,10 @@
               "style": "0",
               "name": "icon"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "handle_bitmap_disposing": false
+            }
           },
           {
             "tag": "itemlist_vertical",
@@ -62,7 +65,17 @@
                   "treshold": "0",
                   "width_max": "170"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 17,
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "sharpness": 80,
+                  "thickness": -15,
+                  "word_wrap": true
+                }
               },
               {
                 "tag": "text",
@@ -77,7 +90,15 @@
                   "name": "time",
                   "caption": "_time"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 9,
+                  "text_color": 10066329,
+                  "text_style": "u_small",
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 80,
+                  "thickness": -15
+                }
               },
               {
                 "tag": "text",
@@ -94,7 +115,17 @@
                   "color": "0x00",
                   "width_max": "170"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 17,
+                  "text_style": "u_regular",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "sharpness": 80,
+                  "thickness": -15,
+                  "word_wrap": true
+                }
               },
               {
                 "tag": "bitmap",
@@ -108,7 +139,10 @@
                   "style": "0",
                   "name": "decoration"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "handle_bitmap_disposing": false
+                }
               },
               {
                 "tag": "button",
@@ -125,24 +159,15 @@
                 },
                 "children": []
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 3
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "handle_bitmap_disposing": false,
-    "auto_size": "left",
-    "font_size": 17,
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "sharpness": 80,
-    "thickness": -15,
-    "word_wrap": true,
-    "text_color": 10066329,
-    "spacing": 3
-  },
+  "vars": {},
   "filters": []
 }

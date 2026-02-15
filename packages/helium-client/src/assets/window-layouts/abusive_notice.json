@@ -1,6 +1,6 @@
 {
   "name": "abusive_notice",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_abusive_notice_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboHelpCom_abusive_notice.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -45,7 +45,11 @@
                   "style": "100",
                   "caption": "${help.emergency.abusive.subtitle}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "il_heading_1",
+                  "text_color": 12779520
+                }
               },
               {
                 "tag": "text",
@@ -61,7 +65,16 @@
                   "width_min": "291",
                   "width_max": "291"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "margin_bottom": 8,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -74,7 +87,12 @@
                   "params": "16",
                   "style": "100"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "illumina_horizontal_separator",
+                  "pivot_point": "bottom center",
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "button",
@@ -92,35 +110,26 @@
                 },
                 "children": []
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 3
+            }
+          }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "text_style": "il_heading_1",
-    "text_color": 12779520,
-    "auto_size": "left",
-    "margin_bottom": 8,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 3,
-    "leading": 0,
-    "asset_uri": "illumina_horizontal_separator",
-    "pivot_point": "bottom center",
-    "stretched_y": false
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

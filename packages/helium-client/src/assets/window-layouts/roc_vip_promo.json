@@ -1,6 +1,6 @@
 {
   "name": "roc_vip_promo",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_roc_vip_promo_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboNavigatorCom_roc_vip_promo.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,7 +31,15 @@
               "style": "0",
               "caption": "${navigator.createroom.vippromo.text}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_face": "Volter",
+              "font_size": 9,
+              "text_color": 16777215,
+              "embed_fonts": true,
+              "multiline": true,
+              "word_wrap": true
+            }
           },
           {
             "tag": "text",
@@ -47,7 +55,14 @@
               "caption": "${navigator.createroom.vippromo.link}",
               "treshold": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_face": "Volter",
+              "font_size": 9,
+              "text_color": 16777215,
+              "embed_fonts": true,
+              "underline": true
+            }
           },
           {
             "tag": "icon",
@@ -66,14 +81,6 @@
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter",
-    "font_size": 9,
-    "text_color": 16777215,
-    "embed_fonts": true,
-    "multiline": true,
-    "word_wrap": true,
-    "underline": true
-  },
+  "vars": {},
   "filters": []
 }

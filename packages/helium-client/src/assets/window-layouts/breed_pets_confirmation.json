@@ -1,6 +1,6 @@
 {
   "name": "breed_pets_confirmation",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_breed_pets_confirmation_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_breed_pets_confirmation.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -63,7 +63,16 @@
                   "name": "description",
                   "caption": "${breedpets.widget.text}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 19,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -78,7 +87,16 @@
                   "name": "request",
                   "caption": "${breedpets.widget.request}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 19,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -93,7 +111,16 @@
                   "name": "info",
                   "caption": "${breedpets.widget.info}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 19,
+                  "text_style": "u_italic",
+                  "mouse_wheel_enabled": false,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "itemlist_horizontal",
@@ -136,7 +163,13 @@
                           "name": "plant_name",
                           "caption": "${breedpets.widget.plant1.name}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "center",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "bitmap",
@@ -169,7 +202,14 @@
                           "name": "plant_rarity_level",
                           "caption": "${breedpets.widget.plant1.raritylevel}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "center",
+                          "mouse_wheel_enabled": false,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -184,9 +224,21 @@
                           "name": "plant_description",
                           "caption": "${breedpets.widget.plant1.description}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "center",
+                          "mouse_wheel_enabled": false,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 1,
+                      "scale_to_fit_items": true,
+                      "resize_on_item_update": true
+                    }
                   },
                   {
                     "tag": "itemlist_vertical",
@@ -216,7 +268,13 @@
                           "name": "plant_name",
                           "caption": "${breedpets.widget.plant2.name}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "center",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "bitmap",
@@ -249,7 +307,14 @@
                           "name": "plant_rarity_level",
                           "caption": "${breedpets.widget.plant2.raritylevel}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "center",
+                          "mouse_wheel_enabled": false,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -264,11 +329,28 @@
                           "name": "plant_description",
                           "caption": "${breedpets.widget.plant2.description}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "center",
+                          "mouse_wheel_enabled": false,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 1,
+                      "scale_to_fit_items": true,
+                      "resize_on_item_update": true
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 10,
+                  "scale_to_fit_items": true,
+                  "resize_on_item_update": true
+                }
               },
               {
                 "tag": "container",
@@ -352,7 +434,11 @@
                     },
                     "children": []
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 10,
+                  "resize_on_item_update": true
+                }
               },
               {
                 "tag": "container",
@@ -368,37 +454,33 @@
                 },
                 "children": []
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 10,
+              "resize_on_item_update": true
+            }
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 3,
+          "margin_top": 36,
+          "margin_right": 3,
+          "margin_bottom": 0
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "font_size": 19,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 10,
-    "leading": 0,
-    "text_style": "u_italic",
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true,
-    "margin_left": 3,
-    "margin_top": 36,
-    "margin_right": 3,
-    "margin_bottom": 0
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

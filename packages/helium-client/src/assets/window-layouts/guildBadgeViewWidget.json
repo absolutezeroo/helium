@@ -1,6 +1,6 @@
 {
   "name": "guildBadgeViewWidget",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboguild_badge_view_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_guild_badge_view_widget.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -18,13 +18,14 @@
           "style": "3",
           "name": "badge"
         },
-        "children": []
+        "children": [],
+        "vars": {
+          "widget_type": "badge_image",
+          "badge_image:type": "group"
+        }
       }
     ]
   },
-  "vars": {
-    "widget_type": "badge_image",
-    "badge_image:type": "group"
-  },
+  "vars": {},
   "filters": []
 }

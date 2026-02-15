@@ -1,6 +1,6 @@
 {
   "name": "list_tester_item",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboUnknownAsset_list_tester_item_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboUnknownAsset_list_tester_item.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,7 +33,11 @@
               "name": "time_txt",
               "caption": "18:30"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_color": 0,
+              "embed_fonts": true
+            }
           },
           {
             "tag": "text",
@@ -49,7 +53,13 @@
               "caption": "kurmasana",
               "background": "true"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_face": "Volter Bold",
+              "text_color": 0,
+              "embed_fonts": true,
+              "underline": true
+            }
           },
           {
             "tag": "text",
@@ -64,19 +74,18 @@
               "name": "msg_txt",
               "caption": "Sharing your password or personal details online is dangerous. The moderators might monitor these conversations for your safety."
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_color": 0,
+              "embed_fonts": true,
+              "multiline": true,
+              "word_wrap": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "text_color": 0,
-    "embed_fonts": true,
-    "font_face": "Volter Bold",
-    "underline": true,
-    "multiline": true,
-    "word_wrap": true
-  },
+  "vars": {},
   "filters": []
 }

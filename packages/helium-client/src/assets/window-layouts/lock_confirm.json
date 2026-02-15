@@ -1,6 +1,6 @@
 {
   "name": "lock_confirm",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_lock_confirm_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_lock_confirm.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -45,7 +45,17 @@
                   "name": "subtitle",
                   "caption": "${friend.furniture.confirm.lock.subtitle}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "text_style": "il_heading_1",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "max_lines": 3,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container",
@@ -72,7 +82,12 @@
                       "style": "100",
                       "name": "lock"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "${image.library.url}furniextras/unlocked_image.png",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   },
                   {
                     "tag": "formatted_text",
@@ -89,7 +104,16 @@
                       "width_min": "291",
                       "width_max": "291"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "margin_bottom": 8,
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -104,7 +128,10 @@
                   "params": "16",
                   "style": "100"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "illumina_horizontal_separator"
+                }
               },
               {
                 "tag": "container",
@@ -154,37 +181,28 @@
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 5,
+              "scale_to_fit_items": true,
+              "resize_on_item_update": true
+            }
+          }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "text_style": "il_heading_1",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "max_lines": 3,
-    "spacing": 5,
-    "leading": 0,
-    "asset_uri": "illumina_horizontal_separator",
-    "stretched_x": false,
-    "stretched_y": false,
-    "margin_bottom": 8,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

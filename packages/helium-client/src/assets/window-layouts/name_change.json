@@ -1,6 +1,6 @@
 {
   "name": "name_change",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_welcome_name_change_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboHelpCom_welcome_name_change.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -46,7 +46,13 @@
                   "style": "100",
                   "caption": "${tutorial.name_change.info.main}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "mouse_wheel_enabled": false,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -60,7 +66,14 @@
                   "style": "100",
                   "caption": "${tutorial.name_change.current}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "mouse_wheel_enabled": false,
+                  "bold": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container_button",
@@ -88,7 +101,14 @@
                       "style": "100",
                       "caption": "${tutorial.name_change.change}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "mouse_wheel_enabled": false,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -118,37 +138,40 @@
                       "style": "100",
                       "caption": "${tutorial.name_change.keep}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "mouse_wheel_enabled": false,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 6,
+          "margin_top": 25,
+          "margin_right": 6,
+          "margin_bottom": 7
+        }
       }
     ]
   },
-  "vars": {
-    "mouse_wheel_enabled": false,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "auto_size": "center",
-    "bold": true,
-    "margin_left": 6,
-    "margin_top": 25,
-    "margin_right": 6,
-    "margin_bottom": 7
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

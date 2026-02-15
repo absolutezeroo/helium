@@ -1,6 +1,6 @@
 {
   "name": "priceDisplayWidget",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboprice_display_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_price_display_widget.xml",
   "window": {
     "tag": "window",
     "typeId": -1,

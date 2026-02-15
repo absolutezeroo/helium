@@ -1,6 +1,6 @@
 {
   "name": "request_report_user",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_report_window_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboHelpCom_report_window.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -50,7 +50,16 @@
                   "style": "100",
                   "caption": "${guide.help.request.emergency.desc}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "margin_bottom": 10,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -66,7 +75,16 @@
                   "caption": "${guide.help.request.emergency.desc.error}",
                   "visible": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_color": 16711680,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "widget",
@@ -80,7 +98,13 @@
                   "style": "100",
                   "name": "input_widget"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "widget_type": "illumina_input",
+                  "illumina_input:button_caption": "",
+                  "illumina_input:empty_message": "${guide.help.request.emergency.input.empty}",
+                  "illumina_input:multiline": true
+                }
               },
               {
                 "tag": "container",
@@ -120,7 +144,18 @@
                       "style": "100",
                       "caption": "${guide.help.request.emergency.help.title}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "font_size": 18,
+                      "text_style": "il_regular_white",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "bold": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "link",
@@ -137,7 +172,15 @@
                       "visible": "false",
                       "treshold": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "text_style": "il_regular_white",
+                      "mouse_wheel_enabled": false,
+                      "underline": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "button",
@@ -186,44 +229,39 @@
                   "caption": "${guide.help.request.user.create.cancel.link}",
                   "treshold": "0"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "underline": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 1,
+          "margin_top": 35,
+          "margin_right": 1,
+          "margin_bottom": 25
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "margin_bottom": 25,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "text_color": 16711680,
-    "widget_type": "illumina_input",
-    "illumina_input:button_caption": "",
-    "illumina_input:empty_message": "${guide.help.request.emergency.input.empty}",
-    "illumina_input:multiline": true,
-    "font_size": 18,
-    "text_style": "il_regular_white",
-    "bold": true,
-    "underline": true,
-    "margin_left": 1,
-    "margin_top": 35,
-    "margin_right": 1
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

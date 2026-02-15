@@ -1,6 +1,6 @@
 {
   "name": "illumina_dark_header",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_illumina_dark_header_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_illumina_dark_header.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,16 +33,17 @@
               "tags": "_TITLE, _EXCLUDE, _INTERNAL, _COLORIZE",
               "params": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "u_frame_title",
+              "text_color": 4294967295,
+              "margins": null
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "text_style": "u_frame_title",
-    "text_color": 4294967295,
-    "margins": null
-  },
+  "vars": {},
   "filters": []
 }

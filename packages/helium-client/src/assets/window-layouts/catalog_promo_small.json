@@ -1,6 +1,6 @@
 {
   "name": "catalog_promo_small",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_catalog_promo_small_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_catalog_promo_small.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -46,7 +46,15 @@
                   "name": "catalog_promo_caption",
                   "caption": "${landing.view.catalogpromo.caption}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 24,
+                  "text_style": "il_heading_1",
+                  "mouse_wheel_enabled": false,
+                  "spacing": -0.6,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container",
@@ -74,7 +82,12 @@
                       "style": "100",
                       "name": "picture"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "${image.library.url}reception/catalog_teaser_set_mnstr_gothic.png",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   },
                   {
                     "tag": "text",
@@ -89,7 +102,14 @@
                       "name": "catalog_promo_info",
                       "caption": "${landing.view.catalogpromo.info}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -110,26 +130,16 @@
                 },
                 "children": []
               }
-            ]
+            ],
+            "vars": {
+              "scale_to_fit_items": true,
+              "resize_on_item_update": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "font_size": 24,
-    "text_style": "il_heading_1",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "asset_uri": "${image.library.url}reception/catalog_teaser_set_mnstr_gothic.png",
-    "stretched_x": false,
-    "stretched_y": false,
-    "multiline": true,
-    "word_wrap": true,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "memenu",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbomemenu_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_memenu.xml",
   "window": {
     "tag": "window",
     "typeId": -1,

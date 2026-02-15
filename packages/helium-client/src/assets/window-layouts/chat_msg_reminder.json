@@ -1,6 +1,6 @@
 {
   "name": "chat_msg_reminder",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_chat_msg_reminder_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboHelpCom_chat_msg_reminder.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,21 +33,22 @@
               "width_min": "270",
               "width_max": "270"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "margin_top": 10,
+              "margin_bottom": 10,
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "margin_top": 10,
-    "margin_bottom": 10,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

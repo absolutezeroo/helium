@@ -1,6 +1,6 @@
 {
   "name": "snowwar_timer",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habbosnowwar_timer_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboGamesCom_snowwar_timer.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -49,7 +49,18 @@
               "tags": "stroke",
               "width_min": "80"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "auto_size": "left",
+              "font_face": "UbuntuThick",
+              "font_size": 37,
+              "grid_fit_type": "subpixel",
+              "text_color": 1079212,
+              "mouse_wheel_enabled": false,
+              "thickness": 200,
+              "bold": true
+            }
           },
           {
             "tag": "text",
@@ -65,22 +76,22 @@
               "caption": "01:23",
               "width_min": "80"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "auto_size": "left",
+              "font_face": "Ubuntu",
+              "font_size": 37,
+              "grid_fit_type": "subpixel",
+              "text_color": 16777215,
+              "mouse_wheel_enabled": false,
+              "bold": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "antialias_type": "advanced",
-    "auto_size": "left",
-    "font_face": "Ubuntu",
-    "font_size": 37,
-    "grid_fit_type": "subpixel",
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "thickness": 200,
-    "bold": true
-  },
+  "vars": {},
   "filters": []
 }

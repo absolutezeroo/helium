@@ -1,6 +1,6 @@
 {
   "name": "new_friend_entity",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_new_friend_entity_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_new_friend_entity.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -35,7 +35,12 @@
               "name": "icons",
               "clipping": "false"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "spacing": 2,
+              "scale_to_fit_items": true,
+              "resize_on_item_update": true
+            }
           },
           {
             "tag": "itemlist_vertical",
@@ -79,7 +84,14 @@
                       "name": "name",
                       "tags": "label"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_color": 16777215,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "region",
@@ -128,7 +140,11 @@
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "scale_to_fit_items": true,
+              "resize_on_item_update": true
+            }
           },
           {
             "tag": "bubble",
@@ -157,7 +173,16 @@
                   "name": "bubble_title",
                   "caption": "${friendbar.game_invite.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "text_color": 16777215,
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -171,7 +196,16 @@
                   "style": "0",
                   "name": "bubble_message"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "text_color": 16777215,
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "closebutton",
@@ -231,7 +265,14 @@
                       "name": "bubble_caption",
                       "caption": "${friendbar.request.accept}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "text_style": "button_shiny_bold",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -262,7 +303,16 @@
                       "name": "bubble_link_reject",
                       "caption": "${friendbar.request.decline}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "text_color": 16777215,
+                      "text_style": "u_small",
+                      "mouse_wheel_enabled": false,
+                      "underline": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               }
@@ -272,17 +322,6 @@
       }
     ]
   },
-  "vars": {
-    "spacing": 0,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true,
-    "text_color": 16777215,
-    "text_style": "u_small",
-    "mouse_wheel_enabled": false,
-    "leading": 0,
-    "auto_size": "center",
-    "word_wrap": true,
-    "underline": true
-  },
+  "vars": {},
   "filters": []
 }

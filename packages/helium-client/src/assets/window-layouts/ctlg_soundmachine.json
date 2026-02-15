@@ -1,6 +1,6 @@
 {
   "name": "ctlg_soundmachine",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_soundmachine_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_old_layout_soundmachine.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,7 +32,16 @@
               "name": "ctlg_selectproduct",
               "caption": "${catalog_selectproduct}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "text_style": "u_small",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "container",
@@ -89,7 +98,16 @@
                   "name": "ctlg_product_name",
                   "caption": "${lorem.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "formatted_text",
@@ -104,7 +122,14 @@
                   "name": "ctlg_description",
                   "caption": "${lorem.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "u_small",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "formatted_text",
@@ -119,7 +144,14 @@
                   "name": "ctlg_song_length",
                   "caption": "00:00"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "u_small",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container",
@@ -178,7 +210,14 @@
                       "name": "play_preview_text",
                       "caption": "${play_preview}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "text_style": "u_small",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               }
@@ -216,14 +255,6 @@
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "text_style": "u_small",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

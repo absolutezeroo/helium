@@ -1,6 +1,6 @@
 {
   "name": "promo_duckets",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_promo_duckets_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_promo_duckets.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -56,7 +56,20 @@
                       "style": "3",
                       "caption": "${purse.duckets.promo}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_color": 7697781,
+                      "text_style": "u_italic",
+                      "margin_top": 10,
+                      "margin_right": 20,
+                      "margin_bottom": 10,
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "region",
@@ -83,7 +96,13 @@
                           "params": "16",
                           "style": "3"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "common_promo_arrow_close",
+                          "stretched_x": false,
+                          "stretched_y": false,
+                          "fit_size_to_contents": true
+                        }
                       }
                     ]
                   }
@@ -102,28 +121,18 @@
               "params": "80",
               "style": "3"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "common_promo_arrow_top_right",
+              "stretched_x": false,
+              "stretched_y": false,
+              "fit_size_to_contents": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "text_color": 7697781,
-    "text_style": "u_italic",
-    "margin_top": 10,
-    "margin_right": 20,
-    "margin_bottom": 10,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "asset_uri": "common_promo_arrow_top_right",
-    "stretched_x": false,
-    "stretched_y": false,
-    "fit_size_to_contents": true
-  },
+  "vars": {},
   "filters": []
 }

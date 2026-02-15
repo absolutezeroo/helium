@@ -1,6 +1,6 @@
 {
   "name": "instant_friend_request",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboinstant_friend_request_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_instant_friend_request.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -76,7 +76,15 @@
                       "style": "0",
                       "name": "text"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_color": 16777215,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 80,
+                      "thickness": -15,
+                      "word_wrap": true
+                    }
                   }
                 ]
               },
@@ -107,7 +115,17 @@
                       "style": "0",
                       "caption": "${widget.friendrequest.decline}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_size": 17,
+                      "text_color": 16777215,
+                      "text_style": "u_regular",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 80,
+                      "thickness": -15,
+                      "underline": true
+                    }
                   }
                 ]
               },
@@ -152,7 +170,14 @@
                       "style": "0",
                       "caption": "${widget.friendrequest.accept}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_size": 17,
+                      "text_style": "button_shiny_bold",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 80,
+                      "thickness": -15
+                    }
                   }
                 ]
               },
@@ -178,16 +203,6 @@
       }
     ]
   },
-  "vars": {
-    "text_color": 16777215,
-    "text_style": "button_shiny_bold",
-    "mouse_wheel_enabled": false,
-    "sharpness": 80,
-    "thickness": -15,
-    "word_wrap": true,
-    "auto_size": "left",
-    "font_size": 17,
-    "underline": true
-  },
+  "vars": {},
   "filters": []
 }

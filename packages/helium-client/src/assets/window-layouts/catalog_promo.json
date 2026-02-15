@@ -1,6 +1,6 @@
 {
   "name": "catalog_promo",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_catalog_promo_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_catalog_promo.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -48,7 +48,15 @@
                   "width_min": "300",
                   "width_max": "300"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 24,
+                  "text_style": "il_heading_1",
+                  "mouse_wheel_enabled": false,
+                  "spacing": -0.6,
+                  "leading": 0
+                }
               },
               {
                 "tag": "formatted_text",
@@ -64,7 +72,15 @@
                   "caption": "${landing.view.catalogpromo.info}",
                   "tags": "COLORABLE"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "button",
@@ -85,7 +101,12 @@
                 },
                 "children": []
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 5,
+              "scale_to_fit_items": true,
+              "resize_on_item_update": true
+            }
           },
           {
             "tag": "container",
@@ -116,7 +137,16 @@
                   "width_min": "200",
                   "width_max": "200"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "bold": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -130,7 +160,12 @@
                   "style": "0",
                   "name": "picture"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}reception/meter_level_0.png",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               }
             ]
           }
@@ -138,21 +173,6 @@
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "font_size": 24,
-    "text_style": "il_heading_1",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "multiline": true,
-    "word_wrap": true,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true,
-    "bold": true,
-    "asset_uri": "${image.library.url}reception/meter_level_0.png",
-    "stretched_x": false,
-    "stretched_y": false
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "friend_entry",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendListCom_friend_entry_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendListCom_friend_entry.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -51,7 +51,10 @@
               "name": "caption",
               "caption": "Friends (0)"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "bold"
+            }
           },
           {
             "tag": "region",
@@ -146,7 +149,12 @@
                   "id": "26981",
                   "tags": "bitmap"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "icon",
@@ -271,11 +279,6 @@
       }
     ]
   },
-  "vars": {
-    "text_style": "bold",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false
-  },
+  "vars": {},
   "filters": []
 }

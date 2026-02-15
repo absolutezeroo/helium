@@ -1,6 +1,6 @@
 {
   "name": "safety_locked_notification",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNotificationsCom_safety_locked_notification_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboNotificationsCom_safety_locked_notification.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,7 +33,15 @@
               "name": "info_text",
               "caption": "${notifications.text.safety_locked}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "font_face": "Ubuntu",
+              "font_size": 18,
+              "text_color": 16777215,
+              "mouse_wheel_enabled": false,
+              "word_wrap": true
+            }
           },
           {
             "tag": "region",
@@ -63,7 +71,16 @@
                   "name": "unlock_link",
                   "caption": "${notifications.button.safety_locked_unlock}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "underline": true
+                }
               }
             ]
           }
@@ -71,15 +88,6 @@
       }
     ]
   },
-  "vars": {
-    "antialias_type": "advanced",
-    "font_face": "Ubuntu",
-    "font_size": 18,
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "word_wrap": true,
-    "auto_size": "left",
-    "underline": true
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "me_menu_view",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_me_menu_view_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_me_menu_view.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -47,7 +47,13 @@
                   "style": "0",
                   "name": "profile_icon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "toolbar_memenu_profile_white",
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "text",
@@ -63,7 +69,15 @@
                   "caption": "${widget.memenu.profile}",
                   "width_max": "70"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_color": 16777215,
+                  "text_style": "u_regular",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -94,7 +108,13 @@
                   "style": "0",
                   "name": "minimail_icon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "toolbar_memenu_minimail_white",
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "text",
@@ -110,7 +130,15 @@
                   "caption": "${widget.memenu.minimail}",
                   "width_max": "70"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_color": 16777215,
+                  "text_style": "u_regular",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -141,7 +169,10 @@
                   "style": "0",
                   "name": "rooms_icon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "toolbar_memenu_rooms_white"
+                }
               },
               {
                 "tag": "text",
@@ -157,7 +188,15 @@
                   "caption": "${widget.memenu.myrooms}",
                   "width_max": "70"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_color": 16777215,
+                  "text_style": "u_regular",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -188,7 +227,13 @@
                   "style": "0",
                   "name": "settings_icon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "toolbar_memenu_settings_white",
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "text",
@@ -204,7 +249,15 @@
                   "caption": "${widget.memenu.settings}",
                   "width_max": "70"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_color": 16777215,
+                  "text_style": "u_regular",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -235,7 +288,13 @@
                   "style": "0",
                   "name": "achievements_icon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "toolbar_memenu_achievements_white",
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "text",
@@ -251,7 +310,15 @@
                   "caption": "${widget.memenu.achievements}",
                   "width_max": "89"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_color": 16777215,
+                  "text_style": "u_regular",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -282,7 +349,13 @@
                   "style": "0",
                   "name": "talents_icon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "toolbar_memenu_talents_white",
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "text",
@@ -298,7 +371,15 @@
                   "caption": "${widget.memenu.talents}",
                   "width_max": "70"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_color": 16777215,
+                  "text_style": "u_regular",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -329,7 +410,13 @@
                   "style": "0",
                   "name": "guide_icon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "toolbar_memenu_guide_white",
+                  "pivot_point": "top center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "text",
@@ -345,7 +432,15 @@
                   "caption": "${widget.memenu.guide}",
                   "width_max": "70"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_color": 16777215,
+                  "text_style": "u_regular",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -376,7 +471,13 @@
                   "style": "0",
                   "name": "clothes_icon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "toolbar_memenu_clothes_white",
+                  "pivot_point": "top center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "text",
@@ -392,7 +493,15 @@
                   "caption": "${widget.memenu.editavatar}",
                   "width_max": "70"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_color": 16777215,
+                  "text_style": "u_regular",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           }
@@ -400,17 +509,6 @@
       }
     ]
   },
-  "vars": {
-    "asset_uri": "toolbar_memenu_clothes_white",
-    "pivot_point": "top center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "auto_size": "left",
-    "text_color": 16777215,
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

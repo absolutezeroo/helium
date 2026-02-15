@@ -1,6 +1,6 @@
 {
   "name": "search_footer",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendListCom_search_footer_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendListCom_search_footer.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -49,7 +49,16 @@
                   "color": "0xffffffffff",
                   "background": "true"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "always_show_selection": true,
+                  "border": true,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container_button",
@@ -90,7 +99,15 @@
                       "style": "0",
                       "caption": "${generic.search}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               }
@@ -100,15 +117,6 @@
       }
     ]
   },
-  "vars": {
-    "always_show_selection": true,
-    "border": true,
-    "sharpness": 0,
-    "thickness": 0,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0,
-    "mouse_wheel_enabled": false
-  },
+  "vars": {},
   "filters": []
 }

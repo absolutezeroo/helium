@@ -1,6 +1,6 @@
 {
   "name": "room_settings",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboUnknownAsset_room_settings_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboUnknownAsset_room_settings.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -48,7 +48,11 @@
                   "style": "3",
                   "caption": "${navigator.roomsettings.tab.1}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_headline_big",
+                  "margin_bottom": 6
+                }
               },
               {
                 "tag": "container",
@@ -77,7 +81,14 @@
                       "name": "room_name_label",
                       "caption": "${navigator.roomname}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "input",
@@ -93,7 +104,14 @@
                       "color": "0x0fbfbf9",
                       "background": "true"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "border_color": 9803157,
+                      "text_style": "u_regular",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -109,7 +127,14 @@
                       "caption": "${navigator.roomsettings.desc}",
                       "color": "0x00"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "input",
@@ -125,7 +150,15 @@
                       "color": "0x0fbfbf9",
                       "background": "true"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "border_color": 9803157,
+                      "text_style": "u_regular",
+                      "mouse_wheel_enabled": false,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "container",
@@ -154,7 +187,14 @@
                           "name": "category_label",
                           "caption": "${navigator.category}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "dropmenu",
@@ -183,7 +223,14 @@
                           "name": "maxvisitors_label",
                           "caption": "${navigator.maxvisitors}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "dropmenu",
@@ -212,7 +259,14 @@
                           "name": "tradesettings_label",
                           "caption": "${navigator.tradesettings}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "dropmenu",
@@ -241,7 +295,14 @@
                           "name": "tag_label",
                           "caption": "${navigator.tags}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "input",
@@ -257,7 +318,14 @@
                           "color": "0x0fbfbf9",
                           "background": "true"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "border_color": 9803157,
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "input",
@@ -273,7 +341,14 @@
                           "color": "0x0fbfbf9",
                           "background": "true"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "border_color": 9803157,
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   },
@@ -318,7 +393,14 @@
                           "name": "walk_through_text",
                           "caption": "${navigator.roomsettings.allow_walk_through}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   },
@@ -349,7 +431,16 @@
                           "name": "remove_link",
                           "caption": "${navigator.roomsettings.delete}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_color": 12263936,
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "underline": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "icon",
@@ -382,7 +473,11 @@
                   "style": "3",
                   "caption": "${navigator.roomsettings.tab.2}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_headline_big",
+                  "margin_bottom": 6
+                }
               },
               {
                 "tag": "container",
@@ -424,7 +519,16 @@
                           "name": "room_access_tab_caption",
                           "caption": "${navigator.roomsettings.roomaccess.caption}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_style": "u_headline_small",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -439,7 +543,15 @@
                           "name": "room_access_tab_info",
                           "caption": "${navigator.roomsettings.roomaccess.info}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "container",
@@ -467,7 +579,14 @@
                               "name": "doormode_label",
                               "caption": "${navigator.roomsettings.doormode}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_style": "u_bold",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "selector",
@@ -553,7 +672,14 @@
                               "name": "doormode_open_label",
                               "caption": "${navigator.roomsettings.doormode.open}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -568,7 +694,14 @@
                               "name": "doormode_doorbell_label",
                               "caption": "${navigator.roomsettings.doormode.doorbell}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -583,7 +716,14 @@
                               "name": "doormode_invisible_label",
                               "caption": "${navigator.roomsettings.doormode.invisible}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -598,7 +738,14 @@
                               "name": "doormode_password_label",
                               "caption": "${navigator.roomsettings.doormode.password}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       },
@@ -628,7 +775,14 @@
                               "name": "password_label",
                               "caption": "${navigator.roomsettings.password}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "password",
@@ -644,7 +798,15 @@
                               "color": "0x0fbfbf9",
                               "background": "true"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "border_color": 9803157,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0,
+                              "display_as_password": true
+                            }
                           },
                           {
                             "tag": "text",
@@ -659,7 +821,14 @@
                               "name": "password__confirm_label",
                               "caption": "${navigator.roomsettings.passwordconfirm}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "password",
@@ -675,7 +844,15 @@
                               "color": "0x0fbfbf9",
                               "background": "true"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "border_color": 9803157,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0,
+                              "display_as_password": true
+                            }
                           }
                         ]
                       },
@@ -705,7 +882,10 @@
                               "style": "3",
                               "caption": "${notification.builders_club.room_locked.title}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "text_style": "u_headline_small"
+                            }
                           },
                           {
                             "tag": "text",
@@ -719,7 +899,14 @@
                               "style": "3",
                               "caption": "${notification.builders_club.room_locked.message}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "mouse_wheel_enabled": false,
+                              "multiline": true,
+                              "word_wrap": true,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "button",
@@ -766,7 +953,15 @@
                           "name": "guild_access_disclaimer",
                           "caption": "${navigator.roomsettings.roomaccess.guild.disclaimer}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "container",
@@ -809,7 +1004,14 @@
                               "name": "allow_pets_text",
                               "caption": "${navigator.roomsettings.allowpets}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "checkbox",
@@ -838,7 +1040,14 @@
                               "name": "allow_food_consume_text",
                               "caption": "${navigator.roomsettings.allowfoodconsume}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -853,7 +1062,14 @@
                               "name": "pets_container",
                               "caption": "${navigator.roomsettings.pets}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_style": "u_bold",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -873,7 +1089,11 @@
                   "style": "3",
                   "caption": "${navigator.roomsettings.tab.3}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_headline_big",
+                  "margin_bottom": 6
+                }
               },
               {
                 "tag": "container",
@@ -914,7 +1134,16 @@
                           "style": "0",
                           "caption": "${navigator.flatctrls.guild.caption}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_style": "u_headline_small",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -928,7 +1157,15 @@
                           "style": "0",
                           "caption": "${navigator.flatctrls.guild.info}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   },
@@ -973,7 +1210,14 @@
                               "caption": "${navigator.flatctrls.filter}",
                               "color": "0x00"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_style": "u_bold",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "input",
@@ -988,7 +1232,13 @@
                               "name": "filter_users_input",
                               "background": "true"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       },
@@ -1006,7 +1256,15 @@
                           "caption": "${navigator.flatctrls.userswithrights}",
                           "color": "0x00"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -1023,7 +1281,15 @@
                           "color": "0x00",
                           "visible": "false"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "border",
@@ -1068,7 +1334,10 @@
                               "style": "0",
                               "name": "scroller"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "scrollable": "users_with_rights_item_list"
+                            }
                           },
                           {
                             "tag": "button_thick",
@@ -1132,7 +1401,10 @@
                               "style": "0",
                               "name": "scroller"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "scrollable": "friends_item_list"
+                            }
                           }
                         ]
                       }
@@ -1152,7 +1424,11 @@
                   "style": "3",
                   "caption": "${navigator.roomsettings.tab.4}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_headline_big",
+                  "margin_bottom": 6
+                }
               },
               {
                 "tag": "container",
@@ -1181,7 +1457,16 @@
                       "name": "vip_tab_caption",
                       "caption": "${navigator.roomsettings.vip.caption}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_style": "u_headline_small",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -1196,7 +1481,15 @@
                       "name": "vip_tab_info",
                       "caption": "${navigator.roomsettings.vip.info}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "u_regular",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -1211,7 +1504,14 @@
                       "name": "vip_settings_text",
                       "caption": "${navigator.roomsettings.vip_settings}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "checkbox",
@@ -1240,7 +1540,14 @@
                       "name": "hide_walls_text",
                       "caption": "${navigator.roomsettings.hide_walls}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_style": "u_regular",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "dropmenu",
@@ -1254,7 +1561,10 @@
                       "style": "3",
                       "name": "wall_thickness"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "item_array": null
+                    }
                   },
                   {
                     "tag": "dropmenu",
@@ -1268,7 +1578,10 @@
                       "style": "3",
                       "name": "floor_thickness"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "item_array": null
+                    }
                   },
                   {
                     "tag": "text",
@@ -1283,7 +1596,14 @@
                       "name": "chat_settings_text",
                       "caption": "${navigator.roomsettings.chat_settings}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -1298,7 +1618,13 @@
                       "name": "chat_settings_info",
                       "caption": "${navigator.roomsettings.chat_settings.info}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "u_regular",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "dropmenu",
@@ -1312,7 +1638,10 @@
                       "style": "3",
                       "name": "chat_mode"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "item_array": null
+                    }
                   },
                   {
                     "tag": "dropmenu",
@@ -1326,7 +1655,10 @@
                       "style": "3",
                       "name": "chat_bubbles_width"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "item_array": null
+                    }
                   },
                   {
                     "tag": "dropmenu",
@@ -1340,7 +1672,10 @@
                       "style": "3",
                       "name": "chat_scroll_speed"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "item_array": null
+                    }
                   },
                   {
                     "tag": "dropmenu",
@@ -1354,7 +1689,10 @@
                       "style": "3",
                       "name": "chat_flood_sensitivity"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "item_array": null
+                    }
                   },
                   {
                     "tag": "input",
@@ -1369,7 +1707,12 @@
                       "name": "chat_settings_hearing_distance",
                       "background": "true"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -1384,7 +1727,12 @@
                       "name": "chat_settings_hearing_distance_text",
                       "caption": "${navigator.roomsettings.chat_settings.hearing.distance}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -1400,7 +1748,11 @@
                   "style": "3",
                   "caption": "${navigator.roomsettings.tab.5}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_headline_big",
+                  "margin_bottom": 6
+                }
               },
               {
                 "tag": "container",
@@ -1428,7 +1780,14 @@
                       "name": "moderation_header",
                       "caption": "${navigator.roomsettings.moderation.header}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_size": 20,
+                      "mouse_wheel_enabled": false,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -1443,7 +1802,13 @@
                       "name": "moderation_mute_header",
                       "caption": "${navigator.roomsettings.moderation.mute.header}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_size": 20,
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "selector",
@@ -1485,7 +1850,13 @@
                           "name": "moderation_mute_none_label",
                           "caption": "${navigator.roomsettings.moderation.none}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_size": 20,
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -1500,7 +1871,13 @@
                           "name": "moderation_mute_rights_label",
                           "caption": "${navigator.roomsettings.moderation.rights}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_size": 20,
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "radiobutton",
@@ -1531,7 +1908,13 @@
                       "name": "moderation_kick_header",
                       "caption": "${navigator.roomsettings.moderation.kick.header}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_size": 20,
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "selector",
@@ -1573,7 +1956,13 @@
                           "name": "moderation_kick_none_label",
                           "caption": "${navigator.roomsettings.moderation.none}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_size": 20,
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -1588,7 +1977,13 @@
                           "name": "moderation_kick_rights_header",
                           "caption": "${navigator.roomsettings.moderation.rights}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_size": 20,
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -1603,7 +1998,13 @@
                           "name": "moderation_kick_all_label",
                           "caption": "${navigator.roomsettings.moderation.all}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_size": 20,
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "radiobutton",
@@ -1648,7 +2049,13 @@
                       "name": "moderation_ban_header",
                       "caption": "${navigator.roomsettings.moderation.ban.header}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_size": 20,
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "selector",
@@ -1676,7 +2083,13 @@
                           "name": "moderation_ban_none_label",
                           "caption": "${navigator.roomsettings.moderation.none}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_size": 20,
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "radiobutton",
@@ -1705,7 +2118,13 @@
                           "name": "moderation_ban_rights",
                           "caption": "${navigator.roomsettings.moderation.rights}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_size": 20,
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "radiobutton",
@@ -1762,7 +2181,10 @@
                           "style": "0",
                           "name": "banned_users_scroller"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "scrollable": "moderation_banned_users"
+                        }
                       }
                     ]
                   },
@@ -1779,7 +2201,13 @@
                       "name": "moderation_banned_users_label",
                       "caption": "${navigator.roomsettings.moderation.banned.users}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_size": 20,
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "button",
@@ -1800,41 +2228,27 @@
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 0,
+          "margin_top": 33,
+          "margin_right": 0,
+          "margin_bottom": 3
+        }
       }
     ]
   },
-  "vars": {
-    "text_style": "u_headline_big",
-    "margin_bottom": 3,
-    "auto_size": "left",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "border_color": 9803157,
-    "word_wrap": true,
-    "text_color": 12263936,
-    "underline": true,
-    "sharpness": 0,
-    "thickness": 0,
-    "multiline": true,
-    "display_as_password": true,
-    "scrollable": "moderation_banned_users",
-    "item_array": null,
-    "font_size": 20,
-    "margin_left": 0,
-    "margin_top": 33,
-    "margin_right": 0
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

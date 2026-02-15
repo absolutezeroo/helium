@@ -1,6 +1,6 @@
 {
   "name": "dimmer_ui",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbodimmer_ui_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_dimmer_ui.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -48,7 +48,14 @@
                   "name": "off_text",
                   "caption": "${widget.dimmer.info.off}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_face": "Volter",
+                  "font_size": 9,
+                  "text_color": 0,
+                  "embed_fonts": true,
+                  "word_wrap": true
+                }
               },
               {
                 "tag": "bitmap",
@@ -187,7 +194,11 @@
                           "name": "color_grid",
                           "caption": "${widget.dimmer.title}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "spacing": 2,
+                          "scale_to_fit_items": true
+                        }
                       }
                     ]
                   },
@@ -281,7 +292,13 @@
                       "name": "type_text",
                       "caption": "${widget.dimmer.type.checkbox}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter",
+                      "font_size": 9,
+                      "text_color": 0,
+                      "embed_fonts": true
+                    }
                   },
                   {
                     "tag": "text",
@@ -296,7 +313,14 @@
                       "name": "dimmer_info",
                       "caption": "${widget.dimmer.info}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter",
+                      "font_size": 9,
+                      "text_color": 10066329,
+                      "embed_fonts": true,
+                      "word_wrap": true
+                    }
                   }
                 ]
               }
@@ -336,14 +360,6 @@
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter",
-    "font_size": 9,
-    "text_color": 10066329,
-    "embed_fonts": true,
-    "word_wrap": true,
-    "spacing": 2,
-    "scale_to_fit_items": true
-  },
+  "vars": {},
   "filters": []
 }

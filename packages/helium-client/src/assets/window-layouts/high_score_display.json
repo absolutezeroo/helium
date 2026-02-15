@@ -1,6 +1,6 @@
 {
   "name": "high_score_display",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_high_score_display_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_high_score_display.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -46,7 +46,11 @@
                   "style": "100",
                   "caption": "${high.score.display.caption}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_bold",
+                  "text_color": 16777215
+                }
               }
             ]
           },
@@ -87,7 +91,13 @@
                       "style": "100",
                       "caption": "${high.score.display.users.header}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -115,7 +125,13 @@
                       "style": "100",
                       "caption": "${high.score.display.score.header}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               }
@@ -149,7 +165,11 @@
               "name": "footer",
               "caption": "${high.score.display.congratulations.footer}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "u_regular",
+              "text_color": 7303023
+            }
           },
           {
             "tag": "static_bitmap",
@@ -163,7 +183,11 @@
               "style": "100",
               "name": "cup_icon"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "high_score_highscore_cup",
+              "fit_size_to_contents": true
+            }
           },
           {
             "tag": "scrollable_itemlist_vertical",
@@ -205,7 +229,15 @@
                       "caption": "USERNAMES PH, A LIST",
                       "width_max": "180"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "etching_color": 1660944383,
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -220,30 +252,30 @@
                       "name": "score",
                       "caption": "SCORE PH"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "etching_color": 1660944383,
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               }
             ]
           }
-        ]
+        ],
+        "vars": {
+          "margin_left": 1,
+          "margin_top": 1,
+          "margin_right": 1,
+          "margin_bottom": 1
+        }
       }
     ]
   },
-  "vars": {
-    "text_style": "u_regular",
-    "text_color": 16777215,
-    "auto_size": "left",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "asset_uri": "high_score_highscore_cup",
-    "fit_size_to_contents": true,
-    "etching_color": 1660944383,
-    "margin_left": 1,
-    "margin_top": 1,
-    "margin_right": 1,
-    "margin_bottom": 1
-  },
+  "vars": {},
   "filters": []
 }

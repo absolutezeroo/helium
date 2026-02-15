@@ -1,6 +1,6 @@
 {
   "name": "ude_help",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboUserDefinedRoomEventsCom_ude_help_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboUserDefinedRoomEventsCom_ude_help.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -51,7 +51,18 @@
                   "caption": "dynamic",
                   "clipping": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_face": "Volter Bold",
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "word_wrap": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "bitmap",
@@ -80,7 +91,17 @@
                   "style": "1",
                   "name": "help_text"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "word_wrap": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container_button",
@@ -146,30 +167,21 @@
               }
             ]
           }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
         ]
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter Bold",
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "word_wrap": true,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

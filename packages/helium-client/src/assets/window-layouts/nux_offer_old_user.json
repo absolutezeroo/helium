@@ -1,6 +1,6 @@
 {
   "name": "nux_offer_old_user",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_nux_offer_old_user_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_nux_offer_old_user.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -61,7 +61,18 @@
                       "caption": "${nux.offer.old.user.title}",
                       "height_max": "84"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_size": 34,
+                      "text_color": 16777215,
+                      "text_style": "u_headline_big",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -78,7 +89,13 @@
                   "name": "club_icon",
                   "tags": "ICON"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}nux/nux_cropped_frank.png",
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               }
             ]
           },
@@ -109,7 +126,19 @@
                   "color": "0x00",
                   "height_max": "84"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_color": 3355443,
+                  "text_style": "u_tool_tip",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "boxsizer",
@@ -140,7 +169,18 @@
                       "width_max": "158",
                       "height_min": "16"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_size": 17,
+                      "text_color": 3355443,
+                      "margin_top": 14,
+                      "mouse_wheel_enabled": false,
+                      "bold": true,
+                      "underline": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "button_thick",
@@ -160,48 +200,36 @@
                     },
                     "children": []
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 10,
+                  "padding_horizontal": 0,
+                  "padding_vertical": 0
+                }
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 1,
+          "margin_top": 10,
+          "margin_right": 1,
+          "margin_bottom": 10
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "font_size": 17,
-    "text_color": 3355443,
-    "text_style": "u_tool_tip",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 10,
-    "leading": 0,
-    "asset_uri": "${image.library.url}nux/nux_cropped_frank.png",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "margin_top": 10,
-    "bold": true,
-    "underline": true,
-    "padding_horizontal": 0,
-    "padding_vertical": 0,
-    "margin_left": 1,
-    "margin_right": 1,
-    "margin_bottom": 10
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

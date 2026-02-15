@@ -1,6 +1,6 @@
 {
   "name": "notification_popup",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNotificationsCom_layout_notification_popup_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboNotificationsCom_layout_notification_popup.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -43,7 +43,12 @@
                   "style": "3",
                   "name": "illustration"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "stretched_x": false,
+                  "stretched_y": false,
+                  "fit_size_to_contents": true
+                }
               },
               {
                 "tag": "itemlist",
@@ -69,7 +74,16 @@
                       "style": "3",
                       "name": "message"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "margin_bottom": 8,
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "link",
@@ -85,7 +99,16 @@
                       "visible": "false",
                       "treshold": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "underline": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "button",
@@ -106,35 +129,27 @@
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 3,
+          "margin_top": 36,
+          "margin_right": 3,
+          "margin_bottom": 3
+        }
       }
     ]
   },
-  "vars": {
-    "stretched_x": false,
-    "stretched_y": false,
-    "fit_size_to_contents": true,
-    "auto_size": "center",
-    "margin_bottom": 3,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "underline": true,
-    "margin_left": 3,
-    "margin_top": 36,
-    "margin_right": 3
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

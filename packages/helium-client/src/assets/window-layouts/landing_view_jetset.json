@@ -1,6 +1,6 @@
 {
   "name": "landing_view_jetset",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_landing_view_jetset_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_landing_view_jetset.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -47,7 +47,11 @@
                   "style": "0",
                   "name": "background_gradient_top"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}reception/js_background_top_pixel.png",
+                  "pivot_point": "bottom left"
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -62,7 +66,11 @@
                   "name": "left-right_divider",
                   "visible": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "landing_view_reception_horizontal",
+                  "stretched_x": false
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -76,7 +84,12 @@
                   "style": "0",
                   "name": "background_horizon_stretch"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}reception/js_reception_backdrop_BG_left.png",
+                  "pivot_point": "bottom left",
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -90,7 +103,13 @@
                   "style": "0",
                   "name": "background_horizon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}reception/js_reception_BG_right_3.png",
+                  "pivot_point": "bottom left",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -104,7 +123,12 @@
                   "style": "0",
                   "name": "background_right"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}reception/js_reception_backdrop_left.png",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "icon",
@@ -132,7 +156,12 @@
                   "style": "0",
                   "name": "background_hotel_top"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}reception/js_reception_backdrop_hotel_top_stretch.png",
+                  "pivot_point": "bottom left",
+                  "stretched_x": false
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -146,7 +175,13 @@
                   "style": "0",
                   "name": "background_hotel_left"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}reception/js_reception_backdrop_right_2.png",
+                  "pivot_point": "bottom left",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "icon",
@@ -217,7 +252,13 @@
                   "style": "0",
                   "name": "logo"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}reception/reception_logo_drape.png",
+                  "pivot_point": "bottom left",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               }
             ]
           }
@@ -225,11 +266,6 @@
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.url}reception/reception_logo_drape.png",
-    "pivot_point": "bottom left",
-    "stretched_x": false,
-    "stretched_y": false
-  },
+  "vars": {},
   "filters": []
 }

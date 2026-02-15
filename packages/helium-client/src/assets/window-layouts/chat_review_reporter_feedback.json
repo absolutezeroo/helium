@@ -1,6 +1,6 @@
 {
   "name": "chat_review_reporter_feedback",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_chat_review_reporter_feedback_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboHelpCom_chat_review_reporter_feedback.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -46,7 +46,16 @@
                   "name": "caption_txt",
                   "caption": "${guide.bully.request.reporter.sent.caption}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_color": 3355443,
+                  "text_style": "il_heading_title",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "html",
@@ -61,7 +70,16 @@
                   "name": "body_txt",
                   "caption": "${guide.bully.request.reporter.sent.body}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0,
+                  "editable": false,
+                  "selectable": false
+                }
               },
               {
                 "tag": "border",
@@ -86,7 +104,11 @@
                       "params": "16",
                       "style": "100"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "help_notification",
+                      "fit_size_to_contents": true
+                    }
                   },
                   {
                     "tag": "text",
@@ -101,7 +123,14 @@
                       "name": "note_txt",
                       "caption": "${guide.bully.request.reporter.note}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -134,34 +163,26 @@
               "params": "1040",
               "style": "100"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "help_illustrations_bully"
+            }
+          }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "text_color": 3355443,
-    "text_style": "il_heading_title",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "editable": false,
-    "selectable": false,
-    "asset_uri": "help_illustrations_bully",
-    "fit_size_to_contents": true
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

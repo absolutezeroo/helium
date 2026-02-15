@@ -1,6 +1,6 @@
 {
   "name": "video_viewer",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_video_viewer_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_video_viewer.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -50,7 +50,10 @@
                   "name": "no_videos_label",
                   "caption": "${widget.furni.video_viewer.no_videos}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "il_regular_white"
+                }
               },
               {
                 "tag": "display_object_wrapper",
@@ -106,9 +109,17 @@
                       "params": "3280",
                       "style": "3"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "icons_next",
+                      "zoom_x": -1,
+                      "fit_size_to_contents": true
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${widget.furni.video_viewer.tooltip.prev}"
+                }
               },
               {
                 "tag": "container_button",
@@ -134,9 +145,16 @@
                       "params": "3280",
                       "style": "3"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "icons_next",
+                      "fit_size_to_contents": true
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${widget.furni.video_viewer.tooltip.next}"
+                }
               },
               {
                 "tag": "label",
@@ -218,7 +236,11 @@
                                   "name": "item_title",
                                   "caption": "Item Title"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "text_style": "u_bold",
+                                  "margin_top": 3
+                                }
                               },
                               {
                                 "tag": "text",
@@ -233,7 +255,17 @@
                                   "name": "item_description",
                                   "caption": "Integer rutrum, lorem quis interdum laoreet, nibh nulla tempus magna, tristique tincidunt mi nisi in mi. Etiam at sem quis mi rutrum placerat. Aliquam erat volutpat. Phasellus eu nibh sed enim pulvinar pulvinar vitae nec dolor. Etiam in ligula diam, et ornare purus. Integer condimentum lacus in diam ultrices suscipit. Duis sed libero vel neque hendrerit mollis sit amet eu nibh. Integer sed turpis orci, ac luctus sapien."
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "auto_size": "left",
+                                  "text_style": "u_small",
+                                  "margin_bottom": 8,
+                                  "mouse_wheel_enabled": false,
+                                  "multiline": true,
+                                  "word_wrap": true,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               }
                             ]
                           }
@@ -245,34 +277,21 @@
               }
             ]
           }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
         ]
       }
     ]
   },
-  "vars": {
-    "text_style": "u_small",
-    "asset_uri": "icons_next",
-    "zoom_x": -1,
-    "fit_size_to_contents": true,
-    "tool_tip_caption": "${widget.furni.video_viewer.tooltip.next}",
-    "margin_top": 3,
-    "auto_size": "left",
-    "margin_bottom": 8,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

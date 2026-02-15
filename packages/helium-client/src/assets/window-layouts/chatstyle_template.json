@@ -1,6 +1,6 @@
 {
   "name": "chatstyle_template",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_chatinput_chatstyle_template_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_chatinput_chatstyle_template.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -46,17 +46,18 @@
               "style": "0",
               "name": "bubble_preview"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "handle_bitmap_disposing": false,
+              "stretched_x": false,
+              "stretched_y": false,
+              "fit_size_to_contents": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "handle_bitmap_disposing": false,
-    "stretched_x": false,
-    "stretched_y": false,
-    "fit_size_to_contents": true
-  },
+  "vars": {},
   "filters": []
 }

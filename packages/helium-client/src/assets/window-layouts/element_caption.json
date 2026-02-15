@@ -1,6 +1,6 @@
 {
   "name": "element_caption",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_element_caption_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_element_caption.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -19,20 +19,21 @@
           "caption": "Caption PH",
           "tags": "COLORABLE"
         },
-        "children": []
+        "children": [],
+        "vars": {
+          "auto_size": "left",
+          "font_size": 24,
+          "text_style": "il_heading_1",
+          "mouse_wheel_enabled": false,
+          "multiline": true,
+          "word_wrap": true,
+          "max_lines": 2,
+          "spacing": -0.6,
+          "leading": 0
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "font_size": 24,
-    "text_style": "il_heading_1",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "max_lines": 2,
-    "spacing": -0.6,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

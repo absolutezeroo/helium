@@ -1,6 +1,6 @@
 {
   "name": "task_progress_dialog",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_tour_task_progress_dialog_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_tour_task_progress_dialog.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -55,7 +55,11 @@
                       "params": "16",
                       "style": "100"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "help_frank_greeting",
+                      "fit_size_to_contents": true
+                    }
                   }
                 ]
               },
@@ -71,7 +75,16 @@
                   "style": "100",
                   "caption": "${talent.track.progress.tour.header.caption}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "il_heading_2",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -86,7 +99,15 @@
                   "caption": "${talent.track.progress.tour.header.body}",
                   "height_min": "30"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "widget",
@@ -100,7 +121,10 @@
                   "style": "100",
                   "name": "action_separator"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "widget_type": "separator"
+                }
               },
               {
                 "tag": "itemlist_vertical",
@@ -129,7 +153,16 @@
                       "name": "action_title",
                       "caption": "${talent.track.progress.tour.info.caption}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_style": "il_heading_2",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -145,7 +178,15 @@
                       "caption": "${talent.track.progress.tour.info.body}",
                       "height_min": "30"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "button",
@@ -193,40 +234,38 @@
                   "style": "100",
                   "caption": "${talent.track.progress.tour.decline}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "underline": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 1,
+          "margin_top": 40,
+          "margin_right": 0,
+          "margin_bottom": 0
+        }
       }
     ]
   },
-  "vars": {
-    "asset_uri": "help_frank_greeting",
-    "fit_size_to_contents": true,
-    "auto_size": "left",
-    "text_style": "il_heading_2",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "widget_type": "separator",
-    "underline": true,
-    "margin_left": 1,
-    "margin_top": 40,
-    "margin_right": 0,
-    "margin_bottom": 0
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

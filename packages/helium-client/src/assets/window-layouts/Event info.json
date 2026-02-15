@@ -1,6 +1,6 @@
 {
   "name": "Event info",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_iro_event_info_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboNavigatorCom_iro_event_info.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,7 +32,10 @@
               "style": "0",
               "name": "event_bg_visitor"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.url}Events/event_bg_visitor.png"
+            }
           },
           {
             "tag": "static_bitmap",
@@ -46,7 +49,10 @@
               "style": "0",
               "name": "event_bg_owner"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.url}Events/event_bg_owner.png"
+            }
           },
           {
             "tag": "static_bitmap",
@@ -60,7 +66,10 @@
               "style": "0",
               "name": "event_bg_contracted"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.url}Events/event_bg_contracted.png"
+            }
           },
           {
             "tag": "region",
@@ -105,7 +114,21 @@
                   "name": "header_txt",
                   "caption": "Caption PH"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 19,
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "bold": true,
+                  "kerning": false,
+                  "spacing": -0.4,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -120,7 +143,21 @@
                   "name": "get_event",
                   "caption": "${roomad.get.event}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "underline": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -135,7 +172,21 @@
                   "name": "desc_txt",
                   "caption": "Search around hotel and locate this very valuable dino egg jhg jhg jhg jh gjhg jhg jhg jhg jh gjhg jhg jhg jhg jhg jhgjhgjh gjhg jh gjhg jh gjhg jhg jhg jhg jhg jhg"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "word_wrap": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -150,7 +201,21 @@
                   "name": "in_progress_txt",
                   "caption": "${navigator.eventinprogress}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "bold": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -165,7 +230,21 @@
                   "name": "create_link",
                   "caption": "${navigator.createevent}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "underline": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "region",
@@ -194,7 +273,21 @@
                       "name": "modify_link",
                       "caption": "${navigator.roominfo.editevent}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "antialias_type": "advanced",
+                      "auto_size": "left",
+                      "font_face": "Ubuntu",
+                      "font_size": 18,
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "underline": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -225,7 +318,21 @@
                       "name": "modify_link",
                       "caption": "${roomad.extend.event}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "antialias_type": "advanced",
+                      "auto_size": "right",
+                      "font_face": "Ubuntu",
+                      "font_size": 18,
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "underline": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -241,7 +348,10 @@
                   "style": "0",
                   "name": "event_icon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}Events/event_icon.png"
+                }
               }
             ]
           }
@@ -249,23 +359,6 @@
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.url}Events/event_icon.png",
-    "antialias_type": "advanced",
-    "auto_size": "right",
-    "font_face": "Ubuntu",
-    "font_size": 18,
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "bold": true,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0,
-    "underline": true,
-    "multiline": true,
-    "word_wrap": true
-  },
+  "vars": {},
   "filters": []
 }

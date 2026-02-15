@@ -1,6 +1,6 @@
 {
   "name": "new_extended_profile",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGroupsCom_Habbonew_extended_profile_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboGroupsCom_new_extended_profile.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -83,7 +83,11 @@
                               "style": "100",
                               "name": "avatar_image"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "widget_type": "avatar_image",
+                              "avatar_image:cropped": true
+                            }
                           }
                         ]
                       },
@@ -113,7 +117,13 @@
                               "name": "user_name",
                               "caption": "${extendedprofile.username}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -127,7 +137,16 @@
                               "style": "100",
                               "name": "motto_txt"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "font_size": 17,
+                              "text_style": "u_italic",
+                              "mouse_wheel_enabled": false,
+                              "multiline": true,
+                              "word_wrap": true,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "formatted_text",
@@ -142,7 +161,13 @@
                               "name": "user_created",
                               "caption": "${extendedprofile.created}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "formatted_text",
@@ -158,7 +183,13 @@
                               "caption": "${extendedprofile.activitypoints}",
                               "visible": "false"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "formatted_text",
@@ -173,7 +204,13 @@
                               "name": "user_last_login",
                               "caption": "${extendedprofile.last.login}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "container",
@@ -226,7 +263,11 @@
                                       "style": "0",
                                       "name": "offline_icon"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "asset_uri": "${image.library.url}guilds/offline_icon.png",
+                                      "fit_size_to_contents": true
+                                    }
                                   },
                                   {
                                     "tag": "static_bitmap",
@@ -240,7 +281,11 @@
                                       "style": "0",
                                       "name": "online_icon"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "asset_uri": "${image.library.url}guilds/online_icon.png",
+                                      "fit_size_to_contents": true
+                                    }
                                   }
                                 ]
                               },
@@ -288,7 +333,14 @@
                                       "caption": "${extendedprofile.friend}",
                                       "color": "0x00"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "auto_size": "left",
+                                      "text_style": "u_bold",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "text",
@@ -305,7 +357,15 @@
                                       "color": "0x00",
                                       "visible": "false"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "auto_size": "left",
+                                      "text_style": "u_regular",
+                                      "mouse_wheel_enabled": false,
+                                      "italic": true,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "button",
@@ -327,9 +387,16 @@
                                   }
                                 ]
                               }
-                            ]
+                            ],
+                            "vars": {
+                              "spacing": 5,
+                              "auto_arrange_items": false
+                            }
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "auto_arrange_items": false
+                        }
                       },
                       {
                         "tag": "container",
@@ -358,7 +425,14 @@
                               "caption": "${extended.profile.change.looks}",
                               "treshold": "0"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_style": "il_link_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "link",
@@ -374,7 +448,14 @@
                               "caption": "${extended.profile.change.badges}",
                               "treshold": "0"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_style": "il_link_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       },
@@ -404,7 +485,13 @@
                               "style": "100",
                               "name": "badge_0"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "widget_type": "badge_image",
+                              "badge_image:pivot_point": "center",
+                              "badge_image:stretched_x": false,
+                              "badge_image:stretched_y": false
+                            }
                           },
                           {
                             "tag": "widget",
@@ -418,7 +505,13 @@
                               "style": "100",
                               "name": "badge_1"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "widget_type": "badge_image",
+                              "badge_image:pivot_point": "center",
+                              "badge_image:stretched_x": false,
+                              "badge_image:stretched_y": false
+                            }
                           },
                           {
                             "tag": "widget",
@@ -432,7 +525,13 @@
                               "style": "100",
                               "name": "badge_2"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "widget_type": "badge_image",
+                              "badge_image:pivot_point": "center",
+                              "badge_image:stretched_x": false,
+                              "badge_image:stretched_y": false
+                            }
                           },
                           {
                             "tag": "widget",
@@ -446,7 +545,13 @@
                               "style": "100",
                               "name": "badge_3"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "widget_type": "badge_image",
+                              "badge_image:pivot_point": "center",
+                              "badge_image:stretched_x": false,
+                              "badge_image:stretched_y": false
+                            }
                           },
                           {
                             "tag": "widget",
@@ -460,7 +565,13 @@
                               "style": "100",
                               "name": "badge_4"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "widget_type": "badge_image",
+                              "badge_image:pivot_point": "center",
+                              "badge_image:stretched_x": false,
+                              "badge_image:stretched_y": false
+                            }
                           }
                         ]
                       }
@@ -508,7 +619,13 @@
                           "name": "friend_count",
                           "caption": "${extendedprofile.friends.count}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "formatted_text",
@@ -523,7 +640,14 @@
                           "name": "rel_status_label_txt",
                           "caption": "${extendedprofile.relstatus}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "itemlist_vertical",
@@ -562,7 +686,10 @@
                                   "params": "16",
                                   "style": "100"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "relationship_status_heart"
+                                }
                               },
                               {
                                 "tag": "border",
@@ -606,7 +733,15 @@
                                           "caption": "${extended.profile.relationship.add.friends}",
                                           "width_max": "160"
                                         },
-                                        "children": []
+                                        "children": [],
+                                        "vars": {
+                                          "auto_size": "left",
+                                          "mouse_wheel_enabled": false,
+                                          "bold": true,
+                                          "underline": true,
+                                          "spacing": 0,
+                                          "leading": 0
+                                        }
                                       }
                                     ]
                                   }
@@ -624,7 +759,13 @@
                                   "style": "100",
                                   "name": "heart_head"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "widget_type": "avatar_image",
+                                  "avatar_image:only_head": true,
+                                  "avatar_image:cropped": true,
+                                  "avatar_image:direction": "southwest"
+                                }
                               },
                               {
                                 "tag": "text",
@@ -639,7 +780,15 @@
                                   "name": "heart_txt",
                                   "caption": "${extendedprofile.relstatus.others.heart}"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "auto_size": "left",
+                                  "text_color": 8355711,
+                                  "mouse_wheel_enabled": false,
+                                  "italic": true,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               }
                             ]
                           },
@@ -667,7 +816,10 @@
                                   "params": "16",
                                   "style": "100"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "relationship_status_smile"
+                                }
                               },
                               {
                                 "tag": "border",
@@ -711,7 +863,15 @@
                                           "caption": "${extended.profile.relationship.add.friends}",
                                           "width_max": "160"
                                         },
-                                        "children": []
+                                        "children": [],
+                                        "vars": {
+                                          "auto_size": "left",
+                                          "mouse_wheel_enabled": false,
+                                          "bold": true,
+                                          "underline": true,
+                                          "spacing": 0,
+                                          "leading": 0
+                                        }
                                       }
                                     ]
                                   }
@@ -729,7 +889,13 @@
                                   "style": "100",
                                   "name": "smile_head"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "widget_type": "avatar_image",
+                                  "avatar_image:only_head": true,
+                                  "avatar_image:cropped": true,
+                                  "avatar_image:direction": "southwest"
+                                }
                               },
                               {
                                 "tag": "text",
@@ -744,7 +910,15 @@
                                   "name": "smile_txt",
                                   "caption": "${extendedprofile.relstatus.others.smile}"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "auto_size": "left",
+                                  "text_color": 8355711,
+                                  "mouse_wheel_enabled": false,
+                                  "italic": true,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               }
                             ]
                           },
@@ -772,7 +946,10 @@
                                   "params": "16",
                                   "style": "100"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "relationship_status_bobba"
+                                }
                               },
                               {
                                 "tag": "border",
@@ -816,7 +993,15 @@
                                           "caption": "${extended.profile.relationship.add.friends}",
                                           "width_max": "160"
                                         },
-                                        "children": []
+                                        "children": [],
+                                        "vars": {
+                                          "auto_size": "left",
+                                          "mouse_wheel_enabled": false,
+                                          "bold": true,
+                                          "underline": true,
+                                          "spacing": 0,
+                                          "leading": 0
+                                        }
                                       }
                                     ]
                                   }
@@ -834,7 +1019,13 @@
                                   "style": "100",
                                   "name": "bobba_head"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "widget_type": "avatar_image",
+                                  "avatar_image:only_head": true,
+                                  "avatar_image:cropped": true,
+                                  "avatar_image:direction": "southwest"
+                                }
                               },
                               {
                                 "tag": "text",
@@ -849,7 +1040,15 @@
                                   "name": "bobba_txt",
                                   "caption": "${extendedprofile.relstatus.others.bobba}"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "auto_size": "left",
+                                  "text_color": 8355711,
+                                  "mouse_wheel_enabled": false,
+                                  "italic": true,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               }
                             ]
                           }
@@ -857,7 +1056,11 @@
                       }
                     ]
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 8,
+                  "auto_arrange_items": false
+                }
               },
               {
                 "tag": "container",
@@ -915,7 +1118,13 @@
                           "params": "16",
                           "style": "100"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "extended_profile_rooms",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       },
                       {
                         "tag": "text",
@@ -930,7 +1139,14 @@
                           "name": "rooms_link_text",
                           "caption": "${extendedprofile.rooms}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_style": "il_link_strong",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   },
@@ -975,7 +1191,13 @@
                           "params": "16",
                           "style": "3"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "extended_profile_level",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       },
                       {
                         "tag": "text",
@@ -990,7 +1212,16 @@
                           "name": "levelLabel",
                           "caption": "${generic.level}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_size": 17,
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "bold": true,
+                          "underline": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -1005,7 +1236,15 @@
                           "name": "levelValue",
                           "caption": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_size": 17,
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "bold": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   },
@@ -1050,7 +1289,11 @@
                           "params": "16",
                           "style": "3"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "extended_profile_star_gems",
+                          "pivot_point": "center"
+                        }
                       },
                       {
                         "tag": "text",
@@ -1065,11 +1308,22 @@
                           "name": "starGemCount",
                           "caption": "99999999"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_size": 17,
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "bold": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 20
+                }
               },
               {
                 "tag": "container",
@@ -1126,7 +1380,13 @@
                           "name": "total_group_count",
                           "caption": "${extendedprofile.groups.count}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "scrollable_itemlist_vertical",
@@ -1174,54 +1434,37 @@
                       }
                     ]
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 6
+                }
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 6
+            }
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 3,
+          "margin_top": 36,
+          "margin_right": 3,
+          "margin_bottom": 3
+        }
       }
     ]
   },
-  "vars": {
-    "widget_type": "avatar_image",
-    "avatar_image:cropped": true,
-    "auto_size": "left",
-    "mouse_wheel_enabled": false,
-    "spacing": 6,
-    "leading": 0,
-    "font_size": 17,
-    "text_style": "u_regular",
-    "multiline": true,
-    "word_wrap": true,
-    "asset_uri": "extended_profile_star_gems",
-    "fit_size_to_contents": true,
-    "italic": true,
-    "auto_arrange_items": false,
-    "badge_image:pivot_point": "center",
-    "badge_image:stretched_x": false,
-    "badge_image:stretched_y": false,
-    "bold": true,
-    "underline": true,
-    "avatar_image:only_head": true,
-    "avatar_image:direction": "southwest",
-    "text_color": 8355711,
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "margin_left": 3,
-    "margin_top": 36,
-    "margin_right": 3,
-    "margin_bottom": 3
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

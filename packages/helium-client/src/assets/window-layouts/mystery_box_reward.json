@@ -1,6 +1,6 @@
 {
   "name": "mystery_box_reward",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbomystery_box_reward_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_mystery_box_reward.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -71,7 +71,11 @@
                       "params": "3280",
                       "style": "100"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "${image.library.url}Quests/ach_receive_star.png",
+                      "fit_size_to_contents": true
+                    }
                   },
                   {
                     "tag": "bitmap",
@@ -85,7 +89,13 @@
                       "style": "100",
                       "name": "reward_image"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "fit_size_to_contents": true
+                    }
                   }
                 ]
               },
@@ -104,29 +114,26 @@
                 },
                 "children": []
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 4
+            }
+          }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.url}Quests/ach_receive_star.png",
-    "fit_size_to_contents": true,
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "spacing": 4
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

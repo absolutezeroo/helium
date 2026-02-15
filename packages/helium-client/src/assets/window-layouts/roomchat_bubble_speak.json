@@ -1,6 +1,6 @@
 {
   "name": "roomchat_bubble_speak",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_roomchat_styles_zombie_hand_bubble_whisper_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_roomchat_styles_zombie_hand_bubble_whisper.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -76,7 +76,11 @@
               "style": "0",
               "name": "name"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "u_chat_name_whisper",
+              "text_color": 4482628
+            }
           },
           {
             "tag": "text",
@@ -91,17 +95,18 @@
               "name": "message",
               "treshold": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "text_color": 4482628,
+              "text_style": "u_chat_whisper",
+              "mouse_wheel_enabled": false
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "text_style": "u_chat_whisper",
-    "text_color": 4482628,
-    "auto_size": "left",
-    "mouse_wheel_enabled": false
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "discountValueItem",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbodiscount_value_item_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_discount_value_item.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -124,7 +124,14 @@
                   "name": "total_text",
                   "caption": "${catalog.bundlewidget.discount.total}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 9,
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -139,7 +146,13 @@
                   "name": "total_currency_value_left",
                   "caption": "00000"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "right",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "icon",
@@ -186,7 +199,13 @@
                   "name": "total_currency_value_right",
                   "caption": "00000"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "right",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "icon",
@@ -248,7 +267,15 @@
                   "name": "discount_text",
                   "caption": "${catalog.bundlewidget.discount.save}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 9,
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -263,7 +290,14 @@
                   "name": "discount_currency_value_left",
                   "caption": "00000"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "right",
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "icon",
@@ -292,7 +326,14 @@
                   "name": "discount_currency_value_right",
                   "caption": "00000"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "right",
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "icon",
@@ -314,13 +355,6 @@
       }
     ]
   },
-  "vars": {
-    "auto_size": "right",
-    "font_size": 9,
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "text_color": 16777215
-  },
+  "vars": {},
   "filters": []
 }

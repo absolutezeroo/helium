@@ -1,6 +1,6 @@
 {
   "name": "habbo_login_dialog",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCommunicationDemoCom_Habbologin_window_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCommunicationDemoCom_login_window.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -57,7 +57,15 @@
                       "style": "0",
                       "name": "text002"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "checkbox",
@@ -167,7 +175,10 @@
                       "name": "label_name",
                       "caption": "Name:"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "il_heading_1"
+                    }
                   },
                   {
                     "tag": "border",
@@ -194,7 +205,14 @@
                           "style": "100",
                           "name": "name_field"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "always_show_selection": true,
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0,
+                          "focus_capturer": true
+                        }
                       }
                     ]
                   },
@@ -239,7 +257,10 @@
                       "name": "label_password",
                       "caption": "Password:"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "il_heading_1"
+                    }
                   },
                   {
                     "tag": "border",
@@ -266,7 +287,14 @@
                           "style": "100",
                           "name": "pwd_field"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "always_show_selection": true,
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0,
+                          "display_as_password": true
+                        }
                       }
                     ]
                   }
@@ -317,7 +345,14 @@
                       "name": "users_info",
                       "caption": "A list of your avatars will appear after successful login."
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "scrollable_itemlist_vertical",
@@ -350,43 +385,39 @@
                         },
                         "children": []
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 1
+                    }
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 3
+            }
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.7490196078431373",
+              "blurX": "80",
+              "blurY": "80"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 1,
+          "margin_top": 75,
+          "margin_right": 1,
+          "margin_bottom": 5
+        }
       }
     ]
   },
-  "vars": {
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "kerning": false,
-    "spacing": 3,
-    "leading": 0,
-    "text_style": "il_heading_1",
-    "always_show_selection": true,
-    "focus_capturer": true,
-    "display_as_password": true,
-    "multiline": true,
-    "word_wrap": true,
-    "margin_left": 1,
-    "margin_top": 75,
-    "margin_right": 1,
-    "margin_bottom": 5
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.7490196078431373",
-        "blurX": "80",
-        "blurY": "80"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

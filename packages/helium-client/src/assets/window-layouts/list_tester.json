@@ -1,6 +1,6 @@
 {
   "name": "list_tester",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboUnknownAsset_list_tester_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboUnknownAsset_list_tester.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -59,7 +59,10 @@
                   "params": "2065",
                   "style": "0"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "scrollable": "_list_vertical"
+                }
               },
               {
                 "tag": "container",
@@ -100,7 +103,10 @@
                       "params": "145",
                       "style": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "scrollable": "_list_horizontal"
+                    }
                   }
                 ]
               }
@@ -110,8 +116,6 @@
       }
     ]
   },
-  "vars": {
-    "scrollable": "_list_horizontal"
-  },
+  "vars": {},
   "filters": []
 }

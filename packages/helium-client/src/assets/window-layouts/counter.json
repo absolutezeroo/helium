@@ -1,6 +1,6 @@
 {
   "name": "counter",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habbocounter_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboGamesCom_counter.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -21,12 +21,13 @@
           "width_min": "164",
           "height_min": "164"
         },
-        "children": []
+        "children": [],
+        "vars": {
+          "bitmap_asset_name": "explosion001"
+        }
       }
     ]
   },
-  "vars": {
-    "bitmap_asset_name": "explosion001"
-  },
+  "vars": {},
   "filters": []
 }

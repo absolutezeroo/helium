@@ -1,6 +1,6 @@
 {
   "name": "messenger_main_window",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboMessengerCom_main_window_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboMessengerCom_main_window.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -127,7 +127,10 @@
                             },
                             "children": []
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "tool_tip_caption": "${messenger.minimail.tooltip}"
+                        }
                       },
                       {
                         "tag": "container_button",
@@ -156,7 +159,10 @@
                             },
                             "children": []
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "tool_tip_caption": "${messenger.followfriend.tooltip}"
+                        }
                       },
                       {
                         "tag": "container_button",
@@ -185,7 +191,11 @@
                             },
                             "children": []
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "tool_tip_caption": "${infostand.profile.link.tooltip}",
+                          "tool_tip_delay": 256
+                        }
                       },
                       {
                         "tag": "bitmap",
@@ -290,27 +300,28 @@
               "color": "0xFFffffff",
               "background": "true"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_face": "Volter",
+              "font_size": 9,
+              "text_color": 0,
+              "always_show_selection": true,
+              "embed_fonts": true,
+              "mouse_wheel_enabled": true,
+              "word_wrap": true,
+              "border_color": 4287137928,
+              "border": true
+            }
           }
-        ]
+        ],
+        "vars": {
+          "margin_left": 0,
+          "margin_right": 0,
+          "margin_bottom": 0
+        }
       }
     ]
   },
-  "vars": {
-    "margin_left": 0,
-    "margin_right": 0,
-    "margin_bottom": 0,
-    "tool_tip_caption": "${infostand.profile.link.tooltip}",
-    "tool_tip_delay": 256,
-    "font_face": "Volter",
-    "font_size": 9,
-    "text_color": 0,
-    "always_show_selection": true,
-    "embed_fonts": true,
-    "mouse_wheel_enabled": true,
-    "word_wrap": true,
-    "border_color": 4287137928,
-    "border": true
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "pet_image",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_pet_image_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_pet_image.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -30,7 +30,13 @@
               "style": "0",
               "name": "bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "bitmap_asset_name": "placeholder_pet_png",
+              "pivot_point": "center",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "region",
@@ -52,11 +58,6 @@
       }
     ]
   },
-  "vars": {
-    "bitmap_asset_name": "placeholder_pet_png",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false
-  },
+  "vars": {},
   "filters": []
 }

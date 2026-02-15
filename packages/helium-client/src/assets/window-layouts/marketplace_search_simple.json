@@ -1,6 +1,6 @@
 {
   "name": "marketplace_search_simple",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbomarketplace_search_simple_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_marketplace_search_simple.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -30,7 +30,14 @@
               "style": "3",
               "caption": "${catalog.marketplace.sort_order}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "text_color": 6710886,
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "dropmenu",
@@ -50,12 +57,6 @@
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "text_color": 6710886,
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

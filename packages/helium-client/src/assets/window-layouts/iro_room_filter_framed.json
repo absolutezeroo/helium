@@ -1,6 +1,6 @@
 {
   "name": "iro_room_filter_framed",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_iro_room_filter_framed_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboNavigatorCom_iro_room_filter_framed.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -48,7 +48,14 @@
                   "caption": "bobba",
                   "width_max": "115"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "always_show_selection": true,
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -91,7 +98,10 @@
                   "style": "0",
                   "name": "badwords_scrollbar"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "scrollable": "badwords_itemlist"
+                }
               }
             ]
           },
@@ -125,27 +135,21 @@
             },
             "children": []
           }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
         ]
       }
     ]
   },
-  "vars": {
-    "always_show_selection": true,
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "scrollable": "badwords_itemlist"
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

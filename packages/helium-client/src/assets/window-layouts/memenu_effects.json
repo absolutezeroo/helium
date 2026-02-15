@@ -1,6 +1,6 @@
 {
   "name": "memenu_effects",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_me_menu_sound_settings_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_me_menu_sound_settings.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,7 +33,15 @@
               "name": "settings_title",
               "caption": "${widget.memenu.settings.title}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "text_color": 16777215,
+              "text_style": "u_regular",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "container",
@@ -80,7 +88,15 @@
               "name": "volume_text",
               "caption": "${widget.memenu.settings.volume}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "text_color": 16777215,
+              "text_style": "u_regular",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "container",
@@ -108,7 +124,14 @@
                   "name": "title",
                   "caption": "${widget.memenu.settings.volume.ui}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "etching_color": 0,
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container",
@@ -135,7 +158,10 @@
                       "style": "0",
                       "name": "slider_base"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "toolbar_memenu_settings_slider_base"
+                    }
                   },
                   {
                     "tag": "container",
@@ -177,7 +203,10 @@
                               "style": "0",
                               "name": "slider_bitmap"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "toolbar_memenu_settings_slider_button"
+                            }
                           }
                         ]
                       }
@@ -212,7 +241,13 @@
                       "style": "0",
                       "name": "sounds_off_icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "toolbar_memenu_settings_sounds_off_white",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               },
@@ -243,7 +278,10 @@
                       "style": "0",
                       "name": "sounds_on_icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "toolbar_memenu_settings_sounds_on_white"
+                    }
                   }
                 ]
               }
@@ -275,7 +313,14 @@
                   "name": "title",
                   "caption": "${widget.memenu.settings.volume.furni}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "etching_color": 0,
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container",
@@ -302,7 +347,10 @@
                       "style": "0",
                       "name": "slider_base"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "toolbar_memenu_settings_slider_base"
+                    }
                   },
                   {
                     "tag": "container",
@@ -344,7 +392,10 @@
                               "style": "0",
                               "name": "slider_bitmap"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "toolbar_memenu_settings_slider_button"
+                            }
                           }
                         ]
                       }
@@ -379,7 +430,13 @@
                       "style": "0",
                       "name": "sounds_off_icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "toolbar_memenu_settings_sounds_off_white",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               },
@@ -410,7 +467,13 @@
                       "style": "0",
                       "name": "sounds_on_icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "toolbar_memenu_settings_sounds_on_white",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               }
@@ -442,7 +505,14 @@
                   "name": "title",
                   "caption": "${widget.memenu.settings.volume.trax}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "etching_color": 0,
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container",
@@ -469,7 +539,10 @@
                       "style": "0",
                       "name": "slider_base"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "toolbar_memenu_settings_slider_base"
+                    }
                   },
                   {
                     "tag": "container",
@@ -511,7 +584,10 @@
                               "style": "0",
                               "name": "slider_bitmap"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "toolbar_memenu_settings_slider_button"
+                            }
                           }
                         ]
                       }
@@ -546,7 +622,13 @@
                       "style": "0",
                       "name": "sounds_off_icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "toolbar_memenu_settings_sounds_off_white",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               },
@@ -577,7 +659,13 @@
                       "style": "0",
                       "name": "sounds_on_icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "toolbar_memenu_settings_sounds_on_white",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               }
@@ -604,18 +692,6 @@
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "text_color": 16777215,
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "etching_color": 0,
-    "asset_uri": "toolbar_memenu_settings_sounds_on_white",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false
-  },
+  "vars": {},
   "filters": []
 }

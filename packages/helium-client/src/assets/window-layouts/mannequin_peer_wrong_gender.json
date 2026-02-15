@@ -1,6 +1,6 @@
 {
   "name": "mannequin_peer_wrong_gender",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_mannequin_wrong_gender_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_mannequin_wrong_gender.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -62,7 +62,16 @@
               "name": "description",
               "caption": "${mannequin.widget.wronggender}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_size": 19,
+              "text_style": "u_regular",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "sharpness": 80,
+              "thickness": -15,
+              "word_wrap": true
+            }
           },
           {
             "tag": "icon",
@@ -82,14 +91,6 @@
       }
     ]
   },
-  "vars": {
-    "font_size": 19,
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "sharpness": 80,
-    "thickness": -15,
-    "word_wrap": true
-  },
+  "vars": {},
   "filters": []
 }

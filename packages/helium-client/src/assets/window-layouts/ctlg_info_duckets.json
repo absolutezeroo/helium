@@ -1,6 +1,6 @@
 {
   "name": "ctlg_info_duckets",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_info_duckets_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_old_layout_info_duckets.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,7 +33,17 @@
               "caption": "${loremipsum.html}",
               "treshold": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0,
+              "editable": false,
+              "selectable": false,
+              "link_target": "internal"
+            }
           },
           {
             "tag": "static_bitmap",
@@ -48,24 +58,17 @@
               "name": "duckets_info_illustration",
               "tags": "S"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.url}catalogue/duckets_info_illustration.gif",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "editable": false,
-    "selectable": false,
-    "link_target": "internal",
-    "asset_uri": "${image.library.url}catalogue/duckets_info_illustration.gif",
-    "stretched_x": false,
-    "stretched_y": false
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "purse_indicator_credits",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_purse_indicator_credits_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_purse_indicator_credits.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -76,7 +76,13 @@
                   "name": "credit_icon",
                   "tags": "ICON"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "toolbar_credit_icon_0",
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               }
             ]
           },
@@ -92,7 +98,16 @@
               "style": "100",
               "caption": "${purse_coins}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_color": 14921502,
+              "text_style": "il_regular_white",
+              "mouse_wheel_enabled": false,
+              "thickness": 200,
+              "bold": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -107,7 +122,15 @@
               "name": "credits",
               "caption": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "right",
+              "text_style": "il_regular_white",
+              "mouse_wheel_enabled": false,
+              "bold": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "border",
@@ -137,7 +160,19 @@
                   "name": "change",
                   "caption": "+50"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "il_regular_white",
+                  "margin_left": 4,
+                  "margin_top": 6,
+                  "margin_right": 6,
+                  "margin_bottom": 7,
+                  "mouse_wheel_enabled": false,
+                  "bold": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           }
@@ -145,23 +180,6 @@
       }
     ]
   },
-  "vars": {
-    "asset_uri": "toolbar_credit_icon_0",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "text_color": 14921502,
-    "text_style": "il_regular_white",
-    "mouse_wheel_enabled": false,
-    "thickness": 200,
-    "bold": true,
-    "spacing": 0,
-    "leading": 0,
-    "auto_size": "left",
-    "margin_left": 4,
-    "margin_top": 6,
-    "margin_right": 6,
-    "margin_bottom": 7
-  },
+  "vars": {},
   "filters": []
 }

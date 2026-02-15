@@ -1,6 +1,6 @@
 {
   "name": "inventory_trading",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboInventoryCom_inventory_trading_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboInventoryCom_inventory_trading.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -59,7 +59,14 @@
                   "caption": "${inventory.trading.you}",
                   "tags": "OWN_USER_NAME"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "bold": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -74,7 +81,13 @@
                   "name": "plain_text",
                   "caption": "${inventory.trading.areoffering}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -286,7 +299,11 @@
                     },
                     "children": []
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 4,
+                  "scale_to_fit_items": true
+                }
               }
             ]
           },
@@ -303,7 +320,13 @@
               "name": "lock_0",
               "tags": "OWN_USER_LOCK"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "inventory_trading_trading_unlocked_icon",
+              "pivot_point": "center",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "static_bitmap",
@@ -318,7 +341,13 @@
               "name": "accepted_0",
               "tags": "OWN_USER_ACCEPTED"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "talent_check_mark_circle",
+              "pivot_point": "center",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "text",
@@ -335,7 +364,14 @@
               "visible": "false",
               "tags": "OTHER_USER_MESSAGE"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "itemlist_horizontal",
@@ -364,7 +400,14 @@
                   "caption": "${inventory.trading.other}",
                   "tags": "OTHER_USER_NAME"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "bold": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -379,7 +422,13 @@
                   "name": "plain_text",
                   "caption": "${inventory.trading.isoffering}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -591,7 +640,11 @@
                     },
                     "children": []
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 4,
+                  "scale_to_fit_items": true
+                }
               }
             ]
           },
@@ -608,7 +661,13 @@
               "name": "lock_1",
               "tags": "OTHER_USER_LOCK"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "talent_locked_achievement",
+              "pivot_point": "center",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "static_bitmap",
@@ -623,7 +682,13 @@
               "name": "accepted_1",
               "tags": "OTHER_USER_ACCEPTED"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "talent_check_mark_circle",
+              "pivot_point": "center",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "text",
@@ -640,7 +705,14 @@
               "visible": "false",
               "tags": "OTHER_USER_MESSAGE"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "button",
@@ -685,7 +757,14 @@
               "name": "help_text",
               "tags": "HELP_TEXT"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "widget",
@@ -698,7 +777,11 @@
               "params": "16",
               "style": "100"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "widget_type": "separator",
+              "separator:vertical": true
+            }
           },
           {
             "tag": "border",
@@ -729,7 +812,13 @@
                   "clipping": "false",
                   "width_max": "453"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -746,7 +835,13 @@
               "name": "content_text_1_a",
               "caption": ""
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -761,7 +856,13 @@
               "name": "content_text_2_a",
               "caption": ""
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -776,7 +877,13 @@
               "name": "content_text_1_b",
               "caption": ""
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -791,27 +898,18 @@
               "name": "content_text_2_b",
               "caption": ""
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "mouse_wheel_enabled": false,
-    "bold": true,
-    "spacing": 0,
-    "leading": 0,
-    "scale_to_fit_items": true,
-    "asset_uri": "talent_check_mark_circle",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "multiline": true,
-    "word_wrap": true,
-    "widget_type": "separator",
-    "separator:vertical": true
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "builderWidget",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbobuilder_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_builder_widget.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -66,7 +66,14 @@
               "style": "3",
               "caption": "${builder.placement_widget.hint}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "text_style": "u_small",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "container",
@@ -107,7 +114,11 @@
                   "style": "3",
                   "name": "error_icon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "icons_builder_error_full",
+                  "fit_size_to_contents": true
+                }
               },
               {
                 "tag": "text",
@@ -122,7 +133,16 @@
                   "name": "error_message",
                   "caption": "We have a problem!"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 17,
+                  "text_color": 14552586,
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           }
@@ -130,16 +150,6 @@
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "asset_uri": "icons_builder_error_full",
-    "fit_size_to_contents": true,
-    "font_size": 17,
-    "text_color": 14552586
-  },
+  "vars": {},
   "filters": []
 }

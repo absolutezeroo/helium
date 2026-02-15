@@ -1,6 +1,6 @@
 {
   "name": "logout_confirmation",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_logout_confirmation_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_logout_confirmation.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -30,7 +30,15 @@
               "style": "0",
               "caption": "${toolbar.logout.confirmation}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "il_regular_white",
+              "mouse_wheel_enabled": false,
+              "word_wrap": true,
+              "bold": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "button",
@@ -72,13 +80,6 @@
       }
     ]
   },
-  "vars": {
-    "text_style": "il_regular_white",
-    "mouse_wheel_enabled": false,
-    "word_wrap": true,
-    "bold": true,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

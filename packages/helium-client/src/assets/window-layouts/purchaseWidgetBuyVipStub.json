@@ -1,6 +1,6 @@
 {
   "name": "purchaseWidgetBuyVipStub",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbopurchase_widget_buy_vip_stub_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_purchase_widget_buy_vip_stub.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -59,7 +59,13 @@
               "name": "ctlg_widget_get_club_text",
               "caption": "${catalog.buy.widget.get.vip.to.unlock.this.product}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "button_thick",
@@ -81,11 +87,6 @@
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

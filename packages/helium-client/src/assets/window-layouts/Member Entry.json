@@ -1,6 +1,6 @@
 {
   "name": "Member Entry",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGroupsCom_Habbomember_entry_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboGroupsCom_member_entry.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -35,7 +35,10 @@
               "color": "0x00",
               "treshold": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "tool_tip_caption": "${group.members.showinfo}"
+            }
           },
           {
             "tag": "widget",
@@ -49,7 +52,12 @@
               "style": "0",
               "name": "avatar_image"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "widget_type": "avatar_image",
+              "avatar_image:only_head": true,
+              "avatar_image:cropped": true
+            }
           },
           {
             "tag": "text",
@@ -65,7 +73,15 @@
               "caption": "User name PH",
               "color": "0x00"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "font_size": 17,
+              "text_style": "u_bold",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "region",
@@ -95,7 +111,20 @@
                   "name": "action_link",
                   "caption": "Action Name PH"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 17,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "underline": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -124,7 +153,10 @@
                   "style": "0",
                   "name": "icon_admin_off"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}guilds/icon_admin_off.png"
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -138,7 +170,10 @@
                   "style": "0",
                   "name": "icon_admin_over"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}guilds/icon_admin_over.png"
+                }
               }
             ]
           },
@@ -154,7 +189,10 @@
               "style": "0",
               "name": "icon_owner"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.url}guilds/icon_owner.png"
+            }
           },
           {
             "tag": "region",
@@ -182,7 +220,10 @@
                   "style": "0",
                   "name": "icon_close_down"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}guilds/icon_close_down.png"
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -196,7 +237,10 @@
                   "style": "0",
                   "name": "icon_close_over"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}guilds/icon_close_over.png"
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -210,7 +254,10 @@
                   "style": "0",
                   "name": "icon_close_off"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}guilds/icon_close_off.png"
+                }
               }
             ]
           },
@@ -240,7 +287,10 @@
                   "style": "0",
                   "name": "icon_close_down"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}guilds/icon_close_down.png"
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -254,7 +304,10 @@
                   "style": "0",
                   "name": "icon_close_over"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}guilds/icon_close_over.png"
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -268,7 +321,10 @@
                   "style": "0",
                   "name": "icon_close_off"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}guilds/icon_close_off.png"
+                }
               }
             ]
           },
@@ -285,32 +341,21 @@
               "name": "member_since_txt",
               "caption": "Since Txt PH"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "text_color": 6710886,
+              "text_style": "u_small",
+              "mouse_wheel_enabled": false,
+              "italic": true,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "tool_tip_caption": "${group.members.showinfo}",
-    "widget_type": "avatar_image",
-    "avatar_image:only_head": true,
-    "avatar_image:cropped": true,
-    "auto_size": "left",
-    "font_size": 17,
-    "text_style": "u_small",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "antialias_type": "advanced",
-    "font_face": "Ubuntu",
-    "sharpness": 0,
-    "thickness": 0,
-    "underline": true,
-    "kerning": false,
-    "asset_uri": "${image.library.url}guilds/icon_close_off.png",
-    "text_color": 6710886,
-    "italic": true
-  },
+  "vars": {},
   "filters": []
 }

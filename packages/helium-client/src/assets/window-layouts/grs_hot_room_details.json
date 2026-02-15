@@ -1,6 +1,6 @@
 {
   "name": "grs_hot_room_details",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_grs_hot_room_details_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboNavigatorCom_grs_hot_room_details.xml",
   "window": {
     "tag": "window",
     "typeId": -1,

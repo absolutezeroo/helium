@@ -1,6 +1,6 @@
 {
   "name": "name_configuration",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_name_configuration_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_name_configuration.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -45,7 +45,11 @@
                   "style": "100",
                   "caption": "${bot.skill.name.configuration.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_bold",
+                  "text_color": 16777215
+                }
               }
             ]
           },
@@ -74,7 +78,11 @@
                   "style": "100",
                   "caption": "${bot.skill.name.configuration.new.name}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_small",
+                  "text_color": 15658734
+                }
               },
               {
                 "tag": "input",
@@ -88,7 +96,15 @@
                   "style": "100",
                   "name": "name_input"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "border": true,
+                  "border_color": 16777215,
+                  "etching_color": 0,
+                  "text_color": 16777215,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container",
@@ -148,26 +164,24 @@
                         },
                         "children": []
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 4,
+                      "scale_to_fit_items": true,
+                      "resize_on_item_update": true
+                    }
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 2
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "text_style": "u_small",
-    "text_color": 16777215,
-    "border": true,
-    "border_color": 16777215,
-    "etching_color": 0,
-    "spacing": 2,
-    "leading": 0,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "quiz_result",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_wordquiz_result_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_wordquiz_result.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -91,7 +91,11 @@
                           "caption": "0",
                           "width_max": "130"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_style": "u_headline_small",
+                          "text_color": 16777215
+                        }
                       }
                     ]
                   },
@@ -111,7 +115,18 @@
                       "width_max": "660",
                       "height_max": "58"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_size": 36,
+                      "text_style": "ubuntu_condensed_regular",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "max_lines": 2,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "region",
@@ -158,11 +173,20 @@
                           "caption": "0",
                           "width_max": "130"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_style": "u_headline_small",
+                          "text_color": 16777215
+                        }
                       }
                     ]
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 20,
+                  "scale_to_fit_items": true,
+                  "resize_on_item_update": true
+                }
               }
             ]
           }
@@ -170,19 +194,6 @@
       }
     ]
   },
-  "vars": {
-    "text_style": "u_headline_small",
-    "text_color": 16777215,
-    "auto_size": "left",
-    "font_size": 36,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "max_lines": 2,
-    "spacing": 20,
-    "leading": 0,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true
-  },
+  "vars": {},
   "filters": []
 }

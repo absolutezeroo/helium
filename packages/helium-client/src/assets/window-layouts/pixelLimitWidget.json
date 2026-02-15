@@ -1,6 +1,6 @@
 {
   "name": "pixelLimitWidget",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_pixel_limit_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_pixel_limit.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -18,15 +18,16 @@
           "style": "100",
           "name": "meter"
         },
-        "children": []
+        "children": [],
+        "vars": {
+          "asset_uri": "${image.library.url}reception/challenge_meter_20.png",
+          "pivot_point": "bottom center",
+          "stretched_x": false,
+          "stretched_y": false
+        }
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.url}reception/challenge_meter_20.png",
-    "pivot_point": "bottom center",
-    "stretched_x": false,
-    "stretched_y": false
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "new_user_help",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbonew_user_help_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_new_user_help.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,25 +33,28 @@
               "name": "help",
               "caption": ""
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "font_size": 20,
+              "text_style": "u_bold",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "sharpness": 80,
+              "thickness": -15
+            }
           }
-        ]
+        ],
+        "vars": {
+          "margin_left": 8,
+          "margin_top": 8,
+          "margin_right": 8,
+          "margin_bottom": 8,
+          "pointer_offset": -5
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "font_size": 20,
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "sharpness": 80,
-    "thickness": -15,
-    "margin_left": 8,
-    "margin_top": 8,
-    "margin_right": 8,
-    "margin_bottom": 8,
-    "pointer_offset": -5
-  },
+  "vars": {},
   "filters": []
 }

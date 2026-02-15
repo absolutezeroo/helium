@@ -1,6 +1,6 @@
 {
   "name": "snowwar_ending",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habbosnowwar_ending_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboGamesCom_snowwar_ending.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -34,7 +34,10 @@
               "name": "snowwar_logo",
               "tags": "bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "bitmap_asset_name": "snowstorm_logo"
+            }
           },
           {
             "tag": "itemlist_vertical",
@@ -48,7 +51,11 @@
               "style": "0",
               "name": "team1PlayersList"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "spacing": 2,
+              "scale_to_fit_items": true
+            }
           },
           {
             "tag": "itemlist_vertical",
@@ -62,7 +69,11 @@
               "style": "0",
               "name": "team2PlayersList"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "spacing": 2,
+              "scale_to_fit_items": true
+            }
           },
           {
             "tag": "region",
@@ -102,7 +113,19 @@
                       "style": "0",
                       "caption": "${snowwar.games_left}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "antialias_type": "advanced",
+                      "auto_size": "left",
+                      "font_face": "Ubuntu",
+                      "font_size": 19,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "container",
@@ -129,7 +152,21 @@
                           "name": "games_left_stroke",
                           "caption": "3"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "antialias_type": "advanced",
+                          "auto_size": "left",
+                          "font_face": "UbuntuThick",
+                          "font_size": 32,
+                          "text_color": 1079212,
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "bold": true,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -144,11 +181,28 @@
                           "name": "games_left",
                           "caption": "3"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "antialias_type": "advanced",
+                          "auto_size": "left",
+                          "font_face": "Ubuntu",
+                          "font_size": 32,
+                          "text_color": 16777215,
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "bold": true,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 5
+                }
               },
               {
                 "tag": "text",
@@ -163,7 +217,20 @@
                   "name": "status.text_get_vip",
                   "caption": "${snowwar.get_more_games}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "center",
+                  "font_face": "Ubuntu",
+                  "font_size": 19,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "underline": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -179,7 +246,20 @@
                   "caption": "${snowwar.buy_x_games}",
                   "visible": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "center",
+                  "font_face": "Ubuntu",
+                  "font_size": 19,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "underline": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -297,7 +377,15 @@
                   "name": "leave_link",
                   "caption": "${snowwar.leave_game}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "underline": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -328,7 +416,10 @@
                   "name": "backgroundImage",
                   "tags": "bitmap"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "bitmap_asset_name": "blue_square"
+                }
               },
               {
                 "tag": "text",
@@ -344,7 +435,17 @@
                   "caption": "${snowwar.most_kills}",
                   "tags": "stroke"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "font_face": "UbuntuThick",
+                  "font_size": 23,
+                  "grid_fit_type": "subpixel",
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -359,7 +460,17 @@
                   "name": "mostKillsLabel",
                   "caption": "${snowwar.most_kills}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "font_size": 23,
+                  "grid_fit_type": "subpixel",
+                  "text_color": 16777215,
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -375,7 +486,17 @@
                   "caption": "yyyy yyyyyy",
                   "tags": "stroke"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "font_size": 20,
+                  "grid_fit_type": "subpixel",
+                  "text_color": 16777215,
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "bitmap",
@@ -420,7 +541,10 @@
                   "name": "backgroundImage",
                   "tags": "bitmap"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "bitmap_asset_name": "red_square"
+                }
               },
               {
                 "tag": "text",
@@ -436,7 +560,21 @@
                   "caption": "${snowwar.most_hits}",
                   "tags": "stroke"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "center",
+                  "font_face": "UbuntuThick",
+                  "font_size": 23,
+                  "grid_fit_type": "subpixel",
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "bold": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -451,7 +589,22 @@
                   "name": "mostHitsLabel",
                   "caption": "${snowwar.most_hits}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "center",
+                  "font_face": "Ubuntu",
+                  "font_size": 23,
+                  "grid_fit_type": "subpixel",
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "bold": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -467,7 +620,22 @@
                   "caption": "xxxxx xxxxx",
                   "tags": "stroke"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "center",
+                  "font_face": "Ubuntu",
+                  "font_size": 20,
+                  "grid_fit_type": "subpixel",
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "bold": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "bitmap",
@@ -511,7 +679,10 @@
                   "name": "team1ScoreBackground",
                   "tags": "bitmap"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "bitmap_asset_name": "blue_glove"
+                }
               },
               {
                 "tag": "text",
@@ -527,7 +698,22 @@
                   "caption": "245",
                   "tags": "stroke"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "center",
+                  "font_face": "UbuntuThick",
+                  "font_size": 36,
+                  "grid_fit_type": "subpixel",
+                  "text_color": 1079212,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "bold": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -542,7 +728,22 @@
                   "name": "team1Score",
                   "caption": "245"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "center",
+                  "font_face": "Ubuntu",
+                  "font_size": 36,
+                  "grid_fit_type": "subpixel",
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "bold": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -572,7 +773,10 @@
                   "name": "team2ScoreBackground",
                   "tags": "bitmap"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "bitmap_asset_name": "red_glove"
+                }
               },
               {
                 "tag": "text",
@@ -588,7 +792,22 @@
                   "caption": "245",
                   "tags": "stroke"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "center",
+                  "font_face": "UbuntuThick",
+                  "font_size": 36,
+                  "grid_fit_type": "subpixel",
+                  "text_color": 16607321,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "bold": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -603,7 +822,22 @@
                   "name": "team2Score",
                   "caption": "245"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "center",
+                  "font_face": "Ubuntu",
+                  "font_size": 36,
+                  "grid_fit_type": "subpixel",
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "bold": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -635,7 +869,22 @@
                   "caption": "Blue team wins!",
                   "tags": "stroke"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "center",
+                  "font_face": "UbuntuThick",
+                  "font_size": 40,
+                  "grid_fit_type": "subpixel",
+                  "text_color": 1079212,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "bold": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -650,7 +899,22 @@
                   "name": "endingInformation",
                   "caption": "Blue team wins!"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "center",
+                  "font_face": "Ubuntu",
+                  "font_size": 40,
+                  "grid_fit_type": "subpixel",
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "bold": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -683,7 +947,22 @@
                   "caption": "${snowwar.waiting_players}",
                   "tags": "stroke"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "center",
+                  "font_face": "UbuntuThick",
+                  "font_size": 23,
+                  "grid_fit_type": "subpixel",
+                  "text_color": 1079212,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "bold": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -698,7 +977,22 @@
                   "name": "loadingText",
                   "caption": "${snowwar.waiting_players}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "center",
+                  "font_face": "Ubuntu",
+                  "font_size": 23,
+                  "grid_fit_type": "subpixel",
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "bold": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "bitmap",
@@ -727,7 +1021,22 @@
                   "style": "0",
                   "name": "arenaName"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 20,
+                  "grid_fit_type": "subpixel",
+                  "text_color": 1079212,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "bold": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "bitmap",
@@ -750,24 +1059,6 @@
       }
     ]
   },
-  "vars": {
-    "bitmap_asset_name": "red_glove",
-    "spacing": 0,
-    "scale_to_fit_items": true,
-    "antialias_type": "advanced",
-    "auto_size": "left",
-    "font_face": "Ubuntu",
-    "font_size": 20,
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "kerning": false,
-    "leading": 0,
-    "text_color": 1079212,
-    "bold": true,
-    "underline": true,
-    "text_style": "u_bold",
-    "grid_fit_type": "subpixel"
-  },
+  "vars": {},
   "filters": []
 }

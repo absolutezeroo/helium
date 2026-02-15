@@ -1,6 +1,6 @@
 {
   "name": "chat_bubble",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_illumina_chat_bubble_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_illumina_chat_bubble.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -42,7 +42,10 @@
                   "style": "0",
                   "name": "user_avatar"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "widget_type": "avatar_image"
+                }
               }
             ]
           },
@@ -58,7 +61,13 @@
               "style": "100",
               "name": "arrow_point"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "illumina_light_bubble_chat_arrow_png",
+              "stretched_x": false,
+              "stretched_y": false,
+              "zoom_x": -1
+            }
           },
           {
             "tag": "itemlist_vertical",
@@ -101,7 +110,11 @@
                       "caption": "USER:",
                       "treshold": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "il_border",
+                      "text_color": 5592405
+                    }
                   }
                 ]
               },
@@ -144,7 +157,19 @@
                           "name": "message",
                           "height_min": "30"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "margin_left": 10,
+                          "margin_top": 7,
+                          "margin_right": 10,
+                          "margin_bottom": 7,
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   }
@@ -163,7 +188,10 @@
                   "name": "post_time",
                   "caption": "Just now"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "widget_type": "updating_timestamp"
+                }
               },
               {
                 "tag": "region",
@@ -202,24 +230,6 @@
       }
     ]
   },
-  "vars": {
-    "widget_type": "updating_timestamp",
-    "asset_uri": "illumina_light_bubble_chat_arrow_png",
-    "stretched_x": false,
-    "stretched_y": false,
-    "zoom_x": -1,
-    "text_style": "il_border",
-    "text_color": 5592405,
-    "auto_size": "left",
-    "margin_left": 10,
-    "margin_top": 7,
-    "margin_right": 10,
-    "margin_bottom": 7,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

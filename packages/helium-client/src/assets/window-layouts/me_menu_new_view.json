@@ -1,6 +1,6 @@
 {
   "name": "me_menu_new_view",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_me_menu_new_view_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_me_menu_new_view.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -71,7 +71,13 @@
                           "style": "0",
                           "name": "guide_icon_color"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "me_menu_me_guide",
+                          "pivot_point": "top center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       },
                       {
                         "tag": "text",
@@ -87,7 +93,16 @@
                           "caption": "${widget.memenu.guide}",
                           "width_max": "60"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "font_size": 9,
+                          "text_color": 16777215,
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -101,7 +116,14 @@
                           "style": "0",
                           "name": "guide_icon_grey"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "me_menu_me_guide",
+                          "pivot_point": "top center",
+                          "stretched_x": false,
+                          "stretched_y": false,
+                          "greyscale": true
+                        }
                       }
                     ]
                   },
@@ -132,7 +154,13 @@
                           "style": "0",
                           "name": "talents_icon_color"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "me_menu_me_talents",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       },
                       {
                         "tag": "text",
@@ -148,7 +176,16 @@
                           "caption": "${widget.memenu.talents}",
                           "width_max": "60"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "font_size": 9,
+                          "text_color": 16777215,
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -162,7 +199,14 @@
                           "style": "0",
                           "name": "talents_icon_grey"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "me_menu_me_talents",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false,
+                          "greyscale": true
+                        }
                       }
                     ]
                   },
@@ -193,7 +237,13 @@
                           "style": "0",
                           "name": "achievements_icon_color"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "me_menu_me_achv",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       },
                       {
                         "tag": "text",
@@ -209,7 +259,16 @@
                           "caption": "${widget.memenu.achievements}",
                           "width_max": "60"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "font_size": 9,
+                          "text_color": 16777215,
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -223,7 +282,14 @@
                           "style": "0",
                           "name": "achievements_icon_grey"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "me_menu_me_achv",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false,
+                          "greyscale": true
+                        }
                       }
                     ]
                   },
@@ -254,7 +320,13 @@
                           "style": "0",
                           "name": "minimail_icon_color"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "me_menu_me_mail",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       },
                       {
                         "tag": "text",
@@ -270,7 +342,16 @@
                           "caption": "${widget.memenu.minimail}",
                           "width_max": "60"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "font_size": 9,
+                          "text_color": 16777215,
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -284,7 +365,14 @@
                           "style": "0",
                           "name": "minimail_icon_grey"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "me_menu_me_mail",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false,
+                          "greyscale": true
+                        }
                       }
                     ]
                   },
@@ -315,7 +403,13 @@
                           "style": "0",
                           "name": "profile_icon_color"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "me_menu_me_profile",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       },
                       {
                         "tag": "text",
@@ -331,7 +425,16 @@
                           "caption": "${widget.memenu.profile}",
                           "width_max": "60"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "font_size": 9,
+                          "text_color": 16777215,
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -345,7 +448,14 @@
                           "style": "0",
                           "name": "profile_icon_grey"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "me_menu_me_profile",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false,
+                          "greyscale": true
+                        }
                       }
                     ]
                   },
@@ -376,7 +486,10 @@
                           "style": "0",
                           "name": "rooms_icon_color"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "me_menu_me_rooms"
+                        }
                       },
                       {
                         "tag": "text",
@@ -392,7 +505,16 @@
                           "caption": "${widget.memenu.myrooms}",
                           "width_max": "60"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "font_size": 9,
+                          "text_color": 16777215,
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -406,7 +528,11 @@
                           "style": "0",
                           "name": "rooms_icon_grey"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "me_menu_me_rooms",
+                          "greyscale": true
+                        }
                       }
                     ]
                   },
@@ -437,7 +563,13 @@
                           "style": "0",
                           "name": "clothes_icon_color"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "me_menu_me_clothing",
+                          "pivot_point": "top center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       },
                       {
                         "tag": "text",
@@ -453,7 +585,16 @@
                           "caption": "${widget.memenu.editavatar}",
                           "width_max": "60"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "font_size": 9,
+                          "text_color": 16777215,
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -467,7 +608,14 @@
                           "style": "0",
                           "name": "clothes_icon_grey"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "me_menu_me_clothing",
+                          "pivot_point": "top center",
+                          "stretched_x": false,
+                          "stretched_y": false,
+                          "greyscale": true
+                        }
                       }
                     ]
                   },
@@ -498,7 +646,13 @@
                           "style": "0",
                           "name": "forums_icon_color"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "me_menu_me_forums",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       },
                       {
                         "tag": "text",
@@ -514,7 +668,16 @@
                           "caption": "${widget.memenu.forums}",
                           "width_max": "60"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "font_size": 9,
+                          "text_color": 16777215,
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -528,7 +691,14 @@
                           "style": "0",
                           "name": "forums_icon_grey"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "me_menu_me_forums",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false,
+                          "greyscale": true
+                        }
                       }
                     ]
                   },
@@ -545,7 +715,12 @@
                     },
                     "children": []
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 8,
+                  "padding_horizontal": 12,
+                  "padding_vertical": 2
+                }
               }
             ]
           }
@@ -553,21 +728,6 @@
       }
     ]
   },
-  "vars": {
-    "asset_uri": "me_menu_me_forums",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "auto_size": "left",
-    "font_size": 9,
-    "text_color": 16777215,
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "spacing": 8,
-    "leading": 0,
-    "greyscale": true,
-    "padding_horizontal": 12,
-    "padding_vertical": 2
-  },
+  "vars": {},
   "filters": []
 }

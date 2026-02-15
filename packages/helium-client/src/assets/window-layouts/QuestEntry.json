@@ -1,6 +1,6 @@
 {
   "name": "QuestEntry",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboquest_entry_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboQuestEngineCom_quest_entry.xml",
   "window": {
     "tag": "window",
     "typeId": -1,

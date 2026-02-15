@@ -1,6 +1,6 @@
 {
   "name": "friendRequestsTab",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_friend_requests_tab_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_friend_requests_tab.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -63,7 +63,10 @@
                       "style": "0",
                       "name": "icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "bitmap_asset_name": "add_friends_icon_png"
+                    }
                   },
                   {
                     "tag": "text",
@@ -79,11 +82,25 @@
                       "caption": "${friendbar.requests.title}",
                       "tags": "label"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "grid_fit_type": "subpixel",
+                      "text_color": 16777215,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "scale_to_fit_items": true,
+              "resize_on_item_update": true
+            }
           },
           {
             "tag": "bubble",
@@ -112,7 +129,15 @@
                   "name": "title",
                   "caption": "${friendbar.requests.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "text_color": 16777215,
+                  "text_style": "u_frame_title",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "closebutton",
@@ -218,7 +243,14 @@
                               "name": "name",
                               "caption": "Name"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "text_color": 16777215,
+                              "text_style": "u_bold",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       },
@@ -249,7 +281,17 @@
                               "name": "text_discard",
                               "caption": "${friendbar.request.decline}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "font_size": 16,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "underline": true,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       },
@@ -285,7 +327,10 @@
                   "style": "0",
                   "name": "scroll"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "scrollable": "request_entity_list"
+                }
               },
               {
                 "tag": "region",
@@ -313,7 +358,17 @@
                       "style": "0",
                       "caption": "${friendbar.requests.discard}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_size": 17,
+                      "text_color": 16777215,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "underline": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -391,7 +446,19 @@
                   "name": "badge_counter",
                   "caption": "0"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_color": 16777215,
+                  "text_style": "u_bold",
+                  "margin_left": 3,
+                  "margin_top": 1,
+                  "margin_right": 5,
+                  "margin_bottom": 2,
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           }
@@ -399,25 +466,6 @@
       }
     ]
   },
-  "vars": {
-    "bitmap_asset_name": "add_friends_icon_png",
-    "auto_size": "left",
-    "grid_fit_type": "subpixel",
-    "text_color": 16777215,
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true,
-    "font_size": 17,
-    "underline": true,
-    "scrollable": "request_entity_list",
-    "margin_left": 3,
-    "margin_top": 1,
-    "margin_right": 5,
-    "margin_bottom": 2
-  },
+  "vars": {},
   "filters": []
 }

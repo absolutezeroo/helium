@@ -1,6 +1,6 @@
 {
   "name": "feed_display",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboUnknownAsset_feed_display_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboUnknownAsset_feed_display.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -121,7 +121,16 @@
                       "style": "3",
                       "caption": "_settings"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "right",
+                      "font_size": 19,
+                      "text_color": 16777215,
+                      "text_style": "u_regular",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 80,
+                      "thickness": -15
+                    }
                   }
                 ]
               },
@@ -221,7 +230,10 @@
                               "style": "3",
                               "name": "list_urgent"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "spacing": 1
+                            }
                           },
                           {
                             "tag": "itemlist_vertical",
@@ -235,7 +247,10 @@
                               "style": "3",
                               "name": "list_actions"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "spacing": 1
+                            }
                           },
                           {
                             "tag": "itemlist_vertical",
@@ -249,7 +264,10 @@
                               "style": "3",
                               "name": "list_persistent"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "spacing": 1
+                            }
                           },
                           {
                             "tag": "itemlist_vertical",
@@ -263,7 +281,10 @@
                               "style": "3",
                               "name": "list_notifications"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "spacing": 1
+                            }
                           }
                         ]
                       },
@@ -279,7 +300,10 @@
                           "style": "3",
                           "name": "feed_scroll"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "scrollable": "list"
+                        }
                       }
                     ]
                   },
@@ -321,7 +345,10 @@
                           "params": "2129",
                           "style": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "scrollable": "list"
+                        }
                       }
                     ]
                   }
@@ -384,7 +411,18 @@
                               "width_min": "260",
                               "width_max": "200"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "font_size": 35,
+                              "text_color": 10066329,
+                              "text_style": "u_bold",
+                              "mouse_wheel_enabled": false,
+                              "multiline": true,
+                              "sharpness": 80,
+                              "thickness": -15,
+                              "word_wrap": true
+                            }
                           },
                           {
                             "tag": "container",
@@ -417,7 +455,19 @@
                               "width_min": "220",
                               "width_max": "200"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "font_size": 22,
+                              "grid_fit_type": "subpixel",
+                              "text_color": 2236962,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "multiline": true,
+                              "sharpness": 80,
+                              "thickness": -15,
+                              "word_wrap": true
+                            }
                           },
                           {
                             "tag": "container",
@@ -448,7 +498,18 @@
                               "name": "description",
                               "caption": "_info_description"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "grid_fit_type": "subpixel",
+                              "text_color": 2236962,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "multiline": true,
+                              "sharpness": 80,
+                              "thickness": -15,
+                              "word_wrap": true
+                            }
                           },
                           {
                             "tag": "container",
@@ -494,7 +555,16 @@
                                   "caption": "_info_ok",
                                   "width_max": "150"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "antialias_type": "advanced",
+                                  "auto_size": "center",
+                                  "font_face": "Ubuntu",
+                                  "font_size": 24,
+                                  "text_color": 16777215,
+                                  "mouse_wheel_enabled": false,
+                                  "bold": true
+                                }
                               }
                             ]
                           }
@@ -586,7 +656,13 @@
                               "style": "3",
                               "caption": "_show_all"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 80,
+                              "thickness": -15
+                            }
                           },
                           {
                             "tag": "icon",
@@ -631,7 +707,13 @@
                               "style": "3",
                               "caption": "_show_friends"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 80,
+                              "thickness": -15
+                            }
                           },
                           {
                             "tag": "icon",
@@ -676,7 +758,13 @@
                               "style": "3",
                               "caption": "_show_me"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 80,
+                              "thickness": -15
+                            }
                           },
                           {
                             "tag": "icon",
@@ -721,7 +809,13 @@
                               "style": "3",
                               "caption": "_show_hotel"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 80,
+                              "thickness": -15
+                            }
                           },
                           {
                             "tag": "icon",
@@ -750,22 +844,6 @@
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "font_size": 24,
-    "text_color": 16777215,
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "sharpness": 80,
-    "thickness": -15,
-    "spacing": 1,
-    "scrollable": "list",
-    "multiline": true,
-    "word_wrap": true,
-    "grid_fit_type": "subpixel",
-    "antialias_type": "advanced",
-    "font_face": "Ubuntu",
-    "bold": true
-  },
+  "vars": {},
   "filters": []
 }

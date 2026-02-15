@@ -1,6 +1,6 @@
 {
   "name": "community_goal",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_community_goal_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_community_goal.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,7 +31,12 @@
               "style": "100",
               "name": "border_bar"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "illumina_light_border_top_center",
+              "pivot_point": "center left",
+              "stretched_y": false
+            }
           },
           {
             "tag": "text",
@@ -47,7 +52,15 @@
               "caption": "${landing.view.community.headline}",
               "tags": "COLORABLE"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "font_size": 9,
+              "text_style": "il_heading_3",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "static_bitmap",
@@ -61,7 +74,12 @@
               "style": "100",
               "name": "hdr_line"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "illumina_light_border_top_center",
+              "pivot_point": "center left",
+              "stretched_y": false
+            }
           },
           {
             "tag": "itemlist_vertical",
@@ -92,7 +110,15 @@
                   "width_min": "300",
                   "width_max": "300"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 24,
+                  "text_style": "il_heading_1",
+                  "mouse_wheel_enabled": false,
+                  "spacing": -0.6,
+                  "leading": 0
+                }
               },
               {
                 "tag": "formatted_text",
@@ -110,7 +136,14 @@
                   "width_min": "300",
                   "width_max": "300"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "button",
@@ -131,7 +164,10 @@
                 },
                 "children": []
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 5
+            }
           },
           {
             "tag": "container",
@@ -162,7 +198,16 @@
                   "width_min": "200",
                   "width_max": "200"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "bold": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -176,7 +221,12 @@
                   "style": "0",
                   "name": "meter_level_0"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}reception/meter_level_0.png",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -190,7 +240,13 @@
                   "style": "0",
                   "name": "meter_level_1"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}reception/meter_level_1.png",
+                  "pivot_point": "bottom left",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -205,7 +261,13 @@
                   "name": "meter_level_1_icon",
                   "visible": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "",
+                  "pivot_point": "bottom left",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -220,7 +282,13 @@
                   "name": "meter_level_1_icon_locked",
                   "visible": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "",
+                  "pivot_point": "bottom left",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -234,7 +302,13 @@
                   "style": "0",
                   "name": "meter_level_2"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}reception/meter_level_2.png",
+                  "pivot_point": "bottom left",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -249,7 +323,13 @@
                   "name": "meter_level_2_icon",
                   "visible": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "",
+                  "pivot_point": "bottom left",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -264,7 +344,13 @@
                   "name": "meter_level_2_icon_locked",
                   "visible": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "",
+                  "pivot_point": "bottom left",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -278,7 +364,13 @@
                   "style": "0",
                   "name": "meter_level_3"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}reception/meter_level_3.png",
+                  "pivot_point": "bottom left",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -293,7 +385,13 @@
                   "name": "meter_level_3_icon",
                   "visible": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "",
+                  "pivot_point": "bottom left",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -308,7 +406,13 @@
                   "name": "meter_level_3_icon_locked",
                   "visible": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "",
+                  "pivot_point": "bottom left",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -322,7 +426,13 @@
                   "style": "0",
                   "name": "meter_needle"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "landing_view_needle_meter_needle0",
+                  "pivot_point": "bottom left",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               }
             ]
           }
@@ -330,20 +440,6 @@
       }
     ]
   },
-  "vars": {
-    "asset_uri": "landing_view_needle_meter_needle0",
-    "pivot_point": "bottom left",
-    "stretched_y": false,
-    "auto_size": "center",
-    "font_size": 24,
-    "text_style": "il_heading_1",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "multiline": true,
-    "word_wrap": true,
-    "bold": true,
-    "stretched_x": false
-  },
+  "vars": {},
   "filters": []
 }

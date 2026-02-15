@@ -1,6 +1,6 @@
 {
   "name": "respect_giving_failed_notification",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_respect_giving_failed_notification_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_respect_giving_failed_notification.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,7 +32,16 @@
               "name": "caption_txt",
               "caption": "${respect.giving.failed.caption}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_color": 3355443,
+              "text_style": "il_heading_title",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -46,7 +55,14 @@
               "style": "100",
               "name": "body_txt"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "static_bitmap",
@@ -60,7 +76,10 @@
               "style": "100",
               "name": "respectFailedNotificationBitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "fit_size_to_contents": true
+            }
           },
           {
             "tag": "button",
@@ -78,29 +97,21 @@
             },
             "children": []
           }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
+          }
         ]
       }
     ]
   },
-  "vars": {
-    "text_color": 3355443,
-    "text_style": "il_heading_title",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "fit_size_to_contents": true
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

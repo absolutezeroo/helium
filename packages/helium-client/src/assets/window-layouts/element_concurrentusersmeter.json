@@ -1,6 +1,6 @@
 {
   "name": "element_concurrentusersmeter",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_element_concurrentusersmeter_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_element_concurrentusersmeter.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -18,12 +18,13 @@
           "style": "100",
           "name": "image"
         },
-        "children": []
+        "children": [],
+        "vars": {
+          "fit_size_to_contents": true
+        }
       }
     ]
   },
-  "vars": {
-    "fit_size_to_contents": true
-  },
+  "vars": {},
   "filters": []
 }

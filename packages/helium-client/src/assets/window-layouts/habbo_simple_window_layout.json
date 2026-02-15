@@ -1,6 +1,6 @@
 {
   "name": "habbo_simple_window_layout",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_window_layout_simple_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_habbo_window_layout_simple.xml",
   "window": {
     "tag": "window",
     "typeId": -1,

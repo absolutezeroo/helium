@@ -1,6 +1,6 @@
 {
   "name": "ude_condition_inputs_24",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboUserDefinedRoomEventsCom_ude_condition_inputs_24_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboUserDefinedRoomEventsCom_ude_condition_inputs_24.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -53,7 +53,18 @@
               "name": "start_date_desc_txt",
               "caption": "${wiredfurni.params.startdate}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_face": "Volter Bold",
+              "text_color": 16777215,
+              "mouse_wheel_enabled": false,
+              "sharpness": 0,
+              "thickness": 0,
+              "word_wrap": true,
+              "kerning": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "input",
@@ -68,7 +79,19 @@
               "dynamic_style": "",
               "name": "start_date"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "always_show_selection": true,
+              "border": true,
+              "border_color": 16777215,
+              "text_color": 16777215,
+              "sharpness": 0,
+              "thickness": 0,
+              "kerning": false,
+              "spacing": 0,
+              "leading": 0,
+              "tool_tip_caption": "YYYY/MM/DD HH:MM"
+            }
           },
           {
             "tag": "text",
@@ -84,7 +107,18 @@
               "name": "end_date_desc_txt",
               "caption": "${wiredfurni.params.enddate}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_face": "Volter Bold",
+              "text_color": 16777215,
+              "mouse_wheel_enabled": false,
+              "sharpness": 0,
+              "thickness": 0,
+              "word_wrap": true,
+              "kerning": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "input",
@@ -99,26 +133,24 @@
               "dynamic_style": "",
               "name": "end_date"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "always_show_selection": true,
+              "border": true,
+              "border_color": 16777215,
+              "text_color": 16777215,
+              "sharpness": 0,
+              "thickness": 0,
+              "kerning": false,
+              "spacing": 0,
+              "leading": 0,
+              "tool_tip_caption": "YYYY/MM/DD HH:MM"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter Bold",
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "word_wrap": true,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0,
-    "always_show_selection": true,
-    "border": true,
-    "border_color": 16777215,
-    "tool_tip_caption": "YYYY/MM/DD HH:MM"
-  },
+  "vars": {},
   "filters": []
 }

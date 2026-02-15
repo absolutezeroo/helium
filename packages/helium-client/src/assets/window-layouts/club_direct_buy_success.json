@@ -1,6 +1,6 @@
 {
   "name": "club_direct_buy_success",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_club_direct_buy_success_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_club_direct_buy_success.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -45,7 +45,13 @@
                   "style": "0",
                   "name": "teaser_image"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}directVipBuy/success_teaser_image_HC.png",
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "text",
@@ -59,7 +65,14 @@
                   "style": "0",
                   "caption": "${direct.club.buy.success.congratulations}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_color": 16777215,
+                  "text_style": "u_headline_big",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -73,7 +86,16 @@
                   "style": "0",
                   "caption": "${direct.club.buy.success.text.line.1}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 20,
+                  "text_color": 16777215,
+                  "text_style": "u_regular",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -87,7 +109,16 @@
                   "style": "0",
                   "caption": "${direct.club.buy.success.text.line.2}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 20,
+                  "text_color": 16777215,
+                  "text_style": "u_regular",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -106,32 +137,21 @@
             },
             "children": []
           }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.url}directVipBuy/success_teaser_image_HC.png",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "text_color": 16777215,
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "font_size": 20,
-    "multiline": true
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

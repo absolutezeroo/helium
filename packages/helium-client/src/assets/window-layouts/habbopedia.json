@@ -1,6 +1,6 @@
 {
   "name": "habbopedia",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboPagesViewer_Habbohabbopedia_window_layout_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboPagesViewer_habbopedia_window_layout.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -48,7 +48,15 @@
               "name": "content",
               "caption": "Here is some mighty text describing certain Hotel feature. Let's see what happens when it goes over the limit."
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0,
+              "editable": false,
+              "selectable": false
+            }
           },
           {
             "tag": "scrollbar_vertical",
@@ -62,34 +70,32 @@
               "style": "3",
               "name": "scroller"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "scrollable": "content"
+            }
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 1,
+          "margin_top": 30,
+          "margin_right": 1,
+          "margin_bottom": 1
+        }
       }
     ]
   },
-  "vars": {
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "editable": false,
-    "selectable": false,
-    "scrollable": "content",
-    "margin_left": 1,
-    "margin_top": 30,
-    "margin_right": 1,
-    "margin_bottom": 1
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

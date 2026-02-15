@@ -1,6 +1,6 @@
 {
   "name": "inventory",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboInventoryCom_inventory_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboInventoryCom_inventory.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -78,7 +78,13 @@
                           "style": "3",
                           "caption": "${inventory.furni}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "margin_left": 10,
+                          "margin_top": 7,
+                          "margin_right": 10,
+                          "margin_bottom": 10
+                        }
                       }
                     ]
                   },
@@ -108,7 +114,13 @@
                           "style": "3",
                           "caption": "${inventory.rentables}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "margin_left": 10,
+                          "margin_top": 7,
+                          "margin_right": 10,
+                          "margin_bottom": 10
+                        }
                       }
                     ]
                   },
@@ -138,7 +150,13 @@
                           "style": "3",
                           "caption": "${inventory.furni.tab.pets}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "margin_left": 10,
+                          "margin_top": 7,
+                          "margin_right": 10,
+                          "margin_bottom": 10
+                        }
                       }
                     ]
                   },
@@ -168,7 +186,13 @@
                           "style": "3",
                           "caption": "${inventory.badges}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "margin_left": 10,
+                          "margin_top": 7,
+                          "margin_right": 10,
+                          "margin_bottom": 10
+                        }
                       }
                     ]
                   },
@@ -198,7 +222,13 @@
                           "style": "3",
                           "caption": "${inventory.bots}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "margin_left": 10,
+                          "margin_top": 7,
+                          "margin_right": 10,
+                          "margin_bottom": 10
+                        }
                       }
                     ]
                   }
@@ -230,7 +260,13 @@
                       "style": "3",
                       "name": "image"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "inventory_inventory_empty",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   },
                   {
                     "tag": "itemlist_vertical",
@@ -258,7 +294,16 @@
                           "caption": "${inventory.empty.title}",
                           "tags": "furni_description"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_color": 14483456,
+                          "text_style": "il_heading_2",
+                          "mouse_wheel_enabled": false,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -274,9 +319,20 @@
                           "caption": "${inventory.empty.desc}",
                           "tags": "furni_description"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 5
+                    }
                   },
                   {
                     "tag": "button",
@@ -321,7 +377,13 @@
                       "style": "3",
                       "name": "download_image"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "inventory_download_icon",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               },
@@ -391,7 +453,12 @@
                                   "name": "filter",
                                   "width_min": "60"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "mouse_wheel_enabled": false,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               },
                               {
                                 "tag": "region",
@@ -418,7 +485,13 @@
                                       "params": "16",
                                       "style": "3"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "asset_uri": "icons_close",
+                                      "pivot_point": "center",
+                                      "stretched_x": false,
+                                      "stretched_y": false
+                                    }
                                   }
                                 ]
                               }
@@ -480,7 +553,11 @@
                               "name": "item_grid",
                               "tags": "FURNI_ITEM_GRID"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "spacing": 2,
+                              "scale_to_fit_items": true
+                            }
                           },
                           {
                             "tag": "itemlist_horizontal",
@@ -521,11 +598,21 @@
                                       "caption": "0",
                                       "tags": "PAGE"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "auto_size": "left",
+                                      "text_style": "il_small",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   }
                                 ]
                               }
-                            ]
+                            ],
+                            "vars": {
+                              "spacing": 2
+                            }
                           },
                           {
                             "tag": "label",
@@ -540,7 +627,10 @@
                               "name": "items.shown",
                               "caption": "Items shown: x/y"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "text_color": 7829367
+                            }
                           }
                         ]
                       },
@@ -586,7 +676,10 @@
                               "name": "furni_preview_widget",
                               "height_min": "50"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "widget_type": "room_previewer"
+                            }
                           },
                           {
                             "tag": "itemlist_vertical",
@@ -617,7 +710,15 @@
                                   "width_min": "190",
                                   "width_max": "190"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "auto_size": "left",
+                                  "mouse_wheel_enabled": false,
+                                  "word_wrap": true,
+                                  "bold": true,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               },
                               {
                                 "tag": "text",
@@ -636,7 +737,14 @@
                                   "width_max": "190",
                                   "height_max": "45"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "auto_size": "left",
+                                  "mouse_wheel_enabled": false,
+                                  "word_wrap": true,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               },
                               {
                                 "tag": "text",
@@ -655,7 +763,15 @@
                                   "width_max": "190",
                                   "height_min": "12"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "auto_size": "left",
+                                  "mouse_wheel_enabled": false,
+                                  "multiline": true,
+                                  "word_wrap": true,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               },
                               {
                                 "tag": "button",
@@ -705,7 +821,14 @@
                                   "width_min": "50",
                                   "width_max": "50"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "always_show_selection": true,
+                                  "border": true,
+                                  "mouse_wheel_enabled": false,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               },
                               {
                                 "tag": "button",
@@ -785,7 +908,12 @@
                                 },
                                 "children": []
                               }
-                            ]
+                            ],
+                            "vars": {
+                              "spacing": 1,
+                              "scale_to_fit_items": true,
+                              "resize_on_item_update": true
+                            }
                           },
                           {
                             "tag": "itemlist_vertical",
@@ -827,7 +955,13 @@
                                       "name": "tradeable_number",
                                       "tags": "NUMBER,COUNT"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "auto_size": "left",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "static_bitmap",
@@ -841,9 +975,18 @@
                                       "style": "3",
                                       "name": "tradeable_icon"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "asset_uri": "inventory_furni_no_trade_icon",
+                                      "pivot_point": "center",
+                                      "stretched_x": false,
+                                      "stretched_y": false
+                                    }
                                   }
-                                ]
+                                ],
+                                "vars": {
+                                  "tool_tip_caption": "${inventory.furni.preview.tradeable_amount}"
+                                }
                               }
                             ]
                           },
@@ -859,7 +1002,10 @@
                               "style": "3",
                               "name": "rarity_item_overlay_widget"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "widget_type": "rarity_item_overlay_preview"
+                            }
                           },
                           {
                             "tag": "widget",
@@ -873,7 +1019,10 @@
                               "style": "3",
                               "name": "unique_limited_item_overlay_widget"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "widget_type": "limited_item_overlay_preview"
+                            }
                           },
                           {
                             "tag": "button",
@@ -935,7 +1084,11 @@
                           "style": "3",
                           "name": "grid"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "spacing": 2,
+                          "scale_to_fit_items": true
+                        }
                       },
                       {
                         "tag": "container",
@@ -963,7 +1116,16 @@
                               "name": "preview_text",
                               "caption": "PetName"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_style": "u_headline_small",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "bitmap",
@@ -993,7 +1155,15 @@
                               "caption": "Lorem ipsumlkj ljasdf lkjasd flkjasdflkj asdlkfj asdf",
                               "width_max": "220"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "mouse_wheel_enabled": false,
+                              "multiline": true,
+                              "word_wrap": true,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -1008,7 +1178,13 @@
                               "name": "preview_info",
                               "caption": "..."
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "mouse_wheel_enabled": false,
+                              "word_wrap": true,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "button",
@@ -1057,7 +1233,11 @@
                           "style": "3",
                           "name": "grid"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "spacing": 2,
+                          "scale_to_fit_items": true
+                        }
                       },
                       {
                         "tag": "container",
@@ -1085,7 +1265,16 @@
                               "name": "bot_name",
                               "caption": "bot name"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_style": "u_headline_small",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "bitmap",
@@ -1113,7 +1302,14 @@
                               "style": "3",
                               "name": "bot_description"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "mouse_wheel_enabled": false,
+                              "multiline": true,
+                              "word_wrap": true,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "button",
@@ -1188,7 +1384,12 @@
                                   "name": "filter",
                                   "width_min": "60"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "mouse_wheel_enabled": false,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               },
                               {
                                 "tag": "region",
@@ -1215,7 +1416,13 @@
                                       "params": "16",
                                       "style": "3"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "asset_uri": "icons_close",
+                                      "pivot_point": "center",
+                                      "stretched_x": false,
+                                      "stretched_y": false
+                                    }
                                   }
                                 ]
                               }
@@ -1236,7 +1443,11 @@
                           "name": "inactive_items",
                           "tags": "BADGE_ITEM_GRID"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "spacing": 2,
+                          "scale_to_fit_items": true
+                        }
                       },
                       {
                         "tag": "itemlist_horizontal",
@@ -1277,11 +1488,21 @@
                                   "caption": "0",
                                   "tags": "PAGE"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "auto_size": "left",
+                                  "text_style": "il_small",
+                                  "mouse_wheel_enabled": false,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               }
                             ]
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "spacing": 2
+                        }
                       },
                       {
                         "tag": "itemgrid_vertical",
@@ -1296,7 +1517,11 @@
                           "name": "active_items",
                           "tags": "ACTIVE_BADGE_ITEM_GRID"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "spacing": 2,
+                          "scale_to_fit_items": true
+                        }
                       },
                       {
                         "tag": "text",
@@ -1312,7 +1537,16 @@
                           "caption": "${inventory.badges.inactivebadges}",
                           "visible": "false"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "center",
+                          "text_style": "u_headline_small",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -1327,7 +1561,16 @@
                           "name": "wearingTitle",
                           "caption": "${inventory.badges.activebadges}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "center",
+                          "text_style": "u_headline_small",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "container",
@@ -1368,7 +1611,13 @@
                               "style": "3",
                               "name": "badge_image"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "widget_type": "badge_image",
+                              "badge_image:pivot_point": "center",
+                              "badge_image:stretched_x": false,
+                              "badge_image:stretched_y": false
+                            }
                           },
                           {
                             "tag": "button",
@@ -1398,7 +1647,15 @@
                               "name": "badgeName",
                               "caption": "${inventory.badges.defaultdescription}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "text_style": "u_headline_small",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       },
@@ -1443,7 +1700,15 @@
                                   "name": "score_description_text",
                                   "caption": "${achievements_score_description}"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "auto_size": "center",
+                                  "text_color": 16777215,
+                                  "mouse_wheel_enabled": false,
+                                  "bold": true,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               }
                             ]
                           }
@@ -1470,49 +1735,27 @@
             },
             "children": []
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 6,
+          "margin_top": 35,
+          "margin_right": 6,
+          "margin_bottom": 6
+        }
       }
     ]
   },
-  "vars": {
-    "margin_left": 6,
-    "margin_top": 35,
-    "margin_right": 6,
-    "margin_bottom": 6,
-    "asset_uri": "icons_close",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "auto_size": "center",
-    "text_color": 16777215,
-    "text_style": "u_headline_small",
-    "mouse_wheel_enabled": false,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "multiline": true,
-    "scale_to_fit_items": true,
-    "widget_type": "badge_image",
-    "bold": true,
-    "always_show_selection": true,
-    "border": true,
-    "resize_on_item_update": true,
-    "tool_tip_caption": "${inventory.furni.preview.tradeable_amount}",
-    "sharpness": 0,
-    "thickness": 0,
-    "badge_image:pivot_point": "center",
-    "badge_image:stretched_x": false,
-    "badge_image:stretched_y": false
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

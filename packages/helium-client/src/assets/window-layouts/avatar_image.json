@@ -1,6 +1,6 @@
 {
   "name": "avatar_image",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_avatar_image_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_avatar_image.xml",
   "window": {
     "tag": "window",
     "typeId": -1,

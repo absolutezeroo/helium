@@ -1,6 +1,6 @@
 {
   "name": "sanction_info",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_sanction_info_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboHelpCom_sanction_info.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -51,7 +51,16 @@
                   "caption": "${help.sanction.probation.reminder}",
                   "visible": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 22,
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -68,7 +77,16 @@
                   "visible": "false",
                   "clipping": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 20,
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -84,7 +102,16 @@
                   "caption": "${help.sanction.custom.mute}",
                   "visible": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 20,
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -100,7 +127,16 @@
                   "caption": "${trade.locked.until}",
                   "visible": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 20,
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -115,7 +151,14 @@
                   "name": "last_sanction_type",
                   "caption": "..."
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 20,
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -130,7 +173,13 @@
                   "name": "sanction_start_time",
                   "caption": "${generic.start.time}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 20,
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -145,7 +194,13 @@
                   "name": "sanction_reason",
                   "caption": "${generic.reason}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 20,
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -160,7 +215,14 @@
                   "name": "probation_info",
                   "caption": "${help.sanction.probation.days.left}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 20,
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -176,7 +238,15 @@
                   "caption": "...",
                   "height_max": "45"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 20,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "itemlist_horizontal",
@@ -201,7 +271,12 @@
                       "params": "16",
                       "style": "3"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "icons_link_icon",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   },
                   {
                     "tag": "link",
@@ -217,7 +292,15 @@
                       "caption": "${help.main.faq.link.text}",
                       "treshold": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_size": 20,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "underline": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -250,39 +333,35 @@
                   "name": "sanction_info_disclaimer",
                   "caption": "${help.sanction.info.disclaimer}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_color": 6908265,
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
-            ]
+            ],
+            "vars": {
+              "scale_to_fit_items": true,
+              "resize_on_item_update": true
+            }
+          }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "font_size": 20,
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "asset_uri": "icons_link_icon",
-    "stretched_x": false,
-    "stretched_y": false,
-    "underline": true,
-    "text_color": 6908265,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

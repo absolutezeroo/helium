@@ -1,6 +1,6 @@
 {
   "name": "layout_builders_club_addons",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbolayout_builders_club_addons_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_layout_builders_club_addons.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,7 +33,16 @@
               "caption": "<b>Formatted</b> text",
               "treshold": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0,
+              "editable": false,
+              "selectable": false,
+              "link_target": "internal"
+            }
           },
           {
             "tag": "static_bitmap",
@@ -46,7 +55,11 @@
               "params": "16",
               "style": "3"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.url}catalogue/bc_bottom.png",
+              "fit_size_to_contents": true
+            }
           },
           {
             "tag": "container",
@@ -111,7 +124,11 @@
                               "params": "16",
                               "style": "3"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "${image.library.url}/catalogue/icon_193.png",
+                              "fit_size_to_contents": true
+                            }
                           },
                           {
                             "tag": "text",
@@ -126,7 +143,17 @@
                               "name": "item_header",
                               "caption": "item name"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_color": 16777215,
+                              "text_style": "u_headline_medium",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       },
@@ -155,7 +182,10 @@
                               "name": "item_price",
                               "caption": "999"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "text_style": "u_headline_small"
+                            }
                           },
                           {
                             "tag": "static_bitmap",
@@ -168,7 +198,10 @@
                               "params": "16",
                               "style": "3"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "pursearea_credits_icon"
+                            }
                           },
                           {
                             "tag": "label",
@@ -184,7 +217,10 @@
                               "caption": "999",
                               "visible": "false"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "text_style": "u_headline_small"
+                            }
                           },
                           {
                             "tag": "static_bitmap",
@@ -199,9 +235,15 @@
                               "name": "diamonds_icon",
                               "visible": "false"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "pursearea_diamond_icon"
+                            }
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "spacing": 3
+                        }
                       },
                       {
                         "tag": "button_thick",
@@ -222,7 +264,10 @@
                       }
                     ]
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 12
+                }
               },
               {
                 "tag": "label",
@@ -237,7 +282,11 @@
                   "name": "trial_warning",
                   "caption": "${builder.addon_page.warning.trial}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_bold",
+                  "text_color": 13369344
+                }
               }
             ]
           },
@@ -252,28 +301,16 @@
               "params": "16",
               "style": "3"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.url}catalogue/bc_top.png",
+              "fit_size_to_contents": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 12,
-    "leading": 0,
-    "editable": false,
-    "selectable": false,
-    "link_target": "internal",
-    "asset_uri": "${image.library.url}catalogue/bc_top.png",
-    "fit_size_to_contents": true,
-    "auto_size": "left",
-    "text_color": 13369344,
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0
-  },
+  "vars": {},
   "filters": []
 }

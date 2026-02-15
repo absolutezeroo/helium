@@ -1,6 +1,6 @@
 {
   "name": "packagecard_new_opened",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbopackagecard_new_opened_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_packagecard_new_opened.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -131,11 +131,25 @@
                               "style": "0",
                               "name": "gift_message"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "multiline": true,
+                              "sharpness": 80,
+                              "thickness": -15,
+                              "word_wrap": true
+                            }
                           }
                         ]
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 10,
+                      "scale_to_fit_items": true,
+                      "resize_on_item_update": true
+                    }
                   },
                   {
                     "tag": "itemlist_vertical",
@@ -213,7 +227,12 @@
                         },
                         "children": []
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 10,
+                      "scale_to_fit_items": true,
+                      "resize_on_item_update": true
+                    }
                   },
                   {
                     "tag": "itemlist_vertical",
@@ -306,49 +325,53 @@
                                     },
                                     "children": []
                                   }
-                                ]
+                                ],
+                                "vars": {
+                                  "tool_tip_caption": "${widget.furni.present.sender.profile_tooltip}",
+                                  "tool_tip_delay": 256
+                                }
                               }
                             ]
                           }
                         ]
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 10,
+                      "scale_to_fit_items": true,
+                      "resize_on_item_update": true
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 10,
+                  "scale_to_fit_items": true,
+                  "resize_on_item_update": true
+                }
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 3,
+          "margin_top": 36,
+          "margin_right": 3,
+          "margin_bottom": 3
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "sharpness": 80,
-    "thickness": -15,
-    "word_wrap": true,
-    "spacing": 10,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true,
-    "tool_tip_caption": "${widget.furni.present.sender.profile_tooltip}",
-    "tool_tip_delay": 256,
-    "margin_left": 3,
-    "margin_top": 36,
-    "margin_right": 3,
-    "margin_bottom": 3
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

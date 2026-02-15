@@ -1,6 +1,6 @@
 {
   "name": "main_window",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboplaylisteditor_main_window_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_playlisteditor_main_window.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -49,7 +49,10 @@
                   "name": "music_inventory_itemgrid",
                   "tags": "MUSICINVENTORY"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "scroll_step_v": 105
+                }
               },
               {
                 "tag": "scrollbar_vertical",
@@ -63,7 +66,10 @@
                   "style": "0",
                   "name": "music_inventory_scrollbar"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "scrollable": "music_inventory_itemgrid"
+                }
               },
               {
                 "tag": "border",
@@ -105,7 +111,17 @@
                   "style": "0",
                   "caption": "${playlist.editor.my.music}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 32,
+                  "text_color": 16777215,
+                  "text_style": "bold",
+                  "mouse_wheel_enabled": false,
+                  "bold": true
+                }
               },
               {
                 "tag": "container",
@@ -149,7 +165,10 @@
                   "style": "0",
                   "name": "playlist_editor_itemlist"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "scroll_step_v": 52
+                }
               },
               {
                 "tag": "scrollbar_vertical",
@@ -163,7 +182,10 @@
                   "style": "0",
                   "name": "playlist_scrollbar"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "scrollable": "playlist_editor_itemlist"
+                }
               },
               {
                 "tag": "border",
@@ -205,7 +227,17 @@
                   "style": "0",
                   "caption": "${playlist.editor.playlist}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 32,
+                  "text_color": 16777215,
+                  "text_style": "bold",
+                  "mouse_wheel_enabled": false,
+                  "bold": true
+                }
               },
               {
                 "tag": "container",
@@ -224,31 +256,21 @@
               }
             ]
           }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
         ]
       }
     ]
   },
-  "vars": {
-    "scroll_step_v": 52,
-    "scrollable": "playlist_editor_itemlist",
-    "antialias_type": "advanced",
-    "auto_size": "left",
-    "font_face": "Ubuntu",
-    "font_size": 32,
-    "text_color": 16777215,
-    "text_style": "bold",
-    "mouse_wheel_enabled": false,
-    "bold": true
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

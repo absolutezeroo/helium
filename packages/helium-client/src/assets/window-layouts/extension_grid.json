@@ -1,6 +1,6 @@
 {
   "name": "extension_grid",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_extension_grid_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_extension_grid.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -19,13 +19,14 @@
           "width_min": "192",
           "width_max": "192"
         },
-        "children": []
+        "children": [],
+        "vars": {
+          "spacing": 2,
+          "resize_on_item_update": true
+        }
       }
     ]
   },
-  "vars": {
-    "spacing": 2,
-    "resize_on_item_update": true
-  },
+  "vars": {},
   "filters": []
 }

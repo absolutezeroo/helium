@@ -1,6 +1,6 @@
 {
   "name": "grs_main_window_new",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_grs_main_window_new_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboNavigatorCom_grs_main_window_new.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -185,7 +185,16 @@
                       "background": "true",
                       "tags": "FIT:navigatorSearchField"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "always_show_selection": true,
+                      "border": true,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "button",
@@ -297,7 +306,10 @@
                               "name": "scroller",
                               "caption": "${navigator.title}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "scrollable": "item_list"
+                            }
                           },
                           {
                             "tag": "text",
@@ -312,7 +324,17 @@
                               "name": "no_rooms_found",
                               "caption": "${navigator.noroomsfound}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_face": "Volter Bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       },
@@ -361,7 +383,10 @@
                               "name": "scroller",
                               "caption": "${navigator.title}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "scrollable": "item_list"
+                            }
                           },
                           {
                             "tag": "text",
@@ -376,7 +401,17 @@
                               "name": "no_rooms_found",
                               "caption": "${navigator.noroomsfound}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_face": "Volter Bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       },
@@ -426,7 +461,10 @@
                               "name": "scroller",
                               "caption": "${navigator.title}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "scrollable": "item_list"
+                            }
                           },
                           {
                             "tag": "text",
@@ -441,7 +479,17 @@
                               "name": "no_tags_found",
                               "caption": "${navigator.notagsfound}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_face": "Volter Bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       },
@@ -505,7 +553,10 @@
                               "style": "0",
                               "name": "scroller_category"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "scrollable": "item_list_category"
+                            }
                           }
                         ]
                       },
@@ -570,7 +621,10 @@
                               "style": "0",
                               "name": "scroller"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "scrollable": "item_list_official"
+                            }
                           }
                         ]
                       }
@@ -709,7 +763,17 @@
                               "style": "0",
                               "caption": "${navigator.roomcompetitionspager}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_face": "Volter Bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "container_button",
@@ -843,7 +907,16 @@
                                   "name": "more_rooms_caption",
                                   "caption": "${navigator.moreroomscaption}"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "auto_size": "left",
+                                  "mouse_wheel_enabled": false,
+                                  "sharpness": 0,
+                                  "thickness": 0,
+                                  "kerning": false,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               },
                               {
                                 "tag": "button",
@@ -894,7 +967,17 @@
                               "caption": "${navigator.adcaption}",
                               "visible": "false"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "font_face": "Volter Bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "container",
@@ -956,7 +1039,15 @@
                                   "name": "get_event_caption",
                                   "caption": "${roomad.get.event.caption}"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "font_face": "Volter",
+                                  "font_size": 9,
+                                  "text_style": "il_regular",
+                                  "mouse_wheel_enabled": false,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               },
                               {
                                 "tag": "button",
@@ -999,36 +1090,33 @@
               "caption": "${navigator.loading}",
               "visible": "false"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "font_face": "Volter Bold",
+              "mouse_wheel_enabled": false,
+              "sharpness": 0,
+              "thickness": 0,
+              "kerning": false,
+              "spacing": 0,
+              "leading": 0
+            }
+          }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "always_show_selection": true,
-    "border": true,
-    "sharpness": 0,
-    "thickness": 0,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0,
-    "scrollable": "item_list_official",
-    "auto_size": "left",
-    "font_face": "Volter Bold",
-    "mouse_wheel_enabled": false,
-    "font_size": 9,
-    "text_style": "il_regular"
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

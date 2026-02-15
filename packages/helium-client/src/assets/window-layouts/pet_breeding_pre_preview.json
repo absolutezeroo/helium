@@ -1,6 +1,6 @@
 {
   "name": "pet_breeding_pre_preview",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_pet_breeding_pet_preview_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_pet_breeding_pet_preview.xml",
   "window": {
     "tag": "window",
     "typeId": -1,

@@ -1,6 +1,6 @@
 {
   "name": "AchievementResolutionCompleted",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboachievement_resolution_completed_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboQuestEngineCom_achievement_resolution_completed.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -47,7 +47,10 @@
                   "height_min": "24",
                   "height_max": "24"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "il_heading_title"
+                }
               },
               {
                 "tag": "text",
@@ -63,7 +66,15 @@
                   "height_min": "40",
                   "height_max": "40"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container",
@@ -90,7 +101,12 @@
                       "height_min": "120",
                       "height_max": "120"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "common_hilight_big",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   },
                   {
                     "tag": "static_bitmap",
@@ -105,7 +121,12 @@
                       "height_min": "90",
                       "height_max": "90"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "icons_hilighter_yellow",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   },
                   {
                     "tag": "widget",
@@ -119,7 +140,13 @@
                       "style": "100",
                       "name": "achievement_badge"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "widget_type": "badge_image",
+                      "badge_image:pivot_point": "center",
+                      "badge_image:stretched_x": false,
+                      "badge_image:stretched_y": false
+                    }
                   }
                 ]
               },
@@ -149,47 +176,47 @@
                       "style": "100",
                       "caption": "${resolution.completed.close}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "text_style": "il_link_regular",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 5,
+              "scale_to_fit_items": true,
+              "resize_on_item_update": true
+            }
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 3,
+          "margin_top": 36,
+          "margin_right": 0,
+          "margin_bottom": 0
+        }
       }
     ]
   },
-  "vars": {
-    "text_style": "il_link_regular",
-    "auto_size": "center",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 5,
-    "leading": 0,
-    "asset_uri": "icons_hilighter_yellow",
-    "stretched_x": false,
-    "stretched_y": false,
-    "widget_type": "badge_image",
-    "badge_image:pivot_point": "center",
-    "badge_image:stretched_x": false,
-    "badge_image:stretched_y": false,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true,
-    "margin_left": 3,
-    "margin_top": 36,
-    "margin_right": 0,
-    "margin_bottom": 0
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

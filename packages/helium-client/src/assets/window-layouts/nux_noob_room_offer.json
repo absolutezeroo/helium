@@ -1,6 +1,6 @@
 {
   "name": "nux_noob_room_offer",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_nux_noob_room_offer_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_nux_noob_room_offer.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,7 +32,13 @@
               "style": "100",
               "tags": "ICON"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.url}nux/NUXroom_prompt.png",
+              "pivot_point": "center",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "container",
@@ -61,7 +67,18 @@
                   "color": "0x00",
                   "height_max": "84"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "word_wrap": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "button_thick",
@@ -82,38 +99,27 @@
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 1,
+          "margin_top": 10,
+          "margin_right": 1,
+          "margin_bottom": 10
+        }
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.url}nux/NUXroom_prompt.png",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "auto_size": "left",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "sharpness": 0,
-    "thickness": 0,
-    "word_wrap": true,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0,
-    "margin_left": 1,
-    "margin_top": 10,
-    "margin_right": 1,
-    "margin_bottom": 10
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

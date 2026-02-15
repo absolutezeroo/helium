@@ -1,6 +1,6 @@
 {
   "name": "instructions_list_item",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habboinstructions_list_item_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboGamesCom_instructions_list_item.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,7 +31,15 @@
               "name": "number",
               "caption": "1."
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "font_face": "Ubuntu",
+              "font_size": 18,
+              "text_color": 1079212,
+              "mouse_wheel_enabled": false,
+              "bold": true
+            }
           },
           {
             "tag": "text",
@@ -46,20 +54,20 @@
               "name": "text",
               "caption": ""
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "font_face": "Ubuntu",
+              "font_size": 18,
+              "text_color": 1079212,
+              "mouse_wheel_enabled": false,
+              "word_wrap": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "antialias_type": "advanced",
-    "font_face": "Ubuntu",
-    "font_size": 18,
-    "text_color": 1079212,
-    "mouse_wheel_enabled": false,
-    "bold": true,
-    "word_wrap": true
-  },
+  "vars": {},
   "filters": []
 }

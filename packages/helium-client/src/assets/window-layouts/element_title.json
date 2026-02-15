@@ -1,6 +1,6 @@
 {
   "name": "element_title",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_element_title_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_element_title.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,7 +32,12 @@
               "style": "100",
               "name": "border_bar"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "illumina_light_border_top_center",
+              "pivot_point": "center left",
+              "stretched_y": false
+            }
           },
           {
             "tag": "text",
@@ -48,7 +53,15 @@
               "caption": "${landing.view.pageexpiry.title}",
               "tags": "COLORABLE"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "font_size": 9,
+              "text_style": "il_heading_3",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "static_bitmap",
@@ -62,22 +75,17 @@
               "style": "100",
               "name": "hdr_line"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "illumina_light_border_top_center",
+              "pivot_point": "center left",
+              "stretched_y": false
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "illumina_light_border_top_center",
-    "pivot_point": "center left",
-    "stretched_y": false,
-    "auto_size": "left",
-    "font_size": 9,
-    "text_style": "il_heading_3",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "Group created window",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGroupsCom_Habbogroup_created_window_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboGroupsCom_group_created_window.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,7 +33,10 @@
               "style": "0",
               "name": "group_welcome_info"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.url}guilds/group_welcome_info.png"
+            }
           },
           {
             "tag": "button_thick",
@@ -64,36 +67,39 @@
               "style": "0",
               "caption": "${group.created.info}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "u_regular",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0,
+              "editable": false,
+              "selectable": false
+            }
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 0,
+          "margin_top": 33,
+          "margin_right": 0,
+          "margin_bottom": 3
+        }
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.url}guilds/group_welcome_info.png",
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "editable": false,
-    "selectable": false,
-    "margin_left": 0,
-    "margin_top": 33,
-    "margin_right": 0,
-    "margin_bottom": 3
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "guide_closed",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_guide_closed_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboHelpCom_guide_closed.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -47,7 +47,11 @@
                   "style": "100",
                   "name": "requester_avatar"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "widget_type": "avatar_image",
+                  "avatar_image:cropped": true
+                }
               }
             ]
           },
@@ -77,7 +81,14 @@
                   "style": "100",
                   "caption": "${guide.help.request.guide.closed.heading}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "il_heading_1",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -92,7 +103,15 @@
                   "name": "close_reason",
                   "caption": "Lilyflower closed the case."
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -106,7 +125,16 @@
                   "style": "100",
                   "caption": "${guide.help.request.guide.closed.thanks}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "bold": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "button",
@@ -140,42 +168,43 @@
                   "caption": "Report Lilyflower",
                   "treshold": "0"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "underline": true,
+                  "spacing": 0,
+                  "leading": 0,
+                  "tool_tip_caption": "${guide.help.common.report.link.tooltip}",
+                  "tool_tip_delay": 256
+                }
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 5
+            }
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 1,
+          "margin_top": 40,
+          "margin_right": 1,
+          "margin_bottom": 1
+        }
       }
     ]
   },
-  "vars": {
-    "widget_type": "avatar_image",
-    "avatar_image:cropped": true,
-    "auto_size": "left",
-    "text_style": "il_heading_1",
-    "mouse_wheel_enabled": false,
-    "spacing": 5,
-    "leading": 0,
-    "multiline": true,
-    "word_wrap": true,
-    "bold": true,
-    "underline": true,
-    "tool_tip_caption": "${guide.help.common.report.link.tooltip}",
-    "tool_tip_delay": 256,
-    "margin_left": 1,
-    "margin_top": 40,
-    "margin_right": 1,
-    "margin_bottom": 1
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

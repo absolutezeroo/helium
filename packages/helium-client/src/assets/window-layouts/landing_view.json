@@ -1,6 +1,6 @@
 {
   "name": "landing_view",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_landing_view_generic_reception_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_landing_view_generic_reception.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -51,7 +51,13 @@
                   "style": "0",
                   "name": "background_back"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}reception/generic_reception_back.png",
+                  "pivot_point": "bottom left",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "background",
@@ -82,7 +88,11 @@
                   "name": "reception_divider",
                   "blend": "0.8"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "landing_view_reception_horizontal",
+                  "stretched_x": false
+                }
               },
               {
                 "tag": "itemlist_horizontal",
@@ -109,7 +119,14 @@
                       "name": "daily_content",
                       "caption": "${landing.view.generic.content.title}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_style": "il_heading_3",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "static_bitmap",
@@ -123,9 +140,17 @@
                       "style": "100",
                       "name": "border_bar"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "illumina_light_border_top_center",
+                      "pivot_point": "center left",
+                      "stretched_y": false
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 5
+                }
               },
               {
                 "tag": "container",
@@ -153,7 +178,13 @@
                   "style": "0",
                   "name": "background_front"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}reception/generic_reception_front.png",
+                  "pivot_point": "bottom left",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "icon",
@@ -195,7 +226,12 @@
                   "style": "100",
                   "name": "dive"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}reception/generic_reception_dive.png",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               }
             ]
           }
@@ -203,16 +239,6 @@
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.url}reception/generic_reception_dive.png",
-    "pivot_point": "bottom left",
-    "stretched_x": false,
-    "stretched_y": false,
-    "auto_size": "left",
-    "text_style": "il_heading_3",
-    "mouse_wheel_enabled": false,
-    "spacing": 5,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

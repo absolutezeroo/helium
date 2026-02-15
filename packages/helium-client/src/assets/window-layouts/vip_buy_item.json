@@ -1,6 +1,6 @@
 {
   "name": "vip_buy_item",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbovip_buy_item_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_vip_buy_item.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -66,7 +66,16 @@
                   "name": "item_header",
                   "caption": "catalog.club.item.header"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 20,
+                  "text_color": 16777215,
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "bitmap",
@@ -81,7 +90,10 @@
                   "name": "vip_icon",
                   "tags": "bitmap"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "bitmap_asset_name": "vip_icon_medium"
+                }
               }
             ]
           },
@@ -143,15 +155,6 @@
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "font_size": 20,
-    "text_color": 16777215,
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "bitmap_asset_name": "vip_icon_medium"
-  },
+  "vars": {},
   "filters": []
 }

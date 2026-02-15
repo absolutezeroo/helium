@@ -1,6 +1,6 @@
 {
   "name": "bully_report",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_bully_report_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboHelpCom_bully_report.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -45,7 +45,11 @@
                   "style": "100",
                   "caption": "${help.bully.subtitle}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "il_heading_1",
+                  "text_color": 5592405
+                }
               },
               {
                 "tag": "text",
@@ -61,7 +65,15 @@
                   "width_min": "270",
                   "width_max": "270"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "scrollable_itemlist_vertical",
@@ -102,7 +114,10 @@
                           "name": "user_name",
                           "caption": "user123"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_style": "il_border"
+                        }
                       },
                       {
                         "tag": "label",
@@ -117,7 +132,10 @@
                           "name": "room_name",
                           "caption": "${help.emergency.main.step.two.room.name}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_color": 4473924
+                        }
                       },
                       {
                         "tag": "widget",
@@ -131,13 +149,21 @@
                           "style": "100",
                           "name": "user_avatar"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "widget_type": "avatar_image",
+                          "avatar_image:only_head": true,
+                          "avatar_image:cropped": true
+                        }
                       }
                     ]
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 8
+            }
           },
           {
             "tag": "button",
@@ -155,32 +181,21 @@
             },
             "children": []
           }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
+          }
         ]
       }
     ]
   },
-  "vars": {
-    "text_style": "il_border",
-    "text_color": 4473924,
-    "auto_size": "left",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 8,
-    "leading": 0,
-    "widget_type": "avatar_image",
-    "avatar_image:only_head": true,
-    "avatar_image:cropped": true
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

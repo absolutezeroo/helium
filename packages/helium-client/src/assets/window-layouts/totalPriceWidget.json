@@ -1,6 +1,6 @@
 {
   "name": "totalPriceWidget",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbototal_price_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_total_price_widget.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,7 +33,15 @@
               "caption": "=",
               "color": "0x00"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "margin_right": 4,
+              "mouse_wheel_enabled": false,
+              "bold": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "itemlist_horizontal",
@@ -61,7 +69,15 @@
                   "name": "amount_text_left",
                   "caption": "00000"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "grid_fit_type": "subpixel",
+                  "mouse_wheel_enabled": false,
+                  "bold": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "icon",
@@ -90,7 +106,15 @@
                   "name": "plus",
                   "caption": "+"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "margin_left": -2,
+                  "mouse_wheel_enabled": false,
+                  "bold": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -105,7 +129,15 @@
                   "name": "amount_text_right",
                   "caption": "00000"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "grid_fit_type": "subpixel",
+                  "mouse_wheel_enabled": false,
+                  "bold": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "icon",
@@ -127,15 +159,6 @@
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "margin_right": 4,
-    "mouse_wheel_enabled": false,
-    "bold": true,
-    "spacing": 0,
-    "leading": 0,
-    "grid_fit_type": "subpixel",
-    "margin_left": -2
-  },
+  "vars": {},
   "filters": []
 }

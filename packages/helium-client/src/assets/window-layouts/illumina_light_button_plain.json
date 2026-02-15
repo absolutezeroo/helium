@@ -1,6 +1,6 @@
 {
   "name": "illumina_light_button_plain",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_illumina_light_button_plain_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_illumina_light_button_plain.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -19,13 +19,14 @@
           "tags": "_EXCLUDE, _INTERNAL, title",
           "params": "0"
         },
-        "children": []
+        "children": [],
+        "vars": {
+          "text_style": "il_button",
+          "margins": null
+        }
       }
     ]
   },
-  "vars": {
-    "text_style": "il_button",
-    "margins": null
-  },
+  "vars": {},
   "filters": []
 }

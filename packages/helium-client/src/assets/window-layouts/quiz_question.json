@@ -1,6 +1,6 @@
 {
   "name": "quiz_question",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_wordquiz_question_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_wordquiz_question.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -61,7 +61,18 @@
                       "width_max": "660",
                       "height_max": "68"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_size": 40,
+                      "text_style": "ubuntu_condensed_regular",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "max_lines": 2,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -117,7 +128,10 @@
                               "params": "18",
                               "style": "3"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "word_quiz_thum_down_big"
+                            }
                           }
                         ]
                       }
@@ -162,7 +176,10 @@
                               "params": "18",
                               "style": "3"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "word_quiz_thum_up_big"
+                            }
                           }
                         ]
                       }
@@ -176,17 +193,6 @@
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "font_size": 40,
-    "text_style": "ubuntu_condensed_regular",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "max_lines": 2,
-    "spacing": 0,
-    "leading": 0,
-    "asset_uri": "word_quiz_thum_up_big"
-  },
+  "vars": {},
   "filters": []
 }

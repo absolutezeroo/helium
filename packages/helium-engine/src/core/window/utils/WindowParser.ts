@@ -156,10 +156,25 @@ export class WindowParser implements IWindowParser
         window.clipping = clipping;
         window.background = background;
 
-        // Set assetUri on static_bitmap windows to trigger ResourceManager loading
-        if(window.type === WindowType.STATIC_BITMAP_WRAPPER && name)
+        // Set assetUri on static_bitmap windows to trigger ResourceManager loading.
+        // Use the per-window asset_uri variable if present (from XML <variables>),
+        // otherwise fall back to name + '_normal'.
+        // Note: asset_uri from variables is the COMPLETE name (e.g. "bottom_bar_home"),
+        // no suffix needed. The name + '_normal' fallback appends the suffix for
+        // backward compatibility when no variable is specified.
+        if(window.type === WindowType.STATIC_BITMAP_WRAPPER)
         {
-            (window as unknown as IStaticBitmapWrapperWindow).assetUri = name + '_normal';
+            const vars = node.vars;
+            const assetUri = vars?.asset_uri as string | undefined;
+
+            if(assetUri)
+            {
+                (window as unknown as IStaticBitmapWrapperWindow).assetUri = assetUri;
+            }
+            else if(name)
+            {
+                (window as unknown as IStaticBitmapWrapperWindow).assetUri = name + '_normal';
+            }
         }
 
         // Collect named windows
@@ -287,6 +302,8 @@ interface LayoutNode
     typeId?: number;
     attributes?: Record<string, string>;
     children?: LayoutNode[];
+    vars?: Record<string, unknown>;
+    filters?: unknown[];
 }
 
 // ── Utility helpers ─────────────────────────────────────────────────

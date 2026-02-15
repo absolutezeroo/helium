@@ -1,6 +1,6 @@
 {
   "name": "Group room info",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGroupsCom_Habbogroup_room_info_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboGroupsCom_group_room_info.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,7 +31,10 @@
               "style": "0",
               "name": "bg_expanded"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.url}guilds/group_bg.png"
+            }
           },
           {
             "tag": "static_bitmap",
@@ -45,7 +48,10 @@
               "style": "0",
               "name": "bg_contracted"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.url}Events/event_bg_contracted.png"
+            }
           },
           {
             "tag": "region",
@@ -105,7 +111,21 @@
                   "name": "header_txt",
                   "caption": "${group.homeroominfo.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 19,
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "bold": true,
+                  "kerning": false,
+                  "spacing": -0.4,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -120,7 +140,17 @@
                   "name": "group_name_txt",
                   "caption": "Search around hotel and locate this very valuable dino egg jhg jhg jhg jh gjhg jhg jhg jhg jh gjhg jhg jhg jhg jhg jhgjhgjh gjhg jh gjhg jh gjhg jhg jhg jhg jhg jhg"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 19,
+                  "text_color": 16777215,
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -134,7 +164,10 @@
                   "style": "0",
                   "name": "group_base_icon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}guilds/group_base_icon.png"
+                }
               },
               {
                 "tag": "widget",
@@ -148,7 +181,14 @@
                   "style": "0",
                   "name": "group_logo"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "widget_type": "badge_image",
+                  "badge_image:type": "group",
+                  "badge_image:pivot_point": "center",
+                  "badge_image:stretched_x": false,
+                  "badge_image:stretched_y": false
+                }
               },
               {
                 "tag": "button_thick",
@@ -221,28 +261,6 @@
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.url}guilds/group_base_icon.png",
-    "antialias_type": "advanced",
-    "auto_size": "left",
-    "font_face": "Ubuntu",
-    "font_size": 19,
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "bold": true,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0,
-    "text_style": "u_bold",
-    "multiline": true,
-    "word_wrap": true,
-    "widget_type": "badge_image",
-    "badge_image:type": "group",
-    "badge_image:pivot_point": "center",
-    "badge_image:stretched_x": false,
-    "badge_image:stretched_y": false
-  },
+  "vars": {},
   "filters": []
 }

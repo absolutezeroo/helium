@@ -1,6 +1,6 @@
 {
   "name": "notifications_browser",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNotificationsCom_layout_notifications_browser_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboNotificationsCom_layout_notifications_browser.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,7 +33,15 @@
               "caption": "Notification history",
               "color": "0xffffff"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_face": "Volter Bold",
+              "font_size": "9",
+              "text_color": "16777215",
+              "auto_size": "left",
+              "embed_fonts": "true",
+              "mouse_wheel_enabled": "true"
+            }
           },
           {
             "tag": "container",
@@ -70,13 +78,6 @@
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter Bold",
-    "font_size": "9",
-    "text_color": "16777215",
-    "auto_size": "left",
-    "embed_fonts": "true",
-    "mouse_wheel_enabled": "true"
-  },
+  "vars": {},
   "filters": []
 }

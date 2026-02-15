@@ -1,6 +1,6 @@
 {
   "name": "user_ongoing",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_user_ongoing_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboHelpCom_user_ongoing.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -58,7 +58,13 @@
                       "params": "16",
                       "style": "100"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "help_guide_icon",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   },
                   {
                     "tag": "itemlist_vertical",
@@ -87,7 +93,16 @@
                           "treshold": "0",
                           "width_max": "130"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_style": "il_heading_2",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0,
+                          "tool_tip_caption": "${guide.help.common.profile.tooltip}",
+                          "tool_tip_delay": 256
+                        }
                       },
                       {
                         "tag": "text",
@@ -103,11 +118,20 @@
                           "caption": "${guide.help.request.user.ongoing.guide.desc}",
                           "width_max": "130"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 5
+                }
               },
               {
                 "tag": "link",
@@ -123,7 +147,16 @@
                   "caption": "${guide.help.common.report.link}",
                   "treshold": "0"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "right",
+                  "mouse_wheel_enabled": false,
+                  "underline": true,
+                  "spacing": 0,
+                  "leading": 0,
+                  "tool_tip_caption": "${guide.help.common.report.link.tooltip}",
+                  "tool_tip_delay": 256
+                }
               }
             ]
           },
@@ -152,7 +185,12 @@
                   "style": "100",
                   "caption": "${guide.help.common.typing}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_color": 5592405,
+                  "margin_top": 3,
+                  "margin_bottom": 2
+                }
               }
             ]
           },
@@ -181,7 +219,11 @@
                   "width_min": "280",
                   "width_max": "280"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "illumina_horizontal_separator",
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "widget",
@@ -196,7 +238,10 @@
                   "name": "input_widget",
                   "width_max": "260"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "widget_type": "illumina_input"
+                }
               },
               {
                 "tag": "link",
@@ -212,45 +257,40 @@
                   "caption": "${guide.help.request.user.ongoing.close.link}",
                   "treshold": "0"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "underline": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 1,
+          "margin_top": 40,
+          "margin_right": 1,
+          "margin_bottom": 0
+        }
       }
     ]
   },
-  "vars": {
-    "asset_uri": "illumina_horizontal_separator",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "auto_size": "center",
-    "text_style": "il_heading_2",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "tool_tip_caption": "${guide.help.common.report.link.tooltip}",
-    "tool_tip_delay": 256,
-    "underline": true,
-    "text_color": 5592405,
-    "margin_top": 40,
-    "margin_bottom": 0,
-    "widget_type": "illumina_input",
-    "multiline": true,
-    "word_wrap": true,
-    "margin_left": 1,
-    "margin_right": 1
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

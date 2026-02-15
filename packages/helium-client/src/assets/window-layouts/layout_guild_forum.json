@@ -1,6 +1,6 @@
 {
   "name": "layout_guild_forum",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbolayout_guild_forum_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_layout_guild_forum.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -47,7 +47,11 @@
               "caption": "${catalog_selectproduct}",
               "visible": "false"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "u_small",
+              "text_color": 6710886
+            }
           },
           {
             "tag": "html",
@@ -63,7 +67,17 @@
               "caption": "${loremipsum.html}",
               "tags": "E"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "u_regular",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0,
+              "editable": false,
+              "selectable": false
+            }
           },
           {
             "tag": "static_bitmap",
@@ -76,7 +90,10 @@
               "params": "16",
               "style": "3"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.url}catalogue/guild_forums_teaser.gif"
+            }
           },
           {
             "tag": "container",
@@ -146,7 +163,15 @@
                   "name": "warning_text",
                   "caption": "${catalog.alert.group_has_forum}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_color": 7274496,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -169,17 +194,6 @@
       }
     ]
   },
-  "vars": {
-    "text_style": "u_regular",
-    "text_color": 7274496,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "editable": false,
-    "selectable": false,
-    "asset_uri": "${image.library.url}catalogue/guild_forums_teaser.gif"
-  },
+  "vars": {},
   "filters": []
 }

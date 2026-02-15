@@ -1,6 +1,6 @@
 {
   "name": "promo_article",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_promo_article_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_promo_article.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -48,7 +48,12 @@
                   "style": "100",
                   "name": "border_bar"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "illumina_light_border_top_center",
+                  "pivot_point": "center left",
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "text",
@@ -64,7 +69,15 @@
                   "caption": "${landing.view.promo.article.header}",
                   "tags": "COLORABLE"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 9,
+                  "text_style": "il_heading_3",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -78,9 +91,19 @@
                   "style": "100",
                   "name": "hdr_line"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "illumina_light_border_top_center",
+                  "pivot_point": "center left",
+                  "stretched_y": false
+                }
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 4,
+              "scale_to_fit_items": true,
+              "resize_on_item_update": true
+            }
           },
           {
             "tag": "container",
@@ -123,9 +146,19 @@
                       "clipping": "false",
                       "treshold": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "progress_disk_flat_off",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "fit_size_to_contents": true
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${promo.article.widget.tooltip.go.to.article}",
+                  "tool_tip_delay": 592
+                }
               },
               {
                 "tag": "region",
@@ -156,9 +189,19 @@
                       "clipping": "false",
                       "treshold": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "progress_disk_flat_off",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "fit_size_to_contents": true
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${promo.article.widget.tooltip.go.to.article}",
+                  "tool_tip_delay": 592
+                }
               },
               {
                 "tag": "region",
@@ -189,9 +232,19 @@
                       "clipping": "false",
                       "treshold": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "progress_disk_flat_off",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "fit_size_to_contents": true
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${promo.article.widget.tooltip.go.to.article}",
+                  "tool_tip_delay": 592
+                }
               },
               {
                 "tag": "region",
@@ -222,9 +275,19 @@
                       "clipping": "false",
                       "treshold": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "progress_disk_flat_off",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "fit_size_to_contents": true
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${promo.article.widget.tooltip.go.to.article}",
+                  "tool_tip_delay": 592
+                }
               },
               {
                 "tag": "region",
@@ -255,9 +318,19 @@
                       "clipping": "false",
                       "treshold": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "progress_disk_flat_off",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "fit_size_to_contents": true
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${promo.article.widget.tooltip.go.to.article}",
+                  "tool_tip_delay": 592
+                }
               },
               {
                 "tag": "region",
@@ -288,9 +361,19 @@
                       "clipping": "false",
                       "treshold": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "progress_disk_flat_off",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "fit_size_to_contents": true
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${promo.article.widget.tooltip.go.to.article}",
+                  "tool_tip_delay": 592
+                }
               },
               {
                 "tag": "region",
@@ -321,9 +404,19 @@
                       "clipping": "false",
                       "treshold": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "progress_disk_flat_off",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "fit_size_to_contents": true
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${promo.article.widget.tooltip.go.to.article}",
+                  "tool_tip_delay": 592
+                }
               },
               {
                 "tag": "region",
@@ -354,9 +447,19 @@
                       "clipping": "false",
                       "treshold": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "progress_disk_flat_off",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "fit_size_to_contents": true
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${promo.article.widget.tooltip.go.to.article}",
+                  "tool_tip_delay": 592
+                }
               },
               {
                 "tag": "region",
@@ -387,9 +490,19 @@
                       "clipping": "false",
                       "treshold": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "progress_disk_flat_off",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "fit_size_to_contents": true
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${promo.article.widget.tooltip.go.to.article}",
+                  "tool_tip_delay": 592
+                }
               },
               {
                 "tag": "region",
@@ -420,9 +533,19 @@
                       "clipping": "false",
                       "treshold": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "progress_disk_flat_off",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "fit_size_to_contents": true
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${promo.article.widget.tooltip.go.to.article}",
+                  "tool_tip_delay": 592
+                }
               }
             ]
           },
@@ -452,7 +575,13 @@
                   "name": "promo_image",
                   "width_max": "150"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "",
+                  "stretched_x": false,
+                  "stretched_y": false,
+                  "fit_size_to_contents": true
+                }
               },
               {
                 "tag": "itemlist_vertical",
@@ -482,7 +611,16 @@
                       "caption": "${promo.article.widget.loading}",
                       "tags": "COLORABLE"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_style": "il_heading_title",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "formatted_text",
@@ -497,7 +635,15 @@
                       "name": "promo_text",
                       "tags": "COLORABLE"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "button",
@@ -515,7 +661,12 @@
                     },
                     "children": []
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 6,
+                  "scale_to_fit_items": true,
+                  "resize_on_item_update": true
+                }
               }
             ]
           }
@@ -523,24 +674,6 @@
       }
     ]
   },
-  "vars": {
-    "asset_uri": "",
-    "pivot_point": "center left",
-    "stretched_y": false,
-    "auto_size": "left",
-    "font_size": 9,
-    "text_style": "il_heading_title",
-    "mouse_wheel_enabled": false,
-    "spacing": 6,
-    "leading": 0,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true,
-    "stretched_x": false,
-    "fit_size_to_contents": true,
-    "tool_tip_caption": "${promo.article.widget.tooltip.go.to.article}",
-    "tool_tip_delay": 592,
-    "multiline": true,
-    "word_wrap": true
-  },
+  "vars": {},
   "filters": []
 }

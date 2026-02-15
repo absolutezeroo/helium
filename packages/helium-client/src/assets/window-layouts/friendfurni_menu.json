@@ -1,6 +1,6 @@
 {
   "name": "friendfurni_menu",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbofriendfurni_menu_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_friendfurni_menu.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -59,7 +59,16 @@
                       "style": "0",
                       "caption": "${friendfurni.context.title}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_size": 17,
+                      "text_color": 16777215,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -134,13 +143,27 @@
                               "name": "label",
                               "caption": "${friendfurni.context.use}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "center",
+                              "font_size": 17,
+                              "text_color": 16777215,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
                     ]
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 1,
+                  "scale_to_fit_items": true,
+                  "resize_on_item_update": true
+                }
               },
               {
                 "tag": "region",
@@ -174,24 +197,16 @@
               }
             ]
           }
-        ]
+        ],
+        "vars": {
+          "margin_left": 4,
+          "margin_top": 4,
+          "margin_right": 4,
+          "margin_bottom": 4
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "font_size": 17,
-    "text_color": 16777215,
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "spacing": 1,
-    "leading": 0,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true,
-    "margin_left": 4,
-    "margin_top": 4,
-    "margin_right": 4,
-    "margin_bottom": 4
-  },
+  "vars": {},
   "filters": []
 }

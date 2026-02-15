@@ -1,6 +1,6 @@
 {
   "name": "addOnBadgeViewWidget",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboadd_on_badge_view_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_add_on_badge_view_widget.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,14 +31,15 @@
               "style": "3",
               "name": "badge"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "widget_type": "badge_image"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "widget_type": "badge_image"
-  },
+  "vars": {},
   "filters": []
 }

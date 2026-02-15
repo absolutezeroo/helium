@@ -1,6 +1,6 @@
 {
   "name": "pet_commands",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbopet_commands_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_pet_commands.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -65,7 +65,13 @@
               "name": "pet_name",
               "caption": "${widgets.pet.commands.title}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "container",
@@ -138,7 +144,13 @@
                   "style": "3",
                   "name": "status_skill_value_text"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "bitmap",
@@ -152,7 +164,10 @@
                   "style": "3",
                   "name": "status_skill_icon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "bitmap_asset_name": "icon_pet_experience"
+                }
               },
               {
                 "tag": "text",
@@ -168,35 +183,38 @@
                   "caption": "${infostand.pet.text.skill.next}",
                   "visible": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "help_page": "help/pets/training",
+          "margin_left": 6,
+          "margin_top": 25,
+          "margin_right": 6,
+          "margin_bottom": 7
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "bitmap_asset_name": "icon_pet_experience",
-    "help_page": "help/pets/training",
-    "margin_left": 6,
-    "margin_top": 25,
-    "margin_right": 6,
-    "margin_bottom": 7
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

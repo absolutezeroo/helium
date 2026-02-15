@@ -1,6 +1,6 @@
 {
   "name": "palette_item",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbogift_palette_item_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_gift_palette_item.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,7 +33,10 @@
               "style": "0",
               "name": "color"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "catalogue_color_picker_27x22_color"
+            }
           },
           {
             "tag": "static_bitmap",
@@ -47,7 +50,10 @@
               "style": "0",
               "name": "border"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "catalogue_color_picker_27x22_border"
+            }
           },
           {
             "tag": "static_bitmap",
@@ -61,14 +67,15 @@
               "style": "0",
               "name": "selection"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "catalogue_color_picker_27x22_selection"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "catalogue_color_picker_27x22_selection"
-  },
+  "vars": {},
   "filters": []
 }

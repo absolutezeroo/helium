@@ -1,6 +1,6 @@
 {
   "name": "grs_official_room_row",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_grs_official_room_row_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboNavigatorCom_grs_official_room_row.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -75,7 +75,13 @@
                       "style": "0",
                       "name": "folder_name_text"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter Bold",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "word_wrap": true
+                    }
                   }
                 ]
               },
@@ -107,7 +113,13 @@
                       "name": "arrow_label",
                       "caption": "show"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "underline": true
+                    }
                   },
                   {
                     "tag": "bitmap",
@@ -266,7 +278,13 @@
                       "name": "picText",
                       "caption": "Lorengdf def fd df df df df dfdf d"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter Bold",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "word_wrap": true
+                    }
                   }
                 ]
               },
@@ -439,7 +457,11 @@
                   "name": "entry_caption",
                   "caption": "PH Room Name: Neque porro quisquam est que"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_face": "Volter Bold",
+                  "mouse_wheel_enabled": false
+                }
               },
               {
                 "tag": "text",
@@ -454,7 +476,12 @@
                   "name": "entry_desc",
                   "caption": "PH Room Desc: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_color": 8421504,
+                  "mouse_wheel_enabled": false,
+                  "word_wrap": true
+                }
               }
             ]
           }
@@ -462,13 +489,6 @@
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter Bold",
-    "text_color": 8421504,
-    "mouse_wheel_enabled": false,
-    "word_wrap": true,
-    "auto_size": "left",
-    "underline": true
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "clock_base",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_clock_base_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_clock_base.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -42,7 +42,12 @@
                   "params": "16",
                   "style": "0"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "illumina_light_clock_background_png",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "text",
@@ -57,7 +62,16 @@
                   "name": "value",
                   "caption": "00"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "font_size": 19,
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "bold": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -73,7 +87,14 @@
                   "caption": "hrs",
                   "tags": "COLORABLE"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "font_size": 9,
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -91,23 +112,19 @@
               "caption": ":",
               "tags": "COLORABLE"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_size": 21,
+              "mouse_wheel_enabled": false,
+              "bold": true,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "illumina_light_clock_background_png",
-    "stretched_x": false,
-    "stretched_y": false,
-    "auto_size": "center",
-    "font_size": 21,
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "bold": true,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

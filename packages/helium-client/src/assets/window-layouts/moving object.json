@@ -1,6 +1,6 @@
 {
   "name": "moving object",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_moving_object_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_moving_object.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -17,14 +17,15 @@
           "params": "16",
           "style": "0"
         },
-        "children": []
+        "children": [],
+        "vars": {
+          "stretched_x": false,
+          "stretched_y": false,
+          "fit_size_to_contents": true
+        }
       }
     ]
   },
-  "vars": {
-    "stretched_x": false,
-    "stretched_y": false,
-    "fit_size_to_contents": true
-  },
+  "vars": {},
   "filters": []
 }

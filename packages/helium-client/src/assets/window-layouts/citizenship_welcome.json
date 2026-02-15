@@ -1,6 +1,6 @@
 {
   "name": "citizenship_welcome",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_citizenship_welcome_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_citizenship_welcome.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -55,7 +55,16 @@
                       "style": "100",
                       "caption": "${citizenship.promo.popup.heading}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_style": "il_heading_1",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -69,7 +78,15 @@
                       "style": "100",
                       "caption": "${citizenship.promo.popup.description.1}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -83,7 +100,15 @@
                       "style": "100",
                       "caption": "${citizenship.promo.popup.description.2}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "container",
@@ -138,13 +163,19 @@
                               "style": "100",
                               "caption": "${citizenship.promo.popup.close.button}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "text_style": "il_link_regular"
+                            }
                           }
                         ]
                       }
                     ]
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 10
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -157,9 +188,30 @@
                   "params": "0",
                   "style": "100"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}talent/welcome.png",
+                  "fit_size_to_contents": true
+                }
               }
-            ]
+            ],
+            "filters": [
+              {
+                "type": "DropShadowFilter",
+                "attributes": {
+                  "angle": "0",
+                  "alpha": "0.7490196078431373",
+                  "blurX": "80",
+                  "blurY": "80"
+                }
+              }
+            ],
+            "vars": {
+              "margin_left": 1,
+              "margin_top": 30,
+              "margin_right": 1,
+              "margin_bottom": 1
+            }
           },
           {
             "tag": "label",
@@ -173,36 +225,15 @@
               "style": "100",
               "caption": "${citizenship.promo.popup.subtitle}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "il_small_white"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "text_style": "il_small_white",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 10,
-    "leading": 0,
-    "asset_uri": "${image.library.url}talent/welcome.png",
-    "fit_size_to_contents": true,
-    "margin_left": 1,
-    "margin_top": 30,
-    "margin_right": 1,
-    "margin_bottom": 1
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.7490196078431373",
-        "blurX": "80",
-        "blurY": "80"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

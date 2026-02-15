@@ -1,6 +1,6 @@
 {
   "name": "snowwar_lobby_player_team_2",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habbosnowwar_lobby_player_team_2_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboGamesCom_snowwar_lobby_player_team_2.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -44,7 +44,10 @@
                   "name": "playerScoreBackground",
                   "tags": "bitmap"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "bitmap_asset_name": "gray_ball"
+                }
               },
               {
                 "tag": "text",
@@ -61,7 +64,17 @@
                   "tags": "stroke",
                   "width_min": "40"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "font_face": "UbuntuThick",
+                  "font_size": 24,
+                  "grid_fit_type": "subpixel",
+                  "text_color": 16607321,
+                  "mouse_wheel_enabled": false,
+                  "thickness": 200,
+                  "bold": true
+                }
               },
               {
                 "tag": "text",
@@ -76,7 +89,16 @@
                   "name": "playerScore",
                   "caption": "102"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "font_face": "Ubuntu",
+                  "font_size": 24,
+                  "grid_fit_type": "subpixel",
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "bold": true
+                }
               }
             ]
           },
@@ -106,7 +128,10 @@
                   "name": "playerDataBackground",
                   "tags": "bitmap"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "bitmap_asset_name": "gray_infobox"
+                }
               },
               {
                 "tag": "text",
@@ -123,7 +148,18 @@
                   "tags": "stroke",
                   "width_max": "150"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "UbuntuThick",
+                  "font_size": 20,
+                  "grid_fit_type": "subpixel",
+                  "text_color": 6710886,
+                  "mouse_wheel_enabled": false,
+                  "thickness": 200,
+                  "bold": true
+                }
               },
               {
                 "tag": "text",
@@ -139,7 +175,17 @@
                   "caption": "Painimies",
                   "width_max": "150"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 20,
+                  "grid_fit_type": "subpixel",
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "bold": true
+                }
               },
               {
                 "tag": "itemlist_horizontal",
@@ -181,7 +227,16 @@
                           "tags": "stroke",
                           "width_min": "33"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_face": "UbuntuThick",
+                          "grid_fit_type": "subpixel",
+                          "text_color": 16607321,
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 80,
+                          "thickness": 200
+                        }
                       },
                       {
                         "tag": "text",
@@ -197,7 +252,16 @@
                           "caption": "HITS",
                           "width_min": "33"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "grid_fit_type": "subpixel",
+                          "text_color": 16777215,
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 80,
+                          "thickness": -15,
+                          "bold": true
+                        }
                       }
                     ]
                   },
@@ -228,7 +292,16 @@
                           "tags": "stroke",
                           "width_min": "24"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_face": "UbuntuThick",
+                          "grid_fit_type": "subpixel",
+                          "text_color": 16607321,
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 80,
+                          "thickness": 200
+                        }
                       },
                       {
                         "tag": "text",
@@ -244,7 +317,15 @@
                           "caption": "20",
                           "width_min": "20"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "grid_fit_type": "subpixel",
+                          "text_color": 16777215,
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 80,
+                          "thickness": -15
+                        }
                       }
                     ]
                   },
@@ -275,7 +356,17 @@
                           "tags": "stroke",
                           "width_min": "40"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_face": "UbuntuThick",
+                          "grid_fit_type": "subpixel",
+                          "text_color": 16607321,
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 80,
+                          "thickness": 200,
+                          "bold": true
+                        }
                       },
                       {
                         "tag": "text",
@@ -291,7 +382,16 @@
                           "caption": "KILLS",
                           "width_min": "40"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "grid_fit_type": "subpixel",
+                          "text_color": 16777215,
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 80,
+                          "thickness": -15,
+                          "bold": true
+                        }
                       }
                     ]
                   },
@@ -322,7 +422,16 @@
                           "tags": "stroke",
                           "width_min": "20"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_face": "UbuntuThick",
+                          "grid_fit_type": "subpixel",
+                          "text_color": 16607321,
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 80,
+                          "thickness": 200
+                        }
                       },
                       {
                         "tag": "text",
@@ -337,7 +446,15 @@
                           "name": "playerKills",
                           "caption": "5"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "grid_fit_type": "subpixel",
+                          "text_color": 16777215,
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 80,
+                          "thickness": -15
+                        }
                       }
                     ]
                   }
@@ -382,7 +499,15 @@
                           "caption": "${snowwar.stats.total_score}",
                           "width_min": "33"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "grid_fit_type": "subpixel",
+                          "text_color": 16777215,
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 80,
+                          "thickness": -15
+                        }
                       }
                     ]
                   },
@@ -413,7 +538,16 @@
                           "tags": "stroke",
                           "width_min": "24"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_face": "UbuntuThick",
+                          "grid_fit_type": "subpixel",
+                          "text_color": 13395558,
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 80,
+                          "thickness": 200
+                        }
                       },
                       {
                         "tag": "text",
@@ -429,7 +563,15 @@
                           "caption": "20",
                           "width_min": "20"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "grid_fit_type": "subpixel",
+                          "text_color": 16777215,
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 80,
+                          "thickness": -15
+                        }
                       }
                     ]
                   }
@@ -465,7 +607,10 @@
                     },
                     "children": []
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_delay": 0
+                }
               }
             ]
           },
@@ -495,7 +640,10 @@
                   "name": "playerImageBackground",
                   "tags": "bitmap"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "bitmap_asset_name": "gray_square"
+                }
               },
               {
                 "tag": "bitmap",
@@ -518,20 +666,6 @@
       }
     ]
   },
-  "vars": {
-    "bitmap_asset_name": "gray_square",
-    "antialias_type": "advanced",
-    "font_face": "UbuntuThick",
-    "font_size": 20,
-    "grid_fit_type": "subpixel",
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "thickness": -15,
-    "bold": true,
-    "auto_size": "left",
-    "text_style": "u_bold",
-    "sharpness": 80,
-    "tool_tip_delay": 0
-  },
+  "vars": {},
   "filters": []
 }

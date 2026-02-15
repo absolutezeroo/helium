@@ -1,6 +1,6 @@
 {
   "name": "grid_purse",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_purse_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_purse.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -92,7 +92,17 @@
                       "caption": "0",
                       "tags": "#icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "etching_color": 1157627904,
+                      "etching_position": "bottom",
+                      "text_color": 3721963,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "static_bitmap",
@@ -107,9 +117,18 @@
                       "treshold": "0",
                       "tags": "#icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "pursearea_diamond_icon",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "etching_color": 1207959552
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${achievements.activitypoint.5}"
+                }
               },
               {
                 "tag": "region",
@@ -140,7 +159,17 @@
                       "caption": "0",
                       "tags": "#icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "etching_color": 1157627904,
+                      "etching_position": "bottom",
+                      "text_color": 14004002,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "static_bitmap",
@@ -155,9 +184,18 @@
                       "treshold": "0",
                       "tags": "#icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "pursearea_credits_icon",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "etching_color": 1207959552
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${purse_coins}"
+                }
               },
               {
                 "tag": "region",
@@ -189,7 +227,17 @@
                       "caption": "0",
                       "tags": "#icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "etching_color": 1157627904,
+                      "etching_position": "bottom",
+                      "text_color": 14125015,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "static_bitmap",
@@ -204,11 +252,23 @@
                       "treshold": "0",
                       "tags": "#icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "pursearea_duckets_icon",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "etching_color": 1207959552
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${achievements.activitypoint.0}"
+                }
               }
-            ]
+            ],
+            "vars": {
+              "resize_on_item_update": true
+            }
           },
           {
             "tag": "border",
@@ -255,7 +315,11 @@
                   "visible": "false",
                   "tags": "#icon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_bold",
+                  "text_color": 49604
+                }
               },
               {
                 "tag": "text",
@@ -274,7 +338,18 @@
                   "height_min": "28",
                   "height_max": "28"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_color": 49604,
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "max_lines": 2,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -288,9 +363,19 @@
                   "style": "3",
                   "tags": "#icon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "pursearea_hc_icon",
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false,
+                  "etching_color": 1207959552
+                }
               }
-            ]
+            ],
+            "vars": {
+              "tool_tip_caption": "${catalog.club.hc}"
+            }
           },
           {
             "tag": "border",
@@ -339,7 +424,18 @@
                   "height_min": "28",
                   "height_max": "28"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_color": 49604,
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "max_lines": 2,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -353,9 +449,19 @@
                   "style": "3",
                   "tags": "#icon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "pursearea_vault_icon",
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false,
+                  "etching_color": 1207959552
+                }
               }
-            ]
+            ],
+            "vars": {
+              "tool_tip_caption": "${earnings.vault.title}"
+            }
           },
           {
             "tag": "background",
@@ -416,9 +522,15 @@
                       "style": "3",
                       "caption": "${toolbar.help}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_color": 16777215
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${toolbar.help}"
+                }
               },
               {
                 "tag": "container_button",
@@ -447,9 +559,18 @@
                       "params": "16",
                       "style": "3"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "pursearea_logout_icon",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${toolbar.logout}"
+                }
               },
               {
                 "tag": "container_button",
@@ -478,11 +599,23 @@
                       "params": "16",
                       "style": "3"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "pursearea_settings_icon",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${widget.memenu.settings}"
+                }
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 2
+            }
           },
           {
             "tag": "static_bitmap",
@@ -497,31 +630,18 @@
               "name": "beta_sign",
               "visible": "false"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "common_beta_sign",
+              "stretched_x": false,
+              "stretched_y": false,
+              "fit_size_to_contents": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "etching_color": 1207959552,
-    "etching_position": "bottom",
-    "text_color": 16777215,
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "spacing": 2,
-    "leading": 0,
-    "asset_uri": "common_beta_sign",
-    "stretched_x": false,
-    "stretched_y": false,
-    "tool_tip_caption": "${widget.memenu.settings}",
-    "resize_on_item_update": true,
-    "multiline": true,
-    "word_wrap": true,
-    "max_lines": 2,
-    "pivot_point": "center",
-    "fit_size_to_contents": true
-  },
+  "vars": {},
   "filters": []
 }

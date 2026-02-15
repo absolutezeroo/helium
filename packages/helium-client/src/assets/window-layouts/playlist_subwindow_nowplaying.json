@@ -1,6 +1,6 @@
 {
   "name": "playlist_subwindow_nowplaying",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboplaylisteditor_playlist_subwindow_nowplaying_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_playlisteditor_playlist_subwindow_nowplaying.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -62,7 +62,16 @@
               "style": "0",
               "caption": "${playlist.editor.text.now.playing.in.your.room}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "auto_size": "left",
+              "font_face": "Ubuntu",
+              "font_size": 20,
+              "text_style": "bold",
+              "mouse_wheel_enabled": false,
+              "bold": true
+            }
           },
           {
             "tag": "text",
@@ -78,7 +87,14 @@
               "caption": "Song Name",
               "tags": "SONG_NAME"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "auto_size": "left",
+              "font_face": "Ubuntu",
+              "font_size": 18,
+              "mouse_wheel_enabled": false
+            }
           },
           {
             "tag": "text",
@@ -94,7 +110,14 @@
               "caption": "Author Name",
               "tags": "AUTHOR_NAME"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "auto_size": "left",
+              "font_face": "Ubuntu",
+              "font_size": 16,
+              "mouse_wheel_enabled": false
+            }
           },
           {
             "tag": "bitmap",
@@ -108,7 +131,10 @@
               "style": "0",
               "name": "song_name_icon_bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "bitmap_asset_name": "jb_icon_disc"
+            }
           },
           {
             "tag": "bitmap",
@@ -122,21 +148,15 @@
               "style": "0",
               "name": "author_name_icon_bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "bitmap_asset_name": "jb_icon_composer"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "antialias_type": "advanced",
-    "auto_size": "left",
-    "font_face": "Ubuntu",
-    "font_size": 16,
-    "text_style": "bold",
-    "mouse_wheel_enabled": false,
-    "bold": true,
-    "bitmap_asset_name": "jb_icon_composer"
-  },
+  "vars": {},
   "filters": []
 }

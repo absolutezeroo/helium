@@ -1,6 +1,6 @@
 {
   "name": "simple_alert",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_simple_alert_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_simple_alert.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,7 +32,12 @@
               "style": "100",
               "name": "illustration"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "stretched_x": false,
+              "stretched_y": false,
+              "fit_size_to_contents": true
+            }
           },
           {
             "tag": "itemlist_vertical",
@@ -74,7 +79,11 @@
                       "name": "subtitle",
                       "caption": "subtitle"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "il_heading_1",
+                      "text_color": 12779520
+                    }
                   },
                   {
                     "tag": "formatted_text",
@@ -91,7 +100,16 @@
                       "width_min": "291",
                       "width_max": "291"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "margin_bottom": 8,
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -119,7 +137,12 @@
                       "params": "16",
                       "style": "100"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "illumina_horizontal_separator",
+                      "pivot_point": "bottom center",
+                      "stretched_y": false
+                    }
                   },
                   {
                     "tag": "button_thick",
@@ -151,45 +174,49 @@
                       "caption": "link",
                       "treshold": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "margin_bottom": 5,
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "underline": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 5
+                }
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 3
+            }
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 1,
+          "margin_top": 30,
+          "margin_right": 1,
+          "margin_bottom": 1
+        }
       }
     ]
   },
-  "vars": {
-    "stretched_x": false,
-    "stretched_y": false,
-    "fit_size_to_contents": true,
-    "text_style": "il_heading_1",
-    "text_color": 12779520,
-    "auto_size": "center",
-    "margin_bottom": 1,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 3,
-    "leading": 0,
-    "asset_uri": "illumina_horizontal_separator",
-    "pivot_point": "bottom center",
-    "underline": true,
-    "margin_left": 1,
-    "margin_top": 30,
-    "margin_right": 1
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

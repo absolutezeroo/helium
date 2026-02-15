@@ -1,6 +1,6 @@
 {
   "name": "expiring_catalog_page_small",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_expiring_catalog_page_small_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_expiring_catalog_page_small.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -46,7 +46,15 @@
                   "caption": "Caption PH",
                   "tags": "COLORABLE"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 24,
+                  "text_style": "il_heading_1",
+                  "mouse_wheel_enabled": false,
+                  "spacing": -0.6,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container",
@@ -74,7 +82,12 @@
                       "style": "100",
                       "name": "promo_bitmap"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "${image.library.url}reception/catalog_teaser_set_mnstr_gothic.png",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   },
                   {
                     "tag": "text",
@@ -90,7 +103,15 @@
                       "caption": "${landing.view.pageexpiry.timeremaining}",
                       "tags": "COLORABLE"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "font_size": 9,
+                      "text_style": "il_heading_3",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "widget",
@@ -104,7 +125,11 @@
                       "style": "0",
                       "name": "countdown_widget"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "widget_type": "countdown",
+                      "countdown:running": true
+                    }
                   }
                 ]
               },
@@ -122,7 +147,15 @@
                   "caption": "Desc PH",
                   "tags": "COLORABLE"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "button",
@@ -141,28 +174,16 @@
                 },
                 "children": []
               }
-            ]
+            ],
+            "vars": {
+              "scale_to_fit_items": true,
+              "resize_on_item_update": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "font_size": 9,
-    "text_style": "il_heading_3",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "asset_uri": "${image.library.url}reception/catalog_teaser_set_mnstr_gothic.png",
-    "stretched_x": false,
-    "stretched_y": false,
-    "widget_type": "countdown",
-    "countdown:running": true,
-    "multiline": true,
-    "word_wrap": true,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true
-  },
+  "vars": {},
   "filters": []
 }

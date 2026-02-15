@@ -1,6 +1,6 @@
 {
   "name": "share_room",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_share_room_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_share_room.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -47,7 +47,13 @@
                   "style": "3",
                   "name": "thumbnail_image"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "newnavigator_default_room",
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               }
             ]
           },
@@ -78,7 +84,15 @@
                   "name": "embed_info_hdln",
                   "caption": "${navigator.embed.headline}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 24,
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -93,7 +107,15 @@
                   "name": "embed_info_txt",
                   "caption": "${navigator.embed.info}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 20,
+                  "text_style": "u_small",
+                  "mouse_wheel_enabled": false,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -108,7 +130,17 @@
                   "name": "embed_src_txt",
                   "caption": "${url.prefix}/room/%roomId%"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 20,
+                  "text_style": "u_small",
+                  "underline": true,
+                  "mouse_wheel_enabled": false,
+                  "selectable": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -123,7 +155,15 @@
                   "name": "embed_info_direct_txt",
                   "caption": "${navigator.embed.direct.info}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 20,
+                  "text_style": "u_small",
+                  "mouse_wheel_enabled": false,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "input",
@@ -139,39 +179,34 @@
                   "caption": "${url.prefix}/hotel?room=%roomId%",
                   "background": "true"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "always_show_selection": true,
+                  "border": true,
+                  "font_size": 20,
+                  "text_style": "u_regular",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
+          }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "newnavigator_default_room",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "font_size": 20,
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "underline": true,
-    "selectable": true,
-    "always_show_selection": true,
-    "border": true
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

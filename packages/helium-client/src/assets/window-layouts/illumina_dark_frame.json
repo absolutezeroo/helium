@@ -1,6 +1,6 @@
 {
   "name": "illumina_dark_frame",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_illumina_dark_frame_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_illumina_dark_frame.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -48,7 +48,12 @@
           "tags": "_TITLE, _EXCLUDE, _INTERNAL",
           "params": "0"
         },
-        "children": []
+        "children": [],
+        "vars": {
+          "text_style": "id_frame_title",
+          "auto_size": "left",
+          "grid_fit_type": "subpixel"
+        }
       },
       {
         "tag": "region",
@@ -77,7 +82,12 @@
               "tags": "_EXCLUDE, _INTERNAL",
               "params": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "illumina_light_button_frame_close_png",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           }
         ]
       },
@@ -99,14 +109,7 @@
       }
     ]
   },
-  "vars": {
-    "text_style": "id_frame_title",
-    "auto_size": "left",
-    "grid_fit_type": "subpixel",
-    "asset_uri": "illumina_light_button_frame_close_png",
-    "stretched_x": false,
-    "stretched_y": false
-  },
+  "vars": {},
   "filters": [
     {
       "type": "DropShadowFilter",

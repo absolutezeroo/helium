@@ -1,6 +1,6 @@
 {
   "name": "unique_item_overlay_griditem",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_unique_item_overlay_griditem_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_unique_item_overlay_griditem.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,7 +31,12 @@
               "style": "0",
               "name": "unique_item_overlay_plaque_background_bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "handle_bitmap_disposing": false,
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "static_bitmap",
@@ -45,7 +50,12 @@
               "style": "0",
               "name": "unique_item_plaque_foreground_bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "unique_item_label_plaque_border",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "bitmap",
@@ -59,7 +69,11 @@
               "style": "0",
               "name": "unique_item_overlay_plaque_number_bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "static_bitmap",
@@ -73,7 +87,12 @@
               "style": "0",
               "name": "unique_item_plaque_studs_bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "unique_item_label_studs",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "static_bitmap",
@@ -87,17 +106,15 @@
               "style": "0",
               "name": "unique_item_overlay_glaze_bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "unique_item_label_glass_shine"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "handle_bitmap_disposing": false,
-    "stretched_x": false,
-    "stretched_y": false,
-    "asset_uri": "unique_item_label_glass_shine"
-  },
+  "vars": {},
   "filters": []
 }

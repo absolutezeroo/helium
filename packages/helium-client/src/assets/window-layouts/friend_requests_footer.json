@@ -1,6 +1,6 @@
 {
   "name": "friend_requests_footer",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendListCom_friend_requests_footer_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendListCom_friend_requests_footer.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -75,7 +75,13 @@
                       "style": "0",
                       "caption": "${friendlist.requests.dismissall}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter",
+                      "font_size": 9,
+                      "text_color": 0,
+                      "embed_fonts": true
+                    }
                   }
                 ]
               },
@@ -119,7 +125,13 @@
                       "style": "0",
                       "caption": "${friendlist.requests.acceptall}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter",
+                      "font_size": 9,
+                      "text_color": 0,
+                      "embed_fonts": true
+                    }
                   }
                 ]
               }
@@ -129,11 +141,6 @@
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter",
-    "font_size": 9,
-    "text_color": 0,
-    "embed_fonts": true
-  },
+  "vars": {},
   "filters": []
 }

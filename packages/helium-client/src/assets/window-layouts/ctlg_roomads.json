@@ -1,6 +1,6 @@
 {
   "name": "ctlg_roomads",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_roomads_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_old_layout_roomads.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,7 +31,14 @@
               "style": "3",
               "name": "ctlg_price_1"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "container",
@@ -59,7 +66,14 @@
                   "name": "ctlg_text_1",
                   "caption": "${roomad.catalog_text}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "u_italic",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "label",
@@ -73,7 +87,10 @@
                   "style": "3",
                   "caption": "${roomad.catalog_name}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_small"
+                }
               },
               {
                 "tag": "border",
@@ -99,7 +116,14 @@
                       "style": "3",
                       "name": "name_input_text"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "always_show_selection": true,
+                      "mouse_wheel_enabled": false,
+                      "max_chars": 25,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -115,7 +139,10 @@
                   "style": "3",
                   "caption": "${roomad.catalog_description}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_small"
+                }
               },
               {
                 "tag": "border",
@@ -141,7 +168,15 @@
                       "style": "3",
                       "name": "desc_input_text"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "mouse_wheel_enabled": false,
+                      "max_chars": 100,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -157,7 +192,10 @@
                   "style": "3",
                   "caption": "${roomad.catalog_roomname}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_small"
+                }
               },
               {
                 "tag": "dropmenu",
@@ -223,16 +261,6 @@
       }
     ]
   },
-  "vars": {
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "auto_size": "left",
-    "text_style": "u_small",
-    "always_show_selection": true,
-    "max_chars": 100
-  },
+  "vars": {},
   "filters": []
 }

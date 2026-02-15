@@ -1,6 +1,6 @@
 {
   "name": "productViewWidget",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboproduct_view_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_product_view_widget.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,7 +31,12 @@
               "style": "0",
               "name": "ctlg_teaserimg_1"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "pivot_point": "center",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "region",
@@ -77,7 +82,10 @@
               "style": "100",
               "visible": "false"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "widget_type": "separator"
+            }
           },
           {
             "tag": "scrollable_itemgrid_vertical",
@@ -91,7 +99,11 @@
               "style": "3",
               "name": "bundleGrid"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "spacing": 2,
+              "scale_to_fit_items": true
+            }
           },
           {
             "tag": "formatted_text",
@@ -106,7 +118,15 @@
               "name": "ctlg_product_name",
               "caption": "product"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "text_color": 16777215,
+              "text_style": "u_bold",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "formatted_text",
@@ -121,27 +141,23 @@
               "name": "ctlg_description",
               "caption": "description"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "text_color": 16777215,
+              "text_style": "u_small",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "italic": true,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "widget_type": "separator",
-    "spacing": 0,
-    "scale_to_fit_items": true,
-    "auto_size": "left",
-    "text_color": 16777215,
-    "text_style": "u_small",
-    "mouse_wheel_enabled": false,
-    "leading": 0,
-    "multiline": true,
-    "word_wrap": true,
-    "italic": true
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "habbo_window_alert",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_window_alert_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_habbo_window_alert_link.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -11,9 +11,9 @@
         "typeId": 35,
         "attributes": {
           "x": "0",
-          "y": "-1",
+          "y": "0",
           "width": "278",
-          "height": "141",
+          "height": "181",
           "params": "32769",
           "style": "3",
           "name": "_alert_frame",
@@ -26,113 +26,91 @@
             "typeId": 10,
             "attributes": {
               "x": "27",
-              "y": "14",
+              "y": "13",
               "width": "210",
               "height": "17",
               "params": "8388624",
               "style": "0",
-              "name": "_alert_summary",
+              "name": "_alert_description",
               "caption": "Alert",
               "tags": "DESCRIPTION"
+            },
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "text_style": "u_regular",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
+          },
+          {
+            "tag": "button_thick",
+            "typeId": 61,
+            "attributes": {
+              "x": "157",
+              "y": "118",
+              "width": "81",
+              "height": "24",
+              "params": "918545",
+              "style": "3",
+              "name": "_alert_button_link",
+              "caption": "Open URL",
+              "tags": "LINK",
+              "width_min": "50"
             },
             "children": []
           },
           {
-            "tag": "itemlist_horizontal",
-            "typeId": 51,
+            "tag": "link",
+            "typeId": 14,
             "attributes": {
-              "x": "26",
-              "y": "81",
-              "width": "215",
-              "height": "24",
-              "params": "787664",
+              "x": "21",
+              "y": "121",
+              "width": "82",
+              "height": "17",
+              "params": "918529",
               "style": "0",
-              "name": "_alert_button_list",
-              "caption": "Alert",
-              "color": "0x0ffff33",
-              "height_min": "22"
+              "name": "_alert_button_ok",
+              "caption": "${generic.ok}",
+              "color": "0x0efefef",
+              "treshold": "0",
+              "tags": "OK",
+              "width_min": "50"
             },
-            "children": [
-              {
-                "tag": "link",
-                "typeId": 14,
-                "attributes": {
-                  "x": "0",
-                  "y": "3",
-                  "width": "51",
-                  "height": "17",
-                  "params": "131073",
-                  "style": "0",
-                  "name": "_alert_button_cancel",
-                  "caption": "Cancel",
-                  "treshold": "0",
-                  "width_min": "50"
-                },
-                "children": []
-              },
-              {
-                "tag": "button",
-                "typeId": 60,
-                "attributes": {
-                  "x": "83",
-                  "y": "0",
-                  "width": "50",
-                  "height": "24",
-                  "params": "131089",
-                  "style": "3",
-                  "name": "_alert_button_custom",
-                  "caption": "Alert",
-                  "width_min": "50"
-                },
-                "children": []
-              },
-              {
-                "tag": "button_thick",
-                "typeId": 61,
-                "attributes": {
-                  "x": "165",
-                  "y": "0",
-                  "width": "50",
-                  "height": "24",
-                  "params": "131089",
-                  "style": "3",
-                  "name": "_alert_button_ok",
-                  "caption": "Ok",
-                  "width_min": "50"
-                },
-                "children": []
-              }
-            ]
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "text_style": "u_regular",
+              "mouse_wheel_enabled": false,
+              "underline": true,
+              "spacing": 0,
+              "leading": 0
+            }
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 6,
+          "margin_top": 25,
+          "margin_right": 6,
+          "margin_bottom": 7
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 32,
-    "leading": 0,
-    "underline": true,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true,
-    "margin_left": 6,
-    "margin_top": 25,
-    "margin_right": 6,
-    "margin_bottom": 7
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

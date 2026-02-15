@@ -1,6 +1,6 @@
 {
   "name": "userview_test",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbouser_view_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_user_view.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -74,7 +74,12 @@
                   "style": "3",
                   "name": "sticker_croco"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "sticker_croco",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "itemlist_vertical",
@@ -118,9 +123,25 @@
                           "color": "0x03d3d3d",
                           "background": "true"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "antialias_type": "advanced",
+                          "auto_size": "left",
+                          "font_face": "Volter Bold",
+                          "text_color": 16777215,
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "tool_tip_caption": "${infostand.profile.link.tooltip}",
+                      "tool_tip_delay": 256
+                    }
                   },
                   {
                     "tag": "container",
@@ -195,9 +216,18 @@
                               "name": "avatar_image",
                               "visible": "false"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "widget_type": "avatar_image",
+                              "avatar_image:cropped": true,
+                              "avatar_image:direction": "southwest"
+                            }
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "tool_tip_caption": "${infostand.profile.link.tooltip}",
+                          "tool_tip_delay": 256
+                        }
                       },
                       {
                         "tag": "widget",
@@ -212,7 +242,13 @@
                           "name": "badge_0",
                           "treshold": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "widget_type": "badge_image",
+                          "badge_image:pivot_point": "center",
+                          "badge_image:stretched_x": false,
+                          "badge_image:stretched_y": false
+                        }
                       },
                       {
                         "tag": "widget",
@@ -227,7 +263,14 @@
                           "name": "badge_group",
                           "treshold": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "widget_type": "badge_image",
+                          "badge_image:type": "group",
+                          "badge_image:pivot_point": "center",
+                          "badge_image:stretched_x": false,
+                          "badge_image:stretched_y": false
+                        }
                       },
                       {
                         "tag": "widget",
@@ -242,7 +285,13 @@
                           "name": "badge_1",
                           "treshold": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "widget_type": "badge_image",
+                          "badge_image:pivot_point": "center",
+                          "badge_image:stretched_x": false,
+                          "badge_image:stretched_y": false
+                        }
                       },
                       {
                         "tag": "widget",
@@ -257,7 +306,13 @@
                           "name": "badge_2",
                           "treshold": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "widget_type": "badge_image",
+                          "badge_image:pivot_point": "center",
+                          "badge_image:stretched_x": false,
+                          "badge_image:stretched_y": false
+                        }
                       },
                       {
                         "tag": "widget",
@@ -272,7 +327,13 @@
                           "name": "badge_3",
                           "treshold": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "widget_type": "badge_image",
+                          "badge_image:pivot_point": "center",
+                          "badge_image:stretched_x": false,
+                          "badge_image:stretched_y": false
+                        }
                       },
                       {
                         "tag": "widget",
@@ -287,7 +348,13 @@
                           "name": "badge_4",
                           "treshold": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "widget_type": "badge_image",
+                          "badge_image:pivot_point": "center",
+                          "badge_image:stretched_x": false,
+                          "badge_image:stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -335,7 +402,10 @@
                           "style": "0",
                           "name": "changemotto.image"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "common_small_pen"
+                        }
                       },
                       {
                         "tag": "input",
@@ -349,7 +419,21 @@
                           "style": "0",
                           "name": "motto_text"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "always_show_selection": true,
+                          "antialias_type": "advanced",
+                          "text_color": 16777215,
+                          "margin_top": 6,
+                          "mouse_wheel_enabled": false,
+                          "max_chars": 38,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "word_wrap": true,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   },
@@ -384,7 +468,19 @@
                       "caption": "${infostand.text.achievement_score}",
                       "visible": "false"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "antialias_type": "advanced",
+                      "font_face": "Volter Bold",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "word_wrap": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -399,7 +495,19 @@
                       "name": "score_value",
                       "visible": "false"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "antialias_type": "advanced",
+                      "font_face": "Volter Bold",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "word_wrap": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "container",
@@ -430,7 +538,18 @@
                       "name": "handitem_txt",
                       "caption": "${infostand.text.handitem}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "antialias_type": "advanced",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "word_wrap": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "itemlist_vertical",
@@ -469,7 +588,12 @@
                               "params": "16",
                               "style": "100"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "relationship_status_heart",
+                              "stretched_x": false,
+                              "stretched_y": false
+                            }
                           },
                           {
                             "tag": "link",
@@ -485,7 +609,20 @@
                               "caption": "user PH",
                               "treshold": "0"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "antialias_type": "advanced",
+                              "auto_size": "left",
+                              "text_color": 16777215,
+                              "text_style": "bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "underline": true,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "label",
@@ -500,9 +637,16 @@
                               "name": "heart_others",
                               "caption": "${infostand.relstatus.heart.others}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "text_style": "regular",
+                              "text_color": 16777215
+                            }
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "scale_to_fit_items": true
+                        }
                       },
                       {
                         "tag": "itemlist_horizontal",
@@ -528,7 +672,12 @@
                               "params": "16",
                               "style": "100"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "relationship_status_smile",
+                              "stretched_x": false,
+                              "stretched_y": false
+                            }
                           },
                           {
                             "tag": "link",
@@ -544,7 +693,20 @@
                               "caption": "user PH",
                               "treshold": "0"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "antialias_type": "advanced",
+                              "auto_size": "left",
+                              "text_color": 16777215,
+                              "text_style": "bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "underline": true,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "label",
@@ -559,9 +721,16 @@
                               "name": "smile_others",
                               "caption": "${infostand.relstatus.smile.others}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "text_style": "regular",
+                              "text_color": 16777215
+                            }
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "scale_to_fit_items": true
+                        }
                       },
                       {
                         "tag": "itemlist_horizontal",
@@ -587,7 +756,12 @@
                               "params": "16",
                               "style": "100"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "relationship_status_bobba",
+                              "stretched_x": false,
+                              "stretched_y": false
+                            }
                           },
                           {
                             "tag": "link",
@@ -603,7 +777,20 @@
                               "caption": "user PH",
                               "treshold": "0"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "antialias_type": "advanced",
+                              "auto_size": "left",
+                              "text_color": 16777215,
+                              "text_style": "bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "underline": true,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "label",
@@ -618,51 +805,39 @@
                               "name": "bobba_others",
                               "caption": "${infostand.relstatus.bobba.others}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "text_style": "regular",
+                              "text_color": 16777215
+                            }
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "scale_to_fit_items": true
+                        }
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 3,
+                      "scale_to_fit_items": true
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 3,
+                  "scale_to_fit_items": true,
+                  "resize_on_item_update": true
+                }
               }
             ]
           }
-        ]
+        ],
+        "vars": {
+          "spacing": 10
+        }
       }
     ]
   },
-  "vars": {
-    "asset_uri": "relationship_status_bobba",
-    "stretched_x": false,
-    "stretched_y": false,
-    "antialias_type": "advanced",
-    "auto_size": "left",
-    "font_face": "Volter Bold",
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "kerning": false,
-    "spacing": 10,
-    "leading": 0,
-    "tool_tip_caption": "${infostand.profile.link.tooltip}",
-    "tool_tip_delay": 256,
-    "widget_type": "badge_image",
-    "avatar_image:cropped": true,
-    "avatar_image:direction": "southwest",
-    "badge_image:pivot_point": "center",
-    "badge_image:stretched_x": false,
-    "badge_image:stretched_y": false,
-    "badge_image:type": "group",
-    "always_show_selection": true,
-    "margin_top": 6,
-    "max_chars": 38,
-    "word_wrap": true,
-    "text_style": "regular",
-    "underline": true,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true
-  },
+  "vars": {},
   "filters": []
 }

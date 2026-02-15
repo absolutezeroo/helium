@@ -1,6 +1,6 @@
 {
   "name": "rarity_item_overlay_griditem",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_rarity_item_overlay_griditem_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_rarity_item_overlay_griditem.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,7 +31,12 @@
               "style": "0",
               "name": "rarity_item_plaque_bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "rarity_item_rarity_item_plaque",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "bitmap",
@@ -45,16 +50,16 @@
               "style": "0",
               "name": "rarity_item_overlay_plaque_number_bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "stretched_x": false,
+              "stretched_y": false
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "rarity_item_rarity_item_plaque",
-    "stretched_x": false,
-    "stretched_y": false
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "extend_confirmation",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboclub_extend_confirmation_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_club_extend_confirmation.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -76,7 +76,17 @@
                   "style": "0",
                   "name": "extend_title"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "u_headline_big",
+                  "margin_bottom": 10,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "sharpness": 80,
+                  "thickness": -15,
+                  "word_wrap": true
+                }
               },
               {
                 "tag": "container",
@@ -103,7 +113,15 @@
                       "style": "0",
                       "name": "normal_price_label"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_size": 20,
+                      "text_style": "u_regular",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 80,
+                      "thickness": -15
+                    }
                   },
                   {
                     "tag": "text",
@@ -117,7 +135,15 @@
                       "style": "0",
                       "name": "normal_price_price_left"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "right",
+                      "font_size": 20,
+                      "text_style": "u_regular",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 80,
+                      "thickness": -15
+                    }
                   },
                   {
                     "tag": "bitmap",
@@ -146,7 +172,15 @@
                       "name": "plus",
                       "caption": "+"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "right",
+                      "font_size": 20,
+                      "text_style": "u_regular",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 80,
+                      "thickness": -15
+                    }
                   },
                   {
                     "tag": "text",
@@ -160,7 +194,15 @@
                       "style": "0",
                       "name": "normal_price_price_right"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "right",
+                      "font_size": 20,
+                      "text_style": "u_regular",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 80,
+                      "thickness": -15
+                    }
                   },
                   {
                     "tag": "icon",
@@ -205,7 +247,15 @@
                       "style": "0",
                       "name": "you_save_label"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_size": 20,
+                      "text_style": "u_regular",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 80,
+                      "thickness": -15
+                    }
                   },
                   {
                     "tag": "text",
@@ -219,7 +269,15 @@
                       "style": "0",
                       "name": "you_save_price_left"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "right",
+                      "font_size": 20,
+                      "text_style": "u_regular",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 80,
+                      "thickness": -15
+                    }
                   },
                   {
                     "tag": "bitmap",
@@ -248,7 +306,15 @@
                       "name": "plus",
                       "caption": "+"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "right",
+                      "font_size": 20,
+                      "text_style": "u_regular",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 80,
+                      "thickness": -15
+                    }
                   },
                   {
                     "tag": "text",
@@ -262,7 +328,15 @@
                       "style": "0",
                       "name": "you_save_price_right"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "right",
+                      "font_size": 20,
+                      "text_style": "u_regular",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 80,
+                      "thickness": -15
+                    }
                   },
                   {
                     "tag": "icon",
@@ -337,7 +411,15 @@
                       "name": "your_price_label",
                       "color": "0x07a98"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_size": 20,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 80,
+                      "thickness": -15
+                    }
                   },
                   {
                     "tag": "text",
@@ -351,7 +433,15 @@
                       "style": "0",
                       "name": "your_price_price_left"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "right",
+                      "font_size": 20,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 80,
+                      "thickness": -15
+                    }
                   },
                   {
                     "tag": "bitmap",
@@ -380,7 +470,15 @@
                       "name": "plus",
                       "caption": "+"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "right",
+                      "font_size": 20,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 80,
+                      "thickness": -15
+                    }
                   },
                   {
                     "tag": "text",
@@ -394,7 +492,15 @@
                       "style": "0",
                       "name": "your_price_price_right"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "right",
+                      "font_size": 20,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 80,
+                      "thickness": -15
+                    }
                   },
                   {
                     "tag": "icon",
@@ -425,7 +531,19 @@
                   "name": "offer_expiration",
                   "color": "0x0666666"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 20,
+                  "text_color": 6710886,
+                  "text_style": "u_bold",
+                  "margin_bottom": 5,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "sharpness": 80,
+                  "thickness": -15,
+                  "word_wrap": true
+                }
               },
               {
                 "tag": "container",
@@ -495,13 +613,24 @@
                           "style": "0",
                           "name": "maybe_later_link"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 80,
+                          "thickness": -15,
+                          "underline": true
+                        }
                       }
                     ]
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "resize_on_item_update": true
+            }
           },
           {
             "tag": "bitmap",
@@ -517,36 +646,27 @@
             },
             "children": []
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 0,
+          "margin_top": 33,
+          "margin_right": 0,
+          "margin_bottom": 3
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "text_style": "u_regular",
-    "margin_bottom": 3,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "sharpness": 80,
-    "thickness": -15,
-    "word_wrap": true,
-    "font_size": 20,
-    "text_color": 6710886,
-    "underline": true,
-    "resize_on_item_update": true,
-    "margin_left": 0,
-    "margin_top": 33,
-    "margin_right": 0
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

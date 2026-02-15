@@ -1,6 +1,6 @@
 {
   "name": "rev_room_event",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_iro_event_settings_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboNavigatorCom_iro_event_settings.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -46,7 +46,14 @@
                   "name": "name_label",
                   "caption": "${navigator.eventsettings.name}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "input",
@@ -61,7 +68,13 @@
                   "name": "event_name",
                   "background": "true"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "border": true,
+                  "text_style": "u_regular",
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -76,7 +89,14 @@
                   "name": "desc_label",
                   "caption": "${navigator.eventsettings.desc}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "input",
@@ -92,7 +112,15 @@
                   "caption": "1\r2\r3\r4\r5\r6",
                   "background": "true"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "border": true,
+                  "text_style": "u_regular",
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -111,33 +139,27 @@
             },
             "children": []
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 0,
+          "margin_top": 33,
+          "margin_right": 0,
+          "margin_bottom": 3
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "border": true,
-    "multiline": true,
-    "word_wrap": true,
-    "margin_left": 0,
-    "margin_top": 33,
-    "margin_right": 0,
-    "margin_bottom": 3
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

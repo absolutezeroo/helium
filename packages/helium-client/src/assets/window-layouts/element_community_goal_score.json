@@ -1,6 +1,6 @@
 {
   "name": "element_community_goal_score",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_element_community_goal_score_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_element_community_goal_score.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,16 +32,17 @@
               "style": "0",
               "name": "running_number_widget"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "widget_type": "running_number",
+              "running_number:digits": "10",
+              "running_number:update_frequency": "25"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "widget_type": "running_number",
-    "running_number:digits": "10",
-    "running_number:update_frequency": "25"
-  },
+  "vars": {},
   "filters": []
 }

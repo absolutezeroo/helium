@@ -1,6 +1,6 @@
 {
   "name": "search_entry",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendListCom_search_entry_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendListCom_search_entry.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -49,7 +49,11 @@
               "name": "caption",
               "caption": "PH CAPTION"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_face": "Volter Bold",
+              "mouse_wheel_enabled": false
+            }
           },
           {
             "tag": "container",
@@ -108,7 +112,10 @@
               "name": "name",
               "caption": "PH Avatar Name"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "mouse_wheel_enabled": false
+            }
           },
           {
             "tag": "bitmap",
@@ -156,9 +163,6 @@
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter Bold",
-    "mouse_wheel_enabled": false
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "ctlg_default_3x3",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_default_3x3_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_old_layout_default_3x3.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -157,7 +157,10 @@
                   "style": "0",
                   "name": "unique_item_overlay_container"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "widget_type": "limited_item_overlay_supply"
+                }
               }
             ]
           },
@@ -179,8 +182,6 @@
       }
     ]
   },
-  "vars": {
-    "widget_type": "limited_item_overlay_supply"
-  },
+  "vars": {},
   "filters": []
 }

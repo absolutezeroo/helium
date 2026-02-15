@@ -1,6 +1,6 @@
 {
   "name": "snowwar_exit_confirmation",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habbosnowwar_exit_confirmation_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboGamesCom_snowwar_exit_confirmation.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,7 +32,16 @@
               "style": "0",
               "caption": "${snowwar.exit.confirmation}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "auto_size": "center",
+              "font_face": "Ubuntu",
+              "font_size": 19,
+              "mouse_wheel_enabled": false,
+              "word_wrap": true,
+              "bold": true
+            }
           },
           {
             "tag": "container_button",
@@ -59,7 +68,14 @@
                   "style": "0",
                   "caption": "${snowwar.exit.no}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 19,
+                  "mouse_wheel_enabled": false
+                }
               }
             ]
           },
@@ -88,32 +104,32 @@
                   "style": "0",
                   "caption": "${snowwar.exit.yes}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 19,
+                  "mouse_wheel_enabled": false
+                }
               }
             ]
+          }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "antialias_type": "advanced",
-    "auto_size": "left",
-    "font_face": "Ubuntu",
-    "font_size": 19,
-    "mouse_wheel_enabled": false,
-    "word_wrap": true,
-    "bold": true
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

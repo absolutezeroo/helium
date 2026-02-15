@@ -1,6 +1,6 @@
 {
   "name": "illumina_light_frame_modal",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_illumina_light_frame_modal_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_illumina_light_frame_modal.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -62,7 +62,12 @@
           "tags": "_TITLE, _EXCLUDE, _INTERNAL",
           "params": "0"
         },
-        "children": []
+        "children": [],
+        "vars": {
+          "text_style": "il_frame_modal_title",
+          "auto_size": "left",
+          "grid_fit_type": "subpixel"
+        }
       },
       {
         "tag": "region",
@@ -91,7 +96,12 @@
               "tags": "_EXCLUDE, _INTERNAL",
               "params": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "illumina_light_button_frame_close_png",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           }
         ]
       },
@@ -113,14 +123,7 @@
       }
     ]
   },
-  "vars": {
-    "text_style": "il_frame_modal_title",
-    "auto_size": "left",
-    "grid_fit_type": "subpixel",
-    "asset_uri": "illumina_light_button_frame_close_png",
-    "stretched_x": false,
-    "stretched_y": false
-  },
+  "vars": {},
   "filters": [
     {
       "type": "DropShadowFilter",

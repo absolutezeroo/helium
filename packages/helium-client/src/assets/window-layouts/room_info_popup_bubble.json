@@ -1,6 +1,6 @@
 {
   "name": "room_info_popup_bubble",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNewNavigatorCom_room_info_popup_bubble_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboNewNavigatorCom_room_info_popup_bubble.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -100,7 +100,13 @@
                                   "style": "3",
                                   "name": "room_thumbnail"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "asset_uri": "newnavigator_default_room",
+                                  "pivot_point": "center",
+                                  "stretched_x": false,
+                                  "stretched_y": false
+                                }
                               },
                               {
                                 "tag": "widget",
@@ -114,7 +120,13 @@
                                   "style": "3",
                                   "name": "room_group_badge"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "widget_type": "badge_image",
+                                  "badge_image:type": "group",
+                                  "badge_image:stretched_x": false,
+                                  "badge_image:stretched_y": false
+                                }
                               }
                             ]
                           },
@@ -144,7 +156,15 @@
                                   "name": "room_name",
                                   "caption": "ROOM NAME PLACEHOLDER LOREM IPSUM DOLOR SIT AMET"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "text_style": "u_bold",
+                                  "mouse_wheel_enabled": false,
+                                  "multiline": true,
+                                  "word_wrap": true,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               },
                               {
                                 "tag": "text",
@@ -159,13 +179,25 @@
                                   "name": "room_desc",
                                   "caption": "ROOM DESC PLACEHOLDER LOREM IPSUM DOLOR SIT AMET"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "mouse_wheel_enabled": false,
+                                  "multiline": true,
+                                  "word_wrap": true,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               }
                             ]
                           }
                         ]
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 7,
+                      "scale_to_fit_items": true,
+                      "resize_on_item_update": true
+                    }
                   }
                 ]
               },
@@ -207,7 +239,11 @@
                           "params": "16",
                           "style": "3"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "newnavigator_icon_group",
+                          "pivot_point": "center"
+                        }
                       },
                       {
                         "tag": "text",
@@ -222,9 +258,21 @@
                           "name": "group_name",
                           "caption": "The Bubblers"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "underline": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "tool_tip_caption": "${navigator.tooltip.groupinfo.owner}"
+                    }
                   },
                   {
                     "tag": "region",
@@ -251,7 +299,11 @@
                           "params": "16",
                           "style": "3"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "friend_bar_friendlist_eye",
+                          "pivot_point": "center"
+                        }
                       },
                       {
                         "tag": "text",
@@ -266,9 +318,21 @@
                           "name": "owner_name",
                           "caption": "Macklebee"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "underline": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "tool_tip_caption": "${navigator.tooltip.roominfo.owner}"
+                    }
                   }
                 ]
               },
@@ -310,7 +374,10 @@
                           "style": "3",
                           "name": "properties"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "scale_to_fit_items": true
+                        }
                       }
                     ]
                   },
@@ -378,7 +445,13 @@
                                       "style": "3",
                                       "name": "favorite_icon"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "asset_uri": "newnavigator_icon_fav_no",
+                                      "pivot_point": "center",
+                                      "stretched_x": false,
+                                      "stretched_y": false
+                                    }
                                   }
                                 ]
                               },
@@ -436,7 +509,13 @@
                                       "style": "3",
                                       "name": "home_icon"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "asset_uri": "newnavigator_icon_home_no",
+                                      "pivot_point": "center",
+                                      "stretched_x": false,
+                                      "stretched_y": false
+                                    }
                                   }
                                 ]
                               },
@@ -495,7 +574,13 @@
                                       "style": "3",
                                       "name": "settings_icon"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "asset_uri": "newnavigator_room_settings_icon",
+                                      "pivot_point": "center",
+                                      "stretched_x": false,
+                                      "stretched_y": false
+                                    }
                                   }
                                 ]
                               },
@@ -554,7 +639,13 @@
                                       "style": "3",
                                       "name": "report_icon"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "asset_uri": "newnavigator_report_room",
+                                      "pivot_point": "center",
+                                      "stretched_x": false,
+                                      "stretched_y": false
+                                    }
                                   }
                                 ]
                               },
@@ -574,7 +665,11 @@
                               }
                             ]
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "scale_to_fit_items": true,
+                          "resize_on_item_update": true
+                        }
                       }
                     ]
                   }
@@ -618,7 +713,10 @@
                           "style": "3",
                           "name": "tag_list"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "spacing": 2
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -690,7 +788,13 @@
                           "params": "16",
                           "style": "3"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "newnavigator_event_icon",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       },
                       {
                         "tag": "text",
@@ -705,7 +809,14 @@
                           "name": "event_name",
                           "caption": "EVENT NAME LOREM IPSUM DOLOR SIT AMET"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_color": 16777215,
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -720,44 +831,44 @@
                           "name": "event_desc",
                           "caption": "EVENT DESCRIPTION LOREM IPSUM DOLOR SIT AMET"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_color": 16777215,
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "bold": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   }
-                ]
+                ],
+                "vars": {
+                  "scale_to_fit_items": true,
+                  "resize_on_item_update": true
+                }
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 3,
+              "scale_to_fit_items": true,
+              "resize_on_item_update": true
+            }
           }
-        ]
+        ],
+        "vars": {
+          "margin_left": 3,
+          "margin_top": 36,
+          "margin_right": 3,
+          "margin_bottom": 3,
+          "direction": "left"
+        }
       }
     ]
   },
-  "vars": {
-    "asset_uri": "newnavigator_event_icon",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "widget_type": "badge_image",
-    "badge_image:type": "group",
-    "badge_image:stretched_x": false,
-    "badge_image:stretched_y": false,
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 3,
-    "leading": 0,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true,
-    "underline": true,
-    "tool_tip_caption": "${navigator.tooltip.roominfo.owner}",
-    "text_color": 16777215,
-    "bold": false,
-    "margin_left": 3,
-    "margin_top": 36,
-    "margin_right": 3,
-    "margin_bottom": 3,
-    "direction": "left"
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "campaing_promo",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_campaign_promo_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_campaign_promo.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,7 +32,12 @@
               "style": "100",
               "name": "promo_background"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "itemlist_vertical",
@@ -60,7 +65,15 @@
                   "name": "promo_title",
                   "caption": "${landing.view.campaign.promo.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 22,
+                  "text_style": "il_heading_1",
+                  "mouse_wheel_enabled": false,
+                  "spacing": -0.6,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container",
@@ -89,7 +102,16 @@
                   "name": "promo_text",
                   "caption": "${landing.view.campaign.promo.text}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 16,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container",
@@ -120,26 +142,16 @@
                 },
                 "children": []
               }
-            ]
+            ],
+            "vars": {
+              "scale_to_fit_items": true,
+              "resize_on_item_update": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "",
-    "stretched_x": false,
-    "stretched_y": false,
-    "auto_size": "left",
-    "font_size": 16,
-    "text_style": "il_heading_1",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "multiline": true,
-    "word_wrap": true,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true
-  },
+  "vars": {},
   "filters": []
 }

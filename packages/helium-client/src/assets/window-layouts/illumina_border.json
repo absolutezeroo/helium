@@ -1,6 +1,6 @@
 {
   "name": "illumina_border",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_updating_timestamp_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_updating_timestamp.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -18,16 +18,17 @@
           "style": "100",
           "caption": "Just now."
         },
-        "children": []
+        "children": [],
+        "vars": {
+          "auto_size": "right",
+          "text_color": 5592405,
+          "mouse_wheel_enabled": false,
+          "spacing": 0,
+          "leading": 0
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "right",
-    "text_color": 5592405,
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

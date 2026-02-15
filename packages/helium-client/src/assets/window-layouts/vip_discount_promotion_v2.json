@@ -1,6 +1,6 @@
 {
   "name": "vip_discount_promotion_v2",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_vip_discount_promotion_v2_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_vip_discount_promotion_v2.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -43,7 +43,11 @@
                   "params": "16",
                   "style": "100"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "messenger_minimize_button",
+                  "fit_size_to_contents": true
+                }
               }
             ]
           },
@@ -72,7 +76,11 @@
                   "params": "16",
                   "style": "100"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "common_maximize",
+                  "fit_size_to_contents": true
+                }
               }
             ]
           },
@@ -89,7 +97,18 @@
               "name": "title_txt",
               "caption": "${citizen.vip.extend.promo.title}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "font_size": 16,
+              "text_color": 4473924,
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "bold": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "static_bitmap",
@@ -103,7 +122,12 @@
               "style": "100",
               "name": "promo_img"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.url}talent/citizenship_vip_extend_promo.png",
+              "pivot_point": "bottom right",
+              "fit_size_to_contents": true
+            }
           },
           {
             "tag": "itemlist_vertical",
@@ -131,7 +155,16 @@
                   "name": "caption_txt",
                   "caption": "${citizen.vip.extend.promo.caption}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "bold": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -146,7 +179,16 @@
                   "name": "info_txt",
                   "caption": "${citizen.vip.extend.promo.info}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 16,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "button",
@@ -165,25 +207,15 @@
                 },
                 "children": []
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 5
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.url}talent/citizenship_vip_extend_promo.png",
-    "fit_size_to_contents": true,
-    "auto_size": "left",
-    "font_size": 16,
-    "text_color": 4473924,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "bold": true,
-    "spacing": 5,
-    "leading": 0,
-    "pivot_point": "bottom right"
-  },
+  "vars": {},
   "filters": []
 }

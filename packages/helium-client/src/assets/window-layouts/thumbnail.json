@@ -1,6 +1,6 @@
 {
   "name": "thumbnail",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboInventoryCom_inventory_thumb_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboInventoryCom_inventory_thumb_credits.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -47,24 +47,32 @@
                   "name": "unique_item_background_bitmap",
                   "visible": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "unique_item_label_1"
+                }
               },
               {
                 "tag": "bitmap",
                 "typeId": 21,
                 "attributes": {
-                  "x": "0",
-                  "y": "0",
-                  "width": "40",
-                  "height": "40",
+                  "x": "1",
+                  "y": "18",
+                  "width": "38",
+                  "height": "35",
                   "params": "16",
                   "style": "0",
                   "name": "bitmap",
                   "tags": "BITMAP",
                   "width_min": "40",
-                  "width_max": "40"
+                  "width_max": "38"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "pivot_point": "top center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "widget",
@@ -79,7 +87,13 @@
                   "name": "badge",
                   "visible": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "widget_type": "badge_image",
+                  "badge_image:pivot_point": "center",
+                  "badge_image:stretched_x": false,
+                  "badge_image:stretched_y": false
+                }
               },
               {
                 "tag": "widget",
@@ -94,7 +108,10 @@
                   "name": "unique_item_overlay_container",
                   "visible": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "widget_type": "limited_item_overlay_grid"
+                }
               },
               {
                 "tag": "widget",
@@ -109,22 +126,23 @@
                   "name": "rarity_item_overlay_container",
                   "visible": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "widget_type": "rarity_item_overlay_grid"
+                }
               },
               {
                 "tag": "container",
                 "typeId": 4,
                 "attributes": {
-                  "x": "33",
-                  "y": "2",
-                  "width": "6",
-                  "height": "15",
+                  "x": "0",
+                  "y": "1",
+                  "width": "38",
+                  "height": "20",
                   "params": "393360",
                   "style": "0",
                   "name": "number_container",
-                  "color": "0xffff2f6982",
-                  "visible": "false",
-                  "background": "true",
+                  "color": "0xff2f6982",
                   "tags": "COUNT"
                 },
                 "children": [
@@ -132,17 +150,28 @@
                     "tag": "text",
                     "typeId": 10,
                     "attributes": {
-                      "x": "1",
-                      "y": "1",
-                      "width": "4",
-                      "height": "4",
+                      "x": "0",
+                      "y": "0",
+                      "width": "38",
+                      "height": "17",
                       "params": "16",
-                      "style": "0",
+                      "style": "3",
                       "name": "number",
-                      "background": "true",
-                      "tags": "NUMBER,COUNT"
+                      "caption": "66",
+                      "tags": "NUMBER,COUNT",
+                      "width_max": "38"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "font_size": 18,
+                      "text_style": "u_headline_small",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -159,7 +188,11 @@
                   "name": "rent_state",
                   "visible": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "inventory_thumb_rent_started",
+                  "fit_size_to_contents": true
+                }
               }
             ]
           },
@@ -175,30 +208,15 @@
               "style": "0",
               "name": "outline"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "inventory_thumb_selected_outline"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "inventory_thumb_selected_outline",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "widget_type": "rarity_item_overlay_grid",
-    "badge_image:pivot_point": "center",
-    "badge_image:stretched_x": false,
-    "badge_image:stretched_y": false,
-    "auto_size": "left",
-    "text_color": 3107202,
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0,
-    "fit_size_to_contents": true
-  },
+  "vars": {},
   "filters": []
 }

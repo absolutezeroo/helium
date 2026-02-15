@@ -1,6 +1,6 @@
 {
   "name": "habbo_profiler_task",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboProfilerOutput_profiler_task_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboProfilerOutput_profiler_task.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,7 +32,15 @@
               "name": "text",
               "caption": "Foo"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_face": "Courier New",
+              "font_size": 16,
+              "grid_fit_type": "none",
+              "mouse_wheel_enabled": false,
+              "editable": false,
+              "selectable": false
+            }
           },
           {
             "tag": "input",
@@ -47,7 +55,16 @@
               "name": "caption",
               "caption": "Bar"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_face": "Courier New",
+              "font_size": 16,
+              "grid_fit_type": "none",
+              "text_color": 5592405,
+              "mouse_wheel_enabled": false,
+              "editable": false,
+              "selectable": false
+            }
           },
           {
             "tag": "bitmap",
@@ -81,14 +98,6 @@
       }
     ]
   },
-  "vars": {
-    "font_face": "Courier New",
-    "font_size": 16,
-    "grid_fit_type": "none",
-    "mouse_wheel_enabled": false,
-    "editable": false,
-    "selectable": false,
-    "text_color": 5592405
-  },
+  "vars": {},
   "filters": []
 }

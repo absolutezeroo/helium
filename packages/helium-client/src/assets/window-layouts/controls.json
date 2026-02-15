@@ -1,6 +1,6 @@
 {
   "name": "controls",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_controls_piece_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_controls_piece.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -35,7 +35,10 @@
               "width_min": "113",
               "width_max": "113"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "tool_tip_caption": "${friend.bar.message.tip}"
+            }
           },
           {
             "tag": "button",
@@ -51,7 +54,10 @@
               "caption": "${friend.bar.visit}",
               "width_min": "113"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "tool_tip_caption": "${friend.bar.visit.tip}"
+            }
           },
           {
             "tag": "button",
@@ -68,7 +74,10 @@
               "color": "0x8ed9ef",
               "width_min": "113"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "tool_tip_caption": "${friend.bar.game.tip}"
+            }
           },
           {
             "tag": "button",
@@ -84,14 +93,15 @@
               "caption": "${friendbar.request.profile}",
               "width_min": "113"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "tool_tip_caption": "${infostand.profile.link.tooltip}"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "tool_tip_caption": "${infostand.profile.link.tooltip}"
-  },
+  "vars": {},
   "filters": []
 }

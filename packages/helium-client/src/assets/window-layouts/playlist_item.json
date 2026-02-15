@@ -1,6 +1,6 @@
 {
   "name": "playlist_item",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboplaylisteditor_playlist_item_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_playlisteditor_playlist_item.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -142,7 +142,14 @@
               "name": "song_title_text",
               "tags": "SONG_TITLE"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "auto_size": "left",
+              "font_face": "Ubuntu",
+              "font_size": 18,
+              "mouse_wheel_enabled": false
+            }
           },
           {
             "tag": "text",
@@ -157,7 +164,14 @@
               "name": "song_author_text",
               "tags": "SONG_AUTHOR"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "auto_size": "left",
+              "font_face": "Ubuntu",
+              "font_size": 16,
+              "mouse_wheel_enabled": false
+            }
           },
           {
             "tag": "bitmap",
@@ -171,7 +185,10 @@
               "style": "0",
               "name": "song_name_icon_bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "bitmap_asset_name": "jb_icon_disc"
+            }
           },
           {
             "tag": "bitmap",
@@ -185,19 +202,15 @@
               "style": "0",
               "name": "author_name_icon_bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "bitmap_asset_name": "jb_icon_composer"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "antialias_type": "advanced",
-    "auto_size": "left",
-    "font_face": "Ubuntu",
-    "font_size": 16,
-    "mouse_wheel_enabled": false,
-    "bitmap_asset_name": "jb_icon_composer"
-  },
+  "vars": {},
   "filters": []
 }

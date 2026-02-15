@@ -1,6 +1,6 @@
 {
   "name": "activityPointDisplayWidget",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboactivity_point_display_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_activity_point_display_widget.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -48,19 +48,20 @@
               "name": "activity_points_txt",
               "caption": "lorem ipsum"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "text_style": "u_small",
+              "mouse_wheel_enabled": false,
+              "italic": true,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "text_style": "u_small",
-    "mouse_wheel_enabled": false,
-    "italic": true,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

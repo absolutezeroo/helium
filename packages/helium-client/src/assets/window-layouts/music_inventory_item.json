@@ -1,6 +1,6 @@
 {
   "name": "music_inventory_item",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboplaylisteditor_music_inventory_item_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_playlisteditor_music_inventory_item.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -78,7 +78,14 @@
               "tags": "SONG_TITLE",
               "width_max": "80"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "auto_size": "left",
+              "font_face": "Ubuntu",
+              "font_size": 18,
+              "mouse_wheel_enabled": false
+            }
           },
           {
             "tag": "bitmap",
@@ -92,7 +99,10 @@
               "style": "0",
               "name": "title_fader_bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "bitmap_asset_name": "jb_fader"
+            }
           },
           {
             "tag": "container",
@@ -188,13 +198,6 @@
       }
     ]
   },
-  "vars": {
-    "antialias_type": "advanced",
-    "auto_size": "left",
-    "font_face": "Ubuntu",
-    "font_size": 18,
-    "mouse_wheel_enabled": false,
-    "bitmap_asset_name": "jb_fader"
-  },
+  "vars": {},
   "filters": []
 }

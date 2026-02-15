@@ -1,6 +1,6 @@
 {
   "name": "ProgressBar",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboprogress_bar_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboQuestEngineCom_progress_bar.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,7 +31,10 @@
               "style": "0",
               "name": "bar_l"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "achievement_ach_progressbar1"
+            }
           },
           {
             "tag": "static_bitmap",
@@ -45,7 +48,10 @@
               "style": "0",
               "name": "bar_c"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "achievement_ach_progressbar2"
+            }
           },
           {
             "tag": "static_bitmap",
@@ -59,7 +65,10 @@
               "style": "0",
               "name": "bar_r"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "achievement_ach_progressbar3"
+            }
           },
           {
             "tag": "background",
@@ -89,7 +98,10 @@
               "style": "0",
               "name": "bar_a_c"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "achievement_ach_progressbar4"
+            }
           },
           {
             "tag": "static_bitmap",
@@ -103,7 +115,10 @@
               "style": "0",
               "name": "bar_a_r"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "achievement_ach_progressbar5"
+            }
           },
           {
             "tag": "text",
@@ -118,27 +133,27 @@
               "name": "progress_txt",
               "caption": "Progress text"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "auto_size": "left",
+              "font_face": "Ubuntu",
+              "font_size": 18,
+              "text_color": 16777215,
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "sharpness": 0,
+              "thickness": 0,
+              "bold": true,
+              "kerning": false,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "achievement_ach_progressbar5",
-    "antialias_type": "advanced",
-    "auto_size": "left",
-    "font_face": "Ubuntu",
-    "font_size": 18,
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "sharpness": 0,
-    "thickness": 0,
-    "bold": true,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

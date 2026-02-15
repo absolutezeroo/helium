@@ -1,6 +1,6 @@
 {
   "name": "AchievementResolutionProgress",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboachievement_resolution_progress_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboQuestEngineCom_achievement_resolution_progress.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -84,7 +84,12 @@
                               "height_min": "90",
                               "height_max": "90"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "icons_hilighter_yellow",
+                              "stretched_x": false,
+                              "stretched_y": false
+                            }
                           },
                           {
                             "tag": "widget",
@@ -98,7 +103,13 @@
                               "style": "100",
                               "name": "achievement_badge"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "widget_type": "badge_image",
+                              "badge_image:pivot_point": "center",
+                              "badge_image:stretched_x": false,
+                              "badge_image:stretched_y": false
+                            }
                           }
                         ]
                       },
@@ -127,7 +138,10 @@
                               "name": "achievement.name",
                               "caption": "Achievement name"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "text_style": "il_heading_2"
+                            }
                           },
                           {
                             "tag": "text",
@@ -142,7 +156,15 @@
                               "name": "achievement.desc",
                               "caption": "Achievement description"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "mouse_wheel_enabled": false,
+                              "multiline": true,
+                              "word_wrap": true,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "button",
@@ -159,9 +181,17 @@
                             },
                             "children": []
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "spacing": 5,
+                          "scale_to_fit_items": true,
+                          "resize_on_item_update": true
+                        }
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 10
+                    }
                   }
                 ]
               },
@@ -203,7 +233,12 @@
                           "style": "100",
                           "name": "unachieved_left"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "talent_unachieved_left",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -217,7 +252,11 @@
                           "style": "100",
                           "name": "unachieved_mid"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "talent_unachieved_mid",
+                          "stretched_y": false
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -231,7 +270,12 @@
                           "style": "100",
                           "name": "unachieved_right"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "talent_unachieved_right",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -245,7 +289,12 @@
                           "style": "100",
                           "name": "achieved_left"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "talent_achieved_left",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -259,7 +308,11 @@
                           "style": "100",
                           "name": "achieved_mid"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "talent_achieved_mid",
+                          "stretched_y": false
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -273,7 +326,12 @@
                           "style": "100",
                           "name": "achieved_right"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "talent_achieved_right",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -290,7 +348,14 @@
                       "name": "progress_text",
                       "caption": "${resolution.progress.progress}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "text_style": "il_heading_2",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -305,7 +370,10 @@
                   "params": "16",
                   "style": "100"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "illumina_horizontal_separator"
+                }
               },
               {
                 "tag": "container",
@@ -331,7 +399,10 @@
                       "style": "100",
                       "name": "time_left_widget"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "widget_type": "countdown"
+                    }
                   },
                   {
                     "tag": "text",
@@ -345,49 +416,46 @@
                       "style": "100",
                       "caption": "${resolution.progress.time.left}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "right",
+                      "text_style": "u_headline_small",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 10,
+              "resize_on_item_update": true
+            }
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 3,
+          "margin_top": 36,
+          "margin_right": 0,
+          "margin_bottom": 0
+        }
       }
     ]
   },
-  "vars": {
-    "asset_uri": "illumina_horizontal_separator",
-    "stretched_x": false,
-    "stretched_y": false,
-    "widget_type": "countdown",
-    "badge_image:pivot_point": "center",
-    "badge_image:stretched_x": false,
-    "badge_image:stretched_y": false,
-    "text_style": "u_headline_small",
-    "auto_size": "right",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 10,
-    "leading": 0,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true,
-    "sharpness": 0,
-    "thickness": 0,
-    "margin_left": 3,
-    "margin_top": 36,
-    "margin_right": 0,
-    "margin_bottom": 0
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "habbo_window_layout_tab_context_3",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_window_layout_tab_context_3_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_habbo_window_layout_tab_context_3.xml",
   "window": {
     "tag": "window",
     "typeId": -1,

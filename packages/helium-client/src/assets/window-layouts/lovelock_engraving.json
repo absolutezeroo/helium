@@ -1,6 +1,6 @@
 {
   "name": "lovelock_engraving",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_lovelock_engraving_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_lovelock_engraving.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,7 +31,13 @@
               "style": "100",
               "name": "background"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.url}furniextras/loveLock_engraving.png",
+              "pivot_point": "center",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "text",
@@ -46,7 +52,17 @@
               "name": "header",
               "caption": "${lovelock.engraving.caption}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "etching_color": 4294967295,
+              "etching_position": "bottom",
+              "text_color": 5841482,
+              "text_style": "u_bold",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "bitmap",
@@ -60,7 +76,11 @@
               "style": "100",
               "name": "avatar_left"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "bitmap",
@@ -89,7 +109,17 @@
               "name": "name_left",
               "caption": "${lovelock.engraving.left}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "right",
+              "etching_color": 4294967295,
+              "etching_position": "bottom",
+              "text_color": 5841482,
+              "text_style": "u_bold",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -104,7 +134,17 @@
               "name": "name_right",
               "caption": "${lovelock.engraving.right}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "etching_color": 4294967295,
+              "etching_position": "bottom",
+              "text_color": 5841482,
+              "text_style": "u_bold",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -118,7 +158,17 @@
               "style": "100",
               "name": "date"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "etching_color": 4294967295,
+              "etching_position": "bottom",
+              "text_color": 5841482,
+              "text_style": "u_bold",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "region",
@@ -139,19 +189,6 @@
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.url}furniextras/loveLock_engraving.png",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "auto_size": "center",
-    "etching_color": 4294967295,
-    "etching_position": "bottom",
-    "text_color": 5841482,
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

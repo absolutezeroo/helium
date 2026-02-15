@@ -1,6 +1,6 @@
 {
   "name": "ros_room_delete_confirm",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_ros_confirm_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboNavigatorCom_ros_confirm.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -34,7 +34,14 @@
               "name": "message",
               "caption": "message"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "font_face": "Ubuntu",
+              "font_size": 18,
+              "mouse_wheel_enabled": false,
+              "word_wrap": true
+            }
           },
           {
             "tag": "button_thick",
@@ -54,26 +61,21 @@
             },
             "children": []
           }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
         ]
       }
     ]
   },
-  "vars": {
-    "antialias_type": "advanced",
-    "font_face": "Ubuntu",
-    "font_size": 18,
-    "mouse_wheel_enabled": false,
-    "word_wrap": true
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

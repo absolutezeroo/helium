@@ -1,6 +1,6 @@
 {
   "name": "group_info",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGroupsCom_Habbogroup_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboGroupsCom_group.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,7 +33,14 @@
               "name": "group_name",
               "caption": "Group Name Placeholder"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "u_bold",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "widget",
@@ -47,7 +54,16 @@
               "style": "0",
               "name": "group_logo"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "widget_type": "badge_image",
+              "badge_image:type": "group",
+              "badge_image:pivot_point": "center",
+              "badge_image:stretched_x": false,
+              "badge_image:stretched_y": false,
+              "badge_image:zoom_x": 2,
+              "badge_image:zoom_y": 2
+            }
           },
           {
             "tag": "itemlist_vertical",
@@ -76,7 +92,20 @@
                   "name": "group_description",
                   "caption": "Group Desc: pasdsad sadaddsad sadsa as dasd sad asd sada sdas das dsad sad asd asd ad ada sdas dsa das dsa dsad jhg jhg jh gjh gjh g"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "word_wrap": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -92,7 +121,10 @@
               "style": "0",
               "name": "group_description_scrollbar"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "scrollable": "group_description_item_list"
+            }
           },
           {
             "tag": "region",
@@ -121,7 +153,15 @@
                   "name": "members_txt",
                   "caption": "Members PH"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "underline": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -152,7 +192,15 @@
                   "name": "pending_members_txt",
                   "caption": "Members PH"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "underline": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -183,7 +231,20 @@
                   "name": "group_room_link",
                   "caption": "${group.room.link}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "underline": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -214,7 +275,20 @@
                   "name": "buy_furni_link",
                   "caption": "${group.buyfurni}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "underline": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -245,7 +319,20 @@
                   "name": "show_groups_link",
                   "caption": "${group.showgroups}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "underline": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -276,7 +363,20 @@
                   "name": "manage_guild_link",
                   "caption": "${group.manage}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "underline": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -307,7 +407,20 @@
                   "name": "delete_guild_link",
                   "caption": "${group.delete}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "underline": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -390,9 +503,15 @@
                   "style": "0",
                   "name": "icon_owner"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}guilds/group_icon_big_owner.png"
+                }
               }
-            ]
+            ],
+            "vars": {
+              "tool_tip_caption": "${group.youareowner}"
+            }
           },
           {
             "tag": "region",
@@ -420,9 +539,15 @@
                   "style": "0",
                   "name": "icon_admin_off"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}guilds/group_icon_big_admin.png"
+                }
               }
-            ]
+            ],
+            "vars": {
+              "tool_tip_caption": "${group.youareadmin}"
+            }
           },
           {
             "tag": "region",
@@ -450,9 +575,15 @@
                   "style": "0",
                   "name": "icon_admin_over"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}guilds/group_icon_big_member.png"
+                }
               }
-            ]
+            ],
+            "vars": {
+              "tool_tip_caption": "${group.youaremember}"
+            }
           },
           {
             "tag": "text",
@@ -468,7 +599,20 @@
               "caption": "${group.membershippending}",
               "visible": "false"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "auto_size": "left",
+              "font_face": "Ubuntu",
+              "font_size": 19,
+              "mouse_wheel_enabled": false,
+              "sharpness": 0,
+              "thickness": 0,
+              "bold": true,
+              "kerning": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "icon",
@@ -498,7 +642,20 @@
               "name": "youaremember_txt",
               "caption": "${group.youaremember}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "auto_size": "left",
+              "font_face": "Ubuntu",
+              "font_size": 18,
+              "mouse_wheel_enabled": false,
+              "sharpness": 0,
+              "thickness": 0,
+              "bold": true,
+              "kerning": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -513,7 +670,14 @@
               "name": "created_txt",
               "caption": "Created at 24-Sep-2010"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "text_style": "u_small",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "region",
@@ -541,9 +705,15 @@
                   "style": "0",
                   "name": "grouptype_icon_0"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}guilds/grouptype_icon_5.png"
+                }
               }
-            ]
+            ],
+            "vars": {
+              "tool_tip_caption": "${group.edit.settings.type.regular.help}"
+            }
           },
           {
             "tag": "region",
@@ -571,9 +741,15 @@
                   "style": "0",
                   "name": "grouptype_icon_1"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}guilds/grouptype_icon_1.png"
+                }
               }
-            ]
+            ],
+            "vars": {
+              "tool_tip_caption": "${group.edit.settings.type.exclusive.help}"
+            }
           },
           {
             "tag": "region",
@@ -601,9 +777,15 @@
                   "style": "0",
                   "name": "grouptype_icon_2"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}guilds/grouptype_icon_2.png"
+                }
               }
-            ]
+            ],
+            "vars": {
+              "tool_tip_caption": "${group.edit.settings.type.private.help}"
+            }
           },
           {
             "tag": "region",
@@ -631,9 +813,15 @@
                   "style": "0",
                   "name": "group_decorate_icon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}guilds/group_decorate_icon.png"
+                }
               }
-            ]
+            ],
+            "vars": {
+              "tool_tip_caption": "${group.memberscandecorate}"
+            }
           },
           {
             "tag": "region",
@@ -662,7 +850,20 @@
                   "name": "show_forum_link",
                   "caption": "${group.showforum}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "underline": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           }
@@ -670,32 +871,6 @@
       }
     ]
   },
-  "vars": {
-    "text_style": "u_small",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "spacing": 0,
-    "leading": 0,
-    "widget_type": "badge_image",
-    "badge_image:type": "group",
-    "badge_image:pivot_point": "center",
-    "badge_image:stretched_x": false,
-    "badge_image:stretched_y": false,
-    "badge_image:zoom_x": 2,
-    "badge_image:zoom_y": 2,
-    "antialias_type": "advanced",
-    "font_face": "Ubuntu",
-    "font_size": 18,
-    "sharpness": 0,
-    "thickness": 0,
-    "word_wrap": true,
-    "kerning": false,
-    "scrollable": "group_description_item_list",
-    "auto_size": "left",
-    "underline": true,
-    "asset_uri": "${image.library.url}guilds/group_decorate_icon.png",
-    "tool_tip_caption": "${group.memberscandecorate}",
-    "bold": true
-  },
+  "vars": {},
   "filters": []
 }

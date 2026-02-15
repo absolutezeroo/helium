@@ -1,6 +1,6 @@
 {
   "name": "offer_extension",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_offer_extension_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_offer_extension.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -73,7 +73,24 @@
                           "style": "0",
                           "caption": "${offers.extension.start_video}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "antialias_type": "advanced",
+                          "auto_size": "center",
+                          "etching_color": 4278190080,
+                          "etching_position": "bottom-right",
+                          "font_face": "Ubuntu",
+                          "font_size": 20,
+                          "text_color": 16777215,
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "bold": true,
+                          "underline": true,
+                          "kerning": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -86,7 +103,10 @@
                           "params": "16",
                           "style": "100"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "common_offers_icon"
+                        }
                       }
                     ]
                   },
@@ -117,7 +137,16 @@
                           "style": "100",
                           "caption": "${offers.extension.check_rewards}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_style": "il_regular_white",
+                          "margin_top": 1,
+                          "mouse_wheel_enabled": false,
+                          "underline": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   }
@@ -129,25 +158,6 @@
       }
     ]
   },
-  "vars": {
-    "antialias_type": "advanced",
-    "auto_size": "left",
-    "etching_color": 4278190080,
-    "etching_position": "bottom-right",
-    "font_face": "Ubuntu",
-    "font_size": 20,
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "bold": true,
-    "underline": true,
-    "kerning": true,
-    "spacing": 0,
-    "leading": 0,
-    "asset_uri": "common_offers_icon",
-    "text_style": "il_regular_white",
-    "margin_top": 1
-  },
+  "vars": {},
   "filters": []
 }

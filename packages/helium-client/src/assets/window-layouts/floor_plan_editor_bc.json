@@ -1,6 +1,6 @@
 {
   "name": "floor_plan_editor_bc",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboBCFloorPlanEditor_Habbofloor_plan_editor_layout_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboBCFloorPlanEditor_floor_plan_editor_layout.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -59,7 +59,14 @@
                       "params": "16",
                       "style": "3"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "floor_plan_editor_logo",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "fit_size_to_contents": true
+                    }
                   },
                   {
                     "tag": "label",
@@ -73,7 +80,11 @@
                       "style": "3",
                       "caption": "${floor.plan.editor.subtitle}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "u_small",
+                      "text_color": 16777215
+                    }
                   }
                 ]
               }
@@ -130,7 +141,13 @@
                           "style": "3",
                           "caption": "${floor.plan.editor.draw.mode}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   },
@@ -171,7 +188,13 @@
                               "params": "3932176",
                               "style": "3"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "floor_plan_editor_add_tile",
+                              "stretched_x": false,
+                              "stretched_y": false,
+                              "fit_size_to_contents": true
+                            }
                           }
                         ]
                       },
@@ -199,7 +222,13 @@
                               "params": "1835024",
                               "style": "3"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "floor_plan_editor_remove_tile",
+                              "stretched_x": false,
+                              "stretched_y": false,
+                              "fit_size_to_contents": true
+                            }
                           }
                         ]
                       },
@@ -214,7 +243,11 @@
                           "params": "16",
                           "style": "3"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "landing_view_reception_horizontal",
+                          "stretched_x": false
+                        }
                       },
                       {
                         "tag": "container_button",
@@ -240,7 +273,13 @@
                               "params": "3932176",
                               "style": "3"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "floor_plan_editor_raise_tile",
+                              "stretched_x": false,
+                              "stretched_y": false,
+                              "fit_size_to_contents": true
+                            }
                           }
                         ]
                       },
@@ -268,7 +307,13 @@
                               "params": "3932176",
                               "style": "3"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "floor_plan_editor_sink_tile",
+                              "stretched_x": false,
+                              "stretched_y": false,
+                              "fit_size_to_contents": true
+                            }
                           }
                         ]
                       },
@@ -283,7 +328,11 @@
                           "params": "16",
                           "style": "3"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "landing_view_reception_horizontal",
+                          "stretched_x": false
+                        }
                       },
                       {
                         "tag": "container_button",
@@ -309,11 +358,20 @@
                               "params": "3932176",
                               "style": "3"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "floor_plan_editor_enter_tile",
+                              "stretched_x": false,
+                              "stretched_y": false,
+                              "fit_size_to_contents": true
+                            }
                           }
                         ]
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 10
+                    }
                   },
                   {
                     "tag": "container",
@@ -341,7 +399,13 @@
                           "name": "tile_height_text",
                           "caption": "${floor.plan.editor.tile.height}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "spacing": 0,
+                          "leading": 0,
+                          "editable": false,
+                          "selectable": false
+                        }
                       },
                       {
                         "tag": "bitmap",
@@ -355,7 +419,12 @@
                           "style": "3",
                           "name": "tile_height_colormap"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "stretched_x": false,
+                          "stretched_y": false,
+                          "etching_color": 16777215
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -369,11 +438,18 @@
                           "style": "3",
                           "name": "tile_height_slider_track"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "avatar_editor_avatar_editor_download_icon",
+                          "zoom_y": -1
+                        }
                       }
                     ]
                   }
-                ]
+                ],
+                "vars": {
+                  "scale_to_fit_items": true
+                }
               },
               {
                 "tag": "border",
@@ -415,9 +491,20 @@
                       "style": "3",
                       "name": "heightmap_bitmap"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "fit_size_to_contents": true
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "scale_to_fit_items": true,
+                  "scroll_step_h": 1,
+                  "scroll_step_v": 1
+                }
               },
               {
                 "tag": "scrollbar_vertical",
@@ -431,7 +518,10 @@
                   "style": "3",
                   "name": "heightmap_scroll_vertical"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "scrollable": "heightmap_wrapper"
+                }
               },
               {
                 "tag": "scrollbar_horizontal",
@@ -445,7 +535,10 @@
                   "style": "3",
                   "name": "heightmap_scroll_horizontal"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "scrollable": "heightmap_wrapper"
+                }
               },
               {
                 "tag": "region",
@@ -473,7 +566,13 @@
                       "style": "3",
                       "name": "zoom"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "roomtools_magnifier",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               }
@@ -589,7 +688,11 @@
                           "style": "3",
                           "name": "enterdirection_ghost_avatar"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "widget_type": "avatar_image",
+                          "avatar_image:scale": "sh"
+                        }
                       },
                       {
                         "tag": "label",
@@ -619,7 +722,11 @@
                       "params": "16",
                       "style": "3"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "landing_view_reception_horizontal",
+                      "stretched_x": false
+                    }
                   },
                   {
                     "tag": "container",
@@ -660,7 +767,10 @@
                           "style": "3",
                           "name": "wall_thickness_drop"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "item_array": null
+                        }
                       },
                       {
                         "tag": "dropmenu",
@@ -674,7 +784,10 @@
                           "style": "3",
                           "name": "floor_thickness_drop"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "item_array": null
+                        }
                       }
                     ]
                   }
@@ -720,7 +833,12 @@
                       "name": "wall_height_text",
                       "caption": "${floor.editor.wall.height}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -736,7 +854,16 @@
                       "caption": "1",
                       "width_max": "25"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "grid_fit_type": "subpixel",
+                      "text_color": 6250335,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "container",
@@ -763,7 +890,12 @@
                           "name": "wall_height_slider",
                           "treshold": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "icons_toolbar_divider",
+                          "pivot_point": "center left",
+                          "stretched_y": false
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -777,7 +909,11 @@
                           "style": "3",
                           "name": "wall_height_slider_track"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "avatar_editor_avatar_editor_download_icon",
+                          "zoom_y": -1
+                        }
                       }
                     ]
                   }
@@ -822,9 +958,20 @@
                       "style": "3",
                       "name": "preview_bitmap"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "fit_size_to_contents": true
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "scale_to_fit_items": true,
+                  "scroll_step_h": 1,
+                  "scroll_step_v": 1
+                }
               },
               {
                 "tag": "scrollbar_horizontal",
@@ -838,7 +985,10 @@
                   "style": "3",
                   "name": "preview_scroll_horizontal"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "scrollable": "preview_wrapper"
+                }
               },
               {
                 "tag": "scrollbar_vertical",
@@ -852,7 +1002,10 @@
                   "style": "3",
                   "name": "preview_scroll_vertical"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "scrollable": "preview_wrapper"
+                }
               }
             ]
           },
@@ -899,7 +1052,12 @@
                     },
                     "children": []
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 5,
+                  "scale_to_fit_items": true,
+                  "resize_on_item_update": true
+                }
               },
               {
                 "tag": "itemlist_horizontal",
@@ -966,54 +1124,37 @@
                     },
                     "children": []
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 5,
+                  "scale_to_fit_items": true,
+                  "resize_on_item_update": true
+                }
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "help_page": "builders-club/info",
+          "margin_left": 0,
+          "margin_top": 33,
+          "margin_right": 0,
+          "margin_bottom": 0
+        }
       }
     ]
   },
-  "vars": {
-    "asset_uri": "avatar_editor_avatar_editor_download_icon",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "fit_size_to_contents": true,
-    "text_style": "u_bold",
-    "text_color": 6250335,
-    "auto_size": "center",
-    "mouse_wheel_enabled": false,
-    "spacing": 5,
-    "leading": 0,
-    "editable": false,
-    "selectable": false,
-    "etching_color": 16777215,
-    "zoom_y": -1,
-    "scale_to_fit_items": true,
-    "scroll_step_h": 1,
-    "scroll_step_v": 1,
-    "scrollable": "preview_wrapper",
-    "widget_type": "avatar_image",
-    "avatar_image:scale": "sh",
-    "item_array": null,
-    "grid_fit_type": "subpixel",
-    "resize_on_item_update": true,
-    "help_page": "builders-club/info",
-    "margin_left": 0,
-    "margin_top": 33,
-    "margin_right": 0,
-    "margin_bottom": 0
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "nux_gift_selection",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_nux_gift_selection_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_nux_gift_selection.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -63,7 +63,18 @@
                       "caption": "${nux.gift.selection.choose.one}",
                       "height_max": "84"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_size": 34,
+                      "text_color": 16777215,
+                      "text_style": "u_headline_big",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -80,7 +91,13 @@
                   "name": "club_icon",
                   "tags": "ICON"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}nux/nux_present.png",
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               }
             ]
           },
@@ -152,7 +169,12 @@
                           "name": "option_bitmap",
                           "tags": "ICON"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -170,7 +192,17 @@
                       "caption": "Lorem Ipsum is simply dummy",
                       "height_max": "32"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_size": 9,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "button",
@@ -246,7 +278,12 @@
                           "name": "option_bitmap",
                           "tags": "ICON"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -264,7 +301,17 @@
                       "caption": "Lorem Ipsum is simply dummy",
                       "height_max": "32"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_size": 9,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "button",
@@ -340,7 +387,12 @@
                           "name": "option_bitmap",
                           "tags": "ICON"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -358,7 +410,17 @@
                       "caption": "Lorem Ipsum is simply dummy",
                       "height_max": "32"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_size": 9,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "button",
@@ -379,42 +441,34 @@
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 10,
+              "scale_to_fit_items": true,
+              "resize_on_item_update": true
+            }
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 6,
+          "margin_top": 25,
+          "margin_right": 6,
+          "margin_bottom": 7
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "font_size": 9,
-    "text_color": 16777215,
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 10,
-    "leading": 0,
-    "asset_uri": "${image.library.url}nux/nux_present.png",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true,
-    "margin_left": 6,
-    "margin_top": 25,
-    "margin_right": 6,
-    "margin_bottom": 7
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

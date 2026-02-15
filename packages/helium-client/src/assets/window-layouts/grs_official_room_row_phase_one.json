@@ -1,6 +1,6 @@
 {
   "name": "grs_official_room_row_phase_one",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_grs_official_room_row_phase_one_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboNavigatorCom_grs_official_room_row_phase_one.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -75,7 +75,18 @@
                       "style": "0",
                       "name": "folder_name_text"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter Bold",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "word_wrap": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -107,7 +118,18 @@
                       "name": "arrow_label",
                       "caption": "show"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "underline": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "bitmap",
@@ -266,7 +288,18 @@
                       "name": "picText",
                       "caption": "Lorengdf def fd df df df df dfdf d"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter Bold",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "word_wrap": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -439,7 +472,16 @@
                   "name": "entry_caption",
                   "caption": "PH Room Name: Neque porro quisquam est que"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_face": "Volter Bold",
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -454,7 +496,17 @@
                   "name": "entry_desc",
                   "caption": "PH Room Desc: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_color": 8421504,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "word_wrap": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           }
@@ -462,18 +514,6 @@
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter Bold",
-    "text_color": 8421504,
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "word_wrap": true,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0,
-    "auto_size": "left",
-    "underline": true
-  },
+  "vars": {},
   "filters": []
 }

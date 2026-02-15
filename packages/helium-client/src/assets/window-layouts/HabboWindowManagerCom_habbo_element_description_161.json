@@ -1,0 +1,20 @@
+{
+  "name": "HabboWindowManagerCom_habbo_element_description#161",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_habbo_element_description.xml",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {
+      "type": "button",
+      "intent": "landing view",
+      "style": "100",
+      "renderer": "skin",
+      "asset": "illumina_light_skin_button_xml",
+      "window_layout": "illumina_light_button_xml",
+      "layout": "illumina_light_button"
+    },
+    "children": []
+  },
+  "vars": {},
+  "filters": []
+}

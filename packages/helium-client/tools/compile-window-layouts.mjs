@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const repoRoot = path.resolve(__dirname, '..', '..', '..');
 
-const DEFAULT_INPUT = path.resolve(repoRoot, 'sources', 'win63_2021_version', 'binaryData');
+const DEFAULT_INPUT = path.resolve(repoRoot, 'sources', 'win63_2021_version', 'binaryDataXml');
 const DEFAULT_OUTPUT = path.resolve(__dirname, '../src/assets/window-layouts');
 
 /**
@@ -405,7 +405,24 @@ function buildNode(element)
             {
                 node.params = resolveParams(child);
             }
-            else if (child.nodeName !== 'variables' && child.nodeName !== 'filters')
+            else if (child.nodeName === 'variables')
+            {
+                // Parse per-window variables (asset_uri, pivot_point, etc.)
+                if (!node.vars) node.vars = {};
+
+                Array.from(child.childNodes)
+                    .filter((v) => v.nodeType === v.ELEMENT_NODE && v.nodeName === 'var')
+                    .forEach((v) =>
+                    {
+                        const parsed = parseVarNode(v);
+                        node.vars[parsed.key] = parsed.value;
+                    });
+            }
+            else if (child.nodeName === 'filters')
+            {
+                node.filters = parseFilters(child);
+            }
+            else
             {
                 node.children.push(buildNode(child));
             }
@@ -435,35 +452,35 @@ function compileLayout(xml, sourcePath, outDir)
         ? Array.from(layoutElements[0].getElementsByTagName('window'))
         : Array.from(document.getElementsByTagName('window'));
 
-    const variablesContainers = layoutElements.length > 0
-        ? Array.from(layoutElements[0].getElementsByTagName('variables'))
-        : Array.from(document.getElementsByTagName('variables'));
+    // Collect layout-level variables and filters (DIRECT children of <layout> only,
+    // not nested per-window variables which are now included in each node's vars).
+    const layoutRoot = layoutElements.length > 0 ? layoutElements[0] : document.documentElement;
 
-    const filterContainers = layoutElements.length > 0
-        ? Array.from(layoutElements[0].getElementsByTagName('filters'))
-        : Array.from(document.getElementsByTagName('filters'));
-
-    variablesContainers.forEach((container) =>
-    {
-        Array.from(container.childNodes)
-            .filter((node) => node.nodeType === node.ELEMENT_NODE && node.nodeName === 'var')
-            .forEach((node) =>
+    Array.from(layoutRoot.childNodes)
+        .filter((node) => node.nodeType === node.ELEMENT_NODE)
+        .forEach((node) =>
+        {
+            if (node.nodeName === 'variables')
             {
-                const parsed = parseVarNode(node);
-                vars[parsed.key] = parsed.value;
-            });
-    });
-
-    filterContainers.forEach((container) =>
-    {
-        filters.push(...parseFilters(container));
-    });
+                Array.from(node.childNodes)
+                    .filter((v) => v.nodeType === v.ELEMENT_NODE && v.nodeName === 'var')
+                    .forEach((v) =>
+                    {
+                        const parsed = parseVarNode(v);
+                        vars[parsed.key] = parsed.value;
+                    });
+            }
+            else if (node.nodeName === 'filters')
+            {
+                filters.push(...parseFilters(node));
+            }
+        });
 
     windowElements.forEach((element, index) =>
     {
         const layoutName = (layoutElements[0] && layoutElements[0].getAttribute('name'))
             || element.getAttribute('name')
-            || path.basename(sourcePath, '.bin');
+            || path.basename(sourcePath, '.xml');
 
         layouts.push({
             name: layoutName + (windowElements.length > 1 ? `#${index}` : ''),
@@ -496,7 +513,7 @@ function findBinFiles(dir, filter)
         {
             files.push(...findBinFiles(fullPath, filter));
         }
-        else if (entry.isFile() && entry.name.toLowerCase().endsWith('_xml.bin'))
+        else if (entry.isFile() && entry.name.toLowerCase().endsWith('.xml'))
         {
             if (!filter || entry.name.includes(filter))
             {
@@ -515,7 +532,7 @@ function main()
 
     if (binFiles.length === 0)
     {
-        console.warn('No .bin files found matching the provided criteria.');
+        console.warn('No .xml files found matching the provided criteria.');
         return;
     }
 

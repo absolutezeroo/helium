@@ -1,6 +1,6 @@
 {
   "name": "EntryArrows",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboentry_arrows_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboQuestEngineCom_entry_arrows.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,7 +31,10 @@
               "style": "0",
               "name": "arrow_0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.questing.url}quest_arrow1.png"
+            }
           },
           {
             "tag": "static_bitmap",
@@ -45,14 +48,15 @@
               "style": "0",
               "name": "arrow_1"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.questing.url}quest_arrow2.png"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.questing.url}quest_arrow2.png"
-  },
+  "vars": {},
   "filters": []
 }

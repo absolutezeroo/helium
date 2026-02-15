@@ -1,6 +1,6 @@
 {
   "name": "inventory_subwindow_play_preview",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboplaylisteditor_inventory_subwindow_play_preview_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_playlisteditor_inventory_subwindow_play_preview.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -47,7 +47,16 @@
               "style": "0",
               "caption": "${playlist.editor.text.preview.playing.for.you}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "auto_size": "left",
+              "font_face": "Ubuntu",
+              "font_size": 20,
+              "text_style": "bold",
+              "mouse_wheel_enabled": false,
+              "bold": true
+            }
           },
           {
             "tag": "text",
@@ -62,7 +71,13 @@
               "name": "preview_play_track_name",
               "caption": "preview_track_name"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "font_face": "Ubuntu",
+              "font_size": 18,
+              "mouse_wheel_enabled": false
+            }
           },
           {
             "tag": "text",
@@ -77,7 +92,13 @@
               "name": "preview_play_author_name",
               "caption": "preview_author_name"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "font_face": "Ubuntu",
+              "font_size": 16,
+              "mouse_wheel_enabled": false
+            }
           },
           {
             "tag": "bitmap",
@@ -91,7 +112,10 @@
               "style": "0",
               "name": "song_name_icon_bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "bitmap_asset_name": "jb_icon_disc"
+            }
           },
           {
             "tag": "bitmap",
@@ -105,7 +129,10 @@
               "style": "0",
               "name": "author_name_icon_bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "bitmap_asset_name": "jb_icon_composer"
+            }
           },
           {
             "tag": "button_thick",
@@ -127,15 +154,6 @@
       }
     ]
   },
-  "vars": {
-    "antialias_type": "advanced",
-    "auto_size": "left",
-    "font_face": "Ubuntu",
-    "font_size": 16,
-    "text_style": "bold",
-    "mouse_wheel_enabled": false,
-    "bold": true,
-    "bitmap_asset_name": "jb_icon_composer"
-  },
+  "vars": {},
   "filters": []
 }

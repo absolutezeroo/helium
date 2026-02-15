@@ -1,6 +1,6 @@
 {
   "name": "roc_create_room",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_roc_create_room_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboNavigatorCom_roc_create_room.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -50,7 +50,17 @@
                   "name": "create_room_caption",
                   "caption": "${navigator.roomname}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_face": "Volter Bold",
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "input",
@@ -66,7 +76,17 @@
                   "caption": "PH Room Name Info",
                   "background": "true"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "always_show_selection": true,
+                  "border": true,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -81,7 +101,17 @@
                   "name": "create_desc_caption",
                   "caption": "${navigator.roomdesc}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_face": "Volter Bold",
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "input",
@@ -97,7 +127,19 @@
                   "caption": "PH Room Desc",
                   "background": "true"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "always_show_selection": true,
+                  "border": true,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "word_wrap": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -112,7 +154,17 @@
                   "name": "create_category_caption",
                   "caption": "${navigator.category}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_face": "Volter Bold",
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "dropmenu",
@@ -141,7 +193,17 @@
                   "name": "create_visitors_caption",
                   "caption": "${navigator.maxvisitors}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_face": "Volter Bold",
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "dropmenu",
@@ -170,7 +232,17 @@
                   "name": "create_trade_caption",
                   "caption": "${navigator.tradesettings}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_face": "Volter Bold",
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "dropmenu",
@@ -264,7 +336,10 @@
                   "name": "scroller",
                   "caption": "${navigator.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "scrollable": "layout_item_list"
+                }
               },
               {
                 "tag": "text",
@@ -279,42 +354,41 @@
                   "name": "choose_layout_caption",
                   "caption": "${navigator.createroom.chooselayoutcaption}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_face": "Volter Bold",
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 6,
+          "margin_top": 25,
+          "margin_right": 6,
+          "margin_bottom": 7
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "font_face": "Volter Bold",
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0,
-    "always_show_selection": true,
-    "border": true,
-    "multiline": true,
-    "word_wrap": true,
-    "scrollable": "layout_item_list",
-    "margin_left": 6,
-    "margin_top": 25,
-    "margin_right": 6,
-    "margin_bottom": 7
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

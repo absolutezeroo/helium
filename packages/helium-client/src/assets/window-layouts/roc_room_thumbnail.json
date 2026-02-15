@@ -1,6 +1,6 @@
 {
   "name": "roc_room_thumbnail",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_roc_room_thumbnail_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboNavigatorCom_roc_room_thumbnail.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -62,7 +62,12 @@
               "style": "0",
               "name": "bg_pic"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "pivot_point": "center",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "text",
@@ -79,7 +84,16 @@
               "color": "0xffff000000",
               "background": "true"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "mouse_wheel_enabled": false,
+              "sharpness": 0,
+              "thickness": 0,
+              "kerning": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "bitmap",
@@ -141,17 +155,6 @@
       }
     ]
   },
-  "vars": {
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "auto_size": "left",
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

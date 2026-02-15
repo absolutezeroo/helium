@@ -1,6 +1,6 @@
 {
   "name": "trophyWidget",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbotrophy_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_trophy_widget.xml",
   "window": {
     "tag": "window",
     "typeId": -1,

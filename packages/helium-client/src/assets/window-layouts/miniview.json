@@ -1,6 +1,6 @@
 {
   "name": "miniview",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_returnusergifting_miniview_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_returnusergifting_miniview.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -48,7 +48,11 @@
                   "style": "3",
                   "name": "countdown"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "widget_type": "countdown",
+                  "countdown:running": true
+                }
               },
               {
                 "tag": "text",
@@ -62,7 +66,14 @@
                   "style": "100",
                   "caption": "${next.gift.in}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "il_regular_white",
+                  "mouse_wheel_enabled": false,
+                  "bold": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           }
@@ -70,14 +81,6 @@
       }
     ]
   },
-  "vars": {
-    "widget_type": "countdown",
-    "countdown:running": true,
-    "text_style": "il_regular_white",
-    "mouse_wheel_enabled": false,
-    "bold": true,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

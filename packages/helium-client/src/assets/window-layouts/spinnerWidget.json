@@ -1,6 +1,6 @@
 {
   "name": "spinnerWidget",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbospinner_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_spinner_widget.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,7 +33,16 @@
               "caption": "${catalog.bundlewidget.spinner.select.amount}",
               "color": "0x00"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "text_style": "u_small",
+              "margin_right": 4,
+              "mouse_wheel_enabled": false,
+              "bold": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "container_button",
@@ -109,20 +118,20 @@
               "caption": "1",
               "color": "0x00"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "text_style": "u_small",
+              "margin_right": 4,
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "text_style": "u_small",
-    "margin_right": 4,
-    "mouse_wheel_enabled": false,
-    "bold": true,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

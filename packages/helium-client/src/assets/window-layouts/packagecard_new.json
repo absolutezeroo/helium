@@ -1,6 +1,6 @@
 {
   "name": "packagecard_new",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbopackagecard_new_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_packagecard_new.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -78,7 +78,10 @@
                           "style": "0",
                           "name": "gift_card"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "catalogue_giftcard_blank"
+                        }
                       },
                       {
                         "tag": "container",
@@ -125,7 +128,11 @@
                                 },
                                 "children": []
                               }
-                            ]
+                            ],
+                            "vars": {
+                              "tool_tip_caption": "${widget.furni.present.sender.profile_tooltip}",
+                              "tool_tip_delay": 256
+                            }
                           }
                         ]
                       },
@@ -141,7 +148,17 @@
                           "style": "0",
                           "name": "message_text"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "max_chars": 140,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "max_lines": 5,
+                          "spacing": 0,
+                          "leading": 4
+                        }
                       },
                       {
                         "tag": "link",
@@ -156,7 +173,15 @@
                           "name": "message_from",
                           "treshold": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "right",
+                          "text_style": "u_italic",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0,
+                          "tool_tip_caption": "${widget.furni.present.sender.profile_tooltip}"
+                        }
                       }
                     ]
                   },
@@ -212,7 +237,12 @@
                         },
                         "children": []
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 10,
+                      "scale_to_fit_items": true,
+                      "resize_on_item_update": true
+                    }
                   },
                   {
                     "tag": "container",
@@ -229,43 +259,36 @@
                     },
                     "children": []
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 10,
+                  "scale_to_fit_items": true,
+                  "resize_on_item_update": true
+                }
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 3,
+          "margin_top": 36,
+          "margin_right": 3,
+          "margin_bottom": 3
+        }
       }
     ]
   },
-  "vars": {
-    "asset_uri": "catalogue_giftcard_blank",
-    "tool_tip_caption": "${widget.furni.present.sender.profile_tooltip}",
-    "tool_tip_delay": 256,
-    "text_style": "u_italic",
-    "mouse_wheel_enabled": false,
-    "max_chars": 140,
-    "multiline": true,
-    "word_wrap": true,
-    "max_lines": 5,
-    "spacing": 10,
-    "leading": 0,
-    "auto_size": "right",
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true,
-    "margin_left": 3,
-    "margin_top": 36,
-    "margin_right": 3,
-    "margin_bottom": 3
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

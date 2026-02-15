@@ -1,6 +1,6 @@
 {
   "name": "memenu_clothes",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboAvatarEditorCom_Habboavatar_editor_frame_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboAvatarEditorCom_avatar_editor_frame.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -35,25 +35,27 @@
             },
             "children": []
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 0,
+          "margin_top": 0,
+          "margin_right": 0,
+          "margin_bottom": 0
+        }
       }
     ]
   },
-  "vars": {
-    "margin_left": 0,
-    "margin_top": 0,
-    "margin_right": 0,
-    "margin_bottom": 0
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

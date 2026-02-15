@@ -1,6 +1,6 @@
 {
   "name": "use_product_purchasable_clothing",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_use_product_controller_purchasable_clothing_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_use_product_controller_purchasable_clothing.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -47,7 +47,10 @@
               "style": "3",
               "name": "avatar_preview"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "widget_type": "avatar_image"
+            }
           },
           {
             "tag": "text",
@@ -64,7 +67,15 @@
               "width_min": "200",
               "width_max": "200"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_size": 19,
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "region",
@@ -93,7 +104,14 @@
               "style": "3",
               "caption": "${useproduct.widget.cancel}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_size": 19,
+              "mouse_wheel_enabled": false,
+              "underline": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -110,22 +128,21 @@
               "width_min": "200",
               "width_max": "200"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_size": 19,
+              "text_style": "u_italic",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "widget_type": "avatar_image",
-    "font_size": 19,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "underline": true,
-    "text_style": "u_italic"
-  },
+  "vars": {},
   "filters": []
 }

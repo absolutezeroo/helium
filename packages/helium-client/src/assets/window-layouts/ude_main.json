@@ -1,6 +1,6 @@
 {
   "name": "ude_main",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboUserDefinedRoomEventsCom_ude_main_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboUserDefinedRoomEventsCom_ude_main.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -111,7 +111,14 @@
                       "name": "conf_name_txt",
                       "caption": "filledByserver"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter Bold",
+                      "font_size": 9,
+                      "text_color": 16777215,
+                      "embed_fonts": true,
+                      "word_wrap": true
+                    }
                   },
                   {
                     "tag": "text",
@@ -126,7 +133,14 @@
                       "name": "conf_desc_txt",
                       "caption": "filledByServer"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter",
+                      "font_size": 9,
+                      "text_color": 16777215,
+                      "embed_fonts": true,
+                      "word_wrap": true
+                    }
                   },
                   {
                     "tag": "text",
@@ -143,7 +157,15 @@
                       "width_min": "210",
                       "width_max": "210"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter",
+                      "font_size": 9,
+                      "text_color": 16777215,
+                      "embed_fonts": true,
+                      "auto_size": "center",
+                      "underline": true
+                    }
                   }
                 ]
               },
@@ -192,7 +214,14 @@
                       "name": "caption_txt",
                       "caption": "filledByserver"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter Bold",
+                      "font_size": 9,
+                      "text_color": 16777215,
+                      "embed_fonts": true,
+                      "word_wrap": true
+                    }
                   },
                   {
                     "tag": "text",
@@ -207,7 +236,14 @@
                       "name": "desc_txt",
                       "caption": "filledByServer"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter",
+                      "font_size": 9,
+                      "text_color": 16777215,
+                      "embed_fonts": true,
+                      "word_wrap": true
+                    }
                   }
                 ]
               },
@@ -274,7 +310,13 @@
                       "name": "caption",
                       "caption": "${wiredfurni.pickfurnis.caption}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter Bold",
+                      "font_size": 9,
+                      "text_color": 16777215,
+                      "embed_fonts": true
+                    }
                   },
                   {
                     "tag": "text",
@@ -289,7 +331,15 @@
                       "name": "info",
                       "caption": "${wiredfurni.pickfurnis.desc}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter",
+                      "font_size": 9,
+                      "text_color": 16777215,
+                      "embed_fonts": true,
+                      "multiline": true,
+                      "word_wrap": true
+                    }
                   },
                   {
                     "tag": "text",
@@ -304,7 +354,15 @@
                       "name": "furni_type_matches_txt",
                       "caption": "${wiredfurni.pickfurnis.furnitypematches}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter",
+                      "font_size": 9,
+                      "text_color": 16777215,
+                      "embed_fonts": true,
+                      "multiline": true,
+                      "word_wrap": true
+                    }
                   },
                   {
                     "tag": "container_button",
@@ -410,7 +468,15 @@
                       "name": "delay_desc_txt",
                       "caption": "${wiredfurni.params.delay}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter Bold",
+                      "font_size": 9,
+                      "text_color": 16777215,
+                      "embed_fonts": true,
+                      "mouse_wheel_enabled": true,
+                      "word_wrap": true
+                    }
                   },
                   {
                     "tag": "container",
@@ -476,7 +542,15 @@
                       "width_min": "210",
                       "width_max": "210"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter",
+                      "font_size": 9,
+                      "text_color": 16777215,
+                      "embed_fonts": true,
+                      "auto_size": "center",
+                      "underline": true
+                    }
                   },
                   {
                     "tag": "button",
@@ -520,16 +594,6 @@
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter",
-    "font_size": 9,
-    "text_color": 16777215,
-    "embed_fonts": true,
-    "word_wrap": true,
-    "auto_size": "center",
-    "underline": true,
-    "multiline": true,
-    "mouse_wheel_enabled": true
-  },
+  "vars": {},
   "filters": []
 }

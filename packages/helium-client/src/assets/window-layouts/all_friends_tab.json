@@ -1,6 +1,6 @@
 {
   "name": "all_friends_tab",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_all_friends_tab_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_all_friends_tab.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -62,7 +62,10 @@
                       "style": "0",
                       "name": "icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "bitmap_asset_name": "add_friends_icon_png"
+                    }
                   },
                   {
                     "tag": "text",
@@ -78,35 +81,37 @@
                       "caption": "${friend.bar.friends.title}",
                       "tags": "label"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "antialias_type": "advanced",
+                      "auto_size": "left",
+                      "font_face": "Ubuntu",
+                      "font_size": 18,
+                      "grid_fit_type": "subpixel",
+                      "text_color": 16777215,
+                      "text_style": "headline_medium",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "word_wrap": true,
+                      "bold": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "scale_to_fit_items": true,
+              "resize_on_item_update": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "bitmap_asset_name": "add_friends_icon_png",
-    "antialias_type": "advanced",
-    "auto_size": "left",
-    "font_face": "Ubuntu",
-    "font_size": 18,
-    "grid_fit_type": "subpixel",
-    "text_color": 16777215,
-    "text_style": "headline_medium",
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "word_wrap": true,
-    "bold": true,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true
-  },
+  "vars": {},
   "filters": []
 }

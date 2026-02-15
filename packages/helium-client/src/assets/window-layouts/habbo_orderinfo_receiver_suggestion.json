@@ -1,6 +1,6 @@
 {
   "name": "habbo_orderinfo_receiver_suggestion",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbohabbo_orderinfo_receiver_suggestion_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_habbo_orderinfo_receiver_suggestion.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,19 +33,22 @@
               "color": "0xffffeeeeee",
               "background": "true"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           }
-        ]
+        ],
+        "vars": {
+          "scale_to_fit_items": true,
+          "resize_on_item_update": true
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true
-  },
+  "vars": {},
   "filters": []
 }

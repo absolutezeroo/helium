@@ -1,6 +1,6 @@
 {
   "name": "marketplace_no_credits",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboInventoryCom_marketplace_no_credits_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboInventoryCom_marketplace_no_credits.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -46,7 +46,13 @@
                   "style": "3",
                   "caption": "${inventory.marketplace.no_credits.info}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "mouse_wheel_enabled": false,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "button",
@@ -82,29 +88,27 @@
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 6,
+          "margin_top": 30,
+          "margin_right": 6,
+          "margin_bottom": 7
+        }
       }
     ]
   },
-  "vars": {
-    "mouse_wheel_enabled": false,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "margin_left": 6,
-    "margin_top": 30,
-    "margin_right": 6,
-    "margin_bottom": 7
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

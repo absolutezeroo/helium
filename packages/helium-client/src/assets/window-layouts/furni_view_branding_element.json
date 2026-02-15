@@ -1,6 +1,6 @@
 {
   "name": "furni_view_branding_element",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbofurni_view_branding_element_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_furni_view_branding_element.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -45,7 +45,13 @@
                   "name": "element_name",
                   "caption": "element name"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_face": "Volter Bold",
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "word_wrap": true
+                }
               },
               {
                 "tag": "input",
@@ -60,7 +66,14 @@
                   "name": "element_value",
                   "caption": "element value"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "always_show_selection": true,
+                  "border": true,
+                  "border_color": 16777215,
+                  "text_color": 16777215,
+                  "word_wrap": true
+                }
               }
             ]
           }
@@ -68,14 +81,6 @@
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter Bold",
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "word_wrap": true,
-    "always_show_selection": true,
-    "border": true,
-    "border_color": 16777215
-  },
+  "vars": {},
   "filters": []
 }

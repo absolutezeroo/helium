@@ -1,6 +1,6 @@
 {
   "name": "targeted_offer_purchase_confirmation",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_targeted_offer_purchase_confirmation_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_targeted_offer_purchase_confirmation.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -100,7 +100,17 @@
                                   "name": "product_name",
                                   "caption": "001 lorem ipsum title that wraps around"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "auto_size": "left",
+                                  "font_size": 20,
+                                  "text_style": "u_bold",
+                                  "mouse_wheel_enabled": false,
+                                  "multiline": true,
+                                  "word_wrap": true,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               },
                               {
                                 "tag": "text",
@@ -115,7 +125,15 @@
                                   "name": "quantity",
                                   "caption": ""
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "auto_size": "left",
+                                  "font_size": 20,
+                                  "text_style": "u_bold",
+                                  "mouse_wheel_enabled": false,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               },
                               {
                                 "tag": "itemlist_horizontal",
@@ -141,7 +159,15 @@
                                       "style": "0",
                                       "caption": "${catalog.purchase.confirmation.dialog.cost}"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "auto_size": "left",
+                                      "font_size": 20,
+                                      "text_style": "u_regular",
+                                      "mouse_wheel_enabled": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "container",
@@ -161,7 +187,12 @@
                               }
                             ]
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "spacing": 7,
+                          "scale_to_fit_items": true,
+                          "resize_on_item_update": true
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -174,11 +205,19 @@
                           "params": "16",
                           "style": "3"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "${image.library.url}targetedoffers/coins_diamonds_icon.png"
+                        }
                       }
                     ]
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 5,
+                  "scale_to_fit_items": true,
+                  "resize_on_item_update": true
+                }
               },
               {
                 "tag": "container",
@@ -205,7 +244,15 @@
                       "style": "3",
                       "caption": "${disclaimer.credit_spending}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "checkbox",
@@ -277,40 +324,37 @@
                     },
                     "children": []
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 76
+                }
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 10
+            }
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 1,
+          "margin_top": 25,
+          "margin_right": 1,
+          "margin_bottom": 1
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "font_size": 20,
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 10,
-    "leading": 0,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true,
-    "asset_uri": "${image.library.url}targetedoffers/coins_diamonds_icon.png",
-    "margin_left": 1,
-    "margin_top": 25,
-    "margin_right": 1,
-    "margin_bottom": 1
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "clubBuyWidget",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboclub_buy_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_club_buy_widget.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -61,7 +61,16 @@
               "name": "club_header",
               "caption": "${catalog.club.buy.header}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "text_style": "u_headline_small",
+              "mouse_wheel_enabled": false,
+              "sharpness": 0,
+              "thickness": 0,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -76,7 +85,14 @@
               "name": "club_info",
               "caption": "${catalog.club.buy.info}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "mouse_wheel_enabled": false,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "icon",
@@ -105,7 +121,13 @@
               "name": "club_remaining",
               "caption": "${catalog.club.buy.remaining}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "itemlist_vertical",
@@ -120,7 +142,11 @@
               "name": "item_list_hc",
               "tags": "own_items_grid"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "spacing": 4,
+              "scale_to_fit_items": true
+            }
           },
           {
             "tag": "itemlist_vertical",
@@ -135,7 +161,11 @@
               "name": "item_list_vip",
               "tags": "own_items_grid"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "spacing": 4,
+              "scale_to_fit_items": true
+            }
           },
           {
             "tag": "text",
@@ -151,23 +181,19 @@
               "caption": "${catalog.club.buy.link}",
               "treshold": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "mouse_wheel_enabled": false,
+              "underline": true,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "text_style": "u_headline_small",
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "spacing": 0,
-    "leading": 0,
-    "word_wrap": true,
-    "scale_to_fit_items": true,
-    "underline": true
-  },
+  "vars": {},
   "filters": []
 }

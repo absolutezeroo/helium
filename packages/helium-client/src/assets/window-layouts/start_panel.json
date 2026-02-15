@@ -1,6 +1,6 @@
 {
   "name": "start_panel",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboModerationCom_start_panel_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboModerationCom_start_panel.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -75,7 +75,10 @@
                       "name": "offence_name",
                       "caption": "Room tool for this room"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "il_button"
+                    }
                   },
                   {
                     "tag": "static_bitmap",
@@ -88,7 +91,13 @@
                       "params": "16",
                       "style": "100"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "roomtools_history_open_icon",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               },
@@ -134,7 +143,10 @@
                       "name": "offence_name",
                       "caption": "Chatlog for this room"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "il_button"
+                    }
                   },
                   {
                     "tag": "static_bitmap",
@@ -147,7 +159,13 @@
                       "params": "16",
                       "style": "100"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "roomtools_chat_history",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               },
@@ -193,7 +211,10 @@
                       "name": "offence_name",
                       "caption": "User info:"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "il_button"
+                    }
                   },
                   {
                     "tag": "static_bitmap",
@@ -206,7 +227,13 @@
                       "params": "16",
                       "style": "100"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "placeholder_avatar_small_head_cropped_png",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               },
@@ -252,7 +279,10 @@
                       "name": "offence_name",
                       "caption": "Ticket browser"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "il_button"
+                    }
                   },
                   {
                     "tag": "static_bitmap",
@@ -265,36 +295,39 @@
                       "params": "16",
                       "style": "100"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "tools_file_icon",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 6,
+          "margin_top": 25,
+          "margin_right": 6,
+          "margin_bottom": 7
+        }
       }
     ]
   },
-  "vars": {
-    "text_style": "il_button",
-    "asset_uri": "tools_file_icon",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "margin_left": 6,
-    "margin_top": 25,
-    "margin_right": 6,
-    "margin_bottom": 7
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

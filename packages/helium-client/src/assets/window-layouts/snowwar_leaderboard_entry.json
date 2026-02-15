@@ -1,6 +1,6 @@
 {
   "name": "snowwar_leaderboard_entry",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habbosnowwar_leaderboard_entry_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboGamesCom_snowwar_leaderboard_entry.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,7 +32,10 @@
               "name": "highlight",
               "tags": "bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "bitmap_asset_name": "leaderboard_highlighter"
+            }
           },
           {
             "tag": "text",
@@ -47,7 +50,17 @@
               "name": "rank",
               "caption": "12345"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "auto_size": "center",
+              "font_face": "Ubuntu",
+              "font_size": 21,
+              "text_color": 1079212,
+              "mouse_wheel_enabled": false,
+              "bold": true,
+              "spacing": 0.5
+            }
           },
           {
             "tag": "region",
@@ -92,7 +105,15 @@
               "name": "name",
               "caption": "PlayerName"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "auto_size": "left",
+              "font_face": "Ubuntu",
+              "font_size": 21,
+              "text_color": 1079212,
+              "mouse_wheel_enabled": false
+            }
           },
           {
             "tag": "text",
@@ -107,7 +128,17 @@
               "name": "score",
               "caption": "999999"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "auto_size": "left",
+              "font_face": "Ubuntu",
+              "font_size": 21,
+              "text_color": 1079212,
+              "mouse_wheel_enabled": false,
+              "bold": true,
+              "spacing": 0.5
+            }
           },
           {
             "tag": "bitmap",
@@ -122,22 +153,15 @@
               "name": "divider",
               "tags": "bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "bitmap_asset_name": "leaderboard_divider"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "bitmap_asset_name": "leaderboard_divider",
-    "antialias_type": "advanced",
-    "auto_size": "left",
-    "font_face": "Ubuntu",
-    "font_size": 21,
-    "text_color": 1079212,
-    "mouse_wheel_enabled": false,
-    "bold": true,
-    "spacing": 0.5
-  },
+  "vars": {},
   "filters": []
 }

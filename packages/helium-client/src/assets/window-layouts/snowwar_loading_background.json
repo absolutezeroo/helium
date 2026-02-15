@@ -1,6 +1,6 @@
 {
   "name": "snowwar_loading_background",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_snowwar_loading_background_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboGamesCom_snowwar_loading_background.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,7 +33,10 @@
               "name": "sky",
               "tags": "bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "bitmap_asset_name": "bg_sky"
+            }
           },
           {
             "tag": "bitmap",
@@ -48,7 +51,10 @@
               "name": "sunshine",
               "tags": "bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "bitmap_asset_name": "bg_sunshine"
+            }
           },
           {
             "tag": "bitmap",
@@ -63,7 +69,10 @@
               "name": "vista_1",
               "tags": "bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "bitmap_asset_name": "bg_vista_1"
+            }
           },
           {
             "tag": "bitmap",
@@ -78,7 +87,10 @@
               "name": "vista_2",
               "tags": "bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "bitmap_asset_name": "bg_vista_2"
+            }
           },
           {
             "tag": "bitmap",
@@ -93,14 +105,15 @@
               "name": "vista_3",
               "tags": "bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "bitmap_asset_name": "bg_vista_3"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "bitmap_asset_name": "bg_vista_3"
-  },
+  "vars": {},
   "filters": []
 }

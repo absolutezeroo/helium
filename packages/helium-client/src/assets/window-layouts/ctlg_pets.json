@@ -1,6 +1,6 @@
 {
   "name": "ctlg_pets",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_pets_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_old_layout_pets.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -60,7 +60,14 @@
                   "name": "ctlg_text_1",
                   "caption": "${lorem.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "u_small",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -75,7 +82,14 @@
                   "name": "ctlg_text_2",
                   "caption": "${lorem.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "u_small",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -90,7 +104,14 @@
                   "name": "ctlg_text_3",
                   "caption": "${lorem.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "u_small",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "dropmenu",
@@ -133,7 +154,14 @@
                       "name": "name_input_text",
                       "caption": "input"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "always_show_selection": true,
+                      "mouse_wheel_enabled": false,
+                      "max_chars": 15,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -222,7 +250,14 @@
                   "name": "pet_breed_text",
                   "caption": "${lorem.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -237,7 +272,14 @@
                   "name": "ctlg_text_3",
                   "caption": "${lorem.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "text_style": "u_small",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container",
@@ -266,7 +308,14 @@
                   "name": "ctlg_text_2",
                   "caption": "${lorem.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "text_style": "u_small",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "border",
@@ -295,7 +344,14 @@
                       "name": "name_input_text",
                       "caption": "${lorem.title}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "always_show_selection": true,
+                      "mouse_wheel_enabled": false,
+                      "max_chars": 16,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -343,22 +399,21 @@
               "caption": "0",
               "visible": "false"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "right",
+              "text_style": "u_small",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "right",
-    "text_style": "u_small",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "always_show_selection": true,
-    "max_chars": 16,
-    "multiline": true,
-    "word_wrap": true
-  },
+  "vars": {},
   "filters": []
 }

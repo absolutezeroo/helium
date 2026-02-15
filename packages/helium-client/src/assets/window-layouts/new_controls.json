@@ -1,6 +1,6 @@
 {
   "name": "new_controls",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_new_controls_piece_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_new_controls_piece.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -48,7 +48,13 @@
                   "treshold": "0",
                   "tags": "#icon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "friend_bar_friendlist_chat",
+                  "stretched_x": false,
+                  "stretched_y": false,
+                  "etching_color": 1207959552
+                }
               }
             ]
           },
@@ -81,7 +87,13 @@
                   "treshold": "0",
                   "tags": "#icon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "friend_bar_friendlist_eye",
+                  "stretched_x": false,
+                  "stretched_y": false,
+                  "etching_color": 1207959552
+                }
               }
             ]
           },
@@ -113,7 +125,12 @@
                   "style": "3",
                   "treshold": "0"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "friend_bar_friendlist_go_room",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               }
             ]
           }
@@ -121,11 +138,6 @@
       }
     ]
   },
-  "vars": {
-    "asset_uri": "friend_bar_friendlist_go_room",
-    "stretched_x": false,
-    "stretched_y": false,
-    "etching_color": 1207959552
-  },
+  "vars": {},
   "filters": []
 }

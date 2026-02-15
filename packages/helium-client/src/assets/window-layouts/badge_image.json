@@ -1,6 +1,6 @@
 {
   "name": "badge_image",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_balloon_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_balloon.xml",
   "window": {
     "tag": "window",
     "typeId": -1,

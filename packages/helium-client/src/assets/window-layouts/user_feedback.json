@@ -1,6 +1,6 @@
 {
   "name": "user_feedback",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_user_feedback_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboHelpCom_user_feedback.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -58,7 +58,13 @@
                       "params": "16",
                       "style": "100"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "help_guide_icon",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   },
                   {
                     "tag": "itemlist_vertical",
@@ -87,7 +93,16 @@
                           "treshold": "0",
                           "width_max": "130"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_style": "il_heading_2",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0,
+                          "tool_tip_caption": "${guide.help.common.profile.tooltip}",
+                          "tool_tip_delay": 256
+                        }
                       },
                       {
                         "tag": "text",
@@ -103,11 +118,20 @@
                           "caption": "${guide.help.request.user.feedback.guide.desc}",
                           "width_max": "130"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 5
+                }
               },
               {
                 "tag": "link",
@@ -123,7 +147,16 @@
                   "caption": "${guide.help.common.report.link}",
                   "treshold": "0"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "right",
+                  "mouse_wheel_enabled": false,
+                  "underline": true,
+                  "spacing": 0,
+                  "leading": 0,
+                  "tool_tip_caption": "${guide.help.common.report.link.tooltip}",
+                  "tool_tip_delay": 256
+                }
               }
             ]
           },
@@ -153,7 +186,14 @@
                   "style": "100",
                   "caption": "${guide.help.request.user.feedback.closed.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "il_heading_2",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -167,7 +207,16 @@
                   "style": "100",
                   "caption": "${guide.help.request.user.feedback.closed.desc}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "margin_bottom": 10,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "widget",
@@ -180,7 +229,10 @@
                   "params": "16",
                   "style": "100"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "widget_type": "separator"
+                }
               },
               {
                 "tag": "container",
@@ -205,7 +257,12 @@
                       "params": "0",
                       "style": "100"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "help_user_feedback",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               },
@@ -221,7 +278,16 @@
                   "style": "100",
                   "caption": "${guide.help.request.user.feedback.question}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "il_heading_2",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "itemlist_horizontal",
@@ -274,42 +340,32 @@
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 5
+            }
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 1,
+          "margin_top": 40,
+          "margin_right": 1,
+          "margin_bottom": 1
+        }
       }
     ]
   },
-  "vars": {
-    "asset_uri": "help_user_feedback",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "auto_size": "left",
-    "text_style": "il_heading_2",
-    "mouse_wheel_enabled": false,
-    "spacing": 5,
-    "leading": 0,
-    "tool_tip_caption": "${guide.help.common.report.link.tooltip}",
-    "tool_tip_delay": 256,
-    "underline": true,
-    "margin_bottom": 1,
-    "multiline": true,
-    "word_wrap": true,
-    "widget_type": "separator",
-    "margin_left": 1,
-    "margin_top": 40,
-    "margin_right": 1
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

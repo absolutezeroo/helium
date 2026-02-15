@@ -1,6 +1,6 @@
 {
   "name": "trophy_general",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbotrophy_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_trophy.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -34,7 +34,10 @@
               "name": "trophy_bg",
               "caption": "trophy_bg"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "handle_bitmap_disposing": false
+            }
           },
           {
             "tag": "text",
@@ -49,7 +52,14 @@
               "name": "greeting",
               "caption": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sit amet justo sagittis orci dapibus semper sagittis id neque. Nunc sed quam vitae felis semper neque. Nunc sed quam vitae felis semper neque. Nunc sed quam vitae felis semper neque. Nunc sed quam vitae felis semper neque. Nunc sed quam vitae felis semper  semper  semper  semper  semper  semper  semper  sempeaaaaaa"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "font_face": "Ubuntu",
+              "font_size": 18,
+              "mouse_wheel_enabled": false,
+              "word_wrap": true
+            }
           },
           {
             "tag": "text",
@@ -64,7 +74,15 @@
               "name": "date",
               "caption": "da.te."
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "font_face": "Ubuntu",
+              "font_size": 18,
+              "mouse_wheel_enabled": false,
+              "word_wrap": true,
+              "bold": true
+            }
           },
           {
             "tag": "text",
@@ -79,7 +97,15 @@
               "name": "name",
               "caption": "kateislonger"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "auto_size": "left",
+              "font_face": "Ubuntu",
+              "font_size": 18,
+              "mouse_wheel_enabled": false,
+              "bold": true
+            }
           },
           {
             "tag": "region",
@@ -127,7 +153,15 @@
                   "caption": "${widget.furni.trophy.title}",
                   "color": "0x00"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "center",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "mouse_wheel_enabled": false,
+                  "bold": true
+                }
               }
             ]
           }
@@ -135,15 +169,6 @@
       }
     ]
   },
-  "vars": {
-    "handle_bitmap_disposing": false,
-    "antialias_type": "advanced",
-    "font_face": "Ubuntu",
-    "font_size": 18,
-    "mouse_wheel_enabled": false,
-    "word_wrap": true,
-    "bold": true,
-    "auto_size": "center"
-  },
+  "vars": {},
   "filters": []
 }

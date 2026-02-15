@@ -1,6 +1,6 @@
 {
   "name": "safety_quiz_promo",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_safety_quiz_promo_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_safety_quiz_promo.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -45,7 +45,11 @@
               "style": "100",
               "caption": "${safety.promo.widget.title}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "il_heading_1",
+              "text_color": 10158080
+            }
           },
           {
             "tag": "text",
@@ -59,7 +63,14 @@
               "style": "100",
               "caption": "${safety.promo.widget.message}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "mouse_wheel_enabled": false,
+              "bold": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "button",
@@ -88,7 +99,12 @@
               "style": "100",
               "name": "avatar"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "widget_type": "avatar_image",
+              "avatar_image:only_head": true,
+              "avatar_image:direction": "south"
+            }
           },
           {
             "tag": "static_bitmap",
@@ -101,27 +117,18 @@
               "params": "16",
               "style": "100"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "help_bandaid",
+              "pivot_point": "bottom center",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "text_style": "il_heading_1",
-    "text_color": 10158080,
-    "auto_size": "left",
-    "mouse_wheel_enabled": false,
-    "bold": true,
-    "spacing": 0,
-    "leading": 0,
-    "widget_type": "avatar_image",
-    "avatar_image:only_head": true,
-    "avatar_image:direction": "south",
-    "asset_uri": "help_bandaid",
-    "pivot_point": "bottom center",
-    "stretched_x": false,
-    "stretched_y": false
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "relationship_chooser",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendListCom_relationship_chooser_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendListCom_relationship_chooser.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -61,7 +61,12 @@
                       "style": "100",
                       "name": "image"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "relationship_status_none",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               },
@@ -93,7 +98,12 @@
                       "style": "100",
                       "name": "image"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "relationship_status_heart",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               },
@@ -125,7 +135,12 @@
                       "style": "100",
                       "name": "image"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "relationship_status_smile",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               },
@@ -157,23 +172,26 @@
                       "style": "100",
                       "name": "image"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "relationship_status_bobba",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 1,
+              "scale_to_fit_items": true,
+              "resize_on_item_update": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "relationship_status_bobba",
-    "stretched_x": false,
-    "stretched_y": false,
-    "spacing": 1,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "photo_purchase_confirmation",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_photo_purchase_confirmation_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_photo_purchase_confirmation.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -75,7 +75,15 @@
                       "name": "loadingText",
                       "caption": "${camera.loading}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "font_size": 54,
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "bitmap",
@@ -107,7 +115,15 @@
                   "name": "status_info",
                   "caption": "${camera.purchase.pleasewait}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "border",
@@ -155,7 +171,18 @@
                           "caption": "${camera.competition.header}",
                           "width_max": "191"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "font_size": 20,
+                          "text_color": 16777215,
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "html",
@@ -170,9 +197,24 @@
                           "name": "competition_info",
                           "caption": "${camera.competition.info}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_color": 16777215,
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0,
+                          "editable": false,
+                          "selectable": false
+                        }
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 2,
+                      "scale_to_fit_items": true,
+                      "resize_on_item_update": true
+                    }
                   },
                   {
                     "tag": "button",
@@ -241,7 +283,17 @@
                           "name": "product_name",
                           "caption": "${camera.purchase.header}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "font_size": 20,
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -257,7 +309,15 @@
                           "caption": "X 123",
                           "visible": "false"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "font_size": 20,
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "itemlist_horizontal",
@@ -285,7 +345,15 @@
                               "name": "cost_info",
                               "caption": "${catalog.purchase.confirmation.dialog.cost}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "font_size": 20,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -299,7 +367,15 @@
                               "style": "0",
                               "name": "purchase_credit_cost_text"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "font_size": 20,
+                              "text_style": "u_bold",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "icon",
@@ -327,7 +403,15 @@
                               "style": "0",
                               "name": "purchase_ducket_cost_text"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "font_size": 20,
+                              "text_style": "u_bold",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "icon",
@@ -372,7 +456,15 @@
                               "name": "purchase_count_info",
                               "caption": "${camera.purchase.count.info}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "font_size": 20,
+                              "text_style": "u_bold",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -387,7 +479,15 @@
                               "name": "purchase_count",
                               "caption": "0"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "font_size": 20,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "link",
@@ -403,11 +503,22 @@
                               "caption": "${camera.open.inventory}",
                               "treshold": "0"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "mouse_wheel_enabled": false,
+                              "underline": true,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 2,
+                      "scale_to_fit_items": true,
+                      "resize_on_item_update": true
+                    }
                   },
                   {
                     "tag": "button",
@@ -475,7 +586,17 @@
                           "name": "publish_explanation",
                           "caption": "${camera.publish.explanation}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "font_size": 20,
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -491,7 +612,14 @@
                           "caption": "${camera.publish.detailed.explanation}",
                           "width_max": "191"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "itemlist_horizontal",
@@ -519,7 +647,15 @@
                               "name": "publish_cost_info",
                               "caption": "${catalog.purchase.confirmation.dialog.cost}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "font_size": 20,
+                              "text_style": "u_regular",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -533,7 +669,15 @@
                               "style": "0",
                               "name": "publish_ducket_cost_text"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "font_size": 20,
+                              "text_style": "u_bold",
+                              "mouse_wheel_enabled": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "icon",
@@ -579,7 +723,13 @@
                               "caption": "${camera.link.to.published}",
                               "treshold": "0"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "mouse_wheel_enabled": false,
+                              "underline": true,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -633,7 +783,15 @@
                       "name": "removal_disclaimer",
                       "caption": "${camera.warning.disclaimer}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -663,7 +821,15 @@
                       "name": "spending_disclaimer_text",
                       "caption": "${disclaimer.credit_spending}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "checkbox",
@@ -717,41 +883,33 @@
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 6,
+              "scale_to_fit_items": true
+            }
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 0,
+          "margin_top": 0,
+          "margin_right": 5,
+          "margin_bottom": 8
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "font_size": 20,
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "spacing": 6,
-    "leading": 0,
-    "multiline": true,
-    "word_wrap": true,
-    "text_style": "u_bold",
-    "editable": false,
-    "selectable": false,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true,
-    "underline": true,
-    "margin_left": 0,
-    "margin_top": 0,
-    "margin_right": 5,
-    "margin_bottom": 8
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

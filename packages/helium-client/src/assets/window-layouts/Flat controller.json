@@ -1,6 +1,6 @@
 {
   "name": "Flat controller",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_ros_flat_controller_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboNavigatorCom_ros_flat_controller.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -79,7 +79,10 @@
                 },
                 "children": []
               }
-            ]
+            ],
+            "vars": {
+              "tool_tip_caption": "${group.members.showinfo}"
+            }
           },
           {
             "tag": "text",
@@ -95,7 +98,14 @@
               "caption": "User name PH",
               "color": "0x00"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "text_style": "u_regular",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "static_bitmap",
@@ -109,20 +119,15 @@
               "style": "0",
               "name": "arrow_icon"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.url}Events/arrow_move_right.png"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "tool_tip_caption": "${group.members.showinfo}",
-    "auto_size": "left",
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "asset_uri": "${image.library.url}Events/arrow_move_right.png"
-  },
+  "vars": {},
   "filters": []
 }

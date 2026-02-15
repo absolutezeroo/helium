@@ -1,6 +1,6 @@
 {
   "name": "gridItem_with_price_multi",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbogrid_item_with_price_multi_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_grid_item_with_price_multi.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -106,7 +106,10 @@
                   "visible": "false",
                   "background": "true"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "unique_item_label_1"
+                }
               },
               {
                 "tag": "bitmap",
@@ -120,7 +123,12 @@
                   "style": "0",
                   "name": "image"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "widget",
@@ -135,7 +143,10 @@
                   "name": "unique_item_overlay_container",
                   "visible": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "widget_type": "limited_item_overlay_grid"
+                }
               },
               {
                 "tag": "icon",
@@ -163,7 +174,18 @@
                   "style": "0",
                   "name": "bundleCounter"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_face": "Volter Bold",
+                  "text_color": 13421670,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "border",
@@ -191,7 +213,17 @@
                       "style": "0",
                       "name": "multiCounter"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_color": 13421670,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -207,7 +239,10 @@
                   "style": "0",
                   "name": "badge_add_on"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "handle_bitmap_disposing": false
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -222,7 +257,10 @@
                   "name": "unique_item_sold_out_bitmap",
                   "visible": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "unique_item_sold_out_tile"
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -237,7 +275,10 @@
                   "visible": "false",
                   "tags": "ITEM_HILIGHT_TOP"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "inventory_thumb_selected_outline"
+                }
               }
             ]
           },
@@ -267,7 +308,15 @@
                   "name": "amount_text_left",
                   "caption": "00"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "grid_fit_type": "subpixel",
+                  "mouse_wheel_enabled": false,
+                  "bold": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "icon",
@@ -283,7 +332,10 @@
                 },
                 "children": []
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 1
+            }
           },
           {
             "tag": "itemlist_horizontal",
@@ -311,7 +363,14 @@
                   "name": "plus",
                   "caption": "+"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "bold": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -326,7 +385,15 @@
                   "name": "amount_text_right",
                   "caption": "00"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "grid_fit_type": "subpixel",
+                  "mouse_wheel_enabled": false,
+                  "bold": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "icon",
@@ -342,30 +409,15 @@
                 },
                 "children": []
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 1
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "inventory_thumb_selected_outline",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "widget_type": "limited_item_overlay_grid",
-    "auto_size": "left",
-    "font_face": "Volter Bold",
-    "text_color": 13421670,
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "kerning": false,
-    "spacing": 1,
-    "leading": 0,
-    "handle_bitmap_disposing": false,
-    "grid_fit_type": "subpixel",
-    "bold": true
-  },
+  "vars": {},
   "filters": []
 }

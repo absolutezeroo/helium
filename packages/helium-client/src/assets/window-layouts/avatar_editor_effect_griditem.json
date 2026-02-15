@@ -1,6 +1,6 @@
 {
   "name": "avatar_editor_effect_griditem",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboAvatarEditorCom_avatar_editor_effect_griditem_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboAvatarEditorCom_avatar_editor_effect_griditem.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,7 +32,13 @@
               "visible": "false",
               "tags": "BG_COLOR"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "avatar_editor_parts_hilite",
+              "pivot_point": "center",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "bitmap",
@@ -49,7 +55,14 @@
               "width_max": "50",
               "height_max": "50"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "handle_bitmap_disposing": false,
+              "pivot_point": "center",
+              "stretched_x": false,
+              "stretched_y": false,
+              "fit_size_to_contents": true
+            }
           },
           {
             "tag": "container",
@@ -94,7 +107,16 @@
                       "name": "effect_amount",
                       "caption": "99"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_color": 15658734,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               }
@@ -128,7 +150,13 @@
                   "style": "0",
                   "name": "progress_bar"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "handle_bitmap_disposing": false,
+                  "stretched_x": false,
+                  "stretched_y": false,
+                  "fit_size_to_contents": true
+                }
               }
             ]
           }
@@ -136,20 +164,6 @@
       }
     ]
   },
-  "vars": {
-    "asset_uri": "avatar_editor_parts_hilite",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "handle_bitmap_disposing": false,
-    "fit_size_to_contents": true,
-    "text_color": 15658734,
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

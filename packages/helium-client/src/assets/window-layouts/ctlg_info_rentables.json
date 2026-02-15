@@ -1,6 +1,6 @@
 {
   "name": "ctlg_info_rentables",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_info_rentables_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_old_layout_info_rentables.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -67,7 +67,11 @@
                           "params": "16",
                           "style": "100"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "toolbar_duckat_icon_0",
+                          "zoom_x": -1
+                        }
                       },
                       {
                         "tag": "formatted_text",
@@ -82,7 +86,15 @@
                           "name": "ctlg_text_1",
                           "caption": "${lorem.html}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -97,7 +109,13 @@
                           "name": "rentables_rulepic1",
                           "tags": "S"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "${image.library.url}catalogue/rentables_rulepic1.gif",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -124,7 +142,11 @@
                           "params": "16",
                           "style": "100"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "toolbar_duckat_icon_0",
+                          "zoom_x": -1
+                        }
                       },
                       {
                         "tag": "formatted_text",
@@ -139,7 +161,15 @@
                           "name": "ctlg_text_2",
                           "caption": "${lorem.html}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -154,7 +184,10 @@
                           "name": "rentables_rulepic2",
                           "tags": "S"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "${image.library.url}catalogue/rentables_rulepic2.gif"
+                        }
                       }
                     ]
                   },
@@ -181,7 +214,11 @@
                           "params": "16",
                           "style": "100"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "toolbar_duckat_icon_0",
+                          "zoom_x": -1
+                        }
                       },
                       {
                         "tag": "formatted_text",
@@ -196,7 +233,15 @@
                           "name": "ctlg_text_3",
                           "caption": "${lorem.html}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -211,7 +256,13 @@
                           "name": "rentables_rulepic3",
                           "tags": "S"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "${image.library.url}catalogue/rentables_rulepic3.gif",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -238,7 +289,11 @@
                           "params": "16",
                           "style": "100"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "toolbar_duckat_icon_0",
+                          "zoom_x": -1
+                        }
                       },
                       {
                         "tag": "formatted_text",
@@ -253,7 +308,15 @@
                           "name": "ctlg_text_4",
                           "caption": "${lorem.html}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -268,7 +331,13 @@
                           "name": "rentables_rulepic4",
                           "tags": "S"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "${image.library.url}catalogue/rentables_rulepic4.gif",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -295,7 +364,11 @@
                           "params": "16",
                           "style": "100"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "toolbar_duckat_icon_0",
+                          "zoom_x": -1
+                        }
                       },
                       {
                         "tag": "formatted_text",
@@ -310,7 +383,15 @@
                           "name": "ctlg_text_5",
                           "caption": "${lorem.html}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -325,11 +406,20 @@
                           "name": "rentables_rulepic5",
                           "tags": "S"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "${image.library.url}catalogue/rentables_rulepic5.gif",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 3
+                }
               }
             ]
           }
@@ -337,18 +427,6 @@
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.url}catalogue/rentables_rulepic5.gif",
-    "zoom_x": -1,
-    "auto_size": "left",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 3,
-    "leading": 0,
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false
-  },
+  "vars": {},
   "filters": []
 }

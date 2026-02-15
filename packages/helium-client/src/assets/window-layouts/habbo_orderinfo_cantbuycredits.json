@@ -1,6 +1,6 @@
 {
   "name": "habbo_orderinfo_cantbuycredits",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbohabbo_orderinfo_cantbuycredits_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_habbo_orderinfo_cantbuycredits.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,7 +32,15 @@
               "name": "habbo_message_text_a",
               "caption": "${shopping_costs}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -47,7 +55,15 @@
               "name": "habbo_message_text_b",
               "caption": "${shopping_mustsubscribe}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "button",
@@ -85,13 +101,6 @@
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

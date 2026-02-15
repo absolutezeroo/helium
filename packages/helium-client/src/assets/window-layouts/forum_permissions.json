@@ -1,6 +1,6 @@
 {
   "name": "forum_permissions",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_groupforum_forum_settings_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_groupforum_forum_settings.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -81,7 +81,10 @@
                       "style": "3",
                       "name": "group_icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "widget_type": "badge_image"
+                    }
                   }
                 ]
               },
@@ -99,7 +102,15 @@
                   "caption": "Super-duper long group title",
                   "clipping": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 36,
+                  "text_color": 16777215,
+                  "text_style": "u_headline_big",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -115,7 +126,14 @@
                   "caption": "Super-duper long goup description, maybe even multiline, but takes a few lines anyway",
                   "clipping": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -147,7 +165,10 @@
                   "style": "3",
                   "caption": "${groupforum.settings.cancel}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_bold"
+                }
               }
             ]
           },
@@ -179,7 +200,11 @@
                   "style": "3",
                   "caption": "${groupforum.settings.ok}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_bold",
+                  "text_color": 16777215
+                }
               }
             ]
           },
@@ -222,7 +247,12 @@
                   "name": "label0",
                   "caption": "${groupforum.permissions.option_all}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -237,7 +267,12 @@
                   "name": "label1",
                   "caption": "${groupforum.permissions.option_group_members}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -252,7 +287,12 @@
                   "name": "label2",
                   "caption": "${groupforum.permissions.option_group_admins}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "selector",
@@ -353,7 +393,12 @@
                   "name": "label0",
                   "caption": "${groupforum.permissions.option_all}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -368,7 +413,12 @@
                   "name": "label1",
                   "caption": "${groupforum.permissions.option_group_members}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -383,7 +433,12 @@
                   "name": "label2",
                   "caption": "${groupforum.permissions.option_group_admins}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -398,7 +453,12 @@
                   "name": "label3",
                   "caption": "${groupforum.permissions.option_owner}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "selector",
@@ -513,7 +573,12 @@
                   "name": "label0",
                   "caption": "${groupforum.permissions.option_all}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -528,7 +593,12 @@
                   "name": "label1",
                   "caption": "${groupforum.permissions.option_group_members}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -543,7 +613,12 @@
                   "name": "label2",
                   "caption": "${groupforum.permissions.option_group_admins}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -558,7 +633,12 @@
                   "name": "label3",
                   "caption": "${groupforum.permissions.option_owner}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "selector",
@@ -673,7 +753,12 @@
                   "name": "label2",
                   "caption": "${groupforum.permissions.option_group_admins}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -688,7 +773,12 @@
                   "name": "label3",
                   "caption": "${groupforum.permissions.option_owner}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "selector",
@@ -736,34 +826,28 @@
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "help_page": "forums",
+          "margin_left": 6,
+          "margin_top": 25,
+          "margin_right": 6,
+          "margin_bottom": 7
+        }
       }
     ]
   },
-  "vars": {
-    "widget_type": "badge_image",
-    "font_size": 36,
-    "text_color": 16777215,
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "word_wrap": true,
-    "help_page": "forums",
-    "margin_left": 6,
-    "margin_top": 25,
-    "margin_right": 6,
-    "margin_bottom": 7
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

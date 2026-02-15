@@ -1,6 +1,6 @@
 {
   "name": "QuestTracker",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboquest_tracker_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboQuestEngineCom_quest_tracker.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,7 +32,12 @@
               "style": "0",
               "name": "quest_tracker_bg"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.questing.url}quest_tracker_with_bar.png",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "container",
@@ -62,7 +67,21 @@
                   "name": "quest_header_txt",
                   "caption": "${quests.tracker.caption}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 19,
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "bold": true,
+                  "kerning": false,
+                  "spacing": -0.4,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -77,7 +96,21 @@
                   "name": "desc_txt",
                   "caption": "Search around hotel and locate this very valuable dino egg jhg jhg jhg jh gjhg jhg jhg jhg jh gjhg jhg jhg jhg jhg jhgjhgjh gjhg jh gjhg jh gjhg jhg jhg jhg jhg jhg"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "word_wrap": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -92,7 +125,22 @@
                   "name": "more_info_txt",
                   "caption": "${quests.tracker.moreinfo}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "text_color": 2344447,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "bold": true,
+                  "underline": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "region",
@@ -122,7 +170,12 @@
                   "style": "0",
                   "name": "quest_pic_bitmap"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -136,7 +189,10 @@
                   "style": "0",
                   "name": "success_pic_1"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.questing.url}checkanim1.png"
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -150,7 +206,10 @@
                   "style": "0",
                   "name": "success_pic_2"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.questing.url}checkanim2.png"
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -164,7 +223,10 @@
                   "style": "0",
                   "name": "success_pic_3"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.questing.url}checkanim3.png"
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -178,7 +240,10 @@
                   "style": "0",
                   "name": "success_pic_4"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.questing.url}checkanim4.png"
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -192,7 +257,10 @@
                   "style": "0",
                   "name": "success_pic_5"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.questing.url}checkanim5.png"
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -206,7 +274,10 @@
                   "style": "0",
                   "name": "success_pic_6"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.questing.url}checkanim6.png"
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -220,7 +291,12 @@
                   "style": "0",
                   "name": "prompt_pic_a"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -234,7 +310,12 @@
                   "style": "0",
                   "name": "prompt_pic_b"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -248,7 +329,12 @@
                   "style": "0",
                   "name": "prompt_pic_c"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -262,7 +348,12 @@
                   "style": "0",
                   "name": "prompt_pic_d"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               }
             ]
           }
@@ -270,26 +361,6 @@
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.questing.url}checkanim6.png",
-    "stretched_x": false,
-    "stretched_y": false,
-    "antialias_type": "advanced",
-    "auto_size": "left",
-    "font_face": "Ubuntu",
-    "font_size": 18,
-    "text_color": 2344447,
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "bold": true,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0,
-    "multiline": true,
-    "word_wrap": true,
-    "underline": true,
-    "pivot_point": "center"
-  },
+  "vars": {},
   "filters": []
 }

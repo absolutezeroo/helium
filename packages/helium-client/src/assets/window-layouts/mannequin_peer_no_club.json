@@ -1,6 +1,6 @@
 {
   "name": "mannequin_peer_no_club",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_mannequin_no_club_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_mannequin_no_club.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -61,7 +61,15 @@
               "name": "description",
               "caption": "${mannequin.widget.clubnotification}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "u_regular",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "sharpness": 80,
+              "thickness": -15,
+              "word_wrap": true
+            }
           },
           {
             "tag": "icon",
@@ -81,13 +89,6 @@
       }
     ]
   },
-  "vars": {
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "sharpness": 80,
-    "thickness": -15,
-    "word_wrap": true
-  },
+  "vars": {},
   "filters": []
 }

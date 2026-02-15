@@ -1,6 +1,6 @@
 {
   "name": "badge_editor",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGroupsCom_Habbobadge_editor_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboGroupsCom_badge_editor.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -45,7 +45,10 @@
                   "name": "guild_badge",
                   "caption": "${group.edit.badge.badge}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_bold"
+                }
               },
               {
                 "tag": "border",
@@ -187,7 +190,10 @@
                       "name": "label_symbol",
                       "caption": "${group.edit.badge.symbol}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "u_bold"
+                    }
                   },
                   {
                     "tag": "label",
@@ -202,7 +208,10 @@
                       "name": "label_position",
                       "caption": "${group.edit.badge.position}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "u_bold"
+                    }
                   },
                   {
                     "tag": "label",
@@ -217,7 +226,10 @@
                       "name": "label_colors",
                       "caption": "${group.edit.badge.colors}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "u_bold"
+                    }
                   }
                 ]
               },
@@ -259,11 +271,20 @@
                           "name": "label_base",
                           "caption": "${group.edit.badge.base}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 80,
+                          "thickness": -15
+                        }
                       }
                     ]
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 2
+                }
               }
             ]
           },
@@ -306,7 +327,10 @@
                       "name": "label_symbol",
                       "caption": "${group.edit.badge.pick.symbol}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "u_bold"
+                    }
                   }
                 ]
               },
@@ -349,7 +373,11 @@
                           "style": "0",
                           "name": "part_select_grid"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "spacing": 2,
+                          "scale_to_fit_items": true
+                        }
                       },
                       {
                         "tag": "scrollbar_vertical",
@@ -363,7 +391,10 @@
                           "style": "0",
                           "name": "part_select_grid_scrollbar"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "scrollable": "part_select_grid"
+                        }
                       }
                     ]
                   }
@@ -375,14 +406,6 @@
       }
     ]
   },
-  "vars": {
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "sharpness": 80,
-    "thickness": -15,
-    "spacing": 2,
-    "scale_to_fit_items": true,
-    "scrollable": "part_select_grid"
-  },
+  "vars": {},
   "filters": []
 }

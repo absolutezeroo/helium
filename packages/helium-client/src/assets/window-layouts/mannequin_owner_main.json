@@ -1,6 +1,6 @@
 {
   "name": "mannequin_owner_main",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_mannequin_controller_main_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_mannequin_controller_main.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,7 +31,15 @@
               "name": "outfit_name_set",
               "background": "true"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "border": true,
+              "font_size": 19,
+              "text_style": "u_regular",
+              "max_chars": 30,
+              "sharpness": 80,
+              "thickness": -15
+            }
           },
           {
             "tag": "bitmap",
@@ -111,13 +119,6 @@
       }
     ]
   },
-  "vars": {
-    "border": true,
-    "font_size": 19,
-    "text_style": "u_regular",
-    "max_chars": 30,
-    "sharpness": 80,
-    "thickness": -15
-  },
+  "vars": {},
   "filters": []
 }

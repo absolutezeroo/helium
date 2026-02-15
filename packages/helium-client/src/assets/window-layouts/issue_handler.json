@@ -1,6 +1,6 @@
 {
   "name": "issue_handler",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboModerationCom_issue_handler_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboModerationCom_issue_handler.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -67,7 +67,11 @@
                   "width_max": "215",
                   "height_max": "20"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_color": 16777215,
+                  "font_size": 11
+                }
               }
             ]
           },
@@ -165,7 +169,10 @@
                   "name": "handle_next_text",
                   "caption": "Automatically open next issue"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_color": 16777215
+                }
               },
               {
                 "tag": "button",
@@ -228,7 +235,17 @@
                       "style": "0",
                       "caption": "Reporter"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter Bold",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -242,7 +259,17 @@
                       "style": "0",
                       "caption": "Category"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter Bold",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -256,7 +283,17 @@
                       "style": "0",
                       "caption": "Type"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter Bold",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -270,7 +307,17 @@
                       "style": "0",
                       "caption": "Open"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_face": "Volter Bold",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -382,7 +429,17 @@
                   "style": "0",
                   "caption": "Caller User Info"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_face": "Volter Bold",
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container",
@@ -411,7 +468,17 @@
                   "style": "0",
                   "caption": "Messages"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_face": "Volter Bold",
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "scrollable_itemlist_vertical",
@@ -443,7 +510,16 @@
                       "color": "0xffffa2d6ea",
                       "background": "true"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "word_wrap": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -460,7 +536,17 @@
                   "name": "reported_user_info_caption",
                   "caption": "Reported User Info"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_face": "Volter Bold",
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container",
@@ -477,7 +563,10 @@
                 },
                 "children": []
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 3
+            }
           },
           {
             "tag": "container",
@@ -523,36 +612,28 @@
                   "name": "scroller",
                   "caption": "Chatlog"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "scrollable": "evidence_list"
+                }
               }
             ]
+          }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "text_color": 16777215,
-    "font_size": 11,
-    "font_face": "Volter Bold",
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "kerning": false,
-    "spacing": 3,
-    "leading": 0,
-    "word_wrap": true,
-    "scrollable": "evidence_list"
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

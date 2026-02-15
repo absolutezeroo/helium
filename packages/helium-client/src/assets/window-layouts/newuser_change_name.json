@@ -1,6 +1,6 @@
 {
   "name": "newuser_change_name",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_welcome_name_selection_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboHelpCom_welcome_name_selection.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,7 +31,14 @@
               "name": "static_info_text",
               "caption": "${tutorial.name_change.info.select}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "il_regular",
+              "mouse_wheel_enabled": false,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "border",
@@ -59,7 +66,17 @@
                   "name": "input",
                   "background": "true"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "always_show_selection": true,
+                  "mouse_wheel_enabled": false,
+                  "max_chars": 15,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -92,7 +109,15 @@
               "style": "0",
               "name": "info_text"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "null",
+              "text_style": "il_regular",
+              "mouse_wheel_enabled": false,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "container",
@@ -144,18 +169,6 @@
       }
     ]
   },
-  "vars": {
-    "text_style": "il_regular",
-    "mouse_wheel_enabled": false,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "always_show_selection": true,
-    "max_chars": 15,
-    "sharpness": 0,
-    "thickness": 0,
-    "kerning": false,
-    "auto_size": "null"
-  },
+  "vars": {},
   "filters": []
 }

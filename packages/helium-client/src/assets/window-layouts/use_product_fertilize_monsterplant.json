@@ -1,6 +1,6 @@
 {
   "name": "use_product_fertilize_monsterplant",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_use_product_controller_fertilize_monsterplant_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_use_product_controller_fertilize_monsterplant.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -77,7 +77,13 @@
                       "name": "plant_name",
                       "caption": "${useproduct.widget.monsterplant.plant.name}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "bitmap",
@@ -110,7 +116,14 @@
                       "name": "plant_rarity_level",
                       "caption": "${useproduct.widget.monsterplant.plant.raritylevel}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "mouse_wheel_enabled": false,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -125,9 +138,20 @@
                       "name": "plant_description",
                       "caption": "${useproduct.widget.monsterplant.plant.description}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "mouse_wheel_enabled": false,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 1,
+                  "resize_on_item_update": true
+                }
               },
               {
                 "tag": "itemlist",
@@ -174,7 +198,15 @@
                       "width_min": "130",
                       "width_max": "130"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "container",
@@ -207,11 +239,28 @@
                       "width_min": "130",
                       "width_max": "130"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_style": "u_italic",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 1,
+                  "resize_on_item_update": true
+                }
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 10,
+              "resize_on_item_update": true
+            }
           },
           {
             "tag": "container",
@@ -275,7 +324,10 @@
                 },
                 "children": []
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 10
+            }
           },
           {
             "tag": "container",
@@ -291,19 +343,13 @@
             },
             "children": []
           }
-        ]
+        ],
+        "vars": {
+          "spacing": 10
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "mouse_wheel_enabled": false,
-    "spacing": 10,
-    "leading": 0,
-    "word_wrap": true,
-    "resize_on_item_update": true,
-    "multiline": true,
-    "text_style": "u_italic"
-  },
+  "vars": {},
   "filters": []
 }

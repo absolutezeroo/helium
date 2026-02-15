@@ -1,6 +1,6 @@
 {
   "name": "chat_history_pulldown",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbochat_history_pulldown_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_chat_history_pulldown.xml",
   "window": {
     "tag": "window",
     "typeId": -1,

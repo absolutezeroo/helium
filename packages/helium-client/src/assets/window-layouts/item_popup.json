@@ -1,6 +1,6 @@
 {
   "name": "item_popup",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboInventoryCom_item_popup_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboInventoryCom_item_popup.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -46,7 +46,16 @@
               "name": "item_name_text",
               "caption": "PH Item name"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "text_style": "u_headline_small",
+              "mouse_wheel_enabled": false,
+              "sharpness": 0,
+              "thickness": 0,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "bitmap",
@@ -74,21 +83,15 @@
               "style": "100",
               "name": "unique_item_overlay_widget"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "widget_type": "limited_item_overlay_preview"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "text_style": "u_headline_small",
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "spacing": 0,
-    "leading": 0,
-    "widget_type": "limited_item_overlay_preview"
-  },
+  "vars": {},
   "filters": []
 }

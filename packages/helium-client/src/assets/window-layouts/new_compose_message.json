@@ -1,6 +1,6 @@
 {
   "name": "new_compose_message",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_groupforum_compose_message_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_groupforum_compose_message.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -80,7 +80,13 @@
                       "style": "3",
                       "name": "group_icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "widget_type": "badge_image",
+                      "badge_image:type": "group",
+                      "badge_image:stretched_x": false,
+                      "badge_image:stretched_y": false
+                    }
                   }
                 ]
               },
@@ -98,7 +104,15 @@
                   "caption": "Super-duper long group title",
                   "clipping": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 36,
+                  "text_color": 16777215,
+                  "text_style": "u_headline_big",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -114,7 +128,14 @@
                   "caption": "Super-duper long goup description, maybe even multiline, but takes a few lines anyway",
                   "clipping": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -161,7 +182,13 @@
                   "caption": "${groupforum.compose.subject}",
                   "color": "0x02767a7"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_color": 15658734,
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "input",
@@ -176,7 +203,19 @@
                   "name": "thread_subject",
                   "background": "true"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "font_face": "Ubuntu",
+                  "font_size": 22,
+                  "text_style": "regular",
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -224,7 +263,20 @@
                   "caption": "${groupforum.compose.message}",
                   "color": "0x02767a7"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "text_color": 15658734,
+                  "text_style": "regular",
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "input",
@@ -240,7 +292,25 @@
                   "color": "0xffffffffff",
                   "background": "true"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "text_style": "regular",
+                  "margin_left": 4,
+                  "margin_top": 4,
+                  "margin_right": 4,
+                  "margin_bottom": 4,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "word_wrap": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "html",
@@ -255,7 +325,16 @@
                   "name": "formatting_help",
                   "caption": "${groupforum.compose.formatting_help}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "right",
+                  "text_style": "id_link_regular",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0,
+                  "editable": false,
+                  "selectable": false
+                }
               }
             ]
           },
@@ -288,7 +367,10 @@
                   "name": "cancel_btn_label",
                   "caption": "${groupforum.compose.cancel}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_bold"
+                }
               }
             ]
           },
@@ -321,7 +403,11 @@
                   "name": "send_message_label",
                   "caption": "${groupforum.compose.post}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_bold",
+                  "text_color": 16777215
+                }
               }
             ]
           },
@@ -338,49 +424,39 @@
               "name": "status_text",
               "caption": "Thread subject should not be empty!"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_size": 17,
+              "grid_fit_type": "subpixel",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "help_page": "forums",
+          "margin_left": 6,
+          "margin_top": 25,
+          "margin_right": 6,
+          "margin_bottom": 2
+        }
       }
     ]
   },
-  "vars": {
-    "widget_type": "badge_image",
-    "badge_image:type": "group",
-    "badge_image:stretched_x": false,
-    "badge_image:stretched_y": false,
-    "font_size": 17,
-    "text_color": 16777215,
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "word_wrap": true,
-    "antialias_type": "advanced",
-    "font_face": "Ubuntu",
-    "sharpness": 0,
-    "thickness": 0,
-    "kerning": false,
-    "margin_left": 6,
-    "margin_top": 25,
-    "margin_right": 6,
-    "margin_bottom": 2,
-    "multiline": true,
-    "auto_size": "right",
-    "editable": false,
-    "selectable": false,
-    "grid_fit_type": "subpixel",
-    "help_page": "forums"
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

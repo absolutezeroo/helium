@@ -1,6 +1,6 @@
 {
   "name": "chatinput_window",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbochatinput_window_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_chatinput_window.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -73,7 +73,13 @@
                           "style": "100",
                           "name": "preview_bitmap"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "handle_bitmap_disposing": false,
+                          "stretched_x": false,
+                          "stretched_y": false,
+                          "fit_size_to_contents": true
+                        }
                       },
                       {
                         "tag": "container",
@@ -150,7 +156,21 @@
                           "treshold": "0",
                           "tags": "FIT:chatInputField"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "always_show_selection": true,
+                          "antialias_type": "advanced",
+                          "font_face": "Ubuntu",
+                          "font_size": 23,
+                          "mouse_wheel_enabled": false,
+                          "max_chars": 100,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0,
+                          "focus_capturer": true
+                        }
                       },
                       {
                         "tag": "text",
@@ -167,7 +187,21 @@
                           "visible": "false",
                           "treshold": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "antialias_type": "advanced",
+                          "font_face": "Ubuntu",
+                          "font_size": 20,
+                          "grid_fit_type": "subpixel",
+                          "text_color": 16711680,
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "bold": true,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "closebutton",
@@ -214,11 +248,38 @@
                           "name": "send_button_text",
                           "caption": "."
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "antialias_type": "advanced",
+                          "auto_size": "left",
+                          "font_face": "Ubuntu",
+                          "font_size": 24,
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "bold": true,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 7,
+                  "scale_to_fit_items": true,
+                  "resize_on_item_update": true
+                }
+              }
+            ],
+            "filters": [
+              {
+                "type": "DropShadowFilter",
+                "attributes": {
+                  "distance": "4",
+                  "alpha": "0.6"
+                }
               }
             ]
           },
@@ -234,50 +295,21 @@
               "style": "0",
               "name": "chatstyles_menu"
             },
-            "children": []
+            "children": [],
+            "filters": [
+              {
+                "type": "DropShadowFilter",
+                "attributes": {
+                  "distance": "4",
+                  "alpha": "0.6"
+                }
+              }
+            ]
           }
         ]
       }
     ]
   },
-  "vars": {
-    "handle_bitmap_disposing": false,
-    "stretched_x": false,
-    "stretched_y": false,
-    "fit_size_to_contents": true,
-    "always_show_selection": true,
-    "antialias_type": "advanced",
-    "font_face": "Ubuntu",
-    "font_size": 24,
-    "mouse_wheel_enabled": false,
-    "max_chars": 100,
-    "sharpness": 0,
-    "thickness": 0,
-    "kerning": false,
-    "spacing": 7,
-    "leading": 0,
-    "focus_capturer": true,
-    "grid_fit_type": "subpixel",
-    "text_color": 16711680,
-    "bold": true,
-    "auto_size": "left",
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.6"
-      }
-    },
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.6"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

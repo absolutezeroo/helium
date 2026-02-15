@@ -1,6 +1,6 @@
 {
   "name": "badge_part_item",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGroupsCom_Habbobadge_part_item_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboGroupsCom_badge_part_item.xml",
   "window": {
     "tag": "window",
     "typeId": -1,

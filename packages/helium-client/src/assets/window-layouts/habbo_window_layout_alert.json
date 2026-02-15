@@ -1,6 +1,6 @@
 {
   "name": "habbo_window_layout_alert",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_window_layout_alert_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_habbo_window_layout_alert.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -30,7 +30,8 @@
               "height": "20",
               "params": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {}
           },
           {
             "tag": "text",
@@ -44,7 +45,8 @@
               "height": "120",
               "params": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {}
           }
         ]
       }

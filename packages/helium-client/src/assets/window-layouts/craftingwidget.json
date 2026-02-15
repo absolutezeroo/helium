@@ -1,6 +1,6 @@
 {
   "name": "craftingwidget",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_craftingwidget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_craftingwidget.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,7 +31,12 @@
               "params": "16",
               "style": "3"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "craft_craft_bg",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "bitmap",
@@ -45,7 +50,14 @@
               "style": "3",
               "name": "furniture_icon"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "pivot_point": "center",
+              "stretched_x": false,
+              "stretched_y": false,
+              "zoom_x": 2,
+              "zoom_y": 2
+            }
           },
           {
             "tag": "text",
@@ -60,7 +72,16 @@
               "name": "header_recipes",
               "caption": "${crafting.title.products}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "font_face": "Ubuntu bold",
+              "font_size": 20,
+              "text_color": 13551542,
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -75,7 +96,16 @@
               "name": "header_inventory",
               "caption": "${crafting.title.mixer}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "font_face": "Ubuntu bold",
+              "font_size": 20,
+              "text_color": 13551542,
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -90,7 +120,17 @@
               "name": "header_mixer",
               "caption": "Spellbook wdfsdf ef ewfwe fwfe wef ewf wefwe"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_face": "Ubuntu bold",
+              "font_size": 17,
+              "text_color": 10264994,
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "itemlist_vertical",
@@ -119,7 +159,18 @@
                   "caption": "This spell will produce yy yy yyyyyyyy yyyyyy yy yyy xxxxxx xxx xxxxx",
                   "width_max": "134"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_face": "Ubuntu bold",
+                  "font_size": 17,
+                  "text_color": 9673114,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -134,9 +185,22 @@
                   "name": "info_text2",
                   "caption": "This spell will produce xxxxxx xxx xxxxx"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 17,
+                  "text_color": 6911351,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 8
+            }
           },
           {
             "tag": "button",
@@ -274,7 +338,12 @@
                       "width_min": "40",
                       "width_max": "40"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   },
                   {
                     "tag": "region",
@@ -322,13 +391,27 @@
                           "background": "true",
                           "tags": "NUMBER,COUNT"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_color": 3107202,
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 4,
+              "scale_to_fit_items": true
+            }
           },
           {
             "tag": "scrollable_itemgrid_vertical",
@@ -342,7 +425,11 @@
               "style": "3",
               "name": "itemgrid_inventory"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "spacing": 4,
+              "scale_to_fit_items": true
+            }
           },
           {
             "tag": "itemgrid_vertical",
@@ -356,42 +443,27 @@
               "style": "3",
               "name": "itemgrid_mixer"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "spacing": 5,
+              "scale_to_fit_items": true
+            }
+          }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "craft_craft_bg",
-    "stretched_x": false,
-    "stretched_y": false,
-    "pivot_point": "center",
-    "zoom_x": 2,
-    "zoom_y": 2,
-    "auto_size": "left",
-    "font_face": "Ubuntu bold",
-    "font_size": 17,
-    "text_color": 3107202,
-    "mouse_wheel_enabled": false,
-    "spacing": 5,
-    "leading": 0,
-    "multiline": true,
-    "word_wrap": true,
-    "sharpness": 0,
-    "thickness": 0,
-    "kerning": false,
-    "scale_to_fit_items": true
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

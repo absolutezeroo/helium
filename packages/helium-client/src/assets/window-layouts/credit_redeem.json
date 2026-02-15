@@ -1,6 +1,6 @@
 {
   "name": "credit_redeem",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbocredit_redeem_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_credit_redeem.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -79,7 +79,12 @@
                   "name": "exchange_text",
                   "caption": "${widgets.furniture.credit.redeem.value}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_face": "Volter Bold",
+                  "mouse_wheel_enabled": false,
+                  "word_wrap": true
+                }
               },
               {
                 "tag": "region",
@@ -111,7 +116,12 @@
                       "background": "true",
                       "tags": "read_more"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "mouse_wheel_enabled": false,
+                      "underline": true
+                    }
                   }
                 ]
               }
@@ -121,12 +131,6 @@
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter Bold",
-    "mouse_wheel_enabled": false,
-    "word_wrap": true,
-    "auto_size": "left",
-    "underline": true
-  },
+  "vars": {},
   "filters": []
 }

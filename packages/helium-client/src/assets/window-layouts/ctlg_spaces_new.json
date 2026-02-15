@@ -1,6 +1,6 @@
 {
   "name": "ctlg_spaces_new",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_spaces_new_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_old_layout_spaces_new.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -194,7 +194,11 @@
                   "style": "3",
                   "name": "itemGrid"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "spacing": 2,
+                  "scale_to_fit_items": true
+                }
               }
             ]
           },
@@ -216,9 +220,6 @@
       }
     ]
   },
-  "vars": {
-    "spacing": 2,
-    "scale_to_fit_items": true
-  },
+  "vars": {},
   "filters": []
 }

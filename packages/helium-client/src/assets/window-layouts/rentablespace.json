@@ -1,6 +1,6 @@
 {
   "name": "rentablespace",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_rentablespace_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_rentablespace.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -47,7 +47,18 @@
                   "caption": "${rentablespace.widget.instructions}",
                   "clipping": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "margin_left": 5,
+                  "margin_top": 5,
+                  "margin_right": 5,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container_button",
@@ -87,7 +98,11 @@
                           "name": "price_label",
                           "caption": "100 x"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_style": "u_headline_medium",
+                          "margin_left": 10
+                        }
                       },
                       {
                         "tag": "icon",
@@ -115,9 +130,16 @@
                           "name": "rent_label",
                           "caption": "${rentablespace.widget.rent}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_style": "u_headline_medium",
+                          "margin_right": 10
+                        }
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 5
+                    }
                   }
                 ]
               },
@@ -135,7 +157,17 @@
                   "caption": "Only HabboClub members can rent spaces.",
                   "color": "0x0ff0000"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_color": 16711680,
+                  "text_style": "u_bold",
+                  "margin_left": 5,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "icon",
@@ -151,7 +183,10 @@
                 },
                 "children": []
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 10
+            }
           },
           {
             "tag": "itemlist_vertical",
@@ -180,7 +215,12 @@
                   "name": "rented_to_label",
                   "caption": "${rentablespace.widget.rented_to_label}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_headline_small",
+                  "margin_left": 10,
+                  "margin_top": 10
+                }
               },
               {
                 "tag": "label",
@@ -195,7 +235,12 @@
                   "name": "renter_name",
                   "caption": "User"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_italic",
+                  "margin_left": 10,
+                  "margin_right": 5
+                }
               },
               {
                 "tag": "label",
@@ -210,7 +255,11 @@
                   "name": "time_label",
                   "caption": "${rentablespace.widget.expires_label}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_headline_small",
+                  "margin_left": 10
+                }
               },
               {
                 "tag": "label",
@@ -225,7 +274,11 @@
                   "name": "time_remaining_label",
                   "caption": "5 days and 2 hours"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_italic",
+                  "margin_left": 10
+                }
               },
               {
                 "tag": "button",
@@ -243,7 +296,10 @@
                 },
                 "children": []
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 5
+            }
           },
           {
             "tag": "itemlist_vertical",
@@ -272,7 +328,17 @@
                   "name": "error_message",
                   "caption": "Somebody else already rented this space."
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_color": 16711680,
+                  "margin_left": 5,
+                  "margin_top": 10,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "button",
@@ -291,33 +357,27 @@
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 1,
+          "margin_top": 30,
+          "margin_right": 5,
+          "margin_bottom": 0
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "margin_left": 1,
-    "margin_top": 30,
-    "margin_right": 5,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "text_style": "u_italic",
-    "text_color": 16711680,
-    "margin_bottom": 0
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

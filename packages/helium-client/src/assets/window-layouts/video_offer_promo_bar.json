@@ -1,6 +1,6 @@
 {
   "name": "video_offer_promo_bar",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_video_offer_promotion_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_video_offer_promotion.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -49,7 +49,17 @@
                   "width_min": "136",
                   "width_max": "136"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "underline": true
+                }
               },
               {
                 "tag": "text",
@@ -66,7 +76,18 @@
                   "width_min": "136",
                   "width_max": "136"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "underline": true
+                }
               }
             ]
           },
@@ -105,16 +126,6 @@
       }
     ]
   },
-  "vars": {
-    "antialias_type": "advanced",
-    "auto_size": "left",
-    "font_face": "Ubuntu",
-    "font_size": 18,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "underline": true,
-    "text_color": 16777215
-  },
+  "vars": {},
   "filters": []
 }

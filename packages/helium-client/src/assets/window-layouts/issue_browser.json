@@ -1,6 +1,6 @@
 {
   "name": "issue_browser",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboModerationCom_issue_browser_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboModerationCom_issue_browser.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -145,7 +145,16 @@
                               "style": "0",
                               "caption": "Score"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "font_face": "Volter Bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -159,7 +168,16 @@
                               "style": "0",
                               "caption": "Category"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "font_face": "Volter Bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -173,7 +191,16 @@
                               "style": "0",
                               "caption": "Type"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "font_face": "Volter Bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -187,7 +214,16 @@
                               "style": "0",
                               "caption": "Player"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "font_face": "Volter Bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -201,7 +237,16 @@
                               "style": "0",
                               "caption": "Open"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "font_face": "Volter Bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       },
@@ -261,7 +306,15 @@
                                       "name": "score",
                                       "caption": "xx"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "mouse_wheel_enabled": false,
+                                      "sharpness": 0,
+                                      "thickness": 0,
+                                      "kerning": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "text",
@@ -276,7 +329,15 @@
                                       "name": "category",
                                       "caption": "Sharing personal info"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "mouse_wheel_enabled": false,
+                                      "sharpness": 0,
+                                      "thickness": 0,
+                                      "kerning": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "text",
@@ -291,7 +352,15 @@
                                       "name": "source",
                                       "caption": "source"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "mouse_wheel_enabled": false,
+                                      "sharpness": 0,
+                                      "thickness": 0,
+                                      "kerning": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "text",
@@ -306,7 +375,15 @@
                                       "name": "target_name",
                                       "caption": "target"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "mouse_wheel_enabled": false,
+                                      "sharpness": 0,
+                                      "thickness": 0,
+                                      "kerning": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "bitmap",
@@ -335,7 +412,15 @@
                                       "name": "time",
                                       "caption": "mm:ss"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "mouse_wheel_enabled": false,
+                                      "sharpness": 0,
+                                      "thickness": 0,
+                                      "kerning": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   }
                                 ]
                               },
@@ -371,7 +456,10 @@
                           "params": "2129",
                           "style": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "scrollable": "issue_list"
+                        }
                       }
                     ]
                   }
@@ -428,7 +516,16 @@
                               "style": "0",
                               "caption": "Score"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "font_face": "Volter Bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -442,7 +539,16 @@
                               "style": "0",
                               "caption": "Category"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "font_face": "Volter Bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -456,7 +562,16 @@
                               "style": "0",
                               "caption": "Type"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "font_face": "Volter Bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -470,7 +585,16 @@
                               "style": "0",
                               "caption": "Player"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "font_face": "Volter Bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -484,7 +608,16 @@
                               "style": "0",
                               "caption": "Open"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "font_face": "Volter Bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -498,7 +631,16 @@
                               "style": "0",
                               "caption": "Msgs"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "font_face": "Volter Bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       },
@@ -558,7 +700,15 @@
                                       "name": "score",
                                       "caption": "xx"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "mouse_wheel_enabled": false,
+                                      "sharpness": 0,
+                                      "thickness": 0,
+                                      "kerning": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "text",
@@ -573,7 +723,15 @@
                                       "name": "category",
                                       "caption": "Sharing personal info"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "mouse_wheel_enabled": false,
+                                      "sharpness": 0,
+                                      "thickness": 0,
+                                      "kerning": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "text",
@@ -588,7 +746,15 @@
                                       "name": "source",
                                       "caption": "source"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "mouse_wheel_enabled": false,
+                                      "sharpness": 0,
+                                      "thickness": 0,
+                                      "kerning": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "text",
@@ -603,7 +769,15 @@
                                       "name": "target_name",
                                       "caption": "target"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "mouse_wheel_enabled": false,
+                                      "sharpness": 0,
+                                      "thickness": 0,
+                                      "kerning": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "bitmap",
@@ -632,7 +806,15 @@
                                       "name": "time",
                                       "caption": "mm:ss"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "mouse_wheel_enabled": false,
+                                      "sharpness": 0,
+                                      "thickness": 0,
+                                      "kerning": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "text",
@@ -647,7 +829,15 @@
                                       "name": "msgs",
                                       "caption": "yy"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "mouse_wheel_enabled": false,
+                                      "sharpness": 0,
+                                      "thickness": 0,
+                                      "kerning": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   }
                                 ]
                               },
@@ -700,7 +890,10 @@
                           "params": "2129",
                           "style": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "scrollable": "issue_list"
+                        }
                       },
                       {
                         "tag": "button",
@@ -772,7 +965,16 @@
                               "style": "0",
                               "caption": "Score"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "font_face": "Volter Bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -786,7 +988,16 @@
                               "style": "0",
                               "caption": "Category"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "font_face": "Volter Bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -800,7 +1011,16 @@
                               "style": "0",
                               "caption": "Type"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "font_face": "Volter Bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -814,7 +1034,16 @@
                               "style": "0",
                               "caption": "Player"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "font_face": "Volter Bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -828,7 +1057,16 @@
                               "style": "0",
                               "caption": "Open"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "font_face": "Volter Bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -842,7 +1080,16 @@
                               "style": "0",
                               "caption": "Picker"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "font_face": "Volter Bold",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       },
@@ -902,7 +1149,15 @@
                                       "name": "score",
                                       "caption": "xx"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "mouse_wheel_enabled": false,
+                                      "sharpness": 0,
+                                      "thickness": 0,
+                                      "kerning": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "text",
@@ -917,7 +1172,15 @@
                                       "name": "category",
                                       "caption": "category"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "mouse_wheel_enabled": false,
+                                      "sharpness": 0,
+                                      "thickness": 0,
+                                      "kerning": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "text",
@@ -932,7 +1195,15 @@
                                       "name": "source",
                                       "caption": "source"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "mouse_wheel_enabled": false,
+                                      "sharpness": 0,
+                                      "thickness": 0,
+                                      "kerning": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "text",
@@ -947,7 +1218,15 @@
                                       "name": "target_name",
                                       "caption": "target"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "mouse_wheel_enabled": false,
+                                      "sharpness": 0,
+                                      "thickness": 0,
+                                      "kerning": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "bitmap",
@@ -976,7 +1255,15 @@
                                       "name": "time",
                                       "caption": "mm:ss"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "mouse_wheel_enabled": false,
+                                      "sharpness": 0,
+                                      "thickness": 0,
+                                      "kerning": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   },
                                   {
                                     "tag": "text",
@@ -991,7 +1278,15 @@
                                       "name": "picker",
                                       "caption": "picker"
                                     },
-                                    "children": []
+                                    "children": [],
+                                    "vars": {
+                                      "mouse_wheel_enabled": false,
+                                      "sharpness": 0,
+                                      "thickness": 0,
+                                      "kerning": false,
+                                      "spacing": 0,
+                                      "leading": 0
+                                    }
                                   }
                                 ]
                               }
@@ -1010,7 +1305,10 @@
                           "params": "2129",
                           "style": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "scrollable": "issue_list"
+                        }
                       }
                     ]
                   }
@@ -1033,29 +1331,21 @@
             },
             "children": []
           }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
         ]
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter Bold",
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0,
-    "scrollable": "issue_list"
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

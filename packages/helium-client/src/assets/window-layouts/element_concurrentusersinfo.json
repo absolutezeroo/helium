@@ -1,6 +1,6 @@
 {
   "name": "element_concurrentusersinfo",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_element_concurrentusersinfo_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_element_concurrentusersinfo.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -45,7 +45,15 @@
                   "caption": "${landing.view.concurrentusers.info}",
                   "tags": "COLORABLE"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "il_heading_3",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -75,7 +83,10 @@
                   "style": "100",
                   "name": "badge_image"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "fit_size_to_contents": true
+                }
               },
               {
                 "tag": "formatted_text",
@@ -91,7 +102,15 @@
                   "caption": "${landing.view.concurrentusers.reward}",
                   "tags": "COLORABLE"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "il_heading_3",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "button",
@@ -118,14 +137,6 @@
       }
     ]
   },
-  "vars": {
-    "text_style": "il_heading_3",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "fit_size_to_contents": true
-  },
+  "vars": {},
   "filters": []
 }

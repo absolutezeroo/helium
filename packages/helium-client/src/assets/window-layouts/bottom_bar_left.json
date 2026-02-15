@@ -1,6 +1,6 @@
 {
   "name": "bottom_bar_left",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_bottom_bar_left_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_bottom_bar_left.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,7 +33,10 @@
               "style": "3",
               "visible": "false"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "common_beta_sign"
+            }
           },
           {
             "tag": "container",
@@ -79,7 +82,13 @@
                       "treshold": "0",
                       "tags": "ICON_BMP,#icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "roomtools_minimizebutton",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               }
@@ -129,7 +138,15 @@
                       "treshold": "0",
                       "tags": "ICON_BMP,#icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "roomtools_minimizebutton",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "zoom_x": -1,
+                      "etching_color": 1207959552
+                    }
                   }
                 ]
               }
@@ -178,9 +195,19 @@
                       "name": "icons_toolbar_reception",
                       "tags": "ICON_BMP,#icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "bottom_bar_logo",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "etching_color": 1207959552
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${toolbar.icon.tooltip.exitroom.hotelview)"
+                }
               },
               {
                 "tag": "region",
@@ -212,9 +239,19 @@
                       "name": "icons_toolbar_home",
                       "tags": "ICON_BMP,#icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "bottom_bar_home",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "etching_color": 1207959552
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${toolbar.icon.tooltip.exitroom.home}"
+                }
               },
               {
                 "tag": "region",
@@ -246,9 +283,19 @@
                       "name": "icons_toolbar_navigator",
                       "tags": "ICON_BMP,#icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "bottom_bar_navigator",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "etching_color": 1207959552
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${toolbar.icon.label.navigator}"
+                }
               },
               {
                 "tag": "region",
@@ -280,9 +327,19 @@
                       "name": "icons_toolbar_quests",
                       "tags": "ICON_BMP,#icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "bottom_bar_quests",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "etching_color": 1207959552
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${toolbar.icon.label.quests}"
+                }
               },
               {
                 "tag": "region",
@@ -314,9 +371,19 @@
                       "name": "icons_toolbar_games",
                       "tags": "ICON_BMP,#icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "bottom_bar_games",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "etching_color": 1207959552
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${toolbar.icon.label.games}"
+                }
               },
               {
                 "tag": "region",
@@ -348,9 +415,19 @@
                       "name": "icons_toolbar_stories",
                       "tags": "ICON_BMP,#icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "bottom_bar_stories",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "etching_color": 1207959552
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${toolbar.icon.label.stories}"
+                }
               },
               {
                 "tag": "region",
@@ -382,9 +459,19 @@
                       "name": "icons_toolbar_catalogue",
                       "tags": "ICON_BMP,#icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "bottom_bar_shop",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "etching_color": 1207959552
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${toolbar.icon.label.catalogue}"
+                }
               },
               {
                 "tag": "region",
@@ -416,9 +503,19 @@
                       "name": "icons_toolbar_builder",
                       "tags": "ICON_BMP,#icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "bottom_bar_buildersclub",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "etching_color": 1207959552
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${toolbar.icon.label.builder}"
+                }
               },
               {
                 "tag": "region",
@@ -450,9 +547,19 @@
                       "name": "icons_toolbar_inventory",
                       "tags": "ICON_BMP,#icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "bottom_bar_inventory",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "etching_color": 1207959552
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${toolbar.icon.label.inventory}"
+                }
               },
               {
                 "tag": "region",
@@ -484,9 +591,19 @@
                       "name": "icon_me_menu",
                       "tags": "ICON_BMP,#icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "handle_bitmap_disposing": false,
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "etching_color": 1207959552
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${toolbar.icon.label.memenu}"
+                }
               },
               {
                 "tag": "region",
@@ -518,9 +635,19 @@
                       "name": "icons_toolbar_camera",
                       "tags": "ICON_BMP,#icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "bottom_bar_camera",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "etching_color": 1207959552
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${camera.interface.title}"
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -535,9 +662,17 @@
                   "name": "line",
                   "background": "true"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "bottom_bar_divider_1px"
+                }
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 8,
+              "padding_horizontal": 0,
+              "padding_vertical": 1
+            }
           },
           {
             "tag": "border",
@@ -557,18 +692,6 @@
       }
     ]
   },
-  "vars": {
-    "asset_uri": "bottom_bar_divider_1px",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "zoom_x": -1,
-    "etching_color": 1207959552,
-    "tool_tip_caption": "${camera.interface.title}",
-    "handle_bitmap_disposing": false,
-    "spacing": 8,
-    "padding_horizontal": 0,
-    "padding_vertical": 1
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "layout_default_ubuntu",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbolayout_default_3x3_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_layout_default_3x3.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,7 +33,11 @@
               "caption": "${catalog_selectproduct}",
               "visible": "false"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "u_italic",
+              "text_color": 6710886
+            }
           },
           {
             "tag": "container",
@@ -148,7 +152,10 @@
                   "style": "0",
                   "name": "unique_item_overlay_container"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "widget_type": "limited_item_overlay_supply"
+                }
               }
             ]
           },
@@ -196,7 +203,14 @@
                   "visible": "false",
                   "width_max": "100"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_color": 6710886,
+                  "margin_right": 4,
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container_button",
@@ -288,7 +302,15 @@
                       "color": "0x00",
                       "width_max": "100"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_color": 6710886,
+                      "margin_right": 4,
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "border",
@@ -317,7 +339,13 @@
                           "style": "3",
                           "name": "thumbStar"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "catalogue_bundle_star",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       },
                       {
                         "tag": "text",
@@ -334,7 +362,16 @@
                           "color": "0x00",
                           "width_max": "82"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "font_size": 16,
+                          "margin_right": 4,
+                          "mouse_wheel_enabled": false,
+                          "italic": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   },
@@ -365,7 +402,15 @@
                           "caption": "1",
                           "color": "0x00"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_style": "u_small",
+                          "margin_right": 4,
+                          "mouse_wheel_enabled": false,
+                          "restrict": "0123456789",
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   }
@@ -400,7 +445,15 @@
                   "caption": "${catalog.bundlewidget.price}",
                   "color": "0x00"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_color": 6710886,
+                  "margin_right": 4,
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "itemlist_horizontal",
@@ -441,7 +494,16 @@
                           "name": "text",
                           "caption": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "grid_fit_type": "subpixel",
+                          "text_color": 10066329,
+                          "mouse_wheel_enabled": false,
+                          "bold": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "background",
@@ -474,7 +536,15 @@
                       "name": "amount_text_left",
                       "caption": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "grid_fit_type": "subpixel",
+                      "mouse_wheel_enabled": false,
+                      "bold": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "icon",
@@ -503,7 +573,15 @@
                       "name": "plus",
                       "caption": "+"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "margin_left": -2,
+                      "mouse_wheel_enabled": false,
+                      "bold": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "container",
@@ -531,7 +609,16 @@
                           "name": "text",
                           "caption": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "grid_fit_type": "subpixel",
+                          "text_color": 10066329,
+                          "mouse_wheel_enabled": false,
+                          "bold": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "background",
@@ -564,7 +651,15 @@
                       "name": "amount_text_right",
                       "caption": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "grid_fit_type": "subpixel",
+                      "mouse_wheel_enabled": false,
+                      "bold": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "icon",
@@ -580,7 +675,10 @@
                     },
                     "children": []
                   }
-                ]
+                ],
+                "vars": {
+                  "resize_on_item_update": true
+                }
               }
             ]
           },
@@ -602,26 +700,6 @@
       }
     ]
   },
-  "vars": {
-    "text_style": "u_small",
-    "text_color": 10066329,
-    "widget_type": "limited_item_overlay_supply",
-    "margin_right": 4,
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "auto_size": "left",
-    "asset_uri": "catalogue_bundle_star",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "font_size": 16,
-    "italic": true,
-    "restrict": "0123456789",
-    "grid_fit_type": "subpixel",
-    "bold": true,
-    "margin_left": -2,
-    "resize_on_item_update": true
-  },
+  "vars": {},
   "filters": []
 }

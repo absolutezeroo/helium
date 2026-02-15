@@ -1,6 +1,6 @@
 {
   "name": "user_create",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_user_create_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboHelpCom_user_create.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -50,7 +50,16 @@
                   "style": "100",
                   "caption": "${guide.help.request.user.create.help}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "margin_bottom": 10,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -66,7 +75,16 @@
                   "caption": "${guide.help.request.user.create.input.error}",
                   "visible": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_color": 16711680,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "widget",
@@ -80,7 +98,13 @@
                   "style": "100",
                   "name": "input_widget"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "widget_type": "illumina_input",
+                  "illumina_input:button_caption": "",
+                  "illumina_input:empty_message": "${guide.help.request.user.create.input.help}",
+                  "illumina_input:multiline": true
+                }
               },
               {
                 "tag": "container",
@@ -126,7 +150,15 @@
                       "caption": "${guide.help.request.user.create.cancel.link}",
                       "treshold": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "underline": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "static_bitmap",
@@ -139,47 +171,39 @@
                       "params": "0",
                       "style": "100"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "help_user_create",
+                      "pivot_point": "bottom left",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 1,
+          "margin_top": 35,
+          "margin_right": 1,
+          "margin_bottom": 25
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "margin_bottom": 25,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "text_color": 16711680,
-    "widget_type": "illumina_input",
-    "illumina_input:button_caption": "",
-    "illumina_input:empty_message": "${guide.help.request.user.create.input.help}",
-    "illumina_input:multiline": true,
-    "underline": true,
-    "asset_uri": "help_user_create",
-    "pivot_point": "bottom left",
-    "stretched_x": false,
-    "stretched_y": false,
-    "margin_left": 1,
-    "margin_top": 35,
-    "margin_right": 1
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

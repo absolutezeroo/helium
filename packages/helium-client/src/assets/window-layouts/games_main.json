@@ -1,6 +1,6 @@
 {
   "name": "games_main",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habbogames_main_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboGamesCom_games_main.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,7 +33,10 @@
               "name": "quick_play_background",
               "tags": "bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "bitmap_asset_name": "quick_play_background"
+            }
           },
           {
             "tag": "container",
@@ -74,7 +77,10 @@
                       "name": "quick_play_teaser",
                       "tags": "bitmap"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "bitmap_asset_name": "quick_play_teaser"
+                    }
                   },
                   {
                     "tag": "container",
@@ -102,7 +108,21 @@
                           "name": "header_stroke",
                           "caption": "${snowwar.descriptionHeader}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "antialias_type": "advanced",
+                          "auto_size": "center",
+                          "font_face": "UbuntuThick",
+                          "font_size": 32,
+                          "text_color": 1079212,
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "bold": true,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -117,7 +137,21 @@
                           "name": "header",
                           "caption": "${snowwar.descriptionHeader}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "antialias_type": "advanced",
+                          "auto_size": "center",
+                          "font_face": "Ubuntu",
+                          "font_size": 32,
+                          "text_color": 16777215,
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "bold": true,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -132,7 +166,21 @@
                           "name": "header",
                           "caption": "${snowwar.descriptionBody}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "antialias_type": "advanced",
+                          "auto_size": "center",
+                          "font_face": "Ubuntu",
+                          "font_size": 19,
+                          "text_color": 1079212,
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "word_wrap": true,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   },
@@ -150,7 +198,22 @@
                       "caption": "${snowwar.instructions.link}",
                       "treshold": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "antialias_type": "advanced",
+                      "auto_size": "center",
+                      "font_face": "Ubuntu",
+                      "font_size": 20,
+                      "text_color": 1079212,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "bold": true,
+                      "underline": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "link",
@@ -166,7 +229,22 @@
                       "caption": "${snowwar.leaderboards.link}",
                       "treshold": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "antialias_type": "advanced",
+                      "auto_size": "center",
+                      "font_face": "Ubuntu",
+                      "font_size": 20,
+                      "text_color": 1079212,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "bold": true,
+                      "underline": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -197,7 +275,10 @@
                       "name": "instructions_image",
                       "tags": "bitmap"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "bitmap_asset_name": ""
+                    }
                   },
                   {
                     "tag": "link",
@@ -213,7 +294,21 @@
                       "caption": "${snowwar.instructions.back}",
                       "treshold": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "antialias_type": "advanced",
+                      "auto_size": "left",
+                      "font_face": "Ubuntu",
+                      "font_size": 19,
+                      "text_color": 1079212,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "underline": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "region",
@@ -241,7 +336,10 @@
                           "style": "0",
                           "tags": "bitmap"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "bitmap_asset_name": "scroll_left"
+                        }
                       }
                     ]
                   },
@@ -271,7 +369,10 @@
                           "style": "0",
                           "tags": "bitmap"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "bitmap_asset_name": "scroll_right"
+                        }
                       }
                     ]
                   },
@@ -288,7 +389,23 @@
                       "name": "instruction_text",
                       "caption": "lorem ipsum"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "antialias_type": "advanced",
+                      "auto_size": "center",
+                      "font_face": "Ubuntu",
+                      "font_size": 22,
+                      "text_color": 1079212,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "word_wrap": true,
+                      "max_lines": 2,
+                      "bold": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "itemlist_horizontal",
@@ -505,7 +622,19 @@
                               "style": "0",
                               "caption": "${snowwar.games_left}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "antialias_type": "advanced",
+                              "auto_size": "left",
+                              "font_face": "Ubuntu",
+                              "font_size": 20,
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "container",
@@ -532,7 +661,21 @@
                                   "name": "games_left_stroke",
                                   "caption": "0"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "antialias_type": "advanced",
+                                  "auto_size": "left",
+                                  "font_face": "UbuntuThick",
+                                  "font_size": 32,
+                                  "text_color": 1079212,
+                                  "mouse_wheel_enabled": false,
+                                  "sharpness": 0,
+                                  "thickness": 0,
+                                  "bold": true,
+                                  "kerning": false,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               },
                               {
                                 "tag": "text",
@@ -547,11 +690,30 @@
                                   "name": "games_left",
                                   "caption": "0"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "antialias_type": "advanced",
+                                  "auto_size": "left",
+                                  "font_face": "Ubuntu",
+                                  "font_size": 32,
+                                  "text_color": 16777215,
+                                  "mouse_wheel_enabled": false,
+                                  "sharpness": 0,
+                                  "thickness": 0,
+                                  "bold": true,
+                                  "kerning": false,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               }
                             ]
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "spacing": 5,
+                          "scale_to_fit_items": true,
+                          "resize_on_item_update": true
+                        }
                       },
                       {
                         "tag": "text",
@@ -566,7 +728,19 @@
                           "name": "games.lobby.get.games",
                           "caption": "${snowwar.buy_more_games}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "antialias_type": "advanced",
+                          "auto_size": "left",
+                          "font_face": "Ubuntu",
+                          "font_size": 20,
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "itemlist_horizontal",
@@ -593,7 +767,10 @@
                               "name": "btn_more_games_10",
                               "tags": "bitmap"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "bitmap_asset_name": "btn_more_games_10"
+                            }
                           },
                           {
                             "tag": "bitmap",
@@ -608,7 +785,10 @@
                               "name": "btn_more_games_100",
                               "tags": "bitmap"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "bitmap_asset_name": "btn_more_games_100"
+                            }
                           },
                           {
                             "tag": "bitmap",
@@ -623,9 +803,15 @@
                               "name": "btn_more_games_300",
                               "tags": "bitmap"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "bitmap_asset_name": "btn_more_games_300"
+                            }
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "spacing": 8
+                        }
                       }
                     ]
                   },
@@ -657,7 +843,10 @@
                           "name": "hc_icon",
                           "tags": "bitmap"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "bitmap_asset_name": "hc_icon"
+                        }
                       },
                       {
                         "tag": "text",
@@ -673,7 +862,22 @@
                           "caption": "${snowwar.get_more_games}",
                           "width_max": "200"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "antialias_type": "advanced",
+                          "auto_size": "left",
+                          "font_face": "Ubuntu",
+                          "font_size": 20,
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "word_wrap": true,
+                          "underline": true,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   },
@@ -704,7 +908,21 @@
                           "name": "play_text",
                           "caption": "${snowwar.play}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "antialias_type": "advanced",
+                          "auto_size": "left",
+                          "font_face": "Ubuntu",
+                          "font_size": 32,
+                          "text_color": 16777215,
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "bold": true,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   }
@@ -739,7 +957,21 @@
                   "name": "wait_text_stroke",
                   "caption": "Waiting for players..."
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "center",
+                  "font_face": "UbuntuThick",
+                  "font_size": 24,
+                  "text_color": 1079212,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "bold": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -754,7 +986,21 @@
                   "name": "wait_text",
                   "caption": "Waiting for players..."
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "center",
+                  "font_face": "Ubuntu",
+                  "font_size": 24,
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "bold": true,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "itemgrid_vertical",
@@ -768,7 +1014,11 @@
                   "style": "0",
                   "name": "players_grid"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "spacing": 3,
+                  "scale_to_fit_items": true
+                }
               },
               {
                 "tag": "region",
@@ -797,46 +1047,40 @@
                       "name": "cancel_link",
                       "caption": "${generic.cancel}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "antialias_type": "advanced",
+                      "auto_size": "left",
+                      "font_face": "Ubuntu",
+                      "font_size": 18,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "underline": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               }
             ]
           }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.3411764705882353",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
         ]
       }
     ]
   },
-  "vars": {
-    "bitmap_asset_name": "hc_icon",
-    "antialias_type": "advanced",
-    "auto_size": "left",
-    "font_face": "Ubuntu",
-    "font_size": 18,
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "bold": true,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0,
-    "word_wrap": true,
-    "underline": true,
-    "max_lines": 2,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true,
-    "multiline": true
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.3411764705882353",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

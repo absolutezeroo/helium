@@ -1,6 +1,6 @@
 {
   "name": "nav_error_popup",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_nav_error_popup_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboNavigatorCom_nav_error_popup.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -45,7 +45,13 @@
                   "name": "error_text",
                   "caption": "PH loren ipsum dolor pubba hubba duppa papatiti"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_face": "Volter",
+                  "font_size": 9,
+                  "text_color": 0,
+                  "embed_fonts": true
+                }
               }
             ]
           },
@@ -67,11 +73,6 @@
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter",
-    "font_size": 9,
-    "text_color": 0,
-    "embed_fonts": true
-  },
+  "vars": {},
   "filters": []
 }

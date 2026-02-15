@@ -1,6 +1,6 @@
 {
   "name": "guardian_chat_review_wait_for_results",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_guardian_chat_review_wait_for_results_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboHelpCom_guardian_chat_review_wait_for_results.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,7 +32,11 @@
               "style": "100",
               "caption": "${guide.bully.request.guide.results.waiting.title}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "il_heading_1",
+              "text_color": 8947848
+            }
           },
           {
             "tag": "text",
@@ -46,7 +50,16 @@
               "style": "100",
               "caption": "${guide.bully.request.guide.results.waiting.description}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "text_style": "il_small",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "label",
@@ -60,7 +73,11 @@
               "style": "100",
               "caption": "${guide.bully.request.guide.results.votes}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "il_heading_3",
+              "text_color": 4473924
+            }
           },
           {
             "tag": "border",
@@ -112,7 +129,10 @@
                           "name": "vote_text",
                           "caption": "User behaved well"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_style": "il_heading_3"
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -126,7 +146,13 @@
                           "style": "100",
                           "name": "vote_image"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "help_chat_review_decision_waiting_1",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -140,7 +166,11 @@
                           "style": "100",
                           "name": "vote_separator"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "illumina_light_separator_horizontal",
+                          "stretched_y": false
+                        }
                       }
                     ]
                   }
@@ -172,7 +202,15 @@
                   "style": "100",
                   "caption": "${guide.bully.request.guide.results.wait}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "button",
@@ -217,45 +255,42 @@
                   "style": "100",
                   "caption": "${guide.bully.request.guide.results.your_vote}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 16,
+                  "text_style": "il_regular_white",
+                  "margin_left": 10,
+                  "margin_top": 5,
+                  "margin_right": 10,
+                  "margin_bottom": 5,
+                  "mouse_wheel_enabled": false,
+                  "bold": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
-            ]
+            ],
+            "vars": {
+              "widget_type": "balloon",
+              "balloon:arrow_pivot": "left, middle"
+            }
+          }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "text_style": "il_regular_white",
-    "text_color": 4473924,
-    "auto_size": "left",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "asset_uri": "illumina_light_separator_horizontal",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "font_size": 16,
-    "margin_left": 10,
-    "margin_top": 5,
-    "margin_right": 10,
-    "margin_bottom": 5,
-    "bold": true,
-    "widget_type": "balloon",
-    "balloon:arrow_pivot": "left, middle"
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

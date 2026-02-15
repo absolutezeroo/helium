@@ -1,6 +1,6 @@
 {
   "name": "verify",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_phonenumber_verify_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_phonenumber_verify.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -88,7 +88,18 @@
                       "style": "3",
                       "caption": "${phone.number.verify.enter.verification.code}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_size": 24,
+                      "text_color": 16777215,
+                      "text_style": "u_headline_medium",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "static_bitmap",
@@ -102,7 +113,11 @@
                       "style": "3",
                       "name": "phone"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "${image.library.url}returnusergifting/phone.png",
+                      "fit_size_to_contents": true
+                    }
                   }
                 ]
               },
@@ -144,7 +159,14 @@
                           "name": "verification_code_input",
                           "caption": "${phone.number.verify.input.init.text}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_size": 32,
+                          "mouse_wheel_enabled": false,
+                          "bold": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -158,7 +180,11 @@
                           "style": "3",
                           "name": "pen"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "common_small_pen",
+                          "fit_size_to_contents": true
+                        }
                       }
                     ]
                   },
@@ -220,7 +246,16 @@
                       "caption": "${phone.number.verify.did.not.receive.code}",
                       "treshold": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "font_size": 20,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "underline": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "label",
@@ -237,43 +272,37 @@
                       "visible": "false",
                       "treshold": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "u_bold",
+                      "text_color": 7829367
+                    }
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 10,
+              "vertical": true,
+              "padding_horizontal": 8,
+              "padding_vertical": 8
+            }
+          }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "font_size": 20,
-    "text_color": 7829367,
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "spacing": 10,
-    "leading": 0,
-    "asset_uri": "common_small_pen",
-    "fit_size_to_contents": true,
-    "bold": true,
-    "underline": true,
-    "vertical": true,
-    "padding_horizontal": 8,
-    "padding_vertical": 8
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

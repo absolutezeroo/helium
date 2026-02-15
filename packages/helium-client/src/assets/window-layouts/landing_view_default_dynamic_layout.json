@@ -1,6 +1,6 @@
 {
   "name": "landing_view_default_dynamic_layout",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_landing_view_default_dynamic_layout_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_landing_view_default_dynamic_layout.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -50,7 +50,11 @@
                   "dynamic_style": "",
                   "name": "background_gradient_top"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "",
+                  "pivot_point": "bottom left"
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -65,7 +69,12 @@
                   "dynamic_style": "",
                   "name": "background_gradient"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "",
+                  "pivot_point": "bottom left",
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -80,7 +89,14 @@
                   "dynamic_style": "",
                   "name": "background_right"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "",
+                  "pivot_point": "bottom right",
+                  "stretched_x": false,
+                  "stretched_y": false,
+                  "fit_size_to_contents": true
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -96,7 +112,11 @@
                   "name": "left-right_divider",
                   "visible": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "landing_view_reception_horizontal",
+                  "stretched_x": false
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -111,7 +131,14 @@
                   "dynamic_style": "",
                   "name": "background_horizon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "",
+                  "pivot_point": "bottom left",
+                  "stretched_x": false,
+                  "stretched_y": false,
+                  "fit_size_to_contents": true
+                }
               },
               {
                 "tag": "container",
@@ -158,7 +185,12 @@
                   "dynamic_style": "",
                   "name": "background_hotel_top"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}reception/reception_backdrop_hotel_top_stretch.png",
+                  "pivot_point": "bottom left",
+                  "stretched_x": false
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -173,7 +205,14 @@
                   "dynamic_style": "",
                   "name": "background_left"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "",
+                  "pivot_point": "bottom left",
+                  "stretched_x": false,
+                  "stretched_y": false,
+                  "fit_size_to_contents": true
+                }
               },
               {
                 "tag": "icon",
@@ -234,7 +273,13 @@
                   "dynamic_style": "",
                   "name": "logo"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}reception/reception_logo_drape.png",
+                  "pivot_point": "bottom left",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "text",
@@ -251,7 +296,15 @@
                   "caption": "Warning! Always edit .original. file, then save it as working and delete background bitmaps!",
                   "treshold": "20"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 32,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           }
@@ -259,18 +312,6 @@
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.url}reception/reception_logo_drape.png",
-    "pivot_point": "bottom left",
-    "stretched_y": false,
-    "stretched_x": false,
-    "fit_size_to_contents": true,
-    "font_size": 32,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

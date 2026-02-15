@@ -1,6 +1,6 @@
 {
   "name": "unseen_item_symbol",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboInventoryCom_unseen_item_symbol_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboInventoryCom_unseen_item_symbol.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,21 +32,22 @@
               "name": "text",
               "caption": "inventory.furni.tab.new"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "font_size": 9,
+              "grid_fit_type": "subpixel",
+              "text_color": 16777215,
+              "text_style": "u_small",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "font_size": 9,
-    "grid_fit_type": "subpixel",
-    "text_color": 16777215,
-    "text_style": "u_small",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

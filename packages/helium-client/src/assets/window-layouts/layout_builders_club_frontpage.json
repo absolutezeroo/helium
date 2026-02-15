@@ -1,6 +1,6 @@
 {
   "name": "layout_builders_club_frontpage",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbolayout_builders_club_frontpage_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_layout_builders_club_frontpage.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,7 +33,17 @@
               "caption": "Formatted text",
               "treshold": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0,
+              "editable": false,
+              "selectable": false,
+              "link_target": "internal"
+            }
           },
           {
             "tag": "container",
@@ -129,15 +139,6 @@
       }
     ]
   },
-  "vars": {
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "editable": false,
-    "selectable": false,
-    "link_target": "internal"
-  },
+  "vars": {},
   "filters": []
 }

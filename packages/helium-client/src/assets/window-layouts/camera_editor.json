@@ -1,6 +1,6 @@
 {
   "name": "camera_editor",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_camera_editor_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_camera_editor.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,7 +33,11 @@
               "style": "3",
               "name": "image"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "border",
@@ -61,7 +65,15 @@
                   "style": "3",
                   "name": "captionInput"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "max_lines": 3,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -126,7 +138,10 @@
               "style": "200",
               "name": "item_grid"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "scale_to_fit_items": true
+            }
           },
           {
             "tag": "background",
@@ -237,7 +252,10 @@
                   "style": "3",
                   "name": "slider_base"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "container",
@@ -264,7 +282,11 @@
                       "style": "3",
                       "name": "slider_button"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               },
@@ -282,7 +304,14 @@
                   "caption": "default%20filter%2050%25",
                   "width_max": "320"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_color": 15658734,
+                  "mouse_wheel_enabled": false,
+                  "bold": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -343,7 +372,10 @@
                       "name": "magnifier",
                       "clipping": "false"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "roomtools_magnifier"
+                    }
                   },
                   {
                     "tag": "text",
@@ -360,7 +392,15 @@
                       "color": "0x0999999",
                       "width_max": "90"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_size": 17,
+                      "text_style": "u_button_tab",
+                      "mouse_wheel_enabled": false,
+                      "underline": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               }
@@ -422,7 +462,10 @@
                       "name": "download_image",
                       "clipping": "false"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "tools_tools_download_icon"
+                    }
                   },
                   {
                     "tag": "text",
@@ -439,7 +482,15 @@
                       "color": "0x00",
                       "width_max": "90"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_size": 17,
+                      "text_style": "u_button_tab",
+                      "mouse_wheel_enabled": false,
+                      "underline": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               }
@@ -459,37 +510,24 @@
             },
             "children": []
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "help_page": "camera"
+        }
       }
     ]
   },
-  "vars": {
-    "stretched_x": false,
-    "stretched_y": false,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "max_lines": 3,
-    "spacing": 0,
-    "leading": 0,
-    "scale_to_fit_items": true,
-    "text_color": 15658734,
-    "bold": true,
-    "asset_uri": "tools_tools_download_icon",
-    "font_size": 17,
-    "text_style": "u_button_tab",
-    "underline": true,
-    "help_page": "camera"
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

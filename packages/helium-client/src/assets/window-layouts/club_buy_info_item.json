@@ -1,6 +1,6 @@
 {
   "name": "club_buy_info_item",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboclub_buy_vip_upgrade_item_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_club_buy_vip_upgrade_item.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -59,7 +59,14 @@
                   "name": "item_header",
                   "caption": "catalog.club.item.header"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -76,7 +83,13 @@
               "name": "item_price",
               "caption": "catalog.club.price"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "button",
@@ -98,12 +111,6 @@
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

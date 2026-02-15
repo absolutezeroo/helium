@@ -1,6 +1,6 @@
 {
   "name": "bar",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_bar_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_bar.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -75,7 +75,10 @@
                   "style": "0",
                   "name": "icon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "bitmap_asset_name": "messenger"
+                }
               }
             ]
           },
@@ -122,7 +125,12 @@
                       "color": "0xffffff00",
                       "clipping": "false"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "spacing": 3,
+                      "scale_to_fit_items": true,
+                      "resize_on_item_update": true
+                    }
                   },
                   {
                     "tag": "container_button",
@@ -192,11 +200,6 @@
       }
     ]
   },
-  "vars": {
-    "bitmap_asset_name": "messenger",
-    "spacing": 3,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true
-  },
+  "vars": {},
   "filters": []
 }

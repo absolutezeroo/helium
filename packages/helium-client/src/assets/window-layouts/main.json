@@ -1,6 +1,6 @@
 {
   "name": "main",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_main_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboHelpCom_main.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -42,7 +42,10 @@
                   "style": "100",
                   "caption": "${help.main2.subtitle}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "il_small_white"
+                }
               },
               {
                 "tag": "label",
@@ -56,7 +59,10 @@
                   "style": "100",
                   "caption": "${help.main2.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "il_frame_modal_title"
+                }
               }
             ]
           },
@@ -84,9 +90,18 @@
                   "style": "100",
                   "caption": "${help.main2.bully.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "il_border",
+                  "text_color": 3355443,
+                  "margin_left": 2,
+                  "margin_right": 3
+                }
               }
-            ]
+            ],
+            "vars": {
+              "widget_type": "separator"
+            }
           },
           {
             "tag": "label",
@@ -100,7 +115,10 @@
               "style": "100",
               "caption": "${help.main2.bully.subtitle}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "il_heading_2"
+            }
           },
           {
             "tag": "text",
@@ -114,7 +132,15 @@
               "style": "100",
               "caption": "${help.main2.bully.description}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "button",
@@ -143,7 +169,10 @@
               "params": "16",
               "style": "100"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "help_illustrations_bully"
+            }
           },
           {
             "tag": "widget",
@@ -169,9 +198,18 @@
                   "style": "100",
                   "caption": "${help.main2.question.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "il_border",
+                  "text_color": 3355443,
+                  "margin_left": 2,
+                  "margin_right": 3
+                }
               }
-            ]
+            ],
+            "vars": {
+              "widget_type": "separator"
+            }
           },
           {
             "tag": "label",
@@ -185,7 +223,10 @@
               "style": "100",
               "caption": "${help.main2.question.subtitle}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "il_heading_2"
+            }
           },
           {
             "tag": "text",
@@ -199,7 +240,15 @@
               "style": "100",
               "caption": "${help.main2.question.description}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "button",
@@ -228,7 +277,10 @@
               "params": "16",
               "style": "100"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "help_illustrations_question"
+            }
           },
           {
             "tag": "widget",
@@ -254,9 +306,18 @@
                   "style": "100",
                   "caption": "${help.main2.tour.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "il_border",
+                  "text_color": 3355443,
+                  "margin_left": 2,
+                  "margin_right": 3
+                }
               }
-            ]
+            ],
+            "vars": {
+              "widget_type": "separator"
+            }
           },
           {
             "tag": "label",
@@ -270,7 +331,10 @@
               "style": "100",
               "caption": "${help.main2.tour.subtitle}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "il_heading_2"
+            }
           },
           {
             "tag": "text",
@@ -284,7 +348,15 @@
               "style": "100",
               "caption": "${help.main2.tour.description}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "button",
@@ -313,7 +385,10 @@
               "params": "16",
               "style": "100"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "help_illustrations_tour"
+            }
           },
           {
             "tag": "container",
@@ -352,7 +427,16 @@
                       "style": "100",
                       "caption": "${help.main2.emergency.title}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_size": 20,
+                      "text_style": "il_regular_white",
+                      "mouse_wheel_enabled": false,
+                      "bold": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -366,7 +450,15 @@
                       "style": "100",
                       "caption": "${help.main2.emergency.subtitle}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_size": 9,
+                      "text_style": "il_regular_white",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -406,7 +498,15 @@
                           "style": "100",
                           "caption": "${help.main2.emergency.description}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "container_button",
@@ -434,7 +534,19 @@
                               "style": "100",
                               "caption": "${help.main2.emergency.button}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_style": "il_regular_white",
+                              "margin_left": 10,
+                              "margin_top": 9,
+                              "margin_right": 13,
+                              "margin_bottom": 9,
+                              "mouse_wheel_enabled": false,
+                              "bold": true,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       }
@@ -468,9 +580,18 @@
                   "style": "100",
                   "caption": "${help.main2.self.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "il_border",
+                  "text_color": 3355443,
+                  "margin_left": 2,
+                  "margin_right": 3
+                }
               }
-            ]
+            ],
+            "vars": {
+              "widget_type": "separator"
+            }
           },
           {
             "tag": "border",
@@ -510,7 +631,14 @@
                       "style": "100",
                       "caption": "${help.main2.self.safetypolicy}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "spacing": 0,
+                      "leading": 4
+                    }
                   }
                 ]
               },
@@ -525,7 +653,11 @@
                   "params": "3088",
                   "style": "100"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "widget_type": "separator",
+                  "separator:vertical": true
+                }
               },
               {
                 "tag": "region",
@@ -553,7 +685,14 @@
                       "style": "100",
                       "caption": "${help.main2.self.habboway}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "spacing": 0,
+                      "leading": 4
+                    }
                   }
                 ]
               },
@@ -568,7 +707,11 @@
                   "params": "3088",
                   "style": "100"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "widget_type": "separator",
+                  "separator:vertical": true
+                }
               },
               {
                 "tag": "region",
@@ -596,7 +739,14 @@
                       "style": "100",
                       "caption": "${help.main2.self.faq}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "spacing": 0,
+                      "leading": 4
+                    }
                   }
                 ]
               }
@@ -628,42 +778,34 @@
                   "style": "100",
                   "caption": "${help.main2.self.payment}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "il_link_regular"
+                }
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.7490196078431373",
+              "blurX": "80",
+              "blurY": "80"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 1,
+          "margin_top": 30,
+          "margin_right": 1,
+          "margin_bottom": 1
+        }
       }
     ]
   },
-  "vars": {
-    "text_style": "il_link_regular",
-    "text_color": 3355443,
-    "margin_left": 1,
-    "margin_right": 1,
-    "widget_type": "separator",
-    "auto_size": "center",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 4,
-    "asset_uri": "help_illustrations_tour",
-    "font_size": 9,
-    "bold": true,
-    "margin_top": 30,
-    "margin_bottom": 1,
-    "separator:vertical": true
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.7490196078431373",
-        "blurX": "80",
-        "blurY": "80"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

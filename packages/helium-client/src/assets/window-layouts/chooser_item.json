@@ -1,6 +1,6 @@
 {
   "name": "chooser_item",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbochooser_item_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_chooser_item.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -34,17 +34,18 @@
               "name": "itemtext",
               "caption": "${001_lorem_ipsum_title}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_face": "Volter",
+              "font_size": 9,
+              "text_color": 0,
+              "embed_fonts": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter",
-    "font_size": 9,
-    "text_color": 0,
-    "embed_fonts": true
-  },
+  "vars": {},
   "filters": []
 }

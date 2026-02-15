@@ -1,6 +1,6 @@
 {
   "name": "custom_stack_height",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_custom_stack_height_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_custom_stack_height.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -92,7 +92,13 @@
               "style": "100",
               "caption": "${widget.custom.stack.height.text}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "mouse_wheel_enabled": false,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "border",
@@ -119,30 +125,31 @@
                   "name": "input_height",
                   "caption": "1.0"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "mouse_wheel_enabled": false,
+                  "restrict": "0123456789.",
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
+          }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "mouse_wheel_enabled": false,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "restrict": "0123456789."
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

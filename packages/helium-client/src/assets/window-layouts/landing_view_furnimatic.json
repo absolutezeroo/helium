@@ -1,6 +1,6 @@
 {
   "name": "landing_view_furnimatic",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_landing_view_furnimatic_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_landing_view_furnimatic.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -47,7 +47,13 @@
                   "style": "0",
                   "name": "background_horizon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}reception/furnimatic_backdrop_bg.png",
+                  "pivot_point": "bottom left",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "container",
@@ -91,7 +97,13 @@
                   "style": "0",
                   "name": "background_right"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}reception/furnimatic_backdrop_right.png",
+                  "pivot_point": "bottom left",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -105,7 +117,13 @@
                   "style": "0",
                   "name": "background_left"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}reception/furnimatic_backdrop_left.png",
+                  "pivot_point": "bottom left",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "icon",
@@ -176,7 +194,13 @@
                   "style": "0",
                   "name": "logo"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}reception/reception_logo_drape.png",
+                  "pivot_point": "bottom left",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               }
             ]
           }
@@ -184,11 +208,6 @@
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.url}reception/reception_logo_drape.png",
-    "pivot_point": "bottom left",
-    "stretched_x": false,
-    "stretched_y": false
-  },
+  "vars": {},
   "filters": []
 }

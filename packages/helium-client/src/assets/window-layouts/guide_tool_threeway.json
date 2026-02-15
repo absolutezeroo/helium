@@ -1,6 +1,6 @@
 {
   "name": "guide_tool_threeway",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_guide_tool_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboHelpCom_guide_tool.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -79,7 +79,15 @@
                       "name": "status_caption_txt",
                       "caption": "${guide.help.guide.tool.yourstatus}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_size": 16,
+                      "text_color": 6710886,
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -108,7 +116,14 @@
                       "style": "100",
                       "caption": "${guide.help.guide.tool.tickettypeselection.caption}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_style": "il_heading_3",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "checkbox",
@@ -176,7 +191,10 @@
                       "style": "100",
                       "name": "selection_separator"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "illumina_horizontal_separator"
+                    }
                   },
                   {
                     "tag": "background",
@@ -221,7 +239,11 @@
                       "style": "100",
                       "name": "info_img"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "common_info_icon_grey",
+                      "fit_size_to_contents": true
+                    }
                   },
                   {
                     "tag": "formatted_text",
@@ -235,7 +257,13 @@
                       "style": "100",
                       "caption": "${guide.help.guide.tool.guidesonduty}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "formatted_text",
@@ -249,7 +277,13 @@
                       "style": "100",
                       "caption": "${guide.help.guide.tool.helpersonduty}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "formatted_text",
@@ -263,7 +297,13 @@
                       "style": "100",
                       "caption": "${guide.help.guide.tool.guardiansonduty}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "static_bitmap",
@@ -276,7 +316,10 @@
                       "params": "16",
                       "style": "100"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "illumina_horizontal_separator"
+                    }
                   }
                 ]
               },
@@ -294,41 +337,43 @@
                   "caption": "${guide.help.guide.tool.skill.link}",
                   "treshold": "0"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "mouse_wheel_enabled": false,
+                  "underline": true,
+                  "spacing": 0,
+                  "leading": 0,
+                  "tool_tip_caption": "${guide.help.guide.tool.skill.tooltip}",
+                  "tool_tip_delay": 256
+                }
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 5
+            }
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 1,
+          "margin_top": 35,
+          "margin_right": 1,
+          "margin_bottom": 1
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "font_size": 16,
-    "text_color": 6710886,
-    "mouse_wheel_enabled": false,
-    "spacing": 5,
-    "leading": 0,
-    "text_style": "il_heading_3",
-    "asset_uri": "illumina_horizontal_separator",
-    "fit_size_to_contents": true,
-    "underline": true,
-    "tool_tip_caption": "${guide.help.guide.tool.skill.tooltip}",
-    "tool_tip_delay": 256,
-    "margin_left": 1,
-    "margin_top": 35,
-    "margin_right": 1,
-    "margin_bottom": 1
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

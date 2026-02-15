@@ -1,6 +1,6 @@
 {
   "name": "RoomCompetition",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboroom_competition_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboQuestEngineCom_room_competition.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -45,7 +45,15 @@
                   "caption": "You will see this again adad adada ad",
                   "tags": "COLORABLE"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_color": 12303291,
+                  "text_style": "u_regular",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "formatted_text",
@@ -61,7 +69,16 @@
                   "caption": "${roomcompetition.dontshowagain.dontshow}",
                   "tags": "COLORABLE"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_color": 16777215,
+                  "text_style": "u_bold",
+                  "mouse_wheel_enabled": false,
+                  "underline": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "region",
@@ -106,7 +123,16 @@
                   "name": "caption_txt",
                   "caption": "Caption txt PH"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "il_heading_2",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "region",
@@ -136,7 +162,14 @@
                       "caption": "Link text ph",
                       "tags": "COLORABLE"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               },
@@ -183,7 +216,11 @@
                       "style": "102",
                       "name": "close_icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "icons_close",
+                      "fit_size_to_contents": true
+                    }
                   }
                 ]
               },
@@ -199,7 +236,11 @@
                   "style": "100",
                   "name": "vote_image"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}reception/vote_placeholder.png",
+                  "fit_size_to_contents": true
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -213,7 +254,11 @@
                   "style": "100",
                   "name": "submit_image"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}reception/your_room_placeholder.png",
+                  "fit_size_to_contents": true
+                }
               },
               {
                 "tag": "itemgrid_vertical",
@@ -252,7 +297,11 @@
                           "params": "16",
                           "style": "100"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "common_chisel",
+                          "fit_size_to_contents": true
+                        }
                       },
                       {
                         "tag": "bitmap",
@@ -266,7 +315,10 @@
                           "style": "100",
                           "name": "furni_icon"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "fit_size_to_contents": true
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -280,11 +332,19 @@
                           "style": "100",
                           "name": "tick_icon"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "icons_tickmark",
+                          "fit_size_to_contents": true
+                        }
                       }
                     ]
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 5,
+                  "scale_to_fit_items": true
+                }
               },
               {
                 "tag": "formatted_text",
@@ -299,7 +359,13 @@
                   "name": "button_info_txt",
                   "caption": "kjhlk jh lkj hklj"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           }
@@ -307,19 +373,6 @@
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "text_color": 16777215,
-    "text_style": "il_heading_2",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "underline": true,
-    "multiline": true,
-    "word_wrap": true,
-    "asset_uri": "icons_tickmark",
-    "fit_size_to_contents": true,
-    "scale_to_fit_items": true
-  },
+  "vars": {},
   "filters": []
 }

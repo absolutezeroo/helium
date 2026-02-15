@@ -1,6 +1,6 @@
 {
   "name": "new_search_friends_tab",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_new_search_friends_tab_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_new_search_friends_tab.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,16 +32,17 @@
               "style": "3",
               "treshold": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "friend_bar_search_habbos",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "friend_bar_search_habbos",
-    "stretched_x": false,
-    "stretched_y": false
-  },
+  "vars": {},
   "filters": []
 }

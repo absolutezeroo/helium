@@ -1,6 +1,6 @@
 {
   "name": "room_invite_confirm",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendListCom_room_invite_confirm_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendListCom_room_invite_confirm.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -46,7 +46,13 @@
                   "name": "invite_summary",
                   "caption": "${friendlist.invite.summary}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_face": "Volter",
+                  "font_size": 9,
+                  "text_color": 0,
+                  "embed_fonts": true
+                }
               },
               {
                 "tag": "input",
@@ -61,7 +67,18 @@
                   "name": "message_input",
                   "caption": ""
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_face": "Volter",
+                  "font_size": 9,
+                  "text_color": 0,
+                  "always_show_selection": true,
+                  "background": true,
+                  "border": true,
+                  "embed_fonts": true,
+                  "mouse_wheel_enabled": true,
+                  "word_wrap": true
+                }
               },
               {
                 "tag": "text",
@@ -76,7 +93,13 @@
                   "name": "invite_note",
                   "caption": "${friendlist.invite.note}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_face": "Volter",
+                  "font_size": 9,
+                  "text_color": 0,
+                  "embed_fonts": true
+                }
               }
             ]
           },
@@ -118,16 +141,6 @@
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter",
-    "font_size": 9,
-    "text_color": 0,
-    "embed_fonts": true,
-    "always_show_selection": true,
-    "background": true,
-    "border": true,
-    "mouse_wheel_enabled": true,
-    "word_wrap": true
-  },
+  "vars": {},
   "filters": []
 }

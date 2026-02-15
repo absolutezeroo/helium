@@ -1,6 +1,6 @@
 {
   "name": "targeted_offer_habbomall",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_targeted_offer_habbomall_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_targeted_offer_habbomall.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -58,7 +58,14 @@
                   "style": "3",
                   "name": "txt_title"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_face": "Ubuntu condensed",
+                  "font_size": 24,
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -73,7 +80,13 @@
                   "name": "txt_description",
                   "caption": "${targeted.offer.habbomall.notification}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "mouse_wheel_enabled": false,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           },
@@ -93,27 +106,21 @@
             },
             "children": []
           }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
         ]
       }
     ]
   },
-  "vars": {
-    "font_face": "Ubuntu condensed",
-    "font_size": 24,
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "word_wrap": true
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "grs_category_selector",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_grs_category_selector_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboNavigatorCom_grs_category_selector.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -46,7 +46,16 @@
                   "name": "category_name_txt",
                   "caption": "Dippa daa"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_face": "Volter Bold",
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "bitmap",
@@ -89,7 +98,17 @@
                       "name": "open_txt",
                       "caption": "${navigator.categories.viewmore}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "underline": true,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "icon",
@@ -114,16 +133,6 @@
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter Bold",
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0,
-    "auto_size": "left",
-    "underline": true
-  },
+  "vars": {},
   "filters": []
 }

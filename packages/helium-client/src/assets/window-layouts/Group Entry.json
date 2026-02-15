@@ -1,6 +1,6 @@
 {
   "name": "Group Entry",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGroupsCom_Habbogroup_entry_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboGroupsCom_group_entry.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,7 +32,10 @@
               "style": "0",
               "name": "bg_selected_bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.questing.url}achievement_active.png"
+            }
           },
           {
             "tag": "static_bitmap",
@@ -46,7 +49,10 @@
               "style": "0",
               "name": "bg_unselected_bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.questing.url}achievement_inactive.png"
+            }
           },
           {
             "tag": "widget",
@@ -60,7 +66,14 @@
               "style": "0",
               "name": "group_pic_bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "widget_type": "badge_image",
+              "badge_image:type": "group",
+              "badge_image:pivot_point": "center",
+              "badge_image:stretched_x": false,
+              "badge_image:stretched_y": false
+            }
           },
           {
             "tag": "region",
@@ -103,9 +116,17 @@
                   "style": "0",
                   "name": "icon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "extended_profile_clear_favourite",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               }
-            ]
+            ],
+            "vars": {
+              "tool_tip_caption": "${group.clearfavourite}"
+            }
           },
           {
             "tag": "region",
@@ -133,24 +154,22 @@
                   "style": "0",
                   "name": "icon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "extended_profile_make_favourite",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               }
-            ]
+            ],
+            "vars": {
+              "tool_tip_caption": "${group.makefavourite}"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "extended_profile_make_favourite",
-    "widget_type": "badge_image",
-    "badge_image:type": "group",
-    "badge_image:pivot_point": "center",
-    "badge_image:stretched_x": false,
-    "badge_image:stretched_y": false,
-    "stretched_x": false,
-    "stretched_y": false,
-    "tool_tip_caption": "${group.makefavourite}"
-  },
+  "vars": {},
   "filters": []
 }

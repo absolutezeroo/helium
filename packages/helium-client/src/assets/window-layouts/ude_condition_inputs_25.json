@@ -1,6 +1,6 @@
 {
   "name": "ude_condition_inputs_25",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboUserDefinedRoomEventsCom_ude_condition_inputs_25_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboUserDefinedRoomEventsCom_ude_condition_inputs_25.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -50,7 +50,14 @@
               "name": "desc_txt",
               "caption": "${wiredfurni.params.handitem}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_face": "Volter Bold",
+              "text_color": 16777215,
+              "sharpness": 0,
+              "thickness": 0,
+              "word_wrap": true
+            }
           },
           {
             "tag": "dropmenu",
@@ -65,20 +72,16 @@
               "name": "menu_handitem",
               "caption": "${wiredfurni.tooltip.handitem}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "tool_tip_caption": "${wiredfurni.tooltip.handitem}",
+              "item_array": null
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter Bold",
-    "text_color": 16777215,
-    "sharpness": 0,
-    "thickness": 0,
-    "word_wrap": true,
-    "tool_tip_caption": "${wiredfurni.tooltip.handitem}",
-    "item_array": null
-  },
+  "vars": {},
   "filters": []
 }

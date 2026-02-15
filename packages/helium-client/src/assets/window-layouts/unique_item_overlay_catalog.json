@@ -1,6 +1,6 @@
 {
   "name": "unique_item_overlay_catalog",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_unique_item_overlay_supply_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_unique_item_overlay_supply.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,7 +31,12 @@
               "style": "0",
               "name": "plaque"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "unique_item_large_background_wide",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "text",
@@ -46,7 +51,19 @@
               "name": "items_left",
               "caption": "${unique.items.left}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "auto_size": "left",
+              "font_face": "Ubuntu",
+              "text_style": "regular",
+              "mouse_wheel_enabled": false,
+              "sharpness": 0,
+              "thickness": 0,
+              "kerning": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -61,7 +78,21 @@
               "name": "items_left_count",
               "caption": "1234"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "auto_size": "right",
+              "font_face": "Ubuntu",
+              "font_size": 18,
+              "text_style": "regular",
+              "mouse_wheel_enabled": false,
+              "sharpness": 0,
+              "thickness": 0,
+              "bold": true,
+              "kerning": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -76,7 +107,19 @@
               "name": "items_total",
               "caption": "${unique.items.number.sold}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "auto_size": "left",
+              "font_face": "Ubuntu",
+              "text_style": "regular",
+              "mouse_wheel_enabled": false,
+              "sharpness": 0,
+              "thickness": 0,
+              "kerning": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -91,7 +134,19 @@
               "name": "items_total_count",
               "caption": "9999"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "antialias_type": "advanced",
+              "auto_size": "right",
+              "font_face": "Ubuntu",
+              "text_style": "regular",
+              "mouse_wheel_enabled": false,
+              "sharpness": 0,
+              "thickness": 0,
+              "kerning": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "static_bitmap",
@@ -106,28 +161,15 @@
               "name": "unique_item_sold_out_bitmap",
               "visible": "false"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "unique_item_sold_out_label"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "unique_item_sold_out_label",
-    "stretched_x": false,
-    "stretched_y": false,
-    "antialias_type": "advanced",
-    "auto_size": "right",
-    "font_face": "Ubuntu",
-    "text_style": "regular",
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0,
-    "font_size": 18,
-    "bold": true
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "collect",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_phonenumber_collect_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_phonenumber_collect.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -106,7 +106,13 @@
                       "name": "club_icon",
                       "tags": "ICON"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "${image.library.url}returnusergifting/phone_frank.png",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   },
                   {
                     "tag": "html",
@@ -121,7 +127,18 @@
                       "name": "collect_summary",
                       "caption": "${phone.number.collect.summary}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_size": 20,
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0,
+                      "editable": false,
+                      "selectable": false
+                    }
                   }
                 ]
               },
@@ -150,7 +167,15 @@
                       "style": "3",
                       "caption": "${phone.number.collect.select.country}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_size": 9,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -164,7 +189,15 @@
                       "style": "3",
                       "caption": "${phone.number.collect.input.number}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_size": 9,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "boxsizer",
@@ -204,7 +237,14 @@
                               "caption": "${phone.number.collect.input.init.text}",
                               "width_max": "240"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "font_size": 32,
+                              "mouse_wheel_enabled": false,
+                              "bold": true,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "static_bitmap",
@@ -217,11 +257,20 @@
                               "params": "16",
                               "style": "3"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "common_small_pen",
+                              "fit_size_to_contents": true
+                            }
                           }
                         ]
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 15,
+                      "padding_horizontal": 0,
+                      "padding_vertical": 0
+                    }
                   }
                 ]
               }
@@ -295,7 +344,16 @@
                       "caption": "${phone.number.collect.skip}",
                       "treshold": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "font_size": 34,
+                      "mouse_wheel_enabled": false,
+                      "bold": true,
+                      "underline": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "link",
@@ -311,48 +369,42 @@
                       "caption": "${phone.number.collect.never.again}",
                       "treshold": "0"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "center",
+                      "font_size": 36,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "underline": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 6,
+                  "vertical": true,
+                  "padding_horizontal": 0,
+                  "padding_vertical": 0
+                }
               }
             ]
+          }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "common_small_pen",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "font_size": 36,
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 6,
-    "leading": 0,
-    "editable": false,
-    "selectable": false,
-    "auto_size": "center",
-    "text_style": "u_bold",
-    "bold": true,
-    "fit_size_to_contents": true,
-    "padding_horizontal": 0,
-    "padding_vertical": 0,
-    "underline": true,
-    "vertical": true
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

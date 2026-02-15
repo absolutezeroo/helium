@@ -1,6 +1,6 @@
 {
   "name": "next_ltd_available",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_next_ltd_available_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_next_ltd_available.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -29,7 +29,12 @@
               "params": "16",
               "style": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.url}reception/new_limited_released.png",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "widget",
@@ -43,7 +48,10 @@
               "style": "0",
               "name": "countdown"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "widget_type": "countdown"
+            }
           },
           {
             "tag": "text",
@@ -59,7 +67,15 @@
               "caption": "${landing.view.next.ltd.header}",
               "tags": "COLORABLE"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "font_size": 17,
+              "text_style": "u_bold",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "button",
@@ -113,17 +129,6 @@
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.url}reception/new_limited_released.png",
-    "stretched_x": false,
-    "stretched_y": false,
-    "widget_type": "countdown",
-    "auto_size": "left",
-    "font_size": 17,
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

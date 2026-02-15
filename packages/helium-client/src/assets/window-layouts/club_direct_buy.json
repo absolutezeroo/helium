@@ -1,6 +1,6 @@
 {
   "name": "club_direct_buy",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_club_direct_buy_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_club_direct_buy.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -63,7 +63,16 @@
               "name": "bold_text",
               "caption": "${direct.club.buy.header.bold.text}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "text_style": "u_bold",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "sharpness": 80,
+              "thickness": -15,
+              "word_wrap": true
+            }
           },
           {
             "tag": "text",
@@ -78,7 +87,16 @@
               "name": "standard_text",
               "caption": "${direct.club.buy.header.standard.text}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "text_style": "u_regular",
+              "mouse_wheel_enabled": false,
+              "multiline": true,
+              "sharpness": 80,
+              "thickness": -15,
+              "word_wrap": true
+            }
           },
           {
             "tag": "bitmap",
@@ -159,7 +177,11 @@
                       "style": "0",
                       "caption": "${direct.club.buy.period.length}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "u_bold",
+                      "text_color": 16777215
+                    }
                   }
                 ]
               },
@@ -191,7 +213,10 @@
                       "style": "0",
                       "caption": "${buy}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "u_bold"
+                    }
                   }
                 ]
               },
@@ -207,7 +232,10 @@
                   "style": "0",
                   "caption": "$PRICE Offer text long"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_small"
+                }
               }
             ]
           },
@@ -239,33 +267,32 @@
               "caption": "${direct.club.buy.compare.club.benefits.link}",
               "treshold": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "font_size": 19,
+              "text_style": "u_bold",
+              "mouse_wheel_enabled": false,
+              "sharpness": 80,
+              "thickness": -15,
+              "underline": true
+            }
+          }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "sharpness": 80,
-    "thickness": -15,
-    "word_wrap": true,
-    "text_color": 16777215,
-    "font_size": 19,
-    "underline": true
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

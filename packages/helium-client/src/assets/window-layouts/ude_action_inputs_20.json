@@ -1,6 +1,6 @@
 {
   "name": "ude_action_inputs_20",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboUserDefinedRoomEventsCom_ude_action_inputs_20_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboUserDefinedRoomEventsCom_ude_action_inputs_20.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -50,7 +50,18 @@
               "name": "desc_txt",
               "caption": "${wiredfurni.params.length.minutes}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_face": "Volter Bold",
+              "text_color": 16777215,
+              "mouse_wheel_enabled": false,
+              "sharpness": 0,
+              "thickness": 0,
+              "word_wrap": true,
+              "kerning": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "container",
@@ -94,7 +105,19 @@
               "style": "0",
               "name": "chat_message"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "always_show_selection": true,
+              "border": true,
+              "border_color": 16777215,
+              "text_color": 16777215,
+              "sharpness": 0,
+              "thickness": 0,
+              "kerning": false,
+              "spacing": 0,
+              "leading": 0,
+              "tool_tip_caption": "${wiredfurni.tooltip.chatmessage}"
+            }
           },
           {
             "tag": "text",
@@ -109,26 +132,23 @@
               "name": "desc_txt",
               "caption": "${wiredfurni.params.message}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_face": "Volter Bold",
+              "text_color": 16777215,
+              "mouse_wheel_enabled": false,
+              "sharpness": 0,
+              "thickness": 0,
+              "word_wrap": true,
+              "kerning": false,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter Bold",
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "word_wrap": true,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0,
-    "always_show_selection": true,
-    "border": true,
-    "border_color": 16777215,
-    "tool_tip_caption": "${wiredfurni.tooltip.chatmessage}"
-  },
+  "vars": {},
   "filters": []
 }

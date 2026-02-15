@@ -1,6 +1,6 @@
 {
   "name": "pet_view",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbopet_view_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_pet_view.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -72,7 +72,18 @@
                       "style": "0",
                       "name": "name_text"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_face": "Volter Bold",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -86,7 +97,17 @@
                       "style": "0",
                       "name": "breed_text"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "container",
@@ -143,7 +164,17 @@
                               "name": "level_text",
                               "caption": "${pet.level}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_color": 16777215,
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "text",
@@ -158,7 +189,17 @@
                               "name": "status_skill_text",
                               "caption": "${infostand.pet.text.skill}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_color": 10790052,
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "bitmap",
@@ -230,7 +271,17 @@
                                   "name": "status_happiness_text",
                                   "caption": "${infostand.pet.text.happiness}"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "auto_size": "left",
+                                  "text_color": 16777215,
+                                  "mouse_wheel_enabled": false,
+                                  "sharpness": 0,
+                                  "thickness": 0,
+                                  "kerning": false,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               },
                               {
                                 "tag": "bitmap",
@@ -258,7 +309,17 @@
                                   "style": "0",
                                   "name": "status_happiness_value_text"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "auto_size": "left",
+                                  "text_color": 16777215,
+                                  "mouse_wheel_enabled": false,
+                                  "sharpness": 0,
+                                  "thickness": 0,
+                                  "kerning": false,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               },
                               {
                                 "tag": "bitmap",
@@ -272,7 +333,10 @@
                                   "style": "0",
                                   "name": "status_happiness_icon"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "bitmap_asset_name": "icon_pet_happiness"
+                                }
                               }
                             ]
                           },
@@ -302,7 +366,17 @@
                                   "name": "status_experience_text",
                                   "caption": "${infostand.pet.text.experience}"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "auto_size": "left",
+                                  "text_color": 16777215,
+                                  "mouse_wheel_enabled": false,
+                                  "sharpness": 0,
+                                  "thickness": 0,
+                                  "kerning": false,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               },
                               {
                                 "tag": "bitmap",
@@ -330,7 +404,17 @@
                                   "style": "0",
                                   "name": "status_experience_value_text"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "auto_size": "left",
+                                  "text_color": 16777215,
+                                  "mouse_wheel_enabled": false,
+                                  "sharpness": 0,
+                                  "thickness": 0,
+                                  "kerning": false,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               },
                               {
                                 "tag": "bitmap",
@@ -344,7 +428,10 @@
                                   "style": "0",
                                   "name": "status_experience_icon"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "bitmap_asset_name": "icon_pet_experience"
+                                }
                               }
                             ]
                           },
@@ -374,7 +461,17 @@
                                   "name": "status_energy_text",
                                   "caption": "${infostand.pet.text.energy}"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "auto_size": "left",
+                                  "text_color": 16777215,
+                                  "mouse_wheel_enabled": false,
+                                  "sharpness": 0,
+                                  "thickness": 0,
+                                  "kerning": false,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               },
                               {
                                 "tag": "bitmap",
@@ -402,7 +499,17 @@
                                   "style": "0",
                                   "name": "status_energy_value_text"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "auto_size": "left",
+                                  "text_color": 16777215,
+                                  "mouse_wheel_enabled": false,
+                                  "sharpness": 0,
+                                  "thickness": 0,
+                                  "kerning": false,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               },
                               {
                                 "tag": "bitmap",
@@ -416,7 +523,10 @@
                                   "style": "0",
                                   "name": "status_energy_icon"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "bitmap_asset_name": "icon_pet_energy"
+                                }
                               }
                             ]
                           },
@@ -434,7 +544,18 @@
                               "caption": "${infostand.pet.text.raritylevel}",
                               "height_min": "15"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_color": 16777215,
+                              "margin_top": 5,
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       },
@@ -478,7 +599,17 @@
                                   "name": "status_wellbeing_text",
                                   "caption": "${infostand.pet.text.wellbeing}"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "auto_size": "left",
+                                  "text_color": 16777215,
+                                  "mouse_wheel_enabled": false,
+                                  "sharpness": 0,
+                                  "thickness": 0,
+                                  "kerning": false,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               },
                               {
                                 "tag": "bitmap",
@@ -506,7 +637,17 @@
                                   "style": "0",
                                   "name": "status_wellbeing_value_text"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "auto_size": "left",
+                                  "text_color": 16777215,
+                                  "mouse_wheel_enabled": false,
+                                  "sharpness": 0,
+                                  "thickness": 0,
+                                  "kerning": false,
+                                  "spacing": 0,
+                                  "leading": 0
+                                }
                               },
                               {
                                 "tag": "bitmap",
@@ -520,7 +661,10 @@
                                   "style": "0",
                                   "name": "status_wellbeing_icon"
                                 },
-                                "children": []
+                                "children": [],
+                                "vars": {
+                                  "bitmap_asset_name": "icon_pet_wellbeing"
+                                }
                               }
                             ]
                           },
@@ -537,7 +681,18 @@
                               "name": "growth_status_text",
                               "caption": "${infostand.pet.text.growth}"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_color": 16777215,
+                              "margin_bottom": 2,
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "widget",
@@ -551,7 +706,11 @@
                               "style": "0",
                               "name": "growth_status_widget"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "widget_type": "countdown",
+                              "countdown:seconds": 12054
+                            }
                           },
                           {
                             "tag": "text",
@@ -567,7 +726,18 @@
                               "caption": "${infostand.pet.text.raritylevel}",
                               "height_min": "15"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_color": 16777215,
+                              "margin_top": -2,
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "kerning": false,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           },
                           {
                             "tag": "widget",
@@ -581,9 +751,16 @@
                               "style": "0",
                               "name": "rarity_item_overlay_widget"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "widget_type": "rarity_item_overlay_preview"
+                            }
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "spacing": 2,
+                          "resize_on_item_update": true
+                        }
                       }
                     ]
                   },
@@ -613,7 +790,17 @@
                           "name": "petrespect_text",
                           "caption": "${infostand.text.petrespect}"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_color": 16777215,
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "bitmap",
@@ -644,7 +831,17 @@
                       "name": "age_text",
                       "caption": "${pet.age}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   },
                   {
                     "tag": "text",
@@ -659,7 +856,17 @@
                       "name": "owner_text",
                       "caption": "${infostand.text.petowner}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "text_color": 16777215,
+                      "mouse_wheel_enabled": false,
+                      "sharpness": 0,
+                      "thickness": 0,
+                      "kerning": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               }
@@ -936,26 +1143,13 @@
               }
             ]
           }
-        ]
+        ],
+        "vars": {
+          "spacing": 10
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "font_face": "Volter Bold",
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "kerning": false,
-    "spacing": 10,
-    "leading": 0,
-    "bitmap_asset_name": "icon_pet_wellbeing",
-    "margin_top": -2,
-    "margin_bottom": 2,
-    "widget_type": "rarity_item_overlay_preview",
-    "countdown:seconds": 12054,
-    "resize_on_item_update": true
-  },
+  "vars": {},
   "filters": []
 }

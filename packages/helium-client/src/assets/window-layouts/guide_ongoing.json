@@ -1,6 +1,6 @@
 {
   "name": "guide_ongoing",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_guide_ongoing_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboHelpCom_guide_ongoing.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -51,7 +51,11 @@
                   "height_min": "30",
                   "height_max": "30"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "tool_tip_caption": "${guide.help.request.guide.ongoing.visit.button.tooltip}",
+                  "tool_tip_delay": 256
+                }
               },
               {
                 "tag": "button",
@@ -69,9 +73,16 @@
                   "height_min": "30",
                   "height_max": "30"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "tool_tip_caption": "${guide.help.request.guide.ongoing.invite.button.tooltip}",
+                  "tool_tip_delay": 256
+                }
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 5
+            }
           },
           {
             "tag": "link",
@@ -87,7 +98,16 @@
               "caption": "${guide.help.common.report.link}",
               "treshold": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "right",
+              "mouse_wheel_enabled": false,
+              "underline": true,
+              "spacing": 0,
+              "leading": 0,
+              "tool_tip_caption": "${guide.help.common.report.link.tooltip}",
+              "tool_tip_delay": 256
+            }
           },
           {
             "tag": "static_bitmap",
@@ -100,7 +120,11 @@
               "params": "16",
               "style": "100"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "illumina_horizontal_separator",
+              "stretched_y": false
+            }
           },
           {
             "tag": "scrollable_itemlist_vertical",
@@ -127,7 +151,12 @@
                   "style": "100",
                   "caption": "${guide.help.common.typing}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_color": 5592405,
+                  "margin_top": 3,
+                  "margin_bottom": 2
+                }
               }
             ]
           },
@@ -156,7 +185,11 @@
                   "width_min": "280",
                   "width_max": "280"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "illumina_horizontal_separator",
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "widget",
@@ -170,7 +203,11 @@
                   "style": "100",
                   "name": "input_widget"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "widget_type": "illumina_input",
+                  "illumina_input:empty_message": "Click here to chat"
+                }
               },
               {
                 "tag": "link",
@@ -186,41 +223,38 @@
                   "caption": "${guide.help.request.guide.ongoing.close.link}",
                   "treshold": "0"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "mouse_wheel_enabled": false,
+                  "underline": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 1,
+          "margin_top": 35,
+          "margin_right": 1,
+          "margin_bottom": 0
+        }
       }
     ]
   },
-  "vars": {
-    "tool_tip_caption": "${guide.help.common.report.link.tooltip}",
-    "tool_tip_delay": 256,
-    "spacing": 0,
-    "auto_size": "center",
-    "mouse_wheel_enabled": false,
-    "underline": true,
-    "leading": 0,
-    "asset_uri": "illumina_horizontal_separator",
-    "stretched_y": false,
-    "text_color": 5592405,
-    "margin_top": 35,
-    "margin_bottom": 0,
-    "widget_type": "illumina_input",
-    "illumina_input:empty_message": "Click here to chat",
-    "margin_left": 1,
-    "margin_right": 1
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

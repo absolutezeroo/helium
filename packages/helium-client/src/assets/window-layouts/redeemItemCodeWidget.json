@@ -1,6 +1,6 @@
 {
   "name": "redeemItemCodeWidget",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboredeem_item_code_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_redeem_item_code_widget.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -61,19 +61,20 @@
               "name": "voucher_code",
               "caption": "lorem ipsum"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "always_show_selection": true,
+              "auto_size": "left",
+              "mouse_wheel_enabled": false,
+              "max_chars": 16,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "always_show_selection": true,
-    "auto_size": "left",
-    "mouse_wheel_enabled": false,
-    "max_chars": 16,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

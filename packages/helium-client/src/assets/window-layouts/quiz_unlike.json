@@ -1,6 +1,6 @@
 {
   "name": "quiz_unlike",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_wordquiz_unlike_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_wordquiz_unlike.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -79,21 +79,24 @@
                   "clipping": "false",
                   "tags": "#icon"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "word_quiz_thum_down",
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false,
+                  "etching_color": 1207959552
+                }
               }
-            ]
+            ],
+            "vars": {
+              "tool_tip_caption": "${quizz.like.button.tooltip}"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "word_quiz_thum_down",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "etching_color": 1207959552,
-    "tool_tip_caption": "${quizz.like.button.tooltip}"
-  },
+  "vars": {},
   "filters": []
 }

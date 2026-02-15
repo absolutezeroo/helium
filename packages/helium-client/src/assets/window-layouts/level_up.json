@@ -1,6 +1,6 @@
 {
   "name": "level_up",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_track_promo_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_track_promo.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -77,7 +77,13 @@
                   "name": "pixel_icon",
                   "tags": "ICON"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "toolbar_citizenship_icon",
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               }
             ]
           },
@@ -94,22 +100,19 @@
               "name": "title_txt",
               "caption": "${citizenship.promo.title}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "il_regular_white",
+              "mouse_wheel_enabled": false,
+              "bold": true,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "toolbar_citizenship_icon",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "text_style": "il_regular_white",
-    "mouse_wheel_enabled": false,
-    "bold": true,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

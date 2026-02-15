@@ -1,6 +1,6 @@
 {
   "name": "pending_instructions_request",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_pending_instructions_request_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboHelpCom_pending_instructions_request.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -45,7 +45,11 @@
                   "style": "100",
                   "caption": "${guide.pending.instructions.subtitle}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "il_heading_1",
+                  "text_color": 12779520
+                }
               },
               {
                 "tag": "text",
@@ -61,7 +65,16 @@
                   "width_min": "295",
                   "width_max": "295"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "margin_bottom": 8,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "border",
@@ -89,7 +102,11 @@
                       "style": "100",
                       "caption": "${guide.pending.instructions.report}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "il_border",
+                      "text_color": 4473924
+                    }
                   },
                   {
                     "tag": "itemlist_vertical",
@@ -115,7 +132,16 @@
                           "style": "100",
                           "name": "description"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "margin_bottom": 10,
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "widget",
@@ -129,7 +155,10 @@
                           "style": "100",
                           "name": "timestamp"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "widget_type": "updating_timestamp"
+                        }
                       },
                       {
                         "tag": "container",
@@ -144,7 +173,10 @@
                         },
                         "children": []
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 3
+                    }
                   }
                 ]
               },
@@ -178,7 +210,10 @@
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 3
+            }
           },
           {
             "tag": "static_bitmap",
@@ -191,34 +226,26 @@
               "params": "1024",
               "style": "100"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "help_illustrations_question"
+            }
+          }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "text_style": "il_border",
-    "text_color": 4473924,
-    "auto_size": "left",
-    "margin_bottom": 10,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 3,
-    "leading": 0,
-    "widget_type": "updating_timestamp",
-    "asset_uri": "help_illustrations_question"
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

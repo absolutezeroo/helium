@@ -1,6 +1,6 @@
 {
   "name": "memenu_effect_unselected",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbomemenu_effect_unselected_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_memenu_effect_unselected.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -159,7 +159,11 @@
                   "width_min": "98",
                   "width_max": "98"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "mouse_wheel_enabled": false
+                }
               },
               {
                 "tag": "text",
@@ -174,7 +178,13 @@
                   "name": "effect_name",
                   "caption": "${widget.memenu.effectname}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_face": "Volter Bold",
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false
+                }
               },
               {
                 "tag": "container",
@@ -219,7 +229,11 @@
                           "name": "effect_amount",
                           "caption": "99"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "text_color": 15658734,
+                          "mouse_wheel_enabled": false
+                        }
                       }
                     ]
                   }
@@ -231,11 +245,6 @@
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "mouse_wheel_enabled": false,
-    "font_face": "Volter Bold",
-    "text_color": 15658734
-  },
+  "vars": {},
   "filters": []
 }

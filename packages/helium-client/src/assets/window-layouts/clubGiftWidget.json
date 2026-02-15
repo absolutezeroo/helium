@@ -1,6 +1,6 @@
 {
   "name": "clubGiftWidget",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboclub_gift_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_club_gift_widget.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,7 +31,10 @@
               "style": "3",
               "name": "gift_list"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "spacing": 1
+            }
           },
           {
             "tag": "text",
@@ -46,7 +49,14 @@
               "name": "info_text",
               "caption": "lorem ipsum"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "u_italic",
+              "mouse_wheel_enabled": false,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -61,7 +71,15 @@
               "name": "past_club_days",
               "caption": "lorem ipsum"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "text_style": "u_small",
+              "mouse_wheel_enabled": false,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -77,19 +95,20 @@
               "caption": "lorem ipsum",
               "visible": "false"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "right",
+              "text_style": "u_small",
+              "mouse_wheel_enabled": false,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "spacing": 0,
-    "text_style": "u_small",
-    "mouse_wheel_enabled": false,
-    "word_wrap": true,
-    "leading": 0,
-    "auto_size": "right"
-  },
+  "vars": {},
   "filters": []
 }

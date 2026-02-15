@@ -1,6 +1,6 @@
 {
   "name": "buy_marketplace_tokens",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboInventoryCom_buy_marketplace_tokens_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboInventoryCom_buy_marketplace_tokens.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -45,7 +45,13 @@
                   "style": "3",
                   "caption": "${inventory.marketplace.buy_tokens.info}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "mouse_wheel_enabled": false,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "button",
@@ -80,29 +86,27 @@
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 6,
+          "margin_top": 30,
+          "margin_right": 6,
+          "margin_bottom": 6
+        }
       }
     ]
   },
-  "vars": {
-    "mouse_wheel_enabled": false,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "margin_left": 6,
-    "margin_top": 30,
-    "margin_right": 6,
-    "margin_bottom": 6
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

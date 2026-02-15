@@ -1,6 +1,6 @@
 {
   "name": "wall_message_main",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_groupforum_main_view_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_groupforum_main_view.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -80,7 +80,10 @@
                       "style": "3",
                       "name": "group_icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "widget_type": "badge_image"
+                    }
                   },
                   {
                     "tag": "static_bitmap",
@@ -94,7 +97,10 @@
                       "style": "3",
                       "name": "header_icon"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": ""
+                    }
                   }
                 ]
               },
@@ -112,7 +118,15 @@
                   "caption": "Super-duper long group title",
                   "clipping": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 36,
+                  "text_color": 16777215,
+                  "text_style": "u_headline_big",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "text",
@@ -128,7 +142,14 @@
                   "caption": "Super-duper long goup description, maybe even multiline, but takes a few lines anyway",
                   "clipping": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "border",
@@ -157,7 +178,10 @@
                       "params": "16",
                       "style": "3"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "pursearea_settings_icon"
+                    }
                   },
                   {
                     "tag": "text",
@@ -171,7 +195,20 @@
                       "style": "3",
                       "caption": "${groupforum.view.settings.header}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "auto_size": "left",
+                      "font_size": 17,
+                      "grid_fit_type": "subpixel",
+                      "text_color": 16777215,
+                      "text_style": "u_bold",
+                      "margin_right": 3,
+                      "mouse_wheel_enabled": false,
+                      "thickness": 15,
+                      "bold": false,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
               }
@@ -205,7 +242,17 @@
                   "name": "header",
                   "caption": "${groupforum.view.shortcuts.header}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 17,
+                  "grid_fit_type": "subpixel",
+                  "margin_left": 5,
+                  "mouse_wheel_enabled": false,
+                  "bold": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "html",
@@ -220,7 +267,19 @@
                   "name": "my",
                   "caption": "${groupforum.view.shortcuts.my}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 17,
+                  "grid_fit_type": "subpixel",
+                  "text_color": 1800619,
+                  "mouse_wheel_enabled": false,
+                  "underline": true,
+                  "spacing": 0,
+                  "leading": 0,
+                  "editable": false,
+                  "selectable": false
+                }
               },
               {
                 "tag": "html",
@@ -235,7 +294,19 @@
                   "name": "active",
                   "caption": "${groupforum.view.shortcuts.active}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 17,
+                  "grid_fit_type": "subpixel",
+                  "text_color": 1800619,
+                  "mouse_wheel_enabled": false,
+                  "underline": true,
+                  "spacing": 0,
+                  "leading": 0,
+                  "editable": false,
+                  "selectable": false
+                }
               },
               {
                 "tag": "html",
@@ -250,9 +321,24 @@
                   "name": "popular",
                   "caption": "${groupforum.view.shortcuts.popular}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "font_size": 17,
+                  "grid_fit_type": "subpixel",
+                  "text_color": 1800619,
+                  "mouse_wheel_enabled": false,
+                  "underline": true,
+                  "spacing": 0,
+                  "leading": 0,
+                  "editable": false,
+                  "selectable": false
+                }
               }
-            ]
+            ],
+            "vars": {
+              "spacing": 5
+            }
           },
           {
             "tag": "text",
@@ -267,7 +353,15 @@
               "name": "list_header",
               "caption": "Topic"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_size": 22,
+              "text_color": 10921634,
+              "text_style": "u_bold",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "border",
@@ -294,7 +388,10 @@
                   "style": "3",
                   "name": "scrollable_message_list"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "spacing": 1
+                }
               }
             ]
           },
@@ -327,7 +424,10 @@
                   "name": "back_button_label",
                   "caption": "${groupforum.view.back}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_bold"
+                }
               }
             ]
           },
@@ -360,7 +460,11 @@
                   "name": "post_button_label",
                   "caption": "Post"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_bold",
+                  "text_color": 16777215
+                }
               }
             ]
           },
@@ -403,7 +507,10 @@
                       "style": "3",
                       "caption": "<<"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "u_bold"
+                    }
                   }
                 ]
               },
@@ -434,7 +541,10 @@
                       "style": "3",
                       "caption": "<"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "u_bold"
+                    }
                   }
                 ]
               },
@@ -452,7 +562,14 @@
                   "caption": "30/200",
                   "color": "0x0949491"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "text_color": 9737361,
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container_button",
@@ -480,7 +597,10 @@
                       "style": "3",
                       "caption": ">"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "u_bold"
+                    }
                   }
                 ]
               },
@@ -511,7 +631,10 @@
                       "style": "3",
                       "caption": ">>"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "text_style": "u_bold"
+                    }
                   }
                 ]
               }
@@ -542,46 +665,42 @@
                   "name": "status",
                   "caption": "Status text"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "font_size": 17,
+                  "grid_fit_type": "subpixel",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0,
+                  "editable": false,
+                  "selectable": false
+                }
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "help_page": "forums",
+          "margin_left": 6,
+          "margin_top": 25,
+          "margin_right": 6,
+          "margin_bottom": 4
+        }
       }
     ]
   },
-  "vars": {
-    "widget_type": "badge_image",
-    "asset_uri": "pursearea_settings_icon",
-    "font_size": 17,
-    "text_color": 9737361,
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "word_wrap": true,
-    "auto_size": "center",
-    "grid_fit_type": "subpixel",
-    "margin_right": 6,
-    "thickness": 15,
-    "bold": true,
-    "margin_left": 6,
-    "underline": true,
-    "editable": false,
-    "selectable": false,
-    "help_page": "forums",
-    "margin_top": 25,
-    "margin_bottom": 4
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

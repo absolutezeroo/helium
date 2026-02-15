@@ -1,6 +1,6 @@
 {
   "name": "avatarinfo",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboavatar_info_widget_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_avatar_info_widget.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,7 +32,11 @@
               "style": "100",
               "name": "relationship_status"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "text",
@@ -47,7 +51,16 @@
               "name": "name",
               "caption": "my_name_here"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "font_size": 17,
+              "text_color": 16777215,
+              "text_style": "u_regular",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "container",
@@ -75,7 +88,16 @@
                   "style": "0",
                   "caption": "${widget.avatar.change_name}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_size": 16,
+                  "text_color": 16433664,
+                  "text_style": "u_italic",
+                  "mouse_wheel_enabled": false,
+                  "underline": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "bitmap",
@@ -97,17 +119,6 @@
       }
     ]
   },
-  "vars": {
-    "stretched_x": false,
-    "stretched_y": false,
-    "auto_size": "left",
-    "font_size": 16,
-    "text_color": 16433664,
-    "text_style": "u_italic",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "underline": true
-  },
+  "vars": {},
   "filters": []
 }

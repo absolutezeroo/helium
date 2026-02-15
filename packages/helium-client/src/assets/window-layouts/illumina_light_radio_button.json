@@ -1,6 +1,6 @@
 {
   "name": "illumina_light_radio_button",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_illumina_light_radio_button_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_illumina_light_radio_button.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -19,16 +19,17 @@
           "tags": "_EXCLUDE, _INTERNAL, title",
           "params": "0"
         },
-        "children": []
+        "children": [],
+        "vars": {
+          "text_style": "il_regular",
+          "margins": null,
+          "auto_size": "left",
+          "multiline": "true",
+          "word_wrap": "true"
+        }
       }
     ]
   },
-  "vars": {
-    "text_style": "il_regular",
-    "margins": null,
-    "auto_size": "left",
-    "multiline": "true",
-    "word_wrap": "true"
-  },
+  "vars": {},
   "filters": []
 }

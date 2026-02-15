@@ -1,6 +1,6 @@
 {
   "name": "layout_frontpage_featured",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbolayout_frontpage_featured_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_layout_frontpage_featured.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -71,7 +71,12 @@
                           "style": "3",
                           "name": "item_image"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       },
                       {
                         "tag": "border",
@@ -102,7 +107,18 @@
                               "name": "item_title",
                               "caption": ""
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_style": "ubuntu_condensed_title",
+                              "margin_right": 5,
+                              "margin_bottom": 5,
+                              "mouse_wheel_enabled": false,
+                              "multiline": true,
+                              "word_wrap": true,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       },
@@ -123,7 +139,10 @@
                       }
                     ]
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 7
+                }
               },
               {
                 "tag": "container",
@@ -150,7 +169,12 @@
                       "style": "3",
                       "name": "item_image"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   },
                   {
                     "tag": "border",
@@ -182,7 +206,18 @@
                           "caption": "",
                           "width_max": "174"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_style": "ubuntu_condensed_title",
+                          "margin_right": 5,
+                          "margin_bottom": 5,
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   },
@@ -232,7 +267,15 @@
                   "name": "ctlg_txt2",
                   "caption": "${lorem.title}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container",
@@ -271,7 +314,14 @@
                           "style": "3",
                           "name": "voucher_code"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "always_show_selection": true,
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   },
@@ -299,20 +349,6 @@
       }
     ]
   },
-  "vars": {
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "auto_size": "left",
-    "text_style": "ubuntu_condensed_title",
-    "margin_right": 5,
-    "margin_bottom": 5,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "always_show_selection": true
-  },
+  "vars": {},
   "filters": []
 }

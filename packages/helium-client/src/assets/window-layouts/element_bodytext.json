@@ -1,6 +1,6 @@
 {
   "name": "element_bodytext",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_element_subcaption_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_element_subcaption.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -19,18 +19,19 @@
           "caption": "Desc PH",
           "tags": "COLORABLE"
         },
-        "children": []
+        "children": [],
+        "vars": {
+          "auto_size": "left",
+          "text_style": "il_heading_3",
+          "mouse_wheel_enabled": false,
+          "multiline": true,
+          "word_wrap": true,
+          "spacing": 0,
+          "leading": 0
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "text_style": "il_heading_3",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "userclassification_frame",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboModerationCom_userclassification_frame_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboModerationCom_userclassification_frame.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -79,7 +79,15 @@
                           "style": "0",
                           "name": "user_classification_txt"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -95,7 +103,17 @@
                           "caption": "whatwasit",
                           "background": "true"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_face": "Volter Bold",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "underline": true,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -111,7 +129,17 @@
                           "caption": "Visit",
                           "background": "true"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_face": "Volter Bold",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "underline": true,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
                     ]
                   }
@@ -130,34 +158,28 @@
                   "name": "scroller",
                   "caption": "User Classifications"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "scrollable": "userclassification_list"
+                }
               }
             ]
+          }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0,
-    "font_face": "Volter Bold",
-    "underline": true,
-    "scrollable": "userclassification_list"
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

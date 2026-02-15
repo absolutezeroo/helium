@@ -1,6 +1,6 @@
 {
   "name": "habbo_crasher_dialog",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_crasher_dialog_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_habbo_crasher_dialog.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -34,7 +34,14 @@
               "name": "crasher_text",
               "caption": "Warning: Pressing the button crashes the client!!!"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "u_bold",
+              "mouse_wheel_enabled": false,
+              "sharpness": 80,
+              "thickness": -15,
+              "word_wrap": true
+            }
           },
           {
             "tag": "button_thick",
@@ -50,33 +57,32 @@
               "caption": "Crash Me!",
               "tags": "button"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "tool_tip_caption": "Pressing me is the last thing you'll do..."
+            }
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 6,
+          "margin_top": 25,
+          "margin_right": 6,
+          "margin_bottom": 7
+        }
       }
     ]
   },
-  "vars": {
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "sharpness": 80,
-    "thickness": -15,
-    "word_wrap": true,
-    "tool_tip_caption": "Pressing me is the last thing you'll do...",
-    "margin_left": 6,
-    "margin_top": 25,
-    "margin_right": 6,
-    "margin_bottom": 7
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

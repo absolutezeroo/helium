@@ -1,6 +1,6 @@
 {
   "name": "memenu_dance_button",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbomemenu_dance_button_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_memenu_dance_button.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -20,7 +20,8 @@
           "name": "dance_button",
           "caption": ""
         },
-        "children": []
+        "children": [],
+        "vars": {}
       }
     ]
   },

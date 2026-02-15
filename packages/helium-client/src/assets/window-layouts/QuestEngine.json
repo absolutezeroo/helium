@@ -1,6 +1,6 @@
 {
   "name": "QuestEngine",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboquest_help_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboQuestEngineCom_quest_help.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -62,7 +62,13 @@
                   "caption": "${quest.help.title}",
                   "color": "0x00"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "font_face": "Volter Bold",
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false
+                }
               },
               {
                 "tag": "text",
@@ -78,7 +84,13 @@
                   "caption": "${quest.help.short}",
                   "color": "0x00"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "center",
+                  "font_face": "Volter Bold",
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false
+                }
               }
             ]
           },
@@ -109,7 +121,14 @@
                   "caption": "${quest.help.description}",
                   "height_min": "50"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "margin_left": 5,
+                  "margin_right": 5,
+                  "mouse_wheel_enabled": false,
+                  "multiline": true,
+                  "word_wrap": true
+                }
               }
             ]
           }
@@ -117,15 +136,6 @@
       }
     ]
   },
-  "vars": {
-    "auto_size": "center",
-    "font_face": "Volter Bold",
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "margin_left": 5,
-    "margin_right": 5,
-    "multiline": true,
-    "word_wrap": true
-  },
+  "vars": {},
   "filters": []
 }

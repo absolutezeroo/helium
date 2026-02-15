@@ -1,6 +1,6 @@
 {
   "name": "facebook",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_facebook_piece_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_facebook_piece.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,7 +33,11 @@
               "style": "0",
               "name": "icon"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "handle_bitmap_disposing": false,
+              "bitmap_asset_name": "fb_icon_small_png"
+            }
           },
           {
             "tag": "text",
@@ -48,22 +52,21 @@
               "name": "name",
               "caption": "Baz Bar Foo"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "text_color": 16777215,
+              "text_style": "u_small",
+              "mouse_wheel_enabled": false,
+              "sharpness": 80,
+              "thickness": -15,
+              "word_wrap": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "handle_bitmap_disposing": false,
-    "bitmap_asset_name": "fb_icon_small_png",
-    "auto_size": "left",
-    "text_color": 16777215,
-    "text_style": "u_small",
-    "mouse_wheel_enabled": false,
-    "sharpness": 80,
-    "thickness": -15,
-    "word_wrap": true
-  },
+  "vars": {},
   "filters": []
 }

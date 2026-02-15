@@ -1,6 +1,6 @@
 {
   "name": "illumina_light_window_layout_scrollbar_vertical",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_illumina_light_scrollbar_vertical_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_illumina_light_scrollbar_vertical.xml",
   "window": {
     "tag": "window",
     "typeId": -1,

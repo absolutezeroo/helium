@@ -1,6 +1,6 @@
 {
   "name": "ecotron_box_card",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habboecotronbox_card_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_ecotronbox_card_furnimatic.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,7 +31,10 @@
               "style": "0",
               "name": "ecotronbox_card_bg"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.url}Giftcards/ecotronbox_card_bg_furnimatic.png"
+            }
           },
           {
             "tag": "bitmap",
@@ -53,12 +56,12 @@
             "attributes": {
               "x": "47",
               "y": "90",
-              "width": "191",
+              "width": "205",
               "height": "22",
               "params": "131089",
               "style": "0",
               "name": "ecotronbox_card_btn_open",
-              "caption": "${widget.furni.ecotronbox.open}"
+              "caption": "${widget.furni.furnimaticbox.open}"
             },
             "children": []
           },
@@ -88,9 +91,18 @@
               "params": "16",
               "style": "0",
               "name": "ecotronbox_card_msg",
-              "caption": "${widget.furni.ecotronbox.title}"
+              "caption": "${widget.furni.furnimaticbox.title}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "mouse_wheel_enabled": false,
+              "sharpness": 0,
+              "thickness": 0,
+              "word_wrap": true,
+              "kerning": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -104,21 +116,21 @@
               "style": "0",
               "name": "ecotronbox_card_date"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "mouse_wheel_enabled": false,
+              "sharpness": 0,
+              "thickness": 0,
+              "word_wrap": true,
+              "kerning": false,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.url}Giftcards/ecotronbox_card_bg.png",
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "word_wrap": true,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

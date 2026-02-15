@@ -1,6 +1,6 @@
 {
   "name": "ude_event",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboUserDefinedRoomEventsCom_ude_trigger_inputs_7_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboUserDefinedRoomEventsCom_ude_trigger_inputs_7.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -50,7 +50,14 @@
               "name": "desc_txt",
               "caption": "${wiredfurni.params.picktriggerer}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_face": "Volter Bold",
+              "text_color": 16777215,
+              "sharpness": 0,
+              "thickness": 0,
+              "word_wrap": true
+            }
           },
           {
             "tag": "selector",
@@ -108,7 +115,13 @@
               "name": "any_avatar_txt",
               "caption": "${wiredfurni.params.anyavatar}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_color": 16777215,
+              "sharpness": 0,
+              "thickness": 0,
+              "kerning": false
+            }
           },
           {
             "tag": "text",
@@ -123,7 +136,13 @@
               "name": "certain_avatar_txt",
               "caption": "${wiredfurni.params.certainavatar}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_color": 16777215,
+              "sharpness": 0,
+              "thickness": 0,
+              "kerning": false
+            }
           },
           {
             "tag": "input",
@@ -137,23 +156,22 @@
               "style": "0",
               "name": "avatar_name_txt"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "always_show_selection": true,
+              "border": true,
+              "border_color": 16777215,
+              "text_color": 16777215,
+              "sharpness": 0,
+              "thickness": 0,
+              "kerning": false,
+              "tool_tip_caption": "${wiredfurni.tooltip.avatarname}"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter Bold",
-    "text_color": 16777215,
-    "sharpness": 0,
-    "thickness": 0,
-    "word_wrap": true,
-    "kerning": false,
-    "always_show_selection": true,
-    "border": true,
-    "border_color": 16777215,
-    "tool_tip_caption": "${wiredfurni.tooltip.avatarname}"
-  },
+  "vars": {},
   "filters": []
 }

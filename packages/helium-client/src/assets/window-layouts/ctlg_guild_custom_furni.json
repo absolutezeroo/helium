@@ -1,6 +1,6 @@
 {
   "name": "ctlg_guild_custom_furni",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_guild_custom_furni_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_old_layout_guild_custom_furni.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,7 +32,11 @@
               "name": "ctlg_selectproduct",
               "caption": "${catalog_selectproduct}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "u_small",
+              "text_color": 6710886
+            }
           },
           {
             "tag": "container",
@@ -137,9 +141,6 @@
       }
     ]
   },
-  "vars": {
-    "text_style": "u_small",
-    "text_color": 6710886
-  },
+  "vars": {},
   "filters": []
 }

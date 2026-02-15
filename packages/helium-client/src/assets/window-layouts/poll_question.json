@@ -1,6 +1,6 @@
 {
   "name": "poll_question",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbopoll_question_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_poll_question.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -51,7 +51,14 @@
                   "caption": "${poll_question_headline}",
                   "color": "0x00"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_color": 16777215,
+                  "text_style": "u_headline_big",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -65,7 +72,10 @@
                   "style": "3",
                   "name": "poll_prompt_image"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "poll_poll_prompt_question"
+                }
               }
             ]
           },
@@ -121,7 +131,16 @@
                           "style": "0",
                           "name": "poll_question_text"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "multiline": true,
+                          "word_wrap": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "container",
@@ -165,7 +184,11 @@
                     },
                     "children": []
                   }
-                ]
+                ],
+                "vars": {
+                  "scale_to_fit_items": true,
+                  "resize_on_item_update": true
+                }
               }
             ]
           },
@@ -195,7 +218,15 @@
                   "name": "poll_question_number",
                   "caption": "${poll_question_number}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_color": 3355443,
+                  "text_style": "u_regular",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "label",
@@ -212,7 +243,11 @@
                   "width_min": "74",
                   "width_max": "74"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "text_style": "u_regular",
+                  "text_color": 3355443
+                }
               },
               {
                 "tag": "button_thick",
@@ -234,36 +269,27 @@
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 6,
+          "margin_top": 25,
+          "margin_right": 6,
+          "margin_bottom": 7
+        }
       }
     ]
   },
-  "vars": {
-    "text_color": 3355443,
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "asset_uri": "poll_poll_prompt_question",
-    "auto_size": "left",
-    "multiline": true,
-    "word_wrap": true,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true,
-    "margin_left": 6,
-    "margin_top": 25,
-    "margin_right": 6,
-    "margin_bottom": 7
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

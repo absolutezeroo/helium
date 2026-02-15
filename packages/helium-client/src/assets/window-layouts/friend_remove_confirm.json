@@ -1,6 +1,6 @@
 {
   "name": "friend_remove_confirm",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendListCom_friend_remove_confirm_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendListCom_friend_remove_confirm.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -47,7 +47,14 @@
                   "name": "remove_info",
                   "caption": "${friendlist.removefriendconfirm.userlist}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_face": "Volter",
+                  "font_size": 9,
+                  "text_color": 0,
+                  "embed_fonts": true,
+                  "word_wrap": true
+                }
               }
             ]
           },
@@ -89,12 +96,6 @@
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter",
-    "font_size": 9,
-    "text_color": 0,
-    "embed_fonts": true,
-    "word_wrap": true
-  },
+  "vars": {},
   "filters": []
 }

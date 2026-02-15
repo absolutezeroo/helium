@@ -1,6 +1,6 @@
 {
   "name": "chatinput_window_new",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbochatinput_window_new_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_chatinput_window_new.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -110,7 +110,21 @@
                           "visible": "false",
                           "treshold": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "antialias_type": "advanced",
+                          "font_face": "Ubuntu",
+                          "font_size": 20,
+                          "grid_fit_type": "subpixel",
+                          "text_color": 16711680,
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "bold": true,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "input",
@@ -128,7 +142,22 @@
                           "treshold": "0",
                           "tags": "FIT:chatInputField"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "always_show_selection": true,
+                          "antialias_type": "advanced",
+                          "font_face": "Ubuntu",
+                          "font_size": 23,
+                          "text_color": 7829367,
+                          "mouse_wheel_enabled": false,
+                          "max_chars": 100,
+                          "sharpness": 0,
+                          "thickness": 0,
+                          "kerning": false,
+                          "spacing": 0,
+                          "leading": 0,
+                          "focus_capturer": true
+                        }
                       }
                     ]
                   },
@@ -159,7 +188,13 @@
                           "name": "style_bg",
                           "clipping": "false"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "common_chat_style_block",
+                          "stretched_x": false,
+                          "stretched_y": false,
+                          "fit_size_to_contents": true
+                        }
                       },
                       {
                         "tag": "static_bitmap",
@@ -175,7 +210,15 @@
                           "clipping": "false",
                           "tags": "#icon"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "asset_uri": "common_chat_styles",
+                          "pivot_point": "center",
+                          "stretched_x": false,
+                          "stretched_y": false,
+                          "etching_color": 1207959552,
+                          "fit_size_to_contents": true
+                        }
                       },
                       {
                         "tag": "icon",
@@ -210,42 +253,21 @@
               "style": "0",
               "name": "chatstyles_menu"
             },
-            "children": []
+            "children": [],
+            "filters": [
+              {
+                "type": "DropShadowFilter",
+                "attributes": {
+                  "distance": "4",
+                  "alpha": "0.6"
+                }
+              }
+            ]
           }
         ]
       }
     ]
   },
-  "vars": {
-    "antialias_type": "advanced",
-    "font_face": "Ubuntu",
-    "font_size": 23,
-    "grid_fit_type": "subpixel",
-    "text_color": 7829367,
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "bold": true,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0,
-    "always_show_selection": true,
-    "max_chars": 100,
-    "focus_capturer": true,
-    "asset_uri": "common_chat_styles",
-    "stretched_x": false,
-    "stretched_y": false,
-    "fit_size_to_contents": true,
-    "pivot_point": "center",
-    "etching_color": 1207959552
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.6"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

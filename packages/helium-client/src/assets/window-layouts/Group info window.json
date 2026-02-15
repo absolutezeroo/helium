@@ -1,6 +1,6 @@
 {
   "name": "Group info window",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGroupsCom_Habboguild_members_window_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboGroupsCom_guild_members_window.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -46,7 +46,14 @@
                   "style": "0",
                   "name": "group_logo"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "widget_type": "badge_image",
+                  "badge_image:type": "group",
+                  "badge_image:pivot_point": "center",
+                  "badge_image:stretched_x": false,
+                  "badge_image:stretched_y": false
+                }
               },
               {
                 "tag": "dropmenu",
@@ -75,7 +82,19 @@
                   "name": "filter_members_input",
                   "background": "true"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "border": true,
+                  "font_face": "Ubuntu",
+                  "font_size": 19,
+                  "mouse_wheel_enabled": false,
+                  "sharpness": 0,
+                  "thickness": 0,
+                  "kerning": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "icon",
@@ -195,46 +214,38 @@
                   "name": "footer_info_txt",
                   "caption": "${group.members.pageinfo}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "auto_size": "left",
+                  "text_style": "u_regular",
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 0,
+          "margin_top": 33,
+          "margin_right": 0,
+          "margin_bottom": 3
+        }
       }
     ]
   },
-  "vars": {
-    "widget_type": "badge_image",
-    "badge_image:type": "group",
-    "badge_image:pivot_point": "center",
-    "badge_image:stretched_x": false,
-    "badge_image:stretched_y": false,
-    "antialias_type": "advanced",
-    "border": true,
-    "font_face": "Ubuntu",
-    "font_size": 19,
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "kerning": false,
-    "spacing": 0,
-    "leading": 0,
-    "auto_size": "left",
-    "text_style": "u_regular",
-    "margin_left": 0,
-    "margin_top": 33,
-    "margin_right": 0,
-    "margin_bottom": 3
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

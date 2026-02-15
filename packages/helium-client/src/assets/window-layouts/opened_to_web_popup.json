@@ -1,6 +1,6 @@
 {
   "name": "opened_to_web_popup",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendListCom_opened_to_web_popup_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendListCom_opened_to_web_popup.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -50,7 +50,14 @@
               "name": "info_text",
               "caption": "${friendlist.weblinkinfo}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_face": "Volter",
+              "font_size": 9,
+              "text_color": 0,
+              "embed_fonts": true,
+              "word_wrap": true
+            }
           },
           {
             "tag": "bitmap",
@@ -70,12 +77,6 @@
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter",
-    "font_size": 9,
-    "text_color": 0,
-    "embed_fonts": true,
-    "word_wrap": true
-  },
+  "vars": {},
   "filters": []
 }

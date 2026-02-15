@@ -1,6 +1,6 @@
 {
   "name": "ctlg_marketplace",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_marketplace_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_old_layout_marketplace_own_items.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -16,7 +16,7 @@
           "height": "460",
           "params": "16",
           "style": "0",
-          "name": "ctlg_marketplace",
+          "name": "ctlg_marketplace_own_items",
           "color": "0x2121ffffff",
           "background": "true"
         },
@@ -25,13 +25,13 @@
             "tag": "container",
             "typeId": 4,
             "attributes": {
-              "x": "0",
+              "x": "10",
               "y": "70",
-              "width": "360",
+              "width": "340",
               "height": "390",
               "params": "16",
               "style": "0",
-              "name": "marketPlaceWidget"
+              "name": "marketPlaceOwnItemsWidget"
             },
             "children": []
           }

@@ -1,6 +1,6 @@
 {
   "name": "pixel_removal_catalog_page",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_pixel_removal_credit_promo_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendBarCom_pixel_removal_credit_promo.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -32,7 +32,12 @@
               "style": "0",
               "name": "lift_header"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.url}reception/silverscreen250_top.png",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "static_bitmap",
@@ -47,7 +52,11 @@
               "name": "left_mid",
               "height_min": "1"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.url}reception/silverscreen250_mid2.png",
+              "stretched_x": false
+            }
           },
           {
             "tag": "static_bitmap",
@@ -61,7 +70,12 @@
               "style": "0",
               "name": "lift_bottom"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.url}reception/silverscreen250_btm.png",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "bitmap",
@@ -75,7 +89,12 @@
               "style": "100",
               "name": "promo_bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "pivot_point": "center",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "text",
@@ -90,7 +109,15 @@
               "name": "page_header_txt",
               "caption": "${landing.view.pixelremoval.caption}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_size": 21,
+              "text_style": "il_heading_1",
+              "mouse_wheel_enabled": false,
+              "word_wrap": true,
+              "spacing": -0.6,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -105,7 +132,14 @@
               "name": "page_desc_txt",
               "caption": "${landing.view.pixelremoval.info}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_size": 16,
+              "mouse_wheel_enabled": false,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "button",
@@ -136,7 +170,10 @@
               "params": "16",
               "style": "100"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "widget_type": "separator"
+            }
           },
           {
             "tag": "text",
@@ -151,7 +188,13 @@
               "name": "pixel_removal_title",
               "caption": "${landing.view.pixelremoval.countdown}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "widget",
@@ -165,25 +208,15 @@
               "style": "100",
               "name": "pixels_countdown_widget"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "widget_type": "countdown"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.url}reception/silverscreen250_btm.png",
-    "stretched_x": false,
-    "stretched_y": false,
-    "pivot_point": "center",
-    "font_size": 16,
-    "text_style": "il_heading_1",
-    "mouse_wheel_enabled": false,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "widget_type": "countdown",
-    "auto_size": "center"
-  },
+  "vars": {},
   "filters": []
 }

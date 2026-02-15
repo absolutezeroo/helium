@@ -1,6 +1,6 @@
 {
   "name": "grs_front_page_search_small",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNavigatorCom_grs_front_page_search_small_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboNavigatorCom_grs_front_page_search_small.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -45,7 +45,14 @@
                   "name": "caption",
                   "caption": "Parties Caption Placeholder"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "font_face": "Volter",
+                  "font_size": 9,
+                  "text_color": 0,
+                  "embed_fonts": true,
+                  "mouse_wheel_enabled": true
+                }
               },
               {
                 "tag": "bitmap",
@@ -67,12 +74,6 @@
       }
     ]
   },
-  "vars": {
-    "font_face": "Volter",
-    "font_size": 9,
-    "text_color": 0,
-    "embed_fonts": true,
-    "mouse_wheel_enabled": true
-  },
+  "vars": {},
   "filters": []
 }

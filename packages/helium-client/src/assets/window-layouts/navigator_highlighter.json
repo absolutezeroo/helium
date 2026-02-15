@@ -1,6 +1,6 @@
 {
   "name": "navigator_highlighter",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboHelpCom_welcome_screen_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboHelpCom_welcome_screen.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -78,9 +78,30 @@
                       "name": "text",
                       "caption": "welcome.scjkh kjh kjh kjh kjh kjh kjh kjhkjh kj hkj hkjhreen.message"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "font_size": 20,
+                      "text_color": 16777215,
+                      "text_style": "u_bold",
+                      "mouse_wheel_enabled": false,
+                      "multiline": true,
+                      "word_wrap": true,
+                      "spacing": 0,
+                      "leading": 0
+                    }
                   }
                 ]
+              }
+            ],
+            "filters": [
+              {
+                "type": "DropShadowFilter",
+                "attributes": {
+                  "distance": "4",
+                  "alpha": "0.34901960784313724",
+                  "blurX": "4",
+                  "blurY": "4"
+                }
               }
             ]
           },
@@ -96,7 +117,10 @@
               "style": "0",
               "name": "arrow"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "common_welcome_screen_arrow"
+            }
           },
           {
             "tag": "static_bitmap",
@@ -110,34 +134,17 @@
               "style": "0",
               "name": "arrow_right"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "common_welcome_screen_arrow",
+              "zoom_x": -1,
+              "zoom_y": -1
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "font_size": 20,
-    "text_color": 16777215,
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "asset_uri": "common_welcome_screen_arrow",
-    "zoom_x": -1,
-    "zoom_y": -1
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

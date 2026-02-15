@@ -1,6 +1,6 @@
 {
   "name": "roomtools",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_roomtools_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_roomtools.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -75,7 +75,13 @@
                       "style": "0",
                       "name": "icon_zoom_off"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "${image.library.url}album3726/icon_zoom_off.png",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   },
                   {
                     "tag": "static_bitmap",
@@ -90,11 +96,20 @@
                       "name": "icon_zoom_over",
                       "visible": "false"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "${image.library.url}album3726/icon_zoom_over.png",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               }
-            ]
+            ],
+            "vars": {
+              "tool_tip_caption": "${toolbar.icon.tooltip.zoom}"
+            }
           },
           {
             "tag": "region",
@@ -167,7 +182,16 @@
                           "caption": "${navigator.roomsettings.roomname}",
                           "tags": "TEXT"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_color": 10000536,
+                          "text_style": "il_regular_white",
+                          "mouse_wheel_enabled": false,
+                          "bold": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       },
                       {
                         "tag": "text",
@@ -183,9 +207,20 @@
                           "caption": "...",
                           "tags": "TEXT"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "text_style": "il_regular_white",
+                          "mouse_wheel_enabled": false,
+                          "bold": true,
+                          "spacing": 0,
+                          "leading": 0
+                        }
                       }
-                    ]
+                    ],
+                    "vars": {
+                      "spacing": 2
+                    }
                   }
                 ]
               },
@@ -229,7 +264,13 @@
                       "style": "0",
                       "name": "icon_zoom_off"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "toolbar_room_icon_0",
+                      "pivot_point": "center",
+                      "stretched_x": false,
+                      "stretched_y": false
+                    }
                   }
                 ]
               }
@@ -239,19 +280,6 @@
       }
     ]
   },
-  "vars": {
-    "asset_uri": "toolbar_room_icon_0",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "tool_tip_caption": "${toolbar.icon.tooltip.zoom}",
-    "auto_size": "left",
-    "text_color": 10000536,
-    "text_style": "il_regular_white",
-    "mouse_wheel_enabled": false,
-    "bold": true,
-    "spacing": 2,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

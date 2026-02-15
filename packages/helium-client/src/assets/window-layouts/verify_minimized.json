@@ -1,6 +1,6 @@
 {
   "name": "verify_minimized",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_phonenumber_verify_minimized_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_phonenumber_verify_minimized.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -80,7 +80,13 @@
                   "name": "club_icon",
                   "tags": "ICON"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "${image.library.url}returnusergifting/phone_smaller.png",
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               }
             ]
           },
@@ -96,22 +102,19 @@
               "style": "100",
               "caption": "${phone.number.verify.title}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "il_regular_white",
+              "mouse_wheel_enabled": false,
+              "bold": true,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.url}returnusergifting/phone_smaller.png",
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "text_style": "il_regular_white",
-    "mouse_wheel_enabled": false,
-    "bold": true,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

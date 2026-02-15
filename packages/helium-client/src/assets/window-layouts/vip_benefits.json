@@ -1,6 +1,6 @@
 {
   "name": "vip_benefits",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbovip_benefits_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_vip_benefits.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,7 +31,10 @@
               "params": "16",
               "style": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.url}directVipBuy/hc_benefits_header.png"
+            }
           },
           {
             "tag": "static_bitmap",
@@ -44,7 +47,10 @@
               "params": "16",
               "style": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.url}directVipBuy/hc_benefits_teaser.png"
+            }
           },
           {
             "tag": "text",
@@ -58,7 +64,15 @@
               "style": "0",
               "caption": "${vip.benefits.title}"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "center",
+              "font_size": 36,
+              "text_style": "u_bold",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "html",
@@ -76,7 +90,17 @@
               "height_min": "269",
               "height_max": "269"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "u_regular",
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 3,
+              "editable": false,
+              "selectable": false,
+              "white_list_words": false
+            }
           },
           {
             "tag": "html",
@@ -92,40 +116,41 @@
               "width_min": "403",
               "width_max": "403"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "font_size": 16,
+              "text_style": "u_regular",
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 3,
+              "editable": false,
+              "selectable": false,
+              "white_list_words": false
+            }
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
+        ],
+        "vars": {
+          "help_page": "habboclub",
+          "margin_left": 0,
+          "margin_top": 33,
+          "margin_right": 0,
+          "margin_bottom": 0
+        }
       }
     ]
   },
-  "vars": {
-    "asset_uri": "${image.library.url}directVipBuy/hc_benefits_teaser.png",
-    "auto_size": "center",
-    "font_size": 16,
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 3,
-    "multiline": true,
-    "word_wrap": true,
-    "editable": false,
-    "selectable": false,
-    "white_list_words": false,
-    "help_page": "habboclub",
-    "margin_left": 0,
-    "margin_top": 33,
-    "margin_right": 0,
-    "margin_bottom": 0
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

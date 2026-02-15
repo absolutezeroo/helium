@@ -1,6 +1,6 @@
 {
   "name": "progress_indicator",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_progress_indicator_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_progress_indicator.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,12 +31,13 @@
             },
             "children": []
           }
-        ]
+        ],
+        "vars": {
+          "spacing": 3
+        }
       }
     ]
   },
-  "vars": {
-    "spacing": 3
-  },
+  "vars": {},
   "filters": []
 }

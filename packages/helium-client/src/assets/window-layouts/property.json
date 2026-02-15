@@ -1,6 +1,6 @@
 {
   "name": "property",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboNewNavigatorCom_property_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboNewNavigatorCom_property.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,7 +33,14 @@
               "name": "property_name",
               "caption": "Name PH"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "u_regular",
+              "mouse_wheel_enabled": false,
+              "bold": true,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "label",
@@ -48,18 +55,15 @@
               "name": "property_value",
               "caption": "Value PH"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "u_regular"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "bold": true,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

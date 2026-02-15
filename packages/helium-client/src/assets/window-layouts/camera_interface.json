@@ -1,6 +1,6 @@
 {
   "name": "camera_interface",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_camera_interface_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_camera_interface.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -76,7 +76,11 @@
                           "name": "cameraSlot_0",
                           "treshold": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -107,7 +111,11 @@
                           "name": "cameraSlot_1",
                           "treshold": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -137,7 +145,11 @@
                           "style": "3",
                           "name": "cameraSlot_2"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -168,7 +180,11 @@
                           "name": "cameraSlot_3",
                           "treshold": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   },
@@ -199,11 +215,20 @@
                           "name": "cameraSlot_4",
                           "treshold": "0"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "stretched_x": false,
+                          "stretched_y": false
+                        }
                       }
                     ]
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 6,
+                  "padding_horizontal": 0,
+                  "padding_vertical": 0
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -218,7 +243,13 @@
                   "name": "photo_border",
                   "visible": "false"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "camera_photo_border",
+                  "stretched_x": false,
+                  "stretched_y": false,
+                  "fit_size_to_contents": true
+                }
               },
               {
                 "tag": "region",
@@ -246,7 +277,13 @@
                       "params": "16",
                       "style": "3"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "asset_uri": "camera_cam_close_x",
+                      "stretched_x": false,
+                      "stretched_y": false,
+                      "fit_size_to_contents": true
+                    }
                   }
                 ]
               }
@@ -292,7 +329,13 @@
               "style": "3",
               "name": "custom_frame"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "camera_cam_bg",
+              "stretched_x": false,
+              "stretched_y": false,
+              "fit_size_to_contents": true
+            }
           },
           {
             "tag": "text",
@@ -308,7 +351,16 @@
               "caption": "6/4/2014 14:02",
               "visible": "false"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "etching_color": 255,
+              "etching_position": "bottom",
+              "text_color": 16777215,
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "text",
@@ -324,7 +376,16 @@
               "caption": "My awesome room",
               "visible": "false"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "right",
+              "etching_color": 255,
+              "etching_position": "bottom",
+              "text_color": 16777215,
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "static_bitmap",
@@ -338,7 +399,13 @@
               "style": "3",
               "name": "camera_crosshair"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "camera_viewfinder",
+              "stretched_x": false,
+              "stretched_y": false,
+              "fit_size_to_contents": true
+            }
           },
           {
             "tag": "region",
@@ -367,9 +434,18 @@
                   "name": "release_bitmap",
                   "tags": "#bg"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "camera_camera_btn",
+                  "stretched_x": false,
+                  "stretched_y": false,
+                  "fit_size_to_contents": true
+                }
               }
-            ]
+            ],
+            "vars": {
+              "tool_tip_caption": "${camera.take.photo.button.tooltip}"
+            }
           },
           {
             "tag": "static_bitmap",
@@ -387,7 +463,10 @@
               "clipping": "false",
               "background": "true"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "tools_black_pixel"
+            }
           },
           {
             "tag": "button_thick",
@@ -406,7 +485,10 @@
               "clipping": "false",
               "treshold": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "tool_tip_caption": "${camera.editor.button.tooltip}"
+            }
           },
           {
             "tag": "region",
@@ -434,7 +516,13 @@
                   "style": "0",
                   "name": "slotImage_0"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "camera_arrow_gray",
+                  "stretched_x": false,
+                  "stretched_y": false,
+                  "fit_size_to_contents": true
+                }
               }
             ]
           },
@@ -464,7 +552,13 @@
                   "style": "0",
                   "name": "slotImage_1"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "camera_arrow_gray",
+                  "stretched_x": false,
+                  "stretched_y": false,
+                  "fit_size_to_contents": true
+                }
               }
             ]
           },
@@ -494,7 +588,13 @@
                   "style": "0",
                   "name": "slotImage_2"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "camera_arrow_gray",
+                  "stretched_x": false,
+                  "stretched_y": false,
+                  "fit_size_to_contents": true
+                }
               }
             ]
           },
@@ -524,7 +624,13 @@
                   "style": "0",
                   "name": "slotImage_3"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "camera_arrow_gray",
+                  "stretched_x": false,
+                  "stretched_y": false,
+                  "fit_size_to_contents": true
+                }
               }
             ]
           },
@@ -554,7 +660,13 @@
                   "style": "0",
                   "name": "slotImage_4"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "camera_arrow_gray",
+                  "stretched_x": false,
+                  "stretched_y": false,
+                  "fit_size_to_contents": true
+                }
               }
             ]
           },
@@ -578,21 +690,6 @@
       }
     ]
   },
-  "vars": {
-    "stretched_x": false,
-    "stretched_y": false,
-    "spacing": 0,
-    "padding_horizontal": 0,
-    "padding_vertical": 0,
-    "asset_uri": "camera_arrow_gray",
-    "fit_size_to_contents": true,
-    "auto_size": "right",
-    "etching_color": 255,
-    "etching_position": "bottom",
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "leading": 0,
-    "tool_tip_caption": "${camera.editor.button.tooltip}"
-  },
+  "vars": {},
   "filters": []
 }

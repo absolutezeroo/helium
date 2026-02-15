@@ -1,6 +1,6 @@
 {
   "name": "mystery_box_open_dialog",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbomystery_box_open_dialog_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_mystery_box_open_dialog.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,7 +31,11 @@
               "params": "16",
               "style": "100"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.url}Quests/ach_receive_star.png",
+              "fit_size_to_contents": true
+            }
           },
           {
             "tag": "static_bitmap",
@@ -45,7 +49,13 @@
               "style": "100",
               "name": "reward_base"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "mysterybox_box_base",
+              "pivot_point": "center",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "static_bitmap",
@@ -59,7 +69,13 @@
               "style": "100",
               "name": "reward_overlay"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "mysterybox_box_overlay",
+              "pivot_point": "center",
+              "stretched_x": false,
+              "stretched_y": false
+            }
           },
           {
             "tag": "label",
@@ -74,7 +90,10 @@
               "name": "subtitle_text",
               "caption": "You have started opening the box."
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "il_heading_2"
+            }
           },
           {
             "tag": "border",
@@ -100,7 +119,13 @@
                   "style": "100",
                   "name": "needed_base"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "mysterybox_key_base",
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "static_bitmap",
@@ -114,7 +139,13 @@
                   "style": "100",
                   "name": "needed_overlay"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "asset_uri": "mysterybox_key_overlay",
+                  "pivot_point": "center",
+                  "stretched_x": false,
+                  "stretched_y": false
+                }
               },
               {
                 "tag": "label",
@@ -149,27 +180,21 @@
             },
             "children": []
           }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
+          }
         ]
       }
     ]
   },
-  "vars": {
-    "asset_uri": "mysterybox_key_overlay",
-    "fit_size_to_contents": true,
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "text_style": "il_heading_2"
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

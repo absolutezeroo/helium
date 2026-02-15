@@ -1,6 +1,6 @@
 {
   "name": "layout_builders_club_loyalty",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbolayout_builders_club_loyalty_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_layout_builders_club_loyalty.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,7 +33,16 @@
               "caption": "<b>Formatted</b> text",
               "treshold": "0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "multiline": true,
+              "word_wrap": true,
+              "spacing": 0,
+              "leading": 0,
+              "editable": false,
+              "selectable": false,
+              "link_target": "internal"
+            }
           },
           {
             "tag": "static_bitmap",
@@ -46,7 +55,11 @@
               "params": "16",
               "style": "3"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.url}catalogue/bc_bottom.png",
+              "fit_size_to_contents": true
+            }
           },
           {
             "tag": "container",
@@ -111,7 +124,11 @@
                               "params": "16",
                               "style": "3"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "asset_uri": "${image.library.url}/catalogue/icon_193.png",
+                              "fit_size_to_contents": true
+                            }
                           },
                           {
                             "tag": "text",
@@ -126,7 +143,17 @@
                               "name": "item_header",
                               "caption": "item name"
                             },
-                            "children": []
+                            "children": [],
+                            "vars": {
+                              "auto_size": "left",
+                              "text_color": 16777215,
+                              "text_style": "u_headline_medium",
+                              "mouse_wheel_enabled": false,
+                              "sharpness": 0,
+                              "thickness": 0,
+                              "spacing": 0,
+                              "leading": 0
+                            }
                           }
                         ]
                       },
@@ -156,7 +183,10 @@
                             },
                             "children": []
                           }
-                        ]
+                        ],
+                        "vars": {
+                          "spacing": 3
+                        }
                       },
                       {
                         "tag": "button_thick",
@@ -177,7 +207,10 @@
                       }
                     ]
                   }
-                ]
+                ],
+                "vars": {
+                  "spacing": 12
+                }
               }
             ]
           },
@@ -192,28 +225,16 @@
               "params": "16",
               "style": "3"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "asset_uri": "${image.library.url}catalogue/bc_top.png",
+              "fit_size_to_contents": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 12,
-    "leading": 0,
-    "editable": false,
-    "selectable": false,
-    "link_target": "internal",
-    "asset_uri": "${image.library.url}catalogue/bc_top.png",
-    "fit_size_to_contents": true,
-    "auto_size": "left",
-    "text_color": 16777215,
-    "text_style": "u_headline_medium",
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0
-  },
+  "vars": {},
   "filters": []
 }

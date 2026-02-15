@@ -1,6 +1,6 @@
 {
   "name": "open_petpackage",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbopetpackage_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboRoomUICom_petpackage.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -59,7 +59,17 @@
                       "name": "input",
                       "background": "true"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "always_show_selection": true,
+                      "antialias_type": "advanced",
+                      "font_face": "Ubuntu",
+                      "font_size": 18,
+                      "mouse_wheel_enabled": false,
+                      "max_chars": 15,
+                      "bold": true,
+                      "kerning": true
+                    }
                   }
                 ]
               },
@@ -76,7 +86,17 @@
                   "name": "info_text",
                   "caption": "${widgets.petpackage.name.select}"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "null",
+                  "font_face": "Ubuntu",
+                  "font_size": 18,
+                  "mouse_wheel_enabled": false,
+                  "word_wrap": true,
+                  "bold": true,
+                  "kerning": true
+                }
               },
               {
                 "tag": "button_thick",
@@ -122,7 +142,15 @@
                       "name": "cancel",
                       "caption": "${generic.cancel}"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "antialias_type": "advanced",
+                      "auto_size": "center",
+                      "font_face": "Ubuntu",
+                      "font_size": 18,
+                      "mouse_wheel_enabled": false,
+                      "underline": true
+                    }
                   }
                 ]
               },
@@ -164,32 +192,21 @@
               }
             ]
           }
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "distance": "4",
+              "alpha": "0.34901960784313724",
+              "blurX": "4",
+              "blurY": "4"
+            }
+          }
         ]
       }
     ]
   },
-  "vars": {
-    "always_show_selection": true,
-    "antialias_type": "advanced",
-    "font_face": "Ubuntu",
-    "font_size": 18,
-    "mouse_wheel_enabled": false,
-    "max_chars": 15,
-    "bold": true,
-    "kerning": true,
-    "auto_size": "center",
-    "word_wrap": true,
-    "underline": true
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

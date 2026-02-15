@@ -1,6 +1,6 @@
 {
   "name": "snowwar_results_player_team_1",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habbosnowwar_results_player_team_1_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboGamesCom_snowwar_results_player_team_1.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -44,7 +44,10 @@
                   "name": "playerImageBackground",
                   "tags": "bitmap"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "bitmap_asset_name": "blue_square"
+                }
               },
               {
                 "tag": "bitmap",
@@ -89,9 +92,16 @@
                       "style": "0",
                       "tags": "bitmap"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "bitmap_asset_name": "add_friend_icon_blue"
+                    }
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_caption": "${snowwar.add_friend.tooltip}",
+                  "tool_tip_delay": 0
+                }
               }
             ]
           },
@@ -121,7 +131,10 @@
                   "name": "playerDataBackground",
                   "tags": "bitmap"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "bitmap_asset_name": "blue_infobox"
+                }
               },
               {
                 "tag": "text",
@@ -138,7 +151,18 @@
                   "tags": "stroke",
                   "width_max": "150"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "UbuntuThick",
+                  "font_size": 20,
+                  "grid_fit_type": "subpixel",
+                  "text_color": 3368601,
+                  "mouse_wheel_enabled": false,
+                  "thickness": 200,
+                  "bold": true
+                }
               },
               {
                 "tag": "text",
@@ -154,7 +178,17 @@
                   "caption": "Painimies",
                   "width_max": "150"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "left",
+                  "font_face": "Ubuntu",
+                  "font_size": 20,
+                  "grid_fit_type": "subpixel",
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "bold": true
+                }
               },
               {
                 "tag": "container",
@@ -195,7 +229,18 @@
                           "caption": "${snowwar.results.hits}",
                           "width_min": "33"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "font_size": 17,
+                          "grid_fit_type": "subpixel",
+                          "text_color": 16777215,
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 80,
+                          "thickness": -15,
+                          "bold": true
+                        }
                       }
                     ]
                   },
@@ -226,7 +271,17 @@
                           "tags": "stroke",
                           "width_min": "30"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "right",
+                          "font_face": "UbuntuThick",
+                          "grid_fit_type": "subpixel",
+                          "text_color": 6724044,
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 80,
+                          "thickness": 200
+                        }
                       },
                       {
                         "tag": "text",
@@ -242,7 +297,16 @@
                           "caption": "20",
                           "width_min": "30"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "right",
+                          "grid_fit_type": "subpixel",
+                          "text_color": 16777215,
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 80,
+                          "thickness": -15
+                        }
                       }
                     ]
                   },
@@ -272,7 +336,18 @@
                           "caption": "${snowwar.results.kills}",
                           "width_min": "40"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "font_size": 17,
+                          "grid_fit_type": "subpixel",
+                          "text_color": 16777215,
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 80,
+                          "thickness": -15,
+                          "bold": true
+                        }
                       }
                     ]
                   },
@@ -303,7 +378,17 @@
                           "tags": "stroke",
                           "width_min": "30"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "right",
+                          "font_face": "UbuntuThick",
+                          "grid_fit_type": "subpixel",
+                          "text_color": 6724044,
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 80,
+                          "thickness": 200
+                        }
                       },
                       {
                         "tag": "text",
@@ -319,7 +404,16 @@
                           "caption": "5",
                           "width_min": "30"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "right",
+                          "grid_fit_type": "subpixel",
+                          "text_color": 16777215,
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 80,
+                          "thickness": -15
+                        }
                       }
                     ]
                   }
@@ -364,7 +458,16 @@
                           "caption": "${snowwar.stats.total_score}",
                           "width_min": "33"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "auto_size": "left",
+                          "grid_fit_type": "subpixel",
+                          "text_color": 16777215,
+                          "text_style": "u_regular",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 80,
+                          "thickness": -15
+                        }
                       }
                     ]
                   },
@@ -395,7 +498,16 @@
                           "tags": "stroke",
                           "width_min": "24"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "font_face": "UbuntuThick",
+                          "grid_fit_type": "subpixel",
+                          "text_color": 1079212,
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 80,
+                          "thickness": 200
+                        }
                       },
                       {
                         "tag": "text",
@@ -411,7 +523,15 @@
                           "caption": "20",
                           "width_min": "20"
                         },
-                        "children": []
+                        "children": [],
+                        "vars": {
+                          "grid_fit_type": "subpixel",
+                          "text_color": 16777215,
+                          "text_style": "u_bold",
+                          "mouse_wheel_enabled": false,
+                          "sharpness": 80,
+                          "thickness": -15
+                        }
                       }
                     ]
                   }
@@ -447,7 +567,10 @@
                     },
                     "children": []
                   }
-                ]
+                ],
+                "vars": {
+                  "tool_tip_delay": 0
+                }
               }
             ]
           },
@@ -477,7 +600,10 @@
                   "name": "playerScoreBackground",
                   "tags": "bitmap"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "bitmap_asset_name": "blue_ball"
+                }
               },
               {
                 "tag": "bitmap",
@@ -509,7 +635,18 @@
                   "tags": "stroke",
                   "width_min": "40"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "center",
+                  "font_face": "UbuntuThick",
+                  "font_size": 24,
+                  "grid_fit_type": "subpixel",
+                  "text_color": 1079212,
+                  "mouse_wheel_enabled": false,
+                  "thickness": 200,
+                  "bold": true
+                }
               },
               {
                 "tag": "text",
@@ -524,7 +661,17 @@
                   "name": "playerScore",
                   "caption": "102"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "antialias_type": "advanced",
+                  "auto_size": "center",
+                  "font_face": "Ubuntu",
+                  "font_size": 24,
+                  "grid_fit_type": "subpixel",
+                  "text_color": 16777215,
+                  "mouse_wheel_enabled": false,
+                  "bold": true
+                }
               },
               {
                 "tag": "bitmap",
@@ -548,21 +695,6 @@
       }
     ]
   },
-  "vars": {
-    "bitmap_asset_name": "blue_ball",
-    "tool_tip_caption": "${snowwar.add_friend.tooltip}",
-    "tool_tip_delay": 0,
-    "antialias_type": "advanced",
-    "auto_size": "center",
-    "font_face": "Ubuntu",
-    "font_size": 24,
-    "grid_fit_type": "subpixel",
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false,
-    "thickness": 200,
-    "bold": true,
-    "text_style": "u_bold",
-    "sharpness": 80
-  },
+  "vars": {},
   "filters": []
 }

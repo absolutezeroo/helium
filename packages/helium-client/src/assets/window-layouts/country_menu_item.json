@@ -1,6 +1,6 @@
 {
   "name": "country_menu_item",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_phonenumber_country_menu_item_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboToolbarCom_phonenumber_country_menu_item.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,14 +31,15 @@
               "name": "country_code",
               "caption": "CC"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "text_style": "u_headline_small"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "text_style": "u_headline_small"
-  },
+  "vars": {},
   "filters": []
 }

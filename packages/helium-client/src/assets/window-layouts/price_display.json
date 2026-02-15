@@ -1,6 +1,6 @@
 {
   "name": "price_display",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboprice_display_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboCatalogCom_price_display.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -31,7 +31,15 @@
               "style": "0",
               "name": "amount_0"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "font_size": 20,
+              "text_style": "u_bold",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "icon",
@@ -59,7 +67,15 @@
               "style": "0",
               "name": "amount_1"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "font_size": 20,
+              "text_style": "u_bold",
+              "mouse_wheel_enabled": false,
+              "spacing": 0,
+              "leading": 0
+            }
           },
           {
             "tag": "icon",
@@ -75,17 +91,13 @@
             },
             "children": []
           }
-        ]
+        ],
+        "vars": {
+          "spacing": 1
+        }
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "font_size": 20,
-    "text_style": "u_bold",
-    "mouse_wheel_enabled": false,
-    "spacing": 1,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "badge_layer",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGroupsCom_Habbobadge_layer_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboGroupsCom_badge_layer.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -132,14 +132,15 @@
               "style": "0",
               "name": "color_selector"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "scale_to_fit_items": true
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "scale_to_fit_items": true
-  },
+  "vars": {},
   "filters": []
 }

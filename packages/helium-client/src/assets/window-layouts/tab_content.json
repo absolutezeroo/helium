@@ -1,6 +1,6 @@
 {
   "name": "tab_content",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendListCom_tab_content_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboFriendListCom_tab_content.xml",
   "window": {
     "tag": "window",
     "typeId": -1,

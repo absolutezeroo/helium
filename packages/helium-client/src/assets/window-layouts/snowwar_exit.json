@@ -1,6 +1,6 @@
 {
   "name": "snowwar_exit",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGamesCom_Habbosnowwar_exit_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboGamesCom_snowwar_exit.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -34,14 +34,15 @@
               "name": "backgroundImage",
               "tags": "bitmap"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "bitmap_asset_name": "ui_exit_down"
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "bitmap_asset_name": "ui_exit_down"
-  },
+  "vars": {},
   "filters": []
 }

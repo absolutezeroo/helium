@@ -1,6 +1,6 @@
 {
   "name": "habbo_profiler_dialog_2",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboProfilerOutput_profiler_dialog_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboProfilerOutput_profiler_dialog.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -46,7 +46,12 @@
                   "caption": "...",
                   "tags": "header"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "mouse_wheel_enabled": false,
+                  "spacing": 0,
+                  "leading": 0
+                }
               },
               {
                 "tag": "container",
@@ -88,7 +93,10 @@
                       "style": "100",
                       "caption": "Profiler"
                     },
-                    "children": []
+                    "children": [],
+                    "vars": {
+                      "scrollable": "list"
+                    }
                   },
                   {
                     "tag": "label",
@@ -138,34 +146,34 @@
                   "caption": "GC",
                   "color": "0x0bbbbbb"
                 },
-                "children": []
+                "children": [],
+                "vars": {
+                  "tool_tip_caption": "Forces garbage collection mark/sweep"
+                }
               }
             ]
           }
-        ]
+        ],
+        "filters": [
+          {
+            "type": "DropShadowFilter",
+            "attributes": {
+              "angle": "0",
+              "alpha": "0.34901960784313724",
+              "blurX": "20",
+              "blurY": "20"
+            }
+          }
+        ],
+        "vars": {
+          "margin_left": 6,
+          "margin_top": 30,
+          "margin_right": 6,
+          "margin_bottom": 7
+        }
       }
     ]
   },
-  "vars": {
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "scrollable": "list",
-    "tool_tip_caption": "Forces garbage collection mark/sweep",
-    "margin_left": 6,
-    "margin_top": 30,
-    "margin_right": 6,
-    "margin_bottom": 7
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "angle": "0",
-        "alpha": "0.34901960784313724",
-        "blurX": "20",
-        "blurY": "20"
-      }
-    }
-  ]
+  "vars": {},
+  "filters": []
 }

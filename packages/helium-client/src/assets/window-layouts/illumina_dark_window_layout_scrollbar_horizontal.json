@@ -1,6 +1,6 @@
 {
   "name": "illumina_dark_window_layout_scrollbar_horizontal",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_illumina_dark_scrollbar_horizontal_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_illumina_dark_scrollbar_horizontal.xml",
   "window": {
     "tag": "window",
     "typeId": -1,

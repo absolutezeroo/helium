@@ -1,6 +1,6 @@
 {
   "name": "new_items_counter",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_unseen_item_counter_xml.bin",
+  "source": "sources\\win63_2021_version\\binaryDataXml\\HabboWindowManagerCom_unseen_item_counter.xml",
   "window": {
     "tag": "window",
     "typeId": -1,
@@ -33,19 +33,20 @@
               "name": "count",
               "caption": "999"
             },
-            "children": []
+            "children": [],
+            "vars": {
+              "auto_size": "left",
+              "text_style": "il_regular_white",
+              "mouse_wheel_enabled": false,
+              "bold": true,
+              "spacing": 0,
+              "leading": 0
+            }
           }
         ]
       }
     ]
   },
-  "vars": {
-    "auto_size": "left",
-    "text_style": "il_regular_white",
-    "mouse_wheel_enabled": false,
-    "bold": true,
-    "spacing": 0,
-    "leading": 0
-  },
+  "vars": {},
   "filters": []
 }
