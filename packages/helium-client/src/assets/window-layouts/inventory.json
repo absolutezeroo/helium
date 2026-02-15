@@ -1497,7 +1497,7 @@
     "always_show_selection": true,
     "border": true,
     "resize_on_item_update": true,
-    "tool_tip_caption": "%24%7Binventory.furni.preview.tradeable_amount%7D",
+    "tool_tip_caption": "${inventory.furni.preview.tradeable_amount}",
     "sharpness": 0,
     "thickness": 0,
     "badge_image:pivot_point": "center",

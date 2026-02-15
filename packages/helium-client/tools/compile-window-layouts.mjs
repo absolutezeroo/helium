@@ -248,7 +248,32 @@ function parseVarNode(varNode)
         }
     }
 
-    return { key, value: castValue(value, typeHint) };
+    let finalValue = castValue(value, typeHint);
+
+    // URL-decode string values (AS3 XML uses percent-encoding)
+    if (typeof finalValue === 'string' && finalValue.includes('%'))
+    {
+        try
+        {
+            let decoded = finalValue;
+            let prev;
+
+            do
+            {
+                prev = decoded;
+                decoded = decodeURIComponent(decoded);
+            }
+            while (decoded !== prev);
+
+            finalValue = decoded;
+        }
+        catch
+        {
+            // Keep original if malformed
+        }
+    }
+
+    return { key, value: finalValue };
 }
 
 function readAttributes(element)
