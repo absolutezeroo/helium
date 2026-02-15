@@ -1,454 +1,454 @@
 {
-  "name": "memenu_main",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbomemenu_main_xml.bin",
-  "window": {
-    "tag": "window",
-    "typeId": -1,
-    "attributes": {},
-    "children": [
-      {
-        "tag": "container",
-        "typeId": 4,
-        "attributes": {
-          "x": "0",
-          "y": "0",
-          "width": "245",
-          "height": "249",
-          "params": "17",
-          "style": "0",
-          "name": "buttons"
-        },
+    "name": "memenu_main",
+    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbomemenu_main_xml.bin",
+    "window": {
+        "tag": "window",
+        "typeId": -1,
+        "attributes": {},
         "children": [
-          {
-            "tag": "region",
-            "typeId": 5,
-            "attributes": {
-              "x": "0",
-              "y": "0",
-              "width": "79",
-              "height": "79",
-              "params": "17",
-              "style": "1",
-              "name": "hc",
-              "color": "0xff3d3d3d",
-              "treshold": "0"
-            },
-            "children": [
-              {
-                "tag": "bitmap",
-                "typeId": 21,
+            {
+                "tag": "container",
+                "typeId": 4,
                 "attributes": {
-                  "x": "5",
-                  "y": "5",
-                  "width": "70",
-                  "height": "55",
-                  "params": "16",
-                  "style": "0",
-                  "name": "hc_icon"
+                    "x": "0",
+                    "y": "0",
+                    "width": "245",
+                    "height": "249",
+                    "params": "17",
+                    "style": "0",
+                    "name": "buttons"
                 },
-                "children": []
-              },
-              {
-                "tag": "text",
-                "typeId": 10,
-                "attributes": {
-                  "x": "0",
-                  "y": "61",
-                  "width": "94",
-                  "height": "13",
-                  "params": "786640",
-                  "style": "0",
-                  "name": "hc_text",
-                  "caption": "%24%7Bwidget.memenu.hc%7D"
-                },
-                "children": []
-              }
-            ]
-          },
-          {
-            "tag": "region",
-            "typeId": 5,
-            "attributes": {
-              "x": "83",
-              "y": "83",
-              "width": "79",
-              "height": "79",
-              "params": "17",
-              "style": "1",
-              "name": "rooms",
-              "color": "0xff3d3d3d",
-              "treshold": "0"
-            },
-            "children": [
-              {
-                "tag": "bitmap",
-                "typeId": 21,
-                "attributes": {
-                  "x": "5",
-                  "y": "5",
-                  "width": "70",
-                  "height": "55",
-                  "params": "16",
-                  "style": "0",
-                  "name": "rooms_icon"
-                },
-                "children": []
-              },
-              {
-                "tag": "text",
-                "typeId": 10,
-                "attributes": {
-                  "x": "4",
-                  "y": "61",
-                  "width": "70",
-                  "height": "13",
-                  "params": "786640",
-                  "style": "0",
-                  "name": "rooms_text",
-                  "caption": "%24%7Bwidget.memenu.myrooms%7D",
-                  "width_max": "70"
-                },
-                "children": []
-              }
-            ]
-          },
-          {
-            "tag": "region",
-            "typeId": 5,
-            "attributes": {
-              "x": "0",
-              "y": "83",
-              "width": "79",
-              "height": "79",
-              "params": "17",
-              "style": "1",
-              "name": "clothes",
-              "color": "0xff3d3d3d",
-              "treshold": "0"
-            },
-            "children": [
-              {
-                "tag": "bitmap",
-                "typeId": 21,
-                "attributes": {
-                  "x": "5",
-                  "y": "5",
-                  "width": "70",
-                  "height": "55",
-                  "params": "16",
-                  "style": "0",
-                  "name": "clothes_icon"
-                },
-                "children": []
-              },
-              {
-                "tag": "text",
-                "typeId": 10,
-                "attributes": {
-                  "x": "4",
-                  "y": "61",
-                  "width": "70",
-                  "height": "13",
-                  "params": "786640",
-                  "style": "0",
-                  "name": "clothes_text",
-                  "caption": "%24%7Bwidget.memenu.myclothes%7D",
-                  "width_max": "70"
-                },
-                "children": []
-              }
-            ]
-          },
-          {
-            "tag": "region",
-            "typeId": 5,
-            "attributes": {
-              "x": "166",
-              "y": "83",
-              "width": "79",
-              "height": "79",
-              "params": "17",
-              "style": "1",
-              "name": "effects",
-              "color": "0xff3d3d3d",
-              "treshold": "0"
-            },
-            "children": [
-              {
-                "tag": "bitmap",
-                "typeId": 21,
-                "attributes": {
-                  "x": "5",
-                  "y": "5",
-                  "width": "70",
-                  "height": "55",
-                  "params": "16",
-                  "style": "0",
-                  "name": "effects_icon"
-                },
-                "children": []
-              },
-              {
-                "tag": "text",
-                "typeId": 10,
-                "attributes": {
-                  "x": "4",
-                  "y": "61",
-                  "width": "70",
-                  "height": "13",
-                  "params": "786640",
-                  "style": "0",
-                  "name": "effects_text",
-                  "caption": "%24%7Bwidget.memenu.effects%7D",
-                  "width_max": "70"
-                },
-                "children": []
-              }
-            ]
-          },
-          {
-            "tag": "region",
-            "typeId": 5,
-            "attributes": {
-              "x": "0",
-              "y": "165",
-              "width": "79",
-              "height": "79",
-              "params": "17",
-              "style": "1",
-              "name": "dance",
-              "color": "0xff3d3d3d",
-              "treshold": "0"
-            },
-            "children": [
-              {
-                "tag": "bitmap",
-                "typeId": 21,
-                "attributes": {
-                  "x": "5",
-                  "y": "5",
-                  "width": "70",
-                  "height": "55",
-                  "params": "16",
-                  "style": "0",
-                  "name": "dance_icon"
-                },
-                "children": []
-              },
-              {
-                "tag": "text",
-                "typeId": 10,
-                "attributes": {
-                  "x": "4",
-                  "y": "61",
-                  "width": "70",
-                  "height": "13",
-                  "params": "786640",
-                  "style": "0",
-                  "name": "dance_text",
-                  "caption": "%24%7Bwidget.memenu.dance%7D",
-                  "width_max": "70"
-                },
-                "children": []
-              }
-            ]
-          },
-          {
-            "tag": "region",
-            "typeId": 5,
-            "attributes": {
-              "x": "83",
-              "y": "165",
-              "width": "79",
-              "height": "79",
-              "params": "17",
-              "style": "1",
-              "name": "wave",
-              "color": "0xff3d3d3d",
-              "treshold": "0"
-            },
-            "children": [
-              {
-                "tag": "bitmap",
-                "typeId": 21,
-                "attributes": {
-                  "x": "5",
-                  "y": "5",
-                  "width": "70",
-                  "height": "55",
-                  "params": "16",
-                  "style": "0",
-                  "name": "wave_icon"
-                },
-                "children": []
-              },
-              {
-                "tag": "text",
-                "typeId": 10,
-                "attributes": {
-                  "x": "4",
-                  "y": "61",
-                  "width": "70",
-                  "height": "13",
-                  "params": "786640",
-                  "style": "0",
-                  "name": "wave_text",
-                  "caption": "%24%7Bwidget.memenu.wave%7D",
-                  "width_max": "70"
-                },
-                "children": []
-              }
-            ]
-          },
-          {
-            "tag": "region",
-            "typeId": 5,
-            "attributes": {
-              "x": "166",
-              "y": "165",
-              "width": "79",
-              "height": "79",
-              "params": "17",
-              "style": "1",
-              "name": "settings",
-              "color": "0xff3d3d3d",
-              "treshold": "0"
-            },
-            "children": [
-              {
-                "tag": "bitmap",
-                "typeId": 21,
-                "attributes": {
-                  "x": "5",
-                  "y": "5",
-                  "width": "70",
-                  "height": "55",
-                  "params": "16",
-                  "style": "0",
-                  "name": "settings_icon"
-                },
-                "children": []
-              },
-              {
-                "tag": "text",
-                "typeId": 10,
-                "attributes": {
-                  "x": "4",
-                  "y": "61",
-                  "width": "70",
-                  "height": "13",
-                  "params": "786640",
-                  "style": "0",
-                  "name": "settings_text",
-                  "caption": "%24%7Bwidget.memenu.settings%7D",
-                  "width_max": "70"
-                },
-                "children": []
-              }
-            ]
-          },
-          {
-            "tag": "region",
-            "typeId": 5,
-            "attributes": {
-              "x": "83",
-              "y": "1",
-              "width": "79",
-              "height": "79",
-              "params": "17",
-              "style": "1",
-              "name": "credits",
-              "color": "0xff3d3d3d",
-              "treshold": "0"
-            },
-            "children": [
-              {
-                "tag": "bitmap",
-                "typeId": 21,
-                "attributes": {
-                  "x": "5",
-                  "y": "5",
-                  "width": "70",
-                  "height": "55",
-                  "params": "16",
-                  "style": "0",
-                  "name": "credits_icon"
-                },
-                "children": []
-              },
-              {
-                "tag": "text",
-                "typeId": 10,
-                "attributes": {
-                  "x": "4",
-                  "y": "61",
-                  "width": "70",
-                  "height": "13",
-                  "params": "786640",
-                  "style": "0",
-                  "name": "credits_text",
-                  "caption": "%24%7Bwidget.memenu.credits%7D",
-                  "width_max": "70"
-                },
-                "children": []
-              }
-            ]
-          },
-          {
-            "tag": "region",
-            "typeId": 5,
-            "attributes": {
-              "x": "166",
-              "y": "1",
-              "width": "79",
-              "height": "79",
-              "params": "17",
-              "style": "1",
-              "name": "minimail",
-              "color": "0xff3d3d3d",
-              "treshold": "0"
-            },
-            "children": [
-              {
-                "tag": "bitmap",
-                "typeId": 21,
-                "attributes": {
-                  "x": "5",
-                  "y": "5",
-                  "width": "70",
-                  "height": "55",
-                  "params": "16",
-                  "style": "0",
-                  "name": "minimail_icon"
-                },
-                "children": []
-              },
-              {
-                "tag": "text",
-                "typeId": 10,
-                "attributes": {
-                  "x": "4",
-                  "y": "61",
-                  "width": "70",
-                  "height": "13",
-                  "params": "786640",
-                  "style": "0",
-                  "name": "minimail_text",
-                  "caption": "%24%7Bwidget.memenu.minimail%7D",
-                  "width_max": "70"
-                },
-                "children": []
-              }
-            ]
-          }
+                "children": [
+                    {
+                        "tag": "region",
+                        "typeId": 5,
+                        "attributes": {
+                            "x": "0",
+                            "y": "0",
+                            "width": "79",
+                            "height": "79",
+                            "params": "17",
+                            "style": "1",
+                            "name": "hc",
+                            "color": "0xff3d3d3d",
+                            "treshold": "0"
+                        },
+                        "children": [
+                            {
+                                "tag": "bitmap",
+                                "typeId": 21,
+                                "attributes": {
+                                    "x": "5",
+                                    "y": "5",
+                                    "width": "70",
+                                    "height": "55",
+                                    "params": "16",
+                                    "style": "0",
+                                    "name": "hc_icon"
+                                },
+                                "children": []
+                            },
+                            {
+                                "tag": "text",
+                                "typeId": 10,
+                                "attributes": {
+                                    "x": "0",
+                                    "y": "61",
+                                    "width": "94",
+                                    "height": "13",
+                                    "params": "786640",
+                                    "style": "0",
+                                    "name": "hc_text",
+                                    "caption": "%24%7Bwidget.memenu.hc%7D"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "tag": "region",
+                        "typeId": 5,
+                        "attributes": {
+                            "x": "83",
+                            "y": "83",
+                            "width": "79",
+                            "height": "79",
+                            "params": "17",
+                            "style": "1",
+                            "name": "rooms",
+                            "color": "0xff3d3d3d",
+                            "treshold": "0"
+                        },
+                        "children": [
+                            {
+                                "tag": "bitmap",
+                                "typeId": 21,
+                                "attributes": {
+                                    "x": "5",
+                                    "y": "5",
+                                    "width": "70",
+                                    "height": "55",
+                                    "params": "16",
+                                    "style": "0",
+                                    "name": "rooms_icon"
+                                },
+                                "children": []
+                            },
+                            {
+                                "tag": "text",
+                                "typeId": 10,
+                                "attributes": {
+                                    "x": "4",
+                                    "y": "61",
+                                    "width": "70",
+                                    "height": "13",
+                                    "params": "786640",
+                                    "style": "0",
+                                    "name": "rooms_text",
+                                    "caption": "%24%7Bwidget.memenu.myrooms%7D",
+                                    "width_max": "70"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "tag": "region",
+                        "typeId": 5,
+                        "attributes": {
+                            "x": "0",
+                            "y": "83",
+                            "width": "79",
+                            "height": "79",
+                            "params": "17",
+                            "style": "1",
+                            "name": "clothes",
+                            "color": "0xff3d3d3d",
+                            "treshold": "0"
+                        },
+                        "children": [
+                            {
+                                "tag": "bitmap",
+                                "typeId": 21,
+                                "attributes": {
+                                    "x": "5",
+                                    "y": "5",
+                                    "width": "70",
+                                    "height": "55",
+                                    "params": "16",
+                                    "style": "0",
+                                    "name": "clothes_icon"
+                                },
+                                "children": []
+                            },
+                            {
+                                "tag": "text",
+                                "typeId": 10,
+                                "attributes": {
+                                    "x": "4",
+                                    "y": "61",
+                                    "width": "70",
+                                    "height": "13",
+                                    "params": "786640",
+                                    "style": "0",
+                                    "name": "clothes_text",
+                                    "caption": "%24%7Bwidget.memenu.myclothes%7D",
+                                    "width_max": "70"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "tag": "region",
+                        "typeId": 5,
+                        "attributes": {
+                            "x": "166",
+                            "y": "83",
+                            "width": "79",
+                            "height": "79",
+                            "params": "17",
+                            "style": "1",
+                            "name": "effects",
+                            "color": "0xff3d3d3d",
+                            "treshold": "0"
+                        },
+                        "children": [
+                            {
+                                "tag": "bitmap",
+                                "typeId": 21,
+                                "attributes": {
+                                    "x": "5",
+                                    "y": "5",
+                                    "width": "70",
+                                    "height": "55",
+                                    "params": "16",
+                                    "style": "0",
+                                    "name": "effects_icon"
+                                },
+                                "children": []
+                            },
+                            {
+                                "tag": "text",
+                                "typeId": 10,
+                                "attributes": {
+                                    "x": "4",
+                                    "y": "61",
+                                    "width": "70",
+                                    "height": "13",
+                                    "params": "786640",
+                                    "style": "0",
+                                    "name": "effects_text",
+                                    "caption": "%24%7Bwidget.memenu.effects%7D",
+                                    "width_max": "70"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "tag": "region",
+                        "typeId": 5,
+                        "attributes": {
+                            "x": "0",
+                            "y": "165",
+                            "width": "79",
+                            "height": "79",
+                            "params": "17",
+                            "style": "1",
+                            "name": "dance",
+                            "color": "0xff3d3d3d",
+                            "treshold": "0"
+                        },
+                        "children": [
+                            {
+                                "tag": "bitmap",
+                                "typeId": 21,
+                                "attributes": {
+                                    "x": "5",
+                                    "y": "5",
+                                    "width": "70",
+                                    "height": "55",
+                                    "params": "16",
+                                    "style": "0",
+                                    "name": "dance_icon"
+                                },
+                                "children": []
+                            },
+                            {
+                                "tag": "text",
+                                "typeId": 10,
+                                "attributes": {
+                                    "x": "4",
+                                    "y": "61",
+                                    "width": "70",
+                                    "height": "13",
+                                    "params": "786640",
+                                    "style": "0",
+                                    "name": "dance_text",
+                                    "caption": "%24%7Bwidget.memenu.dance%7D",
+                                    "width_max": "70"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "tag": "region",
+                        "typeId": 5,
+                        "attributes": {
+                            "x": "83",
+                            "y": "165",
+                            "width": "79",
+                            "height": "79",
+                            "params": "17",
+                            "style": "1",
+                            "name": "wave",
+                            "color": "0xff3d3d3d",
+                            "treshold": "0"
+                        },
+                        "children": [
+                            {
+                                "tag": "bitmap",
+                                "typeId": 21,
+                                "attributes": {
+                                    "x": "5",
+                                    "y": "5",
+                                    "width": "70",
+                                    "height": "55",
+                                    "params": "16",
+                                    "style": "0",
+                                    "name": "wave_icon"
+                                },
+                                "children": []
+                            },
+                            {
+                                "tag": "text",
+                                "typeId": 10,
+                                "attributes": {
+                                    "x": "4",
+                                    "y": "61",
+                                    "width": "70",
+                                    "height": "13",
+                                    "params": "786640",
+                                    "style": "0",
+                                    "name": "wave_text",
+                                    "caption": "%24%7Bwidget.memenu.wave%7D",
+                                    "width_max": "70"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "tag": "region",
+                        "typeId": 5,
+                        "attributes": {
+                            "x": "166",
+                            "y": "165",
+                            "width": "79",
+                            "height": "79",
+                            "params": "17",
+                            "style": "1",
+                            "name": "settings",
+                            "color": "0xff3d3d3d",
+                            "treshold": "0"
+                        },
+                        "children": [
+                            {
+                                "tag": "bitmap",
+                                "typeId": 21,
+                                "attributes": {
+                                    "x": "5",
+                                    "y": "5",
+                                    "width": "70",
+                                    "height": "55",
+                                    "params": "16",
+                                    "style": "0",
+                                    "name": "settings_icon"
+                                },
+                                "children": []
+                            },
+                            {
+                                "tag": "text",
+                                "typeId": 10,
+                                "attributes": {
+                                    "x": "4",
+                                    "y": "61",
+                                    "width": "70",
+                                    "height": "13",
+                                    "params": "786640",
+                                    "style": "0",
+                                    "name": "settings_text",
+                                    "caption": "%24%7Bwidget.memenu.settings%7D",
+                                    "width_max": "70"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "tag": "region",
+                        "typeId": 5,
+                        "attributes": {
+                            "x": "83",
+                            "y": "1",
+                            "width": "79",
+                            "height": "79",
+                            "params": "17",
+                            "style": "1",
+                            "name": "credits",
+                            "color": "0xff3d3d3d",
+                            "treshold": "0"
+                        },
+                        "children": [
+                            {
+                                "tag": "bitmap",
+                                "typeId": 21,
+                                "attributes": {
+                                    "x": "5",
+                                    "y": "5",
+                                    "width": "70",
+                                    "height": "55",
+                                    "params": "16",
+                                    "style": "0",
+                                    "name": "credits_icon"
+                                },
+                                "children": []
+                            },
+                            {
+                                "tag": "text",
+                                "typeId": 10,
+                                "attributes": {
+                                    "x": "4",
+                                    "y": "61",
+                                    "width": "70",
+                                    "height": "13",
+                                    "params": "786640",
+                                    "style": "0",
+                                    "name": "credits_text",
+                                    "caption": "%24%7Bwidget.memenu.credits%7D",
+                                    "width_max": "70"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "tag": "region",
+                        "typeId": 5,
+                        "attributes": {
+                            "x": "166",
+                            "y": "1",
+                            "width": "79",
+                            "height": "79",
+                            "params": "17",
+                            "style": "1",
+                            "name": "minimail",
+                            "color": "0xff3d3d3d",
+                            "treshold": "0"
+                        },
+                        "children": [
+                            {
+                                "tag": "bitmap",
+                                "typeId": 21,
+                                "attributes": {
+                                    "x": "5",
+                                    "y": "5",
+                                    "width": "70",
+                                    "height": "55",
+                                    "params": "16",
+                                    "style": "0",
+                                    "name": "minimail_icon"
+                                },
+                                "children": []
+                            },
+                            {
+                                "tag": "text",
+                                "typeId": 10,
+                                "attributes": {
+                                    "x": "4",
+                                    "y": "61",
+                                    "width": "70",
+                                    "height": "13",
+                                    "params": "786640",
+                                    "style": "0",
+                                    "name": "minimail_text",
+                                    "caption": "%24%7Bwidget.memenu.minimail%7D",
+                                    "width_max": "70"
+                                },
+                                "children": []
+                            }
+                        ]
+                    }
+                ]
+            }
         ]
-      }
-    ]
-  },
-  "vars": {
-    "auto_size": "left",
-    "text_color": 16777215,
-    "mouse_wheel_enabled": false
-  },
-  "filters": []
+    },
+    "vars": {
+        "auto_size": "left",
+        "text_color": 16777215,
+        "mouse_wheel_enabled": false
+    },
+    "filters": []
 }

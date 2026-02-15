@@ -1,6 +1,6 @@
 import type {JSX} from 'solid-js';
 import {For} from 'solid-js';
-import {getIWindowDesktop, getIWindowVersion} from '../../stores/windowStore';
+import {getWindowDesktop, getWindowVersion} from '../../stores/windowStore';
 import {WindowRenderer} from './WindowRenderer';
 import {WindowContextLayer} from '@habbo/window/enum/WindowContextLayer';
 import type {IWindow} from '@core/window/IWindow';
@@ -20,20 +20,30 @@ const LAYER_Z_INDEX = [400, 500, 600, 700];
  */
 function IWindowDesktopLayer(props: { layer: number }): JSX.Element
 {
-	const version = getIWindowVersion(props.layer);
+	const version = getWindowVersion(props.layer);
 
 	const desktopChildren = (): IWindow[] =>
 	{
 		// Read version to subscribe to changes
-		version();
+		const v = version();
 
-		const desktop = getIWindowDesktop(props.layer);
+		const desktop = getWindowDesktop(props.layer);
 
-		if(!desktop) return [];
+		if(!desktop)
+		{
+			console.debug(`[WindowLayerRenderer] Layer ${props.layer}: no desktop (version=${v})`);
+			return [];
+		}
 
-		const container = desktop as IWindow & { children?: IWindow[] | null };
+		const container = desktop as IWindow & { children?: IWindow[] | null; numChildren?: number };
+		const kids = container.children ? [...container.children] : [];
 
-		return container.children ? [...container.children] : [];
+		if(kids.length > 0)
+		{
+			console.debug(`[WindowLayerRenderer] Layer ${props.layer}: ${kids.length} children (version=${v})`, kids);
+		}
+
+		return kids;
 	};
 
 	return (
@@ -48,8 +58,8 @@ function IWindowDesktopLayer(props: { layer: number }): JSX.Element
 		>
 			<For each={desktopChildren()}>
 				{(child) => (
-					<div style={{ 'pointer-events': 'auto' }}>
-						<WindowRenderer window={child} />
+					<div style={{'pointer-events': 'auto'}}>
+						<WindowRenderer window={child}/>
 					</div>
 				)}
 			</For>
@@ -68,8 +78,8 @@ export function WindowLayerRenderer(): JSX.Element
 {
 	return (
 		<div class="hw-iwindow-layers">
-			<For each={Array.from({ length: WindowContextLayer.COUNT }, (_, i) => i)}>
-				{(layer) => <IWindowDesktopLayer layer={layer} />}
+			<For each={Array.from({length: WindowContextLayer.COUNT}, (_, i) => i)}>
+				{(layer) => <IWindowDesktopLayer layer={layer}/>}
 			</For>
 		</div>
 	);

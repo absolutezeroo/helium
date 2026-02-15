@@ -1,158 +1,158 @@
 {
-  "name": "catalog_promo",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_catalog_promo_xml.bin",
-  "window": {
-    "tag": "window",
-    "typeId": -1,
-    "attributes": {},
-    "children": [
-      {
-        "tag": "container",
-        "typeId": 4,
-        "attributes": {
-          "x": "0",
-          "y": "0",
-          "width": "507",
-          "height": "188",
-          "params": "147472",
-          "style": "0",
-          "name": "catalog_promo"
-        },
+    "name": "catalog_promo",
+    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_catalog_promo_xml.bin",
+    "window": {
+        "tag": "window",
+        "typeId": -1,
+        "attributes": {},
         "children": [
-          {
-            "tag": "itemlist_vertical",
-            "typeId": 50,
-            "attributes": {
-              "x": "11",
-              "y": "9",
-              "width": "300",
-              "height": "98",
-              "params": "147472",
-              "style": "0",
-              "name": "info_container"
-            },
-            "children": [
-              {
-                "tag": "formatted_text",
-                "typeId": 15,
+            {
+                "tag": "container",
+                "typeId": 4,
                 "attributes": {
-                  "x": "0",
-                  "y": "0",
-                  "width": "300",
-                  "height": "24",
-                  "params": "16",
-                  "style": "100",
-                  "name": "catalog_promo_caption",
-                  "caption": "%24%7Blanding.view.catalogpromo.caption%7D",
-                  "tags": "COLORABLE",
-                  "width_min": "300",
-                  "width_max": "300"
+                    "x": "0",
+                    "y": "0",
+                    "width": "507",
+                    "height": "188",
+                    "params": "147472",
+                    "style": "0",
+                    "name": "catalog_promo"
                 },
-                "children": []
-              },
-              {
-                "tag": "formatted_text",
-                "typeId": 15,
-                "attributes": {
-                  "x": "0",
-                  "y": "29",
-                  "width": "300",
-                  "height": "16",
-                  "params": "16",
-                  "style": "100",
-                  "name": "catalog_promo_info",
-                  "caption": "%24%7Blanding.view.catalogpromo.info%7D",
-                  "tags": "COLORABLE"
-                },
-                "children": []
-              },
-              {
-                "tag": "button",
-                "typeId": 60,
-                "attributes": {
-                  "x": "-11",
-                  "y": "50",
-                  "width": "250",
-                  "height": "48",
-                  "params": "131089",
-                  "style": "100",
-                  "name": "open_page_button",
-                  "caption": "%24%7Blanding.view.catalogpromo.opencatalog%7D",
-                  "width_min": "250",
-                  "width_max": "250",
-                  "height_min": "48",
-                  "height_max": "48"
-                },
-                "children": []
-              }
-            ]
-          },
-          {
-            "tag": "container",
-            "typeId": 4,
-            "attributes": {
-              "x": "281",
-              "y": "11",
-              "width": "226",
-              "height": "177",
-              "params": "16400",
-              "style": "0",
-              "name": "picture_container"
-            },
-            "children": [
-              {
-                "tag": "formatted_text",
-                "typeId": 15,
-                "attributes": {
-                  "x": "10",
-                  "y": "145",
-                  "width": "200",
-                  "height": "28",
-                  "params": "16",
-                  "style": "100",
-                  "name": "catalog_promo_status",
-                  "caption": "%24%7Blanding.view.catalog.promo.picture.text%7D",
-                  "tags": "COLORABLE",
-                  "width_min": "200",
-                  "width_max": "200"
-                },
-                "children": []
-              },
-              {
-                "tag": "static_bitmap",
-                "typeId": 23,
-                "attributes": {
-                  "x": "20",
-                  "y": "0",
-                  "width": "183",
-                  "height": "144",
-                  "params": "16",
-                  "style": "0",
-                  "name": "picture"
-                },
-                "children": []
-              }
-            ]
-          }
+                "children": [
+                    {
+                        "tag": "itemlist_vertical",
+                        "typeId": 50,
+                        "attributes": {
+                            "x": "11",
+                            "y": "9",
+                            "width": "300",
+                            "height": "98",
+                            "params": "147472",
+                            "style": "0",
+                            "name": "info_container"
+                        },
+                        "children": [
+                            {
+                                "tag": "formatted_text",
+                                "typeId": 15,
+                                "attributes": {
+                                    "x": "0",
+                                    "y": "0",
+                                    "width": "300",
+                                    "height": "24",
+                                    "params": "16",
+                                    "style": "100",
+                                    "name": "catalog_promo_caption",
+                                    "caption": "%24%7Blanding.view.catalogpromo.caption%7D",
+                                    "tags": "COLORABLE",
+                                    "width_min": "300",
+                                    "width_max": "300"
+                                },
+                                "children": []
+                            },
+                            {
+                                "tag": "formatted_text",
+                                "typeId": 15,
+                                "attributes": {
+                                    "x": "0",
+                                    "y": "29",
+                                    "width": "300",
+                                    "height": "16",
+                                    "params": "16",
+                                    "style": "100",
+                                    "name": "catalog_promo_info",
+                                    "caption": "%24%7Blanding.view.catalogpromo.info%7D",
+                                    "tags": "COLORABLE"
+                                },
+                                "children": []
+                            },
+                            {
+                                "tag": "button",
+                                "typeId": 60,
+                                "attributes": {
+                                    "x": "-11",
+                                    "y": "50",
+                                    "width": "250",
+                                    "height": "48",
+                                    "params": "131089",
+                                    "style": "100",
+                                    "name": "open_page_button",
+                                    "caption": "%24%7Blanding.view.catalogpromo.opencatalog%7D",
+                                    "width_min": "250",
+                                    "width_max": "250",
+                                    "height_min": "48",
+                                    "height_max": "48"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "tag": "container",
+                        "typeId": 4,
+                        "attributes": {
+                            "x": "281",
+                            "y": "11",
+                            "width": "226",
+                            "height": "177",
+                            "params": "16400",
+                            "style": "0",
+                            "name": "picture_container"
+                        },
+                        "children": [
+                            {
+                                "tag": "formatted_text",
+                                "typeId": 15,
+                                "attributes": {
+                                    "x": "10",
+                                    "y": "145",
+                                    "width": "200",
+                                    "height": "28",
+                                    "params": "16",
+                                    "style": "100",
+                                    "name": "catalog_promo_status",
+                                    "caption": "%24%7Blanding.view.catalog.promo.picture.text%7D",
+                                    "tags": "COLORABLE",
+                                    "width_min": "200",
+                                    "width_max": "200"
+                                },
+                                "children": []
+                            },
+                            {
+                                "tag": "static_bitmap",
+                                "typeId": 23,
+                                "attributes": {
+                                    "x": "20",
+                                    "y": "0",
+                                    "width": "183",
+                                    "height": "144",
+                                    "params": "16",
+                                    "style": "0",
+                                    "name": "picture"
+                                },
+                                "children": []
+                            }
+                        ]
+                    }
+                ]
+            }
         ]
-      }
-    ]
-  },
-  "vars": {
-    "auto_size": "center",
-    "font_size": 24,
-    "text_style": "il_heading_1",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0,
-    "multiline": true,
-    "word_wrap": true,
-    "scale_to_fit_items": true,
-    "resize_on_item_update": true,
-    "bold": true,
-    "asset_uri": "${image.library.url}reception/meter_level_0.png",
-    "stretched_x": false,
-    "stretched_y": false
-  },
-  "filters": []
+    },
+    "vars": {
+        "auto_size": "center",
+        "font_size": 24,
+        "text_style": "il_heading_1",
+        "mouse_wheel_enabled": false,
+        "spacing": 0,
+        "leading": 0,
+        "multiline": true,
+        "word_wrap": true,
+        "scale_to_fit_items": true,
+        "resize_on_item_update": true,
+        "bold": true,
+        "asset_uri": "${image.library.url}reception/meter_level_0.png",
+        "stretched_x": false,
+        "stretched_y": false
+    },
+    "filters": []
 }

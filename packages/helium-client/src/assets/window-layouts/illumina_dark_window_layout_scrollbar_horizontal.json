@@ -1,43 +1,43 @@
 {
-  "name": "illumina_dark_window_layout_scrollbar_horizontal",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_illumina_dark_scrollbar_horizontal_xml.bin",
-  "window": {
-    "tag": "window",
-    "typeId": -1,
-    "attributes": {},
-    "children": [
-      {
-        "tag": "scrollbar_slider_track_horizontal",
-        "typeId": 134,
-        "attributes": {
-          "name": "slider_track",
-          "x": "0",
-          "y": "0",
-          "width": "9",
-          "height": "9",
-          "tags": "_EXCLUDE, _INTERNAL, slider_track"
-        },
+    "name": "illumina_dark_window_layout_scrollbar_horizontal",
+    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_illumina_dark_scrollbar_horizontal_xml.bin",
+    "window": {
+        "tag": "window",
+        "typeId": -1,
+        "attributes": {},
         "children": [
-          {
-            "tag": "scrollbar_slider_bar_horizontal",
-            "typeId": 132,
-            "attributes": {
-              "name": "slider_bar",
-              "x": "0",
-              "y": "0",
-              "width": "9",
-              "height": "9",
-              "height_min": "9",
-              "tags": "_EXCLUDE, _INTERNAL, slider_bar"
-            },
-            "children": [],
-            "params": 0
-          }
-        ],
-        "params": 0
-      }
-    ]
-  },
-  "vars": {},
-  "filters": []
+            {
+                "tag": "scrollbar_slider_track_horizontal",
+                "typeId": 134,
+                "attributes": {
+                    "name": "slider_track",
+                    "x": "0",
+                    "y": "0",
+                    "width": "9",
+                    "height": "9",
+                    "tags": "_EXCLUDE, _INTERNAL, slider_track"
+                },
+                "children": [
+                    {
+                        "tag": "scrollbar_slider_bar_horizontal",
+                        "typeId": 132,
+                        "attributes": {
+                            "name": "slider_bar",
+                            "x": "0",
+                            "y": "0",
+                            "width": "9",
+                            "height": "9",
+                            "height_min": "9",
+                            "tags": "_EXCLUDE, _INTERNAL, slider_bar"
+                        },
+                        "children": [],
+                        "params": 0
+                    }
+                ],
+                "params": 0
+            }
+        ]
+    },
+    "vars": {},
+    "filters": []
 }

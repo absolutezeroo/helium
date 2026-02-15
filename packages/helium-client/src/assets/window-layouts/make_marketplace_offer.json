@@ -1,301 +1,301 @@
 {
-  "name": "make_marketplace_offer",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboInventoryCom_make_marketplace_offer_xml.bin",
-  "window": {
-    "tag": "window",
-    "typeId": -1,
-    "attributes": {},
-    "children": [
-      {
-        "tag": "frame",
-        "typeId": 35,
-        "attributes": {
-          "x": "0",
-          "y": "0",
-          "width": "300",
-          "height": "340",
-          "params": "33025",
-          "style": "3",
-          "caption": "%24%7Binventory.marketplace.make_offer.title%7D",
-          "color": "0xff418db0"
-        },
+    "name": "make_marketplace_offer",
+    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboInventoryCom_make_marketplace_offer_xml.bin",
+    "window": {
+        "tag": "window",
+        "typeId": -1,
+        "attributes": {},
         "children": [
-          {
-            "tag": "container",
-            "typeId": 4,
-            "attributes": {
-              "x": "0",
-              "y": "0",
-              "width": "288",
-              "height": "304",
-              "params": "2192",
-              "style": "0",
-              "name": "main_border",
-              "caption": "Marketplace%20offer"
-            },
-            "children": [
-              {
-                "tag": "border",
-                "typeId": 30,
+            {
+                "tag": "frame",
+                "typeId": 35,
                 "attributes": {
-                  "x": "10",
-                  "y": "12",
-                  "width": "70",
-                  "height": "70",
-                  "params": "16",
-                  "style": "105",
-                  "name": "image_border",
-                  "caption": "Marketplace%20offer"
+                    "x": "0",
+                    "y": "0",
+                    "width": "300",
+                    "height": "340",
+                    "params": "33025",
+                    "style": "3",
+                    "caption": "%24%7Binventory.marketplace.make_offer.title%7D",
+                    "color": "0xff418db0"
                 },
                 "children": [
-                  {
-                    "tag": "bitmap",
-                    "typeId": 21,
-                    "attributes": {
-                      "x": "0",
-                      "y": "0",
-                      "width": "70",
-                      "height": "70",
-                      "params": "16",
-                      "style": "3",
-                      "name": "furni_image",
-                      "caption": "Marketplace%20offer"
-                    },
-                    "children": []
-                  }
+                    {
+                        "tag": "container",
+                        "typeId": 4,
+                        "attributes": {
+                            "x": "0",
+                            "y": "0",
+                            "width": "288",
+                            "height": "304",
+                            "params": "2192",
+                            "style": "0",
+                            "name": "main_border",
+                            "caption": "Marketplace%20offer"
+                        },
+                        "children": [
+                            {
+                                "tag": "border",
+                                "typeId": 30,
+                                "attributes": {
+                                    "x": "10",
+                                    "y": "12",
+                                    "width": "70",
+                                    "height": "70",
+                                    "params": "16",
+                                    "style": "105",
+                                    "name": "image_border",
+                                    "caption": "Marketplace%20offer"
+                                },
+                                "children": [
+                                    {
+                                        "tag": "bitmap",
+                                        "typeId": 21,
+                                        "attributes": {
+                                            "x": "0",
+                                            "y": "0",
+                                            "width": "70",
+                                            "height": "70",
+                                            "params": "16",
+                                            "style": "3",
+                                            "name": "furni_image",
+                                            "caption": "Marketplace%20offer"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            },
+                            {
+                                "tag": "widget",
+                                "typeId": 16,
+                                "attributes": {
+                                    "x": "2",
+                                    "y": "2",
+                                    "width": "36",
+                                    "height": "36",
+                                    "params": "16",
+                                    "style": "3",
+                                    "name": "unique_item_overlay_widget",
+                                    "visible": "false"
+                                },
+                                "children": []
+                            },
+                            {
+                                "tag": "widget",
+                                "typeId": 16,
+                                "attributes": {
+                                    "x": "2",
+                                    "y": "2",
+                                    "width": "36",
+                                    "height": "36",
+                                    "params": "16",
+                                    "style": "3",
+                                    "name": "rarity_item_overlay_widget",
+                                    "visible": "false"
+                                },
+                                "children": []
+                            },
+                            {
+                                "tag": "text",
+                                "typeId": 10,
+                                "attributes": {
+                                    "x": "88",
+                                    "y": "13",
+                                    "width": "190",
+                                    "height": "19",
+                                    "params": "16",
+                                    "style": "3",
+                                    "name": "furni_name",
+                                    "caption": "%24%7B001_lorem_ipsum_title%7D"
+                                },
+                                "children": []
+                            },
+                            {
+                                "tag": "text",
+                                "typeId": 10,
+                                "attributes": {
+                                    "x": "88",
+                                    "y": "34",
+                                    "width": "190",
+                                    "height": "49",
+                                    "params": "16",
+                                    "style": "3",
+                                    "name": "furni_desc",
+                                    "caption": "%24%7B002_lorem_ipsum_content%7D"
+                                },
+                                "children": []
+                            },
+                            {
+                                "tag": "text",
+                                "typeId": 10,
+                                "attributes": {
+                                    "x": "10",
+                                    "y": "87",
+                                    "width": "268",
+                                    "height": "39",
+                                    "params": "16",
+                                    "style": "3",
+                                    "name": "expiration_info",
+                                    "caption": "%24%7Binventory.marketplace.make_offer.expiration_info%7D"
+                                },
+                                "children": []
+                            },
+                            {
+                                "tag": "text",
+                                "typeId": 10,
+                                "attributes": {
+                                    "x": "-86",
+                                    "y": "131",
+                                    "width": "295",
+                                    "height": "19",
+                                    "params": "262160",
+                                    "style": "3",
+                                    "name": "price_request",
+                                    "caption": "%24%7Binventory.marketplace.make_offer.price_request%7D"
+                                },
+                                "children": []
+                            },
+                            {
+                                "tag": "border",
+                                "typeId": 30,
+                                "attributes": {
+                                    "x": "212",
+                                    "y": "129",
+                                    "width": "66",
+                                    "height": "26",
+                                    "params": "16",
+                                    "style": "105",
+                                    "name": "input_border",
+                                    "caption": "Marketplace%20offer"
+                                },
+                                "children": [
+                                    {
+                                        "tag": "input",
+                                        "typeId": 77,
+                                        "attributes": {
+                                            "x": "8",
+                                            "y": "3",
+                                            "width": "50",
+                                            "height": "19",
+                                            "params": "1",
+                                            "style": "3",
+                                            "name": "price_input",
+                                            "width_min": "50",
+                                            "width_max": "50"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            },
+                            {
+                                "tag": "text",
+                                "typeId": 10,
+                                "attributes": {
+                                    "x": "10",
+                                    "y": "159",
+                                    "width": "268",
+                                    "height": "42",
+                                    "params": "16",
+                                    "style": "3",
+                                    "name": "average_price",
+                                    "caption": "%24%7Binventory.marketplace.make_offer.average_price%7D"
+                                },
+                                "children": []
+                            },
+                            {
+                                "tag": "border",
+                                "typeId": 30,
+                                "attributes": {
+                                    "x": "10",
+                                    "y": "210",
+                                    "width": "268",
+                                    "height": "54",
+                                    "params": "1040",
+                                    "style": "105",
+                                    "name": "final_price_border",
+                                    "caption": "Marketplace%20offer"
+                                },
+                                "children": [
+                                    {
+                                        "tag": "text",
+                                        "typeId": 10,
+                                        "attributes": {
+                                            "x": "6",
+                                            "y": "4",
+                                            "width": "257",
+                                            "height": "46",
+                                            "params": "16",
+                                            "style": "3",
+                                            "name": "final_price",
+                                            "caption": "%24%7Binventory.marketplace.make_offer.final_price%7D"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            },
+                            {
+                                "tag": "button",
+                                "typeId": 60,
+                                "attributes": {
+                                    "x": "10",
+                                    "y": "271",
+                                    "width": "74",
+                                    "height": "28",
+                                    "params": "132113",
+                                    "style": "3",
+                                    "name": "make_offer_button",
+                                    "caption": "%24%7Binventory.marketplace.make_offer.post%7D",
+                                    "width_max": "130"
+                                },
+                                "children": []
+                            },
+                            {
+                                "tag": "button",
+                                "typeId": 60,
+                                "attributes": {
+                                    "x": "223",
+                                    "y": "271",
+                                    "width": "56",
+                                    "height": "28",
+                                    "params": "394257",
+                                    "style": "3",
+                                    "name": "cancel_make_offer_button",
+                                    "caption": "%24%7Binventory.marketplace.make_offer.cancel%7D",
+                                    "width_max": "130"
+                                },
+                                "children": []
+                            }
+                        ]
+                    }
                 ]
-              },
-              {
-                "tag": "widget",
-                "typeId": 16,
-                "attributes": {
-                  "x": "2",
-                  "y": "2",
-                  "width": "36",
-                  "height": "36",
-                  "params": "16",
-                  "style": "3",
-                  "name": "unique_item_overlay_widget",
-                  "visible": "false"
-                },
-                "children": []
-              },
-              {
-                "tag": "widget",
-                "typeId": 16,
-                "attributes": {
-                  "x": "2",
-                  "y": "2",
-                  "width": "36",
-                  "height": "36",
-                  "params": "16",
-                  "style": "3",
-                  "name": "rarity_item_overlay_widget",
-                  "visible": "false"
-                },
-                "children": []
-              },
-              {
-                "tag": "text",
-                "typeId": 10,
-                "attributes": {
-                  "x": "88",
-                  "y": "13",
-                  "width": "190",
-                  "height": "19",
-                  "params": "16",
-                  "style": "3",
-                  "name": "furni_name",
-                  "caption": "%24%7B001_lorem_ipsum_title%7D"
-                },
-                "children": []
-              },
-              {
-                "tag": "text",
-                "typeId": 10,
-                "attributes": {
-                  "x": "88",
-                  "y": "34",
-                  "width": "190",
-                  "height": "49",
-                  "params": "16",
-                  "style": "3",
-                  "name": "furni_desc",
-                  "caption": "%24%7B002_lorem_ipsum_content%7D"
-                },
-                "children": []
-              },
-              {
-                "tag": "text",
-                "typeId": 10,
-                "attributes": {
-                  "x": "10",
-                  "y": "87",
-                  "width": "268",
-                  "height": "39",
-                  "params": "16",
-                  "style": "3",
-                  "name": "expiration_info",
-                  "caption": "%24%7Binventory.marketplace.make_offer.expiration_info%7D"
-                },
-                "children": []
-              },
-              {
-                "tag": "text",
-                "typeId": 10,
-                "attributes": {
-                  "x": "-86",
-                  "y": "131",
-                  "width": "295",
-                  "height": "19",
-                  "params": "262160",
-                  "style": "3",
-                  "name": "price_request",
-                  "caption": "%24%7Binventory.marketplace.make_offer.price_request%7D"
-                },
-                "children": []
-              },
-              {
-                "tag": "border",
-                "typeId": 30,
-                "attributes": {
-                  "x": "212",
-                  "y": "129",
-                  "width": "66",
-                  "height": "26",
-                  "params": "16",
-                  "style": "105",
-                  "name": "input_border",
-                  "caption": "Marketplace%20offer"
-                },
-                "children": [
-                  {
-                    "tag": "input",
-                    "typeId": 77,
-                    "attributes": {
-                      "x": "8",
-                      "y": "3",
-                      "width": "50",
-                      "height": "19",
-                      "params": "1",
-                      "style": "3",
-                      "name": "price_input",
-                      "width_min": "50",
-                      "width_max": "50"
-                    },
-                    "children": []
-                  }
-                ]
-              },
-              {
-                "tag": "text",
-                "typeId": 10,
-                "attributes": {
-                  "x": "10",
-                  "y": "159",
-                  "width": "268",
-                  "height": "42",
-                  "params": "16",
-                  "style": "3",
-                  "name": "average_price",
-                  "caption": "%24%7Binventory.marketplace.make_offer.average_price%7D"
-                },
-                "children": []
-              },
-              {
-                "tag": "border",
-                "typeId": 30,
-                "attributes": {
-                  "x": "10",
-                  "y": "210",
-                  "width": "268",
-                  "height": "54",
-                  "params": "1040",
-                  "style": "105",
-                  "name": "final_price_border",
-                  "caption": "Marketplace%20offer"
-                },
-                "children": [
-                  {
-                    "tag": "text",
-                    "typeId": 10,
-                    "attributes": {
-                      "x": "6",
-                      "y": "4",
-                      "width": "257",
-                      "height": "46",
-                      "params": "16",
-                      "style": "3",
-                      "name": "final_price",
-                      "caption": "%24%7Binventory.marketplace.make_offer.final_price%7D"
-                    },
-                    "children": []
-                  }
-                ]
-              },
-              {
-                "tag": "button",
-                "typeId": 60,
-                "attributes": {
-                  "x": "10",
-                  "y": "271",
-                  "width": "74",
-                  "height": "28",
-                  "params": "132113",
-                  "style": "3",
-                  "name": "make_offer_button",
-                  "caption": "%24%7Binventory.marketplace.make_offer.post%7D",
-                  "width_max": "130"
-                },
-                "children": []
-              },
-              {
-                "tag": "button",
-                "typeId": 60,
-                "attributes": {
-                  "x": "223",
-                  "y": "271",
-                  "width": "56",
-                  "height": "28",
-                  "params": "394257",
-                  "style": "3",
-                  "name": "cancel_make_offer_button",
-                  "caption": "%24%7Binventory.marketplace.make_offer.cancel%7D",
-                  "width_max": "130"
-                },
-                "children": []
-              }
-            ]
-          }
+            }
         ]
-      }
+    },
+    "vars": {
+        "widget_type": "rarity_item_overlay_grid",
+        "text_style": "u_headline_small",
+        "mouse_wheel_enabled": false,
+        "sharpness": 0,
+        "thickness": 0,
+        "spacing": 0,
+        "leading": 0,
+        "word_wrap": true,
+        "auto_size": "right",
+        "always_show_selection": true,
+        "margin_left": 6,
+        "margin_top": 30,
+        "margin_right": 6,
+        "margin_bottom": 6
+    },
+    "filters": [
+        {
+            "type": "DropShadowFilter",
+            "attributes": {
+                "distance": "4",
+                "alpha": "0.34901960784313724",
+                "blurX": "4",
+                "blurY": "4"
+            }
+        }
     ]
-  },
-  "vars": {
-    "widget_type": "rarity_item_overlay_grid",
-    "text_style": "u_headline_small",
-    "mouse_wheel_enabled": false,
-    "sharpness": 0,
-    "thickness": 0,
-    "spacing": 0,
-    "leading": 0,
-    "word_wrap": true,
-    "auto_size": "right",
-    "always_show_selection": true,
-    "margin_left": 6,
-    "margin_top": 30,
-    "margin_right": 6,
-    "margin_bottom": 6
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "4",
-        "alpha": "0.34901960784313724",
-        "blurX": "4",
-        "blurY": "4"
-      }
-    }
-  ]
 }

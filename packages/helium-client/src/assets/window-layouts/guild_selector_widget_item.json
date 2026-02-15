@@ -1,58 +1,58 @@
 {
-  "name": "guild_selector_widget_item",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboguild_selector_widget_item_xml.bin",
-  "window": {
-    "tag": "window",
-    "typeId": -1,
-    "attributes": {},
-    "children": [
-      {
-        "tag": "container",
-        "typeId": 4,
-        "attributes": {
-          "x": "0",
-          "y": "0",
-          "width": "133",
-          "height": "22",
-          "params": "16",
-          "style": "0",
-          "name": "guild_item",
-          "treshold": "0"
-        },
+    "name": "guild_selector_widget_item",
+    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboguild_selector_widget_item_xml.bin",
+    "window": {
+        "tag": "window",
+        "typeId": -1,
+        "attributes": {},
         "children": [
-          {
-            "tag": "label",
-            "typeId": 12,
-            "attributes": {
-              "x": "0",
-              "y": "4",
-              "width": "72",
-              "height": "17",
-              "params": "16",
-              "style": "3",
-              "name": "guild_name",
-              "caption": "lorem%20ipsum"
-            },
-            "children": []
-          },
-          {
-            "tag": "bitmap",
-            "typeId": 21,
-            "attributes": {
-              "x": "112",
-              "y": "4",
-              "width": "21",
-              "height": "14",
-              "params": "16",
-              "style": "0",
-              "name": "guild_colors"
-            },
-            "children": []
-          }
+            {
+                "tag": "container",
+                "typeId": 4,
+                "attributes": {
+                    "x": "0",
+                    "y": "0",
+                    "width": "133",
+                    "height": "22",
+                    "params": "16",
+                    "style": "0",
+                    "name": "guild_item",
+                    "treshold": "0"
+                },
+                "children": [
+                    {
+                        "tag": "label",
+                        "typeId": 12,
+                        "attributes": {
+                            "x": "0",
+                            "y": "4",
+                            "width": "72",
+                            "height": "17",
+                            "params": "16",
+                            "style": "3",
+                            "name": "guild_name",
+                            "caption": "lorem%20ipsum"
+                        },
+                        "children": []
+                    },
+                    {
+                        "tag": "bitmap",
+                        "typeId": 21,
+                        "attributes": {
+                            "x": "112",
+                            "y": "4",
+                            "width": "21",
+                            "height": "14",
+                            "params": "16",
+                            "style": "0",
+                            "name": "guild_colors"
+                        },
+                        "children": []
+                    }
+                ]
+            }
         ]
-      }
-    ]
-  },
-  "vars": {},
-  "filters": []
+    },
+    "vars": {},
+    "filters": []
 }

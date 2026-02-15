@@ -1,45 +1,45 @@
 {
-  "name": "setting_category",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_setting_category_xml.bin",
-  "window": {
-    "tag": "window",
-    "typeId": -1,
-    "attributes": {},
-    "children": [
-      {
-        "tag": "region",
-        "typeId": 5,
-        "attributes": {
-          "x": "0",
-          "y": "0",
-          "width": "120",
-          "height": "17",
-          "params": "17",
-          "style": "3",
-          "treshold": "0"
-        },
+    "name": "setting_category",
+    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_setting_category_xml.bin",
+    "window": {
+        "tag": "window",
+        "typeId": -1,
+        "attributes": {},
         "children": [
-          {
-            "tag": "label",
-            "typeId": 12,
-            "attributes": {
-              "x": "0",
-              "y": "0",
-              "width": "60",
-              "height": "17",
-              "params": "16",
-              "style": "3",
-              "name": "button_label",
-              "caption": "Settings%201"
-            },
-            "children": []
-          }
+            {
+                "tag": "region",
+                "typeId": 5,
+                "attributes": {
+                    "x": "0",
+                    "y": "0",
+                    "width": "120",
+                    "height": "17",
+                    "params": "17",
+                    "style": "3",
+                    "treshold": "0"
+                },
+                "children": [
+                    {
+                        "tag": "label",
+                        "typeId": 12,
+                        "attributes": {
+                            "x": "0",
+                            "y": "0",
+                            "width": "60",
+                            "height": "17",
+                            "params": "16",
+                            "style": "3",
+                            "name": "button_label",
+                            "caption": "Settings%201"
+                        },
+                        "children": []
+                    }
+                ]
+            }
         ]
-      }
-    ]
-  },
-  "vars": {
-    "text_color": 16777215
-  },
-  "filters": []
+    },
+    "vars": {
+        "text_color": 16777215
+    },
+    "filters": []
 }

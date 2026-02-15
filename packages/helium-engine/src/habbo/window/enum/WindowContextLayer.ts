@@ -12,7 +12,6 @@ export const WindowContextLayer =
 		DEFAULT: 1,
 		DIALOGS: 2,
 		TOOLTIPS: 3,
-
 		COUNT: 4,
 	} as const;
 

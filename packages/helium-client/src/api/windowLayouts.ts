@@ -30,7 +30,7 @@ function extractName(modulePath: string): string
  */
 const nameToPath = new Map<string, string>();
 
-for(const modulePath of Object.keys(layoutModules))
+for (const modulePath of Object.keys(layoutModules))
 {
 	nameToPath.set(extractName(modulePath), modulePath);
 }
@@ -48,11 +48,11 @@ export async function loadWindowLayout(name: string): Promise<IWindowLayout | nu
 {
 	const cached = layoutCache.get(name);
 
-	if(cached) return cached;
+	if (cached) return cached;
 
 	const modulePath = nameToPath.get(name);
 
-	if(!modulePath)
+	if (!modulePath)
 	{
 		console.warn(`[windowLayouts] Layout not found: ${name}`);
 		return null;
@@ -60,13 +60,13 @@ export async function loadWindowLayout(name: string): Promise<IWindowLayout | nu
 
 	const loader = layoutModules[modulePath];
 
-	if(!loader)
+	if (!loader)
 	{
 		console.warn(`[windowLayouts] No loader for layout: ${name}`);
 		return null;
 	}
 
-	const layout = await loader() as unknown as {default: IWindowLayout} | IWindowLayout;
+	const layout = await loader() as unknown as { default: IWindowLayout } | IWindowLayout;
 
 	const data = 'default' in layout ? layout.default : layout;
 

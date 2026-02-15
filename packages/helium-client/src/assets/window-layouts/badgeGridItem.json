@@ -1,62 +1,62 @@
 {
-  "name": "badgeGridItem",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbobadge_grid_item_xml.bin",
-  "window": {
-    "tag": "window",
-    "typeId": -1,
-    "attributes": {},
-    "children": [
-      {
-        "tag": "region",
-        "typeId": 5,
-        "attributes": {
-          "x": "0",
-          "y": "0",
-          "width": "44",
-          "height": "44",
-          "params": "17",
-          "style": "3",
-          "treshold": "0"
-        },
+    "name": "badgeGridItem",
+    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbobadge_grid_item_xml.bin",
+    "window": {
+        "tag": "window",
+        "typeId": -1,
+        "attributes": {},
         "children": [
-          {
-            "tag": "border",
-            "typeId": 30,
-            "attributes": {
-              "x": "0",
-              "y": "0",
-              "width": "44",
-              "height": "44",
-              "params": "16",
-              "style": "2",
-              "name": "bg"
-            },
-            "children": [
-              {
-                "tag": "widget",
-                "typeId": 16,
+            {
+                "tag": "region",
+                "typeId": 5,
                 "attributes": {
-                  "x": "2",
-                  "y": "2",
-                  "width": "40",
-                  "height": "40",
-                  "params": "16",
-                  "style": "100",
-                  "name": "badgeWidget"
+                    "x": "0",
+                    "y": "0",
+                    "width": "44",
+                    "height": "44",
+                    "params": "17",
+                    "style": "3",
+                    "treshold": "0"
                 },
-                "children": []
-              }
-            ]
-          }
+                "children": [
+                    {
+                        "tag": "border",
+                        "typeId": 30,
+                        "attributes": {
+                            "x": "0",
+                            "y": "0",
+                            "width": "44",
+                            "height": "44",
+                            "params": "16",
+                            "style": "2",
+                            "name": "bg"
+                        },
+                        "children": [
+                            {
+                                "tag": "widget",
+                                "typeId": 16,
+                                "attributes": {
+                                    "x": "2",
+                                    "y": "2",
+                                    "width": "40",
+                                    "height": "40",
+                                    "params": "16",
+                                    "style": "100",
+                                    "name": "badgeWidget"
+                                },
+                                "children": []
+                            }
+                        ]
+                    }
+                ]
+            }
         ]
-      }
-    ]
-  },
-  "vars": {
-    "widget_type": "badge_image",
-    "badge_image:pivot_point": "center",
-    "badge_image:stretched_x": false,
-    "badge_image:stretched_y": false
-  },
-  "filters": []
+    },
+    "vars": {
+        "widget_type": "badge_image",
+        "badge_image:pivot_point": "center",
+        "badge_image:stretched_x": false,
+        "badge_image:stretched_y": false
+    },
+    "filters": []
 }

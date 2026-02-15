@@ -1,82 +1,82 @@
 {
-  "name": "list_tester_item",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboUnknownAsset_list_tester_item_xml.bin",
-  "window": {
-    "tag": "window",
-    "typeId": -1,
-    "attributes": {},
-    "children": [
-      {
-        "tag": "container",
-        "typeId": 4,
-        "attributes": {
-          "x": "0",
-          "y": "0",
-          "width": "370",
-          "height": "41",
-          "params": "144",
-          "style": "0",
-          "name": "chatline",
-          "background": "true"
-        },
+    "name": "list_tester_item",
+    "source": "sources\\win63_2021_version\\binaryData\\HabboUnknownAsset_list_tester_item_xml.bin",
+    "window": {
+        "tag": "window",
+        "typeId": -1,
+        "attributes": {},
         "children": [
-          {
-            "tag": "text",
-            "typeId": 10,
-            "attributes": {
-              "x": "0",
-              "y": "0",
-              "width": "30",
-              "height": "13",
-              "params": "16",
-              "style": "0",
-              "name": "time_txt",
-              "caption": "18%3A30"
-            },
-            "children": []
-          },
-          {
-            "tag": "text",
-            "typeId": 10,
-            "attributes": {
-              "x": "30",
-              "y": "0",
-              "width": "110",
-              "height": "13",
-              "params": "17",
-              "style": "0",
-              "name": "chatter_txt",
-              "caption": "kurmasana",
-              "background": "true"
-            },
-            "children": []
-          },
-          {
-            "tag": "text",
-            "typeId": 10,
-            "attributes": {
-              "x": "140",
-              "y": "0",
-              "width": "230",
-              "height": "63",
-              "params": "16",
-              "style": "0",
-              "name": "msg_txt",
-              "caption": "Sharing%20your%20password%20or%20personal%20details%20online%20is%20dangerous.%20The%20moderators%20might%20monitor%20these%20conversations%20for%20your%20safety."
-            },
-            "children": []
-          }
+            {
+                "tag": "container",
+                "typeId": 4,
+                "attributes": {
+                    "x": "0",
+                    "y": "0",
+                    "width": "370",
+                    "height": "41",
+                    "params": "144",
+                    "style": "0",
+                    "name": "chatline",
+                    "background": "true"
+                },
+                "children": [
+                    {
+                        "tag": "text",
+                        "typeId": 10,
+                        "attributes": {
+                            "x": "0",
+                            "y": "0",
+                            "width": "30",
+                            "height": "13",
+                            "params": "16",
+                            "style": "0",
+                            "name": "time_txt",
+                            "caption": "18%3A30"
+                        },
+                        "children": []
+                    },
+                    {
+                        "tag": "text",
+                        "typeId": 10,
+                        "attributes": {
+                            "x": "30",
+                            "y": "0",
+                            "width": "110",
+                            "height": "13",
+                            "params": "17",
+                            "style": "0",
+                            "name": "chatter_txt",
+                            "caption": "kurmasana",
+                            "background": "true"
+                        },
+                        "children": []
+                    },
+                    {
+                        "tag": "text",
+                        "typeId": 10,
+                        "attributes": {
+                            "x": "140",
+                            "y": "0",
+                            "width": "230",
+                            "height": "63",
+                            "params": "16",
+                            "style": "0",
+                            "name": "msg_txt",
+                            "caption": "Sharing%20your%20password%20or%20personal%20details%20online%20is%20dangerous.%20The%20moderators%20might%20monitor%20these%20conversations%20for%20your%20safety."
+                        },
+                        "children": []
+                    }
+                ]
+            }
         ]
-      }
-    ]
-  },
-  "vars": {
-    "text_color": 0,
-    "embed_fonts": true,
-    "font_face": "Volter Bold",
-    "underline": true,
-    "multiline": true,
-    "word_wrap": true
-  },
-  "filters": []
+    },
+    "vars": {
+        "text_color": 0,
+        "embed_fonts": true,
+        "font_face": "Volter Bold",
+        "underline": true,
+        "multiline": true,
+        "word_wrap": true
+    },
+    "filters": []
 }

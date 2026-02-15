@@ -1,55 +1,55 @@
 {
-  "name": "habbo_window_layout_alert",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_window_layout_alert_xml.bin",
-  "window": {
-    "tag": "window",
-    "typeId": -1,
-    "attributes": {},
-    "children": [
-      {
-        "tag": "frame",
-        "typeId": 35,
-        "attributes": {
-          "name": "frame",
-          "x": "0",
-          "y": "0",
-          "width": "200",
-          "height": "400"
-        },
+    "name": "habbo_window_layout_alert",
+    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_window_layout_alert_xml.bin",
+    "window": {
+        "tag": "window",
+        "typeId": -1,
+        "attributes": {},
         "children": [
-          {
-            "tag": "text",
-            "typeId": 10,
-            "attributes": {
-              "name": "alert_title",
-              "x": "8",
-              "y": "8",
-              "caption": "",
-              "width": "160",
-              "height": "20"
-            },
-            "children": [],
-            "params": 0
-          },
-          {
-            "tag": "text",
-            "typeId": 10,
-            "attributes": {
-              "name": "alert_text",
-              "x": "8",
-              "y": "40",
-              "caption": "",
-              "width": "160",
-              "height": "120"
-            },
-            "children": [],
-            "params": 0
-          }
-        ],
-        "params": 0
-      }
-    ]
-  },
-  "vars": {},
-  "filters": []
+            {
+                "tag": "frame",
+                "typeId": 35,
+                "attributes": {
+                    "name": "frame",
+                    "x": "0",
+                    "y": "0",
+                    "width": "200",
+                    "height": "400"
+                },
+                "children": [
+                    {
+                        "tag": "text",
+                        "typeId": 10,
+                        "attributes": {
+                            "name": "alert_title",
+                            "x": "8",
+                            "y": "8",
+                            "caption": "",
+                            "width": "160",
+                            "height": "20"
+                        },
+                        "children": [],
+                        "params": 0
+                    },
+                    {
+                        "tag": "text",
+                        "typeId": 10,
+                        "attributes": {
+                            "name": "alert_text",
+                            "x": "8",
+                            "y": "40",
+                            "caption": "",
+                            "width": "160",
+                            "height": "120"
+                        },
+                        "children": [],
+                        "params": 0
+                    }
+                ],
+                "params": 0
+            }
+        ]
+    },
+    "vars": {},
+    "filters": []
 }

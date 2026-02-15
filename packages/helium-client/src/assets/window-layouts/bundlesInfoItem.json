@@ -1,162 +1,162 @@
 {
-  "name": "bundlesInfoItem",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbobundles_info_item_xml.bin",
-  "window": {
-    "tag": "window",
-    "typeId": -1,
-    "attributes": {},
-    "children": [
-      {
-        "tag": "container",
-        "typeId": 4,
-        "attributes": {
-          "x": "0",
-          "y": "0",
-          "width": "182",
-          "height": "142",
-          "params": "0",
-          "style": "0",
-          "name": "info_container"
-        },
+    "name": "bundlesInfoItem",
+    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbobundles_info_item_xml.bin",
+    "window": {
+        "tag": "window",
+        "typeId": -1,
+        "attributes": {},
         "children": [
-          {
-            "tag": "static_bitmap",
-            "typeId": 23,
-            "attributes": {
-              "x": "0",
-              "y": "0",
-              "width": "182",
-              "height": "142",
-              "params": "16",
-              "style": "0",
-              "name": "background_bitmap"
-            },
-            "children": []
-          },
-          {
-            "tag": "text",
-            "typeId": 10,
-            "attributes": {
-              "x": "4",
-              "y": "11",
-              "width": "174",
-              "height": "15",
-              "params": "0",
-              "style": "3",
-              "name": "header_text",
-              "caption": "%24%7Bcatalog.bundlewidget.info.header%7D"
-            },
-            "children": []
-          },
-          {
-            "tag": "static_bitmap",
-            "typeId": 23,
-            "attributes": {
-              "x": "33",
-              "y": "44",
-              "width": "115",
-              "height": "41",
-              "params": "16",
-              "style": "0",
-              "name": "formula_bitmap"
-            },
-            "children": []
-          },
-          {
-            "tag": "container",
-            "typeId": 4,
-            "attributes": {
-              "x": "45",
-              "y": "84",
-              "width": "88",
-              "height": "1",
-              "params": "16",
-              "style": "0",
-              "name": "underline_container",
-              "color": "0xffffffffff",
-              "background": "true"
-            },
-            "children": []
-          },
-          {
-            "tag": "text",
-            "typeId": 10,
-            "attributes": {
-              "x": "103",
-              "y": "67",
-              "width": "166",
-              "height": "15",
-              "params": "16",
-              "style": "3",
-              "name": "free_text",
-              "caption": "%24%7Bcatalog.bundlewidget.info.for.free%7D"
-            },
-            "children": []
-          },
-          {
-            "tag": "text",
-            "typeId": 10,
-            "attributes": {
-              "x": "34",
-              "y": "85",
-              "width": "116",
-              "height": "18",
-              "params": "16",
-              "style": "3",
-              "name": "equals_bundle_text",
-              "caption": "%24%7Bcatalog.bundlewidget.info.equals.bundle%7D"
-            },
-            "children": []
-          },
-          {
-            "tag": "text",
-            "typeId": 10,
-            "attributes": {
-              "x": "4",
-              "y": "105",
-              "width": "174",
-              "height": "15",
-              "params": "0",
-              "style": "3",
-              "name": "footer_text",
-              "caption": "%24%7Bcatalog.bundlewidget.info.footer%7D"
-            },
-            "children": []
-          },
-          {
-            "tag": "region",
-            "typeId": 5,
-            "attributes": {
-              "x": "0",
-              "y": "1",
-              "width": "182",
-              "height": "142",
-              "params": "17",
-              "style": "0",
-              "name": "click_region",
-              "treshold": "0"
-            },
-            "children": []
-          }
+            {
+                "tag": "container",
+                "typeId": 4,
+                "attributes": {
+                    "x": "0",
+                    "y": "0",
+                    "width": "182",
+                    "height": "142",
+                    "params": "0",
+                    "style": "0",
+                    "name": "info_container"
+                },
+                "children": [
+                    {
+                        "tag": "static_bitmap",
+                        "typeId": 23,
+                        "attributes": {
+                            "x": "0",
+                            "y": "0",
+                            "width": "182",
+                            "height": "142",
+                            "params": "16",
+                            "style": "0",
+                            "name": "background_bitmap"
+                        },
+                        "children": []
+                    },
+                    {
+                        "tag": "text",
+                        "typeId": 10,
+                        "attributes": {
+                            "x": "4",
+                            "y": "11",
+                            "width": "174",
+                            "height": "15",
+                            "params": "0",
+                            "style": "3",
+                            "name": "header_text",
+                            "caption": "%24%7Bcatalog.bundlewidget.info.header%7D"
+                        },
+                        "children": []
+                    },
+                    {
+                        "tag": "static_bitmap",
+                        "typeId": 23,
+                        "attributes": {
+                            "x": "33",
+                            "y": "44",
+                            "width": "115",
+                            "height": "41",
+                            "params": "16",
+                            "style": "0",
+                            "name": "formula_bitmap"
+                        },
+                        "children": []
+                    },
+                    {
+                        "tag": "container",
+                        "typeId": 4,
+                        "attributes": {
+                            "x": "45",
+                            "y": "84",
+                            "width": "88",
+                            "height": "1",
+                            "params": "16",
+                            "style": "0",
+                            "name": "underline_container",
+                            "color": "0xffffffffff",
+                            "background": "true"
+                        },
+                        "children": []
+                    },
+                    {
+                        "tag": "text",
+                        "typeId": 10,
+                        "attributes": {
+                            "x": "103",
+                            "y": "67",
+                            "width": "166",
+                            "height": "15",
+                            "params": "16",
+                            "style": "3",
+                            "name": "free_text",
+                            "caption": "%24%7Bcatalog.bundlewidget.info.for.free%7D"
+                        },
+                        "children": []
+                    },
+                    {
+                        "tag": "text",
+                        "typeId": 10,
+                        "attributes": {
+                            "x": "34",
+                            "y": "85",
+                            "width": "116",
+                            "height": "18",
+                            "params": "16",
+                            "style": "3",
+                            "name": "equals_bundle_text",
+                            "caption": "%24%7Bcatalog.bundlewidget.info.equals.bundle%7D"
+                        },
+                        "children": []
+                    },
+                    {
+                        "tag": "text",
+                        "typeId": 10,
+                        "attributes": {
+                            "x": "4",
+                            "y": "105",
+                            "width": "174",
+                            "height": "15",
+                            "params": "0",
+                            "style": "3",
+                            "name": "footer_text",
+                            "caption": "%24%7Bcatalog.bundlewidget.info.footer%7D"
+                        },
+                        "children": []
+                    },
+                    {
+                        "tag": "region",
+                        "typeId": 5,
+                        "attributes": {
+                            "x": "0",
+                            "y": "1",
+                            "width": "182",
+                            "height": "142",
+                            "params": "17",
+                            "style": "0",
+                            "name": "click_region",
+                            "treshold": "0"
+                        },
+                        "children": []
+                    }
+                ]
+            }
         ]
-      }
-    ]
-  },
-  "vars": {
-    "asset_uri": "${image.library.catalogue.url}clakboard_formula.png",
-    "auto_size": "center",
-    "font_size": 16,
-    "text_color": 16777215,
-    "margin_right": 2,
-    "mouse_wheel_enabled": false,
-    "multiline": true,
-    "word_wrap": true,
-    "spacing": 0,
-    "leading": 0,
-    "pivot_point": "center",
-    "stretched_x": false,
-    "stretched_y": false,
-    "text_style": "u_bold"
-  },
-  "filters": []
+    },
+    "vars": {
+        "asset_uri": "${image.library.catalogue.url}clakboard_formula.png",
+        "auto_size": "center",
+        "font_size": 16,
+        "text_color": 16777215,
+        "margin_right": 2,
+        "mouse_wheel_enabled": false,
+        "multiline": true,
+        "word_wrap": true,
+        "spacing": 0,
+        "leading": 0,
+        "pivot_point": "center",
+        "stretched_x": false,
+        "stretched_y": false,
+        "text_style": "u_bold"
+    },
+    "filters": []
 }

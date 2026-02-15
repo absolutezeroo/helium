@@ -179,6 +179,9 @@ export class WindowContext implements IWindowContext
             procedure, tags, null, id, dynamicStyle
         ) as unknown as IWindow;
 
+        // Diagnostic: verify constructed window properties
+        console.debug(`[WindowContext.create] Created: class=${(window as any).constructor?.name} type=${window.type} name="${window.name}" x=${window.x} y=${window.y} w=${window.width} h=${window.height} visible=${window.visible} _type=${(window as any)._type} _x=${(window as any)._x}`);
+
         return window;
     }
 

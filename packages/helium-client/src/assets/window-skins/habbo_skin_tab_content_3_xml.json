@@ -1,84 +1,84 @@
 {
-  "id": "habbo_skin_tab_content_3_xml",
-  "name": "tab_content_skin_3",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_skin_tab_content_3_xml.bin",
-  "variables": {
-    "asset": "habbo_skin_ubuntu_png"
-  },
-  "templates": [
-    {
-      "name": "tab_content_3",
-      "asset": "habbo_skin_ubuntu_png",
-      "entities": [
+    "id": "habbo_skin_tab_content_3_xml",
+    "name": "tab_content_skin_3",
+    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_skin_tab_content_3_xml.bin",
+    "variables": {
+        "asset": "habbo_skin_ubuntu_png"
+    },
+    "templates": [
         {
-          "id": 0,
-          "name": "top",
-          "type": "bitmap",
-          "region": {
-            "x": 100,
-            "y": 100,
-            "width": 14,
-            "height": 15
-          }
-        },
-        {
-          "id": 0,
-          "name": "btm",
-          "type": "bitmap",
-          "region": {
-            "x": 100,
-            "y": 110,
-            "width": 14,
-            "height": 4
-          }
+            "name": "tab_content_3",
+            "asset": "habbo_skin_ubuntu_png",
+            "entities": [
+                {
+                    "id": 0,
+                    "name": "top",
+                    "type": "bitmap",
+                    "region": {
+                        "x": 100,
+                        "y": 100,
+                        "width": 14,
+                        "height": 15
+                    }
+                },
+                {
+                    "id": 0,
+                    "name": "btm",
+                    "type": "bitmap",
+                    "region": {
+                        "x": 100,
+                        "y": 110,
+                        "width": 14,
+                        "height": 4
+                    }
+                }
+            ]
         }
-      ]
-    }
-  ],
-  "layouts": [
-    {
-      "name": "tab_content_3",
-      "transparent": false,
-      "blendMode": "",
-      "entities": [
+    ],
+    "layouts": [
         {
-          "id": 0,
-          "name": "top",
-          "colorize": true,
-          "color": 0,
-          "blend": 4294967295,
-          "scaleH": 2,
-          "scaleV": 0,
-          "region": {
-            "x": 0,
-            "y": 0,
-            "width": 32,
-            "height": 15
-          }
-        },
-        {
-          "id": 0,
-          "name": "btm",
-          "colorize": true,
-          "color": 0,
-          "blend": 4294967295,
-          "scaleH": 2,
-          "scaleV": 2,
-          "region": {
-            "x": 0,
-            "y": 14,
-            "width": 32,
-            "height": 4
-          }
+            "name": "tab_content_3",
+            "transparent": false,
+            "blendMode": "",
+            "entities": [
+                {
+                    "id": 0,
+                    "name": "top",
+                    "colorize": true,
+                    "color": 0,
+                    "blend": 4294967295,
+                    "scaleH": 2,
+                    "scaleV": 0,
+                    "region": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 32,
+                        "height": 15
+                    }
+                },
+                {
+                    "id": 0,
+                    "name": "btm",
+                    "colorize": true,
+                    "color": 0,
+                    "blend": 4294967295,
+                    "scaleH": 2,
+                    "scaleV": 2,
+                    "region": {
+                        "x": 0,
+                        "y": 14,
+                        "width": 32,
+                        "height": 4
+                    }
+                }
+            ]
         }
-      ]
-    }
-  ],
-  "states": [
-    {
-      "name": "default",
-      "layout": "tab_content_3",
-      "template": "tab_content_3"
-    }
-  ]
+    ],
+    "states": [
+        {
+            "name": "default",
+            "layout": "tab_content_3",
+            "template": "tab_content_3"
+        }
+    ]
 }

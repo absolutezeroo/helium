@@ -1,30 +1,30 @@
 {
-  "name": "guildBadgeViewWidget",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboguild_badge_view_widget_xml.bin",
-  "window": {
-    "tag": "window",
-    "typeId": -1,
-    "attributes": {},
-    "children": [
-      {
-        "tag": "widget",
-        "typeId": 16,
-        "attributes": {
-          "x": "0",
-          "y": "0",
-          "width": "40",
-          "height": "40",
-          "params": "0",
-          "style": "3",
-          "name": "badge"
-        },
-        "children": []
-      }
-    ]
-  },
-  "vars": {
-    "widget_type": "badge_image",
-    "badge_image:type": "group"
-  },
-  "filters": []
+    "name": "guildBadgeViewWidget",
+    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboguild_badge_view_widget_xml.bin",
+    "window": {
+        "tag": "window",
+        "typeId": -1,
+        "attributes": {},
+        "children": [
+            {
+                "tag": "widget",
+                "typeId": 16,
+                "attributes": {
+                    "x": "0",
+                    "y": "0",
+                    "width": "40",
+                    "height": "40",
+                    "params": "0",
+                    "style": "3",
+                    "name": "badge"
+                },
+                "children": []
+            }
+        ]
+    },
+    "vars": {
+        "widget_type": "badge_image",
+        "badge_image:type": "group"
+    },
+    "filters": []
 }

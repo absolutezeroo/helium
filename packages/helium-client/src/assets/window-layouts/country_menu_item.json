@@ -1,44 +1,44 @@
 {
-  "name": "country_menu_item",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_phonenumber_country_menu_item_xml.bin",
-  "window": {
-    "tag": "window",
-    "typeId": -1,
-    "attributes": {},
-    "children": [
-      {
-        "tag": "container",
-        "typeId": 4,
-        "attributes": {
-          "x": "0",
-          "y": "0",
-          "width": "204",
-          "height": "30",
-          "params": "16",
-          "style": "3"
-        },
+    "name": "country_menu_item",
+    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_phonenumber_country_menu_item_xml.bin",
+    "window": {
+        "tag": "window",
+        "typeId": -1,
+        "attributes": {},
         "children": [
-          {
-            "tag": "label",
-            "typeId": 12,
-            "attributes": {
-              "x": "0",
-              "y": "6",
-              "width": "24",
-              "height": "21",
-              "params": "16",
-              "style": "3",
-              "name": "country_code",
-              "caption": "CC"
-            },
-            "children": []
-          }
+            {
+                "tag": "container",
+                "typeId": 4,
+                "attributes": {
+                    "x": "0",
+                    "y": "0",
+                    "width": "204",
+                    "height": "30",
+                    "params": "16",
+                    "style": "3"
+                },
+                "children": [
+                    {
+                        "tag": "label",
+                        "typeId": 12,
+                        "attributes": {
+                            "x": "0",
+                            "y": "6",
+                            "width": "24",
+                            "height": "21",
+                            "params": "16",
+                            "style": "3",
+                            "name": "country_code",
+                            "caption": "CC"
+                        },
+                        "children": []
+                    }
+                ]
+            }
         ]
-      }
-    ]
-  },
-  "vars": {
-    "text_style": "u_headline_small"
-  },
-  "filters": []
+    },
+    "vars": {
+        "text_style": "u_headline_small"
+    },
+    "filters": []
 }

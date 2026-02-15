@@ -1,21 +1,21 @@
 {
-  "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#162",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
-  "window": {
-    "tag": "window",
-    "typeId": -1,
-    "attributes": {
-      "type": "button",
-      "intent": "window",
-      "style": "101",
-      "renderer": "skin",
-      "asset": "illumina_light_skin_button_xml",
-      "window_layout": "illumina_light_button_xml",
-      "layout": "illumina_light_button",
-      "color": "0xbbbbbb"
+    "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#162",
+    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
+    "window": {
+        "tag": "window",
+        "typeId": -1,
+        "attributes": {
+            "type": "button",
+            "intent": "window",
+            "style": "101",
+            "renderer": "skin",
+            "asset": "illumina_light_skin_button_xml",
+            "window_layout": "illumina_light_button_xml",
+            "layout": "illumina_light_button",
+            "color": "0xbbbbbb"
+        },
+        "children": []
     },
-    "children": []
-  },
-  "vars": {},
-  "filters": []
+    "vars": {},
+    "filters": []
 }

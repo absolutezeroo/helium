@@ -1,41 +1,41 @@
 {
-  "name": "habbo_window_layout_tab_context_3",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_window_layout_tab_context_3_xml.bin",
-  "window": {
-    "tag": "window",
-    "typeId": -1,
-    "attributes": {},
-    "children": [
-      {
-        "tag": "tab_content",
-        "typeId": 90,
-        "attributes": {
-          "name": "content",
-          "x": "0",
-          "y": "30",
-          "width": "64",
-          "height": "32",
-          "tags": "_CONTENT, _EXCLUDE, _INTERNAL"
-        },
-        "children": [],
-        "params": 0
-      },
-      {
-        "tag": "tab_selector",
-        "typeId": 92,
-        "attributes": {
-          "name": "selector",
-          "x": "8",
-          "y": "0",
-          "width": "48",
-          "height": "32",
-          "tags": "_SELECTOR, _EXCLUDE, _INTERNAL"
-        },
-        "children": [],
-        "params": 0
-      }
-    ]
-  },
-  "vars": {},
-  "filters": []
+    "name": "habbo_window_layout_tab_context_3",
+    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_window_layout_tab_context_3_xml.bin",
+    "window": {
+        "tag": "window",
+        "typeId": -1,
+        "attributes": {},
+        "children": [
+            {
+                "tag": "tab_content",
+                "typeId": 90,
+                "attributes": {
+                    "name": "content",
+                    "x": "0",
+                    "y": "30",
+                    "width": "64",
+                    "height": "32",
+                    "tags": "_CONTENT, _EXCLUDE, _INTERNAL"
+                },
+                "children": [],
+                "params": 0
+            },
+            {
+                "tag": "tab_selector",
+                "typeId": 92,
+                "attributes": {
+                    "name": "selector",
+                    "x": "8",
+                    "y": "0",
+                    "width": "48",
+                    "height": "32",
+                    "tags": "_SELECTOR, _EXCLUDE, _INTERNAL"
+                },
+                "children": [],
+                "params": 0
+            }
+        ]
+    },
+    "vars": {},
+    "filters": []
 }

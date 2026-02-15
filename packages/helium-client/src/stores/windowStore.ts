@@ -30,7 +30,7 @@ let _versionSetters: ((fn: (prev: number) => number) => void)[] = [];
 const _versions: Accessor<number>[] = [];
 const _versionSignals: ReturnType<typeof createSignal<number>>[] = [];
 
-for(let i = 0; i < WindowContextLayer.COUNT; i++)
+for (let i = 0; i < WindowContextLayer.COUNT; i++)
 {
 	const [get, set] = createSignal(0);
 	_versionSignals.push([get, set]);
@@ -52,20 +52,20 @@ const _listeners: Map<number, { onAdd: Function; onRemove: Function }> = new Map
  */
 export function initWindowStore(windowManager: IHabboWindowManager): void
 {
-	if(_windowManager)
+	if (_windowManager)
 	{
-		disposeIWindowStore();
+		disposeWindowStore();
 	}
 
 	_windowManager = windowManager;
 	_desktops = [];
 
-	for(let i = 0; i < WindowContextLayer.COUNT; i++)
+	for (let i = 0; i < WindowContextLayer.COUNT; i++)
 	{
 		const desktop = windowManager.getDesktop(i);
 		_desktops.push(desktop);
 
-		if(desktop)
+		if (desktop)
 		{
 			const layerIndex = i;
 
@@ -82,7 +82,7 @@ export function initWindowStore(windowManager: IHabboWindowManager): void
 			desktop.addEventListener(WindowEvent.WE_CHILD_ADDED, onAdd);
 			desktop.addEventListener(WindowEvent.WE_CHILD_REMOVED, onRemove);
 
-			_listeners.set(i, { onAdd, onRemove });
+			_listeners.set(i, {onAdd, onRemove});
 		}
 	}
 
@@ -92,13 +92,13 @@ export function initWindowStore(windowManager: IHabboWindowManager): void
 /**
  * Dispose of the IWindow store and clean up event listeners.
  */
-export function disposeIWindowStore(): void
+export function disposeWindowStore(): void
 {
-	for(const [layerIndex, entry] of _listeners)
+	for (const [layerIndex, entry] of _listeners)
 	{
 		const desktop = _desktops[layerIndex];
 
-		if(desktop && !desktop.disposed)
+		if (desktop && !desktop.disposed)
 		{
 			desktop.removeEventListener(WindowEvent.WE_CHILD_ADDED, entry.onAdd);
 			desktop.removeEventListener(WindowEvent.WE_CHILD_REMOVED, entry.onRemove);
@@ -108,6 +108,7 @@ export function disposeIWindowStore(): void
 	_listeners.clear();
 	_desktops = [];
 	_windowManager = null;
+
 	setInitialized(false);
 }
 
@@ -117,7 +118,7 @@ export function disposeIWindowStore(): void
  * @param layer - The context layer index
  * @returns The desktop IWindow or null
  */
-export function getIWindowDesktop(layer: number): IWindow | null
+export function getWindowDesktop(layer: number): IWindow | null
 {
 	return _desktops[layer] ?? null;
 }
@@ -131,7 +132,7 @@ export function getIWindowDesktop(layer: number): IWindow | null
  * @param layer - The context layer index
  * @returns The version accessor
  */
-export function getIWindowVersion(layer: number): Accessor<number>
+export function getWindowVersion(layer: number): Accessor<number>
 {
 	return _versions[layer];
 }
@@ -139,7 +140,7 @@ export function getIWindowVersion(layer: number): Accessor<number>
 /**
  * Whether the IWindow store has been initialized.
  */
-export function isIWindowStoreInitialized(): Accessor<boolean>
+export function isWindowStoreInitialized(): Accessor<boolean>
 {
 	return initialized;
 }

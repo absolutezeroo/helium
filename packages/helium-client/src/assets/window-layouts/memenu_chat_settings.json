@@ -1,192 +1,192 @@
 {
-  "name": "memenu_chat_settings",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_me_menu_other_settings_xml.bin",
-  "window": {
-    "tag": "window",
-    "typeId": -1,
-    "attributes": {},
-    "children": [
-      {
-        "tag": "border",
-        "typeId": 30,
-        "attributes": {
-          "x": "1",
-          "y": "1",
-          "width": "242",
-          "height": "200",
-          "params": "1",
-          "style": "6",
-          "name": "settings_brdr",
-          "color": "0x079756e"
-        },
+    "name": "memenu_chat_settings",
+    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_me_menu_other_settings_xml.bin",
+    "window": {
+        "tag": "window",
+        "typeId": -1,
+        "attributes": {},
         "children": [
-          {
-            "tag": "text",
-            "typeId": 10,
-            "attributes": {
-              "x": "45",
-              "y": "5",
-              "width": "153",
-              "height": "17",
-              "params": "786640",
-              "style": "0",
-              "name": "settings_title",
-              "caption": "%24%7Bwidget.memenu.other.settings.title%7D"
-            },
-            "children": []
-          },
-          {
-            "tag": "container",
-            "typeId": 4,
-            "attributes": {
-              "x": "40",
-              "y": "24",
-              "width": "162",
-              "height": "1",
-              "params": "786640",
-              "style": "0",
-              "name": "line",
-              "color": "0xffff2f2f2f",
-              "background": "true"
-            },
-            "children": []
-          },
-          {
-            "tag": "label",
-            "typeId": 12,
-            "attributes": {
-              "x": "30",
-              "y": "35",
-              "width": "212",
-              "height": "17",
-              "params": "16",
-              "style": "100",
-              "caption": "%24%7Bmemenu.settings.chat.prefer.old.chat%7D"
-            },
-            "children": []
-          },
-          {
-            "tag": "button",
-            "typeId": 60,
-            "attributes": {
-              "x": "10",
-              "y": "162",
-              "width": "60",
-              "height": "28",
-              "params": "1180721",
-              "style": "3",
-              "name": "back_btn",
-              "caption": "%24%7Bwidget.memenu.back%7D",
-              "width_min": "60",
-              "width_max": "60"
-            },
-            "children": []
-          },
-          {
-            "tag": "checkbox",
-            "typeId": 70,
-            "attributes": {
-              "x": "10",
-              "y": "36",
-              "width": "22",
-              "height": "21",
-              "params": "17",
-              "style": "3",
-              "name": "prefer_old_chat_checkbox",
-              "height_min": "21",
-              "height_max": "21"
-            },
-            "children": []
-          },
-          {
-            "tag": "checkbox",
-            "typeId": 70,
-            "attributes": {
-              "x": "10",
-              "y": "59",
-              "width": "22",
-              "height": "21",
-              "params": "17",
-              "style": "3",
-              "name": "ignore_room_invites_checkbox",
-              "height_min": "21",
-              "height_max": "21"
-            },
-            "children": []
-          },
-          {
-            "tag": "label",
-            "typeId": 12,
-            "attributes": {
-              "x": "30",
-              "y": "59",
-              "width": "247",
-              "height": "17",
-              "params": "16",
-              "style": "100",
-              "name": "ignore_room_invites_labe",
-              "caption": "%24%7Bmemenu.settings.other.ignore.room.invites%7D"
-            },
-            "children": []
-          },
-          {
-            "tag": "checkbox",
-            "typeId": 70,
-            "attributes": {
-              "x": "10",
-              "y": "82",
-              "width": "22",
-              "height": "21",
-              "params": "17",
-              "style": "3",
-              "name": "disable_room_camera_follow_checkbox",
-              "height_min": "21",
-              "height_max": "21"
-            },
-            "children": []
-          },
-          {
-            "tag": "label",
-            "typeId": 12,
-            "attributes": {
-              "x": "30",
-              "y": "83",
-              "width": "247",
-              "height": "17",
-              "params": "16",
-              "style": "100",
-              "name": "disable_room_camera_follow_label",
-              "caption": "%24%7Bmemenu.settings.other.disable.room.camera.follow%7D"
-            },
-            "children": []
-          },
-          {
-            "tag": "button",
-            "typeId": 60,
-            "attributes": {
-              "x": "10",
-              "y": "105",
-              "width": "200",
-              "height": "30",
-              "params": "131089",
-              "style": "3",
-              "name": "btn_reset_phone_number_collection",
-              "caption": "%24%7Bmemenu.settings.reset.phone.number.collection%7D",
-              "width_max": "210"
-            },
-            "children": []
-          }
+            {
+                "tag": "border",
+                "typeId": 30,
+                "attributes": {
+                    "x": "1",
+                    "y": "1",
+                    "width": "242",
+                    "height": "200",
+                    "params": "1",
+                    "style": "6",
+                    "name": "settings_brdr",
+                    "color": "0x079756e"
+                },
+                "children": [
+                    {
+                        "tag": "text",
+                        "typeId": 10,
+                        "attributes": {
+                            "x": "45",
+                            "y": "5",
+                            "width": "153",
+                            "height": "17",
+                            "params": "786640",
+                            "style": "0",
+                            "name": "settings_title",
+                            "caption": "%24%7Bwidget.memenu.other.settings.title%7D"
+                        },
+                        "children": []
+                    },
+                    {
+                        "tag": "container",
+                        "typeId": 4,
+                        "attributes": {
+                            "x": "40",
+                            "y": "24",
+                            "width": "162",
+                            "height": "1",
+                            "params": "786640",
+                            "style": "0",
+                            "name": "line",
+                            "color": "0xffff2f2f2f",
+                            "background": "true"
+                        },
+                        "children": []
+                    },
+                    {
+                        "tag": "label",
+                        "typeId": 12,
+                        "attributes": {
+                            "x": "30",
+                            "y": "35",
+                            "width": "212",
+                            "height": "17",
+                            "params": "16",
+                            "style": "100",
+                            "caption": "%24%7Bmemenu.settings.chat.prefer.old.chat%7D"
+                        },
+                        "children": []
+                    },
+                    {
+                        "tag": "button",
+                        "typeId": 60,
+                        "attributes": {
+                            "x": "10",
+                            "y": "162",
+                            "width": "60",
+                            "height": "28",
+                            "params": "1180721",
+                            "style": "3",
+                            "name": "back_btn",
+                            "caption": "%24%7Bwidget.memenu.back%7D",
+                            "width_min": "60",
+                            "width_max": "60"
+                        },
+                        "children": []
+                    },
+                    {
+                        "tag": "checkbox",
+                        "typeId": 70,
+                        "attributes": {
+                            "x": "10",
+                            "y": "36",
+                            "width": "22",
+                            "height": "21",
+                            "params": "17",
+                            "style": "3",
+                            "name": "prefer_old_chat_checkbox",
+                            "height_min": "21",
+                            "height_max": "21"
+                        },
+                        "children": []
+                    },
+                    {
+                        "tag": "checkbox",
+                        "typeId": 70,
+                        "attributes": {
+                            "x": "10",
+                            "y": "59",
+                            "width": "22",
+                            "height": "21",
+                            "params": "17",
+                            "style": "3",
+                            "name": "ignore_room_invites_checkbox",
+                            "height_min": "21",
+                            "height_max": "21"
+                        },
+                        "children": []
+                    },
+                    {
+                        "tag": "label",
+                        "typeId": 12,
+                        "attributes": {
+                            "x": "30",
+                            "y": "59",
+                            "width": "247",
+                            "height": "17",
+                            "params": "16",
+                            "style": "100",
+                            "name": "ignore_room_invites_labe",
+                            "caption": "%24%7Bmemenu.settings.other.ignore.room.invites%7D"
+                        },
+                        "children": []
+                    },
+                    {
+                        "tag": "checkbox",
+                        "typeId": 70,
+                        "attributes": {
+                            "x": "10",
+                            "y": "82",
+                            "width": "22",
+                            "height": "21",
+                            "params": "17",
+                            "style": "3",
+                            "name": "disable_room_camera_follow_checkbox",
+                            "height_min": "21",
+                            "height_max": "21"
+                        },
+                        "children": []
+                    },
+                    {
+                        "tag": "label",
+                        "typeId": 12,
+                        "attributes": {
+                            "x": "30",
+                            "y": "83",
+                            "width": "247",
+                            "height": "17",
+                            "params": "16",
+                            "style": "100",
+                            "name": "disable_room_camera_follow_label",
+                            "caption": "%24%7Bmemenu.settings.other.disable.room.camera.follow%7D"
+                        },
+                        "children": []
+                    },
+                    {
+                        "tag": "button",
+                        "typeId": 60,
+                        "attributes": {
+                            "x": "10",
+                            "y": "105",
+                            "width": "200",
+                            "height": "30",
+                            "params": "131089",
+                            "style": "3",
+                            "name": "btn_reset_phone_number_collection",
+                            "caption": "%24%7Bmemenu.settings.reset.phone.number.collection%7D",
+                            "width_max": "210"
+                        },
+                        "children": []
+                    }
+                ]
+            }
         ]
-      }
-    ]
-  },
-  "vars": {
-    "auto_size": "center",
-    "text_color": 16777215,
-    "text_style": "u_regular",
-    "mouse_wheel_enabled": false,
-    "spacing": 0,
-    "leading": 0
-  },
-  "filters": []
+    },
+    "vars": {
+        "auto_size": "center",
+        "text_color": 16777215,
+        "text_style": "u_regular",
+        "mouse_wheel_enabled": false,
+        "spacing": 0,
+        "leading": 0
+    },
+    "filters": []
 }

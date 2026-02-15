@@ -1,58 +1,58 @@
 {
-  "id": "habbo_skin_frame_pointer_down_xml",
-  "name": "frame_pointer_down_skin",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_skin_frame_pointer_down_xml.bin",
-  "variables": {
-    "asset": "habbo_skin_ubuntu_png"
-  },
-  "templates": [
-    {
-      "name": "default_frame_pointer_down",
-      "asset": "habbo_skin_ubuntu_png",
-      "entities": [
+    "id": "habbo_skin_frame_pointer_down_xml",
+    "name": "frame_pointer_down_skin",
+    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_skin_frame_pointer_down_xml.bin",
+    "variables": {
+        "asset": "habbo_skin_ubuntu_png"
+    },
+    "templates": [
         {
-          "id": 0,
-          "name": "pointer",
-          "type": "bitmap",
-          "region": {
-            "x": 304,
-            "y": 13,
-            "width": 16,
-            "height": 12
-          }
+            "name": "default_frame_pointer_down",
+            "asset": "habbo_skin_ubuntu_png",
+            "entities": [
+                {
+                    "id": 0,
+                    "name": "pointer",
+                    "type": "bitmap",
+                    "region": {
+                        "x": 304,
+                        "y": 13,
+                        "width": 16,
+                        "height": 12
+                    }
+                }
+            ]
         }
-      ]
-    }
-  ],
-  "layouts": [
-    {
-      "name": "frame_pointer_down",
-      "transparent": true,
-      "blendMode": "",
-      "entities": [
+    ],
+    "layouts": [
         {
-          "id": 0,
-          "name": "pointer",
-          "colorize": true,
-          "color": 0,
-          "blend": 4294967295,
-          "scaleH": 8,
-          "scaleV": 0,
-          "region": {
-            "x": 0,
-            "y": 0,
-            "width": 16,
-            "height": 12
-          }
+            "name": "frame_pointer_down",
+            "transparent": true,
+            "blendMode": "",
+            "entities": [
+                {
+                    "id": 0,
+                    "name": "pointer",
+                    "colorize": true,
+                    "color": 0,
+                    "blend": 4294967295,
+                    "scaleH": 8,
+                    "scaleV": 0,
+                    "region": {
+                        "x": 0,
+                        "y": 0,
+                        "width": 16,
+                        "height": 12
+                    }
+                }
+            ]
         }
-      ]
-    }
-  ],
-  "states": [
-    {
-      "name": "default",
-      "layout": "frame_pointer_down",
-      "template": "default_frame_pointer_down"
-    }
-  ]
+    ],
+    "states": [
+        {
+            "name": "default",
+            "layout": "frame_pointer_down",
+            "template": "default_frame_pointer_down"
+        }
+    ]
 }

@@ -1,137 +1,137 @@
 {
-  "name": "illumina_light_frame_modal",
-  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_illumina_light_frame_modal_xml.bin",
-  "window": {
-    "tag": "window",
-    "typeId": -1,
-    "attributes": {},
-    "children": [
-      {
-        "tag": "border",
-        "typeId": 30,
-        "attributes": {
-          "x": "0",
-          "y": "40",
-          "width": "50",
-          "height": "40",
-          "style": "101",
-          "tags": "_INTERNAL, _EXCLUDE"
-        },
-        "children": [],
-        "params": 0
-      },
-      {
-        "tag": "container",
-        "typeId": 4,
-        "attributes": {
-          "name": "content_area",
-          "x": "1",
-          "y": "70",
-          "width": "48",
-          "height": "19",
-          "tags": "_CONTENT, _INTERNAL, _EXCLUDE"
-        },
-        "children": [],
-        "params": 0
-      },
-      {
-        "tag": "container",
-        "typeId": 4,
-        "attributes": {
-          "name": "titlebar",
-          "x": "0",
-          "y": "40",
-          "width": "50",
-          "height": "30",
-          "treshold": "0",
-          "tags": "_EXCLUDE, _INTERNAL"
-        },
-        "children": [],
-        "params": 0
-      },
-      {
-        "tag": "label",
-        "typeId": 12,
-        "attributes": {
-          "name": "header_title_text",
-          "x": "8",
-          "y": "0",
-          "width": "20",
-          "height": "20",
-          "background": "false",
-          "tags": "_TITLE, _EXCLUDE, _INTERNAL"
-        },
-        "children": [],
-        "params": 0
-      },
-      {
-        "tag": "region",
-        "typeId": 5,
-        "attributes": {
-          "name": "header_button_close",
-          "x": "22",
-          "y": "49",
-          "width": "20",
-          "height": "20",
-          "treshold": "0",
-          "tags": "_EXCLUDE, _INTERNAL, close"
-        },
+    "name": "illumina_light_frame_modal",
+    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_illumina_light_frame_modal_xml.bin",
+    "window": {
+        "tag": "window",
+        "typeId": -1,
+        "attributes": {},
         "children": [
-          {
-            "tag": "static_bitmap",
-            "typeId": 23,
-            "attributes": {
-              "name": "header_button_image",
-              "x": "0",
-              "y": "0",
-              "width": "20",
-              "height": "20",
-              "style": "0",
-              "tags": "_EXCLUDE, _INTERNAL"
+            {
+                "tag": "border",
+                "typeId": 30,
+                "attributes": {
+                    "x": "0",
+                    "y": "40",
+                    "width": "50",
+                    "height": "40",
+                    "style": "101",
+                    "tags": "_INTERNAL, _EXCLUDE"
+                },
+                "children": [],
+                "params": 0
             },
-            "children": [],
-            "params": 0
-          }
-        ],
-        "params": 0
-      },
-      {
-        "tag": "scaler",
-        "typeId": 120,
-        "attributes": {
-          "name": "_FRAME_SCALER",
-          "x": "0",
-          "y": "70",
-          "width": "50",
-          "height": "10",
-          "visible": "true",
-          "treshold": "0",
-          "tags": "_SCALER, _EXCLUDE, _INTERNAL"
-        },
-        "children": [],
-        "params": 0
-      }
+            {
+                "tag": "container",
+                "typeId": 4,
+                "attributes": {
+                    "name": "content_area",
+                    "x": "1",
+                    "y": "70",
+                    "width": "48",
+                    "height": "19",
+                    "tags": "_CONTENT, _INTERNAL, _EXCLUDE"
+                },
+                "children": [],
+                "params": 0
+            },
+            {
+                "tag": "container",
+                "typeId": 4,
+                "attributes": {
+                    "name": "titlebar",
+                    "x": "0",
+                    "y": "40",
+                    "width": "50",
+                    "height": "30",
+                    "treshold": "0",
+                    "tags": "_EXCLUDE, _INTERNAL"
+                },
+                "children": [],
+                "params": 0
+            },
+            {
+                "tag": "label",
+                "typeId": 12,
+                "attributes": {
+                    "name": "header_title_text",
+                    "x": "8",
+                    "y": "0",
+                    "width": "20",
+                    "height": "20",
+                    "background": "false",
+                    "tags": "_TITLE, _EXCLUDE, _INTERNAL"
+                },
+                "children": [],
+                "params": 0
+            },
+            {
+                "tag": "region",
+                "typeId": 5,
+                "attributes": {
+                    "name": "header_button_close",
+                    "x": "22",
+                    "y": "49",
+                    "width": "20",
+                    "height": "20",
+                    "treshold": "0",
+                    "tags": "_EXCLUDE, _INTERNAL, close"
+                },
+                "children": [
+                    {
+                        "tag": "static_bitmap",
+                        "typeId": 23,
+                        "attributes": {
+                            "name": "header_button_image",
+                            "x": "0",
+                            "y": "0",
+                            "width": "20",
+                            "height": "20",
+                            "style": "0",
+                            "tags": "_EXCLUDE, _INTERNAL"
+                        },
+                        "children": [],
+                        "params": 0
+                    }
+                ],
+                "params": 0
+            },
+            {
+                "tag": "scaler",
+                "typeId": 120,
+                "attributes": {
+                    "name": "_FRAME_SCALER",
+                    "x": "0",
+                    "y": "70",
+                    "width": "50",
+                    "height": "10",
+                    "visible": "true",
+                    "treshold": "0",
+                    "tags": "_SCALER, _EXCLUDE, _INTERNAL"
+                },
+                "children": [],
+                "params": 0
+            }
+        ]
+    },
+    "vars": {
+        "text_style": "il_frame_modal_title",
+        "auto_size": "left",
+        "grid_fit_type": "subpixel",
+        "asset_uri": "illumina_light_button_frame_close_png",
+        "stretched_x": false,
+        "stretched_y": false
+    },
+    "filters": [
+        {
+            "type": "DropShadowFilter",
+            "attributes": {
+                "distance": "0",
+                "angle": "0",
+                "color": "0",
+                "alpha": "0.75",
+                "blurX": "80",
+                "blurY": "80"
+            }
+        }
     ]
-  },
-  "vars": {
-    "text_style": "il_frame_modal_title",
-    "auto_size": "left",
-    "grid_fit_type": "subpixel",
-    "asset_uri": "illumina_light_button_frame_close_png",
-    "stretched_x": false,
-    "stretched_y": false
-  },
-  "filters": [
-    {
-      "type": "DropShadowFilter",
-      "attributes": {
-        "distance": "0",
-        "angle": "0",
-        "color": "0",
-        "alpha": "0.75",
-        "blurX": "80",
-        "blurY": "80"
-      }
-    }
-  ]
 }

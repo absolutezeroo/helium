@@ -7,8 +7,26 @@ import type { IWindow } from '../IWindow';
  *
  * In AS3, the WindowParser parsed XML layout definitions to construct
  * window trees. In TypeScript, we parse JSON layout objects instead.
- * The parser walks the JSON tree, creates windows via the context
- * factory, and wires up parent/child relationships.
+ *
+ * The JSON layout format (produced by the flash2html converter):
+ * ```json
+ * {
+ *   "name": "layout_name",
+ *   "window": {
+ *     "tag": "window",
+ *     "typeId": -1,
+ *     "attributes": {},
+ *     "children": [
+ *       {
+ *         "tag": "frame",
+ *         "typeId": 35,
+ *         "attributes": { "x": "1", "y": "1", "width": "578", ... },
+ *         "children": [...]
+ *       }
+ *     ]
+ *   }
+ * }
+ * ```
  *
  * @see sources/win63_2021_version/com/sulake/core/window/utils/WindowParser.as
  */
@@ -24,6 +42,13 @@ export class WindowParser implements IWindowParser
     /**
      * Parses a JSON layout definition and constructs a window tree.
      *
+     * Handles two formats:
+     * 1. Top-level layout: `{ name, window: { tag, typeId, attributes, children } }`
+     * 2. Node-level: `{ tag, typeId, attributes, children }`
+     *
+     * The root `window` node (typeId -1) is virtual — its children are
+     * attached directly to the parent.
+     *
      * @param layout - The JSON layout definition
      * @param parent - The parent window to attach children to
      * @param namedWindows - Optional map to collect named windows
@@ -35,16 +60,129 @@ export class WindowParser implements IWindowParser
         namedWindows: Map<string, IWindow> | null
     ): IWindow | null
     {
-        if(!layout)
+        if(!layout) return null;
+
+        // Top-level layout with "window" wrapper
+        if(layout.window)
         {
-            return null;
+            const rootNode = layout.window as LayoutNode;
+
+            return this.parseNode(rootNode, parent, namedWindows);
         }
 
+        // Already a node
+        if(layout.tag !== undefined || layout.typeId !== undefined)
+        {
+            return this.parseNode(layout as unknown as LayoutNode, parent, namedWindows);
+        }
+
+        // Legacy flat format fallback
+        return this.parseFlatNode(layout, parent, namedWindows);
+    }
+
+    /**
+     * Parses a node in the `{ tag, typeId, attributes, children }` format.
+     */
+    private parseNode(
+        node: LayoutNode,
+        parent: IWindow,
+        namedWindows: Map<string, IWindow> | null
+    ): IWindow | null
+    {
+        if(!node) return null;
+
+        const typeId = node.typeId ?? 0;
+        const attrs = node.attributes ?? {};
+        const children = node.children ?? [];
+
+        // Virtual root (typeId -1): skip creation, attach children to parent
+        if(typeId < 0)
+        {
+            let firstChild: IWindow | null = null;
+
+            for(const child of children)
+            {
+                const created = this.parseNode(child, parent, namedWindows);
+
+                if(!firstChild && created)
+                {
+                    firstChild = created;
+                }
+            }
+
+            return firstChild;
+        }
+
+        // Parse attributes
+        const name = attrs.name ?? '';
+        const style = parseIntSafe(attrs.style);
+        const param = parseIntSafe(attrs.params);
+        const x = parseIntSafe(attrs.x);
+        const y = parseIntSafe(attrs.y);
+        const width = parseIntSafe(attrs.width);
+        const height = parseIntSafe(attrs.height);
+        const caption = attrs.caption ? decodeURIComponent(attrs.caption) : '';
+        const id = parseIntSafe(attrs.id);
+        const visible = attrs.visible !== 'false';
+        const color = parseColorSafe(attrs.color);
+        const clipping = attrs.clipping === 'true';
+        const background = attrs.background === 'true';
+        const dynamicStyle = attrs.dynamic_style ?? '';
+
+        // Parse tags
+        let tags: string[] | null = null;
+
+        if(attrs.tags)
+        {
+            tags = attrs.tags.split(',').map((t: string) => t.trim()).filter(Boolean);
+        }
+
+        const rect = { x, y, width, height };
+
+        // Create the window via the context factory
+        const window = parent.context.create(
+            '', name, typeId, style, param, rect,
+            null, parent, id, tags, dynamicStyle, null
+        );
+
+        if(!window) return null;
+
+        // Apply post-creation properties
+        if(caption) window.caption = caption;
+        window.visible = visible;
+        if(color !== 0) window.color = color;
+        window.clipping = clipping;
+        window.background = background;
+
+        // Collect named windows
+        if(namedWindows && name)
+        {
+            namedWindows.set(name, window);
+        }
+
+        // Parse children recursively
+        for(const child of children)
+        {
+            this.parseNode(child, window, namedWindows);
+        }
+
+        return window;
+    }
+
+    /**
+     * Legacy flat format parser (original parseAndConstruct logic).
+     */
+    private parseFlatNode(
+        layout: Record<string, unknown>,
+        parent: IWindow,
+        namedWindows: Map<string, IWindow> | null
+    ): IWindow | null
+    {
         const name = (layout.name as string) ?? '';
         const type = (layout.type as number) ?? 0;
         const style = (layout.style as number) ?? 0;
         const param = (layout.param as number) ?? 0;
-        const tags = (layout.tags as string[]) ?? [];
+        const layoutTags = (layout.tags as string[]) ?? [];
         const dynamicStyle = (layout.dynamicStyle as string) ?? '';
         const x = (layout.x as number) ?? 0;
         const y = (layout.y as number) ?? 0;
@@ -60,24 +198,13 @@ export class WindowParser implements IWindowParser
         const rect = { x, y, width, height };
 
         const window = parent.context.create(
-            '',
-            name,
-            type,
-            style,
-            param,
-            rect,
-            null,
-            parent,
-            id,
-            tags.length > 0 ? tags : null,
-            dynamicStyle || undefined,
-            null
+            '', name, type, style, param, rect,
+            null, parent, id,
+            layoutTags.length > 0 ? layoutTags : null,
+            dynamicStyle || undefined, null
         );
 
-        if(!window)
-        {
-            return null;
-        }
+        if(!window) return null;
 
         window.caption = caption;
         window.visible = visible;
@@ -90,14 +217,13 @@ export class WindowParser implements IWindowParser
             namedWindows.set(name, window);
         }
 
-        // Parse children recursively
         const children = layout.children as Record<string, unknown>[] | undefined;
 
         if(children)
         {
             for(const childLayout of children)
             {
-                this.parseAndConstruct(childLayout, window, namedWindows);
+                this.parseFlatNode(childLayout, window, namedWindows);
             }
         }
 
@@ -143,4 +269,47 @@ export class WindowParser implements IWindowParser
             this._disposed = true;
         }
     }
+}
+
+// ── JSON layout node type ───────────────────────────────────────────
+
+interface LayoutNode
+{
+    tag?: string;
+    typeId?: number;
+    attributes?: Record<string, string>;
+    children?: LayoutNode[];
+}
+
+// ── Utility helpers ─────────────────────────────────────────────────
+
+/**
+ * Parses a string to an integer, returns 0 for invalid values.
+ */
+function parseIntSafe(value: string | undefined): number
+{
+    if(!value) return 0;
+
+    const n = parseInt(value, 10);
+
+    return isNaN(n) ? 0 : n;
+}
+
+/**
+ * Parses a color string (e.g. "0xff418db0") to a number.
+ */
+function parseColorSafe(value: string | undefined): number
+{
+    if(!value) return 0;
+
+    if(value.startsWith('0x') || value.startsWith('0X'))
+    {
+        const n = parseInt(value.substring(2), 16);
+
+        return isNaN(n) ? 0 : n;
+    }
+
+    const n = parseInt(value, 10);
+
+    return isNaN(n) ? 0 : n;
 }

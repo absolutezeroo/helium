@@ -3,26 +3,108 @@
 // These windows are created by the engine and rendered via IWindowLayerRenderer.
 
 .hw-iwindow-layers {
-	position: absolute;
-	inset: 0;
-	pointer-events: none;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
 }
 
 .hw-iwindow-layer {
-	position: absolute;
-	inset: 0;
-	pointer-events: none;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
 }
 
 .hw-iwindow {
-	position: absolute;
-	overflow: hidden;
-	box-sizing: border-box;
+    position: absolute;
+    overflow: hidden;
+    box-sizing: border-box;
+
+    // Debug outline — makes all IWindow elements visible during development
+    outline: 1px solid rgba(65, 141, 176, 0.4);
+
+    // Frame types (35-38) — main window frames with header
+    &.hw-type-35,
+    &.hw-type-36,
+    &.hw-type-37,
+    &.hw-type-38 {
+        background: rgba(236, 234, 224, 0.95);
+        border: 2px solid #418db0;
+        border-radius: 6px;
+        outline: none;
+        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    // Border types (30-33) — decorative borders
+    &.hw-type-30,
+    &.hw-type-31,
+    &.hw-type-32,
+    &.hw-type-33 {
+        border: 1px solid rgba(160, 160, 160, 0.5);
+        outline: none;
+    }
+
+    // Container types (4, 7, 9) — invisible containers
+    &.hw-type-4,
+    &.hw-type-7,
+    &.hw-type-9 {
+        outline: none;
+    }
+
+    // Button types (60-69) — clickable buttons
+    &.hw-type-60,
+    &.hw-type-61,
+    &.hw-type-62 {
+        background: #418db0;
+        border: 1px solid #2b6a87;
+        border-radius: 3px;
+        color: white;
+        cursor: pointer;
+        outline: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    // Text types (10, 12, 15)
+    &.hw-type-10,
+    &.hw-type-12,
+    &.hw-type-15 {
+        outline: none;
+        font-size: 11px;
+        font-family: 'Volter', 'Ubuntu', sans-serif;
+        color: #333;
+    }
+
+    // Close button (72)
+    &.hw-type-72 {
+        cursor: pointer;
+        outline: none;
+    }
+
+    // Item list types (50-57) — scrollable lists
+    &.hw-type-50,
+    &.hw-type-51,
+    &.hw-type-55,
+    &.hw-type-56,
+    &.hw-type-57 {
+        outline: none;
+    }
+
+    // Region (5) — invisible interactive area
+    &.hw-type-5 {
+        outline: none;
+    }
 }
 
 .hw-caption {
-	display: block;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    background: #418db0;
+    border-radius: 4px 4px 0 0;
 }

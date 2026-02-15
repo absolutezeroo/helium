@@ -1,7 +1,7 @@
-import { createSignal, onCleanup } from 'solid-js';
-import type { Accessor } from 'solid-js';
-import type { IWindow } from '@core/window/IWindow';
-import { WindowEvent } from '@core/window/events/WindowEvent';
+import type {Accessor} from 'solid-js';
+import {createSignal, onCleanup} from 'solid-js';
+import type {IWindow} from '@core/window/IWindow';
+import {WindowEvent} from '@core/window/events/WindowEvent';
 
 /**
  * Reactive state for an IWindow element.
@@ -72,7 +72,7 @@ export function useWindow(win: IWindow): IWindowState
 
 	onCleanup(() =>
 	{
-		if(!win.disposed)
+		if (!win.disposed)
 		{
 			win.removeEventListener(WindowEvent.WE_RELOCATED, onRelocated);
 			win.removeEventListener(WindowEvent.WE_RESIZED, onResized);
@@ -85,7 +85,7 @@ export function useWindow(win: IWindow): IWindowState
 		}
 	});
 
-	return { x, y, width, height, visible, caption, children, window: win };
+	return {x, y, width, height, visible, caption, children, window: win};
 }
 
 /**
@@ -95,7 +95,7 @@ function getChildren(win: IWindow): IWindow[]
 {
 	const container = win as IWindow & { children?: IWindow[] | null; numChildren?: number };
 
-	if(container.children)
+	if (container.children)
 	{
 		return [...container.children];
 	}

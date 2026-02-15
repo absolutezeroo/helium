@@ -55,7 +55,22 @@ export function App(): JSX.Element
 		// 3. Connect the SolidJS stores to the engine
 		initWindowStore(helium.windowManager);
 
-		// 4. Set Ready
+		// 4. Build a test window from JSON layout to verify the pipeline
+		try
+		{
+			const navigatorLayout = await import('./assets/window-layouts/navigator_frame_2.json');
+			const layoutData = 'default' in navigatorLayout ? navigatorLayout.default : navigatorLayout;
+
+			const win = helium.windowManager.buildFromJSON(layoutData, 1);
+
+			console.log('[App] Built IWindow from navigator_frame_2:', win);
+		}
+		catch(error)
+		{
+			console.warn('[App] Failed to build test window:', error);
+		}
+
+		// 5. Set Ready
 		setReady(true);
 	});
 
