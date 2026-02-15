@@ -1,14 +1,15 @@
-import type { EventEmitter } from 'eventemitter3';
-import type { IDisposable } from '@core/runtime/IDisposable';
-import type { IWindowInstance } from './IWindowInstance';
-import type { IWindowLayout } from './IWindowLayout';
-import type { IElementDescriptionData } from './IElementDescriptor';
-import type { ElementRegistry } from './ElementRegistry';
-import type { IWindow } from '@core/window/IWindow';
-import type { IWindowContext } from '@core/window/IWindowContext';
-import type { IInputEventTracker } from '@core/window/IInputEventTracker';
-import type { IWindowContainer } from '@core/window/IWindowContainer';
-import type { IModalDialog } from './utils/IModalDialog';
+import type {EventEmitter} from 'eventemitter3';
+import type {IDisposable} from '@core/runtime/IDisposable';
+import type {IWindowInstance} from './IWindowInstance';
+import type {IWindowLayout} from './IWindowLayout';
+import type {IElementDescriptionData} from './IElementDescriptor';
+import type {ElementRegistry} from './ElementRegistry';
+import type {IWindow} from '@core/window/IWindow';
+import type {IWindowContext} from '@core/window/IWindowContext';
+import type {IInputEventTracker} from '@core/window/IInputEventTracker';
+import type {IWindowContainer} from '@core/window/IWindowContainer';
+import type {IModalDialog} from './utils/IModalDialog';
+import type {IInternalWindowServices} from "@core/window";
 
 /**
  * Events emitted by the window manager.
@@ -270,4 +271,11 @@ export interface IHabboWindowManager extends IDisposable
      * Display the floor plan editor.
      */
     displayFloorPlanEditor(): void;
+
+    /**
+     * Returns the shared service manager for mouse drag/scale operations.
+     *
+     * Used by the client renderer to forward DOM mouse events.
+     */
+    getServiceManager(): IInternalWindowServices | null
 }

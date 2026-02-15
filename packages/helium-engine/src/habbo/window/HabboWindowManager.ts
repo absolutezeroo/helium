@@ -23,6 +23,7 @@ import { WindowParser } from '@core/window/utils/WindowParser';
 import { SkinContainer } from '@core/window/graphics/SkinContainer';
 import { DefaultAttStruct } from '@core/window/utils/DefaultAttStruct';
 import { ThemeManager } from './theme/ThemeManager';
+import { ServiceManager } from '@core/window/services/ServiceManager';
 import type { IContext } from '@core/runtime/IContext';
 import type { IAssetLibrary } from '@core/assets/IAssetLibrary';
 import type { IModalDialog } from './utils/IModalDialog';
@@ -66,6 +67,7 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 
     private _windowContextArray: IWindowContext[] = [];
     private _defaultContext: IWindowContext | null = null;
+    private _serviceManager: ServiceManager | null = null;
     private _initialized: boolean = false;
 
     constructor(context: IContext, flags: number = 0, assetLibrary: IAssetLibrary | null = null)
@@ -514,6 +516,16 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
         // BCFloorPlanEditor integration - to be connected
     }
 
+    /**
+     * Returns the shared service manager for mouse drag/scale operations.
+     *
+     * Used by the client renderer to forward DOM mouse events.
+     */
+    public getServiceManager(): ServiceManager | null
+    {
+        return this._serviceManager;
+    }
+
     // ── IWindowFactory theme/defaults API ─────────────────────────────
 
     /**
@@ -567,10 +579,15 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
         Classes.init();
 
         const factory = this as unknown as IWindowFactory;
+        const serviceManager = new ServiceManager();
+        this._serviceManager = serviceManager;
 
         for(let i = 0; i < HabboWindowManager.NUMBER_OF_CONTEXT_LAYERS; i++)
         {
             const context = new WindowContext(`layer_${ i }`, factory);
+
+            // Inject shared service manager into each context
+            context.setServices(serviceManager);
 
             // Create desktop root for this layer
             const desktop = new DesktopController(
@@ -633,6 +650,13 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 
         this._windowContextArray.length = 0;
         this._defaultContext = null;
+
+        // Clean up service manager
+        if(this._serviceManager)
+        {
+            this._serviceManager.dispose();
+            this._serviceManager = null;
+        }
 
         // Clean up skin container and theme manager
         this._skinContainer.dispose();

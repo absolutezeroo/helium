@@ -11,6 +11,7 @@ import {WindowDisposeEvent} from './events/WindowDisposeEvent';
 import {WindowEventDispatcher} from './events/WindowEventDispatcher';
 import {WindowRectLimits} from './utils/WindowRectLimits';
 import {PropertyStruct} from './utils/PropertyStruct';
+import {WindowParam} from './enum/WindowParam';
 
 /**
  * Core window controller implementing the full IWindow API.
@@ -1102,12 +1103,50 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 
                     this.setStateFlag(16, true);
 
-                    // Mouse listener and dragging services are handled by WindowContext
+                    // Mouse services: listener, dragger, scaler
                     try
                     {
                         const services = this._context.getWindowServices();
+
+                        // Mouse listener
                         const mouseListener = services.getMouseListenerService();
                         mouseListener.begin(this);
+                        mouseListener.eventTypes.push(WindowMouseEvent.UP);
+                        mouseListener.areaLimit = 3;
+
+                        // Drag initiation: walk up to find DRAGGING_TARGET
+                        if(this.testParamFlag(WindowParam.MOUSE_DRAGGING_TRIGGER))
+                        {
+                            let target: IWindow | null = this;
+
+                            while(target !== null)
+                            {
+                                if(target.testParamFlag(WindowParam.MOUSE_DRAGGING_TARGET))
+                                {
+                                    services.getMouseDraggingService().begin(target);
+                                    break;
+                                }
+
+                                target = target.parent;
+                            }
+                        }
+
+                        // Scale initiation: walk up to find SCALING_TARGET
+                        if((this._param & WindowParam.MOUSE_SCALING_TRIGGER) > 0)
+                        {
+                            let target: IWindow | null = this;
+
+                            while(target !== null)
+                            {
+                                if(target.testParamFlag(WindowParam.MOUSE_SCALING_TARGET))
+                                {
+                                    services.getMouseScalingService().begin(target, this._param & WindowParam.MOUSE_SCALING_TRIGGER);
+                                    break;
+                                }
+
+                                target = target.parent;
+                            }
+                        }
                     }
                     catch(_)
                     {
@@ -1123,7 +1162,20 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 
                     try
                     {
-                        this._context.getWindowServices().getMouseListenerService().end(this);
+                        const services = this._context.getWindowServices();
+                        services.getMouseListenerService().end(this);
+
+                        // End drag
+                        if(this.testParamFlag(WindowParam.MOUSE_DRAGGING_TARGET))
+                        {
+                            services.getMouseDraggingService().end(this);
+                        }
+
+                        // End scale
+                        if(this.testParamFlag(WindowParam.MOUSE_SCALING_TARGET))
+                        {
+                            services.getMouseScalingService().end(this);
+                        }
                     }
                     catch(_)
                     {

@@ -1,49 +1,87 @@
 import type {JSX} from 'solid-js';
 import {For, Show} from 'solid-js';
 import type {IWindow} from '@core/window/IWindow';
+import {WindowController} from '@core/window/WindowController';
+import {WindowMouseEvent} from '@core/window/events/WindowMouseEvent';
 import {useWindow} from '../../hooks/useWindow';
-import {useWindowSkin} from '../../hooks/useWindowSkin';
-import {useElementRegistry} from '../../api/windowSkinContext';
+import {Helium} from 'helium-engine';
+import type {WindowMouseOperator} from '@core/window/services/WindowMouseOperator';
 
 /**
  * Renders a single IWindow node.
  *
- * Applies the resolved skin background from the canvas 9-slice renderer.
- * Used internally by WindowLayerRenderer and can be used standalone.
+ * Forwards DOM mouse events to the engine's WindowController.update()
+ * method, enabling procedures, drag, scale, and other interactions.
  */
 function WindowNode(props: { window: IWindow }): JSX.Element
 {
 	const win = props.window;
-	const {x, y, width, height, visible, caption, state, children} = useWindow(win);
+	const {x, y, width, height, visible, caption, children} = useWindow(win);
 
-	let registry: ReturnType<typeof useElementRegistry> | null = null;
-
-	try
+	const onMouseDown = (e: MouseEvent) =>
 	{
-		registry = useElementRegistry();
-	}
-	catch
-	{
-		// No registry available — render without skins
-	}
+		e.stopPropagation();
 
-	const background = registry
-		? useWindowSkin(win, registry, width, height, state)
-		: () => null;
+		const event = WindowMouseEvent.allocateMouse(
+			WindowMouseEvent.DOWN, win, null,
+			e.offsetX, e.offsetY, e.clientX, e.clientY,
+			e.altKey, e.ctrlKey, e.shiftKey, true
+		);
+		(win as WindowController).update(win as WindowController, event);
+		event.recycle();
 
-	const backgroundStyle = (): Record<string, string | undefined> =>
-	{
-		const bg = background();
+		// Register document-level listeners for drag/scale
+		const serviceManager = Helium.instance.windowManager.getServiceManager();
 
-		if(!bg) return {};
-
-		// url(...) → background-image, rgb(...) → background-color
-		if(bg.startsWith('url('))
+		if(serviceManager)
 		{
-			return { 'background-image': bg };
-		}
+			const dragger = serviceManager.getMouseDraggingService() as WindowMouseOperator;
+			const scaler = serviceManager.getMouseScalingService() as WindowMouseOperator;
 
-		return { 'background-color': bg };
+			const onDocMove = (ev: MouseEvent) =>
+			{
+				dragger.handleMouseMove(ev.clientX, ev.clientY);
+				scaler.handleMouseMove(ev.clientX, ev.clientY);
+			};
+
+			const onDocUp = (ev: MouseEvent) =>
+			{
+				dragger.handleMouseUp();
+				scaler.handleMouseUp();
+
+				// Dispatch UP event to window
+				const upEvent = WindowMouseEvent.allocateMouse(
+					WindowMouseEvent.UP, win, null,
+					0, 0, ev.clientX, ev.clientY
+				);
+				(win as WindowController).update(win as WindowController, upEvent);
+				upEvent.recycle();
+
+				document.removeEventListener('mousemove', onDocMove);
+				document.removeEventListener('mouseup', onDocUp);
+			};
+
+			document.addEventListener('mousemove', onDocMove);
+			document.addEventListener('mouseup', onDocUp);
+		}
+	};
+
+	const onMouseOver = (e: MouseEvent) =>
+	{
+		e.stopPropagation();
+
+		const event = WindowMouseEvent.allocateMouse(WindowMouseEvent.OVER, win, null, e.offsetX, e.offsetY, e.clientX, e.clientY);
+		(win as WindowController).update(win as WindowController, event);
+		event.recycle();
+	};
+
+	const onMouseOut = (e: MouseEvent) =>
+	{
+		e.stopPropagation();
+
+		const event = WindowMouseEvent.allocateMouse(WindowMouseEvent.OUT, win, null, e.offsetX, e.offsetY, e.clientX, e.clientY);
+		(win as WindowController).update(win as WindowController, event);
+		event.recycle();
 	};
 
 	return (
@@ -56,10 +94,12 @@ function WindowNode(props: { window: IWindow }): JSX.Element
 					top: `${y()}px`,
 					width: `${width()}px`,
 					height: `${height()}px`,
-					...backgroundStyle(),
 				}}
 				data-name={win.name}
 				data-type={win.type}
+				onMouseDown={onMouseDown}
+				onMouseOver={onMouseOver}
+				onMouseOut={onMouseOut}
 			>
 				<Show when={caption()}>
 					<span class="hw-caption">{caption()}</span>
