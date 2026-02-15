@@ -1,8 +1,6 @@
 {
     "extends": "../../tsconfig.json",
     "compilerOptions": {
-        "jsx": "preserve",
-        "jsxImportSource": "solid-js",
         "baseUrl": ".",
         "paths": {
             "@core/*": ["../helium-engine/src/core/*"],

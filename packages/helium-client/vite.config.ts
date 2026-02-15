@@ -1,7 +1,6 @@
 import {defineConfig} from 'vite';
 import {resolve} from 'path';
 import babel from 'vite-plugin-babel';
-import solidPlugin from 'vite-plugin-solid';
 
 export default defineConfig({
 	plugins: [
@@ -14,9 +13,6 @@ export default defineConfig({
 			},
 			exclude: /node_modules/,
 		}),
-		solidPlugin({
-			include: [/\.tsx$/, /\.jsx$/],
-		}),
 	],
 	resolve: {
 		alias: {
@@ -28,9 +24,6 @@ export default defineConfig({
 			'@iid': resolve(__dirname, '../helium-engine/src/iid'),
 			'@ui': resolve(__dirname, 'src'),
 		},
-	},
-	optimizeDeps: {
-		exclude: ['solid-icons'],
 	},
 	build: {
 		target: 'ES2022',

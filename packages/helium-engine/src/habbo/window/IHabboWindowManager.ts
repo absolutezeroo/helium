@@ -315,6 +315,30 @@ export interface IHabboWindowManager extends IDisposable
     getWindowRenderer(): IWindowRenderer | null;
 
     /**
+     * Composites all window layers into a single OffscreenCanvas buffer.
+     *
+     * Walks each context layer, retrieves its desktop, and recursively
+     * draws each window's skin buffer at its absolute position.
+     *
+     * @param width - The target buffer width
+     * @param height - The target buffer height
+     * @returns The composited buffer, or null if renderer is unavailable
+     */
+    compositeToBuffer(width: number, height: number): OffscreenCanvas | null;
+
+    /**
+     * Finds the deepest visible window at the given screen point.
+     *
+     * Iterates layers in reverse order (tooltips → background) so that
+     * the topmost layer wins.
+     *
+     * @param x - The global X coordinate
+     * @param y - The global Y coordinate
+     * @returns The deepest window at the point, or null
+     */
+    findWindowAtPoint(x: number, y: number): IWindow | null;
+
+    /**
      * Display the floor plan editor.
      */
     displayFloorPlanEditor(): void;

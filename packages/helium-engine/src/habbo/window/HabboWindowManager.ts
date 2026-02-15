@@ -616,6 +616,38 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
     }
 
     /**
+     * Composites all window layers into a single OffscreenCanvas buffer.
+     *
+     * Delegates to WindowRenderer.composite() with the full context array.
+     *
+     * @param width - The target buffer width
+     * @param height - The target buffer height
+     * @returns The composited buffer, or null if renderer is unavailable
+     */
+    public compositeToBuffer(width: number, height: number): OffscreenCanvas | null
+    {
+        if(!this._windowRenderer) return null;
+
+        return this._windowRenderer.composite(this._windowContextArray, width, height);
+    }
+
+    /**
+     * Finds the deepest visible window at the given screen point.
+     *
+     * Delegates to WindowRenderer.findWindowAtPoint() with the full context array.
+     *
+     * @param x - The global X coordinate
+     * @param y - The global Y coordinate
+     * @returns The deepest window at the point, or null
+     */
+    public findWindowAtPoint(x: number, y: number): IWindow | null
+    {
+        if(!this._windowRenderer) return null;
+
+        return this._windowRenderer.findWindowAtPoint(this._windowContextArray, x, y);
+    }
+
+    /**
      * Returns the shared service manager for mouse drag/scale operations.
      *
      * Used by the client renderer to forward DOM mouse events.

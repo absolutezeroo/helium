@@ -6,12 +6,12 @@ import type { IWindowContainer } from '../IWindowContainer';
 import { WindowRendererItem } from './WindowRendererItem';
 
 /**
- * Window renderer managing per-window draw buffers.
+ * Window renderer managing per-window draw buffers and compositing.
  *
  * In AS3, WindowRenderer managed BitmapData draw buffers, dirty region
- * merging, and composited the full tree into a single BitmapData.
- * In TypeScript, each window gets its own OffscreenCanvas buffer; the
- * SolidJS client handles compositing via DOM layering.
+ * merging, and composited the full tree into a single BitmapData displayed
+ * as a Bitmap on the Stage. In TypeScript, each window gets its own
+ * OffscreenCanvas buffer; composite() merges them all into a single buffer.
  *
  * @see sources/win63_2021_version/com/sulake/core/window/graphics/WindowRenderer.as
  */
@@ -25,6 +25,10 @@ export class WindowRenderer implements IWindowRenderer
 
     /** Per-window renderer items (AS3: Dictionary keyed by IWindow). */
     private _rendererItems: Map<IWindow, WindowRendererItem> = new Map();
+
+    /** Composite buffer for full-scene rendering. */
+    private _compositeBuffer: OffscreenCanvas | null = null;
+    private _compositeCtx: OffscreenCanvasRenderingContext2D | null = null;
 
     constructor(skinContainer: ISkinContainer)
     {
@@ -315,6 +319,244 @@ export class WindowRenderer implements IWindowRenderer
         }
     }
 
+    /**
+     * Composites all window layers into a single OffscreenCanvas buffer.
+     *
+     * Walks each context layer (0→3), retrieves its desktop window,
+     * and recursively draws each window's skin buffer at its absolute position.
+     * This mirrors AS3's WindowRenderer.renderWindowBranch() compositing
+     * into a single BitmapData displayed as a Bitmap on the Stage.
+     *
+     * @param contexts - The array of window contexts (one per layer)
+     * @param width - The target buffer width
+     * @param height - The target buffer height
+     * @returns The composited OffscreenCanvas buffer
+     *
+     * @see sources/win63_2021_version/com/sulake/core/window/graphics/WindowRenderer.as renderWindowBranch()
+     */
+    public composite(contexts: IWindowContext[], width: number, height: number): OffscreenCanvas
+    {
+        // Create or resize the composite buffer
+        if(!this._compositeBuffer || this._compositeBuffer.width !== width || this._compositeBuffer.height !== height)
+        {
+            this._compositeBuffer = new OffscreenCanvas(width, height);
+            this._compositeCtx = this._compositeBuffer.getContext('2d');
+        }
+
+        const ctx = this._compositeCtx!;
+
+        ctx.imageSmoothingEnabled = false;
+        ctx.clearRect(0, 0, width, height);
+
+        // Walk layers 0→3 (background → tooltips)
+        for(let i = 0; i < contexts.length; i++)
+        {
+            const desktop = contexts[i].getDesktopWindow();
+
+            if(!desktop || !desktop.visible) continue;
+
+            // Render desktop's children (not the desktop itself — it's a root container)
+            const container = desktop as unknown as IWindowContainer;
+
+            if(typeof container.numChildren !== 'number') continue;
+
+            for(let j = 0; j < container.numChildren; j++)
+            {
+                const child = container.getChildAt(j);
+
+                if(child)
+                {
+                    this.compositeWindow(ctx, child, 0, 0);
+                }
+            }
+        }
+
+        return this._compositeBuffer;
+    }
+
+    /**
+     * Recursively composites a window and its children onto the target context.
+     *
+     * @param ctx - The 2D rendering context to draw into
+     * @param window - The window to composite
+     * @param offsetX - The parent's absolute X offset
+     * @param offsetY - The parent's absolute Y offset
+     */
+    private compositeWindow(
+        ctx: OffscreenCanvasRenderingContext2D,
+        window: IWindow,
+        offsetX: number,
+        offsetY: number
+    ): void
+    {
+        if(!window.visible) return;
+
+        const absX = offsetX + window.x;
+        const absY = offsetY + window.y;
+        const w = window.width;
+        const h = window.height;
+
+        if(w <= 0 || h <= 0) return;
+
+        ctx.save();
+
+        // Clip to window bounds
+        if(window.clipping)
+        {
+            ctx.beginPath();
+            ctx.rect(absX, absY, w, h);
+            ctx.clip();
+        }
+
+        // Apply blend (opacity)
+        const blend = window.blend;
+
+        if(blend < 1)
+        {
+            ctx.globalAlpha = blend;
+        }
+
+        // Draw background fill if the window has one
+        if(window.background)
+        {
+            const color = window.color;
+            const a = ((color >>> 24) & 0xFF) / 255;
+            const r = (color >> 16) & 0xFF;
+            const g = (color >> 8) & 0xFF;
+            const b = color & 0xFF;
+
+            ctx.fillStyle = `rgba(${r},${g},${b},${a})`;
+            ctx.fillRect(absX, absY, w, h);
+        }
+
+        // Draw the skin buffer
+        const buffer = this.getDrawBufferForRenderable(window);
+
+        if(buffer && buffer.width > 0 && buffer.height > 0)
+        {
+            ctx.drawImage(buffer, absX, absY);
+        }
+
+        // Recurse into children
+        const container = window as unknown as IWindowContainer;
+
+        if(typeof container.numChildren === 'number')
+        {
+            for(let i = 0; i < container.numChildren; i++)
+            {
+                const child = container.getChildAt(i);
+
+                if(child)
+                {
+                    this.compositeWindow(ctx, child, absX, absY);
+                }
+            }
+        }
+
+        ctx.restore();
+    }
+
+    /**
+     * Finds the deepest visible window at the given point.
+     *
+     * Iterates layers in REVERSE order (tooltips → background) so that
+     * the topmost layer wins. Within each layer, children are tested in
+     * reverse order (last child = visually on top).
+     *
+     * @param contexts - The array of window contexts (one per layer)
+     * @param x - The global X coordinate
+     * @param y - The global Y coordinate
+     * @returns The deepest window at the point, or null
+     *
+     * @see sources/win63_2021_version/com/sulake/core/window/components/ContainerController.as getChildUnderPoint()
+     */
+    public findWindowAtPoint(contexts: IWindowContext[], x: number, y: number): IWindow | null
+    {
+        // Iterate layers in REVERSE (tooltips → background)
+        for(let i = contexts.length - 1; i >= 0; i--)
+        {
+            const desktop = contexts[i].getDesktopWindow();
+
+            if(!desktop || !desktop.visible) continue;
+
+            const container = desktop as unknown as IWindowContainer;
+
+            if(typeof container.numChildren !== 'number') continue;
+
+            // Test children in reverse (topmost first)
+            for(let j = container.numChildren - 1; j >= 0; j--)
+            {
+                const child = container.getChildAt(j);
+
+                if(!child) continue;
+
+                const hit = this.hitTestRecursive(child, x, y, 0, 0);
+
+                if(hit) return hit;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Recursively hit-tests a window tree.
+     *
+     * @param window - The window to test
+     * @param globalX - The global X coordinate
+     * @param globalY - The global Y coordinate
+     * @param offsetX - The parent's absolute X offset
+     * @param offsetY - The parent's absolute Y offset
+     * @returns The deepest matching window, or null
+     */
+    private hitTestRecursive(
+        window: IWindow,
+        globalX: number,
+        globalY: number,
+        offsetX: number,
+        offsetY: number
+    ): IWindow | null
+    {
+        if(!window.visible) return null;
+
+        // FLAG 9 = INTERNAL_EVENT_HANDLING → ignore mouse events
+        if(window.testParamFlag(9))
+        {
+            return null;
+        }
+
+        const absX = offsetX + window.x;
+        const absY = offsetY + window.y;
+        const w = window.width;
+        const h = window.height;
+
+        // AABB bounds test
+        if(globalX < absX || globalX >= absX + w || globalY < absY || globalY >= absY + h)
+        {
+            return null;
+        }
+
+        // Test children in reverse (topmost first)
+        const container = window as unknown as IWindowContainer;
+
+        if(typeof container.numChildren === 'number')
+        {
+            for(let i = container.numChildren - 1; i >= 0; i--)
+            {
+                const child = container.getChildAt(i);
+
+                if(!child) continue;
+
+                const hit = this.hitTestRecursive(child, globalX, globalY, absX, absY);
+
+                if(hit) return hit;
+            }
+        }
+
+        // No child matched, but this window contains the point
+        return window;
+    }
+
     public dispose(): void
     {
         if(!this._disposed)
@@ -329,6 +571,8 @@ export class WindowRenderer implements IWindowRenderer
             this._rendererItems.clear();
             this._renderQueue.length = 0;
             this._dirtyRegions.length = 0;
+            this._compositeBuffer = null;
+            this._compositeCtx = null;
         }
     }
 }
