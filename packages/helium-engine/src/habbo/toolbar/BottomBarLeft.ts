@@ -6,6 +6,8 @@ import type {IWindowContainer} from '@core/window/IWindowContainer';
 import {WindowEvent} from '@core/window/events/WindowEvent';
 import {WindowMouseEvent} from '@core/window/events/WindowMouseEvent';
 import type {IStaticBitmapWrapperWindow} from '@core/window/components/IStaticBitmapWrapperWindow';
+import type {IBitmapWrapperWindow} from '@core/window/components/IBitmapWrapperWindow';
+import type {IAssetReceiver} from '@core/window/IAssetReceiver';
 import {HabboToolbarIconEnum} from './HabboToolbarIconEnum';
 import {Logger} from '@core/utils/Logger';
 
@@ -53,6 +55,7 @@ export class BottomBarLeft
 	private _unseenMiniMailMessageCount: number = 0;
 	private _unseenForumsCount: number = 0;
 	private _meMenuController: MeMenuNewController | null = null;
+	private _meMenuIcon: IBitmapWrapperWindow | null = null;
 
 	/**
 	 * Constructs the toolbar window from the registered layout and wires up
@@ -109,6 +112,15 @@ export class BottomBarLeft
 				child.addEventListener(WindowMouseEvent.OVER, this.onIconHoverIn);
 				child.addEventListener(WindowMouseEvent.OUT, this.onIconHoverOut);
 			}
+		}
+
+		// Find the MEMENU bitmap icon and load placeholder
+		const meMenuIcon = (this._window as IWindowContainer).findChildByName('icon_me_menu');
+
+		if(meMenuIcon)
+		{
+			this._meMenuIcon = meMenuIcon as unknown as IBitmapWrapperWindow;
+			this.loadMeMenuPlaceholder();
 		}
 
 		// Set initial icon visibility
@@ -596,6 +608,9 @@ export class BottomBarLeft
 		if(!window) return;
 
 		const iconName = window.name;
+
+		log.debug(`Icon clicked: ${iconName}`);
+
 		this._toolbar.toggleWindowVisibility(iconName);
 
 		if(this._windowManager)
@@ -660,17 +675,23 @@ export class BottomBarLeft
 	/**
 	 * Change the ICON_BORDER background color on hover.
 	 *
+	 * In AS3, this targets the ICON_BORDER tagged child. If that child
+	 * doesn't exist in the layout (win63), falls back to the region itself.
+	 *
 	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as setIconBgHoverState()
 	 */
 	private setIconBgHoverState(container: IWindowContainer, suffix: string): void
 	{
+		// AS3 targets ICON_BORDER child; fall back to container if absent
+		const target = container.findChildByTag?.('ICON_BORDER') ?? container;
+
 		if(suffix === BottomBarLeft.ICON_MOUSE_OVER)
 		{
-			(container as unknown as IWindow).color = BottomBarLeft.ICON_BG_COLOR_OVER;
+			(target as unknown as IWindow).color = BottomBarLeft.ICON_BG_COLOR_OVER;
 		}
 		else
 		{
-			(container as unknown as IWindow).color = BottomBarLeft.ICON_BG_COLOR_OUT;
+			(target as unknown as IWindow).color = BottomBarLeft.ICON_BG_COLOR_OUT;
 		}
 	}
 
@@ -683,6 +704,63 @@ export class BottomBarLeft
 	{
 		this.toggleCollapse();
 	};
+
+	/**
+	 * Load the placeholder image for the MEMENU icon.
+	 *
+	 * Requests the 'icons_toolbar_me_menu_placeholder' asset from the
+	 * ResourceManager and sets it as the bitmapData on the icon_me_menu
+	 * BitmapWrapper window.
+	 */
+	private loadMeMenuPlaceholder(): void
+	{
+		if(!this._meMenuIcon || !this._window) return;
+
+		const context = (this._window as unknown as IWindow).context;
+
+		if(!context) return;
+
+		const resourceManager = context.getResourceManager();
+
+		if(!resourceManager) return;
+
+		const iconWindow = this._meMenuIcon;
+		const receiver: IAssetReceiver =
+		{
+			disposed: false,
+			receiveAsset(bitmap: ImageBitmap): void
+			{
+				if(iconWindow)
+				{
+					iconWindow.bitmapData = bitmap;
+					(iconWindow as unknown as IWindow).invalidate();
+				}
+			}
+		};
+
+		resourceManager.retrieveAsset('icons_toolbar_me_menu_placeholder', receiver);
+	}
+
+	/**
+	 * Set bitmap data for a toolbar icon.
+	 *
+	 * In AS3, this sets BitmapData on the MEMENU's icon_me_menu child,
+	 * caching the previous bitmap for hover state restoration.
+	 *
+	 * @param iconId - The icon identifier (e.g. 'HTIE_ICON_MEMENU')
+	 * @param bitmap - The ImageBitmap to set
+	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as setIconBitmap()
+	 */
+	public setIconBitmap(iconId: string, bitmap: ImageBitmap | null): void
+	{
+		if(iconId !== 'HTIE_ICON_MEMENU') return;
+
+		if(this._meMenuIcon)
+		{
+			this._meMenuIcon.bitmapData = bitmap;
+			(this._meMenuIcon as unknown as IWindow).invalidate();
+		}
+	}
 
 	/**
 	 * Dispose of this view and all its resources
@@ -715,6 +793,7 @@ export class BottomBarLeft
 		this._buttonContainer = null;
 		this._leftArrow = null;
 		this._rightArrow = null;
+		this._meMenuIcon = null;
 		this._lineSeparator = null;
 		this._toolbar = null;
 		this._windowManager = null;

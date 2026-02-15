@@ -339,9 +339,12 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	 * @param _bitmap Bitmap data
 	 * @see source_as_win63/habbo/toolbar/HabboToolbar.as setIconBitmap()
 	 */
-	setIconBitmap(_iconId: string, _bitmap: unknown): void
+	setIconBitmap(iconId: string, bitmap: unknown): void
 	{
-		// UI layer handles icon rendering
+		if(this._bottomBarLeft && bitmap instanceof ImageBitmap)
+		{
+			this._bottomBarLeft.setIconBitmap(iconId, bitmap);
+		}
 	}
 
 	/**
