@@ -1,16 +1,16 @@
-import type { IWindow } from './IWindow';
-import type { IWindowContext } from './IWindowContext';
-import type { IGraphicContext } from './graphics/IGraphicContext';
-import type { IGraphicContextHost } from './graphics/IGraphicContextHost';
-import type { IRectLimiter } from './utils/IRectLimiter';
-import type { IPropertyMap } from './theme/IPropertyMap';
-import { WindowModel } from './WindowModel';
-import { WindowEvent } from './events/WindowEvent';
-import { WindowMouseEvent } from './events/WindowMouseEvent';
-import { WindowDisposeEvent } from './events/WindowDisposeEvent';
-import { WindowEventDispatcher } from './events/WindowEventDispatcher';
-import { WindowRectLimits } from './utils/WindowRectLimits';
-import { PropertyStruct } from './utils/PropertyStruct';
+import type {IWindow} from './IWindow';
+import type {IWindowContext} from './IWindowContext';
+import type {IGraphicContext} from './graphics/IGraphicContext';
+import type {IGraphicContextHost} from './graphics/IGraphicContextHost';
+import type {IRectLimiter} from './utils/IRectLimiter';
+import type {IPropertyMap} from './theme/IPropertyMap';
+import {WindowModel} from './WindowModel';
+import {WindowEvent} from './events/WindowEvent';
+import {WindowMouseEvent} from './events/WindowMouseEvent';
+import {WindowDisposeEvent} from './events/WindowDisposeEvent';
+import {WindowEventDispatcher} from './events/WindowEventDispatcher';
+import {WindowRectLimits} from './utils/WindowRectLimits';
+import {PropertyStruct} from './utils/PropertyStruct';
 
 /**
  * Core window controller implementing the full IWindow API.
@@ -40,20 +40,12 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 
     protected _eventDispatcher: WindowEventDispatcher | null = null;
     protected _graphicContext: IGraphicContext | null = null;
-    protected _procedure: ((event: WindowEvent, window: IWindow) => void) | null = null;
     protected _hasVisualContent: boolean = true;
-    protected _parent: WindowController | null = null;
-    protected _children: IWindow[] | null = null;
-    protected _debug: boolean = false;
     protected _rectLimits: WindowRectLimits | null = null;
-    protected _immediateClickMode: boolean = false;
-
     private _parentRect: { x: number; y: number; width: number; height: number } = { x: 0, y: 0, width: 0, height: 0 };
     private _uniqueId: number;
     private _propertyMap: IPropertyMap | null = null;
     private _graphicsSetup: boolean = false;
-
-    // ── Constructor ──────────────────────────────────────────────────
 
     constructor(
         name: string,
@@ -132,7 +124,487 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
         }
     }
 
+    protected _procedure: ((event: WindowEvent, window: IWindow) => void) | null = null;
+
+    /** The window procedure, bubbles up to parent if not set locally. */
+    public get procedure(): ((event: WindowEvent, window: IWindow) => void) | null
+    {
+        if(this._procedure !== null) return this._procedure;
+        if(this._parent !== null) return this._parent.procedure;
+
+        return WindowController._nullEventProc;
+    }
+
+    public set procedure(value: ((event: WindowEvent, window: IWindow) => void) | null)
+    {
+        this._procedure = value;
+    }
+
+    protected _parent: WindowController | null = null;
+
+    // ── Constructor ──────────────────────────────────────────────────
+
+    /** The parent window. */
+    public get parent(): IWindow | null
+    {
+        return this._parent;
+    }
+
     // ── Static helpers ───────────────────────────────────────────────
+
+    public set parent(value: IWindow | null)
+    {
+        if(value === this)
+        {
+            throw new Error('Attempted to assign self as parent!');
+        }
+
+        if(value !== null && value.context !== this._context)
+        {
+            this._context = value.context as IWindowContext;
+
+            if(this._children)
+            {
+                for(const child of this._children)
+                {
+                    (child as WindowController).parent = this;
+                }
+            }
+        }
+
+        const oldParent: IWindow | null = this._parent;
+
+        if(this._parent !== value)
+        {
+            if(this._parent !== null)
+            {
+                this._parent.removeChild(this);
+            }
+
+            this._parent = value as WindowController | null;
+
+            let event: WindowEvent;
+
+            if(this._parent !== null)
+            {
+                const parentRect = this._parent.rectangle;
+                this._parentRect.x = parentRect.x;
+                this._parentRect.y = parentRect.y;
+                this._parentRect.width = parentRect.width;
+                this._parentRect.height = parentRect.height;
+                this._previousRect.x = this._x;
+                this._previousRect.y = this._y;
+                this._previousRect.width = this._width;
+                this._previousRect.height = this._height;
+                event = WindowEvent.allocate(WindowEvent.WE_PARENT_ADDED, this, this._parent);
+                this.update(this, event);
+            }
+            else
+            {
+                this._parentRect.x = 0;
+                this._parentRect.y = 0;
+                this._parentRect.width = 0;
+                this._parentRect.height = 0;
+                event = WindowEvent.allocate(WindowEvent.WE_PARENT_REMOVED, this, oldParent);
+                this.update(this, event);
+            }
+
+            event.recycle();
+        }
+    }
+
+    protected _children: IWindow[] | null = null;
+
+    // ── Getters & setters ────────────────────────────────────────────
+
+    /** Direct access to the children array. */
+    public get children(): IWindow[] | null
+    {
+        return this._children;
+    }
+
+    protected _debug: boolean = false;
+
+    /** Debug mode flag. */
+    public get debug(): boolean
+    {
+        return this._debug;
+    }
+
+    public set debug(value: boolean)
+    {
+        this._debug = value;
+    }
+
+    protected _immediateClickMode: boolean = false;
+
+    /** Whether immediate click mode is enabled. */
+    public get immediateClickMode(): boolean
+    {
+        return this._immediateClickMode;
+    }
+
+    public set immediateClickMode(value: boolean)
+    {
+        if(value !== this._immediateClickMode)
+        {
+            this._immediateClickMode = value;
+        }
+    }
+
+    /** Rectangle limits for the window. Created lazily. */
+    public get limits(): IRectLimiter
+    {
+        if(!this._rectLimits)
+        {
+            this._rectLimits = new WindowRectLimits(this);
+        }
+
+        return this._rectLimits;
+    }
+
+    /** The host window (topmost non-desktop ancestor). */
+    public get host(): IWindow
+    {
+        const desktop = this.desktop;
+
+        return (this._parent === desktop) ? this : (this._parent as WindowController).host;
+    }
+
+    /** The desktop window of this context. */
+    public get desktop(): IWindow | null
+    {
+        return this._context.getDesktopWindow();
+    }
+
+    /** Filters (delegated to graphic context). */
+    public get filters(): unknown[]
+    {
+        return this.hasGraphicsContext() ? (this.getGraphicContext(true)!.filters ?? []) : [];
+    }
+
+    public set filters(value: unknown[])
+    {
+        if(this.hasGraphicsContext())
+        {
+            this.getGraphicContext(true)!.filters = value;
+        }
+    }
+
+    /** Properties array (stub for compatibility). */
+    public get properties(): unknown[]
+    {
+        return [];
+    }
+
+    public set properties(_value: unknown[])
+    {
+        // Stub: properties are handled via PropertyStruct
+    }
+
+    /** Etching (stub for compatibility). */
+    public get etching(): unknown[]
+    {
+        return [];
+    }
+
+    public set etching(_value: unknown[])
+    {
+        // Stub: etching is a visual feature not needed in engine
+    }
+
+    public get x(): number { return this._x; }
+
+    // ── Position & size ─────────────────────────────────────────────
+    //
+    // Getters MUST be redeclared here alongside setters.
+    // In JavaScript, defining only a setter on a subclass prototype
+    // creates a descriptor { set, get: undefined } that shadows the
+    // parent's getter. The lookup stops at this prototype level and
+    // returns undefined instead of continuing to WindowModel.
+
+    public set x(value: number)
+    {
+        if(value !== this._x)
+        {
+            this.setRectangle(value, this._y, this._width, this._height);
+        }
+    }
+
+    public get y(): number { return this._y; }
+
+    public set y(value: number)
+    {
+        if(value !== this._y)
+        {
+            this.setRectangle(this._x, value, this._width, this._height);
+        }
+    }
+
+    public get width(): number { return this._width; }
+
+    public set width(value: number)
+    {
+        if(value !== this._width)
+        {
+            this.setRectangle(this._x, this._y, value, this._height);
+        }
+    }
+
+    public get height(): number { return this._height; }
+
+    public set height(value: number)
+    {
+        if(value !== this._height)
+        {
+            this.setRectangle(this._x, this._y, this._width, value);
+        }
+    }
+
+    public get position(): { x: number; y: number } { return { x: this._x, y: this._y }; }
+
+    public set position(value: { x: number; y: number })
+    {
+        this.setRectangle(value.x, value.y, this._width, this._height);
+    }
+
+    public get rectangle(): { x: number; y: number; width: number; height: number } { return { x: this._x, y: this._y, width: this._width, height: this._height }; }
+
+    public set rectangle(value: { x: number; y: number; width: number; height: number })
+    {
+        this.setRectangle(value.x, value.y, value.width, value.height);
+    }
+
+    // ── Visual properties ────────────────────────────────────────────
+
+    public get background(): boolean { return this._background; }
+
+    public set background(value: boolean)
+    {
+        this._background = value;
+        this._fillColor = value ? (this._fillColor | this._alphaColor) : (this._fillColor & 0xFFFFFF);
+        this._hasVisualContent = this._hasVisualContent || value;
+        this._context.invalidate(this, null, 1);
+    }
+
+    public get color(): number { return this._fillColor; }
+
+    public set color(value: number)
+    {
+        this._alphaColor = value & 0xFF000000;
+        this._fillColor = this._background ? value : (value & 0xFFFFFF);
+        this._context.invalidate(this, null, 1);
+    }
+
+    public get alpha(): number { return this._alphaColor >>> 24; }
+
+    public set alpha(value: number)
+    {
+        this._alphaColor = value << 24;
+        this._fillColor = this._background ? (this._alphaColor | this._fillColor) : (0xFFFFFF & this._fillColor);
+        this._context.invalidate(this, null, 1);
+    }
+
+    public get blend(): number { return this._blend; }
+
+    public set blend(value: number)
+    {
+        value = value > 1 ? 1 : (value < 0 ? 0 : value);
+
+        if(value !== this._blend)
+        {
+            this._blend = value;
+            this._context.invalidate(this, null, 16);
+        }
+    }
+
+    public get visible(): boolean { return this._visible; }
+
+    public set visible(value: boolean)
+    {
+        if(value !== this._visible)
+        {
+            this._visible = value;
+
+            if(this._graphicContext && !value)
+            {
+                this._graphicContext.visible = false;
+            }
+
+            this._context.invalidate(this, null, 1);
+
+            const event = WindowEvent.allocate(WindowEvent.WE_CHILD_VISIBILITY, this, this);
+            this.update(this, event);
+            event.recycle();
+        }
+    }
+
+    // ── Identity & type properties ──────────────────────────────────
+
+    public get type(): number { return this._type; }
+
+    public set type(value: number)
+    {
+        if(value !== this._type)
+        {
+            this._type = value;
+            this._context.invalidate(this, null, 1);
+        }
+    }
+
+    public get caption(): string { return this._caption; }
+
+    public set caption(value: string)
+    {
+        value = value ?? '';
+
+        if(value !== this._caption)
+        {
+            this._caption = value;
+            this._context.invalidate(this, null, 1);
+        }
+    }
+
+    public get tags(): string[]
+    {
+        if(!this._tags) this._tags = [];
+
+        return this._tags;
+    }
+
+    public set tags(value: string[])
+    {
+        if(value !== null)
+        {
+            this._tags = value;
+        }
+    }
+
+    public get mouseThreshold(): number { return this._mouseThreshold; }
+
+    public set mouseThreshold(value: number)
+    {
+        this._mouseThreshold = value > 0xFF ? 0xFF : value;
+    }
+
+    public get state(): number { return this._state; }
+
+    public set state(value: number)
+    {
+        if(value !== this._state)
+        {
+            this._state = value;
+            this._context.invalidate(this, null, 8);
+        }
+    }
+
+    public get style(): number { return this._style; }
+
+    public set style(value: number)
+    {
+        if(value !== this._style)
+        {
+            this._style = value;
+
+            // Propagate style to internal children
+            const internalChildren: IWindow[] = [];
+            this.groupChildrenWithTag(WindowController.TAG_INTERNAL, internalChildren);
+
+            for(let i = internalChildren.length - 1; i >= 0; i--)
+            {
+                const child = internalChildren[i] as WindowController;
+
+                if(child.tags.indexOf(WindowController.TAG_IGNORE_INHERITED_STYLE) === -1)
+                {
+                    child.style = this._style;
+                }
+            }
+
+            this._context.invalidate(this, null, 1);
+
+            // Update property map from theme
+            try
+            {
+                this._propertyMap = this._context.getWindowFactory().getThemeManager().getPropertyDefaults(this._style) ?? null;
+            }
+            catch(_)
+            {
+                // Theme manager not available
+            }
+        }
+    }
+
+    public get param(): number { return this._param; }
+
+    public set param(value: number)
+    {
+        this._param = value;
+    }
+
+    public get dynamicStyle(): string { return this._dynamicStyleName; }
+
+    public set dynamicStyle(value: string)
+    {
+        this._dynamicStyleName = value;
+        this._context.invalidate(this, null, 1);
+    }
+
+    public get dynamicStyleColor(): { redMultiplier: number; greenMultiplier: number; blueMultiplier: number; alphaMultiplier: number } | null
+    {
+        return this._dynamicStyleColorTransform;
+    }
+
+    public set dynamicStyleColor(value: { redMultiplier: number; greenMultiplier: number; blueMultiplier: number; alphaMultiplier: number } | null)
+    {
+        this._dynamicStyleColorTransform = value;
+    }
+
+    public get clipping(): boolean { return this._clipping; }
+
+    public set clipping(value: boolean)
+    {
+        if(value !== this._clipping)
+        {
+            this._clipping = value;
+            this._context.invalidate(this, null, 1);
+        }
+    }
+
+    public get id(): number { return this._id; }
+
+    public set id(value: number)
+    {
+        this._id = value;
+    }
+
+    public get name(): string { return this._name; }
+
+    public set name(value: string)
+    {
+        this._name = value;
+    }
+
+    public get offsetX(): number { return this._offsetX; }
+
+    public set offsetX(value: number)
+    {
+        this._offsetX = value;
+    }
+
+    public get offsetY(): number { return this._offsetY; }
+
+    public set offsetY(value: number)
+    {
+        this._offsetY = value;
+    }
+
+    /** The number of children. */
+    public get numChildren(): number
+    {
+        return this._children ? this._children.length : 0;
+    }
+
+    // ── IGraphicContextHost ──────────────────────────────────────────
 
     /**
      * Expands the parent to accommodate a child that extends beyond its bounds.
@@ -259,400 +731,15 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
         }
     }
 
-    // ── Getters & setters ────────────────────────────────────────────
+    // ── Core layout methods ──────────────────────────────────────────
 
-    /** The window procedure, bubbles up to parent if not set locally. */
-    public get procedure(): ((event: WindowEvent, window: IWindow) => void) | null
+    /**
+     * No-op event procedure used as fallback when no procedure is set.
+     */
+    private static _nullEventProc(_event: WindowEvent, _window: IWindow): void
     {
-        if(this._procedure !== null) return this._procedure;
-        if(this._parent !== null) return this._parent.procedure;
-
-        return WindowController._nullEventProc;
+        // Intentionally empty
     }
-
-    public set procedure(value: ((event: WindowEvent, window: IWindow) => void) | null)
-    {
-        this._procedure = value;
-    }
-
-    /** The parent window. */
-    public get parent(): IWindow | null
-    {
-        return this._parent;
-    }
-
-    public set parent(value: IWindow | null)
-    {
-        if(value === this)
-        {
-            throw new Error('Attempted to assign self as parent!');
-        }
-
-        if(value !== null && value.context !== this._context)
-        {
-            this._context = value.context as IWindowContext;
-
-            if(this._children)
-            {
-                for(const child of this._children)
-                {
-                    (child as WindowController).parent = this;
-                }
-            }
-        }
-
-        const oldParent: IWindow | null = this._parent;
-
-        if(this._parent !== value)
-        {
-            if(this._parent !== null)
-            {
-                this._parent.removeChild(this);
-            }
-
-            this._parent = value as WindowController | null;
-
-            let event: WindowEvent;
-
-            if(this._parent !== null)
-            {
-                const parentRect = this._parent.rectangle;
-                this._parentRect.x = parentRect.x;
-                this._parentRect.y = parentRect.y;
-                this._parentRect.width = parentRect.width;
-                this._parentRect.height = parentRect.height;
-                this._previousRect.x = this._x;
-                this._previousRect.y = this._y;
-                this._previousRect.width = this._width;
-                this._previousRect.height = this._height;
-                event = WindowEvent.allocate(WindowEvent.WE_PARENT_ADDED, this, this._parent);
-                this.update(this, event);
-            }
-            else
-            {
-                this._parentRect.x = 0;
-                this._parentRect.y = 0;
-                this._parentRect.width = 0;
-                this._parentRect.height = 0;
-                event = WindowEvent.allocate(WindowEvent.WE_PARENT_REMOVED, this, oldParent);
-                this.update(this, event);
-            }
-
-            event.recycle();
-        }
-    }
-
-    /** Debug mode flag. */
-    public get debug(): boolean
-    {
-        return this._debug;
-    }
-
-    public set debug(value: boolean)
-    {
-        this._debug = value;
-    }
-
-    /** Rectangle limits for the window. Created lazily. */
-    public get limits(): IRectLimiter
-    {
-        if(!this._rectLimits)
-        {
-            this._rectLimits = new WindowRectLimits(this);
-        }
-
-        return this._rectLimits;
-    }
-
-    /** Whether immediate click mode is enabled. */
-    public get immediateClickMode(): boolean
-    {
-        return this._immediateClickMode;
-    }
-
-    public set immediateClickMode(value: boolean)
-    {
-        if(value !== this._immediateClickMode)
-        {
-            this._immediateClickMode = value;
-        }
-    }
-
-    /** The host window (topmost non-desktop ancestor). */
-    public get host(): IWindow
-    {
-        const desktop = this.desktop;
-
-        return (this._parent === desktop) ? this : (this._parent as WindowController).host;
-    }
-
-    /** The desktop window of this context. */
-    public get desktop(): IWindow | null
-    {
-        return this._context.getDesktopWindow();
-    }
-
-    /** Filters (delegated to graphic context). */
-    public get filters(): unknown[]
-    {
-        return this.hasGraphicsContext() ? (this.getGraphicContext(true)!.filters ?? []) : [];
-    }
-
-    public set filters(value: unknown[])
-    {
-        if(this.hasGraphicsContext())
-        {
-            this.getGraphicContext(true)!.filters = value;
-        }
-    }
-
-    /** Properties array (stub for compatibility). */
-    public get properties(): unknown[]
-    {
-        return [];
-    }
-
-    public set properties(_value: unknown[])
-    {
-        // Stub: properties are handled via PropertyStruct
-    }
-
-    /** Etching (stub for compatibility). */
-    public get etching(): unknown[]
-    {
-        return [];
-    }
-
-    public set etching(_value: unknown[])
-    {
-        // Stub: etching is a visual feature not needed in engine
-    }
-
-    // ── Position & size setters (delegate to setRectangle) ───────────
-
-    public set x(value: number)
-    {
-        if(value !== this._x)
-        {
-            this.setRectangle(value, this._y, this._width, this._height);
-        }
-    }
-
-    public set y(value: number)
-    {
-        if(value !== this._y)
-        {
-            this.setRectangle(this._x, value, this._width, this._height);
-        }
-    }
-
-    public set width(value: number)
-    {
-        if(value !== this._width)
-        {
-            this.setRectangle(this._x, this._y, value, this._height);
-        }
-    }
-
-    public set height(value: number)
-    {
-        if(value !== this._height)
-        {
-            this.setRectangle(this._x, this._y, this._width, value);
-        }
-    }
-
-    public set position(value: { x: number; y: number })
-    {
-        this.setRectangle(value.x, value.y, this._width, this._height);
-    }
-
-    public set rectangle(value: { x: number; y: number; width: number; height: number })
-    {
-        this.setRectangle(value.x, value.y, value.width, value.height);
-    }
-
-    // ── Visual property setters ──────────────────────────────────────
-
-    public set background(value: boolean)
-    {
-        this._background = value;
-        this._fillColor = value ? (this._fillColor | this._alphaColor) : (this._fillColor & 0xFFFFFF);
-        this._hasVisualContent = this._hasVisualContent || value;
-        this._context.invalidate(this, null, 1);
-    }
-
-    public set color(value: number)
-    {
-        this._alphaColor = value & 0xFF000000;
-        this._fillColor = this._background ? value : (value & 0xFFFFFF);
-        this._context.invalidate(this, null, 1);
-    }
-
-    public set alpha(value: number)
-    {
-        this._alphaColor = value << 24;
-        this._fillColor = this._background ? (this._alphaColor | this._fillColor) : (0xFFFFFF & this._fillColor);
-        this._context.invalidate(this, null, 1);
-    }
-
-    public set blend(value: number)
-    {
-        value = value > 1 ? 1 : (value < 0 ? 0 : value);
-
-        if(value !== this._blend)
-        {
-            this._blend = value;
-            this._context.invalidate(this, null, 16);
-        }
-    }
-
-    public set visible(value: boolean)
-    {
-        if(value !== this._visible)
-        {
-            this._visible = value;
-
-            if(this._graphicContext && !value)
-            {
-                this._graphicContext.visible = false;
-            }
-
-            this._context.invalidate(this, null, 1);
-
-            const event = WindowEvent.allocate(WindowEvent.WE_CHILD_VISIBILITY, this, this);
-            this.update(this, event);
-            event.recycle();
-        }
-    }
-
-    public set type(value: number)
-    {
-        if(value !== this._type)
-        {
-            this._type = value;
-            this._context.invalidate(this, null, 1);
-        }
-    }
-
-    public set caption(value: string)
-    {
-        value = value ?? '';
-
-        if(value !== this._caption)
-        {
-            this._caption = value;
-            this._context.invalidate(this, null, 1);
-        }
-    }
-
-    public set tags(value: string[])
-    {
-        if(value !== null)
-        {
-            this._tags = value;
-        }
-    }
-
-    public set mouseThreshold(value: number)
-    {
-        this._mouseThreshold = value > 0xFF ? 0xFF : value;
-    }
-
-    public set state(value: number)
-    {
-        if(value !== this._state)
-        {
-            this._state = value;
-            this._context.invalidate(this, null, 8);
-        }
-    }
-
-    public set style(value: number)
-    {
-        if(value !== this._style)
-        {
-            this._style = value;
-
-            // Propagate style to internal children
-            const internalChildren: IWindow[] = [];
-            this.groupChildrenWithTag(WindowController.TAG_INTERNAL, internalChildren);
-
-            for(let i = internalChildren.length - 1; i >= 0; i--)
-            {
-                const child = internalChildren[i] as WindowController;
-
-                if(child.tags.indexOf(WindowController.TAG_IGNORE_INHERITED_STYLE) === -1)
-                {
-                    child.style = this._style;
-                }
-            }
-
-            this._context.invalidate(this, null, 1);
-
-            // Update property map from theme
-            try
-            {
-                this._propertyMap = this._context.getWindowFactory().getThemeManager().getPropertyDefaults(this._style) ?? null;
-            }
-            catch(_)
-            {
-                // Theme manager not available
-            }
-        }
-    }
-
-    public set param(value: number)
-    {
-        this._param = value;
-    }
-
-    public set dynamicStyle(value: string)
-    {
-        this._dynamicStyleName = value;
-        this._context.invalidate(this, null, 1);
-    }
-
-    public set dynamicStyleColor(value: { redMultiplier: number; greenMultiplier: number; blueMultiplier: number; alphaMultiplier: number } | null)
-    {
-        this._dynamicStyleColorTransform = value;
-    }
-
-    public get dynamicStyleColor(): { redMultiplier: number; greenMultiplier: number; blueMultiplier: number; alphaMultiplier: number } | null
-    {
-        return this._dynamicStyleColorTransform;
-    }
-
-    public set clipping(value: boolean)
-    {
-        if(value !== this._clipping)
-        {
-            this._clipping = value;
-            this._context.invalidate(this, null, 1);
-        }
-    }
-
-    public set id(value: number)
-    {
-        this._id = value;
-    }
-
-    public set name(value: string)
-    {
-        this._name = value;
-    }
-
-    public set offsetX(value: number)
-    {
-        this._offsetX = value;
-    }
-
-    public set offsetY(value: number)
-    {
-        this._offsetY = value;
-    }
-
-    // ── IGraphicContextHost ──────────────────────────────────────────
 
     /** Returns whether a graphic context exists or can be created. */
     public hasGraphicsContext(): boolean
@@ -677,8 +764,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 
         return this._graphicContext;
     }
-
-    // ── Core layout methods ──────────────────────────────────────────
 
     /**
      * Sets position and/or size, dispatching appropriate events.
@@ -840,6 +925,8 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
         return 0;
     }
 
+    // ── Build from JSON (adapted from AS3 buildFromXML) ──────────────
+
     /** Centers this window within its parent. */
     public center(): void
     {
@@ -849,6 +936,8 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
             this.y = Math.floor(this._parent.height / 2) - Math.floor(this._height / 2);
         }
     }
+
+    // ── Draw buffer ──────────────────────────────────────────────────
 
     /**
      * Offsets the window position by the given deltas.
@@ -872,7 +961,7 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
         this.setRectangle(this._x, this._y, this._width + sx, this._height + sy);
     }
 
-    // ── Build from JSON (adapted from AS3 buildFromXML) ──────────────
+    // ── Core event routing ───────────────────────────────────────────
 
     /**
      * Builds child windows from a JSON layout definition.
@@ -895,7 +984,7 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
         }
     }
 
-    // ── Draw buffer ──────────────────────────────────────────────────
+    // ── Coordinate conversion ────────────────────────────────────────
 
     /**
      * Returns the draw buffer for rendering.
@@ -947,8 +1036,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
             }
         }
     }
-
-    // ── Core event routing ───────────────────────────────────────────
 
     /**
      * Routes an event through the window procedure and event listeners,
@@ -1249,8 +1336,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
         return true;
     }
 
-    // ── Coordinate conversion ────────────────────────────────────────
-
     /**
      * Gets the local position of this window.
      *
@@ -1468,6 +1553,8 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
         point.y = point.y + localY;
     }
 
+    // ── Mouse methods ────────────────────────────────────────────────
+
     /**
      * Converts a point from global space to local space.
      *
@@ -1506,7 +1593,7 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
         return this._width / this._initialRect.width;
     }
 
-    // ── Mouse methods ────────────────────────────────────────────────
+    // ── Hierarchy search ─────────────────────────────────────────────
 
     /**
      * Gets the relative mouse position within this window.
@@ -1524,6 +1611,8 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
             out.y = (desktop as WindowController)._y - out.y;
         }
     }
+
+    // ── State flag operations ────────────────────────────────────────
 
     /**
      * Gets the absolute mouse position from the desktop.
@@ -1572,8 +1661,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
         }
     }
 
-    // ── Hierarchy search ─────────────────────────────────────────────
-
     /**
      * Finds an ancestor (or self) by name.
      *
@@ -1593,8 +1680,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 
         return null;
     }
-
-    // ── State flag operations ────────────────────────────────────────
 
     /**
      * Gets whether a state flag is set.
@@ -1635,6 +1720,8 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
     {
         return (this._style & flag) !== 0;
     }
+
+    // ── Window state operations ──────────────────────────────────────
 
     /**
      * Sets or clears a style flag.
@@ -1711,8 +1798,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
             }
         }
     }
-
-    // ── Window state operations ──────────────────────────────────────
 
     /**
      * Activates this window.
@@ -1968,6 +2053,8 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
         return true;
     }
 
+    // ── Event listener management ────────────────────────────────────
+
     /**
      * Disables this window.
      *
@@ -2042,7 +2129,7 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
         return true;
     }
 
-    // ── Event listener management ────────────────────────────────────
+    // ── Property management ──────────────────────────────────────────
 
     /**
      * Registers an event listener.
@@ -2077,6 +2164,8 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
         return this._eventDispatcher.hasEventListener(type);
     }
 
+    // ── Child utility methods ────────────────────────────────────────
+
     /**
      * Removes a previously registered event listener.
      *
@@ -2090,8 +2179,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
             this._eventDispatcher.removeEventListener(type, listener);
         }
     }
-
-    // ── Property management ──────────────────────────────────────────
 
     /**
      * Creates a property struct with a custom value.
@@ -2139,7 +2226,7 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
         return null;
     }
 
-    // ── Child utility methods ────────────────────────────────────────
+    // ── Child management ─────────────────────────────────────────────
 
     /**
      * Enables or disables children by name.
@@ -2210,20 +2297,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
                 child.visible = isVisible;
             }
         }
-    }
-
-    // ── Child management ─────────────────────────────────────────────
-
-    /** The number of children. */
-    public get numChildren(): number
-    {
-        return this._children ? this._children.length : 0;
-    }
-
-    /** Direct access to the children array. */
-    public get children(): IWindow[] | null
-    {
-        return this._children;
     }
 
     /**
@@ -2594,6 +2667,8 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
         return count;
     }
 
+    // ── Region properties ────────────────────────────────────────────
+
     /**
      * Populates the window with an array of child windows.
      *
@@ -2617,8 +2692,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
             }
         }
     }
-
-    // ── Region properties ────────────────────────────────────────────
 
     /**
      * Gets region property rectangles.
@@ -2667,6 +2740,8 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
             maximized.height = this._maximizedRect.height;
         }
     }
+
+    // ── Clone ────────────────────────────────────────────────────────
 
     /**
      * Sets region property rectangles.
@@ -2723,7 +2798,7 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
         }
     }
 
-    // ── Clone ────────────────────────────────────────────────────────
+    // ── Protected methods ────────────────────────────────────────────
 
     /**
      * Creates a deep clone of this window and its children.
@@ -2778,7 +2853,75 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
         return cloned;
     }
 
-    // ── Protected methods ────────────────────────────────────────────
+    public override toString(): string
+    {
+        return `[Window ${this.constructor.name} ${this._name} ${this._uniqueId}]`;
+    }
+
+    /**
+     * Disposes this window and all its children, releasing all resources.
+     */
+    public override dispose(): void
+    {
+        if(!this._disposed)
+        {
+            this._immediateClickMode = false;
+            this._procedure = null;
+
+            // Deactivate if not a child window and context is still alive
+            if(!this._context.disposed)
+            {
+                if(!this.isChildWindow())
+                {
+                    if(this.getStateFlag(1))
+                    {
+                        this.deactivate();
+                    }
+                }
+            }
+
+            // Dispose all children
+            if(this._children)
+            {
+                while(this._children.length > 0)
+                {
+                    const child = this._children.pop();
+
+                    if(child)
+                    {
+                        child.dispose();
+                    }
+                }
+            }
+
+            this._children = null;
+
+            // Remove from parent
+            if(this.parent)
+            {
+                this.parent = null;
+            }
+
+            // Dispatch dispose event and clean up dispatcher
+            if(this._eventDispatcher)
+            {
+                const disposeEvent = WindowDisposeEvent.allocateDispose(this);
+                this._eventDispatcher.dispatchEvent(disposeEvent);
+                disposeEvent.recycle();
+                this._eventDispatcher.dispose();
+                this._eventDispatcher = null;
+            }
+
+            // Clean up graphic context
+            if(this._graphicContext !== null)
+            {
+                this._graphicContext.dispose();
+                this._graphicContext = null;
+            }
+
+            super.dispose();
+        }
+    }
 
     /**
      * Clones child windows into the target controller.
@@ -2798,6 +2941,8 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
             }
         }
     }
+
+    // ── String representation ────────────────────────────────────────
 
     /**
      * Updates the position/size relative to the parent based on param flags.
@@ -2907,6 +3052,8 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
         }
     }
 
+    // ── Dispose ──────────────────────────────────────────────────────
+
     /**
      * Scales this window to accommodate all of its children.
      */
@@ -2985,104 +3132,14 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
         }
     }
 
+    // ── Private helpers ──────────────────────────────────────────────
+
     /**
      * Returns whether this is a child window (not directly under desktop).
      */
     protected isChildWindow(): boolean
     {
         return this._parent !== this._context.getDesktopWindow();
-    }
-
-    // ── String representation ────────────────────────────────────────
-
-    public override toString(): string
-    {
-        return `[Window ${this.constructor.name} ${this._name} ${this._uniqueId}]`;
-    }
-
-    // ── Dispose ──────────────────────────────────────────────────────
-
-    /**
-     * Disposes this window and all its children, releasing all resources.
-     */
-    public override dispose(): void
-    {
-        if(!this._disposed)
-        {
-            this._immediateClickMode = false;
-            this._procedure = null;
-
-            // Deactivate if not a child window and context is still alive
-            if(!this._context.disposed)
-            {
-                if(!this.isChildWindow())
-                {
-                    if(this.getStateFlag(1))
-                    {
-                        this.deactivate();
-                    }
-                }
-            }
-
-            // Dispose all children
-            if(this._children)
-            {
-                while(this._children.length > 0)
-                {
-                    const child = this._children.pop();
-
-                    if(child)
-                    {
-                        child.dispose();
-                    }
-                }
-            }
-
-            this._children = null;
-
-            // Remove from parent
-            if(this.parent)
-            {
-                this.parent = null;
-            }
-
-            // Dispatch dispose event and clean up dispatcher
-            if(this._eventDispatcher)
-            {
-                const disposeEvent = WindowDisposeEvent.allocateDispose(this);
-                this._eventDispatcher.dispatchEvent(disposeEvent);
-                disposeEvent.recycle();
-                this._eventDispatcher.dispose();
-                this._eventDispatcher = null;
-            }
-
-            // Clean up graphic context
-            if(this._graphicContext !== null)
-            {
-                this._graphicContext.dispose();
-                this._graphicContext = null;
-            }
-
-            super.dispose();
-        }
-    }
-
-    // ── Private helpers ──────────────────────────────────────────────
-
-    /**
-     * Notifies all children with an event.
-     *
-     * @param event - The event to dispatch to children
-     */
-    private notifyChildren(event: WindowEvent): void
-    {
-        if(this._children)
-        {
-            for(const child of this._children)
-            {
-                (child as WindowController).update(this, event);
-            }
-        }
     }
 
     /**
@@ -3109,10 +3166,18 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
     }
 
     /**
-     * No-op event procedure used as fallback when no procedure is set.
+     * Notifies all children with an event.
+     *
+     * @param event - The event to dispatch to children
      */
-    private static _nullEventProc(_event: WindowEvent, _window: IWindow): void
+    private notifyChildren(event: WindowEvent): void
     {
-        // Intentionally empty
+        if(this._children)
+        {
+            for(const child of this._children)
+            {
+                (child as WindowController).update(this, event);
+            }
+        }
     }
 }

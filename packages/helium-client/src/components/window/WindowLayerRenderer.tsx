@@ -25,25 +25,15 @@ function IWindowDesktopLayer(props: { layer: number }): JSX.Element
 	const desktopChildren = (): IWindow[] =>
 	{
 		// Read version to subscribe to changes
-		const v = version();
+		version();
 
 		const desktop = getWindowDesktop(props.layer);
 
-		if(!desktop)
-		{
-			console.debug(`[WindowLayerRenderer] Layer ${props.layer}: no desktop (version=${v})`);
-			return [];
-		}
+		if(!desktop) return [];
 
-		const container = desktop as IWindow & { children?: IWindow[] | null; numChildren?: number };
-		const kids = container.children ? [...container.children] : [];
+		const container = desktop as IWindow & { children?: IWindow[] | null };
 
-		if(kids.length > 0)
-		{
-			console.debug(`[WindowLayerRenderer] Layer ${props.layer}: ${kids.length} children (version=${v})`, kids);
-		}
-
-		return kids;
+		return container.children ? [...container.children] : [];
 	};
 
 	return (

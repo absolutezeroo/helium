@@ -67,9 +67,6 @@ export class WindowModel
         this._height = rect.height;
         this._initialRect = { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
         this._previousRect = { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
-
-        // Diagnostic: verify constructor values
-        console.debug(`[WindowModel.ctor] name="${this._name}" type=${this._type} x=${this._x} y=${this._y} w=${this._width} h=${this._height} visible=${this._visible}`);
     }
 
     public get x(): number

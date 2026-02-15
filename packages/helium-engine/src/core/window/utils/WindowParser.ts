@@ -129,12 +129,12 @@ export class WindowParser implements IWindowParser
         const background = attrs.background === 'true';
         const dynamicStyle = attrs.dynamic_style ?? '';
 
-        // Parse tags
+        // Parse tags (values are URL-encoded in the JSON, e.g. "FIT%3Aachievements")
         let tags: string[] | null = null;
 
         if(attrs.tags)
         {
-            tags = attrs.tags.split(',').map((t: string) => t.trim()).filter(Boolean);
+            tags = attrs.tags.split(',').map((t: string) => decodeURIComponent(t.trim())).filter(Boolean);
         }
 
         const rect = { x, y, width, height };
