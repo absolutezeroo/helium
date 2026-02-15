@@ -15,10 +15,10 @@
           "width": "20",
           "height": "32",
           "background": "false",
-          "tags": "_EXCLUDE, _INTERNAL"
+          "tags": "_EXCLUDE, _INTERNAL",
+          "params": "0"
         },
-        "children": [],
-        "params": 0
+        "children": []
       },
       {
         "tag": "label",
@@ -31,10 +31,10 @@
           "width": "20",
           "height": "30",
           "background": "false",
-          "tags": "title, TAB_BUTTON_TITLE, _EXCLUDE, _INTERNAL"
+          "tags": "title, TAB_BUTTON_TITLE, _EXCLUDE, _INTERNAL",
+          "params": "0"
         },
-        "children": [],
-        "params": 0
+        "children": []
       }
     ]
   },

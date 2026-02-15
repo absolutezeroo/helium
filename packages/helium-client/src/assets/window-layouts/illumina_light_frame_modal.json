@@ -15,10 +15,10 @@
           "width": "50",
           "height": "40",
           "style": "101",
-          "tags": "_INTERNAL, _EXCLUDE"
+          "tags": "_INTERNAL, _EXCLUDE",
+          "params": "0"
         },
-        "children": [],
-        "params": 0
+        "children": []
       },
       {
         "tag": "container",
@@ -29,10 +29,10 @@
           "y": "70",
           "width": "48",
           "height": "19",
-          "tags": "_CONTENT, _INTERNAL, _EXCLUDE"
+          "tags": "_CONTENT, _INTERNAL, _EXCLUDE",
+          "params": "0"
         },
-        "children": [],
-        "params": 0
+        "children": []
       },
       {
         "tag": "container",
@@ -44,10 +44,10 @@
           "width": "50",
           "height": "30",
           "treshold": "0",
-          "tags": "_EXCLUDE, _INTERNAL"
+          "tags": "_EXCLUDE, _INTERNAL",
+          "params": "0"
         },
-        "children": [],
-        "params": 0
+        "children": []
       },
       {
         "tag": "label",
@@ -59,10 +59,10 @@
           "width": "20",
           "height": "20",
           "background": "false",
-          "tags": "_TITLE, _EXCLUDE, _INTERNAL"
+          "tags": "_TITLE, _EXCLUDE, _INTERNAL",
+          "params": "0"
         },
-        "children": [],
-        "params": 0
+        "children": []
       },
       {
         "tag": "region",
@@ -74,7 +74,8 @@
           "width": "20",
           "height": "20",
           "treshold": "0",
-          "tags": "_EXCLUDE, _INTERNAL, close"
+          "tags": "_EXCLUDE, _INTERNAL, close",
+          "params": "0"
         },
         "children": [
           {
@@ -87,13 +88,12 @@
               "width": "20",
               "height": "20",
               "style": "0",
-              "tags": "_EXCLUDE, _INTERNAL"
+              "tags": "_EXCLUDE, _INTERNAL",
+              "params": "0"
             },
-            "children": [],
-            "params": 0
+            "children": []
           }
-        ],
-        "params": 0
+        ]
       },
       {
         "tag": "scaler",
@@ -106,10 +106,10 @@
           "height": "10",
           "visible": "true",
           "treshold": "0",
-          "tags": "_SCALER, _EXCLUDE, _INTERNAL"
+          "tags": "_SCALER, _EXCLUDE, _INTERNAL",
+          "params": "0"
         },
-        "children": [],
-        "params": 0
+        "children": []
       }
     ]
   },

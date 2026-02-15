@@ -17,10 +17,10 @@
           "width": "20",
           "height": "22",
           "background": "false",
-          "tags": "title, TAB_BUTTON_TITLE, _EXCLUDE, _INTERNAL"
+          "tags": "title, TAB_BUTTON_TITLE, _EXCLUDE, _INTERNAL",
+          "params": "0"
         },
-        "children": [],
-        "params": 0
+        "children": []
       }
     ]
   },

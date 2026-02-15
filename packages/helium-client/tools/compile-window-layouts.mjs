@@ -411,6 +411,14 @@ function buildNode(element)
             }
         });
 
+    // Merge resolved <params> children into attributes.params
+    if (node.params !== undefined)
+    {
+        const attrParams = parseInt(node.attributes.params || '0', 10) || 0;
+        node.attributes.params = String(attrParams | node.params);
+        delete node.params;
+    }
+
     return node;
 }
 

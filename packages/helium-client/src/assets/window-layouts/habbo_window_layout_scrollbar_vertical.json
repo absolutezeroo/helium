@@ -15,10 +15,10 @@
           "y": "0",
           "width": "17",
           "height": "16",
-          "tags": "_EXCLUDE, _INTERNAL, decrement"
+          "tags": "_EXCLUDE, _INTERNAL, decrement",
+          "params": "0"
         },
-        "children": [],
-        "params": 0
+        "children": []
       },
       {
         "tag": "scrollbar_slider_track_vertical",
@@ -29,7 +29,8 @@
           "y": "16",
           "width": "17",
           "height": "24",
-          "tags": "_EXCLUDE, _INTERNAL, slider_track"
+          "tags": "_EXCLUDE, _INTERNAL, slider_track",
+          "params": "0"
         },
         "children": [
           {
@@ -42,13 +43,12 @@
               "width": "17",
               "height": "24",
               "height_min": "12",
-              "tags": "_EXCLUDE, _INTERNAL, slider_bar"
+              "tags": "_EXCLUDE, _INTERNAL, slider_bar",
+              "params": "0"
             },
-            "children": [],
-            "params": 0
+            "children": []
           }
-        ],
-        "params": 0
+        ]
       },
       {
         "tag": "scrollbar_slider_button_down",
@@ -59,10 +59,10 @@
           "y": "40",
           "width": "17",
           "height": "16",
-          "tags": "_EXCLUDE, _INTERNAL, increment"
+          "tags": "_EXCLUDE, _INTERNAL, increment",
+          "params": "0"
         },
-        "children": [],
-        "params": 0
+        "children": []
       }
     ]
   },

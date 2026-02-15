@@ -10,6 +10,8 @@ import blueSkinUrl from './assets/images/habbo_blue_skin.png';
 import skinUbuntuUrl from './assets/images/habbo_skin_ubuntu.png';
 import skinIlluminaDarkUrl from './assets/images/habbo_skin_illumina_dark.png';
 import skinIlluminaLightUrl from './assets/images/habbo_skin_illumina_light.png';
+import habboIconsUrl from './assets/images/habbo_icons.png';
+import skinUbuntuBg9Url from './assets/images/skin_ubuntu_bg_9.png';
 import type {ISkinData} from "@core/window";
 
 // Eagerly import all skin JSONs via Vite glob
@@ -21,6 +23,8 @@ const ATLAS_MAP: Record<string, string> = {
 	'habbo_skin_ubuntu': skinUbuntuUrl,
 	'habbo_skin_illumina_dark': skinIlluminaDarkUrl,
 	'habbo_skin_illumina_light': skinIlluminaLightUrl,
+	'habbo_icons': habboIconsUrl,
+	'skin_ubuntu_bg_9': skinUbuntuBg9Url,
 };
 
 declare global

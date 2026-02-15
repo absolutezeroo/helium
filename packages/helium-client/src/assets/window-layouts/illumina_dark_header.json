@@ -15,7 +15,8 @@
           "y": "0",
           "width": "100",
           "height": "30",
-          "tags": "_EXCLUDE, _INTERNAL"
+          "tags": "_EXCLUDE, _INTERNAL",
+          "params": "0"
         },
         "children": [
           {
@@ -29,13 +30,12 @@
               "height": "30",
               "background": "true",
               "color": "0xff24211c",
-              "tags": "_TITLE, _EXCLUDE, _INTERNAL, _COLORIZE"
+              "tags": "_TITLE, _EXCLUDE, _INTERNAL, _COLORIZE",
+              "params": "0"
             },
-            "children": [],
-            "params": 0
+            "children": []
           }
-        ],
-        "params": 0
+        ]
       }
     ]
   },

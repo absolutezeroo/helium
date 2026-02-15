@@ -15,7 +15,8 @@
           "y": "0",
           "width": "100",
           "height": "15",
-          "tags": "_EXCLUDE, _INTERNAL"
+          "tags": "_EXCLUDE, _INTERNAL",
+          "params": "0"
         },
         "children": [
           {
@@ -29,10 +30,10 @@
               "height": "15",
               "background": "true",
               "color": "0xff4b4b4b",
-              "tags": "_TITLE, _EXCLUDE, _INTERNAL, _COLORIZE"
+              "tags": "_TITLE, _EXCLUDE, _INTERNAL, _COLORIZE",
+              "params": "0"
             },
-            "children": [],
-            "params": 0
+            "children": []
           },
           {
             "tag": "itemlist_horizontal",
@@ -44,7 +45,8 @@
               "height": "15",
               "background": "true",
               "color": "0xffffffff",
-              "tags": "_EXCLUDE, _INTERNAL, _COLORIZE, _CONTROLS"
+              "tags": "_EXCLUDE, _INTERNAL, _COLORIZE, _CONTROLS",
+              "params": "0"
             },
             "children": [
               {
@@ -56,16 +58,14 @@
                   "y": "0",
                   "width": "15",
                   "height": "15",
-                  "tags": "_EXCLUDE, _INTERNAL, close"
+                  "tags": "_EXCLUDE, _INTERNAL, close",
+                  "params": "0"
                 },
-                "children": [],
-                "params": 0
+                "children": []
               }
-            ],
-            "params": 0
+            ]
           }
-        ],
-        "params": 0
+        ]
       }
     ]
   },

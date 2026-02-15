@@ -15,10 +15,10 @@
           "y": "6",
           "width": "50",
           "height": "27",
-          "tags": "_HEADER, _EXCLUDE, _INTERNAL, _COLORIZE"
+          "tags": "_HEADER, _EXCLUDE, _INTERNAL, _COLORIZE",
+          "params": "0"
         },
-        "children": [],
-        "params": 0
+        "children": []
       },
       {
         "tag": "container",
@@ -29,10 +29,10 @@
           "y": "36",
           "width": "58",
           "height": "25",
-          "tags": "_CONTENT, _INTERNAL, _EXCLUDE"
+          "tags": "_CONTENT, _INTERNAL, _EXCLUDE",
+          "params": "0"
         },
-        "children": [],
-        "params": 0
+        "children": []
       },
       {
         "tag": "scaler",
@@ -45,10 +45,10 @@
           "height": "20",
           "visible": "true",
           "treshold": "0",
-          "tags": "_SCALER, _EXCLUDE, _INTERNAL, _COLORIZE"
+          "tags": "_SCALER, _EXCLUDE, _INTERNAL, _COLORIZE",
+          "params": "0"
         },
-        "children": [],
-        "params": 0
+        "children": []
       }
     ]
   },

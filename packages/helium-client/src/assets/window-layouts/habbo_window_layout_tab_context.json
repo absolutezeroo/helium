@@ -15,10 +15,10 @@
           "y": "20",
           "width": "100",
           "height": "80",
-          "tags": "_CONTENT, _EXCLUDE, _INTERNAL"
+          "tags": "_CONTENT, _EXCLUDE, _INTERNAL",
+          "params": "0"
         },
-        "children": [],
-        "params": 0
+        "children": []
       },
       {
         "tag": "tab_selector",
@@ -29,10 +29,10 @@
           "y": "0",
           "width": "88",
           "height": "21",
-          "tags": "_SELECTOR, _EXCLUDE, _INTERNAL"
+          "tags": "_SELECTOR, _EXCLUDE, _INTERNAL",
+          "params": "0"
         },
-        "children": [],
-        "params": 0
+        "children": []
       }
     ]
   },

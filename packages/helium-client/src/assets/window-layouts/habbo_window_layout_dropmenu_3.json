@@ -15,10 +15,10 @@
           "y": "4",
           "width": "10",
           "height": "12",
-          "tags": "_EXCLUDE, _INTERNAL, title"
+          "tags": "_EXCLUDE, _INTERNAL, title",
+          "params": "0"
         },
-        "children": [],
-        "params": 0
+        "children": []
       },
       {
         "tag": "scrollable_itemlist_vertical",
@@ -29,10 +29,10 @@
           "y": "2",
           "width": "36",
           "height": "14",
-          "tags": "_EXCLUDE, list"
+          "tags": "_EXCLUDE, list",
+          "params": "0"
         },
-        "children": [],
-        "params": 0
+        "children": []
       },
       {
         "tag": "region",
@@ -44,10 +44,10 @@
           "height": "18",
           "name": "_DROPLIST_REGION",
           "treshold": "0",
-          "tags": "_EXCLUDE, _INTERNAL"
+          "tags": "_EXCLUDE, _INTERNAL",
+          "params": "0"
         },
-        "children": [],
-        "params": 0
+        "children": []
       }
     ]
   },

@@ -16,7 +16,8 @@
           "y": "0",
           "width": "64",
           "height": "33",
-          "tags": "_EXCLUDE, _INTERNAL"
+          "tags": "_EXCLUDE, _INTERNAL",
+          "params": "0"
         },
         "children": [
           {
@@ -29,10 +30,10 @@
               "width": "12",
               "height": "15",
               "background": "false",
-              "tags": "_TITLE, _EXCLUDE, _INTERNAL"
+              "tags": "_TITLE, _EXCLUDE, _INTERNAL",
+              "params": "0"
             },
-            "children": [],
-            "params": 0
+            "children": []
           },
           {
             "tag": "itemlist_horizontal",
@@ -44,7 +45,8 @@
               "height": "20",
               "background": "false",
               "color": "0xffffffff",
-              "tags": "_EXCLUDE, _INTERNAL, _COLORIZE, _CONTROLS"
+              "tags": "_EXCLUDE, _INTERNAL, _COLORIZE, _CONTROLS",
+              "params": "0"
             },
             "children": [
               {
@@ -57,10 +59,10 @@
                   "y": "0",
                   "width": "19",
                   "height": "20",
-                  "tags": "_EXCLUDE, _INTERNAL, help"
+                  "tags": "_EXCLUDE, _INTERNAL, help",
+                  "params": "0"
                 },
-                "children": [],
-                "params": 0
+                "children": []
               },
               {
                 "tag": "closebutton",
@@ -72,16 +74,14 @@
                   "y": "0",
                   "width": "19",
                   "height": "20",
-                  "tags": "_EXCLUDE, _INTERNAL, close"
+                  "tags": "_EXCLUDE, _INTERNAL, close",
+                  "params": "0"
                 },
-                "children": [],
-                "params": 0
+                "children": []
               }
-            ],
-            "params": 0
+            ]
           }
-        ],
-        "params": 0
+        ]
       }
     ]
   },

@@ -15,7 +15,8 @@
           "y": "0",
           "width": "9",
           "height": "9",
-          "tags": "_EXCLUDE, _INTERNAL, slider_track"
+          "tags": "_EXCLUDE, _INTERNAL, slider_track",
+          "params": "0"
         },
         "children": [
           {
@@ -28,13 +29,12 @@
               "width": "9",
               "height": "9",
               "height_min": "9",
-              "tags": "_EXCLUDE, _INTERNAL, slider_bar"
+              "tags": "_EXCLUDE, _INTERNAL, slider_bar",
+              "params": "0"
             },
-            "children": [],
-            "params": 0
+            "children": []
           }
-        ],
-        "params": 0
+        ]
       }
     ]
   },
