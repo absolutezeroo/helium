@@ -324,7 +324,7 @@ function resolveParams(paramsNode)
 function decodeAttributes(attrs)
 {
     const decoded = { ...attrs };
-    const decodeKeys = ['caption', 'tags'];
+    const decodeKeys = ['caption', 'tags', 'tool_tip_caption', 'name'];
 
     for (const key of decodeKeys)
     {
@@ -332,7 +332,18 @@ function decodeAttributes(attrs)
         {
             try
             {
-                decoded[key] = decodeURIComponent(decoded[key]);
+                // Decode repeatedly to handle double-encoding
+                let value = decoded[key];
+                let prev;
+
+                do
+                {
+                    prev = value;
+                    value = decodeURIComponent(value);
+                }
+                while (value !== prev);
+
+                decoded[key] = value;
             }
             catch
             {

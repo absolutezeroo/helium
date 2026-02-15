@@ -123,7 +123,7 @@
                   "height": "17",
                   "params": "786432",
                   "style": "1",
-                  "name": "%2524%257Bwidget.furni.trophy.title%257D",
+                  "name": "${widget.furni.trophy.title}",
                   "caption": "${widget.furni.trophy.title}",
                   "color": "0x00"
                 },

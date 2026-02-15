@@ -63,19 +63,9 @@ export class BitmapSkinRenderer extends SkinRenderer
             template = this.getTemplateForState(0);
         }
 
-        if(!layout || !template)
-        {
-            console.debug(`[BitmapSkin] No layout/template for state ${state}, name="${this._name}"`);
+        if(!layout || !template) return;
 
-            return;
-        }
-
-        if(!template.atlas)
-        {
-            console.debug(`[BitmapSkin] No atlas for template "${template.name}", name="${this._name}"`);
-
-            return;
-        }
+        if(!template.atlas) return;
 
         const targetWidth = rect.width;
         const targetHeight = rect.height;
@@ -92,8 +82,6 @@ export class BitmapSkinRenderer extends SkinRenderer
         const colorR = doColorize ? ((color >> 16) & 0xFF) / 255 : 1;
         const colorG = doColorize ? ((color >> 8) & 0xFF) / 255 : 1;
         const colorB = doColorize ? (color & 0xFF) / 255 : 1;
-
-        let piecesDrawn = 0;
 
         // Render each layout entity
         for(let i = 0; i < layout.numEntities; i++)
@@ -183,10 +171,7 @@ export class BitmapSkinRenderer extends SkinRenderer
                 ctx.drawImage(drawSource, 0, 0, srcW, srcH, destX, destY, destW, destH);
             }
 
-            piecesDrawn++;
         }
-
-        console.debug(`[BitmapSkin] Drew ${piecesDrawn}/${layout.numEntities} pieces for "${this._name}" state=${state} target=${targetWidth}x${targetHeight}`);
     }
 
     /**

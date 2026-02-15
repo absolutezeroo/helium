@@ -123,8 +123,6 @@ export class WindowRendererItem
             renderType = WindowRendererItem.RENDER_TYPE_SKIN;
         }
 
-        console.debug(`[WRI.render] "${window.name}" type=${window.type} style=${window.style} bg=${window.background} renderer=${renderer?.name ?? 'null'} stateDrawable=${renderer?.isStateDrawable(this._currentState)} renderType=${renderType} refresh=${this._refresh}`);
-
         const renderWidth = Math.max(window.renderingWidth, 1);
         const renderHeight = Math.max(window.renderingHeight, 1);
 

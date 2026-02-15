@@ -35,21 +35,11 @@ function renderSkinToCanvas(canvas: HTMLCanvasElement, win: IWindow, w: number, 
 {
 	const renderer = Helium.instance.windowManager.getWindowRenderer();
 
-	if(!renderer)
-	{
-		console.warn(`[SkinRender] No WindowRenderer for "${win.name}" type=${win.type} style=${win.style}`);
-
-		return;
-	}
+	if(!renderer) return;
 
 	const buffer = renderer.getDrawBufferForRenderable(win) as OffscreenCanvas | null;
 
-	if(!buffer)
-	{
-		console.debug(`[SkinRender] No buffer for "${win.name}" type=${win.type} style=${win.style}`);
-
-		return;
-	}
+	if(!buffer) return;
 
 	if(canvas.width !== w || canvas.height !== h)
 	{
@@ -64,8 +54,6 @@ function renderSkinToCanvas(canvas: HTMLCanvasElement, win: IWindow, w: number, 
 	ctx.imageSmoothingEnabled = false;
 	ctx.clearRect(0, 0, w, h);
 	ctx.drawImage(buffer, 0, 0);
-
-	console.debug(`[SkinRender] Drew "${win.name}" type=${win.type} buffer=${buffer.width}x${buffer.height}`);
 }
 
 /**

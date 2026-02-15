@@ -16,7 +16,7 @@
           "height": "153",
           "params": "33025",
           "style": "3",
-          "name": "out%20of%20credits",
+          "name": "out of credits",
           "caption": "${inventory.marketplace.no_credits.title}",
           "color": "0xff418db0"
         },
