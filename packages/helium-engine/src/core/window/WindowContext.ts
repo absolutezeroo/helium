@@ -5,6 +5,7 @@ import type { IWidgetFactory } from './IWidgetFactory';
 import type { IWindowParser } from './utils/IWindowParser';
 import type { IInternalWindowServices } from './services/IInternalWindowServices';
 import type { IInputEventTracker } from './IInputEventTracker';
+import type { IResourceManager } from './IResourceManager';
 
 /**
  * Window context implementation.
@@ -33,6 +34,7 @@ export class WindowContext implements IWindowContext
     protected _factory: IWindowFactory;
     protected _widgetFactory: IWidgetFactory | null = null;
     protected _desktop: IWindow | null = null;
+    protected _resourceManager: IResourceManager | null = null;
     protected _throwErrors: boolean = true;
     protected _lastError: Error | null = null;
     protected _lastErrorCode: number = -1;
@@ -80,6 +82,16 @@ export class WindowContext implements IWindowContext
     public setWidgetFactory(widgetFactory: IWidgetFactory): void
     {
         this._widgetFactory = widgetFactory;
+    }
+
+    public setResourceManager(resourceManager: IResourceManager): void
+    {
+        this._resourceManager = resourceManager;
+    }
+
+    public getResourceManager(): IResourceManager | null
+    {
+        return this._resourceManager;
     }
 
     public getWindowServices(): IInternalWindowServices

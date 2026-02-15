@@ -1,21 +1,24 @@
 import type { IWindow } from '../IWindow';
 import type { IWindowContext } from '../IWindowContext';
+import type { IAssetReceiver } from '../IAssetReceiver';
+import type { IResourceManager } from '../IResourceManager';
 import type { IStaticBitmapWrapperWindow } from './IStaticBitmapWrapperWindow';
-import { WindowController } from '../WindowController';
+import { BitmapDataController } from './BitmapDataController';
 import { WindowEvent } from '../events/WindowEvent';
 
 /**
  * Controller for static bitmap wrapper windows.
  *
- * Similar to BitmapWrapperController but for static (non-interactive)
- * bitmap displays that do not respond to mouse events.
+ * Extends BitmapDataController and implements IAssetReceiver. When `assetUri`
+ * is set, requests the asset from the ResourceManager. When the asset is
+ * delivered via `receiveAsset()`, stores it as `_bitmapData` and auto-sizes.
  *
- * @see sources/win63_2021_version/com/sulake/core/window/components/StaticBitmapWrapperController.as
+ * @see sources/win63_version/core/window/components/StaticBitmapWrapperController.as
  */
-export class StaticBitmapWrapperController extends WindowController implements IStaticBitmapWrapperWindow
+export class StaticBitmapWrapperController extends BitmapDataController implements IStaticBitmapWrapperWindow, IAssetReceiver
 {
-    private _imageUrl: string = '';
-    private _bitmap: ImageBitmap | null = null;
+    private _assetUri: string = '';
+    private _ownsBitmapData: boolean = false;
 
     constructor(
         name: string,
@@ -35,32 +38,91 @@ export class StaticBitmapWrapperController extends WindowController implements I
         super(name, type, style, param, context, rect, parent, procedure, tags, properties, id, dynamicStyle);
     }
 
-    public get imageUrl(): string
+    /**
+     * The asset URI for this static bitmap.
+     *
+     * Setting this triggers an asset request via the ResourceManager.
+     * When the asset is loaded, `receiveAsset()` is called.
+     *
+     * In AS3: `StaticBitmapWrapperController._assetUri`
+     */
+    public get assetUri(): string
     {
-        return this._imageUrl;
+        return this._assetUri;
     }
 
-    public set imageUrl(value: string)
+    public set assetUri(value: string)
     {
-        this._imageUrl = value ?? '';
+        if(this._assetUri === value) return;
+
+        this._assetUri = value ?? '';
+
+        if(!this._assetUri)
+        {
+            // Clear bitmap
+            if(this._ownsBitmapData && this._bitmapData)
+            {
+                this._bitmapData.close();
+            }
+
+            this._bitmapData = null;
+            this._ownsBitmapData = false;
+            this._context.invalidate(this, null, 1);
+
+            return;
+        }
+
+        // Request asset from resource manager
+        const resourceManager = (this._context as unknown as { getResourceManager(): IResourceManager | null }).getResourceManager();
+
+        if(resourceManager)
+        {
+            resourceManager.retrieveAsset(this._assetUri, this);
+        }
     }
 
     /**
-     * The decoded bitmap content for this window.
+     * Callback from ResourceManager when the asset is loaded.
      *
-     * Equivalent to AS3's `BitmapDataController._bitmapData`.
-     * When set via `receiveAsset()` or programmatically, this is the
-     * image that will be drawn during compositing.
+     * In AS3: `receiveAsset(asset: IAsset, name: String)`
      *
-     * @see sources/win63_version/core/window/components/BitmapDataController.as
+     * @param bitmap - The decoded bitmap
+     * @param uri - The resolved asset URI
      */
-    public get bitmap(): ImageBitmap | null
+    public receiveAsset(bitmap: ImageBitmap, uri: string): void
     {
-        return this._bitmap;
+        if(this._disposed) return;
+
+        // Verify the URI still matches (asset may have changed while loading)
+        const resourceManager = (this._context as unknown as { getResourceManager(): IResourceManager | null }).getResourceManager();
+
+        if(resourceManager && !resourceManager.isSameAsset(this._assetUri, uri)) return;
+
+        // Dispose old bitmap if we own it
+        if(this._ownsBitmapData && this._bitmapData && this._bitmapData !== bitmap)
+        {
+            this._bitmapData.close();
+        }
+
+        this._bitmapData = bitmap;
+        this._ownsBitmapData = true;
+
+        this.fitSize();
+        this._context.invalidate(this, null, 1);
     }
 
-    public set bitmap(value: ImageBitmap | null)
+    public override dispose(): void
     {
-        this._bitmap = value;
+        if(this._disposed) return;
+
+        if(this._ownsBitmapData && this._bitmapData)
+        {
+            this._bitmapData.close();
+            this._bitmapData = null;
+        }
+
+        this._ownsBitmapData = false;
+
+        super.dispose();
     }
 }

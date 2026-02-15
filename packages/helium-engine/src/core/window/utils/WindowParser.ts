@@ -1,6 +1,8 @@
 import type { IWindowParser } from './IWindowParser';
 import type { IWindowContext } from '../IWindowContext';
 import type { IWindow } from '../IWindow';
+import type { IStaticBitmapWrapperWindow } from '../components/IStaticBitmapWrapperWindow';
+import { WindowType } from '../enum/WindowType';
 
 /**
  * JSON-based window parser.
@@ -153,6 +155,12 @@ export class WindowParser implements IWindowParser
         if(color !== 0) window.color = color;
         window.clipping = clipping;
         window.background = background;
+
+        // Set assetUri on static_bitmap windows to trigger ResourceManager loading
+        if(window.type === WindowType.STATIC_BITMAP_WRAPPER && name)
+        {
+            (window as unknown as IStaticBitmapWrapperWindow).assetUri = name + '_normal';
+        }
 
         // Collect named windows
         if(namedWindows && name)

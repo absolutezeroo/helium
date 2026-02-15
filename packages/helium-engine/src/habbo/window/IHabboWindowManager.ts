@@ -297,6 +297,28 @@ export interface IHabboWindowManager extends IDisposable
     buildModalDialogFromJSON(json: unknown): IModalDialog;
 
     /**
+     * Registers a bitmap asset with the resource manager.
+     *
+     * Called by the client layer after loading images. Assets registered
+     * here are available to StaticBitmapWrapperController via `assetUri`.
+     *
+     * @param name - The asset name
+     * @param bitmap - The decoded ImageBitmap
+     */
+    registerAsset(name: string, bitmap: ImageBitmap): void;
+
+    /**
+     * Registers an asset URL for lazy loading.
+     *
+     * The bitmap is NOT decoded immediately. When a window requests this
+     * asset via `assetUri`, it is fetched and decoded on demand.
+     *
+     * @param name - The asset name
+     * @param url - The URL to fetch the image from
+     */
+    registerAssetUrl(name: string, url: string): void;
+
+    /**
      * Loads skin assets and creates BitmapSkinRenderers from skin JSON data.
      *
      * @param skins - Map of skin id → skin JSON data

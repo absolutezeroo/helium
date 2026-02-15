@@ -1,5 +1,6 @@
 import type { IWindow } from './IWindow';
 import type { IWindowParser } from './utils/IWindowParser';
+import type { IResourceManager } from './IResourceManager';
 
 /**
  * Window context interface.
@@ -18,6 +19,7 @@ export interface IWindowContext
     getWindowFactory(): IWindowFactory;
     getWidgetFactory(): IWidgetFactory | null;
     getDesktopWindow(): IWindow | null;
+    getResourceManager(): IResourceManager | null;
     registerLocalizationListener(key: string, window: IWindow): void;
     removeLocalizationListener(key: string, window: IWindow): void;
     findWindowByName(name: string): IWindow | null;

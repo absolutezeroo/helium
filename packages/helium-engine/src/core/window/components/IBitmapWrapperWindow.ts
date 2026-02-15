@@ -1,43 +1,31 @@
-import type {Texture} from 'pixi.js';
-import type {IWindow} from '../IWindow';
+import type { IWindow } from '../IWindow';
 
 /**
  * Interface for bitmap wrapper windows.
  *
- * Wraps a bitmap image referenced by URL or programmatic Texture
- * for display within the window system.
+ * Bitmap wrappers hold a programmatic bitmap set by code (e.g. avatar rendering).
+ * The `bitmap` property is the primary way to set the content.
  *
- * In AS3 this had a `bitmap: BitmapData` property for programmatic
- * images and asset URIs for static images. In TS, we support both
- * `imageUrl` (static asset) and `texture` (programmatic PixiJS Texture).
- *
- * @see sources/win63_2021_version/com/sulake/core/window/components/IBitmapWrapperWindow.as
+ * @see sources/win63_version/core/window/components/BitmapWrapperController.as
+ * @see sources/flash_version/com/sulake/core/window/components/IBitmapWrapperWindow.as
  */
 export interface IBitmapWrapperWindow extends IWindow
 {
-    imageUrl: string;
-
     /**
-     * Programmatic texture set by code (e.g. avatar rendering).
+     * The programmatic bitmap for this window.
      *
-     * Equivalent to AS3's `IBitmapWrapperWindow.bitmap` (BitmapData).
-     * When set, this takes priority over imageUrl for rendering.
-     */
-    texture: Texture | null;
-
-    /**
-     * The decoded bitmap content for this window.
-     *
-     * Equivalent to AS3's `BitmapDataController._bitmapData`.
-     * When set, this image is drawn during compositing.
-     * Takes priority over texture for canvas-based rendering.
+     * Setting this disposes the old bitmap if `disposesBitmap` is true,
+     * calls `fitSize()`, and invalidates the window.
      */
     bitmap: ImageBitmap | null;
 
     /**
-     * Whether this window owns the texture and should dispose it.
-     *
-     * In AS3: `disposesBitmap`
+     * The underlying bitmap data (alias for bitmap).
+     */
+    bitmapData: ImageBitmap | null;
+
+    /**
+     * Whether this window owns the bitmap and should dispose it.
      */
     disposesBitmap: boolean;
 }

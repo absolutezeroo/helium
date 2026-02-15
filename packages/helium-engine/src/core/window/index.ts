@@ -17,8 +17,10 @@ export { WindowController } from './WindowController';
 export { WindowModel } from './WindowModel';
 
 // Types
+export type { IAssetReceiver } from './IAssetReceiver';
 export type { ICoreWindowManager } from './ICoreWindowManager';
 export type { IInputEventTracker } from './IInputEventTracker';
+export type { IResourceManager } from './IResourceManager';
 export type { IWidget } from './IWidget';
 export type { IWidgetFactory } from './IWidgetFactory';
 export type { IWindow } from './IWindow';

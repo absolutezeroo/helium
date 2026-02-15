@@ -438,10 +438,10 @@ export class WindowRenderer implements IWindowRenderer
             ctx.drawImage(buffer, absX, absY);
         }
 
-        // Draw bitmap content for bitmap/static_bitmap wrapper windows
+        // Draw bitmapData content (from BitmapDataController hierarchy)
         if(window.type === WindowType.BITMAP_WRAPPER || window.type === WindowType.STATIC_BITMAP_WRAPPER)
         {
-            const bmp = (window as unknown as { bitmap?: ImageBitmap | null }).bitmap;
+            const bmp = (window as unknown as { bitmapData?: ImageBitmap | null }).bitmapData;
 
             if(bmp)
             {

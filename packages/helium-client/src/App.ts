@@ -2,9 +2,6 @@ import type {IHeliumConfig} from 'helium-engine';
 import {Helium} from 'helium-engine';
 import type {ISkinData} from '@core/window';
 import type {IWindow} from '@core/window/IWindow';
-import type {IWindowContainer} from '@core/window/IWindowContainer';
-import type {IStaticBitmapWrapperWindow} from '@core/window/components/IStaticBitmapWrapperWindow';
-import {WindowType} from '@core/window/enum/WindowType';
 import {WindowController} from '@core/window/WindowController';
 import {WindowMouseEvent} from '@core/window/events/WindowMouseEvent';
 import type {WindowMouseOperator} from '@core/window/services/WindowMouseOperator';
@@ -25,8 +22,8 @@ const skinModules = import.meta.glob('./assets/window-skins/habbo_skin_*.json', 
 // Eagerly import all window layout JSONs via Vite glob
 const layoutModules = import.meta.glob('./assets/window-layouts/*.json', { eager: true }) as Record<string, { default: unknown }>;
 
-// Eagerly import all toolbar icon PNGs (normal state) via Vite glob → { path: { default: url } }
-const toolbarIconModules = import.meta.glob('./assets/images/icons_toolbar_*_normal.png', { eager: true }) as Record<string, { default: string }>;
+// Eagerly import ALL image PNGs for ResourceManager registration
+const imageModules = import.meta.glob('./assets/images/*.png', { eager: true }) as Record<string, { default: string }>;
 
 /** Atlas asset name → URL mapping. */
 const ATLAS_MAP: Record<string, string> = {
@@ -155,11 +152,11 @@ export class HeliumApp
         // 5. Create the canvas and set desktop sizes BEFORE creating windows
         this.createCanvas();
 
-        // 6. Initialize the Friend Bar (landing view) — desktops are now sized
-        helium.initFriendBar();
+        // 6. Register all image asset URLs with the resource manager (lazy loading)
+        this.registerImageAssets();
 
-        // 7. Load toolbar icon bitmaps onto static_bitmap windows
-        await this.loadToolbarIcons();
+        // 7. Initialize the Friend Bar (landing view) — desktops are now sized
+        helium.initFriendBar();
 
         // 8. Flush microtasks
         await Promise.resolve();
@@ -216,77 +213,25 @@ export class HeliumApp
     }
 
     /**
-     * Loads toolbar icon PNGs and sets them on the ICON_BMP tagged windows.
+     * Registers all image asset URLs with the engine's ResourceManager.
      *
-     * In AS3, `StaticBitmapWrapperController.assetUri` triggered an async
-     * asset load via the resource manager. Here, we load the PNGs via fetch
-     * and set the decoded ImageBitmap on each window's `bitmap` property.
+     * Only registers name→URL mappings (cheap). The ResourceManager will
+     * lazily fetch and decode the ImageBitmap on first request from a
+     * StaticBitmapWrapperController.
      *
-     * The icon file naming convention is `{windowName}_normal.png`.
-     *
-     * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as constructor
+     * @see sources/win63_version/habbo/window/ResourceManager.as
      */
-    private async loadToolbarIcons(): Promise<void>
+    private registerImageAssets(): void
     {
         const helium = Helium.instance;
 
-        // Build name → URL map from Vite glob imports
-        // e.g. './assets/images/icons_toolbar_reception_normal.png' → 'icons_toolbar_reception'
-        const iconUrlMap = new Map<string, string>();
-
-        for(const [path, mod] of Object.entries(toolbarIconModules))
+        for(const [path, mod] of Object.entries(imageModules))
         {
-            const filename = path.split('/').pop()!.replace('_normal.png', '');
+            // Extract asset name: './assets/images/icons_toolbar_reception_normal.png' → 'icons_toolbar_reception_normal'
+            const name = path.split('/').pop()!.replace('.png', '');
 
-            iconUrlMap.set(filename, mod.default);
+            helium.windowManager.registerAssetUrl(name, mod.default);
         }
-
-        // Find all ICON_BMP tagged windows across all layers
-        const iconWindows: IWindow[] = [];
-
-        for(let layer = 0; layer < 4; layer++)
-        {
-            const desktop = helium.windowManager.getDesktop(layer);
-
-            if(!desktop) continue;
-
-            const container = desktop as unknown as IWindowContainer;
-
-            if(typeof container.groupChildrenWithTag === 'function')
-            {
-                container.groupChildrenWithTag('ICON_BMP', iconWindows, -1);
-            }
-        }
-
-        if(iconWindows.length === 0) return;
-
-        // Load bitmaps in parallel
-        const loadPromises: Promise<void>[] = [];
-
-        for(const win of iconWindows)
-        {
-            if(win.type !== WindowType.STATIC_BITMAP_WRAPPER && win.type !== WindowType.BITMAP_WRAPPER)
-            {
-                continue;
-            }
-
-            const url = iconUrlMap.get(win.name);
-
-            if(!url) continue;
-
-            loadPromises.push(
-                loadImageBitmap(url).then(bmp =>
-                {
-                    (win as IStaticBitmapWrapperWindow).bitmap = bmp;
-                    win.invalidate();
-                }).catch(() =>
-                {
-                    // Silently ignore missing icons
-                })
-            );
-        }
-
-        await Promise.all(loadPromises);
     }
 
     /**

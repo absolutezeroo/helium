@@ -39,6 +39,7 @@ import type {IContext} from '@core/runtime/IContext';
 import type {IAssetLibrary} from '@core/assets/IAssetLibrary';
 import type {IModalDialog} from './utils/IModalDialog';
 import {ModalDialog} from './utils/ModalDialog';
+import {ResourceManager} from './ResourceManager';
 
 const log = Logger.getLogger('HabboWindowManager');
 
@@ -76,6 +77,7 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 
     private _windowRenderer: WindowRenderer | null = null;
     private _serviceManager: ServiceManager | null = null;
+    private _resourceManager: ResourceManager | null = null;
     private _initialized: boolean = false;
 
     constructor(context: IContext, flags: number = 0, assetLibrary: IAssetLibrary | null = null)
@@ -668,6 +670,37 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
     }
 
     /**
+     * Registers a bitmap asset with the resource manager.
+     *
+     * Called by the client layer after loading images. Assets registered
+     * here are available to StaticBitmapWrapperController via `assetUri`.
+     *
+     * @param name - The asset name
+     * @param bitmap - The decoded ImageBitmap
+     */
+    public registerAsset(name: string, bitmap: ImageBitmap): void
+    {
+        if(this._resourceManager)
+        {
+            this._resourceManager.registerAsset(name, bitmap);
+        }
+    }
+
+    /**
+     * Registers an asset URL for lazy loading.
+     *
+     * @param name - The asset name
+     * @param url - The URL to fetch the image from
+     */
+    public registerAssetUrl(name: string, url: string): void
+    {
+        if(this._resourceManager)
+        {
+            this._resourceManager.registerAssetUrl(name, url);
+        }
+    }
+
+    /**
      * Returns the default attributes for a given window type and style.
      *
      * @param type - The window type
@@ -797,6 +830,13 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
             this._serviceManager = null;
         }
 
+        // Clean up resource manager
+        if(this._resourceManager)
+        {
+            this._resourceManager.dispose();
+            this._resourceManager = null;
+        }
+
         // Clean up skin container and theme manager
         this._skinContainer.dispose();
         this._themeManager = null;
@@ -834,8 +874,10 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
         const factory = this as unknown as IWindowFactory;
         const serviceManager = new ServiceManager();
         const widgetFactory = new HabboWidgetFactory(this);
+        const resourceManager = new ResourceManager(this);
 
         this._serviceManager = serviceManager;
+        this._resourceManager = resourceManager;
 
         for(let i = 0; i < HabboWindowManager.NUMBER_OF_CONTEXT_LAYERS; i++)
         {
@@ -846,6 +888,9 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 
             // Inject widget factory for WidgetWindowController
             context.setWidgetFactory(widgetFactory);
+
+            // Inject resource manager for StaticBitmapWrapperController
+            context.setResourceManager(resourceManager);
 
             // Create desktop root for this layer
             const desktop = new DesktopController(

@@ -3,20 +3,24 @@ import type { IWindow } from '../IWindow';
 /**
  * Interface for static bitmap wrapper windows.
  *
- * Similar to IBitmapWrapperWindow but for static (non-interactive)
- * bitmap displays.
+ * Static bitmaps load their content via `assetUri` through the ResourceManager.
+ * The `bitmapData` property exposes the loaded ImageBitmap for rendering.
  *
- * @see sources/win63_2021_version/com/sulake/core/window/components/IStaticBitmapWrapperWindow.as
+ * @see sources/win63_version/core/window/components/StaticBitmapWrapperController.as
  */
 export interface IStaticBitmapWrapperWindow extends IWindow
 {
-    imageUrl: string;
+    /**
+     * The asset URI for this static bitmap.
+     *
+     * Setting this triggers an asset request via the ResourceManager.
+     */
+    assetUri: string;
 
     /**
      * The decoded bitmap content for this window.
      *
-     * Equivalent to AS3's `BitmapDataController._bitmapData`.
-     * When set, this image is drawn during compositing.
+     * Set automatically by `receiveAsset()` when the asset loads.
      */
-    bitmap: ImageBitmap | null;
+    bitmapData: ImageBitmap | null;
 }

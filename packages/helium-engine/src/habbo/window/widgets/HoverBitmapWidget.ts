@@ -75,7 +75,7 @@ export class HoverBitmapWidget implements IWidget
 
 		if(!this._isHovering && this._bitmap)
 		{
-			this._bitmap.imageUrl = value;
+			this._bitmap.assetUri = value;
 		}
 	}
 
@@ -92,7 +92,7 @@ export class HoverBitmapWidget implements IWidget
 
 		if(this._isHovering && this._bitmap)
 		{
-			this._bitmap.imageUrl = value;
+			this._bitmap.assetUri = value;
 		}
 	}
 
@@ -178,7 +178,7 @@ export class HoverBitmapWidget implements IWidget
 
 		if(this._bitmap)
 		{
-			this._bitmap.imageUrl = this._hoverAsset;
+			this._bitmap.assetUri = this._hoverAsset;
 		}
 	}
 
@@ -191,7 +191,7 @@ export class HoverBitmapWidget implements IWidget
 
 		if(this._bitmap)
 		{
-			this._bitmap.imageUrl = this._normalAsset;
+			this._bitmap.assetUri = this._normalAsset;
 		}
 	}
 

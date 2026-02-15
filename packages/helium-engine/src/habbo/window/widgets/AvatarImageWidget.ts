@@ -277,7 +277,7 @@ export class AvatarImageWidget implements IAvatarImageWidget, IAvatarImageListen
 	{
 		if(!this._bitmap || !this._windowManager) return;
 
-		this._bitmap.texture = null;
+		this._bitmap.bitmap = null;
 
 		const avatarRenderer = this._windowManager.avatarRenderer;
 
@@ -300,11 +300,11 @@ export class AvatarImageWidget implements IAvatarImageWidget, IAvatarImageListen
 
 				if(this._cropped)
 				{
-					this._bitmap.texture = avatarImage.getCroppedImage(setType, scaleFactor);
+					this._bitmap.bitmap = avatarImage.getCroppedImage(setType, scaleFactor);
 				}
 				else
 				{
-					this._bitmap.texture = avatarImage.getImage(setType, true, scaleFactor);
+					this._bitmap.bitmap = avatarImage.getImage(setType, true, scaleFactor);
 				}
 
 				this._bitmap.disposesBitmap = true;
@@ -314,10 +314,10 @@ export class AvatarImageWidget implements IAvatarImageWidget, IAvatarImageListen
 
 		this._bitmap.invalidate();
 
-		if(this._bitmap.texture && this._widgetWindow)
+		if(this._bitmap.bitmap && this._widgetWindow)
 		{
-			this._widgetWindow.width = this._bitmap.texture.width;
-			this._widgetWindow.height = this._bitmap.texture.height;
+			this._widgetWindow.width = this._bitmap.bitmap.width;
+			this._widgetWindow.height = this._bitmap.bitmap.height;
 		}
 	}
 
