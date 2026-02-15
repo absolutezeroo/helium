@@ -496,7 +496,7 @@ function findBinFiles(dir, filter)
         {
             files.push(...findBinFiles(fullPath, filter));
         }
-        else if (entry.isFile() && entry.name.toLowerCase().endsWith('.bin'))
+        else if (entry.isFile() && entry.name.toLowerCase().endsWith('_xml.bin'))
         {
             if (!filter || entry.name.includes(filter))
             {

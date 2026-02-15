@@ -64,8 +64,6 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
     private static readonly NUMBER_OF_CONTEXT_LAYERS: number = 4;
     private static readonly DEFAULT_CONTEXT_LAYER_INDEX: number = 1;
 
-    // ── Declarative window system (existing) ───────────────────────────
-
     private _windows: Map<number, IWindowInstance> = new Map();
     private _layouts: Map<string, IWindowLayout> = new Map();
     private _nextId: number = 1;
@@ -74,10 +72,8 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
     private _windowContextArray: IWindowContext[] = [];
     private _defaultContext: IWindowContext | null = null;
 
-    // ── Widget layout asset registry ─────────────────────────────────────
     private _widgetLayouts: Map<string, unknown> = new Map();
 
-    // ── AS3-compatible window context system ────────────────────────────
     private _windowRenderer: WindowRenderer | null = null;
     private _serviceManager: ServiceManager | null = null;
     private _initialized: boolean = false;
@@ -89,7 +85,6 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
         this.initContexts();
     }
 
-    // ── Component dependencies (injected via DI) ─────────────────────────
     private _avatarRenderer: IAvatarRenderManager | null = null;
 
     /**
@@ -126,8 +121,6 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 
     private _elementRegistry: ElementRegistry = new ElementRegistry();
 
-    // ── Declarative API (existing, preserved for client compatibility) ──
-
     /**
      * The element registry.
      */
@@ -136,7 +129,6 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
         return this._elementRegistry;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected override get dependencies(): Array<ComponentDependency<any>>
     {
         return [
@@ -285,8 +277,6 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 
         return all;
     }
-
-    // ── AS3-compatible API ──────────────────────────────────────────────
 
     /**
      * Create a window using the core factory.
@@ -635,8 +625,6 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
         return this._serviceManager;
     }
 
-    // ── IWindowFactory theme/defaults API ─────────────────────────────
-
     /**
      * Returns the theme manager.
      *
@@ -696,10 +684,10 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
      *
      * For each skin JSON, the parser creates a BitmapSkinRenderer with all
      * templates, layouts, and state mappings. The renderer is then registered
-     * in the SkinContainer, replacing the NullSkinRenderer placeholder that
-     * was created during loadElementDescription().
+     * in the SkinContainer, replacing the NullSkinRenderer placeholder
+     * created during loadElementDescription().
      *
-     * The skins map is keyed by the skin's `id` field (e.g. "habbo_skin_frame_xml"),
+     * The skin map is keyed by the skin's `id` field (e.g. "habbo_skin_frame_xml"),
      * which matches the element descriptor's `asset` field.
      *
      * @param skins - Map of skin id → skin JSON data
@@ -724,7 +712,7 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 
             if(descriptors.length === 0)
             {
-                log.debug(`Skin "${ skinId }" has no matching element descriptors`);
+                continue;
             }
 
             for(const descriptor of descriptors)
@@ -751,8 +739,6 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 
         log.info(`Skin assets loaded: ${ loaded } renderers registered from ${ skins.size } skins`);
     }
-
-    // ── Private helpers ────────────────────────────────────────────────
 
     /**
      * Dispose the window manager.
@@ -853,8 +839,6 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 
         log.info(`Window manager initialized with ${ HabboWindowManager.NUMBER_OF_CONTEXT_LAYERS } context layers (${ Classes.getRegisteredTypes().length } types registered)`);
     }
-
-    // ── Dispose ────────────────────────────────────────────────────────
 
     /**
      * Get the maximum z-order in a given layer.

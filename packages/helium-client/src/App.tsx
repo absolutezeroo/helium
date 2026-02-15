@@ -144,12 +144,12 @@ export function App(): JSX.Element
 		initWindowStore(helium.windowManager);
 
 		// 6. Initialize the Friend Bar (landing view)
-		// Creates HabboFriendBar → HabboLandingView which builds the landing view
-		// window and sets the toolbar to hotel-view state via activate().
-		// Must be after step 4 (layouts registered) so buildWidgetLayout() can find them.
 		helium.initFriendBar();
 
-		// 7. Set Ready
+		// 7. Flush microtasks
+		await Promise.resolve();
+
+		// 8. Set Ready
 		setReady(true);
 	});
 

@@ -1,5 +1,5 @@
-import {ComponentDependency} from '@core/runtime';
 import type {IContext} from '@core/runtime';
+import {ComponentDependency} from '@core/runtime';
 import type {IAssetLibrary} from '@core/assets';
 import type {IWindow} from '@core/window/IWindow';
 import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommunicationManager';
@@ -38,16 +38,43 @@ const log = Logger.getLogger('HabboLandingView');
 export class HabboLandingView extends AbstractView implements IHabboLandingView
 {
 	private _landingViewLayout: WidgetContainerLayout | null = null;
-	private _communicationManager: IHabboCommunicationManager | null = null;
 	private _roomSessionManager: IRoomSessionManager | null = null;
 	private _toolbar: IHabboToolbar | null = null;
-	private _navigator: IHabboNavigator | null = null;
-	private _roomEngine: IRoomEngine | null = null;
 	private _initialized: boolean = false;
 
 	constructor(context: IContext, flags: number = 0, assetLibrary: IAssetLibrary | null = null)
 	{
 		super(context, flags, assetLibrary);
+	}
+
+	private _communicationManager: IHabboCommunicationManager | null = null;
+
+	/**
+	 * The communication manager
+	 */
+	get communicationManager(): IHabboCommunicationManager | null
+	{
+		return this._communicationManager;
+	}
+
+	private _navigator: IHabboNavigator | null = null;
+
+	/**
+	 * The navigator
+	 */
+	get navigator(): IHabboNavigator | null
+	{
+		return this._navigator;
+	}
+
+	private _roomEngine: IRoomEngine | null = null;
+
+	/**
+	 * The room engine
+	 */
+	get roomEngine(): IRoomEngine | null
+	{
+		return this._roomEngine;
 	}
 
 	/**
@@ -93,27 +120,11 @@ export class HabboLandingView extends AbstractView implements IHabboLandingView
 	}
 
 	/**
-	 * The communication manager
-	 */
-	get communicationManager(): IHabboCommunicationManager | null
-	{
-		return this._communicationManager;
-	}
-
-	/**
 	 * The localization manager
 	 */
 	get localization(): IHabboLocalizationManager | null
 	{
 		return this._localizationManager;
-	}
-
-	/**
-	 * The navigator
-	 */
-	get navigator(): IHabboNavigator | null
-	{
-		return this._navigator;
 	}
 
 	/**
@@ -124,15 +135,6 @@ export class HabboLandingView extends AbstractView implements IHabboLandingView
 		return this._sessionDataManager;
 	}
 
-	/**
-	 * The room engine
-	 */
-	get roomEngine(): IRoomEngine | null
-	{
-		return this._roomEngine;
-	}
-
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	protected override get dependencies(): Array<ComponentDependency<any>>
 	{
 		return [
@@ -183,48 +185,6 @@ export class HabboLandingView extends AbstractView implements IHabboLandingView
 				false
 			),
 		];
-	}
-
-	/**
-	 * Called when all required dependencies are resolved.
-	 *
-	 * Registers toolbar event listeners and triggers initialization.
-	 *
-	 * @see sources/win63_version/habbo/friendbar/landingview/HabboLandingView.as initComponent()
-	 */
-	protected override initComponent(): void
-	{
-		// Register toolbar click listener
-		if(this._toolbar)
-		{
-			this._toolbar.toolbarEvents.on(HabboToolbarEvent.TOOLBAR_CLICK, this.onToolbarClick);
-		}
-
-		// Initialize the landing view
-		this.tryInitialize();
-	}
-
-	/**
-	 * Initialize with error handling.
-	 *
-	 * @see sources/win63_version/habbo/friendbar/landingview/HabboLandingView.as tryInitialize()
-	 */
-	private tryInitialize(): void
-	{
-		try
-		{
-			this.initialize();
-		}
-		catch(e)
-		{
-			log.error('Landing view initialization failed:', e);
-
-			if(this._landingViewLayout)
-			{
-				this._landingViewLayout.dispose();
-				this._landingViewLayout = null;
-			}
-		}
 	}
 
 	/**
@@ -326,26 +286,6 @@ export class HabboLandingView extends AbstractView implements IHabboLandingView
 	}
 
 	/**
-	 * Handle toolbar icon clicks.
-	 *
-	 * When the reception icon is clicked, quit the room and show the landing view.
-	 *
-	 * @see sources/win63_version/habbo/friendbar/landingview/HabboLandingView.as onToolbarClick()
-	 */
-	private onToolbarClick = (event: HabboToolbarEvent): void =>
-	{
-		switch(event.iconId)
-		{
-			case 'HTIE_ICON_RECEPTION':
-				if(this._roomSessionManager?.getSession(-1))
-				{
-					this._roomSessionManager.disposeSession(-1);
-				}
-				break;
-		}
-	};
-
-	/**
 	 * Dispose the landing view and all its resources.
 	 *
 	 * @see sources/win63_version/habbo/friendbar/landingview/HabboLandingView.as dispose()
@@ -375,4 +315,66 @@ export class HabboLandingView extends AbstractView implements IHabboLandingView
 
 		super.dispose();
 	}
+
+	/**
+	 * Called when all required dependencies are resolved.
+	 *
+	 * Registers toolbar event listeners and triggers initialization.
+	 *
+	 * @see sources/win63_version/habbo/friendbar/landingview/HabboLandingView.as initComponent()
+	 */
+	protected override initComponent(): void
+	{
+		// Register toolbar click listener
+		if(this._toolbar)
+		{
+			this._toolbar.toolbarEvents.on(HabboToolbarEvent.TOOLBAR_CLICK, this.onToolbarClick);
+		}
+
+		// Initialize the landing view
+		this.tryInitialize();
+	}
+
+	/**
+	 * Initialize with error handling.
+	 *
+	 * @see sources/win63_version/habbo/friendbar/landingview/HabboLandingView.as tryInitialize()
+	 */
+	private tryInitialize(): void
+	{
+		try
+		{
+			this.initialize();
+		}
+		catch(e)
+		{
+			log.error('Landing view initialization failed:', e);
+
+			if(this._landingViewLayout)
+			{
+				this._landingViewLayout.dispose();
+				this._landingViewLayout = null;
+			}
+		}
+	}
+
+	/**
+	 * Handle toolbar icon clicks.
+	 *
+	 * When the reception icon is clicked, quit the room and show the landing view.
+	 *
+	 * @see sources/win63_version/habbo/friendbar/landingview/HabboLandingView.as onToolbarClick()
+	 */
+	private onToolbarClick = (event: HabboToolbarEvent): void =>
+	{
+		switch(event.iconId)
+		{
+			case 'HTIE_ICON_RECEPTION':
+				if(this._roomSessionManager?.getSession(-1))
+				{
+					this._roomSessionManager.disposeSession(-1);
+				}
+				break;
+		}
+	};
 }

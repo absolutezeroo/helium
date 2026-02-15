@@ -575,7 +575,7 @@ function parseElementDescriptionXml(xml, sourcePath, assetId)
 function findBinFiles(dir, filter)
 {
     return fs.readdirSync(dir, { withFileTypes: true })
-        .filter((entry) => entry.isFile() && entry.name.toLowerCase().endsWith('.bin'))
+        .filter((entry) => entry.isFile() && entry.name.toLowerCase().endsWith('_xml.bin'))
         .map((entry) => path.join(dir, entry.name))
         .filter((filePath) => !filter || path.basename(filePath).includes(filter));
 }
