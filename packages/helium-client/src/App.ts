@@ -5,35 +5,20 @@ import type {IWindow} from '@core/window/IWindow';
 import {WindowController} from '@core/window/WindowController';
 import {WindowMouseEvent} from '@core/window/events/WindowMouseEvent';
 import type {WindowMouseOperator} from '@core/window/services/WindowMouseOperator';
+import type {IElementDescriptionData} from '@habbo/window';
+import type {LoadingScreen} from './LoadingScreen';
+import {AssetBundle} from './AssetBundle';
 import './_index.scss';
 
-// Skin spritesheet PNGs — Vite resolves these to URLs
-import blueSkinUrl from './assets/images/habbo_blue_skin.png';
-import skinUbuntuUrl from './assets/images/habbo_skin_ubuntu.png';
-import skinIlluminaDarkUrl from './assets/images/habbo_skin_illumina_dark.png';
-import skinIlluminaLightUrl from './assets/images/habbo_skin_illumina_light.png';
-import habboIconsUrl from './assets/images/habbo_icons.png';
-import skinUbuntuBg9Url from './assets/images/skin_ubuntu_bg_9.png';
-import {IElementDescriptionData} from "@habbo/window";
-
-// Eagerly import all skin JSONs via Vite glob
-const skinModules = import.meta.glob('./assets/window-skins/habbo_skin_*.json', { eager: true }) as Record<string, { default: ISkinData }>;
-
-// Eagerly import all window layout JSONs via Vite glob
-const layoutModules = import.meta.glob('./assets/window-layouts/*.json', { eager: true }) as Record<string, { default: unknown }>;
-
-// Eagerly import ALL image PNGs for ResourceManager registration
-const imageModules = import.meta.glob('./assets/images/*.png', { eager: true }) as Record<string, { default: string }>;
-
-/** Atlas asset name → URL mapping. */
-const ATLAS_MAP: Record<string, string> = {
-    'habbo_blue_skin': blueSkinUrl,
-    'habbo_skin_ubuntu': skinUbuntuUrl,
-    'habbo_skin_illumina_dark': skinIlluminaDarkUrl,
-    'habbo_skin_illumina_light': skinIlluminaLightUrl,
-    'habbo_icons': habboIconsUrl,
-    'skin_ubuntu_bg_9': skinUbuntuBg9Url,
-};
+/** Atlas spritesheet names that need to be decoded as ImageBitmaps. */
+const ATLAS_NAMES = [
+    'habbo_blue_skin',
+    'habbo_skin_ubuntu',
+    'habbo_skin_illumina_dark',
+    'habbo_skin_illumina_light',
+    'habbo_icons',
+    'skin_ubuntu_bg_9',
+];
 
 declare global
 {
@@ -41,20 +26,6 @@ declare global
     {
         HeliumConfig?: IHeliumConfig;
     }
-}
-
-/**
- * Loads an image URL as an ImageBitmap.
- *
- * @param url - The image URL
- * @returns The decoded ImageBitmap
- */
-async function loadImageBitmap(url: string): Promise<ImageBitmap>
-{
-    const response = await fetch(url);
-    const blob = await response.blob();
-
-    return createImageBitmap(blob);
 }
 
 /**
@@ -75,6 +46,8 @@ export class HeliumApp
     private _ctx: CanvasRenderingContext2D | null = null;
     private _animFrameId: number = 0;
     private _disposed: boolean = false;
+    private _loadingScreen: LoadingScreen | null;
+    private _bundle: AssetBundle | null = null;
 
     /** Last hovered window for OVER/OUT tracking. */
     private _lastHoveredWindow: IWindow | null = null;
@@ -91,49 +64,70 @@ export class HeliumApp
     /** Document-level mouseup handler (for drag/scale). */
     private _docUpHandler: ((e: MouseEvent) => void) | null = null;
 
+    constructor(loadingScreen?: LoadingScreen)
+    {
+        this._loadingScreen = loadingScreen ?? null;
+    }
+
     /**
      * Initializes the application.
      *
-     * Bootstraps the engine, loads skins/layouts, creates the canvas,
-     * and starts the render loop.
+     * Bootstraps the engine, loads the asset bundle, configures skins/layouts,
+     * creates the canvas, and starts the render loop.
      */
     public async init(): Promise<void>
     {
-        // 1. Bootstrap the engine
-        try
-        {
-            await Helium.bootstrap(window.HeliumConfig);
-        }
-        catch(error)
-        {
-            console.warn('[HeliumApp] Bootstrap error (connection may have failed):', error);
-        }
+        // 1. Bootstrap engine + load asset bundle in parallel
+        const [, bundle] = await Promise.all([
+            Helium.bootstrap(window.HeliumConfig).catch(error =>
+            {
+                console.warn('[HeliumApp] Bootstrap error (connection may have failed):', error);
+            }),
+            AssetBundle.load('/assets.bundle', (ratio: number) =>
+            {
+                this._loadingScreen?.updateProgress(ratio);
+            }),
+        ]);
+
+        this._bundle = bundle;
 
         const helium = Helium.instance;
 
-        // 2. Load element descriptions + skin assets in parallel
+        // 2. Load element descriptions + atlas bitmaps from bundle
         try
         {
-            const [elementDescription, bitmaps] = await Promise.all([
-                import('./assets/window-skins/element-description.json')
-                    .then(mod => this.unwrapDefault<IElementDescriptionData>(mod)),
-                Promise.all(Object.values(ATLAS_MAP).map(loadImageBitmap)),
-            ]);
-
-            helium.windowManager.loadElementDescription(elementDescription);
-
-            const atlasKeys = Object.keys(ATLAS_MAP);
-            const atlases = new Map<string, ImageBitmap>(
-                atlasKeys.map((key, i) => [key, bitmaps[i]])
+            const elementDescription = bundle.getJson<IElementDescriptionData>(
+                'window-skins/element-description.json'
             );
 
-            const skins = new Map<string, ISkinData>(
-                Object.values(skinModules).map(mod =>
-                {
-                    const skin = this.unwrapDefault<ISkinData>(mod);
-                    return [skin.id, skin];
-                })
+            if(elementDescription)
+            {
+                helium.windowManager.loadElementDescription(elementDescription);
+            }
+
+            // Decode atlas spritesheets as ImageBitmaps
+            const bitmaps = await Promise.all(
+                ATLAS_NAMES.map(name => bundle.getImageBitmap(`images/${name}.png`))
             );
+
+            const atlases = new Map<string, ImageBitmap>();
+
+            for(let i = 0; i < ATLAS_NAMES.length; i++)
+            {
+                const bmp = bitmaps[i];
+
+                if(bmp) atlases.set(ATLAS_NAMES[i], bmp);
+            }
+
+            // Load all skin JSONs from bundle
+            const skins = new Map<string, ISkinData>();
+
+            for(const key of bundle.listKeys('window-skins/habbo_skin_'))
+            {
+                const skin = bundle.getJson<ISkinData>(key);
+
+                if(skin) skins.set(skin.id, skin);
+            }
 
             helium.windowManager.loadSkinAssets(skins, atlases);
         }
@@ -142,17 +136,29 @@ export class HeliumApp
             console.warn('[HeliumApp] Failed to load skin/element assets:', error);
         }
 
-        // 3. Register all window layouts
-        for(const [path, mod] of Object.entries(layoutModules))
+        // 3. Register all window layouts from bundle
+        for(const key of bundle.listKeys('window-layouts/'))
         {
-            const name = path.split('/').pop()!.replace('.json', '');
-            helium.windowManager.registerWidgetLayout(name, this.unwrapDefault(mod));
+            const name = key.split('/').pop()!.replace('.json', '');
+            const layout = bundle.getJson(key);
+
+            if(layout)
+            {
+                helium.windowManager.registerWidgetLayout(name, layout);
+            }
+        }
+
+        // 4. Dispose loading screen before creating canvas (prevents white flash)
+        if(this._loadingScreen)
+        {
+            this._loadingScreen.dispose();
+            this._loadingScreen = null;
         }
 
         // 5. Create the canvas and set desktop sizes BEFORE creating windows
         this.createCanvas();
 
-        // 6. Register all image asset URLs with the resource manager (lazy loading)
+        // 6. Register all image blob URLs with the resource manager
         this.registerImageAssets();
 
         // 7. Initialize the Friend Bar (landing view) — desktops are now sized
@@ -204,6 +210,13 @@ export class HeliumApp
             document.removeEventListener('mouseup', this._docUpHandler);
         }
 
+        // Revoke blob URLs
+        if(this._bundle)
+        {
+            this._bundle.dispose();
+            this._bundle = null;
+        }
+
         // Remove canvas from DOM
         this._canvas?.remove();
         this._canvas = null;
@@ -213,24 +226,30 @@ export class HeliumApp
     }
 
     /**
-     * Registers all image asset URLs with the engine's ResourceManager.
+     * Registers all image asset blob URLs with the engine's ResourceManager.
      *
-     * Only registers name→URL mappings (cheap). The ResourceManager will
-     * lazily fetch and decode the ImageBitmap on first request from a
-     * StaticBitmapWrapperController.
+     * Creates blob URLs from the bundle for each PNG image and registers
+     * them with the WindowManager. The ResourceManager will lazily decode
+     * the ImageBitmap on first request.
      *
      * @see sources/win63_version/habbo/window/ResourceManager.as
      */
     private registerImageAssets(): void
     {
+        if(!this._bundle) return;
+
         const helium = Helium.instance;
 
-        for(const [path, mod] of Object.entries(imageModules))
+        for(const key of this._bundle.listKeys('images/'))
         {
-            // Extract asset name: './assets/images/icons_toolbar_reception_normal.png' → 'icons_toolbar_reception_normal'
-            const name = path.split('/').pop()!.replace('.png', '');
+            // Extract asset name: 'images/icons_toolbar_reception_normal.png' → 'icons_toolbar_reception_normal'
+            const name = key.split('/').pop()!.replace('.png', '');
+            const url = this._bundle.getUrl(key);
 
-            helium.windowManager.registerAssetUrl(name, mod.default);
+            if(url)
+            {
+                helium.windowManager.registerAssetUrl(name, url);
+            }
         }
     }
 
@@ -568,9 +587,4 @@ export class HeliumApp
     {
         e.preventDefault();
     };
-
-    private unwrapDefault<T>(mod: any): T
-    {
-        return 'default' in mod ? mod.default : mod;
-    }
 }

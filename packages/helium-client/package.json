@@ -3,12 +3,15 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
+    "prebuild": "node ./tools/bundle-assets.mjs",
+    "predev": "node ./tools/bundle-assets.mjs",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "build:layouts": "node ./tools/compile-window-layouts.mjs",
     "build:skins": "node ./tools/compile-window-skins.mjs",
-    "build:window-data": "node ./tools/compile-window-skins.mjs && node ./tools/compile-window-layouts.mjs"
+    "build:window-data": "node ./tools/compile-window-skins.mjs && node ./tools/compile-window-layouts.mjs",
+    "build:bundle": "node ./tools/bundle-assets.mjs"
   },
   "dependencies": {
     "helium-engine": "workspace:*",
