@@ -8,7 +8,7 @@ export { ModalDialog } from './ModalDialog';
 export { SimpleAlertDialog } from './SimpleAlertDialog';
 
 // Types
-export type { AlertDialogCallback, IAlertDialog } from './AlertDialog';
+export type { AlertDialogCallback, IAlertDialog, } from './AlertDialog';
 export type { ICaption } from './AlertDialogCaption';
 export type { IAlertDialogWithLink } from './AlertDialogWithLink';
 export type { IConfirmDialog } from './ConfirmDialog';
