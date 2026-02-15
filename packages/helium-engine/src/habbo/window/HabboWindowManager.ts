@@ -25,6 +25,11 @@ import {DefaultAttStruct} from '@core/window/utils/DefaultAttStruct';
 import {ThemeManager} from './theme/ThemeManager';
 import {ServiceManager} from '@core/window/services/ServiceManager';
 import {HabboWidgetFactory} from './HabboWidgetFactory';
+import {ComponentDependency} from '@core/runtime/ComponentDependency';
+import {IID_AvatarRenderManager} from '@iid/IIDAvatarRenderManager';
+import {IID_HabboCommunicationManager} from '@iid/IIDHabboCommunicationManager';
+import type {IAvatarRenderManager} from '@habbo/avatar/IAvatarRenderManager';
+import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommunicationManager';
 import type {IContext} from '@core/runtime/IContext';
 import type {IAssetLibrary} from '@core/assets/IAssetLibrary';
 import type {IModalDialog} from './utils/IModalDialog';
@@ -71,11 +76,58 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
     private _serviceManager: ServiceManager | null = null;
     private _initialized: boolean = false;
 
+    // ── Component dependencies (injected via DI) ─────────────────────────
+    private _avatarRenderer: IAvatarRenderManager | null = null;
+    private _communication: IHabboCommunicationManager | null = null;
+
     constructor(context: IContext, flags: number = 0, assetLibrary: IAssetLibrary | null = null)
     {
         super(context, flags, assetLibrary);
 
         this.initContexts();
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected override get dependencies(): Array<ComponentDependency<any>>
+    {
+        return [
+            new ComponentDependency(
+                IID_AvatarRenderManager,
+                (renderer: IAvatarRenderManager | null) =>
+                {
+                    this._avatarRenderer = renderer;
+                },
+                false // optional — window manager can work without avatar renderer
+            ),
+            new ComponentDependency(
+                IID_HabboCommunicationManager,
+                (manager: IHabboCommunicationManager | null) =>
+                {
+                    this._communication = manager;
+                },
+                false // optional — window manager can work without communication
+            ),
+        ];
+    }
+
+    /**
+     * The avatar render manager.
+     *
+     * In AS3: HabboWindowManagerComponent.avatarRenderer
+     */
+    public get avatarRenderer(): IAvatarRenderManager | null
+    {
+        return this._avatarRenderer;
+    }
+
+    /**
+     * The communication manager.
+     *
+     * In AS3: HabboWindowManagerComponent.communication
+     */
+    public get communication(): IHabboCommunicationManager | null
+    {
+        return this._communication;
     }
 
     private _windowEvents: EventEmitter = new EventEmitter();
@@ -639,6 +691,10 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 
         // Clean up widget layouts
         this._widgetLayouts.clear();
+
+        // Clean up component dependencies
+        this._avatarRenderer = null;
+        this._communication = null;
 
         // Clean up declarative window system
         this._windows.clear();

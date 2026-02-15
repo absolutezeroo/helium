@@ -10,6 +10,8 @@ import type {IInputEventTracker} from '@core/window/IInputEventTracker';
 import type {IWindowContainer} from '@core/window/IWindowContainer';
 import type {IModalDialog} from './utils/IModalDialog';
 import type {IInternalWindowServices} from "@core/window";
+import type {IAvatarRenderManager} from '@habbo/avatar/IAvatarRenderManager';
+import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommunicationManager';
 
 /**
  * Events emitted by the window manager.
@@ -301,5 +303,25 @@ export interface IHabboWindowManager extends IDisposable
      *
      * Used by the client renderer to forward DOM mouse events.
      */
-    getServiceManager(): IInternalWindowServices | null
+    getServiceManager(): IInternalWindowServices | null;
+
+    /**
+     * The avatar render manager.
+     *
+     * Injected via component dependency. Used by AvatarImageWidget
+     * and other widgets that render avatars.
+     *
+     * In AS3: HabboWindowManagerComponent.avatarRenderer
+     */
+    readonly avatarRenderer: IAvatarRenderManager | null;
+
+    /**
+     * The communication manager.
+     *
+     * Injected via component dependency. Used by widgets that need
+     * to send messages (e.g. GetExtendedProfileMessageComposer).
+     *
+     * In AS3: HabboWindowManagerComponent.communication
+     */
+    readonly communication: IHabboCommunicationManager | null;
 }

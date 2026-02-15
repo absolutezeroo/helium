@@ -1,10 +1,13 @@
 import type {IAvatarImageWidget} from './IAvatarImageWidget';
+import type {IAvatarImageListener} from '@habbo/avatar/IAvatarImageListener';
 import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
 import type {IHabboWindowManager} from '../IHabboWindowManager';
 import type {IWindowContainer} from '@core/window/IWindowContainer';
 import type {IWindow} from '@core/window/IWindow';
+import type {IBitmapWrapperWindow} from '@core/window/components/IBitmapWrapperWindow';
 import {WindowMouseEvent} from '@core/window/events/WindowMouseEvent';
 import {PropertyStruct} from '@core/window/utils/PropertyStruct';
+import {GetExtendedProfileMessageComposer} from '@habbo/communication/messages/outgoing/users/GetExtendedProfileMessageComposer';
 
 /**
  * Avatar image rendering widget.
@@ -13,13 +16,13 @@ import {PropertyStruct} from '@core/window/utils/PropertyStruct';
  * and head-only mode. Clicking the avatar opens the extended profile if
  * a userId is set.
  *
- * In the AS3 version, this widget uses BitmapData and IAvatarImageListener
- * for asynchronous avatar rendering. In the TypeScript port, rendering
- * metadata is stored for the UI layer.
+ * Uses the IAvatarRenderManager to create avatar images and renders them
+ * to a bitmap wrapper window. Implements IAvatarImageListener to get
+ * notified when asynchronous avatar downloads complete.
  *
  * @see sources/win63_version/habbo/window/widgets/AvatarImageWidget.as
  */
-export class AvatarImageWidget implements IAvatarImageWidget
+export class AvatarImageWidget implements IAvatarImageWidget, IAvatarImageListener
 {
 	public static readonly TYPE: string = 'avatar_image';
 
@@ -40,10 +43,12 @@ export class AvatarImageWidget implements IAvatarImageWidget
 	private static readonly CROPPED_DEFAULT: boolean = false;
 	private static readonly DIRECTION_DEFAULT: number = 2;
 
+	private static readonly GREYSCALE_FACTOR: number = 1 / 3;
+
 	private _widgetWindow: IWidgetWindow | null = null;
 	private _windowManager: IHabboWindowManager | null = null;
 	private _root: IWindowContainer | null = null;
-	private _bitmap: IWindow | null = null;
+	private _bitmap: IBitmapWrapperWindow | null = null;
 	private _region: IWindow | null = null;
 	private _onClickBound: Function;
 
@@ -58,7 +63,7 @@ export class AvatarImageWidget implements IAvatarImageWidget
 		if(root)
 		{
 			this._root = root;
-			this._bitmap = root.findChildByName('bitmap');
+			this._bitmap = root.findChildByName('bitmap') as IBitmapWrapperWindow | null;
 			this._region = root.findChildByName('region');
 
 			if(this._region)
@@ -94,6 +99,7 @@ export class AvatarImageWidget implements IAvatarImageWidget
 		{
 			this._figureEmpty = !value || value.length === 0;
 			this._figure = AvatarImageWidget.cleanupAvatarString(value);
+			this.refresh();
 		}
 	}
 
@@ -109,6 +115,7 @@ export class AvatarImageWidget implements IAvatarImageWidget
 		if(value !== this._scale)
 		{
 			this._scale = value;
+			this.refresh();
 		}
 	}
 
@@ -124,6 +131,7 @@ export class AvatarImageWidget implements IAvatarImageWidget
 		if(value !== this._onlyHead)
 		{
 			this._onlyHead = value;
+			this.refresh();
 		}
 	}
 
@@ -139,6 +147,7 @@ export class AvatarImageWidget implements IAvatarImageWidget
 		if(value !== this._cropped)
 		{
 			this._cropped = value;
+			this.refresh();
 		}
 	}
 
@@ -154,6 +163,7 @@ export class AvatarImageWidget implements IAvatarImageWidget
 		if(value !== this._direction)
 		{
 			this._direction = value;
+			this.refresh();
 		}
 	}
 
@@ -169,6 +179,11 @@ export class AvatarImageWidget implements IAvatarImageWidget
 		if(this._userId !== value)
 		{
 			this._userId = value;
+
+			if(this._region)
+			{
+				this._region.visible = (this._userId > 0);
+			}
 		}
 	}
 
@@ -233,6 +248,97 @@ export class AvatarImageWidget implements IAvatarImageWidget
 		return figure.replace(/NaN/g, '');
 	}
 
+	/**
+	 * IAvatarImageListener implementation.
+	 *
+	 * Called when an asynchronous avatar image download completes.
+	 * If the completed figure matches our current figure, refresh.
+	 *
+	 * @param figureString - The completed figure string
+	 */
+	public avatarImageReady(figureString: string): void
+	{
+		if(AvatarImageWidget.cleanupAvatarString(figureString) === this._figure)
+		{
+			this.refresh();
+		}
+	}
+
+	/**
+	 * Refresh the avatar bitmap rendering.
+	 *
+	 * Creates an avatar image via the renderer, sets direction,
+	 * gets the cropped or full image at the appropriate scale,
+	 * and applies greyscale if the figure was empty.
+	 *
+	 * @see AvatarImageWidget.as refresh()
+	 */
+	private refresh(): void
+	{
+		if(!this._bitmap || !this._windowManager) return;
+
+		this._bitmap.texture = null;
+
+		const avatarRenderer = this._windowManager.avatarRenderer;
+
+		if(avatarRenderer)
+		{
+			const scaleFactor = this._scale === 'h' ? 1 : 0.5;
+			const setType = this._onlyHead ? 'head' : 'full';
+
+			const avatarImage = avatarRenderer.createAvatarImage(
+				this._figure,
+				'h',
+				'',
+				this,
+				null
+			);
+
+			if(avatarImage)
+			{
+				avatarImage.setDirection(setType, this._direction);
+
+				if(this._cropped)
+				{
+					this._bitmap.texture = avatarImage.getCroppedImage(setType, scaleFactor);
+				}
+				else
+				{
+					this._bitmap.texture = avatarImage.getImage(setType, true, scaleFactor);
+				}
+
+				this._bitmap.disposesBitmap = true;
+				avatarImage.dispose();
+			}
+		}
+
+		this._bitmap.invalidate();
+
+		if(this._bitmap.texture && this._widgetWindow)
+		{
+			this._widgetWindow.width = this._bitmap.texture.width;
+			this._widgetWindow.height = this._bitmap.texture.height;
+		}
+	}
+
+	/**
+	 * Handle click on the avatar region.
+	 *
+	 * Sends GetExtendedProfileMessageComposer if userId > 0.
+	 */
+	private onClick(_event: WindowMouseEvent): void
+	{
+		if(this._userId > 0 && this._windowManager)
+		{
+			const communication = this._windowManager.communication;
+
+			if(communication?.connection)
+			{
+				communication.connection.send(new GetExtendedProfileMessageComposer(this._userId));
+			}
+		}
+	}
+
 	public dispose(): void
 	{
 		if(this._disposed) return;
@@ -260,27 +366,5 @@ export class AvatarImageWidget implements IAvatarImageWidget
 
 		this._windowManager = null;
 		this._disposed = true;
-	}
-
-	/**
-	 * Refresh the avatar bitmap rendering.
-	 *
-	 * In AS3, this creates an avatar image via the avatar renderer and
-	 * draws to the bitmap wrapper. Stubbed for now — the UI layer handles
-	 * avatar rendering.
-	 */
-	private refresh(): void
-	{
-		// TODO: avatar bitmap rendering (Flash BitmapData logic)
-	}
-
-	/**
-	 * Handle click on the avatar region.
-	 *
-	 * In AS3, sends GetExtendedProfileMessageComposer if userId > 0.
-	 */
-	private onClick(_event: WindowMouseEvent): void
-	{
-		// TODO: send GetExtendedProfileMessageComposer if userId > 0
 	}
 }
