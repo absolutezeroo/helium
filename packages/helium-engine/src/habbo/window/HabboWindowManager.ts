@@ -21,6 +21,11 @@ import {WindowType} from '@core/window/enum/WindowType';
 import {DesktopController} from '@core/window/components/DesktopController';
 import {WindowParser} from '@core/window/utils/WindowParser';
 import {SkinContainer} from '@core/window/graphics/SkinContainer';
+import {WindowRenderer} from '@core/window/graphics/WindowRenderer';
+import {FillSkinRenderer} from '@core/window/graphics/renderer/FillSkinRenderer';
+import {NullSkinRenderer} from '@core/window/graphics/renderer/NullSkinRenderer';
+import {BitmapSkinParser} from '@core/window/graphics/renderer/BitmapSkinParser';
+import type {ISkinData} from '@core/window/graphics/renderer/BitmapSkinParser';
 import {DefaultAttStruct} from '@core/window/utils/DefaultAttStruct';
 import {ThemeManager} from './theme/ThemeManager';
 import {ServiceManager} from '@core/window/services/ServiceManager';
@@ -73,6 +78,7 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
     private _widgetLayouts: Map<string, unknown> = new Map();
 
     // ── AS3-compatible window context system ────────────────────────────
+    private _windowRenderer: WindowRenderer | null = null;
     private _serviceManager: ServiceManager | null = null;
     private _initialized: boolean = false;
 
@@ -175,11 +181,17 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
                 element.defaults.heightMax
             );
 
+            const rendererType = element.renderer || 'null';
+            const rendererName = `${ element.typeId }_${ element.style }`;
+            const renderer = rendererType === 'fill'
+                ? new FillSkinRenderer(rendererName)
+                : new NullSkinRenderer(rendererName);
+
             this._skinContainer.addSkinRenderer(
                 element.typeId,
                 element.style,
                 element.intent,
-                element.renderer || true,
+                renderer,
                 null,
                 defaults
             );
@@ -656,6 +668,87 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
     public getLayoutByTypeAndStyle(type: number, style: number): Record<string, unknown> | null
     {
         return this._skinContainer.getWindowLayoutByTypeAndStyle(type, style);
+    }
+
+    /**
+     * Returns the skin container.
+     *
+     * @returns The skin container instance
+     */
+    public getSkinContainer(): SkinContainer
+    {
+        return this._skinContainer;
+    }
+
+    /**
+     * Returns the window renderer.
+     *
+     * @returns The window renderer instance, or null
+     */
+    public getWindowRenderer(): WindowRenderer | null
+    {
+        return this._windowRenderer;
+    }
+
+    /**
+     * Loads skin assets and creates BitmapSkinRenderers from skin JSON data.
+     *
+     * For each skin JSON, the parser creates a BitmapSkinRenderer with all
+     * templates, layouts, and state mappings. The renderer is then registered
+     * in the SkinContainer, replacing the NullSkinRenderer placeholder that
+     * was created during loadElementDescription().
+     *
+     * The skins map is keyed by the skin's `id` field (e.g. "habbo_skin_frame_xml"),
+     * which matches the element descriptor's `asset` field.
+     *
+     * @param skins - Map of skin id → skin JSON data
+     * @param atlases - Map of atlas asset name → ImageBitmap
+     */
+    public loadSkinAssets(skins: Map<string, ISkinData>, atlases: Map<string, ImageBitmap>): void
+    {
+        // Create the window renderer now that we have skins
+        if(!this._windowRenderer)
+        {
+            this._windowRenderer = new WindowRenderer(this._skinContainer);
+        }
+
+        let loaded = 0;
+
+        for(const [skinId, skinData] of skins)
+        {
+            const renderer = BitmapSkinParser.parse(skinData, atlases);
+
+            // Find all element descriptors that reference this skin asset
+            const descriptors = this._elementRegistry.getDescriptorsByAsset(skinId);
+
+            if(descriptors.length === 0)
+            {
+                log.debug(`Skin "${ skinId }" has no matching element descriptors`);
+            }
+
+            for(const descriptor of descriptors)
+            {
+                const defaults = this._skinContainer.getDefaultAttributesByTypeAndStyle(descriptor.typeId, descriptor.style);
+
+                if(defaults)
+                {
+                    this._skinContainer.addSkinRenderer(
+                        descriptor.typeId,
+                        descriptor.style,
+                        descriptor.intent,
+                        renderer,
+                        null,
+                        defaults
+                    );
+
+                    loaded++;
+
+                    log.debug(`Skin "${ skinId }" → type=${ descriptor.typeId } style=${ descriptor.style } (stateDrawable[0]=${ renderer.isStateDrawable(0) })`);
+                }
+            }
+        }
+
+        log.info(`Skin assets loaded: ${ loaded } renderers registered from ${ skins.size } skins`);
     }
 
     // ── Private helpers ────────────────────────────────────────────────

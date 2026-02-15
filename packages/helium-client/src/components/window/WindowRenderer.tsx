@@ -1,5 +1,5 @@
 import type {JSX} from 'solid-js';
-import {For, Show} from 'solid-js';
+import {createEffect, For, onMount, Show} from 'solid-js';
 import type {IWindow} from '@core/window/IWindow';
 import {WindowController} from '@core/window/WindowController';
 import {WindowMouseEvent} from '@core/window/events/WindowMouseEvent';
@@ -8,15 +8,81 @@ import {Helium} from 'helium-engine';
 import type {WindowMouseOperator} from '@core/window/services/WindowMouseOperator';
 
 /**
+ * Converts an engine color value (0xAARRGGBB) to a CSS rgba() string.
+ *
+ * @param color - The 32-bit ARGB color value
+ * @returns CSS rgba string
+ */
+function colorToRgba(color: number): string
+{
+	const a = ((color >>> 24) & 0xFF) / 255;
+	const r = (color >> 16) & 0xFF;
+	const g = (color >> 8) & 0xFF;
+	const b = color & 0xFF;
+
+	return `rgba(${r},${g},${b},${a})`;
+}
+
+/**
+ * Renders the skin buffer from the engine into a canvas element.
+ *
+ * @param canvas - The canvas element to draw into
+ * @param win - The engine window
+ * @param w - The desired width
+ * @param h - The desired height
+ */
+function renderSkinToCanvas(canvas: HTMLCanvasElement, win: IWindow, w: number, h: number): void
+{
+	const renderer = Helium.instance.windowManager.getWindowRenderer();
+
+	if(!renderer)
+	{
+		console.warn(`[SkinRender] No WindowRenderer for "${win.name}" type=${win.type} style=${win.style}`);
+
+		return;
+	}
+
+	const buffer = renderer.getDrawBufferForRenderable(win) as OffscreenCanvas | null;
+
+	if(!buffer)
+	{
+		console.debug(`[SkinRender] No buffer for "${win.name}" type=${win.type} style=${win.style}`);
+
+		return;
+	}
+
+	if(canvas.width !== w || canvas.height !== h)
+	{
+		canvas.width = w;
+		canvas.height = h;
+	}
+
+	const ctx = canvas.getContext('2d');
+
+	if(!ctx) return;
+
+	ctx.imageSmoothingEnabled = false;
+	ctx.clearRect(0, 0, w, h);
+	ctx.drawImage(buffer, 0, 0);
+
+	console.debug(`[SkinRender] Drew "${win.name}" type=${win.type} buffer=${buffer.width}x${buffer.height}`);
+}
+
+/**
  * Renders a single IWindow node.
  *
  * Forwards DOM mouse events to the engine's WindowController.update()
  * method, enabling procedures, drag, scale, and other interactions.
+ *
+ * Displays the engine's rendered skin buffer (OffscreenCanvas) via
+ * a canvas element positioned absolutely behind the children.
  */
 function WindowNode(props: { window: IWindow }): JSX.Element
 {
 	const win = props.window;
-	const {x, y, width, height, visible, caption, children} = useWindow(win);
+	const {x, y, width, height, visible, caption, children, background, color, blend, state} = useWindow(win);
+
+	let skinCanvasRef: HTMLCanvasElement | undefined;
 
 	const onMouseDown = (e: MouseEvent) =>
 	{
@@ -84,23 +150,83 @@ function WindowNode(props: { window: IWindow }): JSX.Element
 		event.recycle();
 	};
 
+	/**
+	 * Computes visual inline styles from engine properties.
+	 *
+	 * `background` = whether the window has a filled background.
+	 * `color` = 0xAARRGGBB fill color.
+	 * `blend` = opacity (0-1).
+	 */
+	const visualStyle = (): JSX.CSSProperties =>
+	{
+		const style: JSX.CSSProperties = {
+			position: 'absolute',
+			left: `${x()}px`,
+			top: `${y()}px`,
+			width: `${width()}px`,
+			height: `${height()}px`,
+		};
+
+		if(background())
+		{
+			style['background-color'] = colorToRgba(color());
+		}
+
+		const b = blend();
+
+		if(b < 1)
+		{
+			style.opacity = `${b}`;
+		}
+
+		return style;
+	};
+
+	// Render skin when component mounts or state/size changes
+	onMount(() =>
+	{
+		if(skinCanvasRef)
+		{
+			renderSkinToCanvas(skinCanvasRef, win, width(), height());
+		}
+	});
+
+	// Re-render skin when window state or size changes
+	createEffect(() =>
+	{
+		// Track reactive dependencies
+		const w = width();
+		const h = height();
+		const _s = state();
+
+		if(skinCanvasRef && w > 0 && h > 0)
+		{
+			renderSkinToCanvas(skinCanvasRef, win, w, h);
+		}
+	});
+
 	return (
 		<Show when={visible()}>
 			<div
 				class={`hw-iwindow hw-type-${win.type}`}
-				style={{
-					position: 'absolute',
-					left: `${x()}px`,
-					top: `${y()}px`,
-					width: `${width()}px`,
-					height: `${height()}px`,
-				}}
+				style={visualStyle()}
 				data-name={win.name}
 				data-type={win.type}
 				onMouseDown={onMouseDown}
 				onMouseOver={onMouseOver}
 				onMouseOut={onMouseOut}
 			>
+				<canvas
+					ref={skinCanvasRef}
+					style={{
+						position: 'absolute',
+						left: '0',
+						top: '0',
+						width: '100%',
+						height: '100%',
+						'pointer-events': 'none',
+					}}
+				/>
 				<Show when={caption()}>
 					<span class="hw-caption">{caption()}</span>
 				</Show>

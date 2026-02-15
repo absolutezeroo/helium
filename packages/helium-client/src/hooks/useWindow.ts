@@ -16,6 +16,9 @@ export interface IWindowState
 	caption: Accessor<string>;
 	state: Accessor<number>;
 	children: Accessor<IWindow[]>;
+	background: Accessor<boolean>;
+	color: Accessor<number>;
+	blend: Accessor<number>;
 	window: IWindow;
 }
 
@@ -25,6 +28,11 @@ export interface IWindowState
  *
  * Listens to WindowEvent types (WE_RELOCATED, WE_RESIZED, WE_CHILD_ADDED,
  * WE_CHILD_REMOVED, etc.) and updates signals accordingly.
+ *
+ * Visual properties (background, color, blend) are read at creation time
+ * from the window's theme defaults. In AS3, these are applied by the
+ * Flash renderer via context.invalidate() — here they initialize signals
+ * for CSS rendering.
  *
  * @param win - The IWindow to observe
  * @returns Reactive state object
@@ -39,6 +47,9 @@ export function useWindow(win: IWindow): IWindowState
 	const [caption, setCaption] = createSignal(win.caption);
 	const [children, setChildren] = createSignal<IWindow[]>(getChildren(win));
 	const [state, setState] = createSignal(win.state);
+	const [background] = createSignal(win.background);
+	const [color] = createSignal(win.color);
+	const [blend] = createSignal(win.blend);
 
 	const onRelocated = (): void =>
 	{
@@ -88,7 +99,7 @@ export function useWindow(win: IWindow): IWindowState
 		}
 	});
 
-	return {x, y, width, height, visible, caption, state, children, window: win};
+	return {x, y, width, height, visible, caption, state, children, background, color, blend, window: win};
 }
 
 /**

@@ -1,73 +1,73 @@
 {
-    "name": "unique_item_overlay_preview",
-    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_unique_item_overlay_preview_xml.bin",
-    "window": {
-        "tag": "window",
-        "typeId": -1,
-        "attributes": {},
+  "name": "unique_item_overlay_preview",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_unique_item_overlay_preview_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "typeId": 4,
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "40",
+          "height": "40",
+          "params": "16",
+          "style": "0",
+          "name": "limitedItemWidget"
+        },
         "children": [
-            {
-                "tag": "container",
-                "typeId": 4,
-                "attributes": {
-                    "x": "0",
-                    "y": "0",
-                    "width": "40",
-                    "height": "40",
-                    "params": "16",
-                    "style": "0",
-                    "name": "limitedItemWidget"
-                },
-                "children": [
-                    {
-                        "tag": "static_bitmap",
-                        "typeId": 23,
-                        "attributes": {
-                            "x": "5",
-                            "y": "0",
-                            "width": "30",
-                            "height": "30",
-                            "params": "16",
-                            "style": "0",
-                            "name": "plaque"
-                        },
-                        "children": []
-                    },
-                    {
-                        "tag": "bitmap",
-                        "typeId": 21,
-                        "attributes": {
-                            "x": "10",
-                            "y": "23",
-                            "width": "20",
-                            "height": "5",
-                            "params": "16",
-                            "style": "0",
-                            "name": "unique_item_edition_size_bitmap"
-                        },
-                        "children": []
-                    },
-                    {
-                        "tag": "bitmap",
-                        "typeId": 21,
-                        "attributes": {
-                            "x": "10",
-                            "y": "16",
-                            "width": "20",
-                            "height": "5",
-                            "params": "16",
-                            "style": "0",
-                            "name": "unique_item_serial_number_bitmap"
-                        },
-                        "children": []
-                    }
-                ]
-            }
+          {
+            "tag": "static_bitmap",
+            "typeId": 23,
+            "attributes": {
+              "x": "5",
+              "y": "0",
+              "width": "30",
+              "height": "30",
+              "params": "16",
+              "style": "0",
+              "name": "plaque"
+            },
+            "children": []
+          },
+          {
+            "tag": "bitmap",
+            "typeId": 21,
+            "attributes": {
+              "x": "10",
+              "y": "23",
+              "width": "20",
+              "height": "5",
+              "params": "16",
+              "style": "0",
+              "name": "unique_item_edition_size_bitmap"
+            },
+            "children": []
+          },
+          {
+            "tag": "bitmap",
+            "typeId": 21,
+            "attributes": {
+              "x": "10",
+              "y": "16",
+              "width": "20",
+              "height": "5",
+              "params": "16",
+              "style": "0",
+              "name": "unique_item_serial_number_bitmap"
+            },
+            "children": []
+          }
         ]
-    },
-    "vars": {
-        "asset_uri": "unique_item_large_tile_upright",
-        "handle_bitmap_disposing": false
-    },
-    "filters": []
+      }
+    ]
+  },
+  "vars": {
+    "asset_uri": "unique_item_large_tile_upright",
+    "handle_bitmap_disposing": false
+  },
+  "filters": []
 }

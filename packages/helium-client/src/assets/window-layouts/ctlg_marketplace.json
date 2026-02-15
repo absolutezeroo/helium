@@ -1,44 +1,44 @@
 {
-    "name": "ctlg_marketplace",
-    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_marketplace_xml.bin",
-    "window": {
-        "tag": "window",
-        "typeId": -1,
-        "attributes": {},
+  "name": "ctlg_marketplace",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_marketplace_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "typeId": 4,
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "360",
+          "height": "460",
+          "params": "16",
+          "style": "0",
+          "name": "ctlg_marketplace",
+          "color": "0x2121ffffff",
+          "background": "true"
+        },
         "children": [
-            {
-                "tag": "container",
-                "typeId": 4,
-                "attributes": {
-                    "x": "0",
-                    "y": "0",
-                    "width": "360",
-                    "height": "460",
-                    "params": "16",
-                    "style": "0",
-                    "name": "ctlg_marketplace",
-                    "color": "0x2121ffffff",
-                    "background": "true"
-                },
-                "children": [
-                    {
-                        "tag": "container",
-                        "typeId": 4,
-                        "attributes": {
-                            "x": "0",
-                            "y": "70",
-                            "width": "360",
-                            "height": "390",
-                            "params": "16",
-                            "style": "0",
-                            "name": "marketPlaceWidget"
-                        },
-                        "children": []
-                    }
-                ]
-            }
+          {
+            "tag": "container",
+            "typeId": 4,
+            "attributes": {
+              "x": "0",
+              "y": "70",
+              "width": "360",
+              "height": "390",
+              "params": "16",
+              "style": "0",
+              "name": "marketPlaceWidget"
+            },
+            "children": []
+          }
         ]
-    },
-    "vars": {},
-    "filters": []
+      }
+    ]
+  },
+  "vars": {},
+  "filters": []
 }

@@ -121,7 +121,7 @@ export class WindowParser implements IWindowParser
         const y = parseIntSafe(attrs.y);
         const width = parseIntSafe(attrs.width);
         const height = parseIntSafe(attrs.height);
-        const caption = attrs.caption ? decodeURIComponent(attrs.caption) : '';
+        const caption = attrs.caption ?? '';
         const id = parseIntSafe(attrs.id);
         const visible = attrs.visible !== 'false';
         const color = parseColorSafe(attrs.color);
@@ -129,12 +129,12 @@ export class WindowParser implements IWindowParser
         const background = attrs.background === 'true';
         const dynamicStyle = attrs.dynamic_style ?? '';
 
-        // Parse tags (values are URL-encoded in the JSON, e.g. "FIT%3Aachievements")
+        // Parse tags (pre-decoded in the JSON by compile-window-layouts)
         let tags: string[] | null = null;
 
         if(attrs.tags)
         {
-            tags = attrs.tags.split(',').map((t: string) => decodeURIComponent(t.trim())).filter(Boolean);
+            tags = attrs.tags.split(',').map((t: string) => t.trim()).filter(Boolean);
         }
 
         const rect = { x, y, width, height };

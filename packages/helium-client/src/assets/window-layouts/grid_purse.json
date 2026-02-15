@@ -1,527 +1,527 @@
 {
-    "name": "grid_purse",
-    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_purse_xml.bin",
-    "window": {
-        "tag": "window",
-        "typeId": -1,
-        "attributes": {},
+  "name": "grid_purse",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboToolbarCom_purse_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "typeId": 4,
+        "attributes": {
+          "x": "-28",
+          "y": "0",
+          "width": "220",
+          "height": "77",
+          "params": "0",
+          "style": "6",
+          "color": "0x0686661"
+        },
         "children": [
-            {
-                "tag": "container",
-                "typeId": 4,
+          {
+            "tag": "border",
+            "typeId": 30,
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "220",
+              "height": "76",
+              "params": "16",
+              "style": "9",
+              "color": "0x0686661"
+            },
+            "children": []
+          },
+          {
+            "tag": "border",
+            "typeId": 30,
+            "attributes": {
+              "x": "3",
+              "y": "3",
+              "width": "114",
+              "height": "69",
+              "params": "16",
+              "style": "3",
+              "color": "0x0201e19",
+              "blend": "0.8",
+              "visible": "false"
+            },
+            "children": []
+          },
+          {
+            "tag": "itemlist_vertical",
+            "typeId": 50,
+            "attributes": {
+              "x": "7",
+              "y": "5",
+              "width": "52",
+              "height": "55",
+              "params": "3145728",
+              "style": "0",
+              "name": "purse_itemlist",
+              "height_max": "62"
+            },
+            "children": [
+              {
+                "tag": "region",
+                "typeId": 5,
                 "attributes": {
-                    "x": "-28",
-                    "y": "0",
-                    "width": "220",
-                    "height": "77",
-                    "params": "0",
-                    "style": "6",
-                    "color": "0x0686661"
+                  "x": "0",
+                  "y": "0",
+                  "width": "52",
+                  "height": "19",
+                  "params": "1",
+                  "style": "3",
+                  "dynamic_style": "brightness_and_shadow_under",
+                  "name": "diamond_count_button",
+                  "treshold": "0"
                 },
                 "children": [
-                    {
-                        "tag": "border",
-                        "typeId": 30,
-                        "attributes": {
-                            "x": "0",
-                            "y": "0",
-                            "width": "220",
-                            "height": "76",
-                            "params": "16",
-                            "style": "9",
-                            "color": "0x0686661"
-                        },
-                        "children": []
+                  {
+                    "tag": "text",
+                    "typeId": 10,
+                    "attributes": {
+                      "x": "25",
+                      "y": "2",
+                      "width": "10",
+                      "height": "17",
+                      "params": "262160",
+                      "style": "3",
+                      "name": "diamond_count",
+                      "caption": "0",
+                      "tags": "#icon"
                     },
-                    {
-                        "tag": "border",
-                        "typeId": 30,
-                        "attributes": {
-                            "x": "3",
-                            "y": "3",
-                            "width": "114",
-                            "height": "69",
-                            "params": "16",
-                            "style": "3",
-                            "color": "0x0201e19",
-                            "blend": "0.8",
-                            "visible": "false"
-                        },
-                        "children": []
+                    "children": []
+                  },
+                  {
+                    "tag": "static_bitmap",
+                    "typeId": 23,
+                    "attributes": {
+                      "x": "36",
+                      "y": "2",
+                      "width": "15",
+                      "height": "15",
+                      "params": "18",
+                      "style": "3",
+                      "treshold": "0",
+                      "tags": "#icon"
                     },
-                    {
-                        "tag": "itemlist_vertical",
-                        "typeId": 50,
-                        "attributes": {
-                            "x": "7",
-                            "y": "5",
-                            "width": "52",
-                            "height": "55",
-                            "params": "3145728",
-                            "style": "0",
-                            "name": "purse_itemlist",
-                            "height_max": "62"
-                        },
-                        "children": [
-                            {
-                                "tag": "region",
-                                "typeId": 5,
-                                "attributes": {
-                                    "x": "0",
-                                    "y": "0",
-                                    "width": "52",
-                                    "height": "19",
-                                    "params": "1",
-                                    "style": "3",
-                                    "dynamic_style": "brightness_and_shadow_under",
-                                    "name": "diamond_count_button",
-                                    "treshold": "0"
-                                },
-                                "children": [
-                                    {
-                                        "tag": "text",
-                                        "typeId": 10,
-                                        "attributes": {
-                                            "x": "25",
-                                            "y": "2",
-                                            "width": "10",
-                                            "height": "17",
-                                            "params": "262160",
-                                            "style": "3",
-                                            "name": "diamond_count",
-                                            "caption": "0",
-                                            "tags": "%23icon"
-                                        },
-                                        "children": []
-                                    },
-                                    {
-                                        "tag": "static_bitmap",
-                                        "typeId": 23,
-                                        "attributes": {
-                                            "x": "36",
-                                            "y": "2",
-                                            "width": "15",
-                                            "height": "15",
-                                            "params": "18",
-                                            "style": "3",
-                                            "treshold": "0",
-                                            "tags": "%23icon"
-                                        },
-                                        "children": []
-                                    }
-                                ]
-                            },
-                            {
-                                "tag": "region",
-                                "typeId": 5,
-                                "attributes": {
-                                    "x": "0",
-                                    "y": "19",
-                                    "width": "52",
-                                    "height": "19",
-                                    "params": "1",
-                                    "style": "3",
-                                    "dynamic_style": "brightness_and_shadow_under",
-                                    "name": "credit_count_button",
-                                    "treshold": "0"
-                                },
-                                "children": [
-                                    {
-                                        "tag": "text",
-                                        "typeId": 10,
-                                        "attributes": {
-                                            "x": "25",
-                                            "y": "2",
-                                            "width": "10",
-                                            "height": "17",
-                                            "params": "262160",
-                                            "style": "3",
-                                            "name": "credit_count",
-                                            "caption": "0",
-                                            "tags": "%23icon"
-                                        },
-                                        "children": []
-                                    },
-                                    {
-                                        "tag": "static_bitmap",
-                                        "typeId": 23,
-                                        "attributes": {
-                                            "x": "36",
-                                            "y": "2",
-                                            "width": "15",
-                                            "height": "15",
-                                            "params": "18",
-                                            "style": "3",
-                                            "treshold": "0",
-                                            "tags": "%23icon"
-                                        },
-                                        "children": []
-                                    }
-                                ]
-                            },
-                            {
-                                "tag": "region",
-                                "typeId": 5,
-                                "attributes": {
-                                    "x": "0",
-                                    "y": "38",
-                                    "width": "52",
-                                    "height": "17",
-                                    "params": "1",
-                                    "style": "3",
-                                    "dynamic_style": "brightness_and_shadow_under",
-                                    "name": "ducket_count_button",
-                                    "clipping": "false",
-                                    "treshold": "0"
-                                },
-                                "children": [
-                                    {
-                                        "tag": "text",
-                                        "typeId": 10,
-                                        "attributes": {
-                                            "x": "25",
-                                            "y": "2",
-                                            "width": "10",
-                                            "height": "17",
-                                            "params": "262160",
-                                            "style": "3",
-                                            "name": "ducket_count",
-                                            "caption": "0",
-                                            "tags": "%23icon"
-                                        },
-                                        "children": []
-                                    },
-                                    {
-                                        "tag": "static_bitmap",
-                                        "typeId": 23,
-                                        "attributes": {
-                                            "x": "36",
-                                            "y": "2",
-                                            "width": "15",
-                                            "height": "15",
-                                            "params": "16",
-                                            "style": "3",
-                                            "treshold": "0",
-                                            "tags": "%23icon"
-                                        },
-                                        "children": []
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "tag": "border",
-                        "typeId": 30,
-                        "attributes": {
-                            "x": "64",
-                            "y": "7",
-                            "width": "80",
-                            "height": "28",
-                            "params": "16",
-                            "style": "2",
-                            "color": "0x03b3933",
-                            "blend": "0.8"
-                        },
-                        "children": []
-                    },
-                    {
-                        "tag": "region",
-                        "typeId": 5,
-                        "attributes": {
-                            "x": "64",
-                            "y": "12",
-                            "width": "80",
-                            "height": "26",
-                            "params": "1",
-                            "style": "0",
-                            "dynamic_style": "brightness_and_shadow_under",
-                            "name": "hc_join_button",
-                            "treshold": "0"
-                        },
-                        "children": [
-                            {
-                                "tag": "label",
-                                "typeId": 12,
-                                "attributes": {
-                                    "x": "28",
-                                    "y": "0",
-                                    "width": "25",
-                                    "height": "17",
-                                    "params": "786640",
-                                    "style": "3",
-                                    "name": "join",
-                                    "caption": "join",
-                                    "visible": "false",
-                                    "tags": "%23icon"
-                                },
-                                "children": []
-                            },
-                            {
-                                "tag": "text",
-                                "typeId": 10,
-                                "attributes": {
-                                    "x": "27",
-                                    "y": "0",
-                                    "width": "50",
-                                    "height": "28",
-                                    "params": "802832",
-                                    "style": "3",
-                                    "name": "days",
-                                    "caption": "23%20d.",
-                                    "tags": "%23icon",
-                                    "width_max": "50",
-                                    "height_min": "28",
-                                    "height_max": "28"
-                                },
-                                "children": []
-                            },
-                            {
-                                "tag": "static_bitmap",
-                                "typeId": 23,
-                                "attributes": {
-                                    "x": "5",
-                                    "y": "0",
-                                    "width": "20",
-                                    "height": "18",
-                                    "params": "16",
-                                    "style": "3",
-                                    "tags": "%23icon"
-                                },
-                                "children": []
-                            }
-                        ]
-                    },
-                    {
-                        "tag": "border",
-                        "typeId": 30,
-                        "attributes": {
-                            "x": "64",
-                            "y": "39",
-                            "width": "80",
-                            "height": "28",
-                            "params": "16",
-                            "style": "2",
-                            "color": "0x03b3933",
-                            "blend": "0.8"
-                        },
-                        "children": []
-                    },
-                    {
-                        "tag": "region",
-                        "typeId": 5,
-                        "attributes": {
-                            "x": "64",
-                            "y": "44",
-                            "width": "90",
-                            "height": "26",
-                            "params": "1",
-                            "style": "0",
-                            "dynamic_style": "brightness_and_shadow_under",
-                            "name": "vault_button",
-                            "treshold": "0"
-                        },
-                        "children": [
-                            {
-                                "tag": "text",
-                                "typeId": 10,
-                                "attributes": {
-                                    "x": "27",
-                                    "y": "0",
-                                    "width": "50",
-                                    "height": "28",
-                                    "params": "802832",
-                                    "style": "3",
-                                    "name": "vault",
-                                    "caption": "${earnings.vault.title}",
-                                    "tags": "%23icon",
-                                    "width_max": "50",
-                                    "height_min": "28",
-                                    "height_max": "28"
-                                },
-                                "children": []
-                            },
-                            {
-                                "tag": "static_bitmap",
-                                "typeId": 23,
-                                "attributes": {
-                                    "x": "5",
-                                    "y": "0",
-                                    "width": "20",
-                                    "height": "18",
-                                    "params": "16",
-                                    "style": "3",
-                                    "tags": "%23icon"
-                                },
-                                "children": []
-                            }
-                        ]
-                    },
-                    {
-                        "tag": "background",
-                        "typeId": 2,
-                        "attributes": {
-                            "x": "149",
-                            "y": "11",
-                            "width": "1",
-                            "height": "55",
-                            "params": "16",
-                            "style": "3",
-                            "color": "0xffff444444",
-                            "background": "true",
-                            "height_min": "23"
-                        },
-                        "children": []
-                    },
-                    {
-                        "tag": "itemlist_vertical",
-                        "typeId": 50,
-                        "attributes": {
-                            "x": "155",
-                            "y": "8",
-                            "width": "63",
-                            "height": "62",
-                            "params": "0",
-                            "style": "0",
-                            "tags": "relative%281%29"
-                        },
-                        "children": [
-                            {
-                                "tag": "container_button",
-                                "typeId": 41,
-                                "attributes": {
-                                    "x": "0",
-                                    "y": "0",
-                                    "width": "61",
-                                    "height": "19",
-                                    "params": "129",
-                                    "style": "0",
-                                    "name": "help_button",
-                                    "caption": "%24%7Btoolbar.help%7D",
-                                    "color": "0x0217bb5",
-                                    "clipping": "false",
-                                    "width_min": "61",
-                                    "width_max": "62"
-                                },
-                                "children": [
-                                    {
-                                        "tag": "label",
-                                        "typeId": 12,
-                                        "attributes": {
-                                            "x": "0",
-                                            "y": "1",
-                                            "width": "71",
-                                            "height": "17",
-                                            "params": "1838288",
-                                            "style": "3",
-                                            "caption": "%24%7Btoolbar.help%7D"
-                                        },
-                                        "children": []
-                                    }
-                                ]
-                            },
-                            {
-                                "tag": "container_button",
-                                "typeId": 41,
-                                "attributes": {
-                                    "x": "0",
-                                    "y": "21",
-                                    "width": "61",
-                                    "height": "19",
-                                    "params": "1",
-                                    "style": "0",
-                                    "name": "logout_button",
-                                    "caption": "x",
-                                    "color": "0x0de5347",
-                                    "treshold": "0"
-                                },
-                                "children": [
-                                    {
-                                        "tag": "static_bitmap",
-                                        "typeId": 23,
-                                        "attributes": {
-                                            "x": "26",
-                                            "y": "0",
-                                            "width": "15",
-                                            "height": "20",
-                                            "params": "16",
-                                            "style": "3"
-                                        },
-                                        "children": []
-                                    }
-                                ]
-                            },
-                            {
-                                "tag": "container_button",
-                                "typeId": 41,
-                                "attributes": {
-                                    "x": "0",
-                                    "y": "42",
-                                    "width": "61",
-                                    "height": "19",
-                                    "params": "1",
-                                    "style": "0",
-                                    "name": "settings_button",
-                                    "caption": "s",
-                                    "color": "0x0726b86",
-                                    "treshold": "0"
-                                },
-                                "children": [
-                                    {
-                                        "tag": "static_bitmap",
-                                        "typeId": 23,
-                                        "attributes": {
-                                            "x": "1",
-                                            "y": "1",
-                                            "width": "61",
-                                            "height": "18",
-                                            "params": "16",
-                                            "style": "3"
-                                        },
-                                        "children": []
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "tag": "static_bitmap",
-                        "typeId": 23,
-                        "attributes": {
-                            "x": "0",
-                            "y": "55",
-                            "width": "35",
-                            "height": "16",
-                            "params": "0",
-                            "style": "3",
-                            "name": "beta_sign",
-                            "visible": "false"
-                        },
-                        "children": []
-                    }
+                    "children": []
+                  }
                 ]
-            }
+              },
+              {
+                "tag": "region",
+                "typeId": 5,
+                "attributes": {
+                  "x": "0",
+                  "y": "19",
+                  "width": "52",
+                  "height": "19",
+                  "params": "1",
+                  "style": "3",
+                  "dynamic_style": "brightness_and_shadow_under",
+                  "name": "credit_count_button",
+                  "treshold": "0"
+                },
+                "children": [
+                  {
+                    "tag": "text",
+                    "typeId": 10,
+                    "attributes": {
+                      "x": "25",
+                      "y": "2",
+                      "width": "10",
+                      "height": "17",
+                      "params": "262160",
+                      "style": "3",
+                      "name": "credit_count",
+                      "caption": "0",
+                      "tags": "#icon"
+                    },
+                    "children": []
+                  },
+                  {
+                    "tag": "static_bitmap",
+                    "typeId": 23,
+                    "attributes": {
+                      "x": "36",
+                      "y": "2",
+                      "width": "15",
+                      "height": "15",
+                      "params": "18",
+                      "style": "3",
+                      "treshold": "0",
+                      "tags": "#icon"
+                    },
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "tag": "region",
+                "typeId": 5,
+                "attributes": {
+                  "x": "0",
+                  "y": "38",
+                  "width": "52",
+                  "height": "17",
+                  "params": "1",
+                  "style": "3",
+                  "dynamic_style": "brightness_and_shadow_under",
+                  "name": "ducket_count_button",
+                  "clipping": "false",
+                  "treshold": "0"
+                },
+                "children": [
+                  {
+                    "tag": "text",
+                    "typeId": 10,
+                    "attributes": {
+                      "x": "25",
+                      "y": "2",
+                      "width": "10",
+                      "height": "17",
+                      "params": "262160",
+                      "style": "3",
+                      "name": "ducket_count",
+                      "caption": "0",
+                      "tags": "#icon"
+                    },
+                    "children": []
+                  },
+                  {
+                    "tag": "static_bitmap",
+                    "typeId": 23,
+                    "attributes": {
+                      "x": "36",
+                      "y": "2",
+                      "width": "15",
+                      "height": "15",
+                      "params": "16",
+                      "style": "3",
+                      "treshold": "0",
+                      "tags": "#icon"
+                    },
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "border",
+            "typeId": 30,
+            "attributes": {
+              "x": "64",
+              "y": "7",
+              "width": "80",
+              "height": "28",
+              "params": "16",
+              "style": "2",
+              "color": "0x03b3933",
+              "blend": "0.8"
+            },
+            "children": []
+          },
+          {
+            "tag": "region",
+            "typeId": 5,
+            "attributes": {
+              "x": "64",
+              "y": "12",
+              "width": "80",
+              "height": "26",
+              "params": "1",
+              "style": "0",
+              "dynamic_style": "brightness_and_shadow_under",
+              "name": "hc_join_button",
+              "treshold": "0"
+            },
+            "children": [
+              {
+                "tag": "label",
+                "typeId": 12,
+                "attributes": {
+                  "x": "28",
+                  "y": "0",
+                  "width": "25",
+                  "height": "17",
+                  "params": "786640",
+                  "style": "3",
+                  "name": "join",
+                  "caption": "join",
+                  "visible": "false",
+                  "tags": "#icon"
+                },
+                "children": []
+              },
+              {
+                "tag": "text",
+                "typeId": 10,
+                "attributes": {
+                  "x": "27",
+                  "y": "0",
+                  "width": "50",
+                  "height": "28",
+                  "params": "802832",
+                  "style": "3",
+                  "name": "days",
+                  "caption": "23 d.",
+                  "tags": "#icon",
+                  "width_max": "50",
+                  "height_min": "28",
+                  "height_max": "28"
+                },
+                "children": []
+              },
+              {
+                "tag": "static_bitmap",
+                "typeId": 23,
+                "attributes": {
+                  "x": "5",
+                  "y": "0",
+                  "width": "20",
+                  "height": "18",
+                  "params": "16",
+                  "style": "3",
+                  "tags": "#icon"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "border",
+            "typeId": 30,
+            "attributes": {
+              "x": "64",
+              "y": "39",
+              "width": "80",
+              "height": "28",
+              "params": "16",
+              "style": "2",
+              "color": "0x03b3933",
+              "blend": "0.8"
+            },
+            "children": []
+          },
+          {
+            "tag": "region",
+            "typeId": 5,
+            "attributes": {
+              "x": "64",
+              "y": "44",
+              "width": "90",
+              "height": "26",
+              "params": "1",
+              "style": "0",
+              "dynamic_style": "brightness_and_shadow_under",
+              "name": "vault_button",
+              "treshold": "0"
+            },
+            "children": [
+              {
+                "tag": "text",
+                "typeId": 10,
+                "attributes": {
+                  "x": "27",
+                  "y": "0",
+                  "width": "50",
+                  "height": "28",
+                  "params": "802832",
+                  "style": "3",
+                  "name": "vault",
+                  "caption": "${earnings.vault.title}",
+                  "tags": "#icon",
+                  "width_max": "50",
+                  "height_min": "28",
+                  "height_max": "28"
+                },
+                "children": []
+              },
+              {
+                "tag": "static_bitmap",
+                "typeId": 23,
+                "attributes": {
+                  "x": "5",
+                  "y": "0",
+                  "width": "20",
+                  "height": "18",
+                  "params": "16",
+                  "style": "3",
+                  "tags": "#icon"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "background",
+            "typeId": 2,
+            "attributes": {
+              "x": "149",
+              "y": "11",
+              "width": "1",
+              "height": "55",
+              "params": "16",
+              "style": "3",
+              "color": "0xffff444444",
+              "background": "true",
+              "height_min": "23"
+            },
+            "children": []
+          },
+          {
+            "tag": "itemlist_vertical",
+            "typeId": 50,
+            "attributes": {
+              "x": "155",
+              "y": "8",
+              "width": "63",
+              "height": "62",
+              "params": "0",
+              "style": "0",
+              "tags": "relative(1)"
+            },
+            "children": [
+              {
+                "tag": "container_button",
+                "typeId": 41,
+                "attributes": {
+                  "x": "0",
+                  "y": "0",
+                  "width": "61",
+                  "height": "19",
+                  "params": "129",
+                  "style": "0",
+                  "name": "help_button",
+                  "caption": "${toolbar.help}",
+                  "color": "0x0217bb5",
+                  "clipping": "false",
+                  "width_min": "61",
+                  "width_max": "62"
+                },
+                "children": [
+                  {
+                    "tag": "label",
+                    "typeId": 12,
+                    "attributes": {
+                      "x": "0",
+                      "y": "1",
+                      "width": "71",
+                      "height": "17",
+                      "params": "1838288",
+                      "style": "3",
+                      "caption": "${toolbar.help}"
+                    },
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "tag": "container_button",
+                "typeId": 41,
+                "attributes": {
+                  "x": "0",
+                  "y": "21",
+                  "width": "61",
+                  "height": "19",
+                  "params": "1",
+                  "style": "0",
+                  "name": "logout_button",
+                  "caption": "x",
+                  "color": "0x0de5347",
+                  "treshold": "0"
+                },
+                "children": [
+                  {
+                    "tag": "static_bitmap",
+                    "typeId": 23,
+                    "attributes": {
+                      "x": "26",
+                      "y": "0",
+                      "width": "15",
+                      "height": "20",
+                      "params": "16",
+                      "style": "3"
+                    },
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "tag": "container_button",
+                "typeId": 41,
+                "attributes": {
+                  "x": "0",
+                  "y": "42",
+                  "width": "61",
+                  "height": "19",
+                  "params": "1",
+                  "style": "0",
+                  "name": "settings_button",
+                  "caption": "s",
+                  "color": "0x0726b86",
+                  "treshold": "0"
+                },
+                "children": [
+                  {
+                    "tag": "static_bitmap",
+                    "typeId": 23,
+                    "attributes": {
+                      "x": "1",
+                      "y": "1",
+                      "width": "61",
+                      "height": "18",
+                      "params": "16",
+                      "style": "3"
+                    },
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "static_bitmap",
+            "typeId": 23,
+            "attributes": {
+              "x": "0",
+              "y": "55",
+              "width": "35",
+              "height": "16",
+              "params": "0",
+              "style": "3",
+              "name": "beta_sign",
+              "visible": "false"
+            },
+            "children": []
+          }
         ]
-    },
-    "vars": {
-        "auto_size": "left",
-        "etching_color": 1207959552,
-        "etching_position": "bottom",
-        "text_color": 16777215,
-        "text_style": "u_bold",
-        "mouse_wheel_enabled": false,
-        "spacing": 2,
-        "leading": 0,
-        "asset_uri": "common_beta_sign",
-        "stretched_x": false,
-        "stretched_y": false,
-        "tool_tip_caption": "${widget.memenu.settings}",
-        "resize_on_item_update": true,
-        "multiline": true,
-        "word_wrap": true,
-        "max_lines": 2,
-        "pivot_point": "center",
-        "fit_size_to_contents": true
-    },
-    "filters": []
+      }
+    ]
+  },
+  "vars": {
+    "auto_size": "left",
+    "etching_color": 1207959552,
+    "etching_position": "bottom",
+    "text_color": 16777215,
+    "text_style": "u_bold",
+    "mouse_wheel_enabled": false,
+    "spacing": 2,
+    "leading": 0,
+    "asset_uri": "common_beta_sign",
+    "stretched_x": false,
+    "stretched_y": false,
+    "tool_tip_caption": "${widget.memenu.settings}",
+    "resize_on_item_update": true,
+    "multiline": true,
+    "word_wrap": true,
+    "max_lines": 2,
+    "pivot_point": "center",
+    "fit_size_to_contents": true
+  },
+  "filters": []
 }

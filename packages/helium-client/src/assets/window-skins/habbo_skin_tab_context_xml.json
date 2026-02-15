@@ -1,28 +1,28 @@
 {
-    "id": "habbo_skin_tab_context_xml",
-    "name": "tab_context_skin",
-    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_skin_tab_context_xml.bin",
-    "variables": {},
-    "templates": [
-        {
-            "name": "tab_context",
-            "asset": "",
-            "entities": []
-        }
-    ],
-    "layouts": [
-        {
-            "name": "tab_context",
-            "transparent": false,
-            "blendMode": "",
-            "entities": []
-        }
-    ],
-    "states": [
-        {
-            "name": "default",
-            "layout": "tab_context",
-            "template": "tab_context"
-        }
-    ]
+  "id": "habbo_skin_tab_context_xml",
+  "name": "tab_context_skin",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_skin_tab_context_xml.bin",
+  "variables": {},
+  "templates": [
+    {
+      "name": "tab_context",
+      "asset": "",
+      "entities": []
+    }
+  ],
+  "layouts": [
+    {
+      "name": "tab_context",
+      "transparent": false,
+      "blendMode": "",
+      "entities": []
+    }
+  ],
+  "states": [
+    {
+      "name": "default",
+      "layout": "tab_context",
+      "template": "tab_context"
+    }
+  ]
 }

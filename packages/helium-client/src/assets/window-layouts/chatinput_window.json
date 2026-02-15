@@ -1,283 +1,283 @@
 {
-    "name": "chatinput_window",
-    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbochatinput_window_xml.bin",
-    "window": {
-        "tag": "window",
-        "typeId": -1,
-        "attributes": {},
+  "name": "chatinput_window",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbochatinput_window_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "typeId": 4,
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "1280",
+          "height": "1024",
+          "params": "16",
+          "style": "0",
+          "name": "master_container",
+          "width_min": "90"
+        },
         "children": [
-            {
-                "tag": "container",
-                "typeId": 4,
+          {
+            "tag": "container",
+            "typeId": 4,
+            "attributes": {
+              "x": "18",
+              "y": "669",
+              "width": "733",
+              "height": "117",
+              "params": "1049600",
+              "style": "0",
+              "name": "bubblecont",
+              "tags": "chat_bubble",
+              "width_min": "90"
+            },
+            "children": [
+              {
+                "tag": "itemlist_horizontal",
+                "typeId": 51,
                 "attributes": {
-                    "x": "0",
-                    "y": "0",
-                    "width": "1280",
-                    "height": "1024",
-                    "params": "16",
-                    "style": "0",
-                    "name": "master_container",
-                    "width_min": "90"
+                  "x": "124",
+                  "y": "60",
+                  "width": "484",
+                  "height": "57",
+                  "params": "4194512",
+                  "style": "100",
+                  "name": "chat_input_container"
                 },
                 "children": [
-                    {
-                        "tag": "container",
-                        "typeId": 4,
-                        "attributes": {
-                            "x": "18",
-                            "y": "669",
-                            "width": "733",
-                            "height": "117",
-                            "params": "1049600",
-                            "style": "0",
-                            "name": "bubblecont",
-                            "tags": "chat_bubble",
-                            "width_min": "90"
-                        },
-                        "children": [
-                            {
-                                "tag": "itemlist_horizontal",
-                                "typeId": 51,
-                                "attributes": {
-                                    "x": "124",
-                                    "y": "60",
-                                    "width": "484",
-                                    "height": "57",
-                                    "params": "4194512",
-                                    "style": "100",
-                                    "name": "chat_input_container"
-                                },
-                                "children": [
-                                    {
-                                        "tag": "border",
-                                        "typeId": 30,
-                                        "attributes": {
-                                            "x": "0",
-                                            "y": "0",
-                                            "width": "83",
-                                            "height": "38",
-                                            "params": "17",
-                                            "style": "8",
-                                            "name": "styles"
-                                        },
-                                        "children": [
-                                            {
-                                                "tag": "bitmap",
-                                                "typeId": 21,
-                                                "attributes": {
-                                                    "x": "7",
-                                                    "y": "2",
-                                                    "width": "55",
-                                                    "height": "34",
-                                                    "params": "16",
-                                                    "style": "100",
-                                                    "name": "preview_bitmap"
-                                                },
-                                                "children": []
-                                            },
-                                            {
-                                                "tag": "container",
-                                                "typeId": 4,
-                                                "attributes": {
-                                                    "x": "63",
-                                                    "y": "3",
-                                                    "width": "18",
-                                                    "height": "33",
-                                                    "params": "16",
-                                                    "style": "100",
-                                                    "name": "dropdown_icon_container"
-                                                },
-                                                "children": [
-                                                    {
-                                                        "tag": "icon",
-                                                        "typeId": 1,
-                                                        "attributes": {
-                                                            "x": "2",
-                                                            "y": "14",
-                                                            "width": "10",
-                                                            "height": "5",
-                                                            "params": "16",
-                                                            "style": "7",
-                                                            "color": "0x00"
-                                                        },
-                                                        "children": []
-                                                    }
-                                                ]
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "tag": "border",
-                                        "typeId": 30,
-                                        "attributes": {
-                                            "x": "90",
-                                            "y": "0",
-                                            "width": "340",
-                                            "height": "38",
-                                            "params": "16",
-                                            "style": "8",
-                                            "name": "input_border"
-                                        },
-                                        "children": [
-                                            {
-                                                "tag": "region",
-                                                "typeId": 5,
-                                                "attributes": {
-                                                    "x": "1",
-                                                    "y": "0",
-                                                    "width": "340",
-                                                    "height": "37",
-                                                    "params": "17",
-                                                    "style": "3",
-                                                    "name": "helpbutton_show_hover_region",
-                                                    "treshold": "0"
-                                                },
-                                                "children": []
-                                            },
-                                            {
-                                                "tag": "input",
-                                                "typeId": 77,
-                                                "attributes": {
-                                                    "x": "10",
-                                                    "y": "7",
-                                                    "width": "326",
-                                                    "height": "24",
-                                                    "params": "1",
-                                                    "style": "0",
-                                                    "name": "chat_input",
-                                                    "caption": "${widgets.chatinput.default}",
-                                                    "clipping": "false",
-                                                    "treshold": "0",
-                                                    "tags": "FIT%3AchatInputField"
-                                                },
-                                                "children": []
-                                            },
-                                            {
-                                                "tag": "text",
-                                                "typeId": 10,
-                                                "attributes": {
-                                                    "x": "10",
-                                                    "y": "9",
-                                                    "width": "325",
-                                                    "height": "23",
-                                                    "params": "16",
-                                                    "style": "0",
-                                                    "name": "block_text",
-                                                    "caption": "%24%7Bchat.input.alert.flood%7D",
-                                                    "visible": "false",
-                                                    "treshold": "0"
-                                                },
-                                                "children": []
-                                            },
-                                            {
-                                                "tag": "closebutton",
-                                                "typeId": 72,
-                                                "attributes": {
-                                                    "x": "313",
-                                                    "y": "9",
-                                                    "width": "22",
-                                                    "height": "21",
-                                                    "params": "17",
-                                                    "style": "4",
-                                                    "name": "helpbutton",
-                                                    "background": "true",
-                                                    "treshold": "0"
-                                                },
-                                                "children": []
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "tag": "container_button",
-                                        "typeId": 41,
-                                        "attributes": {
-                                            "x": "437",
-                                            "y": "0",
-                                            "width": "47",
-                                            "height": "38",
-                                            "params": "12582929",
-                                            "style": "4",
-                                            "name": "send_button",
-                                            "tags": "FIT%3AchatSayButton"
-                                        },
-                                        "children": [
-                                            {
-                                                "tag": "text",
-                                                "typeId": 10,
-                                                "attributes": {
-                                                    "x": "20",
-                                                    "y": "6",
-                                                    "width": "8",
-                                                    "height": "24",
-                                                    "params": "12582928",
-                                                    "style": "0",
-                                                    "name": "send_button_text",
-                                                    "caption": "."
-                                                },
-                                                "children": []
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
+                  {
+                    "tag": "border",
+                    "typeId": 30,
+                    "attributes": {
+                      "x": "0",
+                      "y": "0",
+                      "width": "83",
+                      "height": "38",
+                      "params": "17",
+                      "style": "8",
+                      "name": "styles"
                     },
-                    {
-                        "tag": "container",
-                        "typeId": 4,
+                    "children": [
+                      {
+                        "tag": "bitmap",
+                        "typeId": 21,
                         "attributes": {
-                            "x": "2",
-                            "y": "661",
-                            "width": "160",
-                            "height": "105",
-                            "params": "1180672",
-                            "style": "0",
-                            "name": "chatstyles_menu"
+                          "x": "7",
+                          "y": "2",
+                          "width": "55",
+                          "height": "34",
+                          "params": "16",
+                          "style": "100",
+                          "name": "preview_bitmap"
                         },
                         "children": []
-                    }
+                      },
+                      {
+                        "tag": "container",
+                        "typeId": 4,
+                        "attributes": {
+                          "x": "63",
+                          "y": "3",
+                          "width": "18",
+                          "height": "33",
+                          "params": "16",
+                          "style": "100",
+                          "name": "dropdown_icon_container"
+                        },
+                        "children": [
+                          {
+                            "tag": "icon",
+                            "typeId": 1,
+                            "attributes": {
+                              "x": "2",
+                              "y": "14",
+                              "width": "10",
+                              "height": "5",
+                              "params": "16",
+                              "style": "7",
+                              "color": "0x00"
+                            },
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "border",
+                    "typeId": 30,
+                    "attributes": {
+                      "x": "90",
+                      "y": "0",
+                      "width": "340",
+                      "height": "38",
+                      "params": "16",
+                      "style": "8",
+                      "name": "input_border"
+                    },
+                    "children": [
+                      {
+                        "tag": "region",
+                        "typeId": 5,
+                        "attributes": {
+                          "x": "1",
+                          "y": "0",
+                          "width": "340",
+                          "height": "37",
+                          "params": "17",
+                          "style": "3",
+                          "name": "helpbutton_show_hover_region",
+                          "treshold": "0"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "input",
+                        "typeId": 77,
+                        "attributes": {
+                          "x": "10",
+                          "y": "7",
+                          "width": "326",
+                          "height": "24",
+                          "params": "1",
+                          "style": "0",
+                          "name": "chat_input",
+                          "caption": "${widgets.chatinput.default}",
+                          "clipping": "false",
+                          "treshold": "0",
+                          "tags": "FIT:chatInputField"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "text",
+                        "typeId": 10,
+                        "attributes": {
+                          "x": "10",
+                          "y": "9",
+                          "width": "325",
+                          "height": "23",
+                          "params": "16",
+                          "style": "0",
+                          "name": "block_text",
+                          "caption": "${chat.input.alert.flood}",
+                          "visible": "false",
+                          "treshold": "0"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "closebutton",
+                        "typeId": 72,
+                        "attributes": {
+                          "x": "313",
+                          "y": "9",
+                          "width": "22",
+                          "height": "21",
+                          "params": "17",
+                          "style": "4",
+                          "name": "helpbutton",
+                          "background": "true",
+                          "treshold": "0"
+                        },
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "container_button",
+                    "typeId": 41,
+                    "attributes": {
+                      "x": "437",
+                      "y": "0",
+                      "width": "47",
+                      "height": "38",
+                      "params": "12582929",
+                      "style": "4",
+                      "name": "send_button",
+                      "tags": "FIT:chatSayButton"
+                    },
+                    "children": [
+                      {
+                        "tag": "text",
+                        "typeId": 10,
+                        "attributes": {
+                          "x": "20",
+                          "y": "6",
+                          "width": "8",
+                          "height": "24",
+                          "params": "12582928",
+                          "style": "0",
+                          "name": "send_button_text",
+                          "caption": "."
+                        },
+                        "children": []
+                      }
+                    ]
+                  }
                 ]
-            }
+              }
+            ]
+          },
+          {
+            "tag": "container",
+            "typeId": 4,
+            "attributes": {
+              "x": "2",
+              "y": "661",
+              "width": "160",
+              "height": "105",
+              "params": "1180672",
+              "style": "0",
+              "name": "chatstyles_menu"
+            },
+            "children": []
+          }
         ]
-    },
-    "vars": {
-        "handle_bitmap_disposing": false,
-        "stretched_x": false,
-        "stretched_y": false,
-        "fit_size_to_contents": true,
-        "always_show_selection": true,
-        "antialias_type": "advanced",
-        "font_face": "Ubuntu",
-        "font_size": 24,
-        "mouse_wheel_enabled": false,
-        "max_chars": 100,
-        "sharpness": 0,
-        "thickness": 0,
-        "kerning": false,
-        "spacing": 7,
-        "leading": 0,
-        "focus_capturer": true,
-        "grid_fit_type": "subpixel",
-        "text_color": 16711680,
-        "bold": true,
-        "auto_size": "left",
-        "scale_to_fit_items": true,
-        "resize_on_item_update": true
-    },
-    "filters": [
-        {
-            "type": "DropShadowFilter",
-            "attributes": {
-                "distance": "4",
-                "alpha": "0.6"
-            }
-        },
-        {
-            "type": "DropShadowFilter",
-            "attributes": {
-                "distance": "4",
-                "alpha": "0.6"
-            }
-        }
+      }
     ]
+  },
+  "vars": {
+    "handle_bitmap_disposing": false,
+    "stretched_x": false,
+    "stretched_y": false,
+    "fit_size_to_contents": true,
+    "always_show_selection": true,
+    "antialias_type": "advanced",
+    "font_face": "Ubuntu",
+    "font_size": 24,
+    "mouse_wheel_enabled": false,
+    "max_chars": 100,
+    "sharpness": 0,
+    "thickness": 0,
+    "kerning": false,
+    "spacing": 7,
+    "leading": 0,
+    "focus_capturer": true,
+    "grid_fit_type": "subpixel",
+    "text_color": 16711680,
+    "bold": true,
+    "auto_size": "left",
+    "scale_to_fit_items": true,
+    "resize_on_item_update": true
+  },
+  "filters": [
+    {
+      "type": "DropShadowFilter",
+      "attributes": {
+        "distance": "4",
+        "alpha": "0.6"
+      }
+    },
+    {
+      "type": "DropShadowFilter",
+      "attributes": {
+        "distance": "4",
+        "alpha": "0.6"
+      }
+    }
+  ]
 }

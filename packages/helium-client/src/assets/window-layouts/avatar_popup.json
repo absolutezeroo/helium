@@ -1,139 +1,139 @@
 {
-    "name": "avatar_popup",
-    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendListCom_avatar_popup_xml.bin",
-    "window": {
-        "tag": "window",
-        "typeId": -1,
-        "attributes": {},
+  "name": "avatar_popup",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendListCom_avatar_popup_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "border",
+        "typeId": 30,
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "203",
+          "height": "90",
+          "params": "0",
+          "style": "0",
+          "name": "avatar_popup"
+        },
         "children": [
-            {
-                "tag": "border",
-                "typeId": 30,
-                "attributes": {
-                    "x": "0",
-                    "y": "0",
-                    "width": "203",
-                    "height": "90",
-                    "params": "0",
-                    "style": "0",
-                    "name": "avatar_popup"
-                },
-                "children": [
-                    {
-                        "tag": "bitmap",
-                        "typeId": 21,
-                        "attributes": {
-                            "x": "11",
-                            "y": "5",
-                            "width": "32",
-                            "height": "72",
-                            "params": "17",
-                            "style": "0",
-                            "name": "face"
-                        },
-                        "children": []
-                    },
-                    {
-                        "tag": "text",
-                        "typeId": 10,
-                        "attributes": {
-                            "x": "40",
-                            "y": "5",
-                            "width": "95",
-                            "height": "13",
-                            "params": "4325392",
-                            "style": "0",
-                            "name": "name_text_online",
-                            "caption": "PH%20Avatar%20Name"
-                        },
-                        "children": []
-                    },
-                    {
-                        "tag": "text",
-                        "typeId": 10,
-                        "attributes": {
-                            "x": "60",
-                            "y": "9",
-                            "width": "140",
-                            "height": "13",
-                            "params": "16",
-                            "style": "0",
-                            "name": "name_text_offline",
-                            "caption": "PH%20Avatar%20Name"
-                        },
-                        "children": []
-                    },
-                    {
-                        "tag": "text",
-                        "typeId": 10,
-                        "attributes": {
-                            "x": "40",
-                            "y": "20",
-                            "width": "150",
-                            "height": "30",
-                            "params": "16",
-                            "style": "0",
-                            "name": "motto_text",
-                            "caption": "PH%20Room%20Desc%3A%20Neque%20porro%20quisquam%20est%20qui%20dolorem%20ipsum%20quia%20dolor%20sit%20amet%2C%20consectetur%2C%20adipisci%20velit"
-                        },
-                        "children": []
-                    },
-                    {
-                        "tag": "text",
-                        "typeId": 10,
-                        "attributes": {
-                            "x": "10",
-                            "y": "66",
-                            "width": "180",
-                            "height": "13",
-                            "params": "16",
-                            "style": "0",
-                            "name": "online_text",
-                            "caption": "%24%7Bfriendlist.avatarpopup.online%7D"
-                        },
-                        "children": []
-                    },
-                    {
-                        "tag": "bitmap",
-                        "typeId": 21,
-                        "attributes": {
-                            "x": "10",
-                            "y": "8",
-                            "width": "30",
-                            "height": "10",
-                            "params": "17",
-                            "style": "0",
-                            "name": "offline"
-                        },
-                        "children": []
-                    },
-                    {
-                        "tag": "text",
-                        "typeId": 10,
-                        "attributes": {
-                            "x": "10",
-                            "y": "27",
-                            "width": "180",
-                            "height": "13",
-                            "params": "16",
-                            "style": "0",
-                            "name": "last_access_text",
-                            "caption": "%24%7Bfriendlist.avatarpopup.lastaccess%7D"
-                        },
-                        "children": []
-                    }
-                ]
-            }
+          {
+            "tag": "bitmap",
+            "typeId": 21,
+            "attributes": {
+              "x": "11",
+              "y": "5",
+              "width": "32",
+              "height": "72",
+              "params": "17",
+              "style": "0",
+              "name": "face"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "typeId": 10,
+            "attributes": {
+              "x": "40",
+              "y": "5",
+              "width": "95",
+              "height": "13",
+              "params": "4325392",
+              "style": "0",
+              "name": "name_text_online",
+              "caption": "PH Avatar Name"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "typeId": 10,
+            "attributes": {
+              "x": "60",
+              "y": "9",
+              "width": "140",
+              "height": "13",
+              "params": "16",
+              "style": "0",
+              "name": "name_text_offline",
+              "caption": "PH Avatar Name"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "typeId": 10,
+            "attributes": {
+              "x": "40",
+              "y": "20",
+              "width": "150",
+              "height": "30",
+              "params": "16",
+              "style": "0",
+              "name": "motto_text",
+              "caption": "PH Room Desc: Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "typeId": 10,
+            "attributes": {
+              "x": "10",
+              "y": "66",
+              "width": "180",
+              "height": "13",
+              "params": "16",
+              "style": "0",
+              "name": "online_text",
+              "caption": "${friendlist.avatarpopup.online}"
+            },
+            "children": []
+          },
+          {
+            "tag": "bitmap",
+            "typeId": 21,
+            "attributes": {
+              "x": "10",
+              "y": "8",
+              "width": "30",
+              "height": "10",
+              "params": "17",
+              "style": "0",
+              "name": "offline"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "typeId": 10,
+            "attributes": {
+              "x": "10",
+              "y": "27",
+              "width": "180",
+              "height": "13",
+              "params": "16",
+              "style": "0",
+              "name": "last_access_text",
+              "caption": "${friendlist.avatarpopup.lastaccess}"
+            },
+            "children": []
+          }
         ]
-    },
-    "vars": {
-        "font_face": "Volter",
-        "font_size": 9,
-        "text_color": 0,
-        "embed_fonts": true,
-        "mouse_wheel_enabled": true,
-        "auto_size": "null",
-        "word_wrap": true
-    },
-    "filters": []
+      }
+    ]
+  },
+  "vars": {
+    "font_face": "Volter",
+    "font_size": 9,
+    "text_color": 0,
+    "embed_fonts": true,
+    "mouse_wheel_enabled": true,
+    "auto_size": "null",
+    "word_wrap": true
+  },
+  "filters": []
 }

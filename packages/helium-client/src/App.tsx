@@ -5,12 +5,44 @@ import {WindowLayerRenderer, WindowRenderer} from "./components/window/";
 import {initWindowStore} from "./stores";
 import './_index.scss';
 
+// Skin spritesheet PNGs — Vite resolves these to URLs
+import blueSkinUrl from './assets/images/habbo_blue_skin.png';
+import skinUbuntuUrl from './assets/images/habbo_skin_ubuntu.png';
+import skinIlluminaDarkUrl from './assets/images/habbo_skin_illumina_dark.png';
+import skinIlluminaLightUrl from './assets/images/habbo_skin_illumina_light.png';
+import type {ISkinData} from "@core/window";
+
+// Eagerly import all skin JSONs via Vite glob
+const skinModules = import.meta.glob('./assets/window-skins/habbo_skin_*.json', { eager: true }) as Record<string, { default: ISkinData }>;
+
+/** Atlas asset name → URL mapping. */
+const ATLAS_MAP: Record<string, string> = {
+	'habbo_blue_skin': blueSkinUrl,
+	'habbo_skin_ubuntu': skinUbuntuUrl,
+	'habbo_skin_illumina_dark': skinIlluminaDarkUrl,
+	'habbo_skin_illumina_light': skinIlluminaLightUrl,
+};
+
 declare global
 {
 	interface Window
 	{
 		HeliumConfig?: IHeliumConfig;
 	}
+}
+
+/**
+ * Loads an image URL as an ImageBitmap.
+ *
+ * @param url - The image URL
+ * @returns The decoded ImageBitmap
+ */
+async function loadImageBitmap(url: string): Promise<ImageBitmap>
+{
+	const response = await fetch(url);
+	const blob = await response.blob();
+
+	return createImageBitmap(blob);
 }
 
 /**
@@ -53,10 +85,43 @@ export function App(): JSX.Element
 			console.warn('[App] Failed to load element descriptions:', error);
 		}
 
-		// 3. Connect the SolidJS stores to the engine
+		// 3. Load skin spritesheet PNGs and skin JSON data
+		try
+		{
+			// Load atlas ImageBitmaps in parallel
+			const atlases = new Map<string, ImageBitmap>();
+			const atlasEntries = Object.entries(ATLAS_MAP);
+			const bitmaps = await Promise.all(atlasEntries.map(([, url]) => loadImageBitmap(url)));
+
+			for(let i = 0; i < atlasEntries.length; i++)
+			{
+				atlases.set(atlasEntries[i][0], bitmaps[i]);
+			}
+
+			// Collect all skin JSONs into a map keyed by skin id
+			const skins = new Map<string, ISkinData>();
+
+			for(const [, mod] of Object.entries(skinModules))
+			{
+				const skinData = ('default' in mod ? mod.default : mod) as ISkinData;
+
+				skins.set(skinData.id, skinData);
+			}
+
+			// Register skin renderers in the engine
+			helium.windowManager.loadSkinAssets(skins, atlases);
+
+			console.log(`[App] Loaded ${ atlases.size } atlases, ${ skins.size } skins`);
+		}
+		catch(error)
+		{
+			console.warn('[App] Failed to load skin assets:', error);
+		}
+
+		// 4. Connect the SolidJS stores to the engine
 		initWindowStore(helium.windowManager);
 
-		// 4. Build a test window from JSON layout to verify the pipeline
+		// 5. Build a test window from JSON layout to verify the pipeline
 		try
 		{
 			const navigatorLayout = await import('./assets/window-layouts/navigator_frame_2.json');
@@ -71,7 +136,7 @@ export function App(): JSX.Element
 			console.warn('[App] Failed to build test window:', error);
 		}
 
-		// 5. Set Ready
+		// 6. Set Ready
 		setReady(true);
 	});
 

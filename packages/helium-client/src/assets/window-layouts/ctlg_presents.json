@@ -1,42 +1,42 @@
 {
-    "name": "ctlg_presents",
-    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_club_gifts_xml.bin",
-    "window": {
-        "tag": "window",
-        "typeId": -1,
-        "attributes": {},
+  "name": "ctlg_presents",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habboold_layout_club_gifts_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "typeId": 4,
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "360",
+          "height": "460",
+          "params": "16",
+          "style": "0",
+          "name": "ctlg_presents"
+        },
         "children": [
-            {
-                "tag": "container",
-                "typeId": 4,
-                "attributes": {
-                    "x": "0",
-                    "y": "0",
-                    "width": "360",
-                    "height": "460",
-                    "params": "16",
-                    "style": "0",
-                    "name": "ctlg_presents"
-                },
-                "children": [
-                    {
-                        "tag": "container",
-                        "typeId": 4,
-                        "attributes": {
-                            "x": "10",
-                            "y": "140",
-                            "width": "340",
-                            "height": "320",
-                            "params": "16",
-                            "style": "0",
-                            "name": "clubGiftWidget"
-                        },
-                        "children": []
-                    }
-                ]
-            }
+          {
+            "tag": "container",
+            "typeId": 4,
+            "attributes": {
+              "x": "10",
+              "y": "140",
+              "width": "340",
+              "height": "320",
+              "params": "16",
+              "style": "0",
+              "name": "clubGiftWidget"
+            },
+            "children": []
+          }
         ]
-    },
-    "vars": {},
-    "filters": []
+      }
+    ]
+  },
+  "vars": {},
+  "filters": []
 }

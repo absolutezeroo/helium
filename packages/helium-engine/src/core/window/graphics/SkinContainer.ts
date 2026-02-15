@@ -1,4 +1,5 @@
 import type { ISkinContainer } from './ISkinContainer';
+import type { ISkinRenderer } from './renderer/ISkinRenderer';
 import type { DefaultAttStruct } from '../utils/DefaultAttStruct';
 
 /**
@@ -17,7 +18,7 @@ export class SkinContainer implements ISkinContainer
     protected static statesByRenderPriority: number[] | null = null;
 
     private _disposed: boolean = false;
-    private _renderers: Map<number, (unknown | null)[]> = new Map();
+    private _renderers: Map<number, (ISkinRenderer | null)[]> = new Map();
     private _defaults: Map<number, (DefaultAttStruct | null)[]> = new Map();
     private _layouts: Map<number, (Record<string, unknown> | null)[]> = new Map();
     private _intents: Map<number, (string | null)[]> = new Map();
@@ -45,7 +46,7 @@ export class SkinContainer implements ISkinContainer
      * @param layout - The window layout definition
      * @param defaults - The default attributes
      */
-    public addSkinRenderer(type: number, style: number, intent: string, renderer: unknown, layout: Record<string, unknown> | null, defaults: DefaultAttStruct): void
+    public addSkinRenderer(type: number, style: number, intent: string, renderer: ISkinRenderer, layout: Record<string, unknown> | null, defaults: DefaultAttStruct): void
     {
         if(!this._renderers.has(type))
         {
@@ -84,7 +85,7 @@ export class SkinContainer implements ISkinContainer
      * @param style - The window style
      * @returns The skin renderer, or null
      */
-    public getSkinRendererByTypeAndStyle(type: number, style: number): unknown | null
+    public getSkinRendererByTypeAndStyle(type: number, style: number): ISkinRenderer | null
     {
         const bucket = this._renderers.get(type);
 
@@ -193,9 +194,9 @@ export class SkinContainer implements ISkinContainer
      */
     public getTheActualState(type: number, style: number, state: number): number
     {
-        const renderer = this.getSkinRendererByTypeAndStyle(type, style) as { isStateDrawable?(state: number): boolean } | null;
+        const renderer = this.getSkinRendererByTypeAndStyle(type, style);
 
-        if(renderer && typeof renderer.isStateDrawable === 'function')
+        if(renderer)
         {
             for(const priority of SkinContainer.statesByRenderPriority!)
             {

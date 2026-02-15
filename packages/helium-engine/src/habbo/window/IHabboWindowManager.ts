@@ -8,6 +8,9 @@ import type {IWindow} from '@core/window/IWindow';
 import type {IWindowContext} from '@core/window/IWindowContext';
 import type {IInputEventTracker} from '@core/window/IInputEventTracker';
 import type {IWindowContainer} from '@core/window/IWindowContainer';
+import type {IWindowRenderer} from '@core/window/graphics/IWindowRenderer';
+import type {ISkinContainer} from '@core/window/graphics/ISkinContainer';
+import type {ISkinData} from '@core/window/graphics/renderer/BitmapSkinParser';
 import type {IModalDialog} from './utils/IModalDialog';
 import type {IInternalWindowServices} from "@core/window";
 import type {IAvatarRenderManager} from '@habbo/avatar/IAvatarRenderManager';
@@ -292,6 +295,24 @@ export interface IHabboWindowManager extends IDisposable
      * @returns The modal dialog instance
      */
     buildModalDialogFromJSON(json: unknown): IModalDialog;
+
+    /**
+     * Loads skin assets and creates BitmapSkinRenderers from skin JSON data.
+     *
+     * @param skins - Map of skin id → skin JSON data
+     * @param atlases - Map of atlas asset name → ImageBitmap
+     */
+    loadSkinAssets(skins: Map<string, ISkinData>, atlases: Map<string, ImageBitmap>): void;
+
+    /**
+     * Returns the skin container.
+     */
+    getSkinContainer(): ISkinContainer;
+
+    /**
+     * Returns the window renderer.
+     */
+    getWindowRenderer(): IWindowRenderer | null;
 
     /**
      * Display the floor plan editor.

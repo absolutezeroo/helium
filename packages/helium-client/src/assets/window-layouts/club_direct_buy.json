@@ -1,271 +1,271 @@
 {
-    "name": "club_direct_buy",
-    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_club_direct_buy_xml.bin",
-    "window": {
-        "tag": "window",
-        "typeId": -1,
-        "attributes": {},
+  "name": "club_direct_buy",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_club_direct_buy_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "frame",
+        "typeId": 35,
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "454",
+          "height": "442",
+          "params": "33025",
+          "style": "3",
+          "caption": "${direct.club.buy.dialog.title}",
+          "color": "0x0418db0"
+        },
         "children": [
-            {
-                "tag": "frame",
-                "typeId": 35,
+          {
+            "tag": "background",
+            "typeId": 2,
+            "attributes": {
+              "x": "-2",
+              "y": "-3",
+              "width": "452",
+              "height": "69",
+              "params": "0",
+              "style": "0",
+              "color": "0xffff303030",
+              "background": "true"
+            },
+            "children": [
+              {
+                "tag": "bitmap",
+                "typeId": 21,
                 "attributes": {
-                    "x": "0",
-                    "y": "0",
-                    "width": "454",
-                    "height": "442",
-                    "params": "33025",
-                    "style": "3",
-                    "caption": "%24%7Bdirect.club.buy.dialog.title%7D",
-                    "color": "0x0418db0"
+                  "x": "54",
+                  "y": "15",
+                  "width": "349",
+                  "height": "43",
+                  "params": "16",
+                  "style": "0",
+                  "name": "header_image"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "text",
+            "typeId": 10,
+            "attributes": {
+              "x": "99",
+              "y": "108",
+              "width": "261",
+              "height": "17",
+              "params": "16",
+              "style": "0",
+              "name": "bold_text",
+              "caption": "${direct.club.buy.header.bold.text}"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "typeId": 10,
+            "attributes": {
+              "x": "99",
+              "y": "139",
+              "width": "261",
+              "height": "17",
+              "params": "16",
+              "style": "0",
+              "name": "standard_text",
+              "caption": "${direct.club.buy.header.standard.text}"
+            },
+            "children": []
+          },
+          {
+            "tag": "bitmap",
+            "typeId": 21,
+            "attributes": {
+              "x": "-1",
+              "y": "205",
+              "width": "100",
+              "height": "197",
+              "params": "16",
+              "style": "0",
+              "name": "teaser_image_1"
+            },
+            "children": []
+          },
+          {
+            "tag": "bitmap",
+            "typeId": 21,
+            "attributes": {
+              "x": "349",
+              "y": "206",
+              "width": "100",
+              "height": "197",
+              "params": "16",
+              "style": "0",
+              "name": "teaser_image_2"
+            },
+            "children": []
+          },
+          {
+            "tag": "border",
+            "typeId": 30,
+            "attributes": {
+              "x": "100",
+              "y": "205",
+              "width": "254",
+              "height": "72",
+              "params": "16",
+              "style": "0",
+              "color": "0x0dedede"
+            },
+            "children": [
+              {
+                "tag": "border",
+                "typeId": 30,
+                "attributes": {
+                  "x": "5",
+                  "y": "4",
+                  "width": "245",
+                  "height": "25",
+                  "params": "16",
+                  "style": "2",
+                  "color": "0x0959595"
                 },
                 "children": [
-                    {
-                        "tag": "background",
-                        "typeId": 2,
-                        "attributes": {
-                            "x": "-2",
-                            "y": "-3",
-                            "width": "452",
-                            "height": "69",
-                            "params": "0",
-                            "style": "0",
-                            "color": "0xffff303030",
-                            "background": "true"
-                        },
-                        "children": [
-                            {
-                                "tag": "bitmap",
-                                "typeId": 21,
-                                "attributes": {
-                                    "x": "54",
-                                    "y": "15",
-                                    "width": "349",
-                                    "height": "43",
-                                    "params": "16",
-                                    "style": "0",
-                                    "name": "header_image"
-                                },
-                                "children": []
-                            }
-                        ]
+                  {
+                    "tag": "icon",
+                    "typeId": 1,
+                    "attributes": {
+                      "x": "4",
+                      "y": "4",
+                      "width": "35",
+                      "height": "17",
+                      "params": "16",
+                      "style": "14"
                     },
-                    {
-                        "tag": "text",
-                        "typeId": 10,
-                        "attributes": {
-                            "x": "99",
-                            "y": "108",
-                            "width": "261",
-                            "height": "17",
-                            "params": "16",
-                            "style": "0",
-                            "name": "bold_text",
-                            "caption": "%24%7Bdirect.club.buy.header.bold.text%7D"
-                        },
-                        "children": []
+                    "children": []
+                  },
+                  {
+                    "tag": "label",
+                    "typeId": 12,
+                    "attributes": {
+                      "x": "44",
+                      "y": "4",
+                      "width": "168",
+                      "height": "17",
+                      "params": "16",
+                      "style": "0",
+                      "caption": "${direct.club.buy.period.length}"
                     },
-                    {
-                        "tag": "text",
-                        "typeId": 10,
-                        "attributes": {
-                            "x": "99",
-                            "y": "139",
-                            "width": "261",
-                            "height": "17",
-                            "params": "16",
-                            "style": "0",
-                            "name": "standard_text",
-                            "caption": "%24%7Bdirect.club.buy.header.standard.text%7D"
-                        },
-                        "children": []
-                    },
-                    {
-                        "tag": "bitmap",
-                        "typeId": 21,
-                        "attributes": {
-                            "x": "-1",
-                            "y": "205",
-                            "width": "100",
-                            "height": "197",
-                            "params": "16",
-                            "style": "0",
-                            "name": "teaser_image_1"
-                        },
-                        "children": []
-                    },
-                    {
-                        "tag": "bitmap",
-                        "typeId": 21,
-                        "attributes": {
-                            "x": "349",
-                            "y": "206",
-                            "width": "100",
-                            "height": "197",
-                            "params": "16",
-                            "style": "0",
-                            "name": "teaser_image_2"
-                        },
-                        "children": []
-                    },
-                    {
-                        "tag": "border",
-                        "typeId": 30,
-                        "attributes": {
-                            "x": "100",
-                            "y": "205",
-                            "width": "254",
-                            "height": "72",
-                            "params": "16",
-                            "style": "0",
-                            "color": "0x0dedede"
-                        },
-                        "children": [
-                            {
-                                "tag": "border",
-                                "typeId": 30,
-                                "attributes": {
-                                    "x": "5",
-                                    "y": "4",
-                                    "width": "245",
-                                    "height": "25",
-                                    "params": "16",
-                                    "style": "2",
-                                    "color": "0x0959595"
-                                },
-                                "children": [
-                                    {
-                                        "tag": "icon",
-                                        "typeId": 1,
-                                        "attributes": {
-                                            "x": "4",
-                                            "y": "4",
-                                            "width": "35",
-                                            "height": "17",
-                                            "params": "16",
-                                            "style": "14"
-                                        },
-                                        "children": []
-                                    },
-                                    {
-                                        "tag": "label",
-                                        "typeId": 12,
-                                        "attributes": {
-                                            "x": "44",
-                                            "y": "4",
-                                            "width": "168",
-                                            "height": "17",
-                                            "params": "16",
-                                            "style": "0",
-                                            "caption": "%24%7Bdirect.club.buy.period.length%7D"
-                                        },
-                                        "children": []
-                                    }
-                                ]
-                            },
-                            {
-                                "tag": "container_button",
-                                "typeId": 41,
-                                "attributes": {
-                                    "x": "167",
-                                    "y": "36",
-                                    "width": "81",
-                                    "height": "30",
-                                    "params": "17",
-                                    "style": "3",
-                                    "name": "buy",
-                                    "caption": "Buy",
-                                    "width_min": "80",
-                                    "height_min": "29"
-                                },
-                                "children": [
-                                    {
-                                        "tag": "label",
-                                        "typeId": 12,
-                                        "attributes": {
-                                            "x": "27",
-                                            "y": "6",
-                                            "width": "25",
-                                            "height": "17",
-                                            "params": "3932176",
-                                            "style": "0",
-                                            "caption": "%24%7Bbuy%7D"
-                                        },
-                                        "children": []
-                                    }
-                                ]
-                            },
-                            {
-                                "tag": "label",
-                                "typeId": 12,
-                                "attributes": {
-                                    "x": "5",
-                                    "y": "43",
-                                    "width": "108",
-                                    "height": "15",
-                                    "params": "16",
-                                    "style": "0",
-                                    "caption": "%24PRICE%20Offer%20text%20long"
-                                },
-                                "children": []
-                            }
-                        ]
-                    },
-                    {
-                        "tag": "bitmap",
-                        "typeId": 21,
-                        "attributes": {
-                            "x": "99",
-                            "y": "281",
-                            "width": "252",
-                            "height": "79",
-                            "params": "16",
-                            "style": "0",
-                            "name": "partner_image"
-                        },
-                        "children": []
-                    },
-                    {
-                        "tag": "link",
-                        "typeId": 14,
-                        "attributes": {
-                            "x": "99",
-                            "y": "370",
-                            "width": "250",
-                            "height": "18",
-                            "params": "17",
-                            "style": "0",
-                            "name": "club_benefits_link",
-                            "caption": "%24%7Bdirect.club.buy.compare.club.benefits.link%7D",
-                            "treshold": "0"
-                        },
-                        "children": []
-                    }
+                    "children": []
+                  }
                 ]
-            }
-        ]
-    },
-    "vars": {
-        "auto_size": "center",
-        "text_style": "u_bold",
-        "mouse_wheel_enabled": false,
-        "multiline": true,
-        "sharpness": 80,
-        "thickness": -15,
-        "word_wrap": true,
-        "text_color": 16777215,
-        "font_size": 19,
-        "underline": true
-    },
-    "filters": [
-        {
-            "type": "DropShadowFilter",
+              },
+              {
+                "tag": "container_button",
+                "typeId": 41,
+                "attributes": {
+                  "x": "167",
+                  "y": "36",
+                  "width": "81",
+                  "height": "30",
+                  "params": "17",
+                  "style": "3",
+                  "name": "buy",
+                  "caption": "Buy",
+                  "width_min": "80",
+                  "height_min": "29"
+                },
+                "children": [
+                  {
+                    "tag": "label",
+                    "typeId": 12,
+                    "attributes": {
+                      "x": "27",
+                      "y": "6",
+                      "width": "25",
+                      "height": "17",
+                      "params": "3932176",
+                      "style": "0",
+                      "caption": "${buy}"
+                    },
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "tag": "label",
+                "typeId": 12,
+                "attributes": {
+                  "x": "5",
+                  "y": "43",
+                  "width": "108",
+                  "height": "15",
+                  "params": "16",
+                  "style": "0",
+                  "caption": "$PRICE Offer text long"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "bitmap",
+            "typeId": 21,
             "attributes": {
-                "distance": "4",
-                "alpha": "0.34901960784313724",
-                "blurX": "4",
-                "blurY": "4"
-            }
-        }
+              "x": "99",
+              "y": "281",
+              "width": "252",
+              "height": "79",
+              "params": "16",
+              "style": "0",
+              "name": "partner_image"
+            },
+            "children": []
+          },
+          {
+            "tag": "link",
+            "typeId": 14,
+            "attributes": {
+              "x": "99",
+              "y": "370",
+              "width": "250",
+              "height": "18",
+              "params": "17",
+              "style": "0",
+              "name": "club_benefits_link",
+              "caption": "${direct.club.buy.compare.club.benefits.link}",
+              "treshold": "0"
+            },
+            "children": []
+          }
+        ]
+      }
     ]
+  },
+  "vars": {
+    "auto_size": "center",
+    "text_style": "u_bold",
+    "mouse_wheel_enabled": false,
+    "multiline": true,
+    "sharpness": 80,
+    "thickness": -15,
+    "word_wrap": true,
+    "text_color": 16777215,
+    "font_size": 19,
+    "underline": true
+  },
+  "filters": [
+    {
+      "type": "DropShadowFilter",
+      "attributes": {
+        "distance": "4",
+        "alpha": "0.34901960784313724",
+        "blurX": "4",
+        "blurY": "4"
+      }
+    }
+  ]
 }

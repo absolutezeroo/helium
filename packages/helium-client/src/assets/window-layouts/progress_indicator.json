@@ -1,42 +1,42 @@
 {
-    "name": "progress_indicator",
-    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_progress_indicator_xml.bin",
-    "window": {
-        "tag": "window",
-        "typeId": -1,
-        "attributes": {},
+  "name": "progress_indicator",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_progress_indicator_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "itemlist_horizontal",
+        "typeId": 51,
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "8",
+          "height": "8",
+          "params": "147472",
+          "style": "0"
+        },
         "children": [
-            {
-                "tag": "itemlist_horizontal",
-                "typeId": 51,
-                "attributes": {
-                    "x": "0",
-                    "y": "0",
-                    "width": "8",
-                    "height": "8",
-                    "params": "147472",
-                    "style": "0"
-                },
-                "children": [
-                    {
-                        "tag": "static_bitmap",
-                        "typeId": 23,
-                        "attributes": {
-                            "x": "0",
-                            "y": "0",
-                            "width": "8",
-                            "height": "8",
-                            "params": "16",
-                            "style": "0"
-                        },
-                        "children": []
-                    }
-                ]
-            }
+          {
+            "tag": "static_bitmap",
+            "typeId": 23,
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "8",
+              "height": "8",
+              "params": "16",
+              "style": "0"
+            },
+            "children": []
+          }
         ]
-    },
-    "vars": {
-        "spacing": 3
-    },
-    "filters": []
+      }
+    ]
+  },
+  "vars": {
+    "spacing": 3
+  },
+  "filters": []
 }

@@ -18,7 +18,7 @@ const LAYER_Z_INDEX = [400, 500, 600, 700];
 /**
  * Renders a single desktop layer's children.
  */
-function IWindowDesktopLayer(props: { layer: number }): JSX.Element
+function WindowDesktopLayer(props: { layer: number }): JSX.Element
 {
 	const version = getWindowVersion(props.layer);
 
@@ -69,7 +69,7 @@ export function WindowLayerRenderer(): JSX.Element
 	return (
 		<div class="hw-iwindow-layers">
 			<For each={Array.from({length: WindowContextLayer.COUNT}, (_, i) => i)}>
-				{(layer) => <IWindowDesktopLayer layer={layer}/>}
+				{(layer) => <WindowDesktopLayer layer={layer}/>}
 			</For>
 		</div>
 	);

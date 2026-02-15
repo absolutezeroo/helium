@@ -303,6 +303,27 @@ function resolveVar(value, vars)
     return value;
 }
 
+/**
+ * Normalizes an AS3 asset library key to a filename-compatible name.
+ *
+ * AS3 asset keys use suffixes like `_png`, `_jpg` to indicate the asset
+ * type (e.g. `habbo_blue_skin_png`). Our PNG files use the `.png` extension
+ * instead, so we strip the type suffix.
+ *
+ * @param {string} assetKey - The raw AS3 asset key
+ * @returns {string} The normalized name (e.g. `habbo_blue_skin`)
+ */
+function normalizeAssetName(assetKey)
+{
+    if (!assetKey)
+    {
+        return '';
+    }
+
+    // Strip AS3 type suffixes (_png, _jpg, _xml, etc.)
+    return assetKey.replace(/_(png|jpg|jpeg|gif|swf)$/i, '');
+}
+
 function parseNumber(value, fallback)
 {
     if (value === undefined || value === null || value === '')
@@ -362,7 +383,14 @@ function parseSkinVariables(skinNode)
     {
         const attrs = readAttributes(variable);
         const key = attrs.key ?? attrs.name;
-        const value = attrs.value ?? '';
+        let value = attrs.value ?? '';
+
+        // Normalize asset references (strip _png suffix)
+        if (key === 'asset')
+        {
+            value = normalizeAssetName(value);
+        }
+
         if (key)
         {
             vars[key] = value;
@@ -398,7 +426,7 @@ function parseSkinTemplates(skinNode, vars)
 
         return {
             name: resolveVar(attrs.name, vars),
-            asset: resolveVar(attrs.asset, vars),
+            asset: normalizeAssetName(resolveVar(attrs.asset, vars)),
             entities
         };
     });

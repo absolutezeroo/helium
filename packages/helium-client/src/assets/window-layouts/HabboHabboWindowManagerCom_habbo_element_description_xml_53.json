@@ -1,20 +1,20 @@
 {
-    "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#53",
-    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
-    "window": {
-        "tag": "window",
-        "typeId": -1,
-        "attributes": {
-            "type": "scrollbar_vertical",
-            "intent": "default",
-            "style": "0",
-            "renderer": "skin",
-            "asset": "habbo_skin_scrollbar_xml",
-            "window_layout": "habbo_window_layout_scrollbar_vertical_xml",
-            "layout": "scrollbar_vertical"
-        },
-        "children": []
+  "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#53",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {
+      "type": "scrollbar_vertical",
+      "intent": "default",
+      "style": "0",
+      "renderer": "skin",
+      "asset": "habbo_skin_scrollbar_xml",
+      "window_layout": "habbo_window_layout_scrollbar_vertical_xml",
+      "layout": "scrollbar_vertical"
     },
-    "vars": {},
-    "filters": []
+    "children": []
+  },
+  "vars": {},
+  "filters": []
 }

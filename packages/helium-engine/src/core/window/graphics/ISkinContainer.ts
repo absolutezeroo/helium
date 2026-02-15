@@ -1,4 +1,5 @@
 import type { DefaultAttStruct } from '../utils/DefaultAttStruct';
+import type { ISkinRenderer } from './renderer/ISkinRenderer';
 
 /**
  * Interface for a container of skin renderers indexed by window type and style.
@@ -19,7 +20,7 @@ export interface ISkinContainer
      * @param style - The window style
      * @returns The skin renderer, or null
      */
-    getSkinRendererByTypeAndStyle(type: number, style: number): unknown | null;
+    getSkinRendererByTypeAndStyle(type: number, style: number): ISkinRenderer | null;
 
     /**
      * Returns the default attributes for the given window type and style.

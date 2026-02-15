@@ -1,21 +1,21 @@
 {
-    "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#133",
-    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
-    "window": {
-        "tag": "window",
-        "typeId": -1,
-        "attributes": {
-            "type": "frame",
-            "intent": "light",
-            "style": "4",
-            "renderer": "skin",
-            "asset": "habbo_skin_frame_3_xml",
-            "window_layout": "habbo_window_layout_frame_3_xml",
-            "layout": "frame_3",
-            "color": "0xff67a3bf"
-        },
-        "children": []
+  "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#133",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {
+      "type": "frame",
+      "intent": "light",
+      "style": "4",
+      "renderer": "skin",
+      "asset": "habbo_skin_frame_3_xml",
+      "window_layout": "habbo_window_layout_frame_3_xml",
+      "layout": "frame_3",
+      "color": "0xff67a3bf"
     },
-    "vars": {},
-    "filters": []
+    "children": []
+  },
+  "vars": {},
+  "filters": []
 }

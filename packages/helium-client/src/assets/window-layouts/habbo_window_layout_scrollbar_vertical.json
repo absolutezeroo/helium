@@ -1,71 +1,71 @@
 {
-    "name": "habbo_window_layout_scrollbar_vertical",
-    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_window_layout_scrollbar_vertical_xml.bin",
-    "window": {
-        "tag": "window",
-        "typeId": -1,
-        "attributes": {},
+  "name": "habbo_window_layout_scrollbar_vertical",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_window_layout_scrollbar_vertical_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "scrollbar_slider_button_up",
+        "typeId": 139,
+        "attributes": {
+          "name": "decrement",
+          "x": "0",
+          "y": "0",
+          "width": "17",
+          "height": "16",
+          "tags": "_EXCLUDE, _INTERNAL, decrement"
+        },
+        "children": [],
+        "params": 0
+      },
+      {
+        "tag": "scrollbar_slider_track_vertical",
+        "typeId": 135,
+        "attributes": {
+          "name": "slider_track",
+          "x": "0",
+          "y": "16",
+          "width": "17",
+          "height": "24",
+          "tags": "_EXCLUDE, _INTERNAL, slider_track"
+        },
         "children": [
-            {
-                "tag": "scrollbar_slider_button_up",
-                "typeId": 139,
-                "attributes": {
-                    "name": "decrement",
-                    "x": "0",
-                    "y": "0",
-                    "width": "17",
-                    "height": "16",
-                    "tags": "_EXCLUDE, _INTERNAL, decrement"
-                },
-                "children": [],
-                "params": 0
+          {
+            "tag": "scrollbar_slider_bar_vertical",
+            "typeId": 133,
+            "attributes": {
+              "name": "slider_bar",
+              "x": "0",
+              "y": "0",
+              "width": "17",
+              "height": "24",
+              "height_min": "12",
+              "tags": "_EXCLUDE, _INTERNAL, slider_bar"
             },
-            {
-                "tag": "scrollbar_slider_track_vertical",
-                "typeId": 135,
-                "attributes": {
-                    "name": "slider_track",
-                    "x": "0",
-                    "y": "16",
-                    "width": "17",
-                    "height": "24",
-                    "tags": "_EXCLUDE, _INTERNAL, slider_track"
-                },
-                "children": [
-                    {
-                        "tag": "scrollbar_slider_bar_vertical",
-                        "typeId": 133,
-                        "attributes": {
-                            "name": "slider_bar",
-                            "x": "0",
-                            "y": "0",
-                            "width": "17",
-                            "height": "24",
-                            "height_min": "12",
-                            "tags": "_EXCLUDE, _INTERNAL, slider_bar"
-                        },
-                        "children": [],
-                        "params": 0
-                    }
-                ],
-                "params": 0
-            },
-            {
-                "tag": "scrollbar_slider_button_down",
-                "typeId": 137,
-                "attributes": {
-                    "name": "increment",
-                    "x": "0",
-                    "y": "40",
-                    "width": "17",
-                    "height": "16",
-                    "tags": "_EXCLUDE, _INTERNAL, increment"
-                },
-                "children": [],
-                "params": 0
-            }
-        ]
-    },
-    "vars": {},
-    "filters": []
+            "children": [],
+            "params": 0
+          }
+        ],
+        "params": 0
+      },
+      {
+        "tag": "scrollbar_slider_button_down",
+        "typeId": 137,
+        "attributes": {
+          "name": "increment",
+          "x": "0",
+          "y": "40",
+          "width": "17",
+          "height": "16",
+          "tags": "_EXCLUDE, _INTERNAL, increment"
+        },
+        "children": [],
+        "params": 0
+      }
+    ]
+  },
+  "vars": {},
+  "filters": []
 }

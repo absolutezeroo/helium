@@ -1,19 +1,19 @@
 {
-    "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#159",
-    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
-    "window": {
-        "tag": "window",
-        "typeId": -1,
-        "attributes": {
-            "type": "border",
-            "intent": "balloon",
-            "style": "107",
-            "renderer": "skin",
-            "asset": "illumina_light_skin_border_balloon_xml",
-            "layout": "illumina_light_border_balloon"
-        },
-        "children": []
+  "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#159",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {
+      "type": "border",
+      "intent": "balloon",
+      "style": "107",
+      "renderer": "skin",
+      "asset": "illumina_light_skin_border_balloon_xml",
+      "layout": "illumina_light_border_balloon"
     },
-    "vars": {},
-    "filters": []
+    "children": []
+  },
+  "vars": {},
+  "filters": []
 }

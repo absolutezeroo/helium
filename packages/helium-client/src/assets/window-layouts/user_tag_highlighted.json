@@ -1,37 +1,37 @@
 {
-    "name": "user_tag_highlighted",
-    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbouser_tag_highlighted_xml.bin",
-    "window": {
-        "tag": "window",
-        "typeId": -1,
-        "attributes": {},
-        "children": [
-            {
-                "tag": "text",
-                "typeId": 10,
-                "attributes": {
-                    "x": "0",
-                    "y": "0",
-                    "width": "43",
-                    "height": "15",
-                    "params": "17",
-                    "style": "0",
-                    "caption": "my%20tag",
-                    "color": "0xff333333",
-                    "background": "true",
-                    "height_min": "15"
-                },
-                "children": []
-            }
-        ]
-    },
-    "vars": {
-        "font_face": "Volter",
-        "font_size": 9,
-        "text_color": 108167828,
-        "auto_size": "left",
-        "embed_fonts": true,
-        "margins": null
-    },
-    "filters": []
+  "name": "user_tag_highlighted",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_Habbouser_tag_highlighted_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "text",
+        "typeId": 10,
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "43",
+          "height": "15",
+          "params": "17",
+          "style": "0",
+          "caption": "my tag",
+          "color": "0xff333333",
+          "background": "true",
+          "height_min": "15"
+        },
+        "children": []
+      }
+    ]
+  },
+  "vars": {
+    "font_face": "Volter",
+    "font_size": 9,
+    "text_color": 108167828,
+    "auto_size": "left",
+    "embed_fonts": true,
+    "margins": null
+  },
+  "filters": []
 }

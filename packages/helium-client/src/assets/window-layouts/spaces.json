@@ -1,64 +1,64 @@
 {
-    "name": "spaces",
-    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbospaces_xml.bin",
-    "window": {
-        "tag": "window",
-        "typeId": -1,
-        "attributes": {},
+  "name": "spaces",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboCatalogCom_Habbospaces_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "typeId": 4,
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "339",
+          "height": "416",
+          "params": "16",
+          "style": "0",
+          "name": "default_3x3"
+        },
         "children": [
-            {
-                "tag": "container",
-                "typeId": 4,
-                "attributes": {
-                    "x": "0",
-                    "y": "0",
-                    "width": "339",
-                    "height": "416",
-                    "params": "16",
-                    "style": "0",
-                    "name": "default_3x3"
-                },
-                "children": [
-                    {
-                        "tag": "bitmap",
-                        "typeId": 21,
-                        "attributes": {
-                            "x": "0",
-                            "y": "0",
-                            "width": "339",
-                            "height": "68",
-                            "params": "16",
-                            "style": "0",
-                            "name": "headline"
-                        },
-                        "children": []
-                    },
-                    {
-                        "tag": "text",
-                        "typeId": 10,
-                        "attributes": {
-                            "x": "12",
-                            "y": "73",
-                            "width": "315",
-                            "height": "52",
-                            "params": "16",
-                            "style": "0",
-                            "name": "pageText",
-                            "caption": "Lorem%20ipsum%20dolor%20sit%20amet%2C%20consectetur%20adipiscing%20elit.%20In%20vitae%20est%20id%20tellus%20laoreet%20molestie.%20Integer%20quis%20dui%20eget%20erat%20dapibus%20dignissim.%20Curabitur%20lorem.%20Vestibulum%20id%20elit.%20Nulla%20eget%20sem%20malesuada%20magna%20iaculis%20ultrices.%20Duis%20aute%20irure%20dolor%20in%20reprehenderit%20in%20voluptate"
-                        },
-                        "children": []
-                    }
-                ]
-            }
+          {
+            "tag": "bitmap",
+            "typeId": 21,
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "339",
+              "height": "68",
+              "params": "16",
+              "style": "0",
+              "name": "headline"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "typeId": 10,
+            "attributes": {
+              "x": "12",
+              "y": "73",
+              "width": "315",
+              "height": "52",
+              "params": "16",
+              "style": "0",
+              "name": "pageText",
+              "caption": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vitae est id tellus laoreet molestie. Integer quis dui eget erat dapibus dignissim. Curabitur lorem. Vestibulum id elit. Nulla eget sem malesuada magna iaculis ultrices. Duis aute irure dolor in reprehenderit in voluptate"
+            },
+            "children": []
+          }
         ]
-    },
-    "vars": {
-        "font_face": "Volter",
-        "font_size": 9,
-        "text_color": 0,
-        "embed_fonts": true,
-        "multiline": true,
-        "word_wrap": true
-    },
-    "filters": []
+      }
+    ]
+  },
+  "vars": {
+    "font_face": "Volter",
+    "font_size": 9,
+    "text_color": 0,
+    "embed_fonts": true,
+    "multiline": true,
+    "word_wrap": true
+  },
+  "filters": []
 }

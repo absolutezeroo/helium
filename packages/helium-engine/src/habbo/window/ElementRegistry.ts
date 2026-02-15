@@ -87,6 +87,30 @@ export class ElementRegistry
 	}
 
 	/**
+	 * Returns all descriptors that use the given skin asset name.
+	 *
+	 * @param assetName - The skin asset name (e.g. "habbo_skin_frame_xml")
+	 * @returns Array of matching descriptors
+	 */
+	getDescriptorsByAsset(assetName: string): IElementDescriptor[]
+	{
+		const results: IElementDescriptor[] = [];
+
+		for(const styleMap of this._descriptors.values())
+		{
+			for(const descriptor of styleMap.values())
+			{
+				if(descriptor.asset === assetName)
+				{
+					results.push(descriptor);
+				}
+			}
+		}
+
+		return results;
+	}
+
+	/**
 	 * Dispose and clear all descriptors.
 	 */
 	dispose(): void

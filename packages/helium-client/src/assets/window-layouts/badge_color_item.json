@@ -1,70 +1,70 @@
 {
-    "name": "badge_color_item",
-    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGroupsCom_Habbobadge_color_item_xml.bin",
-    "window": {
-        "tag": "window",
-        "typeId": -1,
-        "attributes": {},
+  "name": "badge_color_item",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboGroupsCom_Habbobadge_color_item_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "typeId": 4,
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "15",
+          "height": "15",
+          "params": "17",
+          "style": "0",
+          "name": "container"
+        },
         "children": [
-            {
-                "tag": "container",
-                "typeId": 4,
-                "attributes": {
-                    "x": "0",
-                    "y": "0",
-                    "width": "15",
-                    "height": "15",
-                    "params": "17",
-                    "style": "0",
-                    "name": "container"
-                },
-                "children": [
-                    {
-                        "tag": "bitmap",
-                        "typeId": 21,
-                        "attributes": {
-                            "x": "0",
-                            "y": "0",
-                            "width": "15",
-                            "height": "15",
-                            "params": "2192",
-                            "style": "0",
-                            "name": "background"
-                        },
-                        "children": []
-                    },
-                    {
-                        "tag": "bitmap",
-                        "typeId": 21,
-                        "attributes": {
-                            "x": "0",
-                            "y": "0",
-                            "width": "15",
-                            "height": "15",
-                            "params": "2192",
-                            "style": "0",
-                            "name": "foreground"
-                        },
-                        "children": []
-                    },
-                    {
-                        "tag": "bitmap",
-                        "typeId": 21,
-                        "attributes": {
-                            "x": "0",
-                            "y": "0",
-                            "width": "15",
-                            "height": "15",
-                            "params": "2192",
-                            "style": "0",
-                            "name": "selected"
-                        },
-                        "children": []
-                    }
-                ]
-            }
+          {
+            "tag": "bitmap",
+            "typeId": 21,
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "15",
+              "height": "15",
+              "params": "2192",
+              "style": "0",
+              "name": "background"
+            },
+            "children": []
+          },
+          {
+            "tag": "bitmap",
+            "typeId": 21,
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "15",
+              "height": "15",
+              "params": "2192",
+              "style": "0",
+              "name": "foreground"
+            },
+            "children": []
+          },
+          {
+            "tag": "bitmap",
+            "typeId": 21,
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "15",
+              "height": "15",
+              "params": "2192",
+              "style": "0",
+              "name": "selected"
+            },
+            "children": []
+          }
         ]
-    },
-    "vars": {},
-    "filters": []
+      }
+    ]
+  },
+  "vars": {},
+  "filters": []
 }

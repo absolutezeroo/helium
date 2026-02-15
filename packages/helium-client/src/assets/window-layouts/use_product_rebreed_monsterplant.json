@@ -1,329 +1,329 @@
 {
-    "name": "use_product_rebreed_monsterplant",
-    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_use_product_controller_rebreed_monsterplant_xml.bin",
-    "window": {
-        "tag": "window",
-        "typeId": -1,
-        "attributes": {},
+  "name": "use_product_rebreed_monsterplant",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboRoomUICom_use_product_controller_rebreed_monsterplant_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "itemlist_vertical",
+        "typeId": 50,
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "290",
+          "height": "257",
+          "params": "147472",
+          "style": "3",
+          "name": "element_list",
+          "width_max": "290"
+        },
         "children": [
-            {
+          {
+            "tag": "container",
+            "typeId": 4,
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "270",
+              "height": "1",
+              "params": "16",
+              "style": "100",
+              "name": "separator"
+            },
+            "children": []
+          },
+          {
+            "tag": "itemlist_horizontal",
+            "typeId": 51,
+            "attributes": {
+              "x": "10",
+              "y": "11",
+              "width": "270",
+              "height": "184",
+              "params": "147472",
+              "style": "3",
+              "name": "preview_list",
+              "width_min": "270",
+              "width_max": "270"
+            },
+            "children": [
+              {
                 "tag": "itemlist_vertical",
                 "typeId": 50,
                 "attributes": {
-                    "x": "0",
-                    "y": "0",
-                    "width": "290",
-                    "height": "257",
-                    "params": "147472",
-                    "style": "3",
-                    "name": "element_list",
-                    "width_max": "290"
+                  "x": "0",
+                  "y": "0",
+                  "width": "130",
+                  "height": "184",
+                  "params": "147472",
+                  "style": "3",
+                  "name": "plant_itemlist",
+                  "width_min": "130",
+                  "width_max": "130"
                 },
                 "children": [
-                    {
-                        "tag": "container",
-                        "typeId": 4,
+                  {
+                    "tag": "text",
+                    "typeId": 10,
+                    "attributes": {
+                      "x": "0",
+                      "y": "0",
+                      "width": "122",
+                      "height": "17",
+                      "params": "16",
+                      "style": "3",
+                      "name": "plant_name",
+                      "caption": "${useproduct.widget.monsterplant.plant.name}"
+                    },
+                    "children": []
+                  },
+                  {
+                    "tag": "region",
+                    "typeId": 5,
+                    "attributes": {
+                      "x": "0",
+                      "y": "18",
+                      "width": "122",
+                      "height": "130",
+                      "params": "17",
+                      "style": "3",
+                      "name": "preview_image_region",
+                      "treshold": "0",
+                      "width_min": "122",
+                      "width_max": "122",
+                      "height_min": "130",
+                      "height_max": "130"
+                    },
+                    "children": [
+                      {
+                        "tag": "bitmap",
+                        "typeId": 21,
                         "attributes": {
-                            "x": "0",
-                            "y": "0",
-                            "width": "270",
-                            "height": "1",
-                            "params": "16",
-                            "style": "100",
-                            "name": "separator"
+                          "x": "0",
+                          "y": "0",
+                          "width": "122",
+                          "height": "130",
+                          "params": "16",
+                          "style": "3",
+                          "name": "preview_image",
+                          "width_min": "122",
+                          "width_max": "122",
+                          "height_min": "130",
+                          "height_max": "130"
                         },
                         "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "text",
+                    "typeId": 10,
+                    "attributes": {
+                      "x": "0",
+                      "y": "149",
+                      "width": "134",
+                      "height": "17",
+                      "params": "16",
+                      "style": "3",
+                      "name": "plant_rarity_level",
+                      "caption": "${useproduct.widget.monsterplant.plant.raritylevel}"
                     },
-                    {
-                        "tag": "itemlist_horizontal",
-                        "typeId": 51,
-                        "attributes": {
-                            "x": "10",
-                            "y": "11",
-                            "width": "270",
-                            "height": "184",
-                            "params": "147472",
-                            "style": "3",
-                            "name": "preview_list",
-                            "width_min": "270",
-                            "width_max": "270"
-                        },
-                        "children": [
-                            {
-                                "tag": "itemlist_vertical",
-                                "typeId": 50,
-                                "attributes": {
-                                    "x": "0",
-                                    "y": "0",
-                                    "width": "130",
-                                    "height": "184",
-                                    "params": "147472",
-                                    "style": "3",
-                                    "name": "plant_itemlist",
-                                    "width_min": "130",
-                                    "width_max": "130"
-                                },
-                                "children": [
-                                    {
-                                        "tag": "text",
-                                        "typeId": 10,
-                                        "attributes": {
-                                            "x": "0",
-                                            "y": "0",
-                                            "width": "122",
-                                            "height": "17",
-                                            "params": "16",
-                                            "style": "3",
-                                            "name": "plant_name",
-                                            "caption": "%24%7Buseproduct.widget.monsterplant.plant.name%7D"
-                                        },
-                                        "children": []
-                                    },
-                                    {
-                                        "tag": "region",
-                                        "typeId": 5,
-                                        "attributes": {
-                                            "x": "0",
-                                            "y": "18",
-                                            "width": "122",
-                                            "height": "130",
-                                            "params": "17",
-                                            "style": "3",
-                                            "name": "preview_image_region",
-                                            "treshold": "0",
-                                            "width_min": "122",
-                                            "width_max": "122",
-                                            "height_min": "130",
-                                            "height_max": "130"
-                                        },
-                                        "children": [
-                                            {
-                                                "tag": "bitmap",
-                                                "typeId": 21,
-                                                "attributes": {
-                                                    "x": "0",
-                                                    "y": "0",
-                                                    "width": "122",
-                                                    "height": "130",
-                                                    "params": "16",
-                                                    "style": "3",
-                                                    "name": "preview_image",
-                                                    "width_min": "122",
-                                                    "width_max": "122",
-                                                    "height_min": "130",
-                                                    "height_max": "130"
-                                                },
-                                                "children": []
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "tag": "text",
-                                        "typeId": 10,
-                                        "attributes": {
-                                            "x": "0",
-                                            "y": "149",
-                                            "width": "134",
-                                            "height": "17",
-                                            "params": "16",
-                                            "style": "3",
-                                            "name": "plant_rarity_level",
-                                            "caption": "%24%7Buseproduct.widget.monsterplant.plant.raritylevel%7D"
-                                        },
-                                        "children": []
-                                    },
-                                    {
-                                        "tag": "text",
-                                        "typeId": 10,
-                                        "attributes": {
-                                            "x": "0",
-                                            "y": "167",
-                                            "width": "122",
-                                            "height": "17",
-                                            "params": "16",
-                                            "style": "3",
-                                            "name": "plant_description",
-                                            "caption": "%24%7Buseproduct.widget.monsterplant.plant.description%7D"
-                                        },
-                                        "children": []
-                                    }
-                                ]
-                            },
-                            {
-                                "tag": "itemlist_vertical",
-                                "typeId": 50,
-                                "attributes": {
-                                    "x": "140",
-                                    "y": "0",
-                                    "width": "130",
-                                    "height": "117",
-                                    "params": "147472",
-                                    "style": "100",
-                                    "width_min": "130",
-                                    "width_max": "130"
-                                },
-                                "children": [
-                                    {
-                                        "tag": "container",
-                                        "typeId": 4,
-                                        "attributes": {
-                                            "x": "0",
-                                            "y": "0",
-                                            "width": "130",
-                                            "height": "17",
-                                            "params": "16",
-                                            "style": "100",
-                                            "name": "separator",
-                                            "width_min": "130",
-                                            "width_max": "130"
-                                        },
-                                        "children": []
-                                    },
-                                    {
-                                        "tag": "text",
-                                        "typeId": 10,
-                                        "attributes": {
-                                            "x": "0",
-                                            "y": "18",
-                                            "width": "130",
-                                            "height": "57",
-                                            "params": "16",
-                                            "style": "3",
-                                            "name": "description",
-                                            "caption": "%24%7Buseproduct.widget.text.rebreed_monsterplant%7D",
-                                            "width_min": "130",
-                                            "width_max": "130"
-                                        },
-                                        "children": []
-                                    },
-                                    {
-                                        "tag": "container",
-                                        "typeId": 4,
-                                        "attributes": {
-                                            "x": "0",
-                                            "y": "76",
-                                            "width": "130",
-                                            "height": "10",
-                                            "params": "16",
-                                            "style": "100",
-                                            "name": "separator",
-                                            "width_min": "130",
-                                            "width_max": "130"
-                                        },
-                                        "children": []
-                                    },
-                                    {
-                                        "tag": "text",
-                                        "typeId": 10,
-                                        "attributes": {
-                                            "x": "0",
-                                            "y": "87",
-                                            "width": "130",
-                                            "height": "30",
-                                            "params": "16",
-                                            "style": "3",
-                                            "name": "info",
-                                            "caption": "%24%7Buseproduct.widget.info.rebreed_monsterplant%7D",
-                                            "width_min": "130",
-                                            "width_max": "130"
-                                        },
-                                        "children": []
-                                    }
-                                ]
-                            }
-                        ]
+                    "children": []
+                  },
+                  {
+                    "tag": "text",
+                    "typeId": 10,
+                    "attributes": {
+                      "x": "0",
+                      "y": "167",
+                      "width": "122",
+                      "height": "17",
+                      "params": "16",
+                      "style": "3",
+                      "name": "plant_description",
+                      "caption": "${useproduct.widget.monsterplant.plant.description}"
                     },
-                    {
-                        "tag": "container",
-                        "typeId": 4,
-                        "attributes": {
-                            "x": "0",
-                            "y": "205",
-                            "width": "270",
-                            "height": "1",
-                            "params": "16",
-                            "style": "100",
-                            "name": "separator"
-                        },
-                        "children": []
-                    },
-                    {
-                        "tag": "itemlist_horizontal",
-                        "typeId": 51,
-                        "attributes": {
-                            "x": "10",
-                            "y": "216",
-                            "width": "270",
-                            "height": "30",
-                            "params": "16",
-                            "style": "100",
-                            "height_min": "30"
-                        },
-                        "children": [
-                            {
-                                "tag": "button",
-                                "typeId": 60,
-                                "attributes": {
-                                    "x": "0",
-                                    "y": "0",
-                                    "width": "130",
-                                    "height": "30",
-                                    "params": "131089",
-                                    "style": "3",
-                                    "name": "cancel_text",
-                                    "caption": "%24%7Buseproduct.widget.cancel%7D",
-                                    "width_min": "130",
-                                    "width_max": "130"
-                                },
-                                "children": []
-                            },
-                            {
-                                "tag": "button_thick",
-                                "typeId": 61,
-                                "attributes": {
-                                    "x": "140",
-                                    "y": "0",
-                                    "width": "130",
-                                    "height": "30",
-                                    "params": "131089",
-                                    "style": "5",
-                                    "name": "save_button",
-                                    "caption": "%24%7Buseproduct.widget.rebreed%7D",
-                                    "color": "0x0aa00",
-                                    "width_min": "130",
-                                    "width_max": "130"
-                                },
-                                "children": []
-                            }
-                        ]
-                    },
-                    {
-                        "tag": "container",
-                        "typeId": 4,
-                        "attributes": {
-                            "x": "0",
-                            "y": "256",
-                            "width": "270",
-                            "height": "1",
-                            "params": "16",
-                            "style": "100",
-                            "name": "separator"
-                        },
-                        "children": []
-                    }
+                    "children": []
+                  }
                 ]
-            }
+              },
+              {
+                "tag": "itemlist_vertical",
+                "typeId": 50,
+                "attributes": {
+                  "x": "140",
+                  "y": "0",
+                  "width": "130",
+                  "height": "117",
+                  "params": "147472",
+                  "style": "100",
+                  "width_min": "130",
+                  "width_max": "130"
+                },
+                "children": [
+                  {
+                    "tag": "container",
+                    "typeId": 4,
+                    "attributes": {
+                      "x": "0",
+                      "y": "0",
+                      "width": "130",
+                      "height": "17",
+                      "params": "16",
+                      "style": "100",
+                      "name": "separator",
+                      "width_min": "130",
+                      "width_max": "130"
+                    },
+                    "children": []
+                  },
+                  {
+                    "tag": "text",
+                    "typeId": 10,
+                    "attributes": {
+                      "x": "0",
+                      "y": "18",
+                      "width": "130",
+                      "height": "57",
+                      "params": "16",
+                      "style": "3",
+                      "name": "description",
+                      "caption": "${useproduct.widget.text.rebreed_monsterplant}",
+                      "width_min": "130",
+                      "width_max": "130"
+                    },
+                    "children": []
+                  },
+                  {
+                    "tag": "container",
+                    "typeId": 4,
+                    "attributes": {
+                      "x": "0",
+                      "y": "76",
+                      "width": "130",
+                      "height": "10",
+                      "params": "16",
+                      "style": "100",
+                      "name": "separator",
+                      "width_min": "130",
+                      "width_max": "130"
+                    },
+                    "children": []
+                  },
+                  {
+                    "tag": "text",
+                    "typeId": 10,
+                    "attributes": {
+                      "x": "0",
+                      "y": "87",
+                      "width": "130",
+                      "height": "30",
+                      "params": "16",
+                      "style": "3",
+                      "name": "info",
+                      "caption": "${useproduct.widget.info.rebreed_monsterplant}",
+                      "width_min": "130",
+                      "width_max": "130"
+                    },
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tag": "container",
+            "typeId": 4,
+            "attributes": {
+              "x": "0",
+              "y": "205",
+              "width": "270",
+              "height": "1",
+              "params": "16",
+              "style": "100",
+              "name": "separator"
+            },
+            "children": []
+          },
+          {
+            "tag": "itemlist_horizontal",
+            "typeId": 51,
+            "attributes": {
+              "x": "10",
+              "y": "216",
+              "width": "270",
+              "height": "30",
+              "params": "16",
+              "style": "100",
+              "height_min": "30"
+            },
+            "children": [
+              {
+                "tag": "button",
+                "typeId": 60,
+                "attributes": {
+                  "x": "0",
+                  "y": "0",
+                  "width": "130",
+                  "height": "30",
+                  "params": "131089",
+                  "style": "3",
+                  "name": "cancel_text",
+                  "caption": "${useproduct.widget.cancel}",
+                  "width_min": "130",
+                  "width_max": "130"
+                },
+                "children": []
+              },
+              {
+                "tag": "button_thick",
+                "typeId": 61,
+                "attributes": {
+                  "x": "140",
+                  "y": "0",
+                  "width": "130",
+                  "height": "30",
+                  "params": "131089",
+                  "style": "5",
+                  "name": "save_button",
+                  "caption": "${useproduct.widget.rebreed}",
+                  "color": "0x0aa00",
+                  "width_min": "130",
+                  "width_max": "130"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "tag": "container",
+            "typeId": 4,
+            "attributes": {
+              "x": "0",
+              "y": "256",
+              "width": "270",
+              "height": "1",
+              "params": "16",
+              "style": "100",
+              "name": "separator"
+            },
+            "children": []
+          }
         ]
-    },
-    "vars": {
-        "auto_size": "left",
-        "mouse_wheel_enabled": false,
-        "spacing": 10,
-        "leading": 0,
-        "word_wrap": true,
-        "resize_on_item_update": true,
-        "multiline": true,
-        "text_style": "u_italic"
-    },
-    "filters": []
+      }
+    ]
+  },
+  "vars": {
+    "auto_size": "left",
+    "mouse_wheel_enabled": false,
+    "spacing": 10,
+    "leading": 0,
+    "word_wrap": true,
+    "resize_on_item_update": true,
+    "multiline": true,
+    "text_style": "u_italic"
+  },
+  "filters": []
 }

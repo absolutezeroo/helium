@@ -1,393 +1,393 @@
 {
-    "name": "AchievementResolutionProgress",
-    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboachievement_resolution_progress_xml.bin",
-    "window": {
-        "tag": "window",
-        "typeId": -1,
-        "attributes": {},
+  "name": "AchievementResolutionProgress",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboQuestEngineCom_Habboachievement_resolution_progress_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "frame",
+        "typeId": 35,
+        "attributes": {
+          "x": "1",
+          "y": "1",
+          "width": "419",
+          "height": "273",
+          "params": "49153",
+          "style": "100",
+          "caption": "${resolution.progress.title}",
+          "width_min": "340",
+          "height_max": "525"
+        },
         "children": [
-            {
-                "tag": "frame",
-                "typeId": 35,
+          {
+            "tag": "itemlist",
+            "typeId": 50,
+            "attributes": {
+              "x": "0",
+              "y": "0",
+              "width": "430",
+              "height": "225",
+              "params": "147472",
+              "style": "100",
+              "name": "element_list"
+            },
+            "children": [
+              {
+                "tag": "border",
+                "typeId": 30,
                 "attributes": {
-                    "x": "1",
-                    "y": "1",
-                    "width": "419",
-                    "height": "273",
-                    "params": "49153",
-                    "style": "100",
-                    "caption": "%24%7Bresolution.progress.title%7D",
-                    "width_min": "340",
-                    "height_max": "525"
+                  "x": "8",
+                  "y": "0",
+                  "width": "404",
+                  "height": "112",
+                  "params": "16",
+                  "style": "102",
+                  "width_min": "338"
                 },
                 "children": [
-                    {
+                  {
+                    "tag": "itemlist_horizontal",
+                    "typeId": 51,
+                    "attributes": {
+                      "x": "11",
+                      "y": "10",
+                      "width": "387",
+                      "height": "97",
+                      "params": "147472",
+                      "style": "100"
+                    },
+                    "children": [
+                      {
+                        "tag": "container",
+                        "typeId": 4,
+                        "attributes": {
+                          "x": "0",
+                          "y": "0",
+                          "width": "82",
+                          "height": "90",
+                          "params": "147472",
+                          "style": "100"
+                        },
+                        "children": [
+                          {
+                            "tag": "static_bitmap",
+                            "typeId": 23,
+                            "attributes": {
+                              "x": "0",
+                              "y": "0",
+                              "width": "82",
+                              "height": "90",
+                              "params": "786448",
+                              "style": "100",
+                              "height_min": "90",
+                              "height_max": "90"
+                            },
+                            "children": []
+                          },
+                          {
+                            "tag": "widget",
+                            "typeId": 16,
+                            "attributes": {
+                              "x": "16",
+                              "y": "15",
+                              "width": "50",
+                              "height": "50",
+                              "params": "16",
+                              "style": "100",
+                              "name": "achievement_badge"
+                            },
+                            "children": []
+                          }
+                        ]
+                      },
+                      {
                         "tag": "itemlist",
                         "typeId": 50,
                         "attributes": {
-                            "x": "0",
-                            "y": "0",
-                            "width": "430",
-                            "height": "225",
-                            "params": "147472",
-                            "style": "100",
-                            "name": "element_list"
+                          "x": "92",
+                          "y": "7",
+                          "width": "295",
+                          "height": "75",
+                          "params": "147472",
+                          "style": "100"
                         },
                         "children": [
-                            {
-                                "tag": "border",
-                                "typeId": 30,
-                                "attributes": {
-                                    "x": "8",
-                                    "y": "0",
-                                    "width": "404",
-                                    "height": "112",
-                                    "params": "16",
-                                    "style": "102",
-                                    "width_min": "338"
-                                },
-                                "children": [
-                                    {
-                                        "tag": "itemlist_horizontal",
-                                        "typeId": 51,
-                                        "attributes": {
-                                            "x": "11",
-                                            "y": "10",
-                                            "width": "387",
-                                            "height": "97",
-                                            "params": "147472",
-                                            "style": "100"
-                                        },
-                                        "children": [
-                                            {
-                                                "tag": "container",
-                                                "typeId": 4,
-                                                "attributes": {
-                                                    "x": "0",
-                                                    "y": "0",
-                                                    "width": "82",
-                                                    "height": "90",
-                                                    "params": "147472",
-                                                    "style": "100"
-                                                },
-                                                "children": [
-                                                    {
-                                                        "tag": "static_bitmap",
-                                                        "typeId": 23,
-                                                        "attributes": {
-                                                            "x": "0",
-                                                            "y": "0",
-                                                            "width": "82",
-                                                            "height": "90",
-                                                            "params": "786448",
-                                                            "style": "100",
-                                                            "height_min": "90",
-                                                            "height_max": "90"
-                                                        },
-                                                        "children": []
-                                                    },
-                                                    {
-                                                        "tag": "widget",
-                                                        "typeId": 16,
-                                                        "attributes": {
-                                                            "x": "16",
-                                                            "y": "15",
-                                                            "width": "50",
-                                                            "height": "50",
-                                                            "params": "16",
-                                                            "style": "100",
-                                                            "name": "achievement_badge"
-                                                        },
-                                                        "children": []
-                                                    }
-                                                ]
-                                            },
-                                            {
-                                                "tag": "itemlist",
-                                                "typeId": 50,
-                                                "attributes": {
-                                                    "x": "92",
-                                                    "y": "7",
-                                                    "width": "295",
-                                                    "height": "75",
-                                                    "params": "147472",
-                                                    "style": "100"
-                                                },
-                                                "children": [
-                                                    {
-                                                        "tag": "label",
-                                                        "typeId": 12,
-                                                        "attributes": {
-                                                            "x": "0",
-                                                            "y": "0",
-                                                            "width": "110",
-                                                            "height": "17",
-                                                            "params": "16",
-                                                            "style": "100",
-                                                            "name": "achievement.name",
-                                                            "caption": "Achievement%20name"
-                                                        },
-                                                        "children": []
-                                                    },
-                                                    {
-                                                        "tag": "text",
-                                                        "typeId": 10,
-                                                        "attributes": {
-                                                            "x": "0",
-                                                            "y": "22",
-                                                            "width": "294",
-                                                            "height": "16",
-                                                            "params": "16",
-                                                            "style": "100",
-                                                            "name": "achievement.desc",
-                                                            "caption": "Achievement%20description"
-                                                        },
-                                                        "children": []
-                                                    },
-                                                    {
-                                                        "tag": "button",
-                                                        "typeId": 60,
-                                                        "attributes": {
-                                                            "x": "0",
-                                                            "y": "43",
-                                                            "width": "153",
-                                                            "height": "32",
-                                                            "params": "131217",
-                                                            "style": "102",
-                                                            "name": "reset_button",
-                                                            "caption": "%24%7Bresolution.progress.reset%7D"
-                                                        },
-                                                        "children": []
-                                                    }
-                                                ]
-                                            }
-                                        ]
-                                    }
-                                ]
+                          {
+                            "tag": "label",
+                            "typeId": 12,
+                            "attributes": {
+                              "x": "0",
+                              "y": "0",
+                              "width": "110",
+                              "height": "17",
+                              "params": "16",
+                              "style": "100",
+                              "name": "achievement.name",
+                              "caption": "Achievement name"
                             },
-                            {
-                                "tag": "container",
-                                "typeId": 4,
-                                "attributes": {
-                                    "x": "8",
-                                    "y": "122",
-                                    "width": "404",
-                                    "height": "42",
-                                    "params": "16",
-                                    "style": "100",
-                                    "name": "progress_main_container"
-                                },
-                                "children": [
-                                    {
-                                        "tag": "container",
-                                        "typeId": 4,
-                                        "attributes": {
-                                            "x": "0",
-                                            "y": "0",
-                                            "width": "404",
-                                            "height": "16",
-                                            "params": "16",
-                                            "style": "100",
-                                            "name": "progress_container"
-                                        },
-                                        "children": [
-                                            {
-                                                "tag": "static_bitmap",
-                                                "typeId": 23,
-                                                "attributes": {
-                                                    "x": "0",
-                                                    "y": "0",
-                                                    "width": "4",
-                                                    "height": "16",
-                                                    "params": "16",
-                                                    "style": "100",
-                                                    "name": "unachieved_left"
-                                                },
-                                                "children": []
-                                            },
-                                            {
-                                                "tag": "static_bitmap",
-                                                "typeId": 23,
-                                                "attributes": {
-                                                    "x": "4",
-                                                    "y": "0",
-                                                    "width": "396",
-                                                    "height": "16",
-                                                    "params": "16",
-                                                    "style": "100",
-                                                    "name": "unachieved_mid"
-                                                },
-                                                "children": []
-                                            },
-                                            {
-                                                "tag": "static_bitmap",
-                                                "typeId": 23,
-                                                "attributes": {
-                                                    "x": "396",
-                                                    "y": "0",
-                                                    "width": "4",
-                                                    "height": "16",
-                                                    "params": "16",
-                                                    "style": "100",
-                                                    "name": "unachieved_right"
-                                                },
-                                                "children": []
-                                            },
-                                            {
-                                                "tag": "static_bitmap",
-                                                "typeId": 23,
-                                                "attributes": {
-                                                    "x": "0",
-                                                    "y": "0",
-                                                    "width": "4",
-                                                    "height": "16",
-                                                    "params": "16",
-                                                    "style": "100",
-                                                    "name": "achieved_left"
-                                                },
-                                                "children": []
-                                            },
-                                            {
-                                                "tag": "static_bitmap",
-                                                "typeId": 23,
-                                                "attributes": {
-                                                    "x": "4",
-                                                    "y": "0",
-                                                    "width": "396",
-                                                    "height": "16",
-                                                    "params": "16",
-                                                    "style": "100",
-                                                    "name": "achieved_mid"
-                                                },
-                                                "children": []
-                                            },
-                                            {
-                                                "tag": "static_bitmap",
-                                                "typeId": 23,
-                                                "attributes": {
-                                                    "x": "396",
-                                                    "y": "0",
-                                                    "width": "4",
-                                                    "height": "16",
-                                                    "params": "16",
-                                                    "style": "100",
-                                                    "name": "achieved_right"
-                                                },
-                                                "children": []
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "tag": "text",
-                                        "typeId": 10,
-                                        "attributes": {
-                                            "x": "0",
-                                            "y": "15",
-                                            "width": "404",
-                                            "height": "17",
-                                            "params": "16",
-                                            "style": "100",
-                                            "name": "progress_text",
-                                            "caption": "%24%7Bresolution.progress.progress%7D"
-                                        },
-                                        "children": []
-                                    }
-                                ]
+                            "children": []
+                          },
+                          {
+                            "tag": "text",
+                            "typeId": 10,
+                            "attributes": {
+                              "x": "0",
+                              "y": "22",
+                              "width": "294",
+                              "height": "16",
+                              "params": "16",
+                              "style": "100",
+                              "name": "achievement.desc",
+                              "caption": "Achievement description"
                             },
-                            {
-                                "tag": "static_bitmap",
-                                "typeId": 23,
-                                "attributes": {
-                                    "x": "8",
-                                    "y": "174",
-                                    "width": "404",
-                                    "height": "2",
-                                    "params": "16",
-                                    "style": "100"
-                                },
-                                "children": []
+                            "children": []
+                          },
+                          {
+                            "tag": "button",
+                            "typeId": 60,
+                            "attributes": {
+                              "x": "0",
+                              "y": "43",
+                              "width": "153",
+                              "height": "32",
+                              "params": "131217",
+                              "style": "102",
+                              "name": "reset_button",
+                              "caption": "${resolution.progress.reset}"
                             },
-                            {
-                                "tag": "container",
-                                "typeId": 4,
-                                "attributes": {
-                                    "x": "8",
-                                    "y": "186",
-                                    "width": "404",
-                                    "height": "39",
-                                    "params": "16",
-                                    "style": "100"
-                                },
-                                "children": [
-                                    {
-                                        "tag": "widget",
-                                        "typeId": 16,
-                                        "attributes": {
-                                            "x": "142",
-                                            "y": "1",
-                                            "width": "99",
-                                            "height": "37",
-                                            "params": "147472",
-                                            "style": "100",
-                                            "name": "time_left_widget"
-                                        },
-                                        "children": []
-                                    },
-                                    {
-                                        "tag": "text",
-                                        "typeId": 10,
-                                        "attributes": {
-                                            "x": "-11",
-                                            "y": "2",
-                                            "width": "144",
-                                            "height": "19",
-                                            "params": "16",
-                                            "style": "100",
-                                            "caption": "%24%7Bresolution.progress.time.left%7D"
-                                        },
-                                        "children": []
-                                    }
-                                ]
-                            }
+                            "children": []
+                          }
                         ]
-                    }
+                      }
+                    ]
+                  }
                 ]
-            }
+              },
+              {
+                "tag": "container",
+                "typeId": 4,
+                "attributes": {
+                  "x": "8",
+                  "y": "122",
+                  "width": "404",
+                  "height": "42",
+                  "params": "16",
+                  "style": "100",
+                  "name": "progress_main_container"
+                },
+                "children": [
+                  {
+                    "tag": "container",
+                    "typeId": 4,
+                    "attributes": {
+                      "x": "0",
+                      "y": "0",
+                      "width": "404",
+                      "height": "16",
+                      "params": "16",
+                      "style": "100",
+                      "name": "progress_container"
+                    },
+                    "children": [
+                      {
+                        "tag": "static_bitmap",
+                        "typeId": 23,
+                        "attributes": {
+                          "x": "0",
+                          "y": "0",
+                          "width": "4",
+                          "height": "16",
+                          "params": "16",
+                          "style": "100",
+                          "name": "unachieved_left"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "static_bitmap",
+                        "typeId": 23,
+                        "attributes": {
+                          "x": "4",
+                          "y": "0",
+                          "width": "396",
+                          "height": "16",
+                          "params": "16",
+                          "style": "100",
+                          "name": "unachieved_mid"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "static_bitmap",
+                        "typeId": 23,
+                        "attributes": {
+                          "x": "396",
+                          "y": "0",
+                          "width": "4",
+                          "height": "16",
+                          "params": "16",
+                          "style": "100",
+                          "name": "unachieved_right"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "static_bitmap",
+                        "typeId": 23,
+                        "attributes": {
+                          "x": "0",
+                          "y": "0",
+                          "width": "4",
+                          "height": "16",
+                          "params": "16",
+                          "style": "100",
+                          "name": "achieved_left"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "static_bitmap",
+                        "typeId": 23,
+                        "attributes": {
+                          "x": "4",
+                          "y": "0",
+                          "width": "396",
+                          "height": "16",
+                          "params": "16",
+                          "style": "100",
+                          "name": "achieved_mid"
+                        },
+                        "children": []
+                      },
+                      {
+                        "tag": "static_bitmap",
+                        "typeId": 23,
+                        "attributes": {
+                          "x": "396",
+                          "y": "0",
+                          "width": "4",
+                          "height": "16",
+                          "params": "16",
+                          "style": "100",
+                          "name": "achieved_right"
+                        },
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "tag": "text",
+                    "typeId": 10,
+                    "attributes": {
+                      "x": "0",
+                      "y": "15",
+                      "width": "404",
+                      "height": "17",
+                      "params": "16",
+                      "style": "100",
+                      "name": "progress_text",
+                      "caption": "${resolution.progress.progress}"
+                    },
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "tag": "static_bitmap",
+                "typeId": 23,
+                "attributes": {
+                  "x": "8",
+                  "y": "174",
+                  "width": "404",
+                  "height": "2",
+                  "params": "16",
+                  "style": "100"
+                },
+                "children": []
+              },
+              {
+                "tag": "container",
+                "typeId": 4,
+                "attributes": {
+                  "x": "8",
+                  "y": "186",
+                  "width": "404",
+                  "height": "39",
+                  "params": "16",
+                  "style": "100"
+                },
+                "children": [
+                  {
+                    "tag": "widget",
+                    "typeId": 16,
+                    "attributes": {
+                      "x": "142",
+                      "y": "1",
+                      "width": "99",
+                      "height": "37",
+                      "params": "147472",
+                      "style": "100",
+                      "name": "time_left_widget"
+                    },
+                    "children": []
+                  },
+                  {
+                    "tag": "text",
+                    "typeId": 10,
+                    "attributes": {
+                      "x": "-11",
+                      "y": "2",
+                      "width": "144",
+                      "height": "19",
+                      "params": "16",
+                      "style": "100",
+                      "caption": "${resolution.progress.time.left}"
+                    },
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
         ]
-    },
-    "vars": {
-        "asset_uri": "illumina_horizontal_separator",
-        "stretched_x": false,
-        "stretched_y": false,
-        "widget_type": "countdown",
-        "badge_image:pivot_point": "center",
-        "badge_image:stretched_x": false,
-        "badge_image:stretched_y": false,
-        "text_style": "u_headline_small",
-        "auto_size": "right",
-        "mouse_wheel_enabled": false,
-        "multiline": true,
-        "word_wrap": true,
-        "spacing": 10,
-        "leading": 0,
-        "scale_to_fit_items": true,
-        "resize_on_item_update": true,
-        "sharpness": 0,
-        "thickness": 0,
-        "margin_left": 3,
-        "margin_top": 36,
-        "margin_right": 0,
-        "margin_bottom": 0
-    },
-    "filters": [
-        {
-            "type": "DropShadowFilter",
-            "attributes": {
-                "angle": "0",
-                "alpha": "0.34901960784313724",
-                "blurX": "20",
-                "blurY": "20"
-            }
-        }
+      }
     ]
+  },
+  "vars": {
+    "asset_uri": "illumina_horizontal_separator",
+    "stretched_x": false,
+    "stretched_y": false,
+    "widget_type": "countdown",
+    "badge_image:pivot_point": "center",
+    "badge_image:stretched_x": false,
+    "badge_image:stretched_y": false,
+    "text_style": "u_headline_small",
+    "auto_size": "right",
+    "mouse_wheel_enabled": false,
+    "multiline": true,
+    "word_wrap": true,
+    "spacing": 10,
+    "leading": 0,
+    "scale_to_fit_items": true,
+    "resize_on_item_update": true,
+    "sharpness": 0,
+    "thickness": 0,
+    "margin_left": 3,
+    "margin_top": 36,
+    "margin_right": 0,
+    "margin_bottom": 0
+  },
+  "filters": [
+    {
+      "type": "DropShadowFilter",
+      "attributes": {
+        "angle": "0",
+        "alpha": "0.34901960784313724",
+        "blurX": "20",
+        "blurY": "20"
+      }
+    }
+  ]
 }

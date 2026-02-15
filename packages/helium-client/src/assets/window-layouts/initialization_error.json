@@ -1,69 +1,69 @@
 {
-    "name": "initialization_error",
-    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_initialization_error_xml.bin",
-    "window": {
-        "tag": "window",
-        "typeId": -1,
-        "attributes": {},
+  "name": "initialization_error",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboFriendBarCom_initialization_error_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "container",
+        "typeId": 4,
+        "attributes": {
+          "x": "0",
+          "y": "0",
+          "width": "220",
+          "height": "84",
+          "params": "0",
+          "style": "100"
+        },
         "children": [
-            {
-                "tag": "container",
-                "typeId": 4,
-                "attributes": {
-                    "x": "0",
-                    "y": "0",
-                    "width": "220",
-                    "height": "84",
-                    "params": "0",
-                    "style": "100"
-                },
-                "children": [
-                    {
-                        "tag": "static_bitmap",
-                        "typeId": 23,
-                        "attributes": {
-                            "x": "80",
-                            "y": "2",
-                            "width": "78",
-                            "height": "59",
-                            "params": "1311824",
-                            "style": "100",
-                            "name": "kittycat"
-                        },
-                        "children": []
-                    },
-                    {
-                        "tag": "text",
-                        "typeId": 10,
-                        "attributes": {
-                            "x": "25",
-                            "y": "63",
-                            "width": "185",
-                            "height": "17",
-                            "params": "1311824",
-                            "style": "100",
-                            "name": "error",
-                            "caption": "Landing%20view%20initialization%20error."
-                        },
-                        "children": []
-                    }
-                ]
-            }
+          {
+            "tag": "static_bitmap",
+            "typeId": 23,
+            "attributes": {
+              "x": "80",
+              "y": "2",
+              "width": "78",
+              "height": "59",
+              "params": "1311824",
+              "style": "100",
+              "name": "kittycat"
+            },
+            "children": []
+          },
+          {
+            "tag": "text",
+            "typeId": 10,
+            "attributes": {
+              "x": "25",
+              "y": "63",
+              "width": "185",
+              "height": "17",
+              "params": "1311824",
+              "style": "100",
+              "name": "error",
+              "caption": "Landing view initialization error."
+            },
+            "children": []
+          }
         ]
-    },
-    "vars": {
-        "asset_uri": "${image.library.url}reception/confused.png",
-        "pivot_point": "bottom right",
-        "stretched_x": false,
-        "stretched_y": false,
-        "auto_size": "left",
-        "etching_color": 2130706432,
-        "etching_position": "bottom-right",
-        "text_color": 16777215,
-        "text_style": "u_bold",
-        "mouse_wheel_enabled": false,
-        "spacing": 0,
-        "leading": 0
-    },
-    "filters": []
+      }
+    ]
+  },
+  "vars": {
+    "asset_uri": "${image.library.url}reception/confused.png",
+    "pivot_point": "bottom right",
+    "stretched_x": false,
+    "stretched_y": false,
+    "auto_size": "left",
+    "etching_color": 2130706432,
+    "etching_position": "bottom-right",
+    "text_color": 16777215,
+    "text_style": "u_bold",
+    "mouse_wheel_enabled": false,
+    "spacing": 0,
+    "leading": 0
+  },
+  "filters": []
 }

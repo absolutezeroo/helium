@@ -1,31 +1,31 @@
 {
-    "name": "habbo_window_layout_button_thick",
-    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_window_layout_button_thick_xml.bin",
-    "window": {
-        "tag": "window",
-        "typeId": -1,
-        "attributes": {},
-        "children": [
-            {
-                "tag": "label",
-                "typeId": 12,
-                "attributes": {
-                    "name": "_BTN_TEXT",
-                    "style": "2",
-                    "x": "0",
-                    "y": "0",
-                    "width": "20",
-                    "height": "22",
-                    "tags": "_EXCLUDE, _INTERNAL, title"
-                },
-                "children": [],
-                "params": 0
-            }
-        ]
-    },
-    "vars": {
-        "text_style": "button_bold",
-        "margins": null
-    },
-    "filters": []
+  "name": "habbo_window_layout_button_thick",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_window_layout_button_thick_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {},
+    "children": [
+      {
+        "tag": "label",
+        "typeId": 12,
+        "attributes": {
+          "name": "_BTN_TEXT",
+          "style": "2",
+          "x": "0",
+          "y": "0",
+          "width": "20",
+          "height": "22",
+          "tags": "_EXCLUDE, _INTERNAL, title"
+        },
+        "children": [],
+        "params": 0
+      }
+    ]
+  },
+  "vars": {
+    "text_style": "button_bold",
+    "margins": null
+  },
+  "filters": []
 }

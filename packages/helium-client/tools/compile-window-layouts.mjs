@@ -314,6 +314,36 @@ function resolveParams(paramsNode)
     return flags;
 }
 
+/**
+ * URL-decodes attribute values that are percent-encoded in the AS3 XML.
+ *
+ * Captions and tags use URL encoding (e.g. `%24%7Bnavigator.title%7D`
+ * for `${navigator.title}`). Decode them so the JSON is readable and
+ * the engine doesn't need to double-decode.
+ */
+function decodeAttributes(attrs)
+{
+    const decoded = { ...attrs };
+    const decodeKeys = ['caption', 'tags'];
+
+    for (const key of decodeKeys)
+    {
+        if (decoded[key])
+        {
+            try
+            {
+                decoded[key] = decodeURIComponent(decoded[key]);
+            }
+            catch
+            {
+                // Keep original if malformed
+            }
+        }
+    }
+
+    return decoded;
+}
+
 function buildNode(element)
 {
     const tag = element.nodeName;
@@ -321,7 +351,7 @@ function buildNode(element)
     const node = {
         tag,
         typeId,
-        attributes: readAttributes(element),
+        attributes: decodeAttributes(readAttributes(element)),
         children: []
     };
 

@@ -1,37 +1,37 @@
 {
-    "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#198",
-    "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
-    "window": {
-        "tag": "window",
-        "typeId": -1,
-        "attributes": {
-            "type": "icon",
-            "intent": "Simple arrow right",
-            "style": "3",
-            "renderer": "skin",
-            "asset": "habbo_skin_icon_set_xml",
-            "layout": "icon16"
-        },
-        "children": [
-            {
-                "tag": "states",
-                "typeId": -1,
-                "attributes": {},
-                "children": [
-                    {
-                        "tag": "state",
-                        "typeId": -1,
-                        "attributes": {
-                            "name": "default",
-                            "layout": "icon16",
-                            "template": "icon_3"
-                        },
-                        "children": []
-                    }
-                ]
-            }
-        ]
+  "name": "HabboHabboWindowManagerCom_habbo_element_description_xml#198",
+  "source": "sources\\win63_2021_version\\binaryData\\HabboHabboWindowManagerCom_habbo_element_description_xml.bin",
+  "window": {
+    "tag": "window",
+    "typeId": -1,
+    "attributes": {
+      "type": "icon",
+      "intent": "Simple arrow right",
+      "style": "3",
+      "renderer": "skin",
+      "asset": "habbo_skin_icon_set_xml",
+      "layout": "icon16"
     },
-    "vars": {},
-    "filters": []
+    "children": [
+      {
+        "tag": "states",
+        "typeId": -1,
+        "attributes": {},
+        "children": [
+          {
+            "tag": "state",
+            "typeId": -1,
+            "attributes": {
+              "name": "default",
+              "layout": "icon16",
+              "template": "icon_3"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "vars": {},
+  "filters": []
 }
