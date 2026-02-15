@@ -14,6 +14,7 @@ export interface IWindowState
 	height: Accessor<number>;
 	visible: Accessor<boolean>;
 	caption: Accessor<string>;
+	state: Accessor<number>;
 	children: Accessor<IWindow[]>;
 	window: IWindow;
 }
@@ -37,6 +38,7 @@ export function useWindow(win: IWindow): IWindowState
 	const [visible, setVisible] = createSignal(win.visible);
 	const [caption, setCaption] = createSignal(win.caption);
 	const [children, setChildren] = createSignal<IWindow[]>(getChildren(win));
+	const [state, setState] = createSignal(win.state);
 
 	const onRelocated = (): void =>
 	{
@@ -59,6 +61,7 @@ export function useWindow(win: IWindow): IWindowState
 	{
 		setVisible(win.visible);
 		setCaption(win.caption);
+		setState(win.state);
 	};
 
 	win.addEventListener(WindowEvent.WE_RELOCATED, onRelocated);
@@ -85,7 +88,7 @@ export function useWindow(win: IWindow): IWindowState
 		}
 	});
 
-	return {x, y, width, height, visible, caption, children, window: win};
+	return {x, y, width, height, visible, caption, state, children, window: win};
 }
 
 /**

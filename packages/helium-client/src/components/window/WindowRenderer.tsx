@@ -2,16 +2,49 @@ import type {JSX} from 'solid-js';
 import {For, Show} from 'solid-js';
 import type {IWindow} from '@core/window/IWindow';
 import {useWindow} from '../../hooks/useWindow';
+import {useWindowSkin} from '../../hooks/useWindowSkin';
+import {useElementRegistry} from '../../api/windowSkinContext';
 
 /**
  * Renders a single IWindow node.
  *
+ * Applies the resolved skin background from the canvas 9-slice renderer.
  * Used internally by WindowLayerRenderer and can be used standalone.
  */
 function WindowNode(props: { window: IWindow }): JSX.Element
 {
 	const win = props.window;
-	const {x, y, width, height, visible, caption, children} = useWindow(win);
+	const {x, y, width, height, visible, caption, state, children} = useWindow(win);
+
+	let registry: ReturnType<typeof useElementRegistry> | null = null;
+
+	try
+	{
+		registry = useElementRegistry();
+	}
+	catch
+	{
+		// No registry available — render without skins
+	}
+
+	const background = registry
+		? useWindowSkin(win, registry, width, height, state)
+		: () => null;
+
+	const backgroundStyle = (): Record<string, string | undefined> =>
+	{
+		const bg = background();
+
+		if(!bg) return {};
+
+		// url(...) → background-image, rgb(...) → background-color
+		if(bg.startsWith('url('))
+		{
+			return { 'background-image': bg };
+		}
+
+		return { 'background-color': bg };
+	};
 
 	return (
 		<Show when={visible()}>
@@ -23,6 +56,7 @@ function WindowNode(props: { window: IWindow }): JSX.Element
 					top: `${y()}px`,
 					width: `${width()}px`,
 					height: `${height()}px`,
+					...backgroundStyle(),
 				}}
 				data-name={win.name}
 				data-type={win.type}

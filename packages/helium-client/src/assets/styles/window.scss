@@ -18,81 +18,56 @@
     position: absolute;
     overflow: hidden;
     box-sizing: border-box;
-
-    // Debug outline — makes all IWindow elements visible during development
-    outline: 1px solid rgba(65, 141, 176, 0.4);
-
-    // Frame types (35-38) — main window frames with header
-    &.hw-type-35,
-    &.hw-type-36,
-    &.hw-type-37,
-    &.hw-type-38 {
-        background: rgba(236, 234, 224, 0.95);
-        border: 2px solid #418db0;
-        border-radius: 6px;
-        outline: none;
-        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
-    }
-
-    // Border types (30-33) — decorative borders
-    &.hw-type-30,
-    &.hw-type-31,
-    &.hw-type-32,
-    &.hw-type-33 {
-        border: 1px solid rgba(160, 160, 160, 0.5);
-        outline: none;
-    }
+    image-rendering: pixelated;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 
     // Container types (4, 7, 9) — invisible containers
     &.hw-type-4,
     &.hw-type-7,
     &.hw-type-9 {
-        outline: none;
-    }
-
-    // Button types (60-69) — clickable buttons
-    &.hw-type-60,
-    &.hw-type-61,
-    &.hw-type-62 {
-        background: #418db0;
-        border: 1px solid #2b6a87;
-        border-radius: 3px;
-        color: white;
-        cursor: pointer;
-        outline: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        // Transparent — no background
     }
 
     // Text types (10, 12, 15)
     &.hw-type-10,
     &.hw-type-12,
     &.hw-type-15 {
-        outline: none;
         font-size: 11px;
         font-family: 'Volter', 'Ubuntu', sans-serif;
         color: #333;
     }
 
+    // Button types — pointer cursor
+    &.hw-type-60,
+    &.hw-type-61,
+    &.hw-type-62,
+    &.hw-type-63,
+    &.hw-type-64,
+    &.hw-type-65,
+    &.hw-type-66,
+    &.hw-type-67,
+    &.hw-type-68,
+    &.hw-type-69 {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     // Close button (72)
     &.hw-type-72 {
         cursor: pointer;
-        outline: none;
     }
 
-    // Item list types (50-57) — scrollable lists
-    &.hw-type-50,
-    &.hw-type-51,
-    &.hw-type-55,
-    &.hw-type-56,
-    &.hw-type-57 {
-        outline: none;
+    // Dragbar (76)
+    &.hw-type-76 {
+        cursor: move;
     }
 
     // Region (5) — invisible interactive area
     &.hw-type-5 {
-        outline: none;
+        // Transparent
     }
 }
 
@@ -105,6 +80,5 @@
     font-size: 12px;
     font-weight: bold;
     color: white;
-    background: #418db0;
-    border-radius: 4px 4px 0 0;
+    pointer-events: none;
 }
