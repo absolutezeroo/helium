@@ -2,7 +2,9 @@ import type { IWindow } from '../IWindow';
 import type { IWindowContext } from '../IWindowContext';
 import type { ITextFieldWindow } from './ITextFieldWindow';
 import { TextController } from './TextController';
+import { InteractiveController } from './InteractiveController';
 import { WindowEvent } from '../events/WindowEvent';
+import { PropertyStruct } from '../utils/PropertyStruct';
 
 /**
  * Controller for editable text field windows.
@@ -24,10 +26,6 @@ export class TextFieldController extends TextController implements ITextFieldWin
     private _displayRaw: boolean = false;
     private _textBackground: boolean = false;
     private _textBackgroundColor: number = 0xFFFFFF;
-    private _maxChars: number = 0;
-    private _multiline: boolean = false;
-    private _wordWrap: boolean = false;
-    private _autoSize: string = 'none';
     private _scrollH: number = 0;
     private _scrollV: number = 0;
     private _scrollStepH: number = 1;
@@ -56,29 +54,29 @@ export class TextFieldController extends TextController implements ITextFieldWin
 
     // ── ITextWindow ─────────────────────────────────────────────────
 
-    public get bold(): boolean
+    public override get bold(): boolean
     {
-        return false;
+        return this._bold;
     }
 
-    public get italic(): boolean
+    public override get italic(): boolean
     {
-        return false;
+        return this._italic;
     }
 
-    public get underline(): boolean
+    public override get underline(): boolean
     {
-        return false;
+        return this._underline;
     }
 
-    public get fontFace(): string
+    public override get fontFace(): string
     {
-        return '';
+        return this._fontFace;
     }
 
-    public get fontSize(): number
+    public override get fontSize(): number
     {
-        return 12;
+        return this._fontSize;
     }
 
     public get length(): number
@@ -119,46 +117,6 @@ export class TextFieldController extends TextController implements ITextFieldWin
     public set textBackgroundColor(value: number)
     {
         this._textBackgroundColor = value;
-    }
-
-    public get maxChars(): number
-    {
-        return this._maxChars;
-    }
-
-    public set maxChars(value: number)
-    {
-        this._maxChars = value;
-    }
-
-    public get multiline(): boolean
-    {
-        return this._multiline;
-    }
-
-    public set multiline(value: boolean)
-    {
-        this._multiline = value;
-    }
-
-    public get wordWrap(): boolean
-    {
-        return this._wordWrap;
-    }
-
-    public set wordWrap(value: boolean)
-    {
-        this._wordWrap = value;
-    }
-
-    public get autoSize(): string
-    {
-        return this._autoSize;
-    }
-
-    public set autoSize(value: string)
-    {
-        this._autoSize = value;
     }
 
     public appendText(text: string): void
@@ -242,6 +200,48 @@ export class TextFieldController extends TextController implements ITextFieldWin
     public getWordAt(_x: number, _y: number): string
     {
         return '';
+    }
+
+    // ── Properties ──────────────────────────────────────────────────
+
+    public override get properties(): unknown[]
+    {
+        const props = InteractiveController.writeInteractiveWindowProperties(this, super.properties);
+
+        props.push(this.createProperty('editable', this._editable));
+        props.push(this.createProperty('selectable', this._selectable));
+        props.push(this.createProperty('display_as_password', this._displayAsPassword));
+        props.push(this.createProperty('display_raw', this._displayRaw));
+
+        return props;
+    }
+
+    public override set properties(value: unknown[])
+    {
+        InteractiveController.readInteractiveWindowProperties(this, value);
+
+        for(const item of value)
+        {
+            const prop = item as PropertyStruct;
+
+            switch(prop.key)
+            {
+                case 'editable':
+                    this._editable = !!prop.value;
+                    break;
+                case 'selectable':
+                    this._selectable = !!prop.value;
+                    break;
+                case 'display_as_password':
+                    this._displayAsPassword = !!prop.value;
+                    break;
+                case 'display_raw':
+                    this._displayRaw = !!prop.value;
+                    break;
+            }
+        }
+
+        super.properties = value;
     }
 
     // ── IScrollableWindow ───────────────────────────────────────────

@@ -1,11 +1,11 @@
 import EventEmitter from 'eventemitter3';
 import type {IAssetLibrary} from '@core/assets';
-import type { IAvatarFigureContainer } from './IAvatarFigureContainer';
-import type { IAvatarImageListener } from './IAvatarImageListener';
-import type { AvatarStructure } from './AvatarStructure';
-import type { AssetAliasCollection } from './alias/AssetAliasCollection';
-import { AvatarAssetDownloadLibrary } from './AvatarAssetDownloadLibrary';
-import { Logger } from '@core/utils/Logger';
+import type {IAvatarFigureContainer} from './IAvatarFigureContainer';
+import type {IAvatarImageListener} from './IAvatarImageListener';
+import type {AvatarStructure} from './AvatarStructure';
+import type {AssetAliasCollection} from './alias/AssetAliasCollection';
+import {AvatarAssetDownloadLibrary} from './AvatarAssetDownloadLibrary';
+import {Logger} from '@core/utils/Logger';
 
 const log = Logger.getLogger('AvatarAssetDownloadManager');
 
@@ -96,93 +96,6 @@ export class AvatarAssetDownloadManager extends EventEmitter
     }
 
     /**
-     * Generates the library-to-figure-part mapping from figure map data.
-     *
-     * In AS3, iterates XML `<lib>` elements, creating AvatarAssetDownloadLibrary instances
-     * and mapping their `<part>` children by "type:id" keys.
-     *
-     * Handles multiple JSON formats:
-     * - { libraries: [...] } or { libs: [...] }
-     * - Root-level array [...]
-     * - { lib: [...] } (converted from XML)
-     */
-    private generateMap(data: any): void
-    {
-        if(!data) return;
-
-        // Resolve the library array from various possible formats
-        let libraries: any[] | null = null;
-
-        if(Array.isArray(data))
-        {
-            libraries = data;
-        }
-        else if(Array.isArray(data.libraries))
-        {
-            libraries = data.libraries;
-        }
-        else if(Array.isArray(data.libs))
-        {
-            libraries = data.libs;
-        }
-        else if(Array.isArray(data.lib))
-        {
-            libraries = data.lib;
-        }
-
-        if(!libraries || libraries.length === 0)
-        {
-            log.warn(`Figure map data has no recognized library array. Keys: ${Object.keys(data).join(', ')}`);
-
-            return;
-        }
-
-        log.debug(`Parsing figure map with ${libraries.length} library entries`);
-
-        for(const libData of libraries)
-        {
-            const libName = String(libData.id || '');
-            const revision = String(libData.revision || '');
-
-            if(libName === '') continue;
-
-            const library = new AvatarAssetDownloadLibrary(
-                libName,
-                revision,
-                this._downloadUrl,
-                this._assetLibrary
-            );
-
-            library.on(AvatarAssetDownloadLibrary.COMPLETE, () => this.onLibraryComplete(library));
-
-            this._libraries.set(libName, library);
-
-            // Handle parts in multiple formats
-            const parts = libData.parts || libData.part || [];
-            const partsArray = Array.isArray(parts) ? parts : [parts];
-
-            for(const partData of partsArray)
-            {
-                if(!partData) continue;
-
-                const partType = String(partData.type || '');
-                const partId = String(partData.id || '');
-
-                if(partType === '' || partId === '') continue;
-
-                const key = partType + ':' + partId;
-
-                if(!this._figureMap.has(key))
-                {
-                    this._figureMap.set(key, []);
-                }
-
-                this._figureMap.get(key)!.push(library);
-            }
-        }
-    }
-
-    /**
      * Checks whether all required libraries for a figure are already downloaded.
      *
      * @param figure - The figure container to check
@@ -227,7 +140,7 @@ export class AvatarAssetDownloadManager extends EventEmitter
         const figureString = figure.getFigureString();
         const libs = this.getLibsToDownload(figure);
 
-        log.debug(`loadFigureSetData: ${figureString} → ${libs.length} libs to download: [${libs.map(l => l.libraryName).join(', ')}]`);
+        // log.debug(`loadFigureSetData: ${figureString} → ${libs.length} libs to download: [${libs.map(l => l.libraryName).join(', ')}]`);
 
         if(libs.length > 0)
         {
@@ -253,6 +166,135 @@ export class AvatarAssetDownloadManager extends EventEmitter
         else if(listener !== null && !listener.disposed)
         {
             listener.avatarImageReady(figureString);
+        }
+    }
+
+    /**
+     * Flushes the init download buffer, processing any requests that were queued
+     * before the manager was ready.
+     */
+    public processInitBuffer(): void
+    {
+        for(const [figure, listener] of this._initDownloadBuffer)
+        {
+            this.loadFigureSetData(figure, listener);
+        }
+
+        this._initDownloadBuffer = [];
+    }
+
+    /**
+     * Purges all non-mandatory libraries to free memory.
+     *
+     * In AS3, this iterates all libraries and calls purge() on those
+     * that are ready and not mandatory.
+     */
+    public purge(): void
+    {
+        for(const library of this._libraries.values())
+        {
+            if(library.isReady && !library.isMandatory)
+            {
+                library.purge();
+            }
+        }
+    }
+
+    public dispose(): void
+    {
+        this._libraries.clear();
+        this._figureMap.clear();
+        this._incompleteFigures.clear();
+        this._listeners.clear();
+        this._pendingDownloadQueue = [];
+        this._currentDownloads = [];
+        this._initDownloadBuffer = [];
+    }
+
+    /**
+     * Generates the library-to-figure-part mapping from figure map data.
+     *
+     * In AS3, iterates XML `<lib>` elements, creating AvatarAssetDownloadLibrary instances
+     * and mapping their `<part>` children by "type:id" keys.
+     *
+     * Handles multiple JSON formats:
+     * - { libraries: [...] } or { libs: [...] }
+     * - Root-level array [...]
+     * - { lib: [...] } (converted from XML)
+     */
+    private generateMap(data: any): void
+    {
+        if(!data) return;
+
+        // Resolve the library array from various possible formats
+        let libraries: any[] | null = null;
+
+        if(Array.isArray(data))
+        {
+            libraries = data;
+        }
+        else if(Array.isArray(data.libraries))
+        {
+            libraries = data.libraries;
+        }
+        else if(Array.isArray(data.libs))
+        {
+            libraries = data.libs;
+        }
+        else if(Array.isArray(data.lib))
+        {
+            libraries = data.lib;
+        }
+
+        if(!libraries || libraries.length === 0)
+        {
+            log.warn(`Figure map data has no recognized library array. Keys: ${Object.keys(data).join(', ')}`);
+
+            return;
+        }
+
+        // log.debug(`Parsing figure map with ${libraries.length} library entries`);
+
+        for(const libData of libraries)
+        {
+            const libName = String(libData.id || '');
+            const revision = String(libData.revision || '');
+
+            if(libName === '') continue;
+
+            const library = new AvatarAssetDownloadLibrary(
+                libName,
+                revision,
+                this._downloadUrl,
+                this._assetLibrary
+            );
+
+            library.on(AvatarAssetDownloadLibrary.COMPLETE, () => this.onLibraryComplete(library));
+
+            this._libraries.set(libName, library);
+
+            // Handle parts in multiple formats
+            const parts = libData.parts || libData.part || [];
+            const partsArray = Array.isArray(parts) ? parts : [parts];
+
+            for(const partData of partsArray)
+            {
+                if(!partData) continue;
+
+                const partType = String(partData.type || '');
+                const partId = String(partData.id || '');
+
+                if(partType === '' || partId === '') continue;
+
+                const key = partType + ':' + partId;
+
+                if(!this._figureMap.has(key))
+                {
+                    this._figureMap.set(key, []);
+                }
+
+                this._figureMap.get(key)!.push(library);
+            }
         }
     }
 
@@ -440,47 +482,5 @@ export class AvatarAssetDownloadManager extends EventEmitter
         }
 
         this.processPending();
-    }
-
-    /**
-     * Flushes the init download buffer, processing any requests that were queued
-     * before the manager was ready.
-     */
-    public processInitBuffer(): void
-    {
-        for(const [figure, listener] of this._initDownloadBuffer)
-        {
-            this.loadFigureSetData(figure, listener);
-        }
-
-        this._initDownloadBuffer = [];
-    }
-
-    /**
-     * Purges all non-mandatory libraries to free memory.
-     *
-     * In AS3, this iterates all libraries and calls purge() on those
-     * that are ready and not mandatory.
-     */
-    public purge(): void
-    {
-        for(const library of this._libraries.values())
-        {
-            if(library.isReady && !library.isMandatory)
-            {
-                library.purge();
-            }
-        }
-    }
-
-    public dispose(): void
-    {
-        this._libraries.clear();
-        this._figureMap.clear();
-        this._incompleteFigures.clear();
-        this._listeners.clear();
-        this._pendingDownloadQueue = [];
-        this._currentDownloads = [];
-        this._initDownloadBuffer = [];
     }
 }

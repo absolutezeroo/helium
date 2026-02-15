@@ -1,11 +1,11 @@
-import type { IStructureData } from './IStructureData';
-import type { IFigureData } from './IFigureData';
-import type { ISetType } from './figure/ISetType';
-import type { IFigurePartSet } from './figure/IFigurePartSet';
-import type { IPalette } from './figure/IPalette';
-import { Palette } from './figure/Palette';
-import { SetType } from './figure/SetType';
-import { Logger } from '@core/utils/Logger';
+import type {IStructureData} from './IStructureData';
+import type {IFigureData} from './IFigureData';
+import type {ISetType} from './figure/ISetType';
+import type {IFigurePartSet} from './figure/IFigurePartSet';
+import type {IPalette} from './figure/IPalette';
+import {Palette} from './figure/Palette';
+import {SetType} from './figure/SetType';
+import {Logger} from '@core/utils/Logger';
 
 const log = Logger.getLogger('FigureSetData');
 
@@ -44,7 +44,6 @@ export class FigureSetData implements IStructureData, IFigureData
     {
         if(!data) return false;
 
-        // Resolve palettes: Nitro format (data.palettes) or XML-JSON format (data.colors.palette)
         let palettes: any[] | null = null;
 
         if(Array.isArray(data.palettes))
@@ -67,7 +66,6 @@ export class FigureSetData implements IStructureData, IFigureData
             }
         }
 
-        // Resolve set types: Nitro format (data.setTypes) or XML-JSON format (data.sets.settype)
         let setTypes: any[] | null = null;
 
         if(Array.isArray(data.setTypes))
@@ -90,7 +88,7 @@ export class FigureSetData implements IStructureData, IFigureData
             }
         }
 
-        log.info(`Parsed figure data: ${this._palettes.size} palettes, ${this._setTypes.size} set types [${Array.from(this._setTypes.keys()).join(', ')}]`);
+        //log.debug(`Parsed figure data: ${this._palettes.size} palettes, ${this._setTypes.size} set types [${Array.from(this._setTypes.keys()).join(', ')}]`);
 
         return true;
     }

@@ -580,7 +580,7 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 		this._loadedTypes.set(type, true);
 		this._loadingTypes.delete(type);
 
-		log.debug(`Loaded ${type}: vizType=${vizType}, logicType=${logicType}`);
+		// log.debug(`Loaded ${type}: vizType=${vizType}, logicType=${logicType}`);
 
 		// Emit ready event
 		events.emit(RoomContentLoader.CONTENT_LOADER_READY, type);

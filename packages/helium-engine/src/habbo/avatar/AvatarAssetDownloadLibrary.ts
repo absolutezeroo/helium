@@ -21,13 +21,10 @@ export class AvatarAssetDownloadLibrary extends EventEmitter
     private static readonly STATE_IDLE: number = 0;
     private static readonly STATE_DOWNLOADING: number = 1;
     private static readonly STATE_READY: number = 2;
-
-    private _libraryName: string;
     private _revision: string;
     private _downloadUrl: string;
     private _assetLibrary: IAssetLibrary;
     private _state: number;
-    private _isMandatory: boolean;
 
     constructor(libraryName: string, revision: string, downloadUrl: string, assetLibrary: IAssetLibrary)
     {
@@ -41,6 +38,8 @@ export class AvatarAssetDownloadLibrary extends EventEmitter
         this._isMandatory = false;
     }
 
+    private _libraryName: string;
+
     /**
      * The name of this asset library.
      */
@@ -49,13 +48,7 @@ export class AvatarAssetDownloadLibrary extends EventEmitter
         return this._libraryName;
     }
 
-    /**
-     * Whether the library has finished downloading.
-     */
-    public get isReady(): boolean
-    {
-        return this._state === AvatarAssetDownloadLibrary.STATE_READY;
-    }
+    private _isMandatory: boolean;
 
     /**
      * Whether this library is a mandatory (core) library.
@@ -68,6 +61,14 @@ export class AvatarAssetDownloadLibrary extends EventEmitter
     public set isMandatory(value: boolean)
     {
         this._isMandatory = value;
+    }
+
+    /**
+     * Whether the library has finished downloading.
+     */
+    public get isReady(): boolean
+    {
+        return this._state === AvatarAssetDownloadLibrary.STATE_READY;
     }
 
     /**
@@ -105,7 +106,7 @@ export class AvatarAssetDownloadLibrary extends EventEmitter
             return;
         }
 
-        log.debug(`Downloading: ${this._libraryName} from ${url}`);
+        // log.debug(`Downloading: ${this._libraryName} from ${url}`);
 
         try
         {
@@ -124,7 +125,7 @@ export class AvatarAssetDownloadLibrary extends EventEmitter
             {
                 if(event.type === AssetLoaderEventType.COMPLETE)
                 {
-                    log.debug(`Loaded: ${this._libraryName}`);
+                    // log.debug(`Loaded: ${this._libraryName}`);
                     this._state = AvatarAssetDownloadLibrary.STATE_READY;
                     this.emit(AvatarAssetDownloadLibrary.COMPLETE, this);
                 }

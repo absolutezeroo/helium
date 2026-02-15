@@ -1,33 +1,33 @@
-import { EventEmitter } from 'eventemitter3';
-import { Component } from '@core/runtime/Component';
-import { Logger } from '@core/utils/Logger';
-import { WindowLayoutParser } from './WindowLayoutParser';
-import { ElementRegistry } from './ElementRegistry';
-import { WindowContextLayer } from './enum/WindowContextLayer';
-import type { IHabboWindowManager } from './IHabboWindowManager';
-import { WindowManagerEvents } from './IHabboWindowManager';
-import type { IWindowInstance } from './IWindowInstance';
-import type { IWindowLayout } from './IWindowLayout';
-import type { IElementDescriptionData } from './IElementDescriptor';
-import type { IWindow } from '@core/window/IWindow';
-import type { IWindowContext } from '@core/window/IWindowContext';
-import type { IInputEventTracker } from '@core/window/IInputEventTracker';
-import type { IWindowContainer } from '@core/window/IWindowContainer';
-import type { IWindowFactory } from '@core/window/IWindowFactory';
-import type { IThemeManager } from '@core/window/theme/IThemeManager';
-import { WindowContext } from '@core/window/WindowContext';
-import { Classes } from '@core/window/Classes';
-import { WindowType } from '@core/window/enum/WindowType';
-import { DesktopController } from '@core/window/components/DesktopController';
-import { WindowParser } from '@core/window/utils/WindowParser';
-import { SkinContainer } from '@core/window/graphics/SkinContainer';
-import { DefaultAttStruct } from '@core/window/utils/DefaultAttStruct';
-import { ThemeManager } from './theme/ThemeManager';
-import { ServiceManager } from '@core/window/services/ServiceManager';
-import type { IContext } from '@core/runtime/IContext';
-import type { IAssetLibrary } from '@core/assets/IAssetLibrary';
-import type { IModalDialog } from './utils/IModalDialog';
-import { ModalDialog } from './utils/ModalDialog';
+import {EventEmitter} from 'eventemitter3';
+import {Component} from '@core/runtime/Component';
+import {Logger} from '@core/utils/Logger';
+import {WindowLayoutParser} from './WindowLayoutParser';
+import {ElementRegistry} from './ElementRegistry';
+import {WindowContextLayer} from './enum/WindowContextLayer';
+import type {IHabboWindowManager} from './IHabboWindowManager';
+import {WindowManagerEvents} from './IHabboWindowManager';
+import type {IWindowInstance} from './IWindowInstance';
+import type {IWindowLayout} from './IWindowLayout';
+import type {IElementDescriptionData} from './IElementDescriptor';
+import type {IWindow} from '@core/window/IWindow';
+import type {IWindowContext} from '@core/window/IWindowContext';
+import type {IInputEventTracker} from '@core/window/IInputEventTracker';
+import type {IWindowContainer} from '@core/window/IWindowContainer';
+import type {IWindowFactory} from '@core/window/IWindowFactory';
+import type {IThemeManager} from '@core/window/theme/IThemeManager';
+import {WindowContext} from '@core/window/WindowContext';
+import {Classes} from '@core/window/Classes';
+import {WindowType} from '@core/window/enum/WindowType';
+import {DesktopController} from '@core/window/components/DesktopController';
+import {WindowParser} from '@core/window/utils/WindowParser';
+import {SkinContainer} from '@core/window/graphics/SkinContainer';
+import {DefaultAttStruct} from '@core/window/utils/DefaultAttStruct';
+import {ThemeManager} from './theme/ThemeManager';
+import {ServiceManager} from '@core/window/services/ServiceManager';
+import type {IContext} from '@core/runtime/IContext';
+import type {IAssetLibrary} from '@core/assets/IAssetLibrary';
+import type {IModalDialog} from './utils/IModalDialog';
+import {ModalDialog} from './utils/ModalDialog';
 
 const log = Logger.getLogger('HabboWindowManager');
 
@@ -58,15 +58,12 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
     private _windows: Map<number, IWindowInstance> = new Map();
     private _layouts: Map<string, IWindowLayout> = new Map();
     private _nextId: number = 1;
-    private _windowEvents: EventEmitter = new EventEmitter();
-    private _elementRegistry: ElementRegistry = new ElementRegistry();
     private _skinContainer: SkinContainer = new SkinContainer();
     private _themeManager: ThemeManager | null = null;
-
-    // ── AS3-compatible window context system ────────────────────────────
-
     private _windowContextArray: IWindowContext[] = [];
     private _defaultContext: IWindowContext | null = null;
+
+    // ── AS3-compatible window context system ────────────────────────────
     private _serviceManager: ServiceManager | null = null;
     private _initialized: boolean = false;
 
@@ -77,7 +74,7 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
         this.initContexts();
     }
 
-    // ── Declarative API (existing, preserved for client compatibility) ──
+    private _windowEvents: EventEmitter = new EventEmitter();
 
     /**
      * Event emitter for window lifecycle events.
@@ -86,6 +83,10 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
     {
         return this._windowEvents;
     }
+
+    // ── Declarative API (existing, preserved for client compatibility) ──
+
+    private _elementRegistry: ElementRegistry = new ElementRegistry();
 
     /**
      * The element registry.
@@ -565,75 +566,6 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
     // ── Private helpers ────────────────────────────────────────────────
 
     /**
-     * Initialize the 4 window context layers.
-     *
-     * Creates a WindowContext per layer, each with its own DesktopController
-     * root and WindowParser for JSON layout building.
-     */
-    private initContexts(): void
-    {
-        if(this._initialized) return;
-
-        this._initialized = true;
-
-        Classes.init();
-
-        const factory = this as unknown as IWindowFactory;
-        const serviceManager = new ServiceManager();
-        this._serviceManager = serviceManager;
-
-        for(let i = 0; i < HabboWindowManager.NUMBER_OF_CONTEXT_LAYERS; i++)
-        {
-            const context = new WindowContext(`layer_${ i }`, factory);
-
-            // Inject shared service manager into each context
-            context.setServices(serviceManager);
-
-            // Create desktop root for this layer
-            const desktop = new DesktopController(
-                `desktop_${ i }`,
-                WindowType.CONTAINER,
-                0,
-                0,
-                context,
-                { x: 0, y: 0, width: 0, height: 0 }
-            );
-
-            context.setDesktop(desktop);
-
-            // Create parser for JSON layout building
-            const parser = new WindowParser();
-            context.setParser(parser);
-
-            this._windowContextArray.push(context);
-        }
-
-        this._defaultContext = this._windowContextArray[HabboWindowManager.DEFAULT_CONTEXT_LAYER_INDEX];
-
-        log.info(`Window manager initialized with ${ HabboWindowManager.NUMBER_OF_CONTEXT_LAYERS } context layers (${ Classes.getRegisteredTypes().length } types registered)`);
-    }
-
-    /**
-     * Get the maximum z-order in a given layer.
-     */
-    private getMaxZOrder(layer: number): number
-    {
-        let max = -1;
-
-        for(const instance of this._windows.values())
-        {
-            if(instance.layer === layer && instance.zOrder > max)
-            {
-                max = instance.zOrder;
-            }
-        }
-
-        return max;
-    }
-
-    // ── Dispose ────────────────────────────────────────────────────────
-
-    /**
      * Dispose the window manager.
      */
     dispose(): void
@@ -669,5 +601,76 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
         this._elementRegistry.dispose();
 
         super.dispose();
+    }
+
+    /**
+     * Initialize the 4 window context layers.
+     *
+     * Creates a WindowContext per layer, each with its own DesktopController
+     * root and WindowParser for JSON layout building.
+     */
+    private initContexts(): void
+    {
+        if(this._initialized) return;
+
+        this._initialized = true;
+
+        Classes.init();
+
+        const factory = this as unknown as IWindowFactory;
+        const serviceManager = new ServiceManager();
+
+        this._serviceManager = serviceManager;
+
+        for(let i = 0; i < HabboWindowManager.NUMBER_OF_CONTEXT_LAYERS; i++)
+        {
+            const context = new WindowContext(`layer_${ i }`, factory);
+
+            // Inject shared service manager into each context
+            context.setServices(serviceManager);
+
+            // Create desktop root for this layer
+            const desktop = new DesktopController(
+                `desktop_${ i }`,
+                WindowType.CONTAINER,
+                0,
+                0,
+                context,
+                { x: 0, y: 0, width: 0, height: 0 }
+            );
+
+            context.setDesktop(desktop);
+
+            // Create parser for JSON layout building
+            const parser = new WindowParser();
+
+            context.setParser(parser);
+
+            this._windowContextArray.push(context);
+        }
+
+        this._defaultContext = this._windowContextArray[HabboWindowManager.DEFAULT_CONTEXT_LAYER_INDEX];
+
+        log.info(`Window manager initialized with ${ HabboWindowManager.NUMBER_OF_CONTEXT_LAYERS } context layers (${ Classes.getRegisteredTypes().length } types registered)`);
+    }
+
+    // ── Dispose ────────────────────────────────────────────────────────
+
+    /**
+     * Get the maximum z-order in a given layer.
+     */
+    private getMaxZOrder(layer: number): number
+    {
+        let max = -1;
+
+        for(const instance of this._windows.values())
+        {
+            if(instance.layer === layer && instance.zOrder > max)
+            {
+                max = instance.zOrder;
+            }
+        }
+
+        return max;
     }
 }

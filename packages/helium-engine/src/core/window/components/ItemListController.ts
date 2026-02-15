@@ -4,6 +4,7 @@ import type { IItemListWindow } from './IItemListWindow';
 import { ContainerController } from './ContainerController';
 import { WindowController } from '../WindowController';
 import { WindowEvent } from '../events/WindowEvent';
+import { PropertyStruct } from '../utils/PropertyStruct';
 
 /**
  * Controller for item list windows.
@@ -462,6 +463,52 @@ export class ItemListController extends ContainerController implements IItemList
         }
 
         this.arrangeItems();
+    }
+
+    public override get properties(): unknown[]
+    {
+        const props = super.properties;
+
+        props.push(this.createProperty('spacing', this._spacing));
+        props.push(this.createProperty('auto_arrange_items', this._arrangeListItems));
+        props.push(this.createProperty('scale_to_fit_items', this._scaleToFitItems));
+        props.push(this.createProperty('resize_on_item_update', this._resizeOnItemUpdate));
+        props.push(this.createProperty('scroll_step_h', this._scrollStepH));
+        props.push(this.createProperty('scroll_step_v', this._scrollStepV));
+
+        return props;
+    }
+
+    public override set properties(value: unknown[])
+    {
+        for(const item of value)
+        {
+            const prop = item as PropertyStruct;
+
+            switch(prop.key)
+            {
+                case 'spacing':
+                    this.spacing = prop.value as number;
+                    break;
+                case 'scale_to_fit_items':
+                    this.scaleToFitItems = !!prop.value;
+                    break;
+                case 'resize_on_item_update':
+                    this.resizeOnItemUpdate = !!prop.value;
+                    break;
+                case 'auto_arrange_items':
+                    this._arrangeListItems = !!prop.value;
+                    break;
+                case 'scroll_step_h':
+                    this._scrollStepH = prop.value as number;
+                    break;
+                case 'scroll_step_v':
+                    this._scrollStepV = prop.value as number;
+                    break;
+            }
+        }
+
+        super.properties = value;
     }
 
     /**

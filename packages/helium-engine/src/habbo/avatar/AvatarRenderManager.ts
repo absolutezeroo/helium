@@ -217,6 +217,26 @@ export class AvatarRenderManager extends Component implements IAvatarRenderManag
     }
 
     /**
+     * Called by HeliumMain when game_data hash URLs become available.
+     * Loads all avatar resources whose URLs are derived from game_data hashes
+     * (avatar.actions.url, avatar.figuredata.url, avatar.figuremap.url, etc.)
+     * and any remaining resources not yet loaded.
+     */
+    public onGameDataReady(): void
+    {
+        if(!this._configuration) return;
+
+        log.info('Game data URLs available, loading avatar resources...');
+
+        // Load hash-based resources (URLs set by HeliumMain.onGameDataResourcesReady)
+        this.loadActions();
+        this.loadFigureData();
+
+        // Initialize download managers (figure map + effect map)
+        this.initDownloadManagers();
+    }
+
+    /**
      * AS3 initComponent(): loads geometry/partsets from asset library (embedded in .nitro bundles),
      * registers a hardcoded Default action, and marks animations ready (per-effect only).
      *
@@ -251,26 +271,6 @@ export class AvatarRenderManager extends Component implements IAvatarRenderManag
         this.loadPartSets();
 
         this.checkReady();
-    }
-
-    /**
-     * Called by HeliumMain when game_data hash URLs become available.
-     * Loads all avatar resources whose URLs are derived from game_data hashes
-     * (avatar.actions.url, avatar.figuredata.url, avatar.figuremap.url, etc.)
-     * and any remaining resources not yet loaded.
-     */
-    public onGameDataReady(): void
-    {
-        if(!this._configuration) return;
-
-        log.info('Game data URLs available, loading avatar resources...');
-
-        // Load hash-based resources (URLs set by HeliumMain.onGameDataResourcesReady)
-        this.loadActions();
-        this.loadFigureData();
-
-        // Initialize download managers (figure map + effect map)
-        this.initDownloadManagers();
     }
 
     /**
@@ -397,7 +397,7 @@ export class AvatarRenderManager extends Component implements IAvatarRenderManag
         {
             const url = this._configuration?.getProperty('avatar.figuredata.url');
 
-            log.info(`Loading figure data from: ${url}`);
+            // log.debug(`Loading figure data from: ${url}`);
 
             if(url)
             {
@@ -416,13 +416,13 @@ export class AvatarRenderManager extends Component implements IAvatarRenderManag
                     {
                         const data = JSON.parse(text);
 
-                        log.info(`Figure data parsed as JSON. Top keys: ${Object.keys(data).join(', ')}`);
+                        // log.info(`Figure data parsed as JSON. Top keys: ${Object.keys(data).join(', ')}`);
                         this._structure.initFigureData(data);
                     }
                     catch(parseError)
                     {
                         // If JSON parsing fails, try as XML
-                        log.info('Figure data is not JSON, trying XML parser...');
+                        // log.info('Figure data is not JSON, trying XML parser...');
                         const xmlData = this.parseFigureDataXml(text);
 
                         if(xmlData)
@@ -457,8 +457,8 @@ export class AvatarRenderManager extends Component implements IAvatarRenderManag
             || this._configuration?.getProperty('flash.dynamic.avatar.download.url')
             || '';
 
-        log.info(`Avatar download URL: ${avatarDownloadUrl}`);
-        log.info(`Effect download URL: ${effectDownloadUrl}`);
+        // log.debug(`Avatar download URL: ${avatarDownloadUrl}`);
+        // log.debug(`Effect download URL: ${effectDownloadUrl}`);
 
         if(!this._assetLibrary)
         {

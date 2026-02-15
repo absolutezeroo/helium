@@ -11,6 +11,7 @@ import { ContainerController } from './ContainerController';
 import { ContainerIterator } from '../iterators/ContainerIterator';
 import { WindowController } from '../WindowController';
 import { WindowEvent } from '../events/WindowEvent';
+import { PropertyStruct } from '../utils/PropertyStruct';
 import { TextMargins } from '../utils/TextMargins';
 
 /**
@@ -228,6 +229,61 @@ export class FrameController extends ContainerController implements IFrameWindow
     public resizeToFitContent(): void
     {
         this.resizeToAccommodateChildren(this.content as unknown as WindowController);
+    }
+
+    public override get properties(): unknown[]
+    {
+        const props = super.properties;
+
+        props.push(new PropertyStruct('help_page', this._helpPage));
+
+        try
+        {
+            const contentWin = this.content;
+
+            if(contentWin)
+            {
+                props.push(new PropertyStruct('margin_left', contentWin.left));
+                props.push(new PropertyStruct('margin_top', contentWin.top));
+                props.push(new PropertyStruct('margin_right', this._width - contentWin.right));
+                props.push(new PropertyStruct('margin_bottom', this._height - contentWin.bottom));
+            }
+        }
+        catch(_)
+        {
+            // Content may not be available yet
+        }
+
+        return props;
+    }
+
+    public override set properties(value: unknown[])
+    {
+        for(const item of value)
+        {
+            const prop = item as PropertyStruct;
+
+            switch(prop.key)
+            {
+                case 'help_page':
+                    this.helpPage = prop.value as string;
+                    break;
+                case 'margin_left':
+                    this.margins.left = prop.value as number;
+                    break;
+                case 'margin_top':
+                    this.margins.top = prop.value as number;
+                    break;
+                case 'margin_right':
+                    this.margins.right = this._width - (prop.value as number);
+                    break;
+                case 'margin_bottom':
+                    this.margins.bottom = this._height - (prop.value as number);
+                    break;
+            }
+        }
+
+        super.properties = value;
     }
 
     public override setParamFlag(flag: number, value: boolean = true): void

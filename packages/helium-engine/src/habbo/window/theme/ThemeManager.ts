@@ -1,8 +1,8 @@
-import type { IThemeManager } from '@core/window/theme/IThemeManager';
-import type { IPropertyMap } from '@core/window/theme/IPropertyMap';
-import type { SkinContainer } from '@core/window/graphics/SkinContainer';
-import { PropertyMap } from '@core/window/theme/PropertyMap';
-import { Theme } from './Theme';
+import type {IThemeManager} from '@core/window/theme/IThemeManager';
+import type {IPropertyMap} from '@core/window/theme/IPropertyMap';
+import type {SkinContainer} from '@core/window/graphics/SkinContainer';
+import {PropertyMap} from '@core/window/theme/PropertyMap';
+import {Theme} from './Theme';
 
 /**
  * Result of resolving a style to its theme and intent.
@@ -141,20 +141,26 @@ export class ThemeManager implements IThemeManager
 
 		// Ubuntu theme: real theme, styles 3-7
 		const ubuntuProps = properties.clone();
+
 		ubuntuProps.addString('antialias_type', 'advanced');
 		ubuntuProps.addString('text_style', 'u_regular');
+
 		this._themes.set(Theme.UBUNTU, new Theme(Theme.UBUNTU, true, 3, 5, ubuntuProps));
 
 		// Illumina Light theme: real theme, styles 100-199
 		const illuminaLightProps = properties.clone();
+
 		illuminaLightProps.addString('antialias_type', 'advanced');
 		illuminaLightProps.addString('text_style', 'il_regular');
 		properties.addHex('etching_color', 3003121663);
+
 		this._themes.set(Theme.ILLUMINA_LIGHT, new Theme(Theme.ILLUMINA_LIGHT, true, 100, 100, illuminaLightProps));
 
 		// Illumina Dark theme: real theme, styles 200-299
 		const illuminaDarkProps = illuminaLightProps.clone();
+
 		properties.addString('illumina_border:border_style', 'illumina_dark');
+
 		this._themes.set(Theme.ILLUMINA_DARK, new Theme(Theme.ILLUMINA_DARK, true, 200, 100, illuminaDarkProps));
 	}
 

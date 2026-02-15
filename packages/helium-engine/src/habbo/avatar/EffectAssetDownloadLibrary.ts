@@ -1,6 +1,5 @@
 import EventEmitter from 'eventemitter3';
-import type {IAssetLibrary} from '@core/assets';
-import type {NitroAsset} from '@core/assets';
+import type {IAssetLibrary, NitroAsset} from '@core/assets';
 import {AssetLoaderEvent, AssetLoaderEventType} from '@core/assets';
 import {Logger} from '@core/utils/Logger';
 
@@ -25,13 +24,10 @@ export class EffectAssetDownloadLibrary extends EventEmitter
     private static readonly STATE_IDLE: number = 0;
     private static readonly STATE_DOWNLOADING: number = 1;
     private static readonly STATE_READY: number = 2;
-
-    private _name: string;
     private _revision: string;
     private _downloadUrl: string;
     private _assetLibrary: IAssetLibrary;
     private _state: number;
-    private _animation: any | null;
 
     constructor(name: string, revision: string, downloadUrl: string, assetLibrary: IAssetLibrary)
     {
@@ -45,6 +41,8 @@ export class EffectAssetDownloadLibrary extends EventEmitter
         this._animation = null;
     }
 
+    private _name: string;
+
     /**
      * The name of this effect library.
      */
@@ -53,13 +51,7 @@ export class EffectAssetDownloadLibrary extends EventEmitter
         return this._name;
     }
 
-    /**
-     * Whether the library has finished downloading.
-     */
-    public get isReady(): boolean
-    {
-        return this._state === EffectAssetDownloadLibrary.STATE_READY;
-    }
+    private _animation: any | null;
 
     /**
      * The animation data extracted from the loaded effect library.
@@ -70,6 +62,14 @@ export class EffectAssetDownloadLibrary extends EventEmitter
     public get animation(): any | null
     {
         return this._animation;
+    }
+
+    /**
+     * Whether the library has finished downloading.
+     */
+    public get isReady(): boolean
+    {
+        return this._state === EffectAssetDownloadLibrary.STATE_READY;
     }
 
     /**
@@ -107,7 +107,7 @@ export class EffectAssetDownloadLibrary extends EventEmitter
             return;
         }
 
-        log.debug(`Downloading effect: ${this._name} from ${url}`);
+        // log.debug(`Downloading effect: ${this._name} from ${url}`);
 
         try
         {
@@ -126,7 +126,7 @@ export class EffectAssetDownloadLibrary extends EventEmitter
             {
                 if(event.type === AssetLoaderEventType.COMPLETE)
                 {
-                    log.debug(`Loaded effect: ${this._name}`);
+                    // log.debug(`Loaded effect: ${this._name}`);
                     this.extractAnimation();
                     this._state = EffectAssetDownloadLibrary.STATE_READY;
                     this.emit(EffectAssetDownloadLibrary.COMPLETE, this);
@@ -147,6 +147,11 @@ export class EffectAssetDownloadLibrary extends EventEmitter
         }
     }
 
+    public toString(): string
+    {
+        return this._name + (this.isReady ? '[x]' : '[ ]');
+    }
+
     /**
      * Extracts animation data from the loaded .nitro bundle's JSON.
      *
@@ -165,10 +170,5 @@ export class EffectAssetDownloadLibrary extends EventEmitter
                 this._animation = jsonData.animations;
             }
         }
-    }
-
-    public toString(): string
-    {
-        return this._name + (this.isReady ? '[x]' : '[ ]');
     }
 }
