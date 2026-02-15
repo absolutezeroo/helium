@@ -1,5 +1,9 @@
 import type {HabboToolbar} from './HabboToolbar';
 import type {MeMenuNewController} from './memenu/MeMenuNewController';
+import type {IHabboWindowManager} from '@habbo/window/IHabboWindowManager';
+import type {IWindow} from '@core/window/IWindow';
+import type {IWindowContainer} from '@core/window/IWindowContainer';
+import {WindowMouseEvent} from '@core/window/events/WindowMouseEvent';
 import {HabboToolbarIconEnum} from './HabboToolbarIconEnum';
 import {Logger} from '@core/utils/Logger';
 
@@ -8,9 +12,9 @@ const log = Logger.getLogger('BottomBarLeft');
 /**
  * Horizontal bottom bar with icon click handlers, unseen counters, and collapse
  *
- * In AS3 this builds a horizontal toolbar from XML, manages icon visibility by
- * toolbar state tags, handles collapse/expand, and routes icon clicks to
- * toggleWindowVisibility. In Helium, rendering is handled by SolidJS.
+ * Builds a horizontal toolbar from the registered 'bottom_bar_left_xml' layout,
+ * manages icon visibility by toolbar state tags, handles collapse/expand, and
+ * routes icon clicks to toggleWindowVisibility.
  *
  * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as
  */
@@ -31,36 +35,98 @@ export class BottomBarLeft
 
 	private _disposed: boolean = false;
 	private _toolbar: HabboToolbar | null;
+	private _windowManager: IHabboWindowManager | null;
+	private _window: IWindowContainer | null = null;
+	private _buttonContainer: IWindow | null = null;
+	private _leftArrow: IWindow | null = null;
+	private _rightArrow: IWindow | null = null;
+	private _lineSeparator: IWindow | null = null;
+	private _newItemsLabel: IWindowContainer | null = null;
 	private _unseenItemCounters: Map<string, unknown> = new Map();
 	private _newItemsNotificationEnabled: boolean = false;
 	private _newItemsLabelVisible: boolean = false;
 	private _collapsed: boolean = false;
 	private _lastState: string = '';
-	private _iconVisibility: Map<string, boolean> = new Map();
 	private _unseenAchievementCount: number = 0;
 	private _unseenMiniMailMessageCount: number = 0;
 	private _unseenForumsCount: number = 0;
 	private _meMenuController: MeMenuNewController | null = null;
-	private _visible: boolean = true;
-	private _position = { ...BottomBarLeft.DEFAULT_LOCATION };
 
-	constructor(toolbar: HabboToolbar)
+	/**
+	 * Constructs the toolbar window from the registered layout and wires up
+	 * click handlers on TOGGLE-tagged regions and collapse arrows.
+	 *
+	 * @param toolbar - The parent HabboToolbar component
+	 * @param windowManager - The window manager for building layouts
+	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as constructor
+	 */
+	constructor(toolbar: HabboToolbar, windowManager: IHabboWindowManager)
 	{
 		this._toolbar = toolbar;
+		this._windowManager = windowManager;
 
-		this._iconVisibility.set(HabboToolbarIconEnum.getIconName('HTIE_ICON_MEMENU') ?? '', false);
-		this._iconVisibility.set(HabboToolbarIconEnum.getIconName('HTIE_ICON_INVENTORY') ?? '', false);
-		this._iconVisibility.set(HabboToolbarIconEnum.getIconName('HTIE_ICON_WIRED_MENU') ?? '', false);
+		// Build the toolbar window from registered layout
+		const built = windowManager.buildWidgetLayout('bottom_bar_left');
+		this._window = built as IWindowContainer;
+
+		if(!this._window)
+		{
+			throw new Error('Failed to construct toolbar window from layout');
+		}
+
+		// Find key children
+		this._buttonContainer = this._window.getChildByName('toolbar_items');
+
+		const leftContainer = this._window.getChildByName('arrow_container_left') as IWindowContainer | null;
+		const rightContainer = this._window.getChildByName('arrow_container_right') as IWindowContainer | null;
+
+		this._leftArrow = leftContainer?.getChildByName?.('collapse_left') ?? null;
+		this._rightArrow = rightContainer?.getChildByName?.('collapse_right') ?? null;
+		this._lineSeparator = (this._buttonContainer as IWindowContainer)?.findChildByName?.('line') ?? null;
+
+		// Register click listeners on collapse arrows
+		if(this._leftArrow)
+		{
+			this._leftArrow.addEventListener(WindowMouseEvent.CLICK, this.onCollapseToolbar);
+		}
+
+		if(this._rightArrow)
+		{
+			this._rightArrow.addEventListener(WindowMouseEvent.CLICK, this.onCollapseToolbar);
+		}
+
+		// Register click listeners on all TOGGLE-tagged regions
+		const toggleChildren: IWindow[] = [];
+		(this._window as IWindowContainer).groupChildrenWithTag('TOGGLE', toggleChildren, -1);
+
+		for(const child of toggleChildren)
+		{
+			if(child)
+			{
+				child.addEventListener(WindowMouseEvent.CLICK, this.onIconClick);
+			}
+		}
+
+		// Set initial icon visibility
+		this.iconVisibility(HabboToolbarIconEnum.getIconName('HTIE_ICON_MEMENU') ?? '', false);
+		this.iconVisibility(HabboToolbarIconEnum.getIconName('HTIE_ICON_INVENTORY') ?? '', false);
+		this.iconVisibility(HabboToolbarIconEnum.getIconName('HTIE_ICON_WIRED_MENU') ?? '', false);
 
 		const gamesEnabled = toolbar.getBoolean('games_icon_enabled');
-		this._iconVisibility.set(
-			HabboToolbarIconEnum.getIconName('HTIE_ICON_GAMES') ?? '',
-			gamesEnabled
-		);
+
+		if(gamesEnabled)
+		{
+			this.iconVisibility(HabboToolbarIconEnum.getIconName('HTIE_ICON_GAMES') ?? '', true);
+		}
+		else
+		{
+			this.iconVisibility(HabboToolbarIconEnum.getIconName('HTIE_ICON_GAMES') ?? '', false);
+		}
 
 		this._newItemsNotificationEnabled = this.isNewItemsNotificationEnabled();
+		this.checkSize();
 
-		log.debug('BottomBarLeft constructed');
+		log.debug('BottomBarLeft constructed with IWindow tree');
 	}
 
 	/**
@@ -72,72 +138,172 @@ export class BottomBarLeft
 	}
 
 	/**
+	 * The root window of the toolbar
+	 */
+	get window(): IWindow | null
+	{
+		return this._window;
+	}
+
+	/**
 	 * Set the toolbar state and update icon visibility by tags
 	 *
+	 * In AS3, this groups all TOGGLE-tagged children and sets their visibility
+	 * based on the state's visibility tag (VISIBLE_ROOM, VISIBLE_HOTEL, etc.)
+	 * with additional rules for specific icons (QUESTS, STORIES, BUILDER, etc.)
+	 *
 	 * @param state Toolbar state identifier
+	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as setToolbarState()
 	 */
 	public setToolbarState(state: string): void
 	{
-		if(state === 'HTE_STATE_HIDDEN')
+		if(!this._window)
 		{
-			this._visible = false;
 			return;
 		}
 
-		this._visible = true;
+		if(state === 'HTE_STATE_HIDDEN')
+		{
+			this._window.visible = false;
+			return;
+		}
+
+		this._window.visible = true;
 
 		if(state !== 'HTE_STATE_COLLAPSED')
 		{
 			this._lastState = state;
 		}
 
+		// Collect all TOGGLE-tagged children
+		const toggleChildren: IWindow[] = [];
+		(this._window as IWindowContainer).groupChildrenWithTag('TOGGLE', toggleChildren, -1);
+
+		// Determine the visibility tag for this state
+		let visibilityTag: string | null = null;
+
 		switch(state)
 		{
 			case 'HTE_STATE_GAME_CENTER_VIEW':
-				this._position = { ...BottomBarLeft.DEFAULT_LOCATION };
+				visibilityTag = 'VISIBLE_GAME_CENTER';
+				this._window.position = { ...BottomBarLeft.DEFAULT_LOCATION };
 				break;
 			case 'HTE_STATE_HOTEL_VIEW':
-				this._position = { ...BottomBarLeft.LANDING_VIEW_LOCATION };
+				visibilityTag = 'VISIBLE_HOTEL';
+				this._window.position = { ...BottomBarLeft.LANDING_VIEW_LOCATION };
 				break;
 			case 'HTE_STATE_NOOB_NOT_HOME':
-				this._position = { ...BottomBarLeft.DEFAULT_LOCATION };
+				visibilityTag = 'VISIBLE_NOOB';
+				this._window.position = { ...BottomBarLeft.DEFAULT_LOCATION };
 				break;
 			case 'HETE_STATE_NOOB_HOME':
-				this._position = { ...BottomBarLeft.DEFAULT_LOCATION };
+				visibilityTag = 'VISIBLE_ROOM';
+				this._window.position = { ...BottomBarLeft.DEFAULT_LOCATION };
 				break;
 			case 'HTE_STATE_ROOM_VIEW':
-				this._position = { ...BottomBarLeft.DEFAULT_LOCATION };
+				visibilityTag = 'VISIBLE_ROOM';
+				this._window.position = { ...BottomBarLeft.DEFAULT_LOCATION };
 				break;
 			case 'HTE_STATE_COLLAPSED':
-				this._position = { ...BottomBarLeft.DEFAULT_LOCATION };
+				visibilityTag = 'VISIBLE_COLLAPSED';
+				this._window.position = { ...BottomBarLeft.DEFAULT_LOCATION };
 				break;
+		}
+
+		// Determine if we're in a room-like state (for CAMERA / WIRED_MENU)
+		const isRoomState = state === 'HTE_STATE_ROOM_VIEW'
+			|| state === 'HETE_STATE_NOOB_HOME'
+			|| state === 'HTE_STATE_NOOB_NOT_HOME'
+			|| (this._collapsed && (
+				this._lastState === 'HTE_STATE_ROOM_VIEW'
+				|| this._lastState === 'HETE_STATE_NOOB_HOME'
+				|| this._lastState === 'HTE_STATE_NOOB_NOT_HOME'
+			));
+
+		// Set visibility of each TOGGLE child based on its tags
+		for(const child of toggleChildren)
+		{
+			if(!child) continue;
+
+			child.visible = visibilityTag !== null && child.tags.indexOf(visibilityTag) >= 0;
+
+			// Apply specific per-icon rules
+			if(child.name === 'QUESTS' && !this._collapsed)
+			{
+				child.visible = child.visible && !this._toolbar!.getBoolean('toolbar.hide.quests');
+			}
+			else if(child.name === 'STORIES' && !this._collapsed)
+			{
+				child.visible = child.visible && this._toolbar!.getBoolean('toolbar.stories.enabled');
+			}
+			else if(child.name === 'BUILDER' && !this._collapsed)
+			{
+				child.visible = child.visible && this._toolbar!.getBoolean('builders.club.enabled');
+			}
+			else if(child.name === 'GAMES')
+			{
+				child.visible = child.visible && this._toolbar!.getBoolean('games_icon_enabled');
+			}
+			else if(child.name === 'CAMERA')
+			{
+				const cameraPosition = this._toolbar!.getProperty('camera.launch.ui.position');
+				const cameraAllowed = this._toolbar!.sessionDataManager?.isPerkAllowed?.('CAMERA') ?? false;
+				child.visible = isRoomState && cameraPosition === 'bottom-icons' && cameraAllowed;
+			}
+			else if(child.name === 'WIRED_MENU')
+			{
+				child.visible = false;
+			}
 		}
 
 		this.checkSize();
 	}
 
 	/**
-	 * Set the visibility of a toolbar icon
+	 * Set the visibility of a toolbar icon by name
+	 *
+	 * Finds the child window by name and sets its visible property.
 	 *
 	 * @param iconName Icon name string
 	 * @param visible Whether the icon should be visible
+	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as iconVisibility()
 	 */
 	public iconVisibility(iconName: string, visible: boolean): void
 	{
-		this._iconVisibility.set(iconName, visible);
+		if(!this._window || !iconName) return;
+
+		const child = (this._window as IWindowContainer).findChildByName(iconName);
+
+		if(child)
+		{
+			child.visible = visible;
+		}
+
 		this.checkSize();
 	}
 
 	/**
 	 * Calculate the number of visible toolbar icons
+	 *
+	 * Collects all TOGGLE-tagged children and counts the visible ones.
+	 *
+	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as calculateNewWidth()
 	 */
 	public calculateNewWidth(): number
 	{
+		if(!this._window) return 1;
+
+		const toggleChildren: IWindow[] = [];
+		(this._window as IWindowContainer).groupChildrenWithTag('TOGGLE', toggleChildren, -1);
+
 		let count = 1;
 
-		for(const visible of this._iconVisibility.values())
+		for(const child of toggleChildren)
 		{
-			if(visible) count++;
+			if(child && child.visible)
+			{
+				count++;
+			}
 		}
 
 		return count;
@@ -146,12 +312,30 @@ export class BottomBarLeft
 	/**
 	 * Get the icon location rectangle for a given icon id
 	 *
+	 * Maps the icon ID to a child name, finds the child, and returns
+	 * its global rectangle.
+	 *
 	 * @param iconId Icon identifier
 	 * @returns Rectangle or null if not found
+	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as getIconLocation()
 	 */
 	public getIconLocation(iconId: string): { x: number; y: number; width: number; height: number } | null
 	{
-		// In Helium, icon positions are managed by the UI layer
+		if(!this._window) return null;
+
+		const iconName = this.getIconChildName(iconId);
+
+		if(!iconName) return null;
+
+		const child = (this._window as IWindowContainer).findChildByName(iconName);
+
+		if(child && child.visible)
+		{
+			const rect = { x: 0, y: 0, width: 0, height: 0 };
+			child.getGlobalRectangle(rect);
+			return rect;
+		}
+
 		return null;
 	}
 
@@ -160,6 +344,7 @@ export class BottomBarLeft
 	 *
 	 * @param iconId Icon identifier
 	 * @param count The count to display
+	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as setUnseenItemCount()
 	 */
 	public setUnseenItemCount(iconId: string, count: number): void
 	{
@@ -176,6 +361,8 @@ export class BottomBarLeft
 
 	/**
 	 * Check if new items notification is enabled
+	 *
+	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as isNewItemsNotificationEnabled()
 	 */
 	public isNewItemsNotificationEnabled(): boolean
 	{
@@ -185,10 +372,19 @@ export class BottomBarLeft
 
 	/**
 	 * Set the on duty state
+	 *
+	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as set onDuty()
 	 */
 	set onDuty(value: boolean)
 	{
-		// Metadata only - UI layer renders the guide icon
+		if(!this._window) return;
+
+		const guideIcon = (this._window as IWindowContainer).findChildByName('guide_icon');
+
+		if(guideIcon)
+		{
+			guideIcon.visible = value;
+		}
 	}
 
 	/**
@@ -243,6 +439,7 @@ export class BottomBarLeft
 	 * Handle a received link event
 	 *
 	 * @param link The link string
+	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as linkReceived()
 	 */
 	public linkReceived(link: string): void
 	{
@@ -266,10 +463,22 @@ export class BottomBarLeft
 
 	/**
 	 * Get the toolbar area width
+	 *
+	 * In AS3, returns the line separator position when not collapsed,
+	 * or the COLLAPSED_MARGIN when collapsed.
+	 *
+	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as getToolbarAreaWidth()
 	 */
 	public getToolbarAreaWidth(): number
 	{
-		return this._collapsed ? BottomBarLeft.COLLAPSED_MARGIN : 0;
+		if(!this._lineSeparator || !this._lineSeparator.parent)
+		{
+			return 0;
+		}
+
+		return this._collapsed
+			? BottomBarLeft.COLLAPSED_MARGIN
+			: this._lineSeparator.x + this._lineSeparator.parent.x;
 	}
 
 	/**
@@ -282,6 +491,8 @@ export class BottomBarLeft
 
 	/**
 	 * Toggle collapse state
+	 *
+	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as onCollapseToolsBar()
 	 */
 	public toggleCollapse(): void
 	{
@@ -299,18 +510,106 @@ export class BottomBarLeft
 		this.checkSize();
 	}
 
+	/**
+	 * Map an icon ID to its child window name in the toolbar layout
+	 *
+	 * @param iconId The icon identifier
+	 * @returns The child window name, or null
+	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as getIconName()
+	 */
+	private getIconChildName(iconId: string): string | null
+	{
+		switch(iconId)
+		{
+			case 'HTIE_ICON_CATALOGUE': return 'icons_toolbar_catalogue';
+			case 'HTIE_ICON_INVENTORY': return 'icons_toolbar_inventory';
+			case 'HTIE_ICON_MEMENU': return 'MEMENU';
+			case 'HTIE_ICON_NAVIGATOR': return 'icons_toolbar_navigator';
+			case 'HTIE_ICON_QUESTS': return 'icons_toolbar_quests';
+			case 'HTIE_ICON_GAMES': return 'icons_toolbar_games';
+			case 'HTIE_ICON_STORIES': return 'icons_toolbar_stories';
+			case 'HTIE_ICON_RECEPTION': return 'icons_toolbar_reception';
+			case 'HTIE_ICON_BUILDER': return 'icons_toolbar_builder';
+			case 'HTIE_ICON_CAMERA': return 'icons_toolbar_camera';
+			case 'HTIE_ICON_WIRED_MENU': return 'icons_toolbar_wired_menu';
+			default: return null;
+		}
+	}
+
+	/**
+	 * Recalculate the toolbar size and position
+	 *
+	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as checkSize()
+	 */
 	private checkSize(): void
 	{
-		if(!this._toolbar) return;
+		if(!this._window || !this._windowManager)
+		{
+			return;
+		}
+
+		if(this._leftArrow)
+		{
+			this._leftArrow.visible = !this._collapsed;
+		}
+
+		if(this._rightArrow)
+		{
+			this._rightArrow.visible = this._collapsed;
+		}
+
+		// Position at the bottom of the desktop
+		const desktop = this._window.desktop;
+
+		if(desktop)
+		{
+			this._window.y = desktop.height - this._window.height;
+		}
+
+		// Width = ICON_REGION_WIDTH * visibleCount + WINDOW_RIGHT_PADDING + COLLAPSED_MARGIN_BASE
+		this._window.width = BottomBarLeft.ICON_REGION_WIDTH * this.calculateNewWidth()
+			+ BottomBarLeft.WINDOW_RIGHT_PADDING + 150;
 
 		if(!this._collapsed && this._meMenuController)
 		{
 			this._meMenuController.reposition();
 		}
+
+		this._window.invalidate();
 	}
 
 	/**
+	 * Handle icon click events
+	 *
+	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as onIconClick()
+	 */
+	private onIconClick = (_event: unknown, window: IWindow): void =>
+	{
+		if(!this._toolbar || !window) return;
+
+		const iconName = window.name;
+		this._toolbar.toggleWindowVisibility(iconName);
+
+		if(this._windowManager)
+		{
+			this._windowManager.hideMatchingHint(iconName);
+		}
+	};
+
+	/**
+	 * Handle collapse/expand toolbar click
+	 *
+	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as onCollapseToolsBar()
+	 */
+	private onCollapseToolbar = (): void =>
+	{
+		this.toggleCollapse();
+	};
+
+	/**
 	 * Dispose of this view and all its resources
+	 *
+	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as dispose()
 	 */
 	public dispose(): void
 	{
@@ -322,9 +621,25 @@ export class BottomBarLeft
 			this._meMenuController = null;
 		}
 
+		if(this._window)
+		{
+			this._window.dispose();
+			this._window = null;
+		}
+
+		if(this._newItemsLabel)
+		{
+			this._newItemsLabel.dispose();
+			this._newItemsLabel = null;
+		}
+
 		this._unseenItemCounters.clear();
-		this._iconVisibility.clear();
+		this._buttonContainer = null;
+		this._leftArrow = null;
+		this._rightArrow = null;
+		this._lineSeparator = null;
 		this._toolbar = null;
+		this._windowManager = null;
 		this._disposed = true;
 	}
 }

@@ -17,6 +17,9 @@ import type {ISkinData} from "@core/window";
 // Eagerly import all skin JSONs via Vite glob
 const skinModules = import.meta.glob('./assets/window-skins/habbo_skin_*.json', { eager: true }) as Record<string, { default: ISkinData }>;
 
+// Eagerly import all window layout JSONs via Vite glob
+const layoutModules = import.meta.glob('./assets/window-layouts/*.json', { eager: true }) as Record<string, { default: unknown }>;
+
 /** Atlas asset name → URL mapping. */
 const ATLAS_MAP: Record<string, string> = {
 	'habbo_blue_skin': blueSkinUrl,
@@ -115,32 +118,38 @@ export function App(): JSX.Element
 			// Register skin renderers in the engine
 			helium.windowManager.loadSkinAssets(skins, atlases);
 
-			console.log(`[App] Loaded ${ atlases.size } atlases, ${ skins.size } skins`);
+			// console.log(`[App] Loaded ${ atlases.size } atlases, ${ skins.size } skins`);
 		}
 		catch(error)
 		{
 			console.warn('[App] Failed to load skin assets:', error);
 		}
 
-		// 4. Connect the SolidJS stores to the engine
+		// 4. Register all window layouts in the engine (mirrors AS3 asset library)
+		{
+			let count = 0;
+
+			for(const [path, mod] of Object.entries(layoutModules))
+			{
+				const name = path.split('/').pop()?.replace('.json', '') ?? '';
+				const data = 'default' in mod ? mod.default : mod;
+				helium.windowManager.registerWidgetLayout(name, data);
+				count++;
+			}
+
+			// console.log(`[App] Registered ${ count } window layouts`);
+		}
+
+		// 5. Connect the SolidJS stores to the engine
 		initWindowStore(helium.windowManager);
 
-		// 5. Build a test window from JSON layout to verify the pipeline
-		try
-		{
-			const navigatorLayout = await import('./assets/window-layouts/navigator_frame_2.json');
-			const layoutData = 'default' in navigatorLayout ? navigatorLayout.default : navigatorLayout;
+		// 6. Initialize the Friend Bar (landing view)
+		// Creates HabboFriendBar → HabboLandingView which builds the landing view
+		// window and sets the toolbar to hotel-view state via activate().
+		// Must be after step 4 (layouts registered) so buildWidgetLayout() can find them.
+		helium.initFriendBar();
 
-			const win = helium.windowManager.buildFromJSON(layoutData, 1);
-
-			console.log('[App] Built IWindow from navigator_frame_2:', win);
-		}
-		catch(error)
-		{
-			console.warn('[App] Failed to build test window:', error);
-		}
-
-		// 6. Set Ready
+		// 7. Set Ready
 		setReady(true);
 	});
 

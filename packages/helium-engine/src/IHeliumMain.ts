@@ -61,4 +61,10 @@ export interface IHeliumMain extends IDisposable
 	 * Initialize localization
 	 */
 	initLocalization(): void;
+
+	/**
+	 * Initialize the Friend Bar (landing view, etc.)
+	 * Must be called AFTER window layouts are registered.
+	 */
+	initFriendBar(): void;
 }

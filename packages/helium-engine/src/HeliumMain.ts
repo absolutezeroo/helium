@@ -18,6 +18,7 @@ import {HabboToolbar} from '@habbo/toolbar/HabboToolbar';
 import {HabboFreeFlowChat} from '@habbo/freeflowchat/HabboFreeFlowChat';
 import {AvatarRenderManager} from '@habbo/avatar/AvatarRenderManager';
 import {HabboWindowManager} from '@habbo/window/HabboWindowManager';
+import {HabboFriendBar} from '@habbo/friendbar/HabboFriendBar';
 import {Logger} from '@core/utils/Logger';
 import type {IHeliumConfig} from './Helium';
 import {Helium} from './Helium';
@@ -43,6 +44,7 @@ import type {IGameDataResources} from '@core/localization/IGameDataResources';
 import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
 import type {IHabboToolbar} from '@habbo/toolbar/IHabboToolbar';
 import {IID_HabboToolbar} from '@iid/IIDHabboToolbar';
+import {IID_HabboFriendBar} from '@iid/IIDHabboFriendBar';
 import {IHeliumMain} from "./IHeliumMain";
 
 const log = Logger.getLogger('HabboMain');
@@ -74,6 +76,7 @@ export class HeliumMain implements IHeliumMain
 	private _freeFlowChat: HabboFreeFlowChat | null = null;
 	private _avatarRenderManager: AvatarRenderManager | null = null;
 	private _windowManager: HabboWindowManager | null = null;
+	private _friendBar: HabboFriendBar | null = null;
 
 	get avatarRenderManager(): AvatarRenderManager
 	{
@@ -294,6 +297,7 @@ export class HeliumMain implements IHeliumMain
 		this._roomMessageHandler = null;
 
 		// 3. Nullify Habbo manager refs (inverse init order)
+		this._friendBar = null;
 		this._windowManager = null;
 		this._freeFlowChat = null;
 		this._toolbar = null;
@@ -468,6 +472,24 @@ export class HeliumMain implements IHeliumMain
 		// 13. Start heartbeat if SPA mode enabled
 		// AS3: Habbo.as checks config "spaweb=1" and starts setInterval(sendHeartBeat, 10000)
 		this.startHeartbeatIfNeeded();
+	}
+
+	/**
+	 * Initialize the Friend Bar (landing view, friend bar view, etc.)
+	 *
+	 * Must be called AFTER window layouts are registered by the client layer,
+	 * because the landing view builds its window from a registered layout.
+	 *
+	 * @see sources/win63_version/habbo/friendbar/HabboFriendBar.as
+	 */
+	initFriendBar(): void
+	{
+		const ctx = this._core!.context;
+
+		this._friendBar = new HabboFriendBar(ctx);
+		ctx.attachComponent(this._friendBar, [IID_HabboFriendBar]);
+
+		log.info('Friend Bar initialized');
 	}
 
 	/**

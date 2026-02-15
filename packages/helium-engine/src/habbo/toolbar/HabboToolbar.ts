@@ -2,12 +2,15 @@ import {EventEmitter} from 'eventemitter3';
 import {Component, ComponentDependency, type IContext,} from '@core/runtime';
 import {IID_SessionDataManager} from '@iid/IIDSessionDataManager';
 import {IID_RoomSessionManager} from '@iid/IIDRoomSessionManager';
+import {IID_HabboWindowManager} from '@iid/IIDHabboWindowManager';
 import type {IHabboToolbar} from './IHabboToolbar';
 import type {IExtensionView} from './IExtensionView';
 import type {IHabboCommunicationManager} from '../communication/IHabboCommunicationManager';
+import type {IHabboWindowManager} from '../window/IHabboWindowManager';
 import type {ISessionDataManager} from '../session/ISessionDataManager';
 import type {IRoomSessionManager} from '../session/IRoomSessionManager';
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
+import {BottomBarLeft} from './BottomBarLeft';
 import {HabboToolbarEvent} from './events/HabboToolbarEvent';
 import {HabboToolbarEnum} from './HabboToolbarEnum';
 import {HabboToolbarIconEnum} from './HabboToolbarIconEnum';
@@ -43,6 +46,7 @@ export interface HabboToolbarEvents
 export class HabboToolbar extends Component implements IHabboToolbar
 {
 	private _communication: IHabboCommunicationManager | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
 	private _roomSessionManager: IRoomSessionManager | null = null;
 	private _messageEvents: IMessageEvent[] = [];
 	private _extensionsInitialized: boolean = false;
@@ -98,6 +102,11 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	set onDuty(value: boolean)
 	{
 		this._onDuty = value;
+
+		if(this.bottomBarLeft)
+		{
+			this.bottomBarLeft.onDuty = value;
+		}
 	}
 
 	/**
@@ -115,11 +124,18 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	/**
 	 * The width of the toolbar area
 	 *
-	 * In AS3 this returned the toolbar BottomBarLeft width.
-	 * UI rendering is handled by SolidJS, so we return 0 here.
+	 * Delegates to BottomBarLeft.getToolbarAreaWidth() which returns
+	 * the line separator position or collapsed margin.
+	 *
+	 * @see sources/win63_version/habbo/toolbar/HabboToolbar.as get toolBarAreaWidth()
 	 */
 	get toolBarAreaWidth(): number
 	{
+		if(this.bottomBarLeft)
+		{
+			return this.bottomBarLeft.getToolbarAreaWidth();
+		}
+
 		return 0;
 	}
 
@@ -153,6 +169,14 @@ export class HabboToolbar extends Component implements IHabboToolbar
 				true
 			),
 			new ComponentDependency(
+				IID_HabboWindowManager,
+				(manager: IHabboWindowManager | null) =>
+				{
+					this._windowManager = manager;
+				},
+				true
+			),
+			new ComponentDependency(
 				IID_SessionDataManager,
 				(manager: ISessionDataManager | null) =>
 				{
@@ -175,6 +199,40 @@ export class HabboToolbar extends Component implements IHabboToolbar
 		];
 	}
 
+	private _bottomBarLeft: BottomBarLeft | null = null;
+
+	/**
+	 * Lazy accessor for the BottomBarLeft view.
+	 *
+	 * Creates the view on first access. This defers construction until
+	 * after the client has registered window layouts (which happens after
+	 * bootstrap). In AS3, layouts were embedded in the SWF and available
+	 * immediately during initComponent().
+	 */
+	private get bottomBarLeft(): BottomBarLeft | null
+	{
+		if(!this._bottomBarLeft && this._windowManager)
+		{
+			try
+			{
+				this._bottomBarLeft = new BottomBarLeft(this, this._windowManager);
+
+				if(this._bottomBarLeft.window)
+				{
+					this._bottomBarLeft.window.visible = false;
+				}
+
+				log.info('BottomBarLeft created successfully');
+			}
+			catch(error)
+			{
+				log.warn('Failed to create BottomBarLeft:', error);
+			}
+		}
+
+		return this._bottomBarLeft;
+	}
+
 	/**
 	 * Set the toolbar state (hotel view, room view, hidden, etc.)
 	 *
@@ -185,7 +243,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	{
 		this._currentState = state;
 
-		switch (state)
+		switch(state)
 		{
 			case HabboToolbarEnum.TOOLBAR_STATE_HOTEL_VIEW:
 			case HabboToolbarEnum.TOOLBAR_STATE_GAME_CENTER_VIEW:
@@ -195,6 +253,17 @@ export class HabboToolbar extends Component implements IHabboToolbar
 			case HabboToolbarEnum.TOOLBAR_STATE_HIDDEN:
 				// Extensions hidden
 				break;
+		}
+
+		// Delegate to BottomBarLeft for window state + visibility
+		if(this.bottomBarLeft)
+		{
+			this.bottomBarLeft.setToolbarState(state);
+
+			if(this.bottomBarLeft.window)
+			{
+				this.bottomBarLeft.window.visible = true;
+			}
 		}
 
 		// Dispatch resized event
@@ -221,6 +290,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 		{
 			const cameraEvent = new HabboToolbarEvent(HabboToolbarEvent.CAMERA_TOGGLE);
 			cameraEvent.iconName = HabboToolbarEvent.CAMERA_LAUNCH_ORIGIN_TOOLBAR;
+
 			this._toolbarEvents.emit(HabboToolbarEvent.CAMERA_TOGGLE, cameraEvent);
 		}
 		else
@@ -242,15 +312,20 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	/**
 	 * Get the screen location of a toolbar icon
 	 *
-	 * In AS3, this returned a Flash Rectangle from the toolbar view.
-	 * In Helium, icon locations are managed by the SolidJS UI layer.
+	 * Delegates to BottomBarLeft.getIconLocation() which finds the child
+	 * window by name and returns its global rectangle.
 	 *
-	 * @param _iconId Icon identifier
-	 * @returns null - UI layer handles icon positions
-	 * @see source_as_win63/habbo/toolbar/HabboToolbar.as getIconLocation()
+	 * @param iconId Icon identifier
+	 * @returns Rectangle or null if not found
+	 * @see sources/win63_version/habbo/toolbar/HabboToolbar.as getIconLocation()
 	 */
-	getIconLocation(_iconId: string): { x: number; y: number; width: number; height: number } | null
+	getIconLocation(iconId: string): { x: number; y: number; width: number; height: number } | null
 	{
+		if(this.bottomBarLeft)
+		{
+			return this.bottomBarLeft.getIconLocation(iconId);
+		}
+
 		return null;
 	}
 
@@ -272,24 +347,37 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	/**
 	 * Get the bounding rectangle of the toolbar
 	 *
-	 * @returns An empty rectangle - UI layer handles toolbar bounds
-	 * @see source_as_win63/habbo/toolbar/HabboToolbar.as getRect()
+	 * Returns the BottomBarLeft window's rectangle.
+	 *
+	 * @returns The toolbar rectangle
+	 * @see sources/win63_version/habbo/toolbar/HabboToolbar.as getRect()
 	 */
 	getRect(): { x: number; y: number; width: number; height: number }
 	{
-		return {x: 0, y: 0, width: 0, height: 0};
+		if(this.bottomBarLeft?.window)
+		{
+			return this.bottomBarLeft.window.rectangle;
+		}
+
+		return { x: 0, y: 0, width: 0, height: 0 };
 	}
 
 	/**
 	 * Set the visibility of a toolbar icon
 	 *
-	 * @param _iconId Icon identifier
-	 * @param _visible Whether the icon should be visible
-	 * @see source_as_win63/habbo/toolbar/HabboToolbar.as setIconVisibility()
+	 * Delegates to BottomBarLeft.iconVisibility() which finds the child
+	 * window by name and sets its visible property.
+	 *
+	 * @param iconId Icon identifier (the toolbar icon name, not the HTIE_ constant)
+	 * @param visible Whether the icon should be visible
+	 * @see sources/win63_version/habbo/toolbar/HabboToolbar.as setIconVisibility()
 	 */
-	setIconVisibility(_iconId: string, _visible: boolean): void
+	setIconVisibility(iconId: string, visible: boolean): void
 	{
-		// UI layer handles icon visibility
+		if(this.bottomBarLeft)
+		{
+			this.bottomBarLeft.iconVisibility(iconId, visible);
+		}
 	}
 
 	/**
@@ -334,12 +422,12 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	 */
 	override dispose(): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
 		// Remove all message event handlers
-		if (this._communication)
+		if(this._communication)
 		{
-			for (const event of this._messageEvents)
+			for(const event of this._messageEvents)
 			{
 				this._communication.removeMessageEvent(event);
 			}
@@ -347,11 +435,19 @@ export class HabboToolbar extends Component implements IHabboToolbar
 
 		this._messageEvents = [];
 
+		// Dispose toolbar view
+		if(this._bottomBarLeft)
+		{
+			this._bottomBarLeft.dispose();
+			this._bottomBarLeft = null;
+		}
+
 		// Clear toolbar events
 		this._toolbarEvents.removeAllListeners();
 
 		// Clear references
 		this._communication = null;
+		this._windowManager = null;
 		this._sessionDataManager = null;
 		this._roomSessionManager = null;
 		this._extensionsInitialized = false;
@@ -369,6 +465,11 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	 */
 	protected override initComponent(): void
 	{
+		// BottomBarLeft is created lazily via ensureBottomBarLeft() because
+		// initComponent() fires during bootstrap, before the client has
+		// registered the window layouts. In AS3, layouts were embedded in
+		// the SWF and available immediately; here they're registered after
+		// bootstrap by the client layer.
 		log.info('Toolbar component initialized');
 	}
 

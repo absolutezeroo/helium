@@ -24,8 +24,8 @@ import {SkinContainer} from '@core/window/graphics/SkinContainer';
 import {WindowRenderer} from '@core/window/graphics/WindowRenderer';
 import {FillSkinRenderer} from '@core/window/graphics/renderer/FillSkinRenderer';
 import {NullSkinRenderer} from '@core/window/graphics/renderer/NullSkinRenderer';
-import {BitmapSkinParser} from '@core/window/graphics/renderer/BitmapSkinParser';
 import type {ISkinData} from '@core/window/graphics/renderer/BitmapSkinParser';
+import {BitmapSkinParser} from '@core/window/graphics/renderer/BitmapSkinParser';
 import {DefaultAttStruct} from '@core/window/utils/DefaultAttStruct';
 import {ThemeManager} from './theme/ThemeManager';
 import {ServiceManager} from '@core/window/services/ServiceManager';
@@ -82,15 +82,58 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
     private _serviceManager: ServiceManager | null = null;
     private _initialized: boolean = false;
 
-    // ── Component dependencies (injected via DI) ─────────────────────────
-    private _avatarRenderer: IAvatarRenderManager | null = null;
-    private _communication: IHabboCommunicationManager | null = null;
-
     constructor(context: IContext, flags: number = 0, assetLibrary: IAssetLibrary | null = null)
     {
         super(context, flags, assetLibrary);
 
         this.initContexts();
+    }
+
+    // ── Component dependencies (injected via DI) ─────────────────────────
+    private _avatarRenderer: IAvatarRenderManager | null = null;
+
+    /**
+     * The avatar render manager.
+     *
+     * In AS3: HabboWindowManagerComponent.avatarRenderer
+     */
+    public get avatarRenderer(): IAvatarRenderManager | null
+    {
+        return this._avatarRenderer;
+    }
+
+    private _communication: IHabboCommunicationManager | null = null;
+
+    /**
+     * The communication manager.
+     *
+     * In AS3: HabboWindowManagerComponent.communication
+     */
+    public get communication(): IHabboCommunicationManager | null
+    {
+        return this._communication;
+    }
+
+    private _windowEvents: EventEmitter = new EventEmitter();
+
+    /**
+     * Event emitter for window lifecycle events.
+     */
+    get windowEvents(): EventEmitter
+    {
+        return this._windowEvents;
+    }
+
+    private _elementRegistry: ElementRegistry = new ElementRegistry();
+
+    // ── Declarative API (existing, preserved for client compatibility) ──
+
+    /**
+     * The element registry.
+     */
+    get elementRegistry(): ElementRegistry
+    {
+        return this._elementRegistry;
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -114,48 +157,6 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
                 false // optional — window manager can work without communication
             ),
         ];
-    }
-
-    /**
-     * The avatar render manager.
-     *
-     * In AS3: HabboWindowManagerComponent.avatarRenderer
-     */
-    public get avatarRenderer(): IAvatarRenderManager | null
-    {
-        return this._avatarRenderer;
-    }
-
-    /**
-     * The communication manager.
-     *
-     * In AS3: HabboWindowManagerComponent.communication
-     */
-    public get communication(): IHabboCommunicationManager | null
-    {
-        return this._communication;
-    }
-
-    private _windowEvents: EventEmitter = new EventEmitter();
-
-    /**
-     * Event emitter for window lifecycle events.
-     */
-    get windowEvents(): EventEmitter
-    {
-        return this._windowEvents;
-    }
-
-    // ── Declarative API (existing, preserved for client compatibility) ──
-
-    private _elementRegistry: ElementRegistry = new ElementRegistry();
-
-    /**
-     * The element registry.
-     */
-    get elementRegistry(): ElementRegistry
-    {
-        return this._elementRegistry;
     }
 
     /**
@@ -743,7 +744,7 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 
                     loaded++;
 
-                    log.debug(`Skin "${ skinId }" → type=${ descriptor.typeId } style=${ descriptor.style } (stateDrawable[0]=${ renderer.isStateDrawable(0) })`);
+                    // log.debug(`Skin "${ skinId }" → type=${ descriptor.typeId } style=${ descriptor.style } (stateDrawable[0]=${ renderer.isStateDrawable(0) })`);
                 }
             }
         }

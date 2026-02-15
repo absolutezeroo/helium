@@ -61,7 +61,7 @@ export class InteractiveController extends WindowController implements IInteract
         }
         else
         {
-            if(window.toolTipCaption !== null && window.toolTipCaption.length > 0)
+            if(window.toolTipCaption != null && window.toolTipCaption.length > 0)
             {
                 if(event.type === 'WME_OVER')
                 {

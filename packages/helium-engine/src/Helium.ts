@@ -239,6 +239,15 @@ export class Helium implements IHelium
 	}
 
 	/**
+	 * Initialize the Friend Bar (landing view, etc.)
+	 * Must be called AFTER window layouts are registered.
+	 */
+	initFriendBar(): void
+	{
+		this._habboMain!.initFriendBar();
+	}
+
+	/**
 	 * Bootstrap the application
 	 */
 	public static async bootstrap(config?: IHeliumConfig): Promise<Helium>
