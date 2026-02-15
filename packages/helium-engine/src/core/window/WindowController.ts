@@ -12,6 +12,7 @@ import {WindowEventDispatcher} from './events/WindowEventDispatcher';
 import {WindowRectLimits} from './utils/WindowRectLimits';
 import {PropertyStruct} from './utils/PropertyStruct';
 import {WindowParam} from './enum/WindowParam';
+import {DynamicStyleManager} from './dynamicstyle/DynamicStyleManager';
 
 /**
  * Core window controller implementing the full IWindow API.
@@ -1758,7 +1759,55 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 
         if(this._state !== previous)
         {
+            // Apply dynamic style offsets for hover (4) or pressed (16)
+            if(this._dynamicStyleName && (flag === 4 || flag === 16))
+            {
+                this.applyDynamicStyleForState();
+            }
+
             this._context.invalidate(this, null, 8);
+        }
+    }
+
+    /**
+     * Applies dynamic style offsets based on current state.
+     *
+     * Reads the dynamic style and applies offset properties for the
+     * active state (pressed > hover > default). Also applies child
+     * styles for tagged children (e.g. #icon, #bg).
+     */
+    private applyDynamicStyleForState(): void
+    {
+        if(!this._dynamicStyleName) return;
+
+        const dynStyle = DynamicStyleManager.getStyle(this._dynamicStyleName);
+
+        // Determine active state: pressed > hover > default
+        let activeState = 0;
+
+        if(this._state & 16) activeState = 16;
+        else if(this._state & 4) activeState = 4;
+
+        const props = dynStyle.getStyleByWindowState(activeState);
+
+        this._offsetX = (props.offsetX as number) ?? 0;
+        this._offsetY = (props.offsetY as number) ?? 0;
+
+        // Apply child dynamic styles (#icon tagged children)
+        if(this._children)
+        {
+            for(const child of this._children)
+            {
+                const childStyle = dynStyle.getChildStyleByTags(child.tags);
+
+                if(childStyle)
+                {
+                    const childProps = childStyle.getStyleByWindowState(activeState);
+
+                    child.offsetX = (childProps.offsetX as number) ?? 0;
+                    child.offsetY = (childProps.offsetY as number) ?? 0;
+                }
+            }
         }
     }
 

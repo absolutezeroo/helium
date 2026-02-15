@@ -392,8 +392,8 @@ export class WindowRenderer implements IWindowRenderer
     {
         if(!window.visible) return;
 
-        const absX = offsetX + window.x;
-        const absY = offsetY + window.y;
+        const absX = offsetX + window.x + window.offsetX;
+        const absY = offsetY + window.y + window.offsetY;
         const w = window.width;
         const h = window.height;
 
@@ -514,12 +514,18 @@ export class WindowRenderer implements IWindowRenderer
     /**
      * Recursively hit-tests a window tree.
      *
+     * Returns the deepest window that has INPUT_EVENT_PROCESSOR (param flag 1).
+     * Child windows without this flag (e.g. static bitmaps with param 208) are
+     * tested for bounds but not returned as targets — their parent region is
+     * returned instead. This mirrors AS3's event routing where mouse events
+     * target the INPUT_EVENT_PROCESSOR container, not its passive children.
+     *
      * @param window - The window to test
      * @param globalX - The global X coordinate
      * @param globalY - The global Y coordinate
      * @param offsetX - The parent's absolute X offset
      * @param offsetY - The parent's absolute Y offset
-     * @returns The deepest matching window, or null
+     * @returns The deepest INPUT_EVENT_PROCESSOR window at the point, or null
      */
     private hitTestRecursive(
         window: IWindow,
@@ -565,8 +571,13 @@ export class WindowRenderer implements IWindowRenderer
             }
         }
 
-        // No child matched, but this window contains the point
-        return window;
+        // Only return this window as a hit target if it is an INPUT_EVENT_PROCESSOR
+        if(window.testParamFlag(1))
+        {
+            return window;
+        }
+
+        return null;
     }
 
     public dispose(): void

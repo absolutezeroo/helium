@@ -3,7 +3,9 @@ import type {MeMenuNewController} from './memenu/MeMenuNewController';
 import type {IHabboWindowManager} from '@habbo/window/IHabboWindowManager';
 import type {IWindow} from '@core/window/IWindow';
 import type {IWindowContainer} from '@core/window/IWindowContainer';
+import {WindowEvent} from '@core/window/events/WindowEvent';
 import {WindowMouseEvent} from '@core/window/events/WindowMouseEvent';
+import type {IStaticBitmapWrapperWindow} from '@core/window/components/IStaticBitmapWrapperWindow';
 import {HabboToolbarIconEnum} from './HabboToolbarIconEnum';
 import {Logger} from '@core/utils/Logger';
 
@@ -22,8 +24,8 @@ export class BottomBarLeft
 {
 	private static readonly DEFAULT_LOCATION = { x: 0, y: 500 };
 	private static readonly LANDING_VIEW_LOCATION = { x: 0, y: 500 };
-	private static readonly ICON_BG_COLOR_OVER: number = 0x716769;
-	private static readonly ICON_BG_COLOR_OUT: number = 0x57504D;
+	private static readonly ICON_BG_COLOR_OVER: number = 0xFF716769;
+	private static readonly ICON_BG_COLOR_OUT: number = 0xFF57504D;
 	private static readonly ICON_MOUSE_OVER: string = '_hover';
 	private static readonly ICON_MOUSE_OUT: string = '_normal';
 	private static readonly COUNTER_MARGIN: number = 0;
@@ -104,6 +106,8 @@ export class BottomBarLeft
 			if(child)
 			{
 				child.addEventListener(WindowMouseEvent.CLICK, this.onIconClick);
+				child.addEventListener(WindowMouseEvent.OVER, this.onIconHoverIn);
+				child.addEventListener(WindowMouseEvent.OUT, this.onIconHoverOut);
 			}
 		}
 
@@ -583,9 +587,13 @@ export class BottomBarLeft
 	 *
 	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as onIconClick()
 	 */
-	private onIconClick = (_event: unknown, window: IWindow): void =>
+	private onIconClick = (event: WindowEvent): void =>
 	{
-		if(!this._toolbar || !window) return;
+		if(!this._toolbar) return;
+
+		const window = event.window;
+
+		if(!window) return;
 
 		const iconName = window.name;
 		this._toolbar.toggleWindowVisibility(iconName);
@@ -595,6 +603,76 @@ export class BottomBarLeft
 			this._windowManager.hideMatchingHint(iconName);
 		}
 	};
+
+	/**
+	 * Handle icon hover mouse events (OVER / OUT).
+	 *
+	 * In AS3, swaps the ICON_BMP child's assetUri between _normal and _hover,
+	 * and changes the ICON_BORDER background color.
+	 *
+	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as onIconHoverMouseEvent()
+	 */
+	private onIconHoverIn = (event: WindowEvent): void =>
+	{
+		const target = event.window as unknown as IWindowContainer;
+
+		if(!target) return;
+
+		this.setIconHoverState(target, BottomBarLeft.ICON_MOUSE_OVER);
+		this.setIconBgHoverState(target, BottomBarLeft.ICON_MOUSE_OVER);
+	};
+
+	private onIconHoverOut = (event: WindowEvent): void =>
+	{
+		const target = event.window as unknown as IWindowContainer;
+
+		if(!target) return;
+
+		this.setIconHoverState(target, BottomBarLeft.ICON_MOUSE_OUT);
+		this.setIconBgHoverState(target, BottomBarLeft.ICON_MOUSE_OUT);
+	};
+
+	/**
+	 * Swap the icon bitmap asset between _normal and _hover.
+	 *
+	 * Uses `findChildByTag("ICON_BMP")` to locate the bitmap,
+	 * then sets `assetUri = name + suffix` (e.g. "icons_toolbar_navigator_hover").
+	 *
+	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as setIconHoverState()
+	 */
+	private setIconHoverState(container: IWindowContainer, suffix: string): void
+	{
+		if(!container.findChildByTag) return;
+
+		const iconBmp = container.findChildByTag('ICON_BMP');
+
+		if(!iconBmp) return;
+
+		// IStaticBitmapWrapperWindow — set assetUri = name + suffix
+		const bmp = iconBmp as unknown as IStaticBitmapWrapperWindow;
+
+		if(typeof bmp.assetUri === 'string')
+		{
+			bmp.assetUri = iconBmp.name + suffix;
+		}
+	}
+
+	/**
+	 * Change the ICON_BORDER background color on hover.
+	 *
+	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as setIconBgHoverState()
+	 */
+	private setIconBgHoverState(container: IWindowContainer, suffix: string): void
+	{
+		if(suffix === BottomBarLeft.ICON_MOUSE_OVER)
+		{
+			(container as unknown as IWindow).color = BottomBarLeft.ICON_BG_COLOR_OVER;
+		}
+		else
+		{
+			(container as unknown as IWindow).color = BottomBarLeft.ICON_BG_COLOR_OUT;
+		}
+	}
 
 	/**
 	 * Handle collapse/expand toolbar click

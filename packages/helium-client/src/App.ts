@@ -1,5 +1,6 @@
 import type {IHeliumConfig} from 'helium-engine';
 import {Helium} from 'helium-engine';
+import {HabboToolbarEnum} from '@habbo/toolbar/HabboToolbarEnum';
 import type {ISkinData} from '@core/window';
 import type {IWindow} from '@core/window/IWindow';
 import {WindowController} from '@core/window/WindowController';
@@ -164,10 +165,13 @@ export class HeliumApp
         // 7. Initialize the Friend Bar (landing view) — desktops are now sized
         helium.initFriendBar();
 
-        // 8. Flush microtasks
+        // 8. Activate the toolbar (hotel view by default)
+        helium.toolbar.setToolbarState(HabboToolbarEnum.TOOLBAR_STATE_HOTEL_VIEW);
+
+        // 9. Flush microtasks
         await Promise.resolve();
 
-        // 9. Start input and render loop
+        // 10. Start input and render loop
         this.setupMouseEvents();
         this.startRenderLoop();
     }
@@ -462,6 +466,23 @@ export class HeliumApp
                         this._mouseDownWindow as WindowController, upEvent
                     );
                     upEvent.recycle();
+
+                    // Synthesize CLICK if mouseup is on same window as mousedown
+                    const clickHit = helium.windowManager.findWindowAtPoint(ux, uy);
+
+                    if(clickHit)
+                    {
+                        const cp = { x: 0, y: 0 };
+
+                        clickHit.getGlobalPosition(cp);
+
+                        const clickEvent = WindowMouseEvent.allocateMouse(
+                            WindowMouseEvent.CLICK, clickHit, null,
+                            ux - cp.x, uy - cp.y, ev.clientX, ev.clientY
+                        );
+                        (clickHit as WindowController).update(clickHit as WindowController, clickEvent);
+                        clickEvent.recycle();
+                    }
                 }
 
                 this._mouseDown = false;
@@ -533,6 +554,12 @@ export class HeliumApp
             (hit as WindowController).update(hit as WindowController, moveEvent);
             moveEvent.recycle();
         }
+
+        // Update cursor: pointer on mouse-event-enabled windows
+        if(this._canvas)
+        {
+            this._canvas.style.cursor = (hit && hit.testParamFlag(1)) ? 'pointer' : 'default';
+        }
     };
 
     /** Canvas mouseup handler (fallback for non-drag scenarios). */
@@ -551,12 +578,20 @@ export class HeliumApp
 
         hit.getGlobalPosition(globalPos);
 
-        const event = WindowMouseEvent.allocateMouse(
+        const upEvent = WindowMouseEvent.allocateMouse(
             WindowMouseEvent.UP, hit, null,
             x - globalPos.x, y - globalPos.y, e.clientX, e.clientY
         );
-        (hit as WindowController).update(hit as WindowController, event);
-        event.recycle();
+        (hit as WindowController).update(hit as WindowController, upEvent);
+        upEvent.recycle();
+
+        // Synthesize CLICK
+        const clickEvent = WindowMouseEvent.allocateMouse(
+            WindowMouseEvent.CLICK, hit, null,
+            x - globalPos.x, y - globalPos.y, e.clientX, e.clientY
+        );
+        (hit as WindowController).update(hit as WindowController, clickEvent);
+        clickEvent.recycle();
     };
 
     /** Canvas wheel handler. */

@@ -43,6 +43,10 @@ export interface IWindow
     state: number;
     param: number;
 
+    // ── Offsets (dynamic style) ──────────────────────────────────────
+    offsetX: number;
+    offsetY: number;
+
     // ── Visual Properties ────────────────────────────────────────────
     visible: boolean;
     background: boolean;
