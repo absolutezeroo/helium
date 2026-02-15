@@ -16,7 +16,7 @@ export class GetExtendedProfileMessageComposer extends MessageComposer<Construct
 		this._data = [userId, openWindow];
 	}
 
-	getMessageArray(): [number, boolean]
+	getMessageArray()
 	{
 		return this._data;
 	}
