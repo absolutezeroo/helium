@@ -546,7 +546,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_bubble",
       "layout": "bubble",
-      "windowLayout": "habbo_window_layout_bubble_xml",
+      "windowLayout": "habbo_window_layout_bubble",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -651,7 +651,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_bubble_7",
       "layout": "bubble_7",
-      "windowLayout": "habbo_window_layout_bubble_7_xml",
+      "windowLayout": "habbo_window_layout_bubble_7",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -756,7 +756,7 @@
       "renderer": "null",
       "asset": "habbo_skin_tab_context",
       "layout": "tab_context",
-      "windowLayout": "habbo_window_layout_tab_context_xml",
+      "windowLayout": "habbo_window_layout_tab_context",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -777,7 +777,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_tooltip",
       "layout": "tooltip",
-      "windowLayout": "habbo_window_layout_tooltip_xml",
+      "windowLayout": "habbo_window_layout_tooltip",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -798,7 +798,7 @@
       "renderer": "null",
       "asset": "",
       "layout": "",
-      "windowLayout": "habbo_window_layout_scrollable_itemlist_vertical_xml",
+      "windowLayout": "habbo_window_layout_scrollable_itemlist_vertical",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -819,7 +819,7 @@
       "renderer": "null",
       "asset": "",
       "layout": "",
-      "windowLayout": "habbo_window_layout_scrollable_itemgrid_vertical_xml",
+      "windowLayout": "habbo_window_layout_scrollable_itemgrid_vertical",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -840,7 +840,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_frame",
       "layout": "frame",
-      "windowLayout": "habbo_window_layout_frame_xml",
+      "windowLayout": "habbo_window_layout_frame",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -882,7 +882,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_header",
       "layout": "header",
-      "windowLayout": "habbo_window_layout_header_xml",
+      "windowLayout": "habbo_window_layout_header",
       "defaults": {
         "threshold": 1,
         "background": false,
@@ -903,7 +903,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_default",
       "layout": "button",
-      "windowLayout": "habbo_window_layout_button_xml",
+      "windowLayout": "habbo_window_layout_button",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -924,7 +924,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_thick",
       "layout": "button_thick",
-      "windowLayout": "habbo_window_layout_button_thick_xml",
+      "windowLayout": "habbo_window_layout_button_thick",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -966,7 +966,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_group_left",
       "layout": "button_group_left",
-      "windowLayout": "habbo_window_layout_button_xml",
+      "windowLayout": "habbo_window_layout_button",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -987,7 +987,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_group_center",
       "layout": "button_group_center",
-      "windowLayout": "habbo_window_layout_button_xml",
+      "windowLayout": "habbo_window_layout_button",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -1008,7 +1008,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_group_right",
       "layout": "button_group_right",
-      "windowLayout": "habbo_window_layout_button_xml",
+      "windowLayout": "habbo_window_layout_button",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -1029,7 +1029,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_scaler",
       "layout": "scaler",
-      "windowLayout": "habbo_window_layout_scaler_xml",
+      "windowLayout": "habbo_window_layout_scaler",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -1071,7 +1071,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_dropmenu",
       "layout": "dropmenu_frame",
-      "windowLayout": "habbo_window_layout_dropmenu_xml",
+      "windowLayout": "habbo_window_layout_dropmenu",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -1092,7 +1092,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_dropmenu",
       "layout": "dropmenu_item",
-      "windowLayout": "habbo_window_layout_dropmenu_item_xml",
+      "windowLayout": "habbo_window_layout_dropmenu_item",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -1155,7 +1155,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_tab",
       "layout": "button_tab",
-      "windowLayout": "habbo_window_layout_tab_button_xml",
+      "windowLayout": "habbo_window_layout_tab_button",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -1218,7 +1218,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_droplist",
       "layout": "droplist_frame",
-      "windowLayout": "habbo_window_layout_droplist_xml",
+      "windowLayout": "habbo_window_layout_droplist",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -1260,7 +1260,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_scrollbar",
       "layout": "scrollbar_horizontal",
-      "windowLayout": "habbo_window_layout_scrollbar_horizontal_xml",
+      "windowLayout": "habbo_window_layout_scrollbar_horizontal",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -1281,7 +1281,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_scrollbar",
       "layout": "scrollbar_vertical",
-      "windowLayout": "habbo_window_layout_scrollbar_vertical_xml",
+      "windowLayout": "habbo_window_layout_scrollbar_vertical",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -1470,7 +1470,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_frame",
       "layout": "frame",
-      "windowLayout": "habbo_window_layout_frame_xml",
+      "windowLayout": "habbo_window_layout_frame",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -1512,7 +1512,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_header",
       "layout": "header",
-      "windowLayout": "habbo_window_layout_header_black_xml",
+      "windowLayout": "habbo_window_layout_header_black",
       "defaults": {
         "threshold": 1,
         "background": false,
@@ -1533,7 +1533,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_default_black",
       "layout": "button_black",
-      "windowLayout": "habbo_window_layout_button_black_xml",
+      "windowLayout": "habbo_window_layout_button_black",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -1554,7 +1554,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_thick_black",
       "layout": "button_thick_black",
-      "windowLayout": "habbo_window_layout_button_thick_black_xml",
+      "windowLayout": "habbo_window_layout_button_thick_black",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -1596,7 +1596,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_group_left_black",
       "layout": "button_group_left_black",
-      "windowLayout": "habbo_window_layout_button_black_xml",
+      "windowLayout": "habbo_window_layout_button_black",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -1617,7 +1617,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_group_center_black",
       "layout": "button_group_center_black",
-      "windowLayout": "habbo_window_layout_button_black_xml",
+      "windowLayout": "habbo_window_layout_button_black",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -1638,7 +1638,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_group_right_black",
       "layout": "button_group_right_black",
-      "windowLayout": "habbo_window_layout_button_black_xml",
+      "windowLayout": "habbo_window_layout_button_black",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -1659,7 +1659,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_scaler",
       "layout": "scaler",
-      "windowLayout": "habbo_window_layout_scaler_xml",
+      "windowLayout": "habbo_window_layout_scaler",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -1701,7 +1701,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_dropmenu_black",
       "layout": "dropmenu_frame_black",
-      "windowLayout": "habbo_window_layout_dropmenu_black_xml",
+      "windowLayout": "habbo_window_layout_dropmenu_black",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -1722,7 +1722,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_dropmenu_black",
       "layout": "dropmenu_item_black",
-      "windowLayout": "habbo_window_layout_dropmenu_item_black_xml",
+      "windowLayout": "habbo_window_layout_dropmenu_item_black",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -1785,7 +1785,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_tab_black",
       "layout": "button_tab_black",
-      "windowLayout": "habbo_window_layout_tab_button_black_xml",
+      "windowLayout": "habbo_window_layout_tab_button_black",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -1848,7 +1848,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_droplist_thick",
       "layout": "droplist_thick_frame",
-      "windowLayout": "habbo_window_layout_droplist_xml",
+      "windowLayout": "habbo_window_layout_droplist",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -1890,7 +1890,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_scrollbar_black",
       "layout": "scrollbar_horizontal_black",
-      "windowLayout": "habbo_window_layout_scrollbar_horizontal_xml",
+      "windowLayout": "habbo_window_layout_scrollbar_horizontal",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -1911,7 +1911,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_scrollbar_black",
       "layout": "scrollbar_vertical_black",
-      "windowLayout": "habbo_window_layout_scrollbar_vertical_xml",
+      "windowLayout": "habbo_window_layout_scrollbar_vertical",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -2100,7 +2100,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_frame",
       "layout": "frame",
-      "windowLayout": "habbo_window_layout_frame_xml",
+      "windowLayout": "habbo_window_layout_frame",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -2142,7 +2142,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_header",
       "layout": "header",
-      "windowLayout": "habbo_window_layout_header_xml",
+      "windowLayout": "habbo_window_layout_header",
       "defaults": {
         "threshold": 1,
         "background": false,
@@ -2163,7 +2163,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_default_white",
       "layout": "button_white",
-      "windowLayout": "habbo_window_layout_button_xml",
+      "windowLayout": "habbo_window_layout_button",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -2184,7 +2184,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_thick_white",
       "layout": "button_thick_white",
-      "windowLayout": "habbo_window_layout_button_thick_xml",
+      "windowLayout": "habbo_window_layout_button_thick",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -2226,7 +2226,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_group_left_white",
       "layout": "button_group_left_white",
-      "windowLayout": "habbo_window_layout_button_xml",
+      "windowLayout": "habbo_window_layout_button",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -2247,7 +2247,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_group_center_white",
       "layout": "button_group_center_white",
-      "windowLayout": "habbo_window_layout_button_xml",
+      "windowLayout": "habbo_window_layout_button",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -2268,7 +2268,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_group_right_white",
       "layout": "button_group_right_white",
-      "windowLayout": "habbo_window_layout_button_xml",
+      "windowLayout": "habbo_window_layout_button",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -2289,7 +2289,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_scaler",
       "layout": "scaler",
-      "windowLayout": "habbo_window_layout_scaler_xml",
+      "windowLayout": "habbo_window_layout_scaler",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -2373,7 +2373,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_tab_white",
       "layout": "button_tab_white",
-      "windowLayout": "habbo_window_layout_tab_button_xml",
+      "windowLayout": "habbo_window_layout_tab_button",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -2436,7 +2436,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_frame_3",
       "layout": "frame_3",
-      "windowLayout": "habbo_window_layout_frame_3_xml",
+      "windowLayout": "habbo_window_layout_frame_3",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -2457,7 +2457,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_header_3",
       "layout": "header_3",
-      "windowLayout": "habbo_window_layout_header_3_xml",
+      "windowLayout": "habbo_window_layout_header_3",
       "defaults": {
         "threshold": 0,
         "background": false,
@@ -2478,7 +2478,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_scaler_3",
       "layout": "scaler_3",
-      "windowLayout": "habbo_window_layout_scaler_3_xml",
+      "windowLayout": "habbo_window_layout_scaler_3",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -2499,7 +2499,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_shiny_default",
       "layout": "button_shiny",
-      "windowLayout": "habbo_window_layout_button_shiny_xml",
+      "windowLayout": "habbo_window_layout_button_shiny",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -2520,7 +2520,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_shiny_thick",
       "layout": "button_shiny_thick",
-      "windowLayout": "habbo_window_layout_button_shiny_thick_xml",
+      "windowLayout": "habbo_window_layout_button_shiny_thick",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -2583,7 +2583,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_dropmenu_3",
       "layout": "dropmenu_frame_3",
-      "windowLayout": "habbo_window_layout_dropmenu_3_xml",
+      "windowLayout": "habbo_window_layout_dropmenu_3",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -2604,7 +2604,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_dropmenu_3",
       "layout": "dropmenu_item_3",
-      "windowLayout": "habbo_window_layout_dropmenu_item_3_xml",
+      "windowLayout": "habbo_window_layout_dropmenu_item_3",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -2625,7 +2625,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_tab_3",
       "layout": "button_tab_3",
-      "windowLayout": "habbo_window_layout_tab_button_3_xml",
+      "windowLayout": "habbo_window_layout_tab_button_3",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -2688,7 +2688,7 @@
       "renderer": "null",
       "asset": "habbo_skin_tab_context",
       "layout": "tab_context",
-      "windowLayout": "habbo_window_layout_tab_context_3_xml",
+      "windowLayout": "habbo_window_layout_tab_context_3",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -2709,7 +2709,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_scrollbar_3",
       "layout": "scrollbar_horizontal_3",
-      "windowLayout": "habbo_window_layout_scrollbar_horizontal_xml",
+      "windowLayout": "habbo_window_layout_scrollbar_horizontal",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -2730,7 +2730,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_scrollbar_3",
       "layout": "scrollbar_vertical_3",
-      "windowLayout": "habbo_window_layout_scrollbar_vertical_xml",
+      "windowLayout": "habbo_window_layout_scrollbar_vertical",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -2919,7 +2919,7 @@
       "renderer": "null",
       "asset": "",
       "layout": "",
-      "windowLayout": "habbo_window_layout_scrollable_itemlist_vertical_ubuntu_xml",
+      "windowLayout": "habbo_window_layout_scrollable_itemlist_vertical_ubuntu",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -2940,7 +2940,7 @@
       "renderer": "null",
       "asset": "",
       "layout": "",
-      "windowLayout": "habbo_window_layout_scrollable_itemgrid_vertical_ubuntu_xml",
+      "windowLayout": "habbo_window_layout_scrollable_itemgrid_vertical_ubuntu",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -2961,7 +2961,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_frame_3",
       "layout": "frame_3",
-      "windowLayout": "habbo_window_layout_frame_3_xml",
+      "windowLayout": "habbo_window_layout_frame_3",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -2982,7 +2982,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_header_3",
       "layout": "header_3",
-      "windowLayout": "habbo_window_layout_header_3_xml",
+      "windowLayout": "habbo_window_layout_header_3",
       "defaults": {
         "threshold": 0,
         "background": false,
@@ -3003,7 +3003,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_scaler_3",
       "layout": "scaler_3",
-      "windowLayout": "habbo_window_layout_scaler_3_xml",
+      "windowLayout": "habbo_window_layout_scaler_3",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -3024,7 +3024,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_shiny_black",
       "layout": "button_shiny_black",
-      "windowLayout": "habbo_window_layout_button_shiny_black_xml",
+      "windowLayout": "habbo_window_layout_button_shiny_black",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -3045,7 +3045,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_shiny_thick_black",
       "layout": "button_shiny_thick_black",
-      "windowLayout": "habbo_window_layout_button_shiny_thick_black_xml",
+      "windowLayout": "habbo_window_layout_button_shiny_thick_black",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -3108,7 +3108,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_shiny_default",
       "layout": "button_shiny",
-      "windowLayout": "habbo_window_layout_button_shiny_black_xml",
+      "windowLayout": "habbo_window_layout_button_shiny_black",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -3129,7 +3129,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_shiny_thick",
       "layout": "button_shiny_thick",
-      "windowLayout": "habbo_window_layout_button_shiny_thick_black_xml",
+      "windowLayout": "habbo_window_layout_button_shiny_thick_black",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -3171,7 +3171,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_shiny_default",
       "layout": "button_shiny",
-      "windowLayout": "habbo_window_layout_button_shiny_black_xml",
+      "windowLayout": "habbo_window_layout_button_shiny_black",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -3192,7 +3192,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_shiny_thick",
       "layout": "button_shiny_thick",
-      "windowLayout": "habbo_window_layout_button_shiny_thick_black_xml",
+      "windowLayout": "habbo_window_layout_button_shiny_thick_black",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -3234,7 +3234,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_frame_7",
       "layout": "frame_7",
-      "windowLayout": "habbo_window_layout_frame_7_xml",
+      "windowLayout": "habbo_window_layout_frame_7",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -3255,7 +3255,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_header_7",
       "layout": "header_7",
-      "windowLayout": "habbo_window_layout_header_7_xml",
+      "windowLayout": "habbo_window_layout_header_7",
       "defaults": {
         "threshold": 0,
         "background": false,
@@ -3297,7 +3297,7 @@
       "renderer": "skin",
       "asset": "illumina_light_skin_frame",
       "layout": "illumina_light_frame",
-      "windowLayout": "illumina_light_frame_xml",
+      "windowLayout": "illumina_light_frame",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -3318,7 +3318,7 @@
       "renderer": "null",
       "asset": "",
       "layout": "",
-      "windowLayout": "illumina_light_frame_modal_xml",
+      "windowLayout": "illumina_light_frame_modal",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -3549,7 +3549,7 @@
       "renderer": "skin",
       "asset": "illumina_light_skin_button",
       "layout": "illumina_light_button",
-      "windowLayout": "illumina_light_button_xml",
+      "windowLayout": "illumina_light_button",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -3570,7 +3570,7 @@
       "renderer": "skin",
       "asset": "illumina_light_skin_button",
       "layout": "illumina_light_button",
-      "windowLayout": "illumina_light_button_xml",
+      "windowLayout": "illumina_light_button",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -3591,7 +3591,7 @@
       "renderer": "skin",
       "asset": "illumina_light_skin_button_plain",
       "layout": "illumina_light_button_plain",
-      "windowLayout": "illumina_light_button_plain_xml",
+      "windowLayout": "illumina_light_button_plain",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -3612,7 +3612,7 @@
       "renderer": "skin",
       "asset": "illumina_light_skin_button_unetched",
       "layout": "illumina_light_button_unetched",
-      "windowLayout": "illumina_light_button_plain_xml",
+      "windowLayout": "illumina_light_button_plain",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -3717,7 +3717,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_group_left",
       "layout": "button_group_left",
-      "windowLayout": "illumina_light_button_plain_xml",
+      "windowLayout": "illumina_light_button_plain",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -3738,7 +3738,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_group_center",
       "layout": "button_group_center",
-      "windowLayout": "illumina_light_button_plain_xml",
+      "windowLayout": "illumina_light_button_plain",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -3759,7 +3759,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_button_group_right",
       "layout": "button_group_right",
-      "windowLayout": "illumina_light_button_plain_xml",
+      "windowLayout": "illumina_light_button_plain",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -3780,7 +3780,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_dropmenu",
       "layout": "dropmenu_frame",
-      "windowLayout": "illumina_light_dropmenu_xml",
+      "windowLayout": "illumina_light_dropmenu",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -3801,7 +3801,7 @@
       "renderer": "skin",
       "asset": "habbo_skin_dropmenu",
       "layout": "dropmenu_item",
-      "windowLayout": "illumina_light_dropmenu_item_xml",
+      "windowLayout": "illumina_light_dropmenu_item",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -3822,7 +3822,7 @@
       "renderer": "skin",
       "asset": "illumina_light_skin_switch",
       "layout": "button_checkbox",
-      "windowLayout": "illumina_light_switch_xml",
+      "windowLayout": "illumina_light_switch",
       "defaults": {
         "threshold": 0,
         "background": false,
@@ -3843,7 +3843,7 @@
       "renderer": "skin",
       "asset": "illumina_light_skin_checkbox_basic",
       "layout": "button_checkbox",
-      "windowLayout": "illumina_light_checkbox_basic_xml",
+      "windowLayout": "illumina_light_checkbox_basic",
       "defaults": {
         "threshold": 0,
         "background": false,
@@ -3864,7 +3864,7 @@
       "renderer": "skin",
       "asset": "illumina_light_skin_radio_button",
       "layout": "button_radio",
-      "windowLayout": "illumina_light_radio_button_xml",
+      "windowLayout": "illumina_light_radio_button",
       "defaults": {
         "threshold": 0,
         "background": false,
@@ -3885,7 +3885,7 @@
       "renderer": "skin",
       "asset": "illumina_light_skin_scrollbar",
       "layout": "illumina_light_scrollbar_vertical",
-      "windowLayout": "illumina_light_scrollbar_horizontal_xml",
+      "windowLayout": "illumina_light_scrollbar_horizontal",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -3948,7 +3948,7 @@
       "renderer": "skin",
       "asset": "illumina_light_skin_scrollbar",
       "layout": "illumina_light_scrollbar_vertical",
-      "windowLayout": "illumina_light_scrollbar_vertical_xml",
+      "windowLayout": "illumina_light_scrollbar_vertical",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -4011,7 +4011,7 @@
       "renderer": "null",
       "asset": "",
       "layout": "",
-      "windowLayout": "illumina_light_scrollable_itemlist_vertical_xml",
+      "windowLayout": "illumina_light_scrollable_itemlist_vertical",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -4032,7 +4032,7 @@
       "renderer": "skin",
       "asset": "illumina_dark_skin_frame",
       "layout": "illumina_dark_frame",
-      "windowLayout": "illumina_dark_frame_xml",
+      "windowLayout": "illumina_dark_frame",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -4074,7 +4074,7 @@
       "renderer": "skin",
       "asset": "illumina_dark_skin_header",
       "layout": "illumina_dark_header",
-      "windowLayout": "illumina_dark_header_xml",
+      "windowLayout": "illumina_dark_header",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -4095,7 +4095,7 @@
       "renderer": "skin",
       "asset": "illumina_dark_skin_button",
       "layout": "illumina_dark_button",
-      "windowLayout": "illumina_dark_button_xml",
+      "windowLayout": "illumina_dark_button",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -4137,7 +4137,7 @@
       "renderer": "skin",
       "asset": "illumina_dark_skin_scrollbar",
       "layout": "illumina_dark_scrollbar_vertical",
-      "windowLayout": "illumina_dark_scrollbar_horizontal_xml",
+      "windowLayout": "illumina_dark_scrollbar_horizontal",
       "defaults": {
         "threshold": 10,
         "background": false,
@@ -4200,7 +4200,7 @@
       "renderer": "skin",
       "asset": "illumina_dark_skin_scrollbar",
       "layout": "illumina_dark_scrollbar_vertical",
-      "windowLayout": "illumina_dark_scrollbar_vertical_xml",
+      "windowLayout": "illumina_dark_scrollbar_vertical",
       "defaults": {
         "threshold": 10,
         "background": false,

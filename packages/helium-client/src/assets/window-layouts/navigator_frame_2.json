@@ -1974,5 +1974,7 @@
     ]
   },
   "vars": {},
-  "filters": []
+  "filters": [],
+  "layoutWidth": 578,
+  "layoutHeight": 535
 }

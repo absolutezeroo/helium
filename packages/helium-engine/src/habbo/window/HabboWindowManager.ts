@@ -715,13 +715,29 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 	/**
 	 * Returns the window layout for a given type and style.
 	 *
+	 * First checks the SkinContainer (populated during skin loading), then
+	 * falls back to the element descriptor's windowLayout reference resolved
+	 * against the registered widget layouts.
+	 *
 	 * @param type - The window type
 	 * @param style - The window style
 	 * @returns The layout object, or null
 	 */
 	public getLayoutByTypeAndStyle(type: number, style: number): Record<string, unknown> | null
 	{
-		return this._skinContainer.getWindowLayoutByTypeAndStyle(type, style);
+		const layout = this._skinContainer.getWindowLayoutByTypeAndStyle(type, style);
+
+		if(layout) return layout;
+
+		// Fall back: resolve via element descriptor's windowLayout reference
+		const descriptor = this._elementRegistry.getDescriptor(type, style);
+
+		if(descriptor?.windowLayout)
+		{
+			return (this._widgetLayouts.get(descriptor.windowLayout) as Record<string, unknown>) ?? null;
+		}
+
+		return null;
 	}
 
 	/**

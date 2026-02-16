@@ -98,5 +98,7 @@
     ]
   },
   "vars": {},
-  "filters": []
+  "filters": [],
+  "layoutWidth": 32,
+  "layoutHeight": 32
 }

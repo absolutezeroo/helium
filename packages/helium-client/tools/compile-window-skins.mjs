@@ -545,8 +545,8 @@ function parseElementDescriptionXml(xml, sourcePath, assetId)
             style: parseNumber(attrs.style, 0),
             renderer: attrs.renderer ?? '',
             asset: normalizeAssetName(attrs.asset ?? ''),
-            layout: attrs.layout ?? '',
-            windowLayout: attrs.window_layout ?? '',
+            layout: normalizeAssetName(attrs.layout ?? ''),
+            windowLayout: normalizeAssetName(attrs.window_layout ?? ''),
             defaults:
             {
                 threshold: parseNumber(attrs.treshold, 10),

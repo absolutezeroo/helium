@@ -17,7 +17,7 @@
           "width": "64",
           "height": "33",
           "tags": "_EXCLUDE, _INTERNAL",
-          "params": -2147483472
+          "params": "-2147483472"
         },
         "children": [
           {
@@ -31,7 +31,7 @@
               "height": "15",
               "background": "false",
               "tags": "_TITLE, _EXCLUDE, _INTERNAL",
-              "params": -2147483440
+              "params": "-2147483440"
             },
             "children": [],
             "vars": {
@@ -100,5 +100,7 @@
     ]
   },
   "vars": {},
-  "filters": []
+  "filters": [],
+  "layoutWidth": 64,
+  "layoutHeight": 33
 }

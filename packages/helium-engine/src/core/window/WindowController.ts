@@ -123,6 +123,72 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 			// Factory/theme not available yet during bootstrap
 		}
 
+		// Construct layout children (AS3 WindowController lines 81–110).
+		// Composite types (frames, headers, borders, etc.) define their
+		// internal child tree via a window layout asset indexed by
+		// (type, style) in element-description.json.
+		//
+		// AS3 flow:
+		// 1. Read the layout's natural width/height from the root element
+		// 2. Override _width/_height to the natural size (e.g. 64x64)
+		// 3. parseAndConstruct creates children (they see parent at natural size)
+		// 4. setRectangle resizes to the requested size (e.g. 578x535)
+		//    This triggers WE_RESIZED → WE_PARENT_RESIZED on children
+		//    Children compute delta (578-64=514) and stretch accordingly
+		try
+		{
+			const factory = context.getWindowFactory();
+
+			if(factory)
+			{
+				const layout = factory.getLayoutByTypeAndStyle(type, style);
+
+				if(layout)
+				{
+					const parser = context.getWindowParser();
+
+					if(parser)
+					{
+						// Set frame to layout's natural size before creating children
+						// (AS3 WindowController lines 95-100)
+						const layoutWidth = (layout as Record<string, unknown>).layoutWidth as number ?? 0;
+						const layoutHeight = (layout as Record<string, unknown>).layoutHeight as number ?? 0;
+						this._x = 0;
+						this._y = 0;
+						this._width = layoutWidth;
+						this._height = layoutHeight;
+						this._previousRect.x = 0;
+						this._previousRect.y = 0;
+						this._previousRect.width = layoutWidth;
+						this._previousRect.height = layoutHeight;
+
+						parser.parseAndConstruct(layout, this, null);
+
+						// Resize to requested size. The delta (e.g. 578-64=514)
+						// triggers WE_PARENT_RESIZED on children, causing them to
+						// stretch/move correctly. Temporarily clear
+						// reflect_resize_to_parent so we don't propagate upward.
+						// (AS3 WindowController lines 102-105)
+						const savedParam = this._param;
+						this._param &= ~0xC00000;
+						this.setRectangle(rect.x, rect.y, rect.width, rect.height);
+						this._param = savedParam;
+
+						// Restore _previousRect to the final requested rect
+						// (AS3 WindowController lines 106-109)
+						this._previousRect.x = rect.x;
+						this._previousRect.y = rect.y;
+						this._previousRect.width = rect.width;
+						this._previousRect.height = rect.height;
+					}
+				}
+			}
+		}
+		catch (_)
+		{
+			// Layout not available during bootstrap
+		}
+
 		this._procedure = procedure;
 
 		if (parent !== null)

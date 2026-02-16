@@ -14,5 +14,7 @@
     "children": []
   },
   "vars": {},
-  "filters": []
+  "filters": [],
+  "layoutWidth": 0,
+  "layoutHeight": 0
 }

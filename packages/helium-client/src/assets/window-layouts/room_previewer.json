@@ -40,5 +40,7 @@
     ]
   },
   "vars": {},
-  "filters": []
+  "filters": [],
+  "layoutWidth": 162,
+  "layoutHeight": 168
 }

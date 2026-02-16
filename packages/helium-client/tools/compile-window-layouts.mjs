@@ -484,6 +484,13 @@ function compileLayout(xml, sourcePath, outDir)
             }
         });
 
+    // Capture layout-level width/height from <layout> root element.
+    // AS3 reads these via _loc14_.attribute("width") / "height" to set the
+    // window's natural size before parseAndConstruct (WindowController lines 95-100).
+    const layoutAttrs = readAttributes(layoutRoot);
+    const layoutWidth = parseInt(layoutAttrs.width ?? '0', 10) || 0;
+    const layoutHeight = parseInt(layoutAttrs.height ?? '0', 10) || 0;
+
     windowElements.forEach((element, index) =>
     {
         // Derive layout name from filename, stripping the module prefix.
@@ -498,7 +505,9 @@ function compileLayout(xml, sourcePath, outDir)
             source: path.relative(repoRoot, sourcePath),
             window: buildNode(element),
             vars,
-            filters
+            filters,
+            layoutWidth,
+            layoutHeight
         });
     });
 

@@ -122,5 +122,7 @@
         "blurY": "20"
       }
     }
-  ]
+  ],
+  "layoutWidth": 50,
+  "layoutHeight": 50
 }

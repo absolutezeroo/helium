@@ -64,5 +64,7 @@
         "blurY": "4"
       }
     }
-  ]
+  ],
+  "layoutWidth": 40,
+  "layoutHeight": 40
 }
