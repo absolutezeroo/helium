@@ -15,7 +15,7 @@
           "y": "0",
           "width": "100",
           "height": "100",
-          "params": "0"
+          "params": "2225"
         },
         "children": [
           {
@@ -27,7 +27,7 @@
               "y": "0",
               "width": "100",
               "height": "90",
-              "params": "0"
+              "params": "2225"
             },
             "children": []
           }

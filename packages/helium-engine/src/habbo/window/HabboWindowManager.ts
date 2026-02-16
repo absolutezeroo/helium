@@ -752,7 +752,7 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 	 * in the SkinContainer, replacing the NullSkinRenderer placeholder
 	 * created during loadElementDescription().
 	 *
-	 * The skin map is keyed by the skin's `id` field (e.g. "habbo_skin_frame_xml"),
+	 * The skin map is keyed by the skin's `id` field (e.g. "habbo_skin_frame"),
 	 * which matches the element descriptor's `asset` field.
 	 *
 	 * @param skins - Map of skin id → skin JSON data

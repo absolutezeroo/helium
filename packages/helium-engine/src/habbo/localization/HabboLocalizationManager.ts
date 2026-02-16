@@ -243,6 +243,8 @@ export class HabboLocalizationManager extends CoreLocalizationManager implements
 		{
 			this._isLocalizationInitialized = false;
 			log.success('Localizations ready');
+
+			this.events.emit('complete');
 		});
 
 		this.events.once('failed', () =>

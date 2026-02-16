@@ -16,7 +16,7 @@
           "width": "100",
           "height": "80",
           "tags": "_CONTENT, _EXCLUDE, _INTERNAL",
-          "params": "0"
+          "params": "-2147481455"
         },
         "children": []
       },
@@ -30,7 +30,7 @@
           "width": "88",
           "height": "21",
           "tags": "_SELECTOR, _EXCLUDE, _INTERNAL",
-          "params": "0"
+          "params": "145"
         },
         "children": []
       }

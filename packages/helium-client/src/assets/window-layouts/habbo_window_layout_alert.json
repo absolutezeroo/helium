@@ -15,7 +15,7 @@
           "y": "0",
           "width": "200",
           "height": "400",
-          "params": "0"
+          "params": "2225"
         },
         "children": [
           {
@@ -28,7 +28,7 @@
               "caption": "",
               "width": "160",
               "height": "20",
-              "params": "0"
+              "params": "240"
             },
             "children": [],
             "vars": {}
@@ -43,7 +43,7 @@
               "caption": "",
               "width": "160",
               "height": "120",
-              "params": "0"
+              "params": "240"
             },
             "children": [],
             "vars": {}

@@ -27,6 +27,21 @@ export class WindowMouseOperator
 	}
 
 	/**
+	 * Set the current mouse position (canvas-local coordinates).
+	 *
+	 * Must be called before dispatching a DOWN event so that
+	 * {@link begin} can compute the correct offset.
+	 *
+	 * @param x - Canvas-local X
+	 * @param y - Canvas-local Y
+	 */
+	public setMousePosition(x: number, y: number): void
+	{
+		this._mouse.x = x;
+		this._mouse.y = y;
+	}
+
+	/**
 	 * Begin a mouse operation on a window.
 	 *
 	 * @param window - The window to operate on

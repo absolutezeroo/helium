@@ -16,7 +16,7 @@
           "width": "28",
           "height": "15",
           "tags": "_HEADER, _EXCLUDE, _INTERNAL, _COLORIZE",
-          "params": "0"
+          "params": "-2147483247"
         },
         "children": []
       },
@@ -30,7 +30,7 @@
           "width": "28",
           "height": "8",
           "tags": "_CONTENT, _INTERNAL, _EXCLUDE",
-          "params": "0"
+          "params": "12585104"
         },
         "children": []
       },
@@ -45,7 +45,7 @@
           "height": "15",
           "visible": "true",
           "tags": "_SCALER, _EXCLUDE, _INTERNAL, _COLORIZE",
-          "params": "0"
+          "params": "1136"
         },
         "children": []
       }

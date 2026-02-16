@@ -325,7 +325,9 @@ function resolveParams(paramsNode)
         .filter((child) => child.nodeType === child.ELEMENT_NODE && child.nodeName === 'param')
         .forEach((param) =>
         {
-            const text = (param.textContent ?? '').trim().toLowerCase();
+            // AS3 XML uses <param name="flag_name" /> (name attribute)
+            const attrs = readAttributes(param);
+            const text = (attrs.name ?? param.textContent ?? '').trim().toLowerCase();
 
             if (PARAM_MAP[text] !== undefined)
             {

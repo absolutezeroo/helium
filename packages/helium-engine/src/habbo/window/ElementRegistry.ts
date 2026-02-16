@@ -89,7 +89,7 @@ export class ElementRegistry
 	/**
 	 * Returns all descriptors that use the given skin asset name.
 	 *
-	 * @param assetName - The skin asset name (e.g. "habbo_skin_frame_xml")
+	 * @param assetName - The skin asset name (e.g. "habbo_skin_frame")
 	 * @returns Array of matching descriptors
 	 */
 	getDescriptorsByAsset(assetName: string): IElementDescriptor[]

@@ -422,6 +422,16 @@ export class HeliumApp
 		this._mouseDown = true;
 		this._mouseDownWindow = hit;
 
+		// Pre-seed drag/scale services with current canvas-local coords
+		// so that begin() (triggered inside update() below) computes the correct offset.
+		const serviceManager = helium.windowManager.getServiceManager();
+
+		if (serviceManager)
+		{
+			(serviceManager.getMouseDraggingService() as WindowMouseOperator).setMousePosition(x, y);
+			(serviceManager.getMouseScalingService() as WindowMouseOperator).setMousePosition(x, y);
+		}
+
 		// Compute local coordinates
 		const globalPos = {x: 0, y: 0};
 
@@ -439,8 +449,6 @@ export class HeliumApp
 		event.recycle();
 
 		// Register document-level handlers for drag/scale
-		const serviceManager = helium.windowManager.getServiceManager();
-
 		if (serviceManager)
 		{
 			const dragger = serviceManager.getMouseDraggingService() as WindowMouseOperator;
@@ -448,8 +456,10 @@ export class HeliumApp
 
 			this._docMoveHandler = (ev: MouseEvent): void =>
 			{
-				dragger.handleMouseMove(ev.clientX, ev.clientY);
-				scaler.handleMouseMove(ev.clientX, ev.clientY);
+				const coords = this.getCanvasCoords(ev);
+
+				dragger.handleMouseMove(coords.x, coords.y);
+				scaler.handleMouseMove(coords.x, coords.y);
 			};
 
 			this._docUpHandler = (ev: MouseEvent): void =>

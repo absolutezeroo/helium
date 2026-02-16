@@ -16,7 +16,7 @@
           "width": "9",
           "height": "9",
           "tags": "_EXCLUDE, _INTERNAL, slider_track",
-          "params": "0"
+          "params": "2065"
         },
         "children": [
           {
@@ -30,7 +30,7 @@
               "height": "9",
               "height_min": "9",
               "tags": "_EXCLUDE, _INTERNAL, slider_bar",
-              "params": "0"
+              "params": "33073"
             },
             "children": []
           }

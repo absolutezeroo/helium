@@ -16,7 +16,7 @@
           "width": "10",
           "height": "14",
           "tags": "_EXCLUDE, _INTERNAL, title",
-          "params": "0"
+          "params": "-2147483504"
         },
         "children": [],
         "vars": {
@@ -34,7 +34,7 @@
           "width": "28",
           "height": "18",
           "tags": "_EXCLUDE, _INTERNAL, list",
-          "params": "0"
+          "params": "131216"
         },
         "children": []
       },
@@ -49,7 +49,7 @@
           "name": "_DROPLIST_REGION",
           "treshold": "0",
           "tags": "_EXCLUDE, _INTERNAL",
-          "params": "0"
+          "params": "-2147483503"
         },
         "children": []
       }

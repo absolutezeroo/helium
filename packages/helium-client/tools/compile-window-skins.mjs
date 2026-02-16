@@ -321,7 +321,7 @@ function normalizeAssetName(assetKey)
     }
 
     // Strip AS3 type suffixes (_png, _jpg, _xml, etc.)
-    return assetKey.replace(/_(png|jpg|jpeg|gif|swf)$/i, '');
+    return assetKey.replace(/_(png|jpg|jpeg|gif|swf|xml)$/i, '');
 }
 
 function parseNumber(value, fallback)
@@ -544,7 +544,7 @@ function parseElementDescriptionXml(xml, sourcePath, assetId)
             intent: attrs.intent ?? '',
             style: parseNumber(attrs.style, 0),
             renderer: attrs.renderer ?? '',
-            asset: attrs.asset ?? '',
+            asset: normalizeAssetName(attrs.asset ?? ''),
             layout: attrs.layout ?? '',
             windowLayout: attrs.window_layout ?? '',
             defaults:

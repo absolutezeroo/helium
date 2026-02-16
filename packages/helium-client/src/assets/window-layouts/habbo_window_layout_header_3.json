@@ -17,7 +17,7 @@
           "width": "64",
           "height": "33",
           "tags": "_EXCLUDE, _INTERNAL",
-          "params": "0"
+          "params": -2147483472
         },
         "children": [
           {
@@ -31,7 +31,7 @@
               "height": "15",
               "background": "false",
               "tags": "_TITLE, _EXCLUDE, _INTERNAL",
-              "params": "0"
+              "params": -2147483440
             },
             "children": [],
             "vars": {
@@ -57,7 +57,7 @@
               "background": "false",
               "color": "0xffffffff",
               "tags": "_EXCLUDE, _INTERNAL, _COLORIZE, _CONTROLS",
-              "params": "0"
+              "params": "80"
             },
             "children": [
               {
@@ -71,7 +71,7 @@
                   "width": "19",
                   "height": "20",
                   "tags": "_EXCLUDE, _INTERNAL, help",
-                  "params": "0"
+                  "params": "17"
                 },
                 "children": []
               },
@@ -86,7 +86,7 @@
                   "width": "19",
                   "height": "20",
                   "tags": "_EXCLUDE, _INTERNAL, close",
-                  "params": "0"
+                  "params": "17"
                 },
                 "children": []
               }

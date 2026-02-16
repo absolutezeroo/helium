@@ -89,7 +89,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	private _newResultsRendered: boolean = false;
 
 	/**
-	 * Whether new results have been rendered by the view.
+	 * Whether the view has rendered new results.
 	 *
 	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as newResultsRendered
 	 */
@@ -343,8 +343,6 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		{
 			this._view.onSearchResults(results);
 		}
-
-		this._navigatorEvents.emit('navigator:searchResults', results);
 
 		// log.debug(`Search results: ${results.blocks.length} blocks`);
 	}

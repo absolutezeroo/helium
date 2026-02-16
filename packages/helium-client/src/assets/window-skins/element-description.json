@@ -166,7 +166,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_frame_xml",
+      "asset": "habbo_skin_frame",
       "layout": "null",
       "windowLayout": "",
       "defaults": {
@@ -376,7 +376,7 @@
       "intent": "white with sharper corners",
       "style": 3,
       "renderer": "skin",
-      "asset": "habbo_skin_border_slot_xml",
+      "asset": "habbo_skin_border_slot",
       "layout": "border_slot",
       "windowLayout": "",
       "defaults": {
@@ -397,7 +397,7 @@
       "intent": "white with thin dark border",
       "style": 4,
       "renderer": "skin",
-      "asset": "habbo_skin_border_4_xml",
+      "asset": "habbo_skin_border_4",
       "layout": "border_4",
       "windowLayout": "",
       "defaults": {
@@ -418,7 +418,7 @@
       "intent": "white with thin dark border and sharper corners",
       "style": 5,
       "renderer": "skin",
-      "asset": "habbo_skin_border_5_xml",
+      "asset": "habbo_skin_border_5",
       "layout": "border_5",
       "windowLayout": "",
       "defaults": {
@@ -439,7 +439,7 @@
       "intent": "grey with thick border",
       "style": 6,
       "renderer": "skin",
-      "asset": "habbo_skin_border_6_xml",
+      "asset": "habbo_skin_border_6",
       "layout": "border_6",
       "windowLayout": "",
       "defaults": {
@@ -460,7 +460,7 @@
       "intent": "grey with thin border",
       "style": 7,
       "renderer": "skin",
-      "asset": "habbo_skin_border_7_xml",
+      "asset": "habbo_skin_border_7",
       "layout": "border_7",
       "windowLayout": "",
       "defaults": {
@@ -481,7 +481,7 @@
       "intent": "white with thick dark border",
       "style": 8,
       "renderer": "skin",
-      "asset": "habbo_skin_border_8_xml",
+      "asset": "habbo_skin_border_8",
       "layout": "border_8",
       "windowLayout": "",
       "defaults": {
@@ -502,7 +502,7 @@
       "intent": "transp. grey with thick border",
       "style": 9,
       "renderer": "skin",
-      "asset": "habbo_skin_border_9_xml",
+      "asset": "habbo_skin_border_9",
       "layout": "border_9",
       "windowLayout": "",
       "defaults": {
@@ -523,7 +523,7 @@
       "intent": "white with drop shadow",
       "style": 10,
       "renderer": "skin",
-      "asset": "habbo_skin_border_colorless_dropshadow_xml",
+      "asset": "habbo_skin_border_colorless_dropshadow",
       "layout": "border_colorless_dropshadow",
       "windowLayout": "",
       "defaults": {
@@ -544,7 +544,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_bubble_xml",
+      "asset": "habbo_skin_bubble",
       "layout": "bubble",
       "windowLayout": "habbo_window_layout_bubble_xml",
       "defaults": {
@@ -565,7 +565,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_bubble_pointer_up_xml",
+      "asset": "habbo_skin_bubble_pointer_up",
       "layout": "pointer_up",
       "windowLayout": "",
       "defaults": {
@@ -586,7 +586,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_bubble_pointer_right_xml",
+      "asset": "habbo_skin_bubble_pointer_right",
       "layout": "pointer_right",
       "windowLayout": "",
       "defaults": {
@@ -607,7 +607,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_bubble_pointer_down_xml",
+      "asset": "habbo_skin_bubble_pointer_down",
       "layout": "pointer_down",
       "windowLayout": "",
       "defaults": {
@@ -628,7 +628,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_bubble_pointer_left_xml",
+      "asset": "habbo_skin_bubble_pointer_left",
       "layout": "pointer_left",
       "windowLayout": "",
       "defaults": {
@@ -649,7 +649,7 @@
       "intent": "default",
       "style": 7,
       "renderer": "skin",
-      "asset": "habbo_skin_bubble_7_xml",
+      "asset": "habbo_skin_bubble_7",
       "layout": "bubble_7",
       "windowLayout": "habbo_window_layout_bubble_7_xml",
       "defaults": {
@@ -670,7 +670,7 @@
       "intent": "default",
       "style": 7,
       "renderer": "skin",
-      "asset": "habbo_skin_bubble_pointer_up_7_xml",
+      "asset": "habbo_skin_bubble_pointer_up_7",
       "layout": "pointer_up_7",
       "windowLayout": "",
       "defaults": {
@@ -691,7 +691,7 @@
       "intent": "default",
       "style": 7,
       "renderer": "skin",
-      "asset": "habbo_skin_bubble_pointer_right_7_xml",
+      "asset": "habbo_skin_bubble_pointer_right_7",
       "layout": "pointer_right_7",
       "windowLayout": "",
       "defaults": {
@@ -712,7 +712,7 @@
       "intent": "default",
       "style": 7,
       "renderer": "skin",
-      "asset": "habbo_skin_bubble_pointer_down_7_xml",
+      "asset": "habbo_skin_bubble_pointer_down_7",
       "layout": "pointer_down_7",
       "windowLayout": "",
       "defaults": {
@@ -733,7 +733,7 @@
       "intent": "default",
       "style": 7,
       "renderer": "skin",
-      "asset": "habbo_skin_bubble_pointer_left_7_xml",
+      "asset": "habbo_skin_bubble_pointer_left_7",
       "layout": "pointer_left_7",
       "windowLayout": "",
       "defaults": {
@@ -754,7 +754,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "null",
-      "asset": "habbo_skin_tab_context_xml",
+      "asset": "habbo_skin_tab_context",
       "layout": "tab_context",
       "windowLayout": "habbo_window_layout_tab_context_xml",
       "defaults": {
@@ -775,7 +775,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_tooltip_xml",
+      "asset": "habbo_skin_tooltip",
       "layout": "tooltip",
       "windowLayout": "habbo_window_layout_tooltip_xml",
       "defaults": {
@@ -838,7 +838,7 @@
       "intent": "blue",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_frame_xml",
+      "asset": "habbo_skin_frame",
       "layout": "frame",
       "windowLayout": "habbo_window_layout_frame_xml",
       "defaults": {
@@ -859,7 +859,7 @@
       "intent": "white with thin light border",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_border_white_xml",
+      "asset": "habbo_skin_border_white",
       "layout": "border_white",
       "windowLayout": "",
       "defaults": {
@@ -880,7 +880,7 @@
       "intent": "blue",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_header_xml",
+      "asset": "habbo_skin_header",
       "layout": "header",
       "windowLayout": "habbo_window_layout_header_xml",
       "defaults": {
@@ -901,7 +901,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_button_default_xml",
+      "asset": "habbo_skin_button_default",
       "layout": "button",
       "windowLayout": "habbo_window_layout_button_xml",
       "defaults": {
@@ -922,7 +922,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_button_thick_xml",
+      "asset": "habbo_skin_button_thick",
       "layout": "button_thick",
       "windowLayout": "habbo_window_layout_button_thick_xml",
       "defaults": {
@@ -943,7 +943,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_button_default_xml",
+      "asset": "habbo_skin_button_default",
       "layout": "button",
       "windowLayout": "",
       "defaults": {
@@ -964,7 +964,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_button_group_left_xml",
+      "asset": "habbo_skin_button_group_left",
       "layout": "button_group_left",
       "windowLayout": "habbo_window_layout_button_xml",
       "defaults": {
@@ -985,7 +985,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_button_group_center_xml",
+      "asset": "habbo_skin_button_group_center",
       "layout": "button_group_center",
       "windowLayout": "habbo_window_layout_button_xml",
       "defaults": {
@@ -1006,7 +1006,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_button_group_right_xml",
+      "asset": "habbo_skin_button_group_right",
       "layout": "button_group_right",
       "windowLayout": "habbo_window_layout_button_xml",
       "defaults": {
@@ -1027,7 +1027,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_scaler_xml",
+      "asset": "habbo_skin_scaler",
       "layout": "scaler",
       "windowLayout": "habbo_window_layout_scaler_xml",
       "defaults": {
@@ -1048,7 +1048,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_button_close_xml",
+      "asset": "habbo_skin_button_close",
       "layout": "button_close",
       "windowLayout": "",
       "defaults": {
@@ -1069,7 +1069,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_dropmenu_xml",
+      "asset": "habbo_skin_dropmenu",
       "layout": "dropmenu_frame",
       "windowLayout": "habbo_window_layout_dropmenu_xml",
       "defaults": {
@@ -1090,7 +1090,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_dropmenu_xml",
+      "asset": "habbo_skin_dropmenu",
       "layout": "dropmenu_item",
       "windowLayout": "habbo_window_layout_dropmenu_item_xml",
       "defaults": {
@@ -1111,7 +1111,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_button_radio_xml",
+      "asset": "habbo_skin_button_radio",
       "layout": "button_radio",
       "windowLayout": "",
       "defaults": {
@@ -1132,7 +1132,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_button_checkbox_xml",
+      "asset": "habbo_skin_button_checkbox",
       "layout": "button_checkbox",
       "windowLayout": "",
       "defaults": {
@@ -1153,7 +1153,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_button_tab_xml",
+      "asset": "habbo_skin_button_tab",
       "layout": "button_tab",
       "windowLayout": "habbo_window_layout_tab_button_xml",
       "defaults": {
@@ -1174,7 +1174,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_button_tab_xml",
+      "asset": "habbo_skin_button_tab",
       "layout": "button_tab",
       "windowLayout": "",
       "defaults": {
@@ -1195,7 +1195,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_border_white_xml",
+      "asset": "habbo_skin_border_white",
       "layout": "border_white",
       "windowLayout": "",
       "defaults": {
@@ -1216,7 +1216,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_droplist_xml",
+      "asset": "habbo_skin_droplist",
       "layout": "droplist_frame",
       "windowLayout": "habbo_window_layout_droplist_xml",
       "defaults": {
@@ -1237,7 +1237,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_droplist_xml",
+      "asset": "habbo_skin_droplist",
       "layout": "droplist_item",
       "windowLayout": "",
       "defaults": {
@@ -1258,7 +1258,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_xml",
+      "asset": "habbo_skin_scrollbar",
       "layout": "scrollbar_horizontal",
       "windowLayout": "habbo_window_layout_scrollbar_horizontal_xml",
       "defaults": {
@@ -1279,7 +1279,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_xml",
+      "asset": "habbo_skin_scrollbar",
       "layout": "scrollbar_vertical",
       "windowLayout": "habbo_window_layout_scrollbar_vertical_xml",
       "defaults": {
@@ -1300,7 +1300,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_xml",
+      "asset": "habbo_skin_scrollbar",
       "layout": "scrollbar_button_up",
       "windowLayout": "",
       "defaults": {
@@ -1321,7 +1321,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_xml",
+      "asset": "habbo_skin_scrollbar",
       "layout": "scrollbar_button_down",
       "windowLayout": "",
       "defaults": {
@@ -1342,7 +1342,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_xml",
+      "asset": "habbo_skin_scrollbar",
       "layout": "scrollbar_button_left",
       "windowLayout": "",
       "defaults": {
@@ -1363,7 +1363,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_xml",
+      "asset": "habbo_skin_scrollbar",
       "layout": "scrollbar_button_right",
       "windowLayout": "",
       "defaults": {
@@ -1384,7 +1384,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_xml",
+      "asset": "habbo_skin_scrollbar",
       "layout": "scrollbar_track_horizontal",
       "windowLayout": "",
       "defaults": {
@@ -1405,7 +1405,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_xml",
+      "asset": "habbo_skin_scrollbar",
       "layout": "scrollbar_track_vertical",
       "windowLayout": "",
       "defaults": {
@@ -1426,7 +1426,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_xml",
+      "asset": "habbo_skin_scrollbar",
       "layout": "scrollbar_lift_horizontal",
       "windowLayout": "",
       "defaults": {
@@ -1447,7 +1447,7 @@
       "intent": "default",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_xml",
+      "asset": "habbo_skin_scrollbar",
       "layout": "scrollbar_lift_vertical",
       "windowLayout": "",
       "defaults": {
@@ -1468,7 +1468,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_frame_xml",
+      "asset": "habbo_skin_frame",
       "layout": "frame",
       "windowLayout": "habbo_window_layout_frame_xml",
       "defaults": {
@@ -1489,7 +1489,7 @@
       "intent": "black borderless",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_border_black_xml",
+      "asset": "habbo_skin_border_black",
       "layout": "border_black",
       "windowLayout": "",
       "defaults": {
@@ -1510,7 +1510,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_header_xml",
+      "asset": "habbo_skin_header",
       "layout": "header",
       "windowLayout": "habbo_window_layout_header_black_xml",
       "defaults": {
@@ -1531,7 +1531,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_button_default_black_xml",
+      "asset": "habbo_skin_button_default_black",
       "layout": "button_black",
       "windowLayout": "habbo_window_layout_button_black_xml",
       "defaults": {
@@ -1552,7 +1552,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_button_thick_black_xml",
+      "asset": "habbo_skin_button_thick_black",
       "layout": "button_thick_black",
       "windowLayout": "habbo_window_layout_button_thick_black_xml",
       "defaults": {
@@ -1573,7 +1573,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_button_default_black_xml",
+      "asset": "habbo_skin_button_default_black",
       "layout": "button_black",
       "windowLayout": "",
       "defaults": {
@@ -1594,7 +1594,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_button_group_left_black_xml",
+      "asset": "habbo_skin_button_group_left_black",
       "layout": "button_group_left_black",
       "windowLayout": "habbo_window_layout_button_black_xml",
       "defaults": {
@@ -1615,7 +1615,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_button_group_center_black_xml",
+      "asset": "habbo_skin_button_group_center_black",
       "layout": "button_group_center_black",
       "windowLayout": "habbo_window_layout_button_black_xml",
       "defaults": {
@@ -1636,7 +1636,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_button_group_right_black_xml",
+      "asset": "habbo_skin_button_group_right_black",
       "layout": "button_group_right_black",
       "windowLayout": "habbo_window_layout_button_black_xml",
       "defaults": {
@@ -1657,7 +1657,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_scaler_xml",
+      "asset": "habbo_skin_scaler",
       "layout": "scaler",
       "windowLayout": "habbo_window_layout_scaler_xml",
       "defaults": {
@@ -1678,7 +1678,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_button_close_black_xml",
+      "asset": "habbo_skin_button_close_black",
       "layout": "button_close_black",
       "windowLayout": "",
       "defaults": {
@@ -1699,7 +1699,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_dropmenu_black_xml",
+      "asset": "habbo_skin_dropmenu_black",
       "layout": "dropmenu_frame_black",
       "windowLayout": "habbo_window_layout_dropmenu_black_xml",
       "defaults": {
@@ -1720,7 +1720,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_dropmenu_black_xml",
+      "asset": "habbo_skin_dropmenu_black",
       "layout": "dropmenu_item_black",
       "windowLayout": "habbo_window_layout_dropmenu_item_black_xml",
       "defaults": {
@@ -1741,7 +1741,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_button_radio_black_xml",
+      "asset": "habbo_skin_button_radio_black",
       "layout": "button_radio_black",
       "windowLayout": "",
       "defaults": {
@@ -1762,7 +1762,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_button_checkbox_black_xml",
+      "asset": "habbo_skin_button_checkbox_black",
       "layout": "button_checkbox_black",
       "windowLayout": "",
       "defaults": {
@@ -1783,7 +1783,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_button_tab_black_xml",
+      "asset": "habbo_skin_button_tab_black",
       "layout": "button_tab_black",
       "windowLayout": "habbo_window_layout_tab_button_black_xml",
       "defaults": {
@@ -1804,7 +1804,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_button_tab_black_xml",
+      "asset": "habbo_skin_button_tab_black",
       "layout": "button_tab_black",
       "windowLayout": "",
       "defaults": {
@@ -1825,7 +1825,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_border_black_xml",
+      "asset": "habbo_skin_border_black",
       "layout": "border_black",
       "windowLayout": "",
       "defaults": {
@@ -1846,7 +1846,7 @@
       "intent": "white",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_droplist_thick_xml",
+      "asset": "habbo_skin_droplist_thick",
       "layout": "droplist_thick_frame",
       "windowLayout": "habbo_window_layout_droplist_xml",
       "defaults": {
@@ -1867,7 +1867,7 @@
       "intent": "white",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_droplist_xml",
+      "asset": "habbo_skin_droplist",
       "layout": "droplist_item",
       "windowLayout": "",
       "defaults": {
@@ -1888,7 +1888,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_black_xml",
+      "asset": "habbo_skin_scrollbar_black",
       "layout": "scrollbar_horizontal_black",
       "windowLayout": "habbo_window_layout_scrollbar_horizontal_xml",
       "defaults": {
@@ -1909,7 +1909,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_black_xml",
+      "asset": "habbo_skin_scrollbar_black",
       "layout": "scrollbar_vertical_black",
       "windowLayout": "habbo_window_layout_scrollbar_vertical_xml",
       "defaults": {
@@ -1930,7 +1930,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_black_xml",
+      "asset": "habbo_skin_scrollbar_black",
       "layout": "scrollbar_button_up_black",
       "windowLayout": "",
       "defaults": {
@@ -1951,7 +1951,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_black_xml",
+      "asset": "habbo_skin_scrollbar_black",
       "layout": "scrollbar_button_down_black",
       "windowLayout": "",
       "defaults": {
@@ -1972,7 +1972,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_black_xml",
+      "asset": "habbo_skin_scrollbar_black",
       "layout": "scrollbar_button_left_black",
       "windowLayout": "",
       "defaults": {
@@ -1993,7 +1993,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_black_xml",
+      "asset": "habbo_skin_scrollbar_black",
       "layout": "scrollbar_button_right_black",
       "windowLayout": "",
       "defaults": {
@@ -2014,7 +2014,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_black_xml",
+      "asset": "habbo_skin_scrollbar_black",
       "layout": "scrollbar_track_horizontal_black",
       "windowLayout": "",
       "defaults": {
@@ -2035,7 +2035,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_black_xml",
+      "asset": "habbo_skin_scrollbar_black",
       "layout": "scrollbar_track_vertical_black",
       "windowLayout": "",
       "defaults": {
@@ -2056,7 +2056,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_black_xml",
+      "asset": "habbo_skin_scrollbar_black",
       "layout": "scrollbar_lift_horizontal_black",
       "windowLayout": "",
       "defaults": {
@@ -2077,7 +2077,7 @@
       "intent": "black",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_black_xml",
+      "asset": "habbo_skin_scrollbar_black",
       "layout": "scrollbar_lift_vertical_black",
       "windowLayout": "",
       "defaults": {
@@ -2098,7 +2098,7 @@
       "intent": "yellow",
       "style": 2,
       "renderer": "skin",
-      "asset": "habbo_skin_frame_xml",
+      "asset": "habbo_skin_frame",
       "layout": "frame",
       "windowLayout": "habbo_window_layout_frame_xml",
       "defaults": {
@@ -2119,7 +2119,7 @@
       "intent": "white borderless",
       "style": 2,
       "renderer": "skin",
-      "asset": "habbo_skin_border_colorless_xml",
+      "asset": "habbo_skin_border_colorless",
       "layout": "border_colorless",
       "windowLayout": "",
       "defaults": {
@@ -2140,7 +2140,7 @@
       "intent": "yellow",
       "style": 2,
       "renderer": "skin",
-      "asset": "habbo_skin_header_xml",
+      "asset": "habbo_skin_header",
       "layout": "header",
       "windowLayout": "habbo_window_layout_header_xml",
       "defaults": {
@@ -2161,7 +2161,7 @@
       "intent": "white",
       "style": 2,
       "renderer": "skin",
-      "asset": "habbo_skin_button_default_white_xml",
+      "asset": "habbo_skin_button_default_white",
       "layout": "button_white",
       "windowLayout": "habbo_window_layout_button_xml",
       "defaults": {
@@ -2182,7 +2182,7 @@
       "intent": "white",
       "style": 2,
       "renderer": "skin",
-      "asset": "habbo_skin_button_thick_white_xml",
+      "asset": "habbo_skin_button_thick_white",
       "layout": "button_thick_white",
       "windowLayout": "habbo_window_layout_button_thick_xml",
       "defaults": {
@@ -2203,7 +2203,7 @@
       "intent": "white",
       "style": 2,
       "renderer": "skin",
-      "asset": "habbo_skin_button_default_white_xml",
+      "asset": "habbo_skin_button_default_white",
       "layout": "button_white",
       "windowLayout": "",
       "defaults": {
@@ -2224,7 +2224,7 @@
       "intent": "white",
       "style": 2,
       "renderer": "skin",
-      "asset": "habbo_skin_button_group_left_white_xml",
+      "asset": "habbo_skin_button_group_left_white",
       "layout": "button_group_left_white",
       "windowLayout": "habbo_window_layout_button_xml",
       "defaults": {
@@ -2245,7 +2245,7 @@
       "intent": "white",
       "style": 2,
       "renderer": "skin",
-      "asset": "habbo_skin_button_group_center_white_xml",
+      "asset": "habbo_skin_button_group_center_white",
       "layout": "button_group_center_white",
       "windowLayout": "habbo_window_layout_button_xml",
       "defaults": {
@@ -2266,7 +2266,7 @@
       "intent": "white",
       "style": 2,
       "renderer": "skin",
-      "asset": "habbo_skin_button_group_right_white_xml",
+      "asset": "habbo_skin_button_group_right_white",
       "layout": "button_group_right_white",
       "windowLayout": "habbo_window_layout_button_xml",
       "defaults": {
@@ -2287,7 +2287,7 @@
       "intent": "white",
       "style": 2,
       "renderer": "skin",
-      "asset": "habbo_skin_scaler_xml",
+      "asset": "habbo_skin_scaler",
       "layout": "scaler",
       "windowLayout": "habbo_window_layout_scaler_xml",
       "defaults": {
@@ -2308,7 +2308,7 @@
       "intent": "white",
       "style": 2,
       "renderer": "skin",
-      "asset": "habbo_skin_button_close_white_xml",
+      "asset": "habbo_skin_button_close_white",
       "layout": "button_close_white",
       "windowLayout": "",
       "defaults": {
@@ -2329,7 +2329,7 @@
       "intent": "white",
       "style": 2,
       "renderer": "skin",
-      "asset": "habbo_skin_button_radio_white_xml",
+      "asset": "habbo_skin_button_radio_white",
       "layout": "button_radio_white",
       "windowLayout": "",
       "defaults": {
@@ -2350,7 +2350,7 @@
       "intent": "white",
       "style": 2,
       "renderer": "skin",
-      "asset": "habbo_skin_button_checkbox_white_xml",
+      "asset": "habbo_skin_button_checkbox_white",
       "layout": "button_checkbox_white",
       "windowLayout": "",
       "defaults": {
@@ -2371,7 +2371,7 @@
       "intent": "white",
       "style": 2,
       "renderer": "skin",
-      "asset": "habbo_skin_button_tab_white_xml",
+      "asset": "habbo_skin_button_tab_white",
       "layout": "button_tab_white",
       "windowLayout": "habbo_window_layout_tab_button_xml",
       "defaults": {
@@ -2392,7 +2392,7 @@
       "intent": "white",
       "style": 2,
       "renderer": "skin",
-      "asset": "habbo_skin_button_tab_white_xml",
+      "asset": "habbo_skin_button_tab_white",
       "layout": "button_tab_white",
       "windowLayout": "",
       "defaults": {
@@ -2413,7 +2413,7 @@
       "intent": "white",
       "style": 2,
       "renderer": "skin",
-      "asset": "habbo_skin_border_colorless_xml",
+      "asset": "habbo_skin_border_colorless",
       "layout": "border_colorless",
       "windowLayout": "",
       "defaults": {
@@ -2434,7 +2434,7 @@
       "intent": "default",
       "style": 3,
       "renderer": "skin",
-      "asset": "habbo_skin_frame_3_xml",
+      "asset": "habbo_skin_frame_3",
       "layout": "frame_3",
       "windowLayout": "habbo_window_layout_frame_3_xml",
       "defaults": {
@@ -2455,7 +2455,7 @@
       "intent": "default",
       "style": 3,
       "renderer": "skin",
-      "asset": "habbo_skin_header_3_xml",
+      "asset": "habbo_skin_header_3",
       "layout": "header_3",
       "windowLayout": "habbo_window_layout_header_3_xml",
       "defaults": {
@@ -2476,7 +2476,7 @@
       "intent": "default",
       "style": 3,
       "renderer": "skin",
-      "asset": "habbo_skin_scaler_3_xml",
+      "asset": "habbo_skin_scaler_3",
       "layout": "scaler_3",
       "windowLayout": "habbo_window_layout_scaler_3_xml",
       "defaults": {
@@ -2497,7 +2497,7 @@
       "intent": "default",
       "style": 3,
       "renderer": "skin",
-      "asset": "habbo_skin_button_shiny_default_xml",
+      "asset": "habbo_skin_button_shiny_default",
       "layout": "button_shiny",
       "windowLayout": "habbo_window_layout_button_shiny_xml",
       "defaults": {
@@ -2518,7 +2518,7 @@
       "intent": "default",
       "style": 3,
       "renderer": "skin",
-      "asset": "habbo_skin_button_shiny_thick_xml",
+      "asset": "habbo_skin_button_shiny_thick",
       "layout": "button_shiny_thick",
       "windowLayout": "habbo_window_layout_button_shiny_thick_xml",
       "defaults": {
@@ -2539,7 +2539,7 @@
       "intent": "default",
       "style": 3,
       "renderer": "skin",
-      "asset": "habbo_skin_button_shiny_thick_xml",
+      "asset": "habbo_skin_button_shiny_thick",
       "layout": "button_shiny_thick",
       "windowLayout": "",
       "defaults": {
@@ -2560,7 +2560,7 @@
       "intent": "default",
       "style": 3,
       "renderer": "skin",
-      "asset": "habbo_skin_button_close_3_xml",
+      "asset": "habbo_skin_button_close_3",
       "layout": "button_close_3",
       "windowLayout": "",
       "defaults": {
@@ -2581,7 +2581,7 @@
       "intent": "default",
       "style": 3,
       "renderer": "skin",
-      "asset": "habbo_skin_dropmenu_3_xml",
+      "asset": "habbo_skin_dropmenu_3",
       "layout": "dropmenu_frame_3",
       "windowLayout": "habbo_window_layout_dropmenu_3_xml",
       "defaults": {
@@ -2602,7 +2602,7 @@
       "intent": "default",
       "style": 3,
       "renderer": "skin",
-      "asset": "habbo_skin_dropmenu_3_xml",
+      "asset": "habbo_skin_dropmenu_3",
       "layout": "dropmenu_item_3",
       "windowLayout": "habbo_window_layout_dropmenu_item_3_xml",
       "defaults": {
@@ -2623,7 +2623,7 @@
       "intent": "default",
       "style": 3,
       "renderer": "skin",
-      "asset": "habbo_skin_button_tab_3_xml",
+      "asset": "habbo_skin_button_tab_3",
       "layout": "button_tab_3",
       "windowLayout": "habbo_window_layout_tab_button_3_xml",
       "defaults": {
@@ -2644,7 +2644,7 @@
       "intent": "default",
       "style": 3,
       "renderer": "skin",
-      "asset": "habbo_skin_button_tab_3_xml",
+      "asset": "habbo_skin_button_tab_3",
       "layout": "button_tab_3",
       "windowLayout": "",
       "defaults": {
@@ -2665,7 +2665,7 @@
       "intent": "default",
       "style": 3,
       "renderer": "skin",
-      "asset": "habbo_skin_tab_content_3_xml",
+      "asset": "habbo_skin_tab_content_3",
       "layout": "tab_content_3",
       "windowLayout": "",
       "defaults": {
@@ -2686,7 +2686,7 @@
       "intent": "default",
       "style": 3,
       "renderer": "null",
-      "asset": "habbo_skin_tab_context_xml",
+      "asset": "habbo_skin_tab_context",
       "layout": "tab_context",
       "windowLayout": "habbo_window_layout_tab_context_3_xml",
       "defaults": {
@@ -2707,7 +2707,7 @@
       "intent": "default",
       "style": 3,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_3_xml",
+      "asset": "habbo_skin_scrollbar_3",
       "layout": "scrollbar_horizontal_3",
       "windowLayout": "habbo_window_layout_scrollbar_horizontal_xml",
       "defaults": {
@@ -2728,7 +2728,7 @@
       "intent": "default",
       "style": 3,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_3_xml",
+      "asset": "habbo_skin_scrollbar_3",
       "layout": "scrollbar_vertical_3",
       "windowLayout": "habbo_window_layout_scrollbar_vertical_xml",
       "defaults": {
@@ -2749,7 +2749,7 @@
       "intent": "default",
       "style": 3,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_3_xml",
+      "asset": "habbo_skin_scrollbar_3",
       "layout": "scrollbar_button_up_3",
       "windowLayout": "",
       "defaults": {
@@ -2770,7 +2770,7 @@
       "intent": "default",
       "style": 3,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_3_xml",
+      "asset": "habbo_skin_scrollbar_3",
       "layout": "scrollbar_button_down_3",
       "windowLayout": "",
       "defaults": {
@@ -2791,7 +2791,7 @@
       "intent": "default",
       "style": 3,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_3_xml",
+      "asset": "habbo_skin_scrollbar_3",
       "layout": "scrollbar_button_left_3",
       "windowLayout": "",
       "defaults": {
@@ -2812,7 +2812,7 @@
       "intent": "default",
       "style": 3,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_3_xml",
+      "asset": "habbo_skin_scrollbar_3",
       "layout": "scrollbar_button_right_3",
       "windowLayout": "",
       "defaults": {
@@ -2833,7 +2833,7 @@
       "intent": "default",
       "style": 3,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_3_xml",
+      "asset": "habbo_skin_scrollbar_3",
       "layout": "scrollbar_track_horizontal_3",
       "windowLayout": "",
       "defaults": {
@@ -2854,7 +2854,7 @@
       "intent": "default",
       "style": 3,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_3_xml",
+      "asset": "habbo_skin_scrollbar_3",
       "layout": "scrollbar_track_vertical_3",
       "windowLayout": "",
       "defaults": {
@@ -2875,7 +2875,7 @@
       "intent": "default",
       "style": 3,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_3_xml",
+      "asset": "habbo_skin_scrollbar_3",
       "layout": "scrollbar_lift_horizontal_3",
       "windowLayout": "",
       "defaults": {
@@ -2896,7 +2896,7 @@
       "intent": "default",
       "style": 3,
       "renderer": "skin",
-      "asset": "habbo_skin_scrollbar_3_xml",
+      "asset": "habbo_skin_scrollbar_3",
       "layout": "scrollbar_lift_vertical_3",
       "windowLayout": "",
       "defaults": {
@@ -2959,7 +2959,7 @@
       "intent": "light",
       "style": 4,
       "renderer": "skin",
-      "asset": "habbo_skin_frame_3_xml",
+      "asset": "habbo_skin_frame_3",
       "layout": "frame_3",
       "windowLayout": "habbo_window_layout_frame_3_xml",
       "defaults": {
@@ -2980,7 +2980,7 @@
       "intent": "light",
       "style": 4,
       "renderer": "skin",
-      "asset": "habbo_skin_header_3_xml",
+      "asset": "habbo_skin_header_3",
       "layout": "header_3",
       "windowLayout": "habbo_window_layout_header_3_xml",
       "defaults": {
@@ -3001,7 +3001,7 @@
       "intent": "light",
       "style": 4,
       "renderer": "skin",
-      "asset": "habbo_skin_scaler_3_xml",
+      "asset": "habbo_skin_scaler_3",
       "layout": "scaler_3",
       "windowLayout": "habbo_window_layout_scaler_3_xml",
       "defaults": {
@@ -3022,7 +3022,7 @@
       "intent": "black",
       "style": 4,
       "renderer": "skin",
-      "asset": "habbo_skin_button_shiny_black_xml",
+      "asset": "habbo_skin_button_shiny_black",
       "layout": "button_shiny_black",
       "windowLayout": "habbo_window_layout_button_shiny_black_xml",
       "defaults": {
@@ -3043,7 +3043,7 @@
       "intent": "black",
       "style": 4,
       "renderer": "skin",
-      "asset": "habbo_skin_button_shiny_thick_black_xml",
+      "asset": "habbo_skin_button_shiny_thick_black",
       "layout": "button_shiny_thick_black",
       "windowLayout": "habbo_window_layout_button_shiny_thick_black_xml",
       "defaults": {
@@ -3064,7 +3064,7 @@
       "intent": "black",
       "style": 4,
       "renderer": "skin",
-      "asset": "habbo_skin_button_shiny_large_xml",
+      "asset": "habbo_skin_button_shiny_large",
       "layout": "button_shiny_large",
       "windowLayout": "",
       "defaults": {
@@ -3085,7 +3085,7 @@
       "intent": "help",
       "style": 4,
       "renderer": "skin",
-      "asset": "habbo_skin_button_help_3_xml",
+      "asset": "habbo_skin_button_help_3",
       "layout": "button_help_3",
       "windowLayout": "",
       "defaults": {
@@ -3106,7 +3106,7 @@
       "intent": "white",
       "style": 5,
       "renderer": "skin",
-      "asset": "habbo_skin_button_shiny_default_xml",
+      "asset": "habbo_skin_button_shiny_default",
       "layout": "button_shiny",
       "windowLayout": "habbo_window_layout_button_shiny_black_xml",
       "defaults": {
@@ -3127,7 +3127,7 @@
       "intent": "white",
       "style": 5,
       "renderer": "skin",
-      "asset": "habbo_skin_button_shiny_thick_xml",
+      "asset": "habbo_skin_button_shiny_thick",
       "layout": "button_shiny_thick",
       "windowLayout": "habbo_window_layout_button_shiny_thick_black_xml",
       "defaults": {
@@ -3148,7 +3148,7 @@
       "intent": "white",
       "style": 5,
       "renderer": "skin",
-      "asset": "habbo_skin_button_shiny_large_xml",
+      "asset": "habbo_skin_button_shiny_large",
       "layout": "button_shiny_large",
       "windowLayout": "",
       "defaults": {
@@ -3169,7 +3169,7 @@
       "intent": "green",
       "style": 6,
       "renderer": "skin",
-      "asset": "habbo_skin_button_shiny_default_xml",
+      "asset": "habbo_skin_button_shiny_default",
       "layout": "button_shiny",
       "windowLayout": "habbo_window_layout_button_shiny_black_xml",
       "defaults": {
@@ -3190,7 +3190,7 @@
       "intent": "green",
       "style": 6,
       "renderer": "skin",
-      "asset": "habbo_skin_button_shiny_thick_xml",
+      "asset": "habbo_skin_button_shiny_thick",
       "layout": "button_shiny_thick",
       "windowLayout": "habbo_window_layout_button_shiny_thick_black_xml",
       "defaults": {
@@ -3211,7 +3211,7 @@
       "intent": "green",
       "style": 6,
       "renderer": "skin",
-      "asset": "habbo_skin_button_shiny_thick_xml",
+      "asset": "habbo_skin_button_shiny_thick",
       "layout": "button_shiny_thick",
       "windowLayout": "",
       "defaults": {
@@ -3232,7 +3232,7 @@
       "intent": "bubble",
       "style": 7,
       "renderer": "skin",
-      "asset": "habbo_skin_frame_7_xml",
+      "asset": "habbo_skin_frame_7",
       "layout": "frame_7",
       "windowLayout": "habbo_window_layout_frame_7_xml",
       "defaults": {
@@ -3253,7 +3253,7 @@
       "intent": "bubble",
       "style": 7,
       "renderer": "skin",
-      "asset": "habbo_skin_header_7_xml",
+      "asset": "habbo_skin_header_7",
       "layout": "header_7",
       "windowLayout": "habbo_window_layout_header_7_xml",
       "defaults": {
@@ -3274,7 +3274,7 @@
       "intent": "bubble",
       "style": 7,
       "renderer": "skin",
-      "asset": "habbo_skin_frame_pointer_down_xml",
+      "asset": "habbo_skin_frame_pointer_down",
       "layout": "frame_pointer_down",
       "windowLayout": "",
       "defaults": {
@@ -3295,7 +3295,7 @@
       "intent": "default",
       "style": 100,
       "renderer": "skin",
-      "asset": "illumina_light_skin_frame_xml",
+      "asset": "illumina_light_skin_frame",
       "layout": "illumina_light_frame",
       "windowLayout": "illumina_light_frame_xml",
       "defaults": {
@@ -3358,7 +3358,7 @@
       "intent": "default",
       "style": 100,
       "renderer": "skin",
-      "asset": "illumina_light_skin_border_xml",
+      "asset": "illumina_light_skin_border",
       "layout": "illumina_light_border",
       "windowLayout": "",
       "defaults": {
@@ -3379,7 +3379,7 @@
       "intent": "frame",
       "style": 101,
       "renderer": "skin",
-      "asset": "illumina_light_skin_frame_xml",
+      "asset": "illumina_light_skin_frame",
       "layout": "illumina_light_frame",
       "windowLayout": "",
       "defaults": {
@@ -3400,7 +3400,7 @@
       "intent": "sunk",
       "style": 102,
       "renderer": "skin",
-      "asset": "illumina_light_skin_border_sunk_xml",
+      "asset": "illumina_light_skin_border_sunk",
       "layout": "illumina_light_border_sunk",
       "windowLayout": "",
       "defaults": {
@@ -3421,7 +3421,7 @@
       "intent": "light",
       "style": 103,
       "renderer": "skin",
-      "asset": "illumina_light_skin_border_light_xml",
+      "asset": "illumina_light_skin_border_light",
       "layout": "illumina_light_border_light",
       "windowLayout": "",
       "defaults": {
@@ -3442,7 +3442,7 @@
       "intent": "raised",
       "style": 104,
       "renderer": "skin",
-      "asset": "illumina_light_skin_border_raised_xml",
+      "asset": "illumina_light_skin_border_raised",
       "layout": "illumina_light_border_raised",
       "windowLayout": "",
       "defaults": {
@@ -3463,7 +3463,7 @@
       "intent": "input",
       "style": 105,
       "renderer": "skin",
-      "asset": "illumina_light_skin_border_input_xml",
+      "asset": "illumina_light_skin_border_input",
       "layout": "illumina_light_border_input",
       "windowLayout": "",
       "defaults": {
@@ -3484,7 +3484,7 @@
       "intent": "chat bubble",
       "style": 106,
       "renderer": "skin",
-      "asset": "illumina_light_skin_border_chat_bubble_xml",
+      "asset": "illumina_light_skin_border_chat_bubble",
       "layout": "illumina_light_border_chat_bubble",
       "windowLayout": "",
       "defaults": {
@@ -3505,7 +3505,7 @@
       "intent": "balloon",
       "style": 107,
       "renderer": "skin",
-      "asset": "illumina_light_skin_border_balloon_xml",
+      "asset": "illumina_light_skin_border_balloon",
       "layout": "illumina_light_border_balloon",
       "windowLayout": "",
       "defaults": {
@@ -3526,7 +3526,7 @@
       "intent": "info box",
       "style": 108,
       "renderer": "skin",
-      "asset": "illumina_light_skin_border_infobox_xml",
+      "asset": "illumina_light_skin_border_infobox",
       "layout": "illumina_light_border_infobox",
       "windowLayout": "",
       "defaults": {
@@ -3547,7 +3547,7 @@
       "intent": "landing view",
       "style": 100,
       "renderer": "skin",
-      "asset": "illumina_light_skin_button_xml",
+      "asset": "illumina_light_skin_button",
       "layout": "illumina_light_button",
       "windowLayout": "illumina_light_button_xml",
       "defaults": {
@@ -3568,7 +3568,7 @@
       "intent": "window",
       "style": 101,
       "renderer": "skin",
-      "asset": "illumina_light_skin_button_xml",
+      "asset": "illumina_light_skin_button",
       "layout": "illumina_light_button",
       "windowLayout": "illumina_light_button_xml",
       "defaults": {
@@ -3589,7 +3589,7 @@
       "intent": "plain",
       "style": 102,
       "renderer": "skin",
-      "asset": "illumina_light_skin_button_plain_xml",
+      "asset": "illumina_light_skin_button_plain",
       "layout": "illumina_light_button_plain",
       "windowLayout": "illumina_light_button_plain_xml",
       "defaults": {
@@ -3610,7 +3610,7 @@
       "intent": "unetched",
       "style": 103,
       "renderer": "skin",
-      "asset": "illumina_light_skin_button_unetched_xml",
+      "asset": "illumina_light_skin_button_unetched",
       "layout": "illumina_light_button_unetched",
       "windowLayout": "illumina_light_button_plain_xml",
       "defaults": {
@@ -3631,7 +3631,7 @@
       "intent": "landing view",
       "style": 100,
       "renderer": "skin",
-      "asset": "illumina_light_skin_button_xml",
+      "asset": "illumina_light_skin_button",
       "layout": "illumina_light_button",
       "windowLayout": "",
       "defaults": {
@@ -3652,7 +3652,7 @@
       "intent": "window",
       "style": 101,
       "renderer": "skin",
-      "asset": "illumina_light_skin_button_xml",
+      "asset": "illumina_light_skin_button",
       "layout": "illumina_light_button",
       "windowLayout": "",
       "defaults": {
@@ -3673,7 +3673,7 @@
       "intent": "plain",
       "style": 102,
       "renderer": "skin",
-      "asset": "illumina_light_skin_button_plain_xml",
+      "asset": "illumina_light_skin_button_plain",
       "layout": "illumina_light_button_plain",
       "windowLayout": "",
       "defaults": {
@@ -3694,7 +3694,7 @@
       "intent": "unetched",
       "style": 103,
       "renderer": "skin",
-      "asset": "illumina_light_skin_button_unetched_xml",
+      "asset": "illumina_light_skin_button_unetched",
       "layout": "illumina_light_button_unetched",
       "windowLayout": "",
       "defaults": {
@@ -3715,7 +3715,7 @@
       "intent": "default",
       "style": 100,
       "renderer": "skin",
-      "asset": "habbo_skin_button_group_left_xml",
+      "asset": "habbo_skin_button_group_left",
       "layout": "button_group_left",
       "windowLayout": "illumina_light_button_plain_xml",
       "defaults": {
@@ -3736,7 +3736,7 @@
       "intent": "default",
       "style": 100,
       "renderer": "skin",
-      "asset": "habbo_skin_button_group_center_xml",
+      "asset": "habbo_skin_button_group_center",
       "layout": "button_group_center",
       "windowLayout": "illumina_light_button_plain_xml",
       "defaults": {
@@ -3757,7 +3757,7 @@
       "intent": "default",
       "style": 100,
       "renderer": "skin",
-      "asset": "habbo_skin_button_group_right_xml",
+      "asset": "habbo_skin_button_group_right",
       "layout": "button_group_right",
       "windowLayout": "illumina_light_button_plain_xml",
       "defaults": {
@@ -3778,7 +3778,7 @@
       "intent": "default",
       "style": 100,
       "renderer": "skin",
-      "asset": "habbo_skin_dropmenu_xml",
+      "asset": "habbo_skin_dropmenu",
       "layout": "dropmenu_frame",
       "windowLayout": "illumina_light_dropmenu_xml",
       "defaults": {
@@ -3799,7 +3799,7 @@
       "intent": "default",
       "style": 100,
       "renderer": "skin",
-      "asset": "habbo_skin_dropmenu_xml",
+      "asset": "habbo_skin_dropmenu",
       "layout": "dropmenu_item",
       "windowLayout": "illumina_light_dropmenu_item_xml",
       "defaults": {
@@ -3820,7 +3820,7 @@
       "intent": "switch",
       "style": 100,
       "renderer": "skin",
-      "asset": "illumina_light_skin_switch_xml",
+      "asset": "illumina_light_skin_switch",
       "layout": "button_checkbox",
       "windowLayout": "illumina_light_switch_xml",
       "defaults": {
@@ -3841,7 +3841,7 @@
       "intent": "basic",
       "style": 101,
       "renderer": "skin",
-      "asset": "illumina_light_skin_checkbox_basic_xml",
+      "asset": "illumina_light_skin_checkbox_basic",
       "layout": "button_checkbox",
       "windowLayout": "illumina_light_checkbox_basic_xml",
       "defaults": {
@@ -3862,7 +3862,7 @@
       "intent": "default",
       "style": 100,
       "renderer": "skin",
-      "asset": "illumina_light_skin_radio_button_xml",
+      "asset": "illumina_light_skin_radio_button",
       "layout": "button_radio",
       "windowLayout": "illumina_light_radio_button_xml",
       "defaults": {
@@ -3883,7 +3883,7 @@
       "intent": "default",
       "style": 100,
       "renderer": "skin",
-      "asset": "illumina_light_skin_scrollbar_xml",
+      "asset": "illumina_light_skin_scrollbar",
       "layout": "illumina_light_scrollbar_vertical",
       "windowLayout": "illumina_light_scrollbar_horizontal_xml",
       "defaults": {
@@ -3904,7 +3904,7 @@
       "intent": "default",
       "style": 100,
       "renderer": "skin",
-      "asset": "illumina_light_skin_scrollbar_xml",
+      "asset": "illumina_light_skin_scrollbar",
       "layout": "illumina_light_scrollbar_track_horizontal",
       "windowLayout": "",
       "defaults": {
@@ -3925,7 +3925,7 @@
       "intent": "default",
       "style": 100,
       "renderer": "skin",
-      "asset": "illumina_light_skin_scrollbar_xml",
+      "asset": "illumina_light_skin_scrollbar",
       "layout": "illumina_light_scrollbar_lift_horizontal",
       "windowLayout": "",
       "defaults": {
@@ -3946,7 +3946,7 @@
       "intent": "default",
       "style": 100,
       "renderer": "skin",
-      "asset": "illumina_light_skin_scrollbar_xml",
+      "asset": "illumina_light_skin_scrollbar",
       "layout": "illumina_light_scrollbar_vertical",
       "windowLayout": "illumina_light_scrollbar_vertical_xml",
       "defaults": {
@@ -3967,7 +3967,7 @@
       "intent": "default",
       "style": 100,
       "renderer": "skin",
-      "asset": "illumina_light_skin_scrollbar_xml",
+      "asset": "illumina_light_skin_scrollbar",
       "layout": "illumina_light_scrollbar_track_vertical",
       "windowLayout": "",
       "defaults": {
@@ -3988,7 +3988,7 @@
       "intent": "default",
       "style": 100,
       "renderer": "skin",
-      "asset": "illumina_light_skin_scrollbar_xml",
+      "asset": "illumina_light_skin_scrollbar",
       "layout": "illumina_light_scrollbar_lift_vertical",
       "windowLayout": "",
       "defaults": {
@@ -4030,7 +4030,7 @@
       "intent": "default",
       "style": 200,
       "renderer": "skin",
-      "asset": "illumina_dark_skin_frame_xml",
+      "asset": "illumina_dark_skin_frame",
       "layout": "illumina_dark_frame",
       "windowLayout": "illumina_dark_frame_xml",
       "defaults": {
@@ -4051,7 +4051,7 @@
       "intent": "default",
       "style": 200,
       "renderer": "skin",
-      "asset": "illumina_dark_skin_border_xml",
+      "asset": "illumina_dark_skin_border",
       "layout": "illumina_dark_border",
       "windowLayout": "",
       "defaults": {
@@ -4072,7 +4072,7 @@
       "intent": "default",
       "style": 200,
       "renderer": "skin",
-      "asset": "illumina_dark_skin_header_xml",
+      "asset": "illumina_dark_skin_header",
       "layout": "illumina_dark_header",
       "windowLayout": "illumina_dark_header_xml",
       "defaults": {
@@ -4093,7 +4093,7 @@
       "intent": "default",
       "style": 200,
       "renderer": "skin",
-      "asset": "illumina_dark_skin_button_xml",
+      "asset": "illumina_dark_skin_button",
       "layout": "illumina_dark_button",
       "windowLayout": "illumina_dark_button_xml",
       "defaults": {
@@ -4114,7 +4114,7 @@
       "intent": "default",
       "style": 200,
       "renderer": "skin",
-      "asset": "illumina_dark_skin_button_xml",
+      "asset": "illumina_dark_skin_button",
       "layout": "illumina_dark_button",
       "windowLayout": "",
       "defaults": {
@@ -4135,7 +4135,7 @@
       "intent": "default",
       "style": 200,
       "renderer": "skin",
-      "asset": "illumina_dark_skin_scrollbar_xml",
+      "asset": "illumina_dark_skin_scrollbar",
       "layout": "illumina_dark_scrollbar_vertical",
       "windowLayout": "illumina_dark_scrollbar_horizontal_xml",
       "defaults": {
@@ -4156,7 +4156,7 @@
       "intent": "default",
       "style": 200,
       "renderer": "skin",
-      "asset": "illumina_dark_skin_scrollbar_xml",
+      "asset": "illumina_dark_skin_scrollbar",
       "layout": "illumina_dark_scrollbar_track_horizontal",
       "windowLayout": "",
       "defaults": {
@@ -4177,7 +4177,7 @@
       "intent": "default",
       "style": 200,
       "renderer": "skin",
-      "asset": "illumina_dark_skin_scrollbar_xml",
+      "asset": "illumina_dark_skin_scrollbar",
       "layout": "illumina_dark_scrollbar_lift_horizontal",
       "windowLayout": "",
       "defaults": {
@@ -4198,7 +4198,7 @@
       "intent": "default",
       "style": 200,
       "renderer": "skin",
-      "asset": "illumina_dark_skin_scrollbar_xml",
+      "asset": "illumina_dark_skin_scrollbar",
       "layout": "illumina_dark_scrollbar_vertical",
       "windowLayout": "illumina_dark_scrollbar_vertical_xml",
       "defaults": {
@@ -4219,7 +4219,7 @@
       "intent": "default",
       "style": 200,
       "renderer": "skin",
-      "asset": "illumina_dark_skin_scrollbar_xml",
+      "asset": "illumina_dark_skin_scrollbar",
       "layout": "illumina_dark_scrollbar_track_vertical",
       "windowLayout": "",
       "defaults": {
@@ -4240,7 +4240,7 @@
       "intent": "default",
       "style": 200,
       "renderer": "skin",
-      "asset": "illumina_dark_skin_scrollbar_xml",
+      "asset": "illumina_dark_skin_scrollbar",
       "layout": "illumina_dark_scrollbar_lift_vertical",
       "windowLayout": "",
       "defaults": {
@@ -4261,7 +4261,7 @@
       "intent": "Simple arrow down",
       "style": 0,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon16",
       "windowLayout": "",
       "defaults": {
@@ -4288,7 +4288,7 @@
       "intent": "Simple arrow up",
       "style": 1,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon16",
       "windowLayout": "",
       "defaults": {
@@ -4315,7 +4315,7 @@
       "intent": "Simple arrow left",
       "style": 2,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon16",
       "windowLayout": "",
       "defaults": {
@@ -4342,7 +4342,7 @@
       "intent": "Simple arrow right",
       "style": 3,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon16",
       "windowLayout": "",
       "defaults": {
@@ -4369,7 +4369,7 @@
       "intent": "Triangle arrow left",
       "style": 4,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon16",
       "windowLayout": "",
       "defaults": {
@@ -4396,7 +4396,7 @@
       "intent": "Triangle arrow right",
       "style": 5,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon16",
       "windowLayout": "",
       "defaults": {
@@ -4423,7 +4423,7 @@
       "intent": "Triangle arrow up",
       "style": 6,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon16",
       "windowLayout": "",
       "defaults": {
@@ -4450,7 +4450,7 @@
       "intent": "Triangle arrow down",
       "style": 7,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon16",
       "windowLayout": "",
       "defaults": {
@@ -4477,7 +4477,7 @@
       "intent": "Symbol Accept",
       "style": 8,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon16",
       "windowLayout": "",
       "defaults": {
@@ -4504,7 +4504,7 @@
       "intent": "Symbol Decline",
       "style": 9,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon16",
       "windowLayout": "",
       "defaults": {
@@ -4531,7 +4531,7 @@
       "intent": "Coin",
       "style": 10,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon32",
       "windowLayout": "",
       "defaults": {
@@ -4558,7 +4558,7 @@
       "intent": "Club icon small",
       "style": 11,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon16",
       "windowLayout": "",
       "defaults": {
@@ -4585,7 +4585,7 @@
       "intent": "VIP icon small",
       "style": 12,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon16",
       "windowLayout": "",
       "defaults": {
@@ -4612,7 +4612,7 @@
       "intent": "Club icon square",
       "style": 13,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon24",
       "windowLayout": "",
       "defaults": {
@@ -4639,7 +4639,7 @@
       "intent": "VIP icon square",
       "style": 14,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon24",
       "windowLayout": "",
       "defaults": {
@@ -4666,7 +4666,7 @@
       "intent": "Club icon square big",
       "style": 15,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon32",
       "windowLayout": "",
       "defaults": {
@@ -4693,7 +4693,7 @@
       "intent": "VIP icon square big",
       "style": 16,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon32",
       "windowLayout": "",
       "defaults": {
@@ -4720,7 +4720,7 @@
       "intent": "Club icon gigantic",
       "style": 17,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon32",
       "windowLayout": "",
       "defaults": {
@@ -4747,7 +4747,7 @@
       "intent": "VIP icon gigantic",
       "style": 18,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon32",
       "windowLayout": "",
       "defaults": {
@@ -4774,7 +4774,7 @@
       "intent": "Pixel icon",
       "style": 19,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon16",
       "windowLayout": "",
       "defaults": {
@@ -4801,7 +4801,7 @@
       "intent": "Clear text field icon",
       "style": 20,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon16",
       "windowLayout": "",
       "defaults": {
@@ -4828,7 +4828,7 @@
       "intent": "Extended profile icon",
       "style": 21,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon15",
       "windowLayout": "",
       "defaults": {
@@ -4855,7 +4855,7 @@
       "intent": "Extended profile hover icon",
       "style": 22,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon15",
       "windowLayout": "",
       "defaults": {
@@ -4882,7 +4882,7 @@
       "intent": "Loading animation frame 1",
       "style": 23,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon15x15",
       "windowLayout": "",
       "defaults": {
@@ -4909,7 +4909,7 @@
       "intent": "Loading animation frame 2",
       "style": 24,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon15x15",
       "windowLayout": "",
       "defaults": {
@@ -4936,7 +4936,7 @@
       "intent": "Loading animation frame 3",
       "style": 25,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon15x15",
       "windowLayout": "",
       "defaults": {
@@ -4963,7 +4963,7 @@
       "intent": "Loading animation frame 4",
       "style": 26,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon15x15",
       "windowLayout": "",
       "defaults": {
@@ -4990,7 +4990,7 @@
       "intent": "Snowflake",
       "style": 27,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconSnowflake",
       "windowLayout": "",
       "defaults": {
@@ -5017,7 +5017,7 @@
       "intent": "Lock",
       "style": 28,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconLock",
       "windowLayout": "",
       "defaults": {
@@ -5044,7 +5044,7 @@
       "intent": "Valentines",
       "style": 29,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconValentines",
       "windowLayout": "",
       "defaults": {
@@ -5071,7 +5071,7 @@
       "intent": "Horseshoe Big",
       "style": 30,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconHorseshoeBig",
       "windowLayout": "",
       "defaults": {
@@ -5098,7 +5098,7 @@
       "intent": "Horseshoe Small",
       "style": 31,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconHorseshoeSmall",
       "windowLayout": "",
       "defaults": {
@@ -5125,7 +5125,7 @@
       "intent": "Ducket Big",
       "style": 32,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconDucketBig",
       "windowLayout": "",
       "defaults": {
@@ -5152,7 +5152,7 @@
       "intent": "Ducket Small",
       "style": 33,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconDucketSmall",
       "windowLayout": "",
       "defaults": {
@@ -5179,7 +5179,7 @@
       "intent": "Credit Big",
       "style": 34,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconCreditBig",
       "windowLayout": "",
       "defaults": {
@@ -5206,7 +5206,7 @@
       "intent": "Credit Small",
       "style": 35,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconCreditSmall",
       "windowLayout": "",
       "defaults": {
@@ -5233,7 +5233,7 @@
       "intent": "Subscription Point Big",
       "style": 36,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconSubscriptionPointBig",
       "windowLayout": "",
       "defaults": {
@@ -5260,7 +5260,7 @@
       "intent": "Subscription Point Small",
       "style": 37,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconSubscriptionPointSmall",
       "windowLayout": "",
       "defaults": {
@@ -5287,7 +5287,7 @@
       "intent": "Nut Big",
       "style": 38,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconNutBig",
       "windowLayout": "",
       "defaults": {
@@ -5314,7 +5314,7 @@
       "intent": "Nut Small",
       "style": 39,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconNutSmall",
       "windowLayout": "",
       "defaults": {
@@ -5341,7 +5341,7 @@
       "intent": "Credit And Nut Combo Big",
       "style": 40,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconCreditAndNutBig",
       "windowLayout": "",
       "defaults": {
@@ -5368,7 +5368,7 @@
       "intent": "Diamond Big",
       "style": 41,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconDiamondBig",
       "windowLayout": "",
       "defaults": {
@@ -5395,7 +5395,7 @@
       "intent": "Diamond Small",
       "style": 42,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconDiamondSmall",
       "windowLayout": "",
       "defaults": {
@@ -5422,7 +5422,7 @@
       "intent": "Credit And Diamond Combo Big",
       "style": 43,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconCreditAndDiamondBig",
       "windowLayout": "",
       "defaults": {
@@ -5449,7 +5449,7 @@
       "intent": "Star Big",
       "style": 44,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconStarBig",
       "windowLayout": "",
       "defaults": {
@@ -5476,7 +5476,7 @@
       "intent": "Star Small",
       "style": 45,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconStarSmall",
       "windowLayout": "",
       "defaults": {
@@ -5503,7 +5503,7 @@
       "intent": "Cloud Small",
       "style": 46,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconCloudSmall",
       "windowLayout": "",
       "defaults": {
@@ -5530,7 +5530,7 @@
       "intent": "Cloud Big",
       "style": 47,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconCloudBig",
       "windowLayout": "",
       "defaults": {
@@ -5557,7 +5557,7 @@
       "intent": "Cloud And Credits Big",
       "style": 48,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconCloudAndCreditsBig",
       "windowLayout": "",
       "defaults": {
@@ -5584,7 +5584,7 @@
       "intent": "Pumpkin Small",
       "style": 49,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconPumpkinSmall",
       "windowLayout": "",
       "defaults": {
@@ -5611,7 +5611,7 @@
       "intent": "Pumpkin Big",
       "style": 50,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconPumpkinBig",
       "windowLayout": "",
       "defaults": {
@@ -5638,7 +5638,7 @@
       "intent": "Pumpkin And Credits Big",
       "style": 51,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconPumpkinAndCreditsBig",
       "windowLayout": "",
       "defaults": {
@@ -5665,7 +5665,7 @@
       "intent": "Mobile icon square",
       "style": 52,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "icon24",
       "windowLayout": "",
       "defaults": {
@@ -5692,7 +5692,7 @@
       "intent": "Loyalty Big",
       "style": 53,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconLoyaltyBig",
       "windowLayout": "",
       "defaults": {
@@ -5719,7 +5719,7 @@
       "intent": "Loyalty Small",
       "style": 54,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconLoyaltySmall",
       "windowLayout": "",
       "defaults": {
@@ -5746,7 +5746,7 @@
       "intent": "seashell Big",
       "style": 55,
       "renderer": "skin",
-      "asset": "habbo_skin_icon_set_xml",
+      "asset": "habbo_skin_icon_set",
       "layout": "iconSeashellBig",
       "windowLayout": "",
       "defaults": {
