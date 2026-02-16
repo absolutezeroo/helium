@@ -112,7 +112,7 @@ export class Helium implements IHelium
 	 */
 	public static get instance(): Helium
 	{
-		if(!this._instance)
+		if (!this._instance)
 		{
 			this._instance = new Helium();
 		}
@@ -125,7 +125,7 @@ export class Helium implements IHelium
 
 	get core(): HeliumCore
 	{
-		if(!this._core)
+		if (!this._core)
 		{
 			throw new Error('[Helium] Not initialized');
 		}
@@ -256,7 +256,7 @@ export class Helium implements IHelium
 
 		log.debug(`Login step: ${message}`);
 
-		if(this._instance)
+		if (this._instance)
 		{
 			this._instance._events.emit('loginStep', step, extra);
 		}
@@ -279,12 +279,12 @@ export class Helium implements IHelium
 
 		log.error(`Crash [${category}]: ${message}${isFatal ? ' (FATAL)' : ''}`);
 
-		if(error)
+		if (error)
 		{
 			log.error(error.stack ?? error.message);
 		}
 
-		if(this._instance)
+		if (this._instance)
 		{
 			this._instance._events.emit('crash', report);
 		}
@@ -315,7 +315,7 @@ export class Helium implements IHelium
 	 */
 	connect(): void
 	{
-		if(!this._habboMain)
+		if (!this._habboMain)
 		{
 			throw new Error('[Helium] Not initialized');
 		}
@@ -324,7 +324,7 @@ export class Helium implements IHelium
 
 		// If connection already exists (started by HabboCommunicationDemo.initComponent),
 		// just wire remaining handlers and return.
-		if(comm.connection)
+		if (comm.connection)
 		{
 			this.wireRoomMessageHandler();
 			return;
@@ -335,7 +335,7 @@ export class Helium implements IHelium
 		const demo = this._habboMain.communicationDemo;
 		const ssoTicket = comm.ssoTicket;
 
-		if(ssoTicket)
+		if (ssoTicket)
 		{
 			demo.setSSOTicket(ssoTicket);
 		}
@@ -364,14 +364,14 @@ export class Helium implements IHelium
 	 */
 	public dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		this._disposed = true;
 
 		log.info('Disposing Helium...');
 
 		// Remove unload listener
-		if(this._unloadHandler)
+		if (this._unloadHandler)
 		{
 			window.removeEventListener('beforeunload', this._unloadHandler);
 			this._unloadHandler = null;
@@ -408,7 +408,7 @@ export class Helium implements IHelium
 	 */
 	async init(config?: IHeliumConfig, loadingScreen?: IHeliumLoadingScreen): Promise<void>
 	{
-		if(this._ready)
+		if (this._ready)
 		{
 			log.warn('Already initialized');
 			return;
@@ -443,7 +443,7 @@ export class Helium implements IHelium
 
 			log.success('Ready!');
 		}
-		catch(error)
+		catch (error)
 		{
 			Helium.trackLoginStep('client.init.core.fail');
 			Helium.reportCrash(
@@ -470,12 +470,12 @@ export class Helium implements IHelium
 	{
 		try
 		{
-			if(this._core && !this._disposed)
+			if (this._core && !this._disposed)
 			{
 				this._events.emit('unload');
 			}
 		}
-		catch(error)
+		catch (error)
 		{
 			// AS3: catch(error:Error) {} — silently ignore errors during unload
 		}
@@ -488,12 +488,12 @@ export class Helium implements IHelium
 	 */
 	private wireRoomMessageHandler(): void
 	{
-		if(!this._habboMain) return;
+		if (!this._habboMain) return;
 
 		const comm = this._habboMain.habboCommunication;
 		const handler = this._habboMain.roomMessageHandler;
 
-		if(comm.connection)
+		if (comm.connection)
 		{
 			handler.connection = comm.connection;
 			this._habboMain.roomEngine.connection = comm.connection;

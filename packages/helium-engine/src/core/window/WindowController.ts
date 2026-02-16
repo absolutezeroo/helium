@@ -505,7 +505,7 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 	{
 		value = resolveLocalizationTokens(value ?? '');
 
-		if(value !== this._caption)
+		if (value !== this._caption)
 		{
 			this._caption = value;
 			this._context.invalidate(this, null, 1);

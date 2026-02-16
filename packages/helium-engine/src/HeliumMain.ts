@@ -144,7 +144,7 @@ export class HeliumMain implements IHeliumMain
 
 	get toolbar(): IHabboToolbar
 	{
-		if(!this._toolbar)
+		if (!this._toolbar)
 		{
 			throw new Error('[HabboMain] Not initialized');
 		}
@@ -356,21 +356,21 @@ export class HeliumMain implements IHeliumMain
 	 */
 	dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		this._disposed = true;
 
 		log.info('Disposing HabboMain...');
 
 		// Stop heartbeat
-		if(this._heartbeatTimer !== null)
+		if (this._heartbeatTimer !== null)
 		{
 			clearInterval(this._heartbeatTimer);
 			this._heartbeatTimer = null;
 		}
 
 		// AS3: _loadingScreen.dispose() + _loadingScreen = null
-		if(this._loadingScreen)
+		if (this._loadingScreen)
 		{
 			this._loadingScreen.dispose();
 			this._loadingScreen = null;
@@ -474,7 +474,7 @@ export class HeliumMain implements IHeliumMain
 		// is created before other components try to use it.
 		this._communicationDemo = new HabboCommunicationDemo(ctx);
 
-		if(config?.connection?.ssoTicket)
+		if (config?.connection?.ssoTicket)
 		{
 			this._communicationDemo.ssoTicket = config.connection.ssoTicket;
 		}
@@ -575,7 +575,7 @@ export class HeliumMain implements IHeliumMain
 		// then wire the handler to the now-existing connection.
 		await Promise.resolve();
 
-		if(this._habboCommunicationManager.connection)
+		if (this._habboCommunicationManager.connection)
 		{
 			this._roomMessageHandler.connection = this._habboCommunicationManager.connection;
 			this._roomEngine.connection = this._habboCommunicationManager.connection;
@@ -755,7 +755,8 @@ export class HeliumMain implements IHeliumMain
 
 				log.success('External UI variables loaded (key=value)');
 			}
-		} catch (error)
+		}
+		catch (error)
 		{
 			log.warn(`Failed to load external UI variables: ${error}`);
 		}
@@ -768,7 +769,7 @@ export class HeliumMain implements IHeliumMain
 	 */
 	initLocalization(): void
 	{
-		if(this._configurationManager!.propertyExists('localization.1'))
+		if (this._configurationManager!.propertyExists('localization.1'))
 		{
 			const locName = this._configurationManager!.getProperty('localization.1');
 
@@ -796,13 +797,13 @@ export class HeliumMain implements IHeliumMain
 		this.onConfigurationComplete();
 
 		// AS3: simpleQueueInterface(new IIDHabboLocalizationManager(), cb → events.addEventListener("complete", onLocalizationComplete))
-		if(this._localizationManager)
+		if (this._localizationManager)
 		{
 			this._localizationManager.events.on('complete', () => this.onLocalizationComplete());
 		}
 
 		// AS3: simpleQueueInterface(new IIDRoomEngine(), cb → events.addEventListener("REE_ENGINE_INITIALIZED", onRoomEngineReady))
-		if(this._roomEngine)
+		if (this._roomEngine)
 		{
 			this._roomEngine.events.on('REE_ENGINE_INITIALIZED', () => this.onRoomEngineReady());
 		}
@@ -823,7 +824,7 @@ export class HeliumMain implements IHeliumMain
 	 */
 	private updateProgressBar(): void
 	{
-		if(this._loadingScreen != null)
+		if (this._loadingScreen != null)
 		{
 			const progress = CORE_RATIO + ((this._completedInitSteps / INIT_STEPS) * (1 - CORE_RATIO));
 
@@ -853,7 +854,7 @@ export class HeliumMain implements IHeliumMain
 		Helium.trackLoginStep('client.init.localization.loaded');
 
 		// Wire localization resolver for WindowParser.
-		if(this._localizationManager)
+		if (this._localizationManager)
 		{
 			const locMgr = this._localizationManager;
 
@@ -913,13 +914,13 @@ export class HeliumMain implements IHeliumMain
 	{
 		const config = this._configurationManager;
 
-		if(!config) return;
+		if (!config) return;
 
 		const spaweb = config.propertyExists('spaweb')
 			? config.getProperty('spaweb')
 			: '0';
 
-		if(spaweb === '1')
+		if (spaweb === '1')
 		{
 			log.info('SPA heartbeat enabled');
 

@@ -1,2 +1,2 @@
 // Exports
-export { RoomObjectUpdateMessage } from './RoomObjectUpdateMessage';
+export {RoomObjectUpdateMessage} from './RoomObjectUpdateMessage';

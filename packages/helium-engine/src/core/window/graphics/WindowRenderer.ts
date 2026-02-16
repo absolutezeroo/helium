@@ -565,7 +565,7 @@ export class WindowRenderer implements IWindowRenderer
 	{
 		const type = window.type;
 
-		if(type !== WindowType.TEXT && type !== WindowType.LABEL
+		if (type !== WindowType.TEXT && type !== WindowType.LABEL
 			&& type !== WindowType.LINK && type !== WindowType.FORMATTED_TEXT
 			&& type !== WindowType.TEXTFIELD && type !== WindowType.PASSWORD
 			&& type !== WindowType.HTML)
@@ -575,7 +575,7 @@ export class WindowRenderer implements IWindowRenderer
 
 		const text = window.caption;
 
-		if(!text) return;
+		if (!text) return;
 
 		// Duck-type text properties from TextController
 		const tw = window as unknown as {
@@ -603,8 +603,8 @@ export class WindowRenderer implements IWindowRenderer
 		// Build CSS font string
 		let fontStr = '';
 
-		if(isItalic) fontStr += 'italic ';
-		if(isBold) fontStr += 'bold ';
+		if (isItalic) fontStr += 'italic ';
+		if (isBold) fontStr += 'bold ';
 		fontStr += `${fontSize}px ${fontFace}`;
 
 		ctx.font = fontStr;
@@ -614,18 +614,18 @@ export class WindowRenderer implements IWindowRenderer
 		const margin = 2;
 		const maxWidth = w - margin * 2;
 
-		if(maxWidth <= 0) return;
+		if (maxWidth <= 0) return;
 
 		// Determine display text
 		let displayText = text;
 
-		if(type === WindowType.PASSWORD)
+		if (type === WindowType.PASSWORD)
 		{
 			displayText = '\u2022'.repeat(text.length);
 		}
 
 		// Underline support for link windows
-		if(type === WindowType.LINK || tw.underline)
+		if (type === WindowType.LINK || tw.underline)
 		{
 			ctx.save();
 
@@ -650,7 +650,7 @@ export class WindowRenderer implements IWindowRenderer
 		}
 
 		// Multiline / word-wrap rendering
-		if((tw.multiline || tw.wordWrap) && (type === WindowType.TEXT || type === WindowType.FORMATTED_TEXT || type === WindowType.HTML))
+		if ((tw.multiline || tw.wordWrap) && (type === WindowType.TEXT || type === WindowType.FORMATTED_TEXT || type === WindowType.HTML))
 		{
 			this.compositeTextMultiline(ctx, displayText, absX + margin, absY + margin, maxWidth, h - margin * 2, fontSize, tw.wordWrap ?? false);
 
@@ -690,26 +690,26 @@ export class WindowRenderer implements IWindowRenderer
 		const lines = text.split('\n');
 		let currentY = y;
 
-		for(const line of lines)
+		for (const line of lines)
 		{
-			if(currentY + lineHeight > y + maxHeight) break;
+			if (currentY + lineHeight > y + maxHeight) break;
 
-			if(wordWrap && ctx.measureText(line).width > maxWidth)
+			if (wordWrap && ctx.measureText(line).width > maxWidth)
 			{
 				// Word-wrap: break line at word boundaries
 				const words = line.split(' ');
 				let currentLine = '';
 
-				for(const word of words)
+				for (const word of words)
 				{
 					const testLine = currentLine ? currentLine + ' ' + word : word;
 
-					if(ctx.measureText(testLine).width > maxWidth && currentLine)
+					if (ctx.measureText(testLine).width > maxWidth && currentLine)
 					{
 						ctx.fillText(currentLine, x, currentY, maxWidth);
 						currentY += lineHeight;
 
-						if(currentY + lineHeight > y + maxHeight) break;
+						if (currentY + lineHeight > y + maxHeight) break;
 
 						currentLine = word;
 					}
@@ -719,7 +719,7 @@ export class WindowRenderer implements IWindowRenderer
 					}
 				}
 
-				if(currentLine && currentY + lineHeight <= y + maxHeight)
+				if (currentLine && currentY + lineHeight <= y + maxHeight)
 				{
 					ctx.fillText(currentLine, x, currentY, maxWidth);
 					currentY += lineHeight;

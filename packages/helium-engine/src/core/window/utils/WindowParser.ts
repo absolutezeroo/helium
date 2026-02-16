@@ -243,15 +243,15 @@ export class WindowParser implements IWindowParser
 		// FrameController.set properties handles them differently and crashes
 		// when content is null during construction. Text margins are set via
 		// text style system instead.
-		if(node.vars)
+		if (node.vars)
 		{
 			const props: PropertyStruct[] = [];
 
-			for(const [key, val] of Object.entries(node.vars))
+			for (const [key, val] of Object.entries(node.vars))
 			{
-				if(val === null || val === undefined) continue;
+				if (val === null || val === undefined) continue;
 
-				switch(key)
+				switch (key)
 				{
 					case 'item_array':
 					{
@@ -287,7 +287,7 @@ export class WindowParser implements IWindowParser
 				}
 			}
 
-			if(props.length > 0)
+			if (props.length > 0)
 			{
 				window.properties = props;
 			}
@@ -415,7 +415,7 @@ function parseColorSafe(value: string | undefined): number
  */
 export function resolveLocalizationTokens(value: string): string
 {
-	if(!value || !WindowParser.localizationResolver) return value;
+	if (!value || !WindowParser.localizationResolver) return value;
 
 	return value.replace(/\$\{([^}]+)\}/g, (_match, key) =>
 	{

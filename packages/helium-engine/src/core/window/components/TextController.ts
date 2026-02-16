@@ -63,7 +63,7 @@ export class TextController extends WindowController
 	 */
 	public set text(value: string)
 	{
-		if(value == null) return;
+		if (value == null) return;
 
 		this._text = resolveLocalizationTokens(value);
 		this._caption = this._text;
