@@ -5,22 +5,23 @@
  */
 export class LibraryLoadedEvent
 {
-    private _type: string;
-    private _library: string;
+	constructor(type: string, library: string)
+	{
+		this._type = type;
+		this._library = library;
+	}
 
-    constructor(type: string, library: string)
-    {
-        this._type = type;
-        this._library = library;
-    }
+	private _type: string;
 
-    public get type(): string
-    {
-        return this._type;
-    }
+	public get type(): string
+	{
+		return this._type;
+	}
 
-    public get library(): string
-    {
-        return this._library;
-    }
+	private _library: string;
+
+	public get library(): string
+	{
+		return this._library;
+	}
 }

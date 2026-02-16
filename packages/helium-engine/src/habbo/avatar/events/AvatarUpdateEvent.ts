@@ -5,24 +5,25 @@
  */
 export class AvatarUpdateEvent
 {
-    public static readonly AVATAR_FIGURE_UPDATED: string = 'AVATAR_FIGURE_UPDATED';
+	public static readonly AVATAR_FIGURE_UPDATED: string = 'AVATAR_FIGURE_UPDATED';
 
-    private _figure: string;
-    private _type: string;
+	constructor(figure: string)
+	{
+		this._type = AvatarUpdateEvent.AVATAR_FIGURE_UPDATED;
+		this._figure = figure;
+	}
 
-    constructor(figure: string)
-    {
-        this._type = AvatarUpdateEvent.AVATAR_FIGURE_UPDATED;
-        this._figure = figure;
-    }
+	private _figure: string;
 
-    public get type(): string
-    {
-        return this._type;
-    }
+	public get figure(): string
+	{
+		return this._figure;
+	}
 
-    public get figure(): string
-    {
-        return this._figure;
-    }
+	private _type: string;
+
+	public get type(): string
+	{
+		return this._type;
+	}
 }

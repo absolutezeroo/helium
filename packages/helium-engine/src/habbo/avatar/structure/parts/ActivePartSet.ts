@@ -5,36 +5,37 @@
  */
 export class ActivePartSet
 {
-    private _id: string;
-    private _parts: string[];
+	constructor(data: any)
+	{
+		this._id = String(data.id ?? '');
+		this._parts = [];
 
-    constructor(data: any)
-    {
-        this._id = String(data.id ?? '');
-        this._parts = [];
+		// Nitro: activeParts (camelCase array), XML-JSON: activePart
+		const rawParts = data.activeParts || data.activePart;
 
-        // Nitro: activeParts (camelCase array), XML-JSON: activePart
-        const rawParts = data.activeParts || data.activePart;
+		if (rawParts)
+		{
+			const activeParts: any[] = Array.isArray(rawParts) ? rawParts : [rawParts];
 
-        if(rawParts)
-        {
-            const activeParts: any[] = Array.isArray(rawParts) ? rawParts : [rawParts];
+			for (const part of activeParts)
+			{
+				// Nitro: camelCase (setType), XML-JSON: hyphenated (set-type)
+				this._parts.push(String(part.setType ?? part['set-type']));
+			}
+		}
+	}
 
-            for(const part of activeParts)
-            {
-                // Nitro: camelCase (setType), XML-JSON: hyphenated (set-type)
-                this._parts.push(String(part.setType ?? part['set-type']));
-            }
-        }
-    }
+	private _id: string;
 
-    public get id(): string
-    {
-        return this._id;
-    }
+	public get id(): string
+	{
+		return this._id;
+	}
 
-    public get parts(): string[]
-    {
-        return this._parts;
-    }
+	private _parts: string[];
+
+	public get parts(): string[]
+	{
+		return this._parts;
+	}
 }

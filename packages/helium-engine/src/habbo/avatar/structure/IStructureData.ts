@@ -5,6 +5,7 @@
  */
 export interface IStructureData
 {
-    parse(data: any): boolean;
-    appendJSON(data: any): boolean;
+	parse(data: any): boolean;
+
+	appendJSON(data: any): boolean;
 }

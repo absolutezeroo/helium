@@ -1,4 +1,4 @@
-import type { IFigurePart } from './IFigurePart';
+import type {IFigurePart} from './IFigurePart';
 
 /**
  * Interface for a figure part set containing parts and metadata.
@@ -7,16 +7,16 @@ import type { IFigurePart } from './IFigurePart';
  */
 export interface IFigurePartSet
 {
-    getPart(type: string, id: number): IFigurePart | null;
+	readonly type: string;
+	readonly id: number;
+	readonly gender: string;
+	readonly clubLevel: number;
+	readonly isColorable: boolean;
+	readonly isSelectable: boolean;
+	readonly isPreSelectable: boolean;
+	readonly isSellable: boolean;
+	readonly parts: IFigurePart[];
+	readonly hiddenLayers: string[];
 
-    readonly type: string;
-    readonly id: number;
-    readonly gender: string;
-    readonly clubLevel: number;
-    readonly isColorable: boolean;
-    readonly isSelectable: boolean;
-    readonly isPreSelectable: boolean;
-    readonly isSellable: boolean;
-    readonly parts: IFigurePart[];
-    readonly hiddenLayers: string[];
+	getPart(type: string, id: number): IFigurePart | null;
 }

@@ -5,86 +5,88 @@
  */
 export class AvatarSet
 {
-    private _id: string;
-    private _subSets: Map<string, AvatarSet>;
-    private _bodyPartIds: string[];
-    private _allBodyPartIds: string[];
-    private _isMain: boolean;
+	private _subSets: Map<string, AvatarSet>;
+	private _bodyPartIds: string[];
+	private _allBodyPartIds: string[];
 
-    constructor(data: any)
-    {
-        this._id = String(data.id);
+	constructor(data: any)
+	{
+		this._id = String(data.id);
 
-        // Nitro: data.main (boolean), XML-JSON: data.main (string "1"/"0")
-        this._isMain = Boolean(typeof data.main === 'boolean' ? data.main : parseInt(data.main));
-        this._subSets = new Map();
-        this._bodyPartIds = [];
+		// Nitro: data.main (boolean), XML-JSON: data.main (string "1"/"0")
+		this._isMain = Boolean(typeof data.main === 'boolean' ? data.main : parseInt(data.main));
+		this._subSets = new Map();
+		this._bodyPartIds = [];
 
-        // Nitro: avatarSets (camelCase), XML-JSON: avatarsets (lowercase)
-        const subSets = data.avatarSets || data.avatarsets;
+		// Nitro: avatarSets (camelCase), XML-JSON: avatarsets (lowercase)
+		const subSets = data.avatarSets || data.avatarsets;
 
-        if(subSets)
-        {
-            for(const subData of subSets)
-            {
-                const subSet = new AvatarSet(subData);
+		if (subSets)
+		{
+			for (const subData of subSets)
+			{
+				const subSet = new AvatarSet(subData);
 
-                this._subSets.set(String(subData.id), subSet);
-            }
-        }
+				this._subSets.set(String(subData.id), subSet);
+			}
+		}
 
-        // Nitro: bodyParts (camelCase), XML-JSON: bodyparts (lowercase)
-        const bodyParts = data.bodyParts || data.bodyparts;
+		// Nitro: bodyParts (camelCase), XML-JSON: bodyparts (lowercase)
+		const bodyParts = data.bodyParts || data.bodyparts;
 
-        if(bodyParts)
-        {
-            for(const bp of bodyParts)
-            {
-                this._bodyPartIds.push(String(bp.id));
-            }
-        }
+		if (bodyParts)
+		{
+			for (const bp of bodyParts)
+			{
+				this._bodyPartIds.push(String(bp.id));
+			}
+		}
 
-        let all = [...this._bodyPartIds];
+		let all = [...this._bodyPartIds];
 
-        for(const subSet of this._subSets.values())
-        {
-            all = all.concat(subSet.getBodyParts());
-        }
+		for (const subSet of this._subSets.values())
+		{
+			all = all.concat(subSet.getBodyParts());
+		}
 
-        this._allBodyPartIds = all;
-    }
+		this._allBodyPartIds = all;
+	}
 
-    public findAvatarSet(id: string): AvatarSet | null
-    {
-        if(id === this._id) return this;
+	private _id: string;
 
-        for(const subSet of this._subSets.values())
-        {
-            if(subSet.findAvatarSet(id) != null) return subSet;
-        }
+	public get id(): string
+	{
+		return this._id;
+	}
 
-        return null;
-    }
+	private _isMain: boolean;
 
-    public getBodyParts(): string[]
-    {
-        return [...this._allBodyPartIds];
-    }
+	public get isMain(): boolean
+	{
+		if (this._isMain) return true;
 
-    public get id(): string
-    {
-        return this._id;
-    }
+		for (const subSet of this._subSets.values())
+		{
+			if (subSet.isMain) return true;
+		}
 
-    public get isMain(): boolean
-    {
-        if(this._isMain) return true;
+		return false;
+	}
 
-        for(const subSet of this._subSets.values())
-        {
-            if(subSet.isMain) return true;
-        }
+	public findAvatarSet(id: string): AvatarSet | null
+	{
+		if (id === this._id) return this;
 
-        return false;
-    }
+		for (const subSet of this._subSets.values())
+		{
+			if (subSet.findAvatarSet(id) != null) return subSet;
+		}
+
+		return null;
+	}
+
+	public getBodyParts(): string[]
+	{
+		return [...this._allBodyPartIds];
+	}
 }

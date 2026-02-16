@@ -1,4 +1,4 @@
-import type { ISpriteDataContainer } from './ISpriteDataContainer';
+import type {ISpriteDataContainer} from './ISpriteDataContainer';
 
 /**
  * Interface for an avatar animation containing sprite, remove, and add data.
@@ -7,13 +7,15 @@ import type { ISpriteDataContainer } from './ISpriteDataContainer';
  */
 export interface IAnimation
 {
-    hasAvatarData(): boolean;
-    hasDirectionData(): boolean;
-    hasAddData(): boolean;
+	readonly id: string;
+	readonly spriteData: ISpriteDataContainer[];
+	readonly removeData: string[];
+	readonly addData: { id: string; align: string; base: string; ink: string; blend: number }[];
+	readonly resetOnToggle: boolean;
 
-    readonly id: string;
-    readonly spriteData: ISpriteDataContainer[];
-    readonly removeData: string[];
-    readonly addData: { id: string; align: string; base: string; ink: string; blend: number }[];
-    readonly resetOnToggle: boolean;
+	hasAvatarData(): boolean;
+
+	hasDirectionData(): boolean;
+
+	hasAddData(): boolean;
 }

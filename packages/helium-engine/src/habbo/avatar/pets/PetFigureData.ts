@@ -1,4 +1,4 @@
-import { PetCustomPart } from './PetCustomPart';
+import {PetCustomPart} from './PetCustomPart';
 
 /**
  * Parses and stores pet figure data from a pet figure string.
@@ -7,181 +7,219 @@ import { PetCustomPart } from './PetCustomPart';
  */
 export class PetFigureData
 {
-    private _typeId: number;
-    private _paletteId: number;
-    private _color: number;
-    private _customParts: PetCustomPart[];
-    private _customLayerIds: number[];
-    private _customPartIds: number[];
-    private _customPaletteIds: number[];
-    private _headOnly: boolean;
+	constructor(figureString: string)
+	{
+		this._typeId = this.parseTypeId(figureString);
+		this._paletteId = this.parsePaletteId(figureString);
+		this._color = this.parseColor(figureString);
+		this._headOnly = this.parseHeadOnly(figureString);
 
-    constructor(figureString: string)
-    {
-        this._typeId = this.parseTypeId(figureString);
-        this._paletteId = this.parsePaletteId(figureString);
-        this._color = this.parseColor(figureString);
-        this._headOnly = this.parseHeadOnly(figureString);
+		const customData = this.parseCustomData(figureString);
 
-        const customData = this.parseCustomData(figureString);
+		this._customLayerIds = this.extractCustomLayerIds(customData);
+		this._customPartIds = this.extractCustomPartIds(customData);
+		this._customPaletteIds = this.extractCustomPaletteIds(customData);
 
-        this._customLayerIds = this.extractCustomLayerIds(customData);
-        this._customPartIds = this.extractCustomPartIds(customData);
-        this._customPaletteIds = this.extractCustomPaletteIds(customData);
+		this._customParts = [];
 
-        this._customParts = [];
+		for (let i = 0; i < this._customLayerIds.length; i++)
+		{
+			this._customParts.push(new PetCustomPart(
+				this._customLayerIds[i],
+				this._customPartIds[i],
+				this._customPaletteIds[i]
+			));
+		}
+	}
 
-        for(let i = 0; i < this._customLayerIds.length; i++)
-        {
-            this._customParts.push(new PetCustomPart(
-                this._customLayerIds[i],
-                this._customPartIds[i],
-                this._customPaletteIds[i]
-            ));
-        }
-    }
+	private _typeId: number;
 
-    public get typeId(): number { return this._typeId; }
-    public get paletteId(): number { return this._paletteId; }
-    public get color(): number { return this._color; }
-    public get customLayerIds(): number[] { return this._customLayerIds; }
-    public get customPartIds(): number[] { return this._customPartIds; }
-    public get customPaletteIds(): number[] { return this._customPaletteIds; }
-    public get customParts(): PetCustomPart[] { return this._customParts; }
-    public get headOnly(): boolean { return this._headOnly; }
+	public get typeId(): number
+	{
+		return this._typeId;
+	}
 
-    public get hasCustomParts(): boolean
-    {
-        return this._customLayerIds != null && this._customLayerIds.length > 0;
-    }
+	private _paletteId: number;
 
-    public getCustomPart(layerId: number): PetCustomPart | null
-    {
-        if(this._customParts)
-        {
-            for(const part of this._customParts)
-            {
-                if(part.layerId === layerId) return part;
-            }
-        }
+	public get paletteId(): number
+	{
+		return this._paletteId;
+	}
 
-        return null;
-    }
+	private _color: number;
 
-    public get figureString(): string
-    {
-        let result = this._typeId + ' ' + this._paletteId + ' ' + this._color.toString(16);
+	public get color(): number
+	{
+		return this._color;
+	}
 
-        result += ' ' + this._customParts.length;
+	private _customParts: PetCustomPart[];
 
-        for(const part of this._customParts)
-        {
-            result += ' ' + part.layerId + ' ' + part.partId + ' ' + part.paletteId;
-        }
+	public get customParts(): PetCustomPart[]
+	{
+		return this._customParts;
+	}
 
-        return result;
-    }
+	private _customLayerIds: number[];
 
-    private parseCustomData(figureString: string): string[]
-    {
-        if(!figureString) return [];
+	public get customLayerIds(): number[]
+	{
+		return this._customLayerIds;
+	}
 
-        const parts = figureString.split(' ');
-        const headOffset = this._headOnly ? 1 : 0;
-        const startIndex = 4 + headOffset;
+	private _customPartIds: number[];
 
-        if(parts.length > startIndex)
-        {
-            const countIndex = 3 + headOffset;
-            const count = parseInt(parts[countIndex]);
+	public get customPartIds(): number[]
+	{
+		return this._customPartIds;
+	}
 
-            return parts.slice(startIndex, startIndex + count * 3);
-        }
+	private _customPaletteIds: number[];
 
-        return [];
-    }
+	public get customPaletteIds(): number[]
+	{
+		return this._customPaletteIds;
+	}
 
-    private extractCustomLayerIds(data: string[]): number[]
-    {
-        const result: number[] = [];
+	private _headOnly: boolean;
 
-        for(let i = 0; i < data.length; i += 3)
-        {
-            result.push(parseInt(data[i]));
-        }
+	public get headOnly(): boolean
+	{
+		return this._headOnly;
+	}
 
-        return result;
-    }
+	public get hasCustomParts(): boolean
+	{
+		return this._customLayerIds != null && this._customLayerIds.length > 0;
+	}
 
-    private extractCustomPartIds(data: string[]): number[]
-    {
-        const result: number[] = [];
+	public get figureString(): string
+	{
+		let result = this._typeId + ' ' + this._paletteId + ' ' + this._color.toString(16);
 
-        for(let i = 0; i < data.length; i += 3)
-        {
-            result.push(parseInt(data[i + 1]));
-        }
+		result += ' ' + this._customParts.length;
 
-        return result;
-    }
+		for (const part of this._customParts)
+		{
+			result += ' ' + part.layerId + ' ' + part.partId + ' ' + part.paletteId;
+		}
 
-    private extractCustomPaletteIds(data: string[]): number[]
-    {
-        const result: number[] = [];
+		return result;
+	}
 
-        for(let i = 0; i < data.length; i += 3)
-        {
-            result.push(parseInt(data[i + 2]));
-        }
+	public getCustomPart(layerId: number): PetCustomPart | null
+	{
+		if (this._customParts)
+		{
+			for (const part of this._customParts)
+			{
+				if (part.layerId === layerId) return part;
+			}
+		}
 
-        return result;
-    }
+		return null;
+	}
 
-    private parseTypeId(figureString: string): number
-    {
-        if(figureString)
-        {
-            const parts = figureString.split(' ');
+	private parseCustomData(figureString: string): string[]
+	{
+		if (!figureString) return [];
 
-            if(parts.length >= 1) return parseInt(parts[0]);
-        }
+		const parts = figureString.split(' ');
+		const headOffset = this._headOnly ? 1 : 0;
+		const startIndex = 4 + headOffset;
 
-        return 0;
-    }
+		if (parts.length > startIndex)
+		{
+			const countIndex = 3 + headOffset;
+			const count = parseInt(parts[countIndex]);
 
-    private parsePaletteId(figureString: string): number
-    {
-        if(figureString)
-        {
-            const parts = figureString.split(' ');
+			return parts.slice(startIndex, startIndex + count * 3);
+		}
 
-            if(parts.length >= 2) return parseInt(parts[1]);
-        }
+		return [];
+	}
 
-        return 0;
-    }
+	private extractCustomLayerIds(data: string[]): number[]
+	{
+		const result: number[] = [];
 
-    private parseColor(figureString: string): number
-    {
-        if(figureString)
-        {
-            const parts = figureString.split(' ');
+		for (let i = 0; i < data.length; i += 3)
+		{
+			result.push(parseInt(data[i]));
+		}
 
-            if(parts.length >= 3) return parseInt(parts[2], 16);
-        }
+		return result;
+	}
 
-        return 0xFFFFFF;
-    }
+	private extractCustomPartIds(data: string[]): number[]
+	{
+		const result: number[] = [];
 
-    private parseHeadOnly(figureString: string): boolean
-    {
-        if(figureString)
-        {
-            const parts = figureString.split(' ');
+		for (let i = 0; i < data.length; i += 3)
+		{
+			result.push(parseInt(data[i + 1]));
+		}
 
-            if(parts.length >= 4) return parts[3] === 'head';
-        }
+		return result;
+	}
 
-        return false;
-    }
+	private extractCustomPaletteIds(data: string[]): number[]
+	{
+		const result: number[] = [];
+
+		for (let i = 0; i < data.length; i += 3)
+		{
+			result.push(parseInt(data[i + 2]));
+		}
+
+		return result;
+	}
+
+	private parseTypeId(figureString: string): number
+	{
+		if (figureString)
+		{
+			const parts = figureString.split(' ');
+
+			if (parts.length >= 1) return parseInt(parts[0]);
+		}
+
+		return 0;
+	}
+
+	private parsePaletteId(figureString: string): number
+	{
+		if (figureString)
+		{
+			const parts = figureString.split(' ');
+
+			if (parts.length >= 2) return parseInt(parts[1]);
+		}
+
+		return 0;
+	}
+
+	private parseColor(figureString: string): number
+	{
+		if (figureString)
+		{
+			const parts = figureString.split(' ');
+
+			if (parts.length >= 3) return parseInt(parts[2], 16);
+		}
+
+		return 0xFFFFFF;
+	}
+
+	private parseHeadOnly(figureString: string): boolean
+	{
+		if (figureString)
+		{
+			const parts = figureString.split(' ');
+
+			if (parts.length >= 4) return parts[3] === 'head';
+		}
+
+		return false;
+	}
 }

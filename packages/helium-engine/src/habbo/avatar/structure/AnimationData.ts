@@ -1,6 +1,6 @@
-import type { IActionDefinition } from '../actions/IActionDefinition';
-import type { IStructureData } from './IStructureData';
-import { AnimationAction } from './animation/AnimationAction';
+import type {IActionDefinition} from '../actions/IActionDefinition';
+import type {IStructureData} from './IStructureData';
+import {AnimationAction} from './animation/AnimationAction';
 
 /**
  * Manages avatar animation action data parsed from configuration.
@@ -9,54 +9,54 @@ import { AnimationAction } from './animation/AnimationAction';
  */
 export class AnimationData implements IStructureData
 {
-    private _actions: Map<string, AnimationAction>;
+	private _actions: Map<string, AnimationAction>;
 
-    constructor()
-    {
-        this._actions = new Map();
-    }
+	constructor()
+	{
+		this._actions = new Map();
+	}
 
-    public parse(data: any): boolean
-    {
-        if(!data) return false;
+	public parse(data: any): boolean
+	{
+		if (!data) return false;
 
-        if(data.actions)
-        {
-            for(const actionData of data.actions)
-            {
-                this._actions.set(String(actionData.id), new AnimationAction(actionData));
-            }
-        }
+		if (data.actions)
+		{
+			for (const actionData of data.actions)
+			{
+				this._actions.set(String(actionData.id), new AnimationAction(actionData));
+			}
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    public appendJSON(data: any): boolean
-    {
-        if(!data) return false;
+	public appendJSON(data: any): boolean
+	{
+		if (!data) return false;
 
-        if(data.actions)
-        {
-            for(const actionData of data.actions)
-            {
-                this._actions.set(String(actionData.id), new AnimationAction(actionData));
-            }
-        }
+		if (data.actions)
+		{
+			for (const actionData of data.actions)
+			{
+				this._actions.set(String(actionData.id), new AnimationAction(actionData));
+			}
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    public getAction(action: IActionDefinition): AnimationAction | null
-    {
-        return this._actions.get(action.id) || null;
-    }
+	public getAction(action: IActionDefinition): AnimationAction | null
+	{
+		return this._actions.get(action.id) || null;
+	}
 
-    public getFrameCount(action: IActionDefinition): number
-    {
-        const animAction = this.getAction(action);
+	public getFrameCount(action: IActionDefinition): number
+	{
+		const animAction = this.getAction(action);
 
-        if(!animAction) return 0;
+		if (!animAction) return 0;
 
-        return animAction.frameCount;
-    }
+		return animAction.frameCount;
+	}
 }

@@ -159,7 +159,8 @@ export class AdManager extends Component implements IAdManager
 			{
 				this.onBillboardImageReady(imageURL);
 			}
-		} catch
+		}
+		catch
 		{
 			this.onBillboardImageLoadError(imageURL);
 		}

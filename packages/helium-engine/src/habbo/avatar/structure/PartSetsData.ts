@@ -1,8 +1,8 @@
-import type { IActionDefinition } from '../actions/IActionDefinition';
-import type { ActionDefinition } from '../actions/ActionDefinition';
-import type { IStructureData } from './IStructureData';
-import { ActivePartSet } from './parts/ActivePartSet';
-import { PartDefinition } from './parts/PartDefinition';
+import type {IActionDefinition} from '../actions/IActionDefinition';
+import type {ActionDefinition} from '../actions/ActionDefinition';
+import type {IStructureData} from './IStructureData';
+import {ActivePartSet} from './parts/ActivePartSet';
+import {PartDefinition} from './parts/PartDefinition';
 
 /**
  * Manages part set definitions and active part sets for avatar rendering.
@@ -11,99 +11,100 @@ import { PartDefinition } from './parts/PartDefinition';
  */
 export class PartSetsData implements IStructureData
 {
-    private _parts: Map<string, PartDefinition>;
-    private _activePartSets: Map<string, ActivePartSet>;
+	constructor()
+	{
+		this._parts = new Map();
+		this._activePartSets = new Map();
+	}
 
-    constructor()
-    {
-        this._parts = new Map();
-        this._activePartSets = new Map();
-    }
+	private _parts: Map<string, PartDefinition>;
 
-    public parse(data: any): boolean
-    {
-        if(!data) return false;
+	public get parts(): Map<string, PartDefinition>
+	{
+		return this._parts;
+	}
 
-        if(data.partSet && data.partSet.parts)
-        {
-            for(const partData of data.partSet.parts)
-            {
-                this._parts.set(String(partData.setType || partData['set-type']), new PartDefinition(partData));
-            }
-        }
+	private _activePartSets: Map<string, ActivePartSet>;
 
-        if(data.activePartSets)
-        {
-            for(const apsData of data.activePartSets)
-            {
-                this._activePartSets.set(String(apsData.id), new ActivePartSet(apsData));
-            }
-        }
+	public get activePartSets(): Map<string, ActivePartSet>
+	{
+		return this._activePartSets;
+	}
 
-        return true;
-    }
+	public parse(data: any): boolean
+	{
+		if (!data) return false;
 
-    public appendJSON(data: any): boolean
-    {
-        if(!data) return false;
+		if (data.partSet && data.partSet.parts)
+		{
+			for (const partData of data.partSet.parts)
+			{
+				this._parts.set(String(partData.setType || partData['set-type']), new PartDefinition(partData));
+			}
+		}
 
-        if(data.partSet && data.partSet.parts)
-        {
-            for(const partData of data.partSet.parts)
-            {
-                this._parts.set(String(partData.setType || partData['set-type']), new PartDefinition(partData));
-            }
-        }
+		if (data.activePartSets)
+		{
+			for (const apsData of data.activePartSets)
+			{
+				this._activePartSets.set(String(apsData.id), new ActivePartSet(apsData));
+			}
+		}
 
-        if(data.activePartSets)
-        {
-            for(const apsData of data.activePartSets)
-            {
-                this._activePartSets.set(String(apsData.id), new ActivePartSet(apsData));
-            }
-        }
+		return true;
+	}
 
-        return true;
-    }
+	public appendJSON(data: any): boolean
+	{
+		if (!data) return false;
 
-    public getActiveParts(action: IActionDefinition): string[]
-    {
-        const activePartSet = this._activePartSets.get(action.activePartSet);
+		if (data.partSet && data.partSet.parts)
+		{
+			for (const partData of data.partSet.parts)
+			{
+				this._parts.set(String(partData.setType || partData['set-type']), new PartDefinition(partData));
+			}
+		}
 
-        if(activePartSet) return activePartSet.parts;
+		if (data.activePartSets)
+		{
+			for (const apsData of data.activePartSets)
+			{
+				this._activePartSets.set(String(apsData.id), new ActivePartSet(apsData));
+			}
+		}
 
-        return [];
-    }
+		return true;
+	}
 
-    public getPartDefinition(setType: string): PartDefinition | null
-    {
-        return this._parts.get(setType) || null;
-    }
+	public getActiveParts(action: IActionDefinition): string[]
+	{
+		const activePartSet = this._activePartSets.get(action.activePartSet);
 
-    public addPartDefinition(data: any): PartDefinition
-    {
-        const setType = String(data.setType || data['set-type']);
+		if (activePartSet) return activePartSet.parts;
 
-        if(!this._parts.has(setType))
-        {
-            this._parts.set(setType, new PartDefinition(data));
-        }
+		return [];
+	}
 
-        return this._parts.get(setType)!;
-    }
+	public getPartDefinition(setType: string): PartDefinition | null
+	{
+		return this._parts.get(setType) || null;
+	}
 
-    public get parts(): Map<string, PartDefinition>
-    {
-        return this._parts;
-    }
+	public addPartDefinition(data: any): PartDefinition
+	{
+		const setType = String(data.setType || data['set-type']);
 
-    public get activePartSets(): Map<string, ActivePartSet>
-    {
-        return this._activePartSets;
-    }
+		if (!this._parts.has(setType))
+		{
+			this._parts.set(setType, new PartDefinition(data));
+		}
 
-    public getActivePartSet(action: ActionDefinition): ActivePartSet | null
-    {
-        return this._activePartSets.get(action.activePartSet) || null;
-    }
+		return this._parts.get(setType)!;
+	}
+
+	public getActivePartSet(action: ActionDefinition): ActivePartSet | null
+	{
+		return this._activePartSets.get(action.activePartSet) || null;
+	}
 }

@@ -5,92 +5,116 @@
  */
 export class Vector3D
 {
-    private _x: number;
-    private _y: number;
-    private _z: number;
+	constructor(x: number = 0, y: number = 0, z: number = 0)
+	{
+		this._x = x;
+		this._y = y;
+		this._z = z;
+	}
 
-    constructor(x: number = 0, y: number = 0, z: number = 0)
-    {
-        this._x = x;
-        this._y = y;
-        this._z = z;
-    }
+	private _x: number;
 
-    public static dot(a: Vector3D, b: Vector3D): number
-    {
-        return a._x * b._x + a._y * b._y + a._z * b._z;
-    }
+	public get x(): number
+	{
+		return this._x;
+	}
 
-    public static cross(a: Vector3D, b: Vector3D): Vector3D
-    {
-        const result = new Vector3D();
+	public set x(value: number)
+	{
+		this._x = value;
+	}
 
-        result._x = a._y * b._z - a._z * b._y;
-        result._y = a._z * b._x - a._x * b._z;
-        result._z = a._x * b._y - a._y * b._x;
+	private _y: number;
 
-        return result;
-    }
+	public get y(): number
+	{
+		return this._y;
+	}
 
-    public static subtract(a: Vector3D, b: Vector3D): Vector3D
-    {
-        return new Vector3D(a._x - b._x, a._y - b._y, a._z - b._z);
-    }
+	public set y(value: number)
+	{
+		this._y = value;
+	}
 
-    public dotProduct(other: Vector3D): number
-    {
-        return this._x * other._x + this._y * other._y + this._z * other._z;
-    }
+	private _z: number;
 
-    public crossProduct(other: Vector3D): Vector3D
-    {
-        const result = new Vector3D();
+	public get z(): number
+	{
+		return this._z;
+	}
 
-        result._x = this._y * other._z - this._z * other._y;
-        result._y = this._z * other._x - this._x * other._z;
-        result._z = this._x * other._y - this._y * other._x;
+	public set z(value: number)
+	{
+		this._z = value;
+	}
 
-        return result;
-    }
+	public static dot(a: Vector3D, b: Vector3D): number
+	{
+		return a._x * b._x + a._y * b._y + a._z * b._z;
+	}
 
-    public subtract(other: Vector3D): void
-    {
-        this._x -= other._x;
-        this._y -= other._y;
-        this._z -= other._z;
-    }
+	public static cross(a: Vector3D, b: Vector3D): Vector3D
+	{
+		const result = new Vector3D();
 
-    public add(other: Vector3D): void
-    {
-        this._x += other._x;
-        this._y += other._y;
-        this._z += other._z;
-    }
+		result._x = a._y * b._z - a._z * b._y;
+		result._y = a._z * b._x - a._x * b._z;
+		result._z = a._x * b._y - a._y * b._x;
 
-    public normalize(): void
-    {
-        const len = 1 / this.length();
+		return result;
+	}
 
-        this._x *= len;
-        this._y *= len;
-        this._z *= len;
-    }
+	public static subtract(a: Vector3D, b: Vector3D): Vector3D
+	{
+		return new Vector3D(a._x - b._x, a._y - b._y, a._z - b._z);
+	}
 
-    public length(): number
-    {
-        return Math.sqrt(this._x * this._x + this._y * this._y + this._z * this._z);
-    }
+	public dotProduct(other: Vector3D): number
+	{
+		return this._x * other._x + this._y * other._y + this._z * other._z;
+	}
 
-    public toString(): string
-    {
-        return 'Vector3D: (' + this._x + ',' + this._y + ',' + this._z + ')';
-    }
+	public crossProduct(other: Vector3D): Vector3D
+	{
+		const result = new Vector3D();
 
-    public get x(): number { return this._x; }
-    public get y(): number { return this._y; }
-    public get z(): number { return this._z; }
+		result._x = this._y * other._z - this._z * other._y;
+		result._y = this._z * other._x - this._x * other._z;
+		result._z = this._x * other._y - this._y * other._x;
 
-    public set x(value: number) { this._x = value; }
-    public set y(value: number) { this._y = value; }
-    public set z(value: number) { this._z = value; }
+		return result;
+	}
+
+	public subtract(other: Vector3D): void
+	{
+		this._x -= other._x;
+		this._y -= other._y;
+		this._z -= other._z;
+	}
+
+	public add(other: Vector3D): void
+	{
+		this._x += other._x;
+		this._y += other._y;
+		this._z += other._z;
+	}
+
+	public normalize(): void
+	{
+		const len = 1 / this.length();
+
+		this._x *= len;
+		this._y *= len;
+		this._z *= len;
+	}
+
+	public length(): number
+	{
+		return Math.sqrt(this._x * this._x + this._y * this._y + this._z * this._z);
+	}
+
+	public toString(): string
+	{
+		return 'Vector3D: (' + this._x + ',' + this._y + ',' + this._z + ')';
+	}
 }

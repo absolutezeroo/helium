@@ -1,8 +1,8 @@
 import EventEmitter from 'eventemitter3';
 import type {IAssetLibrary} from '@core/assets';
-import type { IAvatarEffectListener } from './IAvatarEffectListener';
-import type { AvatarStructure } from './AvatarStructure';
-import { EffectAssetDownloadLibrary } from './EffectAssetDownloadLibrary';
+import type {IAvatarEffectListener} from './IAvatarEffectListener';
+import type {AvatarStructure} from './AvatarStructure';
+import {EffectAssetDownloadLibrary} from './EffectAssetDownloadLibrary';
 
 /**
  * Manages downloading avatar effect asset libraries.
@@ -23,332 +23,333 @@ import { EffectAssetDownloadLibrary } from './EffectAssetDownloadLibrary';
  */
 export class EffectAssetDownloadManager extends EventEmitter
 {
-    public static readonly LIBRARY_LOADED: string = 'EADM_LIBRARY_LOADED';
+	public static readonly LIBRARY_LOADED: string = 'EADM_LIBRARY_LOADED';
 
-    private static readonly MAX_SIMULTANEOUS_DOWNLOADS: number = 2;
-    private static readonly MANDATORY_EFFECT_IDS: string[] = ['dance.1', 'dance.2', 'dance.3', 'dance.4'];
+	private static readonly MAX_SIMULTANEOUS_DOWNLOADS: number = 2;
+	private static readonly MANDATORY_EFFECT_IDS: string[] = ['dance.1', 'dance.2', 'dance.3', 'dance.4'];
 
-    private _structure: AvatarStructure;
-    private _effectMap: Map<string, EffectAssetDownloadLibrary[]>;
-    private _incompleteEffects: Map<string, EffectAssetDownloadLibrary[]>;
-    private _listeners: Map<string, IAvatarEffectListener[]>;
-    private _pendingDownloadQueue: EffectAssetDownloadLibrary[];
-    private _currentDownloads: EffectAssetDownloadLibrary[];
-    private _initDownloadBuffer: [number, IAvatarEffectListener | null][];
-    private _isReady: boolean;
-    private _downloadUrl: string;
-    private _assetLibrary: IAssetLibrary;
+	private _structure: AvatarStructure;
+	private _incompleteEffects: Map<string, EffectAssetDownloadLibrary[]>;
+	private _listeners: Map<string, IAvatarEffectListener[]>;
+	private _pendingDownloadQueue: EffectAssetDownloadLibrary[];
+	private _currentDownloads: EffectAssetDownloadLibrary[];
+	private _initDownloadBuffer: [number, IAvatarEffectListener | null][];
+	private _isReady: boolean;
+	private _downloadUrl: string;
+	private _assetLibrary: IAssetLibrary;
 
-    constructor(
-        downloadUrl: string,
-        structure: AvatarStructure,
-        assetLibrary: IAssetLibrary
-    )
-    {
-        super();
+	constructor(
+		downloadUrl: string,
+		structure: AvatarStructure,
+		assetLibrary: IAssetLibrary
+	)
+	{
+		super();
 
-        this._structure = structure;
-        this._downloadUrl = downloadUrl;
-        this._assetLibrary = assetLibrary;
-        this._effectMap = new Map();
-        this._incompleteEffects = new Map();
-        this._listeners = new Map();
-        this._pendingDownloadQueue = [];
-        this._currentDownloads = [];
-        this._initDownloadBuffer = [];
-        this._isReady = false;
-    }
+		this._structure = structure;
+		this._downloadUrl = downloadUrl;
+		this._assetLibrary = assetLibrary;
+		this._effectMap = new Map();
+		this._incompleteEffects = new Map();
+		this._listeners = new Map();
+		this._pendingDownloadQueue = [];
+		this._currentDownloads = [];
+		this._initDownloadBuffer = [];
+		this._isReady = false;
+	}
 
-    /**
-     * Parses effect map data and starts downloading mandatory effect libraries.
-     *
-     * In AS3, this is called after the effectmap XML is loaded from URL or cache.
-     * The map is generated, mandatory libs are queued, and _isReady is set to true.
-     *
-     * @param data - The effect map data (JSON, adapted from XML)
-     */
-    public loadEffectMap(data: any): void
-    {
-        if(!data) return;
+	private _effectMap: Map<string, EffectAssetDownloadLibrary[]>;
 
-        if(typeof data === 'object' && Object.keys(data).length === 0) return;
+	/**
+	 * The underlying effect map for external access.
+	 *
+	 * In AS3, this is exposed as `get map()`.
+	 */
+	public get effectMap(): Map<string, EffectAssetDownloadLibrary[]>
+	{
+		return this._effectMap;
+	}
 
-        this.generateMap(data);
-        this.loadMandatoryLibs();
-        this._isReady = true;
-        this.processInitBuffer();
-    }
+	/**
+	 * Parses effect map data and starts downloading mandatory effect libraries.
+	 *
+	 * In AS3, this is called after the effectmap XML is loaded from URL or cache.
+	 * The map is generated, mandatory libs are queued, and _isReady is set to true.
+	 *
+	 * @param data - The effect map data (JSON, adapted from XML)
+	 */
+	public loadEffectMap(data: any): void
+	{
+		if (!data) return;
 
-    /**
-     * Generates the effect-ID-to-library mapping from effect map data.
-     *
-     * In AS3, iterates XML `<effect>` elements, creating EffectAssetDownloadLibrary
-     * instances keyed by effect ID string.
-     */
-    private generateMap(data: any): void
-    {
-        if(!data || !data.effects) return;
+		if (typeof data === 'object' && Object.keys(data).length === 0) return;
 
-        for(const effectData of data.effects)
-        {
-            const effectId = String(effectData.id || '');
-            const libName = String(effectData.lib || '');
-            const revision = String(effectData.revision || '0');
+		this.generateMap(data);
+		this.loadMandatoryLibs();
+		this._isReady = true;
+		this.processInitBuffer();
+	}
 
-            if(effectId === '' || libName === '') continue;
+	/**
+	 * Checks whether all required libraries for an effect are already downloaded.
+	 *
+	 * @param effectId - The effect ID to check
+	 * @returns True if all required libraries are ready
+	 */
+	public isReady(effectId: number): boolean
+	{
+		if (!this._isReady) return false;
 
-            const library = new EffectAssetDownloadLibrary(
-                libName,
-                revision,
-                this._downloadUrl,
-                this._assetLibrary
-            );
+		const libs = this.getLibsToDownload(effectId);
 
-            library.on(EffectAssetDownloadLibrary.COMPLETE, () => this.onLibraryComplete(library));
+		return libs.length === 0;
+	}
 
-            if(!this._effectMap.has(effectId))
-            {
-                this._effectMap.set(effectId, []);
-            }
+	/**
+	 * Initiates loading of all asset libraries required by the given effect.
+	 *
+	 * If the manager is not yet ready, the request is buffered for later processing.
+	 * If all libraries are already downloaded, the listener is notified immediately.
+	 * Otherwise, the required libraries are queued for download and the listener
+	 * is registered for notification when all are complete.
+	 *
+	 * @param effectId - The effect ID to load
+	 * @param listener - Optional listener to notify when effect assets are ready
+	 */
+	public loadEffectData(effectId: number, listener: IAvatarEffectListener | null = null): void
+	{
+		if (!this._isReady)
+		{
+			this._initDownloadBuffer.push([effectId, listener]);
+			return;
+		}
 
-            this._effectMap.get(effectId)!.push(library);
-        }
-    }
+		const libs = this.getLibsToDownload(effectId);
+		const effectKey = String(effectId);
 
-    /**
-     * Checks whether all required libraries for an effect are already downloaded.
-     *
-     * @param effectId - The effect ID to check
-     * @returns True if all required libraries are ready
-     */
-    public isReady(effectId: number): boolean
-    {
-        if(!this._isReady) return false;
+		if (libs.length > 0)
+		{
+			if (listener && !listener.disposed)
+			{
+				if (!this._listeners.has(effectKey))
+				{
+					this._listeners.set(effectKey, []);
+				}
 
-        const libs = this.getLibsToDownload(effectId);
+				this._listeners.get(effectKey)!.push(listener);
+			}
 
-        return libs.length === 0;
-    }
+			this._incompleteEffects.set(effectKey, libs);
 
-    /**
-     * Initiates loading of all asset libraries required by the given effect.
-     *
-     * If the manager is not yet ready, the request is buffered for later processing.
-     * If all libraries are already downloaded, the listener is notified immediately.
-     * Otherwise, the required libraries are queued for download and the listener
-     * is registered for notification when all are complete.
-     *
-     * @param effectId - The effect ID to load
-     * @param listener - Optional listener to notify when effect assets are ready
-     */
-    public loadEffectData(effectId: number, listener: IAvatarEffectListener | null = null): void
-    {
-        if(!this._isReady)
-        {
-            this._initDownloadBuffer.push([effectId, listener]);
-            return;
-        }
+			for (const lib of libs)
+			{
+				this.addToQueue(lib);
+			}
+		}
+		else if (listener !== null && !listener.disposed)
+		{
+			listener.avatarEffectReady(effectId);
+		}
+	}
 
-        const libs = this.getLibsToDownload(effectId);
-        const effectKey = String(effectId);
+	/**
+	 * Flushes the init download buffer, processing any requests that were queued
+	 * before the manager was ready.
+	 */
+	public processInitBuffer(): void
+	{
+		for (const [effectId, listener] of this._initDownloadBuffer)
+		{
+			this.loadEffectData(effectId, listener);
+		}
 
-        if(libs.length > 0)
-        {
-            if(listener && !listener.disposed)
-            {
-                if(!this._listeners.has(effectKey))
-                {
-                    this._listeners.set(effectKey, []);
-                }
+		this._initDownloadBuffer = [];
+	}
 
-                this._listeners.get(effectKey)!.push(listener);
-            }
+	public dispose(): void
+	{
+		this._effectMap.clear();
+		this._incompleteEffects.clear();
+		this._listeners.clear();
+		this._pendingDownloadQueue = [];
+		this._currentDownloads = [];
+		this._initDownloadBuffer = [];
+	}
 
-            this._incompleteEffects.set(effectKey, libs);
+	/**
+	 * Generates the effect-ID-to-library mapping from effect map data.
+	 *
+	 * In AS3, iterates XML `<effect>` elements, creating EffectAssetDownloadLibrary
+	 * instances keyed by effect ID string.
+	 */
+	private generateMap(data: any): void
+	{
+		if (!data || !data.effects) return;
 
-            for(const lib of libs)
-            {
-                this.addToQueue(lib);
-            }
-        }
-        else if(listener !== null && !listener.disposed)
-        {
-            listener.avatarEffectReady(effectId);
-        }
-    }
+		for (const effectData of data.effects)
+		{
+			const effectId = String(effectData.id || '');
+			const libName = String(effectData.lib || '');
+			const revision = String(effectData.revision || '0');
 
-    /**
-     * Determines which libraries still need to be downloaded for a given effect.
-     */
-    private getLibsToDownload(effectId: number): EffectAssetDownloadLibrary[]
-    {
-        const result: EffectAssetDownloadLibrary[] = [];
+			if (effectId === '' || libName === '') continue;
 
-        if(!this._structure) return result;
+			const library = new EffectAssetDownloadLibrary(
+				libName,
+				revision,
+				this._downloadUrl,
+				this._assetLibrary
+			);
 
-        const libs = this._effectMap.get(String(effectId));
+			library.on(EffectAssetDownloadLibrary.COMPLETE, () => this.onLibraryComplete(library));
 
-        if(!libs) return result;
+			if (!this._effectMap.has(effectId))
+			{
+				this._effectMap.set(effectId, []);
+			}
 
-        for(const lib of libs)
-        {
-            if(lib && !lib.isReady && result.indexOf(lib) === -1)
-            {
-                result.push(lib);
-            }
-        }
+			this._effectMap.get(effectId)!.push(library);
+		}
+	}
 
-        return result;
-    }
+	/**
+	 * Determines which libraries still need to be downloaded for a given effect.
+	 */
+	private getLibsToDownload(effectId: number): EffectAssetDownloadLibrary[]
+	{
+		const result: EffectAssetDownloadLibrary[] = [];
 
-    /**
-     * Callback invoked when a library finishes downloading.
-     *
-     * Registers the library's animation data with the avatar structure, checks which
-     * pending effects are now complete, notifies their listeners, removes the library
-     * from current downloads, and triggers the next batch of downloads.
-     */
-    private onLibraryComplete(library: EffectAssetDownloadLibrary): void
-    {
-        // Register animation data with the structure
-        if(library.animation)
-        {
-            this._structure.registerAnimation(library.animation);
-        }
+		if (!this._structure) return result;
 
-        // Check which pending effects are now complete
-        const completedEffects: string[] = [];
+		const libs = this._effectMap.get(String(effectId));
 
-        for(const [effectKey, libs] of this._incompleteEffects)
-        {
-            const allReady = libs.every(lib => lib.isReady);
+		if (!libs) return result;
 
-            if(allReady)
-            {
-                completedEffects.push(effectKey);
+		for (const lib of libs)
+		{
+			if (lib && !lib.isReady && result.indexOf(lib) === -1)
+			{
+				result.push(lib);
+			}
+		}
 
-                const listeners = this._listeners.get(effectKey);
+		return result;
+	}
 
-                if(listeners)
-                {
-                    for(const listener of listeners)
-                    {
-                        if(listener && !listener.disposed)
-                        {
-                            listener.avatarEffectReady(parseInt(effectKey));
-                        }
-                    }
+	/**
+	 * Callback invoked when a library finishes downloading.
+	 *
+	 * Registers the library's animation data with the avatar structure, checks which
+	 * pending effects are now complete, notifies their listeners, removes the library
+	 * from current downloads, and triggers the next batch of downloads.
+	 */
+	private onLibraryComplete(library: EffectAssetDownloadLibrary): void
+	{
+		// Register animation data with the structure
+		if (library.animation)
+		{
+			this._structure.registerAnimation(library.animation);
+		}
 
-                    this._listeners.delete(effectKey);
-                }
-            }
-        }
+		// Check which pending effects are now complete
+		const completedEffects: string[] = [];
 
-        for(const effectKey of completedEffects)
-        {
-            this._incompleteEffects.delete(effectKey);
-        }
+		for (const [effectKey, libs] of this._incompleteEffects)
+		{
+			const allReady = libs.every(lib => lib.isReady);
 
-        // Remove from current downloads
-        const downloadIndex = this._currentDownloads.indexOf(library);
+			if (allReady)
+			{
+				completedEffects.push(effectKey);
 
-        if(downloadIndex !== -1)
-        {
-            this._currentDownloads.splice(downloadIndex, 1);
-        }
+				const listeners = this._listeners.get(effectKey);
 
-        if(completedEffects.length > 0)
-        {
-            this.emit(EffectAssetDownloadManager.LIBRARY_LOADED, library.name);
-        }
+				if (listeners)
+				{
+					for (const listener of listeners)
+					{
+						if (listener && !listener.disposed)
+						{
+							listener.avatarEffectReady(parseInt(effectKey));
+						}
+					}
 
-        this.processPending();
-    }
+					this._listeners.delete(effectKey);
+				}
+			}
+		}
 
-    /**
-     * Adds a library to the pending download queue if not already queued or downloading.
-     *
-     * In AS3, this also immediately calls processPending().
-     */
-    private addToQueue(library: EffectAssetDownloadLibrary): void
-    {
-        if(!library.isReady && this._pendingDownloadQueue.indexOf(library) === -1 && this._currentDownloads.indexOf(library) === -1)
-        {
-            this._pendingDownloadQueue.push(library);
-            this.processPending();
-        }
-    }
+		for (const effectKey of completedEffects)
+		{
+			this._incompleteEffects.delete(effectKey);
+		}
 
-    /**
-     * Processes the pending download queue, starting downloads up to the maximum limit.
-     *
-     * In AS3, this is also triggered by a Timer with 100ms delay.
-     */
-    private processPending(): void
-    {
-        while(this._pendingDownloadQueue.length > 0 && this._currentDownloads.length < EffectAssetDownloadManager.MAX_SIMULTANEOUS_DOWNLOADS)
-        {
-            const library = this._pendingDownloadQueue.shift()!;
+		// Remove from current downloads
+		const downloadIndex = this._currentDownloads.indexOf(library);
 
-            library.startDownloading();
-            this._currentDownloads.push(library);
-        }
-    }
+		if (downloadIndex !== -1)
+		{
+			this._currentDownloads.splice(downloadIndex, 1);
+		}
 
-    /**
-     * Loads mandatory effect libraries (dance.1 through dance.4).
-     *
-     * These are queued immediately after the effect map is generated.
-     */
-    private loadMandatoryLibs(): void
-    {
-        const mandatoryIds = EffectAssetDownloadManager.MANDATORY_EFFECT_IDS.slice();
+		if (completedEffects.length > 0)
+		{
+			this.emit(EffectAssetDownloadManager.LIBRARY_LOADED, library.name);
+		}
 
-        for(const effectId of mandatoryIds)
-        {
-            const libs = this._effectMap.get(effectId);
+		this.processPending();
+	}
 
-            if(libs)
-            {
-                for(const lib of libs)
-                {
-                    this.addToQueue(lib);
-                }
-            }
-        }
-    }
+	/**
+	 * Adds a library to the pending download queue if not already queued or downloading.
+	 *
+	 * In AS3, this also immediately calls processPending().
+	 */
+	private addToQueue(library: EffectAssetDownloadLibrary): void
+	{
+		if (!library.isReady && this._pendingDownloadQueue.indexOf(library) === -1 && this._currentDownloads.indexOf(library) === -1)
+		{
+			this._pendingDownloadQueue.push(library);
+			this.processPending();
+		}
+	}
 
-    /**
-     * Flushes the init download buffer, processing any requests that were queued
-     * before the manager was ready.
-     */
-    public processInitBuffer(): void
-    {
-        for(const [effectId, listener] of this._initDownloadBuffer)
-        {
-            this.loadEffectData(effectId, listener);
-        }
+	/**
+	 * Processes the pending download queue, starting downloads up to the maximum limit.
+	 *
+	 * In AS3, this is also triggered by a Timer with 100ms delay.
+	 */
+	private processPending(): void
+	{
+		while (this._pendingDownloadQueue.length > 0 && this._currentDownloads.length < EffectAssetDownloadManager.MAX_SIMULTANEOUS_DOWNLOADS)
+		{
+			const library = this._pendingDownloadQueue.shift()!;
 
-        this._initDownloadBuffer = [];
-    }
+			library.startDownloading();
+			this._currentDownloads.push(library);
+		}
+	}
 
-    /**
-     * The underlying effect map for external access.
-     *
-     * In AS3, this is exposed as `get map()`.
-     */
-    public get effectMap(): Map<string, EffectAssetDownloadLibrary[]>
-    {
-        return this._effectMap;
-    }
+	/**
+	 * Loads mandatory effect libraries (dance.1 through dance.4).
+	 *
+	 * These are queued immediately after the effect map is generated.
+	 */
+	private loadMandatoryLibs(): void
+	{
+		const mandatoryIds = EffectAssetDownloadManager.MANDATORY_EFFECT_IDS.slice();
 
-    public dispose(): void
-    {
-        this._effectMap.clear();
-        this._incompleteEffects.clear();
-        this._listeners.clear();
-        this._pendingDownloadQueue = [];
-        this._currentDownloads = [];
-        this._initDownloadBuffer = [];
-    }
+		for (const effectId of mandatoryIds)
+		{
+			const libs = this._effectMap.get(effectId);
+
+			if (libs)
+			{
+				for (const lib of libs)
+				{
+					this.addToQueue(lib);
+				}
+			}
+		}
+	}
 }

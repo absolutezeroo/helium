@@ -1,4 +1,4 @@
-import type { IAvatarFigureContainer } from './IAvatarFigureContainer';
+import type {IAvatarFigureContainer} from './IAvatarFigureContainer';
 
 /**
  * Container for avatar figure data, parsed from a figure string.
@@ -9,151 +9,151 @@ import type { IAvatarFigureContainer } from './IAvatarFigureContainer';
  */
 export class AvatarFigureContainer implements IAvatarFigureContainer
 {
-    private _parts: Map<string, { type: string; setId: number; colorIds: number[] }>;
+	private _parts: Map<string, { type: string; setId: number; colorIds: number[] }>;
 
-    constructor(figure: string)
-    {
-        this._parts = new Map();
-        this._parseFigureString(figure);
-    }
+	constructor(figure: string)
+	{
+		this._parts = new Map();
+		this._parseFigureString(figure);
+	}
 
-    /**
-     * Gets all part type identifiers present in this figure.
-     *
-     * @returns An array of part type strings
-     */
-    public getPartTypeIds(): string[]
-    {
-        return Array.from(this._parts.keys());
-    }
+	/**
+	 * Gets all part type identifiers present in this figure.
+	 *
+	 * @returns An array of part type strings
+	 */
+	public getPartTypeIds(): string[]
+	{
+		return Array.from(this._parts.keys());
+	}
 
-    /**
-     * Checks whether this figure contains a part of the given type.
-     *
-     * @param type - The part type identifier
-     * @returns True if the part type exists
-     */
-    public hasPartType(type: string): boolean
-    {
-        return this._parts.has(type);
-    }
+	/**
+	 * Checks whether this figure contains a part of the given type.
+	 *
+	 * @param type - The part type identifier
+	 * @returns True if the part type exists
+	 */
+	public hasPartType(type: string): boolean
+	{
+		return this._parts.has(type);
+	}
 
-    /**
-     * Gets the set id for a given part type.
-     *
-     * @param type - The part type identifier
-     * @returns The set id, or 0 if the part type is not found
-     */
-    public getPartSetId(type: string): number
-    {
-        const part = this._parts.get(type);
+	/**
+	 * Gets the set id for a given part type.
+	 *
+	 * @param type - The part type identifier
+	 * @returns The set id, or 0 if the part type is not found
+	 */
+	public getPartSetId(type: string): number
+	{
+		const part = this._parts.get(type);
 
-        if(part)
-        {
-            return part.setId;
-        }
+		if (part)
+		{
+			return part.setId;
+		}
 
-        return 0;
-    }
+		return 0;
+	}
 
-    /**
-     * Gets the color ids for a given part type.
-     *
-     * @param type - The part type identifier
-     * @returns The color id array, or an empty array if not found
-     */
-    public getPartColorIds(type: string): number[]
-    {
-        const part = this._parts.get(type);
+	/**
+	 * Gets the color ids for a given part type.
+	 *
+	 * @param type - The part type identifier
+	 * @returns The color id array, or an empty array if not found
+	 */
+	public getPartColorIds(type: string): number[]
+	{
+		const part = this._parts.get(type);
 
-        if(part)
-        {
-            return part.colorIds;
-        }
+		if (part)
+		{
+			return part.colorIds;
+		}
 
-        return [];
-    }
+		return [];
+	}
 
-    /**
-     * Updates or adds a part with the given type, set id, and color ids.
-     *
-     * @param type - The part type identifier
-     * @param setId - The set id
-     * @param colorIds - The color id array
-     */
-    public updatePart(type: string, setId: number, colorIds: number[]): void
-    {
-        this._parts.set(type, { type, setId, colorIds });
-    }
+	/**
+	 * Updates or adds a part with the given type, set id, and color ids.
+	 *
+	 * @param type - The part type identifier
+	 * @param setId - The set id
+	 * @param colorIds - The color id array
+	 */
+	public updatePart(type: string, setId: number, colorIds: number[]): void
+	{
+		this._parts.set(type, {type, setId, colorIds});
+	}
 
-    /**
-     * Removes a part by its type identifier.
-     *
-     * @param type - The part type identifier to remove
-     */
-    public removePart(type: string): void
-    {
-        this._parts.delete(type);
-    }
+	/**
+	 * Removes a part by its type identifier.
+	 *
+	 * @param type - The part type identifier to remove
+	 */
+	public removePart(type: string): void
+	{
+		this._parts.delete(type);
+	}
 
-    /**
-     * Serializes the figure data back into a figure string.
-     *
-     * @returns The figure string representation
-     */
-    public getFigureString(): string
-    {
-        const segments: string[] = [];
+	/**
+	 * Serializes the figure data back into a figure string.
+	 *
+	 * @returns The figure string representation
+	 */
+	public getFigureString(): string
+	{
+		const segments: string[] = [];
 
-        for(const type of this._parts.keys())
-        {
-            const parts: (string | number)[] = [];
-            parts.push(type);
-            parts.push(this.getPartSetId(type));
+		for (const type of this._parts.keys())
+		{
+			const parts: (string | number)[] = [];
+			parts.push(type);
+			parts.push(this.getPartSetId(type));
 
-            const colorIds = this.getPartColorIds(type);
-            for(const colorId of colorIds)
-            {
-                parts.push(colorId);
-            }
+			const colorIds = this.getPartColorIds(type);
+			for (const colorId of colorIds)
+			{
+				parts.push(colorId);
+			}
 
-            segments.push(parts.join('-'));
-        }
+			segments.push(parts.join('-'));
+		}
 
-        return segments.join('.');
-    }
+		return segments.join('.');
+	}
 
-    /**
-     * Parses a figure string into part data entries.
-     *
-     * @param figure - The figure string to parse
-     */
-    private _parseFigureString(figure: string): void
-    {
-        if(!figure)
-        {
-            figure = '';
-        }
+	/**
+	 * Parses a figure string into part data entries.
+	 *
+	 * @param figure - The figure string to parse
+	 */
+	private _parseFigureString(figure: string): void
+	{
+		if (!figure)
+		{
+			figure = '';
+		}
 
-        const sets = figure.split('.');
+		const sets = figure.split('.');
 
-        for(const set of sets)
-        {
-            const parts = set.split('-');
+		for (const set of sets)
+		{
+			const parts = set.split('-');
 
-            if(parts.length >= 2)
-            {
-                const type = String(parts[0]);
-                const setId = parseInt(parts[1]) || 0;
-                const colorIds: number[] = [];
+			if (parts.length >= 2)
+			{
+				const type = String(parts[0]);
+				const setId = parseInt(parts[1]) || 0;
+				const colorIds: number[] = [];
 
-                for(let i = 2; i < parts.length; i++)
-                {
-                    colorIds.push(parseInt(parts[i]) || 0);
-                }
+				for (let i = 2; i < parts.length; i++)
+				{
+					colorIds.push(parseInt(parts[i]) || 0);
+				}
 
-                this.updatePart(type, setId, colorIds);
-            }
-        }
-    }
+				this.updatePart(type, setId, colorIds);
+			}
+		}
+	}
 }

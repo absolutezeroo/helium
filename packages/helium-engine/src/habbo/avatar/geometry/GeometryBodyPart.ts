@@ -1,8 +1,8 @@
-import type { IAvatarImage } from '../IAvatarImage';
-import { GeometryItem } from './GeometryItem';
-import type { Matrix4x4 } from './Matrix4x4';
-import { Node3D } from './Node3D';
-import type { Vector3D } from './Vector3D';
+import type {IAvatarImage} from '../IAvatarImage';
+import {GeometryItem} from './GeometryItem';
+import type {Matrix4x4} from './Matrix4x4';
+import {Node3D} from './Node3D';
+import type {Vector3D} from './Vector3D';
 
 /**
  * A geometry body part containing multiple geometry items, used for depth sorting.
@@ -11,166 +11,168 @@ import type { Vector3D } from './Vector3D';
  */
 export class GeometryBodyPart extends Node3D
 {
-    private _id: string;
-    private _items: Map<string, GeometryItem>;
-    private _radius: number;
-    private _dynamicItems: Map<IAvatarImage, Map<string, GeometryItem>>;
+	private _items: Map<string, GeometryItem>;
+	private _dynamicItems: Map<IAvatarImage, Map<string, GeometryItem>>;
 
-    constructor(data: any)
-    {
-        super(
-            parseFloat(data.x) || 0,
-            parseFloat(data.y) || 0,
-            parseFloat(data.z) || 0
-        );
+	constructor(data: any)
+	{
+		super(
+			parseFloat(data.x) || 0,
+			parseFloat(data.y) || 0,
+			parseFloat(data.z) || 0
+		);
 
-        this._radius = parseFloat(data.radius) || 0;
-        this._id = String(data.id);
-        this._items = new Map();
-        this._dynamicItems = new Map();
+		this._radius = parseFloat(data.radius) || 0;
+		this._id = String(data.id);
+		this._items = new Map();
+		this._dynamicItems = new Map();
 
-        if(data.items)
-        {
-            for(const itemData of data.items)
-            {
-                const item = new GeometryItem(itemData);
+		if (data.items)
+		{
+			for (const itemData of data.items)
+			{
+				const item = new GeometryItem(itemData);
 
-                this._items.set(String(itemData.id), item);
-            }
-        }
-    }
+				this._items.set(String(itemData.id), item);
+			}
+		}
+	}
 
-    public getDynamicParts(avatar: IAvatarImage): GeometryItem[]
-    {
-        const result: GeometryItem[] = [];
-        const dynamicMap = this._dynamicItems.get(avatar);
+	private _id: string;
 
-        if(dynamicMap)
-        {
-            for(const item of dynamicMap.values())
-            {
-                if(item) result.push(item);
-            }
-        }
+	public get id(): string
+	{
+		return this._id;
+	}
 
-        return result;
-    }
+	private _radius: number;
 
-    public getPartIds(avatar: IAvatarImage | null): string[]
-    {
-        const ids: string[] = [];
+	public get radius(): number
+	{
+		return this._radius;
+	}
 
-        for(const item of this._items.values())
-        {
-            if(item) ids.push(item.id);
-        }
+	public getDynamicParts(avatar: IAvatarImage): GeometryItem[]
+	{
+		const result: GeometryItem[] = [];
+		const dynamicMap = this._dynamicItems.get(avatar);
 
-        if(avatar)
-        {
-            const dynamicMap = this._dynamicItems.get(avatar);
+		if (dynamicMap)
+		{
+			for (const item of dynamicMap.values())
+			{
+				if (item) result.push(item);
+			}
+		}
 
-            if(dynamicMap)
-            {
-                for(const item of dynamicMap.values())
-                {
-                    if(item) ids.push(item.id);
-                }
-            }
-        }
+		return result;
+	}
 
-        return ids;
-    }
+	public getPartIds(avatar: IAvatarImage | null): string[]
+	{
+		const ids: string[] = [];
 
-    public removeDynamicParts(avatar: IAvatarImage): boolean
-    {
-        this._dynamicItems.delete(avatar);
+		for (const item of this._items.values())
+		{
+			if (item) ids.push(item.id);
+		}
 
-        return true;
-    }
+		if (avatar)
+		{
+			const dynamicMap = this._dynamicItems.get(avatar);
 
-    public addPart(data: any, avatar: IAvatarImage): boolean
-    {
-        const id = String(data.id);
+			if (dynamicMap)
+			{
+				for (const item of dynamicMap.values())
+				{
+					if (item) ids.push(item.id);
+				}
+			}
+		}
 
-        if(this.hasPart(id, avatar)) return false;
+		return ids;
+	}
 
-        if(!this._dynamicItems.has(avatar))
-        {
-            this._dynamicItems.set(avatar, new Map());
-        }
+	public removeDynamicParts(avatar: IAvatarImage): boolean
+	{
+		this._dynamicItems.delete(avatar);
 
-        this._dynamicItems.get(avatar)!.set(id, new GeometryItem(data, true));
+		return true;
+	}
 
-        return true;
-    }
+	public addPart(data: any, avatar: IAvatarImage): boolean
+	{
+		const id = String(data.id);
 
-    public hasPart(id: string, avatar: IAvatarImage): boolean
-    {
-        let item: GeometryItem | undefined = this._items.get(id);
+		if (this.hasPart(id, avatar)) return false;
 
-        if(!item)
-        {
-            const dynamicMap = this._dynamicItems.get(avatar);
+		if (!this._dynamicItems.has(avatar))
+		{
+			this._dynamicItems.set(avatar, new Map());
+		}
 
-            if(dynamicMap) item = dynamicMap.get(id);
-        }
+		this._dynamicItems.get(avatar)!.set(id, new GeometryItem(data, true));
 
-        return item != null;
-    }
+		return true;
+	}
 
-    public getParts(matrix: Matrix4x4, camera: Vector3D, _param: any[], avatar: IAvatarImage): string[]
-    {
-        const distances: [number, GeometryItem][] = [];
+	public hasPart(id: string, avatar: IAvatarImage): boolean
+	{
+		let item: GeometryItem | undefined = this._items.get(id);
 
-        for(const item of this._items.values())
-        {
-            if(item)
-            {
-                item.applyTransform(matrix);
+		if (!item)
+		{
+			const dynamicMap = this._dynamicItems.get(avatar);
 
-                const dist = item.getDistance(camera);
+			if (dynamicMap) item = dynamicMap.get(id);
+		}
 
-                distances.push([dist, item]);
-            }
-        }
+		return item != null;
+	}
 
-        const dynamicMap = this._dynamicItems.get(avatar);
+	public getParts(matrix: Matrix4x4, camera: Vector3D, _param: any[], avatar: IAvatarImage): string[]
+	{
+		const distances: [number, GeometryItem][] = [];
 
-        if(dynamicMap)
-        {
-            for(const item of dynamicMap.values())
-            {
-                if(item)
-                {
-                    item.applyTransform(matrix);
+		for (const item of this._items.values())
+		{
+			if (item)
+			{
+				item.applyTransform(matrix);
 
-                    const dist = item.getDistance(camera);
+				const dist = item.getDistance(camera);
 
-                    distances.push([dist, item]);
-                }
-            }
-        }
+				distances.push([dist, item]);
+			}
+		}
 
-        distances.sort((a, b) => a[0] - b[0]);
+		const dynamicMap = this._dynamicItems.get(avatar);
 
-        return distances.map(entry => entry[1].id);
-    }
+		if (dynamicMap)
+		{
+			for (const item of dynamicMap.values())
+			{
+				if (item)
+				{
+					item.applyTransform(matrix);
 
-    public getDistance(camera: Vector3D): number
-    {
-        const near = Math.abs(camera.z - this.transformedLocation.z - this._radius);
-        const far = Math.abs(camera.z - this.transformedLocation.z + this._radius);
+					const dist = item.getDistance(camera);
 
-        return Math.min(near, far);
-    }
+					distances.push([dist, item]);
+				}
+			}
+		}
 
-    public get id(): string
-    {
-        return this._id;
-    }
+		distances.sort((a, b) => a[0] - b[0]);
 
-    public get radius(): number
-    {
-        return this._radius;
-    }
+		return distances.map(entry => entry[1].id);
+	}
+
+	public getDistance(camera: Vector3D): number
+	{
+		const near = Math.abs(camera.z - this.transformedLocation.z - this._radius);
+		const far = Math.abs(camera.z - this.transformedLocation.z + this._radius);
+
+		return Math.min(near, far);
+	}
 }

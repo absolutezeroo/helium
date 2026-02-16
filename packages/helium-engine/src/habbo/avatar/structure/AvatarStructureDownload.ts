@@ -1,5 +1,5 @@
 import EventEmitter from 'eventemitter3';
-import type { IStructureData } from './IStructureData';
+import type {IStructureData} from './IStructureData';
 
 /**
  * Downloads and applies additional avatar structure data (figure part lists).
@@ -13,43 +13,43 @@ import type { IStructureData } from './IStructureData';
  */
 export class AvatarStructureDownload extends EventEmitter
 {
-    public static readonly STRUCTURE_DONE: string = 'AVATAR_STRUCTURE_DONE';
+	public static readonly STRUCTURE_DONE: string = 'AVATAR_STRUCTURE_DONE';
 
-    private _structureData: IStructureData;
+	private _structureData: IStructureData;
 
-    constructor(url: string, structureData: IStructureData)
-    {
-        super();
+	constructor(url: string, structureData: IStructureData)
+	{
+		super();
 
-        this._structureData = structureData;
+		this._structureData = structureData;
 
-        this.download(url);
-    }
+		this.download(url);
+	}
 
-    /**
-     * Fetches structure data from the given URL and appends it to the structure data receiver.
-     *
-     * In AS3, the data is loaded as text/plain, parsed to XML, then passed to
-     * IStructureData.appendXML(). In our port, we fetch JSON and call appendJSON().
-     */
-    private async download(url: string): Promise<void>
-    {
-        try
-        {
-            const response = await fetch(url);
-            const data = await response.json();
+	/**
+	 * Fetches structure data from the given URL and appends it to the structure data receiver.
+	 *
+	 * In AS3, the data is loaded as text/plain, parsed to XML, then passed to
+	 * IStructureData.appendXML(). In our port, we fetch JSON and call appendJSON().
+	 */
+	private async download(url: string): Promise<void>
+	{
+		try
+		{
+			const response = await fetch(url);
+			const data = await response.json();
 
-            if(data)
-            {
-                this._structureData.appendJSON(data);
-            }
+			if (data)
+			{
+				this._structureData.appendJSON(data);
+			}
 
-            this.emit(AvatarStructureDownload.STRUCTURE_DONE);
-        }
-        catch(error)
-        {
-            console.error('[AvatarStructureDownload] Failed to download structure data', error);
-            this.emit(AvatarStructureDownload.STRUCTURE_DONE);
-        }
-    }
+			this.emit(AvatarStructureDownload.STRUCTURE_DONE);
+		}
+		catch (error)
+		{
+			console.error('[AvatarStructureDownload] Failed to download structure data', error);
+			this.emit(AvatarStructureDownload.STRUCTURE_DONE);
+		}
+	}
 }

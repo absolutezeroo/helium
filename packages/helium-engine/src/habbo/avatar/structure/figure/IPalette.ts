@@ -1,4 +1,4 @@
-import type { IPartColor } from './IPartColor';
+import type {IPartColor} from './IPartColor';
 
 /**
  * Interface for a color palette used in avatar figure parts.
@@ -7,7 +7,8 @@ import type { IPartColor } from './IPartColor';
  */
 export interface IPalette
 {
-    readonly id: number;
-    getColor(colorId: number): IPartColor | null;
-    readonly colors: Map<number, IPartColor>;
+	readonly id: number;
+	readonly colors: Map<number, IPartColor>;
+
+	getColor(colorId: number): IPartColor | null;
 }

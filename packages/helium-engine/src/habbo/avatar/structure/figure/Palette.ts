@@ -1,6 +1,6 @@
-import type { IPartColor } from './IPartColor';
-import type { IPalette } from './IPalette';
-import { PartColor } from './PartColor';
+import type {IPartColor} from './IPartColor';
+import type {IPalette} from './IPalette';
+import {PartColor} from './PartColor';
 
 /**
  * Represents a color palette for avatar figure parts, parsed from JSON.
@@ -9,55 +9,56 @@ import { PartColor } from './PartColor';
  */
 export class Palette implements IPalette
 {
-    private _id: number;
-    private _colors: Map<number, IPartColor>;
+	constructor(data: any)
+	{
+		this._id = parseInt(data.id) || 0;
+		this._colors = new Map();
+		this.append(data);
+	}
 
-    constructor(data: any)
-    {
-        this._id = parseInt(data.id) || 0;
-        this._colors = new Map();
-        this.append(data);
-    }
+	private _id: number;
 
-    /**
-     * Appends color entries from JSON data to this palette.
-     *
-     * @param data - The palette JSON data containing a color array
-     */
-    public append(data: any): void
-    {
-        // Nitro format: data.colors, XML-JSON format: data.color
-        const rawColors = data.colors || data.color;
+	public get id(): number
+	{
+		return this._id;
+	}
 
-        if(!rawColors) return;
+	private _colors: Map<number, IPartColor>;
 
-        const colors: any[] = Array.isArray(rawColors) ? rawColors : [rawColors];
+	public get colors(): Map<number, IPartColor>
+	{
+		return this._colors;
+	}
 
-        for(const colorData of colors)
-        {
-            const id = parseInt(colorData.id) || 0;
-            this._colors.set(id, new PartColor(colorData));
-        }
-    }
+	/**
+	 * Appends color entries from JSON data to this palette.
+	 *
+	 * @param data - The palette JSON data containing a color array
+	 */
+	public append(data: any): void
+	{
+		// Nitro format: data.colors, XML-JSON format: data.color
+		const rawColors = data.colors || data.color;
 
-    public get id(): number
-    {
-        return this._id;
-    }
+		if (!rawColors) return;
 
-    /**
-     * Retrieves a color by its identifier.
-     *
-     * @param colorId - The color identifier
-     * @returns The matching part color, or null if not found
-     */
-    public getColor(colorId: number): IPartColor | null
-    {
-        return this._colors.get(colorId) ?? null;
-    }
+		const colors: any[] = Array.isArray(rawColors) ? rawColors : [rawColors];
 
-    public get colors(): Map<number, IPartColor>
-    {
-        return this._colors;
-    }
+		for (const colorData of colors)
+		{
+			const id = parseInt(colorData.id) || 0;
+			this._colors.set(id, new PartColor(colorData));
+		}
+	}
+
+	/**
+	 * Retrieves a color by its identifier.
+	 *
+	 * @param colorId - The color identifier
+	 * @returns The matching part color, or null if not found
+	 */
+	public getColor(colorId: number): IPartColor | null
+	{
+		return this._colors.get(colorId) ?? null;
+	}
 }

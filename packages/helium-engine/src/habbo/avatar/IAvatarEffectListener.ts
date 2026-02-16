@@ -5,6 +5,7 @@
  */
 export interface IAvatarEffectListener
 {
-    avatarEffectReady(effectId: number): void;
-    disposed?: boolean;
+	disposed?: boolean;
+
+	avatarEffectReady(effectId: number): void;
 }
