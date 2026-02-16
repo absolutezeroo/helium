@@ -47,8 +47,27 @@ import {IID_HabboToolbar} from '@iid/IIDHabboToolbar';
 import {IID_HabboTracking} from '@iid/IIDHabboTracking';
 import {IID_HabboFriendBar} from '@iid/IIDHabboFriendBar';
 import {IHeliumMain} from "./IHeliumMain";
+import type {IHeliumLoadingScreen} from './IHeliumLoadingScreen';
 
 const log = Logger.getLogger('HabboMain');
+
+/**
+ * Ratio of progress bar dedicated to core/SWF loading (0.0 to CORE_RATIO).
+ * The remaining (CORE_RATIO to 1.0) is for initialization steps.
+ *
+ * @see sources/win63_2021_version/HabboAirMain.as line 31
+ */
+const CORE_RATIO = 0.6;
+
+/**
+ * Number of initialization steps for progress tracking in the [CORE_RATIO - 1.0] range:
+ * 1. Configuration loaded
+ * 2. Localization loaded
+ * 3. All components ready (core running / COMPONENT_EVENT_RUNNING)
+ *
+ * @see sources/win63_2021_version/HabboAirMain.as line 32
+ */
+const INIT_STEPS = 3;
 
 
 /**
@@ -57,15 +76,47 @@ const log = Logger.getLogger('HabboMain');
  * Engine orchestrator for the Habbo client.
  * Manages all Habbo-specific managers, module system, and localization.
  *
- * Follows the AS3 pattern where HabboMain.as orchestrates the engine
- * while Habbo.as acts as the application shell.
+ * Follows the AS3 pattern where HabboAirMain.as orchestrates the engine
+ * while HabboAir.as acts as the application shell.
  *
- * @see source_as_win63/habbo/HabboMain.as
+ * @see sources/win63_2021_version/HabboAirMain.as
  */
 export class HeliumMain implements IHeliumMain
 {
 	private _core: HeliumCore | null = null;
 	private _heartbeatTimer: ReturnType<typeof setInterval> | null = null;
+
+	/**
+	 * Loading screen reference.
+	 *
+	 * AS3: HabboAirMain receives _loadingScreen from HabboAir constructor.
+	 * Calls _loadingScreen.updateLoadingBar(progress) during initialization.
+	 *
+	 * @see sources/win63_2021_version/HabboAirMain.as _loadingScreen
+	 */
+	private _loadingScreen: IHeliumLoadingScreen | null = null;
+
+	/**
+	 * Number of completed initialization steps.
+	 *
+	 * @see sources/win63_2021_version/HabboAirMain.as _completedInitSteps
+	 */
+	private _completedInitSteps: number = 0;
+
+	/**
+	 * Whether the room engine has finished initialization.
+	 *
+	 * @see sources/win63_2021_version/HabboAirMain.as _SafeStr_412
+	 */
+	private _roomEngineReady: boolean = false;
+
+	/**
+	 * Whether all core components are running.
+	 *
+	 * @see sources/win63_2021_version/HabboAirMain.as _SafeStr_413
+	 */
+	private _coreRunning: boolean = false;
+
 	private _habboCommunicationManager: HabboCommunicationManager | null = null;
 	private _localizationManager: HabboLocalizationManager | null = null;
 	private _campaigns: HabboCampaigns | null = null;
@@ -73,31 +124,10 @@ export class HeliumMain implements IHeliumMain
 	private _tracking: HabboTracking | null = null;
 	private _groupsManager: HabboGroupsManager | null = null;
 	private _notifications: HabboNotifications | null = null;
-	private _toolbar: HabboToolbar | null = null;
 	private _freeFlowChat: HabboFreeFlowChat | null = null;
-	private _avatarRenderManager: AvatarRenderManager | null = null;
-	private _windowManager: HabboWindowManager | null = null;
 	private _friendBar: HabboFriendBar | null = null;
 
-	get avatarRenderManager(): AvatarRenderManager
-	{
-		if (!this._avatarRenderManager)
-		{
-			throw new Error('[HabboMain] Not initialized');
-		}
-
-		return this._avatarRenderManager;
-	}
-
-	get windowManager(): IHabboWindowManager
-	{
-		if (!this._windowManager)
-		{
-			throw new Error('[HabboMain] Not initialized');
-		}
-
-		return this._windowManager;
-	}
+	private _toolbar: HabboToolbar | null = null;
 
 	get toolbar(): IHabboToolbar
 	{
@@ -109,11 +139,47 @@ export class HeliumMain implements IHeliumMain
 		return this._toolbar;
 	}
 
+	private _avatarRenderManager: AvatarRenderManager | null = null;
+
+	get avatarRenderManager(): AvatarRenderManager
+	{
+		if (!this._avatarRenderManager)
+		{
+			throw new Error('[HabboMain] Not initialized');
+		}
+
+		return this._avatarRenderManager;
+	}
+
+	private _windowManager: HabboWindowManager | null = null;
+
+	get windowManager(): IHabboWindowManager
+	{
+		if (!this._windowManager)
+		{
+			throw new Error('[HabboMain] Not initialized');
+		}
+
+		return this._windowManager;
+	}
+
 	protected _disposed: boolean = false;
 
 	get disposed(): boolean
 	{
 		return this._disposed;
+	}
+
+	/**
+	 * AS3: HabboAirMain(_arg_1:IHabboLoadingScreen, _arg_2:Dictionary)
+	 *
+	 * @param loadingScreen - Loading screen to update during initialization
+	 *
+	 * @see sources/win63_2021_version/HabboAirMain.as constructor
+	 */
+	constructor(loadingScreen?: IHeliumLoadingScreen | null)
+	{
+		this._loadingScreen = loadingScreen ?? null;
 	}
 
 	private _navigator: HabboNavigator | null = null;
@@ -259,16 +325,25 @@ export class HeliumMain implements IHeliumMain
 	// ── Initialization ───────────────────────────────────────────────
 
 	/**
-	 * Initialize the engine orchestrator
+	 * Initialize the engine orchestrator.
+	 *
+	 * AS3 flow:
+	 * 1. prepareCore() — create Core, register all components
+	 * 2. addInitializationProgressListeners() — track config, localization, room engine, core running
+	 * 3. initLocalization() — activate localization definition
 	 *
 	 * @param core - The HeliumCore instance (created by Helium shell)
 	 * @param config - Optional Helium configuration
+	 *
+	 * @see sources/win63_2021_version/HabboAirMain.as prepareCore()
 	 */
 	async init(core: HeliumCore, config?: IHeliumConfig): Promise<void>
 	{
 		this._core = core;
 
-		await this.initHabboManagers(config);
+		await this.prepareCore(config);
+
+		this.addInitializationProgressListeners();
 
 		this.initLocalization();
 	}
@@ -291,6 +366,13 @@ export class HeliumMain implements IHeliumMain
 		{
 			clearInterval(this._heartbeatTimer);
 			this._heartbeatTimer = null;
+		}
+
+		// AS3: _loadingScreen.dispose() + _loadingScreen = null
+		if(this._loadingScreen)
+		{
+			this._loadingScreen.dispose();
+			this._loadingScreen = null;
 		}
 
 		// 1. Dispose RoomMessageHandler (not a Component, needs manual dispose)
@@ -325,9 +407,14 @@ export class HeliumMain implements IHeliumMain
 	}
 
 	/**
-	 * Initialize Habbo-specific managers
+	 * Create Core and prepare all components.
+	 *
+	 * AS3: Creates Core instance, registers all component libraries via
+	 * _core.prepareComponent(), then calls addInitializationProgressListeners().
+	 *
+	 * @see sources/win63_2021_version/HabboAirMain.as prepareCore()
 	 */
-	async initHabboManagers(config?: IHeliumConfig): Promise<void>
+	async prepareCore(config?: IHeliumConfig): Promise<void>
 	{
 		const ctx = this._core!.context;
 
@@ -493,9 +580,6 @@ export class HeliumMain implements IHeliumMain
 			this._roomEngine.connection = this._habboCommunicationManager.connection;
 		}
 
-		// 13. Start heartbeat if SPA mode enabled
-		// AS3: Habbo.as checks config "spaweb=1" and starts setInterval(sendHeartBeat, 10000)
-		this.startHeartbeatIfNeeded();
 	}
 
 	/**
@@ -677,11 +761,13 @@ export class HeliumMain implements IHeliumMain
 	}
 
 	/**
-	 * Initialize localization
+	 * Initialize localization.
+	 *
+	 * @see sources/win63_2021_version/HabboAirMain.as (inline in prepareCore)
 	 */
 	initLocalization(): void
 	{
-		if (this._configurationManager!.propertyExists('localization.1'))
+		if(this._configurationManager!.propertyExists('localization.1'))
 		{
 			const locName = this._configurationManager!.getProperty('localization.1');
 
@@ -689,15 +775,126 @@ export class HeliumMain implements IHeliumMain
 		}
 	}
 
+	// ── Initialization progress listeners (AS3: HabboAirMain) ────────
+
 	/**
-	 * Start the SPA heartbeat if configured.
+	 * Set up listeners to track initialization progress of key components.
 	 *
-	 * In AS3, if config `spaweb=1`, a heartbeat is sent every 10 seconds
+	 * AS3 listens for:
+	 * - IIDHabboConfigurationManager → onConfigurationComplete
+	 * - IIDHabboLocalizationManager → events "complete" → onLocalizationComplete
+	 * - IIDRoomEngine → events "REE_ENGINE_INITIALIZED" → onRoomEngineReady
+	 * - _core.events "COMPONENT_EVENT_RUNNING" → onCoreRunning
+	 *
+	 * @see sources/win63_2021_version/HabboAirMain.as addInitializationProgressListeners()
+	 */
+	private addInitializationProgressListeners(): void
+	{
+		// AS3: simpleQueueInterface(new IIDHabboConfigurationManager(), onConfigurationComplete)
+		// Configuration is already loaded (we awaited initConfigurationDownload in prepareCore)
+		this.onConfigurationComplete();
+
+		// AS3: simpleQueueInterface(new IIDHabboLocalizationManager(), cb → events.addEventListener("complete", onLocalizationComplete))
+		if(this._localizationManager)
+		{
+			this._localizationManager.events.on('complete', () => this.onLocalizationComplete());
+		}
+
+		// AS3: simpleQueueInterface(new IIDRoomEngine(), cb → events.addEventListener("REE_ENGINE_INITIALIZED", onRoomEngineReady))
+		if(this._roomEngine)
+		{
+			this._roomEngine.events.on('REE_ENGINE_INITIALIZED', () => this.onRoomEngineReady());
+		}
+
+		// AS3: _core.events.addEventListener("COMPONENT_EVENT_RUNNING", onCoreRunning)
+		// In our system, all components are ready after prepareCore + microtask flush.
+		// We trigger this after the current microtask completes.
+		queueMicrotask(() => this.onCoreRunning());
+	}
+
+	/**
+	 * Update the loading bar progress.
+	 *
+	 * Progress formula: CORE_RATIO + (completedInitSteps / INIT_STEPS) * (1 - CORE_RATIO)
+	 * Maps init steps to the [0.6 - 1.0] range.
+	 *
+	 * @see sources/win63_2021_version/HabboAirMain.as updateProgressBar()
+	 */
+	private updateProgressBar(): void
+	{
+		if(this._loadingScreen != null)
+		{
+			const progress = CORE_RATIO + ((this._completedInitSteps / INIT_STEPS) * (1 - CORE_RATIO));
+
+			this._loadingScreen.updateLoadingBar(progress);
+		}
+	}
+
+	/**
+	 * Called when the configuration manager has loaded.
+	 *
+	 * @see sources/win63_2021_version/HabboAirMain.as onConfigurationComplete()
+	 */
+	private onConfigurationComplete(): void
+	{
+		Helium.trackLoginStep('client.init.config.loaded');
+		this._completedInitSteps++;
+		this.updateProgressBar();
+	}
+
+	/**
+	 * Called when the localization manager has finished loading.
+	 *
+	 * @see sources/win63_2021_version/HabboAirMain.as onLocalizationComplete()
+	 */
+	private onLocalizationComplete(): void
+	{
+		Helium.trackLoginStep('client.init.localization.loaded');
+		this._completedInitSteps++;
+		this.updateProgressBar();
+	}
+
+	/**
+	 * Called when the room engine has finished initialization.
+	 *
+	 * AS3: Sets _SafeStr_412 = true, starts heartbeat if spaweb=1.
+	 * When both _roomEngineReady and _coreRunning are true, the init is complete.
+	 *
+	 * @see sources/win63_2021_version/HabboAirMain.as onRoomEngineReady()
+	 */
+	private onRoomEngineReady(): void
+	{
+		this._roomEngineReady = true;
+		Helium.trackLoginStep('client.init.room.ready');
+
+		this.startSendingHeartBeat();
+	}
+
+	/**
+	 * Called when all core components are running.
+	 *
+	 * AS3: Sets _SafeStr_413 = true, increments completedInitSteps.
+	 * When both _roomEngineReady and _coreRunning are true, the init is complete.
+	 *
+	 * @see sources/win63_2021_version/HabboAirMain.as onCoreRunning()
+	 */
+	private onCoreRunning(): void
+	{
+		this._coreRunning = true;
+		Helium.trackLoginStep('client.init.core.running');
+		this._completedInitSteps++;
+		this.updateProgressBar();
+	}
+
+	/**
+	 * Start sending heartbeat at regular intervals.
+	 *
+	 * AS3: If config "spaweb=1", sends heartbeat every 10 seconds
 	 * via HabboWebTools to keep the session alive.
 	 *
-	 * @see sources/win63_version/Habbo.as
+	 * @see sources/win63_2021_version/HabboAirMain.as startSendingHeartBeat()
 	 */
-	private startHeartbeatIfNeeded(): void
+	private startSendingHeartBeat(): void
 	{
 		const config = this._configurationManager;
 
@@ -710,6 +907,8 @@ export class HeliumMain implements IHeliumMain
 		if(spaweb === '1')
 		{
 			log.info('SPA heartbeat enabled');
+
+			this.sendHeartBeat();
 
 			this._heartbeatTimer = setInterval(() =>
 			{

@@ -38,13 +38,15 @@ export interface IHeliumMain extends IDisposable
 	init(core: HeliumCore, config?: IHeliumConfig): Promise<void>;
 
 	/**
-	 * Initialize Habbo-specific managers
+	 * Create Core and prepare all components.
 	 *
-	 * Order follows AS3 HabboMain.as initialization sequence:
+	 * Order follows AS3 HabboAirMain.as prepareCore() sequence:
 	 * Config → Communication → Demo → Localization → RoomManager → RoomSessionManager
 	 * → SessionDataManager → Navigator → Inventory → RoomEngine → RoomMessageHandler
+	 *
+	 * @see sources/win63_2021_version/HabboAirMain.as prepareCore()
 	 */
-	initHabboManagers(config?: IHeliumConfig): Promise<void>;
+	prepareCore(config?: IHeliumConfig): Promise<void>;
 
 	/**
 	 * Called when game data resources (hashes) are available.

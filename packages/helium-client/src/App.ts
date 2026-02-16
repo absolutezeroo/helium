@@ -7,7 +7,7 @@ import {WindowController} from '@core/window/WindowController';
 import {WindowMouseEvent} from '@core/window/events/WindowMouseEvent';
 import type {WindowMouseOperator} from '@core/window/services/WindowMouseOperator';
 import type {IElementDescriptionData} from '@habbo/window';
-import type {LoadingScreen} from './LoadingScreen';
+import type {HeliumLoadingScreen} from './HeliumLoadingScreen';
 import {AssetBundle} from './AssetBundle';
 import './_index.scss';
 
@@ -47,7 +47,7 @@ export class HeliumApp
     private _ctx: CanvasRenderingContext2D | null = null;
     private _animFrameId: number = 0;
     private _disposed: boolean = false;
-    private _loadingScreen: LoadingScreen | null;
+    private _loadingScreen: HeliumLoadingScreen | null;
     private _bundle: AssetBundle | null = null;
 
     /** Last hovered window for OVER/OUT tracking. */
@@ -65,7 +65,7 @@ export class HeliumApp
     /** Document-level mouseup handler (for drag/scale). */
     private _docUpHandler: ((e: MouseEvent) => void) | null = null;
 
-    constructor(loadingScreen?: LoadingScreen)
+    constructor(loadingScreen?: HeliumLoadingScreen)
     {
         this._loadingScreen = loadingScreen ?? null;
     }
@@ -81,14 +81,19 @@ export class HeliumApp
     public async init(): Promise<void>
     {
         // 1. Bootstrap engine + load asset bundle in parallel
+        // AS3: HabboAir passes loadingScreen to HabboAirMain.
+        // Asset loading progress maps to [0.0 - 0.6] range (AS3: SWF preloading).
+        // Engine init progress maps to [0.6 - 1.0] range (AS3: HabboAirMain.updateProgressBar).
+        const CORE_RATIO = 0.6;
+
         const [, bundle] = await Promise.all([
-            Helium.bootstrap(window.HeliumConfig).catch(error =>
+            Helium.bootstrap(window.HeliumConfig, this._loadingScreen ?? undefined).catch(error =>
             {
                 console.warn('[HeliumApp] Bootstrap error (connection may have failed):', error);
             }),
             AssetBundle.load('/assets.bundle', (ratio: number) =>
             {
-                this._loadingScreen?.updateProgress(ratio);
+                this._loadingScreen?.updateLoadingBar(ratio * CORE_RATIO);
             }),
         ]);
 

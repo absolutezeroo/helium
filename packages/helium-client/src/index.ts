@@ -1,8 +1,8 @@
-import { LoadingScreen } from './LoadingScreen';
-import { HeliumApp } from './App';
+import {HeliumLoadingScreen} from './HeliumLoadingScreen';
+import {HeliumApp} from './App';
 
-// Show loading screen immediately (synchronous, before any async work)
-const loadingScreen = new LoadingScreen();
+// Show loading screen immediately
+const loadingScreen = new HeliumLoadingScreen();
 
 const app = new HeliumApp(loadingScreen);
 

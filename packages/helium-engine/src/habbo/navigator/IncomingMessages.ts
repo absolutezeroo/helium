@@ -129,6 +129,7 @@ export class IncomingMessages
 	private addMessageEvent(event: IMessageEvent): void
 	{
 		this._navigator.communication.addMessageEvent(event);
+
 		this._messageEvents.push(event);
 	}
 
@@ -143,7 +144,7 @@ export class IncomingMessages
 		this.data.homeRoomId = parser.homeRoomId;
 		this.data.settingsReceived = true;
 
-		log.debug(`Navigator settings received: homeRoomId=${parser.homeRoomId}`);
+		// log.debug(`Navigator settings received: homeRoomId=${parser.homeRoomId}`);
 	}
 
 	private onFavourites(event: IMessageEvent): void
@@ -156,7 +157,7 @@ export class IncomingMessages
 
 		this.data.onFavourites(parser.limit, parser.favouriteRoomIds);
 
-		log.debug(`Favourites received: ${parser.favouriteRoomIds.length} rooms`);
+		// log.debug(`Favourites received: ${parser.favouriteRoomIds.length} rooms`);
 	}
 
 	private onFavouriteChanged(event: IMessageEvent): void
@@ -169,7 +170,7 @@ export class IncomingMessages
 
 		this.data.favouriteChanged(parser.flatId, parser.added);
 
-		log.debug(`Favourite changed: roomId=${parser.flatId}, added=${parser.added}`);
+		// log.debug(`Favourite changed: roomId=${parser.flatId}, added=${parser.added}`);
 	}
 
 	private onGetGuestRoomResult(event: IMessageEvent): void
@@ -227,7 +228,7 @@ export class IncomingMessages
 			this.data.currentRoomIsStaffPick = parser.staffPick;
 		}
 
-		log.debug(`Guest room result: ${parser.data.roomName} (${parser.data.flatId}), enterRoom=${parser.enterRoom}, forward=${parser.roomForward}`);
+		// log.debug(`Guest room result: ${parser.data.roomName} (${parser.data.flatId}), enterRoom=${parser.enterRoom}, forward=${parser.roomForward}`);
 	}
 
 	private onRoomInfoUpdated(event: IMessageEvent): void
@@ -238,7 +239,7 @@ export class IncomingMessages
 
 		if (!parser) return;
 
-		log.debug(`Room info updated: ${parser.flatId}`);
+		// log.debug(`Room info updated: ${parser.flatId}`);
 		// Trigger refresh of room info
 	}
 
@@ -253,7 +254,7 @@ export class IncomingMessages
 		this.data.currentRoomRating = parser.rating;
 		this.data.canRate = parser.canRate;
 
-		log.debug(`Room rating: ${parser.rating}, canRate=${parser.canRate}`);
+		// log.debug(`Room rating: ${parser.rating}, canRate=${parser.canRate}`);
 	}
 
 	private onGuestRoomSearchResult(event: IMessageEvent): void
@@ -264,11 +265,9 @@ export class IncomingMessages
 
 		if (!parser) return;
 
-		if (!parser.data) return;
-
 		this.data.guestRoomSearchResults = parser.data;
 
-		log.debug(`Guest room search results: ${parser.data.rooms.length} rooms`);
+		// log.debug(`Guest room search results: ${parser.data.rooms.length} rooms`);
 	}
 
 	private onPopularRoomTagsResult(event: IMessageEvent): void
@@ -279,11 +278,9 @@ export class IncomingMessages
 
 		if (!parser) return;
 
-		if (!parser.data) return;
-
 		this.data.popularTags = parser.data;
 
-		log.debug(`Popular tags received: ${parser.data.tags.length} tags`);
+		// log.debug(`Popular tags received: ${parser.data.tags.length} tags`);
 	}
 
 	private onOfficialRooms(event: IMessageEvent): void
@@ -292,14 +289,13 @@ export class IncomingMessages
 
 		const parser = event.parser as OfficialRoomsMessageParser;
 
-		if (parser.data)
-		{
-			this.data.officialRooms = parser.data;
-			this.data.adRoom = parser.adRoom;
-			this.data.promotedRooms = parser.promotedRooms;
+		if (!parser) return;
 
-			log.debug(`Official rooms received: ${parser.data.entries.length} entries`);
-		}
+		this.data.officialRooms = parser.data;
+		this.data.adRoom = parser.adRoom;
+		this.data.promotedRooms = parser.promotedRooms;
+
+		// log.debug(`Official rooms received: ${parser.data.entries.length} entries`);
 	}
 
 	private onCategoriesWithVisitorCount(event: IMessageEvent): void
@@ -310,11 +306,9 @@ export class IncomingMessages
 
 		if (!parser) return;
 
-		if (!parser.data) return;
-
 		this.data.categoriesWithVisitorData = parser.data;
 
-		log.debug('Categories with visitor count received');
+		// log.debug('Categories with visitor count received');
 	}
 
 	private onUserFlatCats(event: IMessageEvent): void
@@ -327,7 +321,7 @@ export class IncomingMessages
 
 		this.data.categories = parser.nodes;
 
-		log.debug(`User flat categories received: ${parser.nodes.length} categories`);
+		// log.debug(`User flat categories received: ${parser.nodes.length} categories`);
 	}
 
 	private onUserEventCats(event: IMessageEvent): void
@@ -340,7 +334,7 @@ export class IncomingMessages
 
 		this.data.eventCategories = parser.eventCategories;
 
-		log.debug(`User event categories received: ${parser.eventCategories.length} categories`);
+		// log.debug(`User event categories received: ${parser.eventCategories.length} categories`);
 	}
 
 	private onCanCreateRoom(event: IMessageEvent): void
@@ -351,7 +345,7 @@ export class IncomingMessages
 
 		if (!parser) return;
 
-		log.debug(`Can create room: code=${parser.resultCode}, limit=${parser.roomLimit}`);
+		// log.debug(`Can create room: code=${parser.resultCode}, limit=${parser.roomLimit}`);
 		// Handle room creation permission check result
 	}
 
@@ -363,7 +357,7 @@ export class IncomingMessages
 
 		if (!parser) return;
 
-		log.debug(`Can create room event: ${parser.canCreateEvent}, error=${parser.errorCode}`);
+		// log.debug(`Can create room event: ${parser.canCreateEvent}, error=${parser.errorCode}`);
 		// Handle room event creation permission check result
 	}
 
@@ -377,7 +371,7 @@ export class IncomingMessages
 
 		this.data.createdFlatId = parser.flatId;
 
-		log.info(`Flat created: ${parser.flatName} (${parser.flatId})`);
+		// log.info(`Flat created: ${parser.flatName} (${parser.flatId})`);
 	}
 
 	private onRoomEvent(event: IMessageEvent): void
@@ -388,18 +382,16 @@ export class IncomingMessages
 
 		if (!parser) return;
 
-		if (!parser.data) return;
-
 		this.data.roomEventData = parser.data;
 
-		log.debug(`Room event: ${parser.data.eventName}`);
+		// log.debug(`Room event: ${parser.data.eventName}`);
 	}
 
 	private onRoomEventCancel(_event: IMessageEvent): void
 	{
 		this.data.roomEventData = null;
 
-		log.debug('Room event cancelled');
+		// log.debug('Room event cancelled');
 	}
 
 	private onDoorbell(event: IMessageEvent): void
@@ -410,7 +402,7 @@ export class IncomingMessages
 
 		if (!parser) return;
 
-		log.debug(`Doorbell: ${parser.userName}`);
+		// log.debug(`Doorbell: ${parser.userName}`);
 		// Handle doorbell notification
 	}
 
@@ -422,7 +414,7 @@ export class IncomingMessages
 
 		if (!parser) return;
 
-		log.debug(`Flat access denied: roomId=${parser.flatId}, user=${parser.userName}`);
+		// log.debug(`Flat access denied: roomId=${parser.flatId}, user=${parser.userName}`);
 		// Handle access denied
 	}
 
@@ -434,7 +426,7 @@ export class IncomingMessages
 
 		if (!parser) return;
 
-		log.debug(`Converted room ID: ${parser.globalId} -> ${parser.convertedId}`);
+		// log.debug(`Converted room ID: ${parser.globalId} -> ${parser.convertedId}`);
 		// Handle room ID conversion result
 	}
 
@@ -446,10 +438,8 @@ export class IncomingMessages
 
 		if (!parser) return;
 
-		if (!parser.data) return;
-
 		this.data.competitionRoomsData = parser.data;
 
-		log.debug(`Competition rooms data: goal=${parser.data.goalId}, page=${parser.data.pageIndex}`);
+		// log.debug(`Competition rooms data: goal=${parser.data.goalId}, page=${parser.data.pageIndex}`);
 	}
 }

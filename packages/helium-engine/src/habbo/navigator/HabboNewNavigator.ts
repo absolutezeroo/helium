@@ -348,12 +348,12 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 
 		this._navigatorEvents.emit('navigator:searchResults', results);
 
-		log.debug(`Search results: ${results.blocks.length} blocks`);
+		// log.debug(`Search results: ${results.blocks.length} blocks`);
 	}
 
 	onLiftedRooms(rooms: NavigatorLiftedRoomData[]): void
 	{
-		log.debug(`Lifted rooms: ${rooms.length}`);
+		// log.debug(`Lifted rooms: ${rooms.length}`);
 	}
 
 	/**
@@ -372,7 +372,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 
 		this._navigatorEvents.emit('navigator:savedSearches', searches);
 
-		log.debug(`Saved searches: ${searches.length}`);
+		// log.debug(`Saved searches: ${searches.length}`);
 	}
 
 	onCollapsedCategories(categories: string[]): void
@@ -381,7 +381,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 
 		this._navigatorEvents.emit('navigator:collapsed', categories);
 
-		log.debug(`Collapsed categories: ${categories.length}`);
+		// log.debug(`Collapsed categories: ${categories.length}`);
 	}
 
 	/**
@@ -461,7 +461,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 
 		this.open();
 
-		log.debug(`Searching: ${searchCode}, filter: ${filtering}`);
+		// log.debug(`Searching: ${searchCode}, filter: ${filtering}`);
 	}
 
 	performLastSearch(): void
@@ -528,7 +528,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 
 		this.trackEventLog('go', source, roomName || '', roomId);
 
-		log.info(`Going to room: ${roomId}`);
+		// log.info(`Going to room: ${roomId}`);
 	}
 
 	goToHomeRoom(): void
@@ -582,8 +582,6 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	{
 		this.send(new NavigatorSetSearchCodeViewModeMessageComposer(searchCode, viewMode));
 	}
-
-	// ── Transitional methods ─────────────────────────────────────────
 
 	/**
 	 * Get a localized text string.

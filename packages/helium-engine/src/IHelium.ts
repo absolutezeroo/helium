@@ -10,6 +10,7 @@ import type {IHabboLocalizationManager} from "@habbo/localization";
 import type {IHabboWindowManager} from "@habbo/window/IHabboWindowManager";
 import type {IHabboToolbar} from "@habbo/toolbar/IHabboToolbar";
 import {IHeliumConfig} from "./Helium";
+import type {IHeliumLoadingScreen} from "./IHeliumLoadingScreen";
 
 export interface IHelium extends IDisposable
 {
@@ -46,5 +47,5 @@ export interface IHelium extends IDisposable
 	/**
 	 * Initialize the application
 	 */
-	init(config?: IHeliumConfig): Promise<void>;
+	init(config?: IHeliumConfig, loadingScreen?: IHeliumLoadingScreen): Promise<void>;
 }

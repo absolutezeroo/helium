@@ -14,3 +14,4 @@ export * from './HeliumMain';
 // Main Types
 export type {IHelium} from './IHelium';
 export type {IHeliumMain} from './IHeliumMain';
+export type {IHeliumLoadingScreen} from './IHeliumLoadingScreen';

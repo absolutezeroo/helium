@@ -5,10 +5,15 @@
  * Reproduces the AS3 HabboLoadingScreen: dark background, random splash photo,
  * animated progress bar with two-tone gradient fill, rotating loading texts.
  *
+ * Implements IHeliumLoadingScreen (engine interface) so the engine can
+ * call updateLoadingBar() without knowing about the DOM implementation.
+ *
  * @see sources/win63_2021_version/HabboLoadingScreen.as
+ * @see sources/win63_2021_version/IHabboLoadingScreen.as
  * @see sources/win63_2021_version/splash/PhotoSplashScreen.as
  */
 
+import type {IHeliumLoadingScreen} from 'helium-engine';
 import splashBgUrl from './assets/images/splash_bg_class.png';
 import splashTopUrl from './assets/images/splash_top_class.png';
 
@@ -70,9 +75,14 @@ const LOADING_TEXTS: string[] = [
 /**
  * DOM-based Habbo loading screen.
  *
+ * Port of AS3 HabboLoadingScreen → HeliumLoadingScreen.
+ * Implements IHeliumLoadingScreen so the engine (HeliumMain) can
+ * call updateLoadingBar(progress) during initialization.
+ *
  * @see sources/win63_2021_version/HabboLoadingScreen.as
+ * @see sources/win63_2021_version/IHabboLoadingScreen.as
  */
-export class LoadingScreen
+export class HeliumLoadingScreen implements IHeliumLoadingScreen
 {
     private _root: HTMLDivElement;
     private _splashContainer: HTMLDivElement;
@@ -95,6 +105,16 @@ export class LoadingScreen
 
     private _timerId: number = 0;
     private _disposed: boolean = false;
+
+    /**
+     * Whether this loading screen has been disposed.
+     *
+     * @see sources/win63_2021_version/HabboLoadingScreen.as disposed getter
+     */
+    get disposed(): boolean
+    {
+        return this._disposed;
+    }
 
     constructor()
     {
@@ -153,13 +173,16 @@ export class LoadingScreen
     }
 
     /**
-     * Updates the real progress percentage text.
-     * Called from App.ts when engine emits 'progress'.
+     * Update the loading bar progress percentage text.
+     *
+     * AS3: updateLoadingBar(progress) sets the percentage label text.
      *
      * @param ratio - Progress ratio from 0.0 to 1.0
-     * @see sources/win63_2021_version/HabboLoadingScreen.as line 391
+     *
+     * @see sources/win63_2021_version/HabboLoadingScreen.as updateLoadingBar() line 391
+     * @see sources/win63_2021_version/IHabboLoadingScreen.as updateLoadingBar()
      */
-    public updateProgress(ratio: number): void
+    public updateLoadingBar(ratio: number): void
     {
         if(this._disposed) return;
 

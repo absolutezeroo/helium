@@ -19,20 +19,9 @@ import type {IHabboWindowManager} from '@habbo/window/IHabboWindowManager';
 import type {IHabboToolbar} from '@habbo/toolbar/IHabboToolbar';
 import {IHelium} from "./IHelium";
 import {IHeliumCoreConfig} from "@core";
+import type {IHeliumLoadingScreen} from './IHeliumLoadingScreen';
 
 const log = Logger.getLogger('Helium');
-
-/**
- * Number of initialization steps for progress tracking.
- *
- * AS3 HabboAirMain uses 3 steps for the [0.6 - 1.0] range:
- * 1. Configuration loaded
- * 2. Localization loaded
- * 3. All components ready (core running / COMPONENT_EVENT_RUNNING)
- *
- * @see sources/win63_2021_version/HabboAirMain.as line 32
- */
-const INIT_STEPS = 3;
 
 /**
  * Connection configuration
@@ -99,9 +88,15 @@ export class Helium implements IHelium
 	// Engine orchestrator
 	private _habboMain: HeliumMain | null = null;
 
+	/**
+	 * Loading screen reference.
+	 *
+	 * @see sources/win63_2021_version/HabboAir.as _loadingScreen
+	 */
+	private _loadingScreen: IHeliumLoadingScreen | null = null;
+
 	// State
 	private _ready: boolean = false;
-	private _completedInitSteps: number = 0;
 
 	// Event emitter for progress, ready, crash, unload, heartbeat
 	private _events: EventEmitter = new EventEmitter();
@@ -167,13 +162,6 @@ export class Helium implements IHelium
 
 	/**
 	 * Event emitter for lifecycle events.
-	 *
-	 * Events:
-	 * - `'progress'` (progress: number) — 0.0 to 1.0
-	 * - `'ready'` — all components initialized
-	 * - `'crash'` (report: ICrashReport) — error occurred
-	 * - `'unload'` — browser unloading
-	 * - `'heartbeat'` — periodic heartbeat (SPA mode)
 	 */
 	get heliumEvents(): EventEmitter
 	{
@@ -241,22 +229,18 @@ export class Helium implements IHelium
 	}
 
 	/**
-	 * Initialize the Friend Bar (landing view, etc.)
-	 * Must be called AFTER window layouts are registered.
+	 * Bootstrap the application.
+	 *
+	 * @param config - Optional configuration
+	 * @param loadingScreen - Optional loading screen (passed to HabboAirMain like AS3)
+	 *
+	 * @see sources/win63_2021_version/HabboAir.as finalizePreloading()
 	 */
-	initFriendBar(): void
-	{
-		this._habboMain!.initFriendBar();
-	}
-
-	/**
-	 * Bootstrap the application
-	 */
-	public static async bootstrap(config?: IHeliumConfig): Promise<Helium>
+	public static async bootstrap(config?: IHeliumConfig, loadingScreen?: IHeliumLoadingScreen): Promise<Helium>
 	{
 		const instance = this.instance;
 
-		await instance.init(config);
+		await instance.init(config, loadingScreen);
 
 		return instance;
 	}
@@ -304,6 +288,15 @@ export class Helium implements IHelium
 		{
 			this._instance._events.emit('crash', report);
 		}
+	}
+
+	/**
+	 * Initialize the Friend Bar (landing view, etc.)
+	 * Must be called AFTER window layouts are registered.
+	 */
+	initFriendBar(): void
+	{
+		this._habboMain!.initFriendBar();
 	}
 
 	/**
@@ -355,23 +348,6 @@ export class Helium implements IHelium
 	}
 
 	/**
-	 * Wire the RoomMessageHandler to the connection.
-	 */
-	private wireRoomMessageHandler(): void
-	{
-		if(!this._habboMain) return;
-
-		const comm = this._habboMain.habboCommunication;
-		const handler = this._habboMain.roomMessageHandler;
-
-		if(comm.connection)
-		{
-			handler.connection = comm.connection;
-			this._habboMain.roomEngine.connection = comm.connection;
-		}
-	}
-
-	/**
 	 * Disconnect from the server
 	 */
 	disconnect(): void
@@ -417,19 +393,20 @@ export class Helium implements IHelium
 	/**
 	 * Initialize the application.
 	 *
-	 * Faithful port of AS3 HabboAirMain initialization flow:
-	 * 1. Create Core
-	 * 2. Prepare all components (with SSO ticket available via config)
-	 * 3. Track init progress (config, localization, core running)
+	 * AS3 flow:
+	 * 1. HabboAir.tryInit() — stage setup, loading screen, start preloading
+	 * 2. HabboAir.finalizePreloading() — create HabboAirMain, add to stage
+	 * 3. HabboAirMain.prepareCore() — create Core, register all components
+	 * 4. HabboAirMain.addInitializationProgressListeners() — track progress
 	 *
-	 * The connection is started automatically by HabboCommunicationDemo.initComponent()
-	 * when the SSO ticket is available (AS3: from FlashVars Dictionary).
-	 * There is no separate "connect" step — it's part of the component init.
+	 * The SSO ticket is available from FlashVars (Dictionary) before any
+	 * component initializes. HabboCommunicationDemo.initComponent() reads
+	 * the ticket and starts the connection automatically.
 	 *
-	 * @see sources/win63_2021_version/HabboAir.as
-	 * @see sources/win63_2021_version/HabboAirMain.as
+	 * @see sources/win63_2021_version/HabboAir.as tryInit(), finalizePreloading()
+	 * @see sources/win63_2021_version/HabboAirMain.as prepareCore()
 	 */
-	async init(config?: IHeliumConfig): Promise<void>
+	async init(config?: IHeliumConfig, loadingScreen?: IHeliumLoadingScreen): Promise<void>
 	{
 		if(this._ready)
 		{
@@ -437,46 +414,29 @@ export class Helium implements IHelium
 			return;
 		}
 
+		this._loadingScreen = loadingScreen ?? null;
+
 		Helium.trackLoginStep('client.init.start');
 
 		try
 		{
 			log.info('Initializing Helium...');
 
-			this._completedInitSteps = 0;
-			this.emitProgress();
-
 			// 1. Create and init core
 			this._core = new HeliumCore();
 
 			await this._core.init(config);
 
-			Helium.trackLoginStep('client.init.config.loaded');
-			this.completeInitStep();
-
-			// 2. Create and init engine orchestrator
-			// AS3: HabboAirMain.prepareCore() creates Core and prepares all components.
-			// The SSO ticket is passed via the config (AS3: Dictionary with sso.token).
-			// HabboCommunicationDemo.initComponent() starts the connection automatically.
-			this._habboMain = new HeliumMain();
+			// 2. Create and init engine orchestrator.
+			this._habboMain = new HeliumMain(this._loadingScreen);
 
 			await this._habboMain.init(this._core, config);
-
-			Helium.trackLoginStep('client.init.localization.loaded');
-			this.completeInitStep();
-
-			// 3. All components ready (AS3: COMPONENT_EVENT_RUNNING)
-			Helium.trackLoginStep('client.init.core.running');
-			this.completeInitStep();
 
 			this._ready = true;
 
 			// Register unload handler
-			this._unloadHandler = () =>
-			{
-				this._events.emit('unload');
-				this.dispose();
-			};
+			this._unloadHandler = () => this.unloading();
+
 			window.addEventListener('beforeunload', this._unloadHandler);
 
 			this._events.emit('ready');
@@ -498,24 +458,45 @@ export class Helium implements IHelium
 	}
 
 	/**
-	 * Complete one initialization step and emit progress.
+	 * Handle browser unload event.
+	 *
+	 * AS3: Called via ExternalInterface when the browser is unloading.
+	 * Dispatches "unload" event on core, then disposes.
+	 *
+	 * @see sources/win63_2021_version/HabboAirMain.as unloading()
+	 * @see sources/win63_2021_version/HabboAir.as (ExternalInterface callback)
 	 */
-	private completeInitStep(): void
+	unloading(): void
 	{
-		this._completedInitSteps++;
-		this.emitProgress();
+		try
+		{
+			if(this._core && !this._disposed)
+			{
+				this._events.emit('unload');
+			}
+		}
+		catch(error)
+		{
+			// AS3: catch(error:Error) {} — silently ignore errors during unload
+		}
+
+		this.dispose();
 	}
 
 	/**
-	 * Emit progress event.
-	 *
-	 * AS3 maps [0.0-0.6] to SWF loading (not applicable), [0.6-1.0] to init steps.
-	 * We use the full [0.0-1.0] range for init steps.
+	 * Wire the RoomMessageHandler to the connection.
 	 */
-	private emitProgress(): void
+	private wireRoomMessageHandler(): void
 	{
-		const progress = Math.min(this._completedInitSteps / INIT_STEPS, 1.0);
+		if(!this._habboMain) return;
 
-		this._events.emit('progress', progress);
+		const comm = this._habboMain.habboCommunication;
+		const handler = this._habboMain.roomMessageHandler;
+
+		if(comm.connection)
+		{
+			handler.connection = comm.connection;
+			this._habboMain.roomEngine.connection = comm.connection;
+		}
 	}
 }

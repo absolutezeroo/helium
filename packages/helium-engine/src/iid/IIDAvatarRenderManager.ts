@@ -1,5 +1,5 @@
-import { createIID } from '@core/runtime/IID';
-import type { IAvatarRenderManager } from '@habbo/avatar/IAvatarRenderManager';
+import {createIID} from '@core/runtime/IID';
+import type {IAvatarRenderManager} from '@habbo/avatar/IAvatarRenderManager';
 
 /**
  * IID for Avatar Render Manager
