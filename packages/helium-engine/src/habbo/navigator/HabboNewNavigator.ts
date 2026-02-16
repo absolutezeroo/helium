@@ -182,11 +182,9 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		return this._cache;
 	}
 
-	private _isReady: boolean = false;
-
 	get isReady(): boolean
 	{
-		return this._isReady;
+		return (this.contextContainer != null) && (this.contextContainer.isReady());
 	}
 
 	private _currentResults: NavigatorSearchResultSet | null = null;
