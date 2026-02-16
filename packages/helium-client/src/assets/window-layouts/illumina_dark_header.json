@@ -37,7 +37,12 @@
             "vars": {
               "text_style": "u_frame_title",
               "text_color": 4294967295,
-              "margins": null
+              "margins": {
+                "left": 10,
+                "top": 2,
+                "right": 10,
+                "bottom": 2
+              }
             }
           }
         ]

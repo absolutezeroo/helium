@@ -23,7 +23,12 @@
         "vars": {
           "text_style": "button_regular",
           "text_color": 4294967295,
-          "margins": null
+          "margins": {
+            "left": 8,
+            "top": 4,
+            "right": 8,
+            "bottom": 4
+          }
         }
       }
     ]

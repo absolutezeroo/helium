@@ -1631,7 +1631,12 @@
                     },
                     "children": [],
                     "vars": {
-                      "item_array": null
+                      "item_array": [
+                        "${navigator.roomsettings.wall_thickness.thinnest}",
+                        "${navigator.roomsettings.wall_thickness.thin}",
+                        "${navigator.roomsettings.wall_thickness.normal}",
+                        "${navigator.roomsettings.wall_thickness.thick}"
+                      ]
                     }
                   },
                   {
@@ -1648,7 +1653,12 @@
                     },
                     "children": [],
                     "vars": {
-                      "item_array": null
+                      "item_array": [
+                        "${navigator.roomsettings.floor_thickness.thinnest}",
+                        "${navigator.roomsettings.floor_thickness.thin}",
+                        "${navigator.roomsettings.floor_thickness.normal}",
+                        "${navigator.roomsettings.floor_thickness.thick}"
+                      ]
                     }
                   },
                   {
@@ -1708,7 +1718,10 @@
                     },
                     "children": [],
                     "vars": {
-                      "item_array": null
+                      "item_array": [
+                        "${navigator.roomsettings.chat.mode.free.flow}",
+                        "${navigator.roomsettings.chat.mode.line.by.line}"
+                      ]
                     }
                   },
                   {
@@ -1725,7 +1738,11 @@
                     },
                     "children": [],
                     "vars": {
-                      "item_array": null
+                      "item_array": [
+                        "${navigator.roomsettings.chat.bubbles.width.wide}",
+                        "${navigator.roomsettings.chat.bubbles.width.normal}",
+                        "${navigator.roomsettings.chat.bubbles.width.thin}"
+                      ]
                     }
                   },
                   {
@@ -1742,7 +1759,11 @@
                     },
                     "children": [],
                     "vars": {
-                      "item_array": null
+                      "item_array": [
+                        "${navigator.roomsettings.chat.speed.fast}",
+                        "${navigator.roomsettings.chat.speed.normal}",
+                        "${navigator.roomsettings.chat.speed.slow}"
+                      ]
                     }
                   },
                   {
@@ -1759,7 +1780,11 @@
                     },
                     "children": [],
                     "vars": {
-                      "item_array": null
+                      "item_array": [
+                        "${navigator.roomsettings.chat.flood.strict}",
+                        "${navigator.roomsettings.chat.flood.normal}",
+                        "${navigator.roomsettings.chat.flood.loose}"
+                      ]
                     }
                   },
                   {
@@ -2292,7 +2317,9 @@
                     },
                     "children": [],
                     "vars": {
-                      "item_array": null
+                      "item_array": [
+                        ""
+                      ]
                     }
                   },
                   {
@@ -2309,7 +2336,9 @@
                     },
                     "children": [],
                     "vars": {
-                      "item_array": null
+                      "item_array": [
+                        ""
+                      ]
                     }
                   },
                   {
@@ -2326,7 +2355,9 @@
                     },
                     "children": [],
                     "vars": {
-                      "item_array": null
+                      "item_array": [
+                        ""
+                      ]
                     }
                   }
                 ]

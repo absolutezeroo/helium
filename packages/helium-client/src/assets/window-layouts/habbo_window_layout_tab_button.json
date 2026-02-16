@@ -38,7 +38,12 @@
         "vars": {
           "text_style": "button_tab",
           "text_color": 4278190080,
-          "margins": null
+          "margins": {
+            "left": 8,
+            "top": 2,
+            "right": 8,
+            "bottom": 4
+          }
         }
       }
     ]

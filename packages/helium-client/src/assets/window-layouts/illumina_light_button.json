@@ -22,7 +22,12 @@
         "children": [],
         "vars": {
           "text_style": "il_button",
-          "margins": null
+          "margins": {
+            "left": 24,
+            "top": 14,
+            "right": 24,
+            "bottom": 14
+          }
         }
       }
     ]

@@ -605,7 +605,13 @@
                     "children": [],
                     "vars": {
                       "tool_tip_caption": "${navigator.tooltip.filter.type}",
-                      "item_array": null
+                      "item_array": [
+                        "${navigator.filter.anything}",
+                        "${navigator.filter.room.name}",
+                        "${navigator.filter.owner}",
+                        "${navigator.filter.tag}",
+                        "${navigator.filter.group}"
+                      ]
                     }
                   },
                   {

@@ -24,7 +24,12 @@
         "vars": {
           "text_style": "u_tool_tip",
           "background": false,
-          "margins": null
+          "margins": {
+            "left": 6,
+            "top": 0,
+            "right": 6,
+            "bottom": 0
+          }
         }
       }
     ]

@@ -23,7 +23,12 @@
         "vars": {
           "text_style": "button_shiny_bold",
           "text_color": 4294967295,
-          "margins": null
+          "margins": {
+            "left": 10,
+            "top": 5,
+            "right": 10,
+            "bottom": 6
+          }
         }
       }
     ]

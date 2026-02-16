@@ -216,7 +216,13 @@ function parseVarNode(varNode)
 
     if (!value && hasChildElements)
     {
-        const child = Array.from(varNode.childNodes).find((node) => node.nodeType === node.ELEMENT_NODE);
+        let child = Array.from(varNode.childNodes).find((node) => node.nodeType === node.ELEMENT_NODE);
+
+        // Unwrap <value> wrapper if present (AS3 XML uses <value><Array>...</Array></value>)
+        if (child && child.nodeName === 'value')
+        {
+            child = Array.from(child.childNodes).find((node) => node.nodeType === node.ELEMENT_NODE) ?? null;
+        }
 
         if (child)
         {

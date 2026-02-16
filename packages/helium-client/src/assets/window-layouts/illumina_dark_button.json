@@ -22,7 +22,12 @@
         "children": [],
         "vars": {
           "text_style": "id_button",
-          "margins": null
+          "margins": {
+            "left": 13,
+            "top": 3,
+            "right": 13,
+            "bottom": 3
+          }
         }
       }
     ]

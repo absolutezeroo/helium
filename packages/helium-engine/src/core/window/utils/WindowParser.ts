@@ -2,6 +2,7 @@ import type { IWindowParser } from './IWindowParser';
 import type { IWindowContext } from '../IWindowContext';
 import type { IWindow } from '../IWindow';
 import type { IStaticBitmapWrapperWindow } from '../components/IStaticBitmapWrapperWindow';
+import { PropertyStruct } from './PropertyStruct';
 import { WindowType } from '../enum/WindowType';
 
 /**
@@ -187,6 +188,34 @@ export class WindowParser implements IWindowParser
         for(const child of children)
         {
             this.parseNode(child, window, namedWindows);
+        }
+
+        // Apply specific vars as properties (AS3 <variables> → PropertyStruct).
+        // Only vars that map to known property keys are applied here.
+        // Other vars (tool_tip_caption, asset_uri, etc.) are metadata
+        // handled by other systems.
+        if(node.vars)
+        {
+            const props: PropertyStruct[] = [];
+
+            for(const [key, val] of Object.entries(node.vars))
+            {
+                if(val === null || val === undefined) continue;
+
+                switch(key)
+                {
+                    case 'item_array':
+                    case 'open_upward':
+                    case 'keep_open_on_deactivate':
+                        props.push(new PropertyStruct(key, val));
+                        break;
+                }
+            }
+
+            if(props.length > 0)
+            {
+                window.properties = props;
+            }
         }
 
         return window;

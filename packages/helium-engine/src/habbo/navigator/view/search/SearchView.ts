@@ -93,7 +93,7 @@ export class SearchView
 	{
 		this.setInputToFilterPlaceHolder();
 
-		if(this._filterDropMenu)
+		if(this._filterDropMenu && this._filterDropMenu.numMenuItems > 0)
 		{
 			this._filterDropMenu.selection = 0;
 		}

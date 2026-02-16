@@ -22,7 +22,12 @@
         "children": [],
         "vars": {
           "text_style": "button_shiny_bold",
-          "margins": null
+          "margins": {
+            "left": 10,
+            "top": 2,
+            "right": 10,
+            "bottom": 3
+          }
         }
       }
     ]

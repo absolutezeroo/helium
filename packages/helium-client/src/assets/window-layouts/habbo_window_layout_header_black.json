@@ -36,7 +36,12 @@
             "children": [],
             "vars": {
               "text_style": "frame_title",
-              "margins": null
+              "margins": {
+                "left": 8,
+                "top": 1,
+                "right": 8,
+                "bottom": 1
+              }
             }
           },
           {

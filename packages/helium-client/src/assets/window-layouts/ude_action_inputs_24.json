@@ -122,7 +122,15 @@
             "children": [],
             "vars": {
               "tool_tip_caption": "${wiredfurni.tooltip.bot.handitem}",
-              "item_array": null
+              "item_array": [
+                "${handitem2}",
+                "${handitem5}",
+                "${handitem7}",
+                "${handitem8}",
+                "${handitem9}",
+                "${handitem10}",
+                "${handitem27}"
+              ]
             }
           }
         ]
