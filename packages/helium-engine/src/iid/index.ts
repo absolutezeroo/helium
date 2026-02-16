@@ -12,6 +12,7 @@ export { IID_HabboLocalizationManager } from './IIDHabboLocalizationManager';
 export { IID_HabboNavigator } from './IIDHabboNavigator';
 export { IID_HabboNewNavigator } from './IIDHabboNewNavigator';
 export { IID_HabboToolbar } from './IIDHabboToolbar';
+export { IID_HabboTracking } from './IIDHabboTracking';
 export { IID_HabboWindowManager } from './IIDHabboWindowManager';
 export { IID_RoomEngine } from './IIDRoomEngine';
 export { IID_RoomManager } from './IIDRoomManager';

@@ -44,6 +44,7 @@ import type {IGameDataResources} from '@core/localization/IGameDataResources';
 import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
 import type {IHabboToolbar} from '@habbo/toolbar/IHabboToolbar';
 import {IID_HabboToolbar} from '@iid/IIDHabboToolbar';
+import {IID_HabboTracking} from '@iid/IIDHabboTracking';
 import {IID_HabboFriendBar} from '@iid/IIDHabboFriendBar';
 import {IHeliumMain} from "./IHeliumMain";
 
@@ -438,7 +439,7 @@ export class HeliumMain implements IHeliumMain
 
 		// 12d. Tracking
 		this._tracking = new HabboTracking(ctx);
-		ctx.attachComponent(this._tracking, []);
+		ctx.attachComponent(this._tracking, [IID_HabboTracking]);
 
 		// 12e. Groups Manager
 		this._groupsManager = new HabboGroupsManager(ctx);

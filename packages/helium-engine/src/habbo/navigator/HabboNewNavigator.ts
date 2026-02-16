@@ -3,6 +3,8 @@ import {Component, ComponentDependency, type IContext} from '@core/runtime';
 import {IID_RoomSessionManager} from '@iid/IIDRoomSessionManager';
 import {IID_HabboToolbar} from '@iid/IIDHabboToolbar';
 import {IID_HabboWindowManager} from '@iid/IIDHabboWindowManager';
+import {IID_HabboLocalizationManager} from '@iid/IIDHabboLocalizationManager';
+import {IID_HabboTracking} from '@iid/IIDHabboTracking';
 import type {IHabboNewNavigator} from './IHabboNewNavigator';
 import type {IHabboNavigator} from './IHabboNavigator';
 import type {IHabboToolbar} from '../toolbar/IHabboToolbar';
@@ -10,11 +12,15 @@ import {HabboToolbarEvent} from '../toolbar/events/HabboToolbarEvent';
 import {HabboToolbarIconEnum} from '../toolbar/HabboToolbarIconEnum';
 import type {IRoomSessionManager} from '../session/IRoomSessionManager';
 import type {IHabboWindowManager} from '../window/IHabboWindowManager';
+import type {IHabboLocalizationManager} from '../localization/IHabboLocalizationManager';
+import type {IHabboTracking} from '../tracking/IHabboTracking';
 import {NavigatorData} from './domain';
 import {NavigatorCache} from './cache';
 import {ContextContainer, SearchContext, SearchContextHistoryManager} from './context';
 import {NavigatorView} from './view/NavigatorView';
 import {NewIncomingMessages} from './NewIncomingMessages';
+import {LegacyNavigator} from './transitional/LegacyNavigator';
+import type {HabboNavigator} from './HabboNavigator';
 import type {
 	NavigatorLiftedRoomData,
 	NavigatorSavedSearch,
@@ -35,6 +41,13 @@ import {
 	NewNavigatorInitComposer,
 	NewNavigatorSearchComposer,
 } from '../communication/messages/outgoing/newnavigator';
+import {
+	ForwardToSomeRoomMessageComposer,
+	GetGuestRoomMessageComposer,
+} from '../communication/messages/outgoing/navigator';
+import {
+	GetExtendedProfileMessageComposer
+} from '../communication/messages/outgoing/users/GetExtendedProfileMessageComposer';
 import type {IMessageComposer} from "@core";
 import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
 import {IID_HabboNavigator} from "@iid/IIDHabboNavigator";
@@ -55,8 +68,14 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	private _noPushToHistoryDueToNavigation: boolean = false;
 	private _lastSearchCode: string = ViewModeCode.OFFICIAL_VIEW;
 	private _lastFiltering: string = '';
+	private _lastSource: string = '';
 	private _roomSessionManager: IRoomSessionManager | null = null;
 	private _toolbar: IHabboToolbar | null = null;
+	private _localization: IHabboLocalizationManager | null = null;
+	private _tracking: IHabboTracking | null = null;
+	private _groupDetails: Map<number, unknown> = new Map();
+	private _roomNames: Map<number, string> = new Map();
+	private _legacyNavigatorWrapper: LegacyNavigator | null = null;
 
 	constructor(context: IContext)
 	{
@@ -65,6 +84,23 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		this._contextContainer = new ContextContainer();
 		this._historyManager = new SearchContextHistoryManager();
 		this._cache = new NavigatorCache();
+	}
+
+	private _newResultsRendered: boolean = false;
+
+	/**
+	 * Whether new results have been rendered by the view.
+	 *
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as newResultsRendered
+	 */
+	get newResultsRendered(): boolean
+	{
+		return this._newResultsRendered;
+	}
+
+	set newResultsRendered(value: boolean)
+	{
+		this._newResultsRendered = value;
 	}
 
 	private _windowManager: IHabboWindowManager | null = null;
@@ -168,6 +204,16 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	}
 
 	/**
+	 * The LegacyNavigator wrapper that bridges old and new navigator.
+	 *
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as var_2377
+	 */
+	get legacyWrapper(): LegacyNavigator | null
+	{
+		return this._legacyNavigatorWrapper;
+	}
+
+	/**
 	 * Get the navigator data model
 	 * Uses legacy navigator's data for shared state
 	 */
@@ -218,7 +264,6 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 
 					this._toolbar = toolbar;
 
-					// Subscribe to toolbarEvents (NOT Component.events — see MEMORY.md)
 					if(toolbar)
 					{
 						toolbar.toolbarEvents.on(
@@ -236,46 +281,53 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 					this._windowManager = manager;
 				}
 			),
+			new ComponentDependency(
+				IID_HabboLocalizationManager,
+				(manager: IHabboLocalizationManager | null) =>
+				{
+					this._localization = manager;
+				}
+			),
+			new ComponentDependency(
+				IID_HabboTracking,
+				(tracking: IHabboTracking | null) =>
+				{
+					this._tracking = tracking;
+				}
+			),
 		];
 	}
 
 	/**
-	 * Initialize the navigator (send init message to server).
-	 * Called from outside if needed before initComponent runs.
+	 * Get the event log extra string from search parameters.
+	 *
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as getEventLogExtraStringFromSearch()
 	 */
-	init(): void
+	static getEventLogExtraStringFromSearch(searchCode: string, filtering: string): string
 	{
-		if(this._isInitialized) return;
-
-		this._isInitialized = true;
-
-		this.send(new NewNavigatorInitComposer());
-
-		log.info('New Navigator init message sent');
+		return searchCode + (filtering === '' ? '' : ':' + filtering);
 	}
 
 	initialize(topLevelContexts: NavigatorTopLevelContext[]): void
 	{
 		this._contextContainer.initialize(topLevelContexts);
-
-		this.data.topLevelContexts = topLevelContexts;
-
-		this._isReady = true;
-
-		this._navigatorEvents.emit('navigator:initialized');
-
-		log.info(`Navigator initialized with ${topLevelContexts.length} contexts`);
 	}
 
 	/**
 	 * Handle search results from the server.
 	 *
+	 * Extracts room names from results for tracking, pushes to history,
+	 * caches results, and updates the view.
+	 *
 	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as onSearchResult()
 	 */
 	onSearchResult(results: NavigatorSearchResultSet): void
 	{
+		this._newResultsRendered = false;
 		this._currentResults = results;
 		this.data.navigatorSearchResultSet = results;
+
+		this.extractRoomNamesFromResults(results);
 
 		if (!this._noPushToHistoryDueToNavigation)
 		{
@@ -384,13 +436,14 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	 *
 	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as performSearch()
 	 */
-	performSearch(searchCode: string, filtering: string = '', _source: string = ''): void
+	performSearch(searchCode: string, filtering: string = '', source: string = ''): void
 	{
 		if(this._view)
 		{
 			this._view.isBusy = true;
 		}
 
+		this._lastSource = source;
 		this._lastSearchCode = searchCode;
 		this._lastFiltering = filtering;
 
@@ -462,19 +515,18 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		}
 	}
 
-	goToRoom(roomId: number, _source: string = 'mainview', password: string = ''): void
+	goToRoom(roomId: number, source: string = 'mainview'): void
 	{
-		if (!this._roomSessionManager)
+		this.send(new GetGuestRoomMessageComposer(roomId, false, true));
+
+		if(this._view)
 		{
-			log.error('RoomSessionManager not available');
-			return;
+			this._view.visible = false;
 		}
 
-		// Use RoomSessionManager to enter the room
-		// This will send OpenFlatConnectionMessageComposer via RoomSession.start()
-		this._roomSessionManager.gotoRoom(roomId, password);
+		const roomName = this._roomNames.get(roomId);
 
-		this.close();
+		this.trackEventLog('go', source, roomName || '', roomId);
 
 		log.info(`Going to room: ${roomId}`);
 	}
@@ -531,19 +583,234 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		this.send(new NavigatorSetSearchCodeViewModeMessageComposer(searchCode, viewMode));
 	}
 
+	// ── Transitional methods ─────────────────────────────────────────
+
 	/**
-	 * Get a localization string by key with a fallback.
-	 *
-	 * Stub that returns the fallback or the key itself — real localization
-	 * will be wired when the localization system is connected.
+	 * Get a localized text string.
 	 *
 	 * @param key - The localization key
 	 * @param fallback - The fallback value if the key is not found
 	 * @returns The localized string or fallback
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as localization
 	 */
 	getLocalization(key: string, fallback: string = ''): string
 	{
-		return fallback || key;
+		if(!this._localization) return fallback || key;
+
+		return this._localization.getLocalization(key, fallback || key);
+	}
+
+	/**
+	 * Handle navigator window preferences from the server.
+	 *
+	 * @param windowX - X position
+	 * @param windowY - Y position
+	 * @param windowHeight - Window height
+	 * @param leftPaneHidden - Whether left pane is hidden
+	 * @param resultsMode - Results display mode
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as onPreferences()
+	 */
+	onPreferences(windowX: number, windowY: number, windowHeight: number, leftPaneHidden: boolean, resultsMode: number): void
+	{
+		if(this._view)
+		{
+			this._view.setInitialWindowDimensions(windowX, windowY, windowHeight, leftPaneHidden, resultsMode);
+		}
+	}
+
+	/**
+	 * Handle group details arriving from the server.
+	 *
+	 * Caches the group details and notifies the view.
+	 *
+	 * @param groupId - The group ID
+	 * @param details - The group details data
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as onGroupDetails()
+	 */
+	onGroupDetails(groupId: number, details: unknown): void
+	{
+		this._groupDetails.set(groupId, details);
+
+		if(this._view)
+		{
+			this._view.onGroupDetailsArrived(groupId);
+		}
+	}
+
+	/**
+	 * Get cached group details.
+	 *
+	 * @param groupId - The group ID
+	 * @returns The cached group details, or undefined
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as getCachedGroupDetails()
+	 */
+	getCachedGroupDetails(groupId: number): unknown
+	{
+		return this._groupDetails.get(groupId);
+	}
+
+	/**
+	 * Request group info from the server.
+	 *
+	 * @param groupId - The group ID
+	 * @param _flag - Whether to request full details
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as getGuildInfo()
+	 */
+	getGuildInfo(groupId: number, _flag: boolean = true): void
+	{
+		// GetHabboGroupDetailsMessageComposer not yet available
+		log.debug(`getGuildInfo: ${groupId}`);
+	}
+
+	/**
+	 * Send navigator window preferences to the server.
+	 *
+	 * @param x - X position
+	 * @param y - Y position
+	 * @param width - Window width
+	 * @param height - Window height
+	 * @param leftPaneHidden - Whether left pane is hidden
+	 * @param tabIndex - Active tab index
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as sendWindowPreferences()
+	 */
+	sendWindowPreferences(_x: number, _y: number, _width: number, _height: number, _leftPaneHidden: boolean, _tabIndex: number): void
+	{
+		// SetNewNavigatorWindowPreferencesMessageComposer not yet available
+		log.debug('sendWindowPreferences');
+	}
+
+	/**
+	 * Request an extended user profile.
+	 *
+	 * @param userId - The user ID
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as getExtendedProfile()
+	 */
+	getExtendedProfile(userId: number): void
+	{
+		this.send(new GetExtendedProfileMessageComposer(userId));
+	}
+
+	/**
+	 * Open the room creation dialog via the legacy navigator wrapper.
+	 *
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as createRoom()
+	 */
+	createRoom(): void
+	{
+		this._legacyNavigatorWrapper?.roomCreateViewCtrl.show();
+	}
+
+	/**
+	 * Refresh the current results in the view.
+	 *
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as refresh()
+	 */
+	refresh(): void
+	{
+		if(this._currentResults && this._view)
+		{
+			this._view.onSearchResults(this._currentResults);
+		}
+	}
+
+	/**
+	 * Handle incoming navigation deep links.
+	 *
+	 * Supports: goto/<roomId|home>, search/<query>, tag/<tag>, tab/<code>, report/<id>/<data>
+	 *
+	 * @param link - The link URL to handle
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as linkReceived()
+	 */
+	linkReceived(link: string): void
+	{
+		const parts = link.split('/');
+
+		if(parts.length < 2) return;
+
+		switch(parts[1])
+		{
+			case 'goto':
+				if(parts.length > 2)
+				{
+					if(parts[2] === 'home')
+					{
+						this._legacyNavigatorWrapper?.goToHomeRoom();
+					}
+					else
+					{
+						const roomId = parseInt(parts[2], 10);
+
+						if(roomId > 0)
+						{
+							this._legacyNavigatorWrapper?.goToPrivateRoom(roomId);
+						}
+						else
+						{
+							this.send(new ForwardToSomeRoomMessageComposer(parts[2]));
+						}
+					}
+				}
+				break;
+			case 'search':
+				if(parts.length > 2)
+				{
+					this.performSearch(ViewModeCode.HOTEL_VIEW, parts[2]);
+				}
+				break;
+			case 'tag':
+				if(parts.length > 2)
+				{
+					this.performSearch(ViewModeCode.HOTEL_VIEW, parts[2]);
+				}
+				break;
+			case 'tab':
+				if(parts.length > 2)
+				{
+					this.performSearch(parts[2]);
+				}
+				break;
+			default:
+				log.warn(`Unknown navigator link type: ${parts[1]}`);
+		}
+	}
+
+	/**
+	 * Show the toolbar hover menu.
+	 * Stub — empty in AS3.
+	 *
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as showToolbarHover()
+	 */
+	showToolbarHover(_x: number, _y: number): void
+	{
+		// Stub — empty in AS3
+	}
+
+	/**
+	 * Hide the toolbar hover menu.
+	 * Stub — empty in AS3.
+	 *
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as hideToolbarHover()
+	 */
+	hideToolbarHover(_force: boolean): void
+	{
+		// Stub — empty in AS3
+	}
+
+	/**
+	 * Track a navigator event via the tracking system.
+	 *
+	 * @param action - The event action
+	 * @param category - The event category
+	 * @param label - Optional label
+	 * @param value - Optional numeric value
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as trackEventLog()
+	 */
+	trackEventLog(action: string, category: string, label: string = '', value: number = 0): void
+	{
+		if(this._tracking)
+		{
+			this._tracking.trackEventLog('Navigation', action, category, label, value);
+		}
 	}
 
 	override dispose(): void
@@ -560,11 +827,15 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 			this._toolbar = null;
 		}
 
+		this._legacyNavigatorWrapper?.dispose();
+		this._legacyNavigatorWrapper = null;
 		this._view?.dispose();
 		this._view = null;
 		this._incomingMessages?.dispose();
 		this._navigatorEvents.removeAllListeners();
 		this._windowManager = null;
+		this._groupDetails.clear();
+		this._roomNames.clear();
 
 		log.info('New Navigator disposed');
 
@@ -583,6 +854,12 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	{
 		this._incomingMessages = new NewIncomingMessages(this);
 		this._view = new NavigatorView(this);
+
+		// Create the LegacyNavigator wrapper bridging new and old navigators
+		if(this._legacyNavigator)
+		{
+			this._legacyNavigatorWrapper = new LegacyNavigator(this, this._legacyNavigator as HabboNavigator);
+		}
 
 		this.send(new NewNavigatorInitComposer());
 
@@ -609,6 +886,27 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		}
 	};
 
+	/**
+	 * Extract room names from search results for tracking.
+	 *
+	 * @see source_as_win63/habbo/navigator/HabboNewNavigator.as extractRoomNamesFromResults()
+	 */
+	private extractRoomNamesFromResults(results: NavigatorSearchResultSet): void
+	{
+		this._roomNames.clear();
+
+		for(const block of results.blocks)
+		{
+			if(block.guestRooms)
+			{
+				for(const room of block.guestRooms)
+				{
+					this._roomNames.set(room.flatId, room.roomName);
+				}
+			}
+		}
+	}
+
 	private send(composer: IMessageComposer<unknown[]>): void
 	{
 		const connection = this._communication?.connection;
@@ -616,6 +914,10 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		if (connection)
 		{
 			connection.send(composer);
+		}
+		else
+		{
+			log.debug("Connection not found");
 		}
 	}
 }

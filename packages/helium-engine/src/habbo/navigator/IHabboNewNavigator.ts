@@ -58,12 +58,6 @@ export interface IHabboNewNavigator extends IDisposable
 	readonly collapsedCategories: string[];
 
 	/**
-	 * Initialize the navigator (send init message to server)
-	 * Called automatically on first open, or can be called manually after auth
-	 */
-	init(): void;
-
-	/**
 	 * Open the navigator
 	 */
 	open(): void;

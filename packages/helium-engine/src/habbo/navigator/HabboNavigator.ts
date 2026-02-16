@@ -1,9 +1,19 @@
 import {Component, ComponentDependency, type IContext} from '@core/runtime';
 import {IID_RoomSessionManager} from '@iid/IIDRoomSessionManager';
+import {IID_SessionDataManager} from '@iid/IIDSessionDataManager';
 import {IID_HabboToolbar} from '@iid/IIDHabboToolbar';
+import {IID_HabboWindowManager} from '@iid/IIDHabboWindowManager';
+import {IID_HabboLocalizationManager} from '@iid/IIDHabboLocalizationManager';
+import {IID_HabboTracking} from '@iid/IIDHabboTracking';
+import type {IWindow} from '@core/window/IWindow';
+import type {IWindowContainer} from '@core/window/IWindowContainer';
 import type {IHabboNavigator} from './IHabboNavigator';
 import type {IRoomSessionManager} from '../session/IRoomSessionManager';
+import type {ISessionDataManager} from '../session/ISessionDataManager';
 import type {IHabboToolbar} from '../toolbar/IHabboToolbar';
+import type {IHabboWindowManager} from '../window/IHabboWindowManager';
+import type {IHabboLocalizationManager} from '../localization/IHabboLocalizationManager';
+import type {IHabboTracking} from '../tracking/IHabboTracking';
 import {HabboToolbarEvent} from '../toolbar/events/HabboToolbarEvent';
 import {HabboToolbarIconEnum} from '../toolbar/HabboToolbarIconEnum';
 import {NavigatorData} from './domain';
@@ -18,7 +28,10 @@ import {
 	CompetitionRoomsSearchMessageComposer,
 	CreateFlatMessageComposer,
 	GetGuestRoomMessageComposer,
+	MyFavouriteRoomsSearchMessageComposer,
+	MyFrequentRoomHistorySearchMessageComposer,
 	MyGuildBasesSearchMessageComposer,
+	MyRoomHistorySearchMessageComposer,
 	MyRoomsSearchMessageComposer,
 	RemoveOwnRoomRightsRoomMessageComposer,
 	RoomTextSearchMessageComposer,
@@ -37,6 +50,10 @@ export class HabboNavigator extends Component implements IHabboNavigator
 	private _isRoomInfoOpen: boolean = false;
 	private _roomSessionManager: IRoomSessionManager | null = null;
 	private _toolbar: IHabboToolbar | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
+	private _localization: IHabboLocalizationManager | null = null;
+	private _sessionData: ISessionDataManager | null = null;
+	private _tracking: IHabboTracking | null = null;
 
 	constructor(context: IContext)
 	{
@@ -122,6 +139,35 @@ export class HabboNavigator extends Component implements IHabboNavigator
 					}
 				},
 				false
+			),
+			new ComponentDependency(
+				IID_HabboWindowManager,
+				(manager: IHabboWindowManager | null) =>
+				{
+					this._windowManager = manager;
+				}
+			),
+			new ComponentDependency(
+				IID_HabboLocalizationManager,
+				(manager: IHabboLocalizationManager | null) =>
+				{
+					this._localization = manager;
+				}
+			),
+			new ComponentDependency(
+				IID_SessionDataManager,
+				(manager: ISessionDataManager | null) =>
+				{
+					this._sessionData = manager;
+				},
+				true
+			),
+			new ComponentDependency(
+				IID_HabboTracking,
+				(tracking: IHabboTracking | null) =>
+				{
+					this._tracking = tracking;
+				}
 			),
 		];
 	}
@@ -304,6 +350,271 @@ export class HabboNavigator extends Component implements IHabboNavigator
 		return this._data.isRoomHome(roomId);
 	}
 
+	// ── Transitional methods ─────────────────────────────────────────
+
+	/**
+	 * Sends a message composer.
+	 * Made public for transitional navigator access.
+	 *
+	 * @param composer - The message composer to send
+	 */
+	public send(composer: IMessageComposer<unknown[]>): void
+	{
+		const connection = this._communication?.connection;
+
+		if(connection)
+		{
+			connection.send(composer);
+		}
+	}
+
+	/**
+	 * Builds a window from a registered widget layout.
+	 *
+	 * @param jsonFileName - The XML layout name
+	 * @param layer - Window context layer
+	 * @returns The window, or null
+	 * @see source_as_win63/habbo/navigator/HabboNavigator.as getXmlWindow()
+	 */
+	getJsonWindow(jsonFileName: string, layer: number = 1): IWindow | null
+	{
+		if(!this._windowManager)
+		{
+			log.error(`Cannot build window '${jsonFileName}': window manager not available`);
+			return null;
+		}
+
+		try
+		{
+			return this._windowManager.buildWidgetLayout(jsonFileName, layer);
+		}
+		catch(e)
+		{
+			log.error(`Failed to build window '${jsonFileName}':`, e);
+			return null;
+		}
+	}
+
+	/**
+	 * Gets a localized text string.
+	 *
+	 * @param key - The localization key
+	 * @returns The localized text, or the key itself as fallback
+	 * @see source_as_win63/habbo/navigator/HabboNavigator.as getText()
+	 */
+	getText(key: string): string
+	{
+		if(!this._localization) return key;
+
+		return this._localization.getLocalization(key, key);
+	}
+
+	/**
+	 * Registers a localization parameter replacement.
+	 *
+	 * @param key - The localization key
+	 * @param param - Parameter name
+	 * @param value - Parameter value
+	 * @returns The modified string
+	 * @see source_as_win63/habbo/navigator/HabboNavigator.as registerParameter()
+	 */
+	registerParameter(key: string, param: string, value: string): string
+	{
+		if(!this._localization) return key;
+
+		return this._localization.registerParameter(key, param, value);
+	}
+
+	/**
+	 * Gets a button image wrapper window.
+	 * Stub — returns null until asset system is wired.
+	 */
+	getButton(_assetName: string, _stateSuffix: string, _callback: Function, _x: number = 0, _y: number = 0, _index: number = 0): IWindowContainer | null
+	{
+		return null;
+	}
+
+	/**
+	 * Refreshes a button's visibility and callback.
+	 * Stub — no-op until window system is wired.
+	 */
+	refreshButton(_container: IWindowContainer, _name: string, _visible: boolean, _callback: Function, _index: number, _tooltip: string | null = null): void
+	{
+		// Stub
+	}
+
+	/**
+	 * Gets a button image bitmap.
+	 * Stub — returns null until asset system is wired.
+	 */
+	getButtonImage(_assetName: string, _suffix: string = '_png'): unknown | null
+	{
+		return null;
+	}
+
+	/**
+	 * Opens the catalog club page.
+	 * Stub — no-op until catalog is wired.
+	 */
+	openCatalogClubPage(_source: string): void
+	{
+		log.debug('openCatalogClubPage');
+	}
+
+	/**
+	 * Opens the catalog room ads page.
+	 * Stub — no-op until catalog is wired.
+	 */
+	openCatalogRoomAdsPage(): void
+	{
+		log.debug('openCatalogRoomAdsPage');
+	}
+
+	/**
+	 * Opens the catalog room ads extend page.
+	 * Stub — no-op until catalog is wired.
+	 */
+	openCatalogRoomAdsExtendPage(_eventName: string, _eventDesc: string, _eventDate: Date, _eventCatId: number): void
+	{
+		log.debug('openCatalogRoomAdsExtendPage');
+	}
+
+	/**
+	 * Shows favourite rooms in the navigator.
+	 */
+	showFavouriteRooms(): void
+	{
+		this.send(new MyFavouriteRoomsSearchMessageComposer());
+
+		this.openNavigator();
+
+		log.debug('Showing favourite rooms');
+	}
+
+	/**
+	 * Shows room visit history.
+	 */
+	showHistoryRooms(): void
+	{
+		this.send(new MyRoomHistorySearchMessageComposer());
+
+		this.openNavigator();
+
+		log.debug('Showing history rooms');
+	}
+
+	/**
+	 * Shows frequently visited rooms.
+	 */
+	showFrequentRooms(): void
+	{
+		this.send(new MyFrequentRoomHistorySearchMessageComposer());
+
+		this.openNavigator();
+
+		log.debug('Showing frequent rooms');
+	}
+
+	/**
+	 * Returns to the navigator main view.
+	 */
+	goToMainView(): void
+	{
+		log.debug('Go to main view');
+	}
+
+	/**
+	 * Checks if a perk is allowed for the current user.
+	 *
+	 * @param perkCode - The perk code to check
+	 * @returns Whether the perk is allowed
+	 * @see sources/win63_version/habbo/navigator/HabboNavigator.as isPerkAllowed()
+	 */
+	isPerkAllowed(perkCode: string): boolean
+	{
+		if(this._sessionData)
+		{
+			return this._sessionData.isPerkAllowed(perkCode);
+		}
+
+		return false;
+	}
+
+	/**
+	 * Tracks a Google Analytics event.
+	 *
+	 * @param category - The event category
+	 * @param action - The event action
+	 * @param value - Optional numeric value
+	 * @see sources/win63_version/habbo/navigator/HabboNavigator.as trackGoogle()
+	 */
+	trackGoogle(category: string, action: string, value: number = -1): void
+	{
+		if(this._tracking)
+		{
+			this._tracking.trackGoogle(category, action, value);
+		}
+	}
+
+	/**
+	 * Tracks a navigation data point via the event log.
+	 *
+	 * @param category - The event category
+	 * @param action - The event action
+	 * @param label - Optional label
+	 * @param value - Optional numeric value
+	 * @see sources/win63_version/habbo/navigator/HabboNavigator.as trackNavigationDataPoint()
+	 */
+	trackNavigationDataPoint(category: string, action: string, label: string = '', value: number = 0): void
+	{
+		if(this._tracking)
+		{
+			this._tracking.trackEventLog('Navigation', category, action, label, value);
+		}
+	}
+
+	/**
+	 * Handles incoming navigation links.
+	 *
+	 * @param link - The link URL to handle
+	 * @see sources/win63_version/habbo/navigator/HabboNavigator.as linkReceived()
+	 */
+	linkReceived(link: string): void
+	{
+		log.debug(`Link received: ${link}`);
+
+		const parts = link.split('/');
+
+		if(parts.length < 2) return;
+
+		switch(parts[1])
+		{
+			case 'goto':
+				if(parts.length >= 3)
+				{
+					const roomId = parseInt(parts[2], 10);
+
+					if(!isNaN(roomId))
+					{
+						this.goToRoom(roomId, true);
+					}
+				}
+				break;
+			case 'search':
+				if(parts.length >= 3)
+				{
+					this.performTextSearch(parts[2]);
+				}
+				break;
+			case 'tag':
+				if(parts.length >= 3)
+				{
+					this.performTagSearch(parts[2]);
+				}
+				break;
+		}
+	}
+
 	override dispose(): void
 	{
 		if (this.disposed) return;
@@ -381,13 +692,4 @@ export class HabboNavigator extends Component implements IHabboNavigator
 		log.debug('Room info closed');
 	}
 
-	private send(composer: IMessageComposer<unknown[]>): void
-	{
-		const connection = this._communication?.connection;
-
-		if (connection)
-		{
-			connection.send(composer);
-		}
-	}
 }

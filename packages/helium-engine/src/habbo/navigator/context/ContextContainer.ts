@@ -32,6 +32,7 @@ export class ContextContainer
 	initialize(topLevelContexts: NavigatorTopLevelContext[]): void
 	{
 		this._topLevelContexts.clear();
+
 		for (const context of topLevelContexts)
 		{
 			this._topLevelContexts.set(context.searchCode, context.savedSearches);
