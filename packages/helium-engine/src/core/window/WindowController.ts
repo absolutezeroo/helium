@@ -354,14 +354,16 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 	/** Filters (delegated to graphic context). */
 	public get filters(): unknown[]
 	{
-		return this.hasGraphicsContext() ? (this.getGraphicContext(true)!.filters ?? []) : [];
+		const gc = this._graphicContext;
+
+		return gc ? (gc.filters ?? []) : [];
 	}
 
 	public set filters(value: unknown[])
 	{
-		if (this.hasGraphicsContext())
+		if (this._graphicContext)
 		{
-			this.getGraphicContext(true)!.filters = value;
+			this._graphicContext.filters = value;
 		}
 	}
 
