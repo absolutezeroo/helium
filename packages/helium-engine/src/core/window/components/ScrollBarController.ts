@@ -1,10 +1,10 @@
-import type { IWindow } from '../IWindow';
-import type { IWindowContext } from '../IWindowContext';
-import type { IScrollbarWindow } from './IScrollbarWindow';
-import type { IScrollableWindow } from './IScrollableWindow';
-import { InteractiveController } from './InteractiveController';
-import { WindowController } from '../WindowController';
-import { WindowEvent } from '../events/WindowEvent';
+import type {IWindow} from '../IWindow';
+import type {IWindowContext} from '../IWindowContext';
+import type {IScrollbarWindow} from './IScrollbarWindow';
+import type {IScrollableWindow} from './IScrollableWindow';
+import {InteractiveController} from './InteractiveController';
+import {WindowController} from '../WindowController';
+import {WindowEvent} from '../events/WindowEvent';
 
 /**
  * Controller for scrollbar windows.
@@ -16,295 +16,296 @@ import { WindowEvent } from '../events/WindowEvent';
  */
 export class ScrollBarController extends InteractiveController implements IScrollbarWindow
 {
-    private static readonly SCROLL_BUTTON_INCREMENT: string = 'increment';
-    private static readonly SCROLL_BUTTON_DECREMENT: string = 'decrement';
-    private static readonly SCROLL_SLIDER_TRACK: string = 'slider_track';
-    private static readonly SCROLL_SLIDER_BAR: string = 'slider_bar';
+	private static readonly SCROLL_BUTTON_INCREMENT: string = 'increment';
+	private static readonly SCROLL_BUTTON_DECREMENT: string = 'decrement';
+	private static readonly SCROLL_SLIDER_TRACK: string = 'slider_track';
+	private static readonly SCROLL_SLIDER_BAR: string = 'slider_bar';
 
-    protected _offset: number = 0;
-    protected _scrollStep: number = 0.1;
-    protected _scrollable: IScrollableWindow | null = null;
+	protected _offset: number = 0;
+	protected _scrollStep: number = 0.1;
+	private _targetName: string | null = null;
+	private _isUpdatingLift: boolean = false;
 
-    private _horizontal: boolean;
-    private _targetName: string | null = null;
-    private _isUpdatingLift: boolean = false;
+	constructor(
+		name: string,
+		type: number,
+		style: number,
+		param: number,
+		context: IWindowContext,
+		rect: { x: number; y: number; width: number; height: number },
+		parent: IWindow | null = null,
+		procedure: ((event: WindowEvent, window: IWindow) => void) | null = null,
+		tags: string[] | null = null,
+		properties: unknown[] | null = null,
+		id: number = 0,
+		dynamicStyle: string = ''
+	)
+	{
+		super(name, type, style, param, context, rect, parent, procedure, tags, properties, id);
 
-    constructor(
-        name: string,
-        type: number,
-        style: number,
-        param: number,
-        context: IWindowContext,
-        rect: { x: number; y: number; width: number; height: number },
-        parent: IWindow | null = null,
-        procedure: ((event: WindowEvent, window: IWindow) => void) | null = null,
-        tags: string[] | null = null,
-        properties: unknown[] | null = null,
-        id: number = 0,
-        dynamicStyle: string = ''
-    )
-    {
-        super(name, type, style, param, context, rect, parent, procedure, tags, properties, id);
+		this._hasVisualContent = false;
+		this._horizontal = (type === 130);
 
-        this._hasVisualContent = false;
-        this._horizontal = (type === 130);
+		const internals: IWindow[] = [];
 
-        const internals: IWindow[] = [];
+		this.groupChildrenWithTag('_INTERNAL', internals, -1);
 
-        this.groupChildrenWithTag('_INTERNAL', internals, -1);
+		for (const child of internals)
+		{
+			child.procedure = this.scrollButtonEventProc.bind(this);
+		}
 
-        for(const child of internals)
-        {
-            child.procedure = this.scrollButtonEventProc.bind(this);
-        }
+		this.updateLiftSizeAndPosition();
+	}
 
-        this.updateLiftSizeAndPosition();
-    }
+	protected _scrollable: IScrollableWindow | null = null;
 
-    /**
-     * Gets the horizontal scroll position.
-     */
-    public get scrollH(): number
-    {
-        return this._horizontal ? this._offset : 0;
-    }
+	/**
+	 * Gets the scrollable target window.
+	 */
+	public get scrollable(): IScrollableWindow | null
+	{
+		return this._scrollable;
+	}
 
-    /**
-     * Sets the horizontal scroll position.
-     */
-    public set scrollH(value: number)
-    {
-        if(this._horizontal)
-        {
-            if(this.setScrollPosition(value))
-            {
-                this.updateLiftSizeAndPosition();
-            }
-        }
-    }
+	/**
+	 * Sets the scrollable target window.
+	 */
+	public set scrollable(value: IScrollableWindow | null)
+	{
+		if (this._scrollable !== null && !this._scrollable.disposed)
+		{
+			(this._scrollable as unknown as IWindow).removeEventListener('WE_RESIZED', this.onScrollableResized.bind(this));
+			(this._scrollable as unknown as IWindow).removeEventListener('WE_SCROLL', this.onScrollableScrolled.bind(this));
+		}
 
-    /**
-     * Gets the vertical scroll position.
-     */
-    public get scrollV(): number
-    {
-        return this._horizontal ? 0 : this._offset;
-    }
+		this._scrollable = value;
 
-    /**
-     * Sets the vertical scroll position.
-     */
-    public set scrollV(value: number)
-    {
-        if(!this._horizontal)
-        {
-            if(this.setScrollPosition(value))
-            {
-                this.updateLiftSizeAndPosition();
-            }
-        }
-    }
+		if (this._scrollable !== null && !this._scrollable.disposed)
+		{
+			(this._scrollable as unknown as IWindow).addEventListener('WE_RESIZED', this.onScrollableResized.bind(this));
+			(this._scrollable as unknown as IWindow).addEventListener('WE_SCROLL', this.onScrollableScrolled.bind(this));
+			this.updateLiftSizeAndPosition();
+		}
+	}
 
-    /**
-     * Gets the scrollable target window.
-     */
-    public get scrollable(): IScrollableWindow | null
-    {
-        return this._scrollable;
-    }
+	private _horizontal: boolean;
 
-    /**
-     * Sets the scrollable target window.
-     */
-    public set scrollable(value: IScrollableWindow | null)
-    {
-        if(this._scrollable !== null && !this._scrollable.disposed)
-        {
-            (this._scrollable as unknown as IWindow).removeEventListener('WE_RESIZED', this.onScrollableResized.bind(this));
-            (this._scrollable as unknown as IWindow).removeEventListener('WE_SCROLL', this.onScrollableScrolled.bind(this));
-        }
+	/**
+	 * Gets whether this scrollbar is horizontal.
+	 */
+	public get horizontal(): boolean
+	{
+		return this._horizontal;
+	}
 
-        this._scrollable = value;
+	/**
+	 * Gets the horizontal scroll position.
+	 */
+	public get scrollH(): number
+	{
+		return this._horizontal ? this._offset : 0;
+	}
 
-        if(this._scrollable !== null && !this._scrollable.disposed)
-        {
-            (this._scrollable as unknown as IWindow).addEventListener('WE_RESIZED', this.onScrollableResized.bind(this));
-            (this._scrollable as unknown as IWindow).addEventListener('WE_SCROLL', this.onScrollableScrolled.bind(this));
-            this.updateLiftSizeAndPosition();
-        }
-    }
+	/**
+	 * Sets the horizontal scroll position.
+	 */
+	public set scrollH(value: number)
+	{
+		if (this._horizontal)
+		{
+			if (this.setScrollPosition(value))
+			{
+				this.updateLiftSizeAndPosition();
+			}
+		}
+	}
 
-    /**
-     * Gets whether this scrollbar is horizontal.
-     */
-    public get horizontal(): boolean
-    {
-        return this._horizontal;
-    }
+	/**
+	 * Gets the vertical scroll position.
+	 */
+	public get scrollV(): number
+	{
+		return this._horizontal ? 0 : this._offset;
+	}
 
-    /**
-     * Gets whether this scrollbar is vertical.
-     */
-    public get vertical(): boolean
-    {
-        return !this._horizontal;
-    }
+	/**
+	 * Sets the vertical scroll position.
+	 */
+	public set scrollV(value: number)
+	{
+		if (!this._horizontal)
+		{
+			if (this.setScrollPosition(value))
+			{
+				this.updateLiftSizeAndPosition();
+			}
+		}
+	}
 
-    /**
-     * Gets the track child window.
-     */
-    protected get track(): WindowController | null
-    {
-        return this.findChildByName(ScrollBarController.SCROLL_SLIDER_TRACK) as WindowController | null;
-    }
+	/**
+	 * Gets whether this scrollbar is vertical.
+	 */
+	public get vertical(): boolean
+	{
+		return !this._horizontal;
+	}
 
-    /**
-     * Gets the lift (thumb) child window.
-     */
-    protected get lift(): WindowController | null
-    {
-        const trackWindow = this.track;
+	/**
+	 * Gets the track child window.
+	 */
+	protected get track(): WindowController | null
+	{
+		return this.findChildByName(ScrollBarController.SCROLL_SLIDER_TRACK) as WindowController | null;
+	}
 
-        if(!trackWindow) return null;
+	/**
+	 * Gets the lift (thumb) child window.
+	 */
+	protected get lift(): WindowController | null
+	{
+		const trackWindow = this.track;
 
-        return trackWindow.findChildByName(ScrollBarController.SCROLL_SLIDER_BAR) as WindowController | null;
-    }
+		if (!trackWindow) return null;
 
-    /**
-     * Sets the scroll position and syncs to the scrollable target.
-     *
-     * @returns Whether the position actually changed
-     */
-    protected setScrollPosition(value: number): boolean
-    {
-        if(this._scrollable === null || this._scrollable.disposed)
-        {
-            if(!this.resolveScrollTarget()) return false;
-        }
+		return trackWindow.findChildByName(ScrollBarController.SCROLL_SLIDER_BAR) as WindowController | null;
+	}
 
-        if(value < 0) value = 0;
-        if(value > 1) value = 1;
+	public override dispose(): void
+	{
+		if (this._disposed) return;
 
-        this._offset = value;
+		this.scrollable = null;
 
-        let changed = false;
+		super.dispose();
+	}
 
-        if(this._horizontal)
-        {
-            changed = this._scrollable!.scrollH !== this._offset;
+	/**
+	 * Sets the scroll position and syncs to the scrollable target.
+	 *
+	 * @returns Whether the position actually changed
+	 */
+	protected setScrollPosition(value: number): boolean
+	{
+		if (this._scrollable === null || this._scrollable.disposed)
+		{
+			if (!this.resolveScrollTarget()) return false;
+		}
 
-            if(changed)
-            {
-                this._scrollable!.scrollH = this._offset;
-            }
-        }
-        else
-        {
-            changed = this._scrollable!.scrollV !== this._offset;
+		if (value < 0) value = 0;
+		if (value > 1) value = 1;
 
-            if(changed)
-            {
-                this._scrollable!.scrollV = this._offset;
-            }
-        }
+		this._offset = value;
 
-        return changed;
-    }
+		let changed = false;
 
-    /**
-     * Updates the lift (thumb) size and position based on the scrollable region.
-     */
-    private updateLiftSizeAndPosition(): void
-    {
-        if(this._scrollable === null || this._scrollable.disposed)
-        {
-            if(this._disposed || !this.resolveScrollTarget()) return;
-        }
+		if (this._horizontal)
+		{
+			changed = this._scrollable!.scrollH !== this._offset;
 
-        const trackWindow = this.track;
-        const liftWindow = this.lift;
+			if (changed)
+			{
+				this._scrollable!.scrollH = this._offset;
+			}
+		}
+		else
+		{
+			changed = this._scrollable!.scrollV !== this._offset;
 
-        if(!trackWindow || !liftWindow) return;
+			if (changed)
+			{
+				this._scrollable!.scrollV = this._offset;
+			}
+		}
 
-        let ratio: number;
+		return changed;
+	}
 
-        if(this._horizontal)
-        {
-            ratio = this._scrollable!.visibleRegion.width / Math.max(1, this._scrollable!.scrollableRegion.width);
+	/**
+	 * Updates the lift (thumb) size and position based on the scrollable region.
+	 */
+	private updateLiftSizeAndPosition(): void
+	{
+		if (this._scrollable === null || this._scrollable.disposed)
+		{
+			if (this._disposed || !this.resolveScrollTarget()) return;
+		}
 
-            if(ratio > 1) ratio = 1;
+		const trackWindow = this.track;
+		const liftWindow = this.lift;
 
-            const liftWidth = ratio * trackWindow.width;
+		if (!trackWindow || !liftWindow) return;
 
-            liftWindow.width = liftWidth;
-            liftWindow.x = Math.round(this._scrollable!.scrollH * (trackWindow.width - liftWidth));
-        }
-        else
-        {
-            ratio = this._scrollable!.visibleRegion.height / Math.max(1, this._scrollable!.scrollableRegion.height);
+		let ratio: number;
 
-            if(ratio > 1) ratio = 1;
+		if (this._horizontal)
+		{
+			ratio = this._scrollable!.visibleRegion.width / Math.max(1, this._scrollable!.scrollableRegion.width);
 
-            const liftHeight = ratio * trackWindow.height;
+			if (ratio > 1) ratio = 1;
 
-            liftWindow.height = liftHeight;
-            liftWindow.y = Math.round(this._scrollable!.scrollV * (trackWindow.height - liftWindow.height));
-        }
+			const liftWidth = ratio * trackWindow.width;
 
-        if(ratio === 1)
-        {
-            this.disable();
-        }
-        else
-        {
-            this.enable();
-        }
-    }
+			liftWindow.width = liftWidth;
+			liftWindow.x = Math.round(this._scrollable!.scrollH * (trackWindow.width - liftWidth));
+		}
+		else
+		{
+			ratio = this._scrollable!.visibleRegion.height / Math.max(1, this._scrollable!.scrollableRegion.height);
 
-    /**
-     * Handles scroll button events (increment, decrement, track click).
-     */
-    private scrollButtonEventProc(_event: WindowEvent, _window: IWindow): void
-    {
-        // Stub - scroll button event handling
-    }
+			if (ratio > 1) ratio = 1;
 
-    /**
-     * Attempts to resolve the scroll target from the parent hierarchy.
-     */
-    private resolveScrollTarget(): boolean
-    {
-        if(this._scrollable !== null && !this._scrollable.disposed)
-        {
-            return true;
-        }
+			const liftHeight = ratio * trackWindow.height;
 
-        return false;
-    }
+			liftWindow.height = liftHeight;
+			liftWindow.y = Math.round(this._scrollable!.scrollV * (trackWindow.height - liftWindow.height));
+		}
 
-    /**
-     * Called when the scrollable target resizes.
-     */
-    private onScrollableResized(_event: WindowEvent): void
-    {
-        this.updateLiftSizeAndPosition();
-        this.setScrollPosition(this._offset);
-    }
+		if (ratio === 1)
+		{
+			this.disable();
+		}
+		else
+		{
+			this.enable();
+		}
+	}
 
-    /**
-     * Called when the scrollable target scrolls.
-     */
-    private onScrollableScrolled(_event: WindowEvent): void
-    {
-        this.updateLiftSizeAndPosition();
-    }
+	/**
+	 * Handles scroll button events (increment, decrement, track click).
+	 */
+	private scrollButtonEventProc(_event: WindowEvent, _window: IWindow): void
+	{
+		// Stub - scroll button event handling
+	}
 
-    public override dispose(): void
-    {
-        if(this._disposed) return;
+	/**
+	 * Attempts to resolve the scroll target from the parent hierarchy.
+	 */
+	private resolveScrollTarget(): boolean
+	{
+		if (this._scrollable !== null && !this._scrollable.disposed)
+		{
+			return true;
+		}
 
-        this.scrollable = null;
+		return false;
+	}
 
-        super.dispose();
-    }
+	/**
+	 * Called when the scrollable target resizes.
+	 */
+	private onScrollableResized(_event: WindowEvent): void
+	{
+		this.updateLiftSizeAndPosition();
+		this.setScrollPosition(this._offset);
+	}
+
+	/**
+	 * Called when the scrollable target scrolls.
+	 */
+	private onScrollableScrolled(_event: WindowEvent): void
+	{
+		this.updateLiftSizeAndPosition();
+	}
 }

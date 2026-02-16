@@ -1,4 +1,4 @@
-import type { IIterator } from './IIterator';
+import type {IIterator} from './IIterator';
 
 /**
  * Interface for iterable window containers.
@@ -7,5 +7,5 @@ import type { IIterator } from './IIterator';
  */
 export interface IIterable
 {
-    iterator(): IIterator;
+	iterator(): IIterator;
 }

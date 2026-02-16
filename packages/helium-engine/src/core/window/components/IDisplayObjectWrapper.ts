@@ -1,4 +1,4 @@
-import type { IWindow } from '../IWindow';
+import type {IWindow} from '../IWindow';
 
 /**
  * Interface for windows that wrap a display object.
@@ -11,6 +11,7 @@ import type { IWindow } from '../IWindow';
  */
 export interface IDisplayObjectWrapper extends IWindow
 {
-    setDisplayObject(displayObject: unknown): void;
-    getDisplayObject(): unknown;
+	setDisplayObject(displayObject: unknown): void;
+
+	getDisplayObject(): unknown;
 }

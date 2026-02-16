@@ -1,4 +1,4 @@
-import type { IGraphicContext } from './IGraphicContext';
+import type {IGraphicContext} from './IGraphicContext';
 
 /**
  * Graphic context implementation.
@@ -11,197 +11,202 @@ import type { IGraphicContext } from './IGraphicContext';
  */
 export class GraphicContext implements IGraphicContext
 {
-    public static readonly GC_TYPE_NULL: number = 0;
-    public static readonly GC_TYPE_BITMAP: number = 1;
-    public static readonly GC_TYPE_TEXT: number = 2;
-    public static readonly GC_TYPE_CONTAINER: number = 4;
-    public static readonly GC_TYPE_SHAPE: number = 8;
-    public static readonly GC_TYPE_MORPH_SHAPE: number = 16;
-    public static readonly GC_TYPE_METADATA: number = 0x100;
+	public static readonly GC_TYPE_NULL: number = 0;
+	public static readonly GC_TYPE_BITMAP: number = 1;
+	public static readonly GC_TYPE_TEXT: number = 2;
+	public static readonly GC_TYPE_CONTAINER: number = 4;
+	public static readonly GC_TYPE_SHAPE: number = 8;
+	public static readonly GC_TYPE_MORPH_SHAPE: number = 16;
+	public static readonly GC_TYPE_METADATA: number = 0x100;
 
-    private static _instanceCount: number = 0;
+	private static _instanceCount: number = 0;
+	private _type: number;
+	private _rectangle: { x: number; y: number; width: number; height: number };
+	private _children: IGraphicContext[] = [];
 
-    private _name: string;
-    private _type: number;
-    private _rectangle: { x: number; y: number; width: number; height: number };
-    private _visible: boolean = true;
-    private _blend: number = 1;
-    private _mouse: boolean = false;
-    private _filters: unknown[] = [];
-    private _disposed: boolean = false;
-    private _children: IGraphicContext[] = [];
+	constructor(name: string, type: number, rect: { x: number; y: number; width: number; height: number })
+	{
+		GraphicContext._instanceCount++;
+		this._name = name;
+		this._type = type;
+		this._rectangle = {...rect};
+	}
 
-    constructor(name: string, type: number, rect: { x: number; y: number; width: number; height: number })
-    {
-        GraphicContext._instanceCount++;
-        this._name = name;
-        this._type = type;
-        this._rectangle = { ...rect };
-    }
+	public static get numGraphicContexts(): number
+	{
+		return GraphicContext._instanceCount;
+	}
 
-    public static get numGraphicContexts(): number
-    {
-        return GraphicContext._instanceCount;
-    }
+	private _name: string;
 
-    public get name(): string
-    {
-        return this._name;
-    }
+	public get name(): string
+	{
+		return this._name;
+	}
 
-    public get filters(): unknown[]
-    {
-        return this._filters;
-    }
+	private _visible: boolean = true;
 
-    public set filters(value: unknown[])
-    {
-        this._filters = value;
-    }
+	public get visible(): boolean
+	{
+		return this._visible;
+	}
 
-    public get visible(): boolean
-    {
-        return this._visible;
-    }
+	public set visible(value: boolean)
+	{
+		this._visible = value;
+	}
 
-    public set visible(value: boolean)
-    {
-        this._visible = value;
-    }
+	private _blend: number = 1;
 
-    public get blend(): number
-    {
-        return this._blend;
-    }
+	public get blend(): number
+	{
+		return this._blend;
+	}
 
-    public set blend(value: number)
-    {
-        this._blend = value;
-    }
+	public set blend(value: number)
+	{
+		this._blend = value;
+	}
 
-    public get mouse(): boolean
-    {
-        return this._mouse;
-    }
+	private _mouse: boolean = false;
 
-    public set mouse(value: boolean)
-    {
-        this._mouse = value;
-    }
+	public get mouse(): boolean
+	{
+		return this._mouse;
+	}
 
-    public get disposed(): boolean
-    {
-        return this._disposed;
-    }
+	public set mouse(value: boolean)
+	{
+		this._mouse = value;
+	}
 
-    public get numChildContexts(): number
-    {
-        return this._children.length;
-    }
+	private _filters: unknown[] = [];
 
-    public offset(x: number, y: number): void
-    {
-        this._rectangle.x += x;
-        this._rectangle.y += y;
-    }
+	public get filters(): unknown[]
+	{
+		return this._filters;
+	}
 
-    public getDrawRegion(): { x: number; y: number; width: number; height: number }
-    {
-        return { ...this._rectangle };
-    }
+	public set filters(value: unknown[])
+	{
+		this._filters = value;
+	}
 
-    public fetchDrawBuffer(): unknown
-    {
-        return null;
-    }
+	private _disposed: boolean = false;
 
-    public addChildContext(context: IGraphicContext): IGraphicContext
-    {
-        this._children.push(context);
+	public get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
-        return context;
-    }
+	public get numChildContexts(): number
+	{
+		return this._children.length;
+	}
 
-    public addChildContextAt(context: IGraphicContext, index: number): IGraphicContext
-    {
-        this._children.splice(index, 0, context);
+	public offset(x: number, y: number): void
+	{
+		this._rectangle.x += x;
+		this._rectangle.y += y;
+	}
 
-        return context;
-    }
+	public getDrawRegion(): { x: number; y: number; width: number; height: number }
+	{
+		return {...this._rectangle};
+	}
 
-    public getChildContextAt(index: number): IGraphicContext
-    {
-        return this._children[index];
-    }
+	public fetchDrawBuffer(): unknown
+	{
+		return null;
+	}
 
-    public getChildContextIndex(context: IGraphicContext): number
-    {
-        return this._children.indexOf(context);
-    }
+	public addChildContext(context: IGraphicContext): IGraphicContext
+	{
+		this._children.push(context);
 
-    public removeChildContext(context: IGraphicContext): IGraphicContext
-    {
-        const index = this._children.indexOf(context);
+		return context;
+	}
 
-        if(index >= 0)
-        {
-            this._children.splice(index, 1);
-        }
+	public addChildContextAt(context: IGraphicContext, index: number): IGraphicContext
+	{
+		this._children.splice(index, 0, context);
 
-        return context;
-    }
+		return context;
+	}
 
-    public removeChildContextAt(index: number): IGraphicContext
-    {
-        const [removed] = this._children.splice(index, 1);
+	public getChildContextAt(index: number): IGraphicContext
+	{
+		return this._children[index];
+	}
 
-        return removed;
-    }
+	public getChildContextIndex(context: IGraphicContext): number
+	{
+		return this._children.indexOf(context);
+	}
 
-    public setChildContextIndex(context: IGraphicContext, index: number): void
-    {
-        const current = this._children.indexOf(context);
+	public removeChildContext(context: IGraphicContext): IGraphicContext
+	{
+		const index = this._children.indexOf(context);
 
-        if(current >= 0)
-        {
-            this._children.splice(current, 1);
-            this._children.splice(index, 0, context);
-        }
-    }
+		if (index >= 0)
+		{
+			this._children.splice(index, 1);
+		}
 
-    public swapChildContexts(a: IGraphicContext, b: IGraphicContext): void
-    {
-        const indexA = this._children.indexOf(a);
-        const indexB = this._children.indexOf(b);
+		return context;
+	}
 
-        if(indexA >= 0 && indexB >= 0)
-        {
-            this._children[indexA] = b;
-            this._children[indexB] = a;
-        }
-    }
+	public removeChildContextAt(index: number): IGraphicContext
+	{
+		const [removed] = this._children.splice(index, 1);
 
-    public swapChildContextsAt(indexA: number, indexB: number): void
-    {
-        const temp = this._children[indexA];
-        this._children[indexA] = this._children[indexB];
-        this._children[indexB] = temp;
-    }
+		return removed;
+	}
 
-    public dispose(): void
-    {
-        if(!this._disposed)
-        {
-            this._disposed = true;
-            GraphicContext._instanceCount--;
+	public setChildContextIndex(context: IGraphicContext, index: number): void
+	{
+		const current = this._children.indexOf(context);
 
-            for(const child of this._children)
-            {
-                child.dispose();
-            }
+		if (current >= 0)
+		{
+			this._children.splice(current, 1);
+			this._children.splice(index, 0, context);
+		}
+	}
 
-            this._children.length = 0;
-            this._filters.length = 0;
-        }
-    }
+	public swapChildContexts(a: IGraphicContext, b: IGraphicContext): void
+	{
+		const indexA = this._children.indexOf(a);
+		const indexB = this._children.indexOf(b);
+
+		if (indexA >= 0 && indexB >= 0)
+		{
+			this._children[indexA] = b;
+			this._children[indexB] = a;
+		}
+	}
+
+	public swapChildContextsAt(indexA: number, indexB: number): void
+	{
+		const temp = this._children[indexA];
+		this._children[indexA] = this._children[indexB];
+		this._children[indexB] = temp;
+	}
+
+	public dispose(): void
+	{
+		if (!this._disposed)
+		{
+			this._disposed = true;
+			GraphicContext._instanceCount--;
+
+			for (const child of this._children)
+			{
+				child.dispose();
+			}
+
+			this._children.length = 0;
+			this._filters.length = 0;
+		}
+	}
 }

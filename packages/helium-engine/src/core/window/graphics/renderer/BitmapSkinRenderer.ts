@@ -1,9 +1,8 @@
-import type { IWindow } from '../../IWindow';
-import { SkinRenderer } from './SkinRenderer';
-import { SkinLayoutEntity } from './SkinLayoutEntity';
-import type { SkinLayout } from './SkinLayout';
-import type { SkinTemplate } from './SkinTemplate';
-import type { SkinTemplateEntity } from './SkinTemplateEntity';
+import type {IWindow} from '../../IWindow';
+import {SkinRenderer} from './SkinRenderer';
+import {SkinLayoutEntity} from './SkinLayoutEntity';
+import type {SkinTemplate} from './SkinTemplate';
+import type {SkinTemplateEntity} from './SkinTemplateEntity';
 
 /**
  * 9-slice bitmap skin renderer.
@@ -22,290 +21,290 @@ import type { SkinTemplateEntity } from './SkinTemplateEntity';
  */
 export class BitmapSkinRenderer extends SkinRenderer
 {
-    /** Bitmap cache: "entityName@templateName" → OffscreenCanvas crop. */
-    private _bitmapCache: Map<string, OffscreenCanvas> = new Map();
+	/** Bitmap cache: "entityName@templateName" → OffscreenCanvas crop. */
+	private _bitmapCache: Map<string, OffscreenCanvas> = new Map();
 
-    constructor(name: string)
-    {
-        super(name);
-    }
+	constructor(name: string)
+	{
+		super(name);
+	}
 
-    /**
-     * Draws the skin for the given window state.
-     *
-     * Algorithm (faithful port of AS3 BitmapSkinRenderer.draw):
-     * 1. Resolve state → layout + template (fallback to state 0)
-     * 2. Compute deltaW/deltaH (target size - layout base size)
-     * 3. For each layout entity, apply scale mode and draw from atlas
-     * 4. Colorize if needed
-     *
-     * @param window - The window to render
-     * @param ctx - The canvas context to draw into
-     * @param rect - The target rectangle
-     * @param state - The resolved window state
-     * @param _colorize - Colorization flag (unused, window.color is checked directly)
-     */
-    public override draw(
-        window: IWindow,
-        ctx: OffscreenCanvasRenderingContext2D,
-        rect: { x: number; y: number; width: number; height: number },
-        state: number,
-        _colorize: boolean
-    ): void
-    {
-        // Resolve layout and template for this state, fallback to DEFAULT (0)
-        let layout = this.getLayoutForState(state);
-        let template = this.getTemplateForState(state);
+	/**
+	 * Draws the skin for the given window state.
+	 *
+	 * Algorithm (faithful port of AS3 BitmapSkinRenderer.draw):
+	 * 1. Resolve state → layout + template (fallback to state 0)
+	 * 2. Compute deltaW/deltaH (target size - layout base size)
+	 * 3. For each layout entity, apply scale mode and draw from atlas
+	 * 4. Colorize if needed
+	 *
+	 * @param window - The window to render
+	 * @param ctx - The canvas context to draw into
+	 * @param rect - The target rectangle
+	 * @param state - The resolved window state
+	 * @param _colorize - Colorization flag (unused, window.color is checked directly)
+	 */
+	public override draw(
+		window: IWindow,
+		ctx: OffscreenCanvasRenderingContext2D,
+		rect: { x: number; y: number; width: number; height: number },
+		state: number,
+		_colorize: boolean
+	): void
+	{
+		// Resolve layout and template for this state, fallback to DEFAULT (0)
+		let layout = this.getLayoutForState(state);
+		let template = this.getTemplateForState(state);
 
-        if(!layout || !template)
-        {
-            layout = this.getLayoutForState(0);
-            template = this.getTemplateForState(0);
-        }
+		if (!layout || !template)
+		{
+			layout = this.getLayoutForState(0);
+			template = this.getTemplateForState(0);
+		}
 
-        if(!layout || !template) return;
+		if (!layout || !template) return;
 
-        if(!template.atlas) return;
+		if (!template.atlas) return;
 
-        const targetWidth = rect.width;
-        const targetHeight = rect.height;
+		const targetWidth = rect.width;
+		const targetHeight = rect.height;
 
-        if(targetWidth < 1 || targetHeight < 1) return;
+		if (targetWidth < 1 || targetHeight < 1) return;
 
-        // Compute deltas
-        const deltaW = targetWidth - layout.width;
-        const deltaH = targetHeight - layout.height;
+		// Compute deltas
+		const deltaW = targetWidth - layout.width;
+		const deltaH = targetHeight - layout.height;
 
-        // Determine colorization
-        const color = window.color;
-        const doColorize = !window.background && ((color & 0xFFFFFF) < 0xFFFFFF) && ((color & 0xFFFFFF) > 0);
-        const colorR = doColorize ? ((color >> 16) & 0xFF) / 255 : 1;
-        const colorG = doColorize ? ((color >> 8) & 0xFF) / 255 : 1;
-        const colorB = doColorize ? (color & 0xFF) / 255 : 1;
+		// Determine colorization
+		const color = window.color;
+		const doColorize = !window.background && ((color & 0xFFFFFF) < 0xFFFFFF) && ((color & 0xFFFFFF) > 0);
+		const colorR = doColorize ? ((color >> 16) & 0xFF) / 255 : 1;
+		const colorG = doColorize ? ((color >> 8) & 0xFF) / 255 : 1;
+		const colorB = doColorize ? (color & 0xFF) / 255 : 1;
 
-        // Render each layout entity
-        for(let i = 0; i < layout.numEntities; i++)
-        {
-            const layoutEntity = layout.getEntityAt(i);
-            const templateEntity = template.getEntityByName(layoutEntity.name);
+		// Render each layout entity
+		for (let i = 0; i < layout.numEntities; i++)
+		{
+			const layoutEntity = layout.getEntityAt(i);
+			const templateEntity = template.getEntityByName(layoutEntity.name);
 
-            if(!templateEntity) continue;
+			if (!templateEntity) continue;
 
-            // Get cached bitmap piece
-            const piece = this.getBitmapFromCache(template, templateEntity);
+			// Get cached bitmap piece
+			const piece = this.getBitmapFromCache(template, templateEntity);
 
-            if(!piece) continue;
+			if (!piece) continue;
 
-            const srcW = templateEntity.region.width;
-            const srcH = templateEntity.region.height;
+			const srcW = templateEntity.region.width;
+			const srcH = templateEntity.region.height;
 
-            if(srcW < 1 || srcH < 1) continue;
+			if (srcW < 1 || srcH < 1) continue;
 
-            // Calculate destination from layout region + scale mode
-            let destX = rect.x + layoutEntity.region.x;
-            let destY = rect.y + layoutEntity.region.y;
-            let destW = layoutEntity.region.width;
-            let destH = layoutEntity.region.height;
+			// Calculate destination from layout region + scale mode
+			let destX = rect.x + layoutEntity.region.x;
+			let destY = rect.y + layoutEntity.region.y;
+			let destW = layoutEntity.region.width;
+			let destH = layoutEntity.region.height;
 
-            // Apply horizontal scale mode
-            switch(layoutEntity.scaleH)
-            {
-                case SkinLayoutEntity.SCALE_FIXED:
-                    break;
-                case SkinLayoutEntity.SCALE_MOVE:
-                    destX += deltaW;
-                    break;
-                case SkinLayoutEntity.SCALE_STRETCH:
-                    destW += deltaW;
-                    break;
-                case SkinLayoutEntity.SCALE_TILED:
-                    destW += deltaW;
-                    break;
-                case SkinLayoutEntity.SCALE_CENTER:
-                    destX += Math.floor(deltaW / 2);
-                    break;
-            }
+			// Apply horizontal scale mode
+			switch (layoutEntity.scaleH)
+			{
+				case SkinLayoutEntity.SCALE_FIXED:
+					break;
+				case SkinLayoutEntity.SCALE_MOVE:
+					destX += deltaW;
+					break;
+				case SkinLayoutEntity.SCALE_STRETCH:
+					destW += deltaW;
+					break;
+				case SkinLayoutEntity.SCALE_TILED:
+					destW += deltaW;
+					break;
+				case SkinLayoutEntity.SCALE_CENTER:
+					destX += Math.floor(deltaW / 2);
+					break;
+			}
 
-            // Apply vertical scale mode
-            switch(layoutEntity.scaleV)
-            {
-                case SkinLayoutEntity.SCALE_FIXED:
-                    break;
-                case SkinLayoutEntity.SCALE_MOVE:
-                    destY += deltaH;
-                    break;
-                case SkinLayoutEntity.SCALE_STRETCH:
-                    destH += deltaH;
-                    break;
-                case SkinLayoutEntity.SCALE_TILED:
-                    destH += deltaH;
-                    break;
-                case SkinLayoutEntity.SCALE_CENTER:
-                    destY += Math.floor(deltaH / 2);
-                    break;
-            }
+			// Apply vertical scale mode
+			switch (layoutEntity.scaleV)
+			{
+				case SkinLayoutEntity.SCALE_FIXED:
+					break;
+				case SkinLayoutEntity.SCALE_MOVE:
+					destY += deltaH;
+					break;
+				case SkinLayoutEntity.SCALE_STRETCH:
+					destH += deltaH;
+					break;
+				case SkinLayoutEntity.SCALE_TILED:
+					destH += deltaH;
+					break;
+				case SkinLayoutEntity.SCALE_CENTER:
+					destY += Math.floor(deltaH / 2);
+					break;
+			}
 
-            if(destW < 1 || destH < 1) continue;
+			if (destW < 1 || destH < 1) continue;
 
-            // Apply colorization if entity supports it
-            let drawSource: OffscreenCanvas | ImageBitmap = piece;
+			// Apply colorization if entity supports it
+			let drawSource: OffscreenCanvas | ImageBitmap = piece;
 
-            if(doColorize && layoutEntity.colorize)
-            {
-                drawSource = this.colorizeEntity(piece, srcW, srcH, colorR, colorG, colorB);
-            }
+			if (doColorize && layoutEntity.colorize)
+			{
+				drawSource = this.colorizeEntity(piece, srcW, srcH, colorR, colorG, colorB);
+			}
 
-            // Draw the piece
-            if(layoutEntity.scaleH === SkinLayoutEntity.SCALE_TILED || layoutEntity.scaleV === SkinLayoutEntity.SCALE_TILED)
-            {
-                this.drawTiled(ctx, drawSource, srcW, srcH, destX, destY, destW, destH);
-            }
-            else if(destW === srcW && destH === srcH)
-            {
-                // No scaling needed — direct copy
-                ctx.drawImage(drawSource, 0, 0, srcW, srcH, destX, destY, srcW, srcH);
-            }
-            else
-            {
-                // Scaled draw
-                ctx.drawImage(drawSource, 0, 0, srcW, srcH, destX, destY, destW, destH);
-            }
+			// Draw the piece
+			if (layoutEntity.scaleH === SkinLayoutEntity.SCALE_TILED || layoutEntity.scaleV === SkinLayoutEntity.SCALE_TILED)
+			{
+				this.drawTiled(ctx, drawSource, srcW, srcH, destX, destY, destW, destH);
+			}
+			else if (destW === srcW && destH === srcH)
+			{
+				// No scaling needed — direct copy
+				ctx.drawImage(drawSource, 0, 0, srcW, srcH, destX, destY, srcW, srcH);
+			}
+			else
+			{
+				// Scaled draw
+				ctx.drawImage(drawSource, 0, 0, srcW, srcH, destX, destY, destW, destH);
+			}
 
-        }
-    }
+		}
+	}
 
-    /**
-     * Gets or creates a cached bitmap piece for a template entity.
-     *
-     * Key format: "entityName@templateName"
-     *
-     * @param template - The skin template
-     * @param entity - The template entity
-     * @returns The cropped OffscreenCanvas piece, or null
-     */
-    private getBitmapFromCache(template: SkinTemplate, entity: SkinTemplateEntity): OffscreenCanvas | null
-    {
-        const key = `${ entity.name }@${ template.name }`;
+	public override dispose(): void
+	{
+		if (this._disposed) return;
 
-        let cached = this._bitmapCache.get(key);
+		this._bitmapCache.clear();
 
-        if(cached) return cached;
+		super.dispose();
+	}
 
-        const atlas = template.atlas;
+	/**
+	 * Gets or creates a cached bitmap piece for a template entity.
+	 *
+	 * Key format: "entityName@templateName"
+	 *
+	 * @param template - The skin template
+	 * @param entity - The template entity
+	 * @returns The cropped OffscreenCanvas piece, or null
+	 */
+	private getBitmapFromCache(template: SkinTemplate, entity: SkinTemplateEntity): OffscreenCanvas | null
+	{
+		const key = `${entity.name}@${template.name}`;
 
-        if(!atlas) return null;
+		let cached = this._bitmapCache.get(key);
 
-        const region = entity.region;
+		if (cached) return cached;
 
-        if(region.width < 1 || region.height < 1) return null;
+		const atlas = template.atlas;
 
-        cached = new OffscreenCanvas(region.width, region.height);
+		if (!atlas) return null;
 
-        const ctx = cached.getContext('2d');
+		const region = entity.region;
 
-        if(!ctx) return null;
+		if (region.width < 1 || region.height < 1) return null;
 
-        ctx.imageSmoothingEnabled = false;
-        ctx.drawImage(atlas, region.x, region.y, region.width, region.height, 0, 0, region.width, region.height);
+		cached = new OffscreenCanvas(region.width, region.height);
 
-        this._bitmapCache.set(key, cached);
+		const ctx = cached.getContext('2d');
 
-        return cached;
-    }
+		if (!ctx) return null;
 
-    /**
-     * Creates a colorized copy of a bitmap piece.
-     *
-     * Uses canvas composite 'multiply' to apply the color,
-     * then 'destination-in' to restore the alpha channel.
-     *
-     * @param piece - The source piece
-     * @param width - The piece width
-     * @param height - The piece height
-     * @param r - Red multiplier (0-1)
-     * @param g - Green multiplier (0-1)
-     * @param b - Blue multiplier (0-1)
-     * @returns The colorized piece
-     */
-    private colorizeEntity(
-        piece: OffscreenCanvas,
-        width: number,
-        height: number,
-        r: number,
-        g: number,
-        b: number
-    ): OffscreenCanvas
-    {
-        const canvas = new OffscreenCanvas(width, height);
-        const ctx = canvas.getContext('2d');
+		ctx.imageSmoothingEnabled = false;
+		ctx.drawImage(atlas, region.x, region.y, region.width, region.height, 0, 0, region.width, region.height);
 
-        if(!ctx) return piece;
+		this._bitmapCache.set(key, cached);
 
-        ctx.imageSmoothingEnabled = false;
+		return cached;
+	}
 
-        // Draw original
-        ctx.drawImage(piece, 0, 0);
+	/**
+	 * Creates a colorized copy of a bitmap piece.
+	 *
+	 * Uses canvas composite 'multiply' to apply the color,
+	 * then 'destination-in' to restore the alpha channel.
+	 *
+	 * @param piece - The source piece
+	 * @param width - The piece width
+	 * @param height - The piece height
+	 * @param r - Red multiplier (0-1)
+	 * @param g - Green multiplier (0-1)
+	 * @param b - Blue multiplier (0-1)
+	 * @returns The colorized piece
+	 */
+	private colorizeEntity(
+		piece: OffscreenCanvas,
+		width: number,
+		height: number,
+		r: number,
+		g: number,
+		b: number
+	): OffscreenCanvas
+	{
+		const canvas = new OffscreenCanvas(width, height);
+		const ctx = canvas.getContext('2d');
 
-        // Multiply by color
-        ctx.globalCompositeOperation = 'multiply';
-        ctx.fillStyle = `rgb(${ Math.round(r * 255) },${ Math.round(g * 255) },${ Math.round(b * 255) })`;
-        ctx.fillRect(0, 0, width, height);
+		if (!ctx) return piece;
 
-        // Restore alpha from original
-        ctx.globalCompositeOperation = 'destination-in';
-        ctx.drawImage(piece, 0, 0);
+		ctx.imageSmoothingEnabled = false;
 
-        return canvas;
-    }
+		// Draw original
+		ctx.drawImage(piece, 0, 0);
 
-    /**
-     * Draws a source tiled across the destination area.
-     *
-     * @param ctx - The target context
-     * @param source - The source bitmap
-     * @param srcW - Source width
-     * @param srcH - Source height
-     * @param destX - Destination X
-     * @param destY - Destination Y
-     * @param destW - Destination width
-     * @param destH - Destination height
-     */
-    private drawTiled(
-        ctx: OffscreenCanvasRenderingContext2D,
-        source: OffscreenCanvas | ImageBitmap,
-        srcW: number,
-        srcH: number,
-        destX: number,
-        destY: number,
-        destW: number,
-        destH: number
-    ): void
-    {
-        ctx.save();
-        ctx.beginPath();
-        ctx.rect(destX, destY, destW, destH);
-        ctx.clip();
+		// Multiply by color
+		ctx.globalCompositeOperation = 'multiply';
+		ctx.fillStyle = `rgb(${Math.round(r * 255)},${Math.round(g * 255)},${Math.round(b * 255)})`;
+		ctx.fillRect(0, 0, width, height);
 
-        for(let ty = 0; ty < destH; ty += srcH)
-        {
-            for(let tx = 0; tx < destW; tx += srcW)
-            {
-                const drawW = Math.min(srcW, destW - tx);
-                const drawH = Math.min(srcH, destH - ty);
+		// Restore alpha from original
+		ctx.globalCompositeOperation = 'destination-in';
+		ctx.drawImage(piece, 0, 0);
 
-                ctx.drawImage(source, 0, 0, drawW, drawH, destX + tx, destY + ty, drawW, drawH);
-            }
-        }
+		return canvas;
+	}
 
-        ctx.restore();
-    }
+	/**
+	 * Draws a source tiled across the destination area.
+	 *
+	 * @param ctx - The target context
+	 * @param source - The source bitmap
+	 * @param srcW - Source width
+	 * @param srcH - Source height
+	 * @param destX - Destination X
+	 * @param destY - Destination Y
+	 * @param destW - Destination width
+	 * @param destH - Destination height
+	 */
+	private drawTiled(
+		ctx: OffscreenCanvasRenderingContext2D,
+		source: OffscreenCanvas | ImageBitmap,
+		srcW: number,
+		srcH: number,
+		destX: number,
+		destY: number,
+		destW: number,
+		destH: number
+	): void
+	{
+		ctx.save();
+		ctx.beginPath();
+		ctx.rect(destX, destY, destW, destH);
+		ctx.clip();
 
-    public override dispose(): void
-    {
-        if(this._disposed) return;
+		for (let ty = 0; ty < destH; ty += srcH)
+		{
+			for (let tx = 0; tx < destW; tx += srcW)
+			{
+				const drawW = Math.min(srcW, destW - tx);
+				const drawH = Math.min(srcH, destH - ty);
 
-        this._bitmapCache.clear();
+				ctx.drawImage(source, 0, 0, drawW, drawH, destX + tx, destY + ty, drawW, drawH);
+			}
+		}
 
-        super.dispose();
-    }
+		ctx.restore();
+	}
 }

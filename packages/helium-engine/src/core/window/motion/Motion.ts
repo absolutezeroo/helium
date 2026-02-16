@@ -1,4 +1,4 @@
-import type { IWindow } from '../IWindow';
+import type {IWindow} from '../IWindow';
 
 /**
  * Base motion class for window animations.
@@ -11,62 +11,65 @@ import type { IWindow } from '../IWindow';
  */
 export class Motion
 {
-    protected _target: IWindow | null;
-    protected _running: boolean = false;
-    protected _complete: boolean = true;
-    protected _tag: string = '';
+	constructor(target: IWindow | null)
+	{
+		this._target = target;
+	}
 
-    constructor(target: IWindow | null)
-    {
-        this._target = target;
-    }
+	protected _target: IWindow | null;
 
-    public get running(): boolean
-    {
-        return this._running && this._target !== null && !this._target.disposed;
-    }
+	public get target(): IWindow | null
+	{
+		return this._target;
+	}
 
-    public get complete(): boolean
-    {
-        return this._complete;
-    }
+	public set target(value: IWindow | null)
+	{
+		this._target = value;
+	}
 
-    public set target(value: IWindow | null)
-    {
-        this._target = value;
-    }
+	protected _running: boolean = false;
 
-    public get target(): IWindow | null
-    {
-        return this._target;
-    }
+	public get running(): boolean
+	{
+		return this._running && this._target !== null && !this._target.disposed;
+	}
 
-    public set tag(value: string)
-    {
-        this._tag = value;
-    }
+	protected _complete: boolean = true;
 
-    public get tag(): string
-    {
-        return this._tag;
-    }
+	public get complete(): boolean
+	{
+		return this._complete;
+	}
 
-    public start(): void
-    {
-        this._running = true;
-    }
+	protected _tag: string = '';
 
-    public update(_progress: number): void
-    {
-    }
+	public get tag(): string
+	{
+		return this._tag;
+	}
 
-    public stop(): void
-    {
-        this._target = null;
-        this._running = false;
-    }
+	public set tag(value: string)
+	{
+		this._tag = value;
+	}
 
-    public tick(_timestamp: number): void
-    {
-    }
+	public start(): void
+	{
+		this._running = true;
+	}
+
+	public update(_progress: number): void
+	{
+	}
+
+	public stop(): void
+	{
+		this._target = null;
+		this._running = false;
+	}
+
+	public tick(_timestamp: number): void
+	{
+	}
 }

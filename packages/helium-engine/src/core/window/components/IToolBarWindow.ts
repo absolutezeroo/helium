@@ -1,4 +1,4 @@
-import type { IWindowContainer } from '../IWindowContainer';
+import type {IWindowContainer} from '../IWindowContainer';
 
 /**
  * Interface for toolbar windows.

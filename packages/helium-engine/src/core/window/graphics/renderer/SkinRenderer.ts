@@ -1,7 +1,7 @@
-import type { IWindow } from '../../IWindow';
-import type { ISkinRenderer } from './ISkinRenderer';
-import type { SkinLayout } from './SkinLayout';
-import type { SkinTemplate } from './SkinTemplate';
+import type {IWindow} from '../../IWindow';
+import type {ISkinRenderer} from './ISkinRenderer';
+import type {SkinLayout} from './SkinLayout';
+import type {SkinTemplate} from './SkinTemplate';
 
 /**
  * Base skin renderer with template and layout storage.
@@ -13,171 +13,169 @@ import type { SkinTemplate } from './SkinTemplate';
  */
 export class SkinRenderer implements ISkinRenderer
 {
-    protected _name: string;
-    protected _disposed: boolean = false;
+	/** Templates by name. */
+	protected _templatesByName: Map<string, SkinTemplate> = new Map();
+	/** Templates by window state flag. */
+	protected _templatesByState: Map<number, SkinTemplate> = new Map();
+	/** Layouts by name. */
+	protected _layoutsByName: Map<string, SkinLayout> = new Map();
+	/** Layouts by window state flag. */
+	protected _layoutsByState: Map<number, SkinLayout> = new Map();
 
-    /** Templates by name. */
-    protected _templatesByName: Map<string, SkinTemplate> = new Map();
+	constructor(name: string)
+	{
+		this._name = name;
+	}
 
-    /** Templates by window state flag. */
-    protected _templatesByState: Map<number, SkinTemplate> = new Map();
+	protected _name: string;
 
-    /** Layouts by name. */
-    protected _layoutsByName: Map<string, SkinLayout> = new Map();
+	public get name(): string
+	{
+		return this._name;
+	}
 
-    /** Layouts by window state flag. */
-    protected _layoutsByState: Map<number, SkinLayout> = new Map();
+	protected _disposed: boolean = false;
 
-    constructor(name: string)
-    {
-        this._name = name;
-    }
+	public get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
-    public get name(): string
-    {
-        return this._name;
-    }
+	// ── Template management ────────────────────────────────────────────
 
-    public get disposed(): boolean
-    {
-        return this._disposed;
-    }
+	/**
+	 * Registers a template by name.
+	 *
+	 * @param template - The template to register
+	 */
+	public addTemplate(template: SkinTemplate): void
+	{
+		this._templatesByName.set(template.name, template);
+	}
 
-    // ── Template management ────────────────────────────────────────────
+	/**
+	 * Returns a template by name.
+	 *
+	 * @param name - The template name
+	 * @returns The template, or null
+	 */
+	public getTemplate(name: string): SkinTemplate | null
+	{
+		return this._templatesByName.get(name) ?? null;
+	}
 
-    /**
-     * Registers a template by name.
-     *
-     * @param template - The template to register
-     */
-    public addTemplate(template: SkinTemplate): void
-    {
-        this._templatesByName.set(template.name, template);
-    }
+	/**
+	 * Maps a window state to a template by name.
+	 *
+	 * @param state - The window state flag
+	 * @param templateName - The template name
+	 */
+	public setTemplateForState(state: number, templateName: string): void
+	{
+		const template = this._templatesByName.get(templateName);
 
-    /**
-     * Returns a template by name.
-     *
-     * @param name - The template name
-     * @returns The template, or null
-     */
-    public getTemplate(name: string): SkinTemplate | null
-    {
-        return this._templatesByName.get(name) ?? null;
-    }
+		if (template)
+		{
+			this._templatesByState.set(state, template);
+		}
+	}
 
-    /**
-     * Maps a window state to a template by name.
-     *
-     * @param state - The window state flag
-     * @param templateName - The template name
-     */
-    public setTemplateForState(state: number, templateName: string): void
-    {
-        const template = this._templatesByName.get(templateName);
+	/**
+	 * Returns the template mapped to a state.
+	 *
+	 * @param state - The window state flag
+	 * @returns The template, or null
+	 */
+	public getTemplateForState(state: number): SkinTemplate | null
+	{
+		return this._templatesByState.get(state) ?? null;
+	}
 
-        if(template)
-        {
-            this._templatesByState.set(state, template);
-        }
-    }
+	// ── Layout management ──────────────────────────────────────────────
 
-    /**
-     * Returns the template mapped to a state.
-     *
-     * @param state - The window state flag
-     * @returns The template, or null
-     */
-    public getTemplateForState(state: number): SkinTemplate | null
-    {
-        return this._templatesByState.get(state) ?? null;
-    }
+	/**
+	 * Registers a layout by name.
+	 *
+	 * @param layout - The layout to register
+	 */
+	public addLayout(layout: SkinLayout): void
+	{
+		this._layoutsByName.set(layout.name, layout);
+	}
 
-    // ── Layout management ──────────────────────────────────────────────
+	/**
+	 * Returns a layout by name.
+	 *
+	 * @param name - The layout name
+	 * @returns The layout, or null
+	 */
+	public getLayout(name: string): SkinLayout | null
+	{
+		return this._layoutsByName.get(name) ?? null;
+	}
 
-    /**
-     * Registers a layout by name.
-     *
-     * @param layout - The layout to register
-     */
-    public addLayout(layout: SkinLayout): void
-    {
-        this._layoutsByName.set(layout.name, layout);
-    }
+	/**
+	 * Maps a window state to a layout by name.
+	 *
+	 * @param state - The window state flag
+	 * @param layoutName - The layout name
+	 */
+	public setLayoutForState(state: number, layoutName: string): void
+	{
+		const layout = this._layoutsByName.get(layoutName);
 
-    /**
-     * Returns a layout by name.
-     *
-     * @param name - The layout name
-     * @returns The layout, or null
-     */
-    public getLayout(name: string): SkinLayout | null
-    {
-        return this._layoutsByName.get(name) ?? null;
-    }
+		if (layout)
+		{
+			this._layoutsByState.set(state, layout);
+		}
+	}
 
-    /**
-     * Maps a window state to a layout by name.
-     *
-     * @param state - The window state flag
-     * @param layoutName - The layout name
-     */
-    public setLayoutForState(state: number, layoutName: string): void
-    {
-        const layout = this._layoutsByName.get(layoutName);
+	/**
+	 * Returns the layout mapped to a state.
+	 *
+	 * @param state - The window state flag
+	 * @returns The layout, or null
+	 */
+	public getLayoutForState(state: number): SkinLayout | null
+	{
+		return this._layoutsByState.get(state) ?? null;
+	}
 
-        if(layout)
-        {
-            this._layoutsByState.set(state, layout);
-        }
-    }
+	// ── ISkinRenderer ──────────────────────────────────────────────────
 
-    /**
-     * Returns the layout mapped to a state.
-     *
-     * @param state - The window state flag
-     * @returns The layout, or null
-     */
-    public getLayoutForState(state: number): SkinLayout | null
-    {
-        return this._layoutsByState.get(state) ?? null;
-    }
+	/**
+	 * Tests whether a state has both a template and layout mapped.
+	 *
+	 * @param state - The window state flag
+	 * @returns True if the state is drawable
+	 */
+	public isStateDrawable(state: number): boolean
+	{
+		return this._templatesByState.has(state) && this._layoutsByState.has(state);
+	}
 
-    // ── ISkinRenderer ──────────────────────────────────────────────────
+	/**
+	 * Draws the skin. Override in subclasses.
+	 */
+	public draw(
+		_window: IWindow,
+		_ctx: OffscreenCanvasRenderingContext2D,
+		_rect: { x: number; y: number; width: number; height: number },
+		_state: number,
+		_colorize: boolean
+	): void
+	{
+		// Override in subclasses
+	}
 
-    /**
-     * Tests whether a state has both a template and layout mapped.
-     *
-     * @param state - The window state flag
-     * @returns True if the state is drawable
-     */
-    public isStateDrawable(state: number): boolean
-    {
-        return this._templatesByState.has(state) && this._layoutsByState.has(state);
-    }
+	public dispose(): void
+	{
+		if (this._disposed) return;
 
-    /**
-     * Draws the skin. Override in subclasses.
-     */
-    public draw(
-        _window: IWindow,
-        _ctx: OffscreenCanvasRenderingContext2D,
-        _rect: { x: number; y: number; width: number; height: number },
-        _state: number,
-        _colorize: boolean
-    ): void
-    {
-        // Override in subclasses
-    }
-
-    public dispose(): void
-    {
-        if(this._disposed) return;
-
-        this._disposed = true;
-        this._templatesByName.clear();
-        this._templatesByState.clear();
-        this._layoutsByName.clear();
-        this._layoutsByState.clear();
-    }
+		this._disposed = true;
+		this._templatesByName.clear();
+		this._templatesByState.clear();
+		this._layoutsByName.clear();
+		this._layoutsByState.clear();
+	}
 }

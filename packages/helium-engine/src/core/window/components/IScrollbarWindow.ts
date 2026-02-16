@@ -1,5 +1,5 @@
-import type { IInteractiveWindow } from './IInteractiveWindow';
-import type { IScrollableWindow } from './IScrollableWindow';
+import type {IInteractiveWindow} from './IInteractiveWindow';
+import type {IScrollableWindow} from './IScrollableWindow';
 
 /**
  * Interface for scrollbar windows.
@@ -11,10 +11,10 @@ import type { IScrollableWindow } from './IScrollableWindow';
  */
 export interface IScrollbarWindow extends IInteractiveWindow
 {
-    scrollH: number;
-    scrollV: number;
-    scrollable: IScrollableWindow | null;
+	scrollH: number;
+	scrollV: number;
+	scrollable: IScrollableWindow | null;
 
-    readonly vertical: boolean;
-    readonly horizontal: boolean;
+	readonly vertical: boolean;
+	readonly horizontal: boolean;
 }

@@ -1,9 +1,9 @@
-import type { IWindow } from '../IWindow';
-import type { IWindowContext } from '../IWindowContext';
-import type { IDropMenuWindow } from './IDropMenuWindow';
-import { WindowEvent } from '../events/WindowEvent';
-import { PropertyStruct } from '../utils/PropertyStruct';
-import { DropBaseController } from './DropBaseController';
+import type {IWindow} from '../IWindow';
+import type {IWindowContext} from '../IWindowContext';
+import type {IDropMenuWindow} from './IDropMenuWindow';
+import {WindowEvent} from '../events/WindowEvent';
+import {PropertyStruct} from '../utils/PropertyStruct';
+import {DropBaseController} from './DropBaseController';
 
 /**
  * Controller for drop menu windows.
@@ -15,114 +15,114 @@ import { DropBaseController } from './DropBaseController';
  */
 export class DropMenuController extends DropBaseController implements IDropMenuWindow
 {
-    private static readonly DROP_MENU_ITEM_MAX_LENGTH: number = 200;
+	private static readonly DROP_MENU_ITEM_MAX_LENGTH: number = 200;
 
-    private _stringArray: string[] = [];
+	private _stringArray: string[] = [];
 
-    constructor(
-        name: string,
-        type: number,
-        style: number,
-        param: number,
-        context: IWindowContext,
-        rect: { x: number; y: number; width: number; height: number },
-        parent: IWindow | null = null,
-        procedure: ((event: WindowEvent, window: IWindow) => void) | null = null,
-        tags: string[] | null = null,
-        properties: unknown[] | null = null,
-        id: number = 0
-    )
-    {
-        super(name, type, style, param, context, rect, parent, procedure, tags, properties, id);
-    }
+	constructor(
+		name: string,
+		type: number,
+		style: number,
+		param: number,
+		context: IWindowContext,
+		rect: { x: number; y: number; width: number; height: number },
+		parent: IWindow | null = null,
+		procedure: ((event: WindowEvent, window: IWindow) => void) | null = null,
+		tags: string[] | null = null,
+		properties: unknown[] | null = null,
+		id: number = 0
+	)
+	{
+		super(name, type, style, param, context, rect, parent, procedure, tags, properties, id);
+	}
 
-    /**
-     * Populates the menu with an array of items.
-     */
-    public populate(items: unknown[]): void
-    {
-        this._selection = -1;
-        this._stringArray.length = 0;
+	public override get numMenuItems(): number
+	{
+		return this._stringArray.length;
+	}
 
-        for(let i = 0; i < items.length; i++)
-        {
-            this._stringArray.push(String(items[i]));
-        }
+	public override get properties(): unknown[]
+	{
+		const props = super.properties;
 
-        this._menuIsOpen = true;
-    }
+		props.push(this.createProperty('item_array', this._stringArray));
 
-    /**
-     * Populates the menu with a string array.
-     */
-    public populateWithStrings(items: string[]): void
-    {
-        this._selection = -1;
-        this._stringArray.length = 0;
+		return props;
+	}
 
-        for(let i = 0; i < items.length; i++)
-        {
-            this._stringArray.push(items[i]);
-        }
+	public override set properties(value: unknown[])
+	{
+		for (const item of value)
+		{
+			const prop = item as PropertyStruct;
 
-        this._menuIsOpen = true;
-    }
+			switch (prop.key)
+			{
+				case 'item_array':
+					this.populate(prop.value as unknown[]);
+					break;
+			}
+		}
 
-    /**
-     * Returns the current selection items as a string array.
-     */
-    public enumerateSelection(): string[]
-    {
-        const result: string[] = [];
+		super.properties = value;
+	}
 
-        if(!this._disposed)
-        {
-            for(let i = 0; i < this._stringArray.length; i++)
-            {
-                result.push(this._stringArray[i]);
-            }
-        }
+	/**
+	 * Populates the menu with an array of items.
+	 */
+	public populate(items: unknown[]): void
+	{
+		this._selection = -1;
+		this._stringArray.length = 0;
 
-        return result;
-    }
+		for (let i = 0; i < items.length; i++)
+		{
+			this._stringArray.push(String(items[i]));
+		}
 
-    public override get numMenuItems(): number
-    {
-        return this._stringArray.length;
-    }
+		this._menuIsOpen = true;
+	}
 
-    public override get properties(): unknown[]
-    {
-        const props = super.properties;
+	/**
+	 * Populates the menu with a string array.
+	 */
+	public populateWithStrings(items: string[]): void
+	{
+		this._selection = -1;
+		this._stringArray.length = 0;
 
-        props.push(this.createProperty('item_array', this._stringArray));
+		for (let i = 0; i < items.length; i++)
+		{
+			this._stringArray.push(items[i]);
+		}
 
-        return props;
-    }
+		this._menuIsOpen = true;
+	}
 
-    public override set properties(value: unknown[])
-    {
-        for(const item of value)
-        {
-            const prop = item as PropertyStruct;
+	/**
+	 * Returns the current selection items as a string array.
+	 */
+	public enumerateSelection(): string[]
+	{
+		const result: string[] = [];
 
-            switch(prop.key)
-            {
-                case 'item_array':
-                    this.populate(prop.value as unknown[]);
-                    break;
-            }
-        }
+		if (!this._disposed)
+		{
+			for (let i = 0; i < this._stringArray.length; i++)
+			{
+				result.push(this._stringArray[i]);
+			}
+		}
 
-        super.properties = value;
-    }
+		return result;
+	}
 
-    public override dispose(): void
-    {
-        if(this._disposed) return;
+	public override dispose(): void
+	{
+		if (this._disposed) return;
 
-        this._stringArray = [];
+		this._stringArray = [];
 
-        super.dispose();
-    }
+		super.dispose();
+	}
 }

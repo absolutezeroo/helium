@@ -1,4 +1,4 @@
-import type { IItemListWindow } from './IItemListWindow';
+import type {IItemListWindow} from './IItemListWindow';
 
 /**
  * Interface for scrollable list windows.
@@ -9,5 +9,5 @@ import type { IItemListWindow } from './IItemListWindow';
  */
 export interface IScrollableListWindow extends IItemListWindow
 {
-    autoHideScrollBar: boolean;
+	autoHideScrollBar: boolean;
 }

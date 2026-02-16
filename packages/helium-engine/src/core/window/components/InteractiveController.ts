@@ -1,9 +1,9 @@
-import type { IWindow } from '../IWindow';
-import type { IWindowContext } from '../IWindowContext';
-import type { IInteractiveWindow } from './IInteractiveWindow';
-import { WindowController } from '../WindowController';
-import { WindowEvent } from '../events/WindowEvent';
-import { PropertyStruct } from '../utils/PropertyStruct';
+import type {IWindow} from '../IWindow';
+import type {IWindowContext} from '../IWindowContext';
+import type {IInteractiveWindow} from './IInteractiveWindow';
+import {WindowController} from '../WindowController';
+import {WindowEvent} from '../events/WindowEvent';
+import {PropertyStruct} from '../utils/PropertyStruct';
 
 /**
  * Base controller for interactive windows with tooltip and cursor support.
@@ -15,205 +15,208 @@ import { PropertyStruct } from '../utils/PropertyStruct';
  */
 export class InteractiveController extends WindowController implements IInteractiveWindow
 {
-    protected _toolTipDelay: number = 500;
-    protected _toolTipCaption: string = '';
-    protected _toolTipIsDynamic: boolean = false;
-    protected _mouseCursors: Map<number, number> | null = null;
+	protected _mouseCursors: Map<number, number> | null = null;
 
-    constructor(
-        name: string,
-        type: number,
-        style: number,
-        param: number,
-        context: IWindowContext,
-        rect: { x: number; y: number; width: number; height: number },
-        parent: IWindow | null = null,
-        procedure: ((event: WindowEvent, window: IWindow) => void) | null = null,
-        tags: string[] | null = null,
-        properties: unknown[] | null = null,
-        id: number = 0
-    )
-    {
-        param = param | 0x01;
+	constructor(
+		name: string,
+		type: number,
+		style: number,
+		param: number,
+		context: IWindowContext,
+		rect: { x: number; y: number; width: number; height: number },
+		parent: IWindow | null = null,
+		procedure: ((event: WindowEvent, window: IWindow) => void) | null = null,
+		tags: string[] | null = null,
+		properties: unknown[] | null = null,
+		id: number = 0
+	)
+	{
+		param = param | 0x01;
 
-        super(name, type, style, param, context, rect, parent, procedure, tags, properties, id);
-    }
+		super(name, type, style, param, context, rect, parent, procedure, tags, properties, id);
+	}
 
-    /**
-     * Processes tooltip events for an interactive window.
-     */
-    public static processInteractiveWindowEvents(window: IInteractiveWindow, event: WindowEvent): void
-    {
-        if(window.toolTipIsDynamic)
-        {
-            if(event.type === 'WME_OVER')
-            {
-                // tooltip begin
-            }
-            else if(event.type === 'WME_MOVE')
-            {
-                // tooltip update
-            }
-            else if(event.type === 'WME_OUT')
-            {
-                // tooltip end
-            }
-        }
-        else
-        {
-            if(window.toolTipCaption != null && window.toolTipCaption.length > 0)
-            {
-                if(event.type === 'WME_OVER')
-                {
-                    // tooltip begin
-                }
-                else if(event.type === 'WME_OUT')
-                {
-                    // tooltip end
-                }
-            }
-        }
-    }
+	protected _toolTipDelay: number = 500;
 
-    /**
-     * Reads interactive window properties from an array of PropertyStructs.
-     */
-    public static readInteractiveWindowProperties(window: IInteractiveWindow, props: unknown[]): void
-    {
-        for(const item of props)
-        {
-            const prop = item as PropertyStruct;
+	public get toolTipDelay(): number
+	{
+		return this._toolTipDelay;
+	}
 
-            switch(prop.key)
-            {
-                case 'tool_tip_caption':
-                    if(prop.value !== window.toolTipCaption)
-                    {
-                        window.toolTipCaption = prop.value as string;
-                    }
-                    break;
-                case 'tool_tip_delay':
-                    if(prop.value !== window.toolTipDelay)
-                    {
-                        window.toolTipDelay = prop.value as number;
-                    }
-                    break;
-                case 'tool_tip_is_dynamic':
-                    if(prop.value !== window.toolTipIsDynamic)
-                    {
-                        window.toolTipIsDynamic = prop.value as boolean;
-                    }
-                    break;
-            }
-        }
-    }
+	public set toolTipDelay(value: number)
+	{
+		this._toolTipDelay = value;
+	}
 
-    /**
-     * Writes interactive window properties into a properties array.
-     */
-    public static writeInteractiveWindowProperties(window: IInteractiveWindow, props: unknown[]): unknown[]
-    {
-        props.push(window.createProperty('tool_tip_caption', window.toolTipCaption));
-        props.push(window.createProperty('tool_tip_delay', window.toolTipDelay));
-        props.push(window.createProperty('tool_tip_is_dynamic', window.toolTipIsDynamic));
+	protected _toolTipCaption: string = '';
 
-        return props;
-    }
+	public get toolTipCaption(): string
+	{
+		return this._toolTipCaption;
+	}
 
-    public set toolTipCaption(value: string)
-    {
-        this._toolTipCaption = value ?? '';
-    }
+	public set toolTipCaption(value: string)
+	{
+		this._toolTipCaption = value ?? '';
+	}
 
-    public get toolTipCaption(): string
-    {
-        return this._toolTipCaption;
-    }
+	protected _toolTipIsDynamic: boolean = false;
 
-    public set toolTipDelay(value: number)
-    {
-        this._toolTipDelay = value;
-    }
+	public get toolTipIsDynamic(): boolean
+	{
+		return this._toolTipIsDynamic;
+	}
 
-    public get toolTipDelay(): number
-    {
-        return this._toolTipDelay;
-    }
+	public set toolTipIsDynamic(value: boolean)
+	{
+		this._toolTipIsDynamic = value;
+	}
 
-    public set toolTipIsDynamic(value: boolean)
-    {
-        this._toolTipIsDynamic = value;
-    }
+	public override get properties(): unknown[]
+	{
+		return InteractiveController.writeInteractiveWindowProperties(this, super.properties);
+	}
 
-    public get toolTipIsDynamic(): boolean
-    {
-        return this._toolTipIsDynamic;
-    }
+	public override set properties(value: unknown[])
+	{
+		InteractiveController.readInteractiveWindowProperties(this, value);
+		super.properties = value;
+	}
 
-    public setMouseCursorForState(state: number, cursor: number): number
-    {
-        if(this.testStateFlag(32))
-        {
-            return 1;
-        }
+	/**
+	 * Processes tooltip events for an interactive window.
+	 */
+	public static processInteractiveWindowEvents(window: IInteractiveWindow, event: WindowEvent): void
+	{
+		if (window.toolTipIsDynamic)
+		{
+			if (event.type === 'WME_OVER')
+			{
+				// tooltip begin
+			}
+			else if (event.type === 'WME_MOVE')
+			{
+				// tooltip update
+			}
+			else if (event.type === 'WME_OUT')
+			{
+				// tooltip end
+			}
+		}
+		else
+		{
+			if (window.toolTipCaption != null && window.toolTipCaption.length > 0)
+			{
+				if (event.type === 'WME_OVER')
+				{
+					// tooltip begin
+				}
+				else if (event.type === 'WME_OUT')
+				{
+					// tooltip end
+				}
+			}
+		}
+	}
 
-        if(!this._mouseCursors)
-        {
-            this._mouseCursors = new Map();
-        }
+	/**
+	 * Reads interactive window properties from an array of PropertyStructs.
+	 */
+	public static readInteractiveWindowProperties(window: IInteractiveWindow, props: unknown[]): void
+	{
+		for (const item of props)
+		{
+			const prop = item as PropertyStruct;
 
-        const previous = this._mouseCursors.get(state) ?? 0;
+			switch (prop.key)
+			{
+				case 'tool_tip_caption':
+					if (prop.value !== window.toolTipCaption)
+					{
+						window.toolTipCaption = prop.value as string;
+					}
+					break;
+				case 'tool_tip_delay':
+					if (prop.value !== window.toolTipDelay)
+					{
+						window.toolTipDelay = prop.value as number;
+					}
+					break;
+				case 'tool_tip_is_dynamic':
+					if (prop.value !== window.toolTipIsDynamic)
+					{
+						window.toolTipIsDynamic = prop.value as boolean;
+					}
+					break;
+			}
+		}
+	}
 
-        if(cursor === 0 || cursor === 0xFFFFFFFF)
-        {
-            this._mouseCursors.delete(state);
-        }
-        else
-        {
-            this._mouseCursors.set(state, cursor);
-        }
+	/**
+	 * Writes interactive window properties into a properties array.
+	 */
+	public static writeInteractiveWindowProperties(window: IInteractiveWindow, props: unknown[]): unknown[]
+	{
+		props.push(window.createProperty('tool_tip_caption', window.toolTipCaption));
+		props.push(window.createProperty('tool_tip_delay', window.toolTipDelay));
+		props.push(window.createProperty('tool_tip_is_dynamic', window.toolTipIsDynamic));
 
-        return previous;
-    }
+		return props;
+	}
 
-    public getMouseCursorByState(state: number): number
-    {
-        if(!this._mouseCursors)
-        {
-            return 0;
-        }
+	public setMouseCursorForState(state: number, cursor: number): number
+	{
+		if (this.testStateFlag(32))
+		{
+			return 1;
+		}
 
-        return this._mouseCursors.get(state) ?? 0;
-    }
+		if (!this._mouseCursors)
+		{
+			this._mouseCursors = new Map();
+		}
 
-    public showToolTip(_tooltip: unknown): void
-    {
-        // Override in subclass
-    }
+		const previous = this._mouseCursors.get(state) ?? 0;
 
-    public hideToolTip(): void
-    {
-        // Override in subclass
-    }
+		if (cursor === 0 || cursor === 0xFFFFFFFF)
+		{
+			this._mouseCursors.delete(state);
+		}
+		else
+		{
+			this._mouseCursors.set(state, cursor);
+		}
 
-    public override update(source: WindowController, event: WindowEvent): boolean
-    {
-        if(source === this)
-        {
-            InteractiveController.processInteractiveWindowEvents(this, event);
-        }
+		return previous;
+	}
 
-        return super.update(source, event);
-    }
+	public getMouseCursorByState(state: number): number
+	{
+		if (!this._mouseCursors)
+		{
+			return 0;
+		}
 
-    public override get properties(): unknown[]
-    {
-        return InteractiveController.writeInteractiveWindowProperties(this, super.properties);
-    }
+		return this._mouseCursors.get(state) ?? 0;
+	}
 
-    public override set properties(value: unknown[])
-    {
-        InteractiveController.readInteractiveWindowProperties(this, value);
-        super.properties = value;
-    }
+	public showToolTip(_tooltip: unknown): void
+	{
+		// Override in subclass
+	}
+
+	public hideToolTip(): void
+	{
+		// Override in subclass
+	}
+
+	public override update(source: WindowController, event: WindowEvent): boolean
+	{
+		if (source === this)
+		{
+			InteractiveController.processInteractiveWindowEvents(this, event);
+		}
+
+		return super.update(source, event);
+	}
 }

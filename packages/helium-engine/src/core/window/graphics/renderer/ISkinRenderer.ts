@@ -1,4 +1,4 @@
-import type { IWindow } from '../../IWindow';
+import type {IWindow} from '../../IWindow';
 
 /**
  * Interface for skin renderers.
@@ -11,43 +11,43 @@ import type { IWindow } from '../../IWindow';
  */
 export interface ISkinRenderer
 {
-    /**
-     * The renderer name.
-     */
-    readonly name: string;
+	/**
+	 * The renderer name.
+	 */
+	readonly name: string;
 
-    /**
-     * Whether this renderer has been disposed.
-     */
-    readonly disposed: boolean;
+	/**
+	 * Whether this renderer has been disposed.
+	 */
+	readonly disposed: boolean;
 
-    /**
-     * Draws the window skin onto the given canvas context.
-     *
-     * @param window - The window to render
-     * @param ctx - The 2D rendering context
-     * @param rect - The target rectangle
-     * @param state - The resolved window state
-     * @param colorize - Whether to apply colorization
-     */
-    draw(
-        window: IWindow,
-        ctx: OffscreenCanvasRenderingContext2D,
-        rect: { x: number; y: number; width: number; height: number },
-        state: number,
-        colorize: boolean
-    ): void;
+	/**
+	 * Draws the window skin onto the given canvas context.
+	 *
+	 * @param window - The window to render
+	 * @param ctx - The 2D rendering context
+	 * @param rect - The target rectangle
+	 * @param state - The resolved window state
+	 * @param colorize - Whether to apply colorization
+	 */
+	draw(
+		window: IWindow,
+		ctx: OffscreenCanvasRenderingContext2D,
+		rect: { x: number; y: number; width: number; height: number },
+		state: number,
+		colorize: boolean
+	): void;
 
-    /**
-     * Tests whether a given state has drawable content.
-     *
-     * @param state - The window state flags
-     * @returns True if the state can be drawn
-     */
-    isStateDrawable(state: number): boolean;
+	/**
+	 * Tests whether a given state has drawable content.
+	 *
+	 * @param state - The window state flags
+	 * @returns True if the state can be drawn
+	 */
+	isStateDrawable(state: number): boolean;
 
-    /**
-     * Disposes all cached resources.
-     */
-    dispose(): void;
+	/**
+	 * Disposes all cached resources.
+	 */
+	dispose(): void;
 }

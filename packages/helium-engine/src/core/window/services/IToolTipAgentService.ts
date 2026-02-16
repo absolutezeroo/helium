@@ -1,4 +1,4 @@
-import type { IWindow } from '../IWindow';
+import type {IWindow} from '../IWindow';
 
 /**
  * Tooltip agent service interface.
@@ -7,6 +7,7 @@ import type { IWindow } from '../IWindow';
  */
 export interface IToolTipAgentService
 {
-    show(window: IWindow, text: string): void;
-    hide(): void;
+	show(window: IWindow, text: string): void;
+
+	hide(): void;
 }

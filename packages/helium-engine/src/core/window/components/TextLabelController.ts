@@ -1,8 +1,8 @@
-import type { IWindow } from '../IWindow';
-import type { IWindowContext } from '../IWindowContext';
-import type { ILabelWindow } from './ILabelWindow';
-import { TextController } from './TextController';
-import { WindowEvent } from '../events/WindowEvent';
+import type {IWindow} from '../IWindow';
+import type {IWindowContext} from '../IWindowContext';
+import type {ILabelWindow} from './ILabelWindow';
+import {TextController} from './TextController';
+import {WindowEvent} from '../events/WindowEvent';
 
 /**
  * Controller for label windows.
@@ -14,95 +14,97 @@ import { WindowEvent } from '../events/WindowEvent';
  */
 export class TextLabelController extends TextController implements ILabelWindow
 {
-    private _textBackground: boolean = false;
-    private _textBackgroundColor: number = 0xFFFFFF;
-    private _vertical: boolean = false;
+	constructor(
+		name: string,
+		type: number,
+		style: number,
+		param: number,
+		context: IWindowContext,
+		rect: { x: number; y: number; width: number; height: number },
+		parent: IWindow | null = null,
+		procedure: ((event: WindowEvent, window: IWindow) => void) | null = null,
+		tags: string[] | null = null,
+		properties: unknown[] | null = null,
+		id: number = 0,
+		dynamicStyle: string = ''
+	)
+	{
+		super(name, type, style, param, context, rect, parent, procedure, tags, properties, id, dynamicStyle);
+	}
 
-    constructor(
-        name: string,
-        type: number,
-        style: number,
-        param: number,
-        context: IWindowContext,
-        rect: { x: number; y: number; width: number; height: number },
-        parent: IWindow | null = null,
-        procedure: ((event: WindowEvent, window: IWindow) => void) | null = null,
-        tags: string[] | null = null,
-        properties: unknown[] | null = null,
-        id: number = 0,
-        dynamicStyle: string = ''
-    )
-    {
-        super(name, type, style, param, context, rect, parent, procedure, tags, properties, id, dynamicStyle);
-    }
+	private _textBackground: boolean = false;
 
-    public get bold(): boolean
-    {
-        return false;
-    }
+	public get textBackground(): boolean
+	{
+		return this._textBackground;
+	}
 
-    public get italic(): boolean
-    {
-        return false;
-    }
+	public set textBackground(value: boolean)
+	{
+		this._textBackground = value;
+	}
 
-    public get underline(): boolean
-    {
-        return false;
-    }
+	private _textBackgroundColor: number = 0xFFFFFF;
 
-    public get fontFace(): string
-    {
-        return '';
-    }
+	public get textBackgroundColor(): number
+	{
+		return this._textBackgroundColor;
+	}
 
-    public get fontSize(): number
-    {
-        return 12;
-    }
+	public set textBackgroundColor(value: number)
+	{
+		this._textBackgroundColor = value;
+	}
 
-    public get length(): number
-    {
-        return this._text.length;
-    }
+	private _vertical: boolean = false;
 
-    public get textHeight(): number
-    {
-        return this._height;
-    }
+	public get vertical(): boolean
+	{
+		return this._vertical;
+	}
 
-    public get textWidth(): number
-    {
-        return this._width;
-    }
+	public set vertical(value: boolean)
+	{
+		this._vertical = value;
+	}
 
-    public get textBackground(): boolean
-    {
-        return this._textBackground;
-    }
+	public get bold(): boolean
+	{
+		return false;
+	}
 
-    public set textBackground(value: boolean)
-    {
-        this._textBackground = value;
-    }
+	public get italic(): boolean
+	{
+		return false;
+	}
 
-    public get textBackgroundColor(): number
-    {
-        return this._textBackgroundColor;
-    }
+	public get underline(): boolean
+	{
+		return false;
+	}
 
-    public set textBackgroundColor(value: number)
-    {
-        this._textBackgroundColor = value;
-    }
+	public get fontFace(): string
+	{
+		return '';
+	}
 
-    public get vertical(): boolean
-    {
-        return this._vertical;
-    }
+	public get fontSize(): number
+	{
+		return 12;
+	}
 
-    public set vertical(value: boolean)
-    {
-        this._vertical = value;
-    }
+	public get length(): number
+	{
+		return this._text.length;
+	}
+
+	public get textHeight(): number
+	{
+		return this._height;
+	}
+
+	public get textWidth(): number
+	{
+		return this._width;
+	}
 }

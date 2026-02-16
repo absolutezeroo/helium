@@ -1,5 +1,5 @@
-import type { IWindow } from '../IWindow';
-import type { IDropMenuWindow } from './IDropMenuWindow';
+import type {IWindow} from '../IWindow';
+import type {IDropMenuWindow} from './IDropMenuWindow';
 
 /**
  * Interface for drop list item windows.
@@ -8,6 +8,6 @@ import type { IDropMenuWindow } from './IDropMenuWindow';
  */
 export interface IDropListItemWindow extends IWindow
 {
-    readonly menu: IDropMenuWindow | null;
-    value: IWindow | null;
+	readonly menu: IDropMenuWindow | null;
+	value: IWindow | null;
 }

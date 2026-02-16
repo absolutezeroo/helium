@@ -1,5 +1,5 @@
-import type { IWindow } from '../IWindow';
-import type { IWindowContext } from '../IWindowContext';
+import type {IWindow} from '../IWindow';
+import type {IWindowContext} from '../IWindowContext';
 
 /**
  * Interface for the window rendering pipeline.
@@ -12,55 +12,60 @@ import type { IWindowContext } from '../IWindowContext';
  */
 export interface IWindowRenderer
 {
-    readonly disposed: boolean;
+	readonly disposed: boolean;
 
-    /**
-     * Enables or disables debug rendering.
-     */
-    debug: boolean;
+	/**
+	 * Enables or disables debug rendering.
+	 */
+	debug: boolean;
 
-    /**
-     * Renders all queued dirty windows.
-     */
-    render(): void;
+	/**
+	 * Renders all queued dirty windows.
+	 */
+	render(): void;
 
-    /**
-     * Adds a window to the render queue with a dirty region.
-     *
-     * @param window - The window to render
-     * @param rect - The dirty rectangle, or null for full window
-     * @param flags - Invalidation flags
-     */
-    addToRenderQueue(window: IWindow, rect: { x: number; y: number; width: number; height: number } | null, flags: number): void;
+	/**
+	 * Adds a window to the render queue with a dirty region.
+	 *
+	 * @param window - The window to render
+	 * @param rect - The dirty rectangle, or null for full window
+	 * @param flags - Invalidation flags
+	 */
+	addToRenderQueue(window: IWindow, rect: {
+		x: number;
+		y: number;
+		width: number;
+		height: number
+	} | null, flags: number): void;
 
-    /**
-     * Clears the render queue without rendering.
-     */
-    flushRenderQueue(): void;
+	/**
+	 * Clears the render queue without rendering.
+	 */
+	flushRenderQueue(): void;
 
-    /**
-     * Invalidates all windows in the given context.
-     *
-     * @param context - The window context to invalidate
-     * @param rect - The invalidation rectangle
-     */
-    invalidate(context: IWindowContext, rect: { x: number; y: number; width: number; height: number }): void;
+	/**
+	 * Invalidates all windows in the given context.
+	 *
+	 * @param context - The window context to invalidate
+	 * @param rect - The invalidation rectangle
+	 */
+	invalidate(context: IWindowContext, rect: { x: number; y: number; width: number; height: number }): void;
 
-    /**
-     * Returns the draw buffer for the given window.
-     *
-     * @param window - The window to get the buffer for
-     * @returns The draw buffer, or null
-     */
-    getDrawBufferForRenderable(window: IWindow): unknown;
+	/**
+	 * Returns the draw buffer for the given window.
+	 *
+	 * @param window - The window to get the buffer for
+	 * @returns The draw buffer, or null
+	 */
+	getDrawBufferForRenderable(window: IWindow): unknown;
 
-    /**
-     * Purges cached render data for the given window (or all windows if null).
-     *
-     * @param window - The window to purge, or null for all
-     * @param recursive - Whether to recurse into children
-     */
-    purge(window?: IWindow | null, recursive?: boolean): void;
+	/**
+	 * Purges cached render data for the given window (or all windows if null).
+	 *
+	 * @param window - The window to purge, or null for all
+	 * @param recursive - Whether to recurse into children
+	 */
+	purge(window?: IWindow | null, recursive?: boolean): void;
 
-    dispose(): void;
+	dispose(): void;
 }

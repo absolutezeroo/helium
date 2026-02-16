@@ -1,5 +1,5 @@
-import type { IDisposable } from '../runtime/IDisposable';
-import type { IIterable } from './utils/IIterable';
+import type {IDisposable} from '../runtime/IDisposable';
+import type {IIterable} from './utils/IIterable';
 
 /**
  * Base widget interface.
@@ -13,5 +13,5 @@ import type { IIterable } from './utils/IIterable';
  */
 export interface IWidget extends IDisposable, IIterable
 {
-    properties: unknown[];
+	properties: unknown[];
 }

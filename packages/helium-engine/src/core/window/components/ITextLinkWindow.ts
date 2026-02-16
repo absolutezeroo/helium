@@ -1,4 +1,4 @@
-import type { IWindow } from '../IWindow';
+import type {IWindow} from '../IWindow';
 
 /**
  * Interface for text link windows.
@@ -10,5 +10,5 @@ import type { IWindow } from '../IWindow';
  */
 export interface ITextLinkWindow extends IWindow
 {
-    link: string;
+	link: string;
 }

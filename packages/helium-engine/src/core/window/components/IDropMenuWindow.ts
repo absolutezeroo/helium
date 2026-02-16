@@ -1,4 +1,4 @@
-import type { IInteractiveWindow } from './IInteractiveWindow';
+import type {IInteractiveWindow} from './IInteractiveWindow';
 
 /**
  * Interface for drop menu windows.
@@ -7,10 +7,12 @@ import type { IInteractiveWindow } from './IInteractiveWindow';
  */
 export interface IDropMenuWindow extends IInteractiveWindow
 {
-    selection: number;
-    readonly numMenuItems: number;
+	selection: number;
+	readonly numMenuItems: number;
 
-    populate(items: unknown[]): void;
-    populateWithStrings(items: string[]): void;
-    enumerateSelection(): string[];
+	populate(items: unknown[]): void;
+
+	populateWithStrings(items: string[]): void;
+
+	enumerateSelection(): string[];
 }

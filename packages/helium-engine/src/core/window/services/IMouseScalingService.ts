@@ -1,4 +1,4 @@
-import type { IWindow } from '../IWindow';
+import type {IWindow} from '../IWindow';
 
 /**
  * Mouse scaling service interface.
@@ -7,6 +7,7 @@ import type { IWindow } from '../IWindow';
  */
 export interface IMouseScalingService
 {
-    begin(window: IWindow, scalingFlags: number): void;
-    end(window: IWindow): void;
+	begin(window: IWindow, scalingFlags: number): void;
+
+	end(window: IWindow): void;
 }

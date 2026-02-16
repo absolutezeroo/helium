@@ -1,18 +1,18 @@
-import type { IWindow } from '../IWindow';
-import type { IWindowContainer } from '../IWindowContainer';
-import type { IWindowContext } from '../IWindowContext';
-import type { IFrameWindow } from './IFrameWindow';
-import type { IHeaderWindow } from './IHeaderWindow';
-import type { ILabelWindow } from './ILabelWindow';
-import type { IScalerWindow } from './IScalerWindow';
-import type { IMargins } from '../utils/IMargins';
-import type { IIterator } from '../utils/IIterator';
-import { ContainerController } from './ContainerController';
-import { ContainerIterator } from '../iterators/ContainerIterator';
-import { WindowController } from '../WindowController';
-import { WindowEvent } from '../events/WindowEvent';
-import { PropertyStruct } from '../utils/PropertyStruct';
-import { TextMargins } from '../utils/TextMargins';
+import type {IWindow} from '../IWindow';
+import type {IWindowContainer} from '../IWindowContainer';
+import type {IWindowContext} from '../IWindowContext';
+import type {IFrameWindow} from './IFrameWindow';
+import type {IHeaderWindow} from './IHeaderWindow';
+import type {ILabelWindow} from './ILabelWindow';
+import type {IScalerWindow} from './IScalerWindow';
+import type {IMargins} from '../utils/IMargins';
+import type {IIterator} from '../utils/IIterator';
+import {ContainerController} from './ContainerController';
+import {ContainerIterator} from '../iterators/ContainerIterator';
+import {WindowController} from '../WindowController';
+import {WindowEvent} from '../events/WindowEvent';
+import {PropertyStruct} from '../utils/PropertyStruct';
+import {TextMargins} from '../utils/TextMargins';
 
 /**
  * Controller for frame windows.
@@ -24,343 +24,348 @@ import { TextMargins } from '../utils/TextMargins';
  */
 export class FrameController extends ContainerController implements IFrameWindow
 {
-    private static readonly TAG_TITLE_ELEMENT: string = '_TITLE';
-    private static readonly TAG_HEADER_ELEMENT: string = '_HEADER';
-    private static readonly TAG_CONTENT_ELEMENT: string = '_CONTENT';
-    private static readonly TAG_SCALER_ELEMENT: string = '_SCALER';
+	private static readonly TAG_TITLE_ELEMENT: string = '_TITLE';
+	private static readonly TAG_HEADER_ELEMENT: string = '_HEADER';
+	private static readonly TAG_CONTENT_ELEMENT: string = '_CONTENT';
+	private static readonly TAG_SCALER_ELEMENT: string = '_SCALER';
+	private _constructed: boolean = false;
 
-    private _title: ILabelWindow | null = null;
-    private _header: IHeaderWindow | null = null;
-    private _content: IWindowContainer | null = null;
-    private _margins: IMargins | null = null;
-    private _constructed: boolean = false;
-    private _helpPage: string = '';
-    private _helpButtonAction: Function | null = null;
+	constructor(
+		name: string,
+		type: number,
+		style: number,
+		param: number,
+		context: IWindowContext,
+		rect: { x: number; y: number; width: number; height: number },
+		parent: IWindow | null = null,
+		procedure: ((event: WindowEvent, window: IWindow) => void) | null = null,
+		tags: string[] | null = null,
+		properties: unknown[] | null = null,
+		id: number = 0,
+		dynamicStyle: string = ''
+	)
+	{
+		param = param | 0x01;
+		param = param & (~0x10);
 
-    constructor(
-        name: string,
-        type: number,
-        style: number,
-        param: number,
-        context: IWindowContext,
-        rect: { x: number; y: number; width: number; height: number },
-        parent: IWindow | null = null,
-        procedure: ((event: WindowEvent, window: IWindow) => void) | null = null,
-        tags: string[] | null = null,
-        properties: unknown[] | null = null,
-        id: number = 0,
-        dynamicStyle: string = ''
-    )
-    {
-        param = param | 0x01;
-        param = param & (~0x10);
+		super(name, type, style, param, context, rect, parent, procedure, tags, properties, id);
 
-        super(name, type, style, param, context, rect, parent, procedure, tags, properties, id);
+		this._constructed = true;
+		this.activate();
+		this.setupScaling();
 
-        this._constructed = true;
-        this.activate();
-        this.setupScaling();
+		const helpButton = this.findChildByName('header_button_help');
 
-        const helpButton = this.findChildByName('header_button_help');
+		if (helpButton !== null)
+		{
+			helpButton.procedure = this.helpButtonProcedure.bind(this);
+		}
 
-        if(helpButton !== null)
-        {
-            helpButton.procedure = this.helpButtonProcedure.bind(this);
-        }
+		this.helpPage = this._helpPage;
+	}
 
-        this.helpPage = this._helpPage;
-    }
+	private _title: ILabelWindow | null = null;
 
-    /**
-     * Returns the title label window.
-     */
-    public get title(): ILabelWindow
-    {
-        if(!this._title)
-        {
-            this._title = this.findChildByTag(FrameController.TAG_TITLE_ELEMENT) as unknown as ILabelWindow;
-        }
+	/**
+	 * Returns the title label window.
+	 */
+	public get title(): ILabelWindow
+	{
+		if (!this._title)
+		{
+			this._title = this.findChildByTag(FrameController.TAG_TITLE_ELEMENT) as unknown as ILabelWindow;
+		}
 
-        return this._title!;
-    }
+		return this._title!;
+	}
 
-    /**
-     * Returns the header window.
-     */
-    public get header(): IHeaderWindow
-    {
-        if(!this._header)
-        {
-            this._header = this.findChildByTag(FrameController.TAG_HEADER_ELEMENT) as unknown as IHeaderWindow;
-        }
+	private _header: IHeaderWindow | null = null;
 
-        return this._header!;
-    }
+	/**
+	 * Returns the header window.
+	 */
+	public get header(): IHeaderWindow
+	{
+		if (!this._header)
+		{
+			this._header = this.findChildByTag(FrameController.TAG_HEADER_ELEMENT) as unknown as IHeaderWindow;
+		}
 
-    /**
-     * Returns the content container window.
-     */
-    public get content(): IWindowContainer
-    {
-        if(!this._content)
-        {
-            this._content = this.findChildByTag(FrameController.TAG_CONTENT_ELEMENT) as unknown as IWindowContainer;
-        }
+		return this._header!;
+	}
 
-        return this._content!;
-    }
+	private _content: IWindowContainer | null = null;
 
-    /**
-     * Returns the scaler window for frame resizing.
-     */
-    public get scaler(): IScalerWindow
-    {
-        return this.findChildByTag(FrameController.TAG_SCALER_ELEMENT) as unknown as IScalerWindow;
-    }
+	/**
+	 * Returns the content container window.
+	 */
+	public get content(): IWindowContainer
+	{
+		if (!this._content)
+		{
+			this._content = this.findChildByTag(FrameController.TAG_CONTENT_ELEMENT) as unknown as IWindowContainer;
+		}
 
-    /**
-     * Returns the content margins.
-     */
-    public get margins(): IMargins
-    {
-        if(!this._margins)
-        {
-            this._margins = new TextMargins(
-                this.content.left,
-                this.content.top,
-                this.content.right,
-                this.content.bottom
-            );
-        }
+		return this._content!;
+	}
 
-        return this._margins;
-    }
+	private _margins: IMargins | null = null;
 
-    public override set caption(value: string)
-    {
-        super.caption = value;
+	/**
+	 * Returns the content margins.
+	 */
+	public get margins(): IMargins
+	{
+		if (!this._margins)
+		{
+			this._margins = new TextMargins(
+				this.content.left,
+				this.content.top,
+				this.content.right,
+				this.content.bottom
+			);
+		}
 
-        try
-        {
-            this.title.text = value;
-        }
-        catch(_e: unknown)
-        {
-            // Ignored
-        }
-    }
+		return this._margins;
+	}
 
-    public override get caption(): string
-    {
-        return super.caption;
-    }
+	private _helpPage: string = '';
 
-    public override set color(value: number)
-    {
-        super.color = value;
+	/**
+	 * Returns the help page identifier.
+	 */
+	public get helpPage(): string
+	{
+		return this._helpPage;
+	}
 
-        const colorized: IWindow[] = [];
+	/**
+	 * Sets the help page identifier and updates help button visibility.
+	 */
+	public set helpPage(value: string)
+	{
+		this._helpPage = value;
 
-        this.groupChildrenWithTag(WindowController.TAG_COLORIZE, colorized);
+		const helpButton = this.findChildByName('header_button_help');
 
-        for(const child of colorized)
-        {
-            child.color = value;
-        }
-    }
+		if (helpButton !== null)
+		{
+			helpButton.visible = (this._helpPage !== '');
+		}
+	}
 
-    public override get color(): number
-    {
-        return super.color;
-    }
+	private _helpButtonAction: Function | null = null;
 
-    public override iterator(): IIterator
-    {
-        if(this.content !== null && this._constructed)
-        {
-            return (this.content as unknown as ContainerController).iterator();
-        }
+	/**
+	 * Gets the help button action callback.
+	 */
+	public get helpButtonAction(): Function
+	{
+		return this._helpButtonAction!;
+	}
 
-        return new ContainerIterator(this._children ?? []);
-    }
+	/**
+	 * Sets the help button action callback.
+	 */
+	public set helpButtonAction(value: Function)
+	{
+		this._helpButtonAction = value;
+	}
 
-    /**
-     * Returns the help page identifier.
-     */
-    public get helpPage(): string
-    {
-        return this._helpPage;
-    }
+	/**
+	 * Returns the scaler window for frame resizing.
+	 */
+	public get scaler(): IScalerWindow
+	{
+		return this.findChildByTag(FrameController.TAG_SCALER_ELEMENT) as unknown as IScalerWindow;
+	}
 
-    /**
-     * Sets the help page identifier and updates help button visibility.
-     */
-    public set helpPage(value: string)
-    {
-        this._helpPage = value;
+	public override get caption(): string
+	{
+		return super.caption;
+	}
 
-        const helpButton = this.findChildByName('header_button_help');
+	public override set caption(value: string)
+	{
+		super.caption = value;
 
-        if(helpButton !== null)
-        {
-            helpButton.visible = (this._helpPage !== '');
-        }
-    }
+		try
+		{
+			this.title.text = value;
+		}
+		catch (_e: unknown)
+		{
+			// Ignored
+		}
+	}
 
-    /**
-     * Sets the help button action callback.
-     */
-    public set helpButtonAction(value: Function)
-    {
-        this._helpButtonAction = value;
-    }
+	public override get color(): number
+	{
+		return super.color;
+	}
 
-    /**
-     * Gets the help button action callback.
-     */
-    public get helpButtonAction(): Function
-    {
-        return this._helpButtonAction!;
-    }
+	public override set color(value: number)
+	{
+		super.color = value;
 
-    /**
-     * Resizes the frame to fit its content children.
-     */
-    public resizeToFitContent(): void
-    {
-        this.resizeToAccommodateChildren(this.content as unknown as WindowController);
-    }
+		const colorized: IWindow[] = [];
 
-    public override get properties(): unknown[]
-    {
-        const props = super.properties;
+		this.groupChildrenWithTag(WindowController.TAG_COLORIZE, colorized);
 
-        props.push(new PropertyStruct('help_page', this._helpPage));
+		for (const child of colorized)
+		{
+			child.color = value;
+		}
+	}
 
-        try
-        {
-            const contentWin = this.content;
+	public override get properties(): unknown[]
+	{
+		const props = super.properties;
 
-            if(contentWin)
-            {
-                props.push(new PropertyStruct('margin_left', contentWin.left));
-                props.push(new PropertyStruct('margin_top', contentWin.top));
-                props.push(new PropertyStruct('margin_right', this._width - contentWin.right));
-                props.push(new PropertyStruct('margin_bottom', this._height - contentWin.bottom));
-            }
-        }
-        catch(_)
-        {
-            // Content may not be available yet
-        }
+		props.push(new PropertyStruct('help_page', this._helpPage));
 
-        return props;
-    }
+		try
+		{
+			const contentWin = this.content;
 
-    public override set properties(value: unknown[])
-    {
-        for(const item of value)
-        {
-            const prop = item as PropertyStruct;
+			if (contentWin)
+			{
+				props.push(new PropertyStruct('margin_left', contentWin.left));
+				props.push(new PropertyStruct('margin_top', contentWin.top));
+				props.push(new PropertyStruct('margin_right', this._width - contentWin.right));
+				props.push(new PropertyStruct('margin_bottom', this._height - contentWin.bottom));
+			}
+		}
+		catch (_)
+		{
+			// Content may not be available yet
+		}
 
-            switch(prop.key)
-            {
-                case 'help_page':
-                    this.helpPage = prop.value as string;
-                    break;
-                case 'margin_left':
-                    this.margins.left = prop.value as number;
-                    break;
-                case 'margin_top':
-                    this.margins.top = prop.value as number;
-                    break;
-                case 'margin_right':
-                    this.margins.right = this._width - (prop.value as number);
-                    break;
-                case 'margin_bottom':
-                    this.margins.bottom = this._height - (prop.value as number);
-                    break;
-            }
-        }
+		return props;
+	}
 
-        super.properties = value;
-    }
+	public override set properties(value: unknown[])
+	{
+		for (const item of value)
+		{
+			const prop = item as PropertyStruct;
 
-    public override setParamFlag(flag: number, value: boolean = true): void
-    {
-        super.setParamFlag(flag, value);
-        this.setupScaling();
-    }
+			switch (prop.key)
+			{
+				case 'help_page':
+					this.helpPage = prop.value as string;
+					break;
+				case 'margin_left':
+					this.margins.left = prop.value as number;
+					break;
+				case 'margin_top':
+					this.margins.top = prop.value as number;
+					break;
+				case 'margin_right':
+					this.margins.right = this._width - (prop.value as number);
+					break;
+				case 'margin_bottom':
+					this.margins.bottom = this._height - (prop.value as number);
+					break;
+			}
+		}
 
-    /**
-     * Configures the scaler visibility based on scaling param flags.
-     */
-    private setupScaling(): void
-    {
-        const scalerWindow = this.scaler;
-        const noScale = this.testParamFlag(0x10000);
-        const scaleH = this.testParamFlag(0x2000);
-        const scaleV = this.testParamFlag(0x1000);
+		super.properties = value;
+	}
 
-        if(scalerWindow)
-        {
-            scalerWindow.setParamFlag(0x2000, scaleH || noScale);
-            scalerWindow.setParamFlag(0x1000, scaleV || noScale);
-            scalerWindow.visible = (scaleH || scaleV || noScale);
-        }
-    }
+	public override iterator(): IIterator
+	{
+		if (this.content !== null && this._constructed)
+		{
+			return (this.content as unknown as ContainerController).iterator();
+		}
 
-    /**
-     * Handles help button click events.
-     */
-    private helpButtonProcedure(event: WindowEvent, _window: IWindow): void
-    {
-        if(event.type === 'WME_CLICK' && this._helpPage !== '' && this._helpButtonAction !== null)
-        {
-            this._helpButtonAction(this._helpPage);
-        }
-    }
+		return new ContainerIterator(this._children ?? []);
+	}
 
-    /**
-     * Called when margins change to update content rectangle.
-     */
-    private marginsCallback(margins: IMargins): void
-    {
-        const contentWindow = this.content;
-        const savedParam = contentWindow.param;
-        const anchorFlags = savedParam & (0xC0 | 0x0C00);
+	/**
+	 * Resizes the frame to fit its content children.
+	 */
+	public resizeToFitContent(): void
+	{
+		this.resizeToAccommodateChildren(this.content as unknown as WindowController);
+	}
 
-        if(anchorFlags)
-        {
-            contentWindow.setParamFlag(0xC0 | 0x0C00, false);
-        }
+	public override setParamFlag(flag: number, value: boolean = true): void
+	{
+		super.setParamFlag(flag, value);
+		this.setupScaling();
+	}
 
-        const stretchFlags = savedParam & 0xC00000;
+	/**
+	 * Resizes this frame to accommodate all children of the given container.
+	 */
+	protected resizeToAccommodateChildren(_container: WindowController): void
+	{
+		// Stub - to be extended if needed
+	}
 
-        if(stretchFlags)
-        {
-            contentWindow.setParamFlag(0xC00000, false);
-        }
+	/**
+	 * Configures the scaler visibility based on scaling param flags.
+	 */
+	private setupScaling(): void
+	{
+		const scalerWindow = this.scaler;
+		const noScale = this.testParamFlag(0x10000);
+		const scaleH = this.testParamFlag(0x2000);
+		const scaleV = this.testParamFlag(0x1000);
 
-        contentWindow.rectangle = {
-            x: margins.left,
-            y: margins.top,
-            width: margins.right - margins.left,
-            height: margins.bottom - margins.top
-        };
+		if (scalerWindow)
+		{
+			scalerWindow.setParamFlag(0x2000, scaleH || noScale);
+			scalerWindow.setParamFlag(0x1000, scaleV || noScale);
+			scalerWindow.visible = (scaleH || scaleV || noScale);
+		}
+	}
 
-        if(anchorFlags || stretchFlags)
-        {
-            contentWindow.setParamFlag(0xFFFFFFFF, false);
-            contentWindow.setParamFlag(savedParam, true);
-        }
-    }
+	/**
+	 * Handles help button click events.
+	 */
+	private helpButtonProcedure(event: WindowEvent, _window: IWindow): void
+	{
+		if (event.type === 'WME_CLICK' && this._helpPage !== '' && this._helpButtonAction !== null)
+		{
+			this._helpButtonAction(this._helpPage);
+		}
+	}
 
-    /**
-     * Resizes this frame to accommodate all children of the given container.
-     */
-    protected resizeToAccommodateChildren(_container: WindowController): void
-    {
-        // Stub - to be extended if needed
-    }
+	/**
+	 * Called when margins change to update content rectangle.
+	 */
+	private marginsCallback(margins: IMargins): void
+	{
+		const contentWindow = this.content;
+		const savedParam = contentWindow.param;
+		const anchorFlags = savedParam & (0xC0 | 0x0C00);
+
+		if (anchorFlags)
+		{
+			contentWindow.setParamFlag(0xC0 | 0x0C00, false);
+		}
+
+		const stretchFlags = savedParam & 0xC00000;
+
+		if (stretchFlags)
+		{
+			contentWindow.setParamFlag(0xC00000, false);
+		}
+
+		contentWindow.rectangle = {
+			x: margins.left,
+			y: margins.top,
+			width: margins.right - margins.left,
+			height: margins.bottom - margins.top
+		};
+
+		if (anchorFlags || stretchFlags)
+		{
+			contentWindow.setParamFlag(0xFFFFFFFF, false);
+			contentWindow.setParamFlag(savedParam, true);
+		}
+	}
 }

@@ -1,4 +1,4 @@
-import type { IItemGridWindow } from './IItemGridWindow';
+import type {IItemGridWindow} from './IItemGridWindow';
 
 /**
  * Interface for scrollable grid windows.
@@ -9,5 +9,5 @@ import type { IItemGridWindow } from './IItemGridWindow';
  */
 export interface IScrollableGridWindow extends IItemGridWindow
 {
-    autoHideScrollBar: boolean;
+	autoHideScrollBar: boolean;
 }

@@ -1,6 +1,6 @@
-import type { IWindow } from '../IWindow';
-import type { IWindowRenderer } from '../graphics/IWindowRenderer';
-import type { IInputEventTracker } from '../IInputEventTracker';
+import type {IWindow} from '../IWindow';
+import type {IWindowRenderer} from '../graphics/IWindowRenderer';
+import type {IInputEventTracker} from '../IInputEventTracker';
 
 /**
  * Holds state for event processing across the mouse event pipeline.
@@ -13,43 +13,43 @@ import type { IInputEventTracker } from '../IInputEventTracker';
  */
 export class EventProcessorState
 {
-    /**
-     * The window renderer.
-     */
-    public renderer: IWindowRenderer | null;
+	/**
+	 * The window renderer.
+	 */
+	public renderer: IWindowRenderer | null;
 
-    /**
-     * The desktop window.
-     */
-    public desktop: IWindow | null;
+	/**
+	 * The desktop window.
+	 */
+	public desktop: IWindow | null;
 
-    /**
-     * The currently hovered window.
-     */
-    public hovered: IWindow | null;
+	/**
+	 * The currently hovered window.
+	 */
+	public hovered: IWindow | null;
 
-    /**
-     * The last window that received a mouseDown.
-     */
-    public lastClickTarget: IWindow | null;
+	/**
+	 * The last window that received a mouseDown.
+	 */
+	public lastClickTarget: IWindow | null;
 
-    /**
-     * Active input event trackers.
-     */
-    public eventTrackers: IInputEventTracker[];
+	/**
+	 * Active input event trackers.
+	 */
+	public eventTrackers: IInputEventTracker[];
 
-    constructor(
-        renderer: IWindowRenderer | null,
-        desktop: IWindow | null,
-        hovered: IWindow | null,
-        lastClickTarget: IWindow | null,
-        eventTrackers: IInputEventTracker[]
-    )
-    {
-        this.renderer = renderer;
-        this.desktop = desktop;
-        this.hovered = hovered;
-        this.lastClickTarget = lastClickTarget;
-        this.eventTrackers = eventTrackers;
-    }
+	constructor(
+		renderer: IWindowRenderer | null,
+		desktop: IWindow | null,
+		hovered: IWindow | null,
+		lastClickTarget: IWindow | null,
+		eventTrackers: IInputEventTracker[]
+	)
+	{
+		this.renderer = renderer;
+		this.desktop = desktop;
+		this.hovered = hovered;
+		this.lastClickTarget = lastClickTarget;
+		this.eventTrackers = eventTrackers;
+	}
 }

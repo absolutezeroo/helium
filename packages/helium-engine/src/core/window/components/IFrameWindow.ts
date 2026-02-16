@@ -1,8 +1,8 @@
-import type { IWindowContainer } from '../IWindowContainer';
-import type { IMargins } from '../utils/IMargins';
-import type { IHeaderWindow } from './IHeaderWindow';
-import type { ILabelWindow } from './ILabelWindow';
-import type { IScalerWindow } from './IScalerWindow';
+import type {IWindowContainer} from '../IWindowContainer';
+import type {IMargins} from '../utils/IMargins';
+import type {IHeaderWindow} from './IHeaderWindow';
+import type {ILabelWindow} from './ILabelWindow';
+import type {IScalerWindow} from './IScalerWindow';
 
 /**
  * Interface for frame windows.
@@ -14,14 +14,13 @@ import type { IScalerWindow } from './IScalerWindow';
  */
 export interface IFrameWindow extends IWindowContainer
 {
-    readonly title: ILabelWindow;
-    readonly header: IHeaderWindow;
-    readonly content: IWindowContainer;
-    readonly margins: IMargins;
-    readonly scaler: IScalerWindow;
+	readonly title: ILabelWindow;
+	readonly header: IHeaderWindow;
+	readonly content: IWindowContainer;
+	readonly margins: IMargins;
+	readonly scaler: IScalerWindow;
+	helpButtonAction: Function;
+	helpPage: string;
 
-    resizeToFitContent(): void;
-
-    helpButtonAction: Function;
-    helpPage: string;
+	resizeToFitContent(): void;
 }

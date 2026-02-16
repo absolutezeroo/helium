@@ -1,4 +1,4 @@
-import type { IWindow } from '../IWindow';
+import type {IWindow} from '../IWindow';
 
 /**
  * Interface for HTML text windows with link support.
@@ -7,6 +7,6 @@ import type { IWindow } from '../IWindow';
  */
 export interface IHTMLTextWindow extends IWindow
 {
-    html: string;
-    linkTarget: string;
+	html: string;
+	linkTarget: string;
 }

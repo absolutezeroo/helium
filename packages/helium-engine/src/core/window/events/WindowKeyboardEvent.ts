@@ -1,5 +1,5 @@
-import type { IWindow } from '../IWindow';
-import { WindowEvent } from './WindowEvent';
+import type {IWindow} from '../IWindow';
+import {WindowEvent} from './WindowEvent';
 
 /**
  * Window keyboard event with key code and modifier data.
@@ -12,132 +12,137 @@ import { WindowEvent } from './WindowEvent';
  */
 export class WindowKeyboardEvent extends WindowEvent
 {
-    // ── Event type constants ─────────────────────────────────────────
+	// ── Event type constants ─────────────────────────────────────────
 
-    public static readonly KEY_UP: string = 'WKE_KEY_UP';
-    public static readonly KEY_DOWN: string = 'WKE_KEY_DOWN';
+	public static readonly KEY_UP: string = 'WKE_KEY_UP';
+	public static readonly KEY_DOWN: string = 'WKE_KEY_DOWN';
 
-    // ── Object pool ──────────────────────────────────────────────────
+	// ── Object pool ──────────────────────────────────────────────────
 
-    private static readonly _keyboardPool: WindowKeyboardEvent[] = [];
+	private static readonly _keyboardPool: WindowKeyboardEvent[] = [];
 
-    // ── Instance fields ──────────────────────────────────────────────
+	// ── Instance fields ──────────────────────────────────────────────
 
-    private _keyCode: number = 0;
-    private _charCode: number = 0;
-    private _altKey: boolean = false;
-    private _ctrlKey: boolean = false;
-    private _shiftKey: boolean = false;
-    private _keyLocation: number = 0;
+	private _keyCode: number = 0;
 
-    // ── Static factory ───────────────────────────────────────────────
+	/** The key code of the pressed key. */
+	public get keyCode(): number
+	{
+		return this._keyCode;
+	}
 
-    /**
-     * Allocates a WindowKeyboardEvent from the pool or creates a new one.
-     *
-     * @param type - The event type string
-     * @param keyCode - The key code
-     * @param charCode - The character code
-     * @param window - The target window
-     * @param related - The related window
-     * @param altKey - Whether the Alt key is pressed
-     * @param ctrlKey - Whether the Ctrl key is pressed
-     * @param shiftKey - Whether the Shift key is pressed
-     * @param keyLocation - The key location (standard, left, right, numpad)
-     * @param cancelable - Whether the event can be cancelled
-     * @returns A pooled or new WindowKeyboardEvent instance
-     */
-    public static allocateKeyboard(
-        type: string,
-        keyCode: number,
-        charCode: number,
-        window: IWindow | null,
-        related: IWindow | null,
-        altKey: boolean = false,
-        ctrlKey: boolean = false,
-        shiftKey: boolean = false,
-        keyLocation: number = 0,
-        cancelable: boolean = false
-    ): WindowKeyboardEvent
-    {
-        const event: WindowKeyboardEvent = (WindowKeyboardEvent._keyboardPool.length > 0)
-            ? WindowKeyboardEvent._keyboardPool.pop()!
-            : new WindowKeyboardEvent();
+	private _charCode: number = 0;
 
-        event._type = type;
-        event._window = window;
-        event._related = related;
-        event._recycled = false;
-        event._cancelable = cancelable;
-        event._poolRef = WindowKeyboardEvent._keyboardPool;
-        event._keyCode = keyCode;
-        event._charCode = charCode;
-        event._altKey = altKey;
-        event._ctrlKey = ctrlKey;
-        event._shiftKey = shiftKey;
-        event._keyLocation = keyLocation;
+	/** The character code of the pressed key. */
+	public get charCode(): number
+	{
+		return this._charCode;
+	}
 
-        return event;
-    }
+	private _altKey: boolean = false;
 
-    // ── Accessors ────────────────────────────────────────────────────
+	/** Whether the Alt key is pressed. */
+	public get altKey(): boolean
+	{
+		return this._altKey;
+	}
 
-    /** The key code of the pressed key. */
-    public get keyCode(): number
-    {
-        return this._keyCode;
-    }
+	// ── Static factory ───────────────────────────────────────────────
 
-    /** The character code of the pressed key. */
-    public get charCode(): number
-    {
-        return this._charCode;
-    }
+	private _ctrlKey: boolean = false;
 
-    /** The key location (standard, left, right, numpad). */
-    public get keyLocation(): number
-    {
-        return this._keyLocation;
-    }
+	// ── Accessors ────────────────────────────────────────────────────
 
-    /** Whether the Alt key is pressed. */
-    public get altKey(): boolean
-    {
-        return this._altKey;
-    }
+	/** Whether the Ctrl key is pressed. */
+	public get ctrlKey(): boolean
+	{
+		return this._ctrlKey;
+	}
 
-    /** Whether the Ctrl key is pressed. */
-    public get ctrlKey(): boolean
-    {
-        return this._ctrlKey;
-    }
+	private _shiftKey: boolean = false;
 
-    /** Whether the Shift key is pressed. */
-    public get shiftKey(): boolean
-    {
-        return this._shiftKey;
-    }
+	/** Whether the Shift key is pressed. */
+	public get shiftKey(): boolean
+	{
+		return this._shiftKey;
+	}
 
-    // ── Methods ──────────────────────────────────────────────────────
+	private _keyLocation: number = 0;
 
-    /**
-     * Creates a clone of this keyboard event via the pool.
-     */
-    public override clone(): WindowEvent
-    {
-        return WindowKeyboardEvent.allocateKeyboard(
-            this._type, this._keyCode, this._charCode,
-            this._window, this._related,
-            this._altKey, this._ctrlKey, this._shiftKey,
-            this._keyLocation, this._cancelable
-        );
-    }
+	/** The key location (standard, left, right, numpad). */
+	public get keyLocation(): number
+	{
+		return this._keyLocation;
+	}
 
-    /**
-     * Returns a string representation of this keyboard event.
-     */
-    public override toString(): string
-    {
-        return `WindowKeyboardEvent { type: ${ this._type } cancelable: ${ this._cancelable } window: ${ this._window } charCode: ${ this._charCode } }`;
-    }
+	/**
+	 * Allocates a WindowKeyboardEvent from the pool or creates a new one.
+	 *
+	 * @param type - The event type string
+	 * @param keyCode - The key code
+	 * @param charCode - The character code
+	 * @param window - The target window
+	 * @param related - The related window
+	 * @param altKey - Whether the Alt key is pressed
+	 * @param ctrlKey - Whether the Ctrl key is pressed
+	 * @param shiftKey - Whether the Shift key is pressed
+	 * @param keyLocation - The key location (standard, left, right, numpad)
+	 * @param cancelable - Whether the event can be cancelled
+	 * @returns A pooled or new WindowKeyboardEvent instance
+	 */
+	public static allocateKeyboard(
+		type: string,
+		keyCode: number,
+		charCode: number,
+		window: IWindow | null,
+		related: IWindow | null,
+		altKey: boolean = false,
+		ctrlKey: boolean = false,
+		shiftKey: boolean = false,
+		keyLocation: number = 0,
+		cancelable: boolean = false
+	): WindowKeyboardEvent
+	{
+		const event: WindowKeyboardEvent = (WindowKeyboardEvent._keyboardPool.length > 0)
+			? WindowKeyboardEvent._keyboardPool.pop()!
+			: new WindowKeyboardEvent();
+
+		event._type = type;
+		event._window = window;
+		event._related = related;
+		event._recycled = false;
+		event._cancelable = cancelable;
+		event._poolRef = WindowKeyboardEvent._keyboardPool;
+		event._keyCode = keyCode;
+		event._charCode = charCode;
+		event._altKey = altKey;
+		event._ctrlKey = ctrlKey;
+		event._shiftKey = shiftKey;
+		event._keyLocation = keyLocation;
+
+		return event;
+	}
+
+	// ── Methods ──────────────────────────────────────────────────────
+
+	/**
+	 * Creates a clone of this keyboard event via the pool.
+	 */
+	public override clone(): WindowEvent
+	{
+		return WindowKeyboardEvent.allocateKeyboard(
+			this._type, this._keyCode, this._charCode,
+			this._window, this._related,
+			this._altKey, this._ctrlKey, this._shiftKey,
+			this._keyLocation, this._cancelable
+		);
+	}
+
+	/**
+	 * Returns a string representation of this keyboard event.
+	 */
+	public override toString(): string
+	{
+		return `WindowKeyboardEvent { type: ${this._type} cancelable: ${this._cancelable} window: ${this._window} charCode: ${this._charCode} }`;
+	}
 }

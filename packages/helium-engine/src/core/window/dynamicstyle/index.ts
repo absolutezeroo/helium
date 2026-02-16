@@ -1,2 +1,2 @@
-export { DynamicStyle } from './DynamicStyle';
-export { DynamicStyleManager } from './DynamicStyleManager';
+export {DynamicStyle} from './DynamicStyle';
+export {DynamicStyleManager} from './DynamicStyleManager';

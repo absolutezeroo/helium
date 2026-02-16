@@ -1,4 +1,4 @@
-import type { IWindow } from '../IWindow';
+import type {IWindow} from '../IWindow';
 
 /**
  * Interface for parsing window layout definitions and constructing window trees.
@@ -9,8 +9,11 @@ import type { IWindow } from '../IWindow';
  */
 export interface IWindowParser
 {
-    parseAndConstruct(layout: Record<string, unknown>, parent: IWindow, namedWindows: Map<string, IWindow> | null): IWindow | null;
-    windowToLayoutString(window: IWindow): string;
-    dispose(): void;
-    readonly disposed: boolean;
+	readonly disposed: boolean;
+
+	parseAndConstruct(layout: Record<string, unknown>, parent: IWindow, namedWindows: Map<string, IWindow> | null): IWindow | null;
+
+	windowToLayoutString(window: IWindow): string;
+
+	dispose(): void;
 }

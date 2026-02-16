@@ -1,8 +1,8 @@
-import type { IWindow } from '../IWindow';
-import type { IWindowContext } from '../IWindowContext';
-import type { IDesktopWindow } from './IDesktopWindow';
-import { ContainerController } from './ContainerController';
-import { WindowEvent } from '../events/WindowEvent';
+import type {IWindow} from '../IWindow';
+import type {IWindowContext} from '../IWindowContext';
+import type {IDesktopWindow} from './IDesktopWindow';
+import {ContainerController} from './ContainerController';
+import {WindowEvent} from '../events/WindowEvent';
 
 /**
  * Desktop controller — the root container for all windows in a context.
@@ -14,88 +14,90 @@ import { WindowEvent } from '../events/WindowEvent';
  */
 export class DesktopController extends ContainerController implements IDesktopWindow
 {
-    private _mouseX: number = 0;
-    private _mouseY: number = 0;
-    private _activeWindow: IWindow | null = null;
+	private _activeWindow: IWindow | null = null;
 
-    constructor(
-        name: string,
-        type: number,
-        style: number,
-        param: number,
-        context: IWindowContext,
-        rect: { x: number; y: number; width: number; height: number },
-        parent: IWindow | null = null,
-        procedure: ((event: WindowEvent, window: IWindow) => void) | null = null,
-        tags: string[] | null = null,
-        properties: unknown[] | null = null,
-        id: number = 0,
-        dynamicStyle: string = ''
-    )
-    {
-        super(name, type, style, param, context, rect, parent, procedure, tags, properties, id);
-    }
+	constructor(
+		name: string,
+		type: number,
+		style: number,
+		param: number,
+		context: IWindowContext,
+		rect: { x: number; y: number; width: number; height: number },
+		parent: IWindow | null = null,
+		procedure: ((event: WindowEvent, window: IWindow) => void) | null = null,
+		tags: string[] | null = null,
+		properties: unknown[] | null = null,
+		id: number = 0,
+		dynamicStyle: string = ''
+	)
+	{
+		super(name, type, style, param, context, rect, parent, procedure, tags, properties, id);
+	}
 
-    public get mouseX(): number
-    {
-        return this._mouseX;
-    }
+	private _mouseX: number = 0;
 
-    public get mouseY(): number
-    {
-        return this._mouseY;
-    }
+	public get mouseX(): number
+	{
+		return this._mouseX;
+	}
 
-    public getActiveWindow(): IWindow
-    {
-        return this._activeWindow ?? this;
-    }
+	private _mouseY: number = 0;
 
-    public setActiveWindow(window: IWindow): IWindow
-    {
-        const previous = this._activeWindow;
+	public get mouseY(): number
+	{
+		return this._mouseY;
+	}
 
-        this._activeWindow = window;
+	public getActiveWindow(): IWindow
+	{
+		return this._activeWindow ?? this;
+	}
 
-        return previous ?? this;
-    }
+	public setActiveWindow(window: IWindow): IWindow
+	{
+		const previous = this._activeWindow;
 
-    public groupParameterFilteredChildrenUnderPoint(
-        point: { x: number; y: number },
-        result: IWindow[],
-        paramFilter: number = 0
-    ): void
-    {
-        for(let i = this.numChildren - 1; i >= 0; i--)
-        {
-            const child = this.getChildAt(i);
+		this._activeWindow = window;
 
-            if(child && child.visible && child.hitTestLocalPoint(point))
-            {
-                if(paramFilter === 0 || child.testParamFlag(paramFilter))
-                {
-                    result.push(child);
-                }
-            }
-        }
-    }
+		return previous ?? this;
+	}
 
-    public setDisplayObject(displayObject: unknown): void
-    {
-        // No-op in TypeScript port — rendering handled by client layer
-    }
+	public groupParameterFilteredChildrenUnderPoint(
+		point: { x: number; y: number },
+		result: IWindow[],
+		paramFilter: number = 0
+	): void
+	{
+		for (let i = this.numChildren - 1; i >= 0; i--)
+		{
+			const child = this.getChildAt(i);
 
-    public getDisplayObject(): unknown
-    {
-        return null;
-    }
+			if (child && child.visible && child.hitTestLocalPoint(point))
+			{
+				if (paramFilter === 0 || child.testParamFlag(paramFilter))
+				{
+					result.push(child);
+				}
+			}
+		}
+	}
 
-    public override dispose(): void
-    {
-        if(this._disposed) return;
+	public setDisplayObject(displayObject: unknown): void
+	{
+		// No-op in TypeScript port — rendering handled by client layer
+	}
 
-        this._activeWindow = null;
+	public getDisplayObject(): unknown
+	{
+		return null;
+	}
 
-        super.dispose();
-    }
+	public override dispose(): void
+	{
+		if (this._disposed) return;
+
+		this._activeWindow = null;
+
+		super.dispose();
+	}
 }

@@ -1,4 +1,4 @@
-import type { IWindow } from '../IWindow';
+import type {IWindow} from '../IWindow';
 
 /**
  * Interface for icon windows.
@@ -9,5 +9,5 @@ import type { IWindow } from '../IWindow';
  */
 export interface IIconWindow extends IWindow
 {
-    imageUrl: string;
+	imageUrl: string;
 }

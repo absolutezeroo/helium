@@ -1,11 +1,10 @@
-import type { IWindow } from '../IWindow';
-import type { IWindowContext } from '../IWindowContext';
-import type { IScrollableListWindow } from './IScrollableListWindow';
-import type { IItemListWindow } from './IItemListWindow';
-import type { IScrollbarWindow } from './IScrollbarWindow';
-import type { IIterator } from '../utils/IIterator';
-import { ContainerController } from './ContainerController';
-import { WindowEvent } from '../events/WindowEvent';
+import type {IWindow} from '../IWindow';
+import type {IWindowContext} from '../IWindowContext';
+import type {IScrollableListWindow} from './IScrollableListWindow';
+import type {IItemListWindow} from './IItemListWindow';
+import type {IScrollbarWindow} from './IScrollbarWindow';
+import {ContainerController} from './ContainerController';
+import {WindowEvent} from '../events/WindowEvent';
 
 /**
  * Scrollable item list window.
@@ -17,234 +16,235 @@ import { WindowEvent } from '../events/WindowEvent';
  */
 export class ScrollableItemListWindow extends ContainerController implements IScrollableListWindow
 {
-    private _itemListRef: IItemListWindow | null = null;
-    private _scrollBarRef: IScrollbarWindow | null = null;
-    private _autoHideScrollBar: boolean = true;
+	private _itemListRef: IItemListWindow | null = null;
+	private _scrollBarRef: IScrollbarWindow | null = null;
 
-    constructor(
-        name: string,
-        type: number,
-        style: number,
-        param: number,
-        context: IWindowContext,
-        rect: { x: number; y: number; width: number; height: number },
-        parent: IWindow | null = null,
-        procedure: ((event: WindowEvent, window: IWindow) => void) | null = null,
-        tags: string[] | null = null,
-        properties: unknown[] | null = null,
-        id: number = 0,
-        dynamicStyle: string = ''
-    )
-    {
-        super(name, type, style, param, context, rect, parent, procedure, tags, properties, id);
-    }
+	constructor(
+		name: string,
+		type: number,
+		style: number,
+		param: number,
+		context: IWindowContext,
+		rect: { x: number; y: number; width: number; height: number },
+		parent: IWindow | null = null,
+		procedure: ((event: WindowEvent, window: IWindow) => void) | null = null,
+		tags: string[] | null = null,
+		properties: unknown[] | null = null,
+		id: number = 0,
+		dynamicStyle: string = ''
+	)
+	{
+		super(name, type, style, param, context, rect, parent, procedure, tags, properties, id);
+	}
 
-    /**
-     * Gets the internal item list child.
-     */
-    protected get itemList(): IItemListWindow | null
-    {
-        if(!this._itemListRef)
-        {
-            this._itemListRef = this.findChildByTag('_ITEMLIST') as unknown as IItemListWindow | null;
-        }
+	private _autoHideScrollBar: boolean = true;
 
-        return this._itemListRef;
-    }
+	/**
+	 * Gets whether auto-hide scrollbar is enabled.
+	 */
+	public get autoHideScrollBar(): boolean
+	{
+		return this._autoHideScrollBar;
+	}
 
-    /**
-     * Gets the internal scrollbar child.
-     */
-    protected get scrollBar(): IScrollbarWindow | null
-    {
-        if(!this._scrollBarRef)
-        {
-            this._scrollBarRef = this.findChildByTag('_SCROLLBAR') as unknown as IScrollbarWindow | null;
-        }
+	/**
+	 * Sets whether auto-hide scrollbar is enabled.
+	 */
+	public set autoHideScrollBar(value: boolean)
+	{
+		this._autoHideScrollBar = value;
+	}
 
-        return this._scrollBarRef;
-    }
+	/**
+	 * Gets whether items auto-arrange.
+	 */
+	public get autoArrangeItems(): boolean
+	{
+		return this.itemList?.autoArrangeItems ?? true;
+	}
 
-    /**
-     * Gets whether auto-hide scrollbar is enabled.
-     */
-    public get autoHideScrollBar(): boolean
-    {
-        return this._autoHideScrollBar;
-    }
+	/**
+	 * Sets whether items auto-arrange.
+	 */
+	public set autoArrangeItems(value: boolean)
+	{
+		if (this.itemList) this.itemList.autoArrangeItems = value;
+	}
 
-    /**
-     * Sets whether auto-hide scrollbar is enabled.
-     */
-    public set autoHideScrollBar(value: boolean)
-    {
-        this._autoHideScrollBar = value;
-    }
+	/**
+	 * Gets the spacing between items.
+	 */
+	public get spacing(): number
+	{
+		return this.itemList?.spacing ?? 0;
+	}
 
-    /**
-     * Gets whether items auto-arrange.
-     */
-    public get autoArrangeItems(): boolean
-    {
-        return this.itemList?.autoArrangeItems ?? true;
-    }
+	/**
+	 * Sets the spacing between items.
+	 */
+	public set spacing(value: number)
+	{
+		if (this.itemList) this.itemList.spacing = value;
+	}
 
-    /**
-     * Sets whether items auto-arrange.
-     */
-    public set autoArrangeItems(value: boolean)
-    {
-        if(this.itemList) this.itemList.autoArrangeItems = value;
-    }
+	public get numListItems(): number
+	{
+		return this.itemList?.numListItems ?? 0;
+	}
 
-    /**
-     * Gets the spacing between items.
-     */
-    public get spacing(): number
-    {
-        return this.itemList?.spacing ?? 0;
-    }
+	public get firstListItem(): IWindow | null
+	{
+		return this.itemList?.firstListItem ?? null;
+	}
 
-    /**
-     * Sets the spacing between items.
-     */
-    public set spacing(value: number)
-    {
-        if(this.itemList) this.itemList.spacing = value;
-    }
+	public get lastListItem(): IWindow | null
+	{
+		return this.itemList?.lastListItem ?? null;
+	}
 
-    /**
-     * Arranges items in the list.
-     */
-    public arrangeItems(): void
-    {
-        this.itemList?.arrangeItems();
-    }
+	// ── IItemListWindow delegation ──────────────────────────────────
 
-    // ── IItemListWindow delegation ──────────────────────────────────
+	public get disableAutodrag(): boolean
+	{
+		return false;
+	}
 
-    public get numListItems(): number
-    {
-        return this.itemList?.numListItems ?? 0;
-    }
+	public set disableAutodrag(value: boolean)
+	{
+		if (this.itemList) this.itemList.disableAutodrag = value;
+	}
 
-    public get firstListItem(): IWindow | null
-    {
-        return this.itemList?.firstListItem ?? null;
-    }
+	/**
+	 * Gets the internal item list child.
+	 */
+	protected get itemList(): IItemListWindow | null
+	{
+		if (!this._itemListRef)
+		{
+			this._itemListRef = this.findChildByTag('_ITEMLIST') as unknown as IItemListWindow | null;
+		}
 
-    public get lastListItem(): IWindow | null
-    {
-        return this.itemList?.lastListItem ?? null;
-    }
+		return this._itemListRef;
+	}
 
-    public addListItem(item: IWindow): IWindow
-    {
-        return this.itemList?.addListItem(item) ?? item;
-    }
+	/**
+	 * Gets the internal scrollbar child.
+	 */
+	protected get scrollBar(): IScrollbarWindow | null
+	{
+		if (!this._scrollBarRef)
+		{
+			this._scrollBarRef = this.findChildByTag('_SCROLLBAR') as unknown as IScrollbarWindow | null;
+		}
 
-    public addListItemAt(item: IWindow, index: number): IWindow
-    {
-        return this.itemList?.addListItemAt(item, index) ?? item;
-    }
+		return this._scrollBarRef;
+	}
 
-    public getListItemAt(index: number): IWindow | null
-    {
-        return this.itemList?.getListItemAt(index) ?? null;
-    }
+	/**
+	 * Arranges items in the list.
+	 */
+	public arrangeItems(): void
+	{
+		this.itemList?.arrangeItems();
+	}
 
-    public getListItemByName(name: string): IWindow | null
-    {
-        return this.itemList?.getListItemByName(name) ?? null;
-    }
+	public addListItem(item: IWindow): IWindow
+	{
+		return this.itemList?.addListItem(item) ?? item;
+	}
 
-    public getListItemByID(id: number): IWindow | null
-    {
-        return this.itemList?.getListItemByID(id) ?? null;
-    }
+	public addListItemAt(item: IWindow, index: number): IWindow
+	{
+		return this.itemList?.addListItemAt(item, index) ?? item;
+	}
 
-    public getListItemByTag(tag: string): IWindow | null
-    {
-        return this.itemList?.getListItemByTag(tag) ?? null;
-    }
+	public getListItemAt(index: number): IWindow | null
+	{
+		return this.itemList?.getListItemAt(index) ?? null;
+	}
 
-    public getListItemIndex(item: IWindow): number
-    {
-        return this.itemList?.getListItemIndex(item) ?? -1;
-    }
+	public getListItemByName(name: string): IWindow | null
+	{
+		return this.itemList?.getListItemByName(name) ?? null;
+	}
 
-    public removeListItem(item: IWindow): IWindow | null
-    {
-        return this.itemList?.removeListItem(item) ?? null;
-    }
+	public getListItemByID(id: number): IWindow | null
+	{
+		return this.itemList?.getListItemByID(id) ?? null;
+	}
 
-    public removeListItemAt(index: number): IWindow | null
-    {
-        return this.itemList?.removeListItemAt(index) ?? null;
-    }
+	public getListItemByTag(tag: string): IWindow | null
+	{
+		return this.itemList?.getListItemByTag(tag) ?? null;
+	}
 
-    public removeListItems(): void
-    {
-        this.itemList?.removeListItems();
-    }
+	public getListItemIndex(item: IWindow): number
+	{
+		return this.itemList?.getListItemIndex(item) ?? -1;
+	}
 
-    public destroyListItems(): void
-    {
-        this.itemList?.destroyListItems();
-    }
+	public removeListItem(item: IWindow): IWindow | null
+	{
+		return this.itemList?.removeListItem(item) ?? null;
+	}
 
-    public setListItemIndex(item: IWindow, index: number): void
-    {
-        this.itemList?.setListItemIndex(item, index);
-    }
+	public removeListItemAt(index: number): IWindow | null
+	{
+		return this.itemList?.removeListItemAt(index) ?? null;
+	}
 
-    public swapListItems(a: IWindow, b: IWindow): void
-    {
-        this.itemList?.swapListItems(a, b);
-    }
+	public removeListItems(): void
+	{
+		this.itemList?.removeListItems();
+	}
 
-    public swapListItemsAt(indexA: number, indexB: number): void
-    {
-        this.itemList?.swapListItemsAt(indexA, indexB);
-    }
+	public destroyListItems(): void
+	{
+		this.itemList?.destroyListItems();
+	}
 
-    public groupListItemsWithID(id: number, result: IWindow[], depth: number = 0): number
-    {
-        return this.itemList?.groupListItemsWithID(id, result, depth) ?? 0;
-    }
+	public setListItemIndex(item: IWindow, index: number): void
+	{
+		this.itemList?.setListItemIndex(item, index);
+	}
 
-    public groupListItemsWithTag(tag: string, result: IWindow[], depth: number = 0): number
-    {
-        return this.itemList?.groupListItemsWithTag(tag, result, depth) ?? 0;
-    }
+	public swapListItems(a: IWindow, b: IWindow): void
+	{
+		this.itemList?.swapListItems(a, b);
+	}
 
-    public set disableAutodrag(value: boolean)
-    {
-        if(this.itemList) this.itemList.disableAutodrag = value;
-    }
+	public swapListItemsAt(indexA: number, indexB: number): void
+	{
+		this.itemList?.swapListItemsAt(indexA, indexB);
+	}
 
-    public get disableAutodrag(): boolean
-    {
-        return false;
-    }
+	public groupListItemsWithID(id: number, result: IWindow[], depth: number = 0): number
+	{
+		return this.itemList?.groupListItemsWithID(id, result, depth) ?? 0;
+	}
 
-    /**
-     * Scrolls the list by a wheel delta amount.
-     */
-    public scrollWithWheel(delta: number): void
-    {
-        if(!this.itemList) return;
+	public groupListItemsWithTag(tag: string, result: IWindow[], depth: number = 0): number
+	{
+		return this.itemList?.groupListItemsWithTag(tag, result, depth) ?? 0;
+	}
 
-        // Stub — wheel scrolling will be implemented with the scroll system
-    }
+	/**
+	 * Scrolls the list by a wheel delta amount.
+	 */
+	public scrollWithWheel(delta: number): void
+	{
+		if (!this.itemList) return;
 
-    public override dispose(): void
-    {
-        if(this._disposed) return;
+		// Stub — wheel scrolling will be implemented with the scroll system
+	}
 
-        this._scrollBarRef = null;
-        this._itemListRef = null;
+	public override dispose(): void
+	{
+		if (this._disposed) return;
 
-        super.dispose();
-    }
+		this._scrollBarRef = null;
+		this._itemListRef = null;
+
+		super.dispose();
+	}
 }

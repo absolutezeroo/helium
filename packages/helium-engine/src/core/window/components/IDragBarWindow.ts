@@ -1,4 +1,4 @@
-import type { IInteractiveWindow } from './IInteractiveWindow';
+import type {IInteractiveWindow} from './IInteractiveWindow';
 
 /**
  * Interface for drag bar windows.
@@ -10,6 +10,6 @@ import type { IInteractiveWindow } from './IInteractiveWindow';
  */
 export interface IDragBarWindow extends IInteractiveWindow
 {
-    scrollbarOffsetX: number;
-    scrollbarOffsetY: number;
+	scrollbarOffsetX: number;
+	scrollbarOffsetY: number;
 }

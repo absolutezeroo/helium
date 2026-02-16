@@ -1,5 +1,5 @@
-import type { IIterable } from '../utils/IIterable';
-import type { ISelectorWindow } from './ISelectorWindow';
+import type {IIterable} from '../utils/IIterable';
+import type {ISelectorWindow} from './ISelectorWindow';
 
 /**
  * Interface for selector list windows.

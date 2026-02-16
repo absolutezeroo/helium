@@ -1,13 +1,13 @@
-import type { IInternalWindowServices } from './IInternalWindowServices';
-import type { IMouseDraggingService } from './IMouseDraggingService';
-import type { IMouseScalingService } from './IMouseScalingService';
-import type { IMouseListenerService } from './IMouseListenerService';
-import type { IFocusManagerService } from './IFocusManagerService';
-import type { IToolTipAgentService } from './IToolTipAgentService';
-import type { IGestureAgentService } from './IGestureAgentService';
-import type { IWindow } from '../IWindow';
-import { WindowMouseDragger } from './WindowMouseDragger';
-import { WindowMouseScaler } from './WindowMouseScaler';
+import type {IInternalWindowServices} from './IInternalWindowServices';
+import type {IMouseDraggingService} from './IMouseDraggingService';
+import type {IMouseScalingService} from './IMouseScalingService';
+import type {IMouseListenerService} from './IMouseListenerService';
+import type {IFocusManagerService} from './IFocusManagerService';
+import type {IToolTipAgentService} from './IToolTipAgentService';
+import type {IGestureAgentService} from './IGestureAgentService';
+import type {IWindow} from '../IWindow';
+import {WindowMouseDragger} from './WindowMouseDragger';
+import {WindowMouseScaler} from './WindowMouseScaler';
 
 /**
  * Aggregates all internal window services.
@@ -19,85 +19,101 @@ import { WindowMouseScaler } from './WindowMouseScaler';
  */
 export class ServiceManager implements IInternalWindowServices
 {
-    private _dragger: WindowMouseDragger;
-    private _scaler: WindowMouseScaler;
-    private _mouseListener: IMouseListenerService;
-    private _focusManager: IFocusManagerService;
-    private _toolTipAgent: IToolTipAgentService;
-    private _gestureAgent: IGestureAgentService;
-    private _disposed: boolean = false;
+	private _dragger: WindowMouseDragger;
+	private _scaler: WindowMouseScaler;
+	private _mouseListener: IMouseListenerService;
+	private _focusManager: IFocusManagerService;
+	private _toolTipAgent: IToolTipAgentService;
+	private _gestureAgent: IGestureAgentService;
 
-    constructor()
-    {
-        this._dragger = new WindowMouseDragger();
-        this._scaler = new WindowMouseScaler();
+	constructor()
+	{
+		this._dragger = new WindowMouseDragger();
+		this._scaler = new WindowMouseScaler();
 
-        // Stub services — will be replaced by real implementations later
-        this._mouseListener = {
-            eventTypes: [],
-            areaLimit: 0,
-            begin(_window: IWindow): void { /* stub */ },
-            end(_window: IWindow): void { /* stub */ },
-        };
+		// Stub services — will be replaced by real implementations later
+		this._mouseListener = {
+			eventTypes: [],
+			areaLimit: 0,
+			begin(_window: IWindow): void
+			{ /* stub */
+			},
+			end(_window: IWindow): void
+			{ /* stub */
+			},
+		};
 
-        this._focusManager = {
-            setFocus(_window: IWindow | null): void { /* stub */ },
-            getFocus(): IWindow | null { return null; },
-        };
+		this._focusManager = {
+			setFocus(_window: IWindow | null): void
+			{ /* stub */
+			},
+			getFocus(): IWindow | null
+			{
+				return null;
+			},
+		};
 
-        this._toolTipAgent = {
-            show(_window: IWindow, _text: string): void { /* stub */ },
-            hide(): void { /* stub */ },
-        };
+		this._toolTipAgent = {
+			show(_window: IWindow, _text: string): void
+			{ /* stub */
+			},
+			hide(): void
+			{ /* stub */
+			},
+		};
 
-        this._gestureAgent = {
-            disposed: false,
-            dispose(): void { /* stub */ },
-        };
-    }
+		this._gestureAgent = {
+			disposed: false,
+			dispose(): void
+			{ /* stub */
+			},
+		};
+	}
 
-    public get disposed(): boolean
-    {
-        return this._disposed;
-    }
+	private _disposed: boolean = false;
 
-    public getMouseDraggingService(): IMouseDraggingService
-    {
-        return this._dragger;
-    }
+	public get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
-    public getMouseScalingService(): IMouseScalingService
-    {
-        return this._scaler;
-    }
+	public getMouseDraggingService(): IMouseDraggingService
+	{
+		return this._dragger;
+	}
 
-    public getMouseListenerService(): IMouseListenerService
-    {
-        return this._mouseListener;
-    }
+	public getMouseScalingService(): IMouseScalingService
+	{
+		return this._scaler;
+	}
 
-    public getFocusManagerService(): IFocusManagerService
-    {
-        return this._focusManager;
-    }
+	public getMouseListenerService(): IMouseListenerService
+	{
+		return this._mouseListener;
+	}
 
-    public getToolTipAgentService(): IToolTipAgentService
-    {
-        return this._toolTipAgent;
-    }
+	public getFocusManagerService(): IFocusManagerService
+	{
+		return this._focusManager;
+	}
 
-    public getGestureAgentService(): IGestureAgentService
-    {
-        return this._gestureAgent;
-    }
+	public getToolTipAgentService(): IToolTipAgentService
+	{
+		return this._toolTipAgent;
+	}
 
-    public dispose(): void
-    {
-        if(this._disposed) return;
+	public getGestureAgentService(): IGestureAgentService
+	{
+		return this._gestureAgent;
+	}
 
-        this._disposed = true;
+	public dispose(): void
+	{
+		if (this._disposed) return;
 
-        this._dragger.dispose();
-        this._scaler.dispose();
-    }
+		this._disposed = true;
+
+		this._dragger.dispose();
+		this._scaler.dispose();
+	}
 }

@@ -1,4 +1,4 @@
-import type { IWindow } from '../IWindow';
+import type {IWindow} from '../IWindow';
 
 /**
  * Iterator interface for traversing window children.
@@ -7,7 +7,9 @@ import type { IWindow } from '../IWindow';
  */
 export interface IIterator
 {
-    next(): IWindow | null;
-    reset(): void;
-    count(): number;
+	next(): IWindow | null;
+
+	reset(): void;
+
+	count(): number;
 }

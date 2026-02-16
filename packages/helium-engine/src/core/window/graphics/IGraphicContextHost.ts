@@ -1,4 +1,4 @@
-import type { IGraphicContext } from './IGraphicContext';
+import type {IGraphicContext} from './IGraphicContext';
 
 /**
  * Interface for objects that host a graphic context.
@@ -7,7 +7,9 @@ import type { IGraphicContext } from './IGraphicContext';
  */
 export interface IGraphicContextHost
 {
-    readonly name: string;
-    getGraphicContext(createIfMissing: boolean): IGraphicContext | null;
-    hasGraphicsContext(): boolean;
+	readonly name: string;
+
+	getGraphicContext(createIfMissing: boolean): IGraphicContext | null;
+
+	hasGraphicsContext(): boolean;
 }

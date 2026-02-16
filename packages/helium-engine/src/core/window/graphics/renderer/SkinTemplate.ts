@@ -1,4 +1,4 @@
-import { SkinTemplateEntity } from './SkinTemplateEntity';
+import {SkinTemplateEntity} from './SkinTemplateEntity';
 
 /**
  * Collection of template entities with a reference to the spritesheet atlas.
@@ -10,67 +10,70 @@ import { SkinTemplateEntity } from './SkinTemplateEntity';
  */
 export class SkinTemplate
 {
-    private _name: string;
-    private _atlas: ImageBitmap | null;
-    private _entities: SkinTemplateEntity[] = [];
-    private _entityByName: Map<string, SkinTemplateEntity> = new Map();
+	private _entityByName: Map<string, SkinTemplateEntity> = new Map();
 
-    constructor(name: string, atlas: ImageBitmap | null)
-    {
-        this._name = name;
-        this._atlas = atlas;
-    }
+	constructor(name: string, atlas: ImageBitmap | null)
+	{
+		this._name = name;
+		this._atlas = atlas;
+	}
 
-    public get name(): string
-    {
-        return this._name;
-    }
+	private _name: string;
 
-    public get atlas(): ImageBitmap | null
-    {
-        return this._atlas;
-    }
+	public get name(): string
+	{
+		return this._name;
+	}
 
-    public get entities(): readonly SkinTemplateEntity[]
-    {
-        return this._entities;
-    }
+	private _atlas: ImageBitmap | null;
 
-    public get numEntities(): number
-    {
-        return this._entities.length;
-    }
+	public get atlas(): ImageBitmap | null
+	{
+		return this._atlas;
+	}
 
-    /**
-     * Adds a template entity.
-     *
-     * @param entity - The entity to add
-     */
-    public addEntity(entity: SkinTemplateEntity): void
-    {
-        this._entities.push(entity);
-        this._entityByName.set(entity.name, entity);
-    }
+	private _entities: SkinTemplateEntity[] = [];
 
-    /**
-     * Returns the entity with the given name.
-     *
-     * @param name - The entity name
-     * @returns The template entity, or null
-     */
-    public getEntityByName(name: string): SkinTemplateEntity | null
-    {
-        return this._entityByName.get(name) ?? null;
-    }
+	public get entities(): readonly SkinTemplateEntity[]
+	{
+		return this._entities;
+	}
 
-    /**
-     * Returns the entity at the given index.
-     *
-     * @param index - The entity index
-     * @returns The template entity
-     */
-    public getEntityAt(index: number): SkinTemplateEntity
-    {
-        return this._entities[index];
-    }
+	public get numEntities(): number
+	{
+		return this._entities.length;
+	}
+
+	/**
+	 * Adds a template entity.
+	 *
+	 * @param entity - The entity to add
+	 */
+	public addEntity(entity: SkinTemplateEntity): void
+	{
+		this._entities.push(entity);
+		this._entityByName.set(entity.name, entity);
+	}
+
+	/**
+	 * Returns the entity with the given name.
+	 *
+	 * @param name - The entity name
+	 * @returns The template entity, or null
+	 */
+	public getEntityByName(name: string): SkinTemplateEntity | null
+	{
+		return this._entityByName.get(name) ?? null;
+	}
+
+	/**
+	 * Returns the entity at the given index.
+	 *
+	 * @param index - The entity index
+	 * @returns The template entity
+	 */
+	public getEntityAt(index: number): SkinTemplateEntity
+	{
+		return this._entities[index];
+	}
 }

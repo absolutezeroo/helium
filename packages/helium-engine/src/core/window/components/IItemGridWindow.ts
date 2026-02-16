@@ -1,6 +1,6 @@
-import type { IWindow } from '../IWindow';
-import type { IIterable } from '../utils/IIterable';
-import type { IScrollableWindow } from './IScrollableWindow';
+import type {IWindow} from '../IWindow';
+import type {IIterable} from '../utils/IIterable';
+import type {IScrollableWindow} from './IScrollableWindow';
 
 /**
  * Interface for item grid windows.
@@ -12,32 +12,47 @@ import type { IScrollableWindow } from './IScrollableWindow';
  */
 export interface IItemGridWindow extends IWindow, IScrollableWindow, IIterable
 {
-    spacing: number;
-    verticalSpacing: number;
-    scaleToFitItems: boolean;
-    autoArrangeItems: boolean;
-    resizeOnItemUpdate: boolean;
-    shouldRebuildGridOnResize: boolean;
-    containerResizeToColumns: boolean;
+	spacing: number;
+	verticalSpacing: number;
+	scaleToFitItems: boolean;
+	autoArrangeItems: boolean;
+	resizeOnItemUpdate: boolean;
+	shouldRebuildGridOnResize: boolean;
+	containerResizeToColumns: boolean;
 
-    readonly numColumns: number;
-    readonly numRows: number;
-    readonly numGridItems: number;
+	readonly numColumns: number;
+	readonly numRows: number;
+	readonly numGridItems: number;
 
-    addGridItem(item: IWindow): IWindow;
-    addGridItemAt(item: IWindow, index: number): IWindow;
-    getGridItemAt(index: number): IWindow | null;
-    getGridItemByID(id: number): IWindow | null;
-    getGridItemByName(name: string): IWindow | null;
-    getGridItemByTag(tag: string): IWindow | null;
-    getGridItemIndex(item: IWindow): number;
-    removeGridItem(item: IWindow): IWindow | null;
-    removeGridItemAt(index: number): IWindow | null;
-    setGridItemIndex(item: IWindow, index: number): void;
-    swapGridItems(a: IWindow, b: IWindow): void;
-    swapGridItemsAt(indexA: number, indexB: number): void;
-    removeGridItems(): void;
-    destroyGridItems(): void;
-    rebuildGridStructure(): void;
-    populate(items: IWindow[]): void;
+	addGridItem(item: IWindow): IWindow;
+
+	addGridItemAt(item: IWindow, index: number): IWindow;
+
+	getGridItemAt(index: number): IWindow | null;
+
+	getGridItemByID(id: number): IWindow | null;
+
+	getGridItemByName(name: string): IWindow | null;
+
+	getGridItemByTag(tag: string): IWindow | null;
+
+	getGridItemIndex(item: IWindow): number;
+
+	removeGridItem(item: IWindow): IWindow | null;
+
+	removeGridItemAt(index: number): IWindow | null;
+
+	setGridItemIndex(item: IWindow, index: number): void;
+
+	swapGridItems(a: IWindow, b: IWindow): void;
+
+	swapGridItemsAt(indexA: number, indexB: number): void;
+
+	removeGridItems(): void;
+
+	destroyGridItems(): void;
+
+	rebuildGridStructure(): void;
+
+	populate(items: IWindow[]): void;
 }

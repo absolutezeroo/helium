@@ -1,10 +1,10 @@
-import type { IWindow } from '../IWindow';
-import type { IWindowContext } from '../IWindowContext';
-import type { IAssetReceiver } from '../IAssetReceiver';
-import type { IResourceManager } from '../IResourceManager';
-import type { IStaticBitmapWrapperWindow } from './IStaticBitmapWrapperWindow';
-import { BitmapDataController } from './BitmapDataController';
-import { WindowEvent } from '../events/WindowEvent';
+import type {IWindow} from '../IWindow';
+import type {IWindowContext} from '../IWindowContext';
+import type {IAssetReceiver} from '../IAssetReceiver';
+import type {IResourceManager} from '../IResourceManager';
+import type {IStaticBitmapWrapperWindow} from './IStaticBitmapWrapperWindow';
+import {BitmapDataController} from './BitmapDataController';
+import {WindowEvent} from '../events/WindowEvent';
 
 /**
  * Controller for static bitmap wrapper windows.
@@ -17,112 +17,117 @@ import { WindowEvent } from '../events/WindowEvent';
  */
 export class StaticBitmapWrapperController extends BitmapDataController implements IStaticBitmapWrapperWindow, IAssetReceiver
 {
-    private _assetUri: string = '';
-    private _ownsBitmapData: boolean = false;
+	private _ownsBitmapData: boolean = false;
 
-    constructor(
-        name: string,
-        type: number,
-        style: number,
-        param: number,
-        context: IWindowContext,
-        rect: { x: number; y: number; width: number; height: number },
-        parent: IWindow | null = null,
-        procedure: ((event: WindowEvent, window: IWindow) => void) | null = null,
-        tags: string[] | null = null,
-        properties: unknown[] | null = null,
-        id: number = 0,
-        dynamicStyle: string = ''
-    )
-    {
-        super(name, type, style, param, context, rect, parent, procedure, tags, properties, id, dynamicStyle);
-    }
+	constructor(
+		name: string,
+		type: number,
+		style: number,
+		param: number,
+		context: IWindowContext,
+		rect: { x: number; y: number; width: number; height: number },
+		parent: IWindow | null = null,
+		procedure: ((event: WindowEvent, window: IWindow) => void) | null = null,
+		tags: string[] | null = null,
+		properties: unknown[] | null = null,
+		id: number = 0,
+		dynamicStyle: string = ''
+	)
+	{
+		super(name, type, style, param, context, rect, parent, procedure, tags, properties, id, dynamicStyle);
+	}
 
-    /**
-     * The asset URI for this static bitmap.
-     *
-     * Setting this triggers an asset request via the ResourceManager.
-     * When the asset is loaded, `receiveAsset()` is called.
-     *
-     * In AS3: `StaticBitmapWrapperController._assetUri`
-     */
-    public get assetUri(): string
-    {
-        return this._assetUri;
-    }
+	private _assetUri: string = '';
 
-    public set assetUri(value: string)
-    {
-        if(this._assetUri === value) return;
+	/**
+	 * The asset URI for this static bitmap.
+	 *
+	 * Setting this triggers an asset request via the ResourceManager.
+	 * When the asset is loaded, `receiveAsset()` is called.
+	 *
+	 * In AS3: `StaticBitmapWrapperController._assetUri`
+	 */
+	public get assetUri(): string
+	{
+		return this._assetUri;
+	}
 
-        this._assetUri = value ?? '';
+	public set assetUri(value: string)
+	{
+		if (this._assetUri === value) return;
 
-        if(!this._assetUri)
-        {
-            // Clear bitmap
-            if(this._ownsBitmapData && this._bitmapData)
-            {
-                this._bitmapData.close();
-            }
+		this._assetUri = value ?? '';
 
-            this._bitmapData = null;
-            this._ownsBitmapData = false;
-            this._context.invalidate(this, null, 1);
+		if (!this._assetUri)
+		{
+			// Clear bitmap
+			if (this._ownsBitmapData && this._bitmapData)
+			{
+				this._bitmapData.close();
+			}
 
-            return;
-        }
+			this._bitmapData = null;
+			this._ownsBitmapData = false;
+			this._context.invalidate(this, null, 1);
 
-        // Request asset from resource manager
-        const resourceManager = (this._context as unknown as { getResourceManager(): IResourceManager | null }).getResourceManager();
+			return;
+		}
 
-        if(resourceManager)
-        {
-            resourceManager.retrieveAsset(this._assetUri, this);
-        }
-    }
+		// Request asset from resource manager
+		const resourceManager = (this._context as unknown as {
+			getResourceManager(): IResourceManager | null
+		}).getResourceManager();
 
-    /**
-     * Callback from ResourceManager when the asset is loaded.
-     *
-     * The bitmap is owned by the ResourceManager cache — we must NOT
-     * close it, otherwise the cache entry becomes unusable. In AS3 the
-     * ResourceManager provided cloned BitmapData; here we share the
-     * same ImageBitmap instance, so `_ownsBitmapData` stays `false`.
-     *
-     * In AS3: `receiveAsset(asset: IAsset, name: String)`
-     *
-     * @param bitmap - The decoded bitmap
-     * @param uri - The resolved asset URI
-     */
-    public receiveAsset(bitmap: ImageBitmap, uri: string): void
-    {
-        if(this._disposed) return;
+		if (resourceManager)
+		{
+			resourceManager.retrieveAsset(this._assetUri, this);
+		}
+	}
 
-        // Verify the URI still matches (asset may have changed while loading)
-        const resourceManager = (this._context as unknown as { getResourceManager(): IResourceManager | null }).getResourceManager();
+	/**
+	 * Callback from ResourceManager when the asset is loaded.
+	 *
+	 * The bitmap is owned by the ResourceManager cache — we must NOT
+	 * close it, otherwise the cache entry becomes unusable. In AS3 the
+	 * ResourceManager provided cloned BitmapData; here we share the
+	 * same ImageBitmap instance, so `_ownsBitmapData` stays `false`.
+	 *
+	 * In AS3: `receiveAsset(asset: IAsset, name: String)`
+	 *
+	 * @param bitmap - The decoded bitmap
+	 * @param uri - The resolved asset URI
+	 */
+	public receiveAsset(bitmap: ImageBitmap, uri: string): void
+	{
+		if (this._disposed) return;
 
-        if(resourceManager && !resourceManager.isSameAsset(this._assetUri, uri)) return;
+		// Verify the URI still matches (asset may have changed while loading)
+		const resourceManager = (this._context as unknown as {
+			getResourceManager(): IResourceManager | null
+		}).getResourceManager();
 
-        // Do NOT close old bitmap — it belongs to the ResourceManager cache
-        this._bitmapData = bitmap;
-        this._ownsBitmapData = false;
+		if (resourceManager && !resourceManager.isSameAsset(this._assetUri, uri)) return;
 
-        this.fitSize();
-        this._context.invalidate(this, null, 1);
-    }
+		// Do NOT close old bitmap — it belongs to the ResourceManager cache
+		this._bitmapData = bitmap;
+		this._ownsBitmapData = false;
 
-    public override dispose(): void
-    {
-        if(this._disposed) return;
+		this.fitSize();
+		this._context.invalidate(this, null, 1);
+	}
 
-        if(this._ownsBitmapData && this._bitmapData)
-        {
-            this._bitmapData.close();
-            this._bitmapData = null;
-        }
+	public override dispose(): void
+	{
+		if (this._disposed) return;
 
-        this._ownsBitmapData = false;
+		if (this._ownsBitmapData && this._bitmapData)
+		{
+			this._bitmapData.close();
+			this._bitmapData = null;
+		}
 
-        super.dispose();
-    }
+		this._ownsBitmapData = false;
+
+		super.dispose();
+	}
 }

@@ -1,4 +1,4 @@
-import type { IPropertyMap } from './IPropertyMap';
+import type {IPropertyMap} from './IPropertyMap';
 
 /**
  * Theme manager interface.
@@ -9,6 +9,7 @@ import type { IPropertyMap } from './IPropertyMap';
  */
 export interface IThemeManager
 {
-    getPropertyDefaults(style: number): IPropertyMap | null;
-    setPropertyDefaults(style: number, properties: IPropertyMap): void;
+	getPropertyDefaults(style: number): IPropertyMap | null;
+
+	setPropertyDefaults(style: number, properties: IPropertyMap): void;
 }

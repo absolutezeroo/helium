@@ -1,4 +1,4 @@
-import type { ISelectableWindow } from './ISelectableWindow';
+import type {ISelectableWindow} from './ISelectableWindow';
 
 /**
  * Interface for radio button windows.

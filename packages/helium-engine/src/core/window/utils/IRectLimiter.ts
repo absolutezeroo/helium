@@ -5,11 +5,12 @@
  */
 export interface IRectLimiter
 {
-    minWidth: number;
-    maxWidth: number;
-    minHeight: number;
-    maxHeight: number;
+	minWidth: number;
+	maxWidth: number;
+	minHeight: number;
+	maxHeight: number;
 
-    assign(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
-    clone(owner?: unknown): IRectLimiter;
+	assign(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
+
+	clone(owner?: unknown): IRectLimiter;
 }

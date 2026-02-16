@@ -1,5 +1,5 @@
-import type { IWindow } from '../IWindow';
-import { Motion } from './Motion';
+import type {IWindow} from '../IWindow';
+import {Motion} from './Motion';
 
 /**
  * Motion subclass with time-based interval progression.
@@ -11,40 +11,41 @@ import { Motion } from './Motion';
  */
 export class Interval extends Motion
 {
-    private _startTime: number = 0;
-    private _duration: number;
+	private _startTime: number = 0;
 
-    constructor(target: IWindow | null, duration: number)
-    {
-        super(target);
-        this._complete = false;
-        this._duration = duration;
-    }
+	constructor(target: IWindow | null, duration: number)
+	{
+		super(target);
+		this._complete = false;
+		this._duration = duration;
+	}
 
-    public get duration(): number
-    {
-        return this._duration;
-    }
+	private _duration: number;
 
-    public override start(): void
-    {
-        super.start();
-        this._complete = false;
-        this._startTime = performance.now();
-    }
+	public get duration(): number
+	{
+		return this._duration;
+	}
 
-    public override tick(timestamp: number): void
-    {
-        const progress = (timestamp - this._startTime) / this._duration;
+	public override start(): void
+	{
+		super.start();
+		this._complete = false;
+		this._startTime = performance.now();
+	}
 
-        if(progress < 1)
-        {
-            this.update(progress);
-        }
-        else
-        {
-            this.update(1);
-            this._complete = true;
-        }
-    }
+	public override tick(timestamp: number): void
+	{
+		const progress = (timestamp - this._startTime) / this._duration;
+
+		if (progress < 1)
+		{
+			this.update(progress);
+		}
+		else
+		{
+			this.update(1);
+			this._complete = true;
+		}
+	}
 }

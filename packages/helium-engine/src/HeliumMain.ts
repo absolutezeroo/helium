@@ -2,6 +2,7 @@ import {HabboConfigurationManager} from '@habbo/configuration/HabboConfiguration
 import {HabboCommunicationManager} from '@habbo/communication/HabboCommunicationManager';
 import {HabboCommunicationDemo} from '@habbo/communication/demo/HabboCommunicationDemo';
 import {HabboLocalizationManager} from '@habbo/localization/HabboLocalizationManager';
+import {WindowParser} from '@core/window/utils/WindowParser';
 import {HabboNavigator} from '@habbo/navigator/HabboNavigator';
 import {HabboNewNavigator} from '@habbo/navigator/HabboNewNavigator';
 import {HabboInventory} from '@habbo/inventory/HabboInventory';
@@ -127,6 +128,18 @@ export class HeliumMain implements IHeliumMain
 	private _freeFlowChat: HabboFreeFlowChat | null = null;
 	private _friendBar: HabboFriendBar | null = null;
 
+	/**
+	 * AS3: HabboAirMain(_arg_1:IHabboLoadingScreen, _arg_2:Dictionary)
+	 *
+	 * @param loadingScreen - Loading screen to update during initialization
+	 *
+	 * @see sources/win63_2021_version/HabboAirMain.as constructor
+	 */
+	constructor(loadingScreen?: IHeliumLoadingScreen | null)
+	{
+		this._loadingScreen = loadingScreen ?? null;
+	}
+
 	private _toolbar: HabboToolbar | null = null;
 
 	get toolbar(): IHabboToolbar
@@ -168,18 +181,6 @@ export class HeliumMain implements IHeliumMain
 	get disposed(): boolean
 	{
 		return this._disposed;
-	}
-
-	/**
-	 * AS3: HabboAirMain(_arg_1:IHabboLoadingScreen, _arg_2:Dictionary)
-	 *
-	 * @param loadingScreen - Loading screen to update during initialization
-	 *
-	 * @see sources/win63_2021_version/HabboAirMain.as constructor
-	 */
-	constructor(loadingScreen?: IHeliumLoadingScreen | null)
-	{
-		this._loadingScreen = loadingScreen ?? null;
 	}
 
 	private _navigator: HabboNavigator | null = null;
@@ -850,6 +851,20 @@ export class HeliumMain implements IHeliumMain
 	private onLocalizationComplete(): void
 	{
 		Helium.trackLoginStep('client.init.localization.loaded');
+
+		// Wire localization resolver for WindowParser.
+		if(this._localizationManager)
+		{
+			const locMgr = this._localizationManager;
+
+			WindowParser.localizationResolver = (key: string) =>
+			{
+				const value = locMgr.getLocalization(key, '');
+
+				return value !== '' ? value : null;
+			};
+		}
+
 		this._completedInitSteps++;
 		this.updateProgressBar();
 	}

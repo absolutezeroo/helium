@@ -1,9 +1,9 @@
-import type { IWindow } from '../IWindow';
-import type { IWindowContext } from '../IWindowContext';
-import { WindowController } from '../WindowController';
-import { WindowEvent } from '../events/WindowEvent';
-import { PropertyStruct } from '../utils/PropertyStruct';
-import { ContainerController } from './ContainerController';
+import type {IWindow} from '../IWindow';
+import type {IWindowContext} from '../IWindowContext';
+import {WindowController} from '../WindowController';
+import {WindowEvent} from '../events/WindowEvent';
+import {PropertyStruct} from '../utils/PropertyStruct';
+import {ContainerController} from './ContainerController';
 
 /**
  * Controller for box sizer windows.
@@ -15,304 +15,304 @@ import { ContainerController } from './ContainerController';
  */
 export class BoxSizerController extends ContainerController
 {
-    private _spacing: number = 5;
-    private _paddingHorizontal: number = 8;
-    private _paddingVertical: number = 8;
-    private _vertical: boolean = false;
-    private _autoRearrange: boolean = true;
+	private _spacing: number = 5;
+	private _paddingHorizontal: number = 8;
+	private _paddingVertical: number = 8;
+	private _vertical: boolean = false;
+	private _autoRearrange: boolean = true;
 
-    constructor(
-        name: string,
-        type: number,
-        style: number,
-        param: number,
-        context: IWindowContext,
-        rect: { x: number; y: number; width: number; height: number },
-        parent: IWindow | null = null,
-        procedure: ((event: WindowEvent, window: IWindow) => void) | null = null,
-        tags: string[] | null = null,
-        properties: unknown[] | null = null,
-        id: number = 0
-    )
-    {
-        super(name, type, style, param, context, rect, parent, procedure, tags, properties, id);
-    }
+	constructor(
+		name: string,
+		type: number,
+		style: number,
+		param: number,
+		context: IWindowContext,
+		rect: { x: number; y: number; width: number; height: number },
+		parent: IWindow | null = null,
+		procedure: ((event: WindowEvent, window: IWindow) => void) | null = null,
+		tags: string[] | null = null,
+		properties: unknown[] | null = null,
+		id: number = 0
+	)
+	{
+		super(name, type, style, param, context, rect, parent, procedure, tags, properties, id);
+	}
 
-    public override update(source: WindowController, event: WindowEvent): boolean
-    {
-        switch(event.type)
-        {
-            case 'WE_CHILD_RELOCATED':
-            case 'WE_CHILD_REMOVED':
-            case 'WE_CHILD_ADDED':
-            case 'WE_CHILD_RESIZED':
-            case 'WE_RESIZED':
-            case 'WE_CHILD_VISIBILITY':
-                this.arrangeChildren();
-                break;
-        }
+	public override get properties(): unknown[]
+	{
+		const props = super.properties;
 
-        return super.update(source, event);
-    }
+		props.push(this.createProperty('spacing', this._spacing));
+		props.push(this.createProperty('vertical', this._vertical));
+		props.push(this.createProperty('padding_horizontal', this._paddingHorizontal));
+		props.push(this.createProperty('padding_vertical', this._paddingVertical));
 
-    /**
-     * Arranges children along the main axis.
-     */
-    private arrangeChildren(): void
-    {
-        if(!this._autoRearrange)
-        {
-            return;
-        }
+		return props;
+	}
 
-        let previous: IWindow | null = null;
-        const relativeSpace = this.calculateSpaceForRelatives();
-        const relativeSum = this.getRelativeValuesSum();
+	public override set properties(value: unknown[])
+	{
+		for (const item of value)
+		{
+			const prop = item as PropertyStruct;
 
-        if(!this._vertical)
-        {
-            for(let i = 0; i < this.numChildren; i++)
-            {
-                const child = this.getChildAt(i);
+			switch (prop.key)
+			{
+				case 'spacing':
+					this._spacing = prop.value as number;
+					break;
+				case 'padding_horizontal':
+					this._paddingHorizontal = prop.value as number;
+					break;
+				case 'padding_vertical':
+					this._paddingVertical = prop.value as number;
+					break;
+				case 'vertical':
+					this._vertical = prop.value as boolean;
+					break;
+			}
+		}
 
-                if(child && child.visible)
-                {
-                    if(!previous)
-                    {
-                        child.x = this._paddingHorizontal;
-                    }
-                    else
-                    {
-                        child.x = previous.x + previous.width + this._spacing;
-                    }
+		super.properties = value;
+		this.arrangeChildren();
+	}
 
-                    child.y = this._paddingVertical;
+	public override update(source: WindowController, event: WindowEvent): boolean
+	{
+		switch (event.type)
+		{
+			case 'WE_CHILD_RELOCATED':
+			case 'WE_CHILD_REMOVED':
+			case 'WE_CHILD_ADDED':
+			case 'WE_CHILD_RESIZED':
+			case 'WE_RESIZED':
+			case 'WE_CHILD_VISIBILITY':
+				this.arrangeChildren();
+				break;
+		}
 
-                    const relValue = this.getRelativeValue(child);
+		return super.update(source, event);
+	}
 
-                    if(relValue > 0 && relativeSum > 0)
-                    {
-                        child.width = (relativeSpace * relValue) / relativeSum;
-                    }
+	/**
+	 * Sets the horizontal padding.
+	 */
+	public setHorizontalPadding(value: number): void
+	{
+		this._paddingHorizontal = value;
+		this.arrangeChildren();
+	}
 
-                    previous = child;
-                }
-            }
-        }
-        else
-        {
-            for(let i = 0; i < this.numChildren; i++)
-            {
-                const child = this.getChildAt(i);
+	/**
+	 * Sets the vertical padding.
+	 */
+	public setVerticalPadding(value: number): void
+	{
+		this._paddingVertical = value;
+		this.arrangeChildren();
+	}
 
-                if(child && child.visible)
-                {
-                    if(!previous)
-                    {
-                        child.y = this._paddingVertical;
-                    }
-                    else
-                    {
-                        child.y = previous.y + previous.height + this._spacing;
-                    }
+	/**
+	 * Sets the spacing between children.
+	 */
+	public setSpacing(value: number): void
+	{
+		this._spacing = value;
+		this.arrangeChildren();
+	}
 
-                    child.x = this._paddingHorizontal;
+	/**
+	 * Sets vertical or horizontal layout.
+	 */
+	public setVertical(value: boolean): void
+	{
+		this._vertical = value;
+		this.arrangeChildren();
+	}
 
-                    const relValue = this.getRelativeValue(child);
+	/**
+	 * Enables or disables automatic rearrangement.
+	 */
+	public setAutoRearrange(value: boolean): void
+	{
+		this._autoRearrange = value;
 
-                    if(relValue > 0 && relativeSum > 0)
-                    {
-                        child.height = (relativeSpace * relValue) / relativeSum;
-                    }
+		if (value)
+		{
+			this.arrangeChildren();
+		}
+	}
 
-                    previous = child;
-                }
-            }
-        }
-    }
+	/**
+	 * Returns whether automatic rearrangement is enabled.
+	 */
+	public getAutoRearrange(): boolean
+	{
+		return this._autoRearrange;
+	}
 
-    /**
-     * Extracts the relative sizing value from a child's tags.
-     */
-    private getRelativeValue(child: IWindow): number
-    {
-        let result = 0;
+	/**
+	 * Arranges children along the main axis.
+	 */
+	private arrangeChildren(): void
+	{
+		if (!this._autoRearrange)
+		{
+			return;
+		}
 
-        for(let i = 0; i < child.tags.length; i++)
-        {
-            const tag = child.tags[i];
+		let previous: IWindow | null = null;
+		const relativeSpace = this.calculateSpaceForRelatives();
+		const relativeSum = this.getRelativeValuesSum();
 
-            if(tag.indexOf('relative') !== -1)
-            {
-                const openParen = tag.indexOf('(');
-                const closeParen = tag.indexOf(')');
+		if (!this._vertical)
+		{
+			for (let i = 0; i < this.numChildren; i++)
+			{
+				const child = this.getChildAt(i);
 
-                if(openParen !== -1 && closeParen !== -1)
-                {
-                    result = parseInt(tag.slice(openParen + 1, closeParen), 10);
+				if (child && child.visible)
+				{
+					if (!previous)
+					{
+						child.x = this._paddingHorizontal;
+					}
+					else
+					{
+						child.x = previous.x + previous.width + this._spacing;
+					}
 
-                    if(result < 0)
-                    {
-                        result = 0;
-                    }
+					child.y = this._paddingVertical;
 
-                    child.tags.splice(i, 1, 'relative(' + result + ')');
-                }
-            }
-        }
+					const relValue = this.getRelativeValue(child);
 
-        return result;
-    }
+					if (relValue > 0 && relativeSum > 0)
+					{
+						child.width = (relativeSpace * relValue) / relativeSum;
+					}
 
-    /**
-     * Returns the sum of all relative values of visible children.
-     */
-    private getRelativeValuesSum(): number
-    {
-        let sum = 0;
+					previous = child;
+				}
+			}
+		}
+		else
+		{
+			for (let i = 0; i < this.numChildren; i++)
+			{
+				const child = this.getChildAt(i);
 
-        for(let i = 0; i < this.numChildren; i++)
-        {
-            const child = this.getChildAt(i);
+				if (child && child.visible)
+				{
+					if (!previous)
+					{
+						child.y = this._paddingVertical;
+					}
+					else
+					{
+						child.y = previous.y + previous.height + this._spacing;
+					}
 
-            if(child && child.visible)
-            {
-                sum += this.getRelativeValue(child);
-            }
-        }
+					child.x = this._paddingHorizontal;
 
-        return sum;
-    }
+					const relValue = this.getRelativeValue(child);
 
-    /**
-     * Calculates space available for relatively-sized children.
-     */
-    private calculateSpaceForRelatives(): number
-    {
-        let space = this._vertical
-            ? (this.height - (this._paddingVertical * 2))
-            : (this.width - (this._paddingHorizontal * 2));
+					if (relValue > 0 && relativeSum > 0)
+					{
+						child.height = (relativeSpace * relValue) / relativeSum;
+					}
 
-        for(let i = 0; i < this.numChildren; i++)
-        {
-            const child = this.getChildAt(i);
+					previous = child;
+				}
+			}
+		}
+	}
 
-            if(child && child.visible)
-            {
-                if(this.getRelativeValue(child) === 0)
-                {
-                    if(this._vertical)
-                    {
-                        space -= (child.height + this._spacing);
-                    }
-                    else
-                    {
-                        space -= (child.width + this._spacing);
-                    }
-                }
-                else
-                {
-                    space -= this._spacing;
-                }
-            }
-        }
+	/**
+	 * Extracts the relative sizing value from a child's tags.
+	 */
+	private getRelativeValue(child: IWindow): number
+	{
+		let result = 0;
 
-        return space + this._spacing;
-    }
+		for (let i = 0; i < child.tags.length; i++)
+		{
+			const tag = child.tags[i];
 
-    /**
-     * Sets the horizontal padding.
-     */
-    public setHorizontalPadding(value: number): void
-    {
-        this._paddingHorizontal = value;
-        this.arrangeChildren();
-    }
+			if (tag.indexOf('relative') !== -1)
+			{
+				const openParen = tag.indexOf('(');
+				const closeParen = tag.indexOf(')');
 
-    /**
-     * Sets the vertical padding.
-     */
-    public setVerticalPadding(value: number): void
-    {
-        this._paddingVertical = value;
-        this.arrangeChildren();
-    }
+				if (openParen !== -1 && closeParen !== -1)
+				{
+					result = parseInt(tag.slice(openParen + 1, closeParen), 10);
 
-    /**
-     * Sets the spacing between children.
-     */
-    public setSpacing(value: number): void
-    {
-        this._spacing = value;
-        this.arrangeChildren();
-    }
+					if (result < 0)
+					{
+						result = 0;
+					}
 
-    /**
-     * Sets vertical or horizontal layout.
-     */
-    public setVertical(value: boolean): void
-    {
-        this._vertical = value;
-        this.arrangeChildren();
-    }
+					child.tags.splice(i, 1, 'relative(' + result + ')');
+				}
+			}
+		}
 
-    /**
-     * Enables or disables automatic rearrangement.
-     */
-    public setAutoRearrange(value: boolean): void
-    {
-        this._autoRearrange = value;
+		return result;
+	}
 
-        if(value)
-        {
-            this.arrangeChildren();
-        }
-    }
+	/**
+	 * Returns the sum of all relative values of visible children.
+	 */
+	private getRelativeValuesSum(): number
+	{
+		let sum = 0;
 
-    /**
-     * Returns whether automatic rearrangement is enabled.
-     */
-    public getAutoRearrange(): boolean
-    {
-        return this._autoRearrange;
-    }
+		for (let i = 0; i < this.numChildren; i++)
+		{
+			const child = this.getChildAt(i);
 
-    public override get properties(): unknown[]
-    {
-        const props = super.properties;
+			if (child && child.visible)
+			{
+				sum += this.getRelativeValue(child);
+			}
+		}
 
-        props.push(this.createProperty('spacing', this._spacing));
-        props.push(this.createProperty('vertical', this._vertical));
-        props.push(this.createProperty('padding_horizontal', this._paddingHorizontal));
-        props.push(this.createProperty('padding_vertical', this._paddingVertical));
+		return sum;
+	}
 
-        return props;
-    }
+	/**
+	 * Calculates space available for relatively-sized children.
+	 */
+	private calculateSpaceForRelatives(): number
+	{
+		let space = this._vertical
+			? (this.height - (this._paddingVertical * 2))
+			: (this.width - (this._paddingHorizontal * 2));
 
-    public override set properties(value: unknown[])
-    {
-        for(const item of value)
-        {
-            const prop = item as PropertyStruct;
+		for (let i = 0; i < this.numChildren; i++)
+		{
+			const child = this.getChildAt(i);
 
-            switch(prop.key)
-            {
-                case 'spacing':
-                    this._spacing = prop.value as number;
-                    break;
-                case 'padding_horizontal':
-                    this._paddingHorizontal = prop.value as number;
-                    break;
-                case 'padding_vertical':
-                    this._paddingVertical = prop.value as number;
-                    break;
-                case 'vertical':
-                    this._vertical = prop.value as boolean;
-                    break;
-            }
-        }
+			if (child && child.visible)
+			{
+				if (this.getRelativeValue(child) === 0)
+				{
+					if (this._vertical)
+					{
+						space -= (child.height + this._spacing);
+					}
+					else
+					{
+						space -= (child.width + this._spacing);
+					}
+				}
+				else
+				{
+					space -= this._spacing;
+				}
+			}
+		}
 
-        super.properties = value;
-        this.arrangeChildren();
-    }
+		return space + this._spacing;
+	}
 }

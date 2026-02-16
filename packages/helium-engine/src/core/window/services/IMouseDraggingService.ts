@@ -1,4 +1,4 @@
-import type { IWindow } from '../IWindow';
+import type {IWindow} from '../IWindow';
 
 /**
  * Mouse dragging service interface.
@@ -7,6 +7,7 @@ import type { IWindow } from '../IWindow';
  */
 export interface IMouseDraggingService
 {
-    begin(window: IWindow): void;
-    end(window: IWindow): void;
+	begin(window: IWindow): void;
+
+	end(window: IWindow): void;
 }

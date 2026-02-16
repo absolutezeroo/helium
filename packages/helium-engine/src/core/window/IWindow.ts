@@ -1,7 +1,7 @@
-import type { IRectLimiter } from './utils/IRectLimiter';
-import type { PropertyStruct } from './utils/PropertyStruct';
-import type { IWindowContext } from './IWindowContext';
-import type { WindowEvent } from './events/WindowEvent';
+import type {IRectLimiter} from './utils/IRectLimiter';
+import type {PropertyStruct} from './utils/PropertyStruct';
+import type {IWindowContext} from './IWindowContext';
+import type {WindowEvent} from './events/WindowEvent';
 
 /**
  * Core window interface.
@@ -13,147 +13,177 @@ import type { WindowEvent } from './events/WindowEvent';
  */
 export interface IWindow
 {
-    // ── Position & Size ──────────────────────────────────────────────
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-    position: { x: number; y: number };
-    rectangle: { x: number; y: number; width: number; height: number };
-    readonly renderingRectangle: { x: number; y: number; width: number; height: number };
-    readonly left: number;
-    readonly top: number;
-    readonly right: number;
-    readonly bottom: number;
-    readonly renderingX: number;
-    readonly renderingY: number;
-    readonly renderingWidth: number;
-    readonly renderingHeight: number;
-    readonly etchingPoint: { x: number; y: number };
+	x: number;
+	y: number;
+	width: number;
+	height: number;
+	position: { x: number; y: number };
+	rectangle: { x: number; y: number; width: number; height: number };
+	readonly renderingRectangle: { x: number; y: number; width: number; height: number };
+	readonly left: number;
+	readonly top: number;
+	readonly right: number;
+	readonly bottom: number;
+	readonly renderingX: number;
+	readonly renderingY: number;
+	readonly renderingWidth: number;
+	readonly renderingHeight: number;
+	readonly etchingPoint: { x: number; y: number };
 
-    // ── Identity ─────────────────────────────────────────────────────
-    id: number;
-    name: string;
-    caption: string;
-    tags: string[];
+	id: number;
+	name: string;
+	caption: string;
+	tags: string[];
 
-    // ── Type, Style, State, Param ────────────────────────────────────
-    type: number;
-    style: number;
-    state: number;
-    param: number;
+	type: number;
+	style: number;
+	state: number;
+	param: number;
 
-    // ── Offsets (dynamic style) ──────────────────────────────────────
-    offsetX: number;
-    offsetY: number;
+	offsetX: number;
+	offsetY: number;
 
-    // ── Visual Properties ────────────────────────────────────────────
-    visible: boolean;
-    background: boolean;
-    color: number;
-    alpha: number;
-    blend: number;
-    clipping: boolean;
-    debug: boolean;
-    filters: unknown[];
-    dynamicStyle: string;
-    dynamicStyleColor: { redMultiplier: number; greenMultiplier: number; blueMultiplier: number; alphaMultiplier: number } | null;
+	visible: boolean;
+	background: boolean;
+	color: number;
+	alpha: number;
+	blend: number;
+	clipping: boolean;
+	debug: boolean;
+	filters: unknown[];
+	dynamicStyle: string;
+	dynamicStyleColor: {
+		redMultiplier: number;
+		greenMultiplier: number;
+		blueMultiplier: number;
+		alphaMultiplier: number
+	} | null;
 
-    // ── Behavior ─────────────────────────────────────────────────────
-    procedure: ((event: WindowEvent, window: IWindow) => void) | null;
-    mouseThreshold: number;
-    immediateClickMode: boolean;
-    properties: unknown[];
-    etching: unknown[];
+	procedure: ((event: WindowEvent, window: IWindow) => void) | null;
+	mouseThreshold: number;
+	immediateClickMode: boolean;
+	properties: unknown[];
+	etching: unknown[];
 
-    // ── Hierarchy ────────────────────────────────────────────────────
-    parent: IWindow | null;
-    readonly context: IWindowContext;
-    readonly desktop: IWindow | null;
-    readonly host: IWindow;
-    readonly limits: IRectLimiter;
+	parent: IWindow | null;
+	readonly context: IWindowContext;
+	readonly desktop: IWindow | null;
+	readonly host: IWindow;
+	readonly limits: IRectLimiter;
 
-    // ── Lifecycle ────────────────────────────────────────────────────
-    readonly disposed: boolean;
-    dispose(): void;
-    destroy(): boolean;
-    clone(): IWindow;
+	readonly disposed: boolean;
 
-    // ── Layout ───────────────────────────────────────────────────────
-    invalidate(rect?: { x: number; y: number; width: number; height: number } | null): void;
-    resolve(): number;
-    center(): void;
-    offset(dx: number, dy: number): void;
-    scale(sx: number, sy: number): void;
+	dispose(): void;
 
-    // ── Build ────────────────────────────────────────────────────────
-    buildFromJSON(layout: Record<string, unknown>, namedWindows?: Map<string, IWindow> | null): boolean;
+	destroy(): boolean;
 
-    // ── Draw ─────────────────────────────────────────────────────────
-    fetchDrawBuffer(): unknown;
-    getDrawRegion(out: { x: number; y: number; width: number; height: number }): void;
+	clone(): IWindow;
 
-    // ── Mouse / Hit Testing ──────────────────────────────────────────
-    getRelativeMousePosition(out: { x: number; y: number }): void;
-    getAbsoluteMousePosition(out: { x: number; y: number }): void;
-    getMouseRegion(out: { x: number; y: number; width: number; height: number }): void;
+	invalidate(rect?: { x: number; y: number; width: number; height: number } | null): void;
 
-    // ── Coordinate Conversion ────────────────────────────────────────
-    getLocalPosition(out: { x: number; y: number }): void;
-    getLocalRectangle(out: { x: number; y: number; width: number; height: number }): void;
-    hitTestLocalPoint(point: { x: number; y: number }): boolean;
-    hitTestLocalRectangle(rect: { x: number; y: number; width: number; height: number }): boolean;
-    getGlobalPosition(out: { x: number; y: number }): void;
-    setGlobalPosition(point: { x: number; y: number }): void;
-    getGlobalRectangle(out: { x: number; y: number; width: number; height: number }): void;
-    setGlobalRectangle(rect: { x: number; y: number; width: number; height: number }): void;
-    hitTestGlobalPoint(point: { x: number; y: number }): boolean;
-    hitTestGlobalRectangle(rect: { x: number; y: number; width: number; height: number }): boolean;
-    resolveVerticalScale(): number;
-    resolveHorizontalScale(): number;
-    convertPointFromLocalToGlobalSpace(point: { x: number; y: number }): void;
-    convertPointFromGlobalToLocalSpace(point: { x: number; y: number }): void;
+	resolve(): number;
 
-    // ── Hierarchy Search ─────────────────────────────────────────────
-    findParentByName(name: string): IWindow | null;
+	center(): void;
 
-    // ── Flag Operations ──────────────────────────────────────────────
-    setStateFlag(flag: number, value?: boolean): void;
-    getStateFlag(flag: number): boolean;
-    testStateFlag(flag: number, mask?: number): boolean;
-    setStyleFlag(flag: number, value?: boolean): void;
-    getStyleFlag(flag: number): boolean;
-    testStyleFlag(flag: number, mask?: number): boolean;
-    setParamFlag(flag: number, value?: boolean): void;
-    getParamFlag(flag: number): boolean;
-    testParamFlag(flag: number, mask?: number): boolean;
+	offset(dx: number, dy: number): void;
 
-    // ── Window State Operations ──────────────────────────────────────
-    minimize(): boolean;
-    maximize(): boolean;
-    restore(): boolean;
-    activate(): boolean;
-    deactivate(): boolean;
-    lock(): boolean;
-    unlock(): boolean;
-    enable(): boolean;
-    disable(): boolean;
-    isEnabled(): boolean;
+	scale(sx: number, sy: number): void;
 
-    // ── Events ───────────────────────────────────────────────────────
-    addEventListener(type: string, listener: Function, priority?: number): void;
-    removeEventListener(type: string, listener: Function): void;
-    hasEventListener(type: string): boolean;
+	buildFromJSON(layout: Record<string, unknown>, namedWindows?: Map<string, IWindow> | null): boolean;
 
-    // ── Properties ───────────────────────────────────────────────────
-    createProperty(key: string, value: unknown): PropertyStruct;
-    getDefaultProperty(key: string): PropertyStruct | null;
+	fetchDrawBuffer(): unknown;
 
-    // ── Child Utilities ──────────────────────────────────────────────
-    enableChildren(enable: boolean, exceptions: string[]): void;
-    activateChildren(activate: boolean, exceptions: string[]): void;
-    setVisibleChildren(visible: boolean, exceptions: string[]): void;
+	getDrawRegion(out: { x: number; y: number; width: number; height: number }): void;
 
-    // ── String ───────────────────────────────────────────────────────
-    toString(): string;
+	getRelativeMousePosition(out: { x: number; y: number }): void;
+
+	getAbsoluteMousePosition(out: { x: number; y: number }): void;
+
+	getMouseRegion(out: { x: number; y: number; width: number; height: number }): void;
+
+	getLocalPosition(out: { x: number; y: number }): void;
+
+	getLocalRectangle(out: { x: number; y: number; width: number; height: number }): void;
+
+	hitTestLocalPoint(point: { x: number; y: number }): boolean;
+
+	hitTestLocalRectangle(rect: { x: number; y: number; width: number; height: number }): boolean;
+
+	getGlobalPosition(out: { x: number; y: number }): void;
+
+	setGlobalPosition(point: { x: number; y: number }): void;
+
+	getGlobalRectangle(out: { x: number; y: number; width: number; height: number }): void;
+
+	setGlobalRectangle(rect: { x: number; y: number; width: number; height: number }): void;
+
+	hitTestGlobalPoint(point: { x: number; y: number }): boolean;
+
+	hitTestGlobalRectangle(rect: { x: number; y: number; width: number; height: number }): boolean;
+
+	resolveVerticalScale(): number;
+
+	resolveHorizontalScale(): number;
+
+	convertPointFromLocalToGlobalSpace(point: { x: number; y: number }): void;
+
+	convertPointFromGlobalToLocalSpace(point: { x: number; y: number }): void;
+
+	findParentByName(name: string): IWindow | null;
+
+	setStateFlag(flag: number, value?: boolean): void;
+
+	getStateFlag(flag: number): boolean;
+
+	testStateFlag(flag: number, mask?: number): boolean;
+
+	setStyleFlag(flag: number, value?: boolean): void;
+
+	getStyleFlag(flag: number): boolean;
+
+	testStyleFlag(flag: number, mask?: number): boolean;
+
+	setParamFlag(flag: number, value?: boolean): void;
+
+	getParamFlag(flag: number): boolean;
+
+	testParamFlag(flag: number, mask?: number): boolean;
+
+	minimize(): boolean;
+
+	maximize(): boolean;
+
+	restore(): boolean;
+
+	activate(): boolean;
+
+	deactivate(): boolean;
+
+	lock(): boolean;
+
+	unlock(): boolean;
+
+	enable(): boolean;
+
+	disable(): boolean;
+
+	isEnabled(): boolean;
+
+	addEventListener(type: string, listener: Function, priority?: number): void;
+
+	removeEventListener(type: string, listener: Function): void;
+
+	hasEventListener(type: string): boolean;
+
+	createProperty(key: string, value: unknown): PropertyStruct;
+
+	getDefaultProperty(key: string): PropertyStruct | null;
+
+	enableChildren(enable: boolean, exceptions: string[]): void;
+
+	activateChildren(activate: boolean, exceptions: string[]): void;
+
+	setVisibleChildren(visible: boolean, exceptions: string[]): void;
+
+	toString(): string;
 }

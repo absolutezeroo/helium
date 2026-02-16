@@ -1,4 +1,4 @@
-import type { IAssetReceiver } from './IAssetReceiver';
+import type {IAssetReceiver} from './IAssetReceiver';
 
 /**
  * Interface for the window resource manager.
@@ -9,46 +9,46 @@ import type { IAssetReceiver } from './IAssetReceiver';
  */
 export interface IResourceManager
 {
-    /**
-     * Retrieves an asset by URI and delivers it to the receiver.
-     *
-     * If the asset is already cached, delivers immediately.
-     * Otherwise, queues the receiver for async delivery.
-     *
-     * @param uri - The asset URI
-     * @param receiver - The receiver callback
-     */
-    retrieveAsset(uri: string, receiver: IAssetReceiver): void;
+	readonly disposed: boolean;
 
-    /**
-     * Checks if two asset URIs resolve to the same asset.
-     *
-     * @param uri1 - First URI
-     * @param uri2 - Second URI
-     * @returns True if they resolve to the same asset
-     */
-    isSameAsset(uri1: string, uri2: string): boolean;
+	/**
+	 * Retrieves an asset by URI and delivers it to the receiver.
+	 *
+	 * If the asset is already cached, delivers immediately.
+	 * Otherwise, queues the receiver for async delivery.
+	 *
+	 * @param uri - The asset URI
+	 * @param receiver - The receiver callback
+	 */
+	retrieveAsset(uri: string, receiver: IAssetReceiver): void;
 
-    /**
-     * Registers a bitmap asset by name.
-     *
-     * @param name - The asset name
-     * @param bitmap - The decoded bitmap
-     */
-    registerAsset(name: string, bitmap: ImageBitmap): void;
+	/**
+	 * Checks if two asset URIs resolve to the same asset.
+	 *
+	 * @param uri1 - First URI
+	 * @param uri2 - Second URI
+	 * @returns True if they resolve to the same asset
+	 */
+	isSameAsset(uri1: string, uri2: string): boolean;
 
-    /**
-     * Registers an asset URL for lazy loading.
-     *
-     * The bitmap is NOT decoded immediately. When `retrieveAsset()` is called
-     * for this name, the URL is fetched and decoded on demand.
-     *
-     * @param name - The asset name
-     * @param url - The URL to fetch the image from
-     */
-    registerAssetUrl(name: string, url: string): void;
+	/**
+	 * Registers a bitmap asset by name.
+	 *
+	 * @param name - The asset name
+	 * @param bitmap - The decoded bitmap
+	 */
+	registerAsset(name: string, bitmap: ImageBitmap): void;
 
-    readonly disposed: boolean;
+	/**
+	 * Registers an asset URL for lazy loading.
+	 *
+	 * The bitmap is NOT decoded immediately. When `retrieveAsset()` is called
+	 * for this name, the URL is fetched and decoded on demand.
+	 *
+	 * @param name - The asset name
+	 * @param url - The URL to fetch the image from
+	 */
+	registerAssetUrl(name: string, url: string): void;
 
-    dispose(): void;
+	dispose(): void;
 }

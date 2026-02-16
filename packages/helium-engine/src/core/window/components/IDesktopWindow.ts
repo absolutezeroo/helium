@@ -1,6 +1,6 @@
-import type { IWindowContainer } from '../IWindowContainer';
-import type { IDisplayObjectWrapper } from './IDisplayObjectWrapper';
-import type { IWindow } from '../IWindow';
+import type {IWindowContainer} from '../IWindowContainer';
+import type {IDisplayObjectWrapper} from './IDisplayObjectWrapper';
+import type {IWindow} from '../IWindow';
 
 /**
  * Interface for the desktop window (root container).
@@ -12,14 +12,16 @@ import type { IWindow } from '../IWindow';
  */
 export interface IDesktopWindow extends IWindowContainer, IDisplayObjectWrapper
 {
-    readonly mouseX: number;
-    readonly mouseY: number;
+	readonly mouseX: number;
+	readonly mouseY: number;
 
-    getActiveWindow(): IWindow;
-    setActiveWindow(window: IWindow): IWindow;
-    groupParameterFilteredChildrenUnderPoint(
-        point: { x: number; y: number },
-        result: IWindow[],
-        paramFilter?: number
-    ): void;
+	getActiveWindow(): IWindow;
+
+	setActiveWindow(window: IWindow): IWindow;
+
+	groupParameterFilteredChildrenUnderPoint(
+		point: { x: number; y: number },
+		result: IWindow[],
+		paramFilter?: number
+	): void;
 }

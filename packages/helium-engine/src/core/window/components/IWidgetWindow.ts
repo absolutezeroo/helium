@@ -1,5 +1,5 @@
-import type { IWindow } from '../IWindow';
-import type { IIterable } from '../utils/IIterable';
+import type {IWindow} from '../IWindow';
+import type {IIterable} from '../utils/IIterable';
 
 /**
  * Interface for widget windows.
@@ -8,6 +8,6 @@ import type { IIterable } from '../utils/IIterable';
  */
 export interface IWidgetWindow extends IWindow, IIterable
 {
-    readonly widget: unknown;
-    rootWindow: IWindow | null;
+	readonly widget: unknown;
+	rootWindow: IWindow | null;
 }

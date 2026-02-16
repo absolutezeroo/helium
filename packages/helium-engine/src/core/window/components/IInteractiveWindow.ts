@@ -1,4 +1,6 @@
-import type { IWindow } from '../IWindow';
+import type {IWindow} from '../IWindow';
+// Forward declaration to avoid circular dependency
+import type {IToolTipWindow} from './IToolTipWindow';
 
 /**
  * Interface for interactive windows with tooltip and mouse cursor support.
@@ -7,15 +9,16 @@ import type { IWindow } from '../IWindow';
  */
 export interface IInteractiveWindow extends IWindow
 {
-    toolTipCaption: string;
-    toolTipDelay: number;
-    toolTipIsDynamic: boolean;
+	toolTipCaption: string;
+	toolTipDelay: number;
+	toolTipIsDynamic: boolean;
 
-    showToolTip(toolTip: IToolTipWindow): void;
-    hideToolTip(): void;
-    setMouseCursorForState(state: number, cursor: number): number;
-    getMouseCursorByState(state: number): number;
+	showToolTip(toolTip: IToolTipWindow): void;
+
+	hideToolTip(): void;
+
+	setMouseCursorForState(state: number, cursor: number): number;
+
+	getMouseCursorByState(state: number): number;
 }
 
-// Forward declaration to avoid circular dependency
-import type { IToolTipWindow } from './IToolTipWindow';

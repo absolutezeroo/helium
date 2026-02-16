@@ -1,4 +1,4 @@
-import type { IWindow } from '../IWindow';
+import type {IWindow} from '../IWindow';
 
 /**
  * Focus manager service interface.
@@ -7,6 +7,7 @@ import type { IWindow } from '../IWindow';
  */
 export interface IFocusManagerService
 {
-    setFocus(window: IWindow | null): void;
-    getFocus(): IWindow | null;
+	setFocus(window: IWindow | null): void;
+
+	getFocus(): IWindow | null;
 }

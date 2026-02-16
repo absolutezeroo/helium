@@ -1,11 +1,11 @@
-import type { IWindow } from '../IWindow';
-import type { IWindowContainer } from '../IWindowContainer';
-import type { IWindowContext } from '../IWindowContext';
-import type { IBubbleWindow } from './IBubbleWindow';
-import { WindowController } from '../WindowController';
-import { WindowEvent } from '../events/WindowEvent';
-import { PropertyStruct } from '../utils/PropertyStruct';
-import { ContainerController } from './ContainerController';
+import type {IWindow} from '../IWindow';
+import type {IWindowContainer} from '../IWindowContainer';
+import type {IWindowContext} from '../IWindowContext';
+import type {IBubbleWindow} from './IBubbleWindow';
+import {WindowController} from '../WindowController';
+import {WindowEvent} from '../events/WindowEvent';
+import {PropertyStruct} from '../utils/PropertyStruct';
+import {ContainerController} from './ContainerController';
 
 /**
  * Controller for bubble windows with directional pointers.
@@ -18,145 +18,146 @@ import { ContainerController } from './ContainerController';
  */
 export class BubbleController extends ContainerController implements IBubbleWindow
 {
-    private static readonly TAG_POINTER_UP_ELEMENT: string = '_POINTER_UP';
-    private static readonly TAG_POINTER_DOWN_ELEMENT: string = '_POINTER_DOWN';
-    private static readonly TAG_POINTER_LEFT_ELEMENT: string = '_POINTER_LEFT';
-    private static readonly TAG_POINTER_RIGHT_ELEMENT: string = '_POINTER_RIGHT';
+	private static readonly TAG_POINTER_UP_ELEMENT: string = '_POINTER_UP';
+	private static readonly TAG_POINTER_DOWN_ELEMENT: string = '_POINTER_DOWN';
+	private static readonly TAG_POINTER_LEFT_ELEMENT: string = '_POINTER_LEFT';
+	private static readonly TAG_POINTER_RIGHT_ELEMENT: string = '_POINTER_RIGHT';
 
-    private _direction: string = 'down';
-    private _pointerOffset: number = 0;
+	constructor(
+		name: string,
+		type: number,
+		style: number,
+		param: number,
+		context: IWindowContext,
+		rect: { x: number; y: number; width: number; height: number },
+		parent: IWindow | null = null,
+		procedure: ((event: WindowEvent, window: IWindow) => void) | null = null,
+		tags: string[] | null = null,
+		properties: unknown[] | null = null,
+		id: number = 0
+	)
+	{
+		super(name, type, style, param, context, rect, parent, procedure, tags, properties, id);
+	}
 
-    constructor(
-        name: string,
-        type: number,
-        style: number,
-        param: number,
-        context: IWindowContext,
-        rect: { x: number; y: number; width: number; height: number },
-        parent: IWindow | null = null,
-        procedure: ((event: WindowEvent, window: IWindow) => void) | null = null,
-        tags: string[] | null = null,
-        properties: unknown[] | null = null,
-        id: number = 0
-    )
-    {
-        super(name, type, style, param, context, rect, parent, procedure, tags, properties, id);
-    }
+	private _direction: string = 'down';
 
-    /**
-     * The pointer direction ('up', 'down', 'left', 'right').
-     */
-    public get direction(): string
-    {
-        return this._direction;
-    }
+	/**
+	 * The pointer direction ('up', 'down', 'left', 'right').
+	 */
+	public get direction(): string
+	{
+		return this._direction;
+	}
 
-    public set direction(value: string)
-    {
-        if(value !== this._direction)
-        {
-            const newPointer = this.getChildByName(value);
+	public set direction(value: string)
+	{
+		if (value !== this._direction)
+		{
+			const newPointer = this.getChildByName(value);
 
-            if(!newPointer)
-            {
-                throw new Error('Invalid pointer direction: "' + value + '"!');
-            }
+			if (!newPointer)
+			{
+				throw new Error('Invalid pointer direction: "' + value + '"!');
+			}
 
-            const oldPointer = this.getChildByName(this._direction);
+			const oldPointer = this.getChildByName(this._direction);
 
-            if(oldPointer)
-            {
-                oldPointer.visible = false;
-            }
+			if (oldPointer)
+			{
+				oldPointer.visible = false;
+			}
 
-            newPointer.visible = true;
-            this._direction = value;
-            this.pointerOffset = this._pointerOffset;
-        }
-    }
+			newPointer.visible = true;
+			this._direction = value;
+			this.pointerOffset = this._pointerOffset;
+		}
+	}
 
-    /**
-     * The offset of the pointer from the center.
-     */
-    public get pointerOffset(): number
-    {
-        return this._pointerOffset;
-    }
+	private _pointerOffset: number = 0;
 
-    public set pointerOffset(value: number)
-    {
-        const pointer = this.getChildByName(this._direction);
+	/**
+	 * The offset of the pointer from the center.
+	 */
+	public get pointerOffset(): number
+	{
+		return this._pointerOffset;
+	}
 
-        if(!pointer)
-        {
-            throw new Error('Invalid pointer direction: "' + this._direction + '"!');
-        }
+	public set pointerOffset(value: number)
+	{
+		const pointer = this.getChildByName(this._direction);
 
-        if(this._direction === 'up' || this._direction === 'down')
-        {
-            pointer.x = (this.width / 2) + value;
-        }
-        else
-        {
-            pointer.y = (this.height / 2) + value;
-        }
+		if (!pointer)
+		{
+			throw new Error('Invalid pointer direction: "' + this._direction + '"!');
+		}
 
-        this._pointerOffset = value;
-    }
+		if (this._direction === 'up' || this._direction === 'down')
+		{
+			pointer.x = (this.width / 2) + value;
+		}
+		else
+		{
+			pointer.y = (this.height / 2) + value;
+		}
 
-    /**
-     * The bubble content container.
-     */
-    public get content(): IWindowContainer | null
-    {
-        return this.findChildByTag('_CONTENT') as unknown as IWindowContainer | null;
-    }
+		this._pointerOffset = value;
+	}
 
-    public override update(source: WindowController, event: WindowEvent): boolean
-    {
-        const result = super.update(source, event);
+	/**
+	 * The bubble content container.
+	 */
+	public get content(): IWindowContainer | null
+	{
+		return this.findChildByTag('_CONTENT') as unknown as IWindowContainer | null;
+	}
 
-        if(this._pointerOffset !== 0)
-        {
-            if(source === (this as unknown))
-            {
-                if(event.type === 'WE_RESIZED')
-                {
-                    this.pointerOffset = this._pointerOffset;
-                }
-            }
-        }
+	public override get properties(): unknown[]
+	{
+		const props = super.properties;
 
-        return result;
-    }
+		props.push(this.createProperty('direction', this._direction));
+		props.push(this.createProperty('pointer_offset', this._pointerOffset));
 
-    public override get properties(): unknown[]
-    {
-        const props = super.properties;
+		return props;
+	}
 
-        props.push(this.createProperty('direction', this._direction));
-        props.push(this.createProperty('pointer_offset', this._pointerOffset));
+	public override set properties(value: unknown[])
+	{
+		for (const item of value)
+		{
+			const prop = item as PropertyStruct;
 
-        return props;
-    }
+			switch (prop.key)
+			{
+				case 'direction':
+					this.direction = prop.value as string;
+					break;
+				case 'pointer_offset':
+					this.pointerOffset = prop.value as number;
+					break;
+			}
+		}
 
-    public override set properties(value: unknown[])
-    {
-        for(const item of value)
-        {
-            const prop = item as PropertyStruct;
+		super.properties = value;
+	}
 
-            switch(prop.key)
-            {
-                case 'direction':
-                    this.direction = prop.value as string;
-                    break;
-                case 'pointer_offset':
-                    this.pointerOffset = prop.value as number;
-                    break;
-            }
-        }
+	public override update(source: WindowController, event: WindowEvent): boolean
+	{
+		const result = super.update(source, event);
 
-        super.properties = value;
-    }
+		if (this._pointerOffset !== 0)
+		{
+			if (source === (this as unknown))
+			{
+				if (event.type === 'WE_RESIZED')
+				{
+					this.pointerOffset = this._pointerOffset;
+				}
+			}
+		}
+
+		return result;
+	}
 }

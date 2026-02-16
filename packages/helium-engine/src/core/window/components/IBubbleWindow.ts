@@ -1,4 +1,4 @@
-import type { IWindowContainer } from '../IWindowContainer';
+import type {IWindowContainer} from '../IWindowContainer';
 
 /**
  * Interface for bubble windows with directional pointers.
@@ -7,7 +7,7 @@ import type { IWindowContainer } from '../IWindowContainer';
  */
 export interface IBubbleWindow extends IWindowContainer
 {
-    direction: string;
-    pointerOffset: number;
-    readonly content: IWindowContainer | null;
+	direction: string;
+	pointerOffset: number;
+	readonly content: IWindowContainer | null;
 }

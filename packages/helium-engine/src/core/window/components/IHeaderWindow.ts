@@ -1,6 +1,6 @@
-import type { IWindowContainer } from '../IWindowContainer';
-import type { ILabelWindow } from './ILabelWindow';
-import type { IItemListWindow } from './IItemListWindow';
+import type {IWindowContainer} from '../IWindowContainer';
+import type {ILabelWindow} from './ILabelWindow';
+import type {IItemListWindow} from './IItemListWindow';
 
 /**
  * Interface for header windows.
@@ -12,6 +12,6 @@ import type { IItemListWindow } from './IItemListWindow';
  */
 export interface IHeaderWindow extends IWindowContainer
 {
-    readonly title: ILabelWindow;
-    readonly controls: IItemListWindow;
+	readonly title: ILabelWindow;
+	readonly controls: IItemListWindow;
 }

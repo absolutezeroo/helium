@@ -8,27 +8,37 @@
  */
 export interface IGraphicContext
 {
-    filters: unknown[];
-    visible: boolean;
-    blend: number;
-    mouse: boolean;
+	filters: unknown[];
+	visible: boolean;
+	blend: number;
+	mouse: boolean;
 
-    readonly disposed: boolean;
-    readonly numChildContexts: number;
+	readonly disposed: boolean;
+	readonly numChildContexts: number;
 
-    offset(x: number, y: number): void;
-    getDrawRegion(): { x: number; y: number; width: number; height: number };
-    fetchDrawBuffer(): unknown;
+	offset(x: number, y: number): void;
 
-    addChildContext(context: IGraphicContext): IGraphicContext;
-    addChildContextAt(context: IGraphicContext, index: number): IGraphicContext;
-    getChildContextAt(index: number): IGraphicContext;
-    getChildContextIndex(context: IGraphicContext): number;
-    removeChildContext(context: IGraphicContext): IGraphicContext;
-    removeChildContextAt(index: number): IGraphicContext;
-    setChildContextIndex(context: IGraphicContext, index: number): void;
-    swapChildContexts(a: IGraphicContext, b: IGraphicContext): void;
-    swapChildContextsAt(indexA: number, indexB: number): void;
+	getDrawRegion(): { x: number; y: number; width: number; height: number };
 
-    dispose(): void;
+	fetchDrawBuffer(): unknown;
+
+	addChildContext(context: IGraphicContext): IGraphicContext;
+
+	addChildContextAt(context: IGraphicContext, index: number): IGraphicContext;
+
+	getChildContextAt(index: number): IGraphicContext;
+
+	getChildContextIndex(context: IGraphicContext): number;
+
+	removeChildContext(context: IGraphicContext): IGraphicContext;
+
+	removeChildContextAt(index: number): IGraphicContext;
+
+	setChildContextIndex(context: IGraphicContext, index: number): void;
+
+	swapChildContexts(a: IGraphicContext, b: IGraphicContext): void;
+
+	swapChildContextsAt(indexA: number, indexB: number): void;
+
+	dispose(): void;
 }

@@ -5,44 +5,46 @@
  */
 export class PropertyStruct
 {
-    private _key: string;
-    private _value: unknown;
-    private _type: number;
+	constructor(key: string, value: unknown, type: number = 0)
+	{
+		this._key = key;
+		this._value = value;
+		this._type = type;
+	}
 
-    constructor(key: string, value: unknown, type: number = 0)
-    {
-        this._key = key;
-        this._value = value;
-        this._type = type;
-    }
+	private _key: string;
 
-    public get key(): string
-    {
-        return this._key;
-    }
+	public get key(): string
+	{
+		return this._key;
+	}
 
-    public get value(): unknown
-    {
-        return this._value;
-    }
+	private _value: unknown;
 
-    public set value(value: unknown)
-    {
-        this._value = value;
-    }
+	public get value(): unknown
+	{
+		return this._value;
+	}
 
-    public get type(): number
-    {
-        return this._type;
-    }
+	public set value(value: unknown)
+	{
+		this._value = value;
+	}
 
-    public clone(): PropertyStruct
-    {
-        return new PropertyStruct(this._key, this._value, this._type);
-    }
+	private _type: number;
 
-    public toString(): string
-    {
-        return `[PropertyStruct key=${this._key} value=${this._value} type=${this._type}]`;
-    }
+	public get type(): number
+	{
+		return this._type;
+	}
+
+	public clone(): PropertyStruct
+	{
+		return new PropertyStruct(this._key, this._value, this._type);
+	}
+
+	public toString(): string
+	{
+		return `[PropertyStruct key=${this._key} value=${this._value} type=${this._type}]`;
+	}
 }

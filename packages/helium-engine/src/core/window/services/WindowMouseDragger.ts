@@ -1,5 +1,5 @@
-import type { IMouseDraggingService } from './IMouseDraggingService';
-import { WindowMouseOperator } from './WindowMouseOperator';
+import type {IMouseDraggingService} from './IMouseDraggingService';
+import {WindowMouseOperator} from './WindowMouseOperator';
 
 /**
  * Mouse dragging service.
@@ -12,17 +12,17 @@ import { WindowMouseOperator } from './WindowMouseOperator';
  */
 export class WindowMouseDragger extends WindowMouseOperator implements IMouseDraggingService
 {
-    /**
-     * Move the window by the mouse delta.
-     *
-     * @param x - Current mouse X (stage coordinates)
-     * @param y - Current mouse Y (stage coordinates)
-     */
-    public override operate(x: number, y: number): void
-    {
-        this._mouse.x = x;
-        this._mouse.y = y;
-        this.getMousePositionRelativeTo(this._window!, this._mouse, this._relativePos);
-        this._window!.offset(this._relativePos.x - this._offset.x, this._relativePos.y - this._offset.y);
-    }
+	/**
+	 * Move the window by the mouse delta.
+	 *
+	 * @param x - Current mouse X (stage coordinates)
+	 * @param y - Current mouse Y (stage coordinates)
+	 */
+	public override operate(x: number, y: number): void
+	{
+		this._mouse.x = x;
+		this._mouse.y = y;
+		this.getMousePositionRelativeTo(this._window!, this._mouse, this._relativePos);
+		this._window!.offset(this._relativePos.x - this._offset.x, this._relativePos.y - this._offset.y);
+	}
 }

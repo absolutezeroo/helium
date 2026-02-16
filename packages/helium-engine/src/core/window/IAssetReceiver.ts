@@ -8,13 +8,13 @@
  */
 export interface IAssetReceiver
 {
-    /**
-     * Called when an asset has been loaded and is ready for use.
-     *
-     * @param asset - The decoded bitmap
-     * @param uri - The resolved asset URI
-     */
-    receiveAsset(asset: ImageBitmap, uri: string): void;
+	readonly disposed: boolean;
 
-    readonly disposed: boolean;
+	/**
+	 * Called when an asset has been loaded and is ready for use.
+	 *
+	 * @param asset - The decoded bitmap
+	 * @param uri - The resolved asset URI
+	 */
+	receiveAsset(asset: ImageBitmap, uri: string): void;
 }
