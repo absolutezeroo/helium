@@ -1,4 +1,4 @@
-import type { PropertyMap } from '@core/window/theme/PropertyMap';
+import type {PropertyMap} from '@core/window/theme/PropertyMap';
 
 /**
  * Represents a named window theme with a base style range and property defaults.
@@ -20,12 +20,6 @@ export class Theme
 	public static readonly ILLUMINA_LIGHT: string = 'Illumina Light';
 	public static readonly ILLUMINA_DARK: string = 'Illumina Dark';
 
-	private _name: string;
-	private _isReal: boolean;
-	private _baseStyle: number;
-	private _styleCount: number;
-	private _propertyDefaults: PropertyMap;
-
 	constructor(name: string, isReal: boolean, baseStyle: number, styleCount: number, propertyDefaults: PropertyMap)
 	{
 		this._name = name;
@@ -35,6 +29,8 @@ export class Theme
 		this._propertyDefaults = propertyDefaults;
 	}
 
+	private _name: string;
+
 	/**
 	 * The display name of this theme.
 	 */
@@ -42,6 +38,8 @@ export class Theme
 	{
 		return this._name;
 	}
+
+	private _isReal: boolean;
 
 	/**
 	 * Whether this is a real visual theme (as opposed to a virtual grouping).
@@ -51,6 +49,8 @@ export class Theme
 		return this._isReal;
 	}
 
+	private _baseStyle: number;
+
 	/**
 	 * The first style index covered by this theme.
 	 */
@@ -59,6 +59,8 @@ export class Theme
 		return this._baseStyle;
 	}
 
+	private _styleCount: number;
+
 	/**
 	 * The number of styles covered by this theme.
 	 */
@@ -66,6 +68,8 @@ export class Theme
 	{
 		return this._styleCount;
 	}
+
+	private _propertyDefaults: PropertyMap;
 
 	/**
 	 * The default property values for elements rendered in this theme.

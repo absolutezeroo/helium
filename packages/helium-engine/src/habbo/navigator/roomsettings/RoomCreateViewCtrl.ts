@@ -9,8 +9,8 @@ import {TextFieldManager} from '../TextFieldManager';
  */
 interface RoomLayout
 {
-    name: string;
-    tileSize: number;
+	name: string;
+	tileSize: number;
 }
 
 /**
@@ -23,110 +23,110 @@ interface RoomLayout
  */
 export class RoomCreateViewCtrl
 {
-    private static readonly ROOM_LIMIT_HC: number = 75;
-    private static readonly ROOM_LIMIT_NON_SUBSCRIBER: number = 50;
+	private static readonly ROOM_LIMIT_HC: number = 75;
+	private static readonly ROOM_LIMIT_NON_SUBSCRIBER: number = 50;
 
-    private _navigator: IHabboTransitionalNavigator | null;
-    private _content: IWindowContainer | null = null;
-    private _layouts: RoomLayout[] = [];
-    private _selectedLayout: RoomLayout | null = null;
-    private _roomNameManager: TextFieldManager | null = null;
-    private _roomDescManager: TextFieldManager | null = null;
+	private _navigator: IHabboTransitionalNavigator | null;
+	private _content: IWindowContainer | null = null;
+	private _layouts: RoomLayout[] = [];
+	private _selectedLayout: RoomLayout | null = null;
+	private _roomNameManager: TextFieldManager | null = null;
+	private _roomDescManager: TextFieldManager | null = null;
 
-    constructor(navigator: IHabboTransitionalNavigator)
-    {
-        this._navigator = navigator;
-        this.initLayouts();
-    }
+	constructor(navigator: IHabboTransitionalNavigator)
+	{
+		this._navigator = navigator;
+		this.initLayouts();
+	}
 
-    show(): void
-    {
-        if(!this._navigator) return;
+	show(): void
+	{
+		if (!this._navigator) return;
 
-        if(!this._content)
-        {
-            const window = this._navigator.getJsonWindow('room_create');
+		if (!this._content)
+		{
+			const window = this._navigator.getJsonWindow('room_create');
 
-            if(!window) return;
+			if (!window) return;
 
-            this._content = (window as any).content as IWindowContainer;
-        }
+			this._content = (window as any).content as IWindowContainer;
+		}
 
-        if(this._content)
-        {
-            (this._content as IWindow).visible = true;
-        }
+		if (this._content)
+		{
+			(this._content as IWindow).visible = true;
+		}
 
-        this.refresh();
-    }
+		this.refresh();
+	}
 
-    hide(): void
-    {
-        if(this._content)
-        {
-            (this._content as IWindow).visible = false;
-        }
-    }
+	hide(): void
+	{
+		if (this._content)
+		{
+			(this._content as IWindow).visible = false;
+		}
+	}
 
-    refresh(): void
-    {
-        this.refreshRoomThumbnails();
-    }
+	refresh(): void
+	{
+		this.refreshRoomThumbnails();
+	}
 
-    dispose(): void
-    {
-        this._roomNameManager?.dispose();
-        this._roomDescManager?.dispose();
+	dispose(): void
+	{
+		this._roomNameManager?.dispose();
+		this._roomDescManager?.dispose();
 
-        if(this._content)
-        {
-            (this._content as IWindow).dispose();
-            this._content = null;
-        }
+		if (this._content)
+		{
+			(this._content as IWindow).dispose();
+			this._content = null;
+		}
 
-        this._navigator = null;
-    }
+		this._navigator = null;
+	}
 
-    private refreshRoomThumbnails(): void
-    {
-        // Populate layout thumbnails from _layouts
-    }
+	private refreshRoomThumbnails(): void
+	{
+		// Populate layout thumbnails from _layouts
+	}
 
-    private isMandatoryFieldsFilled(): boolean
-    {
-        if(!this._roomNameManager) return false;
+	private isMandatoryFieldsFilled(): boolean
+	{
+		if (!this._roomNameManager) return false;
 
-        const nameValid = this._roomNameManager.checkMandatory(
-            this._navigator?.getText('navigator.createroom.nameerr') ?? 'Name required'
-        );
+		const nameValid = this._roomNameManager.checkMandatory(
+			this._navigator?.getText('navigator.createroom.nameerr') ?? 'Name required'
+		);
 
-        return nameValid;
-    }
+		return nameValid;
+	}
 
-    private onCreateButtonClick = (_event: WindowEvent): void =>
-    {
-        if(!this._navigator || !this._selectedLayout) return;
+	private onCreateButtonClick = (_event: WindowEvent): void =>
+	{
+		if (!this._navigator || !this._selectedLayout) return;
 
-        if(!this.isMandatoryFieldsFilled()) return;
+		if (!this.isMandatoryFieldsFilled()) return;
 
-        const name = this._roomNameManager?.getText() ?? '';
-        const desc = this._roomDescManager?.getText() ?? '';
+		const name = this._roomNameManager?.getText() ?? '';
+		const desc = this._roomDescManager?.getText() ?? '';
 
-        this._navigator.goToMainView();
-    };
+		this._navigator.goToMainView();
+	};
 
-    private onCancelButtonClick = (_event: WindowEvent): void =>
-    {
-        this.hide();
-    };
+	private onCancelButtonClick = (_event: WindowEvent): void =>
+	{
+		this.hide();
+	};
 
-    private initLayouts(): void
-    {
-        const layoutNames = ['a', 'b', 'c', 'd', 'e', 'f', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+	private initLayouts(): void
+	{
+		const layoutNames = ['a', 'b', 'c', 'd', 'e', 'f', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
-        for(const name of layoutNames)
-        {
-            this._layouts.push({ name: 'model_' + name, tileSize: 0 });
-        }
-    }
+		for (const name of layoutNames)
+		{
+			this._layouts.push({name: 'model_' + name, tileSize: 0});
+		}
+	}
 }

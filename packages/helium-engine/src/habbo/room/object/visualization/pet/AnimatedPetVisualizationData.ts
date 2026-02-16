@@ -16,8 +16,9 @@ import {AnimatedFurnitureVisualizationData} from '../furniture/AnimatedFurniture
 
 export class AnimatedPetVisualizationData extends AnimatedFurnitureVisualizationData
 {
-	private _commonAssets: IAssetLibrary | null = null;
 	private _allowHeadTurn: boolean = true;
+
+	private _commonAssets: IAssetLibrary | null = null;
 
 	get commonAssets(): IAssetLibrary | null
 	{
@@ -32,32 +33,6 @@ export class AnimatedPetVisualizationData extends AnimatedFurnitureVisualization
 	get isAllowedToTurnHead(): boolean
 	{
 		return this._allowHeadTurn;
-	}
-
-	protected override createSizeData(_size: number, layerCount: number, angle: number): SizeData
-	{
-		// TODO: Use PetAnimationSizeData for sizes > 1 (when pet rendering is implemented)
-		return new AnimationSizeData(layerCount, angle);
-	}
-
-	protected override processVisualizationElement(sizeData: SizeData, elementName: string, elementData: Record<string, unknown>): boolean
-	{
-		if(sizeData === null || elementData === null)
-		{
-			return false;
-		}
-
-		switch(elementName)
-		{
-			case 'postures':
-				// TODO: Parse posture definitions (PetAnimationSizeData.definePostures)
-				return true;
-			case 'gestures':
-				// TODO: Parse gesture definitions (PetAnimationSizeData.defineGestures)
-				return true;
-			default:
-				return super.processVisualizationElement(sizeData, elementName, elementData);
-		}
 	}
 
 	/**
@@ -157,5 +132,31 @@ export class AnimatedPetVisualizationData extends AnimatedFurnitureVisualization
 	{
 		// TODO: Implement tag lookup from visualization data
 		return '';
+	}
+
+	protected override createSizeData(_size: number, layerCount: number, angle: number): SizeData
+	{
+		// TODO: Use PetAnimationSizeData for sizes > 1 (when pet rendering is implemented)
+		return new AnimationSizeData(layerCount, angle);
+	}
+
+	protected override processVisualizationElement(sizeData: SizeData, elementName: string, elementData: Record<string, unknown>): boolean
+	{
+		if (sizeData === null || elementData === null)
+		{
+			return false;
+		}
+
+		switch (elementName)
+		{
+			case 'postures':
+				// TODO: Parse posture definitions (PetAnimationSizeData.definePostures)
+				return true;
+			case 'gestures':
+				// TODO: Parse gesture definitions (PetAnimationSizeData.defineGestures)
+				return true;
+			default:
+				return super.processVisualizationElement(sizeData, elementName, elementData);
+		}
 	}
 }

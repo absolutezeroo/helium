@@ -1,10 +1,10 @@
-import type { IWindowContainer } from '@core/window/IWindowContainer';
-import type { ITextFieldWindow } from '@core/window/components/ITextFieldWindow';
-import type { IDropMenuWindow } from '@core/window/components/IDropMenuWindow';
-import type { WindowEvent } from '@core/window/events/WindowEvent';
-import type { WindowKeyboardEvent } from '@core/window/events/WindowKeyboardEvent';
-import type { HabboNewNavigator } from '../../HabboNewNavigator';
-import { FilterMode } from './FilterMode';
+import type {IWindowContainer} from '@core/window/IWindowContainer';
+import type {ITextFieldWindow} from '@core/window/components/ITextFieldWindow';
+import type {IDropMenuWindow} from '@core/window/components/IDropMenuWindow';
+import type {WindowEvent} from '@core/window/events/WindowEvent';
+import type {WindowKeyboardEvent} from '@core/window/events/WindowKeyboardEvent';
+import type {HabboNewNavigator} from '../../HabboNewNavigator';
+import {FilterMode} from './FilterMode';
 
 /**
  * Search input view for the navigator.
@@ -26,7 +26,6 @@ export class SearchView
 	private static readonly INPUT_TEXTCOLOR: number = 0x000000;
 
 	private _navigator: HabboNewNavigator;
-	private _container: IWindowContainer | null = null;
 	private _inputField: ITextFieldWindow | null = null;
 	private _filterDropMenu: IDropMenuWindow | null = null;
 	private _placeholderText: string;
@@ -40,6 +39,8 @@ export class SearchView
 		);
 	}
 
+	private _container: IWindowContainer | null = null;
+
 	/**
 	 * Set the container and wire up search input controls.
 	 *
@@ -52,7 +53,7 @@ export class SearchView
 		this._filterDropMenu = this._container.findChildByName('filter_type_drop_menu') as IDropMenuWindow | null;
 		this._inputField = this._container.findChildByName('search_input') as ITextFieldWindow | null;
 
-		if(this._inputField)
+		if (this._inputField)
 		{
 			this._inputField.addEventListener('WKE_KEY_UP', this.keyUpHandler);
 			this._inputField.addEventListener('WE_CHANGE', this.onInputChanged);
@@ -61,7 +62,7 @@ export class SearchView
 
 		const clearButton = this._container.findChildByName('clear_search_button');
 
-		if(clearButton)
+		if (clearButton)
 		{
 			clearButton.addEventListener('WME_CLICK', this.onClearSearch);
 		}
@@ -76,7 +77,7 @@ export class SearchView
 	 */
 	get currentInput(): string
 	{
-		if(this._inputField)
+		if (this._inputField)
 		{
 			return this._inputField.caption;
 		}
@@ -93,14 +94,14 @@ export class SearchView
 	{
 		this.setInputToFilterPlaceHolder();
 
-		if(this._filterDropMenu && this._filterDropMenu.numMenuItems > 0)
+		if (this._filterDropMenu && this._filterDropMenu.numMenuItems > 0)
 		{
 			this._filterDropMenu.selection = 0;
 		}
 
 		const refreshContainer = this._container?.findChildByName('refreshButtonContainer');
 
-		if(refreshContainer)
+		if (refreshContainer)
 		{
 			refreshContainer.visible = false;
 		}
@@ -121,14 +122,14 @@ export class SearchView
 	{
 		const filterMode = FilterMode.filterInInput(filteringData);
 
-		if(filterMode !== FilterMode.DEFAULT)
+		if (filterMode !== FilterMode.DEFAULT)
 		{
-			if(this._filterDropMenu)
+			if (this._filterDropMenu)
 			{
 				this._filterDropMenu.selection = SearchView.FILTER_MODE_TO_SELECTOR_INDEX[filterMode];
 			}
 
-			if(this._inputField)
+			if (this._inputField)
 			{
 				const prefix = FilterMode.FILTER_PREFIX[filterMode];
 
@@ -137,27 +138,27 @@ export class SearchView
 		}
 		else
 		{
-			if(this._inputField)
+			if (this._inputField)
 			{
 				this._inputField.caption = filteringData;
 			}
 
-			if(this._filterDropMenu)
+			if (this._filterDropMenu)
 			{
 				this._filterDropMenu.selection = 0;
 			}
 		}
 
-		if(source !== '' && source !== this._placeholderText)
+		if (source !== '' && source !== this._placeholderText)
 		{
-			if(this._inputField)
+			if (this._inputField)
 			{
 				this._inputField.caption = source;
 			}
 
 			this.setInputFieldTextFormattingToPlaceholder(true);
 		}
-		else if(this._inputField?.caption === '')
+		else if (this._inputField?.caption === '')
 		{
 			this.setInputToFilterPlaceHolder();
 		}
@@ -167,11 +168,11 @@ export class SearchView
 		}
 
 		// Show/hide refresh button based on content
-		if(this._inputField && this._inputField.caption.length !== 0 && this._inputField.caption !== this._placeholderText)
+		if (this._inputField && this._inputField.caption.length !== 0 && this._inputField.caption !== this._placeholderText)
 		{
 			const refreshContainer = this._container?.findChildByName('refreshButtonContainer');
 
-			if(refreshContainer)
+			if (refreshContainer)
 			{
 				refreshContainer.visible = true;
 			}
@@ -180,7 +181,7 @@ export class SearchView
 		{
 			const refreshContainer = this._container?.findChildByName('refreshButtonContainer');
 
-			if(refreshContainer)
+			if (refreshContainer)
 			{
 				refreshContainer.visible = false;
 			}
@@ -206,7 +207,7 @@ export class SearchView
 	{
 		this.setInputFieldTextFormattingToPlaceholder(true);
 
-		if(this._inputField)
+		if (this._inputField)
 		{
 			this._inputField.caption = this._placeholderText;
 		}
@@ -219,7 +220,7 @@ export class SearchView
 	 */
 	private setInputFieldTextFormattingToPlaceholder(isPlaceholder: boolean): void
 	{
-		if(this._inputField)
+		if (this._inputField)
 		{
 			this._inputField.textColor = isPlaceholder ? SearchView.INPUT_PLACEHOLDER_TEXTCOLOR : SearchView.INPUT_TEXTCOLOR;
 		}
@@ -229,7 +230,7 @@ export class SearchView
 	{
 		const kbEvent = event as unknown as WindowKeyboardEvent;
 
-		if(kbEvent.keyCode === 13)
+		if (kbEvent.keyCode === 13)
 		{
 			const searchCode = this._navigator.currentResults?.searchCode ?? 'official_view';
 
@@ -241,7 +242,7 @@ export class SearchView
 	{
 		this.setInputFieldTextFormattingToPlaceholder(false);
 
-		if(this._inputField && this._inputField.caption === this._placeholderText)
+		if (this._inputField && this._inputField.caption === this._placeholderText)
 		{
 			this._inputField.caption = '';
 		}
@@ -254,7 +255,7 @@ export class SearchView
 
 	private onClearSearch = (_event: WindowEvent): void =>
 	{
-		if(this._inputField)
+		if (this._inputField)
 		{
 			this._inputField.caption = '';
 		}

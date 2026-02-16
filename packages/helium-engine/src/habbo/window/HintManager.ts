@@ -1,6 +1,6 @@
-import type { IWindow } from '@core/window/IWindow';
-import type { IHabboWindowManager } from './IHabboWindowManager';
-import { HintTarget } from './HintTarget';
+import type {IWindow} from '@core/window/IWindow';
+import type {IHabboWindowManager} from './IHabboWindowManager';
+import {HintTarget} from './HintTarget';
 
 /**
  * Manages hint windows that point to registered UI elements.
@@ -12,156 +12,157 @@ import { HintTarget } from './HintTarget';
  */
 export class HintManager
 {
-    private static readonly VERTICAL_PADDING: number = 10;
-    private static readonly ANIMATION_DURATION: number = 400;
-    private static readonly MIN_DISTANCE: number = 15;
+	private static readonly VERTICAL_PADDING: number = 10;
+	private static readonly ANIMATION_DURATION: number = 400;
+	private static readonly MIN_DISTANCE: number = 15;
 
-    private _windowManager: IHabboWindowManager;
-    private _registeredWindows: Map<string, HintTarget> = new Map();
-    private _activeHint: HintTarget | null = null;
-    private _hint: IWindow | null = null;
-    private _targetRect: { x: number; y: number; width: number; height: number } | null = null;
-    private _currentRect: { x: number; y: number; width: number; height: number } | null = null;
-    private _disposed: boolean = false;
+	private _windowManager: IHabboWindowManager;
+	private _registeredWindows: Map<string, HintTarget> = new Map();
+	private _activeHint: HintTarget | null = null;
+	private _hint: IWindow | null = null;
+	private _targetRect: { x: number; y: number; width: number; height: number } | null = null;
+	private _currentRect: { x: number; y: number; width: number; height: number } | null = null;
 
-    constructor(windowManager: IHabboWindowManager)
-    {
-        this._windowManager = windowManager;
-    }
+	constructor(windowManager: IHabboWindowManager)
+	{
+		this._windowManager = windowManager;
+	}
 
-    public get disposed(): boolean
-    {
-        return this._disposed;
-    }
+	private _disposed: boolean = false;
 
-    /**
-     * Registers a window for hint support.
-     */
-    public registerWindow(key: string, window: IWindow, style: number = 0): void
-    {
-        this._registeredWindows.set(key, new HintTarget(window, key, style));
-    }
+	public get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
-    /**
-     * Unregisters a window.
-     */
-    public unregisterWindow(key: string): void
-    {
-        if(this._activeHint && this.activeKey === key)
-        {
-            this.hideHint();
-        }
+	/**
+	 * Returns the key of the active hint.
+	 */
+	private get activeKey(): string | null
+	{
+		return this._activeHint?.key ?? null;
+	}
 
-        this._registeredWindows.delete(key);
-    }
+	/**
+	 * Registers a window for hint support.
+	 */
+	public registerWindow(key: string, window: IWindow, style: number = 0): void
+	{
+		this._registeredWindows.set(key, new HintTarget(window, key, style));
+	}
 
-    /**
-     * Shows a hint for a registered window.
-     */
-    public showHint(key: string, rect: { x: number; y: number; width: number; height: number } | null = null): void
-    {
-        const target = this._registeredWindows.get(key);
+	/**
+	 * Unregisters a window.
+	 */
+	public unregisterWindow(key: string): void
+	{
+		if (this._activeHint && this.activeKey === key)
+		{
+			this.hideHint();
+		}
 
-        if(!target) return;
+		this._registeredWindows.delete(key);
+	}
 
-        this._activeHint = target;
+	/**
+	 * Shows a hint for a registered window.
+	 */
+	public showHint(key: string, rect: { x: number; y: number; width: number; height: number } | null = null): void
+	{
+		const target = this._registeredWindows.get(key);
 
-        if(rect)
-        {
-            this._targetRect = rect;
-        }
-        else
-        {
-            this._targetRect = this.getTargetRect(target.window);
-        }
-    }
+		if (!target) return;
 
-    /**
-     * Hides the active hint.
-     */
-    public hideHint(): void
-    {
-        if(this._hint)
-        {
-            this._hint.visible = false;
-        }
+		this._activeHint = target;
 
-        this._activeHint = null;
-        this._targetRect = null;
-        this._currentRect = null;
-    }
+		if (rect)
+		{
+			this._targetRect = rect;
+		}
+		else
+		{
+			this._targetRect = this.getTargetRect(target.window);
+		}
+	}
 
-    /**
-     * Hides hint if it matches the given key.
-     */
-    public hideMatchingHint(key: string): void
-    {
-        if(this.activeKey === key)
-        {
-            this.hideHint();
-        }
-    }
+	/**
+	 * Hides the active hint.
+	 */
+	public hideHint(): void
+	{
+		if (this._hint)
+		{
+			this._hint.visible = false;
+		}
 
-    /**
-     * Update tick for hint positioning/animation.
-     */
-    public update(_time: number): void
-    {
-        if(!this._activeHint || !this._hint) return;
+		this._activeHint = null;
+		this._targetRect = null;
+		this._currentRect = null;
+	}
 
-        const target = this._activeHint;
-        const targetRect = this._targetRect ?? this.getTargetRect(target.window);
+	/**
+	 * Hides hint if it matches the given key.
+	 */
+	public hideMatchingHint(key: string): void
+	{
+		if (this.activeKey === key)
+		{
+			this.hideHint();
+		}
+	}
 
-        if(!targetRect) return;
+	/**
+	 * Update tick for hint positioning/animation.
+	 */
+	public update(_time: number): void
+	{
+		if (!this._activeHint || !this._hint) return;
 
-        const oscillation = Math.sin(Date.now() * 0.003);
+		const target = this._activeHint;
+		const targetRect = this._targetRect ?? this.getTargetRect(target.window);
 
-        if(target.style === 1)
-        {
-            // Vertical style
-            this._hint.x = targetRect.x + (targetRect.width - this._hint.width) / 2;
-            this._hint.y = targetRect.y - this._hint.height - HintManager.VERTICAL_PADDING + (oscillation * 3);
-        }
-        else
-        {
-            // Horizontal style
-            this._hint.x = targetRect.x + targetRect.width + HintManager.VERTICAL_PADDING + (oscillation * 3);
-            this._hint.y = targetRect.y + (targetRect.height - this._hint.height) / 2;
-        }
-    }
+		if (!targetRect) return;
 
-    /**
-     * Returns the key of the active hint.
-     */
-    private get activeKey(): string | null
-    {
-        return this._activeHint?.key ?? null;
-    }
+		const oscillation = Math.sin(Date.now() * 0.003);
 
-    /**
-     * Calculates target rectangle for hint positioning.
-     */
-    private getTargetRect(window: IWindow): { x: number; y: number; width: number; height: number }
-    {
-        return {
-            x: window.x,
-            y: window.y,
-            width: window.width,
-            height: window.height
-        };
-    }
+		if (target.style === 1)
+		{
+			// Vertical style
+			this._hint.x = targetRect.x + (targetRect.width - this._hint.width) / 2;
+			this._hint.y = targetRect.y - this._hint.height - HintManager.VERTICAL_PADDING + (oscillation * 3);
+		}
+		else
+		{
+			// Horizontal style
+			this._hint.x = targetRect.x + targetRect.width + HintManager.VERTICAL_PADDING + (oscillation * 3);
+			this._hint.y = targetRect.y + (targetRect.height - this._hint.height) / 2;
+		}
+	}
 
-    /**
-     * Dispose the hint manager.
-     */
-    public dispose(): void
-    {
-        if(this._disposed) return;
+	/**
+	 * Dispose the hint manager.
+	 */
+	public dispose(): void
+	{
+		if (this._disposed) return;
 
-        this._disposed = true;
+		this._disposed = true;
 
-        this.hideHint();
-        this._registeredWindows.clear();
-        this._hint = null;
-    }
+		this.hideHint();
+		this._registeredWindows.clear();
+		this._hint = null;
+	}
+
+	/**
+	 * Calculates target rectangle for hint positioning.
+	 */
+	private getTargetRect(window: IWindow): { x: number; y: number; width: number; height: number }
+	{
+		return {
+			x: window.x,
+			y: window.y,
+			width: window.width,
+			height: window.height
+		};
+	}
 }

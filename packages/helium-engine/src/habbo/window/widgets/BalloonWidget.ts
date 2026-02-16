@@ -52,7 +52,7 @@ export class BalloonWidget implements IWidget
 
 		const root = this._windowManager.buildWidgetLayout('balloon') as IWindowContainer | null;
 
-		if(root)
+		if (root)
 		{
 			this._root = root;
 			this._arrowBitmap = root.findChildByName('bitmap');
@@ -63,7 +63,7 @@ export class BalloonWidget implements IWidget
 			this._widgetWindow.addEventListener(WindowEvent.WE_RESIZE, this._onChangeBound);
 			this._widgetWindow.addEventListener(WindowEvent.WE_RESIZED, this._onChangeBound);
 
-			if(this._border)
+			if (this._border)
 			{
 				this._border.addEventListener(WindowEvent.WE_RESIZE, this._onChangeBound);
 				this._border.addEventListener(WindowEvent.WE_RESIZED, this._onChangeBound);
@@ -111,7 +111,7 @@ export class BalloonWidget implements IWidget
 	 */
 	public get iterator(): unknown
 	{
-		if(this._border)
+		if (this._border)
 		{
 			return this._border.iterator;
 		}
@@ -121,7 +121,7 @@ export class BalloonWidget implements IWidget
 
 	public get properties(): PropertyStruct[]
 	{
-		if(this._disposed) return [];
+		if (this._disposed) return [];
 
 		return [
 			new PropertyStruct(BalloonWidget.ARROW_PIVOT_KEY, this._arrowPivot),
@@ -133,9 +133,9 @@ export class BalloonWidget implements IWidget
 	{
 		this._batchUpdate = true;
 
-		for(const prop of values)
+		for (const prop of values)
 		{
-			switch(prop.key)
+			switch (prop.key)
 			{
 				case BalloonWidget.ARROW_PIVOT_KEY:
 					this.arrowPivot = String(prop.value);
@@ -151,17 +151,17 @@ export class BalloonWidget implements IWidget
 
 	public dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		this._disposed = true;
 
-		if(this._widgetWindow)
+		if (this._widgetWindow)
 		{
 			this._widgetWindow.removeEventListener(WindowEvent.WE_RESIZE, this._onChangeBound);
 			this._widgetWindow.removeEventListener(WindowEvent.WE_RESIZED, this._onChangeBound);
 		}
 
-		if(this._border)
+		if (this._border)
 		{
 			this._border.removeEventListener(WindowEvent.WE_RESIZE, this._onChangeBound);
 			this._border.removeEventListener(WindowEvent.WE_RESIZED, this._onChangeBound);
@@ -170,13 +170,13 @@ export class BalloonWidget implements IWidget
 
 		this._arrowBitmap = null;
 
-		if(this._root)
+		if (this._root)
 		{
 			this._root.dispose();
 			this._root = null;
 		}
 
-		if(this._widgetWindow)
+		if (this._widgetWindow)
 		{
 			this._widgetWindow.rootWindow = null;
 		}
@@ -190,17 +190,17 @@ export class BalloonWidget implements IWidget
 	 */
 	private syncFlags(): void
 	{
-		if(!this._widgetWindow || !this._border) return;
+		if (!this._widgetWindow || !this._border) return;
 
 		const widgetWindow = this._widgetWindow as IWindow;
 		const border = this._border as IWindow;
 
-		if(widgetWindow.getParamFlag(BalloonWidget.PARAM_FLAG_131072))
+		if (widgetWindow.getParamFlag(BalloonWidget.PARAM_FLAG_131072))
 		{
 			border.setParamFlag(BalloonWidget.PARAM_FLAG_131072, true);
 		}
 
-		if(widgetWindow.getParamFlag(BalloonWidget.PARAM_FLAG_147456))
+		if (widgetWindow.getParamFlag(BalloonWidget.PARAM_FLAG_147456))
 		{
 			border.setParamFlag(BalloonWidget.PARAM_FLAG_147456, true);
 		}
@@ -211,7 +211,7 @@ export class BalloonWidget implements IWidget
 	 */
 	private clearFlags(): void
 	{
-		if(!this._border) return;
+		if (!this._border) return;
 
 		const border = this._border as IWindow;
 

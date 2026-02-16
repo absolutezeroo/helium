@@ -19,7 +19,6 @@ export class MeMenuIconLoader
 	private static readonly HEAD_MARGIN: number = 3;
 
 	private _toolbar: HabboToolbar | null;
-	private _currentFigure: string = '';
 
 	constructor(toolbar: HabboToolbar)
 	{
@@ -32,13 +31,7 @@ export class MeMenuIconLoader
 		log.debug('MeMenuIconLoader constructed');
 	}
 
-	/**
-	 * Whether the loader is disposed
-	 */
-	get disposed(): boolean
-	{
-		return this._toolbar == null;
-	}
+	private _currentFigure: string = '';
 
 	/**
 	 * The current figure string being displayed
@@ -46,6 +39,14 @@ export class MeMenuIconLoader
 	get currentFigure(): string
 	{
 		return this._currentFigure;
+	}
+
+	/**
+	 * Whether the loader is disposed
+	 */
+	get disposed(): boolean
+	{
+		return this._toolbar == null;
 	}
 
 	/**
@@ -77,25 +78,10 @@ export class MeMenuIconLoader
 	 */
 	public onUserChange(id: number, figure: string): void
 	{
-		if(id === -1)
+		if (id === -1)
 		{
 			this.setMeMenuToolbarIcon(figure);
 		}
-	}
-
-	private setMeMenuToolbarIcon(figure?: string): void
-	{
-		if(!this._toolbar) return;
-
-		const currentFigure = figure ?? this._toolbar.sessionDataManager?.figure ?? '';
-
-		if(currentFigure === this._currentFigure) return;
-
-		this._currentFigure = currentFigure;
-
-		// In AS3: creates avatar image, crops it, and calls toolbar.setIconBitmap
-		// In Helium, the UI layer renders the avatar based on the figure string
-		this._toolbar.setIconBitmap('HTIE_ICON_MEMENU', this._currentFigure);
 	}
 
 	/**
@@ -103,9 +89,24 @@ export class MeMenuIconLoader
 	 */
 	public dispose(): void
 	{
-		if(this.disposed) return;
+		if (this.disposed) return;
 
 		// In AS3: removes UserObjectEvent and UserChangeMessageEvent handlers
 		this._toolbar = null;
+	}
+
+	private setMeMenuToolbarIcon(figure?: string): void
+	{
+		if (!this._toolbar) return;
+
+		const currentFigure = figure ?? this._toolbar.sessionDataManager?.figure ?? '';
+
+		if (currentFigure === this._currentFigure) return;
+
+		this._currentFigure = currentFigure;
+
+		// In AS3: creates avatar image, crops it, and calls toolbar.setIconBitmap
+		// In Helium, the UI layer renders the avatar based on the figure string
+		this._toolbar.setIconBitmap('HTIE_ICON_MEMENU', this._currentFigure);
 	}
 }

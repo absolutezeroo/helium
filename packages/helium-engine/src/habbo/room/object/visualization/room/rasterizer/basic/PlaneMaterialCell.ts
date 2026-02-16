@@ -105,7 +105,8 @@ export class PlaneMaterialCell
 					bitmap = result;
 				}
 			}
-		} catch (e)
+		}
+		catch (e)
 		{
 			return null;
 		}

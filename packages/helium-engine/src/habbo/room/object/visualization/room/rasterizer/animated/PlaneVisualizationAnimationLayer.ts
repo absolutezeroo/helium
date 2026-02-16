@@ -24,18 +24,17 @@ export class PlaneVisualizationAnimationLayer
 {
 	private _color: number = 0;
 	private _bitmapData: HTMLCanvasElement | null = null;
-	private _disposed: boolean = false;
 	private _items: AnimationItem[] = [];
 
 	constructor(items: IAnimationItemData[], assetTextures: Map<string, HTMLCanvasElement> | null)
 	{
-		if(items !== null && assetTextures !== null)
+		if (items !== null && assetTextures !== null)
 		{
-			for(const itemData of items)
+			for (const itemData of items)
 			{
 				const assetCanvas = assetTextures.get(itemData.asset);
 
-				if(assetCanvas !== undefined)
+				if (assetCanvas !== undefined)
 				{
 					const item = new AnimationItem(
 						itemData.x,
@@ -50,6 +49,8 @@ export class PlaneVisualizationAnimationLayer
 			}
 		}
 	}
+
+	private _disposed: boolean = false;
 
 	get disposed(): boolean
 	{
@@ -94,9 +95,9 @@ export class PlaneVisualizationAnimationLayer
 		time: number
 	): HTMLCanvasElement | null
 	{
-		if(canvas === null || canvas.width !== width || canvas.height !== height)
+		if (canvas === null || canvas.width !== width || canvas.height !== height)
 		{
-			if(this._bitmapData === null || this._bitmapData.width !== width || this._bitmapData.height !== height)
+			if (this._bitmapData === null || this._bitmapData.width !== width || this._bitmapData.height !== height)
 			{
 				this._bitmapData = document.createElement('canvas');
 				this._bitmapData.width = width;
@@ -111,41 +112,41 @@ export class PlaneVisualizationAnimationLayer
 			canvas = this._bitmapData;
 		}
 
-		if(tileWidth > 0 && tileHeight > 0)
+		if (tileWidth > 0 && tileHeight > 0)
 		{
 			const ctx = canvas.getContext('2d')!;
 
-			for(const item of this._items)
+			for (const item of this._items)
 			{
-				if(item === null) continue;
+				if (item === null) continue;
 
 				const [posX, posY] = item.getPosition(tileWidth, tileHeight, speedXScale, speedYScale, time);
 				const drawX = posX - offsetX;
 				const drawY = posY - offsetY;
 
 				const bmp = item.bitmapData;
-				if(bmp === null) continue;
+				if (bmp === null) continue;
 
 				const bw = bmp.width;
 				const bh = bmp.height;
 
 				// Draw at base position + 3 wrapping copies
-				if(drawX > -bw && drawX < width && drawY > -bh && drawY < height)
+				if (drawX > -bw && drawX < width && drawY > -bh && drawY < height)
 				{
 					ctx.drawImage(bmp, drawX, drawY);
 				}
 
-				if(drawX - tileWidth > -bw && drawX - tileWidth < width && drawY > -bh && drawY < height)
+				if (drawX - tileWidth > -bw && drawX - tileWidth < width && drawY > -bh && drawY < height)
 				{
 					ctx.drawImage(bmp, drawX - tileWidth, drawY);
 				}
 
-				if(drawX > -bw && drawX < width && drawY - tileHeight > -bh && drawY - tileHeight < height)
+				if (drawX > -bw && drawX < width && drawY - tileHeight > -bh && drawY - tileHeight < height)
 				{
 					ctx.drawImage(bmp, drawX, drawY - tileHeight);
 				}
 
-				if(drawX - tileWidth > -bw && drawX - tileWidth < width && drawY - tileHeight > -bh && drawY - tileHeight < height)
+				if (drawX - tileWidth > -bw && drawX - tileWidth < width && drawY - tileHeight > -bh && drawY - tileHeight < height)
 				{
 					ctx.drawImage(bmp, drawX - tileWidth, drawY - tileHeight);
 				}
@@ -157,15 +158,15 @@ export class PlaneVisualizationAnimationLayer
 
 	dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		this._disposed = true;
 
 		this._bitmapData = null;
 
-		for(const item of this._items)
+		for (const item of this._items)
 		{
-			if(item !== null)
+			if (item !== null)
 			{
 				item.dispose();
 			}

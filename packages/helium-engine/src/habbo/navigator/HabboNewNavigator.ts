@@ -252,7 +252,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 				(toolbar: IHabboToolbar | null) =>
 				{
 					// Unsubscribe from previous toolbar
-					if(this._toolbar)
+					if (this._toolbar)
 					{
 						this._toolbar.toolbarEvents.off(
 							HabboToolbarEvent.TOOLBAR_CLICK,
@@ -262,7 +262,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 
 					this._toolbar = toolbar;
 
-					if(toolbar)
+					if (toolbar)
 					{
 						toolbar.toolbarEvents.on(
 							HabboToolbarEvent.TOOLBAR_CLICK,
@@ -339,7 +339,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		this._noPushToHistoryDueToNavigation = false;
 
 		// Update the view if visible (like AS3)
-		if(this._view && this._view.visible)
+		if (this._view && this._view.visible)
 		{
 			this._view.onSearchResults(results);
 		}
@@ -363,7 +363,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	{
 		this._contextContainer.savedSearches = searches;
 
-		if(this._view)
+		if (this._view)
 		{
 			this._view.onSavedSearches(searches);
 		}
@@ -389,9 +389,9 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	 */
 	open(): void
 	{
-		if(this._view === null) return;
+		if (this._view === null) return;
 
-		if(!this._view.visible)
+		if (!this._view.visible)
 		{
 			this._view.visible = true;
 		}
@@ -404,9 +404,9 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	 */
 	close(): void
 	{
-		if(this._view === null) return;
+		if (this._view === null) return;
 
-		if(this._view.visible)
+		if (this._view.visible)
 		{
 			this._view.visible = false;
 		}
@@ -419,11 +419,11 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	 */
 	toggle(): void
 	{
-		if(this._view === null) return;
+		if (this._view === null) return;
 
 		this._view.visible = !this._view.visible;
 
-		if(this._view.visible)
+		if (this._view.visible)
 		{
 			this.performLastSearch();
 		}
@@ -436,7 +436,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	 */
 	performSearch(searchCode: string, filtering: string = '', source: string = ''): void
 	{
-		if(this._view)
+		if (this._view)
 		{
 			this._view.isBusy = true;
 		}
@@ -448,7 +448,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		// Check cache first
 		const cached = this._cache.getEntry(`${searchCode}/${filtering}`);
 
-		if(cached)
+		if (cached)
 		{
 			this.onSearchResult(cached);
 
@@ -517,7 +517,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	{
 		this.send(new GetGuestRoomMessageComposer(roomId, false, true));
 
-		if(this._view)
+		if (this._view)
 		{
 			this._view.visible = false;
 		}
@@ -591,7 +591,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	 */
 	getLocalization(key: string, fallback: string = ''): string
 	{
-		if(!this._localization) return fallback || key;
+		if (!this._localization) return fallback || key;
 
 		return this._localization.getLocalization(key, fallback || key);
 	}
@@ -608,7 +608,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	 */
 	onPreferences(windowX: number, windowY: number, windowHeight: number, leftPaneHidden: boolean, resultsMode: number): void
 	{
-		if(this._view)
+		if (this._view)
 		{
 			this._view.setInitialWindowDimensions(windowX, windowY, windowHeight, leftPaneHidden, resultsMode);
 		}
@@ -627,7 +627,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	{
 		this._groupDetails.set(groupId, details);
 
-		if(this._view)
+		if (this._view)
 		{
 			this._view.onGroupDetailsArrived(groupId);
 		}
@@ -703,7 +703,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	 */
 	refresh(): void
 	{
-		if(this._currentResults && this._view)
+		if (this._currentResults && this._view)
 		{
 			this._view.onSearchResults(this._currentResults);
 		}
@@ -721,14 +721,14 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	{
 		const parts = link.split('/');
 
-		if(parts.length < 2) return;
+		if (parts.length < 2) return;
 
-		switch(parts[1])
+		switch (parts[1])
 		{
 			case 'goto':
-				if(parts.length > 2)
+				if (parts.length > 2)
 				{
-					if(parts[2] === 'home')
+					if (parts[2] === 'home')
 					{
 						this._legacyNavigatorWrapper?.goToHomeRoom();
 					}
@@ -736,7 +736,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 					{
 						const roomId = parseInt(parts[2], 10);
 
-						if(roomId > 0)
+						if (roomId > 0)
 						{
 							this._legacyNavigatorWrapper?.goToPrivateRoom(roomId);
 						}
@@ -748,19 +748,19 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 				}
 				break;
 			case 'search':
-				if(parts.length > 2)
+				if (parts.length > 2)
 				{
 					this.performSearch(ViewModeCode.HOTEL_VIEW, parts[2]);
 				}
 				break;
 			case 'tag':
-				if(parts.length > 2)
+				if (parts.length > 2)
 				{
 					this.performSearch(ViewModeCode.HOTEL_VIEW, parts[2]);
 				}
 				break;
 			case 'tab':
-				if(parts.length > 2)
+				if (parts.length > 2)
 				{
 					this.performSearch(parts[2]);
 				}
@@ -803,7 +803,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	 */
 	trackEventLog(action: string, category: string, label: string = '', value: number = 0): void
 	{
-		if(this._tracking)
+		if (this._tracking)
 		{
 			this._tracking.trackEventLog('Navigation', action, category, label, value);
 		}
@@ -814,7 +814,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		if (this.disposed) return;
 
 		// Unsubscribe from toolbar events
-		if(this._toolbar)
+		if (this._toolbar)
 		{
 			this._toolbar.toolbarEvents.off(
 				HabboToolbarEvent.TOOLBAR_CLICK,
@@ -852,7 +852,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		this._view = new NavigatorView(this);
 
 		// Create the LegacyNavigator wrapper bridging new and old navigators
-		if(this._legacyNavigator)
+		if (this._legacyNavigator)
 		{
 			this._legacyNavigatorWrapper = new LegacyNavigator(this, this._legacyNavigator as HabboNavigator);
 		}
@@ -873,9 +873,9 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	 */
 	private onHabboToolbarEvent = (event: HabboToolbarEvent): void =>
 	{
-		if(event.type === HabboToolbarEvent.TOOLBAR_CLICK)
+		if (event.type === HabboToolbarEvent.TOOLBAR_CLICK)
 		{
-			if(event.iconId === HabboToolbarIconEnum.NAVIGATOR)
+			if (event.iconId === HabboToolbarIconEnum.NAVIGATOR)
 			{
 				this.toggle();
 			}
@@ -891,11 +891,11 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	{
 		this._roomNames.clear();
 
-		for(const block of results.blocks)
+		for (const block of results.blocks)
 		{
-			if(block.guestRooms)
+			if (block.guestRooms)
 			{
-				for(const room of block.guestRooms)
+				for (const room of block.guestRooms)
 				{
 					this._roomNames.set(room.flatId, room.roomName);
 				}

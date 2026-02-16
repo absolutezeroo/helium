@@ -62,13 +62,13 @@ export class AvatarImageWidget implements IAvatarImageWidget, IAvatarImageListen
 
 		const root = this._windowManager.buildWidgetLayout('avatar_image') as IWindowContainer;
 
-		if(root)
+		if (root)
 		{
 			this._root = root;
 			this._bitmap = root.findChildByName('bitmap') as IBitmapWrapperWindow | null;
 			this._region = root.findChildByName('region');
 
-			if(this._region)
+			if (this._region)
 			{
 				this._region.addEventListener(WindowMouseEvent.CLICK, this._onClickBound);
 			}
@@ -97,7 +97,7 @@ export class AvatarImageWidget implements IAvatarImageWidget, IAvatarImageListen
 
 	public set figure(value: string)
 	{
-		if(value !== this._figure)
+		if (value !== this._figure)
 		{
 			this._figureEmpty = !value || value.length === 0;
 			this._figure = AvatarImageWidget.cleanupAvatarString(value);
@@ -114,7 +114,7 @@ export class AvatarImageWidget implements IAvatarImageWidget, IAvatarImageListen
 
 	public set scale(value: string)
 	{
-		if(value !== this._scale)
+		if (value !== this._scale)
 		{
 			this._scale = value;
 			this.refresh();
@@ -130,7 +130,7 @@ export class AvatarImageWidget implements IAvatarImageWidget, IAvatarImageListen
 
 	public set onlyHead(value: boolean)
 	{
-		if(value !== this._onlyHead)
+		if (value !== this._onlyHead)
 		{
 			this._onlyHead = value;
 			this.refresh();
@@ -146,7 +146,7 @@ export class AvatarImageWidget implements IAvatarImageWidget, IAvatarImageListen
 
 	public set cropped(value: boolean)
 	{
-		if(value !== this._cropped)
+		if (value !== this._cropped)
 		{
 			this._cropped = value;
 			this.refresh();
@@ -162,7 +162,7 @@ export class AvatarImageWidget implements IAvatarImageWidget, IAvatarImageListen
 
 	public set direction(value: number)
 	{
-		if(value !== this._direction)
+		if (value !== this._direction)
 		{
 			this._direction = value;
 			this.refresh();
@@ -178,11 +178,11 @@ export class AvatarImageWidget implements IAvatarImageWidget, IAvatarImageListen
 
 	public set userId(value: number)
 	{
-		if(this._userId !== value)
+		if (this._userId !== value)
 		{
 			this._userId = value;
 
-			if(this._region)
+			if (this._region)
 			{
 				this._region.visible = (this._userId > 0);
 			}
@@ -201,7 +201,7 @@ export class AvatarImageWidget implements IAvatarImageWidget, IAvatarImageListen
 
 	public get properties(): PropertyStruct[]
 	{
-		if(this._disposed) return [];
+		if (this._disposed) return [];
 
 		return [
 			new PropertyStruct(AvatarImageWidget.FIGURE_KEY, this._figure),
@@ -214,9 +214,9 @@ export class AvatarImageWidget implements IAvatarImageWidget, IAvatarImageListen
 
 	public set properties(values: PropertyStruct[])
 	{
-		for(const prop of values)
+		for (const prop of values)
 		{
-			switch(prop.key)
+			switch (prop.key)
 			{
 				case AvatarImageWidget.FIGURE_KEY:
 					this.figure = String(prop.value);
@@ -242,7 +242,7 @@ export class AvatarImageWidget implements IAvatarImageWidget, IAvatarImageListen
 	 */
 	private static cleanupAvatarString(figure: string): string
 	{
-		if(!figure || figure.length === 0)
+		if (!figure || figure.length === 0)
 		{
 			return AvatarImageWidget.FIGURE_DEFAULT;
 		}
@@ -260,7 +260,7 @@ export class AvatarImageWidget implements IAvatarImageWidget, IAvatarImageListen
 	 */
 	public avatarImageReady(figureString: string): void
 	{
-		if(AvatarImageWidget.cleanupAvatarString(figureString) === this._figure)
+		if (AvatarImageWidget.cleanupAvatarString(figureString) === this._figure)
 		{
 			this.refresh();
 		}
@@ -268,9 +268,9 @@ export class AvatarImageWidget implements IAvatarImageWidget, IAvatarImageListen
 
 	public dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
-		if(this._region)
+		if (this._region)
 		{
 			this._region.removeEventListener(WindowMouseEvent.CLICK, this._onClickBound);
 			this._region.dispose();
@@ -279,13 +279,13 @@ export class AvatarImageWidget implements IAvatarImageWidget, IAvatarImageListen
 
 		this._bitmap = null;
 
-		if(this._root)
+		if (this._root)
 		{
 			this._root.dispose();
 			this._root = null;
 		}
 
-		if(this._widgetWindow)
+		if (this._widgetWindow)
 		{
 			this._widgetWindow.rootWindow = null;
 			this._widgetWindow = null;
@@ -306,13 +306,13 @@ export class AvatarImageWidget implements IAvatarImageWidget, IAvatarImageListen
 	 */
 	private refresh(): void
 	{
-		if(!this._bitmap || !this._windowManager) return;
+		if (!this._bitmap || !this._windowManager) return;
 
 		this._bitmap.bitmap = null;
 
 		const avatarRenderer = this._windowManager.avatarRenderer;
 
-		if(avatarRenderer)
+		if (avatarRenderer)
 		{
 			const scaleFactor = this._scale === 'h' ? 1 : 0.5;
 			const setType = this._onlyHead ? 'head' : 'full';
@@ -325,11 +325,11 @@ export class AvatarImageWidget implements IAvatarImageWidget, IAvatarImageListen
 				null
 			);
 
-			if(avatarImage)
+			if (avatarImage)
 			{
 				avatarImage.setDirection(setType, this._direction);
 
-				if(this._cropped)
+				if (this._cropped)
 				{
 					this._bitmap.bitmap = avatarImage.getCroppedImage(setType, scaleFactor);
 				}
@@ -345,7 +345,7 @@ export class AvatarImageWidget implements IAvatarImageWidget, IAvatarImageListen
 
 		this._bitmap.invalidate();
 
-		if(this._bitmap.bitmap && this._widgetWindow)
+		if (this._bitmap.bitmap && this._widgetWindow)
 		{
 			this._widgetWindow.width = this._bitmap.bitmap.width;
 			this._widgetWindow.height = this._bitmap.bitmap.height;
@@ -359,11 +359,11 @@ export class AvatarImageWidget implements IAvatarImageWidget, IAvatarImageListen
 	 */
 	private onClick(_event: WindowMouseEvent): void
 	{
-		if(this._userId > 0 && this._windowManager)
+		if (this._userId > 0 && this._windowManager)
 		{
 			const communication = this._windowManager.communication;
 
-			if(communication?.connection)
+			if (communication?.connection)
 			{
 				communication.connection.send(new GetExtendedProfileMessageComposer(this._userId));
 			}

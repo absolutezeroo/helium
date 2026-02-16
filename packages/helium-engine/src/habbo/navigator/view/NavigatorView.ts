@@ -1,23 +1,23 @@
-import { Logger } from '@core/utils/Logger';
-import type { IWindow } from '@core/window/IWindow';
-import type { IWindowContainer } from '@core/window/IWindowContainer';
-import type { IItemListWindow } from '@core/window/components/IItemListWindow';
-import type { ITabContextWindow } from '@core/window/components/ITabContextWindow';
-import type { ITabButtonWindow } from '@core/window/components/ITabButtonWindow';
-import type { WindowEvent } from '@core/window/events/WindowEvent';
-import type { HabboNewNavigator } from '../HabboNewNavigator';
-import type { NavigatorSearchResultSet } from '../../communication/messages/incoming/newnavigator';
-import type { NavigatorSavedSearch } from '../../communication/messages/incoming/newnavigator/NavigatorSavedSearch';
-import type { GuestRoomData } from '../../communication/messages/incoming/navigator/GuestRoomData';
-import { getViewMode } from './ViewMode';
-import { SearchView } from './search/SearchView';
-import { BlockResultsView } from './search/results/BlockResultsView';
-import { CategoryElementFactory } from './search/results/CategoryElementFactory';
-import { RoomEntryElementFactory } from './search/results/RoomEntryElementFactory';
-import { TopViewSelector } from './TopViewSelector';
-import { QuickLinksView } from './QuickLinksView';
-import { LiftView } from './LiftView';
-import { RoomInfoPopup } from './RoomInfoPopup';
+import {Logger} from '@core/utils/Logger';
+import type {IWindow} from '@core/window/IWindow';
+import type {IWindowContainer} from '@core/window/IWindowContainer';
+import type {IItemListWindow} from '@core/window/components/IItemListWindow';
+import type {ITabContextWindow} from '@core/window/components/ITabContextWindow';
+import type {ITabButtonWindow} from '@core/window/components/ITabButtonWindow';
+import type {WindowEvent} from '@core/window/events/WindowEvent';
+import type {HabboNewNavigator} from '../HabboNewNavigator';
+import type {NavigatorSearchResultSet} from '../../communication/messages/incoming/newnavigator';
+import type {NavigatorSavedSearch} from '../../communication/messages/incoming/newnavigator/NavigatorSavedSearch';
+import type {GuestRoomData} from '../../communication/messages/incoming/navigator/GuestRoomData';
+import {getViewMode} from './ViewMode';
+import {SearchView} from './search/SearchView';
+import {BlockResultsView} from './search/results/BlockResultsView';
+import {CategoryElementFactory} from './search/results/CategoryElementFactory';
+import {RoomEntryElementFactory} from './search/results/RoomEntryElementFactory';
+import {TopViewSelector} from './TopViewSelector';
+import {QuickLinksView} from './QuickLinksView';
+import {LiftView} from './LiftView';
+import {RoomInfoPopup} from './RoomInfoPopup';
 
 const log = Logger.getLogger('NavigatorView');
 
@@ -50,16 +50,12 @@ export class NavigatorView
 	private _quickLinksView: QuickLinksView | null = null;
 	private _liftView: LiftView | null = null;
 	private _roomInfoPopup: RoomInfoPopup | null = null;
-
-	// State
-	private _isBusy: boolean = false;
 	private _lastWindowX: number = -1;
 	private _lastWindowY: number = -1;
 	private _lastWindowWidth: number = -1;
 	private _lastWindowHeight: number = -1;
 	private _lastLeftPaneHidden: boolean = false;
 	private _waitingForGroupDetails: number = -1;
-
 	// Left pane
 	private _rightPane: IWindow | null = null;
 	private _rightPaneOriginalX: number = 0;
@@ -71,6 +67,36 @@ export class NavigatorView
 		this._navigator = navigator;
 	}
 
+	// State
+	private _isBusy: boolean = false;
+
+	get isBusy(): boolean
+	{
+		return this._isBusy;
+	}
+
+	/**
+	 * Set busy state (show loading indicator).
+	 *
+	 * @see sources/win63_version/habbo/navigator/view/NavigatorView.as set isBusy()
+	 */
+	set isBusy(value: boolean)
+	{
+		if (this._window)
+		{
+			this._window.caption = value ? '${navigator.title.is.busy}' : '${navigator.title}';
+
+			const mask = this._window.findChildByName('search_waiting_for_results_mask');
+
+			if (mask)
+			{
+				mask.visible = value;
+			}
+		}
+
+		this._isBusy = value;
+	}
+
 	/**
 	 * Whether the navigator window is visible.
 	 *
@@ -78,7 +104,7 @@ export class NavigatorView
 	 */
 	get visible(): boolean
 	{
-		if(this._window)
+		if (this._window)
 		{
 			return this._window.visible;
 		}
@@ -96,95 +122,53 @@ export class NavigatorView
 	 */
 	set visible(value: boolean)
 	{
-		if(value && this._navigator.isReady)
+		if (value && this._navigator.isReady)
 		{
-			if(this._roomEntryElementFactory === null)
+			if (this._roomEntryElementFactory === null)
 			{
 				this._roomEntryElementFactory = new RoomEntryElementFactory(this._navigator);
 			}
 
-			if(this._categoryElementFactory === null)
+			if (this._categoryElementFactory === null)
 			{
 				this._categoryElementFactory = new CategoryElementFactory(this._navigator, this._roomEntryElementFactory);
 			}
 
 			this.createSubViews();
 
-			if(this._window === null)
+			if (this._window === null)
 			{
 				this.createMainWindow();
 
-				if(this._quickLinksView)
+				if (this._quickLinksView)
 				{
 					this._quickLinksView.setQuickLinks(this._navigator.contextContainer.savedSearches);
 				}
 			}
 
-			if(this._navigator.currentResults !== null)
+			if (this._navigator.currentResults !== null)
 			{
 				this.onSearchResults(this._navigator.currentResults);
 			}
-			else if(!this._isBusy)
+			else if (!this._isBusy)
 			{
 				this._navigator.performSearch('official_view');
 			}
 
-			if(this._window)
+			if (this._window)
 			{
 				this._window.activate();
 			}
 		}
-		else if(this._roomInfoPopup)
+		else if (this._roomInfoPopup)
 		{
 			this._roomInfoPopup.show(false);
 		}
 
-		if(this._window)
+		if (this._window)
 		{
 			this._window.visible = value;
 		}
-	}
-
-	get isBusy(): boolean
-	{
-		return this._isBusy;
-	}
-
-	/**
-	 * Set busy state (show loading indicator).
-	 *
-	 * @see sources/win63_version/habbo/navigator/view/NavigatorView.as set isBusy()
-	 */
-	set isBusy(value: boolean)
-	{
-		if(this._window)
-		{
-			this._window.caption = value ? '${navigator.title.is.busy}' : '${navigator.title}';
-
-			const mask = this._window.findChildByName('search_waiting_for_results_mask');
-
-			if(mask)
-			{
-				mask.visible = value;
-			}
-		}
-
-		this._isBusy = value;
-	}
-
-	/**
-	 * Get the current text in the search input.
-	 *
-	 * @see sources/win63_version/habbo/navigator/view/NavigatorView.as currentFilterText()
-	 */
-	currentFilterText(): string
-	{
-		if(this._searchView)
-		{
-			return this._searchView.currentInput;
-		}
-
-		return '';
 	}
 
 	/**
@@ -194,12 +178,27 @@ export class NavigatorView
 	 */
 	get isRoomInfoBubbleVisible(): boolean
 	{
-		if(this._roomInfoPopup)
+		if (this._roomInfoPopup)
 		{
 			return this._roomInfoPopup.visible;
 		}
 
 		return false;
+	}
+
+	/**
+	 * Get the current text in the search input.
+	 *
+	 * @see sources/win63_version/habbo/navigator/view/NavigatorView.as currentFilterText()
+	 */
+	currentFilterText(): string
+	{
+		if (this._searchView)
+		{
+			return this._searchView.currentInput;
+		}
+
+		return '';
 	}
 
 	/**
@@ -214,14 +213,14 @@ export class NavigatorView
 	 */
 	showRoomInfoBubbleAt(roomData: GuestRoomData, x: number, y: number, isUpdate: boolean = false): void
 	{
-		if(!this._window) return;
+		if (!this._window) return;
 
-		if(!this._roomInfoPopup)
+		if (!this._roomInfoPopup)
 		{
 			this._roomInfoPopup = new RoomInfoPopup(this._navigator);
 		}
 
-		if(this._roomInfoPopup.visible && !isUpdate)
+		if (this._roomInfoPopup.visible && !isUpdate)
 		{
 			this._roomInfoPopup.show(false);
 		}
@@ -229,7 +228,7 @@ export class NavigatorView
 		{
 			this._roomInfoPopup.setData(roomData);
 
-			if(roomData.habboGroupId !== 0)
+			if (roomData.habboGroupId !== 0)
 			{
 				this._waitingForGroupDetails = roomData.habboGroupId;
 			}
@@ -248,7 +247,7 @@ export class NavigatorView
 	 */
 	onSearchResults(results: NavigatorSearchResultSet, source: string = ''): void
 	{
-		if(!this._roomEntryElementFactory || !this._blockResultsView)
+		if (!this._roomEntryElementFactory || !this._blockResultsView)
 		{
 			return;
 		}
@@ -257,23 +256,23 @@ export class NavigatorView
 		this._blockResultsView.displayCurrentResults();
 
 		// Select the matching tab if this is a top-level search
-		if(this._navigator.contextContainer.hasContextFor(results.searchCode))
+		if (this._navigator.contextContainer.hasContextFor(results.searchCode))
 		{
 			const topLevelSearches = this._navigator.contextContainer.getTopLevelSearches();
 			const index = topLevelSearches.indexOf(results.searchCode);
 
-			if(index !== -1 && this._topViewSelector)
+			if (index !== -1 && this._topViewSelector)
 			{
 				this._topViewSelector.selectTabByIndex(index);
 			}
 		}
 
 		// Update create/promote/random buttons
-		if(this._window)
+		if (this._window)
 		{
 			const createRoom = this._window.findChildByName('create_room');
 
-			if(createRoom)
+			if (createRoom)
 			{
 				createRoom.procedure = this.createRoomProcedure;
 			}
@@ -281,26 +280,26 @@ export class NavigatorView
 			const randomBorder = this._window.findChildByName('random_room_border');
 			const promoteBorder = this._window.findChildByName('promote_room_border');
 
-			if(results.searchCode === 'roomads_view' || results.searchCode === 'myworld_view')
+			if (results.searchCode === 'roomads_view' || results.searchCode === 'myworld_view')
 			{
-				if(promoteBorder) promoteBorder.visible = true;
-				if(randomBorder) randomBorder.visible = false;
+				if (promoteBorder) promoteBorder.visible = true;
+				if (randomBorder) randomBorder.visible = false;
 
 				const promoteRoom = this._window.findChildByName('promote_room');
 
-				if(promoteRoom)
+				if (promoteRoom)
 				{
 					promoteRoom.procedure = this.promoteRoomProcedure;
 				}
 			}
 			else
 			{
-				if(promoteBorder) promoteBorder.visible = false;
-				if(randomBorder) randomBorder.visible = true;
+				if (promoteBorder) promoteBorder.visible = false;
+				if (randomBorder) randomBorder.visible = true;
 
 				const randomRoom = this._window.findChildByName('random_room');
 
-				if(randomRoom)
+				if (randomRoom)
 				{
 					randomRoom.procedure = this.randomRoomProcedure;
 				}
@@ -308,14 +307,14 @@ export class NavigatorView
 		}
 
 		// Update search text
-		if(this._searchView)
+		if (this._searchView)
 		{
 			this._searchView.setTextAndSearchModeFromFilter(results.filteringData, source);
 		}
 
 		this._isBusy = false;
 
-		if(this._roomInfoPopup)
+		if (this._roomInfoPopup)
 		{
 			this._roomInfoPopup.show(false);
 		}
@@ -328,7 +327,7 @@ export class NavigatorView
 	 */
 	onSavedSearches(searches: NavigatorSavedSearch[]): void
 	{
-		if(this._quickLinksView)
+		if (this._quickLinksView)
 		{
 			this._quickLinksView.setQuickLinks(searches);
 		}
@@ -341,7 +340,7 @@ export class NavigatorView
 	 */
 	setInitialWindowDimensions(x: number, y: number, height: number, leftPaneHidden: boolean, _resultsMode: number): void
 	{
-		if(this._window)
+		if (this._window)
 		{
 			this.setLeftPaneVisibility(!leftPaneHidden);
 			this._window.x = x;
@@ -364,7 +363,7 @@ export class NavigatorView
 	 */
 	refreshLiftedRooms(): void
 	{
-		if(this._liftView)
+		if (this._liftView)
 		{
 			this._liftView.refresh();
 		}
@@ -377,7 +376,7 @@ export class NavigatorView
 	 */
 	onGroupDetailsArrived(groupId: number): void
 	{
-		if(this._waitingForGroupDetails === groupId)
+		if (this._waitingForGroupDetails === groupId)
 		{
 			this._waitingForGroupDetails = -1;
 		}
@@ -392,11 +391,11 @@ export class NavigatorView
 	 */
 	setLeftPaneVisibility(visible: boolean): void
 	{
-		if(!this._window || !this._rightPane) return;
+		if (!this._window || !this._rightPane) return;
 
 		const leftPane = this._window.findChildByName('left_pane');
 
-		if(!leftPane) return;
+		if (!leftPane) return;
 
 		const offset = this._rightPaneOriginalX - this._leftPaneMargin + LEFT_PANE_MARGIN_CONST;
 
@@ -404,7 +403,7 @@ export class NavigatorView
 		this._rightPane.setParamFlag(0, true);
 		this._rightPane.setParamFlag(128, false);
 
-		if(!visible)
+		if (!visible)
 		{
 			leftPane.visible = false;
 			this._rightPane.x = this._leftPaneMarginConst;
@@ -428,13 +427,13 @@ export class NavigatorView
 		const hideContainer = this._window.findChildByName('left_hide_container');
 		const showContainer = this._window.findChildByName('left_show_container');
 
-		if(hideContainer) hideContainer.visible = visible;
-		if(showContainer) showContainer.visible = !visible;
+		if (hideContainer) hideContainer.visible = visible;
+		if (showContainer) showContainer.visible = !visible;
 
 		const tabPosition = visible ? STARTING_TAB_POSITION : STARTING_TAB_POSITION - offset / 2;
 		const tabContext = this._window.findChildByName('top_view_select_tab_context');
 
-		if(tabContext)
+		if (tabContext)
 		{
 			tabContext.x = tabPosition;
 		}
@@ -447,19 +446,19 @@ export class NavigatorView
 	 */
 	dispose(): void
 	{
-		if(this._roomInfoPopup)
+		if (this._roomInfoPopup)
 		{
 			this._roomInfoPopup.dispose();
 			this._roomInfoPopup = null;
 		}
 
-		if(this._liftView)
+		if (this._liftView)
 		{
 			this._liftView.dispose();
 			this._liftView = null;
 		}
 
-		if(this._window)
+		if (this._window)
 		{
 			this._window.dispose();
 			this._window = null;
@@ -473,29 +472,29 @@ export class NavigatorView
 	 */
 	private createSubViews(): void
 	{
-		if(this._blockResultsView === null)
+		if (this._blockResultsView === null)
 		{
 			this._blockResultsView = new BlockResultsView(this._navigator);
 			this._blockResultsView.categoryElementFactory = this._categoryElementFactory!;
 			this._categoryElementFactory!.blockResultsView = this._blockResultsView;
 		}
 
-		if(this._searchView === null)
+		if (this._searchView === null)
 		{
 			this._searchView = new SearchView(this._navigator);
 		}
 
-		if(this._quickLinksView === null)
+		if (this._quickLinksView === null)
 		{
 			this._quickLinksView = new QuickLinksView(this._navigator);
 		}
 
-		if(this._liftView === null)
+		if (this._liftView === null)
 		{
 			// LiftView creation is skipped in AS3 (empty block), but we keep the stub
 		}
 
-		if(this._topViewSelector === null)
+		if (this._topViewSelector === null)
 		{
 			this._topViewSelector = new TopViewSelector(this._navigator);
 		}
@@ -513,13 +512,13 @@ export class NavigatorView
 	{
 		const windowManager = this._navigator.windowManager;
 
-		if(!windowManager) return;
+		if (!windowManager) return;
 
 		log.debug(`Building layout: ${LAYOUT_NAME}`);
 
 		const built = windowManager.buildWidgetLayout(LAYOUT_NAME);
 
-		if(!built)
+		if (!built)
 		{
 			log.warn(`Layout not found: ${LAYOUT_NAME}`);
 
@@ -533,7 +532,7 @@ export class NavigatorView
 		// Row entry template
 		const rowEntryContainer = windowContainer.findChildByName('navigator_entry_row_container') as IWindowContainer | null;
 
-		if(rowEntryContainer && this._roomEntryElementFactory)
+		if (rowEntryContainer && this._roomEntryElementFactory)
 		{
 			this._roomEntryElementFactory.rowEntryTemplate = rowEntryContainer.clone() as IWindowContainer;
 			rowEntryContainer.destroy();
@@ -542,12 +541,12 @@ export class NavigatorView
 		// Tile entry template and tile container template
 		const tileContainerEl = windowContainer.findChildByName('navigator_entry_tile_container');
 
-		if(tileContainerEl && this._roomEntryElementFactory)
+		if (tileContainerEl && this._roomEntryElementFactory)
 		{
 			const tileContainerClone = tileContainerEl.clone() as IItemListWindow;
 			const tileEntry = tileContainerClone.getListItemByName?.('navigator_entry_tile');
 
-			if(tileEntry)
+			if (tileEntry)
 			{
 				this._roomEntryElementFactory.tileEntryTemplate = tileEntry.clone() as IWindowContainer;
 			}
@@ -559,7 +558,7 @@ export class NavigatorView
 		// Clear category_content template items
 		const categoryContent = windowContainer.findChildByName('category_content') as IItemListWindow | null;
 
-		if(categoryContent)
+		if (categoryContent)
 		{
 			categoryContent.destroyListItems();
 		}
@@ -567,13 +566,13 @@ export class NavigatorView
 		// Category template (open)
 		const categoryContainer = windowContainer.findChildByName('category_container') as IWindowContainer | null;
 
-		if(categoryContainer && this._categoryElementFactory)
+		if (categoryContainer && this._categoryElementFactory)
 		{
 			this._categoryElementFactory.categoryTemplate = categoryContainer.clone() as IWindowContainer;
 
 			const blockResults = windowContainer.findChildByName('block_results') as IItemListWindow | null;
 
-			if(blockResults)
+			if (blockResults)
 			{
 				blockResults.removeListItemAt(0);
 			}
@@ -584,13 +583,13 @@ export class NavigatorView
 		// Collapsed category template
 		const collapsedCategory = windowContainer.findChildByName('category_container_collapsed') as IWindowContainer | null;
 
-		if(collapsedCategory && this._categoryElementFactory)
+		if (collapsedCategory && this._categoryElementFactory)
 		{
 			this._categoryElementFactory.collapsedCategoryTemplate = collapsedCategory.clone() as IWindowContainer;
 
 			const blockResults = windowContainer.findChildByName('block_results') as IItemListWindow | null;
 
-			if(blockResults)
+			if (blockResults)
 			{
 				blockResults.removeListItemAt(0);
 			}
@@ -601,13 +600,13 @@ export class NavigatorView
 		// No results template
 		const noResultsContainer = windowContainer.findChildByName('no_results_container') as IWindowContainer | null;
 
-		if(noResultsContainer && this._categoryElementFactory)
+		if (noResultsContainer && this._categoryElementFactory)
 		{
 			this._categoryElementFactory.noResultsTemplate = noResultsContainer.clone() as IWindowContainer;
 
 			const blockResults = windowContainer.findChildByName('block_results') as IItemListWindow | null;
 
-			if(blockResults)
+			if (blockResults)
 			{
 				blockResults.removeListItemAt(0);
 			}
@@ -618,37 +617,37 @@ export class NavigatorView
 		// --- Wire sub-views to their containers ---
 
 		// Block results list
-		if(this._blockResultsView)
+		if (this._blockResultsView)
 		{
 			const blockResultsList = windowContainer.findChildByName('block_results') as IItemListWindow | null;
 
-			if(blockResultsList)
+			if (blockResultsList)
 			{
 				this._blockResultsView.itemList = blockResultsList;
 			}
 		}
 
 		// Search tools container
-		if(this._searchView)
+		if (this._searchView)
 		{
 			const searchTools = windowContainer.findChildByName('search_tools') as IWindowContainer | null;
 
-			if(searchTools)
+			if (searchTools)
 			{
 				this._searchView.container = searchTools;
 			}
 		}
 
 		// Quick links
-		if(this._quickLinksView)
+		if (this._quickLinksView)
 		{
 			const quickLink = windowContainer.findChildByName('quick_link') as IWindowContainer | null;
 
-			if(quickLink)
+			if (quickLink)
 			{
 				const linkText = quickLink.findChildByName('quick_link_text');
 
-				if(linkText)
+				if (linkText)
 				{
 					linkText.caption = '';
 				}
@@ -658,28 +657,28 @@ export class NavigatorView
 
 			const quickLinksList = windowContainer.findChildByName('quicklinks_list') as IItemListWindow | null;
 
-			if(quickLinksList)
+			if (quickLinksList)
 			{
 				this._quickLinksView.itemList = quickLinksList;
 				quickLinksList.removeListItems();
 			}
 
-			if(quickLink)
+			if (quickLink)
 			{
 				quickLink.destroy();
 			}
 		}
 
 		// Top view selector tabs
-		if(this._topViewSelector)
+		if (this._topViewSelector)
 		{
 			const tabContext = windowContainer.findChildByName('top_view_select_tab_context') as ITabContextWindow | null;
 
-			if(tabContext)
+			if (tabContext)
 			{
 				const firstTab = tabContext.getTabItemAt(0);
 
-				if(firstTab)
+				if (firstTab)
 				{
 					this._topViewSelector.template = firstTab.clone() as ITabButtonWindow;
 					tabContext.removeTabItem(firstTab);
@@ -695,7 +694,7 @@ export class NavigatorView
 		// Store left pane margin
 		const leftPaneEl = windowContainer.findChildByName('left_pane');
 
-		if(leftPaneEl)
+		if (leftPaneEl)
 		{
 			this._leftPaneMargin = leftPaneEl.x;
 		}
@@ -703,7 +702,7 @@ export class NavigatorView
 		// Refresh button
 		const refreshButton = windowContainer.findChildByName('refreshButton');
 
-		if(refreshButton)
+		if (refreshButton)
 		{
 			refreshButton.procedure = this.refreshSearchResults;
 		}
@@ -711,7 +710,7 @@ export class NavigatorView
 		// Close button
 		const closeButton = windowContainer.findChildByName('header_button_close');
 
-		if(closeButton)
+		if (closeButton)
 		{
 			closeButton.procedure = this.headerProcedure;
 		}
@@ -721,7 +720,7 @@ export class NavigatorView
 
 		const tempBack = windowContainer.findChildByName('temp_back');
 
-		if(tempBack)
+		if (tempBack)
 		{
 			tempBack.procedure = this.leftPaneShowHideProcedure;
 		}
@@ -729,7 +728,7 @@ export class NavigatorView
 		// Store right pane reference for left pane toggling
 		this._rightPane = windowContainer.findChildByName('right_pane');
 
-		if(this._rightPane)
+		if (this._rightPane)
 		{
 			this._rightPaneOriginalX = this._rightPane.x;
 		}
@@ -741,7 +740,7 @@ export class NavigatorView
 		this.setLeftPaneVisibility(false);
 
 		// Apply initial dimensions from server or use defaults
-		if(this._lastWindowX === -1 && this._lastWindowY === -1)
+		if (this._lastWindowX === -1 && this._lastWindowY === -1)
 		{
 			this._lastWindowX = this._window.x;
 			this._lastWindowY = this._window.y;
@@ -750,7 +749,7 @@ export class NavigatorView
 		}
 		else
 		{
-			if(this._lastLeftPaneHidden)
+			if (this._lastLeftPaneHidden)
 			{
 				this.setLeftPaneVisibility(true);
 			}
@@ -765,7 +764,7 @@ export class NavigatorView
 
 	private refreshSearchResults = (event: WindowEvent, window: IWindow): void =>
 	{
-		if(event.type === 'WME_CLICK' && window.name === 'refreshButton')
+		if (event.type === 'WME_CLICK' && window.name === 'refreshButton')
 		{
 			this._navigator.performLastSearch();
 		}
@@ -773,9 +772,9 @@ export class NavigatorView
 
 	private headerProcedure = (event: WindowEvent, window: IWindow): void =>
 	{
-		if(event.type === 'WME_CLICK')
+		if (event.type === 'WME_CLICK')
 		{
-			if(window.name === 'header_button_close')
+			if (window.name === 'header_button_close')
 			{
 				this.visible = false;
 			}
@@ -784,10 +783,10 @@ export class NavigatorView
 
 	private createRoomProcedure = (event: WindowEvent, _window: IWindow): void =>
 	{
-		if(event.type === 'WME_CLICK')
+		if (event.type === 'WME_CLICK')
 		{
 			// Room creation would go here
-			if(this._roomInfoPopup)
+			if (this._roomInfoPopup)
 			{
 				this._roomInfoPopup.show(false);
 			}
@@ -796,10 +795,10 @@ export class NavigatorView
 
 	private promoteRoomProcedure = (event: WindowEvent, _window: IWindow): void =>
 	{
-		if(event.type === 'WME_CLICK')
+		if (event.type === 'WME_CLICK')
 		{
 			// Catalog link event for room_ad would go here
-			if(this._roomInfoPopup)
+			if (this._roomInfoPopup)
 			{
 				this._roomInfoPopup.show(false);
 			}
@@ -808,10 +807,10 @@ export class NavigatorView
 
 	private randomRoomProcedure = (event: WindowEvent, _window: IWindow): void =>
 	{
-		if(event.type === 'WME_CLICK')
+		if (event.type === 'WME_CLICK')
 		{
 			// Random room navigation would go here
-			if(this._roomInfoPopup)
+			if (this._roomInfoPopup)
 			{
 				this._roomInfoPopup.show(false);
 			}
@@ -822,19 +821,19 @@ export class NavigatorView
 
 	private leftPaneShowHideProcedure = (event: WindowEvent, _window: IWindow): void =>
 	{
-		if(event.type === 'WME_CLICK')
+		if (event.type === 'WME_CLICK')
 		{
-			if(this._window)
+			if (this._window)
 			{
 				const leftPane = this._window.findChildByName('left_pane');
 
-				if(leftPane)
+				if (leftPane)
 				{
 					this.setLeftPaneVisibility(!leftPane.visible);
 				}
 			}
 
-			if(this._roomInfoPopup)
+			if (this._roomInfoPopup)
 			{
 				this._roomInfoPopup.show(false);
 			}

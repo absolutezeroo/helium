@@ -15,14 +15,6 @@ const log = Logger.getLogger('SoundSettingsView');
  */
 export class SoundSettingsView
 {
-	private _toolbar: HabboToolbar | null;
-	private _uiVolumeItem: SoundSettingsItem | null = null;
-	private _furniVolumeItem: SoundSettingsItem | null = null;
-	private _traxVolumeItem: SoundSettingsItem | null = null;
-	private _genericVolume: number = 1;
-	private _furniVolume: number = 1;
-	private _traxVolume: number = 1;
-
 	constructor(toolbar: HabboToolbar)
 	{
 		this._toolbar = toolbar;
@@ -36,6 +28,8 @@ export class SoundSettingsView
 		log.debug('SoundSettingsView constructed');
 	}
 
+	private _toolbar: HabboToolbar | null;
+
 	/**
 	 * The toolbar reference
 	 */
@@ -43,6 +37,38 @@ export class SoundSettingsView
 	{
 		return this._toolbar;
 	}
+
+	private _uiVolumeItem: SoundSettingsItem | null = null;
+
+	/**
+	 * The UI volume item
+	 */
+	get uiVolumeItem(): SoundSettingsItem | null
+	{
+		return this._uiVolumeItem;
+	}
+
+	private _furniVolumeItem: SoundSettingsItem | null = null;
+
+	/**
+	 * The furni volume item
+	 */
+	get furniVolumeItem(): SoundSettingsItem | null
+	{
+		return this._furniVolumeItem;
+	}
+
+	private _traxVolumeItem: SoundSettingsItem | null = null;
+
+	/**
+	 * The trax volume item
+	 */
+	get traxVolumeItem(): SoundSettingsItem | null
+	{
+		return this._traxVolumeItem;
+	}
+
+	private _genericVolume: number = 1;
 
 	/**
 	 * The current generic (UI) volume
@@ -52,6 +78,8 @@ export class SoundSettingsView
 		return this._genericVolume;
 	}
 
+	private _furniVolume: number = 1;
+
 	/**
 	 * The current furni volume
 	 */
@@ -59,6 +87,8 @@ export class SoundSettingsView
 	{
 		return this._furniVolume;
 	}
+
+	private _traxVolume: number = 1;
 
 	/**
 	 * The current trax volume
@@ -69,47 +99,23 @@ export class SoundSettingsView
 	}
 
 	/**
-	 * The UI volume item
-	 */
-	get uiVolumeItem(): SoundSettingsItem | null
-	{
-		return this._uiVolumeItem;
-	}
-
-	/**
-	 * The furni volume item
-	 */
-	get furniVolumeItem(): SoundSettingsItem | null
-	{
-		return this._furniVolumeItem;
-	}
-
-	/**
-	 * The trax volume item
-	 */
-	get traxVolumeItem(): SoundSettingsItem | null
-	{
-		return this._traxVolumeItem;
-	}
-
-	/**
 	 * Update settings from the sound manager
 	 */
 	public updateSettings(): void
 	{
 		// In AS3: reads from toolbar.soundManager
 		// In Helium, these would be synced from the sound manager
-		if(this._uiVolumeItem)
+		if (this._uiVolumeItem)
 		{
 			this._uiVolumeItem.setValue(this._genericVolume);
 		}
 
-		if(this._furniVolumeItem)
+		if (this._furniVolumeItem)
 		{
 			this._furniVolumeItem.setValue(this._furniVolume);
 		}
 
-		if(this._traxVolumeItem)
+		if (this._traxVolumeItem)
 		{
 			this._traxVolumeItem.setValue(this._traxVolume);
 		}
@@ -129,9 +135,9 @@ export class SoundSettingsView
 		const effectiveGeneric = genericVolume !== -1 ? genericVolume : this._genericVolume;
 		const effectiveTrax = traxVolume !== -1 ? traxVolume : this._traxVolume;
 
-		if(persist)
+		if (persist)
 		{
-			if(!this._toolbar) return;
+			if (!this._toolbar) return;
 
 			this._genericVolume = effectiveGeneric;
 			this._furniVolume = effectiveFurni;
@@ -154,7 +160,7 @@ export class SoundSettingsView
 	 */
 	public onButtonClicked(buttonName: string): void
 	{
-		if(buttonName === 'back_btn')
+		if (buttonName === 'back_btn')
 		{
 			this.dispose();
 		}
@@ -171,19 +177,19 @@ export class SoundSettingsView
 	{
 		this.saveVolume(this._genericVolume, this._furniVolume, this._traxVolume);
 
-		if(this._uiVolumeItem)
+		if (this._uiVolumeItem)
 		{
 			this._uiVolumeItem.dispose();
 			this._uiVolumeItem = null;
 		}
 
-		if(this._furniVolumeItem)
+		if (this._furniVolumeItem)
 		{
 			this._furniVolumeItem.dispose();
 			this._furniVolumeItem = null;
 		}
 
-		if(this._traxVolumeItem)
+		if (this._traxVolumeItem)
 		{
 			this._traxVolumeItem.dispose();
 			this._traxVolumeItem = null;

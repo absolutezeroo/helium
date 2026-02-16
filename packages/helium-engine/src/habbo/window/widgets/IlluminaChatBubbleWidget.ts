@@ -59,7 +59,7 @@ export class IlluminaChatBubbleWidget implements IIlluminaChatBubbleWidget
 
 		const root = this._windowManager.buildWidgetLayout('illumina_chat_bubble') as IWindowContainer | null;
 
-		if(root)
+		if (root)
 		{
 			this._root = root;
 
@@ -74,15 +74,15 @@ export class IlluminaChatBubbleWidget implements IIlluminaChatBubbleWidget
 			this._messageRegion = root.findChildByName('message_region');
 
 			// Clone the first message item as template, then remove it
-			if(this._messageContainer)
+			if (this._messageContainer)
 			{
 				const messageContainerAsContainer = this._messageContainer as IWindowContainer;
 
-				if(messageContainerAsContainer.numChildren > 0)
+				if (messageContainerAsContainer.numChildren > 0)
 				{
 					const firstItem = messageContainerAsContainer.getChildAt(0);
 
-					if(firstItem)
+					if (firstItem)
 					{
 						this._messageTemplate = firstItem.clone();
 						messageContainerAsContainer.removeChildAt(0);
@@ -91,7 +91,7 @@ export class IlluminaChatBubbleWidget implements IIlluminaChatBubbleWidget
 			}
 
 			// Disable param flag 1 on message region
-			if(this._messageRegion)
+			if (this._messageRegion)
 			{
 				this._messageRegion.setParamFlag(IlluminaChatBubbleWidget.PARAM_FLAG_1, false);
 			}
@@ -190,7 +190,7 @@ export class IlluminaChatBubbleWidget implements IIlluminaChatBubbleWidget
 
 	public get properties(): PropertyStruct[]
 	{
-		if(this._disposed) return [];
+		if (this._disposed) return [];
 
 		return [
 			new PropertyStruct(IlluminaChatBubbleWidget.FLIPPED_KEY, this._flipped),
@@ -202,9 +202,9 @@ export class IlluminaChatBubbleWidget implements IIlluminaChatBubbleWidget
 
 	public set properties(values: PropertyStruct[])
 	{
-		for(const prop of values)
+		for (const prop of values)
 		{
-			switch(prop.key)
+			switch (prop.key)
 			{
 				case IlluminaChatBubbleWidget.FLIPPED_KEY:
 					this.flipped = Boolean(prop.value);
@@ -221,7 +221,7 @@ export class IlluminaChatBubbleWidget implements IIlluminaChatBubbleWidget
 					this._messages = [];
 					this._confirmationIds = [];
 
-					for(const msg of msgs)
+					for (const msg of msgs)
 					{
 						this.appendMessage(msg);
 					}
@@ -238,7 +238,7 @@ export class IlluminaChatBubbleWidget implements IIlluminaChatBubbleWidget
 	{
 		const parts = value.split('\t');
 
-		if(parts.length === 1 && parts[0] === '')
+		if (parts.length === 1 && parts[0] === '')
 		{
 			return [];
 		}
@@ -253,7 +253,7 @@ export class IlluminaChatBubbleWidget implements IIlluminaChatBubbleWidget
 
 	public setMessage(index: number, text: string): void
 	{
-		while(index >= this._messages.length)
+		while (index >= this._messages.length)
 		{
 			this._messages.push('');
 			this._confirmationIds.push(0);
@@ -266,7 +266,7 @@ export class IlluminaChatBubbleWidget implements IIlluminaChatBubbleWidget
 	{
 		let index: number;
 
-		if(prepend)
+		if (prepend)
 		{
 			index = 0;
 			this._messages.splice(0, 0, '');
@@ -283,7 +283,7 @@ export class IlluminaChatBubbleWidget implements IIlluminaChatBubbleWidget
 
 	public setAwaitingConfirmationId(messageIndex: number, confirmationId: number): void
 	{
-		if(messageIndex < this._confirmationIds.length)
+		if (messageIndex < this._confirmationIds.length)
 		{
 			this._confirmationIds[messageIndex] = confirmationId;
 		}
@@ -291,7 +291,7 @@ export class IlluminaChatBubbleWidget implements IIlluminaChatBubbleWidget
 
 	public clearAwaitingConfirmationId(messageIndex: number): void
 	{
-		if(messageIndex < this._confirmationIds.length)
+		if (messageIndex < this._confirmationIds.length)
 		{
 			this._confirmationIds[messageIndex] = 0;
 		}
@@ -304,18 +304,18 @@ export class IlluminaChatBubbleWidget implements IIlluminaChatBubbleWidget
 
 	public dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		this._disposed = true;
 
-		if(this._root)
+		if (this._root)
 		{
 			this._root.procedure = null;
 			this._root.dispose();
 			this._root = null;
 		}
 
-		if(this._messageTemplate)
+		if (this._messageTemplate)
 		{
 			this._messageTemplate.dispose();
 			this._messageTemplate = null;
@@ -331,7 +331,7 @@ export class IlluminaChatBubbleWidget implements IIlluminaChatBubbleWidget
 		this._arrowPoint = null;
 		this._messageRegion = null;
 
-		if(this._widgetWindow)
+		if (this._widgetWindow)
 		{
 			this._widgetWindow.rootWindow = null;
 		}
@@ -350,7 +350,7 @@ export class IlluminaChatBubbleWidget implements IIlluminaChatBubbleWidget
 	 */
 	private rootProcedure(event: WindowEvent, window: IWindow): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		// Event handling for chat bubble interactions
 		// Most visual logic is handled by the client UI layer

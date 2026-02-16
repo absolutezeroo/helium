@@ -12,6 +12,7 @@ const log = Logger.getLogger('CurrencyIndicatorBase');
 export interface ICurrencyIndicator
 {
 	dispose(): void;
+
 	registerUpdateEvents(dispatcher: unknown): void;
 }
 
@@ -33,14 +34,6 @@ export class CurrencyIndicatorBase implements ICurrencyIndicator
 	private static readonly OVERLAY_STEP: number = 0.025;
 
 	private _disposed: boolean = false;
-	private _bgColorLight: number = 0;
-	private _bgColorDark: number = 0;
-	private _textElementName: string = '';
-	private _iconAnimationDelay: number = 0;
-	private _amountZeroText: string | null = null;
-	private _iconAnimationSequence: string[] = [];
-	private _currentAmount: number = 0;
-	private _currentText: string = '';
 	private _animating: boolean = false;
 	private _overlayPhase: number = 0;
 	private _overlayStartValue: number = 0;
@@ -53,6 +46,28 @@ export class CurrencyIndicatorBase implements ICurrencyIndicator
 		log.debug('CurrencyIndicatorBase constructed');
 	}
 
+	private _currentAmount: number = 0;
+
+	/**
+	 * The current amount value
+	 */
+	get currentAmount(): number
+	{
+		return this._currentAmount;
+	}
+
+	private _currentText: string = '';
+
+	/**
+	 * The current displayed text
+	 */
+	get currentText(): string
+	{
+		return this._currentText;
+	}
+
+	private _bgColorLight: number = 0;
+
 	/**
 	 * Set the light background color for hover
 	 */
@@ -61,10 +76,7 @@ export class CurrencyIndicatorBase implements ICurrencyIndicator
 		this._bgColorLight = value;
 	}
 
-	protected get bgColorLightValue(): number
-	{
-		return this._bgColorLight;
-	}
+	private _bgColorDark: number = 0;
 
 	/**
 	 * Set the dark background color for normal state
@@ -74,10 +86,7 @@ export class CurrencyIndicatorBase implements ICurrencyIndicator
 		this._bgColorDark = value;
 	}
 
-	protected get bgColorDarkValue(): number
-	{
-		return this._bgColorDark;
-	}
+	private _textElementName: string = '';
 
 	/**
 	 * Set the text element name used for display
@@ -87,10 +96,7 @@ export class CurrencyIndicatorBase implements ICurrencyIndicator
 		this._textElementName = value;
 	}
 
-	protected get textElementNameValue(): string
-	{
-		return this._textElementName;
-	}
+	private _iconAnimationDelay: number = 0;
 
 	/**
 	 * Set the icon animation delay in ms
@@ -98,6 +104,13 @@ export class CurrencyIndicatorBase implements ICurrencyIndicator
 	protected set iconAnimationDelay(value: number)
 	{
 		this._iconAnimationDelay = value;
+	}
+
+	private _amountZeroText: string | null = null;
+
+	protected get amountZeroText(): string | null
+	{
+		return this._amountZeroText;
 	}
 
 	/**
@@ -108,36 +121,32 @@ export class CurrencyIndicatorBase implements ICurrencyIndicator
 		this._amountZeroText = value;
 	}
 
-	protected get amountZeroText(): string | null
-	{
-		return this._amountZeroText;
-	}
+	private _iconAnimationSequence: string[] = [];
 
 	/**
 	 * Set the icon animation sequence
 	 */
 	protected set iconAnimationSequence(value: string[])
 	{
-		for(const frame of value)
+		for (const frame of value)
 		{
 			this._iconAnimationSequence.push(frame);
 		}
 	}
 
-	/**
-	 * The current displayed text
-	 */
-	get currentText(): string
+	protected get bgColorLightValue(): number
 	{
-		return this._currentText;
+		return this._bgColorLight;
 	}
 
-	/**
-	 * The current amount value
-	 */
-	get currentAmount(): number
+	protected get bgColorDarkValue(): number
 	{
-		return this._currentAmount;
+		return this._bgColorDark;
+	}
+
+	protected get textElementNameValue(): string
+	{
+		return this._textElementName;
 	}
 
 	/**
@@ -158,6 +167,29 @@ export class CurrencyIndicatorBase implements ICurrencyIndicator
 	public unregisterUpdateEvents(_dispatcher: unknown): void
 	{
 		// Override in subclasses
+	}
+
+	/**
+	 * Dispose of this indicator and clean up resources
+	 */
+	public dispose(): void
+	{
+		if (this._disposed) return;
+
+		if (this._overlayTimer !== null)
+		{
+			clearInterval(this._overlayTimer);
+			this._overlayTimer = null;
+		}
+
+		if (this._animTimer !== null)
+		{
+			clearInterval(this._animTimer);
+			this._animTimer = null;
+		}
+
+		this._iconAnimationSequence = [];
+		this._disposed = true;
 	}
 
 	/**
@@ -207,13 +239,13 @@ export class CurrencyIndicatorBase implements ICurrencyIndicator
 	 */
 	protected animateIcon(direction: number): void
 	{
-		if(this._iconAnimationSequence.length === 0) return;
+		if (this._iconAnimationSequence.length === 0) return;
 
 		// In AS3, this cycles through icon animation frames
 		// In Helium, we just track that an animation is occurring
 		this._animating = true;
 
-		if(this._animTimer !== null)
+		if (this._animTimer !== null)
 		{
 			clearInterval(this._animTimer);
 		}
@@ -224,7 +256,7 @@ export class CurrencyIndicatorBase implements ICurrencyIndicator
 		{
 			this._animating = false;
 
-			if(this._animTimer !== null)
+			if (this._animTimer !== null)
 			{
 				clearInterval(this._animTimer);
 				this._animTimer = null;
@@ -244,7 +276,7 @@ export class CurrencyIndicatorBase implements ICurrencyIndicator
 		this._overlayStartValue = startValue;
 		this._overlayEndValue = endValue;
 
-		if(this._overlayTimer !== null)
+		if (this._overlayTimer !== null)
 		{
 			clearInterval(this._overlayTimer);
 		}
@@ -264,9 +296,9 @@ export class CurrencyIndicatorBase implements ICurrencyIndicator
 
 		this._overlayPhase += CurrencyIndicatorBase.OVERLAY_STEP;
 
-		if(this._overlayPhase >= 1)
+		if (this._overlayPhase >= 1)
 		{
-			if(this._overlayTimer !== null)
+			if (this._overlayTimer !== null)
 			{
 				clearInterval(this._overlayTimer);
 				this._overlayTimer = null;
@@ -274,28 +306,5 @@ export class CurrencyIndicatorBase implements ICurrencyIndicator
 
 			this.setAmount(this._overlayEndValue);
 		}
-	}
-
-	/**
-	 * Dispose of this indicator and clean up resources
-	 */
-	public dispose(): void
-	{
-		if(this._disposed) return;
-
-		if(this._overlayTimer !== null)
-		{
-			clearInterval(this._overlayTimer);
-			this._overlayTimer = null;
-		}
-
-		if(this._animTimer !== null)
-		{
-			clearInterval(this._animTimer);
-			this._animTimer = null;
-		}
-
-		this._iconAnimationSequence = [];
-		this._disposed = true;
 	}
 }

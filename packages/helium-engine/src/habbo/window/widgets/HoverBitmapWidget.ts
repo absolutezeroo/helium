@@ -41,7 +41,7 @@ export class HoverBitmapWidget implements IWidget
 
 		const bitmap = this._windowManager.buildWidgetLayout('hover_bitmap') as IStaticBitmapWrapperWindow | null;
 
-		if(bitmap)
+		if (bitmap)
 		{
 			this._bitmap = bitmap;
 
@@ -73,7 +73,7 @@ export class HoverBitmapWidget implements IWidget
 	{
 		this._normalAsset = value;
 
-		if(!this._isHovering && this._bitmap)
+		if (!this._isHovering && this._bitmap)
 		{
 			this._bitmap.assetUri = value;
 		}
@@ -90,7 +90,7 @@ export class HoverBitmapWidget implements IWidget
 	{
 		this._hoverAsset = value;
 
-		if(this._isHovering && this._bitmap)
+		if (this._isHovering && this._bitmap)
 		{
 			this._bitmap.assetUri = value;
 		}
@@ -121,22 +121,22 @@ export class HoverBitmapWidget implements IWidget
 
 	public get properties(): PropertyStruct[]
 	{
-		if(this._disposed) return [];
+		if (this._disposed) return [];
 
 		const result: PropertyStruct[] = [
 			new PropertyStruct(HoverBitmapWidget.NORMAL_ASSET_KEY, this._normalAsset),
 			new PropertyStruct(HoverBitmapWidget.HOVER_ASSET_KEY, this._hoverAsset),
 		];
 
-		if(this._bitmap)
+		if (this._bitmap)
 		{
 			const bitmapProps = (this._bitmap as IWindow).properties as PropertyStruct[];
 
-			if(bitmapProps)
+			if (bitmapProps)
 			{
-				for(const prop of bitmapProps)
+				for (const prop of bitmapProps)
 				{
-					if(prop.key !== 'asset_uri')
+					if (prop.key !== 'asset_uri')
 					{
 						result.push(prop);
 					}
@@ -149,9 +149,9 @@ export class HoverBitmapWidget implements IWidget
 
 	public set properties(values: PropertyStruct[])
 	{
-		for(const prop of values)
+		for (const prop of values)
 		{
-			switch(prop.key)
+			switch (prop.key)
 			{
 				case HoverBitmapWidget.NORMAL_ASSET_KEY:
 					this.normalAsset = String(prop.value);
@@ -162,7 +162,7 @@ export class HoverBitmapWidget implements IWidget
 			}
 		}
 
-		if(this._bitmap)
+		if (this._bitmap)
 		{
 			(this._bitmap as IWindow).properties = values;
 			this._bitmap.invalidate();
@@ -171,11 +171,11 @@ export class HoverBitmapWidget implements IWidget
 
 	public dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		this._disposed = true;
 
-		if(this._bitmap)
+		if (this._bitmap)
 		{
 			this._bitmap.removeEventListener(WindowMouseEvent.OVER, this._onMouseOverBound);
 			this._bitmap.removeEventListener(WindowMouseEvent.OUT, this._onMouseOutBound);
@@ -183,7 +183,7 @@ export class HoverBitmapWidget implements IWidget
 			this._bitmap = null;
 		}
 
-		if(this._widgetWindow)
+		if (this._widgetWindow)
 		{
 			this._widgetWindow.rootWindow = null;
 		}
@@ -199,7 +199,7 @@ export class HoverBitmapWidget implements IWidget
 	{
 		this._isHovering = true;
 
-		if(this._bitmap)
+		if (this._bitmap)
 		{
 			this._bitmap.assetUri = this._hoverAsset;
 		}
@@ -212,7 +212,7 @@ export class HoverBitmapWidget implements IWidget
 	{
 		this._isHovering = false;
 
-		if(this._bitmap)
+		if (this._bitmap)
 		{
 			this._bitmap.assetUri = this._normalAsset;
 		}

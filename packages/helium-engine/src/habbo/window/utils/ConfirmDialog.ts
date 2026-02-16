@@ -1,9 +1,9 @@
-import type { IWindow } from '@core/window/IWindow';
-import { WindowEvent } from '@core/window/events/WindowEvent';
-import { WindowMouseEvent } from '@core/window/events/WindowMouseEvent';
-import type { IHabboWindowManager } from '../IHabboWindowManager';
-import { AlertDialog } from './AlertDialog';
-import type { AlertDialogCallback, IAlertDialog } from './AlertDialog';
+import type {IWindow} from '@core/window/IWindow';
+import {WindowEvent} from '@core/window/events/WindowEvent';
+import {WindowMouseEvent} from '@core/window/events/WindowMouseEvent';
+import type {IHabboWindowManager} from '../IHabboWindowManager';
+import type {AlertDialogCallback, IAlertDialog} from './AlertDialog';
+import {AlertDialog} from './AlertDialog';
 
 /**
  * Interface for confirm dialogs.
@@ -33,65 +33,65 @@ export type IConfirmDialog = IAlertDialog;
  */
 export class ConfirmDialog extends AlertDialog
 {
-    /**
-     * Creates a new confirm dialog.
-     *
-     * @param windowManager - The Habbo window manager
-     * @param json - The JSON layout definition
-     * @param title - Dialog title
-     * @param summary - Dialog summary text
-     * @param flags - Bitwise HabboAlertDialogFlag values
-     * @param callback - Callback for button events (required for confirm dialogs)
-     * @param modal - Whether to display as a modal dialog
-     */
-    constructor(
-        windowManager: IHabboWindowManager,
-        json: unknown,
-        title: string,
-        summary: string,
-        flags: number,
-        callback: AlertDialogCallback | null,
-        modal: boolean
-    )
-    {
-        super(windowManager, json, title, summary, flags, callback, modal);
-    }
+	/**
+	 * Creates a new confirm dialog.
+	 *
+	 * @param windowManager - The Habbo window manager
+	 * @param json - The JSON layout definition
+	 * @param title - Dialog title
+	 * @param summary - Dialog summary text
+	 * @param flags - Bitwise HabboAlertDialogFlag values
+	 * @param callback - Callback for button events (required for confirm dialogs)
+	 * @param modal - Whether to display as a modal dialog
+	 */
+	constructor(
+		windowManager: IHabboWindowManager,
+		json: unknown,
+		title: string,
+		summary: string,
+		flags: number,
+		callback: AlertDialogCallback | null,
+		modal: boolean
+	)
+	{
+		super(windowManager, json, title, summary, flags, callback, modal);
+	}
 
-    /**
-     * Handles dialog window events.
-     *
-     * Unlike AlertDialog, ConfirmDialog NEVER self-disposes on button
-     * click. It always delegates to the callback, giving the caller
-     * full control over when the dialog is closed.
-     *
-     * @param event - The window event
-     * @param window - The window that triggered the event
-     */
-    protected override dialogEventProc(event: WindowEvent, window: IWindow): void
-    {
-        if(event.type === WindowMouseEvent.CLICK)
-        {
-            switch(window.name)
-            {
-                case AlertDialog.BUTTON_OK:
-                    if(this._callback !== null)
-                    {
-                        const okEvent = WindowEvent.allocate(WindowEvent.WE_OK, null, null);
-                        this._callback(this, okEvent);
-                        okEvent.recycle();
-                    }
-                    break;
+	/**
+	 * Handles dialog window events.
+	 *
+	 * Unlike AlertDialog, ConfirmDialog NEVER self-disposes on button
+	 * click. It always delegates to the callback, giving the caller
+	 * full control over when the dialog is closed.
+	 *
+	 * @param event - The window event
+	 * @param window - The window that triggered the event
+	 */
+	protected override dialogEventProc(event: WindowEvent, window: IWindow): void
+	{
+		if (event.type === WindowMouseEvent.CLICK)
+		{
+			switch (window.name)
+			{
+				case AlertDialog.BUTTON_OK:
+					if (this._callback !== null)
+					{
+						const okEvent = WindowEvent.allocate(WindowEvent.WE_OK, null, null);
+						this._callback(this, okEvent);
+						okEvent.recycle();
+					}
+					break;
 
-                case AlertDialog.BUTTON_CANCEL:
-                case AlertDialog.HEADER_BUTTON_CLOSE:
-                    if(this._callback !== null)
-                    {
-                        const cancelEvent = WindowEvent.allocate(WindowEvent.WE_CANCEL, null, null);
-                        this._callback(this, cancelEvent);
-                        cancelEvent.recycle();
-                    }
-                    break;
-            }
-        }
-    }
+				case AlertDialog.BUTTON_CANCEL:
+				case AlertDialog.HEADER_BUTTON_CLOSE:
+					if (this._callback !== null)
+					{
+						const cancelEvent = WindowEvent.allocate(WindowEvent.WE_CANCEL, null, null);
+						this._callback(this, cancelEvent);
+						cancelEvent.recycle();
+					}
+					break;
+			}
+		}
+	}
 }

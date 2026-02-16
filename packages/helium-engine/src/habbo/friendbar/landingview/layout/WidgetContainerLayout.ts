@@ -1,4 +1,3 @@
-import type {IWindow} from '@core/window/IWindow';
 import type {IWindowContainer} from '@core/window/IWindowContainer';
 import type {HabboLandingView} from '../HabboLandingView';
 import {WindowEvent} from '@core/window/events/WindowEvent';
@@ -24,8 +23,6 @@ const DEFAULT_LAYOUT: string = 'landing_view_default_dynamic_layout';
  */
 export class WidgetContainerLayout
 {
-	protected _landingView: HabboLandingView | null;
-	protected _window: IWindowContainer | null = null;
 	protected _orgWindowWidth: number = 0;
 	protected _orgWindowHeight: number = 0;
 
@@ -34,13 +31,17 @@ export class WidgetContainerLayout
 		this._landingView = landingView;
 	}
 
+	protected _landingView: HabboLandingView | null;
+
 	/**
-	 * Whether this layout has been disposed
+	 * The landing view reference
 	 */
-	get disposed(): boolean
+	get landingView(): HabboLandingView | null
 	{
-		return this._landingView == null;
+		return this._landingView;
 	}
+
+	protected _window: IWindowContainer | null = null;
 
 	/**
 	 * The root window container
@@ -51,11 +52,11 @@ export class WidgetContainerLayout
 	}
 
 	/**
-	 * The landing view reference
+	 * Whether this layout has been disposed
 	 */
-	get landingView(): HabboLandingView | null
+	get disposed(): boolean
 	{
-		return this._landingView;
+		return this._landingView == null;
 	}
 
 	/**
@@ -68,7 +69,7 @@ export class WidgetContainerLayout
 	 */
 	public activate(): void
 	{
-		if(this._window == null)
+		if (this._window == null)
 		{
 			this.createWindow();
 		}
@@ -76,17 +77,17 @@ export class WidgetContainerLayout
 		this.resizeWindow();
 
 		// Listen for desktop resize
-		if(this._landingView && this._landingView.windowManager)
+		if (this._landingView && this._landingView.windowManager)
 		{
 			const desktop = this._landingView.windowManager.getWindowContext(0).getDesktopWindow();
 
-			if(desktop)
+			if (desktop)
 			{
 				desktop.addEventListener(WindowEvent.WE_RESIZED, this.onDesktopResized);
 			}
 		}
 
-		if(this._window)
+		if (this._window)
 		{
 			this._window.invalidate();
 			this._window.visible = true;
@@ -102,7 +103,7 @@ export class WidgetContainerLayout
 	 */
 	public disable(): void
 	{
-		if(this._window != null)
+		if (this._window != null)
 		{
 			this._window.visible = false;
 		}
@@ -117,7 +118,7 @@ export class WidgetContainerLayout
 	{
 		this._landingView = null;
 
-		if(this._window)
+		if (this._window)
 		{
 			this._window.dispose();
 			this._window = null;
@@ -134,7 +135,7 @@ export class WidgetContainerLayout
 	 */
 	protected createWindow(): void
 	{
-		if(this._window != null)
+		if (this._window != null)
 		{
 			return;
 		}
@@ -144,7 +145,7 @@ export class WidgetContainerLayout
 
 		this._window = built as IWindowContainer;
 
-		if(!this._window)
+		if (!this._window)
 		{
 			log.error(`Failed to build landing view window from layout: ${layoutName}`);
 			return;
@@ -153,7 +154,7 @@ export class WidgetContainerLayout
 		// Hide warning element if present
 		const warning = this._window.findChildByName('warning');
 
-		if(warning)
+		if (warning)
 		{
 			warning.visible = false;
 		}
@@ -166,21 +167,6 @@ export class WidgetContainerLayout
 	}
 
 	/**
-	 * Get the layout name from configuration, or use the default.
-	 *
-	 * @see sources/win63_version/habbo/friendbar/landingview/layout/WidgetContainerLayout.as getLayout()
-	 */
-	private getLayout(): string
-	{
-		if(this._landingView && this._landingView.propertyExists('landing.view.layoutxml'))
-		{
-			return this._landingView.getProperty('landing.view.layoutxml');
-		}
-
-		return DEFAULT_LAYOUT;
-	}
-
-	/**
 	 * Resize the window to fill the desktop.
 	 *
 	 * Uses the custom layout resize (center and fill) since dynamic widget
@@ -190,13 +176,38 @@ export class WidgetContainerLayout
 	 */
 	protected resizeWindow(): void
 	{
-		if(this._window == null)
+		if (this._window == null)
 		{
 			return;
 		}
 
 		this.resizeCustomLayout();
 		this._window.invalidate();
+	}
+
+	/**
+	 * Handle desktop resize event.
+	 *
+	 * @see sources/win63_version/habbo/friendbar/landingview/layout/WidgetContainerLayout.as onDesktopResized()
+	 */
+	protected onDesktopResized = (_event: unknown): void =>
+	{
+		this.resizeWindow();
+	};
+
+	/**
+	 * Get the layout name from configuration, or use the default.
+	 *
+	 * @see sources/win63_version/habbo/friendbar/landingview/layout/WidgetContainerLayout.as getLayout()
+	 */
+	private getLayout(): string
+	{
+		if (this._landingView && this._landingView.propertyExists('landing.view.layoutxml'))
+		{
+			return this._landingView.getProperty('landing.view.layoutxml');
+		}
+
+		return DEFAULT_LAYOUT;
 	}
 
 	/**
@@ -210,7 +221,7 @@ export class WidgetContainerLayout
 	 */
 	private resizeCustomLayout(): void
 	{
-		if(!this._window || !this._window.desktop)
+		if (!this._window || !this._window.desktop)
 		{
 			return;
 		}
@@ -222,14 +233,4 @@ export class WidgetContainerLayout
 		this._window.width = rect.width;
 		this._window.height = rect.height;
 	}
-
-	/**
-	 * Handle desktop resize event.
-	 *
-	 * @see sources/win63_version/habbo/friendbar/landingview/layout/WidgetContainerLayout.as onDesktopResized()
-	 */
-	protected onDesktopResized = (_event: unknown): void =>
-	{
-		this.resizeWindow();
-	};
 }

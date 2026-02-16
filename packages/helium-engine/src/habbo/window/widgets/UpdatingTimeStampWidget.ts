@@ -28,36 +28,6 @@ export class UpdatingTimeStampWidget implements IWidget
 	 */
 	private static _updateTimerId: ReturnType<typeof setInterval> | null = null;
 	private static _instances: Set<UpdatingTimeStampWidget> = new Set();
-
-	/**
-	 * Start the shared update timer if not already running.
-	 */
-	private static startUpdateTimer(): void
-	{
-		if(UpdatingTimeStampWidget._updateTimerId === null)
-		{
-			UpdatingTimeStampWidget._updateTimerId = setInterval(() =>
-			{
-				for(const instance of UpdatingTimeStampWidget._instances)
-				{
-					instance.onTimerTick();
-				}
-			}, UpdatingTimeStampWidget.UPDATE_INTERVAL_MS);
-		}
-	}
-
-	/**
-	 * Stop the shared update timer if no instances remain.
-	 */
-	private static stopUpdateTimer(): void
-	{
-		if(UpdatingTimeStampWidget._instances.size === 0 && UpdatingTimeStampWidget._updateTimerId !== null)
-		{
-			clearInterval(UpdatingTimeStampWidget._updateTimerId);
-			UpdatingTimeStampWidget._updateTimerId = null;
-		}
-	}
-
 	private _widgetWindow: IWidgetWindow | null = null;
 	private _windowManager: IHabboWindowManager | null = null;
 	private _label: IWindow | null = null;
@@ -71,10 +41,10 @@ export class UpdatingTimeStampWidget implements IWidget
 		// TypeId 12 = Label window type
 		this._label = this._windowManager.create(
 			'', 12, 100, 16,
-			{ x: 0, y: 0, width: 0, height: 0 }
+			{x: 0, y: 0, width: 0, height: 0}
 		);
 
-		if(this._label)
+		if (this._label)
 		{
 			// AS3: label.textColor = 5592405 (0x555555)
 			this._label.color = 5592405;
@@ -136,6 +106,40 @@ export class UpdatingTimeStampWidget implements IWidget
 		return [];
 	}
 
+	public set properties(_values: PropertyStruct[])
+	{
+		// AS3: properties setter is a no-op for this widget
+	}
+
+	/**
+	 * Start the shared update timer if not already running.
+	 */
+	private static startUpdateTimer(): void
+	{
+		if (UpdatingTimeStampWidget._updateTimerId === null)
+		{
+			UpdatingTimeStampWidget._updateTimerId = setInterval(() =>
+			{
+				for (const instance of UpdatingTimeStampWidget._instances)
+				{
+					instance.onTimerTick();
+				}
+			}, UpdatingTimeStampWidget.UPDATE_INTERVAL_MS);
+		}
+	}
+
+	/**
+	 * Stop the shared update timer if no instances remain.
+	 */
+	private static stopUpdateTimer(): void
+	{
+		if (UpdatingTimeStampWidget._instances.size === 0 && UpdatingTimeStampWidget._updateTimerId !== null)
+		{
+			clearInterval(UpdatingTimeStampWidget._updateTimerId);
+			UpdatingTimeStampWidget._updateTimerId = null;
+		}
+	}
+
 	/**
 	 * Reset the timestamp to the current time.
 	 */
@@ -145,9 +149,28 @@ export class UpdatingTimeStampWidget implements IWidget
 		this.onTimerTick();
 	}
 
-	public set properties(_values: PropertyStruct[])
+	public dispose(): void
 	{
-		// AS3: properties setter is a no-op for this widget
+		if (this._disposed) return;
+
+		// Unregister from the shared static timer
+		UpdatingTimeStampWidget._instances.delete(this);
+		UpdatingTimeStampWidget.stopUpdateTimer();
+
+		if (this._label)
+		{
+			this._label.dispose();
+			this._label = null;
+		}
+
+		if (this._widgetWindow)
+		{
+			this._widgetWindow.rootWindow = null;
+			this._widgetWindow = null;
+		}
+
+		this._windowManager = null;
+		this._disposed = true;
 	}
 
 	/**
@@ -158,32 +181,8 @@ export class UpdatingTimeStampWidget implements IWidget
 	 */
 	private onTimerTick(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		// TODO: update label caption via localization/FriendlyTime
-	}
-
-	public dispose(): void
-	{
-		if(this._disposed) return;
-
-		// Unregister from the shared static timer
-		UpdatingTimeStampWidget._instances.delete(this);
-		UpdatingTimeStampWidget.stopUpdateTimer();
-
-		if(this._label)
-		{
-			this._label.dispose();
-			this._label = null;
-		}
-
-		if(this._widgetWindow)
-		{
-			this._widgetWindow.rootWindow = null;
-			this._widgetWindow = null;
-		}
-
-		this._windowManager = null;
-		this._disposed = true;
 	}
 }

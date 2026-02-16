@@ -20,10 +20,6 @@ export class ClubDiscountPromoExtension
 	private static readonly LINK_COLOR_HIGHLIGHT: number = 0xBACB09;
 
 	private _toolbar: HabboToolbar | null;
-	private _disposed: boolean = false;
-	private _windowCreated: boolean = false;
-	private _promoText: string = '';
-	private _clubIconStyle: number = 0;
 	private _animating: boolean = false;
 	private _expirationTimer: ReturnType<typeof setTimeout> | null = null;
 	private _animationTimer: ReturnType<typeof setInterval> | null = null;
@@ -35,6 +31,8 @@ export class ClubDiscountPromoExtension
 		log.debug('ClubDiscountPromoExtension constructed');
 	}
 
+	private _disposed: boolean = false;
+
 	/**
 	 * Whether the extension is disposed
 	 */
@@ -42,6 +40,8 @@ export class ClubDiscountPromoExtension
 	{
 		return this._disposed;
 	}
+
+	private _windowCreated: boolean = false;
 
 	/**
 	 * Whether the promo window has been created
@@ -51,6 +51,8 @@ export class ClubDiscountPromoExtension
 		return this._windowCreated;
 	}
 
+	private _promoText: string = '';
+
 	/**
 	 * The current promo text
 	 */
@@ -58,6 +60,8 @@ export class ClubDiscountPromoExtension
 	{
 		return this._promoText;
 	}
+
+	private _clubIconStyle: number = 0;
 
 	/**
 	 * The current club icon style
@@ -78,15 +82,15 @@ export class ClubDiscountPromoExtension
 	 */
 	public onClubChanged(clubIsExpiring: boolean, clubMinutesUntilExpiration: number, clubLevel: number): void
 	{
-		if(!this._toolbar) return;
+		if (!this._toolbar) return;
 
-		if(clubIsExpiring && !this._windowCreated && this.isExtensionEnabled(clubLevel))
+		if (clubIsExpiring && !this._windowCreated && this.isExtensionEnabled(clubLevel))
 		{
 			this._windowCreated = true;
 
 			this.destroyExpirationTimer();
 
-			if(clubMinutesUntilExpiration < 1440 && clubMinutesUntilExpiration > 0)
+			if (clubMinutesUntilExpiration < 1440 && clubMinutesUntilExpiration > 0)
 			{
 				this._expirationTimer = setTimeout(
 					() => this.onExtendOfferExpire(),
@@ -101,7 +105,7 @@ export class ClubDiscountPromoExtension
 		}
 		else
 		{
-			if(this._toolbar.extensionView)
+			if (this._toolbar.extensionView)
 			{
 				this._toolbar.extensionView.detachExtension('club_promo');
 			}
@@ -110,9 +114,27 @@ export class ClubDiscountPromoExtension
 		}
 	}
 
+	/**
+	 * Dispose of this extension
+	 */
+	public dispose(): void
+	{
+		if (this._disposed || !this._toolbar) return;
+
+		if (this._toolbar.extensionView)
+		{
+			this._toolbar.extensionView.detachExtension('club_promo');
+		}
+
+		this.clearAnimation();
+		this.destroyWindow();
+		this._toolbar = null;
+		this._disposed = true;
+	}
+
 	private assignState(clubLevel: number): void
 	{
-		switch(clubLevel)
+		switch (clubLevel)
 		{
 			case 0:
 				this._promoText = '${discount.bar.no.club.promo}';
@@ -127,14 +149,14 @@ export class ClubDiscountPromoExtension
 
 	private isExtensionEnabled(clubLevel: number): boolean
 	{
-		if(!this._toolbar) return false;
+		if (!this._toolbar) return false;
 
 		return clubLevel === 2 && this._toolbar.getBoolean('club.membership.extend.vip.promotion.enabled');
 	}
 
 	private animate(start: boolean): void
 	{
-		if(start)
+		if (start)
 		{
 			this.clearAnimation();
 
@@ -150,7 +172,7 @@ export class ClubDiscountPromoExtension
 
 	private clearAnimation(): void
 	{
-		if(this._animationTimer !== null)
+		if (this._animationTimer !== null)
 		{
 			clearInterval(this._animationTimer);
 			this._animationTimer = null;
@@ -173,7 +195,7 @@ export class ClubDiscountPromoExtension
 
 	private destroyExpirationTimer(): void
 	{
-		if(this._expirationTimer !== null)
+		if (this._expirationTimer !== null)
 		{
 			clearTimeout(this._expirationTimer);
 			this._expirationTimer = null;
@@ -182,29 +204,11 @@ export class ClubDiscountPromoExtension
 
 	private onExtendOfferExpire(): void
 	{
-		if(this._toolbar?.extensionView)
+		if (this._toolbar?.extensionView)
 		{
 			this._toolbar.extensionView.detachExtension('club_promo');
 		}
 
 		this.destroyWindow();
-	}
-
-	/**
-	 * Dispose of this extension
-	 */
-	public dispose(): void
-	{
-		if(this._disposed || !this._toolbar) return;
-
-		if(this._toolbar.extensionView)
-		{
-			this._toolbar.extensionView.detachExtension('club_promo');
-		}
-
-		this.clearAnimation();
-		this.destroyWindow();
-		this._toolbar = null;
-		this._disposed = true;
 	}
 }

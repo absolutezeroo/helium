@@ -16,8 +16,8 @@ const log = Logger.getLogger('ToolbarView');
  */
 export class ToolbarView
 {
-	private static readonly DEFAULT_LOCATION = { x: 3, y: 3 };
-	private static readonly LANDING_VIEW_LOCATION = { x: 3, y: 3 };
+	private static readonly DEFAULT_LOCATION = {x: 3, y: 3};
+	private static readonly LANDING_VIEW_LOCATION = {x: 3, y: 3};
 	private static readonly ICON_BG_COLOR_OVER: number = 0x716769;
 	private static readonly ICON_BG_COLOR_OUT: number = 0x57504D;
 	private static readonly ICON_MOUSE_OVER: string = '_hover';
@@ -33,7 +33,7 @@ export class ToolbarView
 	private _newItemsNotificationEnabled: boolean = false;
 	private _newItemsLabelVisible: boolean = false;
 	private _iconVisibility: Map<string, boolean> = new Map();
-	private _position = { ...ToolbarView.DEFAULT_LOCATION };
+	private _position = {...ToolbarView.DEFAULT_LOCATION};
 	private _visible: boolean = true;
 
 	constructor(toolbar: HabboToolbar)
@@ -126,7 +126,7 @@ export class ToolbarView
 	 */
 	public setToolbarState(state: string): void
 	{
-		if(state === 'HTE_STATE_HIDDEN')
+		if (state === 'HTE_STATE_HIDDEN')
 		{
 			this._visible = false;
 			return;
@@ -134,20 +134,20 @@ export class ToolbarView
 
 		this._visible = true;
 
-		switch(state)
+		switch (state)
 		{
 			case 'HTE_STATE_GAME_CENTER_VIEW':
-				this._position = { ...ToolbarView.DEFAULT_LOCATION };
+				this._position = {...ToolbarView.DEFAULT_LOCATION};
 				break;
 			case 'HTE_STATE_HOTEL_VIEW':
-				this._position = { ...ToolbarView.LANDING_VIEW_LOCATION };
+				this._position = {...ToolbarView.LANDING_VIEW_LOCATION};
 				break;
 			case 'HTE_STATE_ROOM_VIEW':
-				this._position = { ...ToolbarView.DEFAULT_LOCATION };
+				this._position = {...ToolbarView.DEFAULT_LOCATION};
 				break;
 		}
 
-		if(this._meMenuController)
+		if (this._meMenuController)
 		{
 			this._meMenuController.reposition();
 		}
@@ -174,7 +174,7 @@ export class ToolbarView
 	{
 		const iconName = HabboToolbarIconEnum.getIconName(iconId);
 
-		if(!iconName)
+		if (!iconName)
 		{
 			log.warn(`[Toolbar] Unknown icon type for unseen item counter for iconId: ${iconId}`);
 			return;
@@ -188,7 +188,7 @@ export class ToolbarView
 	 */
 	public isNewItemsNotificationEnabled(): boolean
 	{
-		if(!this._toolbar) return false;
+		if (!this._toolbar) return false;
 		return this._toolbar.getBoolean('toolbar.new_additions.notification.enabled');
 	}
 
@@ -201,9 +201,9 @@ export class ToolbarView
 	{
 		const parts = link.split('/');
 
-		if(parts.length < 2) return;
+		if (parts.length < 2) return;
 
-		if(parts[1] === 'memenu')
+		if (parts[1] === 'memenu')
 		{
 			this._meMenuController?.toggleVisibility();
 		}
@@ -218,9 +218,9 @@ export class ToolbarView
 	 */
 	public dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
-		if(this._meMenuController)
+		if (this._meMenuController)
 		{
 			this._meMenuController.dispose();
 			this._meMenuController = null;

@@ -1,10 +1,7 @@
-import type { IDisposable } from '@core/runtime/IDisposable';
-import type { IWindow } from '@core/window/IWindow';
-import type { IWindowContainer } from '@core/window/IWindowContainer';
-import type { ITextFieldWindow } from '@core/window/components/ITextFieldWindow';
-import type { WindowEvent } from '@core/window/events/WindowEvent';
-import type { IHabboTransitionalNavigator } from '../IHabboTransitionalNavigator';
-import { TextFieldManager } from '../TextFieldManager';
+import type {IDisposable} from '@core/runtime/IDisposable';
+import type {IWindow} from '@core/window/IWindow';
+import type {IHabboTransitionalNavigator} from '../IHabboTransitionalNavigator';
+import {TextFieldManager} from '../TextFieldManager';
 
 /**
  * Room settings controller — the largest controller (~800 lines in AS3).
@@ -20,164 +17,165 @@ import { TextFieldManager } from '../TextFieldManager';
  */
 export class RoomSettingsCtrl implements IDisposable
 {
-    static readonly TAB_BASIC: number = 1;
-    static readonly TAB_ACCESS_RIGHTS: number = 2;
-    static readonly TAB_ROOM_RIGHTS: number = 3;
-    static readonly TAB_CLUB_AND_CHAT: number = 4;
-    static readonly TAB_MODERATION: number = 5;
+	static readonly TAB_BASIC: number = 1;
+	static readonly TAB_ACCESS_RIGHTS: number = 2;
+	static readonly TAB_ROOM_RIGHTS: number = 3;
+	static readonly TAB_CLUB_AND_CHAT: number = 4;
+	static readonly TAB_MODERATION: number = 5;
 
-    private static readonly HC_MAXIMUM_ROOM_VISITORS: number = 75;
-    private static readonly MAXIMUM_ROOM_VISITORS: number = 50;
+	private static readonly HC_MAXIMUM_ROOM_VISITORS: number = 75;
+	private static readonly MAXIMUM_ROOM_VISITORS: number = 50;
 
-    private _flatId: number = 0;
-    private _groupId: number = 0;
-    private _navigator: IHabboTransitionalNavigator | null;
-    private _originalData: unknown = null;
-    private _window: IWindow | null = null;
-    private _currentTab: number = RoomSettingsCtrl.TAB_BASIC;
-    private _populating: boolean = false;
-    private _roomNameManager: TextFieldManager | null = null;
-    private _roomDescManager: TextFieldManager | null = null;
-    private _disposed: boolean = false;
+	private _flatId: number = 0;
+	private _groupId: number = 0;
+	private _navigator: IHabboTransitionalNavigator | null;
+	private _originalData: unknown = null;
+	private _window: IWindow | null = null;
+	private _currentTab: number = RoomSettingsCtrl.TAB_BASIC;
+	private _populating: boolean = false;
+	private _roomNameManager: TextFieldManager | null = null;
+	private _roomDescManager: TextFieldManager | null = null;
 
-    constructor(navigator: IHabboTransitionalNavigator)
-    {
-        this._navigator = navigator;
-    }
+	constructor(navigator: IHabboTransitionalNavigator)
+	{
+		this._navigator = navigator;
+	}
 
-    get disposed(): boolean
-    {
-        return this._disposed;
-    }
+	private _disposed: boolean = false;
 
-    /**
-     * Opens room settings editor.
-     *
-     * @param flatId - The room ID
-     */
-    startRoomSettingsEdit(flatId: number): void
-    {
-        this._flatId = flatId;
+	get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
-        // Would send GetRoomSettingsMessageComposer
-    }
+	/**
+	 * Opens room settings editor.
+	 *
+	 * @param flatId - The room ID
+	 */
+	startRoomSettingsEdit(flatId: number): void
+	{
+		this._flatId = flatId;
 
-    /**
-     * Opens room settings from navigator with specific tab.
-     *
-     * @param flatId - The room ID
-     * @param tab - Tab to open (or group ID)
-     */
-    startRoomSettingsEditFromNavigator(flatId: number, tab: number): void
-    {
-        this._flatId = flatId;
-        this._groupId = tab;
-        this.startRoomSettingsEdit(flatId);
-    }
+		// Would send GetRoomSettingsMessageComposer
+	}
 
-    /**
-     * Receives room settings data from server.
-     *
-     * @param data - Room settings data
-     */
-    onRoomSettings(data: unknown): void
-    {
-        this._originalData = data;
-        this._populating = true;
-        this.populateForm();
-        this._populating = false;
-    }
+	/**
+	 * Opens room settings from navigator with specific tab.
+	 *
+	 * @param flatId - The room ID
+	 * @param tab - Tab to open (or group ID)
+	 */
+	startRoomSettingsEditFromNavigator(flatId: number, tab: number): void
+	{
+		this._flatId = flatId;
+		this._groupId = tab;
+		this.startRoomSettingsEdit(flatId);
+	}
 
-    /**
-     * Receives flat controllers list from server.
-     *
-     * @param flatId - Room ID
-     * @param controllers - List of users with rights
-     */
-    onFlatControllers(flatId: number, controllers: unknown[]): void
-    {
-        if(flatId !== this._flatId) return;
+	/**
+	 * Receives room settings data from server.
+	 *
+	 * @param data - Room settings data
+	 */
+	onRoomSettings(data: unknown): void
+	{
+		this._originalData = data;
+		this._populating = true;
+		this.populateForm();
+		this._populating = false;
+	}
 
-        this.refreshFlatControllers();
-    }
+	/**
+	 * Receives flat controllers list from server.
+	 *
+	 * @param flatId - Room ID
+	 * @param controllers - List of users with rights
+	 */
+	onFlatControllers(flatId: number, controllers: unknown[]): void
+	{
+		if (flatId !== this._flatId) return;
 
-    onFlatControllerAdded(): void
-    {
-        this.refreshFlatControllers();
-    }
+		this.refreshFlatControllers();
+	}
 
-    onFlatControllerRemoved(): void
-    {
-        this.refreshFlatControllers();
-    }
+	onFlatControllerAdded(): void
+	{
+		this.refreshFlatControllers();
+	}
 
-    onBannedUsersFromRoom(): void
-    {
-        this.refreshBannedUsers();
-    }
+	onFlatControllerRemoved(): void
+	{
+		this.refreshFlatControllers();
+	}
 
-    onUserUnbannedFromRoom(): void
-    {
-        this.refreshBannedUsers();
-    }
+	onBannedUsersFromRoom(): void
+	{
+		this.refreshBannedUsers();
+	}
 
-    onFriendListUpdate(): void
-    {
-        // Refresh friends list
-    }
+	onUserUnbannedFromRoom(): void
+	{
+		this.refreshBannedUsers();
+	}
 
-    onRoomSettingsSaveError(): void
-    {
-        // Handle save errors
-    }
+	onFriendListUpdate(): void
+	{
+		// Refresh friends list
+	}
 
-    save(): void
-    {
-        // Would send SaveRoomSettingsMessageComposer
-    }
+	onRoomSettingsSaveError(): void
+	{
+		// Handle save errors
+	}
 
-    close(): void
-    {
-        if(this._window)
-        {
-            this._window.visible = false;
-        }
-    }
+	save(): void
+	{
+		// Would send SaveRoomSettingsMessageComposer
+	}
 
-    refresh(): void
-    {
-        // Refresh current tab display
-    }
+	close(): void
+	{
+		if (this._window)
+		{
+			this._window.visible = false;
+		}
+	}
 
-    private populateForm(): void
-    {
-        // Populate all form fields from _originalData
-    }
+	refresh(): void
+	{
+		// Refresh current tab display
+	}
 
-    private refreshFlatControllers(): void
-    {
-        // Refresh users-with-rights list
-    }
+	dispose(): void
+	{
+		if (this._disposed) return;
 
-    private refreshBannedUsers(): void
-    {
-        // Refresh banned users list
-    }
+		this._disposed = true;
+		this._roomNameManager?.dispose();
+		this._roomDescManager?.dispose();
 
-    dispose(): void
-    {
-        if(this._disposed) return;
+		if (this._window)
+		{
+			this._window.dispose();
+			this._window = null;
+		}
 
-        this._disposed = true;
-        this._roomNameManager?.dispose();
-        this._roomDescManager?.dispose();
+		this._navigator = null;
+	}
 
-        if(this._window)
-        {
-            this._window.dispose();
-            this._window = null;
-        }
+	private populateForm(): void
+	{
+		// Populate all form fields from _originalData
+	}
 
-        this._navigator = null;
-    }
+	private refreshFlatControllers(): void
+	{
+		// Refresh users-with-rights list
+	}
+
+	private refreshBannedUsers(): void
+	{
+		// Refresh banned users list
+	}
 }

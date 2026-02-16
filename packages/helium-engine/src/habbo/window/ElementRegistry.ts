@@ -96,11 +96,11 @@ export class ElementRegistry
 	{
 		const results: IElementDescriptor[] = [];
 
-		for(const styleMap of this._descriptors.values())
+		for (const styleMap of this._descriptors.values())
 		{
-			for(const descriptor of styleMap.values())
+			for (const descriptor of styleMap.values())
 			{
-				if(descriptor.asset === assetName)
+				if (descriptor.asset === assetName)
 				{
 					results.push(descriptor);
 				}

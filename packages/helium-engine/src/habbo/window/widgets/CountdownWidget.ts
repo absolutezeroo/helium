@@ -45,7 +45,7 @@ export class CountdownWidget implements IWidget
 
 		const root = this._windowManager.buildWidgetLayout('clock_base');
 
-		if(root)
+		if (root)
 		{
 			this._root = root;
 
@@ -55,7 +55,7 @@ export class CountdownWidget implements IWidget
 			// For now, store as generic IWindow references via findChildByName on the container.
 			const rootContainer = root as unknown as { findChildByName(name: string): IWindow | null };
 
-			if(typeof rootContainer.findChildByName === 'function')
+			if (typeof rootContainer.findChildByName === 'function')
 			{
 				this._counterTemplate = rootContainer.findChildByName('counter');
 				this._separatorTemplate = rootContainer.findChildByName('separator');
@@ -85,12 +85,12 @@ export class CountdownWidget implements IWidget
 
 	public set running(value: boolean)
 	{
-		if(this._running && !value)
+		if (this._running && !value)
 		{
 			this._startSeconds = this.seconds;
 		}
 
-		if(!this._running && value)
+		if (!this._running && value)
 		{
 			this._startTime = Date.now();
 		}
@@ -124,7 +124,7 @@ export class CountdownWidget implements IWidget
 
 	public get seconds(): number
 	{
-		if(this._running)
+		if (this._running)
 		{
 			return Math.max(0, this._startSeconds - (Date.now() - this._startTime) / 1000);
 		}
@@ -140,7 +140,7 @@ export class CountdownWidget implements IWidget
 
 	public get properties(): PropertyStruct[]
 	{
-		if(this._disposed) return [];
+		if (this._disposed) return [];
 
 		return [
 			new PropertyStruct(CountdownWidget.RUNNING_KEY, this._running),
@@ -152,9 +152,9 @@ export class CountdownWidget implements IWidget
 
 	public set properties(values: PropertyStruct[])
 	{
-		for(const prop of values)
+		for (const prop of values)
 		{
-			switch(prop.key)
+			switch (prop.key)
 			{
 				case CountdownWidget.RUNNING_KEY:
 					this.running = Boolean(prop.value);
@@ -177,9 +177,9 @@ export class CountdownWidget implements IWidget
 	 */
 	private static getMaxUnitIndex(digits: number, totalSeconds: number): number
 	{
-		for(let i = 0; i < CountdownWidget.UNIT_SECONDS.length - digits; i++)
+		for (let i = 0; i < CountdownWidget.UNIT_SECONDS.length - digits; i++)
 		{
-			if(totalSeconds >= CountdownWidget.UNIT_SECONDS[i])
+			if (totalSeconds >= CountdownWidget.UNIT_SECONDS[i])
 			{
 				return i;
 			}
@@ -199,7 +199,7 @@ export class CountdownWidget implements IWidget
 		const maxUnitIndex = CountdownWidget.getMaxUnitIndex(this._digits, totalSeconds);
 		const result: { value: number; unit: string }[] = [];
 
-		for(let i = 0; i < this._digits; i++)
+		for (let i = 0; i < this._digits; i++)
 		{
 			const unitIndex = maxUnitIndex + i;
 			const unitValue = Math.floor(totalSeconds / CountdownWidget.UNIT_SECONDS[unitIndex]) % CountdownWidget.UNIT_MAX_VALUES[unitIndex];
@@ -215,27 +215,27 @@ export class CountdownWidget implements IWidget
 
 	public dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
-		if(this._root)
+		if (this._root)
 		{
 			this._root.dispose();
 			this._root = null;
 		}
 
-		if(this._counterTemplate)
+		if (this._counterTemplate)
 		{
 			this._counterTemplate.dispose();
 			this._counterTemplate = null;
 		}
 
-		if(this._separatorTemplate)
+		if (this._separatorTemplate)
 		{
 			this._separatorTemplate.dispose();
 			this._separatorTemplate = null;
 		}
 
-		if(this._widgetWindow)
+		if (this._widgetWindow)
 		{
 			this._widgetWindow.rootWindow = null;
 			this._widgetWindow = null;

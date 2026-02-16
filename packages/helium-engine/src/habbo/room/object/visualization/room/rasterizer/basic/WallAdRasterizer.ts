@@ -20,43 +20,6 @@ export class WallAdRasterizer extends WallRasterizer
 		return String(scale);
 	}
 
-	protected override initializePlanes(): void
-	{
-		if(this.data === null) return;
-
-		const planes = this.data.planes;
-
-		if(planes)
-		{
-			this.parseWalls(planes);
-		}
-	}
-
-	protected override parseWalls(planes: IAssetPlane[]): void
-	{
-		if(planes === null) return;
-
-		for(const planeData of planes)
-		{
-			if(planeData.id === undefined) continue;
-
-			const id = planeData.id;
-			const visualizations = planeData.visualizations ?? [];
-			const wallPlane = new WallPlane();
-
-			this.parseVisualizations(wallPlane, visualizations);
-
-			if(this.getPlane(id) === null)
-			{
-				this.addPlane(id, wallPlane);
-			}
-			else
-			{
-				wallPlane.dispose();
-			}
-		}
-	}
-
 	override render(
 		canvas: HTMLCanvasElement | null,
 		id: string,
@@ -74,14 +37,14 @@ export class WallAdRasterizer extends WallRasterizer
 	{
 		let plane = this.getPlane(id) as WallPlane | null;
 
-		if(plane === null)
+		if (plane === null)
 		{
 			plane = this.getPlane('default') as WallPlane | null;
 		}
 
-		if(plane === null) return null;
+		if (plane === null) return null;
 
-		if(canvas !== null)
+		if (canvas !== null)
 		{
 			const ctx = canvas.getContext('2d')!;
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -91,7 +54,7 @@ export class WallAdRasterizer extends WallRasterizer
 
 		let result = plane.render(canvas, leftLen, rightLen, scale, normal, hasTexture);
 
-		if(result !== null && result !== canvas)
+		if (result !== null && result !== canvas)
 		{
 			const clone = document.createElement('canvas');
 			clone.width = result.width;
@@ -102,5 +65,42 @@ export class WallAdRasterizer extends WallRasterizer
 		}
 
 		return new PlaneBitmapData(result, -1);
+	}
+
+	protected override initializePlanes(): void
+	{
+		if (this.data === null) return;
+
+		const planes = this.data.planes;
+
+		if (planes)
+		{
+			this.parseWalls(planes);
+		}
+	}
+
+	protected override parseWalls(planes: IAssetPlane[]): void
+	{
+		if (planes === null) return;
+
+		for (const planeData of planes)
+		{
+			if (planeData.id === undefined) continue;
+
+			const id = planeData.id;
+			const visualizations = planeData.visualizations ?? [];
+			const wallPlane = new WallPlane();
+
+			this.parseVisualizations(wallPlane, visualizations);
+
+			if (this.getPlane(id) === null)
+			{
+				this.addPlane(id, wallPlane);
+			}
+			else
+			{
+				wallPlane.dispose();
+			}
+		}
 	}
 }

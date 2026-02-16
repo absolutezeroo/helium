@@ -1,5 +1,5 @@
-import type { IMessageParser } from '@core/communication/messages/IMessageParser';
-import type { IMessageDataWrapper } from '@core/communication/messages/IMessageDataWrapper';
+import type {IMessageParser} from '@core/communication/messages/IMessageParser';
+import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
 
 /**
  * Parses chat review session voting status data from the server.
@@ -16,6 +16,11 @@ export class ChatReviewSessionVotingStatusMessageParser implements IMessageParse
 	public static readonly STATUS_ABORTED: number = 5;
 
 	private _status: Array<number> = [];
+
+	get status(): Array<number>
+	{
+		return this._status;
+	}
 
 	flush(): boolean
 	{
@@ -35,10 +40,5 @@ export class ChatReviewSessionVotingStatusMessageParser implements IMessageParse
 		}
 
 		return true;
-	}
-
-	get status(): Array<number>
-	{
-		return this._status;
 	}
 }

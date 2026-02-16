@@ -2026,7 +2026,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		}
 
 		// Forward object events
-		if(event && typeof event === 'object' && 'type' in event)
+		if (event && typeof event === 'object' && 'type' in event)
 		{
 			this.events.emit('roomObjectEvent', event);
 		}
@@ -2048,7 +2048,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		{
 			const tileCursor = this.getTileCursor(this._activeRoomId);
 
-			if(tileCursor && tileCursor.getEventHandler())
+			if (tileCursor && tileCursor.getEventHandler())
 			{
 				const cursorUpdate = new RoomObjectTileCursorUpdateMessage(
 					new Vector3d(tileX, tileY, tileZ),
@@ -2064,7 +2064,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		{
 			log.info(`[WALK] Tile (${tileX}, ${tileY}) connection=${!!this._connection}`);
 
-			if(this._connection)
+			if (this._connection)
 			{
 				this._connection.send(new MoveAvatarMessageComposer(tileX, tileY));
 			}

@@ -1,4 +1,6 @@
-import {SetRoomSessionTagsMessageComposer} from '@habbo/communication/messages/outgoing/navigator/SetRoomSessionTagsMessageComposer';
+import {
+	SetRoomSessionTagsMessageComposer
+} from '@habbo/communication/messages/outgoing/navigator/SetRoomSessionTagsMessageComposer';
 
 /**
  * Holds a pair of room session tags and produces the composer to send them.

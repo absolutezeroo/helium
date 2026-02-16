@@ -12,7 +12,6 @@ export class AnimationItem
 	private _y: number = 0;
 	private _speedX: number = 0;
 	private _speedY: number = 0;
-	private _bitmapData: HTMLCanvasElement | null = null;
 
 	constructor(x: number, y: number, speedX: number, speedY: number, bitmapData: HTMLCanvasElement)
 	{
@@ -22,6 +21,8 @@ export class AnimationItem
 		this._speedY = isNaN(speedY) ? 0 : speedY;
 		this._bitmapData = bitmapData;
 	}
+
+	private _bitmapData: HTMLCanvasElement | null = null;
 
 	get bitmapData(): HTMLCanvasElement | null
 	{
@@ -43,12 +44,12 @@ export class AnimationItem
 		let posX = this._x;
 		let posY = this._y;
 
-		if(speedXScale > 0)
+		if (speedXScale > 0)
 		{
 			posX += (this._speedX / speedXScale) * (time / 1000);
 		}
 
-		if(speedYScale > 0)
+		if (speedYScale > 0)
 		{
 			posY += (this._speedY / speedYScale) * (time / 1000);
 		}

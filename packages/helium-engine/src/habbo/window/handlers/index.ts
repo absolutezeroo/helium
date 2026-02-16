@@ -1,2 +1,2 @@
 // Exports
-export { HabbletLinkHandler } from './HabbletLinkHandler';
+export {HabbletLinkHandler} from './HabbletLinkHandler';

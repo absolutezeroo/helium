@@ -1,5 +1,5 @@
-import type { IMessageParser } from '@core/communication/messages/IMessageParser';
-import type { IMessageDataWrapper } from '@core/communication/messages/IMessageDataWrapper';
+import type {IMessageParser} from '@core/communication/messages/IMessageParser';
+import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
 
 /**
  * Parses chat review session started data from the server.
@@ -9,7 +9,18 @@ import type { IMessageDataWrapper } from '@core/communication/messages/IMessageD
 export class ChatReviewSessionStartedMessageParser implements IMessageParser
 {
 	private _votingTimeout: number = -1;
+
+	get votingTimeout(): number
+	{
+		return this._votingTimeout;
+	}
+
 	private _chatRecord: string = '';
+
+	get chatRecord(): string
+	{
+		return this._chatRecord;
+	}
 
 	flush(): boolean
 	{
@@ -25,15 +36,5 @@ export class ChatReviewSessionStartedMessageParser implements IMessageParser
 		this._votingTimeout = wrapper.readInt();
 		this._chatRecord = wrapper.readString();
 		return true;
-	}
-
-	get votingTimeout(): number
-	{
-		return this._votingTimeout;
-	}
-
-	get chatRecord(): string
-	{
-		return this._chatRecord;
 	}
 }

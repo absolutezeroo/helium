@@ -65,20 +65,20 @@ export class RoomLogic extends ObjectLogicBase
 	 */
 	override initialize(data: unknown): void
 	{
-		if(this.object === null)
+		if (this.object === null)
 		{
 			return;
 		}
 
 		// AS3: _planeParser.initializeFromXML(param1)
-		if(data instanceof RoomPlaneParser)
+		if (data instanceof RoomPlaneParser)
 		{
 			this._planeParser = data;
 		}
 
 		const model = this.object.getModelController();
 
-		if(model)
+		if (model)
 		{
 			model.setNumber(RoomObjectVariableEnum.ROOM_BACKGROUND_COLOR, 0xFFFFFF);
 			model.setNumber(RoomObjectVariableEnum.ROOM_FLOOR_VISIBILITY, 1);
@@ -305,13 +305,13 @@ export class RoomLogic extends ObjectLogicBase
 	 */
 	override dispose(): void
 	{
-		if(this._planeParser)
+		if (this._planeParser)
 		{
 			this._planeParser.dispose();
 			(this as any)._planeParser = null;
 		}
 
-		if(this._planeMaskParser)
+		if (this._planeMaskParser)
 		{
 			this._planeMaskParser.dispose();
 		}

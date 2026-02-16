@@ -38,7 +38,7 @@ export class ProgressIndicatorWidget implements IWidget
 
 		const root = this._windowManager.buildWidgetLayout('progress_indicator');
 
-		if(root)
+		if (root)
 		{
 			this._root = root;
 		}
@@ -104,7 +104,7 @@ export class ProgressIndicatorWidget implements IWidget
 
 	public get properties(): PropertyStruct[]
 	{
-		if(this._disposed) return [];
+		if (this._disposed) return [];
 
 		return [
 			new PropertyStruct(ProgressIndicatorWidget.STYLE_KEY, this._style),
@@ -116,9 +116,9 @@ export class ProgressIndicatorWidget implements IWidget
 
 	public set properties(values: PropertyStruct[])
 	{
-		for(const prop of values)
+		for (const prop of values)
 		{
-			switch(prop.key)
+			switch (prop.key)
 			{
 				case ProgressIndicatorWidget.STYLE_KEY:
 					this.style = String(prop.value);
@@ -145,9 +145,9 @@ export class ProgressIndicatorWidget implements IWidget
 	{
 		const states: boolean[] = [];
 
-		for(let i = 0; i < this._size; i++)
+		for (let i = 0; i < this._size; i++)
 		{
-			switch(this._mode)
+			switch (this._mode)
 			{
 				case 'position':
 					states.push(i + 1 === this._position);
@@ -175,15 +175,15 @@ export class ProgressIndicatorWidget implements IWidget
 
 	public dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
-		if(this._root)
+		if (this._root)
 		{
 			this._root.dispose();
 			this._root = null;
 		}
 
-		if(this._widgetWindow)
+		if (this._widgetWindow)
 		{
 			this._widgetWindow.rootWindow = null;
 			this._widgetWindow = null;

@@ -7,11 +7,6 @@
  */
 export class RoomPlaneRectangleMask
 {
-	private _leftSideLoc: number;
-	private _rightSideLoc: number;
-	private _leftSideLength: number;
-	private _rightSideLength: number;
-
 	constructor(leftSideLoc: number, rightSideLoc: number, leftSideLength: number, rightSideLength: number)
 	{
 		this._leftSideLoc = leftSideLoc;
@@ -20,20 +15,28 @@ export class RoomPlaneRectangleMask
 		this._rightSideLength = rightSideLength;
 	}
 
+	private _leftSideLoc: number;
+
 	get leftSideLoc(): number
 	{
 		return this._leftSideLoc;
 	}
+
+	private _rightSideLoc: number;
 
 	get rightSideLoc(): number
 	{
 		return this._rightSideLoc;
 	}
 
+	private _leftSideLength: number;
+
 	get leftSideLength(): number
 	{
 		return this._leftSideLength;
 	}
+
+	private _rightSideLength: number;
 
 	get rightSideLength(): number
 	{

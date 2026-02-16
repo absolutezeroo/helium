@@ -1,5 +1,5 @@
-import {Component, ComponentDependency} from '@core/runtime';
 import type {IContext} from '@core/runtime';
+import {Component, ComponentDependency} from '@core/runtime';
 import type {IAssetLibrary} from '@core/assets';
 import type {IHabboWindowManager} from '@habbo/window/IHabboWindowManager';
 import type {IHabboLocalizationManager} from '@habbo/localization/IHabboLocalizationManager';

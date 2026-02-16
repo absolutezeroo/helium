@@ -20,7 +20,6 @@ export class MeMenuNewIconLoader implements IAvatarImageListener
 	private static readonly HEAD_MARGIN: number = 3;
 
 	private _toolbar: HabboToolbar | null;
-	private _currentFigure: string = '';
 	private _fullBitmap: ImageBitmap | null = null;
 	private _headBitmap: ImageBitmap | null = null;
 
@@ -35,13 +34,7 @@ export class MeMenuNewIconLoader implements IAvatarImageListener
 		log.debug('MeMenuNewIconLoader constructed');
 	}
 
-	/**
-	 * Whether the loader is disposed
-	 */
-	get disposed(): boolean
-	{
-		return this._toolbar == null;
-	}
+	private _currentFigure: string = '';
 
 	/**
 	 * The current figure string being displayed
@@ -49,6 +42,14 @@ export class MeMenuNewIconLoader implements IAvatarImageListener
 	get currentFigure(): string
 	{
 		return this._currentFigure;
+	}
+
+	/**
+	 * Whether the loader is disposed
+	 */
+	get disposed(): boolean
+	{
+		return this._toolbar == null;
 	}
 
 	/**
@@ -80,9 +81,34 @@ export class MeMenuNewIconLoader implements IAvatarImageListener
 	 */
 	public onFigureUpdate(figure: string): void
 	{
-		if(this.disposed) return;
+		if (this.disposed) return;
 
 		this.setMeMenuToolbarIcon(figure);
+	}
+
+	/**
+	 * Dispose of this icon loader
+	 *
+	 * @see sources/win63_version/habbo/toolbar/memenu/MeMenuNewIconLoader.as dispose()
+	 */
+	public dispose(): void
+	{
+		if (this.disposed) return;
+
+		if (this._fullBitmap)
+		{
+			this._fullBitmap.close();
+			this._fullBitmap = null;
+		}
+
+		if (this._headBitmap)
+		{
+			this._headBitmap.close();
+			this._headBitmap = null;
+		}
+
+		// In AS3: removes UserObjectEvent and FigureUpdateEvent handlers
+		this._toolbar = null;
 	}
 
 	/**
@@ -97,24 +123,24 @@ export class MeMenuNewIconLoader implements IAvatarImageListener
 	 */
 	private setMeMenuToolbarIcon(figure?: string): void
 	{
-		if(!this._toolbar) return;
+		if (!this._toolbar) return;
 
 		const avatarRenderManager = this._toolbar.avatarRenderManager;
 		const currentFigure = figure ?? this._toolbar.sessionDataManager?.figure ?? '';
 
-		if(!currentFigure) return;
+		if (!currentFigure) return;
 
 		let fullBitmap: ImageBitmap | null = null;
 		let headBitmap: ImageBitmap | null = null;
 
-		if(avatarRenderManager)
+		if (avatarRenderManager)
 		{
-			if(currentFigure !== this._currentFigure)
+			if (currentFigure !== this._currentFigure)
 			{
 				const gender = this._toolbar.sessionDataManager?.gender ?? '';
 				const avatarImage = avatarRenderManager.createAvatarImage(currentFigure, 'h', gender, this, null);
 
-				if(avatarImage)
+				if (avatarImage)
 				{
 					avatarImage.setDirection('full', 2);
 
@@ -122,12 +148,12 @@ export class MeMenuNewIconLoader implements IAvatarImageListener
 					const fullTexture = avatarImage.getCroppedImage('full');
 					const headTexture = avatarImage.getCroppedImage('head');
 
-					if(fullTexture?.source?.resource instanceof OffscreenCanvas)
+					if (fullTexture?.source?.resource instanceof OffscreenCanvas)
 					{
 						fullBitmap = this.offscreenToImageBitmap(fullTexture.source.resource);
 					}
 
-					if(headTexture?.source?.resource instanceof OffscreenCanvas)
+					if (headTexture?.source?.resource instanceof OffscreenCanvas)
 					{
 						headBitmap = this.offscreenToImageBitmap(headTexture.source.resource);
 					}
@@ -137,14 +163,14 @@ export class MeMenuNewIconLoader implements IAvatarImageListener
 
 				this._currentFigure = currentFigure;
 
-				if(this._fullBitmap)
+				if (this._fullBitmap)
 				{
 					this._fullBitmap.close();
 				}
 
 				this._fullBitmap = fullBitmap;
 
-				if(this._headBitmap)
+				if (this._headBitmap)
 				{
 					this._headBitmap.close();
 				}
@@ -158,13 +184,13 @@ export class MeMenuNewIconLoader implements IAvatarImageListener
 			}
 		}
 
-		if(!this._toolbar) return;
+		if (!this._toolbar) return;
 
 		let iconBitmap: ImageBitmap | null = null;
 
-		if(fullBitmap && headBitmap)
+		if (fullBitmap && headBitmap)
 		{
-			if(fullBitmap.height > MeMenuNewIconLoader.MAX_ICON_HEIGHT)
+			if (fullBitmap.height > MeMenuNewIconLoader.MAX_ICON_HEIGHT)
 			{
 				// Crop to MAX_ICON_HEIGHT from the top, adjusting for head
 				const cropped = new OffscreenCanvas(fullBitmap.width, MeMenuNewIconLoader.MAX_ICON_HEIGHT);
@@ -172,7 +198,7 @@ export class MeMenuNewIconLoader implements IAvatarImageListener
 
 				let sy = 0;
 
-				if(headBitmap.height > MeMenuNewIconLoader.MAX_ICON_HEIGHT - MeMenuNewIconLoader.HEAD_MARGIN)
+				if (headBitmap.height > MeMenuNewIconLoader.MAX_ICON_HEIGHT - MeMenuNewIconLoader.HEAD_MARGIN)
 				{
 					sy = headBitmap.height - MeMenuNewIconLoader.MAX_ICON_HEIGHT + MeMenuNewIconLoader.HEAD_MARGIN;
 				}
@@ -227,30 +253,5 @@ export class MeMenuNewIconLoader implements IAvatarImageListener
 		{
 			return null;
 		}
-	}
-
-	/**
-	 * Dispose of this icon loader
-	 *
-	 * @see sources/win63_version/habbo/toolbar/memenu/MeMenuNewIconLoader.as dispose()
-	 */
-	public dispose(): void
-	{
-		if(this.disposed) return;
-
-		if(this._fullBitmap)
-		{
-			this._fullBitmap.close();
-			this._fullBitmap = null;
-		}
-
-		if(this._headBitmap)
-		{
-			this._headBitmap.close();
-			this._headBitmap = null;
-		}
-
-		// In AS3: removes UserObjectEvent and FigureUpdateEvent handlers
-		this._toolbar = null;
 	}
 }

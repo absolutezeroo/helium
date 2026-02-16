@@ -1,6 +1,6 @@
-import type { IMessageDataWrapper } from '@core/communication/messages/IMessageDataWrapper';
-import type { IMessageParser } from '@core/communication/messages/IMessageParser';
-import { CompetitionEntryData } from './CompetitionEntryData';
+import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
+import type {IMessageParser} from '@core/communication/messages/IMessageParser';
+import {CompetitionEntryData} from './CompetitionEntryData';
 
 /**
  * Parses competition entry prizes from the server.
@@ -9,30 +9,30 @@ import { CompetitionEntryData } from './CompetitionEntryData';
  */
 export class CompetitionEntryMessageParser implements IMessageParser
 {
-    private _prizes: Array<CompetitionEntryData> = [];
+	private _prizes: Array<CompetitionEntryData> = [];
 
-    flush(): boolean
-    {
-        this._prizes = [];
-        return true;
-    }
+	get prizes(): Array<CompetitionEntryData>
+	{
+		return this._prizes;
+	}
 
-    parse(wrapper: IMessageDataWrapper): boolean
-    {
-        if(!wrapper) return false;
+	flush(): boolean
+	{
+		this._prizes = [];
+		return true;
+	}
 
-        const count = wrapper.readInt();
+	parse(wrapper: IMessageDataWrapper): boolean
+	{
+		if (!wrapper) return false;
 
-        for(let i = 0; i < count; i++)
-        {
-            this._prizes.push(new CompetitionEntryData(wrapper));
-        }
+		const count = wrapper.readInt();
 
-        return true;
-    }
+		for (let i = 0; i < count; i++)
+		{
+			this._prizes.push(new CompetitionEntryData(wrapper));
+		}
 
-    get prizes(): Array<CompetitionEntryData>
-    {
-        return this._prizes;
-    }
+		return true;
+	}
 }

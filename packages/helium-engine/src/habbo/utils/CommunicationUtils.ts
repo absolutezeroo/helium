@@ -76,7 +76,8 @@ export class CommunicationUtils
 			{
 				localStorage.setItem(storageKey, value);
 			}
-		} catch (e)
+		}
+		catch (e)
 		{
 			log.error('Error writing property \'' + key + '\' with value \'' + value + '\'');
 		}
@@ -109,7 +110,8 @@ export class CommunicationUtils
 			}
 
 			return value;
-		} catch (e)
+		}
+		catch (e)
 		{
 			log.error('Error reading property \'' + key + '\'');
 		}
@@ -158,7 +160,8 @@ export class CommunicationUtils
 			const storageKey = CommunicationUtils.SOL_ID + '.' + key;
 
 			return localStorage.getItem(storageKey) !== null;
-		} catch (e)
+		}
+		catch (e)
 		{
 			return false;
 		}

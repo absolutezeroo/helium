@@ -19,15 +19,42 @@ export class PurseAreaExtension
 
 	private _toolbar: HabboToolbar | null;
 	private _clubArea: PurseClubArea | null = null;
-	private _credits: number = 0;
-	private _duckets: number = 0;
-	private _diamonds: number = 0;
 
 	constructor(toolbar: HabboToolbar)
 	{
 		this._toolbar = toolbar;
 
 		log.debug('PurseAreaExtension constructed');
+	}
+
+	private _credits: number = 0;
+
+	/**
+	 * Get the current credits value
+	 */
+	get credits(): number
+	{
+		return this._credits;
+	}
+
+	private _duckets: number = 0;
+
+	/**
+	 * Get the current duckets value
+	 */
+	get duckets(): number
+	{
+		return this._duckets;
+	}
+
+	private _diamonds: number = 0;
+
+	/**
+	 * Get the current diamonds value
+	 */
+	get diamonds(): number
+	{
+		return this._diamonds;
 	}
 
 	/**
@@ -72,7 +99,7 @@ export class PurseAreaExtension
 	 */
 	public onPointBalance(activityPointType: number, balance: number): void
 	{
-		switch(activityPointType)
+		switch (activityPointType)
 		{
 			case 0:
 				this._duckets = balance;
@@ -81,30 +108,6 @@ export class PurseAreaExtension
 				this._diamonds = balance;
 				break;
 		}
-	}
-
-	/**
-	 * Get the current credits value
-	 */
-	get credits(): number
-	{
-		return this._credits;
-	}
-
-	/**
-	 * Get the current duckets value
-	 */
-	get duckets(): number
-	{
-		return this._duckets;
-	}
-
-	/**
-	 * Get the current diamonds value
-	 */
-	get diamonds(): number
-	{
-		return this._diamonds;
 	}
 
 	/**
@@ -124,9 +127,9 @@ export class PurseAreaExtension
 	 */
 	public dispose(): void
 	{
-		if(this.disposed) return;
+		if (this.disposed) return;
 
-		if(this._clubArea)
+		if (this._clubArea)
 		{
 			this._clubArea.dispose();
 			this._clubArea = null;

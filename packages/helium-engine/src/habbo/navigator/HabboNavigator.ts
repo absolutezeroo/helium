@@ -118,7 +118,7 @@ export class HabboNavigator extends Component implements IHabboNavigator
 				(toolbar: IHabboToolbar | null) =>
 				{
 					// Unsubscribe from previous toolbar
-					if(this._toolbar)
+					if (this._toolbar)
 					{
 						this._toolbar.toolbarEvents.off(
 							HabboToolbarEvent.TOOLBAR_CLICK,
@@ -130,7 +130,7 @@ export class HabboNavigator extends Component implements IHabboNavigator
 
 					// Subscribe to new toolbar's custom event emitter
 					// (toolbarEvents, NOT Component.events — see MEMORY.md)
-					if(toolbar)
+					if (toolbar)
 					{
 						toolbar.toolbarEvents.on(
 							HabboToolbarEvent.TOOLBAR_CLICK,
@@ -362,7 +362,7 @@ export class HabboNavigator extends Component implements IHabboNavigator
 	{
 		const connection = this._communication?.connection;
 
-		if(connection)
+		if (connection)
 		{
 			connection.send(composer);
 		}
@@ -378,7 +378,7 @@ export class HabboNavigator extends Component implements IHabboNavigator
 	 */
 	getJsonWindow(jsonFileName: string, layer: number = 1): IWindow | null
 	{
-		if(!this._windowManager)
+		if (!this._windowManager)
 		{
 			log.error(`Cannot build window '${jsonFileName}': window manager not available`);
 			return null;
@@ -388,7 +388,7 @@ export class HabboNavigator extends Component implements IHabboNavigator
 		{
 			return this._windowManager.buildWidgetLayout(jsonFileName, layer);
 		}
-		catch(e)
+		catch (e)
 		{
 			log.error(`Failed to build window '${jsonFileName}':`, e);
 			return null;
@@ -404,7 +404,7 @@ export class HabboNavigator extends Component implements IHabboNavigator
 	 */
 	getText(key: string): string
 	{
-		if(!this._localization) return key;
+		if (!this._localization) return key;
 
 		return this._localization.getLocalization(key, key);
 	}
@@ -420,7 +420,7 @@ export class HabboNavigator extends Component implements IHabboNavigator
 	 */
 	registerParameter(key: string, param: string, value: string): string
 	{
-		if(!this._localization) return key;
+		if (!this._localization) return key;
 
 		return this._localization.registerParameter(key, param, value);
 	}
@@ -532,7 +532,7 @@ export class HabboNavigator extends Component implements IHabboNavigator
 	 */
 	isPerkAllowed(perkCode: string): boolean
 	{
-		if(this._sessionData)
+		if (this._sessionData)
 		{
 			return this._sessionData.isPerkAllowed(perkCode);
 		}
@@ -550,7 +550,7 @@ export class HabboNavigator extends Component implements IHabboNavigator
 	 */
 	trackGoogle(category: string, action: string, value: number = -1): void
 	{
-		if(this._tracking)
+		if (this._tracking)
 		{
 			this._tracking.trackGoogle(category, action, value);
 		}
@@ -567,7 +567,7 @@ export class HabboNavigator extends Component implements IHabboNavigator
 	 */
 	trackNavigationDataPoint(category: string, action: string, label: string = '', value: number = 0): void
 	{
-		if(this._tracking)
+		if (this._tracking)
 		{
 			this._tracking.trackEventLog('Navigation', category, action, label, value);
 		}
@@ -585,29 +585,29 @@ export class HabboNavigator extends Component implements IHabboNavigator
 
 		const parts = link.split('/');
 
-		if(parts.length < 2) return;
+		if (parts.length < 2) return;
 
-		switch(parts[1])
+		switch (parts[1])
 		{
 			case 'goto':
-				if(parts.length >= 3)
+				if (parts.length >= 3)
 				{
 					const roomId = parseInt(parts[2], 10);
 
-					if(!isNaN(roomId))
+					if (!isNaN(roomId))
 					{
 						this.goToRoom(roomId, true);
 					}
 				}
 				break;
 			case 'search':
-				if(parts.length >= 3)
+				if (parts.length >= 3)
 				{
 					this.performTextSearch(parts[2]);
 				}
 				break;
 			case 'tag':
-				if(parts.length >= 3)
+				if (parts.length >= 3)
 				{
 					this.performTagSearch(parts[2]);
 				}
@@ -620,7 +620,7 @@ export class HabboNavigator extends Component implements IHabboNavigator
 		if (this.disposed) return;
 
 		// Unsubscribe from toolbar events
-		if(this._toolbar)
+		if (this._toolbar)
 		{
 			this._toolbar.toolbarEvents.off(
 				HabboToolbarEvent.TOOLBAR_CLICK,
@@ -652,9 +652,9 @@ export class HabboNavigator extends Component implements IHabboNavigator
 	 */
 	private onHabboToolbarEvent = (event: HabboToolbarEvent): void =>
 	{
-		if(event.type !== HabboToolbarEvent.TOOLBAR_CLICK) return;
+		if (event.type !== HabboToolbarEvent.TOOLBAR_CLICK) return;
 
-		switch(event.iconId)
+		switch (event.iconId)
 		{
 			case HabboToolbarIconEnum.ROOMINFO:
 				this.toggleRoomInfoVisibility();
@@ -663,7 +663,7 @@ export class HabboNavigator extends Component implements IHabboNavigator
 				this.showOwnRooms();
 				break;
 			case HabboToolbarIconEnum.GAMES:
-				if(this.getBoolean('game.center.enabled'))
+				if (this.getBoolean('game.center.enabled'))
 				{
 					this.closeNavigator();
 				}

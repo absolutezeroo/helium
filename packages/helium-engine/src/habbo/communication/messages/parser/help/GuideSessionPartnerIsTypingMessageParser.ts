@@ -1,5 +1,5 @@
-import type { IMessageParser } from '@core/communication/messages/IMessageParser';
-import type { IMessageDataWrapper } from '@core/communication/messages/IMessageDataWrapper';
+import type {IMessageParser} from '@core/communication/messages/IMessageParser';
+import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
 
 /**
  * Parses guide session partner is typing data from the server.
@@ -9,6 +9,11 @@ import type { IMessageDataWrapper } from '@core/communication/messages/IMessageD
 export class GuideSessionPartnerIsTypingMessageParser implements IMessageParser
 {
 	private _isTyping: boolean = false;
+
+	get isTyping(): boolean
+	{
+		return this._isTyping;
+	}
 
 	flush(): boolean
 	{
@@ -22,10 +27,5 @@ export class GuideSessionPartnerIsTypingMessageParser implements IMessageParser
 
 		this._isTyping = wrapper.readBoolean();
 		return true;
-	}
-
-	get isTyping(): boolean
-	{
-		return this._isTyping;
 	}
 }

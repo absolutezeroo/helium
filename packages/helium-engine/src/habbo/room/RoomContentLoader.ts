@@ -162,7 +162,7 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 		}
 
 		this._sessionDataManager.removeFurniDataListener(this);
-		
+
 		this.populateFurniData(furniData);
 
 		this._furniDataReady = true;

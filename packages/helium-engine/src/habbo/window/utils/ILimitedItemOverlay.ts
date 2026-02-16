@@ -1,5 +1,5 @@
-import type { IDisposable } from '@core/runtime/IDisposable';
-import type { IWindowContainer } from '@core/window/IWindowContainer';
+import type {IDisposable} from '@core/runtime/IDisposable';
+import type {IWindowContainer} from '@core/window/IWindowContainer';
 
 /**
  * Interface for limited item overlays.
@@ -11,18 +11,18 @@ import type { IWindowContainer } from '@core/window/IWindowContainer';
  */
 export interface ILimitedItemOverlay extends IDisposable
 {
-    /**
-     * The container window holding the overlay elements.
-     */
-    readonly window: IWindowContainer | null;
+	/**
+	 * The container window holding the overlay elements.
+	 */
+	readonly window: IWindowContainer | null;
 
-    /**
-     * Set the serial number of this limited item.
-     */
-    serialNumber: number;
+	/**
+	 * Set the serial number of this limited item.
+	 */
+	serialNumber: number;
 
-    /**
-     * Set the total series size of this limited item.
-     */
-    seriesSize: number;
+	/**
+	 * Set the total series size of this limited item.
+	 */
+	seriesSize: number;
 }

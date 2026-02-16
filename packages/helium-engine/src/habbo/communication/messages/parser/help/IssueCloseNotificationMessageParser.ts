@@ -1,5 +1,5 @@
-import type { IMessageParser } from '@core/communication/messages/IMessageParser';
-import type { IMessageDataWrapper } from '@core/communication/messages/IMessageDataWrapper';
+import type {IMessageParser} from '@core/communication/messages/IMessageParser';
+import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
 
 /**
  * Parses issue close notification data from the server.
@@ -9,7 +9,18 @@ import type { IMessageDataWrapper } from '@core/communication/messages/IMessageD
 export class IssueCloseNotificationMessageParser implements IMessageParser
 {
 	private _closeReason: number = 0;
+
+	get closeReason(): number
+	{
+		return this._closeReason;
+	}
+
 	private _messageText: string = '';
+
+	get messageText(): string
+	{
+		return this._messageText;
+	}
 
 	flush(): boolean
 	{
@@ -25,15 +36,5 @@ export class IssueCloseNotificationMessageParser implements IMessageParser
 		this._closeReason = wrapper.readInt();
 		this._messageText = wrapper.readString();
 		return true;
-	}
-
-	get closeReason(): number
-	{
-		return this._closeReason;
-	}
-
-	get messageText(): string
-	{
-		return this._messageText;
 	}
 }

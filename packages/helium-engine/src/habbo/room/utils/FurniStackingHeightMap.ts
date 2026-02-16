@@ -8,8 +8,6 @@
  */
 export class FurniStackingHeightMap
 {
-	private _width: number;
-	private _height: number;
 	private _heightMap: number[];
 	private _isNotStackable: boolean[];
 	private _isRoomTile: boolean[];
@@ -24,10 +22,14 @@ export class FurniStackingHeightMap
 		this._isRoomTile = new Array(size).fill(false);
 	}
 
+	private _width: number;
+
 	get width(): number
 	{
 		return this._width;
 	}
+
+	private _height: number;
 
 	get height(): number
 	{

@@ -15,11 +15,7 @@ const log = Logger.getLogger('OfferExtension');
  */
 export class OfferExtension
 {
-	private _disposed: boolean = false;
 	private _toolbar: HabboToolbar | null;
-	private _visible: boolean = false;
-	private _videoAvailable: boolean = false;
-	private _rewardsAvailable: boolean = false;
 	private _showingVideo: boolean = false;
 
 	constructor(toolbar: HabboToolbar)
@@ -30,6 +26,8 @@ export class OfferExtension
 		log.debug('OfferExtension constructed');
 	}
 
+	private _disposed: boolean = false;
+
 	/**
 	 * Whether the extension is disposed
 	 */
@@ -37,6 +35,8 @@ export class OfferExtension
 	{
 		return this._disposed;
 	}
+
+	private _visible: boolean = false;
 
 	/**
 	 * Whether the extension is visible
@@ -46,6 +46,8 @@ export class OfferExtension
 		return this._visible;
 	}
 
+	private _videoAvailable: boolean = false;
+
 	/**
 	 * Whether a video offer is available
 	 */
@@ -53,6 +55,8 @@ export class OfferExtension
 	{
 		return this._videoAvailable;
 	}
+
+	private _rewardsAvailable: boolean = false;
 
 	/**
 	 * Whether rewards are available
@@ -69,7 +73,7 @@ export class OfferExtension
 	 */
 	public onButtonClick(buttonName: string): void
 	{
-		switch(buttonName)
+		switch (buttonName)
 		{
 			case 'start_video':
 				// In AS3: _offerCenter.showVideo()
@@ -99,7 +103,7 @@ export class OfferExtension
 	{
 		this._videoAvailable = available;
 
-		if(available)
+		if (available)
 		{
 			this._visible = true;
 		}
@@ -107,24 +111,24 @@ export class OfferExtension
 		this.refresh();
 	}
 
-	private refresh(): void
-	{
-		this._visible = this._videoAvailable || this._rewardsAvailable;
-
-		if(this._toolbar?.extensionView)
-		{
-			this._toolbar.extensionView.refreshItemWindow();
-		}
-	}
-
 	/**
 	 * Dispose of this extension
 	 */
 	public dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		this._toolbar = null;
 		this._disposed = true;
+	}
+
+	private refresh(): void
+	{
+		this._visible = this._videoAvailable || this._rewardsAvailable;
+
+		if (this._toolbar?.extensionView)
+		{
+			this._toolbar.extensionView.refreshItemWindow();
+		}
 	}
 }

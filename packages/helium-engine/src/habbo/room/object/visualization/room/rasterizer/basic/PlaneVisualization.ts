@@ -12,7 +12,7 @@ import type {IVector3d} from '@room/utils/IVector3d';
 import {Vector3d} from '@room/utils/Vector3d';
 import type {PlaneMaterial} from './PlaneMaterial';
 import {PlaneVisualizationLayer} from './PlaneVisualizationLayer';
-import type {PlaneVisualizationAnimationLayer, IAnimationItemData} from '../animated/PlaneVisualizationAnimationLayer';
+import type {IAnimationItemData, PlaneVisualizationAnimationLayer} from '../animated/PlaneVisualizationAnimationLayer';
 import {PlaneVisualizationAnimationLayer as AnimationLayer} from '../animated/PlaneVisualizationAnimationLayer';
 
 /**
@@ -31,8 +31,8 @@ export class PlaneVisualization
 	{
 		this._layers = [];
 
-		if(layerCount < 0) layerCount = 0;
-		for(let i = 0; i < layerCount; i++)
+		if (layerCount < 0) layerCount = 0;
+		for (let i = 0; i < layerCount; i++)
 		{
 			this._layers.push(null);
 		}
@@ -57,11 +57,11 @@ export class PlaneVisualization
 
 	dispose(): void
 	{
-		if(this._layers !== null)
+		if (this._layers !== null)
 		{
-			for(const layer of this._layers)
+			for (const layer of this._layers)
 			{
-				if(layer !== null)
+				if (layer !== null)
 				{
 					layer.dispose();
 				}
@@ -74,14 +74,14 @@ export class PlaneVisualization
 
 	clearCache(): void
 	{
-		if(!this._cacheUsed) return;
+		if (!this._cacheUsed) return;
 
 		this._cachedBitmap = null;
 		this._cachedBitmapNormal.assign(new Vector3d());
 
-		for(const layer of this._layers)
+		for (const layer of this._layers)
 		{
-			if(layer !== null && 'clearCache' in layer)
+			if (layer !== null && 'clearCache' in layer)
 			{
 				layer.clearCache();
 			}
@@ -92,10 +92,10 @@ export class PlaneVisualization
 
 	setLayer(index: number, material: PlaneMaterial | null, color: number, align: number, offset: number = 0): boolean
 	{
-		if(index < 0 || index >= this._layers.length) return false;
+		if (index < 0 || index >= this._layers.length) return false;
 
 		const existing = this._layers[index];
-		if(existing !== null)
+		if (existing !== null)
 		{
 			existing.dispose();
 		}
@@ -116,10 +116,10 @@ export class PlaneVisualization
 	 */
 	setAnimationLayer(index: number, items: IAnimationItemData[], assetTextures: Map<string, HTMLCanvasElement> | null): boolean
 	{
-		if(index < 0 || index >= this._layers.length) return false;
+		if (index < 0 || index >= this._layers.length) return false;
 
 		const existing = this._layers[index];
-		if(existing !== null)
+		if (existing !== null)
 		{
 			existing.dispose();
 		}
@@ -157,24 +157,24 @@ export class PlaneVisualization
 		time: number = 0
 	): HTMLCanvasElement | null
 	{
-		if(width < 1) width = 1;
-		if(height < 1) height = 1;
+		if (width < 1) width = 1;
+		if (height < 1) height = 1;
 
-		if(canvas !== null && (canvas.width !== width || canvas.height !== height))
+		if (canvas !== null && (canvas.width !== width || canvas.height !== height))
 		{
 			canvas = null;
 		}
 
 		// Check cache
-		if(this._cachedBitmap !== null)
+		if (this._cachedBitmap !== null)
 		{
-			if(this._cachedBitmap.width === width &&
+			if (this._cachedBitmap.width === width &&
 				this._cachedBitmap.height === height &&
 				Vector3d.isEqual(this._cachedBitmapNormal, normal))
 			{
-				if(!this._hasAnimationLayers)
+				if (!this._hasAnimationLayers)
 				{
-					if(canvas !== null)
+					if (canvas !== null)
 					{
 						const ctx = canvas.getContext('2d')!;
 						ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -192,7 +192,7 @@ export class PlaneVisualization
 
 		this._cacheUsed = true;
 
-		if(this._cachedBitmap === null)
+		if (this._cachedBitmap === null)
 		{
 			this._cachedBitmap = document.createElement('canvas');
 			this._cachedBitmap.width = width;
@@ -209,7 +209,7 @@ export class PlaneVisualization
 			ctx.fillRect(0, 0, width, height);
 		}
 
-		if(canvas === null)
+		if (canvas === null)
 		{
 			canvas = this._cachedBitmap;
 		}
@@ -217,20 +217,20 @@ export class PlaneVisualization
 		this._cachedBitmapNormal.assign(normal);
 
 		// Render all layers - static or animated
-		for(const layer of this._layers)
+		for (const layer of this._layers)
 		{
-			if(layer instanceof PlaneVisualizationLayer)
+			if (layer instanceof PlaneVisualizationLayer)
 			{
 				layer.render(canvas, width, height, normal, hasTexture, offsetX, offsetY);
 			}
-			else if(layer instanceof AnimationLayer)
+			else if (layer instanceof AnimationLayer)
 			{
 				layer.render(canvas, width, height, normal, offsetX, offsetY, tileWidth, tileHeight, speedXScale, speedYScale, time);
 			}
 		}
 
 		// Update cache from canvas
-		if(canvas !== null && canvas !== this._cachedBitmap)
+		if (canvas !== null && canvas !== this._cachedBitmap)
 		{
 			const ctx = this._cachedBitmap.getContext('2d')!;
 			ctx.clearRect(0, 0, this._cachedBitmap.width, this._cachedBitmap.height);

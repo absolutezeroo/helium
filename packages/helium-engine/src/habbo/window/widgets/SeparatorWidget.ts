@@ -43,14 +43,14 @@ export class SeparatorWidget implements ISeparatorWidget
 
 		const root = this._windowManager.buildWidgetLayout('separator') as IWindowContainer | null;
 
-		if(root)
+		if (root)
 		{
 			this._root = root;
 
 			const canvas = root.getChildByName('canvas');
 			const children = root.getChildByName('children') as IWindowContainer | null;
 
-			if(canvas)
+			if (canvas)
 			{
 				this._canvas = canvas;
 
@@ -58,7 +58,7 @@ export class SeparatorWidget implements ISeparatorWidget
 				this._canvas.addEventListener(WindowEvent.WE_RESIZED, this._onChangeBound);
 			}
 
-			if(children)
+			if (children)
 			{
 				this._children = children;
 
@@ -105,7 +105,7 @@ export class SeparatorWidget implements ISeparatorWidget
 
 	public get properties(): PropertyStruct[]
 	{
-		if(this._disposed) return [];
+		if (this._disposed) return [];
 
 		return [
 			new PropertyStruct(SeparatorWidget.VERTICAL_KEY, this._vertical),
@@ -114,9 +114,9 @@ export class SeparatorWidget implements ISeparatorWidget
 
 	public set properties(values: PropertyStruct[])
 	{
-		for(const prop of values)
+		for (const prop of values)
 		{
-			if(prop.key === SeparatorWidget.VERTICAL_KEY)
+			if (prop.key === SeparatorWidget.VERTICAL_KEY)
 			{
 				this.vertical = Boolean(prop.value);
 			}
@@ -125,18 +125,18 @@ export class SeparatorWidget implements ISeparatorWidget
 
 	public dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		this._disposed = true;
 
-		if(this._canvas)
+		if (this._canvas)
 		{
 			this._canvas.removeEventListener(WindowEvent.WE_RESIZE, this._onChangeBound);
 			this._canvas.removeEventListener(WindowEvent.WE_RESIZED, this._onChangeBound);
 			this._canvas = null;
 		}
 
-		if(this._children)
+		if (this._children)
 		{
 			this._children.removeEventListener(WindowEvent.WE_CHILD_ADDED, this._onChangeBound);
 			this._children.removeEventListener(WindowEvent.WE_CHILD_REMOVED, this._onChangeBound);
@@ -145,13 +145,13 @@ export class SeparatorWidget implements ISeparatorWidget
 			this._children = null;
 		}
 
-		if(this._root)
+		if (this._root)
 		{
 			this._root.dispose();
 			this._root = null;
 		}
 
-		if(this._widgetWindow)
+		if (this._widgetWindow)
 		{
 			this._widgetWindow.rootWindow = null;
 		}

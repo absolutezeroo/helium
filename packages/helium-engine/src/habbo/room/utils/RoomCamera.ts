@@ -12,25 +12,15 @@ import type {IVector3d} from '@room/utils/IVector3d';
 export class RoomCamera
 {
 	private static readonly MOVE_SPEED_DENOMINATOR: number = 12;
-
-	private _targetId: number = -1;
-	private _targetCategory: number = -2;
 	private _targetLoc: Vector3d | null = null;
 	private _moveDistance: number = 0;
 	private _previousMoveSpeed: number = 0;
 	private _maintainPreviousMoveSpeed: boolean = false;
 	private _currentLoc: Vector3d | null = null;
-	private _targetObjectLoc: Vector3d;
-	private _limitedLocX: boolean = false;
-	private _limitedLocY: boolean = false;
-	private _centeredLocX: boolean = false;
-	private _centeredLocY: boolean = false;
 	private _screenWd: number = 0;
 	private _screenHt: number = 0;
-	private _scale: number = 0;
 	private _roomWd: number = 0;
 	private _roomHt: number = 0;
-	private _geometryUpdateId: number = -1;
 	private _scaleChanged: boolean = false;
 	private _followDuration: number = 0;
 
@@ -39,10 +29,7 @@ export class RoomCamera
 		this._targetObjectLoc = new Vector3d();
 	}
 
-	get location(): IVector3d | null
-	{
-		return this._currentLoc;
-	}
+	private _targetId: number = -1;
 
 	get targetId(): number
 	{
@@ -54,6 +41,8 @@ export class RoomCamera
 		this._targetId = value;
 	}
 
+	private _targetCategory: number = -2;
+
 	get targetCategory(): number
 	{
 		return this._targetCategory;
@@ -63,6 +52,8 @@ export class RoomCamera
 	{
 		this._targetCategory = value;
 	}
+
+	private _targetObjectLoc: Vector3d;
 
 	get targetObjectLoc(): IVector3d
 	{
@@ -74,6 +65,8 @@ export class RoomCamera
 		this._targetObjectLoc.assign(value);
 	}
 
+	private _limitedLocX: boolean = false;
+
 	get limitedLocX(): boolean
 	{
 		return this._limitedLocX;
@@ -83,6 +76,8 @@ export class RoomCamera
 	{
 		this._limitedLocX = value;
 	}
+
+	private _limitedLocY: boolean = false;
 
 	get limitedLocY(): boolean
 	{
@@ -94,6 +89,8 @@ export class RoomCamera
 		this._limitedLocY = value;
 	}
 
+	private _centeredLocX: boolean = false;
+
 	get centeredLocX(): boolean
 	{
 		return this._centeredLocX;
@@ -104,6 +101,8 @@ export class RoomCamera
 		this._centeredLocX = value;
 	}
 
+	private _centeredLocY: boolean = false;
+
 	get centeredLocY(): boolean
 	{
 		return this._centeredLocY;
@@ -112,6 +111,39 @@ export class RoomCamera
 	set centeredLocY(value: boolean)
 	{
 		this._centeredLocY = value;
+	}
+
+	private _scale: number = 0;
+
+	get scale(): number
+	{
+		return this._scale;
+	}
+
+	set scale(value: number)
+	{
+		if (this._scale !== value)
+		{
+			this._scale = value;
+			this._scaleChanged = true;
+		}
+	}
+
+	private _geometryUpdateId: number = -1;
+
+	get geometryUpdateId(): number
+	{
+		return this._geometryUpdateId;
+	}
+
+	set geometryUpdateId(value: number)
+	{
+		this._geometryUpdateId = value;
+	}
+
+	get location(): IVector3d | null
+	{
+		return this._currentLoc;
 	}
 
 	get screenWidth(): number
@@ -134,20 +166,6 @@ export class RoomCamera
 		this._screenHt = value;
 	}
 
-	get scale(): number
-	{
-		return this._scale;
-	}
-
-	set scale(value: number)
-	{
-		if (this._scale !== value)
-		{
-			this._scale = value;
-			this._scaleChanged = true;
-		}
-	}
-
 	get roomWidth(): number
 	{
 		return this._roomWd;
@@ -166,16 +184,6 @@ export class RoomCamera
 	set roomHeight(value: number)
 	{
 		this._roomHt = value;
-	}
-
-	get geometryUpdateId(): number
-	{
-		return this._geometryUpdateId;
-	}
-
-	set geometryUpdateId(value: number)
-	{
-		this._geometryUpdateId = value;
 	}
 
 	get isMoving(): boolean

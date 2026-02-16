@@ -10,34 +10,12 @@ import {AnimationFrame} from './AnimationFrame';
 
 export class AnimationStateData
 {
-	private _animationId: number = -1;
-	private _animationAfterTransitionId: number = 0;
-	private _animationOver: boolean = false;
-	private _frameCounter: number = 0;
 	private _frames: (AnimationFrame | null)[] = [];
 	private _lastFramePlayed: boolean[] = [];
 	private _animationPlayed: boolean[] = [];
 	private _layerCount: number = 0;
 
-	get animationOver(): boolean
-	{
-		return this._animationOver;
-	}
-
-	set animationOver(value: boolean)
-	{
-		this._animationOver = value;
-	}
-
-	get frameCounter(): number
-	{
-		return this._frameCounter;
-	}
-
-	set frameCounter(value: number)
-	{
-		this._frameCounter = value;
-	}
+	private _animationId: number = -1;
 
 	get animationId(): number
 	{
@@ -53,6 +31,8 @@ export class AnimationStateData
 		}
 	}
 
+	private _animationAfterTransitionId: number = 0;
+
 	get animationAfterTransitionId(): number
 	{
 		return this._animationAfterTransitionId;
@@ -61,6 +41,30 @@ export class AnimationStateData
 	set animationAfterTransitionId(value: number)
 	{
 		this._animationAfterTransitionId = value;
+	}
+
+	private _animationOver: boolean = false;
+
+	get animationOver(): boolean
+	{
+		return this._animationOver;
+	}
+
+	set animationOver(value: boolean)
+	{
+		this._animationOver = value;
+	}
+
+	private _frameCounter: number = 0;
+
+	get frameCounter(): number
+	{
+		return this._frameCounter;
+	}
+
+	set frameCounter(value: number)
+	{
+		this._frameCounter = value;
 	}
 
 	setLayerCount(count: number): void

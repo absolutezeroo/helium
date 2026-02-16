@@ -1,8 +1,8 @@
-import { Logger } from '@core/utils/Logger';
-import type { IWindow } from '@core/window/IWindow';
-import type { IWindowContainer } from '@core/window/IWindowContainer';
-import type { IHabboWindowManager } from '../IHabboWindowManager';
-import type { IModalDialog } from './IModalDialog';
+import {Logger} from '@core/utils/Logger';
+import type {IWindow} from '@core/window/IWindow';
+import type {IWindowContainer} from '@core/window/IWindowContainer';
+import type {IHabboWindowManager} from '../IHabboWindowManager';
+import type {IModalDialog} from './IModalDialog';
 
 const log = Logger.getLogger('ModalDialog');
 
@@ -23,233 +23,235 @@ const log = Logger.getLogger('ModalDialog');
  */
 export class ModalDialog implements IModalDialog
 {
-    private static readonly MODAL_DIALOG_LAYER: number = 3;
+	private static readonly MODAL_DIALOG_LAYER: number = 3;
 
-    private static _windowManager: IHabboWindowManager | null = null;
-    private static _container: IWindowContainer | null = null;
-    private static _refreshPending: number = 0;
-    private static _initialized: boolean = false;
+	private static _windowManager: IHabboWindowManager | null = null;
+	private static _container: IWindowContainer | null = null;
+	private static _refreshPending: number = 0;
+	private static _initialized: boolean = false;
 
-    private _disposed: boolean = false;
-    private _rootWindow: IWindow | null = null;
-    private _background: IWindow | null = null;
+	/**
+	 * Creates a new modal dialog.
+	 *
+	 * @param windowManager - The Habbo window manager
+	 * @param json - The JSON layout definition for the dialog content
+	 */
+	constructor(windowManager: IHabboWindowManager, json: unknown)
+	{
+		ModalDialog.initialiseStaticMembers(windowManager);
 
-    /**
-     * Creates a new modal dialog.
-     *
-     * @param windowManager - The Habbo window manager
-     * @param json - The JSON layout definition for the dialog content
-     */
-    constructor(windowManager: IHabboWindowManager, json: unknown)
-    {
-        ModalDialog.initialiseStaticMembers(windowManager);
+		// Create background overlay window in the modal container
+		this._background = ModalDialog._windowManager!.createWindow(
+			'modal_bg', '', 21, 0, 0,
+			{x: 0, y: 0, width: 1, height: 1},
+			null, 0, ModalDialog.MODAL_DIALOG_LAYER
+		);
 
-        // Create background overlay window in the modal container
-        this._background = ModalDialog._windowManager!.createWindow(
-            'modal_bg', '', 21, 0, 0,
-            { x: 0, y: 0, width: 1, height: 1 },
-            null, 0, ModalDialog.MODAL_DIALOG_LAYER
-        );
+		if (ModalDialog._container && this._background)
+		{
+			ModalDialog._container.addChild(this._background);
+		}
 
-        if(ModalDialog._container && this._background)
-        {
-            ModalDialog._container.addChild(this._background);
-        }
+		// Build the root window from JSON layout
+		this._rootWindow = ModalDialog._windowManager!.buildFromJSON(json, ModalDialog.MODAL_DIALOG_LAYER);
 
-        // Build the root window from JSON layout
-        this._rootWindow = ModalDialog._windowManager!.buildFromJSON(json, ModalDialog.MODAL_DIALOG_LAYER);
+		if (ModalDialog._container && this._rootWindow)
+		{
+			ModalDialog._container.addChild(this._rootWindow);
+			this._rootWindow.center();
+			ModalDialog._container.visible = true;
+		}
 
-        if(ModalDialog._container && this._rootWindow)
-        {
-            ModalDialog._container.addChild(this._rootWindow);
-            this._rootWindow.center();
-            ModalDialog._container.visible = true;
-        }
+		ModalDialog.refresh();
+	}
 
-        ModalDialog.refresh();
-    }
+	private _disposed: boolean = false;
 
-    /**
-     * Initializes static members shared across all modal dialogs.
-     *
-     * @param windowManager - The Habbo window manager
-     */
-    private static initialiseStaticMembers(windowManager: IHabboWindowManager): void
-    {
-        if(ModalDialog._initialized) return;
+	/**
+	 * Whether this modal dialog has been disposed.
+	 */
+	public get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
-        ModalDialog._windowManager = windowManager;
-        ModalDialog._initialized = true;
+	private _rootWindow: IWindow | null = null;
 
-        // Create the shared modal container in the modal layer
-        ModalDialog._container = ModalDialog._windowManager.createWindow(
-            'modal_container', '', 4, 0, 0,
-            { x: 0, y: 0, width: 1, height: 1 },
-            null, 0, ModalDialog.MODAL_DIALOG_LAYER
-        ) as IWindowContainer;
+	/**
+	 * The root window of this modal dialog.
+	 */
+	public get rootWindow(): IWindow | null
+	{
+		return this._rootWindow;
+	}
 
-        log.debug('Modal dialog static members initialized');
-    }
+	private _background: IWindow | null = null;
 
-    /**
-     * Refreshes the modal container layout and background.
-     *
-     * In AS3, this captured BitmapData from the desktop layers,
-     * applied a ColorTransform darkening, and drew stacked bitmaps.
-     * In the TS port, this manages visibility and layout of the
-     * container children. The actual darkening effect is deferred
-     * to the UI rendering layer.
-     */
-    private static refresh(): void
-    {
-        if(!ModalDialog._container) return;
+	/**
+	 * The background overlay window.
+	 */
+	public get background(): IWindow | null
+	{
+		return this._background;
+	}
 
-        const isEmpty = ModalDialog._container.numChildren === 0;
+	/**
+	 * Handles stage resize events.
+	 *
+	 * In AS3 this listened on Stage.resize. In the TS port,
+	 * this can be called from the window manager on viewport resize.
+	 */
+	public static onResize(): void
+	{
+		if (!ModalDialog._container || ModalDialog._container.numChildren <= 0) return;
 
-        if(isEmpty)
-        {
-            // No dialogs open: show underlying desktop layers
-            for(let i = 0; i < ModalDialog.MODAL_DIALOG_LAYER; i++)
-            {
-                const desktop = ModalDialog._windowManager!.getDesktop(i);
+		ModalDialog._refreshPending = 2;
 
-                if(desktop)
-                {
-                    desktop.visible = true;
-                }
-            }
+		const lastChild = ModalDialog._container.getChildAt(ModalDialog._container.numChildren - 1);
 
-            return;
-        }
+		if (lastChild)
+		{
+			lastChild.center();
+		}
+	}
 
-        // Dialogs are open: hide underlying desktop layers
-        for(let i = 0; i < ModalDialog.MODAL_DIALOG_LAYER; i++)
-        {
-            const desktop = ModalDialog._windowManager!.getDesktop(i);
+	/**
+	 * Per-frame update for deferred refresh.
+	 *
+	 * In AS3 this was an enterFrame listener. In the TS port,
+	 * the window manager can call this from its update loop.
+	 */
+	public static onUpdate(): void
+	{
+		if (!ModalDialog._container || ModalDialog._container.numChildren <= 0) return;
 
-            if(desktop)
-            {
-                desktop.visible = false;
-            }
-        }
+		if (ModalDialog._refreshPending > 0)
+		{
+			ModalDialog._refreshPending--;
 
-        // Layout background/content pairs
-        const numChildren = ModalDialog._container.numChildren;
+			if (ModalDialog._refreshPending === 0)
+			{
+				ModalDialog.refresh();
+			}
+		}
+	}
 
-        for(let i = 0; i < numChildren; i++)
-        {
-            const child = ModalDialog._container.getChildAt(i);
+	/**
+	 * Initializes static members shared across all modal dialogs.
+	 *
+	 * @param windowManager - The Habbo window manager
+	 */
+	private static initialiseStaticMembers(windowManager: IHabboWindowManager): void
+	{
+		if (ModalDialog._initialized) return;
 
-            if(!child) continue;
+		ModalDialog._windowManager = windowManager;
+		ModalDialog._initialized = true;
 
-            if(i % 2 === 0)
-            {
-                // Background overlay: stretch to container size
-                child.width = ModalDialog._container.width;
-                child.height = ModalDialog._container.height;
-            }
-            else
-            {
-                // Content window: center it
-                child.center();
-            }
+		// Create the shared modal container in the modal layer
+		ModalDialog._container = ModalDialog._windowManager.createWindow(
+			'modal_container', '', 4, 0, 0,
+			{x: 0, y: 0, width: 1, height: 1},
+			null, 0, ModalDialog.MODAL_DIALOG_LAYER
+		) as IWindowContainer;
 
-            // Only the topmost pair (last two children) is visible
-            child.visible = (i >= numChildren - 2);
-        }
-    }
+		log.debug('Modal dialog static members initialized');
+	}
 
-    /**
-     * Handles stage resize events.
-     *
-     * In AS3 this listened on Stage.resize. In the TS port,
-     * this can be called from the window manager on viewport resize.
-     */
-    public static onResize(): void
-    {
-        if(!ModalDialog._container || ModalDialog._container.numChildren <= 0) return;
+	/**
+	 * Refreshes the modal container layout and background.
+	 *
+	 * In AS3, this captured BitmapData from the desktop layers,
+	 * applied a ColorTransform darkening, and drew stacked bitmaps.
+	 * In the TS port, this manages visibility and layout of the
+	 * container children. The actual darkening effect is deferred
+	 * to the UI rendering layer.
+	 */
+	private static refresh(): void
+	{
+		if (!ModalDialog._container) return;
 
-        ModalDialog._refreshPending = 2;
+		const isEmpty = ModalDialog._container.numChildren === 0;
 
-        const lastChild = ModalDialog._container.getChildAt(ModalDialog._container.numChildren - 1);
+		if (isEmpty)
+		{
+			// No dialogs open: show underlying desktop layers
+			for (let i = 0; i < ModalDialog.MODAL_DIALOG_LAYER; i++)
+			{
+				const desktop = ModalDialog._windowManager!.getDesktop(i);
 
-        if(lastChild)
-        {
-            lastChild.center();
-        }
-    }
+				if (desktop)
+				{
+					desktop.visible = true;
+				}
+			}
 
-    /**
-     * Per-frame update for deferred refresh.
-     *
-     * In AS3 this was an enterFrame listener. In the TS port,
-     * the window manager can call this from its update loop.
-     */
-    public static onUpdate(): void
-    {
-        if(!ModalDialog._container || ModalDialog._container.numChildren <= 0) return;
+			return;
+		}
 
-        if(ModalDialog._refreshPending > 0)
-        {
-            ModalDialog._refreshPending--;
+		// Dialogs are open: hide underlying desktop layers
+		for (let i = 0; i < ModalDialog.MODAL_DIALOG_LAYER; i++)
+		{
+			const desktop = ModalDialog._windowManager!.getDesktop(i);
 
-            if(ModalDialog._refreshPending === 0)
-            {
-                ModalDialog.refresh();
-            }
-        }
-    }
+			if (desktop)
+			{
+				desktop.visible = false;
+			}
+		}
 
-    /**
-     * The root window of this modal dialog.
-     */
-    public get rootWindow(): IWindow | null
-    {
-        return this._rootWindow;
-    }
+		// Layout background/content pairs
+		const numChildren = ModalDialog._container.numChildren;
 
-    /**
-     * The background overlay window.
-     */
-    public get background(): IWindow | null
-    {
-        return this._background;
-    }
+		for (let i = 0; i < numChildren; i++)
+		{
+			const child = ModalDialog._container.getChildAt(i);
 
-    /**
-     * Whether this modal dialog has been disposed.
-     */
-    public get disposed(): boolean
-    {
-        return this._disposed;
-    }
+			if (!child) continue;
 
-    /**
-     * Disposes this modal dialog and its windows.
-     */
-    public dispose(): void
-    {
-        if(this._disposed) return;
+			if (i % 2 === 0)
+			{
+				// Background overlay: stretch to container size
+				child.width = ModalDialog._container.width;
+				child.height = ModalDialog._container.height;
+			}
+			else
+			{
+				// Content window: center it
+				child.center();
+			}
 
-        if(this._background)
-        {
-            this._background.dispose();
-            this._background = null;
-        }
+			// Only the topmost pair (last two children) is visible
+			child.visible = (i >= numChildren - 2);
+		}
+	}
 
-        if(this._rootWindow)
-        {
-            this._rootWindow.dispose();
-            this._rootWindow = null;
-        }
+	/**
+	 * Disposes this modal dialog and its windows.
+	 */
+	public dispose(): void
+	{
+		if (this._disposed) return;
 
-        ModalDialog.refresh();
+		if (this._background)
+		{
+			this._background.dispose();
+			this._background = null;
+		}
 
-        if(ModalDialog._container && ModalDialog._container.numChildren === 0)
-        {
-            ModalDialog._container.visible = false;
-        }
+		if (this._rootWindow)
+		{
+			this._rootWindow.dispose();
+			this._rootWindow = null;
+		}
 
-        this._disposed = true;
-    }
+		ModalDialog.refresh();
+
+		if (ModalDialog._container && ModalDialog._container.numChildren === 0)
+		{
+			ModalDialog._container.visible = false;
+		}
+
+		this._disposed = true;
+	}
 }

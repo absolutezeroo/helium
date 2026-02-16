@@ -9,51 +9,11 @@ import type {IGraphicAsset} from '@room/object/visualization/utils/IGraphicAsset
 
 export class FurnitureParticleSystemParticle
 {
-	private _x: number = 0;
-	private _y: number = 0;
-	private _z: number = 0;
-	private _lastX: number = 0;
-	private _lastY: number = 0;
-	private _lastZ: number = 0;
-	private _hasMoved: boolean = false;
-	private _direction: { x: number; y: number; z: number } | null = null;
-	private _age: number = 0;
 	private _lifeTime: number = 0;
-	private _isEmitter: boolean = false;
-	private _fade: boolean = false;
 	private _fadeTime: number = 0;
-	private _alphaMultiplier: number = 1;
 	private _frames: IGraphicAsset[] | null = null;
 
-	get fade(): boolean
-	{
-		return this._fade;
-	}
-
-	get alphaMultiplier(): number
-	{
-		return this._alphaMultiplier;
-	}
-
-	get direction(): { x: number; y: number; z: number } | null
-	{
-		return this._direction;
-	}
-
-	get age(): number
-	{
-		return this._age;
-	}
-
-	get isEmitter(): boolean
-	{
-		return this._isEmitter;
-	}
-
-	get isAlive(): boolean
-	{
-		return this._age <= this._lifeTime;
-	}
+	private _x: number = 0;
 
 	get x(): number
 	{
@@ -65,6 +25,8 @@ export class FurnitureParticleSystemParticle
 		this._x = value;
 	}
 
+	private _y: number = 0;
+
 	get y(): number
 	{
 		return this._y;
@@ -75,6 +37,8 @@ export class FurnitureParticleSystemParticle
 		this._y = value;
 	}
 
+	private _z: number = 0;
+
 	get z(): number
 	{
 		return this._z;
@@ -84,6 +48,8 @@ export class FurnitureParticleSystemParticle
 	{
 		this._z = value;
 	}
+
+	private _lastX: number = 0;
 
 	get lastX(): number
 	{
@@ -96,6 +62,8 @@ export class FurnitureParticleSystemParticle
 		this._lastX = value;
 	}
 
+	private _lastY: number = 0;
+
 	get lastY(): number
 	{
 		return this._lastY;
@@ -106,6 +74,8 @@ export class FurnitureParticleSystemParticle
 		this._hasMoved = true;
 		this._lastY = value;
 	}
+
+	private _lastZ: number = 0;
 
 	get lastZ(): number
 	{
@@ -118,9 +88,51 @@ export class FurnitureParticleSystemParticle
 		this._lastZ = value;
 	}
 
+	private _hasMoved: boolean = false;
+
 	get hasMoved(): boolean
 	{
 		return this._hasMoved;
+	}
+
+	private _direction: { x: number; y: number; z: number } | null = null;
+
+	get direction(): { x: number; y: number; z: number } | null
+	{
+		return this._direction;
+	}
+
+	private _age: number = 0;
+
+	get age(): number
+	{
+		return this._age;
+	}
+
+	private _isEmitter: boolean = false;
+
+	get isEmitter(): boolean
+	{
+		return this._isEmitter;
+	}
+
+	private _fade: boolean = false;
+
+	get fade(): boolean
+	{
+		return this._fade;
+	}
+
+	private _alphaMultiplier: number = 1;
+
+	get alphaMultiplier(): number
+	{
+		return this._alphaMultiplier;
+	}
+
+	get isAlive(): boolean
+	{
+		return this._age <= this._lifeTime;
 	}
 
 	init(

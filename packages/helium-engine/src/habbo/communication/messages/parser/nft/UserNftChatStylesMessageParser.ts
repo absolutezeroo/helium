@@ -10,6 +10,11 @@ export class UserNftChatStylesMessageParser implements IMessageParser
 {
 	private _chatStyleIds: number[] = [];
 
+	get chatStyleIds(): number[]
+	{
+		return this._chatStyleIds;
+	}
+
 	flush(): boolean
 	{
 		this._chatStyleIds = [];
@@ -30,10 +35,5 @@ export class UserNftChatStylesMessageParser implements IMessageParser
 		}
 
 		return true;
-	}
-
-	get chatStyleIds(): number[]
-	{
-		return this._chatStyleIds;
 	}
 }

@@ -17,11 +17,7 @@ export class CitizenshipVipQuestsPromoExtension
 {
 	private _toolbar: HabboToolbar | null;
 	private _extensionView: IExtensionView | null;
-	private _disposed: boolean = false;
-	private _expanded: boolean = true;
 	private _expandedHeight: number = 216;
-	private _windowCreated: boolean = false;
-	private _vipQuestsCampaignName: string = '';
 
 	constructor(toolbar: HabboToolbar)
 	{
@@ -33,6 +29,8 @@ export class CitizenshipVipQuestsPromoExtension
 		log.debug('CitizenshipVipQuestsPromoExtension constructed');
 	}
 
+	private _disposed: boolean = false;
+
 	/**
 	 * Whether the extension is disposed
 	 */
@@ -40,6 +38,8 @@ export class CitizenshipVipQuestsPromoExtension
 	{
 		return this._disposed;
 	}
+
+	private _expanded: boolean = true;
 
 	/**
 	 * Whether the promo is expanded
@@ -49,6 +49,8 @@ export class CitizenshipVipQuestsPromoExtension
 		return this._expanded;
 	}
 
+	private _windowCreated: boolean = false;
+
 	/**
 	 * Whether the promo window has been created
 	 */
@@ -56,6 +58,8 @@ export class CitizenshipVipQuestsPromoExtension
 	{
 		return this._windowCreated;
 	}
+
+	private _vipQuestsCampaignName: string = '';
 
 	/**
 	 * The VIP quests campaign name
@@ -72,14 +76,14 @@ export class CitizenshipVipQuestsPromoExtension
 	 */
 	public onCitizenshipQuestPromoEnabled(): void
 	{
-		if(!this._windowCreated)
+		if (!this._windowCreated)
 		{
 			this._windowCreated = true;
 		}
 
 		this.assignState();
 
-		if(this._extensionView)
+		if (this._extensionView)
 		{
 			this._extensionView.detachExtension('club_promo');
 			// In AS3: extensionView.attachExtension("vip_quests", window, 10)
@@ -105,6 +109,19 @@ export class CitizenshipVipQuestsPromoExtension
 		this.assignState();
 	}
 
+	/**
+	 * Dispose of this extension
+	 */
+	public dispose(): void
+	{
+		if (this._disposed) return;
+
+		this.destroyWindow();
+		this._toolbar = null;
+		this._extensionView = null;
+		this._disposed = true;
+	}
+
 	private assignState(): void
 	{
 		// State is tracked; UI layer reads expanded + windowCreated
@@ -113,24 +130,11 @@ export class CitizenshipVipQuestsPromoExtension
 
 	private destroyWindow(): void
 	{
-		if(this._extensionView)
+		if (this._extensionView)
 		{
 			this._extensionView.detachExtension('vip_quests');
 		}
 
 		this._windowCreated = false;
-	}
-
-	/**
-	 * Dispose of this extension
-	 */
-	public dispose(): void
-	{
-		if(this._disposed) return;
-
-		this.destroyWindow();
-		this._toolbar = null;
-		this._extensionView = null;
-		this._disposed = true;
 	}
 }

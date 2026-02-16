@@ -15,10 +15,6 @@ const log = Logger.getLogger('OtherSettingsView');
 export class OtherSettingsView
 {
 	private _toolbar: HabboToolbar | null;
-	private _preferOldChat: boolean = false;
-	private _ignoreRoomInvites: boolean = false;
-	private _disableRoomCameraFollow: boolean = false;
-	private _showResetPhoneButton: boolean = false;
 
 	constructor(toolbar: HabboToolbar)
 	{
@@ -28,6 +24,8 @@ export class OtherSettingsView
 
 		log.debug('OtherSettingsView constructed');
 	}
+
+	private _preferOldChat: boolean = false;
 
 	/**
 	 * Whether the old chat preference is selected
@@ -42,6 +40,8 @@ export class OtherSettingsView
 		this._preferOldChat = value;
 	}
 
+	private _ignoreRoomInvites: boolean = false;
+
 	/**
 	 * Whether room invites are ignored
 	 */
@@ -55,6 +55,8 @@ export class OtherSettingsView
 		this._ignoreRoomInvites = value;
 	}
 
+	private _disableRoomCameraFollow: boolean = false;
+
 	/**
 	 * Whether room camera follow is disabled
 	 */
@@ -67,6 +69,8 @@ export class OtherSettingsView
 	{
 		this._disableRoomCameraFollow = value;
 	}
+
+	private _showResetPhoneButton: boolean = false;
 
 	/**
 	 * Whether the reset phone number button is visible
@@ -83,9 +87,9 @@ export class OtherSettingsView
 	 */
 	public onButtonClicked(buttonName: string): void
 	{
-		if(!this._toolbar) return;
+		if (!this._toolbar) return;
 
-		switch(buttonName)
+		switch (buttonName)
 		{
 			case 'back_btn':
 				this.dispose();
@@ -108,9 +112,19 @@ export class OtherSettingsView
 		}
 	}
 
+	/**
+	 * Dispose of this view
+	 */
+	public dispose(): void
+	{
+		if (this._toolbar == null) return;
+
+		this._toolbar = null;
+	}
+
 	private initializeSettings(): void
 	{
-		if(!this._toolbar) return;
+		if (!this._toolbar) return;
 
 		const roomCameraFollowEnabled = this._toolbar.getBoolean('room.camera.follow_user');
 		const smsVerificationEnabled = this._toolbar.getBoolean('sms.identity.verification.enabled');
@@ -125,19 +139,9 @@ export class OtherSettingsView
 		this._showResetPhoneButton = smsVerificationEnabled && !isVerified &&
 			(isCollected || (smsButtonEnabled && isNotCollected));
 
-		if(roomCameraFollowEnabled && this._toolbar.sessionDataManager)
+		if (roomCameraFollowEnabled && this._toolbar.sessionDataManager)
 		{
 			this._disableRoomCameraFollow = this._toolbar.sessionDataManager.isRoomCameraFollowDisabled;
 		}
-	}
-
-	/**
-	 * Dispose of this view
-	 */
-	public dispose(): void
-	{
-		if(this._toolbar == null) return;
-
-		this._toolbar = null;
 	}
 }

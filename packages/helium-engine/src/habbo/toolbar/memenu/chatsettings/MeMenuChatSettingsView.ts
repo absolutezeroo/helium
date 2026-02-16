@@ -17,11 +17,25 @@ export class MeMenuChatSettingsView
 {
 	private _settingsMenuView: MeMenuSettingsMenuView | null = null;
 	private _toolbarView: ToolbarView | null = null;
-	private _preferOldChat: boolean = false;
 
 	constructor()
 	{
 		log.debug('MeMenuChatSettingsView constructed');
+	}
+
+	private _preferOldChat: boolean = false;
+
+	/**
+	 * Whether old chat is preferred
+	 */
+	get preferOldChat(): boolean
+	{
+		return this._preferOldChat;
+	}
+
+	set preferOldChat(value: boolean)
+	{
+		this._preferOldChat = value;
 	}
 
 	/**
@@ -38,23 +52,10 @@ export class MeMenuChatSettingsView
 		// In AS3: reads the current preference from toolbar.freeFlowChat.isDisabledInPreferences
 		// and hides the parent settings menu window
 
-		if(this._settingsMenuView)
+		if (this._settingsMenuView)
 		{
 			this._settingsMenuView.visible = false;
 		}
-	}
-
-	/**
-	 * Whether old chat is preferred
-	 */
-	get preferOldChat(): boolean
-	{
-		return this._preferOldChat;
-	}
-
-	set preferOldChat(value: boolean)
-	{
-		this._preferOldChat = value;
 	}
 
 	/**
@@ -64,7 +65,7 @@ export class MeMenuChatSettingsView
 	 */
 	public onButtonClicked(buttonName: string): void
 	{
-		switch(buttonName)
+		switch (buttonName)
 		{
 			case 'back_btn':
 				this.dispose();
@@ -82,10 +83,10 @@ export class MeMenuChatSettingsView
 	 */
 	public dispose(): void
 	{
-		if(this._settingsMenuView == null) return;
+		if (this._settingsMenuView == null) return;
 
 		// In AS3: saves preferOldChat preference to toolbar.freeFlowChat
-		if(this._settingsMenuView)
+		if (this._settingsMenuView)
 		{
 			this._settingsMenuView.visible = true;
 		}

@@ -53,7 +53,7 @@ export class IlluminaInputWidget implements IIlluminaInputWidget
 
 		const root = this._windowManager.buildWidgetLayout('illumina_input') as IWindowContainer | null;
 
-		if(root)
+		if (root)
 		{
 			this._root = root;
 			root.width = this._widgetWindow.width;
@@ -116,7 +116,7 @@ export class IlluminaInputWidget implements IIlluminaInputWidget
 	{
 		this._buttonCaption = value;
 
-		if(this._submitButton)
+		if (this._submitButton)
 		{
 			this._submitButton.caption = value;
 		}
@@ -133,7 +133,7 @@ export class IlluminaInputWidget implements IIlluminaInputWidget
 	{
 		this._emptyMessage = value;
 
-		if(this._emptyMessageLabel)
+		if (this._emptyMessageLabel)
 		{
 			this._emptyMessageLabel.caption = value;
 		}
@@ -165,7 +165,7 @@ export class IlluminaInputWidget implements IIlluminaInputWidget
 
 	public get properties(): PropertyStruct[]
 	{
-		if(this._disposed) return [];
+		if (this._disposed) return [];
 
 		return [
 			new PropertyStruct(IlluminaInputWidget.BUTTON_CAPTION_KEY, this._buttonCaption),
@@ -177,9 +177,9 @@ export class IlluminaInputWidget implements IIlluminaInputWidget
 
 	public set properties(values: PropertyStruct[])
 	{
-		for(const prop of values)
+		for (const prop of values)
 		{
-			switch(prop.key)
+			switch (prop.key)
 			{
 				case IlluminaInputWidget.BUTTON_CAPTION_KEY:
 					this.buttonCaption = String(prop.value);
@@ -204,7 +204,7 @@ export class IlluminaInputWidget implements IIlluminaInputWidget
 	 */
 	public submitMessage(widgetId: string): void
 	{
-		if(this._submitHandler)
+		if (this._submitHandler)
 		{
 			this._submitHandler.onInput(widgetId, this._message);
 		}
@@ -212,11 +212,11 @@ export class IlluminaInputWidget implements IIlluminaInputWidget
 
 	public dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		this._disposed = true;
 
-		if(this._root)
+		if (this._root)
 		{
 			this._root.procedure = null;
 			this._root.dispose();
@@ -227,7 +227,7 @@ export class IlluminaInputWidget implements IIlluminaInputWidget
 		this._input = null;
 		this._emptyMessageLabel = null;
 
-		if(this._widgetWindow)
+		if (this._widgetWindow)
 		{
 			this._widgetWindow.rootWindow = null;
 		}
@@ -248,13 +248,13 @@ export class IlluminaInputWidget implements IIlluminaInputWidget
 	 */
 	private widgetProcedure(event: WindowEvent, window: IWindow): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
-		switch(event.type)
+		switch (event.type)
 		{
 			case WindowEvent.WE_CHANGE:
 			{
-				if(window === this._input)
+				if (window === this._input)
 				{
 					this._message = window.caption ?? '';
 					this.refresh();
@@ -265,14 +265,14 @@ export class IlluminaInputWidget implements IIlluminaInputWidget
 			{
 				const keyEvent = event as WindowKeyboardEvent;
 
-				if(keyEvent.keyCode === IlluminaInputWidget.ENTER_KEY_CODE && !this._multiline)
+				if (keyEvent.keyCode === IlluminaInputWidget.ENTER_KEY_CODE && !this._multiline)
 				{
-					if(this._submitHandler && this._message.length > 0)
+					if (this._submitHandler && this._message.length > 0)
 					{
 						this._submitHandler.onInput(this._widgetWindow?.name ?? '', this._message);
 						this._message = '';
 
-						if(this._input)
+						if (this._input)
 						{
 							this._input.caption = '';
 						}
@@ -284,14 +284,14 @@ export class IlluminaInputWidget implements IIlluminaInputWidget
 			}
 			case WindowMouseEvent.CLICK:
 			{
-				if(window === this._submitButton)
+				if (window === this._submitButton)
 				{
-					if(this._submitHandler && this._message.length > 0)
+					if (this._submitHandler && this._message.length > 0)
 					{
 						this._submitHandler.onInput(this._widgetWindow?.name ?? '', this._message);
 						this._message = '';
 
-						if(this._input)
+						if (this._input)
 						{
 							this._input.caption = '';
 						}
@@ -312,7 +312,7 @@ export class IlluminaInputWidget implements IIlluminaInputWidget
 	 */
 	private refresh(): void
 	{
-		if(this._emptyMessageLabel)
+		if (this._emptyMessageLabel)
 		{
 			this._emptyMessageLabel.visible = (this._message.length === 0);
 		}

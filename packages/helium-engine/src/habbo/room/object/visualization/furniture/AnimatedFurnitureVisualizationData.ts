@@ -13,36 +13,6 @@ import {FurnitureVisualizationData} from './FurnitureVisualizationData';
 
 export class AnimatedFurnitureVisualizationData extends FurnitureVisualizationData
 {
-	protected override createSizeData(_size: number, layerCount: number, angle: number): SizeData
-	{
-		return new AnimationSizeData(layerCount, angle);
-	}
-
-	protected override processVisualizationElement(sizeData: SizeData, elementName: string, elementData: Record<string, unknown>): boolean
-	{
-		if (sizeData === null)
-		{
-			return false;
-		}
-
-		if (elementName === 'animations')
-		{
-			const animSizeData = sizeData as AnimationSizeData;
-
-			if (animSizeData !== null)
-			{
-				if (!animSizeData.defineAnimations(elementData))
-				{
-					return false;
-				}
-			}
-
-			return true;
-		}
-
-		return super.processVisualizationElement(sizeData, elementName, elementData);
-	}
-
 	hasAnimation(scale: number, animationId: number): boolean
 	{
 		const sizeData = this.getSizeData(scale) as AnimationSizeData;
@@ -139,5 +109,35 @@ export class AnimatedFurnitureVisualizationData extends FurnitureVisualizationDa
 		}
 
 		return null;
+	}
+
+	protected override createSizeData(_size: number, layerCount: number, angle: number): SizeData
+	{
+		return new AnimationSizeData(layerCount, angle);
+	}
+
+	protected override processVisualizationElement(sizeData: SizeData, elementName: string, elementData: Record<string, unknown>): boolean
+	{
+		if (sizeData === null)
+		{
+			return false;
+		}
+
+		if (elementName === 'animations')
+		{
+			const animSizeData = sizeData as AnimationSizeData;
+
+			if (animSizeData !== null)
+			{
+				if (!animSizeData.defineAnimations(elementData))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		return super.processVisualizationElement(sizeData, elementName, elementData);
 	}
 }

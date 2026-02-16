@@ -1,8 +1,8 @@
-import type { IWindow } from '@core/window/IWindow';
-import type { ITabButtonWindow } from '@core/window/components/ITabButtonWindow';
-import type { ITabContextWindow } from '@core/window/components/ITabContextWindow';
-import type { WindowEvent } from '@core/window/events/WindowEvent';
-import type { HabboNewNavigator } from '../HabboNewNavigator';
+import type {IWindow} from '@core/window/IWindow';
+import type {ITabButtonWindow} from '@core/window/components/ITabButtonWindow';
+import type {ITabContextWindow} from '@core/window/components/ITabContextWindow';
+import type {WindowEvent} from '@core/window/events/WindowEvent';
+import type {HabboNewNavigator} from '../HabboNewNavigator';
 
 /**
  * Top-level view selector tabs in the navigator.
@@ -15,18 +15,20 @@ import type { HabboNewNavigator } from '../HabboNewNavigator';
 export class TopViewSelector
 {
 	private _navigator: HabboNewNavigator;
-	private _template: ITabButtonWindow | null = null;
-	private _tabContext: ITabContextWindow | null = null;
 
 	constructor(navigator: HabboNewNavigator)
 	{
 		this._navigator = navigator;
 	}
 
+	private _template: ITabButtonWindow | null = null;
+
 	set template(value: ITabButtonWindow)
 	{
 		this._template = value;
 	}
+
+	private _tabContext: ITabContextWindow | null = null;
 
 	set tabContext(value: ITabContextWindow)
 	{
@@ -40,13 +42,13 @@ export class TopViewSelector
 	 */
 	refresh(): void
 	{
-		if(!this._tabContext || !this._template) return;
+		if (!this._tabContext || !this._template) return;
 
 		this.clearTabs();
 
 		const topLevelSearches = this._navigator.contextContainer.getTopLevelSearches();
 
-		for(let i = 0; i < topLevelSearches.length; i++)
+		for (let i = 0; i < topLevelSearches.length; i++)
 		{
 			const searchCode = topLevelSearches[i];
 			const tab = this._template.clone() as ITabButtonWindow;
@@ -68,11 +70,11 @@ export class TopViewSelector
 	 */
 	selectTabByIndex(index: number): void
 	{
-		if(!this._tabContext || !this._tabContext.selector) return;
+		if (!this._tabContext || !this._tabContext.selector) return;
 
 		const tab = this._tabContext.getTabItemAt(index);
 
-		if(tab)
+		if (tab)
 		{
 			(this._tabContext.selector as { setSelected(item: IWindow): void }).setSelected(tab);
 		}
@@ -80,15 +82,15 @@ export class TopViewSelector
 
 	private clearTabs(): void
 	{
-		if(!this._tabContext) return;
+		if (!this._tabContext) return;
 
 		const count = this._tabContext.numTabItems;
 
-		for(let i = 0; i < count; i++)
+		for (let i = 0; i < count; i++)
 		{
 			const tab = this._tabContext.getTabItemAt(0);
 
-			if(tab)
+			if (tab)
 			{
 				this._tabContext.removeTabItem(tab);
 			}
@@ -97,11 +99,11 @@ export class TopViewSelector
 
 	private topViewSelectorButtonProcedure = (event: WindowEvent, window: IWindow): void =>
 	{
-		if(event.type === 'WME_CLICK')
+		if (event.type === 'WME_CLICK')
 		{
 			const topLevelSearches = this._navigator.contextContainer.getTopLevelSearches();
 
-			if(topLevelSearches.length > window.id)
+			if (topLevelSearches.length > window.id)
 			{
 				const filterText = this._navigator.view?.currentFilterText() ?? '';
 

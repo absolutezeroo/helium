@@ -1,5 +1,5 @@
-import type { IMessageParser } from '@core/communication/messages/IMessageParser';
-import type { IMessageDataWrapper } from '@core/communication/messages/IMessageDataWrapper';
+import type {IMessageParser} from '@core/communication/messages/IMessageParser';
+import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
 
 /**
  * Parses quiz results data from the server.
@@ -9,7 +9,18 @@ import type { IMessageDataWrapper } from '@core/communication/messages/IMessageD
 export class QuizResultsMessageParser implements IMessageParser
 {
 	private _quizCode: string = '';
+
+	get quizCode(): string
+	{
+		return this._quizCode;
+	}
+
 	private _questionIdsForWrongAnswers: Array<number> = [];
+
+	get questionIdsForWrongAnswers(): Array<number>
+	{
+		return this._questionIdsForWrongAnswers;
+	}
 
 	flush(): boolean
 	{
@@ -32,15 +43,5 @@ export class QuizResultsMessageParser implements IMessageParser
 		}
 
 		return true;
-	}
-
-	get quizCode(): string
-	{
-		return this._quizCode;
-	}
-
-	get questionIdsForWrongAnswers(): Array<number>
-	{
-		return this._questionIdsForWrongAnswers;
 	}
 }

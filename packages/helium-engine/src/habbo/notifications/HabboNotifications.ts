@@ -212,7 +212,8 @@ export class HabboNotifications extends Component implements IHabboNotifications
 				{
 					params.set(key, value);
 				}
-			} catch (e)
+			}
+			catch (e)
 			{
 				log.error(`Failed to parse notification config for "${configKey}":`, e);
 			}

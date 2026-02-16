@@ -37,7 +37,7 @@ export class RunningNumberWidget implements IRunningNumberWidget
 
 		const root = this._windowManager.buildWidgetLayout('running_number') as IWindowContainer;
 
-		if(root)
+		if (root)
 		{
 			this._root = root;
 		}
@@ -125,7 +125,7 @@ export class RunningNumberWidget implements IRunningNumberWidget
 	{
 		let str = Math.floor(this._displayedNumber).toString();
 
-		while(str.length < this._digits)
+		while (str.length < this._digits)
 		{
 			str = '0' + str;
 		}
@@ -135,7 +135,7 @@ export class RunningNumberWidget implements IRunningNumberWidget
 
 	public get properties(): PropertyStruct[]
 	{
-		if(this._disposed) return [];
+		if (this._disposed) return [];
 
 		return [
 			new PropertyStruct(RunningNumberWidget.NUMBER_KEY, this._number),
@@ -147,9 +147,9 @@ export class RunningNumberWidget implements IRunningNumberWidget
 
 	public set properties(values: PropertyStruct[])
 	{
-		for(const prop of values)
+		for (const prop of values)
 		{
-			switch(prop.key)
+			switch (prop.key)
 			{
 				case RunningNumberWidget.NUMBER_KEY:
 					this.number = Number(prop.value);
@@ -174,11 +174,11 @@ export class RunningNumberWidget implements IRunningNumberWidget
 	 */
 	public update(elapsed: number): void
 	{
-		if(this._displayedNumber < this._number)
+		if (this._displayedNumber < this._number)
 		{
 			this._millisSinceLastUpdate += elapsed;
 
-			if(this._millisSinceLastUpdate > this._updateFrequency)
+			if (this._millisSinceLastUpdate > this._updateFrequency)
 			{
 				this._displayedNumber = Math.min(
 					this._number,
@@ -191,15 +191,15 @@ export class RunningNumberWidget implements IRunningNumberWidget
 
 	public dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
-		if(this._root)
+		if (this._root)
 		{
 			this._root.dispose();
 			this._root = null;
 		}
 
-		if(this._widgetWindow)
+		if (this._widgetWindow)
 		{
 			this._widgetWindow.rootWindow = null;
 			this._widgetWindow = null;

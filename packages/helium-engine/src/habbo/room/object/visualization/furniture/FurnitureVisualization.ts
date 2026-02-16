@@ -26,13 +26,10 @@ export class FurnitureVisualization extends RoomObjectSpriteVisualization
 	protected _shadowLayerIndex: number = -1;
 
 	private _lastUpdateTime: number = -1000;
-	protected override _direction: number = -1;
 	private _geometryDirection: number = NaN;
 	private _selectedColor: number = -1;
 	private _adClickUrl: string | null = null;
 	private _clickHandling: boolean = false;
-	private _data: FurnitureVisualizationData | null = null;
-	private _type: string = '';
 	private _assetNames: (string | null)[] = [];
 	private _assetNamesHaveFrame: boolean[] = [];
 	private _furnitureLift: number = 0;
@@ -48,16 +45,27 @@ export class FurnitureVisualization extends RoomObjectSpriteVisualization
 	private _spriteMouseCaptures: (boolean | null)[] = [];
 	private _spriteInks: (number | null)[] = [];
 	private _updatedLayers: number = 0;
-	private _lookThrough: boolean = false;
 	private _lookThroughChanged: boolean = false;
 	private _filtersChanged: boolean = false;
-	private _filters: unknown[] | null = null;
 
 	constructor()
 	{
 		super();
 		this.reset();
 	}
+
+	private _lookThrough: boolean = false;
+
+	set lookThrough(value: boolean)
+	{
+		if (this._lookThrough !== value)
+		{
+			this._lookThroughChanged = true;
+			this._lookThrough = value;
+		}
+	}
+
+	private _filters: unknown[] | null = null;
 
 	get filters(): unknown[] | null
 	{
@@ -70,14 +78,7 @@ export class FurnitureVisualization extends RoomObjectSpriteVisualization
 		this._filtersChanged = true;
 	}
 
-	set lookThrough(value: boolean)
-	{
-		if (this._lookThrough !== value)
-		{
-			this._lookThroughChanged = true;
-			this._lookThrough = value;
-		}
-	}
+	protected override _direction: number = -1;
 
 	protected get direction(): number
 	{
@@ -89,14 +90,18 @@ export class FurnitureVisualization extends RoomObjectSpriteVisualization
 		this._direction = value;
 	}
 
-	protected get type(): string
-	{
-		return this._type;
-	}
+	private _data: FurnitureVisualizationData | null = null;
 
 	protected get data(): FurnitureVisualizationData | null
 	{
 		return this._data;
+	}
+
+	private _type: string = '';
+
+	protected get type(): string
+	{
+		return this._type;
 	}
 
 	override dispose(): void
@@ -114,24 +119,6 @@ export class FurnitureVisualization extends RoomObjectSpriteVisualization
 		this._spriteMouseCaptures = [];
 		this._spriteInks = [];
 		this._filters = null;
-	}
-
-	protected override reset(): void
-	{
-		super.reset();
-		this._direction = -1;
-		this._data = null;
-		this._assetNames = [];
-		this._assetNamesHaveFrame = [];
-		this._spriteTags = [];
-		this._spriteAlphas = [];
-		this._spriteColors = [];
-		this._spriteXOffsets = [];
-		this._spriteYOffsets = [];
-		this._spriteZOffsets = [];
-		this._spriteMouseCaptures = [];
-		this._spriteInks = [];
-		this.createSprites(0);
 	}
 
 	override initialize(data: IRoomObjectVisualizationData): boolean
@@ -211,6 +198,24 @@ export class FurnitureVisualization extends RoomObjectSpriteVisualization
 			this._scale = scale;
 			this.increaseUpdateId();
 		}
+	}
+
+	protected override reset(): void
+	{
+		super.reset();
+		this._direction = -1;
+		this._data = null;
+		this._assetNames = [];
+		this._assetNamesHaveFrame = [];
+		this._spriteTags = [];
+		this._spriteAlphas = [];
+		this._spriteColors = [];
+		this._spriteXOffsets = [];
+		this._spriteYOffsets = [];
+		this._spriteZOffsets = [];
+		this._spriteMouseCaptures = [];
+		this._spriteInks = [];
+		this.createSprites(0);
 	}
 
 	protected updateSprites(scale: number, fullUpdate: boolean, animatedLayers: number): void
@@ -330,14 +335,22 @@ export class FurnitureVisualization extends RoomObjectSpriteVisualization
 	{
 		switch (ink)
 		{
-			case 1: return 'add';
-			case 2: return 'subtract';
-			case 3: return 'darken';
-			case 4: return 'difference';
-			case 5: return 'multiply';
-			case 6: return 'invert';
-			case 7: return 'screen';
-			default: return 'normal';
+			case 1:
+				return 'add';
+			case 2:
+				return 'subtract';
+			case 3:
+				return 'darken';
+			case 4:
+				return 'difference';
+			case 5:
+				return 'multiply';
+			case 6:
+				return 'invert';
+			case 7:
+				return 'screen';
+			default:
+				return 'normal';
 		}
 	}
 

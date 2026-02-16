@@ -20,6 +20,11 @@ export class FurnitureVoteCounterLogic extends FurnitureMultiStateLogic
 	private _lastUpdate: number = 0;
 	private _updateInterval: number = 33;
 
+	private get currentTotal(): number
+	{
+		return Math.trunc(this.object?.getModelController()?.getNumber(RoomObjectVariableEnum.FURNITURE_VOTE_COUNTER_COUNT) ?? 0);
+	}
+
 	override processUpdateMessage(message: RoomObjectUpdateMessage): void
 	{
 		super.processUpdateMessage(message);
@@ -65,11 +70,6 @@ export class FurnitureVoteCounterLogic extends FurnitureMultiStateLogic
 				this._lastUpdate = time - (elapsed - (steps * this._updateInterval));
 			}
 		}
-	}
-
-	private get currentTotal(): number
-	{
-		return Math.trunc(this.object?.getModelController()?.getNumber(RoomObjectVariableEnum.FURNITURE_VOTE_COUNTER_COUNT) ?? 0);
 	}
 
 	private updateTotal(value: number): void

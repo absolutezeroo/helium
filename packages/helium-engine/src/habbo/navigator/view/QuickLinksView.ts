@@ -1,10 +1,10 @@
-import type { IWindow } from '@core/window/IWindow';
-import type { IItemListWindow } from '@core/window/components/IItemListWindow';
-import type { IWindowContainer } from '@core/window/IWindowContainer';
-import type { WindowEvent } from '@core/window/events/WindowEvent';
-import type { HabboNewNavigator } from '../HabboNewNavigator';
-import type { NavigatorSavedSearch } from '@habbo/communication/messages/incoming/newnavigator/NavigatorSavedSearch';
-import { SearchContext } from '../context';
+import type {IWindow} from '@core/window/IWindow';
+import type {IItemListWindow} from '@core/window/components/IItemListWindow';
+import type {IWindowContainer} from '@core/window/IWindowContainer';
+import type {WindowEvent} from '@core/window/events/WindowEvent';
+import type {HabboNewNavigator} from '../HabboNewNavigator';
+import type {NavigatorSavedSearch} from '@habbo/communication/messages/incoming/newnavigator/NavigatorSavedSearch';
+import {SearchContext} from '../context';
 
 /**
  * Quick links view displaying saved searches in the navigator left pane.
@@ -17,8 +17,6 @@ import { SearchContext } from '../context';
 export class QuickLinksView
 {
 	private _navigator: HabboNewNavigator;
-	private _template: IWindowContainer | null = null;
-	private _itemList: IItemListWindow | null = null;
 	private _searchContexts: SearchContext[] = [];
 	private _searchIds: number[] = [];
 
@@ -27,14 +25,18 @@ export class QuickLinksView
 		this._navigator = navigator;
 	}
 
-	set itemList(value: IItemListWindow)
-	{
-		this._itemList = value;
-	}
+	private _template: IWindowContainer | null = null;
 
 	set template(value: IWindowContainer)
 	{
 		this._template = value;
+	}
+
+	private _itemList: IItemListWindow | null = null;
+
+	set itemList(value: IItemListWindow)
+	{
+		this._itemList = value;
 	}
 
 	/**
@@ -46,13 +48,13 @@ export class QuickLinksView
 	 */
 	setQuickLinks(savedSearches: NavigatorSavedSearch[]): void
 	{
-		if(!this._itemList || !this._template) return;
+		if (!this._itemList || !this._template) return;
 
 		this._itemList.removeListItems();
 		this._searchContexts = [];
 		this._searchIds = [];
 
-		for(let i = 0; i < savedSearches.length; i++)
+		for (let i = 0; i < savedSearches.length; i++)
 		{
 			const savedSearch = savedSearches[i];
 			const link = this._template.clone() as IWindowContainer;
@@ -61,23 +63,23 @@ export class QuickLinksView
 
 			const textEl = link.findChildByName('quick_link_text');
 
-			if(textEl)
+			if (textEl)
 			{
 				let caption = this._navigator.getLocalization(
 					'navigator.searchcode.title.' + savedSearch.searchCode,
 					savedSearch.searchCode
 				);
 
-				if(savedSearch.filter !== '')
+				if (savedSearch.filter !== '')
 				{
 					caption += ' - ' + savedSearch.filter;
 				}
 
-				if(savedSearch.searchCode.indexOf('category__') === 0)
+				if (savedSearch.searchCode.indexOf('category__') === 0)
 				{
 					caption = savedSearch.searchCode.substr('category__'.length);
 
-					if(savedSearch.filter !== '')
+					if (savedSearch.filter !== '')
 					{
 						caption += ' - ' + savedSearch.filter;
 					}
@@ -97,9 +99,9 @@ export class QuickLinksView
 
 	private listItemProcedure = (event: WindowEvent, window: IWindow): void =>
 	{
-		if(event.type === 'WME_CLICK')
+		if (event.type === 'WME_CLICK')
 		{
-			if(this._searchContexts.length > window.id)
+			if (this._searchContexts.length > window.id)
 			{
 				const context = this._searchContexts[window.id];
 

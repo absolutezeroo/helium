@@ -64,19 +64,19 @@ export class IlluminaBorderWidget implements IIlluminaBorderWidget
 
 		const root = this._windowManager.buildWidgetLayout('illumina_border') as IWindowContainer | null;
 
-		if(root)
+		if (root)
 		{
 			this._root = root;
 			this._canvas = root.findChildByName('canvas');
 			this._children = root.findChildByName('children') as IWindowContainer | null;
 
-			if(this._canvas)
+			if (this._canvas)
 			{
 				this._canvas.addEventListener(WindowEvent.WE_RESIZE, this._onChangeBound);
 				this._canvas.addEventListener(WindowEvent.WE_RESIZED, this._onChangeBound);
 			}
 
-			if(this._children)
+			if (this._children)
 			{
 				this._children.addEventListener(WindowEvent.WE_CHILD_ADDED, this._onChangeBound);
 				this._children.addEventListener(WindowEvent.WE_CHILD_REMOVED, this._onChangeBound);
@@ -246,7 +246,7 @@ export class IlluminaBorderWidget implements IIlluminaBorderWidget
 	 */
 	public get iterator(): unknown
 	{
-		if(this._children)
+		if (this._children)
 		{
 			return this._children.iterator;
 		}
@@ -256,7 +256,7 @@ export class IlluminaBorderWidget implements IIlluminaBorderWidget
 
 	public get properties(): PropertyStruct[]
 	{
-		if(this._disposed) return [];
+		if (this._disposed) return [];
 
 		return [
 			new PropertyStruct(IlluminaBorderWidget.BORDER_STYLE_KEY, this._borderStyle),
@@ -278,9 +278,9 @@ export class IlluminaBorderWidget implements IIlluminaBorderWidget
 	{
 		this._batchUpdate = true;
 
-		for(const prop of values)
+		for (const prop of values)
 		{
-			switch(prop.key)
+			switch (prop.key)
 			{
 				case IlluminaBorderWidget.BORDER_STYLE_KEY:
 					this.borderStyle = String(prop.value);
@@ -326,18 +326,18 @@ export class IlluminaBorderWidget implements IIlluminaBorderWidget
 
 	public dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		this._disposed = true;
 
-		if(this._canvas)
+		if (this._canvas)
 		{
 			this._canvas.removeEventListener(WindowEvent.WE_RESIZE, this._onChangeBound);
 			this._canvas.removeEventListener(WindowEvent.WE_RESIZED, this._onChangeBound);
 			this._canvas = null;
 		}
 
-		if(this._children)
+		if (this._children)
 		{
 			this._children.removeEventListener(WindowEvent.WE_CHILD_ADDED, this._onChangeBound);
 			this._children.removeEventListener(WindowEvent.WE_CHILD_REMOVED, this._onChangeBound);
@@ -346,13 +346,13 @@ export class IlluminaBorderWidget implements IIlluminaBorderWidget
 			this._children = null;
 		}
 
-		if(this._root)
+		if (this._root)
 		{
 			this._root.dispose();
 			this._root = null;
 		}
 
-		if(this._widgetWindow)
+		if (this._widgetWindow)
 		{
 			this._widgetWindow.rootWindow = null;
 		}

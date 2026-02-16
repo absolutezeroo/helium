@@ -18,6 +18,19 @@ export class FurnitureGroupForumTerminalLogic extends FurnitureGuildCustomizedLo
 		]);
 	}
 
+	override useObject(): void
+	{
+		if (this.eventDispatcher !== null && this.object !== null)
+		{
+			this.eventDispatcher.emit(
+				RoomObjectWidgetRequestEvent.ROWRE_INTERNAL_LINK,
+				new RoomObjectWidgetRequestEvent(RoomObjectWidgetRequestEvent.ROWRE_INTERNAL_LINK, this.object)
+			);
+		}
+
+		super.useObject();
+	}
+
 	protected override openContextMenu(): void
 	{
 		// No context menu for forum terminal
@@ -31,18 +44,5 @@ export class FurnitureGroupForumTerminalLogic extends FurnitureGuildCustomizedLo
 			RoomObjectVariableEnum.FURNITURE_INTERNAL_LINK,
 			'groupforum/' + value
 		);
-	}
-
-	override useObject(): void
-	{
-		if (this.eventDispatcher !== null && this.object !== null)
-		{
-			this.eventDispatcher.emit(
-				RoomObjectWidgetRequestEvent.ROWRE_INTERNAL_LINK,
-				new RoomObjectWidgetRequestEvent(RoomObjectWidgetRequestEvent.ROWRE_INTERNAL_LINK, this.object)
-			);
-		}
-
-		super.useObject();
 	}
 }

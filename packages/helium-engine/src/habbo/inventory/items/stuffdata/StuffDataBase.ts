@@ -78,7 +78,8 @@ export abstract class StuffDataBase implements IStuffData
 			const data = JSON.parse(this.getLegacyString());
 
 			return String(data[key] ?? '');
-		} catch
+		}
+		catch
 		{
 			return null;
 		}

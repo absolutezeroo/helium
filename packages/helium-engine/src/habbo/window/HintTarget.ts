@@ -1,4 +1,4 @@
-import type { IWindow } from '@core/window/IWindow';
+import type {IWindow} from '@core/window/IWindow';
 
 /**
  * Data container for a hint target.
@@ -7,44 +7,46 @@ import type { IWindow } from '@core/window/IWindow';
  */
 export class HintTarget
 {
-    private _key: string;
-    private _window: IWindow;
-    private _style: number;
+	constructor(window: IWindow, key: string, style: number)
+	{
+		this._window = window;
+		this._key = key;
+		this._style = style;
+	}
 
-    constructor(window: IWindow, key: string, style: number)
-    {
-        this._window = window;
-        this._key = key;
-        this._style = style;
-    }
+	private _key: string;
 
-    public get window(): IWindow
-    {
-        return this._window;
-    }
+	public get key(): string
+	{
+		return this._key;
+	}
 
-    public set window(value: IWindow)
-    {
-        this._window = value;
-    }
+	public set key(value: string)
+	{
+		this._key = value;
+	}
 
-    public get key(): string
-    {
-        return this._key;
-    }
+	private _window: IWindow;
 
-    public set key(value: string)
-    {
-        this._key = value;
-    }
+	public get window(): IWindow
+	{
+		return this._window;
+	}
 
-    public get style(): number
-    {
-        return this._style;
-    }
+	public set window(value: IWindow)
+	{
+		this._window = value;
+	}
 
-    public set style(value: number)
-    {
-        this._style = value;
-    }
+	private _style: number;
+
+	public get style(): number
+	{
+		return this._style;
+	}
+
+	public set style(value: number)
+	{
+		this._style = value;
+	}
 }

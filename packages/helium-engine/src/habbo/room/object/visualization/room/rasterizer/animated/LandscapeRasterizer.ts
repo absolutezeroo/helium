@@ -15,9 +15,8 @@ import {LandscapePlane} from './LandscapePlane';
 import type {IAnimationItemData} from './PlaneVisualizationAnimationLayer';
 import type {
 	IAssetPlane,
-	IAssetPlaneVisualization,
-	IAssetPlaneVisualizationLayer,
 	IAssetPlaneAnimationItem,
+	IAssetPlaneVisualizationLayer,
 } from '../basic/PlaneRasterizerTypes';
 
 export class LandscapeRasterizer extends PlaneRasterizer
@@ -29,24 +28,12 @@ export class LandscapeRasterizer extends PlaneRasterizer
 
 	override initializeDimensions(width: number, height: number): boolean
 	{
-		if(width < 0) width = 0;
-		if(height < 0) height = 0;
+		if (width < 0) width = 0;
+		if (height < 0) height = 0;
 
 		this._landscapeWidth = width;
 		this._landscapeHeight = height;
 		return true;
-	}
-
-	protected override initializePlanes(): void
-	{
-		if(this.data === null) return;
-
-		const planes = this.data.planes;
-
-		if(planes)
-		{
-			this.parseLandscapes(planes);
-		}
 	}
 
 	override render(
@@ -66,14 +53,14 @@ export class LandscapeRasterizer extends PlaneRasterizer
 	{
 		let plane = this.getPlane(id) as LandscapePlane | null;
 
-		if(plane === null)
+		if (plane === null)
 		{
 			plane = this.getPlane('default') as LandscapePlane | null;
 		}
 
-		if(plane === null) return null;
+		if (plane === null) return null;
 
-		if(canvas !== null)
+		if (canvas !== null)
 		{
 			const ctx = canvas.getContext('2d')!;
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -83,7 +70,7 @@ export class LandscapeRasterizer extends PlaneRasterizer
 
 		let result = plane.render(canvas, leftLen, rightLen, scale, normal, hasTexture, offsetU, offsetV, maxU, maxV, time);
 
-		if(result !== null && result !== canvas)
+		if (result !== null && result !== canvas)
 		{
 			// Clone the result
 			const clone = document.createElement('canvas');
@@ -95,7 +82,7 @@ export class LandscapeRasterizer extends PlaneRasterizer
 		}
 
 		// Static planes get cached indefinitely (-1), animated planes get timed updates
-		if(!plane.isStatic(scale))
+		if (!plane.isStatic(scale))
 		{
 			return new PlaneBitmapData(result, Math.round(time / LandscapeRasterizer.UPDATE_INTERVAL) * LandscapeRasterizer.UPDATE_INTERVAL + LandscapeRasterizer.UPDATE_INTERVAL);
 		}
@@ -105,9 +92,9 @@ export class LandscapeRasterizer extends PlaneRasterizer
 
 	override getTextureIdentifier(scale: number, normal: IVector3d): string
 	{
-		if(normal !== null)
+		if (normal !== null)
 		{
-			if(normal.x < 0)
+			if (normal.x < 0)
 			{
 				return scale + '_0';
 			}
@@ -118,6 +105,18 @@ export class LandscapeRasterizer extends PlaneRasterizer
 		return super.getTextureIdentifier(scale, normal);
 	}
 
+	protected override initializePlanes(): void
+	{
+		if (this.data === null) return;
+
+		const planes = this.data.planes;
+
+		if (planes)
+		{
+			this.parseLandscapes(planes);
+		}
+	}
+
 	/**
 	 * Parse landscape plane definitions from data.
 	 *
@@ -126,21 +125,21 @@ export class LandscapeRasterizer extends PlaneRasterizer
 	 */
 	private parseLandscapes(planes: IAssetPlane[]): void
 	{
-		if(planes === null) return;
+		if (planes === null) return;
 
 		const seed = Math.floor(Math.random() * 654321);
 
-		for(const planeData of planes)
+		for (const planeData of planes)
 		{
-			if(planeData.id === undefined) continue;
+			if (planeData.id === undefined) continue;
 
 			const id = planeData.id;
 			const visualizations = planeData.visualizations ?? [];
 			const landscapePlane = new LandscapePlane();
 
-			for(const visData of visualizations)
+			for (const visData of visualizations)
 			{
-				if(visData.size === undefined) continue;
+				if (visData.size === undefined) continue;
 
 				const size = visData.size;
 				const horizontalAngle = visData.horizontalAngle ?? LandscapePlane.HORIZONTAL_ANGLE_DEFAULT;
@@ -153,15 +152,15 @@ export class LandscapeRasterizer extends PlaneRasterizer
 					this.getGeometry(size, horizontalAngle, verticalAngle)
 				);
 
-				if(vis !== null)
+				if (vis !== null)
 				{
 					Randomizer.setSeed(seed);
 
-					for(let layerIndex = 0; layerIndex < layers.length; layerIndex++)
+					for (let layerIndex = 0; layerIndex < layers.length; layerIndex++)
 					{
 						const layerData = layers[layerIndex] as IAssetPlaneVisualizationLayer;
 
-						if(layerData.type === 'animation')
+						if (layerData.type === 'animation')
 						{
 							// Animation layer
 							const items = this.parseAnimationItems(layerData.items ?? []);
@@ -173,7 +172,7 @@ export class LandscapeRasterizer extends PlaneRasterizer
 							let material = null;
 							let align = 1; // ALIGN_TOP
 
-							if(layerData.materialId !== undefined)
+							if (layerData.materialId !== undefined)
 							{
 								material = this.getMaterial(layerData.materialId);
 							}
@@ -181,11 +180,11 @@ export class LandscapeRasterizer extends PlaneRasterizer
 							const offset = layerData.offset ?? 0;
 							const color = layerData.color ?? 0xFFFFFF;
 
-							if(layerData.align === 'bottom')
+							if (layerData.align === 'bottom')
 							{
 								align = 2;
 							}
-							else if(layerData.align === 'top')
+							else if (layerData.align === 'top')
 							{
 								align = 1;
 							}
@@ -196,7 +195,7 @@ export class LandscapeRasterizer extends PlaneRasterizer
 				}
 			}
 
-			if(!this.addPlane(id, landscapePlane))
+			if (!this.addPlane(id, landscapePlane))
 			{
 				landscapePlane.dispose();
 			}
@@ -210,9 +209,9 @@ export class LandscapeRasterizer extends PlaneRasterizer
 	{
 		const result: IAnimationItemData[] = [];
 
-		for(const itemData of items)
+		for (const itemData of items)
 		{
-			if(itemData.assetId === undefined) continue;
+			if (itemData.assetId === undefined) continue;
 
 			const x = this.getCoordinateValue(itemData.x ?? '', itemData.randomX ?? '');
 			const y = this.getCoordinateValue(itemData.y ?? '', itemData.randomY ?? '');
@@ -243,22 +242,22 @@ export class LandscapeRasterizer extends PlaneRasterizer
 	{
 		let result = 0;
 
-		if(value.length > 0)
+		if (value.length > 0)
 		{
-			if(value.charAt(value.length - 1) === '%')
+			if (value.charAt(value.length - 1) === '%')
 			{
 				const numStr = value.substring(0, value.length - 1);
 				result = parseFloat(numStr) / 100;
 			}
 		}
 
-		if(random.length > 0)
+		if (random.length > 0)
 		{
 			const maxRandom = 10000;
 			const values = Randomizer.getValues(1, 0, maxRandom);
 			const randomFactor = values[0] / maxRandom;
 
-			if(random.charAt(random.length - 1) === '%')
+			if (random.charAt(random.length - 1) === '%')
 			{
 				const numStr = random.substring(0, random.length - 1);
 				result += randomFactor * parseFloat(numStr) / 100;

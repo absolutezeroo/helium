@@ -129,7 +129,13 @@ export class FurniturePushableLogic extends FurnitureMultiStateLogic
 
 		if (animValue !== message.state)
 		{
-			const newMessage = { state: animValue, data: message.data, extra: message.extra, loc: null, dir: null } as unknown as RoomObjectUpdateMessage;
+			const newMessage = {
+				state: animValue,
+				data: message.data,
+				extra: message.extra,
+				loc: null,
+				dir: null
+			} as unknown as RoomObjectUpdateMessage;
 			super.processUpdateMessage(newMessage);
 		}
 		else

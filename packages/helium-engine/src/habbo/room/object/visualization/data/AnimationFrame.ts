@@ -12,17 +12,92 @@ export class AnimationFrame
 
 	private static readonly POOL_SIZE_LIMIT: number = 3000;
 	private static _pool: AnimationFrame[] = [];
+	private _recycled: boolean = false;
 
 	private _id: number = 0;
+
+	get id(): number
+	{
+		if (this._id >= 0)
+		{
+			return this._id;
+		}
+
+		return Math.floor(-this._id * Math.random());
+	}
+
 	private _x: number = 0;
+
+	get x(): number
+	{
+		return this._x;
+	}
+
 	private _y: number = 0;
+
+	get y(): number
+	{
+		return this._y;
+	}
+
 	private _repeats: number = 1;
+
+	get repeats(): number
+	{
+		return this._repeats;
+	}
+
 	private _frameRepeats: number = 1;
+
+	get frameRepeats(): number
+	{
+		return this._frameRepeats;
+	}
+
 	private _remainingFrameRepeats: number = 1;
+
+	get remainingFrameRepeats(): number
+	{
+		if (this._frameRepeats < 0)
+		{
+			return -1;
+		}
+
+		return this._remainingFrameRepeats;
+	}
+
+	set remainingFrameRepeats(value: number)
+	{
+		if (value < 0) value = 0;
+
+		if (this._frameRepeats > 0 && value > this._frameRepeats)
+		{
+			value = this._frameRepeats;
+		}
+
+		this._remainingFrameRepeats = value;
+	}
+
 	private _activeSequence: number = -1;
-	private _recycled: boolean = false;
+
+	get activeSequence(): number
+	{
+		return this._activeSequence;
+	}
+
 	private _activeSequenceOffset: number = 0;
+
+	get activeSequenceOffset(): number
+	{
+		return this._activeSequenceOffset;
+	}
+
 	private _isLastFrame: boolean = false;
+
+	get isLastFrame(): boolean
+	{
+		return this._isLastFrame;
+	}
 
 	static allocate(
 		id: number,
@@ -59,73 +134,6 @@ export class AnimationFrame
 		}
 
 		return frame;
-	}
-
-	get id(): number
-	{
-		if (this._id >= 0)
-		{
-			return this._id;
-		}
-
-		return Math.floor(-this._id * Math.random());
-	}
-
-	get x(): number
-	{
-		return this._x;
-	}
-
-	get y(): number
-	{
-		return this._y;
-	}
-
-	get repeats(): number
-	{
-		return this._repeats;
-	}
-
-	get frameRepeats(): number
-	{
-		return this._frameRepeats;
-	}
-
-	get remainingFrameRepeats(): number
-	{
-		if (this._frameRepeats < 0)
-		{
-			return -1;
-		}
-
-		return this._remainingFrameRepeats;
-	}
-
-	set remainingFrameRepeats(value: number)
-	{
-		if (value < 0) value = 0;
-
-		if (this._frameRepeats > 0 && value > this._frameRepeats)
-		{
-			value = this._frameRepeats;
-		}
-
-		this._remainingFrameRepeats = value;
-	}
-
-	get activeSequence(): number
-	{
-		return this._activeSequence;
-	}
-
-	get activeSequenceOffset(): number
-	{
-		return this._activeSequenceOffset;
-	}
-
-	get isLastFrame(): boolean
-	{
-		return this._isLastFrame;
 	}
 
 	recycle(): void

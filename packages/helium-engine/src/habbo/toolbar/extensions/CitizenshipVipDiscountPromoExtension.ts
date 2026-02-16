@@ -16,9 +16,7 @@ const log = Logger.getLogger('CitizenshipVipDiscountPromoExtension');
 export class CitizenshipVipDiscountPromoExtension
 {
 	private _toolbar: HabboToolbar | null;
-	private _expanded: boolean = true;
 	private _expandedHeight: number = 216;
-	private _windowCreated: boolean = false;
 	private _expirationTimer: ReturnType<typeof setTimeout> | null = null;
 
 	constructor(toolbar: HabboToolbar)
@@ -28,13 +26,7 @@ export class CitizenshipVipDiscountPromoExtension
 		log.debug('CitizenshipVipDiscountPromoExtension constructed');
 	}
 
-	/**
-	 * Whether the extension is disposed
-	 */
-	get disposed(): boolean
-	{
-		return this._toolbar == null;
-	}
+	private _expanded: boolean = true;
 
 	/**
 	 * Whether the promo is expanded
@@ -44,12 +36,22 @@ export class CitizenshipVipDiscountPromoExtension
 		return this._expanded;
 	}
 
+	private _windowCreated: boolean = false;
+
 	/**
 	 * Whether the promo window has been created
 	 */
 	get windowCreated(): boolean
 	{
 		return this._windowCreated;
+	}
+
+	/**
+	 * Whether the extension is disposed
+	 */
+	get disposed(): boolean
+	{
+		return this._toolbar == null;
 	}
 
 	/**
@@ -67,15 +69,15 @@ export class CitizenshipVipDiscountPromoExtension
 	 */
 	public onClubChanged(citizenshipVipIsExpiring: boolean, clubMinutesUntilExpiration: number): void
 	{
-		if(!this._toolbar) return;
+		if (!this._toolbar) return;
 
-		if(citizenshipVipIsExpiring && !this._windowCreated && this.isExtensionEnabled())
+		if (citizenshipVipIsExpiring && !this._windowCreated && this.isExtensionEnabled())
 		{
 			this._windowCreated = true;
 
 			this.destroyExpirationTimer();
 
-			if(clubMinutesUntilExpiration < 1440 && clubMinutesUntilExpiration > 0)
+			if (clubMinutesUntilExpiration < 1440 && clubMinutesUntilExpiration > 0)
 			{
 				this._expirationTimer = setTimeout(
 					() => this.onExtendOfferExpire(),
@@ -85,7 +87,7 @@ export class CitizenshipVipDiscountPromoExtension
 
 			this.assignState();
 
-			if(this.extensionView && !this.extensionView.hasExtension('vip_quests'))
+			if (this.extensionView && !this.extensionView.hasExtension('vip_quests'))
 			{
 				// In AS3: extensionView.attachExtension("club_promo", window, 10)
 				log.debug('VIP discount promo: attached to extension view');
@@ -93,7 +95,7 @@ export class CitizenshipVipDiscountPromoExtension
 		}
 		else
 		{
-			if(this.extensionView)
+			if (this.extensionView)
 			{
 				this.extensionView.detachExtension('vip_quests');
 			}
@@ -111,6 +113,22 @@ export class CitizenshipVipDiscountPromoExtension
 		this.assignState();
 	}
 
+	/**
+	 * Dispose of this extension
+	 */
+	public dispose(): void
+	{
+		if (this._toolbar == null) return;
+
+		if (this.extensionView)
+		{
+			this.extensionView.detachExtension('club_promo');
+		}
+
+		this.destroyWindow();
+		this._toolbar = null;
+	}
+
 	private assignState(): void
 	{
 		// State is tracked; UI layer reads expanded + windowCreated
@@ -119,7 +137,7 @@ export class CitizenshipVipDiscountPromoExtension
 
 	private isExtensionEnabled(): boolean
 	{
-		if(!this._toolbar) return false;
+		if (!this._toolbar) return false;
 
 		return this._toolbar.getBoolean('club.membership.extend.vip.promotion.enabled');
 	}
@@ -132,7 +150,7 @@ export class CitizenshipVipDiscountPromoExtension
 
 	private destroyExpirationTimer(): void
 	{
-		if(this._expirationTimer !== null)
+		if (this._expirationTimer !== null)
 		{
 			clearTimeout(this._expirationTimer);
 			this._expirationTimer = null;
@@ -141,27 +159,11 @@ export class CitizenshipVipDiscountPromoExtension
 
 	private onExtendOfferExpire(): void
 	{
-		if(this.extensionView)
+		if (this.extensionView)
 		{
 			this.extensionView.detachExtension('club_promo');
 		}
 
 		this.destroyWindow();
-	}
-
-	/**
-	 * Dispose of this extension
-	 */
-	public dispose(): void
-	{
-		if(this._toolbar == null) return;
-
-		if(this.extensionView)
-		{
-			this.extensionView.detachExtension('club_promo');
-		}
-
-		this.destroyWindow();
-		this._toolbar = null;
 	}
 }

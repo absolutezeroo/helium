@@ -1,5 +1,5 @@
-import type { IMessageParser } from '@core/communication/messages/IMessageParser';
-import type { IMessageDataWrapper } from '@core/communication/messages/IMessageDataWrapper';
+import type {IMessageParser} from '@core/communication/messages/IMessageParser';
+import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
 
 /**
  * Parses chat review session results data from the server.
@@ -9,8 +9,25 @@ import type { IMessageDataWrapper } from '@core/communication/messages/IMessageD
 export class ChatReviewSessionResultsMessageParser implements IMessageParser
 {
 	private _winningVoteCode: number = -1;
+
+	get winningVoteCode(): number
+	{
+		return this._winningVoteCode;
+	}
+
 	private _ownVoteCode: number = -1;
+
+	get ownVoteCode(): number
+	{
+		return this._ownVoteCode;
+	}
+
 	private _finalStatus: Array<number> = [];
+
+	get finalStatus(): Array<number>
+	{
+		return this._finalStatus;
+	}
 
 	flush(): boolean
 	{
@@ -35,20 +52,5 @@ export class ChatReviewSessionResultsMessageParser implements IMessageParser
 		}
 
 		return true;
-	}
-
-	get winningVoteCode(): number
-	{
-		return this._winningVoteCode;
-	}
-
-	get ownVoteCode(): number
-	{
-		return this._ownVoteCode;
-	}
-
-	get finalStatus(): Array<number>
-	{
-		return this._finalStatus;
 	}
 }

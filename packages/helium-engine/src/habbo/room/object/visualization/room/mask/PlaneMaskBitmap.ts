@@ -12,12 +12,6 @@ export class PlaneMaskBitmap
 	public static readonly MIN_NORMAL_COORDINATE_VALUE: number = -1;
 	public static readonly MAX_NORMAL_COORDINATE_VALUE: number = 1;
 
-	private _normalMinX: number;
-	private _normalMaxX: number;
-	private _normalMinY: number;
-	private _normalMaxY: number;
-	private _asset: IGraphicAsset | null;
-
 	constructor(
 		asset: IGraphicAsset,
 		normalMinX: number = -1,
@@ -33,29 +27,39 @@ export class PlaneMaskBitmap
 		this._normalMaxY = normalMaxY;
 	}
 
-	get asset(): IGraphicAsset | null
-	{
-		return this._asset;
-	}
+	private _normalMinX: number;
 
 	get normalMinX(): number
 	{
 		return this._normalMinX;
 	}
 
+	private _normalMaxX: number;
+
 	get normalMaxX(): number
 	{
 		return this._normalMaxX;
 	}
+
+	private _normalMinY: number;
 
 	get normalMinY(): number
 	{
 		return this._normalMinY;
 	}
 
+	private _normalMaxY: number;
+
 	get normalMaxY(): number
 	{
 		return this._normalMaxY;
+	}
+
+	private _asset: IGraphicAsset | null;
+
+	get asset(): IGraphicAsset | null
+	{
+		return this._asset;
 	}
 
 	dispose(): void

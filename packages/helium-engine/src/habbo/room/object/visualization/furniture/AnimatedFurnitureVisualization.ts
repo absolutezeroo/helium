@@ -24,7 +24,6 @@ export class AnimatedFurnitureVisualization extends FurnitureVisualization
 	private _lastState: number = -1;
 	private _animationState: AnimationStateData;
 	private _animationChangeTime: number = 0;
-	private _frameIncrease: number = 1;
 	private _animScale: number = 0;
 	private _animLayerCount: number = 0;
 
@@ -39,14 +38,16 @@ export class AnimatedFurnitureVisualization extends FurnitureVisualization
 		return this._animationState.animationId;
 	}
 
-	protected get animatedLayerCount(): number
-	{
-		return this._animLayerCount;
-	}
+	private _frameIncrease: number = 1;
 
 	protected get frameIncrease(): number
 	{
 		return this._frameIncrease;
+	}
+
+	protected get animatedLayerCount(): number
+	{
+		return this._animLayerCount;
 	}
 
 	override dispose(): void

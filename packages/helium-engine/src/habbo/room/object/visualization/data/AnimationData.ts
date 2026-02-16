@@ -18,6 +18,10 @@ export class AnimationData
 
 	private static readonly TRANSITION_TO_ANIMATION_OFFSET: number = 1000000;
 	private static readonly TRANSITION_FROM_ANIMATION_OFFSET: number = 2000000;
+	private _layers: Map<number, AnimationLayerData> = new Map();
+	private _maxFrameCount: number = -1;
+	private _randomStart: boolean = false;
+	private _immediateChanges: number[] | null = null;
 
 	static getTransitionToAnimationId(animationId: number): number
 	{
@@ -39,11 +43,6 @@ export class AnimationData
 	{
 		return animationId >= AnimationData.TRANSITION_FROM_ANIMATION_OFFSET;
 	}
-
-	private _layers: Map<number, AnimationLayerData> = new Map();
-	private _maxFrameCount: number = -1;
-	private _randomStart: boolean = false;
-	private _immediateChanges: number[] | null = null;
 
 	setImmediateChanges(changes: number[]): void
 	{

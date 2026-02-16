@@ -1,4 +1,4 @@
-import type { HabboNewNavigator } from '../HabboNewNavigator';
+import type {HabboNewNavigator} from '../HabboNewNavigator';
 
 /**
  * Lift view for promoted/lifted rooms in the navigator.

@@ -5,7 +5,7 @@
 export * from './utils';
 
 // Exports
-export { RoomRenderingCanvas } from './RoomRenderingCanvas';
+export {RoomRenderingCanvas} from './RoomRenderingCanvas';
 
 // Types
-export type { IRoomRenderingCanvasMouseListener } from './RoomRenderingCanvas';
+export type {IRoomRenderingCanvasMouseListener} from './RoomRenderingCanvas';

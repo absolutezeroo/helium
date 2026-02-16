@@ -55,7 +55,7 @@ export class RoomEntryElementFactory
 
 	get rowEntryTemplateHeight(): number
 	{
-		if(!this._rowEntryTemplate) return 0;
+		if (!this._rowEntryTemplate) return 0;
 
 		return this._rowEntryTemplate.height;
 	}
@@ -69,13 +69,13 @@ export class RoomEntryElementFactory
 	 */
 	private static getUserCountColor(userCount: number, maxUserCount: number): number
 	{
-		if(maxUserCount <= 0) return 0xFF00FF00;
+		if (maxUserCount <= 0) return 0xFF00FF00;
 
 		const ratio = userCount / maxUserCount;
 
-		if(ratio >= 1.0) return 0xFFFF0000;
-		if(ratio >= 0.8) return 0xFFFF8800;
-		if(ratio >= 0.5) return 0xFFFFFF00;
+		if (ratio >= 1.0) return 0xFFFF0000;
+		if (ratio >= 0.8) return 0xFFFF8800;
+		if (ratio >= 0.5) return 0xFFFFFF00;
 
 		return 0xFF00FF00;
 	}
@@ -94,7 +94,7 @@ export class RoomEntryElementFactory
 	{
 		const entry = this._rowEntryTemplate!.clone() as IWindowContainer;
 
-		if(width !== -1)
+		if (width !== -1)
 		{
 			entry.width = width;
 		}
@@ -105,7 +105,7 @@ export class RoomEntryElementFactory
 
 		const groupIcon = entry.findChildByName('grouphome_icon');
 
-		if(groupIcon)
+		if (groupIcon)
 		{
 			groupIcon.visible = roomData.groupBadgeCode !== '';
 		}
@@ -128,11 +128,11 @@ export class RoomEntryElementFactory
 
 		this.updateCommonEntryElements(entry, roomData, true);
 
-		if(roomData.groupBadgeCode !== '')
+		if (roomData.groupBadgeCode !== '')
 		{
 			const groupBadge = entry.findChildByName('room_group_badge');
 
-			if(groupBadge)
+			if (groupBadge)
 			{
 				groupBadge.visible = true;
 				// Badge widget population would happen here if available
@@ -142,9 +142,9 @@ export class RoomEntryElementFactory
 		// Set room thumbnail
 		const picPlaceholder = entry.findChildByName('room_pic_placeholder');
 
-		if(picPlaceholder)
+		if (picPlaceholder)
 		{
-			if(roomData.officialRoomPicRef != null)
+			if (roomData.officialRoomPicRef != null)
 			{
 				picPlaceholder.caption = roomData.officialRoomPicRef;
 			}
@@ -183,21 +183,21 @@ export class RoomEntryElementFactory
 	{
 		const userCountEl = container.findChildByName('room_usercount');
 
-		if(userCountEl)
+		if (userCountEl)
 		{
 			userCountEl.caption = roomData.userCount.toString();
 		}
 
 		const roomNameEl = container.findChildByName('room_name');
 
-		if(roomNameEl)
+		if (roomNameEl)
 		{
 			roomNameEl.caption = isEventViewMode(this._viewMode) ? roomData.roomAdName : roomData.roomName;
 		}
 
 		const goToRoomRegion = container.findChildByName('go_to_room_region');
 
-		if(goToRoomRegion)
+		if (goToRoomRegion)
 		{
 			goToRoomRegion.id = roomData.flatId;
 			goToRoomRegion.addEventListener('WME_CLICK', this.onGoButtonClicked);
@@ -205,7 +205,7 @@ export class RoomEntryElementFactory
 
 		const infoPopupRegion = container.findChildByName('info_popup_click_region');
 
-		if(infoPopupRegion)
+		if (infoPopupRegion)
 		{
 			infoPopupRegion.id = roomData.flatId;
 			infoPopupRegion.addEventListener('WME_CLICK', this.onMouseClicked);
@@ -214,7 +214,7 @@ export class RoomEntryElementFactory
 		// Set user count color indicator
 		const usercountBorder = container.findChildByName('room_info_usercount_border');
 
-		if(usercountBorder)
+		if (usercountBorder)
 		{
 			usercountBorder.color = RoomEntryElementFactory.getUserCountColor(roomData.userCount, roomData.maxUserCount);
 		}
@@ -222,11 +222,11 @@ export class RoomEntryElementFactory
 		// Set door mode icon
 		const doorModeIcon = container.findChildByName('doormode_icon');
 
-		if(doorModeIcon)
+		if (doorModeIcon)
 		{
 			const asset = RoomEntryUtils.getDoorModeIconAsset(roomData.doorMode);
 
-			if(asset)
+			if (asset)
 			{
 				doorModeIcon.caption = asset;
 			}
@@ -235,7 +235,7 @@ export class RoomEntryElementFactory
 
 	private onGoButtonClicked = (event: WindowEvent): void =>
 	{
-		if(event.window)
+		if (event.window)
 		{
 			this._navigator.goToRoom(event.window.id);
 		}
@@ -243,11 +243,11 @@ export class RoomEntryElementFactory
 
 	private onMouseClicked = (event: WindowEvent): void =>
 	{
-		if(event.window)
+		if (event.window)
 		{
 			const roomData = this._navigator.currentResults?.findGuestRoom(event.window.id);
 
-			if(roomData)
+			if (roomData)
 			{
 				this._navigator.view?.showRoomInfoBubbleAt(roomData, 0, 0);
 			}

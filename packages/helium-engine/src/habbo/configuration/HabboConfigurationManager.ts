@@ -278,7 +278,8 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 			}
 
 			this.configurationsLoaded();
-		} catch (error)
+		}
+		catch (error)
 		{
 			const err = error instanceof Error ? error : new Error(String(error));
 
@@ -435,7 +436,8 @@ export class HabboConfigurationManager extends Component implements IHabboConfig
 			}
 
 			log.info(`Parsed ${count} configuration entries from JSON`);
-		} catch (error)
+		}
+		catch (error)
 		{
 			log.error(`Failed to parse JSON configuration: ${error}`);
 		}

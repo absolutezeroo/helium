@@ -1,5 +1,5 @@
 // Exports
-export { OfficialRoomEntryManager } from './OfficialRoomEntryManager';
+export {OfficialRoomEntryManager} from './OfficialRoomEntryManager';
 
 // Types
-export type { ITransitionalMainViewCtrl } from './ITransitionalMainViewCtrl';
+export type {ITransitionalMainViewCtrl} from './ITransitionalMainViewCtrl';

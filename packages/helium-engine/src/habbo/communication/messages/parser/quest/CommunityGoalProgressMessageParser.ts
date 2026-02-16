@@ -1,6 +1,6 @@
-import type { IMessageDataWrapper } from '@core/communication/messages/IMessageDataWrapper';
-import type { IMessageParser } from '@core/communication/messages/IMessageParser';
-import { CommunityGoalProgressData } from './CommunityGoalProgressData';
+import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
+import type {IMessageParser} from '@core/communication/messages/IMessageParser';
+import {CommunityGoalProgressData} from './CommunityGoalProgressData';
 
 /**
  * Parses community goal progress data from the server.
@@ -9,24 +9,24 @@ import { CommunityGoalProgressData } from './CommunityGoalProgressData';
  */
 export class CommunityGoalProgressMessageParser implements IMessageParser
 {
-    private _data: CommunityGoalProgressData | null = null;
+	private _data: CommunityGoalProgressData | null = null;
 
-    flush(): boolean
-    {
-        this._data = null;
-        return true;
-    }
+	get data(): CommunityGoalProgressData | null
+	{
+		return this._data;
+	}
 
-    parse(wrapper: IMessageDataWrapper): boolean
-    {
-        if(!wrapper) return false;
+	flush(): boolean
+	{
+		this._data = null;
+		return true;
+	}
 
-        this._data = new CommunityGoalProgressData(wrapper);
-        return true;
-    }
+	parse(wrapper: IMessageDataWrapper): boolean
+	{
+		if (!wrapper) return false;
 
-    get data(): CommunityGoalProgressData | null
-    {
-        return this._data;
-    }
+		this._data = new CommunityGoalProgressData(wrapper);
+		return true;
+	}
 }

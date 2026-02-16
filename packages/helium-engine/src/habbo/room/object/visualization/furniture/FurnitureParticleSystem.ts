@@ -194,7 +194,11 @@ export class FurnitureParticleSystem
 				emitter.configureParticle(lifeTime, isEmitter, frames, fade);
 			}
 
-			emitter.setup(maxParticles, particlesPerFrame, force, { x: 0, y: dirY, z: 0 }, gravity, airFriction, shape, energy, fuseTime, burstPulse);
+			emitter.setup(maxParticles, particlesPerFrame, force, {
+				x: 0,
+				y: dirY,
+				z: 0
+			}, gravity, airFriction, shape, energy, fuseTime, burstPulse);
 		}
 	}
 

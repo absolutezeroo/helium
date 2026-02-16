@@ -19,16 +19,78 @@ export class MeMenuSoundSettingsView
 {
 	private _settingsMenuView: MeMenuSettingsMenuView | null = null;
 	private _toolbarView: ToolbarView | null = null;
-	private _uiVolumeItem: MeMenuSoundSettingsItem | null = null;
-	private _furniVolumeItem: MeMenuSoundSettingsItem | null = null;
-	private _traxVolumeItem: MeMenuSoundSettingsItem | null = null;
-	private _genericVolume: number = 1;
-	private _furniVolume: number = 1;
-	private _traxVolume: number = 1;
 
 	constructor()
 	{
 		log.debug('MeMenuSoundSettingsView constructed');
+	}
+
+	private _uiVolumeItem: MeMenuSoundSettingsItem | null = null;
+
+	/**
+	 * The UI volume item
+	 */
+	get uiVolumeItem(): MeMenuSoundSettingsItem | null
+	{
+		return this._uiVolumeItem;
+	}
+
+	private _furniVolumeItem: MeMenuSoundSettingsItem | null = null;
+
+	/**
+	 * The furni volume item
+	 */
+	get furniVolumeItem(): MeMenuSoundSettingsItem | null
+	{
+		return this._furniVolumeItem;
+	}
+
+	private _traxVolumeItem: MeMenuSoundSettingsItem | null = null;
+
+	/**
+	 * The trax volume item
+	 */
+	get traxVolumeItem(): MeMenuSoundSettingsItem | null
+	{
+		return this._traxVolumeItem;
+	}
+
+	private _genericVolume: number = 1;
+
+	/**
+	 * The current generic (UI) volume
+	 */
+	get genericVolume(): number
+	{
+		return this._genericVolume;
+	}
+
+	private _furniVolume: number = 1;
+
+	/**
+	 * The current furni volume
+	 */
+	get furniVolume(): number
+	{
+		return this._furniVolume;
+	}
+
+	private _traxVolume: number = 1;
+
+	/**
+	 * The current trax volume
+	 */
+	get traxVolume(): number
+	{
+		return this._traxVolume;
+	}
+
+	/**
+	 * The parent widget controller
+	 */
+	get widget(): MeMenuController | null
+	{
+		return this._settingsMenuView?.widget ?? null;
 	}
 
 	/**
@@ -50,79 +112,23 @@ export class MeMenuSoundSettingsView
 	}
 
 	/**
-	 * The parent widget controller
-	 */
-	get widget(): MeMenuController | null
-	{
-		return this._settingsMenuView?.widget ?? null;
-	}
-
-	/**
-	 * The current generic (UI) volume
-	 */
-	get genericVolume(): number
-	{
-		return this._genericVolume;
-	}
-
-	/**
-	 * The current furni volume
-	 */
-	get furniVolume(): number
-	{
-		return this._furniVolume;
-	}
-
-	/**
-	 * The current trax volume
-	 */
-	get traxVolume(): number
-	{
-		return this._traxVolume;
-	}
-
-	/**
-	 * The UI volume item
-	 */
-	get uiVolumeItem(): MeMenuSoundSettingsItem | null
-	{
-		return this._uiVolumeItem;
-	}
-
-	/**
-	 * The furni volume item
-	 */
-	get furniVolumeItem(): MeMenuSoundSettingsItem | null
-	{
-		return this._furniVolumeItem;
-	}
-
-	/**
-	 * The trax volume item
-	 */
-	get traxVolumeItem(): MeMenuSoundSettingsItem | null
-	{
-		return this._traxVolumeItem;
-	}
-
-	/**
 	 * Update settings from the sound manager
 	 */
 	public updateSettings(): void
 	{
 		// In AS3: reads volumes from settingsMenuView.widget.toolbar.soundManager
 		// In Helium, these would be synced from the sound manager
-		if(this._uiVolumeItem)
+		if (this._uiVolumeItem)
 		{
 			this._uiVolumeItem.setValue(this._genericVolume);
 		}
 
-		if(this._furniVolumeItem)
+		if (this._furniVolumeItem)
 		{
 			this._furniVolumeItem.setValue(this._furniVolume);
 		}
 
-		if(this._traxVolumeItem)
+		if (this._traxVolumeItem)
 		{
 			this._traxVolumeItem.setValue(this._traxVolume);
 		}
@@ -142,9 +148,9 @@ export class MeMenuSoundSettingsView
 		const effectiveGeneric = genericVolume !== -1 ? genericVolume : this._genericVolume;
 		const effectiveTrax = traxVolume !== -1 ? traxVolume : this._traxVolume;
 
-		if(persist)
+		if (persist)
 		{
-			if(!this._settingsMenuView) return;
+			if (!this._settingsMenuView) return;
 
 			this._genericVolume = effectiveGeneric;
 			this._furniVolume = effectiveFurni;
@@ -167,9 +173,9 @@ export class MeMenuSoundSettingsView
 	 */
 	public onButtonClicked(buttonName: string): void
 	{
-		if(buttonName === 'back_btn')
+		if (buttonName === 'back_btn')
 		{
-			if(this._settingsMenuView)
+			if (this._settingsMenuView)
 			{
 				this._settingsMenuView.visible = true;
 			}
@@ -192,19 +198,19 @@ export class MeMenuSoundSettingsView
 		this._settingsMenuView = null;
 		this._toolbarView = null;
 
-		if(this._uiVolumeItem)
+		if (this._uiVolumeItem)
 		{
 			this._uiVolumeItem.dispose();
 			this._uiVolumeItem = null;
 		}
 
-		if(this._furniVolumeItem)
+		if (this._furniVolumeItem)
 		{
 			this._furniVolumeItem.dispose();
 			this._furniVolumeItem = null;
 		}
 
-		if(this._traxVolumeItem)
+		if (this._traxVolumeItem)
 		{
 			this._traxVolumeItem.dispose();
 			this._traxVolumeItem = null;

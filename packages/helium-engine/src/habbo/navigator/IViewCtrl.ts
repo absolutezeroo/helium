@@ -1,4 +1,4 @@
-import type { IWindowContainer } from '@core/window/IWindowContainer';
+import type {IWindowContainer} from '@core/window/IWindowContainer';
 
 /**
  * Interface for view controllers.
@@ -7,6 +7,7 @@ import type { IWindowContainer } from '@core/window/IWindowContainer';
  */
 export interface IViewCtrl
 {
-    refresh(): void;
-    content: IWindowContainer;
+	content: IWindowContainer;
+
+	refresh(): void;
 }

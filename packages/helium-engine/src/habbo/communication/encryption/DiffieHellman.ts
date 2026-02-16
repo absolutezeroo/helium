@@ -164,7 +164,8 @@ export class DiffieHellman implements IKeyExchange
 			this.publicKey = this.generator.modPow(this.privateKey, this.prime);
 
 			return true;
-		} catch (error)
+		}
+		catch (error)
 		{
 			log.error('DiffieHellman init error:', error);
 

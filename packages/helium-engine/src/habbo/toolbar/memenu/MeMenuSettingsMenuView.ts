@@ -17,32 +17,13 @@ export class MeMenuSettingsMenuView
 {
 	private _controller: MeMenuController | null = null;
 	private _toolbarView: ToolbarView | null = null;
-	private _visible: boolean = true;
 
 	constructor()
 	{
 		log.debug('MeMenuSettingsMenuView constructed');
 	}
 
-	/**
-	 * Initialize the settings menu view
-	 *
-	 * @param controller The parent me menu controller
-	 * @param toolbarView The toolbar view for positioning
-	 */
-	public init(controller: MeMenuController, toolbarView: ToolbarView): void
-	{
-		this._controller = controller;
-		this._toolbarView = toolbarView;
-	}
-
-	/**
-	 * The parent controller
-	 */
-	get widget(): MeMenuController | null
-	{
-		return this._controller;
-	}
+	private _visible: boolean = true;
 
 	/**
 	 * Whether the view is visible
@@ -58,15 +39,35 @@ export class MeMenuSettingsMenuView
 	}
 
 	/**
+	 * The parent controller
+	 */
+	get widget(): MeMenuController | null
+	{
+		return this._controller;
+	}
+
+	/**
+	 * Initialize the settings menu view
+	 *
+	 * @param controller The parent me menu controller
+	 * @param toolbarView The toolbar view for positioning
+	 */
+	public init(controller: MeMenuController, toolbarView: ToolbarView): void
+	{
+		this._controller = controller;
+		this._toolbarView = toolbarView;
+	}
+
+	/**
 	 * Handle a button click
 	 *
 	 * @param buttonName The button name
 	 */
 	public onButtonClick(buttonName: string): void
 	{
-		if(!this._controller) return;
+		if (!this._controller) return;
 
-		switch(buttonName)
+		switch (buttonName)
 		{
 			case 'character_settings':
 				// In AS3: HabboWebTools.openAvatars()

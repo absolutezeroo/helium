@@ -37,13 +37,13 @@ export class LimitedItemGridOverlayWidget implements ILimitedItemGridOverlayWidg
 
 		const root = this._windowManager.buildWidgetLayout('unique_item_overlay_griditem') as IWindowContainer | null;
 
-		if(root)
+		if (root)
 		{
 			this._root = root;
 
 			const plaqueBitmap = root.findChildByName('unique_item_overlay_plaque_background_bitmap');
 
-			if(plaqueBitmap)
+			if (plaqueBitmap)
 			{
 				this._plaqueBitmap = plaqueBitmap;
 			}
@@ -107,19 +107,19 @@ export class LimitedItemGridOverlayWidget implements ILimitedItemGridOverlayWidg
 
 	public dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		this._disposed = true;
 
 		this._plaqueBitmap = null;
 
-		if(this._root)
+		if (this._root)
 		{
 			this._root.dispose();
 			this._root = null;
 		}
 
-		if(this._widgetWindow)
+		if (this._widgetWindow)
 		{
 			this._widgetWindow.rootWindow = null;
 		}

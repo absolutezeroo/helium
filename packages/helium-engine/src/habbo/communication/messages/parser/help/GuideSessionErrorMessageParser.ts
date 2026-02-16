@@ -1,5 +1,5 @@
-import type { IMessageParser } from '@core/communication/messages/IMessageParser';
-import type { IMessageDataWrapper } from '@core/communication/messages/IMessageDataWrapper';
+import type {IMessageParser} from '@core/communication/messages/IMessageParser';
+import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
 
 /**
  * Parses guide session error data from the server.
@@ -16,6 +16,11 @@ export class GuideSessionErrorMessageParser implements IMessageParser
 
 	private _errorCode: number = 0;
 
+	get errorCode(): number
+	{
+		return this._errorCode;
+	}
+
 	flush(): boolean
 	{
 		this._errorCode = 0;
@@ -28,10 +33,5 @@ export class GuideSessionErrorMessageParser implements IMessageParser
 
 		this._errorCode = wrapper.readInt();
 		return true;
-	}
-
-	get errorCode(): number
-	{
-		return this._errorCode;
 	}
 }

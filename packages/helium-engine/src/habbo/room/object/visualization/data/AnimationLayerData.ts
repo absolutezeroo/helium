@@ -13,7 +13,6 @@ import {AnimationFrameSequenceData} from './AnimationFrameSequenceData';
 export class AnimationLayerData
 {
 	private _sequences: AnimationFrameSequenceData[] = [];
-	private _frameCount: number = -1;
 	private _loopCount: number = 1;
 	private _frameRepeat: number = 1;
 	private _isRandom: boolean = false;
@@ -27,6 +26,8 @@ export class AnimationLayerData
 		this._frameRepeat = frameRepeat;
 		this._isRandom = isRandom;
 	}
+
+	private _frameCount: number = -1;
 
 	get frameCount(): number
 	{

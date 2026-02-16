@@ -1,5 +1,5 @@
-import type { IMessageDataWrapper } from '@core/communication/messages/IMessageDataWrapper';
-import type { IMessageParser } from '@core/communication/messages/IMessageParser';
+import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
+import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 
 /**
  * Parses concurrent users goal progress data from the server.
@@ -8,40 +8,42 @@ import type { IMessageParser } from '@core/communication/messages/IMessageParser
  */
 export class ConcurrentUsersGoalProgressMessageParser implements IMessageParser
 {
-    private _state: number = -1;
-    private _userCount: number = -1;
-    private _userCountGoal: number = -1;
+	private _state: number = -1;
 
-    flush(): boolean
-    {
-        this._state = -1;
-        this._userCount = -1;
-        this._userCountGoal = -1;
-        return true;
-    }
+	get state(): number
+	{
+		return this._state;
+	}
 
-    parse(wrapper: IMessageDataWrapper): boolean
-    {
-        if(!wrapper) return false;
+	private _userCount: number = -1;
 
-        this._state = wrapper.readInt();
-        this._userCount = wrapper.readInt();
-        this._userCountGoal = wrapper.readInt();
-        return true;
-    }
+	get userCount(): number
+	{
+		return this._userCount;
+	}
 
-    get state(): number
-    {
-        return this._state;
-    }
+	private _userCountGoal: number = -1;
 
-    get userCount(): number
-    {
-        return this._userCount;
-    }
+	get userCountGoal(): number
+	{
+		return this._userCountGoal;
+	}
 
-    get userCountGoal(): number
-    {
-        return this._userCountGoal;
-    }
+	flush(): boolean
+	{
+		this._state = -1;
+		this._userCount = -1;
+		this._userCountGoal = -1;
+		return true;
+	}
+
+	parse(wrapper: IMessageDataWrapper): boolean
+	{
+		if (!wrapper) return false;
+
+		this._state = wrapper.readInt();
+		this._userCount = wrapper.readInt();
+		this._userCountGoal = wrapper.readInt();
+		return true;
+	}
 }

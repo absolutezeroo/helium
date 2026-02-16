@@ -41,13 +41,13 @@ export class BadgeImageWidget implements IBadgeImageWidget
 
 		const root = this._windowManager.buildWidgetLayout('badge_image') as IWindowContainer;
 
-		if(root)
+		if (root)
 		{
 			this._root = root;
 			this._bitmap = root.findChildByName('bitmap');
 			this._region = root.findChildByName('region');
 
-			if(this._region)
+			if (this._region)
 			{
 				this._region.addEventListener(WindowMouseEvent.CLICK, this._onClickBound);
 			}
@@ -106,9 +106,9 @@ export class BadgeImageWidget implements IBadgeImageWidget
 	 */
 	public get assetUri(): string
 	{
-		if(!this._badgeId || this._badgeId.length === 0) return '';
+		if (!this._badgeId || this._badgeId.length === 0) return '';
 
-		switch(this._type)
+		switch (this._type)
 		{
 			case 'normal':
 				return '${image.library.url}album1584/' + this._badgeId + '.png';
@@ -123,7 +123,7 @@ export class BadgeImageWidget implements IBadgeImageWidget
 
 	public get properties(): PropertyStruct[]
 	{
-		if(this._disposed) return [];
+		if (this._disposed) return [];
 
 		return [
 			new PropertyStruct(BadgeImageWidget.TYPE_KEY, this._type),
@@ -135,9 +135,9 @@ export class BadgeImageWidget implements IBadgeImageWidget
 	{
 		this._batchUpdate = true;
 
-		for(const prop of values)
+		for (const prop of values)
 		{
-			switch(prop.key)
+			switch (prop.key)
 			{
 				case BadgeImageWidget.TYPE_KEY:
 					this.type = String(prop.value);
@@ -148,7 +148,7 @@ export class BadgeImageWidget implements IBadgeImageWidget
 			}
 		}
 
-		if(this._bitmap)
+		if (this._bitmap)
 		{
 			this._bitmap.properties = values as unknown[];
 		}
@@ -159,11 +159,11 @@ export class BadgeImageWidget implements IBadgeImageWidget
 
 	public dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		this._groupId = 0;
 
-		if(this._region)
+		if (this._region)
 		{
 			this._region.removeEventListener(WindowMouseEvent.CLICK, this._onClickBound);
 			this._region.dispose();
@@ -172,13 +172,13 @@ export class BadgeImageWidget implements IBadgeImageWidget
 
 		this._bitmap = null;
 
-		if(this._root)
+		if (this._root)
 		{
 			this._root.dispose();
 			this._root = null;
 		}
 
-		if(this._widgetWindow)
+		if (this._widgetWindow)
 		{
 			this._widgetWindow.rootWindow = null;
 			this._widgetWindow = null;
@@ -196,7 +196,7 @@ export class BadgeImageWidget implements IBadgeImageWidget
 	 */
 	private refresh(): void
 	{
-		if(this._batchUpdate) return;
+		if (this._batchUpdate) return;
 
 		// TODO: set _bitmap.assetUri and invalidate (Flash rendering logic)
 	}

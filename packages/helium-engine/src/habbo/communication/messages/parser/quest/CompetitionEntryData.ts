@@ -1,4 +1,4 @@
-import type { IMessageDataWrapper } from '@core/communication/messages/IMessageDataWrapper';
+import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
 
 /**
  * Represents a competition entry with user ranking and reward information.
@@ -7,50 +7,55 @@ import type { IMessageDataWrapper } from '@core/communication/messages/IMessageD
  */
 export class CompetitionEntryData
 {
-    private _communityGoalId: number;
-    private _communityGoalCode: string;
-    private _userRank: number;
-    private _rewardCode: string;
-    private _badge: boolean;
-    private _localizedName: string;
+	constructor(wrapper: IMessageDataWrapper)
+	{
+		this._communityGoalId = wrapper.readInt();
+		this._communityGoalCode = wrapper.readString();
+		this._userRank = wrapper.readInt();
+		this._rewardCode = wrapper.readString();
+		this._badge = wrapper.readBoolean();
+		this._localizedName = wrapper.readString();
+	}
 
-    constructor(wrapper: IMessageDataWrapper)
-    {
-        this._communityGoalId = wrapper.readInt();
-        this._communityGoalCode = wrapper.readString();
-        this._userRank = wrapper.readInt();
-        this._rewardCode = wrapper.readString();
-        this._badge = wrapper.readBoolean();
-        this._localizedName = wrapper.readString();
-    }
+	private _communityGoalId: number;
 
-    get communityGoalId(): number
-    {
-        return this._communityGoalId;
-    }
+	get communityGoalId(): number
+	{
+		return this._communityGoalId;
+	}
 
-    get communityGoalCode(): string
-    {
-        return this._communityGoalCode;
-    }
+	private _communityGoalCode: string;
 
-    get userRank(): number
-    {
-        return this._userRank;
-    }
+	get communityGoalCode(): string
+	{
+		return this._communityGoalCode;
+	}
 
-    get rewardCode(): string
-    {
-        return this._rewardCode;
-    }
+	private _userRank: number;
 
-    get badge(): boolean
-    {
-        return this._badge;
-    }
+	get userRank(): number
+	{
+		return this._userRank;
+	}
 
-    get localizedName(): string
-    {
-        return this._localizedName;
-    }
+	private _rewardCode: string;
+
+	get rewardCode(): string
+	{
+		return this._rewardCode;
+	}
+
+	private _badge: boolean;
+
+	get badge(): boolean
+	{
+		return this._badge;
+	}
+
+	private _localizedName: string;
+
+	get localizedName(): string
+	{
+		return this._localizedName;
+	}
 }

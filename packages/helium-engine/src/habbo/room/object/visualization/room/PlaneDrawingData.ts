@@ -8,14 +8,6 @@
  */
 export class PlaneDrawingData
 {
-	private _z: number = 0;
-	private _cornerPoints: { x: number; y: number }[] | null = null;
-	private _maskAssetNames: string[];
-	private _maskAssetLocations: { x: number; y: number }[];
-	private _maskAssetFlipHs: boolean[];
-	private _maskAssetFlipVs: boolean[];
-	private _assetNameColumns: string[][];
-	private _color: number;
 	private _bottomAligned: boolean;
 
 	constructor(source: PlaneDrawingData | null = null, color: number = 0, bottomAligned: boolean = false)
@@ -41,10 +33,7 @@ export class PlaneDrawingData
 		this._bottomAligned = bottomAligned;
 	}
 
-	get color(): number
-	{
-		return this._color;
-	}
+	private _z: number = 0;
 
 	get z(): number
 	{
@@ -56,6 +45,8 @@ export class PlaneDrawingData
 		this._z = value;
 	}
 
+	private _cornerPoints: { x: number; y: number }[] | null = null;
+
 	get cornerPoints(): { x: number; y: number }[] | null
 	{
 		return this._cornerPoints;
@@ -66,29 +57,46 @@ export class PlaneDrawingData
 		this._cornerPoints = value;
 	}
 
+	private _maskAssetNames: string[];
+
 	get maskAssetNames(): string[]
 	{
 		return this._maskAssetNames;
 	}
+
+	private _maskAssetLocations: { x: number; y: number }[];
 
 	get maskAssetLocations(): { x: number; y: number }[]
 	{
 		return this._maskAssetLocations;
 	}
 
+	private _maskAssetFlipHs: boolean[];
+
 	get maskAssetFlipHs(): boolean[]
 	{
 		return this._maskAssetFlipHs;
 	}
+
+	private _maskAssetFlipVs: boolean[];
 
 	get maskAssetFlipVs(): boolean[]
 	{
 		return this._maskAssetFlipVs;
 	}
 
+	private _assetNameColumns: string[][];
+
 	get assetNameColumns(): string[][]
 	{
 		return this._assetNameColumns;
+	}
+
+	private _color: number;
+
+	get color(): number
+	{
+		return this._color;
 	}
 
 	addMask(name: string, location: { x: number; y: number }, flipH: boolean, flipV: boolean): void

@@ -16,8 +16,6 @@ export class MeMenuSoundSettingsSlider
 {
 	private _owner: { saveVolume(value: number, preview: boolean): void } | null;
 	private _referenceWidth: number = 100;
-	private _minValue: number;
-	private _maxValue: number;
 	private _currentValue: number = 0;
 
 	constructor(
@@ -33,13 +31,7 @@ export class MeMenuSoundSettingsSlider
 		log.debug('MeMenuSoundSettingsSlider constructed');
 	}
 
-	/**
-	 * The current slider value
-	 */
-	get value(): number
-	{
-		return this._currentValue;
-	}
+	private _minValue: number;
 
 	/**
 	 * The minimum value
@@ -49,12 +41,22 @@ export class MeMenuSoundSettingsSlider
 		return this._minValue;
 	}
 
+	private _maxValue: number;
+
 	/**
 	 * The maximum value
 	 */
 	get maxValue(): number
 	{
 		return this._maxValue;
+	}
+
+	/**
+	 * The current slider value
+	 */
+	get value(): number
+	{
+		return this._currentValue;
 	}
 
 	/**
@@ -109,7 +111,7 @@ export class MeMenuSoundSettingsSlider
 		const value = this.getValueFromPosition(position);
 		this._currentValue = value;
 
-		if(this._owner)
+		if (this._owner)
 		{
 			this._owner.saveVolume(value, false);
 		}

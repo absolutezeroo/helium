@@ -30,11 +30,26 @@ export class FurnitureCuboidVisualization extends RoomObjectSpriteVisualization
 	{
 		const roomObject = this.object;
 
-		if(roomObject === null) return;
-		if(geometry === null) return;
+		if (roomObject === null) return;
+		if (geometry === null) return;
 
 		this.initializePlanes();
 		this.updatePlanes(geometry, time);
+	}
+
+	override dispose(): void
+	{
+		super.dispose();
+
+		for (const plane of this._planes)
+		{
+			if (plane !== null)
+			{
+				plane.dispose();
+			}
+		}
+
+		this._planes = [];
 	}
 
 	protected defineSprites(): void
@@ -51,24 +66,24 @@ export class FurnitureCuboidVisualization extends RoomObjectSpriteVisualization
 	 */
 	protected initializePlanes(): void
 	{
-		if(this._planesInitialized) return;
+		if (this._planesInitialized) return;
 
 		const roomObject = this.object;
 
-		if(roomObject === null) return;
+		if (roomObject === null) return;
 
 		const model = roomObject.getModel();
 		const sizeX = model.getNumber('furniture_size_x');
 		const sizeY = model.getNumber('furniture_size_y');
 		const sizeZ = model.getNumber('furniture_size_z');
 
-		if(isNaN(sizeX) || isNaN(sizeY) || isNaN(sizeZ)) return;
+		if (isNaN(sizeX) || isNaN(sizeY) || isNaN(sizeZ)) return;
 
 		const leftSide = new Vector3d(sizeX, 0, 0);
 		const rightSide = new Vector3d(0, sizeY, 0);
 		const origin = new Vector3d(-0.5, -0.5, 0);
 
-		if(origin !== null && leftSide !== null && rightSide !== null)
+		if (origin !== null && leftSide !== null && rightSide !== null)
 		{
 			const plane = new FurniturePlane(origin, leftSide, rightSide);
 			plane.color = 0xFFFF00; // Yellow default (matches AS3)
@@ -87,20 +102,20 @@ export class FurnitureCuboidVisualization extends RoomObjectSpriteVisualization
 	{
 		const roomObject = this.object;
 
-		if(roomObject === null) return;
+		if (roomObject === null) return;
 
 		this._updateCounter++;
 
-		for(let i = 0; i < this._planes.length; i++)
+		for (let i = 0; i < this._planes.length; i++)
 		{
 			const plane = this._planes[i];
 
-			if(plane === null) continue;
+			if (plane === null) continue;
 
 			// Handle rotation for diagonal directions
 			const dir = Math.floor(roomObject.getDirection().x);
 
-			if(dir / 45 === 2 || dir / 45 === 6)
+			if (dir / 45 === 2 || dir / 45 === 6)
 			{
 				plane.setRotation(true);
 			}
@@ -113,9 +128,9 @@ export class FurnitureCuboidVisualization extends RoomObjectSpriteVisualization
 
 			const sprite = this.getSprite(i);
 
-			if(sprite !== null)
+			if (sprite !== null)
 			{
-				if(plane !== null)
+				if (plane !== null)
 				{
 					const offset = plane.offset;
 					sprite.offsetX = -offset.x;
@@ -131,7 +146,7 @@ export class FurnitureCuboidVisualization extends RoomObjectSpriteVisualization
 				const bitmap = plane.bitmapData;
 				sprite.texture = bitmap !== null ? Texture.from(bitmap) : null;
 
-				if(changed)
+				if (changed)
 				{
 					sprite.assetName = `plane_${i}_${geometry.scale}_${roomObject.getInstanceId()}_${this._updateCounter}`;
 				}
@@ -139,20 +154,5 @@ export class FurnitureCuboidVisualization extends RoomObjectSpriteVisualization
 				sprite.relativeDepth = plane.relativeDepth;
 			}
 		}
-	}
-
-	override dispose(): void
-	{
-		super.dispose();
-
-		for(const plane of this._planes)
-		{
-			if(plane !== null)
-			{
-				plane.dispose();
-			}
-		}
-
-		this._planes = [];
 	}
 }

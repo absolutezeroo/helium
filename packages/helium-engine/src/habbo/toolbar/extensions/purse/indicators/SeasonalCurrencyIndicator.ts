@@ -21,7 +21,6 @@ export class SeasonalCurrencyIndicator extends CurrencyIndicatorBase
 
 	private _toolbar: HabboToolbar | null;
 	private _previousBalance: number = -1;
-	private _balance: number = 0;
 
 	constructor(toolbar: HabboToolbar)
 	{
@@ -39,14 +38,7 @@ export class SeasonalCurrencyIndicator extends CurrencyIndicatorBase
 		log.debug('SeasonalCurrencyIndicator constructed');
 	}
 
-	/**
-	 * The displayed activity point type from configuration
-	 */
-	get displayedActivityPointType(): number
-	{
-		if(!this._toolbar) return 1;
-		return this._toolbar.getInteger('seasonalcurrencyindicator.currency', 1);
-	}
+	private _balance: number = 0;
 
 	/**
 	 * The current balance
@@ -57,30 +49,12 @@ export class SeasonalCurrencyIndicator extends CurrencyIndicatorBase
 	}
 
 	/**
-	 * The seasonal currency ID from configuration
+	 * The displayed activity point type from configuration
 	 */
-	private get seasonalCurrencyId(): string
+	get displayedActivityPointType(): number
 	{
-		if(!this._toolbar) return '';
-		return this._toolbar.getProperty(`seasonalcurrency.id.${this.displayedActivityPointType}`);
-	}
-
-	/**
-	 * The catalog page name to open on click
-	 */
-	private get catalogPageName(): string
-	{
-		if(!this._toolbar) return '';
-		return this._toolbar.getProperty('seasonalcurrencyindicator.page');
-	}
-
-	/**
-	 * The currency color key from configuration
-	 */
-	private get currencyColor(): string
-	{
-		if(!this._toolbar) return '';
-		return this._toolbar.getProperty(`seasonalcurrency.${this.seasonalCurrencyId}.color`);
+		if (!this._toolbar) return 1;
+		return this._toolbar.getInteger('seasonalcurrencyindicator.currency', 1);
 	}
 
 	/**
@@ -88,7 +62,7 @@ export class SeasonalCurrencyIndicator extends CurrencyIndicatorBase
 	 */
 	get currencyBackgroundColor(): number
 	{
-		if(!this._toolbar) return 0;
+		if (!this._toolbar) return 0;
 
 		const hexStr = this._toolbar.getProperty(`seasonalcurrency.preset.${this.currencyColor}.border`);
 		return parseInt(hexStr.replace('#', ''), 16) || 0;
@@ -99,19 +73,37 @@ export class SeasonalCurrencyIndicator extends CurrencyIndicatorBase
 	 */
 	get currencyTextColor(): number
 	{
-		if(!this._toolbar) return 0;
+		if (!this._toolbar) return 0;
 
 		const hexStr = this._toolbar.getProperty(`seasonalcurrency.preset.${this.currencyColor}.font`);
 		return parseInt(hexStr.replace('#', ''), 16) || 0;
 	}
 
 	/**
-	 * Override to handle container click - opens catalog page
+	 * The seasonal currency ID from configuration
 	 */
-	protected override onContainerClick(): void
+	private get seasonalCurrencyId(): string
 	{
-		// In AS3: _catalog.openCatalogPage(catalogPageName)
-		log.debug(`SeasonalCurrencyIndicator: open catalog page ${this.catalogPageName}`);
+		if (!this._toolbar) return '';
+		return this._toolbar.getProperty(`seasonalcurrency.id.${this.displayedActivityPointType}`);
+	}
+
+	/**
+	 * The catalog page name to open on click
+	 */
+	private get catalogPageName(): string
+	{
+		if (!this._toolbar) return '';
+		return this._toolbar.getProperty('seasonalcurrencyindicator.page');
+	}
+
+	/**
+	 * The currency color key from configuration
+	 */
+	private get currencyColor(): string
+	{
+		if (!this._toolbar) return '';
+		return this._toolbar.getProperty(`seasonalcurrency.${this.seasonalCurrencyId}.color`);
 	}
 
 	/**
@@ -122,38 +114,17 @@ export class SeasonalCurrencyIndicator extends CurrencyIndicatorBase
 	 */
 	public onBalance(activityPointType: number, balance: number): void
 	{
-		if(activityPointType === this.displayedActivityPointType)
+		if (activityPointType === this.displayedActivityPointType)
 		{
 			this._balance = balance;
 			this.setAmount(balance);
 
-			if(this._previousBalance !== -1)
+			if (this._previousBalance !== -1)
 			{
 				this.animateChange(this._previousBalance, balance);
 			}
 
 			this._previousBalance = balance;
-		}
-	}
-
-	/**
-	 * Override setAmount to show zero text when balance is 0
-	 *
-	 * @param amount The amount to display
-	 * @param _minutes Unused
-	 */
-	protected override setAmount(amount: number, _minutes: number = -1): void
-	{
-		if(amount === 0)
-		{
-			const zeroText = this.amountZeroText ?? 'Info';
-			this.setTextUnderline(true);
-			this.setText(zeroText);
-		}
-		else
-		{
-			this.setTextUnderline(false);
-			this.setText(amount.toString());
 		}
 	}
 
@@ -175,5 +146,35 @@ export class SeasonalCurrencyIndicator extends CurrencyIndicatorBase
 	{
 		this._toolbar = null;
 		super.dispose();
+	}
+
+	/**
+	 * Override to handle container click - opens catalog page
+	 */
+	protected override onContainerClick(): void
+	{
+		// In AS3: _catalog.openCatalogPage(catalogPageName)
+		log.debug(`SeasonalCurrencyIndicator: open catalog page ${this.catalogPageName}`);
+	}
+
+	/**
+	 * Override setAmount to show zero text when balance is 0
+	 *
+	 * @param amount The amount to display
+	 * @param _minutes Unused
+	 */
+	protected override setAmount(amount: number, _minutes: number = -1): void
+	{
+		if (amount === 0)
+		{
+			const zeroText = this.amountZeroText ?? 'Info';
+			this.setTextUnderline(true);
+			this.setText(zeroText);
+		}
+		else
+		{
+			this.setTextUnderline(false);
+			this.setText(amount.toString());
+		}
 	}
 }

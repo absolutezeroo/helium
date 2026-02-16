@@ -16,11 +16,12 @@ export class FurnitureGuildCustomizedVisualization extends AnimatedFurnitureVisu
 
 	private _thumbnailAssetName32: string | null = null;
 	private _thumbnailAssetName64: string | null = null;
-	private _hasOutline: boolean = false;
 	private _thumbnailImageNormal: Texture | null = null;
 	private _thumbnailImage32: Texture | null = null;
 	private _lastDirection: number = 0;
 	private _needsRefresh: boolean = false;
+
+	private _hasOutline: boolean = false;
 
 	set hasOutline(value: boolean)
 	{
@@ -30,6 +31,13 @@ export class FurnitureGuildCustomizedVisualization extends AnimatedFurnitureVisu
 	get hasThumbnailImage(): boolean
 	{
 		return this._thumbnailImageNormal !== null;
+	}
+
+	setThumbnailImages(normal: Texture | null, small: Texture | null = null): void
+	{
+		this._thumbnailImageNormal = normal;
+		this._thumbnailImage32 = small !== null ? small : normal;
+		this._needsRefresh = true;
 	}
 
 	protected override updateModel(scale: number): boolean
@@ -59,13 +67,6 @@ export class FurnitureGuildCustomizedVisualization extends AnimatedFurnitureVisu
 		}
 
 		return this.getThumbnailAssetName(scale);
-	}
-
-	setThumbnailImages(normal: Texture | null, small: Texture | null = null): void
-	{
-		this._thumbnailImageNormal = normal;
-		this._thumbnailImage32 = small !== null ? small : normal;
-		this._needsRefresh = true;
 	}
 
 	protected getThumbnailAssetName(scale: number): string

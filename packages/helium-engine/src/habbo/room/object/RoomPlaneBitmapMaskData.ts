@@ -13,10 +13,6 @@ export class RoomPlaneBitmapMaskData
 	public static readonly MASK_CATEGORY_WINDOW = 'window';
 	public static readonly MASK_CATEGORY_HOLE = 'hole';
 
-	private _type: string;
-	private _loc: Vector3d | null = null;
-	private _category: string;
-
 	constructor(type: string, location: IVector3d, category: string)
 	{
 		this._type = type;
@@ -24,6 +20,8 @@ export class RoomPlaneBitmapMaskData
 		this._loc = new Vector3d();
 		this._loc.assign(location);
 	}
+
+	private _type: string;
 
 	get type(): string
 	{
@@ -34,6 +32,8 @@ export class RoomPlaneBitmapMaskData
 	{
 		this._type = value;
 	}
+
+	private _loc: Vector3d | null = null;
 
 	get loc(): IVector3d | null
 	{
@@ -48,6 +48,8 @@ export class RoomPlaneBitmapMaskData
 		}
 		this._loc.assign(value);
 	}
+
+	private _category: string;
 
 	get category(): string
 	{

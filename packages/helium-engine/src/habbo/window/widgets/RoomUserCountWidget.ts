@@ -28,7 +28,7 @@ export class RoomUserCountWidget implements IRoomUserCountWidget
 
 		const root = this._windowManager.buildWidgetLayout('room_user_count') as IWindowContainer | null;
 
-		if(root)
+		if (root)
 		{
 			this._root = root;
 
@@ -69,17 +69,17 @@ export class RoomUserCountWidget implements IRoomUserCountWidget
 
 	public dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		this._disposed = true;
 
-		if(this._root)
+		if (this._root)
 		{
 			this._root.dispose();
 			this._root = null;
 		}
 
-		if(this._widgetWindow)
+		if (this._widgetWindow)
 		{
 			this._widgetWindow.rootWindow = null;
 		}

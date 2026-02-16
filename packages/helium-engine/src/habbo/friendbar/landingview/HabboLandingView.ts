@@ -209,17 +209,17 @@ export class HabboLandingView extends AbstractView implements IHabboLandingView
 	 */
 	public activate(): void
 	{
-		if(!this._initialized)
+		if (!this._initialized)
 		{
 			this.tryInitialize();
 		}
 
-		if(this._toolbar)
+		if (this._toolbar)
 		{
 			this._toolbar.setToolbarState(HabboToolbarEnum.TOOLBAR_STATE_HOTEL_VIEW);
 		}
 
-		if(this._landingViewLayout != null)
+		if (this._landingViewLayout != null)
 		{
 			this._landingViewLayout.activate();
 		}
@@ -236,7 +236,7 @@ export class HabboLandingView extends AbstractView implements IHabboLandingView
 	 */
 	public disable(): void
 	{
-		if(this._landingViewLayout != null)
+		if (this._landingViewLayout != null)
 		{
 			this._landingViewLayout.disable();
 		}
@@ -253,7 +253,7 @@ export class HabboLandingView extends AbstractView implements IHabboLandingView
 	 */
 	public getXmlWindow(name: string, layer: number = 1): IWindow | null
 	{
-		if(!this._windowManager)
+		if (!this._windowManager)
 		{
 			log.error(`Cannot build window '${name}': window manager not available`);
 			return null;
@@ -263,7 +263,7 @@ export class HabboLandingView extends AbstractView implements IHabboLandingView
 		{
 			return this._windowManager.buildWidgetLayout(name, layer);
 		}
-		catch(e)
+		catch (e)
 		{
 			log.error(`Failed to build window '${name}':`, e);
 			return null;
@@ -279,7 +279,7 @@ export class HabboLandingView extends AbstractView implements IHabboLandingView
 	 */
 	public send(composer: IMessageComposer<unknown[]>): void
 	{
-		if(this._communicationManager?.connection)
+		if (this._communicationManager?.connection)
 		{
 			this._communicationManager.connection.send(composer);
 		}
@@ -292,17 +292,17 @@ export class HabboLandingView extends AbstractView implements IHabboLandingView
 	 */
 	override dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		this._initialized = false;
 
-		if(this._landingViewLayout)
+		if (this._landingViewLayout)
 		{
 			this._landingViewLayout.dispose();
 			this._landingViewLayout = null;
 		}
 
-		if(this._toolbar)
+		if (this._toolbar)
 		{
 			this._toolbar.toolbarEvents.off(HabboToolbarEvent.TOOLBAR_CLICK, this.onToolbarClick);
 		}
@@ -326,7 +326,7 @@ export class HabboLandingView extends AbstractView implements IHabboLandingView
 	protected override initComponent(): void
 	{
 		// Register toolbar click listener
-		if(this._toolbar)
+		if (this._toolbar)
 		{
 			this._toolbar.toolbarEvents.on(HabboToolbarEvent.TOOLBAR_CLICK, this.onToolbarClick);
 		}
@@ -346,11 +346,11 @@ export class HabboLandingView extends AbstractView implements IHabboLandingView
 		{
 			this.initialize();
 		}
-		catch(e)
+		catch (e)
 		{
 			log.error('Landing view initialization failed:', e);
 
-			if(this._landingViewLayout)
+			if (this._landingViewLayout)
 			{
 				this._landingViewLayout.dispose();
 				this._landingViewLayout = null;
@@ -367,10 +367,10 @@ export class HabboLandingView extends AbstractView implements IHabboLandingView
 	 */
 	private onToolbarClick = (event: HabboToolbarEvent): void =>
 	{
-		switch(event.iconId)
+		switch (event.iconId)
 		{
 			case 'HTIE_ICON_RECEPTION':
-				if(this._roomSessionManager?.getSession(-1))
+				if (this._roomSessionManager?.getSession(-1))
 				{
 					this._roomSessionManager.disposeSession(-1);
 				}

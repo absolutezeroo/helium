@@ -13,15 +13,8 @@ import {Sprite, Texture} from 'pixi.js';
 
 export class ExtendedSprite extends Sprite
 {
-	private _tag: string = '';
-	private _identifier: string = '';
-	private _clickHandling: boolean = false;
-	private _alphaTolerance: number = 128;
-	private _varyingDepth: boolean = false;
 	private _updateID1: number = -1;
 	private _updateID2: number = -1;
-	private _offsetX: number = 0;
-	private _offsetY: number = 0;
 	private _spriteWidth: number = 0;
 	private _spriteHeight: number = 0;
 
@@ -30,6 +23,8 @@ export class ExtendedSprite extends Sprite
 		super();
 		this.eventMode = 'none';
 	}
+
+	private _tag: string = '';
 
 	get tag(): string
 	{
@@ -41,6 +36,8 @@ export class ExtendedSprite extends Sprite
 		this._tag = value;
 	}
 
+	private _identifier: string = '';
+
 	get identifier(): string
 	{
 		return this._identifier;
@@ -50,6 +47,8 @@ export class ExtendedSprite extends Sprite
 	{
 		this._identifier = value;
 	}
+
+	private _clickHandling: boolean = false;
 
 	get clickHandling(): boolean
 	{
@@ -61,6 +60,8 @@ export class ExtendedSprite extends Sprite
 		this._clickHandling = value;
 	}
 
+	private _alphaTolerance: number = 128;
+
 	get alphaTolerance(): number
 	{
 		return this._alphaTolerance;
@@ -70,6 +71,8 @@ export class ExtendedSprite extends Sprite
 	{
 		this._alphaTolerance = value;
 	}
+
+	private _varyingDepth: boolean = false;
 
 	get varyingDepth(): boolean
 	{
@@ -81,6 +84,8 @@ export class ExtendedSprite extends Sprite
 		this._varyingDepth = value;
 	}
 
+	private _offsetX: number = 0;
+
 	get offsetX(): number
 	{
 		return this._offsetX;
@@ -90,6 +95,8 @@ export class ExtendedSprite extends Sprite
 	{
 		this._offsetX = value;
 	}
+
+	private _offsetY: number = 0;
 
 	get offsetY(): number
 	{
@@ -109,7 +116,7 @@ export class ExtendedSprite extends Sprite
 	 */
 	needsUpdate(instanceId: number, updateId: number): boolean
 	{
-		if(instanceId !== this._updateID1 || updateId !== this._updateID2)
+		if (instanceId !== this._updateID1 || updateId !== this._updateID2)
 		{
 			this._updateID1 = instanceId;
 			this._updateID2 = updateId;
@@ -125,7 +132,7 @@ export class ExtendedSprite extends Sprite
 	 */
 	setTexture(texture: Texture | null): void
 	{
-		if(texture !== null)
+		if (texture !== null)
 		{
 			this._spriteWidth = texture.width;
 			this._spriteHeight = texture.height;
@@ -151,12 +158,12 @@ export class ExtendedSprite extends Sprite
 	 */
 	hitTest(localX: number, localY: number): boolean
 	{
-		if(this._alphaTolerance > 255 || this.texture === Texture.EMPTY)
+		if (this._alphaTolerance > 255 || this.texture === Texture.EMPTY)
 		{
 			return false;
 		}
 
-		if(localX < 0 || localY < 0 || localX >= this._spriteWidth || localY >= this._spriteHeight)
+		if (localX < 0 || localY < 0 || localX >= this._spriteWidth || localY >= this._spriteHeight)
 		{
 			return false;
 		}

@@ -24,12 +24,6 @@ export class LayerData
 	public static readonly INK_SCREEN: number = 7;
 
 	private _tag: string = '';
-	private _ink: number = 0;
-	private _alpha: number = 255;
-	private _ignoreMouse: boolean = false;
-	private _xOffset: number = 0;
-	private _yOffset: number = 0;
-	private _zOffset: number = 0;
 
 	get tag(): string
 	{
@@ -41,6 +35,8 @@ export class LayerData
 		this._tag = value;
 	}
 
+	private _ink: number = 0;
+
 	get ink(): number
 	{
 		return this._ink;
@@ -50,6 +46,8 @@ export class LayerData
 	{
 		this._ink = value;
 	}
+
+	private _alpha: number = 255;
 
 	get alpha(): number
 	{
@@ -61,6 +59,8 @@ export class LayerData
 		this._alpha = value;
 	}
 
+	private _ignoreMouse: boolean = false;
+
 	get ignoreMouse(): boolean
 	{
 		return this._ignoreMouse;
@@ -70,6 +70,8 @@ export class LayerData
 	{
 		this._ignoreMouse = value;
 	}
+
+	private _xOffset: number = 0;
 
 	get xOffset(): number
 	{
@@ -81,6 +83,8 @@ export class LayerData
 		this._xOffset = value;
 	}
 
+	private _yOffset: number = 0;
+
 	get yOffset(): number
 	{
 		return this._yOffset;
@@ -90,6 +94,8 @@ export class LayerData
 	{
 		this._yOffset = value;
 	}
+
+	private _zOffset: number = 0;
 
 	get zOffset(): number
 	{

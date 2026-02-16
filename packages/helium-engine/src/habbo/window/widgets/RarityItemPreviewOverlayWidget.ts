@@ -30,7 +30,7 @@ export class RarityItemPreviewOverlayWidget implements IRarityItemPreviewOverlay
 
 		const root = this._windowManager.buildWidgetLayout('rarity_item_overlay_preview') as IWindowContainer | null;
 
-		if(root)
+		if (root)
 		{
 			this._root = root;
 
@@ -59,7 +59,7 @@ export class RarityItemPreviewOverlayWidget implements IRarityItemPreviewOverlay
 
 	public get properties(): PropertyStruct[]
 	{
-		if(this._disposed) return [];
+		if (this._disposed) return [];
 
 		return [
 			new PropertyStruct(RarityItemPreviewOverlayWidget.RARITY_LEVEL_KEY, this._rarityLevel),
@@ -68,9 +68,9 @@ export class RarityItemPreviewOverlayWidget implements IRarityItemPreviewOverlay
 
 	public set properties(values: PropertyStruct[])
 	{
-		for(const prop of values)
+		for (const prop of values)
 		{
-			if(prop.key === RarityItemPreviewOverlayWidget.RARITY_LEVEL_KEY)
+			if (prop.key === RarityItemPreviewOverlayWidget.RARITY_LEVEL_KEY)
 			{
 				this.rarityLevel = Number(prop.value);
 			}
@@ -79,17 +79,17 @@ export class RarityItemPreviewOverlayWidget implements IRarityItemPreviewOverlay
 
 	public dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		this._disposed = true;
 
-		if(this._root)
+		if (this._root)
 		{
 			this._root.dispose();
 			this._root = null;
 		}
 
-		if(this._widgetWindow)
+		if (this._widgetWindow)
 		{
 			this._widgetWindow.rootWindow = null;
 		}

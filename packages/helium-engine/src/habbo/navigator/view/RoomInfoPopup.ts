@@ -1,6 +1,6 @@
-import type { IWindowContainer } from '@core/window/IWindowContainer';
-import type { GuestRoomData } from '@habbo/communication/messages/incoming/navigator/GuestRoomData';
-import type { HabboNewNavigator } from '../HabboNewNavigator';
+import type {IWindowContainer} from '@core/window/IWindowContainer';
+import type {GuestRoomData} from '@habbo/communication/messages/incoming/navigator/GuestRoomData';
+import type {HabboNewNavigator} from '../HabboNewNavigator';
 
 /**
  * Room info popup bubble shown when hovering over room entries.
@@ -29,7 +29,7 @@ export class RoomInfoPopup
 	 */
 	get visible(): boolean
 	{
-		if(!this._window) return false;
+		if (!this._window) return false;
 
 		return this._window.visible;
 	}
@@ -43,19 +43,19 @@ export class RoomInfoPopup
 	 */
 	show(visible: boolean): void
 	{
-		if(visible)
+		if (visible)
 		{
-			if(!this._window)
+			if (!this._window)
 			{
 				this.createWindow();
 			}
 
-			if(this._window)
+			if (this._window)
 			{
 				this._window.visible = true;
 			}
 		}
-		else if(this._window)
+		else if (this._window)
 		{
 			this._window.visible = false;
 		}
@@ -74,7 +74,7 @@ export class RoomInfoPopup
 	{
 		this.show(visible);
 
-		if(visible && this._window)
+		if (visible && this._window)
 		{
 			this._window.x = x;
 			this._window.y = y - this._window.height / 2;
@@ -103,23 +103,9 @@ export class RoomInfoPopup
 	 */
 	getGlobalRectangle(out: { x: number; y: number; width: number; height: number }): void
 	{
-		if(this._window)
+		if (this._window)
 		{
 			this._window.getGlobalRectangle(out);
-		}
-	}
-
-	private createWindow(): void
-	{
-		const windowManager = this._navigator.windowManager;
-
-		if(!windowManager) return;
-
-		const built = windowManager.buildWidgetLayout('room_info_popup_bubble');
-
-		if(built)
-		{
-			this._window = built as IWindowContainer;
 		}
 	}
 
@@ -128,12 +114,26 @@ export class RoomInfoPopup
 	 */
 	dispose(): void
 	{
-		if(this._window)
+		if (this._window)
 		{
 			this._window.destroy();
 			this._window = null;
 		}
 
 		this._roomData = null;
+	}
+
+	private createWindow(): void
+	{
+		const windowManager = this._navigator.windowManager;
+
+		if (!windowManager) return;
+
+		const built = windowManager.buildWidgetLayout('room_info_popup_bubble');
+
+		if (built)
+		{
+			this._window = built as IWindowContainer;
+		}
 	}
 }

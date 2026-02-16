@@ -36,13 +36,13 @@ export class PixelLimitWidget implements IWidget
 
 		const root = this._windowManager.buildWidgetLayout('badge_image') as IWindowContainer | null;
 
-		if(root)
+		if (root)
 		{
 			this._root = root;
 
 			const bitmap = root.findChildByName('bitmap') as IStaticBitmapWrapperWindow | null;
 
-			if(bitmap)
+			if (bitmap)
 			{
 				this._bitmap = bitmap;
 			}
@@ -85,7 +85,7 @@ export class PixelLimitWidget implements IWidget
 
 	public get properties(): PropertyStruct[]
 	{
-		if(this._disposed) return [];
+		if (this._disposed) return [];
 
 		return [
 			new PropertyStruct(PixelLimitWidget.LIMIT_KEY, this._limit),
@@ -96,9 +96,9 @@ export class PixelLimitWidget implements IWidget
 	{
 		this._batchUpdate = true;
 
-		for(const prop of values)
+		for (const prop of values)
 		{
-			if(prop.key === PixelLimitWidget.LIMIT_KEY)
+			if (prop.key === PixelLimitWidget.LIMIT_KEY)
 			{
 				this.limit = Number(prop.value);
 			}
@@ -109,11 +109,11 @@ export class PixelLimitWidget implements IWidget
 
 	public dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		this._disposed = true;
 
-		if(this._root)
+		if (this._root)
 		{
 			this._root.dispose();
 			this._root = null;
@@ -121,7 +121,7 @@ export class PixelLimitWidget implements IWidget
 
 		this._bitmap = null;
 
-		if(this._widgetWindow)
+		if (this._widgetWindow)
 		{
 			this._widgetWindow.rootWindow = null;
 		}

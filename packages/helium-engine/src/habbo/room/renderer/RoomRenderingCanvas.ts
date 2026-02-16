@@ -63,6 +63,7 @@ export class RoomRenderingCanvas
 	private readonly _master: Container;
 	private readonly _display: Container;
 	private readonly _id: number;
+	private _geometryScale: number = 64;
 
 	constructor(id: number, width: number, height: number, scale: number)
 	{
@@ -143,7 +144,6 @@ export class RoomRenderingCanvas
 	}
 
 	private _scale: number = 1;
-	private _geometryScale: number = 64;
 
 	get scale(): number
 	{
@@ -184,8 +184,8 @@ export class RoomRenderingCanvas
 	 */
 	initialize(width: number, height: number): void
 	{
-		if(width < 1) width = 1;
-		if(height < 1) height = 1;
+		if (width < 1) width = 1;
+		if (height < 1) height = 1;
 		this._width = width;
 		this._height = height;
 	}
@@ -196,7 +196,7 @@ export class RoomRenderingCanvas
 	 */
 	setScale(scale: number): void
 	{
-		if(scale === this._geometryScale) return;
+		if (scale === this._geometryScale) return;
 
 		// AS3: _scale = newScale / originalScale (display zoom ratio)
 		this._scale = scale / this._geometryScale;
@@ -252,12 +252,12 @@ export class RoomRenderingCanvas
 	 */
 	render(time: number): void
 	{
-		if(this._geometry === null)
+		if (this._geometry === null)
 		{
 			return;
 		}
 
-		if(time === this._renderTimeStamp)
+		if (time === this._renderTimeStamp)
 		{
 			return;
 		}
@@ -274,35 +274,35 @@ export class RoomRenderingCanvas
 
 		// Iterate all visualizations, update them, build SortableSprite list
 		// AS3: for each room object → _Str_24532()
-		for(const [objectId, entry] of this._visualizations)
+		for (const [objectId, entry] of this._visualizations)
 		{
 			spriteIndex += this.renderObject(entry.visualization, entry.object, objectId, time, spriteIndex);
 		}
 
 		// Sort by z descending (AS3: sortOn("z", DESCENDING|NUMERIC))
-		if(spriteIndex > 0)
+		if (spriteIndex > 0)
 		{
 			const sortSlice = this._sortableSpriteList.slice(0, spriteIndex);
 			sortSlice.sort((a, b) => b.z - a.z);
 
-			for(let i = 0; i < spriteIndex; i++)
+			for (let i = 0; i < spriteIndex; i++)
 			{
 				this._sortableSpriteList[i] = sortSlice[i];
 			}
 		}
 
 		// Trim excess sortable sprites
-		if(spriteIndex < this._sortableSpriteList.length)
+		if (spriteIndex < this._sortableSpriteList.length)
 		{
 			this._sortableSpriteList.length = spriteIndex;
 		}
 
 		// Update ExtendedSprites from sorted list
-		for(let i = 0; i < spriteIndex; i++)
+		for (let i = 0; i < spriteIndex; i++)
 		{
 			const sortable = this._sortableSpriteList[i];
 
-			if(sortable !== null)
+			if (sortable !== null)
 			{
 				this.updateSprite(i, sortable);
 			}
@@ -333,7 +333,7 @@ export class RoomRenderingCanvas
 		this._mouseLocationY = y / this._scale;
 
 		// Optimization: skip redundant mouse_move checks within same frame
-		if(this._mouseCheckCount > 0 && type === 'mouse_move')
+		if (this._mouseCheckCount > 0 && type === 'mouse_move')
 		{
 			return this._mouseSpriteWasHit;
 		}
@@ -356,7 +356,7 @@ export class RoomRenderingCanvas
 	 */
 	updateMouseState(): void
 	{
-		if(this._mouseCheckCount === 0)
+		if (this._mouseCheckCount === 0)
 		{
 			this.checkMouseHits(
 				Math.floor(this._mouseLocationX),
@@ -371,17 +371,17 @@ export class RoomRenderingCanvas
 
 	dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		this.cleanSprites(0);
 
-		if(this._geometry !== null)
+		if (this._geometry !== null)
 		{
 			this._geometry.dispose();
 		}
 
 		// Dispose pooled sprites
-		for(const sprite of this._spritePool)
+		for (const sprite of this._spritePool)
 		{
 			sprite.dispose();
 		}
@@ -414,7 +414,7 @@ export class RoomRenderingCanvas
 		const location = object.getLocation();
 		const screenPos = this._geometry.getScreenPosition(location);
 
-		if(screenPos === null)
+		if (screenPos === null)
 		{
 			return 0;
 		}
@@ -431,7 +431,7 @@ export class RoomRenderingCanvas
 		// Base Z with sub-pixel offset (AS3: 1.2E-7 * x)
 		let baseZ = screenPos.z;
 
-		if(screenPos.x > 0)
+		if (screenPos.x > 0)
 		{
 			baseZ += screenPos.x * 1.2e-7;
 		}
@@ -442,17 +442,17 @@ export class RoomRenderingCanvas
 
 		let localCount = 0;
 
-		for(let i = 0; i < spriteCount; i++)
+		for (let i = 0; i < spriteCount; i++)
 		{
 			const sprite = visualization.getSprite(i);
 
-			if(sprite === null || !sprite.visible)
+			if (sprite === null || !sprite.visible)
 			{
 				continue;
 			}
 
 			// AS3: if(asset == null) continue
-			if(sprite.texture === null)
+			if (sprite.texture === null)
 			{
 				continue;
 			}
@@ -464,7 +464,7 @@ export class RoomRenderingCanvas
 			const sortableIndex = startIndex + localCount;
 			let sortable: SortableSprite;
 
-			if(sortableIndex < this._sortableSpriteList.length)
+			if (sortableIndex < this._sortableSpriteList.length)
 			{
 				sortable = this._sortableSpriteList[sortableIndex];
 			}
@@ -496,17 +496,17 @@ export class RoomRenderingCanvas
 	{
 		const sprite = sortable.sprite;
 
-		if(sprite === null)
+		if (sprite === null)
 		{
 			return;
 		}
 
 		let extSprite: ExtendedSprite;
 
-		if(index >= this._spriteCount)
+		if (index >= this._spriteCount)
 		{
 			// Need a new ExtendedSprite — pop from pool or create
-			if(this._spritePool.length > 0)
+			if (this._spritePool.length > 0)
 			{
 				extSprite = this._spritePool.pop()!;
 			}
@@ -522,15 +522,15 @@ export class RoomRenderingCanvas
 		{
 			extSprite = this._display.children[index] as ExtendedSprite;
 
-			if(!extSprite)
+			if (!extSprite)
 			{
 				return;
 			}
 
 			// Handle varyingDepth changes (AS3: remove and re-add)
-			if(extSprite.varyingDepth !== sprite.varyingDepth)
+			if (extSprite.varyingDepth !== sprite.varyingDepth)
 			{
-				if(extSprite.varyingDepth && !sprite.varyingDepth)
+				if (extSprite.varyingDepth && !sprite.varyingDepth)
 				{
 					this._display.removeChildAt(index);
 					this._spritePool.push(extSprite);
@@ -547,13 +547,13 @@ export class RoomRenderingCanvas
 
 		// Update sprite properties if changed
 		// AS3: if(_Str_17574(instanceId, updateId))
-		if(extSprite.needsUpdate(sprite.instanceId, sprite.updateId))
+		if (extSprite.needsUpdate(sprite.instanceId, sprite.updateId))
 		{
 			extSprite.alphaTolerance = sprite.alphaTolerance;
 
 			const alpha = sprite.alpha / 255;
 
-			if(extSprite.alpha !== alpha)
+			if (extSprite.alpha !== alpha)
 			{
 				extSprite.alpha = alpha;
 			}
@@ -564,7 +564,7 @@ export class RoomRenderingCanvas
 			extSprite.clickHandling = sprite.clickHandling;
 
 			// Set texture (AS3: bitmapData = getBitmapData(asset, ...))
-			if(sprite.texture !== null)
+			if (sprite.texture !== null)
 			{
 				extSprite.setTexture(sprite.texture);
 			}
@@ -574,7 +574,7 @@ export class RoomRenderingCanvas
 			}
 
 			// Handle flipping
-			if(sprite.flipH)
+			if (sprite.flipH)
 			{
 				extSprite.scale.x = -1;
 			}
@@ -583,7 +583,7 @@ export class RoomRenderingCanvas
 				extSprite.scale.x = 1;
 			}
 
-			if(sprite.flipV)
+			if (sprite.flipV)
 			{
 				extSprite.scale.y = -1;
 			}
@@ -593,7 +593,7 @@ export class RoomRenderingCanvas
 			}
 
 			// Tint (color)
-			if(sprite.color !== 0xFFFFFF)
+			if (sprite.color !== 0xFFFFFF)
 			{
 				extSprite.tint = sprite.color;
 			}
@@ -607,12 +607,12 @@ export class RoomRenderingCanvas
 		}
 
 		// Always update position
-		if(extSprite.x !== sortable.x)
+		if (extSprite.x !== sortable.x)
 		{
 			extSprite.x = sortable.x;
 		}
 
-		if(extSprite.y !== sortable.y)
+		if (extSprite.y !== sortable.y)
 		{
 			extSprite.y = sortable.y;
 		}
@@ -630,11 +630,11 @@ export class RoomRenderingCanvas
 	 */
 	private cleanSprites(activeCount: number): void
 	{
-		for(let i = this._spriteCount - 1; i >= activeCount; i--)
+		for (let i = this._spriteCount - 1; i >= activeCount; i--)
 		{
 			const extSprite = this._display.children[i] as ExtendedSprite;
 
-			if(extSprite)
+			if (extSprite)
 			{
 				extSprite.setTexture(null);
 				extSprite.visible = false;
@@ -650,7 +650,7 @@ export class RoomRenderingCanvas
 	 */
 	private getSprite(index: number): ExtendedSprite | null
 	{
-		if(index < 0 || index >= this._spriteCount)
+		if (index < 0 || index >= this._spriteCount)
 		{
 			return null;
 		}
@@ -674,11 +674,11 @@ export class RoomRenderingCanvas
 		const hitObjectIds: string[] = [];
 
 		// Iterate from frontmost to backmost (AS3: i from _activeSpriteCount-1 downto 0)
-		for(let i = this._activeSpriteCount - 1; i >= 0; i--)
+		for (let i = this._activeSpriteCount - 1; i >= 0; i--)
 		{
 			const extSprite = this.getSprite(i);
 
-			if(extSprite === null || !extSprite.visible)
+			if (extSprite === null || !extSprite.visible)
 			{
 				continue;
 			}
@@ -687,20 +687,20 @@ export class RoomRenderingCanvas
 			const localX = x - extSprite.x;
 			const localY = y - extSprite.y;
 
-			if(!extSprite.hitTest(localX, localY))
+			if (!extSprite.hitTest(localX, localY))
 			{
 				continue;
 			}
 
 			// Skip click-handling sprites for non-click events (AS3 pattern)
-			if(extSprite.clickHandling && (type === 'click' || type === 'double_click'))
+			if (extSprite.clickHandling && (type === 'click' || type === 'double_click'))
 			{
 				continue;
 			}
 
 			const objectId = extSprite.identifier;
 
-			if(hitObjectIds.includes(objectId))
+			if (hitObjectIds.includes(objectId))
 			{
 				continue;
 			}
@@ -709,7 +709,7 @@ export class RoomRenderingCanvas
 			const activeData = this._mouseActiveObjects.get(objectId);
 
 			// Handle roll-over/roll-out transitions
-			if(activeData !== undefined && activeData.spriteTag !== spriteTag)
+			if (activeData !== undefined && activeData.spriteTag !== spriteTag)
 			{
 				const rollOutEvent = this.createMouseEvent(
 					0, 0, 0, 0, 'roll_out', activeData.spriteTag,
@@ -721,7 +721,7 @@ export class RoomRenderingCanvas
 
 			let event: RoomSpriteMouseEvent;
 
-			if(type === 'mouse_move' && (activeData === undefined || activeData.spriteTag !== spriteTag))
+			if (type === 'mouse_move' && (activeData === undefined || activeData.spriteTag !== spriteTag))
 			{
 				// New object or different sprite → send roll_over
 				event = this.createMouseEvent(
@@ -742,7 +742,7 @@ export class RoomRenderingCanvas
 			}
 
 			// Update active object tracking
-			if(activeData === undefined)
+			if (activeData === undefined)
 			{
 				const newData = new ObjectMouseData();
 
@@ -757,7 +757,7 @@ export class RoomRenderingCanvas
 			}
 
 			// Only buffer if coordinates changed, or it's not mouse_move
-			if(type !== 'mouse_move' || x !== this._mouseOldX || y !== this._mouseOldY)
+			if (type !== 'mouse_move' || x !== this._mouseOldX || y !== this._mouseOldY)
 			{
 				this.bufferMouseEvent(event, objectId);
 			}
@@ -770,9 +770,9 @@ export class RoomRenderingCanvas
 		// AS3: iterate _mouseActiveObjects keys, remove those not in hitObjectIds
 		const keysToRemove: string[] = [];
 
-		for(const [objectId, data] of this._mouseActiveObjects)
+		for (const [objectId, data] of this._mouseActiveObjects)
 		{
-			if(!hitObjectIds.includes(objectId))
+			if (!hitObjectIds.includes(objectId))
 			{
 				const rollOutEvent = this.createMouseEvent(
 					0, 0, 0, 0, 'roll_out', data.spriteTag,
@@ -783,7 +783,7 @@ export class RoomRenderingCanvas
 			}
 		}
 
-		for(const key of keysToRemove)
+		for (const key of keysToRemove)
 		{
 			this._mouseActiveObjects.delete(key);
 		}
@@ -840,16 +840,16 @@ export class RoomRenderingCanvas
 	 */
 	private processMouseEvents(): void
 	{
-		for(const [objectId, event] of this._eventCache)
+		for (const [objectId, event] of this._eventCache)
 		{
 			const object = this.findObjectById(objectId);
 
-			if(!object)
+			if (!object)
 			{
 				continue;
 			}
 
-			if(this._mouseListener)
+			if (this._mouseListener)
 			{
 				this._mouseListener.processRoomCanvasMouseEvent(event, object, this._geometry);
 			}
@@ -857,7 +857,7 @@ export class RoomRenderingCanvas
 			{
 				const handler = object.getMouseHandler();
 
-				if(handler)
+				if (handler)
 				{
 					handler.mouseEvent(event, this._geometry);
 				}
@@ -875,7 +875,7 @@ export class RoomRenderingCanvas
 	{
 		const entry = this._visualizations.get(objectId);
 
-		if(entry)
+		if (entry)
 		{
 			return entry.object;
 		}

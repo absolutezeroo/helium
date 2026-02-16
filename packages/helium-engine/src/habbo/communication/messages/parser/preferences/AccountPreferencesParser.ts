@@ -9,13 +9,60 @@ import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 export class AccountPreferencesParser implements IMessageParser
 {
 	private _uiVolume: number = 0;
+
+	get uiVolume(): number
+	{
+		return this._uiVolume;
+	}
+
 	private _furniVolume: number = 0;
+
+	get furniVolume(): number
+	{
+		return this._furniVolume;
+	}
+
 	private _traxVolume: number = 0;
+
+	get traxVolume(): number
+	{
+		return this._traxVolume;
+	}
+
 	private _freeFlowChatDisabled: boolean = false;
+
+	get freeFlowChatDisabled(): boolean
+	{
+		return this._freeFlowChatDisabled;
+	}
+
 	private _roomInvitesIgnored: boolean = false;
+
+	get roomInvitesIgnored(): boolean
+	{
+		return this._roomInvitesIgnored;
+	}
+
 	private _roomCameraFollowDisabled: boolean = false;
+
+	get roomCameraFollowDisabled(): boolean
+	{
+		return this._roomCameraFollowDisabled;
+	}
+
 	private _uiFlags: number = 0;
+
+	get uiFlags(): number
+	{
+		return this._uiFlags;
+	}
+
 	private _preferredChatStyle: number = 0;
+
+	get preferredChatStyle(): number
+	{
+		return this._preferredChatStyle;
+	}
 
 	flush(): boolean
 	{
@@ -44,45 +91,5 @@ export class AccountPreferencesParser implements IMessageParser
 		this._preferredChatStyle = wrapper.readInt();
 
 		return true;
-	}
-
-	get uiVolume(): number
-	{
-		return this._uiVolume;
-	}
-
-	get furniVolume(): number
-	{
-		return this._furniVolume;
-	}
-
-	get traxVolume(): number
-	{
-		return this._traxVolume;
-	}
-
-	get freeFlowChatDisabled(): boolean
-	{
-		return this._freeFlowChatDisabled;
-	}
-
-	get roomInvitesIgnored(): boolean
-	{
-		return this._roomInvitesIgnored;
-	}
-
-	get roomCameraFollowDisabled(): boolean
-	{
-		return this._roomCameraFollowDisabled;
-	}
-
-	get uiFlags(): number
-	{
-		return this._uiFlags;
-	}
-
-	get preferredChatStyle(): number
-	{
-		return this._preferredChatStyle;
 	}
 }

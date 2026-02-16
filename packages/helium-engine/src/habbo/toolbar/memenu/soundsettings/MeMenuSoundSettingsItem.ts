@@ -18,9 +18,6 @@ export class MeMenuSoundSettingsItem
 	public static readonly TYPE_UI_VOLUME: number = 0;
 	public static readonly TYPE_FURNI_VOLUME: number = 1;
 	public static readonly TYPE_TRAX_VOLUME: number = 2;
-
-	private _type: number;
-	private _volume: number = 0;
 	private _parentView: MeMenuSoundSettingsView | null;
 
 	constructor(parentView: MeMenuSoundSettingsView, type: number)
@@ -31,13 +28,7 @@ export class MeMenuSoundSettingsItem
 		log.debug(`MeMenuSoundSettingsItem constructed: type=${type}`);
 	}
 
-	/**
-	 * Whether the item is disposed
-	 */
-	get disposed(): boolean
-	{
-		return this._parentView == null;
-	}
+	private _type: number;
 
 	/**
 	 * The sound type (UI, furni, or trax)
@@ -47,12 +38,22 @@ export class MeMenuSoundSettingsItem
 		return this._type;
 	}
 
+	private _volume: number = 0;
+
 	/**
 	 * The current volume value (0-1)
 	 */
 	get volume(): number
 	{
 		return this._volume;
+	}
+
+	/**
+	 * Whether the item is disposed
+	 */
+	get disposed(): boolean
+	{
+		return this._parentView == null;
 	}
 
 	/**
@@ -65,9 +66,9 @@ export class MeMenuSoundSettingsItem
 	{
 		this._volume = value;
 
-		if(!this._parentView) return;
+		if (!this._parentView) return;
 
-		switch(this._type)
+		switch (this._type)
 		{
 			case MeMenuSoundSettingsItem.TYPE_UI_VOLUME:
 				this._parentView.saveVolume(value, -1, -1, !preview);
@@ -100,7 +101,7 @@ export class MeMenuSoundSettingsItem
 	 */
 	public onButtonClicked(buttonName: string): void
 	{
-		switch(buttonName)
+		switch (buttonName)
 		{
 			case 'sounds_off':
 				this.saveVolume(0, false);
@@ -118,7 +119,7 @@ export class MeMenuSoundSettingsItem
 	 */
 	public dispose(): void
 	{
-		if(this.disposed) return;
+		if (this.disposed) return;
 
 		this._parentView = null;
 	}

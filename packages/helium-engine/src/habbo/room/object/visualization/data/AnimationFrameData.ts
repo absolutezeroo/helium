@@ -7,13 +7,6 @@
  */
 export class AnimationFrameData
 {
-	private _id: number;
-	private _x: number;
-	private _y: number;
-	private _randomX: number;
-	private _randomY: number;
-	private _repeats: number;
-
 	constructor(id: number, x: number, y: number, randomX: number, randomY: number, repeats: number)
 	{
 		this._id = id;
@@ -24,30 +17,42 @@ export class AnimationFrameData
 		this._repeats = repeats;
 	}
 
+	private _id: number;
+
 	get id(): number
 	{
 		return this._id;
 	}
+
+	private _x: number;
 
 	get x(): number
 	{
 		return this._x;
 	}
 
+	private _y: number;
+
 	get y(): number
 	{
 		return this._y;
 	}
+
+	private _randomX: number;
 
 	get randomX(): number
 	{
 		return this._randomX;
 	}
 
+	private _randomY: number;
+
 	get randomY(): number
 	{
 		return this._randomY;
 	}
+
+	private _repeats: number;
 
 	get repeats(): number
 	{

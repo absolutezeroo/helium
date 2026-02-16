@@ -14,18 +14,12 @@ export class LegacyWallGeometry
 {
 	private static readonly L = 'l';
 	private static readonly R = 'r';
-
-	private _scale: number = 64;
 	private _heightMap: number[][] = [];
 	private _width: number = 0;
 	private _height: number = 0;
 	private _floorHeight: number = 0;
-	private _disposed: boolean = false;
 
-	get disposed(): boolean
-	{
-		return this._disposed;
-	}
+	private _scale: number = 64;
 
 	get scale(): number
 	{
@@ -35,6 +29,13 @@ export class LegacyWallGeometry
 	set scale(value: number)
 	{
 		this._scale = value;
+	}
+
+	private _disposed: boolean = false;
+
+	get disposed(): boolean
+	{
+		return this._disposed;
 	}
 
 	/**
@@ -242,14 +243,14 @@ export class LegacyWallGeometry
 			&& this._heightMap[y]?.[x] >= 0;
 	}
 
-	private reset(): void
-	{
-		this._heightMap = [];
-	}
-
 	dispose(): void
 	{
 		this.reset();
 		this._disposed = true;
+	}
+
+	private reset(): void
+	{
+		this._heightMap = [];
 	}
 }

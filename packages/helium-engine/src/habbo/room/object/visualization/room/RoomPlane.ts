@@ -7,7 +7,7 @@
  * Supports both flat-color fallback (Graphics.poly) and textured rendering
  * via rasterizers (canvas-based affine transform).
  */
-import {Graphics, Sprite, Texture, TextureSource} from 'pixi.js';
+import {Graphics, Sprite, Texture} from 'pixi.js';
 import {Vector3d} from '@room/utils/Vector3d';
 import type {IVector3d} from '@room/utils/IVector3d';
 import type {IRoomGeometry} from '@room/utils/IRoomGeometry';
@@ -72,7 +72,6 @@ export class RoomPlane
 	private _maskChanged: boolean = false;
 	private _graphics: Graphics;
 	private _bitmapData: HTMLCanvasElement | null = null;
-	private _bitmapDataTexture: Texture | null = null;
 
 	constructor(
 		origin: IVector3d,
@@ -137,6 +136,19 @@ export class RoomPlane
 
 		this._graphics = new Graphics();
 		this._graphics.label = `RoomPlane_${this._uniqueId}_type${type}`;
+	}
+
+	private _bitmapDataTexture: Texture | null = null;
+
+	/**
+	 * Get the rendered bitmap as a Texture.
+	 * AS3: get bitmapData() — returns a clone of the internal BitmapData.
+	 *
+	 * @see sources/win63_version/habbo/room/object/visualization/room/RoomPlane.as
+	 */
+	get bitmapDataTexture(): Texture | null
+	{
+		return this._bitmapDataTexture;
 	}
 
 	private _rasterizer: IPlaneRasterizer | null = null;
@@ -297,17 +309,6 @@ export class RoomPlane
 	}
 
 	/**
-	 * Get the rendered bitmap as a Texture.
-	 * AS3: get bitmapData() — returns a clone of the internal BitmapData.
-	 *
-	 * @see sources/win63_version/habbo/room/object/visualization/room/RoomPlane.as
-	 */
-	get bitmapDataTexture(): Texture | null
-	{
-		return this._bitmapDataTexture;
-	}
-
-	/**
 	 * Copy the rendered plane bitmap data into a reusable target.
 	 * AS3: copyBitmapData(target) — copies pixels if dimensions match.
 	 *
@@ -318,7 +319,7 @@ export class RoomPlane
 	 */
 	copyBitmapData(): Texture | null
 	{
-		if(!this.visible)
+		if (!this.visible)
 		{
 			return null;
 		}
@@ -334,12 +335,12 @@ export class RoomPlane
 		}
 
 		this._graphics.destroy();
-		if(this._textureSprite !== null)
+		if (this._textureSprite !== null)
 		{
 			this._textureSprite.destroy();
 			this._textureSprite = null;
 		}
-		if(this._bitmapDataTexture !== null)
+		if (this._bitmapDataTexture !== null)
 		{
 			this._bitmapDataTexture.destroy(true);
 			this._bitmapDataTexture = null;
@@ -730,34 +731,37 @@ export class RoomPlane
 	 */
 	private render(geometry: IRoomGeometry): void
 	{
-		if(!this.visible)
+		if (!this.visible)
 		{
 			this._graphics.visible = false;
-			if(this._textureSprite) this._textureSprite.visible = false;
+			if (this._textureSprite) this._textureSprite.visible = false;
 			return;
 		}
 
-		if(this._width < 1 || this._height < 1)
+		if (this._width < 1 || this._height < 1)
 		{
 			this._graphics.visible = false;
-			if(this._textureSprite) this._textureSprite.visible = false;
+			if (this._textureSprite) this._textureSprite.visible = false;
 			return;
 		}
 
 		// Ensure _bitmapData canvas exists and matches dimensions (AS3: new BitmapData(_width, _height))
-		if(this._bitmapData === null || this._bitmapData.width !== this._width || this._bitmapData.height !== this._height)
+		if (this._bitmapData === null || this._bitmapData.width !== this._width || this._bitmapData.height !== this._height)
 		{
 			this._bitmapData = document.createElement('canvas');
 			this._bitmapData.width = this._width;
 			this._bitmapData.height = this._height;
 
 			// Create a new texture bound to this canvas
-			if(this._bitmapDataTexture !== null)
+			if (this._bitmapDataTexture !== null)
 			{
 				this._bitmapDataTexture.destroy(true);
 			}
 
-			this._bitmapDataTexture = Texture.from({resource: this._bitmapData, alphaMode: 'premultiply-alpha-on-upload'});
+			this._bitmapDataTexture = Texture.from({
+				resource: this._bitmapData,
+				alphaMode: 'premultiply-alpha-on-upload'
+			});
 		}
 
 		const ctx = this._bitmapData.getContext('2d')!;
@@ -766,21 +770,21 @@ export class RoomPlane
 		// Try textured rendering first
 		const textureBitmapData = this.getTexture(geometry);
 
-		if(textureBitmapData?.bitmap)
+		if (textureBitmapData?.bitmap)
 		{
 			this.renderTexture(textureBitmapData.bitmap);
 
 			// Also render to _bitmapData canvas for the sprite system
 			this.renderTextureToBitmapData(ctx, textureBitmapData.bitmap);
 
-			if(this._textureSprite)
+			if (this._textureSprite)
 			{
 				this._textureSprite.x = -this._offset.x;
 				this._textureSprite.y = -this._offset.y;
 				this._textureSprite.visible = true;
 				this._textureSprite.zIndex = this._graphics.zIndex;
 
-				if(!this._textureSprite.parent && this._graphics.parent)
+				if (!this._textureSprite.parent && this._graphics.parent)
 				{
 					this._graphics.parent.addChild(this._textureSprite);
 				}
@@ -791,7 +795,7 @@ export class RoomPlane
 		else
 		{
 			// Flat-color rendering to _bitmapData canvas
-			if(this._textureSprite) this._textureSprite.visible = false;
+			if (this._textureSprite) this._textureSprite.visible = false;
 
 			const r = (this._color >> 16) & 0xFF;
 			const g = (this._color >> 8) & 0xFF;
@@ -807,27 +811,27 @@ export class RoomPlane
 			ctx.fill();
 
 			// Apply mask cutouts on canvas
-			if(this._rectangleMasks.length > 0 || this._bitmapMasks.length > 0)
+			if (this._rectangleMasks.length > 0 || this._bitmapMasks.length > 0)
 			{
 				ctx.globalCompositeOperation = 'destination-out';
 				const leftLen = this._leftSide.length;
 				const rightLen = this._rightSide.length;
 
-				for(const mask of this._rectangleMasks)
+				for (const mask of this._rectangleMasks)
 				{
 					const maskPoints = this.getRectMaskScreenPoints(mask, leftLen, rightLen);
 
-					if(maskPoints !== null)
+					if (maskPoints !== null)
 					{
 						this.drawMaskPoly(ctx, maskPoints);
 					}
 				}
 
-				for(const mask of this._bitmapMasks)
+				for (const mask of this._bitmapMasks)
 				{
 					const maskPoints = this.getMaskHolePoints(mask, leftLen, rightLen);
 
-					if(maskPoints !== null)
+					if (maskPoints !== null)
 					{
 						this.drawMaskPoly(ctx, maskPoints);
 					}
@@ -848,26 +852,26 @@ export class RoomPlane
 				])
 				.fill(this._color);
 
-			if(this._rectangleMasks.length > 0 || this._bitmapMasks.length > 0)
+			if (this._rectangleMasks.length > 0 || this._bitmapMasks.length > 0)
 			{
 				const leftLen = this._leftSide.length;
 				const rightLen = this._rightSide.length;
 
-				for(const mask of this._rectangleMasks)
+				for (const mask of this._rectangleMasks)
 				{
 					const maskPoints = this.getRectMaskScreenPoints(mask, leftLen, rightLen);
 
-					if(maskPoints !== null)
+					if (maskPoints !== null)
 					{
 						this._graphics.poly(maskPoints).cut();
 					}
 				}
 
-				for(const mask of this._bitmapMasks)
+				for (const mask of this._bitmapMasks)
 				{
 					const maskPoints = this.getMaskHolePoints(mask, leftLen, rightLen);
 
-					if(maskPoints !== null)
+					if (maskPoints !== null)
 					{
 						this._graphics.poly(maskPoints).cut();
 					}
@@ -880,7 +884,7 @@ export class RoomPlane
 		}
 
 		// Flag the texture source as dirty so PixiJS re-uploads to GPU
-		if(this._bitmapDataTexture !== null)
+		if (this._bitmapDataTexture !== null)
 		{
 			this._bitmapDataTexture.source.update();
 		}
@@ -895,7 +899,7 @@ export class RoomPlane
 		const tw = textureBitmap.width;
 		const th = textureBitmap.height;
 
-		if(tw < 1 || th < 1) return;
+		if (tw < 1 || th < 1) return;
 
 		const a = (this._cornerB.x - this._cornerC.x) / tw;
 		const b = (this._cornerB.y - this._cornerC.y) / tw;
@@ -909,27 +913,27 @@ export class RoomPlane
 		ctx.setTransform(1, 0, 0, 1, 0, 0);
 
 		// Apply mask cutouts
-		if(this._rectangleMasks.length > 0 || this._bitmapMasks.length > 0)
+		if (this._rectangleMasks.length > 0 || this._bitmapMasks.length > 0)
 		{
 			ctx.globalCompositeOperation = 'destination-out';
 			const leftLen = this._leftSide.length;
 			const rightLen = this._rightSide.length;
 
-			for(const mask of this._rectangleMasks)
+			for (const mask of this._rectangleMasks)
 			{
 				const maskPoints = this.getRectMaskScreenPoints(mask, leftLen, rightLen);
 
-				if(maskPoints !== null)
+				if (maskPoints !== null)
 				{
 					this.drawMaskPoly(ctx, maskPoints);
 				}
 			}
 
-			for(const mask of this._bitmapMasks)
+			for (const mask of this._bitmapMasks)
 			{
 				const maskPoints = this.getMaskHolePoints(mask, leftLen, rightLen);
 
-				if(maskPoints !== null)
+				if (maskPoints !== null)
 				{
 					this.drawMaskPoly(ctx, maskPoints);
 				}
@@ -997,7 +1001,7 @@ export class RoomPlane
 	 */
 	private getMaskHolePoints(mask: RoomPlaneBitmapMask, leftLen: number, rightLen: number): number[] | null
 	{
-		if(leftLen < 0.001 || rightLen < 0.001) return null;
+		if (leftLen < 0.001 || rightLen < 0.001) return null;
 
 		const MASK_INSET = 0.002;
 
@@ -1011,7 +1015,7 @@ export class RoomPlane
 		const v0 = Math.max(MASK_INSET, mask.rightSideLoc / rightLen);
 		const v1 = Math.min(1 - MASK_INSET, (mask.rightSideLoc + DOOR_HEIGHT_TILES) / rightLen);
 
-		if(u0 >= u1 || v0 >= v1) return null;
+		if (u0 >= u1 || v0 >= v1) return null;
 
 		const dlx = this._cornerD.x - this._cornerA.x;
 		const dly = this._cornerD.y - this._cornerA.y;

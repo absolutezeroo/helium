@@ -14,12 +14,12 @@ const log = Logger.getLogger('BottomBackgroundBorder');
  */
 export class BottomBackgroundBorder
 {
-	private _disposed: boolean = false;
-
 	constructor(_toolbar: HabboToolbar)
 	{
 		log.debug('BottomBackgroundBorder constructed (stub)');
 	}
+
+	private _disposed: boolean = false;
 
 	/**
 	 * Whether this border is disposed
@@ -34,7 +34,7 @@ export class BottomBackgroundBorder
 	 */
 	public dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		this._disposed = true;
 	}

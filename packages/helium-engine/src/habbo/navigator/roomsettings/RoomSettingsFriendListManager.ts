@@ -1,8 +1,16 @@
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
-import type {FriendListFragmentMessageEvent} from '@habbo/communication/messages/incoming/friendlist/FriendListFragmentMessageEvent';
-import type {FriendListUpdateMessageEvent} from '@habbo/communication/messages/incoming/friendlist/FriendListUpdateMessageEvent';
-import type {FriendListFragmentMessageParser} from '@habbo/communication/messages/parser/friendlist/FriendListFragmentMessageParser';
-import type {FriendListUpdateMessageParser} from '@habbo/communication/messages/parser/friendlist/FriendListUpdateMessageParser';
+import type {
+	FriendListFragmentMessageEvent
+} from '@habbo/communication/messages/incoming/friendlist/FriendListFragmentMessageEvent';
+import type {
+	FriendListUpdateMessageEvent
+} from '@habbo/communication/messages/incoming/friendlist/FriendListUpdateMessageEvent';
+import type {
+	FriendListFragmentMessageParser
+} from '@habbo/communication/messages/parser/friendlist/FriendListFragmentMessageParser';
+import type {
+	FriendListUpdateMessageParser
+} from '@habbo/communication/messages/parser/friendlist/FriendListUpdateMessageParser';
 import {FriendEntryData} from './FriendEntryData';
 
 /**
@@ -15,6 +23,26 @@ export class RoomSettingsFriendListManager
 {
 	private _friendMap: Map<number, string> = new Map();
 	private _cachedList: FriendEntryData[] | null = null;
+
+	/**
+	 * Get the sorted friend list. Lazily built and cached until invalidated.
+	 */
+	get list(): FriendEntryData[]
+	{
+		if (this._cachedList === null)
+		{
+			this._cachedList = [];
+
+			for (const [userId, userName] of this._friendMap)
+			{
+				this._cachedList.push(new FriendEntryData(userId, userName));
+			}
+
+			this._cachedList.sort((a, b) => a.userName.localeCompare(b.userName));
+		}
+
+		return this._cachedList;
+	}
 
 	/**
 	 * Handle a friend list fragment message. Populates the friend map.
@@ -55,25 +83,5 @@ export class RoomSettingsFriendListManager
 		{
 			this._cachedList = null;
 		}
-	}
-
-	/**
-	 * Get the sorted friend list. Lazily built and cached until invalidated.
-	 */
-	get list(): FriendEntryData[]
-	{
-		if (this._cachedList === null)
-		{
-			this._cachedList = [];
-
-			for (const [userId, userName] of this._friendMap)
-			{
-				this._cachedList.push(new FriendEntryData(userId, userName));
-			}
-
-			this._cachedList.sort((a, b) => a.userName.localeCompare(b.userName));
-		}
-
-		return this._cachedList;
 	}
 }

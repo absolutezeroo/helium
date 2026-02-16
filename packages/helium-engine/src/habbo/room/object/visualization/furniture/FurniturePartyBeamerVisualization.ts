@@ -123,7 +123,7 @@ export class FurniturePartyBeamerVisualization extends AnimatedFurnitureVisualiz
 			this._amplitudes![index] = this.getRandomAmplitudeFactor();
 		}
 
-		return { x: position, y: yOffset };
+		return {x: position, y: yOffset};
 	}
 
 	private initItems(scale: number): void

@@ -21,29 +21,17 @@ export class FurniturePlane
 	private _lastScale: number = 0;
 
 	private _origin: Vector3d;
-	private _location: Vector3d;
-	private _leftSide: Vector3d;
-	private _rightSide: Vector3d;
 	private _origLeftSide: Vector3d;
 	private _origRightSide: Vector3d;
-	private _visible: boolean = true;
 	private _textureCache: Map<string, HTMLCanvasElement> = new Map();
 	private _rotated: boolean = false;
 	private _textureName: string | null = null;
-
 	private _cornerA: Vector3d;
 	private _cornerB: Vector3d;
 	private _cornerC: Vector3d;
 	private _cornerD: Vector3d;
-
 	private _width: number = 0;
 	private _height: number = 0;
-
-	private _normal: Vector3d;
-	private _bitmapData: HTMLCanvasElement | null = null;
-	private _offset: { x: number; y: number };
-	private _relativeDepth: number = 0;
-	private _color: number = 0;
 
 	constructor(location: IVector3d, leftSide: IVector3d, rightSide: IVector3d)
 	{
@@ -61,26 +49,58 @@ export class FurniturePlane
 
 		this._normal = Vector3d.crossProduct(this._leftSide, this._rightSide) ?? new Vector3d();
 
-		if(this._normal.length > 0)
+		if (this._normal.length > 0)
 		{
 			this._normal.mul(1 / this._normal.length);
 		}
 
-		this._offset = { x: 0, y: 0 };
+		this._offset = {x: 0, y: 0};
 		this._cornerA = new Vector3d();
 		this._cornerB = new Vector3d();
 		this._cornerC = new Vector3d();
 		this._cornerD = new Vector3d();
 	}
 
+	private _location: Vector3d;
+
+	get location(): IVector3d
+	{
+		return this._location;
+	}
+
+	private _leftSide: Vector3d;
+
+	get leftSide(): IVector3d
+	{
+		return this._leftSide;
+	}
+
+	private _rightSide: Vector3d;
+
+	get rightSide(): IVector3d
+	{
+		return this._rightSide;
+	}
+
+	private _visible: boolean = true;
+
+	get visible(): boolean
+	{
+		return this._visible;
+	}
+
+	private _normal: Vector3d;
+
 	get normal(): IVector3d
 	{
 		return this._normal;
 	}
 
+	private _bitmapData: HTMLCanvasElement | null = null;
+
 	get bitmapData(): HTMLCanvasElement | null
 	{
-		if(this._visible && this._bitmapData !== null)
+		if (this._visible && this._bitmapData !== null)
 		{
 			// Clone the bitmap
 			const clone = document.createElement('canvas');
@@ -93,15 +113,21 @@ export class FurniturePlane
 		return null;
 	}
 
+	private _offset: { x: number; y: number };
+
 	get offset(): { x: number; y: number }
 	{
 		return this._offset;
 	}
 
+	private _relativeDepth: number = 0;
+
 	get relativeDepth(): number
 	{
 		return this._relativeDepth;
 	}
+
+	private _color: number = 0;
 
 	get color(): number
 	{
@@ -113,35 +139,15 @@ export class FurniturePlane
 		this._color = value;
 	}
 
-	get visible(): boolean
-	{
-		return this._visible;
-	}
-
-	get leftSide(): IVector3d
-	{
-		return this._leftSide;
-	}
-
-	get rightSide(): IVector3d
-	{
-		return this._rightSide;
-	}
-
-	get location(): IVector3d
-	{
-		return this._location;
-	}
-
 	/**
 	 * Set rotation mode (for diagonal furniture).
 	 * When rotated, left/right sides are swapped in magnitude.
 	 */
 	setRotation(rotated: boolean): void
 	{
-		if(rotated !== this._rotated)
+		if (rotated !== this._rotated)
 		{
-			if(!rotated)
+			if (!rotated)
 			{
 				this._leftSide.assign(this._origLeftSide);
 				this._rightSide.assign(this._origRightSide);
@@ -168,20 +174,20 @@ export class FurniturePlane
 	 */
 	update(geometry: IRoomGeometry, time: number): boolean
 	{
-		if(geometry === null || this._location === null || this._leftSide === null || this._rightSide === null || this._normal === null)
+		if (geometry === null || this._location === null || this._leftSide === null || this._rightSide === null || this._normal === null)
 		{
 			return false;
 		}
 
 		let changed = false;
 
-		if(geometry.updateId !== this._geometryUpdateId)
+		if (geometry.updateId !== this._geometryUpdateId)
 		{
 			this._geometryUpdateId = geometry.updateId;
 
 			const dir = geometry.direction;
 
-			if(dir !== null && (dir.x !== this._dirX || dir.y !== this._dirY || dir.z !== this._dirZ || geometry.scale !== this._lastScale))
+			if (dir !== null && (dir.x !== this._dirX || dir.y !== this._dirY || dir.z !== this._dirZ || geometry.scale !== this._lastScale))
 			{
 				this._dirX = dir.x;
 				this._dirY = dir.y;
@@ -192,9 +198,9 @@ export class FurniturePlane
 				// Check visibility: plane faces away from camera
 				const cosAngle = Vector3d.cosAngle(geometry.directionAxis, this._normal);
 
-				if(cosAngle > -0.001)
+				if (cosAngle > -0.001)
 				{
-					if(this._visible)
+					if (this._visible)
 					{
 						this._visible = false;
 						return true;
@@ -205,7 +211,7 @@ export class FurniturePlane
 				this.updateCorners(geometry);
 
 				const originScreen = geometry.getScreenPosition(this._origin);
-				if(originScreen !== null)
+				if (originScreen !== null)
 				{
 					const depthA = this._cornerA.z - originScreen.z;
 					const depthB = this._cornerB.z - originScreen.z;
@@ -218,13 +224,13 @@ export class FurniturePlane
 			}
 		}
 
-		if(this.needsNewTexture(geometry) || changed)
+		if (this.needsNewTexture(geometry) || changed)
 		{
-			if(this._bitmapData === null || this._width !== this._bitmapData.width || this._height !== this._bitmapData.height)
+			if (this._bitmapData === null || this._width !== this._bitmapData.width || this._height !== this._bitmapData.height)
 			{
 				this._bitmapData = null;
 
-				if(this._width < 1 || this._height < 1)
+				if (this._width < 1 || this._height < 1)
 				{
 					return changed;
 				}
@@ -241,7 +247,7 @@ export class FurniturePlane
 
 			const texture = this.getTexture(geometry, time);
 
-			if(texture !== null)
+			if (texture !== null)
 			{
 				this.renderTexture(texture);
 			}
@@ -252,6 +258,23 @@ export class FurniturePlane
 		return false;
 	}
 
+	dispose(): void
+	{
+		this._bitmapData = null;
+		this._textureCache.clear();
+		this._origin = null!;
+		this._location = null!;
+		this._leftSide = null!;
+		this._rightSide = null!;
+		this._origLeftSide = null!;
+		this._origRightSide = null!;
+		this._normal = null!;
+		this._cornerA = null!;
+		this._cornerB = null!;
+		this._cornerC = null!;
+		this._cornerD = null!;
+	}
+
 	private updateCorners(geometry: IRoomGeometry): void
 	{
 		const screenA = geometry.getScreenPosition(this._location);
@@ -259,27 +282,27 @@ export class FurniturePlane
 		const locPlusLeftPlusRight = Vector3d.sum(Vector3d.sum(this._location, this._leftSide)!, this._rightSide);
 		const locPlusLeft = Vector3d.sum(this._location, this._leftSide);
 
-		if(screenA !== null) this._cornerA.assign(screenA);
-		if(locPlusRight !== null)
+		if (screenA !== null) this._cornerA.assign(screenA);
+		if (locPlusRight !== null)
 		{
 			const screenB = geometry.getScreenPosition(locPlusRight);
-			if(screenB !== null) this._cornerB.assign(screenB);
+			if (screenB !== null) this._cornerB.assign(screenB);
 		}
-		if(locPlusLeftPlusRight !== null)
+		if (locPlusLeftPlusRight !== null)
 		{
 			const screenC = geometry.getScreenPosition(locPlusLeftPlusRight);
-			if(screenC !== null) this._cornerC.assign(screenC);
+			if (screenC !== null) this._cornerC.assign(screenC);
 		}
-		if(locPlusLeft !== null)
+		if (locPlusLeft !== null)
 		{
 			const screenD = geometry.getScreenPosition(locPlusLeft);
-			if(screenD !== null) this._cornerD.assign(screenD);
+			if (screenD !== null) this._cornerD.assign(screenD);
 		}
 
 		const screenPoint = geometry.getScreenPoint(this._origin);
-		if(screenPoint !== null)
+		if (screenPoint !== null)
 		{
-			this._offset = { x: Math.round(screenPoint.x), y: Math.round(screenPoint.y) };
+			this._offset = {x: Math.round(screenPoint.x), y: Math.round(screenPoint.y)};
 		}
 
 		// Round corners
@@ -322,7 +345,7 @@ export class FurniturePlane
 
 	private needsNewTexture(geometry: IRoomGeometry): boolean
 	{
-		if(this._width > 0 && this._height > 0)
+		if (this._width > 0 && this._height > 0)
 		{
 			const id = this.getTextureIdentifier(geometry);
 			return !this._textureCache.has(id);
@@ -334,14 +357,14 @@ export class FurniturePlane
 	{
 		const id = this.getTextureIdentifier(geometry);
 
-		if(this.needsNewTexture(geometry))
+		if (this.needsNewTexture(geometry))
 		{
 			const texWidth = Math.max(1, Math.round(this._leftSide.length * geometry.scale));
 			const texHeight = Math.max(1, Math.round(this._rightSide.length * geometry.scale));
 
 			let texture = this._textureCache.get(id) ?? null;
 
-			if(texture === null)
+			if (texture === null)
 			{
 				texture = document.createElement('canvas');
 				texture.width = texWidth;
@@ -373,7 +396,7 @@ export class FurniturePlane
 	 */
 	private renderTexture(texture: HTMLCanvasElement): void
 	{
-		if(this._bitmapData === null || texture === null) return;
+		if (this._bitmapData === null || texture === null) return;
 
 		// Compute transform matrix from cornerC (origin) to other corners
 		let dx = this._cornerD.x - this._cornerC.x;
@@ -382,10 +405,10 @@ export class FurniturePlane
 		let by = this._cornerB.y - this._cornerC.y;
 
 		// Snap near-integer values to avoid sub-pixel artifacts
-		if(Math.abs(bx - texture.width) <= 1) bx = texture.width;
-		if(Math.abs(by - texture.width) <= 1) by = texture.width;
-		if(Math.abs(dx - texture.height) <= 1) dx = texture.height;
-		if(Math.abs(dy - texture.height) <= 1) dy = texture.height;
+		if (Math.abs(bx - texture.width) <= 1) bx = texture.width;
+		if (Math.abs(by - texture.width) <= 1) by = texture.width;
+		if (Math.abs(dx - texture.height) <= 1) dx = texture.height;
+		if (Math.abs(dy - texture.height) <= 1) dy = texture.height;
 
 		// Build 2D affine matrix
 		const a = bx / texture.width;
@@ -403,22 +426,5 @@ export class FurniturePlane
 	private resetTextureCache(): void
 	{
 		this._textureCache.clear();
-	}
-
-	dispose(): void
-	{
-		this._bitmapData = null;
-		this._textureCache.clear();
-		this._origin = null!;
-		this._location = null!;
-		this._leftSide = null!;
-		this._rightSide = null!;
-		this._origLeftSide = null!;
-		this._origRightSide = null!;
-		this._normal = null!;
-		this._cornerA = null!;
-		this._cornerB = null!;
-		this._cornerC = null!;
-		this._cornerD = null!;
 	}
 }

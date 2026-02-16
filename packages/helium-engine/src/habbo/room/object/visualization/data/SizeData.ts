@@ -14,8 +14,6 @@ export class SizeData
 {
 	public static readonly LAYER_LIMIT: number = 1000;
 	public static readonly DEFAULT_DIRECTION: number = 0;
-
-	private _layerCount: number = 0;
 	private _angle: number = 360;
 	private _defaultDirection: DirectionData;
 	private _directions: Map<number, DirectionData> = new Map();
@@ -36,6 +34,8 @@ export class SizeData
 		this._angle = angle;
 		this._defaultDirection = new DirectionData(layerCount);
 	}
+
+	private _layerCount: number = 0;
 
 	get layerCount(): number
 	{

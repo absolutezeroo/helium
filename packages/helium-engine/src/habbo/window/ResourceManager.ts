@@ -1,7 +1,7 @@
-import { Logger } from '@core/utils/Logger';
-import type { IResourceManager } from '@core/window/IResourceManager';
-import type { IAssetReceiver } from '@core/window/IAssetReceiver';
-import type { IHabboWindowManager } from './IHabboWindowManager';
+import {Logger} from '@core/utils/Logger';
+import type {IResourceManager} from '@core/window/IResourceManager';
+import type {IAssetReceiver} from '@core/window/IAssetReceiver';
+import type {IHabboWindowManager} from './IHabboWindowManager';
 
 const log = Logger.getLogger('ResourceManager');
 
@@ -21,200 +21,201 @@ const log = Logger.getLogger('ResourceManager');
  */
 export class ResourceManager implements IResourceManager
 {
-    private _windowManager: IHabboWindowManager;
-    private _assets: Map<string, ImageBitmap> = new Map();
-    private _assetUrls: Map<string, string> = new Map();
-    private _pendingReceivers: Map<string, IAssetReceiver[]> = new Map();
-    private _loading: Set<string> = new Set();
-    private _disposed: boolean = false;
+	private _windowManager: IHabboWindowManager;
+	private _assets: Map<string, ImageBitmap> = new Map();
+	private _assetUrls: Map<string, string> = new Map();
+	private _pendingReceivers: Map<string, IAssetReceiver[]> = new Map();
+	private _loading: Set<string> = new Set();
 
-    constructor(windowManager: IHabboWindowManager)
-    {
-        this._windowManager = windowManager;
-    }
+	constructor(windowManager: IHabboWindowManager)
+	{
+		this._windowManager = windowManager;
+	}
 
-    public get disposed(): boolean
-    {
-        return this._disposed;
-    }
+	private _disposed: boolean = false;
 
-    /**
-     * Registers a bitmap asset by name (immediate).
-     *
-     * If there are pending receivers waiting for this asset,
-     * delivers it to them immediately.
-     *
-     * @param name - The asset name
-     * @param bitmap - The decoded bitmap
-     */
-    public registerAsset(name: string, bitmap: ImageBitmap): void
-    {
-        this._assets.set(name, bitmap);
-        this._assetUrls.delete(name);
+	public get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
-        // Deliver to any pending receivers
-        this.deliverToReceivers(name, bitmap);
-    }
+	/**
+	 * Registers a bitmap asset by name (immediate).
+	 *
+	 * If there are pending receivers waiting for this asset,
+	 * delivers it to them immediately.
+	 *
+	 * @param name - The asset name
+	 * @param bitmap - The decoded bitmap
+	 */
+	public registerAsset(name: string, bitmap: ImageBitmap): void
+	{
+		this._assets.set(name, bitmap);
+		this._assetUrls.delete(name);
 
-    /**
-     * Registers an asset URL for lazy loading.
-     *
-     * The bitmap is NOT decoded immediately. When `retrieveAsset()` is called
-     * for this name, the URL is fetched and decoded on demand.
-     *
-     * @param name - The asset name
-     * @param url - The URL to fetch the image from
-     */
-    public registerAssetUrl(name: string, url: string): void
-    {
-        if(this._assets.has(name)) return;
+		// Deliver to any pending receivers
+		this.deliverToReceivers(name, bitmap);
+	}
 
-        this._assetUrls.set(name, url);
-    }
+	/**
+	 * Registers an asset URL for lazy loading.
+	 *
+	 * The bitmap is NOT decoded immediately. When `retrieveAsset()` is called
+	 * for this name, the URL is fetched and decoded on demand.
+	 *
+	 * @param name - The asset name
+	 * @param url - The URL to fetch the image from
+	 */
+	public registerAssetUrl(name: string, url: string): void
+	{
+		if (this._assets.has(name)) return;
 
-    /**
-     * Retrieves an asset by URI and delivers it to the receiver.
-     *
-     * If the asset is already cached, delivers immediately via
-     * `receiver.receiveAsset()`. If a URL is registered, loads it
-     * lazily. Otherwise, queues the receiver for later delivery.
-     *
-     * In AS3: `retrieveAsset(uri: String, receiver: IAssetReceiver)`
-     *
-     * @param uri - The asset URI
-     * @param receiver - The receiver to deliver the asset to
-     */
-    public retrieveAsset(uri: string, receiver: IAssetReceiver): void
-    {
-        if(!uri || !receiver) return;
+		this._assetUrls.set(name, url);
+	}
 
-        const resolvedName = this.resolveAssetName(uri);
+	/**
+	 * Retrieves an asset by URI and delivers it to the receiver.
+	 *
+	 * If the asset is already cached, delivers immediately via
+	 * `receiver.receiveAsset()`. If a URL is registered, loads it
+	 * lazily. Otherwise, queues the receiver for later delivery.
+	 *
+	 * In AS3: `retrieveAsset(uri: String, receiver: IAssetReceiver)`
+	 *
+	 * @param uri - The asset URI
+	 * @param receiver - The receiver to deliver the asset to
+	 */
+	public retrieveAsset(uri: string, receiver: IAssetReceiver): void
+	{
+		if (!uri || !receiver) return;
 
-        // Check bitmap cache first
-        const cached = this._assets.get(resolvedName);
+		const resolvedName = this.resolveAssetName(uri);
 
-        if(cached)
-        {
-            receiver.receiveAsset(cached, resolvedName);
+		// Check bitmap cache first
+		const cached = this._assets.get(resolvedName);
 
-            return;
-        }
+		if (cached)
+		{
+			receiver.receiveAsset(cached, resolvedName);
 
-        // Queue receiver
-        let receivers = this._pendingReceivers.get(resolvedName);
+			return;
+		}
 
-        if(!receivers)
-        {
-            receivers = [];
-            this._pendingReceivers.set(resolvedName, receivers);
-        }
+		// Queue receiver
+		let receivers = this._pendingReceivers.get(resolvedName);
 
-        receivers.push(receiver);
+		if (!receivers)
+		{
+			receivers = [];
+			this._pendingReceivers.set(resolvedName, receivers);
+		}
 
-        // If a URL is registered and not already loading, start loading
-        const url = this._assetUrls.get(resolvedName);
+		receivers.push(receiver);
 
-        if(url && !this._loading.has(resolvedName))
-        {
-            this._loading.add(resolvedName);
-            this.loadFromUrl(resolvedName, url);
-        }
-    }
+		// If a URL is registered and not already loading, start loading
+		const url = this._assetUrls.get(resolvedName);
 
-    /**
-     * Checks if two asset URIs resolve to the same asset.
-     *
-     * @param uri1 - First URI
-     * @param uri2 - Second URI
-     * @returns True if they resolve to the same asset
-     */
-    public isSameAsset(uri1: string, uri2: string): boolean
-    {
-        return this.resolveAssetName(uri1) === this.resolveAssetName(uri2);
-    }
+		if (url && !this._loading.has(resolvedName))
+		{
+			this._loading.add(resolvedName);
+			this.loadFromUrl(resolvedName, url);
+		}
+	}
 
-    /**
-     * Resolves an asset name through window manager interpolation.
-     *
-     * In AS3, this used `_windowManager.interpolate()` for variable
-     * substitution. For now, returns the URI as-is.
-     *
-     * @param uri - The raw asset URI
-     * @returns The resolved asset name
-     */
-    private resolveAssetName(uri: string): string
-    {
-        return uri;
-    }
+	/**
+	 * Checks if two asset URIs resolve to the same asset.
+	 *
+	 * @param uri1 - First URI
+	 * @param uri2 - Second URI
+	 * @returns True if they resolve to the same asset
+	 */
+	public isSameAsset(uri1: string, uri2: string): boolean
+	{
+		return this.resolveAssetName(uri1) === this.resolveAssetName(uri2);
+	}
 
-    /**
-     * Loads an image from a URL, caches it, and delivers to pending receivers.
-     *
-     * @param name - The asset name
-     * @param url - The URL to fetch
-     */
-    private loadFromUrl(name: string, url: string): void
-    {
-        fetch(url)
-            .then(response => response.blob())
-            .then(blob => createImageBitmap(blob))
-            .then(bitmap =>
-            {
-                if(this._disposed) return;
+	/**
+	 * Dispose the resource manager.
+	 */
+	public dispose(): void
+	{
+		if (this._disposed) return;
 
-                this._loading.delete(name);
-                this._assetUrls.delete(name);
-                this._assets.set(name, bitmap);
+		this._disposed = true;
+		this._assets.clear();
+		this._assetUrls.clear();
+		this._pendingReceivers.clear();
+		this._loading.clear();
+	}
 
-                this.deliverToReceivers(name, bitmap);
-            })
-            .catch(() =>
-            {
-                this._loading.delete(name);
-            });
-    }
+	/**
+	 * Resolves an asset name through window manager interpolation.
+	 *
+	 * In AS3, this used `_windowManager.interpolate()` for variable
+	 * substitution. For now, returns the URI as-is.
+	 *
+	 * @param uri - The raw asset URI
+	 * @returns The resolved asset name
+	 */
+	private resolveAssetName(uri: string): string
+	{
+		return uri;
+	}
 
-    /**
-     * Delivers a bitmap to all pending receivers for the given name.
-     *
-     * @param name - The asset name
-     * @param bitmap - The bitmap to deliver
-     */
-    private deliverToReceivers(name: string, bitmap: ImageBitmap): void
-    {
-        const receivers = this._pendingReceivers.get(name);
+	/**
+	 * Loads an image from a URL, caches it, and delivers to pending receivers.
+	 *
+	 * @param name - The asset name
+	 * @param url - The URL to fetch
+	 */
+	private loadFromUrl(name: string, url: string): void
+	{
+		fetch(url)
+			.then(response => response.blob())
+			.then(blob => createImageBitmap(blob))
+			.then(bitmap =>
+			{
+				if (this._disposed) return;
 
-        if(!receivers) return;
+				this._loading.delete(name);
+				this._assetUrls.delete(name);
+				this._assets.set(name, bitmap);
 
-        this._pendingReceivers.delete(name);
+				this.deliverToReceivers(name, bitmap);
+			})
+			.catch(() =>
+			{
+				this._loading.delete(name);
+			});
+	}
 
-        for(const receiver of receivers)
-        {
-            if(!receiver.disposed)
-            {
-                try
-                {
-                    receiver.receiveAsset(bitmap, name);
-                }
-                catch(e: unknown)
-                {
-                    log.warn(`Error delivering asset "${ name }" to receiver:`, e);
-                }
-            }
-        }
-    }
+	/**
+	 * Delivers a bitmap to all pending receivers for the given name.
+	 *
+	 * @param name - The asset name
+	 * @param bitmap - The bitmap to deliver
+	 */
+	private deliverToReceivers(name: string, bitmap: ImageBitmap): void
+	{
+		const receivers = this._pendingReceivers.get(name);
 
-    /**
-     * Dispose the resource manager.
-     */
-    public dispose(): void
-    {
-        if(this._disposed) return;
+		if (!receivers) return;
 
-        this._disposed = true;
-        this._assets.clear();
-        this._assetUrls.clear();
-        this._pendingReceivers.clear();
-        this._loading.clear();
-    }
+		this._pendingReceivers.delete(name);
+
+		for (const receiver of receivers)
+		{
+			if (!receiver.disposed)
+			{
+				try
+				{
+					receiver.receiveAsset(bitmap, name);
+				}
+				catch (e: unknown)
+				{
+					log.warn(`Error delivering asset "${name}" to receiver:`, e);
+				}
+			}
+		}
+	}
 }

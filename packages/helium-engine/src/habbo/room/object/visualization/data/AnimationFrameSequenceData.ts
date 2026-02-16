@@ -15,7 +15,6 @@ export class AnimationFrameSequenceData
 	private _frames: AnimationFrameData[] = [];
 	private _frameIndexes: number[] = [];
 	private _frameRepeats: number[] = [];
-	private _isRandom: boolean = false;
 	private _loopCount: number = 1;
 
 	constructor(loopCount: number, isRandom: boolean)
@@ -28,6 +27,8 @@ export class AnimationFrameSequenceData
 		this._loopCount = loopCount;
 		this._isRandom = isRandom;
 	}
+
+	private _isRandom: boolean = false;
 
 	get isRandom(): boolean
 	{

@@ -23,21 +23,18 @@ export class FurnitureParticleSystemEmitter extends FurnitureParticleSystemParti
 	public static readonly SHAPE_SPHERE: string = 'sphere';
 
 	private _name: string;
-	private _roomObjectSpriteId: number;
 	private _force: number = 0;
-	private _emitterDirection: { x: number; y: number; z: number } = { x: 0, y: -1, z: 0 };
+	private _emitterDirection: { x: number; y: number; z: number } = {x: 0, y: -1, z: 0};
 	private _timeStep: number = 0.1;
 	private _gravity: number = 0;
 	private _airFriction: number = 0;
 	private _shape: string = '';
 	private _particleConfigs: ParticleConfig[] = [];
-	private _particles: FurnitureParticleSystemParticle[] = [];
 	private _maxParticles: number = 0;
 	private _particlesPerFrame: number = 0;
 	private _totalEmitted: number = 0;
 	private _fuseTime: number = 10;
 	private _energy: number = 1;
-	private _hasIgnited: boolean = false;
 	private _burstPulse: number = 1;
 
 	constructor(name: string = '', spriteId: number = -1)
@@ -47,19 +44,25 @@ export class FurnitureParticleSystemEmitter extends FurnitureParticleSystemParti
 		this._roomObjectSpriteId = spriteId;
 	}
 
+	private _roomObjectSpriteId: number;
+
+	get roomObjectSpriteId(): number
+	{
+		return this._roomObjectSpriteId;
+	}
+
+	private _particles: FurnitureParticleSystemParticle[] = [];
+
 	get particles(): FurnitureParticleSystemParticle[]
 	{
 		return this._particles;
 	}
 
+	private _hasIgnited: boolean = false;
+
 	get hasIgnited(): boolean
 	{
 		return this._hasIgnited;
-	}
-
-	get roomObjectSpriteId(): number
-	{
-		return this._roomObjectSpriteId;
 	}
 
 	override dispose(): void
@@ -72,19 +75,6 @@ export class FurnitureParticleSystemEmitter extends FurnitureParticleSystemParti
 		this._particles = [];
 		this._particleConfigs = [];
 		super.dispose();
-	}
-
-	protected override ignite(): void
-	{
-		this._hasIgnited = true;
-
-		if (this._totalEmitted < this._maxParticles)
-		{
-			if (this.age > 1)
-			{
-				this.releaseParticles(this);
-			}
-		}
 	}
 
 	override update(): void
@@ -119,7 +109,7 @@ export class FurnitureParticleSystemEmitter extends FurnitureParticleSystemParti
 		this._force = force;
 
 		const len = Math.sqrt(direction.x * direction.x + direction.y * direction.y + direction.z * direction.z) || 1;
-		this._emitterDirection = { x: direction.x / len, y: direction.y / len, z: direction.z / len };
+		this._emitterDirection = {x: direction.x / len, y: direction.y / len, z: direction.z / len};
 
 		this._gravity = gravity;
 		this._airFriction = airFriction;
@@ -160,7 +150,7 @@ export class FurnitureParticleSystemEmitter extends FurnitureParticleSystemParti
 
 	configureParticle(lifeTime: number, isEmitter: boolean, frames: IGraphicAsset[], fade: boolean): void
 	{
-		this._particleConfigs.push({ lifeTime, isEmitter, frames, fade });
+		this._particleConfigs.push({lifeTime, isEmitter, frames, fade});
 	}
 
 	verlet(): void
@@ -220,9 +210,22 @@ export class FurnitureParticleSystemEmitter extends FurnitureParticleSystemParti
 		}
 	}
 
+	protected override ignite(): void
+	{
+		this._hasIgnited = true;
+
+		if (this._totalEmitted < this._maxParticles)
+		{
+			if (this.age > 1)
+			{
+				this.releaseParticles(this);
+			}
+		}
+	}
+
 	private releaseParticles(source: FurnitureParticleSystemParticle): void
 	{
-		const dir = { x: 0, y: 0, z: 0 };
+		const dir = {x: 0, y: 0, z: 0};
 		const config = this.getRandomParticleConfiguration();
 
 		for (let i = 0; i < this._particlesPerFrame; i++)

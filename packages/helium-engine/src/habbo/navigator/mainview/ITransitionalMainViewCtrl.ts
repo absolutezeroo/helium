@@ -1,6 +1,6 @@
-import type { IWindow } from '@core/window/IWindow';
-import type { IDisposable } from '@core/runtime/IDisposable';
-import type { TextSearchInputs } from '../TextSearchInputs';
+import type {IWindow} from '@core/window/IWindow';
+import type {IDisposable} from '@core/runtime/IDisposable';
+import type {TextSearchInputs} from '../TextSearchInputs';
 
 /**
  * Transitional main view controller interface.
@@ -11,16 +11,25 @@ import type { TextSearchInputs } from '../TextSearchInputs';
  */
 export interface ITransitionalMainViewCtrl extends IDisposable
 {
-    onNavigatorToolBarIconClick(): void;
-    open(): void;
-    isOpen(): boolean;
-    close(): void;
-    refresh(): void;
-    reloadRoomList(categoryId: number): boolean;
-    startSearch(param1: number, searchType: number, query?: string, param4?: number): void;
-    update(time: number): void;
-    openAtPosition(x: number, y: number): void;
-    readonly mainWindow: IWindow | null;
-    readonly searchInput: TextSearchInputs | null;
-    readonly isPhaseOneNavigator: boolean;
+	readonly mainWindow: IWindow | null;
+	readonly searchInput: TextSearchInputs | null;
+	readonly isPhaseOneNavigator: boolean;
+
+	onNavigatorToolBarIconClick(): void;
+
+	open(): void;
+
+	isOpen(): boolean;
+
+	close(): void;
+
+	refresh(): void;
+
+	reloadRoomList(categoryId: number): boolean;
+
+	startSearch(param1: number, searchType: number, query?: string, param4?: number): void;
+
+	update(time: number): void;
+
+	openAtPosition(x: number, y: number): void;
 }

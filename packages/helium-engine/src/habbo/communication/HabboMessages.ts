@@ -178,10 +178,7 @@ import {
 } from './messages/incoming/poll';
 
 // Incoming Events - Help (name change events)
-import {
-	ChangeUserNameResultMessageEvent,
-	UserNameChangedMessageEvent,
-} from './messages/incoming/help';
+import {ChangeUserNameResultMessageEvent, UserNameChangedMessageEvent,} from './messages/incoming/help';
 
 // Incoming Events - Error
 import {ErrorReportEvent} from './messages/incoming/error';
@@ -318,7 +315,11 @@ import {
 } from './messages/outgoing/room/session';
 
 // Outgoing Composers - Room Engine
-import {GetFurnitureAliasesMessageComposer, GetHeightMapMessageComposer, MoveAvatarMessageComposer,} from './messages/outgoing/room/engine';
+import {
+	GetFurnitureAliasesMessageComposer,
+	GetHeightMapMessageComposer,
+	MoveAvatarMessageComposer,
+} from './messages/outgoing/room/engine';
 
 // Outgoing Composers - Room Chat
 import {
@@ -429,7 +430,7 @@ import {
 import {OpenCampaignCalendarDoorAsStaffComposer, OpenCampaignCalendarDoorComposer,} from './messages/outgoing/campaign';
 
 // Outgoing Composers - Advertisement
-import {GetInterstitialMessageComposer, InterstitialShownMessageComposer,} from './messages/outgoing/advertisement';
+import {InterstitialShownMessageComposer,} from './messages/outgoing/advertisement';
 
 // Outgoing Composers - Handshake (NUX)
 import {NewUserExperienceScriptProceedComposer,} from './messages/outgoing/handshake';
@@ -443,20 +444,20 @@ import {
 	CloseTradingComposer,
 	ConfirmAcceptTradingComposer,
 	ConfirmDeclineTradingComposer,
+	CreditVaultStatusMessageComposer,
 	GetBadgesComposer,
 	GetBotInventoryComposer,
 	GetPetInventoryComposer,
+	GiveStarGemToUserMessageComposer,
+	IncomeRewardClaimMessageComposer,
+	IncomeRewardStatusMessageComposer,
 	OpenTradingComposer,
 	RemoveItemFromTradeComposer,
 	RequestFurniInventoryComposer,
 	ResetUnseenItemsComposer,
 	SetActivatedBadgesComposer,
 	UnacceptTradingComposer,
-	GiveStarGemToUserMessageComposer,
-	CreditVaultStatusMessageComposer,
 	WithdrawCreditVaultMessageComposer,
-	IncomeRewardStatusMessageComposer,
-	IncomeRewardClaimMessageComposer,
 } from './messages/outgoing/inventory';
 
 /**

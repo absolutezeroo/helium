@@ -55,9 +55,9 @@ export class VideoOfferExtension
 	 */
 	public onClubChanged(): void
 	{
-		if(!this._toolbar) return;
+		if (!this._toolbar) return;
 
-		if(!this._dismissed && !this._windowCreated)
+		if (!this._dismissed && !this._windowCreated)
 		{
 			// In AS3, this triggers catalog.videoOffers.load(this)
 			log.debug('Video offer: checking availability after club change');
@@ -71,17 +71,17 @@ export class VideoOfferExtension
 	 */
 	public offersAvailable(count: number): void
 	{
-		if(!this._toolbar) return;
+		if (!this._toolbar) return;
 
 		this._offersAvailable = count;
 
-		if(count <= 0 || this._dismissed)
+		if (count <= 0 || this._dismissed)
 		{
 			this._windowCreated = false;
 			return;
 		}
 
-		if(!this._windowCreated)
+		if (!this._windowCreated)
 		{
 			this._windowCreated = true;
 		}
@@ -101,7 +101,7 @@ export class VideoOfferExtension
 	 */
 	public dispose(): void
 	{
-		if(this._toolbar == null) return;
+		if (this._toolbar == null) return;
 
 		this._windowCreated = false;
 		this._toolbar = null;

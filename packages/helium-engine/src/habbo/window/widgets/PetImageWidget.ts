@@ -50,7 +50,7 @@ export class PetImageWidget implements IWidget
 
 		const root = this._windowManager.buildWidgetLayout('pet_image') as IWindowContainer;
 
-		if(root)
+		if (root)
 		{
 			this._root = root;
 			this._bitmap = root.findChildByName('bitmap');
@@ -165,7 +165,7 @@ export class PetImageWidget implements IWidget
 
 	public get properties(): PropertyStruct[]
 	{
-		if(this._disposed) return [];
+		if (this._disposed) return [];
 
 		return [
 			new PropertyStruct(PetImageWidget.FIGURE_KEY, this._figure),
@@ -179,9 +179,9 @@ export class PetImageWidget implements IWidget
 
 	public set properties(values: PropertyStruct[])
 	{
-		for(const prop of values)
+		for (const prop of values)
 		{
-			switch(prop.key)
+			switch (prop.key)
 			{
 				case PetImageWidget.FIGURE_KEY:
 					this.figure = String(prop.value);
@@ -210,16 +210,16 @@ export class PetImageWidget implements IWidget
 	 */
 	private static cleanupAvatarString(figure: string): string
 	{
-		if(!figure) return PetImageWidget.FIGURE_DEFAULT;
+		if (!figure) return PetImageWidget.FIGURE_DEFAULT;
 
 		return figure.replace(/NaN/g, '');
 	}
 
 	public dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
-		if(this._region)
+		if (this._region)
 		{
 			this._region.dispose();
 			this._region = null;
@@ -227,13 +227,13 @@ export class PetImageWidget implements IWidget
 
 		this._bitmap = null;
 
-		if(this._root)
+		if (this._root)
 		{
 			this._root.dispose();
 			this._root = null;
 		}
 
-		if(this._widgetWindow)
+		if (this._widgetWindow)
 		{
 			this._widgetWindow.rootWindow = null;
 			this._widgetWindow = null;

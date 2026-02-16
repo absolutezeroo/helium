@@ -1,4 +1,4 @@
-import type { IMessageDataWrapper } from '@core/communication/messages/IMessageDataWrapper';
+import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
 
 /**
  * Represents community goal progress data.
@@ -7,84 +7,93 @@ import type { IMessageDataWrapper } from '@core/communication/messages/IMessageD
  */
 export class CommunityGoalProgressData
 {
-    private _hasGoalExpired: boolean;
-    private _personalContributionScore: number;
-    private _personalContributionRank: number;
-    private _communityTotalScore: number;
-    private _communityHighestAchievedLevel: number;
-    private _scoreRemainingUntilNextLevel: number;
-    private _percentCompletionTowardsNextLevel: number;
-    private _goalCode: string;
-    private _timeRemainingInSeconds: number;
-    private _rewardUserLimits: Array<number>;
+	constructor(wrapper: IMessageDataWrapper)
+	{
+		this._hasGoalExpired = wrapper.readBoolean();
+		this._personalContributionScore = wrapper.readInt();
+		this._personalContributionRank = wrapper.readInt();
+		this._communityTotalScore = wrapper.readInt();
+		this._communityHighestAchievedLevel = wrapper.readInt();
+		this._scoreRemainingUntilNextLevel = wrapper.readInt();
+		this._percentCompletionTowardsNextLevel = wrapper.readInt();
+		this._goalCode = wrapper.readString();
+		this._timeRemainingInSeconds = wrapper.readInt();
 
-    constructor(wrapper: IMessageDataWrapper)
-    {
-        this._hasGoalExpired = wrapper.readBoolean();
-        this._personalContributionScore = wrapper.readInt();
-        this._personalContributionRank = wrapper.readInt();
-        this._communityTotalScore = wrapper.readInt();
-        this._communityHighestAchievedLevel = wrapper.readInt();
-        this._scoreRemainingUntilNextLevel = wrapper.readInt();
-        this._percentCompletionTowardsNextLevel = wrapper.readInt();
-        this._goalCode = wrapper.readString();
-        this._timeRemainingInSeconds = wrapper.readInt();
+		const count = wrapper.readInt();
+		this._rewardUserLimits = [];
+		for (let i = 0; i < count; i++)
+		{
+			this._rewardUserLimits.push(wrapper.readInt());
+		}
+	}
 
-        const count = wrapper.readInt();
-        this._rewardUserLimits = [];
-        for(let i = 0; i < count; i++)
-        {
-            this._rewardUserLimits.push(wrapper.readInt());
-        }
-    }
+	private _hasGoalExpired: boolean;
 
-    get hasGoalExpired(): boolean
-    {
-        return this._hasGoalExpired;
-    }
+	get hasGoalExpired(): boolean
+	{
+		return this._hasGoalExpired;
+	}
 
-    get personalContributionScore(): number
-    {
-        return this._personalContributionScore;
-    }
+	private _personalContributionScore: number;
 
-    get personalContributionRank(): number
-    {
-        return this._personalContributionRank;
-    }
+	get personalContributionScore(): number
+	{
+		return this._personalContributionScore;
+	}
 
-    get communityTotalScore(): number
-    {
-        return this._communityTotalScore;
-    }
+	private _personalContributionRank: number;
 
-    get communityHighestAchievedLevel(): number
-    {
-        return this._communityHighestAchievedLevel;
-    }
+	get personalContributionRank(): number
+	{
+		return this._personalContributionRank;
+	}
 
-    get scoreRemainingUntilNextLevel(): number
-    {
-        return this._scoreRemainingUntilNextLevel;
-    }
+	private _communityTotalScore: number;
 
-    get percentCompletionTowardsNextLevel(): number
-    {
-        return this._percentCompletionTowardsNextLevel;
-    }
+	get communityTotalScore(): number
+	{
+		return this._communityTotalScore;
+	}
 
-    get goalCode(): string
-    {
-        return this._goalCode;
-    }
+	private _communityHighestAchievedLevel: number;
 
-    get timeRemainingInSeconds(): number
-    {
-        return this._timeRemainingInSeconds;
-    }
+	get communityHighestAchievedLevel(): number
+	{
+		return this._communityHighestAchievedLevel;
+	}
 
-    get rewardUserLimits(): Array<number>
-    {
-        return this._rewardUserLimits;
-    }
+	private _scoreRemainingUntilNextLevel: number;
+
+	get scoreRemainingUntilNextLevel(): number
+	{
+		return this._scoreRemainingUntilNextLevel;
+	}
+
+	private _percentCompletionTowardsNextLevel: number;
+
+	get percentCompletionTowardsNextLevel(): number
+	{
+		return this._percentCompletionTowardsNextLevel;
+	}
+
+	private _goalCode: string;
+
+	get goalCode(): string
+	{
+		return this._goalCode;
+	}
+
+	private _timeRemainingInSeconds: number;
+
+	get timeRemainingInSeconds(): number
+	{
+		return this._timeRemainingInSeconds;
+	}
+
+	private _rewardUserLimits: Array<number>;
+
+	get rewardUserLimits(): Array<number>
+	{
+		return this._rewardUserLimits;
+	}
 }

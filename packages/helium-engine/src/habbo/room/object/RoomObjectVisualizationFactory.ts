@@ -21,7 +21,9 @@ import {TileCursorVisualization} from './visualization/room/TileCursorVisualizat
 // Furniture Visualizations
 import {FurnitureVisualization} from './visualization/furniture/FurnitureVisualization';
 import {AnimatedFurnitureVisualization} from './visualization/furniture/AnimatedFurnitureVisualization';
-import {FurnitureResettingAnimatedVisualization} from './visualization/furniture/FurnitureResettingAnimatedVisualization';
+import {
+	FurnitureResettingAnimatedVisualization
+} from './visualization/furniture/FurnitureResettingAnimatedVisualization';
 import {FurniturePosterVisualization} from './visualization/furniture/FurniturePosterVisualization';
 import {FurnitureStickieVisualization} from './visualization/furniture/FurnitureStickieVisualization';
 import {FurnitureBottleVisualization} from './visualization/furniture/FurnitureBottleVisualization';
@@ -33,16 +35,22 @@ import {FurnitureGiftWrappedVisualization} from './visualization/furniture/Furni
 import {FurnitureCounterClockVisualization} from './visualization/furniture/FurnitureCounterClockVisualization';
 import {FurnitureScoreBoardVisualization} from './visualization/furniture/FurnitureScoreBoardVisualization';
 import {FurnitureFireworksVisualization} from './visualization/furniture/FurnitureFireworksVisualization';
-import {FurnitureGiftWrappedFireworksVisualization} from './visualization/furniture/FurnitureGiftWrappedFireworksVisualization';
+import {
+	FurnitureGiftWrappedFireworksVisualization
+} from './visualization/furniture/FurnitureGiftWrappedFireworksVisualization';
 import {FurnitureSoundblockVisualization} from './visualization/furniture/FurnitureSoundblockVisualization';
 import {FurnitureVoteCounterVisualization} from './visualization/furniture/FurnitureVoteCounterVisualization';
 import {FurnitureVoteMajorityVisualization} from './visualization/furniture/FurnitureVoteMajorityVisualization';
 import {FurnitureBadgeDisplayVisualization} from './visualization/furniture/FurnitureBadgeDisplayVisualization';
 import {FurnitureGuildCustomizedVisualization} from './visualization/furniture/FurnitureGuildCustomizedVisualization';
-import {FurnitureGuildIsometricBadgeVisualization} from './visualization/furniture/FurnitureGuildIsometricBadgeVisualization';
+import {
+	FurnitureGuildIsometricBadgeVisualization
+} from './visualization/furniture/FurnitureGuildIsometricBadgeVisualization';
 import {FurnitureRoomBillboardVisualization} from './visualization/furniture/FurnitureRoomBillboardVisualization';
 import {FurnitureRoomBackgroundVisualization} from './visualization/furniture/FurnitureRoomBackgroundVisualization';
-import {FurnitureBuilderPlaceholderVisualization} from './visualization/furniture/FurnitureBuilderPlaceholderVisualization';
+import {
+	FurnitureBuilderPlaceholderVisualization
+} from './visualization/furniture/FurnitureBuilderPlaceholderVisualization';
 import {FurnitureExternalImageVisualization} from './visualization/furniture/FurnitureExternalImageVisualization';
 import {FurnitureYoutubeVisualization} from './visualization/furniture/FurnitureYoutubeVisualization';
 import {FurnitureMannequinVisualization} from './visualization/furniture/FurnitureMannequinVisualization';
@@ -92,8 +100,9 @@ const ANIMATED_VIZ_DATA_TYPES = new Set([
 export class RoomObjectVisualizationFactory implements IRoomObjectVisualizationFactory
 {
 	private _visualizationDataCache: Map<string, IRoomObjectVisualizationData> = new Map();
-	private _avatarRenderManager: IAvatarRenderManager | null = null;
 	private _disposed: boolean = false;
+
+	private _avatarRenderManager: IAvatarRenderManager | null = null;
 
 	/**
 	 * Set the avatar render manager reference for avatar visualization data injection.

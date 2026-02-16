@@ -6,9 +6,9 @@
  *
  * @see sources/flash_version/com/sulake/habbo/room/object/visualization/avatar/additions/IExpressionAddition.as
  */
-import type { IAvatarAddition } from './IAvatarAddition';
+import type {IAvatarAddition} from './IAvatarAddition';
 
 export interface IExpressionAddition extends IAvatarAddition
 {
-    readonly type: number;
+	readonly type: number;
 }

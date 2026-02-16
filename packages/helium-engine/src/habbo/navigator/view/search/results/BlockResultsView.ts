@@ -1,12 +1,12 @@
-import type { IWindow } from '@core/window/IWindow';
-import type { IItemListWindow } from '@core/window/components/IItemListWindow';
-import type { WindowEvent } from '@core/window/events/WindowEvent';
-import type { HabboNewNavigator } from '../../../HabboNewNavigator';
-import type { NavigatorSearchResultSet } from '@habbo/communication/messages/incoming/newnavigator/NavigatorSearchResultSet';
-import type { NavigatorSearchResultBlock } from '@habbo/communication/messages/incoming/newnavigator/NavigatorSearchResultBlock';
-import { NavigatorSearchAction } from '@habbo/communication/messages/incoming/newnavigator/NavigatorSearchResultBlock';
-import { ResultsModeEnum } from '../../ResultsModeEnum';
-import type { CategoryElementFactory } from './CategoryElementFactory';
+import type {IWindow} from '@core/window/IWindow';
+import type {IItemListWindow} from '@core/window/components/IItemListWindow';
+import type {WindowEvent} from '@core/window/events/WindowEvent';
+import type {HabboNewNavigator} from '../../../HabboNewNavigator';
+import type {
+	NavigatorSearchResultSet
+} from '@habbo/communication/messages/incoming/newnavigator/NavigatorSearchResultSet';
+import {ResultsModeEnum} from '../../ResultsModeEnum';
+import type {CategoryElementFactory} from './CategoryElementFactory';
 
 /**
  * Manages the block results list in the navigator.
@@ -19,15 +19,10 @@ import type { CategoryElementFactory } from './CategoryElementFactory';
 export class BlockResultsView
 {
 	private _navigator: HabboNewNavigator;
-	private _itemList: IItemListWindow | null = null;
-	private _categoryElementFactory: CategoryElementFactory | null = null;
-
 	/** Maps block index → search code */
 	private _blockSearchCodes: Map<number, string> = new Map();
-
 	/** Maps block index → the rendered IWindow */
 	private _blockWindows: Map<number, IWindow> = new Map();
-
 	/** Maps block index → view mode */
 	private _blockViewModes: Map<number, number> = new Map();
 
@@ -35,6 +30,8 @@ export class BlockResultsView
 	{
 		this._navigator = navigator;
 	}
+
+	private _itemList: IItemListWindow | null = null;
 
 	get itemList(): IItemListWindow | null
 	{
@@ -47,16 +44,18 @@ export class BlockResultsView
 		this._itemList.disableAutodrag = true;
 	}
 
-	get itemListWidth(): number
-	{
-		if(!this._itemList) return 0;
-
-		return this._itemList.width;
-	}
+	private _categoryElementFactory: CategoryElementFactory | null = null;
 
 	set categoryElementFactory(value: CategoryElementFactory)
 	{
 		this._categoryElementFactory = value;
+	}
+
+	get itemListWidth(): number
+	{
+		if (!this._itemList) return 0;
+
+		return this._itemList.width;
 	}
 
 	/**
@@ -66,7 +65,7 @@ export class BlockResultsView
 	 */
 	displayCurrentResults(): void
 	{
-		if(!this._navigator.currentResults || !this._itemList || !this._categoryElementFactory)
+		if (!this._navigator.currentResults || !this._itemList || !this._categoryElementFactory)
 		{
 			return;
 		}
@@ -79,13 +78,13 @@ export class BlockResultsView
 
 		const resultSet = this._navigator.currentResults;
 
-		if(resultSet.blocks.length === 0)
+		if (resultSet.blocks.length === 0)
 		{
 			this._itemList.addListItem(this._categoryElementFactory.getNoResultsElement());
 		}
 		else
 		{
-			for(let i = 0; i < resultSet.blocks.length; i++)
+			for (let i = 0; i < resultSet.blocks.length; i++)
 			{
 				const block = resultSet.blocks[i];
 				const isExpanded = (!this.isMinimized(block.searchCode) || this.isSingleBlock(resultSet)) && !block.forceClosed;
@@ -111,11 +110,11 @@ export class BlockResultsView
 	 */
 	onCategoryShowMoreClicked = (event: WindowEvent): void =>
 	{
-		if(!event.window) return;
+		if (!event.window) return;
 
 		const searchCode = this._blockSearchCodes.get(event.window.id);
 
-		if(searchCode)
+		if (searchCode)
 		{
 			this._navigator.performSearch(searchCode, this._navigator.currentResults?.filteringData ?? '');
 		}
@@ -138,11 +137,11 @@ export class BlockResultsView
 	 */
 	onCategoryCollapseClicked = (event: WindowEvent): void =>
 	{
-		if(!event.window) return;
+		if (!event.window) return;
 
 		const searchCode = this._blockSearchCodes.get(event.window.id);
 
-		if(searchCode)
+		if (searchCode)
 		{
 			this._navigator.addCollapsedCategory(searchCode);
 			this.replaceBlock(event.window.id, false);
@@ -156,11 +155,11 @@ export class BlockResultsView
 	 */
 	onCategoryExpandClicked = (event: WindowEvent): void =>
 	{
-		if(!event.window) return;
+		if (!event.window) return;
 
 		const searchCode = this._blockSearchCodes.get(event.window.id);
 
-		if(searchCode)
+		if (searchCode)
 		{
 			this._navigator.removeCollapsedCategory(searchCode);
 			this.replaceBlock(event.window.id, true);
@@ -174,11 +173,11 @@ export class BlockResultsView
 	 */
 	onCategoryAddQuickLinkClicked = (event: WindowEvent): void =>
 	{
-		if(!event.window) return;
+		if (!event.window) return;
 
 		const searchCode = this._blockSearchCodes.get(event.window.id);
 
-		if(searchCode)
+		if (searchCode)
 		{
 			this._navigator.addSavedSearch(searchCode, this._navigator.currentResults?.filteringData ?? '');
 		}
@@ -191,7 +190,7 @@ export class BlockResultsView
 	 */
 	onCategoryToggleModeClicked = (event: WindowEvent): void =>
 	{
-		if(!event.window) return;
+		if (!event.window) return;
 
 		const blockId = event.window.id;
 		const currentMode = this._blockViewModes.get(blockId) ?? ResultsModeEnum.ROWS;
@@ -199,14 +198,14 @@ export class BlockResultsView
 
 		const searchCode = this._blockSearchCodes.get(blockId);
 
-		if(searchCode)
+		if (searchCode)
 		{
 			this._navigator.setSearchCodeViewMode(searchCode, newMode);
 		}
 
 		const currentResults = this._navigator.currentResults;
 
-		if(currentResults && currentResults.blocks[blockId])
+		if (currentResults && currentResults.blocks[blockId])
 		{
 			currentResults.blocks[blockId].viewMode = newMode;
 		}
@@ -237,7 +236,7 @@ export class BlockResultsView
 		const block = this._navigator.currentResults!.blocks[blockIndex];
 		const title = block.text === '' ? '${navigator.searchcode.title.' + block.searchCode + '}' : block.text;
 
-		if(isExpanded)
+		if (isExpanded)
 		{
 			const viewMode = block.viewMode;
 
@@ -265,11 +264,11 @@ export class BlockResultsView
 	 */
 	private replaceBlock(blockId: number, expanded: boolean): void
 	{
-		if(!this._itemList) return;
+		if (!this._itemList) return;
 
 		const currentWindow = this._blockWindows.get(blockId);
 
-		if(!currentWindow) return;
+		if (!currentWindow) return;
 
 		const listIndex = this._itemList.getListItemIndex(currentWindow);
 

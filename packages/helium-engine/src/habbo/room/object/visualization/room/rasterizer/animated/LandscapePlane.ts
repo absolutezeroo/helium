@@ -23,7 +23,7 @@ export class LandscapePlane extends Plane
 	{
 		const vis = this.getPlaneVisualization(size);
 
-		if(vis !== null)
+		if (vis !== null)
 		{
 			return !vis.hasAnimationLayers;
 		}
@@ -33,10 +33,10 @@ export class LandscapePlane extends Plane
 
 	initializeDimensions(width: number, height: number): void
 	{
-		if(width < 0) width = 0;
-		if(height < 0) height = 0;
+		if (width < 0) width = 0;
+		if (height < 0) height = 0;
 
-		if(width !== this._width || height !== this._height)
+		if (width !== this._width || height !== this._height)
 		{
 			this._width = width;
 			this._height = height;
@@ -78,7 +78,7 @@ export class LandscapePlane extends Plane
 	{
 		const vis = this.getPlaneVisualization(scale);
 
-		if(vis === null || vis.geometry === null)
+		if (vis === null || vis.geometry === null)
 		{
 			return null;
 		}
@@ -87,7 +87,7 @@ export class LandscapePlane extends Plane
 		const zUnit = vis.geometry.getScreenPoint(new Vector3d(0, 0, 1));
 		const yUnit = vis.geometry.getScreenPoint(new Vector3d(0, 1, 0));
 
-		if(origin !== null && zUnit !== null && yUnit !== null)
+		if (origin !== null && zUnit !== null && yUnit !== null)
 		{
 			const xScale = Math.abs(origin.x - yUnit.x);
 			const yScale = Math.abs(origin.y - zUnit.y);

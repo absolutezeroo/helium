@@ -1,5 +1,5 @@
-import {Component} from '@core/runtime';
 import type {IContext} from '@core/runtime';
+import {Component} from '@core/runtime';
 import type {IAssetLibrary} from '@core/assets';
 import type {IHabboFriendBar} from './IHabboFriendBar';
 import {HabboLandingView} from './landingview/HabboLandingView';
@@ -63,7 +63,7 @@ export class HabboFriendBar extends Component implements IHabboFriendBar
 	 */
 	override dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		super.dispose();
 	}

@@ -9,8 +9,25 @@ import type {IMessageParser} from '@core/communication/messages/IMessageParser';
 export class EmailStatusResultParser implements IMessageParser
 {
 	private _email: string = '';
+
+	get email(): string
+	{
+		return this._email;
+	}
+
 	private _isVerified: boolean = false;
+
+	get isVerified(): boolean
+	{
+		return this._isVerified;
+	}
+
 	private _allowChange: boolean = false;
+
+	get allowChange(): boolean
+	{
+		return this._allowChange;
+	}
 
 	flush(): boolean
 	{
@@ -29,20 +46,5 @@ export class EmailStatusResultParser implements IMessageParser
 		this._allowChange = wrapper.readBoolean();
 
 		return true;
-	}
-
-	get email(): string
-	{
-		return this._email;
-	}
-
-	get isVerified(): boolean
-	{
-		return this._isVerified;
-	}
-
-	get allowChange(): boolean
-	{
-		return this._allowChange;
 	}
 }

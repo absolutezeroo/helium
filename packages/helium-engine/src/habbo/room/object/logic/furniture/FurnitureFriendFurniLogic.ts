@@ -20,14 +20,14 @@ export class FurnitureFriendFurniLogic extends FurnitureMultiStateLogic
 
 	private _state: number = -1;
 
-	protected get engravingDialogType(): number
-	{
-		return 0;
-	}
-
 	override get contextMenu(): string | null
 	{
 		return (this._state === FurnitureFriendFurniLogic.STATE_UNLOCKED) ? 'FRIEND_FURNITURE' : 'DUMMY';
+	}
+
+	protected get engravingDialogType(): number
+	{
+		return 0;
 	}
 
 	override getEventTypes(): string[]

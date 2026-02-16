@@ -10,7 +10,6 @@ import type {IRoomGeometry} from '@room/utils/IRoomGeometry';
 import {RoomSpriteMouseEvent} from '@room/events/RoomSpriteMouseEvent';
 import {FurnitureLogic} from './FurnitureLogic';
 import {RoomObjectRoomAdEvent} from '@habbo/room/events/RoomObjectRoomAdEvent';
-import type {RoomObjectDataUpdateMessage} from '@habbo/room/messages/RoomObjectDataUpdateMessage';
 import type {RoomObjectRoomAdUpdateMessage} from '@habbo/room/messages/RoomObjectRoomAdUpdateMessage';
 
 export class FurnitureRoomBrandingLogic extends FurnitureLogic

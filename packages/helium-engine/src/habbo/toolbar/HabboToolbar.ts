@@ -51,13 +51,24 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	private _communication: IHabboCommunicationManager | null = null;
 	private _windowManager: IHabboWindowManager | null = null;
 	private _roomSessionManager: IRoomSessionManager | null = null;
-	private _avatarRenderManager: IAvatarRenderManager | null = null;
 	private _messageEvents: IMessageEvent[] = [];
 	private _extensionsInitialized: boolean = false;
 
 	constructor(context: IContext)
 	{
 		super(context);
+	}
+
+	private _avatarRenderManager: IAvatarRenderManager | null = null;
+
+	/**
+	 * The avatar render manager
+	 *
+	 * @see sources/win63_version/habbo/toolbar/HabboToolbar.as avatarRenderManager
+	 */
+	get avatarRenderManager(): IAvatarRenderManager | null
+	{
+		return this._avatarRenderManager;
 	}
 
 	private _sessionDataManager: ISessionDataManager | null = null;
@@ -107,7 +118,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	{
 		this._onDuty = value;
 
-		if(this.bottomBarLeft)
+		if (this.bottomBarLeft)
 		{
 			this.bottomBarLeft.onDuty = value;
 		}
@@ -135,7 +146,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	 */
 	get toolBarAreaWidth(): number
 	{
-		if(this.bottomBarLeft)
+		if (this.bottomBarLeft)
 		{
 			return this.bottomBarLeft.getToolbarAreaWidth();
 		}
@@ -149,16 +160,6 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	get communicationManager(): IHabboCommunicationManager | null
 	{
 		return this._communication;
-	}
-
-	/**
-	 * The avatar render manager
-	 *
-	 * @see sources/win63_version/habbo/toolbar/HabboToolbar.as avatarRenderManager
-	 */
-	get avatarRenderManager(): IAvatarRenderManager | null
-	{
-		return this._avatarRenderManager;
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -233,20 +234,20 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	 */
 	private get bottomBarLeft(): BottomBarLeft | null
 	{
-		if(!this._bottomBarLeft && this._windowManager)
+		if (!this._bottomBarLeft && this._windowManager)
 		{
 			try
 			{
 				this._bottomBarLeft = new BottomBarLeft(this, this._windowManager);
 
-				if(this._bottomBarLeft.window)
+				if (this._bottomBarLeft.window)
 				{
 					this._bottomBarLeft.window.visible = false;
 				}
 
 				log.info('BottomBarLeft created successfully');
 			}
-			catch(error)
+			catch (error)
 			{
 				log.warn('Failed to create BottomBarLeft:', error);
 			}
@@ -265,7 +266,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	{
 		this._currentState = state;
 
-		switch(state)
+		switch (state)
 		{
 			case HabboToolbarEnum.TOOLBAR_STATE_HOTEL_VIEW:
 			case HabboToolbarEnum.TOOLBAR_STATE_GAME_CENTER_VIEW:
@@ -278,11 +279,11 @@ export class HabboToolbar extends Component implements IHabboToolbar
 		}
 
 		// Delegate to BottomBarLeft for window state + visibility
-		if(this.bottomBarLeft)
+		if (this.bottomBarLeft)
 		{
 			this.bottomBarLeft.setToolbarState(state);
 
-			if(this.bottomBarLeft.window)
+			if (this.bottomBarLeft.window)
 			{
 				this.bottomBarLeft.window.visible = true;
 			}
@@ -343,7 +344,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	 */
 	getIconLocation(iconId: string): { x: number; y: number; width: number; height: number } | null
 	{
-		if(this.bottomBarLeft)
+		if (this.bottomBarLeft)
 		{
 			return this.bottomBarLeft.getIconLocation(iconId);
 		}
@@ -363,7 +364,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	 */
 	setIconBitmap(iconId: string, bitmap: unknown): void
 	{
-		if(this._bottomBarLeft && bitmap instanceof ImageBitmap)
+		if (this._bottomBarLeft && bitmap instanceof ImageBitmap)
 		{
 			this._bottomBarLeft.setIconBitmap(iconId, bitmap);
 		}
@@ -385,13 +386,13 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	 */
 	createTransitionToIcon(iconId: string, bitmap: ImageBitmap | null, startX: number, startY: number): Motion | null
 	{
-		if(this._bottomBarLeft && !this._bottomBarLeft.disposed)
+		if (this._bottomBarLeft && !this._bottomBarLeft.disposed)
 		{
 			return this._bottomBarLeft.animateToIcon(iconId, bitmap, startX, startY);
 		}
 
 		// No toolbar view — dispose the bitmap to avoid leaks
-		if(bitmap)
+		if (bitmap)
 		{
 			bitmap.close();
 		}
@@ -409,12 +410,12 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	 */
 	getRect(): { x: number; y: number; width: number; height: number }
 	{
-		if(this.bottomBarLeft?.window)
+		if (this.bottomBarLeft?.window)
 		{
 			return this.bottomBarLeft.window.rectangle;
 		}
 
-		return { x: 0, y: 0, width: 0, height: 0 };
+		return {x: 0, y: 0, width: 0, height: 0};
 	}
 
 	/**
@@ -429,7 +430,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	 */
 	setIconVisibility(iconId: string, visible: boolean): void
 	{
-		if(this.bottomBarLeft)
+		if (this.bottomBarLeft)
 		{
 			this.bottomBarLeft.iconVisibility(iconId, visible);
 		}
@@ -477,12 +478,12 @@ export class HabboToolbar extends Component implements IHabboToolbar
 	 */
 	override dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		// Remove all message event handlers
-		if(this._communication)
+		if (this._communication)
 		{
-			for(const event of this._messageEvents)
+			for (const event of this._messageEvents)
 			{
 				this._communication.removeMessageEvent(event);
 			}
@@ -491,7 +492,7 @@ export class HabboToolbar extends Component implements IHabboToolbar
 		this._messageEvents = [];
 
 		// Dispose toolbar view
-		if(this._bottomBarLeft)
+		if (this._bottomBarLeft)
 		{
 			this._bottomBarLeft.dispose();
 			this._bottomBarLeft = null;

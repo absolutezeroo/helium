@@ -32,8 +32,8 @@ const log = Logger.getLogger('BottomBarLeft');
  */
 export class BottomBarLeft
 {
-	private static readonly DEFAULT_LOCATION = { x: 0, y: 500 };
-	private static readonly LANDING_VIEW_LOCATION = { x: 0, y: 500 };
+	private static readonly DEFAULT_LOCATION = {x: 0, y: 500};
+	private static readonly LANDING_VIEW_LOCATION = {x: 0, y: 500};
 	private static readonly ICON_BG_COLOR_OVER: number = 7433577;
 	private static readonly ICON_BG_COLOR_OUT: number = 5723213;
 	private static readonly ICON_MOUSE_OVER: string = '_hover';
@@ -75,7 +75,7 @@ export class BottomBarLeft
 		const built = windowManager.buildWidgetLayout('bottom_bar_left');
 		this._window = built as IWindowContainer;
 
-		if(!this._window)
+		if (!this._window)
 		{
 			throw new Error('Failed to construct toolbar window from layout');
 		}
@@ -91,12 +91,12 @@ export class BottomBarLeft
 		this._lineSeparator = (this._buttonContainer as IWindowContainer)?.findChildByName?.('line') ?? null;
 
 		// Register click listeners on collapse arrows
-		if(this._leftArrow)
+		if (this._leftArrow)
 		{
 			this._leftArrow.addEventListener(WindowMouseEvent.CLICK, this.onCollapseToolbar);
 		}
 
-		if(this._rightArrow)
+		if (this._rightArrow)
 		{
 			this._rightArrow.addEventListener(WindowMouseEvent.CLICK, this.onCollapseToolbar);
 		}
@@ -107,9 +107,9 @@ export class BottomBarLeft
 		const toggleChildren: IWindow[] = [];
 		(this._window as IWindowContainer).groupChildrenWithTag('TOGGLE', toggleChildren, -1);
 
-		for(const child of toggleChildren)
+		for (const child of toggleChildren)
 		{
-			if(child)
+			if (child)
 			{
 				child.addEventListener(WindowMouseEvent.CLICK, this.onIconClick);
 				child.addEventListener(WindowMouseEvent.OVER, this.onIconHoverMouseEvent);
@@ -120,7 +120,7 @@ export class BottomBarLeft
 		// Find the MEMENU bitmap icon and load placeholder
 		const meMenuIcon = (this._window as IWindowContainer).findChildByName('icon_me_menu');
 
-		if(meMenuIcon)
+		if (meMenuIcon)
 		{
 			this._meMenuIcon = meMenuIcon as unknown as IBitmapWrapperWindow;
 			this.loadMeMenuPlaceholder();
@@ -133,7 +133,7 @@ export class BottomBarLeft
 
 		const gamesEnabled = toolbar.getBoolean('games_icon_enabled');
 
-		if(gamesEnabled)
+		if (gamesEnabled)
 		{
 			this.iconVisibility(HabboToolbarIconEnum.getIconName('HTIE_ICON_GAMES') ?? '', true);
 		}
@@ -215,11 +215,11 @@ export class BottomBarLeft
 	 */
 	set onDuty(value: boolean)
 	{
-		if(!this._window) return;
+		if (!this._window) return;
 
 		const guideIcon = (this._window as IWindowContainer).findChildByName('guide_icon');
 
-		if(guideIcon)
+		if (guideIcon)
 		{
 			guideIcon.visible = value;
 		}
@@ -261,12 +261,12 @@ export class BottomBarLeft
 	 */
 	public setToolbarState(state: string): void
 	{
-		if(!this._window)
+		if (!this._window)
 		{
 			return;
 		}
 
-		if(state === 'HTE_STATE_HIDDEN')
+		if (state === 'HTE_STATE_HIDDEN')
 		{
 			this._window.visible = false;
 			return;
@@ -274,7 +274,7 @@ export class BottomBarLeft
 
 		this._window.visible = true;
 
-		if(state !== 'HTE_STATE_COLLAPSED')
+		if (state !== 'HTE_STATE_COLLAPSED')
 		{
 			this._lastState = state;
 		}
@@ -286,31 +286,31 @@ export class BottomBarLeft
 		// Determine the visibility tag for this state
 		let visibilityTag: string | null = null;
 
-		switch(state)
+		switch (state)
 		{
 			case 'HTE_STATE_GAME_CENTER_VIEW':
 				visibilityTag = 'VISIBLE_GAME_CENTER';
-				this._window.position = { ...BottomBarLeft.DEFAULT_LOCATION };
+				this._window.position = {...BottomBarLeft.DEFAULT_LOCATION};
 				break;
 			case 'HTE_STATE_HOTEL_VIEW':
 				visibilityTag = 'VISIBLE_HOTEL';
-				this._window.position = { ...BottomBarLeft.LANDING_VIEW_LOCATION };
+				this._window.position = {...BottomBarLeft.LANDING_VIEW_LOCATION};
 				break;
 			case 'HTE_STATE_NOOB_NOT_HOME':
 				visibilityTag = 'VISIBLE_NOOB';
-				this._window.position = { ...BottomBarLeft.DEFAULT_LOCATION };
+				this._window.position = {...BottomBarLeft.DEFAULT_LOCATION};
 				break;
 			case 'HETE_STATE_NOOB_HOME':
 				visibilityTag = 'VISIBLE_ROOM';
-				this._window.position = { ...BottomBarLeft.DEFAULT_LOCATION };
+				this._window.position = {...BottomBarLeft.DEFAULT_LOCATION};
 				break;
 			case 'HTE_STATE_ROOM_VIEW':
 				visibilityTag = 'VISIBLE_ROOM';
-				this._window.position = { ...BottomBarLeft.DEFAULT_LOCATION };
+				this._window.position = {...BottomBarLeft.DEFAULT_LOCATION};
 				break;
 			case 'HTE_STATE_COLLAPSED':
 				visibilityTag = 'VISIBLE_COLLAPSED';
-				this._window.position = { ...BottomBarLeft.DEFAULT_LOCATION };
+				this._window.position = {...BottomBarLeft.DEFAULT_LOCATION};
 				break;
 		}
 
@@ -325,36 +325,36 @@ export class BottomBarLeft
 			));
 
 		// Set visibility of each TOGGLE child based on its tags
-		for(const child of toggleChildren)
+		for (const child of toggleChildren)
 		{
-			if(!child) continue;
+			if (!child) continue;
 
 			child.visible = visibilityTag !== null && child.tags.indexOf(visibilityTag) >= 0;
 
 			// Apply specific per-icon rules
-			if(child.name === 'QUESTS' && !this._collapsed)
+			if (child.name === 'QUESTS' && !this._collapsed)
 			{
 				child.visible = child.visible && !this._toolbar!.getBoolean('toolbar.hide.quests');
 			}
-			else if(child.name === 'STORIES' && !this._collapsed)
+			else if (child.name === 'STORIES' && !this._collapsed)
 			{
 				child.visible = child.visible && this._toolbar!.getBoolean('toolbar.stories.enabled');
 			}
-			else if(child.name === 'BUILDER' && !this._collapsed)
+			else if (child.name === 'BUILDER' && !this._collapsed)
 			{
 				child.visible = child.visible && this._toolbar!.getBoolean('builders.club.enabled');
 			}
-			else if(child.name === 'GAMES')
+			else if (child.name === 'GAMES')
 			{
 				child.visible = child.visible && this._toolbar!.getBoolean('games_icon_enabled');
 			}
-			else if(child.name === 'CAMERA')
+			else if (child.name === 'CAMERA')
 			{
 				const cameraPosition = this._toolbar!.getProperty('camera.launch.ui.position');
 				const cameraAllowed = this._toolbar!.sessionDataManager?.isPerkAllowed?.('CAMERA') ?? false;
 				child.visible = isRoomState && cameraPosition === 'bottom-icons' && cameraAllowed;
 			}
-			else if(child.name === 'WIRED_MENU')
+			else if (child.name === 'WIRED_MENU')
 			{
 				child.visible = false;
 			}
@@ -374,11 +374,11 @@ export class BottomBarLeft
 	 */
 	public iconVisibility(iconName: string, visible: boolean): void
 	{
-		if(!this._window || !iconName) return;
+		if (!this._window || !iconName) return;
 
 		const child = (this._window as IWindowContainer).findChildByName(iconName);
 
-		if(child)
+		if (child)
 		{
 			child.visible = visible;
 		}
@@ -395,16 +395,16 @@ export class BottomBarLeft
 	 */
 	public calculateNewWidth(): number
 	{
-		if(!this._window) return 1;
+		if (!this._window) return 1;
 
 		const toggleChildren: IWindow[] = [];
 		(this._window as IWindowContainer).groupChildrenWithTag('TOGGLE', toggleChildren, -1);
 
 		let count = 1;
 
-		for(const child of toggleChildren)
+		for (const child of toggleChildren)
 		{
-			if(child && child.visible)
+			if (child && child.visible)
 			{
 				count++;
 			}
@@ -425,17 +425,17 @@ export class BottomBarLeft
 	 */
 	public getIconLocation(iconId: string): { x: number; y: number; width: number; height: number } | null
 	{
-		if(!this._window) return null;
+		if (!this._window) return null;
 
 		const iconName = this.getIconChildName(iconId);
 
-		if(!iconName) return null;
+		if (!iconName) return null;
 
 		const child = (this._window as IWindowContainer).findChildByName(iconName);
 
-		if(child && child.visible)
+		if (child && child.visible)
 		{
-			const rect = { x: 0, y: 0, width: 0, height: 0 };
+			const rect = {x: 0, y: 0, width: 0, height: 0};
 			child.getGlobalRectangle(rect);
 			return rect;
 		}
@@ -454,7 +454,7 @@ export class BottomBarLeft
 	{
 		const iconName = HabboToolbarIconEnum.getIconName(iconId);
 
-		if(!iconName)
+		if (!iconName)
 		{
 			log.warn(`[Toolbar] Unknown icon type for unseen item counter for iconId: ${iconId}`);
 			return;
@@ -470,7 +470,7 @@ export class BottomBarLeft
 	 */
 	public isNewItemsNotificationEnabled(): boolean
 	{
-		if(!this._toolbar) return false;
+		if (!this._toolbar) return false;
 		return this._toolbar.getBoolean('toolbar.new_additions.notification.enabled');
 	}
 
@@ -484,15 +484,15 @@ export class BottomBarLeft
 	{
 		const parts = link.split('/');
 
-		if(parts.length < 2) return;
+		if (parts.length < 2) return;
 
-		switch(parts[1])
+		switch (parts[1])
 		{
 			case 'memenu':
 				this._meMenuController?.toggleVisibility();
 				break;
 			case 'highlight':
-				if(parts.length <= 2) return;
+				if (parts.length <= 2) return;
 				// Highlight handling is delegated to the UI layer
 				break;
 			default:
@@ -510,7 +510,7 @@ export class BottomBarLeft
 	 */
 	public getToolbarAreaWidth(): number
 	{
-		if(!this._lineSeparator || !this._lineSeparator.parent)
+		if (!this._lineSeparator || !this._lineSeparator.parent)
 		{
 			return 0;
 		}
@@ -529,7 +529,7 @@ export class BottomBarLeft
 	{
 		this._collapsed = !this._collapsed;
 
-		if(this._collapsed)
+		if (this._collapsed)
 		{
 			this.setToolbarState('HTE_STATE_COLLAPSED');
 		}
@@ -558,7 +558,7 @@ export class BottomBarLeft
 	 */
 	public animateToIcon(iconId: string, bitmap: ImageBitmap | null, startX: number, startY: number): Motion | null
 	{
-		if(!this._windowManager || !this._window) return null;
+		if (!this._windowManager || !this._window) return null;
 
 		const defaultSize = 20;
 		const bitmapWidth = bitmap ? bitmap.width : defaultSize;
@@ -570,10 +570,10 @@ export class BottomBarLeft
 			21, // BITMAP_WRAPPER type
 			0,
 			0,
-			{ x: startX, y: startY, width: bitmapWidth, height: bitmapHeight }
+			{x: startX, y: startY, width: bitmapWidth, height: bitmapHeight}
 		) as unknown as IBitmapWrapperWindow;
 
-		if(bitmap)
+		if (bitmap)
 		{
 			transitionWindow.bitmap = bitmap;
 			transitionWindow.disposesBitmap = true;
@@ -582,7 +582,7 @@ export class BottomBarLeft
 		// Add to the overlay desktop layer (layer 2)
 		const overlayDesktop = this._windowManager.getDesktop(2);
 
-		if(overlayDesktop)
+		if (overlayDesktop)
 		{
 			(overlayDesktop as unknown as IWindowContainer).addChild(transitionWindow as unknown as IWindow);
 		}
@@ -591,22 +591,22 @@ export class BottomBarLeft
 		const iconChildName = this.getIconChildName(iconId);
 		let targetWindow: IWindow | null = null;
 
-		if(iconChildName)
+		if (iconChildName)
 		{
 			targetWindow = (this._window as IWindowContainer).findChildByName(iconChildName);
 		}
 
-		if(!targetWindow)
+		if (!targetWindow)
 		{
 			(transitionWindow as unknown as IWindow).dispose();
 			return null;
 		}
 
 		// Calculate positions
-		const sourceRect = { x: 0, y: 0, width: 0, height: 0 };
+		const sourceRect = {x: 0, y: 0, width: 0, height: 0};
 		(transitionWindow as unknown as IWindow).getGlobalRectangle(sourceRect);
 
-		const targetRect = { x: 0, y: 0, width: 0, height: 0 };
+		const targetRect = {x: 0, y: 0, width: 0, height: 0};
 		targetWindow.getGlobalRectangle(targetRect);
 
 		const dx = sourceRect.x - targetRect.x;
@@ -620,7 +620,7 @@ export class BottomBarLeft
 		// DropBounce on the target icon when the fly animation arrives
 		const bounceTag = 'ToolBarBouncing[ ' + iconChildName + ' ]';
 
-		if(!Motions.getMotionByTag(bounceTag))
+		if (!Motions.getMotionByTag(bounceTag))
 		{
 			Motions.runMotion(
 				new Queue(new Wait(duration + 8), new DropBounce(targetWindow, 400, 12))
@@ -659,9 +659,9 @@ export class BottomBarLeft
 	 */
 	public setIconBitmap(iconId: string, bitmap: ImageBitmap | null): void
 	{
-		if(iconId !== 'HTIE_ICON_MEMENU') return;
+		if (iconId !== 'HTIE_ICON_MEMENU') return;
 
-		if(this._meMenuIcon)
+		if (this._meMenuIcon)
 		{
 			this._meMenuIcon.bitmapData = bitmap;
 			(this._meMenuIcon as unknown as IWindow).invalidate();
@@ -675,21 +675,21 @@ export class BottomBarLeft
 	 */
 	public dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
-		if(this._meMenuController)
+		if (this._meMenuController)
 		{
 			this._meMenuController.dispose();
 			this._meMenuController = null;
 		}
 
-		if(this._window)
+		if (this._window)
 		{
 			this._window.dispose();
 			this._window = null;
 		}
 
-		if(this._newItemsLabel)
+		if (this._newItemsLabel)
 		{
 			this._newItemsLabel.dispose();
 			this._newItemsLabel = null;
@@ -728,17 +728,17 @@ export class BottomBarLeft
 	 */
 	private checkSize(): void
 	{
-		if(!this._window || !this._windowManager)
+		if (!this._window || !this._windowManager)
 		{
 			return;
 		}
 
-		if(this._leftArrow)
+		if (this._leftArrow)
 		{
 			this._leftArrow.visible = !this._collapsed;
 		}
 
-		if(this._rightArrow)
+		if (this._rightArrow)
 		{
 			this._rightArrow.visible = this._collapsed;
 		}
@@ -746,7 +746,7 @@ export class BottomBarLeft
 		// Position at the bottom of the desktop
 		const desktop = this._window.desktop;
 
-		if(desktop)
+		if (desktop)
 		{
 			this._window.y = desktop.height - this._window.height;
 		}
@@ -755,7 +755,7 @@ export class BottomBarLeft
 		this._window.width = BottomBarLeft.ICON_REGION_WIDTH * this.calculateNewWidth()
 			+ BottomBarLeft.WINDOW_RIGHT_PADDING + 150;
 
-		if(!this._collapsed && this._meMenuController)
+		if (!this._collapsed && this._meMenuController)
 		{
 			this._meMenuController.reposition();
 		}
@@ -770,11 +770,11 @@ export class BottomBarLeft
 	 */
 	private onIconClick = (event: WindowEvent): void =>
 	{
-		if(!this._toolbar) return;
+		if (!this._toolbar) return;
 
 		const window = event.window;
 
-		if(!window) return;
+		if (!window) return;
 
 		const iconName = window.name;
 
@@ -782,7 +782,7 @@ export class BottomBarLeft
 
 		this._toolbar.toggleWindowVisibility(iconName);
 
-		if(this._windowManager)
+		if (this._windowManager)
 		{
 			this._windowManager.hideMatchingHint(iconName);
 		}
@@ -800,12 +800,12 @@ export class BottomBarLeft
 	{
 		const target = event.window as unknown as IWindowContainer;
 
-		if(!target) return;
+		if (!target) return;
 
 		const iconBorder = target.findChildByTag?.('ICON_BORDER') as IWindowContainer | null;
 		const iconBmp = target.findChildByTag?.('ICON_BMP') ?? null;
 
-		switch(event.type)
+		switch (event.type)
 		{
 			case WindowMouseEvent.OVER:
 				this.setIconHoverState(iconBmp, BottomBarLeft.ICON_MOUSE_OVER);
@@ -828,17 +828,17 @@ export class BottomBarLeft
 	 */
 	private setIconHoverState(iconBmp: IWindow | null, suffix: string): void
 	{
-		if(!iconBmp) return;
+		if (!iconBmp) return;
 
 		// IStaticBitmapWrapperWindow — swap between _normal and _hover variants
 		const sbmp = iconBmp as unknown as IStaticBitmapWrapperWindow;
 
-		if(typeof sbmp.assetUri === 'string')
+		if (typeof sbmp.assetUri === 'string')
 		{
 			// Only swap if the current assetUri already has a _normal/_hover suffix.
 			// Assets loaded from the XML variable (e.g. "bottom_bar_home") have no
 			// suffix and no hover variants — skip the swap for those.
-			if(sbmp.assetUri.endsWith('_normal') || sbmp.assetUri.endsWith('_hover'))
+			if (sbmp.assetUri.endsWith('_normal') || sbmp.assetUri.endsWith('_hover'))
 			{
 				const base = sbmp.assetUri.replace(/_(?:normal|hover)$/, '');
 				sbmp.assetUri = base + suffix;
@@ -850,7 +850,7 @@ export class BottomBarLeft
 		// IBitmapWrapperWindow (me menu icon) — restore cached bitmap
 		const bbmp = iconBmp as unknown as IBitmapWrapperWindow;
 
-		if(bbmp.bitmapData !== undefined && iconBmp.name === BottomBarLeft.ME_MENU_ICON_NAME)
+		if (bbmp.bitmapData !== undefined && iconBmp.name === BottomBarLeft.ME_MENU_ICON_NAME)
 		{
 			// In AS3, restores var_2595 (_meMenuNormalBitmap)
 			// For now, we don't swap — the me menu always shows its current bitmap
@@ -864,9 +864,9 @@ export class BottomBarLeft
 	 */
 	private setIconBgHoverState(border: IWindowContainer | null, suffix: string): void
 	{
-		if(!border) return;
+		if (!border) return;
 
-		if(suffix === BottomBarLeft.ICON_MOUSE_OVER)
+		if (suffix === BottomBarLeft.ICON_MOUSE_OVER)
 		{
 			(border as unknown as IWindow).color = BottomBarLeft.ICON_BG_COLOR_OVER;
 		}
@@ -895,29 +895,29 @@ export class BottomBarLeft
 	 */
 	private loadMeMenuPlaceholder(): void
 	{
-		if(!this._meMenuIcon || !this._window) return;
+		if (!this._meMenuIcon || !this._window) return;
 
 		const context = (this._window as unknown as IWindow).context;
 
-		if(!context) return;
+		if (!context) return;
 
 		const resourceManager = context.getResourceManager();
 
-		if(!resourceManager) return;
+		if (!resourceManager) return;
 
 		const iconWindow = this._meMenuIcon;
 		const receiver: IAssetReceiver =
-		{
-			disposed: false,
-			receiveAsset(bitmap: ImageBitmap): void
 			{
-				if(iconWindow)
+				disposed: false,
+				receiveAsset(bitmap: ImageBitmap): void
 				{
-					iconWindow.bitmapData = bitmap;
-					(iconWindow as unknown as IWindow).invalidate();
+					if (iconWindow)
+					{
+						iconWindow.bitmapData = bitmap;
+						(iconWindow as unknown as IWindow).invalidate();
+					}
 				}
-			}
-		};
+			};
 
 		resourceManager.retrieveAsset('icons_toolbar_me_menu_placeholder', receiver);
 	}

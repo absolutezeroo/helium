@@ -1,2 +1,2 @@
 // Exports
-export { ToolbarHoverCtrl } from './ToolbarHoverCtrl';
+export {ToolbarHoverCtrl} from './ToolbarHoverCtrl';

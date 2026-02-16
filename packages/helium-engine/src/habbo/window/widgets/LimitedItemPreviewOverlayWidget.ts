@@ -32,7 +32,7 @@ export class LimitedItemPreviewOverlayWidget implements ILimitedItemPreviewOverl
 
 		const root = this._windowManager.buildWidgetLayout('unique_item_overlay_preview') as IWindowContainer | null;
 
-		if(root)
+		if (root)
 		{
 			this._root = root;
 
@@ -58,11 +58,11 @@ export class LimitedItemPreviewOverlayWidget implements ILimitedItemPreviewOverl
 	{
 		this._serialNumber = value;
 
-		if(this._root)
+		if (this._root)
 		{
 			const serialBitmap = this._root.findChildByName('unique_item_serial_number_bitmap');
 
-			if(serialBitmap)
+			if (serialBitmap)
 			{
 				serialBitmap.caption = String(value);
 			}
@@ -80,11 +80,11 @@ export class LimitedItemPreviewOverlayWidget implements ILimitedItemPreviewOverl
 	{
 		this._seriesSize = value;
 
-		if(this._root)
+		if (this._root)
 		{
 			const editionBitmap = this._root.findChildByName('unique_item_edition_size_bitmap');
 
-			if(editionBitmap)
+			if (editionBitmap)
 			{
 				editionBitmap.caption = String(value);
 			}
@@ -103,17 +103,17 @@ export class LimitedItemPreviewOverlayWidget implements ILimitedItemPreviewOverl
 
 	public dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		this._disposed = true;
 
-		if(this._root)
+		if (this._root)
 		{
 			this._root.dispose();
 			this._root = null;
 		}
 
-		if(this._widgetWindow)
+		if (this._widgetWindow)
 		{
 			this._widgetWindow.rootWindow = null;
 		}

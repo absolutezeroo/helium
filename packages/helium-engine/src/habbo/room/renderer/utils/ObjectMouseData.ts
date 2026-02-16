@@ -11,7 +11,6 @@
 export class ObjectMouseData
 {
 	private _objectId: string = '';
-	private _spriteTag: string = '';
 
 	get objectId(): string
 	{
@@ -22,6 +21,8 @@ export class ObjectMouseData
 	{
 		this._objectId = value;
 	}
+
+	private _spriteTag: string = '';
 
 	get spriteTag(): string
 	{

@@ -1,4 +1,4 @@
-import type { IHabboWindowManager } from '../IHabboWindowManager';
+import type {IHabboWindowManager} from '../IHabboWindowManager';
 
 /**
  * Link event handler for "habblet/" prefixed URLs.
@@ -9,65 +9,66 @@ import type { IHabboWindowManager } from '../IHabboWindowManager';
  */
 export class HabbletLinkHandler
 {
-    private _windowManager: IHabboWindowManager;
-    private _disposed: boolean = false;
+	private _windowManager: IHabboWindowManager;
 
-    constructor(windowManager: IHabboWindowManager)
-    {
-        this._windowManager = windowManager;
-    }
+	constructor(windowManager: IHabboWindowManager)
+	{
+		this._windowManager = windowManager;
+	}
 
-    /**
-     * The link pattern this handler matches.
-     */
-    public get linkPattern(): string
-    {
-        return 'habblet/';
-    }
+	private _disposed: boolean = false;
 
-    /**
-     * Handles a received link URL.
-     *
-     * Supported patterns:
-     * - "habblet/open/credits" -> Opens web shop
-     * - "habblet/open/<name>" -> Opens web habblet
-     */
-    public linkReceived(link: string): void
-    {
-        const parts = link.split('/');
+	public get disposed(): boolean
+	{
+		return this._disposed;
+	}
 
-        if(parts.length < 3) return;
+	/**
+	 * The link pattern this handler matches.
+	 */
+	public get linkPattern(): string
+	{
+		return 'habblet/';
+	}
 
-        const action = parts[1];
-        const target = parts[2];
+	/**
+	 * Handles a received link URL.
+	 *
+	 * Supported patterns:
+	 * - "habblet/open/credits" -> Opens web shop
+	 * - "habblet/open/<name>" -> Opens web habblet
+	 */
+	public linkReceived(link: string): void
+	{
+		const parts = link.split('/');
 
-        if(action === 'open')
-        {
-            if(target === 'credits')
-            {
-                // In AS3: HabboWebTools.openWebPageAndMinimizeClient()
-                // Opens the web shop URL
-            }
-            else
-            {
-                // In AS3: HabboWebTools.openWebHabblet(target)
-                // Opens the named web habblet
-            }
-        }
-    }
+		if (parts.length < 3) return;
 
-    public get disposed(): boolean
-    {
-        return this._disposed;
-    }
+		const action = parts[1];
+		const target = parts[2];
 
-    /**
-     * Dispose the link handler.
-     */
-    public dispose(): void
-    {
-        if(this._disposed) return;
+		if (action === 'open')
+		{
+			if (target === 'credits')
+			{
+				// In AS3: HabboWebTools.openWebPageAndMinimizeClient()
+				// Opens the web shop URL
+			}
+			else
+			{
+				// In AS3: HabboWebTools.openWebHabblet(target)
+				// Opens the named web habblet
+			}
+		}
+	}
 
-        this._disposed = true;
-    }
+	/**
+	 * Dispose the link handler.
+	 */
+	public dispose(): void
+	{
+		if (this._disposed) return;
+
+		this._disposed = true;
+	}
 }

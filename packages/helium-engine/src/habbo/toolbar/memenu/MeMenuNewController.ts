@@ -20,10 +20,7 @@ const log = Logger.getLogger('MeMenuNewController');
 export class MeMenuNewController
 {
 	public static readonly USE_GUIDE_TOOL: string = 'USE_GUIDE_TOOL';
-
-	private _toolbar: HabboToolbar | null;
 	private _bottomBarLeft: BottomBarLeft | null;
-	private _visible: boolean = false;
 	private _iconLoader: MeMenuNewIconLoader | null;
 	private _settingsView: MeMenuSettingsMenuView | null = null;
 	private _unseenItemCounters: Map<string, number> = new Map();
@@ -39,17 +36,37 @@ export class MeMenuNewController
 			this.onToolbarClick.bind(this)
 		);
 
-		if(!toolbar.getBoolean('guides.enabled'))
+		if (!toolbar.getBoolean('guides.enabled'))
 		{
 			// Guide tool hidden
 		}
 
-		if(!toolbar.getBoolean('classic.collectibles.hub.enabled') || !toolbar.getBoolean('collectibles.hub.enabled'))
+		if (!toolbar.getBoolean('classic.collectibles.hub.enabled') || !toolbar.getBoolean('collectibles.hub.enabled'))
 		{
 			// Collectibles hidden
 		}
 
 		log.debug('MeMenuNewController constructed');
+	}
+
+	private _toolbar: HabboToolbar | null;
+
+	/**
+	 * The toolbar reference
+	 */
+	get toolbar(): HabboToolbar | null
+	{
+		return this._toolbar;
+	}
+
+	private _visible: boolean = false;
+
+	/**
+	 * Whether the me menu is visible
+	 */
+	get visible(): boolean
+	{
+		return this._visible;
 	}
 
 	/**
@@ -61,19 +78,27 @@ export class MeMenuNewController
 	}
 
 	/**
-	 * The toolbar reference
+	 * Set the unseen achievements count
 	 */
-	get toolbar(): HabboToolbar | null
+	set unseenAchievementsCount(value: number)
 	{
-		return this._toolbar;
+		this.setUnseenItemCount('achievements', value);
 	}
 
 	/**
-	 * Whether the me menu is visible
+	 * Set the unseen minimails count
 	 */
-	get visible(): boolean
+	set unseenMinimailsCount(value: number)
 	{
-		return this._visible;
+		this.setUnseenItemCount('minimail', value);
+	}
+
+	/**
+	 * Set the unseen forums count
+	 */
+	set unseenForumsCount(value: number)
+	{
+		this.setUnseenItemCount('forums', value);
 	}
 
 	/**
@@ -81,7 +106,7 @@ export class MeMenuNewController
 	 */
 	public toggleVisibility(): void
 	{
-		if(this._settingsView)
+		if (this._settingsView)
 		{
 			this._settingsView.dispose();
 			this._settingsView = null;
@@ -89,17 +114,17 @@ export class MeMenuNewController
 
 		this._visible = !this._visible;
 
-		if(this._visible && this._toolbar)
+		if (this._visible && this._toolbar)
 		{
 			const talentTrackEnabled = this._toolbar.getBoolean('talent.track.enabled');
 			const guidesEnabled = this._toolbar.getBoolean('guides.enabled');
 
-			if(!talentTrackEnabled)
+			if (!talentTrackEnabled)
 			{
 				log.debug('Talents section hidden');
 			}
 
-			if(guidesEnabled && this._toolbar.sessionDataManager)
+			if (guidesEnabled && this._toolbar.sessionDataManager)
 			{
 				const hasPerk = this._toolbar.sessionDataManager.isPerkAllowed(MeMenuNewController.USE_GUIDE_TOOL);
 				log.debug(`Guide tool visibility: ${hasPerk}`);
@@ -127,9 +152,9 @@ export class MeMenuNewController
 	{
 		this._visible = false;
 
-		if(!this._toolbar) return;
+		if (!this._toolbar) return;
 
-		switch(itemName)
+		switch (itemName)
 		{
 			case 'profile':
 				// In AS3: connection.send(new GetExtendedProfileMessageComposer(userId))
@@ -188,30 +213,6 @@ export class MeMenuNewController
 	}
 
 	/**
-	 * Set the unseen achievements count
-	 */
-	set unseenAchievementsCount(value: number)
-	{
-		this.setUnseenItemCount('achievements', value);
-	}
-
-	/**
-	 * Set the unseen minimails count
-	 */
-	set unseenMinimailsCount(value: number)
-	{
-		this.setUnseenItemCount('minimail', value);
-	}
-
-	/**
-	 * Set the unseen forums count
-	 */
-	set unseenForumsCount(value: number)
-	{
-		this.setUnseenItemCount('forums', value);
-	}
-
-	/**
 	 * Set unseen item count for a category
 	 *
 	 * @param category The category name
@@ -233,44 +234,26 @@ export class MeMenuNewController
 		return this._unseenItemCounters.get(category) ?? 0;
 	}
 
-	private onToolbarClick(event: HabboToolbarEvent): void
-	{
-		if(event.iconId === 'HTIE_ICON_MEMENU')
-		{
-			this.toggleVisibility();
-		}
-		else
-		{
-			this._visible = false;
-
-			if(this._settingsView)
-			{
-				this._settingsView.dispose();
-				this._settingsView = null;
-			}
-		}
-	}
-
 	/**
 	 * Dispose of this controller
 	 */
 	public dispose(): void
 	{
-		if(this.disposed) return;
+		if (this.disposed) return;
 
-		if(this._settingsView)
+		if (this._settingsView)
 		{
 			this._settingsView.dispose();
 			this._settingsView = null;
 		}
 
-		if(this._iconLoader)
+		if (this._iconLoader)
 		{
 			this._iconLoader.dispose();
 			this._iconLoader = null;
 		}
 
-		if(this._toolbar)
+		if (this._toolbar)
 		{
 			this._toolbar.toolbarEvents.off(
 				HabboToolbarEvent.TOOLBAR_CLICK,
@@ -281,5 +264,23 @@ export class MeMenuNewController
 		this._unseenItemCounters.clear();
 		this._bottomBarLeft = null;
 		this._toolbar = null;
+	}
+
+	private onToolbarClick(event: HabboToolbarEvent): void
+	{
+		if (event.iconId === 'HTIE_ICON_MEMENU')
+		{
+			this.toggleVisibility();
+		}
+		else
+		{
+			this._visible = false;
+
+			if (this._settingsView)
+			{
+				this._settingsView.dispose();
+				this._settingsView = null;
+			}
+		}
 	}
 }

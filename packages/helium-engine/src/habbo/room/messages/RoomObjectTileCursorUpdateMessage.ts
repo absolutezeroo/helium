@@ -19,7 +19,7 @@ export class RoomObjectTileCursorUpdateMessage extends RoomObjectUpdateMessage
 	)
 	{
 		super(location, null);
-		
+
 		this._height = height;
 		this._visible = visible;
 		this._sourceEventId = sourceEventId;

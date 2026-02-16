@@ -18,9 +18,6 @@ export class SettingsExtension
 	private static readonly PADDING: number = 7;
 
 	private _toolbar: HabboToolbar | null;
-	private _disposed: boolean = false;
-	private _visible: boolean = false;
-	private _buttons: string[] = [];
 
 	constructor(toolbar: HabboToolbar)
 	{
@@ -35,6 +32,8 @@ export class SettingsExtension
 		log.debug('SettingsExtension constructed');
 	}
 
+	private _disposed: boolean = false;
+
 	/**
 	 * Whether the extension is disposed
 	 */
@@ -42,6 +41,8 @@ export class SettingsExtension
 	{
 		return this._disposed;
 	}
+
+	private _visible: boolean = false;
 
 	/**
 	 * Whether the settings panel is visible
@@ -55,6 +56,8 @@ export class SettingsExtension
 	{
 		this._visible = value;
 	}
+
+	private _buttons: string[] = [];
 
 	/**
 	 * The list of button identifiers
@@ -71,7 +74,7 @@ export class SettingsExtension
 	 */
 	public onButtonClick(buttonName: string): void
 	{
-		switch(buttonName)
+		switch (buttonName)
 		{
 			case 'avatar_settings':
 				// Open avatar settings
@@ -90,7 +93,7 @@ export class SettingsExtension
 	 */
 	public dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		this._disposed = true;
 		this._toolbar = null;

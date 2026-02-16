@@ -1,5 +1,5 @@
-import type { IMessageParser } from '@core/communication/messages/IMessageParser';
-import type { IMessageDataWrapper } from '@core/communication/messages/IMessageDataWrapper';
+import type {IMessageParser} from '@core/communication/messages/IMessageParser';
+import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
 
 /**
  * Parses chat review session offered to guide data from the server.
@@ -9,6 +9,11 @@ import type { IMessageDataWrapper } from '@core/communication/messages/IMessageD
 export class ChatReviewSessionOfferedToGuideMessageParser implements IMessageParser
 {
 	private _acceptanceTimeout: number = -1;
+
+	get acceptanceTimeout(): number
+	{
+		return this._acceptanceTimeout;
+	}
 
 	flush(): boolean
 	{
@@ -22,10 +27,5 @@ export class ChatReviewSessionOfferedToGuideMessageParser implements IMessagePar
 
 		this._acceptanceTimeout = wrapper.readInt();
 		return true;
-	}
-
-	get acceptanceTimeout(): number
-	{
-		return this._acceptanceTimeout;
 	}
 }

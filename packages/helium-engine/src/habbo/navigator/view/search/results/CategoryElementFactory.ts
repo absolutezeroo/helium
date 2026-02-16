@@ -1,12 +1,12 @@
-import type { IWindow } from '@core/window/IWindow';
-import type { IWindowContainer } from '@core/window/IWindowContainer';
-import type { IItemListWindow } from '@core/window/components/IItemListWindow';
-import type { WindowEvent } from '@core/window/events/WindowEvent';
-import type { GuestRoomData } from '@habbo/communication/messages/incoming/navigator/GuestRoomData';
-import type { HabboNewNavigator } from '../../../HabboNewNavigator';
-import type { BlockResultsView } from './BlockResultsView';
-import type { RoomEntryElementFactory } from './RoomEntryElementFactory';
-import { NavigatorSearchAction } from '@habbo/communication/messages/incoming/newnavigator/NavigatorSearchResultBlock';
+import type {IWindow} from '@core/window/IWindow';
+import type {IWindowContainer} from '@core/window/IWindowContainer';
+import type {IItemListWindow} from '@core/window/components/IItemListWindow';
+import type {WindowEvent} from '@core/window/events/WindowEvent';
+import type {GuestRoomData} from '@habbo/communication/messages/incoming/navigator/GuestRoomData';
+import type {HabboNewNavigator} from '../../../HabboNewNavigator';
+import type {BlockResultsView} from './BlockResultsView';
+import type {RoomEntryElementFactory} from './RoomEntryElementFactory';
+import {NavigatorSearchAction} from '@habbo/communication/messages/incoming/newnavigator/NavigatorSearchResultBlock';
 
 /**
  * Factory for creating category elements in navigator search results.
@@ -21,11 +21,7 @@ export class CategoryElementFactory
 	private static readonly MARGIN_LAYOUT_CATEGORY_CONTAINER: number = 13;
 
 	private _navigator: HabboNewNavigator;
-	private _blockResultsView: BlockResultsView | null = null;
 	private _roomEntryElementFactory: RoomEntryElementFactory;
-	private _categoryTemplate: IWindowContainer | null = null;
-	private _collapsedCategoryTemplate: IWindowContainer | null = null;
-	private _noResultsTemplate: IWindowContainer | null = null;
 
 	constructor(navigator: HabboNewNavigator, roomEntryElementFactory: RoomEntryElementFactory)
 	{
@@ -33,20 +29,28 @@ export class CategoryElementFactory
 		this._roomEntryElementFactory = roomEntryElementFactory;
 	}
 
+	private _blockResultsView: BlockResultsView | null = null;
+
 	set blockResultsView(value: BlockResultsView)
 	{
 		this._blockResultsView = value;
 	}
+
+	private _categoryTemplate: IWindowContainer | null = null;
 
 	set categoryTemplate(value: IWindowContainer)
 	{
 		this._categoryTemplate = value;
 	}
 
+	private _collapsedCategoryTemplate: IWindowContainer | null = null;
+
 	set collapsedCategoryTemplate(value: IWindowContainer)
 	{
 		this._collapsedCategoryTemplate = value;
 	}
+
+	private _noResultsTemplate: IWindowContainer | null = null;
 
 	set noResultsTemplate(value: IWindowContainer)
 	{
@@ -81,7 +85,7 @@ export class CategoryElementFactory
 		// Set category name
 		const nameEl = container.findChildByName('category_name');
 
-		if(nameEl)
+		if (nameEl)
 		{
 			nameEl.caption = title;
 		}
@@ -89,7 +93,7 @@ export class CategoryElementFactory
 		// Wire back button
 		const backEl = container.findChildByName('category_back');
 
-		if(backEl)
+		if (backEl)
 		{
 			backEl.addEventListener('WME_CLICK', (e: WindowEvent) => this._blockResultsView?.onCategoryBackClicked(e));
 			backEl.visible = actionAllowed === NavigatorSearchAction.CAN_EXPAND;
@@ -98,7 +102,7 @@ export class CategoryElementFactory
 		// Wire collapse button
 		const collapseEl = container.findChildByName('category_collapse');
 
-		if(collapseEl)
+		if (collapseEl)
 		{
 			collapseEl.visible = actionAllowed !== NavigatorSearchAction.CAN_EXPAND;
 			collapseEl.id = showMoreId;
@@ -108,7 +112,7 @@ export class CategoryElementFactory
 		// Wire category name region (clickable to collapse)
 		const nameRegion = container.findChildByName('category_name_region');
 
-		if(nameRegion)
+		if (nameRegion)
 		{
 			nameRegion.id = showMoreId;
 			nameRegion.addEventListener('WME_CLICK', (e: WindowEvent) => this._blockResultsView?.onCategoryCollapseClicked(e));
@@ -117,7 +121,7 @@ export class CategoryElementFactory
 		// Wire show more button
 		const showMoreEl = container.findChildByName('category_show_more');
 
-		if(showMoreEl)
+		if (showMoreEl)
 		{
 			showMoreEl.id = showMoreId;
 			showMoreEl.addEventListener('WME_CLICK', (e: WindowEvent) => this._blockResultsView?.onCategoryShowMoreClicked(e));
@@ -127,7 +131,7 @@ export class CategoryElementFactory
 		// Wire add quick link button
 		const addQuickLink = container.findChildByName('category_add_quick_link');
 
-		if(addQuickLink)
+		if (addQuickLink)
 		{
 			addQuickLink.id = showMoreId;
 			addQuickLink.addEventListener('WME_CLICK', (e: WindowEvent) => this._blockResultsView?.onCategoryAddQuickLinkClicked(e));
@@ -140,7 +144,7 @@ export class CategoryElementFactory
 		// Set background
 		const bgEl = container.findChildByName('category_content_background');
 
-		if(bgEl)
+		if (bgEl)
 		{
 			bgEl.background = true;
 			bgEl.height = 12 + this._roomEntryElementFactory.rowEntryTemplateHeight * (guestRooms.length + 1);
@@ -149,19 +153,19 @@ export class CategoryElementFactory
 		// Wire toggle tiles/rows buttons
 		const headerControls = container.findChildByName('category_controls_itemlist') as IItemListWindow | null;
 
-		if(headerControls)
+		if (headerControls)
 		{
 			const toggleTiles = headerControls.getListItemByName?.('category_toggle_tiles');
 			const toggleRows = headerControls.getListItemByName?.('category_toggle_rows');
 
-			if(toggleTiles)
+			if (toggleTiles)
 			{
 				toggleTiles.addEventListener('WME_CLICK', (e: WindowEvent) => this._blockResultsView?.onCategoryToggleModeClicked(e));
 				toggleTiles.id = showMoreId;
 				toggleTiles.visible = resultMode === 0;
 			}
 
-			if(toggleRows)
+			if (toggleRows)
 			{
 				toggleRows.addEventListener('WME_CLICK', (e: WindowEvent) => this._blockResultsView?.onCategoryToggleModeClicked(e));
 				toggleRows.id = showMoreId;
@@ -174,9 +178,9 @@ export class CategoryElementFactory
 		// Populate room list
 		const roomList = container.findChildByName('category_content') as IItemListWindow | null;
 
-		if(roomList)
+		if (roomList)
 		{
-			if(resultMode === 0)
+			if (resultMode === 0)
 			{
 				roomList.spacing = 0;
 			}
@@ -185,18 +189,18 @@ export class CategoryElementFactory
 			let colorModAccumulator = 1;
 			let currentTileContainer: IItemListWindow | null = null;
 
-			for(const guestRoom of guestRooms)
+			for (const guestRoom of guestRooms)
 			{
 				const alternatingColor = colorModAccumulator % 2 === 0 ? -1 : colorMod;
 
-				if(resultMode === 0)
+				if (resultMode === 0)
 				{
 					roomList.addListItem(this._roomEntryElementFactory.getNewRowElement(guestRoom, alternatingColor));
 					colorModAccumulator++;
 				}
 				else
 				{
-					if(!currentTileContainer)
+					if (!currentTileContainer)
 					{
 						currentTileContainer = this._roomEntryElementFactory.getNewTileContainerElement();
 						roomList.addListItem(currentTileContainer as unknown as IWindow);
@@ -206,7 +210,7 @@ export class CategoryElementFactory
 						this._roomEntryElementFactory.getNewTileElement(guestRoom, alternatingColor)
 					);
 
-					if(currentTileContainer.numListItems >= 3)
+					if (currentTileContainer.numListItems >= 3)
 					{
 						currentTileContainer = null;
 						colorModAccumulator++;
@@ -236,14 +240,14 @@ export class CategoryElementFactory
 
 		const nameEl = container.findChildByName('category_name');
 
-		if(nameEl)
+		if (nameEl)
 		{
 			nameEl.caption = title;
 		}
 
 		const showMoreEl = container.findChildByName('category_show_more');
 
-		if(showMoreEl)
+		if (showMoreEl)
 		{
 			showMoreEl.id = showMoreId;
 			showMoreEl.addEventListener('WME_CLICK', (e: WindowEvent) => this._blockResultsView?.onCategoryShowMoreClicked(e));
@@ -252,7 +256,7 @@ export class CategoryElementFactory
 
 		const expandEl = container.findChildByName('category_expand');
 
-		if(expandEl)
+		if (expandEl)
 		{
 			expandEl.addEventListener('WME_CLICK', (e: WindowEvent) => this._blockResultsView?.onCategoryExpandClicked(e));
 			expandEl.id = showMoreId;
@@ -260,7 +264,7 @@ export class CategoryElementFactory
 
 		const nameRegion = container.findChildByName('category_name_region');
 
-		if(nameRegion)
+		if (nameRegion)
 		{
 			nameRegion.addEventListener('WME_CLICK', (e: WindowEvent) => this._blockResultsView?.onCategoryExpandClicked(e));
 			nameRegion.id = showMoreId;
@@ -268,7 +272,7 @@ export class CategoryElementFactory
 
 		const addQuickLink = container.findChildByName('category_add_quick_link');
 
-		if(addQuickLink)
+		if (addQuickLink)
 		{
 			addQuickLink.addEventListener('WME_CLICK', (e: WindowEvent) => this._blockResultsView?.onCategoryAddQuickLinkClicked(e));
 			addQuickLink.id = showMoreId;
@@ -282,7 +286,7 @@ export class CategoryElementFactory
 
 		const controlsList = container.findChildByName('category_controls_itemlist') as IItemListWindow | null;
 
-		if(controlsList)
+		if (controlsList)
 		{
 			controlsList.arrangeItems();
 		}

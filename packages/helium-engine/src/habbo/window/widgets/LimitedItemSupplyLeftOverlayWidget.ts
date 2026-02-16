@@ -33,7 +33,7 @@ export class LimitedItemSupplyLeftOverlayWidget implements ILimitedItemSupplyLef
 
 		const root = this._windowManager.buildWidgetLayout('unique_item_overlay_supply') as IWindowContainer | null;
 
-		if(root)
+		if (root)
 		{
 			this._root = root;
 
@@ -59,18 +59,18 @@ export class LimitedItemSupplyLeftOverlayWidget implements ILimitedItemSupplyLef
 	{
 		this._supplyLeft = value;
 
-		if(this._root)
+		if (this._root)
 		{
 			const leftCount = this._root.findChildByName('items_left_count');
 
-			if(leftCount)
+			if (leftCount)
 			{
 				leftCount.caption = String(value);
 			}
 
 			const soldOutBitmap = this._root.findChildByName('unique_item_sold_out_bitmap');
 
-			if(soldOutBitmap)
+			if (soldOutBitmap)
 			{
 				soldOutBitmap.visible = (value <= 0);
 			}
@@ -88,11 +88,11 @@ export class LimitedItemSupplyLeftOverlayWidget implements ILimitedItemSupplyLef
 	{
 		this._seriesSize = value;
 
-		if(this._root)
+		if (this._root)
 		{
 			const totalCount = this._root.findChildByName('items_total_count');
 
-			if(totalCount)
+			if (totalCount)
 			{
 				totalCount.caption = String(value);
 			}
@@ -130,17 +130,17 @@ export class LimitedItemSupplyLeftOverlayWidget implements ILimitedItemSupplyLef
 
 	public dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		this._disposed = true;
 
-		if(this._root)
+		if (this._root)
 		{
 			this._root.dispose();
 			this._root = null;
 		}
 
-		if(this._widgetWindow)
+		if (this._widgetWindow)
 		{
 			this._widgetWindow.rootWindow = null;
 		}

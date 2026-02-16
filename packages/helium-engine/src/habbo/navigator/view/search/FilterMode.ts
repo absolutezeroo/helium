@@ -25,9 +25,9 @@ export class FilterMode
 	 */
 	static filterInInput(input: string): number
 	{
-		for(let i = 1; i < FilterMode.FILTER_PREFIX.length; i++)
+		for (let i = 1; i < FilterMode.FILTER_PREFIX.length; i++)
 		{
-			if(input.indexOf(FilterMode.FILTER_PREFIX[i]) === 0)
+			if (input.indexOf(FilterMode.FILTER_PREFIX[i]) === 0)
 			{
 				return i;
 			}

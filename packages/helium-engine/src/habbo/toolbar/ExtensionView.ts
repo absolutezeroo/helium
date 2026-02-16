@@ -23,10 +23,7 @@ export class ExtensionView implements IExtensionView
 	private _toolbar: HabboToolbar | null;
 	private _items: Map<string, unknown> = new Map();
 	private _disposed: boolean = false;
-	private _landingView: boolean = false;
 	private _orderedItems: Array<{ id: string; element: unknown }> = [];
-	private _extraMargin: number = 0;
-	private _visible: boolean = true;
 
 	constructor(toolbar: HabboToolbar)
 	{
@@ -34,6 +31,39 @@ export class ExtensionView implements IExtensionView
 
 		log.debug('ExtensionView constructed');
 	}
+
+	private _landingView: boolean = false;
+
+	/**
+	 * Whether the landing view mode is active
+	 */
+	get landingView(): boolean
+	{
+		return this._landingView;
+	}
+
+	set landingView(value: boolean)
+	{
+		this._landingView = value;
+		this.refreshItemWindow();
+	}
+
+	private _extraMargin: number = 0;
+
+	/**
+	 * Extra margin applied to the extension view
+	 */
+	get extraMargin(): number
+	{
+		return this._extraMargin;
+	}
+
+	set extraMargin(value: number)
+	{
+		this._extraMargin = value;
+	}
+
+	private _visible: boolean = true;
 
 	/**
 	 * Whether the extension view is visible
@@ -58,33 +88,6 @@ export class ExtensionView implements IExtensionView
 	}
 
 	/**
-	 * Extra margin applied to the extension view
-	 */
-	get extraMargin(): number
-	{
-		return this._extraMargin;
-	}
-
-	set extraMargin(value: number)
-	{
-		this._extraMargin = value;
-	}
-
-	/**
-	 * Whether the landing view mode is active
-	 */
-	get landingView(): boolean
-	{
-		return this._landingView;
-	}
-
-	set landingView(value: boolean)
-	{
-		this._landingView = value;
-		this.refreshItemWindow();
-	}
-
-	/**
 	 * Attach an extension panel to the view
 	 *
 	 * @param id Extension identifier
@@ -94,20 +97,20 @@ export class ExtensionView implements IExtensionView
 	 */
 	public attachExtension(id: string, element: unknown, index: number = -1, params: unknown[] | null = null): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
-		if(this._items.has(id)) return;
+		if (this._items.has(id)) return;
 
 		this._items.set(id, element);
 
-		if(params !== null)
+		if (params !== null)
 		{
 			index = this.resolveIndex(params as string[]);
 		}
 
-		const entry = { id, element };
+		const entry = {id, element};
 
-		if(index === -1)
+		if (index === -1)
 		{
 			this._orderedItems.push(entry);
 		}
@@ -127,11 +130,11 @@ export class ExtensionView implements IExtensionView
 	 */
 	public detachExtension(id: string): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		const idx = this._orderedItems.findIndex(item => item.id === id);
 
-		if(idx !== -1)
+		if (idx !== -1)
 		{
 			this._orderedItems.splice(idx, 1);
 		}
@@ -173,7 +176,7 @@ export class ExtensionView implements IExtensionView
 	 */
 	public getIconLocation(iconId: string): { x: number; y: number; width: number; height: number } | null
 	{
-		if(iconId === 'HTIE_EXT_GROUP')
+		if (iconId === 'HTIE_EXT_GROUP')
 		{
 			// room_group_info extension lookup
 			return null;
@@ -198,11 +201,31 @@ export class ExtensionView implements IExtensionView
 		return this._orderedItems.map(item => item.id);
 	}
 
+	/**
+	 * Dispose of this view and all its resources
+	 */
+	public dispose(): void
+	{
+		if (this._disposed) return;
+
+		const keys = Array.from(this._items.keys());
+
+		for (const key of keys)
+		{
+			this.detachExtension(key);
+		}
+
+		this._orderedItems = [];
+		this._items.clear();
+		this._toolbar = null;
+		this._disposed = true;
+	}
+
 	private resolveIndex(params: string[]): number
 	{
-		for(let i = 0; i < this._orderedItems.length; i++)
+		for (let i = 0; i < this._orderedItems.length; i++)
 		{
-			if(params.indexOf(this._orderedItems[i].id) > -1)
+			if (params.indexOf(this._orderedItems[i].id) > -1)
 			{
 				return i;
 			}
@@ -215,30 +238,10 @@ export class ExtensionView implements IExtensionView
 	{
 		// In AS3, this used a 25ms Timer to debounce resize events.
 		// In Helium, we dispatch the event directly.
-		if(this._toolbar)
+		if (this._toolbar)
 		{
 			const event = new ExtensionViewEvent(ExtensionViewEvent.EXTENSION_VIEW_RESIZED);
 			this._toolbar.toolbarEvents.emit(ExtensionViewEvent.EXTENSION_VIEW_RESIZED, event);
 		}
-	}
-
-	/**
-	 * Dispose of this view and all its resources
-	 */
-	public dispose(): void
-	{
-		if(this._disposed) return;
-
-		const keys = Array.from(this._items.keys());
-
-		for(const key of keys)
-		{
-			this.detachExtension(key);
-		}
-
-		this._orderedItems = [];
-		this._items.clear();
-		this._toolbar = null;
-		this._disposed = true;
 	}
 }

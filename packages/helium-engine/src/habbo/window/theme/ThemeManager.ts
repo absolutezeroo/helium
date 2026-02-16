@@ -119,7 +119,7 @@ export class ThemeManager implements IThemeManager
 		// Icon theme: count how many icon skin renderers exist
 		let iconCount = 0;
 
-		while(this._skinContainer.skinRendererExists(ThemeManager.WINDOW_TYPE_ICON, iconCount))
+		while (this._skinContainer.skinRendererExists(ThemeManager.WINDOW_TYPE_ICON, iconCount))
 		{
 			iconCount++;
 		}
@@ -129,7 +129,7 @@ export class ThemeManager implements IThemeManager
 		// Legacy border theme: count border renderers up to the upper bound
 		let borderCount = 0;
 
-		while(this._skinContainer.skinRendererExists(ThemeManager.WINDOW_TYPE_BORDER, borderCount) && borderCount < ThemeManager.LEGACY_STYLE_UPPER_BOUND)
+		while (this._skinContainer.skinRendererExists(ThemeManager.WINDOW_TYPE_BORDER, borderCount) && borderCount < ThemeManager.LEGACY_STYLE_UPPER_BOUND)
 		{
 			borderCount++;
 		}
@@ -177,23 +177,23 @@ export class ThemeManager implements IThemeManager
 	 */
 	public getStyle(themeName: string, elementType: number, intent: string): number
 	{
-		if(themeName === Theme.NONE)
+		if (themeName === Theme.NONE)
 		{
 			return parseInt(intent, 10) || 0;
 		}
 
 		const theme = this._themes.get(themeName);
 
-		if(!theme)
+		if (!theme)
 		{
 			return 0;
 		}
 
-		for(let i = 0; i < theme.styleCount; i++)
+		for (let i = 0; i < theme.styleCount; i++)
 		{
 			const style = theme.baseStyle + i;
 
-			if(intent === this._skinContainer.getIntentByTypeAndStyle(elementType, style))
+			if (intent === this._skinContainer.getIntentByTypeAndStyle(elementType, style))
 			{
 				return style;
 			}
@@ -213,25 +213,25 @@ export class ThemeManager implements IThemeManager
 	{
 		const intent = this._skinContainer.getIntentByTypeAndStyle(elementType, style);
 
-		if(elementType === ThemeManager.WINDOW_TYPE_ICON)
+		if (elementType === ThemeManager.WINDOW_TYPE_ICON)
 		{
-			return { theme: Theme.ICON, intent };
+			return {theme: Theme.ICON, intent};
 		}
 
-		if(elementType === ThemeManager.WINDOW_TYPE_BORDER && style < ThemeManager.LEGACY_STYLE_UPPER_BOUND)
+		if (elementType === ThemeManager.WINDOW_TYPE_BORDER && style < ThemeManager.LEGACY_STYLE_UPPER_BOUND)
 		{
-			return { theme: Theme.LEGACY_BORDER, intent };
+			return {theme: Theme.LEGACY_BORDER, intent};
 		}
 
-		for(const theme of this._themes.values())
+		for (const theme of this._themes.values())
 		{
-			if(theme.isReal && theme.coversStyle(style))
+			if (theme.isReal && theme.coversStyle(style))
 			{
-				return { theme: theme.name, intent };
+				return {theme: theme.name, intent};
 			}
 		}
 
-		return { theme: Theme.NONE, intent };
+		return {theme: Theme.NONE, intent};
 	}
 
 	/**
@@ -246,17 +246,17 @@ export class ThemeManager implements IThemeManager
 	{
 		const intents: string[] = [];
 
-		if(themeName !== Theme.NONE)
+		if (themeName !== Theme.NONE)
 		{
 			const theme = this._themes.get(themeName);
 
-			if(theme)
+			if (theme)
 			{
-				for(let i = 0; i < theme.styleCount; i++)
+				for (let i = 0; i < theme.styleCount; i++)
 				{
 					const intent = this._skinContainer.getIntentByTypeAndStyle(elementType, theme.baseStyle + i);
 
-					if(intent !== null)
+					if (intent !== null)
 					{
 						intents.push(intent);
 					}
@@ -264,7 +264,7 @@ export class ThemeManager implements IThemeManager
 			}
 		}
 
-		if(intents.length === 0)
+		if (intents.length === 0)
 		{
 			intents.push(fallbackStyle.toString());
 		}
@@ -283,9 +283,9 @@ export class ThemeManager implements IThemeManager
 	 */
 	public getPropertyDefaults(style: number): IPropertyMap | null
 	{
-		for(const theme of this._themes.values())
+		for (const theme of this._themes.values())
 		{
-			if(theme.isReal && theme.coversStyle(style))
+			if (theme.isReal && theme.coversStyle(style))
 			{
 				return theme.propertyDefaults;
 			}

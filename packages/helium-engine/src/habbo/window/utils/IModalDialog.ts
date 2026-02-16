@@ -1,5 +1,5 @@
-import type { IDisposable } from '@core/runtime/IDisposable';
-import type { IWindow } from '@core/window/IWindow';
+import type {IDisposable} from '@core/runtime/IDisposable';
+import type {IWindow} from '@core/window/IWindow';
 
 /**
  * Interface for modal dialogs.
@@ -15,17 +15,17 @@ import type { IWindow } from '@core/window/IWindow';
  */
 export interface IModalDialog extends IDisposable
 {
-    /**
-     * The root window of this modal dialog.
-     */
-    readonly rootWindow: IWindow | null;
+	/**
+	 * The root window of this modal dialog.
+	 */
+	readonly rootWindow: IWindow | null;
 
-    /**
-     * The background overlay window.
-     *
-     * In AS3 this was an IBitmapWrapperWindow that drew a darkened
-     * snapshot of the desktop. In the TS port, this is a generic
-     * IWindow; the actual darkening is handled by the UI layer.
-     */
-    readonly background: IWindow | null;
+	/**
+	 * The background overlay window.
+	 *
+	 * In AS3 this was an IBitmapWrapperWindow that drew a darkened
+	 * snapshot of the desktop. In the TS port, this is a generic
+	 * IWindow; the actual darkening is handled by the UI layer.
+	 */
+	readonly background: IWindow | null;
 }

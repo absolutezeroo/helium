@@ -48,7 +48,7 @@ export class RoomPreviewerWidget implements IRoomPreviewerWidget
 
 		const root = this._windowManager.buildWidgetLayout('room_previewer') as IWindowContainer | null;
 
-		if(root)
+		if (root)
 		{
 			this._root = root;
 
@@ -139,7 +139,7 @@ export class RoomPreviewerWidget implements IRoomPreviewerWidget
 
 	public get properties(): PropertyStruct[]
 	{
-		if(this._disposed) return [];
+		if (this._disposed) return [];
 
 		return [
 			new PropertyStruct(RoomPreviewerWidget.SCALE_KEY, this._scale),
@@ -151,9 +151,9 @@ export class RoomPreviewerWidget implements IRoomPreviewerWidget
 
 	public set properties(values: PropertyStruct[])
 	{
-		for(const prop of values)
+		for (const prop of values)
 		{
-			switch(prop.key)
+			switch (prop.key)
 			{
 				case RoomPreviewerWidget.SCALE_KEY:
 					this.scale = Number(prop.value);
@@ -178,11 +178,11 @@ export class RoomPreviewerWidget implements IRoomPreviewerWidget
 
 	public dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		this._disposed = true;
 
-		if(this._root)
+		if (this._root)
 		{
 			this._root.removeEventListener(WindowMouseEvent.CLICK, this._onClickRoomViewBound);
 			this._root.removeEventListener(WindowEvent.WE_RESIZE, this._onResizeCanvasBound);
@@ -190,7 +190,7 @@ export class RoomPreviewerWidget implements IRoomPreviewerWidget
 			this._root = null;
 		}
 
-		if(this._widgetWindow)
+		if (this._widgetWindow)
 		{
 			this._widgetWindow.rootWindow = null;
 		}

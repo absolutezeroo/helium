@@ -30,8 +30,6 @@ export class PurseClubArea extends CurrencyIndicatorBase
 	private _previousDays: number = -1;
 	private _toolbar: HabboToolbar | null;
 	private _previousMinutes: number = 0;
-	private _clubLevel: number = 0;
-	private _clubIconStyle: number = PurseClubArea.ICON_STYLE_VIP;
 
 	constructor(toolbar: HabboToolbar)
 	{
@@ -49,6 +47,18 @@ export class PurseClubArea extends CurrencyIndicatorBase
 		log.debug('PurseClubArea constructed');
 	}
 
+	private _clubLevel: number = 0;
+
+	/**
+	 * Get the current club level
+	 */
+	get clubLevel(): number
+	{
+		return this._clubLevel;
+	}
+
+	private _clubIconStyle: number = PurseClubArea.ICON_STYLE_VIP;
+
 	/**
 	 * Get the current club icon style
 	 */
@@ -58,11 +68,54 @@ export class PurseClubArea extends CurrencyIndicatorBase
 	}
 
 	/**
-	 * Get the current club level
+	 * Handle club status change
+	 *
+	 * @param clubLevel The club level (0=none, 1=HC, 2=VIP)
+	 * @param clubPeriods Number of club periods
+	 * @param clubDays Number of additional club days
+	 * @param clubMinutesUntilExpiration Minutes until expiration
 	 */
-	get clubLevel(): number
+	public onClubChanged(
+		clubLevel: number,
+		clubPeriods: number,
+		clubDays: number,
+		clubMinutesUntilExpiration: number
+	): void
 	{
-		return this._clubLevel;
+		this._clubLevel = clubLevel;
+
+		const totalDays = clubPeriods * 31 + clubDays;
+
+		if (this._previousDays !== -1 && clubLevel !== 0)
+		{
+			this.setAmount(totalDays, clubMinutesUntilExpiration);
+		}
+
+		this._previousDays = totalDays;
+		this._previousMinutes = clubMinutesUntilExpiration;
+
+		switch (clubLevel)
+		{
+			case 0:
+				this.setClubIcon(PurseClubArea.ICON_STYLE_VIP);
+				this.setText(this.amountZeroText ?? 'Get');
+				break;
+			case 1:
+				this.setClubIcon(PurseClubArea.ICON_STYLE_CLUB);
+				break;
+			case 2:
+				this.setClubIcon(PurseClubArea.ICON_STYLE_VIP);
+				break;
+		}
+	}
+
+	/**
+	 * Dispose of this club area
+	 */
+	public override dispose(): void
+	{
+		this._toolbar = null;
+		super.dispose();
 	}
 
 	/**
@@ -73,7 +126,7 @@ export class PurseClubArea extends CurrencyIndicatorBase
 	 */
 	protected override setAmount(amount: number, minutes: number = -1): void
 	{
-		if(amount < 1)
+		if (amount < 1)
 		{
 			this.textElementName = 'join';
 			this.setText(this.amountZeroText ?? 'Get');
@@ -82,13 +135,13 @@ export class PurseClubArea extends CurrencyIndicatorBase
 		{
 			this.textElementName = 'days';
 
-			if(minutes !== -1 && minutes < 1440)
+			if (minutes !== -1 && minutes < 1440)
 			{
 				// Show hours/minutes for short durations
 				const hours = Math.floor(minutes / 60);
 				const mins = minutes % 60;
 
-				if(hours > 0)
+				if (hours > 0)
 				{
 					this.setText(`${hours}h ${mins}m`);
 				}
@@ -113,56 +166,5 @@ export class PurseClubArea extends CurrencyIndicatorBase
 	private setClubIcon(style: number): void
 	{
 		this._clubIconStyle = style;
-	}
-
-	/**
-	 * Handle club status change
-	 *
-	 * @param clubLevel The club level (0=none, 1=HC, 2=VIP)
-	 * @param clubPeriods Number of club periods
-	 * @param clubDays Number of additional club days
-	 * @param clubMinutesUntilExpiration Minutes until expiration
-	 */
-	public onClubChanged(
-		clubLevel: number,
-		clubPeriods: number,
-		clubDays: number,
-		clubMinutesUntilExpiration: number
-	): void
-	{
-		this._clubLevel = clubLevel;
-
-		const totalDays = clubPeriods * 31 + clubDays;
-
-		if(this._previousDays !== -1 && clubLevel !== 0)
-		{
-			this.setAmount(totalDays, clubMinutesUntilExpiration);
-		}
-
-		this._previousDays = totalDays;
-		this._previousMinutes = clubMinutesUntilExpiration;
-
-		switch(clubLevel)
-		{
-			case 0:
-				this.setClubIcon(PurseClubArea.ICON_STYLE_VIP);
-				this.setText(this.amountZeroText ?? 'Get');
-				break;
-			case 1:
-				this.setClubIcon(PurseClubArea.ICON_STYLE_CLUB);
-				break;
-			case 2:
-				this.setClubIcon(PurseClubArea.ICON_STYLE_VIP);
-				break;
-		}
-	}
-
-	/**
-	 * Dispose of this club area
-	 */
-	public override dispose(): void
-	{
-		this._toolbar = null;
-		super.dispose();
 	}
 }

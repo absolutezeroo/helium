@@ -18,9 +18,6 @@ export class SortableSprite
 	public name: string = '';
 
 	private _x: number = 0;
-	private _y: number = 0;
-	private _z: number = 0;
-	private _sprite: IRoomObjectSprite | null = null;
 
 	get x(): number
 	{
@@ -32,6 +29,8 @@ export class SortableSprite
 		this._x = value;
 	}
 
+	private _y: number = 0;
+
 	get y(): number
 	{
 		return this._y;
@@ -42,6 +41,8 @@ export class SortableSprite
 		this._y = value;
 	}
 
+	private _z: number = 0;
+
 	get z(): number
 	{
 		return this._z;
@@ -51,6 +52,8 @@ export class SortableSprite
 	{
 		this._z = value;
 	}
+
+	private _sprite: IRoomObjectSprite | null = null;
 
 	get sprite(): IRoomObjectSprite | null
 	{

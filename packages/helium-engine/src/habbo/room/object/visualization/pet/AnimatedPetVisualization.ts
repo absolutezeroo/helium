@@ -24,8 +24,6 @@ import {AnimatedPetVisualizationData} from './AnimatedPetVisualizationData';
  */
 class ExperienceData
 {
-	private _image: HTMLCanvasElement | null;
-	private _alpha: number = 0;
 	private _experience: number = 0;
 
 	constructor(image: HTMLCanvasElement | null)
@@ -33,10 +31,14 @@ class ExperienceData
 		this._image = image;
 	}
 
+	private _image: HTMLCanvasElement | null;
+
 	get image(): HTMLCanvasElement | null
 	{
 		return this._image;
 	}
+
+	private _alpha: number = 0;
 
 	get alpha(): number
 	{
@@ -93,7 +95,7 @@ export class AnimatedPetVisualization extends AnimatedFurnitureVisualization
 		super();
 
 		// Create animation state data for posture and gesture
-		while(this._animationStates.length < 2)
+		while (this._animationStates.length < 2)
 		{
 			this._animationStates.push(new AnimationStateData());
 		}
@@ -101,7 +103,7 @@ export class AnimatedPetVisualization extends AnimatedFurnitureVisualization
 
 	override initialize(data: IRoomObjectVisualizationData): boolean
 	{
-		if(!(data instanceof AnimatedPetVisualizationData))
+		if (!(data instanceof AnimatedPetVisualizationData))
 		{
 			return false;
 		}
@@ -119,15 +121,36 @@ export class AnimatedPetVisualization extends AnimatedFurnitureVisualization
 		this.updateExperienceBubble(time);
 	}
 
+	override dispose(): void
+	{
+		super.dispose();
+
+		for (const state of this._animationStates)
+		{
+			if (state !== null)
+			{
+				state.dispose();
+			}
+		}
+
+		this._animationStates = [];
+
+		if (this._experienceData !== null)
+		{
+			this._experienceData.dispose();
+			this._experienceData = null;
+		}
+	}
+
 	protected override updateAnimation(scale: number): number
 	{
 		const roomObject = this.object;
 
-		if(roomObject !== null)
+		if (roomObject !== null)
 		{
 			const dirX = Math.floor(roomObject.getDirection().x);
 
-			if(dirX !== this._lastDirectionX)
+			if (dirX !== this._lastDirectionX)
 			{
 				this._lastDirectionX = dirX;
 				this.resetAllAnimationFrames();
@@ -141,13 +164,13 @@ export class AnimatedPetVisualization extends AnimatedFurnitureVisualization
 	{
 		const roomObject = this.object;
 
-		if(roomObject === null) return false;
+		if (roomObject === null) return false;
 
 		const model = roomObject.getModel();
 
-		if(model === null) return false;
+		if (model === null) return false;
 
-		if(model.getUpdateID() !== this._updateModelCounter)
+		if (model.getUpdateID() !== this._updateModelCounter)
 		{
 			const posture = model.getString('figure_posture') ?? '';
 			const gesture = model.getString('figure_gesture') ?? '';
@@ -158,7 +181,7 @@ export class AnimatedPetVisualization extends AnimatedFurnitureVisualization
 
 			const headDir = model.getNumber('head_direction');
 
-			if(!isNaN(headDir) && this._petData !== null && this._petData.isAllowedToTurnHead)
+			if (!isNaN(headDir) && this._petData !== null && this._petData.isAllowedToTurnHead)
 			{
 				this._headDirection = headDir;
 			}
@@ -172,7 +195,7 @@ export class AnimatedPetVisualization extends AnimatedFurnitureVisualization
 
 			const paletteIndex = Math.floor(model.getNumber('pet_palette_index'));
 
-			if(paletteIndex !== this._paletteIndex)
+			if (paletteIndex !== this._paletteIndex)
 			{
 				this._paletteIndex = paletteIndex;
 				this._paletteName = String(this._paletteIndex);
@@ -191,7 +214,7 @@ export class AnimatedPetVisualization extends AnimatedFurnitureVisualization
 
 			const petColor = model.getNumber('pet_color');
 
-			if(!isNaN(petColor) && petColor !== this._petColor)
+			if (!isNaN(petColor) && petColor !== this._petColor)
 			{
 				this._petColor = petColor;
 			}
@@ -214,11 +237,11 @@ export class AnimatedPetVisualization extends AnimatedFurnitureVisualization
 	{
 		this._allAnimationsOver = false;
 
-		for(let i = this._animationStates.length - 1; i >= 0; i--)
+		for (let i = this._animationStates.length - 1; i >= 0; i--)
 		{
 			const state = this._animationStates[i];
 
-			if(state !== null)
+			if (state !== null)
 			{
 				state.setLayerCount(this.animatedLayerCount);
 			}
@@ -227,21 +250,21 @@ export class AnimatedPetVisualization extends AnimatedFurnitureVisualization
 
 	protected override updateAnimations(scale: number): number
 	{
-		if(this._allAnimationsOver) return 0;
+		if (this._allAnimationsOver) return 0;
 
 		let allOver = true;
 		let result = 0;
 
-		for(let i = 0; i < this._animationStates.length; i++)
+		for (let i = 0; i < this._animationStates.length; i++)
 		{
 			const state = this._animationStates[i];
 
-			if(state !== null && !state.animationOver)
+			if (state !== null && !state.animationOver)
 			{
 				const layerResult = this.updateFramesForAnimation(state, scale);
 				result |= layerResult;
 
-				if(!state.animationOver)
+				if (!state.animationOver)
 				{
 					allOver = false;
 				}
@@ -254,15 +277,15 @@ export class AnimatedPetVisualization extends AnimatedFurnitureVisualization
 
 	protected override getFrameNumber(scale: number, layerIndex: number): number
 	{
-		for(let i = this._animationStates.length - 1; i >= 0; i--)
+		for (let i = this._animationStates.length - 1; i >= 0; i--)
 		{
 			const state = this._animationStates[i];
 
-			if(state !== null)
+			if (state !== null)
 			{
 				const frame: AnimationFrame | null = state.getFrame(layerIndex);
 
-				if(frame !== null)
+				if (frame !== null)
 				{
 					return frame.id;
 				}
@@ -276,15 +299,15 @@ export class AnimatedPetVisualization extends AnimatedFurnitureVisualization
 	{
 		let offset = super.getSpriteXOffset(scale, direction, layerIndex);
 
-		for(let i = this._animationStates.length - 1; i >= 0; i--)
+		for (let i = this._animationStates.length - 1; i >= 0; i--)
 		{
 			const state = this._animationStates[i];
 
-			if(state !== null)
+			if (state !== null)
 			{
 				const frame = state.getFrame(layerIndex);
 
-				if(frame !== null)
+				if (frame !== null)
 				{
 					offset += frame.x;
 				}
@@ -298,15 +321,15 @@ export class AnimatedPetVisualization extends AnimatedFurnitureVisualization
 	{
 		let offset = super.getSpriteYOffset(scale, direction, layerIndex);
 
-		for(let i = this._animationStates.length - 1; i >= 0; i--)
+		for (let i = this._animationStates.length - 1; i >= 0; i--)
 		{
 			const state = this._animationStates[i];
 
-			if(state !== null)
+			if (state !== null)
 			{
 				const frame = state.getFrame(layerIndex);
 
-				if(frame !== null)
+				if (frame !== null)
 				{
 					offset += frame.y;
 				}
@@ -332,16 +355,16 @@ export class AnimatedPetVisualization extends AnimatedFurnitureVisualization
 	 */
 	private validateActions(posture: string, gesture: string): void
 	{
-		if(this._petData === null) return;
+		if (this._petData === null) return;
 
-		if(posture !== this._posture)
+		if (posture !== this._posture)
 		{
 			this._posture = posture;
 			// TODO: Get animation ID for posture from _petData
 			// setAnimationForIndex(POSTURE_ANIMATION_INDEX, animId);
 		}
 
-		if(gesture !== this._gesture)
+		if (gesture !== this._gesture)
 		{
 			this._gesture = gesture;
 			// TODO: Get animation ID for gesture from _petData
@@ -354,15 +377,15 @@ export class AnimatedPetVisualization extends AnimatedFurnitureVisualization
 	 */
 	private updateExperienceBubble(time: number): void
 	{
-		if(this._experienceData === null) return;
+		if (this._experienceData === null) return;
 
 		this._experienceData.alpha = 0;
 
-		if(this._experienceTimestamp > 0)
+		if (this._experienceTimestamp > 0)
 		{
 			const elapsed = time - this._experienceTimestamp;
 
-			if(elapsed < AnimatedPetVisualization.EXPERIENCE_BUBBLE_VISIBLE_IN_MS)
+			if (elapsed < AnimatedPetVisualization.EXPERIENCE_BUBBLE_VISIBLE_IN_MS)
 			{
 				this._experienceData.alpha = Math.sin(elapsed / AnimatedPetVisualization.EXPERIENCE_BUBBLE_VISIBLE_IN_MS * Math.PI) * 255;
 				this._experienceData.setExperience(this._gainedExperience);
@@ -374,9 +397,9 @@ export class AnimatedPetVisualization extends AnimatedFurnitureVisualization
 
 			const sprite = this.getSprite(this.spriteCount - 1);
 
-			if(sprite !== null)
+			if (sprite !== null)
 			{
-				if(this._experienceData.alpha > 0)
+				if (this._experienceData.alpha > 0)
 				{
 					const img = this._experienceData.image;
 					sprite.texture = img !== null ? Texture.from(img) : null;
@@ -391,27 +414,6 @@ export class AnimatedPetVisualization extends AnimatedFurnitureVisualization
 					sprite.visible = false;
 				}
 			}
-		}
-	}
-
-	override dispose(): void
-	{
-		super.dispose();
-
-		for(const state of this._animationStates)
-		{
-			if(state !== null)
-			{
-				state.dispose();
-			}
-		}
-
-		this._animationStates = [];
-
-		if(this._experienceData !== null)
-		{
-			this._experienceData.dispose();
-			this._experienceData = null;
 		}
 	}
 }
