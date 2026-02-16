@@ -13,6 +13,7 @@ import {WindowRectLimits} from './utils/WindowRectLimits';
 import {PropertyStruct} from './utils/PropertyStruct';
 import {WindowParam} from './enum/WindowParam';
 import {DynamicStyleManager} from './dynamicstyle/DynamicStyleManager';
+import {resolveLocalizationTokens} from './utils/WindowParser';
 
 /**
  * Core window controller implementing the full IWindow API.
@@ -502,9 +503,9 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 
 	public set caption(value: string)
 	{
-		value = value ?? '';
+		value = resolveLocalizationTokens(value ?? '');
 
-		if (value !== this._caption)
+		if(value !== this._caption)
 		{
 			this._caption = value;
 			this._context.invalidate(this, null, 1);

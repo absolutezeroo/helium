@@ -406,12 +406,16 @@ function parseColorSafe(value: string | undefined): number
 /**
  * Resolves `${key}` localization tokens in a string.
  *
+ * Exported as a standalone function for use by window controllers
+ * that need to resolve tokens in dynamic property assignments
+ * (e.g. `window.caption = '${navigator.title}'`).
+ *
  * @param value - The string potentially containing `${key}` tokens
  * @returns The resolved string, or the original if no resolver or no match
  */
-function resolveLocalizationTokens(value: string): string
+export function resolveLocalizationTokens(value: string): string
 {
-	if (!value || !WindowParser.localizationResolver) return value;
+	if(!value || !WindowParser.localizationResolver) return value;
 
 	return value.replace(/\$\{([^}]+)\}/g, (_match, key) =>
 	{

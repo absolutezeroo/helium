@@ -3,6 +3,7 @@ import type {IWindowContext} from '../IWindowContext';
 import {WindowController} from '../WindowController';
 import {WindowEvent} from '../events/WindowEvent';
 import {PropertyStruct} from '../utils/PropertyStruct';
+import {resolveLocalizationTokens} from '../utils/WindowParser';
 
 /**
  * Base controller for text-displaying windows.
@@ -54,8 +55,9 @@ export class TextController extends WindowController
 	/**
 	 * Sets the text content and syncs with the parent caption field.
 	 *
-	 * In AS3, `set text` stored to `_caption` and updated the native TextField.
-	 * Here we sync `_text` and `_caption` so both reflect the same value.
+	 * In AS3, `set text` stored to `_caption`, checked for `${key}` localization
+	 * tokens, and updated the native TextField. Here we resolve tokens immediately
+	 * and sync `_text` and `_caption`.
 	 *
 	 * @see sources/win63_2021_version/com/sulake/core/window/components/TextController.as set text()
 	 */
@@ -63,7 +65,7 @@ export class TextController extends WindowController
 	{
 		if(value == null) return;
 
-		this._text = value;
+		this._text = resolveLocalizationTokens(value);
 		this._caption = this._text;
 		this._context.invalidate(this, null, 1);
 	}
