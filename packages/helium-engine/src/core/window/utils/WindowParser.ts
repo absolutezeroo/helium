@@ -238,15 +238,20 @@ export class WindowParser implements IWindowParser
 		// Only vars that map to known property keys are applied here.
 		// Other vars (tool_tip_caption, asset_uri, etc.) are metadata
 		// handled by other systems.
-		if (node.vars)
+		//
+		// NOTE: margin_left/top/right/bottom are intentionally excluded because
+		// FrameController.set properties handles them differently and crashes
+		// when content is null during construction. Text margins are set via
+		// text style system instead.
+		if(node.vars)
 		{
 			const props: PropertyStruct[] = [];
 
-			for (const [key, val] of Object.entries(node.vars))
+			for(const [key, val] of Object.entries(node.vars))
 			{
-				if (val === null || val === undefined) continue;
+				if(val === null || val === undefined) continue;
 
-				switch (key)
+				switch(key)
 				{
 					case 'item_array':
 					{
@@ -258,14 +263,31 @@ export class WindowParser implements IWindowParser
 						props.push(new PropertyStruct(key, resolved));
 						break;
 					}
+					// Drop menu / interactive vars
 					case 'open_upward':
 					case 'keep_open_on_deactivate':
+					// Text formatting vars (TextController property setters)
+					case 'bold':
+					case 'italic':
+					case 'underline':
+					case 'font_face':
+					case 'font_size':
+					case 'text_color':
+					case 'text_style':
+					case 'multiline':
+					case 'word_wrap':
+					case 'max_chars':
+					case 'max_lines':
+					case 'overflow_replace':
+					case 'auto_size':
+					case 'spacing':
+					case 'leading':
 						props.push(new PropertyStruct(key, val));
 						break;
 				}
 			}
 
-			if (props.length > 0)
+			if(props.length > 0)
 			{
 				window.properties = props;
 			}

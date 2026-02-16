@@ -516,6 +516,9 @@ export class WindowRenderer implements IWindowRenderer
 			}
 		}
 
+		// Draw text content for text-type windows
+		this.compositeText(ctx, window, absX, absY, w, h);
+
 		// Recurse into children
 		const container = window as unknown as IWindowContainer;
 
@@ -533,6 +536,201 @@ export class WindowRenderer implements IWindowRenderer
 		}
 
 		ctx.restore();
+	}
+
+	/**
+	 * Renders text content for text-type windows.
+	 *
+	 * In AS3, text was rendered by native Flash TextFields which were then
+	 * composited as BitmapData via refreshTextImage(). In TypeScript, we
+	 * render text directly onto the composite canvas using fillText().
+	 *
+	 * @param ctx - The 2D rendering context
+	 * @param window - The window to render text for
+	 * @param absX - Absolute X position
+	 * @param absY - Absolute Y position
+	 * @param w - Window width
+	 * @param h - Window height
+	 *
+	 * @see sources/win63_2021_version/com/sulake/core/window/components/TextController.as refreshTextImage()
+	 */
+	private compositeText(
+		ctx: OffscreenCanvasRenderingContext2D,
+		window: IWindow,
+		absX: number,
+		absY: number,
+		w: number,
+		h: number
+	): void
+	{
+		const type = window.type;
+
+		if(type !== WindowType.TEXT && type !== WindowType.LABEL
+			&& type !== WindowType.LINK && type !== WindowType.FORMATTED_TEXT
+			&& type !== WindowType.TEXTFIELD && type !== WindowType.PASSWORD
+			&& type !== WindowType.HTML)
+		{
+			return;
+		}
+
+		const text = window.caption;
+
+		if(!text) return;
+
+		// Duck-type text properties from TextController
+		const tw = window as unknown as {
+			textColor?: number;
+			fontSize?: number;
+			fontFace?: string;
+			bold?: boolean;
+			italic?: boolean;
+			underline?: boolean;
+			multiline?: boolean;
+			wordWrap?: boolean;
+		};
+
+		const fontSize = tw.fontSize ?? 12;
+		const fontFace = tw.fontFace || 'Ubuntu, Arial, sans-serif';
+		const isBold = tw.bold ?? false;
+		const isItalic = tw.italic ?? false;
+
+		// Text color from TextController.textColor (defaults to 0x000000 = black)
+		const textColor = tw.textColor ?? 0x000000;
+		const r = (textColor >> 16) & 0xFF;
+		const g = (textColor >> 8) & 0xFF;
+		const b = textColor & 0xFF;
+
+		// Build CSS font string
+		let fontStr = '';
+
+		if(isItalic) fontStr += 'italic ';
+		if(isBold) fontStr += 'bold ';
+		fontStr += `${fontSize}px ${fontFace}`;
+
+		ctx.font = fontStr;
+		ctx.fillStyle = `rgb(${r},${g},${b})`;
+		ctx.textBaseline = 'top';
+
+		const margin = 2;
+		const maxWidth = w - margin * 2;
+
+		if(maxWidth <= 0) return;
+
+		// Determine display text
+		let displayText = text;
+
+		if(type === WindowType.PASSWORD)
+		{
+			displayText = '\u2022'.repeat(text.length);
+		}
+
+		// Underline support for link windows
+		if(type === WindowType.LINK || tw.underline)
+		{
+			ctx.save();
+
+			const metrics = ctx.measureText(displayText);
+			const textW = Math.min(metrics.width, maxWidth);
+			const textY = absY + Math.max(0, Math.floor((h - fontSize) / 2));
+
+			ctx.fillText(displayText, absX + margin, textY, maxWidth);
+
+			// Draw underline
+			const underlineY = textY + fontSize + 1;
+
+			ctx.strokeStyle = `rgb(${r},${g},${b})`;
+			ctx.lineWidth = 1;
+			ctx.beginPath();
+			ctx.moveTo(absX + margin, underlineY);
+			ctx.lineTo(absX + margin + textW, underlineY);
+			ctx.stroke();
+			ctx.restore();
+
+			return;
+		}
+
+		// Multiline / word-wrap rendering
+		if((tw.multiline || tw.wordWrap) && (type === WindowType.TEXT || type === WindowType.FORMATTED_TEXT || type === WindowType.HTML))
+		{
+			this.compositeTextMultiline(ctx, displayText, absX + margin, absY + margin, maxWidth, h - margin * 2, fontSize, tw.wordWrap ?? false);
+
+			return;
+		}
+
+		// Single-line rendering: vertically centered
+		const textY = absY + Math.max(0, Math.floor((h - fontSize) / 2));
+
+		ctx.fillText(displayText, absX + margin, textY, maxWidth);
+	}
+
+	/**
+	 * Renders multiline text with optional word wrapping.
+	 *
+	 * @param ctx - The 2D rendering context
+	 * @param text - The text to render
+	 * @param x - Start X position
+	 * @param y - Start Y position
+	 * @param maxWidth - Maximum line width
+	 * @param maxHeight - Maximum total height
+	 * @param fontSize - Font size for line height calculation
+	 * @param wordWrap - Whether to wrap at word boundaries
+	 */
+	private compositeTextMultiline(
+		ctx: OffscreenCanvasRenderingContext2D,
+		text: string,
+		x: number,
+		y: number,
+		maxWidth: number,
+		maxHeight: number,
+		fontSize: number,
+		wordWrap: boolean
+	): void
+	{
+		const lineHeight = fontSize + 2;
+		const lines = text.split('\n');
+		let currentY = y;
+
+		for(const line of lines)
+		{
+			if(currentY + lineHeight > y + maxHeight) break;
+
+			if(wordWrap && ctx.measureText(line).width > maxWidth)
+			{
+				// Word-wrap: break line at word boundaries
+				const words = line.split(' ');
+				let currentLine = '';
+
+				for(const word of words)
+				{
+					const testLine = currentLine ? currentLine + ' ' + word : word;
+
+					if(ctx.measureText(testLine).width > maxWidth && currentLine)
+					{
+						ctx.fillText(currentLine, x, currentY, maxWidth);
+						currentY += lineHeight;
+
+						if(currentY + lineHeight > y + maxHeight) break;
+
+						currentLine = word;
+					}
+					else
+					{
+						currentLine = testLine;
+					}
+				}
+
+				if(currentLine && currentY + lineHeight <= y + maxHeight)
+				{
+					ctx.fillText(currentLine, x, currentY, maxWidth);
+					currentY += lineHeight;
+				}
+			}
+			else
+			{
+				ctx.fillText(line, x, currentY, maxWidth);
+				currentY += lineHeight;
+			}
+		}
 	}
 
 	/**

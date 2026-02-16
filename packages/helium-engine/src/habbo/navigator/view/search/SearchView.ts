@@ -212,11 +212,16 @@ export class SearchView
 		}
 	}
 
+	/**
+	 * In AS3, this sets textColor and italic on the text field.
+	 *
+	 * @see sources/win63_version/habbo/navigator/view/search/SearchView.as setInputFieldTextFormattingToPlaceholder()
+	 */
 	private setInputFieldTextFormattingToPlaceholder(isPlaceholder: boolean): void
 	{
 		if(this._inputField)
 		{
-			this._inputField.color = isPlaceholder ? SearchView.INPUT_PLACEHOLDER_TEXTCOLOR : SearchView.INPUT_TEXTCOLOR;
+			this._inputField.textColor = isPlaceholder ? SearchView.INPUT_PLACEHOLDER_TEXTCOLOR : SearchView.INPUT_TEXTCOLOR;
 		}
 	}
 

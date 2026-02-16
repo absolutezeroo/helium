@@ -51,9 +51,37 @@ export class TextController extends WindowController
 		return this._text;
 	}
 
+	/**
+	 * Sets the text content and syncs with the parent caption field.
+	 *
+	 * In AS3, `set text` stored to `_caption` and updated the native TextField.
+	 * Here we sync `_text` and `_caption` so both reflect the same value.
+	 *
+	 * @see sources/win63_2021_version/com/sulake/core/window/components/TextController.as set text()
+	 */
 	public set text(value: string)
 	{
-		this._text = value ?? '';
+		if(value == null) return;
+
+		this._text = value;
+		this._caption = this._text;
+		this._context.invalidate(this, null, 1);
+	}
+
+	/**
+	 * In AS3, `set caption` delegates to `set text`, syncing both properties.
+	 * The caption IS the text content for text-type windows.
+	 *
+	 * @see sources/win63_2021_version/com/sulake/core/window/components/TextController.as set caption()
+	 */
+	public override get caption(): string
+	{
+		return this._text;
+	}
+
+	public override set caption(value: string)
+	{
+		this.text = value;
 	}
 
 	protected _textColor: number = 0x000000;
@@ -66,6 +94,7 @@ export class TextController extends WindowController
 	public set textColor(value: number)
 	{
 		this._textColor = value;
+		this._context.invalidate(this, null, 1);
 	}
 
 	protected _bold: boolean = false;
