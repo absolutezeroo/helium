@@ -75,10 +75,42 @@ export class HeliumApp
      *
      * Bootstraps the engine, loads the asset bundle, configures skins/layouts,
      * creates the canvas, and starts the render loop.
+     *
+     * The loading screen stays visible until BOTH the asset bundle is loaded
+     * AND the engine is fully initialized (including connection + authentication
+     * when autoConnect is configured). This matches the AS3 HabboAir pattern
+     * where the loader waits for everything before dismissing.
+     *
+     * Progress is split: asset loading = 0-60%, engine init = 60-100%.
+     *
+     * @see sources/win63_2021_version/com/sulake/habbo/HabboAir.as
      */
     public async init(): Promise<void>
     {
+        // Track both progress sources independently
+        let assetRatio = 0;
+        let engineRatio = 0;
+
+        const updateLoading = (): void =>
+        {
+            // AS3: [0.0-0.6] SWF loading, [0.6-1.0] engine init
+            const combined = assetRatio * 0.6 + engineRatio * 0.4;
+
+            this._loadingScreen?.updateProgress(combined);
+        };
+
+        // Wire engine progress before bootstrap starts
+        const onProgress = (ratio: number): void =>
+        {
+            engineRatio = ratio;
+            updateLoading();
+        };
+
+        Helium.instance.heliumEvents.on('progress', onProgress);
+
         // 1. Bootstrap engine + load asset bundle in parallel
+        // bootstrap() now awaits connection + authentication when autoConnect is set,
+        // so the loading screen stays visible until the user is fully logged in.
         const [, bundle] = await Promise.all([
             Helium.bootstrap(window.HeliumConfig).catch(error =>
             {
@@ -86,9 +118,12 @@ export class HeliumApp
             }),
             AssetBundle.load('/assets.bundle', (ratio: number) =>
             {
-                this._loadingScreen?.updateProgress(ratio);
+                assetRatio = ratio;
+                updateLoading();
             }),
         ]);
+
+        Helium.instance.heliumEvents.off('progress', onProgress);
 
         this._bundle = bundle;
 

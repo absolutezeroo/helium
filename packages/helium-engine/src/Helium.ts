@@ -4,6 +4,8 @@ import {HeliumCore} from '@core/HeliumCore';
 import {ComponentContext} from '@core/runtime';
 import {HeliumMain} from './HeliumMain';
 import {Logger} from '@core/utils/Logger';
+import {HabboCommunicationEvent} from '@habbo/communication/enum/HabboCommunicationEvent';
+import type {HabboCommunicationEventType} from '@habbo/communication/enum/HabboCommunicationEvent';
 import type {ICoreCommunicationManager} from '@core/communication/ICoreCommunicationManager';
 import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
 import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
@@ -25,12 +27,19 @@ const log = Logger.getLogger('Helium');
 /**
  * Number of initialization steps for progress tracking.
  *
- * AS3 uses 3 steps for the [0.6 - 1.0] range:
+ * AS3 uses the [0.6 - 1.0] range for init steps:
  * 1. Configuration loaded
  * 2. Localization loaded
  * 3. All components ready (core running)
+ * 4. Connection established
+ * 5. Authenticated
+ *
+ * @see sources/win63_2021_version/com/sulake/habbo/HabboAirMain.as
  */
-const INIT_STEPS = 3;
+const INIT_STEPS = 5;
+
+/** Timeout for waiting for authentication (ms). */
+const AUTH_TIMEOUT_MS = 30000;
 
 /**
  * Connection configuration
@@ -387,9 +396,21 @@ export class Helium implements IHelium
 	}
 
 	/**
-	 * Initialize the application
+	 * Initialize the application.
 	 *
-	 * @see sources/win63_version/Habbo.as
+	 * When `autoConnect` is true, the initialization flow includes connection
+	 * and authentication — the loader stays visible until the user is fully
+	 * logged in, matching the AS3 HabboAir/HabboAirMain bootstrap pattern.
+	 *
+	 * Steps:
+	 * 1. Configuration loaded
+	 * 2. Localization loaded
+	 * 3. All components ready
+	 * 4. Connection established
+	 * 5. Authenticated
+	 *
+	 * @see sources/win63_2021_version/com/sulake/habbo/HabboAir.as
+	 * @see sources/win63_2021_version/com/sulake/habbo/HabboAirMain.as
 	 */
 	async init(config?: IHeliumConfig): Promise<void>
 	{
@@ -428,6 +449,45 @@ export class Helium implements IHelium
 			Helium.trackLoginStep('client.init.core.running');
 			this.completeInitStep();
 
+			// 4-5. Connect and authenticate (if configured)
+			// AS3: The loader waits for connection + authentication before dismissing.
+			if(config?.connection?.autoConnect)
+			{
+				try
+				{
+					this.connect();
+
+					Helium.trackLoginStep('client.init.connecting');
+					this.completeInitStep();
+
+					await this.waitForAuthentication();
+
+					Helium.trackLoginStep('client.init.authenticated');
+					this.completeInitStep();
+				}
+				catch(connectError)
+				{
+					Helium.reportCrash(
+						connectError instanceof Error ? connectError.message : String(connectError),
+						'connect',
+						false,
+						connectError instanceof Error ? connectError : undefined
+					);
+
+					// Complete remaining steps so progress reaches 100% even on failure
+					while(this._completedInitSteps < INIT_STEPS)
+					{
+						this.completeInitStep();
+					}
+				}
+			}
+			else
+			{
+				// No auto-connect: skip connection steps
+				this.completeInitStep();
+				this.completeInitStep();
+			}
+
 			this._ready = true;
 
 			// Register unload handler
@@ -441,24 +501,6 @@ export class Helium implements IHelium
 			this._events.emit('ready');
 
 			log.success('Ready!');
-
-			// Auto-connect if configured (non-fatal — engine is already ready)
-			if(config?.connection?.autoConnect)
-			{
-				try
-				{
-					this.connect();
-				}
-				catch(connectError)
-				{
-					Helium.reportCrash(
-						connectError instanceof Error ? connectError.message : String(connectError),
-						'connect',
-						false,
-						connectError instanceof Error ? connectError : undefined
-					);
-				}
-			}
 		}
 		catch(error)
 		{
@@ -472,6 +514,64 @@ export class Helium implements IHelium
 
 			throw error;
 		}
+	}
+
+	/**
+	 * Wait for the authentication step to complete.
+	 *
+	 * Listens for the AUTHENTICATED login step on the communication manager.
+	 * Rejects on HANDSHAKE_FAIL, disconnection, or timeout.
+	 *
+	 * @see sources/win63_2021_version/com/sulake/habbo/HabboAir.as
+	 */
+	private waitForAuthentication(): Promise<void>
+	{
+		return new Promise<void>((resolve, reject) =>
+		{
+			if(!this._habboMain)
+			{
+				return reject(new Error('Not initialized'));
+			}
+
+			const comm = this._habboMain.habboCommunication;
+
+			const timeout = setTimeout(() =>
+			{
+				cleanup();
+				reject(new Error('Authentication timeout'));
+			}, AUTH_TIMEOUT_MS);
+
+			const cleanup = (): void =>
+			{
+				clearTimeout(timeout);
+				comm.events.off('loginStep', onLoginStep);
+				comm.events.off('disconnected', onDisconnect);
+			};
+
+			const onLoginStep = (step: HabboCommunicationEventType): void =>
+			{
+				if(step === HabboCommunicationEvent.AUTHENTICATED)
+				{
+					cleanup();
+					resolve();
+				}
+
+				if(step === HabboCommunicationEvent.HANDSHAKE_FAIL)
+				{
+					cleanup();
+					reject(new Error('Handshake failed'));
+				}
+			};
+
+			const onDisconnect = (): void =>
+			{
+				cleanup();
+				reject(new Error('Disconnected during authentication'));
+			};
+
+			comm.events.on('loginStep', onLoginStep);
+			comm.events.on('disconnected', onDisconnect);
+		});
 	}
 
 	/**
