@@ -378,8 +378,19 @@ export class HeliumMain implements IHeliumMain
 		}
 
 		// 3. Communication Demo (manages login flow, IncomingMessages)
-		// AS3: HabboCommunicationDemo is a separate Component that orchestrates the connection
+		// AS3: HabboCommunicationDemo is a separate Component that orchestrates the connection.
+		// In AS3, the SSO ticket comes from FlashVars (Dictionary passed to Core.instantiate()).
+		// HabboCommunicationDemo.initComponent() checks _ssoTicket and calls initWithSSO()
+		// which starts the connection. We must set the SSO ticket BEFORE DI resolves
+		// (i.e., before initComponent() fires in a microtask) so that the connection
+		// is created before other components try to use it.
 		this._communicationDemo = new HabboCommunicationDemo(ctx);
+
+		if(config?.connection?.ssoTicket)
+		{
+			this._communicationDemo.ssoTicket = config.connection.ssoTicket;
+		}
+
 		ctx.attachComponent(this._communicationDemo, []);
 
 		// 4. Localization Manager
@@ -469,6 +480,18 @@ export class HeliumMain implements IHeliumMain
 
 		// 12. Room Message Handler - bridges communication to room engine
 		this._roomMessageHandler = new RoomMessageHandler(this._roomEngine);
+
+		// Wire RoomMessageHandler to the connection.
+		// The connection is created by HabboCommunicationDemo.initComponent() which fires
+		// as a microtask. We yield here so all component initComponent() microtasks complete,
+		// then wire the handler to the now-existing connection.
+		await Promise.resolve();
+
+		if(this._habboCommunicationManager.connection)
+		{
+			this._roomMessageHandler.connection = this._habboCommunicationManager.connection;
+			this._roomEngine.connection = this._habboCommunicationManager.connection;
+		}
 
 		// 13. Start heartbeat if SPA mode enabled
 		// AS3: Habbo.as checks config "spaweb=1" and starts setInterval(sendHeartBeat, 10000)
