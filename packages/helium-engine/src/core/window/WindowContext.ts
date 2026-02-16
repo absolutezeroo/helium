@@ -3,6 +3,7 @@ import type {IWindowContext} from './IWindowContext';
 import type {IWindowFactory} from './IWindowFactory';
 import type {IWidgetFactory} from './IWidgetFactory';
 import type {IWindowParser} from './utils/IWindowParser';
+import type {IWindowRenderer} from './graphics/IWindowRenderer';
 import type {IInternalWindowServices} from './services/IInternalWindowServices';
 import type {IInputEventTracker} from './IInputEventTracker';
 import type {IResourceManager} from './IResourceManager';
@@ -27,6 +28,22 @@ export class WindowContext implements IWindowContext
 	public static readonly ERROR_WINDOW_ALREADY_EXISTS: number = 3;
 	public static readonly ERROR_UNKNOWN_WINDOW_TYPE: number = 4;
 	public static readonly ERROR_DURING_EVENT_HANDLING: number = 5;
+
+	/**
+	 * Shared renderer reference (AS3: static var_1836).
+	 * Set by HabboWindowManager when the renderer is created.
+	 */
+	private static _renderer: IWindowRenderer | null = null;
+
+	/**
+	 * Sets the shared window renderer for all contexts.
+	 *
+	 * @param renderer - The window renderer
+	 */
+	public static setRenderer(renderer: IWindowRenderer | null): void
+	{
+		WindowContext._renderer = renderer;
+	}
 
 	public inputEventTrackers: IInputEventTracker[] = [];
 
@@ -211,16 +228,19 @@ export class WindowContext implements IWindowContext
 		return true;
 	}
 
-	public invalidate(_window: IWindow, _rect: {
+	public invalidate(window: IWindow, rect: {
 		x: number;
 		y: number;
 		width: number;
 		height: number
-	} | null, _flags: number): void
+	} | null, flags: number): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
-		// Renderer integration - will be connected when WindowRenderer is implemented
+		if(WindowContext._renderer)
+		{
+			WindowContext._renderer.addToRenderQueue(window, rect, flags);
+		}
 	}
 
 	public getLastError(): Error | null

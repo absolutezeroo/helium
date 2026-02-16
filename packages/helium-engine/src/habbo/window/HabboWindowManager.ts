@@ -628,7 +628,10 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 	 */
 	public compositeToBuffer(width: number, height: number): OffscreenCanvas | null
 	{
-		if (!this._windowRenderer) return null;
+		if(!this._windowRenderer) return null;
+
+		// Process the render queue first (AS3: context.render() → renderer.render())
+		this._windowRenderer.render();
 
 		return this._windowRenderer.composite(this._windowContextArray, width, height);
 	}
@@ -780,6 +783,9 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 		if (!this._windowRenderer)
 		{
 			this._windowRenderer = new WindowRenderer(this._skinContainer);
+
+			// Connect renderer to all WindowContexts (AS3: static var_1836)
+			WindowContext.setRenderer(this._windowRenderer);
 		}
 
 		let loaded = 0;
