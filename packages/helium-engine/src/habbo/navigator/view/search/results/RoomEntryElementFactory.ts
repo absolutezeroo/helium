@@ -1,0 +1,256 @@
+import type {IWindowContainer} from '@core/window/IWindowContainer';
+import type {IItemListWindow} from '@core/window/components/IItemListWindow';
+import type {WindowEvent} from '@core/window/events/WindowEvent';
+import type {GuestRoomData} from '@habbo/communication/messages/incoming/navigator/GuestRoomData';
+import type {HabboNewNavigator} from '../../../HabboNewNavigator';
+import {isEventViewMode, ViewMode, ViewModeType} from '../../ViewMode';
+import {RoomEntryUtils} from '../../RoomEntryUtils';
+
+/**
+ * Factory for creating room entry elements (rows and tiles) in navigator results.
+ *
+ * Clones templates for row/tile display and wires up event listeners
+ * for go-to-room, info popup, and favorite toggle.
+ *
+ * @see sources/win63_version/habbo/navigator/view/search/results/RoomEntryElementFactory.as
+ */
+export class RoomEntryElementFactory
+{
+	static readonly TILES_PER_CONTAINER: number = 3;
+
+	private _navigator: HabboNewNavigator;
+
+	constructor(navigator: HabboNewNavigator)
+	{
+		this._navigator = navigator;
+	}
+
+	private _rowEntryTemplate: IWindowContainer | null = null;
+
+	set rowEntryTemplate(value: IWindowContainer)
+	{
+		this._rowEntryTemplate = value;
+	}
+
+	private _tileEntryTemplate: IWindowContainer | null = null;
+
+	set tileEntryTemplate(value: IWindowContainer)
+	{
+		this._tileEntryTemplate = value;
+	}
+
+	private _tileContainerTemplate: IItemListWindow | null = null;
+
+	set tileContainerTemplate(value: IItemListWindow)
+	{
+		this._tileContainerTemplate = value;
+	}
+
+	private _viewMode: ViewModeType = ViewMode.HOTEL_VIEW;
+
+	set viewMode(value: ViewModeType)
+	{
+		this._viewMode = value;
+	}
+
+	get rowEntryTemplateHeight(): number
+	{
+		if(!this._rowEntryTemplate) return 0;
+
+		return this._rowEntryTemplate.height;
+	}
+
+	/**
+	 * Get a color representing the room's occupancy level.
+	 *
+	 * @param userCount - Current number of users
+	 * @param maxUserCount - Maximum capacity
+	 * @returns A color value (green/yellow/red gradient)
+	 */
+	private static getUserCountColor(userCount: number, maxUserCount: number): number
+	{
+		if(maxUserCount <= 0) return 0xFF00FF00;
+
+		const ratio = userCount / maxUserCount;
+
+		if(ratio >= 1.0) return 0xFFFF0000;
+		if(ratio >= 0.8) return 0xFFFF8800;
+		if(ratio >= 0.5) return 0xFFFFFF00;
+
+		return 0xFF00FF00;
+	}
+
+	/**
+	 * Create a new row-style room entry element.
+	 *
+	 * @param roomData - The guest room data
+	 * @param color - The alternating color modulation value
+	 * @param width - Optional fixed width override (-1 = use template default)
+	 * @returns A cloned and populated row container
+	 *
+	 * @see sources/win63_version/habbo/navigator/view/search/results/RoomEntryElementFactory.as getNewRowElement()
+	 */
+	getNewRowElement(roomData: GuestRoomData, color: number, width: number = -1): IWindowContainer
+	{
+		const entry = this._rowEntryTemplate!.clone() as IWindowContainer;
+
+		if(width !== -1)
+		{
+			entry.width = width;
+		}
+
+		entry.color = RoomEntryUtils.getModulatedBackgroundColor(color, entry.color);
+
+		this.updateCommonEntryElements(entry, roomData, false);
+
+		const groupIcon = entry.findChildByName('grouphome_icon');
+
+		if(groupIcon)
+		{
+			groupIcon.visible = roomData.groupBadgeCode !== '';
+		}
+
+		return entry;
+	}
+
+	/**
+	 * Create a new tile-style room entry element.
+	 *
+	 * @param roomData - The guest room data
+	 * @param color - The alternating color modulation value
+	 * @returns A cloned and populated tile container
+	 *
+	 * @see sources/win63_version/habbo/navigator/view/search/results/RoomEntryElementFactory.as getNewTileElement()
+	 */
+	getNewTileElement(roomData: GuestRoomData, color: number): IWindowContainer
+	{
+		const entry = this._tileEntryTemplate!.clone() as IWindowContainer;
+
+		this.updateCommonEntryElements(entry, roomData, true);
+
+		if(roomData.groupBadgeCode !== '')
+		{
+			const groupBadge = entry.findChildByName('room_group_badge');
+
+			if(groupBadge)
+			{
+				groupBadge.visible = true;
+				// Badge widget population would happen here if available
+			}
+		}
+
+		// Set room thumbnail
+		const picPlaceholder = entry.findChildByName('room_pic_placeholder');
+
+		if(picPlaceholder)
+		{
+			if(roomData.officialRoomPicRef != null)
+			{
+				picPlaceholder.caption = roomData.officialRoomPicRef;
+			}
+			else
+			{
+				picPlaceholder.caption = 'navigator_default_room';
+			}
+		}
+
+		return entry;
+	}
+
+	/**
+	 * Create a new tile container (holds up to TILES_PER_CONTAINER tiles).
+	 *
+	 * @returns A cloned tile container item list
+	 *
+	 * @see sources/win63_version/habbo/navigator/view/search/results/RoomEntryElementFactory.as getNewTileContainerElement()
+	 */
+	getNewTileContainerElement(): IItemListWindow
+	{
+		return this._tileContainerTemplate!.clone() as IItemListWindow;
+	}
+
+	/**
+	 * Update the common elements shared between row and tile entries.
+	 *
+	 * Sets room name, user count, door mode icon, and wires event listeners
+	 * for go-to-room and info popup clicks.
+	 *
+	 * @param container - The entry container to update
+	 * @param roomData - The guest room data
+	 * @param isTile - Whether this is a tile element (affects mouse over behavior)
+	 */
+	private updateCommonEntryElements(container: IWindowContainer, roomData: GuestRoomData, isTile: boolean): void
+	{
+		const userCountEl = container.findChildByName('room_usercount');
+
+		if(userCountEl)
+		{
+			userCountEl.caption = roomData.userCount.toString();
+		}
+
+		const roomNameEl = container.findChildByName('room_name');
+
+		if(roomNameEl)
+		{
+			roomNameEl.caption = isEventViewMode(this._viewMode) ? roomData.roomAdName : roomData.roomName;
+		}
+
+		const goToRoomRegion = container.findChildByName('go_to_room_region');
+
+		if(goToRoomRegion)
+		{
+			goToRoomRegion.id = roomData.flatId;
+			goToRoomRegion.addEventListener('WME_CLICK', this.onGoButtonClicked);
+		}
+
+		const infoPopupRegion = container.findChildByName('info_popup_click_region');
+
+		if(infoPopupRegion)
+		{
+			infoPopupRegion.id = roomData.flatId;
+			infoPopupRegion.addEventListener('WME_CLICK', this.onMouseClicked);
+		}
+
+		// Set user count color indicator
+		const usercountBorder = container.findChildByName('room_info_usercount_border');
+
+		if(usercountBorder)
+		{
+			usercountBorder.color = RoomEntryElementFactory.getUserCountColor(roomData.userCount, roomData.maxUserCount);
+		}
+
+		// Set door mode icon
+		const doorModeIcon = container.findChildByName('doormode_icon');
+
+		if(doorModeIcon)
+		{
+			const asset = RoomEntryUtils.getDoorModeIconAsset(roomData.doorMode);
+
+			if(asset)
+			{
+				doorModeIcon.caption = asset;
+			}
+		}
+	}
+
+	private onGoButtonClicked = (event: WindowEvent): void =>
+	{
+		if(event.window)
+		{
+			this._navigator.goToRoom(event.window.id);
+		}
+	};
+
+	private onMouseClicked = (event: WindowEvent): void =>
+	{
+		if(event.window)
+		{
+			const roomData = this._navigator.currentResults?.findGuestRoom(event.window.id);
+
+			if(roomData)
+			{
+				this._navigator.view?.showRoomInfoBubbleAt(roomData, 0, 0);
+			}
+		}
+	};
+}

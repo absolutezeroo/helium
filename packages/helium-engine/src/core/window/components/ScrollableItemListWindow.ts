@@ -121,6 +121,123 @@ export class ScrollableItemListWindow extends ContainerController implements ISc
         this.itemList?.arrangeItems();
     }
 
+    // ── IItemListWindow delegation ──────────────────────────────────
+
+    public get numListItems(): number
+    {
+        return this.itemList?.numListItems ?? 0;
+    }
+
+    public get firstListItem(): IWindow | null
+    {
+        return this.itemList?.firstListItem ?? null;
+    }
+
+    public get lastListItem(): IWindow | null
+    {
+        return this.itemList?.lastListItem ?? null;
+    }
+
+    public addListItem(item: IWindow): IWindow
+    {
+        return this.itemList?.addListItem(item) ?? item;
+    }
+
+    public addListItemAt(item: IWindow, index: number): IWindow
+    {
+        return this.itemList?.addListItemAt(item, index) ?? item;
+    }
+
+    public getListItemAt(index: number): IWindow | null
+    {
+        return this.itemList?.getListItemAt(index) ?? null;
+    }
+
+    public getListItemByName(name: string): IWindow | null
+    {
+        return this.itemList?.getListItemByName(name) ?? null;
+    }
+
+    public getListItemByID(id: number): IWindow | null
+    {
+        return this.itemList?.getListItemByID(id) ?? null;
+    }
+
+    public getListItemByTag(tag: string): IWindow | null
+    {
+        return this.itemList?.getListItemByTag(tag) ?? null;
+    }
+
+    public getListItemIndex(item: IWindow): number
+    {
+        return this.itemList?.getListItemIndex(item) ?? -1;
+    }
+
+    public removeListItem(item: IWindow): IWindow | null
+    {
+        return this.itemList?.removeListItem(item) ?? null;
+    }
+
+    public removeListItemAt(index: number): IWindow | null
+    {
+        return this.itemList?.removeListItemAt(index) ?? null;
+    }
+
+    public removeListItems(): void
+    {
+        this.itemList?.removeListItems();
+    }
+
+    public destroyListItems(): void
+    {
+        this.itemList?.destroyListItems();
+    }
+
+    public setListItemIndex(item: IWindow, index: number): void
+    {
+        this.itemList?.setListItemIndex(item, index);
+    }
+
+    public swapListItems(a: IWindow, b: IWindow): void
+    {
+        this.itemList?.swapListItems(a, b);
+    }
+
+    public swapListItemsAt(indexA: number, indexB: number): void
+    {
+        this.itemList?.swapListItemsAt(indexA, indexB);
+    }
+
+    public groupListItemsWithID(id: number, result: IWindow[], depth: number = 0): number
+    {
+        return this.itemList?.groupListItemsWithID(id, result, depth) ?? 0;
+    }
+
+    public groupListItemsWithTag(tag: string, result: IWindow[], depth: number = 0): number
+    {
+        return this.itemList?.groupListItemsWithTag(tag, result, depth) ?? 0;
+    }
+
+    public set disableAutodrag(value: boolean)
+    {
+        if(this.itemList) this.itemList.disableAutodrag = value;
+    }
+
+    public get disableAutodrag(): boolean
+    {
+        return false;
+    }
+
+    /**
+     * Scrolls the list by a wheel delta amount.
+     */
+    public scrollWithWheel(delta: number): void
+    {
+        if(!this.itemList) return;
+
+        // Stub — wheel scrolling will be implemented with the scroll system
+    }
+
     public override dispose(): void
     {
         if(this._disposed) return;

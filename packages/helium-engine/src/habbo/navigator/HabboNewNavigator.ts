@@ -531,6 +531,21 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		this.send(new NavigatorSetSearchCodeViewModeMessageComposer(searchCode, viewMode));
 	}
 
+	/**
+	 * Get a localization string by key with a fallback.
+	 *
+	 * Stub that returns the fallback or the key itself — real localization
+	 * will be wired when the localization system is connected.
+	 *
+	 * @param key - The localization key
+	 * @param fallback - The fallback value if the key is not found
+	 * @returns The localized string or fallback
+	 */
+	getLocalization(key: string, fallback: string = ''): string
+	{
+		return fallback || key;
+	}
+
 	override dispose(): void
 	{
 		if (this.disposed) return;

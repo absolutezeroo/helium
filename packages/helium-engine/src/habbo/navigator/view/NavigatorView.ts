@@ -1,55 +1,80 @@
-import {Logger} from '@core/utils/Logger';
-import type {IWindowContainer} from '@core/window/IWindowContainer';
-import {WindowMouseEvent} from '@core/window/events/WindowMouseEvent';
-import type {WindowEvent} from '@core/window/events/WindowEvent';
-import type {HabboNewNavigator} from '../HabboNewNavigator';
-import type {NavigatorSearchResultSet} from '../../communication/messages/incoming/newnavigator';
+import { Logger } from '@core/utils/Logger';
+import type { IWindow } from '@core/window/IWindow';
+import type { IWindowContainer } from '@core/window/IWindowContainer';
+import type { IItemListWindow } from '@core/window/components/IItemListWindow';
+import type { ITabContextWindow } from '@core/window/components/ITabContextWindow';
+import type { ITabButtonWindow } from '@core/window/components/ITabButtonWindow';
+import type { WindowEvent } from '@core/window/events/WindowEvent';
+import type { HabboNewNavigator } from '../HabboNewNavigator';
+import type { NavigatorSearchResultSet } from '../../communication/messages/incoming/newnavigator';
+import type { NavigatorSavedSearch } from '../../communication/messages/incoming/newnavigator/NavigatorSavedSearch';
+import type { GuestRoomData } from '../../communication/messages/incoming/navigator/GuestRoomData';
+import { getViewMode } from './ViewMode';
+import { SearchView } from './search/SearchView';
+import { BlockResultsView } from './search/results/BlockResultsView';
+import { CategoryElementFactory } from './search/results/CategoryElementFactory';
+import { RoomEntryElementFactory } from './search/results/RoomEntryElementFactory';
+import { TopViewSelector } from './TopViewSelector';
+import { QuickLinksView } from './QuickLinksView';
+import { LiftView } from './LiftView';
+import { RoomInfoPopup } from './RoomInfoPopup';
 
 const log = Logger.getLogger('NavigatorView');
 
 const LAYOUT_NAME = 'navigator_frame_2';
+const MAX_WINDOW_WIDTH = 578;
+const STARTING_TAB_POSITION = 115;
+const LEFT_PANE_MARGIN_CONST = 7;
 
 /**
  * Navigator view — manages the navigator window via the window manager.
  *
  * Builds the navigator window tree from the registered layout asset
  * using `windowManager.buildWidgetLayout()` (equivalent to AS3's
- * `windowManager.buildFromXML()`). The resulting IWindow tree is
- * rendered by the WindowRenderer just like BottomBarLeft.
+ * `windowManager.buildFromXML()`). Creates sub-views for search,
+ * results, tabs, quick links, and room info popup.
  *
- * @see source_as_win63/habbo/navigator/view/NavigatorView.as
+ * @see sources/win63_version/habbo/navigator/view/NavigatorView.as
  */
 export class NavigatorView
 {
 	private _navigator: HabboNewNavigator;
 	private _window: IWindowContainer | null = null;
 
+	// Sub-views
+	private _searchView: SearchView | null = null;
+	private _blockResultsView: BlockResultsView | null = null;
+	private _roomEntryElementFactory: RoomEntryElementFactory | null = null;
+	private _categoryElementFactory: CategoryElementFactory | null = null;
+	private _topViewSelector: TopViewSelector | null = null;
+	private _quickLinksView: QuickLinksView | null = null;
+	private _liftView: LiftView | null = null;
+	private _roomInfoPopup: RoomInfoPopup | null = null;
+
+	// State
+	private _isBusy: boolean = false;
+	private _lastWindowX: number = -1;
+	private _lastWindowY: number = -1;
+	private _lastWindowWidth: number = -1;
+	private _lastWindowHeight: number = -1;
+	private _lastLeftPaneHidden: boolean = false;
+	private _waitingForGroupDetails: number = -1;
+
+	// Left pane
+	private _rightPane: IWindow | null = null;
+	private _rightPaneOriginalX: number = 0;
+	private _leftPaneMarginConst: number = LEFT_PANE_MARGIN_CONST;
+	private _leftPaneMargin: number = 0;
+
 	constructor(navigator: HabboNewNavigator)
 	{
 		this._navigator = navigator;
 	}
 
-	private _isBusy: boolean = false;
-
-	get isBusy(): boolean
-	{
-		return this._isBusy;
-	}
-
-	/**
-	 * Set busy state (show loading indicator).
-	 *
-	 * @see source_as_win63/habbo/navigator/view/NavigatorView.as set isBusy()
-	 */
-	set isBusy(value: boolean)
-	{
-		this._isBusy = value;
-	}
-
 	/**
 	 * Whether the navigator window is visible.
 	 *
-	 * @see source_as_win63/habbo/navigator/view/NavigatorView.as get visible()
+	 * @see sources/win63_version/habbo/navigator/view/NavigatorView.as get visible()
 	 */
 	get visible(): boolean
 	{
@@ -64,42 +89,54 @@ export class NavigatorView
 	/**
 	 * Show or hide the navigator window.
 	 *
-	 * On first show, creates the window via buildWidgetLayout().
-	 * Mirrors AS3's `set visible()` which called `createMainWindow()` lazily.
+	 * On first show, creates sub-views and the window via buildWidgetLayout().
+	 * If showing, triggers a search if no results exist yet.
 	 *
-	 * @see source_as_win63/habbo/navigator/view/NavigatorView.as set visible()
+	 * @see sources/win63_version/habbo/navigator/view/NavigatorView.as set visible()
 	 */
 	set visible(value: boolean)
 	{
-		const windowManager = this._navigator.windowManager;
-
-		if(!windowManager)
+		if(value && this._navigator.isReady)
 		{
-			log.warn('WindowManager not available');
+			if(this._roomEntryElementFactory === null)
+			{
+				this._roomEntryElementFactory = new RoomEntryElementFactory(this._navigator);
+			}
 
-			return;
-		}
+			if(this._categoryElementFactory === null)
+			{
+				this._categoryElementFactory = new CategoryElementFactory(this._navigator, this._roomEntryElementFactory);
+			}
 
-		log.debug(`set visible(${value}), isReady=${this._navigator.isReady}, hasWindow=${this._window !== null}`);
+			this.createSubViews();
 
-		if(value)
-		{
 			if(this._window === null)
 			{
 				this.createMainWindow();
+
+				if(this._quickLinksView)
+				{
+					this._quickLinksView.setQuickLinks(this._navigator.contextContainer.savedSearches);
+				}
+			}
+
+			if(this._navigator.currentResults !== null)
+			{
+				this.onSearchResults(this._navigator.currentResults);
+			}
+			else if(!this._isBusy)
+			{
+				this._navigator.performSearch('official_view');
 			}
 
 			if(this._window)
 			{
-				if(this._navigator.currentResults !== null)
-				{
-					this.onSearchResults(this._navigator.currentResults);
-				}
-				else if(!this._isBusy)
-				{
-					this._navigator.performSearch('official_view');
-				}
+				this._window.activate();
 			}
+		}
+		else if(this._roomInfoPopup)
+		{
+			this._roomInfoPopup.show(false);
 		}
 
 		if(this._window)
@@ -108,65 +145,320 @@ export class NavigatorView
 		}
 	}
 
+	get isBusy(): boolean
+	{
+		return this._isBusy;
+	}
+
+	/**
+	 * Set busy state (show loading indicator).
+	 *
+	 * @see sources/win63_version/habbo/navigator/view/NavigatorView.as set isBusy()
+	 */
+	set isBusy(value: boolean)
+	{
+		if(this._window)
+		{
+			this._window.caption = value ? '${navigator.title.is.busy}' : '${navigator.title}';
+
+			const mask = this._window.findChildByName('search_waiting_for_results_mask');
+
+			if(mask)
+			{
+				mask.visible = value;
+			}
+		}
+
+		this._isBusy = value;
+	}
+
+	/**
+	 * Get the current text in the search input.
+	 *
+	 * @see sources/win63_version/habbo/navigator/view/NavigatorView.as currentFilterText()
+	 */
+	currentFilterText(): string
+	{
+		if(this._searchView)
+		{
+			return this._searchView.currentInput;
+		}
+
+		return '';
+	}
+
+	/**
+	 * Whether the room info popup is currently visible.
+	 *
+	 * @see sources/win63_version/habbo/navigator/view/NavigatorView.as get isRoomInfoBubbleVisible()
+	 */
+	get isRoomInfoBubbleVisible(): boolean
+	{
+		if(this._roomInfoPopup)
+		{
+			return this._roomInfoPopup.visible;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Show the room info bubble at a position.
+	 *
+	 * @param roomData - The room data to display
+	 * @param x - The x position
+	 * @param y - The y position
+	 * @param isUpdate - Whether this is an update to an existing bubble
+	 *
+	 * @see sources/win63_version/habbo/navigator/view/NavigatorView.as showRoomInfoBubbleAt()
+	 */
+	showRoomInfoBubbleAt(roomData: GuestRoomData, x: number, y: number, isUpdate: boolean = false): void
+	{
+		if(!this._window) return;
+
+		if(!this._roomInfoPopup)
+		{
+			this._roomInfoPopup = new RoomInfoPopup(this._navigator);
+		}
+
+		if(this._roomInfoPopup.visible && !isUpdate)
+		{
+			this._roomInfoPopup.show(false);
+		}
+		else
+		{
+			this._roomInfoPopup.setData(roomData);
+
+			if(roomData.habboGroupId !== 0)
+			{
+				this._waitingForGroupDetails = roomData.habboGroupId;
+			}
+
+			this._roomInfoPopup.showAt(true, x, y);
+		}
+	}
+
 	/**
 	 * Called when search results arrive.
 	 *
-	 * @see source_as_win63/habbo/navigator/view/NavigatorView.as onSearchResults()
+	 * Updates the view mode, renders results, selects the matching tab,
+	 * and updates the search input.
+	 *
+	 * @see sources/win63_version/habbo/navigator/view/NavigatorView.as onSearchResults()
 	 */
-	onSearchResults(_results: NavigatorSearchResultSet, _source: string = ''): void
+	onSearchResults(results: NavigatorSearchResultSet, source: string = ''): void
 	{
+		if(!this._roomEntryElementFactory || !this._blockResultsView)
+		{
+			return;
+		}
+
+		this._roomEntryElementFactory.viewMode = getViewMode(results.searchCode);
+		this._blockResultsView.displayCurrentResults();
+
+		// Select the matching tab if this is a top-level search
+		if(this._navigator.contextContainer.hasContextFor(results.searchCode))
+		{
+			const topLevelSearches = this._navigator.contextContainer.getTopLevelSearches();
+			const index = topLevelSearches.indexOf(results.searchCode);
+
+			if(index !== -1 && this._topViewSelector)
+			{
+				this._topViewSelector.selectTabByIndex(index);
+			}
+		}
+
+		// Update create/promote/random buttons
+		if(this._window)
+		{
+			const createRoom = this._window.findChildByName('create_room');
+
+			if(createRoom)
+			{
+				createRoom.procedure = this.createRoomProcedure;
+			}
+
+			const randomBorder = this._window.findChildByName('random_room_border');
+			const promoteBorder = this._window.findChildByName('promote_room_border');
+
+			if(results.searchCode === 'roomads_view' || results.searchCode === 'myworld_view')
+			{
+				if(promoteBorder) promoteBorder.visible = true;
+				if(randomBorder) randomBorder.visible = false;
+
+				const promoteRoom = this._window.findChildByName('promote_room');
+
+				if(promoteRoom)
+				{
+					promoteRoom.procedure = this.promoteRoomProcedure;
+				}
+			}
+			else
+			{
+				if(promoteBorder) promoteBorder.visible = false;
+				if(randomBorder) randomBorder.visible = true;
+
+				const randomRoom = this._window.findChildByName('random_room');
+
+				if(randomRoom)
+				{
+					randomRoom.procedure = this.randomRoomProcedure;
+				}
+			}
+		}
+
+		// Update search text
+		if(this._searchView)
+		{
+			this._searchView.setTextAndSearchModeFromFilter(results.filteringData, source);
+		}
+
 		this._isBusy = false;
 
-		log.debug('Search results received');
+		if(this._roomInfoPopup)
+		{
+			this._roomInfoPopup.show(false);
+		}
 	}
 
 	/**
 	 * Called when saved searches are updated.
 	 *
-	 * @see source_as_win63/habbo/navigator/view/NavigatorView.as onSavedSearches()
+	 * @see sources/win63_version/habbo/navigator/view/NavigatorView.as onSavedSearches()
 	 */
-	onSavedSearches(_searches: unknown[]): void
+	onSavedSearches(searches: NavigatorSavedSearch[]): void
 	{
-		log.debug('Saved searches updated');
+		if(this._quickLinksView)
+		{
+			this._quickLinksView.setQuickLinks(searches);
+		}
 	}
 
 	/**
 	 * Set initial window dimensions from server preferences.
 	 *
-	 * @see source_as_win63/habbo/navigator/view/NavigatorView.as setInitialWindowDimensions()
+	 * @see sources/win63_version/habbo/navigator/view/NavigatorView.as setInitialWindowDimensions()
 	 */
-	setInitialWindowDimensions(_x: number, _y: number, _height: number, _leftPaneHidden: boolean, _resultsMode: number): void
+	setInitialWindowDimensions(x: number, y: number, height: number, leftPaneHidden: boolean, _resultsMode: number): void
 	{
-		log.debug('Window preferences set');
+		if(this._window)
+		{
+			this.setLeftPaneVisibility(!leftPaneHidden);
+			this._window.x = x;
+			this._window.y = y;
+			this._window.height = height;
+		}
+		else
+		{
+			this._lastWindowX = x;
+			this._lastWindowY = y;
+			this._lastWindowHeight = height;
+			this._lastLeftPaneHidden = leftPaneHidden;
+		}
 	}
 
 	/**
 	 * Refresh lifted rooms display.
 	 *
-	 * @see source_as_win63/habbo/navigator/view/NavigatorView.as refreshLiftedRooms()
+	 * @see sources/win63_version/habbo/navigator/view/NavigatorView.as refreshLiftedRooms()
 	 */
 	refreshLiftedRooms(): void
 	{
-		log.debug('Lifted rooms refreshed');
+		if(this._liftView)
+		{
+			this._liftView.refresh();
+		}
 	}
 
 	/**
 	 * Handle group details arrival.
 	 *
-	 * @see source_as_win63/habbo/navigator/view/NavigatorView.as onGroupDetailsArrived()
+	 * @see sources/win63_version/habbo/navigator/view/NavigatorView.as onGroupDetailsArrived()
 	 */
-	onGroupDetailsArrived(_groupId: number): void
+	onGroupDetailsArrived(groupId: number): void
 	{
-		log.debug('Group details arrived');
+		if(this._waitingForGroupDetails === groupId)
+		{
+			this._waitingForGroupDetails = -1;
+		}
+	}
+
+	/**
+	 * Set the left pane visibility and adjust window layout.
+	 *
+	 * @param visible - Whether the left pane should be visible
+	 *
+	 * @see sources/win63_version/habbo/navigator/view/NavigatorView.as setLeftPaneVisibility()
+	 */
+	setLeftPaneVisibility(visible: boolean): void
+	{
+		if(!this._window || !this._rightPane) return;
+
+		const leftPane = this._window.findChildByName('left_pane');
+
+		if(!leftPane) return;
+
+		const offset = this._rightPaneOriginalX - this._leftPaneMargin + LEFT_PANE_MARGIN_CONST;
+
+		// Temporarily enable manual positioning
+		this._rightPane.setParamFlag(0, true);
+		this._rightPane.setParamFlag(128, false);
+
+		if(!visible)
+		{
+			leftPane.visible = false;
+			this._rightPane.x = this._leftPaneMarginConst;
+			this._window.width = this._window.width - offset + this._leftPaneMarginConst;
+		}
+		else
+		{
+			leftPane.visible = true;
+			this._rightPane.x = this._rightPaneOriginalX;
+
+			const newWidth = this._window.width + offset - this._leftPaneMarginConst;
+			const clampedWidth = newWidth > MAX_WINDOW_WIDTH ? MAX_WINDOW_WIDTH : newWidth;
+
+			this._window.width = clampedWidth;
+		}
+
+		// Restore auto layout
+		this._rightPane.setParamFlag(0, false);
+		this._rightPane.setParamFlag(128, true);
+
+		const hideContainer = this._window.findChildByName('left_hide_container');
+		const showContainer = this._window.findChildByName('left_show_container');
+
+		if(hideContainer) hideContainer.visible = visible;
+		if(showContainer) showContainer.visible = !visible;
+
+		const tabPosition = visible ? STARTING_TAB_POSITION : STARTING_TAB_POSITION - offset / 2;
+		const tabContext = this._window.findChildByName('top_view_select_tab_context');
+
+		if(tabContext)
+		{
+			tabContext.x = tabPosition;
+		}
 	}
 
 	/**
 	 * Dispose the view and clean up.
 	 *
-	 * @see source_as_win63/habbo/navigator/view/NavigatorView.as dispose()
+	 * @see sources/win63_version/habbo/navigator/view/NavigatorView.as dispose()
 	 */
 	dispose(): void
 	{
+		if(this._roomInfoPopup)
+		{
+			this._roomInfoPopup.dispose();
+			this._roomInfoPopup = null;
+		}
+
+		if(this._liftView)
+		{
+			this._liftView.dispose();
+			this._liftView = null;
+		}
+
 		if(this._window)
 		{
 			this._window.dispose();
@@ -175,12 +467,47 @@ export class NavigatorView
 	}
 
 	/**
+	 * Create sub-views (factories, search, results, tabs, quick links).
+	 *
+	 * @see sources/win63_version/habbo/navigator/view/NavigatorView.as createSubViews()
+	 */
+	private createSubViews(): void
+	{
+		if(this._blockResultsView === null)
+		{
+			this._blockResultsView = new BlockResultsView(this._navigator);
+			this._blockResultsView.categoryElementFactory = this._categoryElementFactory!;
+			this._categoryElementFactory!.blockResultsView = this._blockResultsView;
+		}
+
+		if(this._searchView === null)
+		{
+			this._searchView = new SearchView(this._navigator);
+		}
+
+		if(this._quickLinksView === null)
+		{
+			this._quickLinksView = new QuickLinksView(this._navigator);
+		}
+
+		if(this._liftView === null)
+		{
+			// LiftView creation is skipped in AS3 (empty block), but we keep the stub
+		}
+
+		if(this._topViewSelector === null)
+		{
+			this._topViewSelector = new TopViewSelector(this._navigator);
+		}
+	}
+
+	/**
 	 * Create the main navigator window via the window manager.
 	 *
-	 * Uses `buildWidgetLayout()` to create a real IWindow tree
-	 * (equivalent to AS3's `buildFromXML(assets.getAssetByName("navigator_frame_2_xml").content)`).
+	 * Builds the window tree from the layout, clones templates for reuse,
+	 * and wires up event handlers for all interactive elements.
 	 *
-	 * @see source_as_win63/habbo/navigator/view/NavigatorView.as createMainWindow()
+	 * @see sources/win63_version/habbo/navigator/view/NavigatorView.as createMainWindow()
 	 */
 	private createMainWindow(): void
 	{
@@ -199,45 +526,318 @@ export class NavigatorView
 			return;
 		}
 
-		this._window = built as IWindowContainer;
+		const windowContainer = built as IWindowContainer;
 
-		log.info(`Navigator window created: ${this._window.width}x${this._window.height} at (${this._window.x}, ${this._window.y})`);
+		// --- Clone templates from the built tree ---
 
-		// Wire up close button procedure
-		const closeButton = this._window.findChildByName?.('header_button_close');
+		// Row entry template
+		const rowEntryContainer = windowContainer.findChildByName('navigator_entry_row_container') as IWindowContainer | null;
 
-		if(closeButton)
+		if(rowEntryContainer && this._roomEntryElementFactory)
 		{
-			closeButton.addEventListener(WindowMouseEvent.CLICK, this.onCloseClick);
+			this._roomEntryElementFactory.rowEntryTemplate = rowEntryContainer.clone() as IWindowContainer;
+			rowEntryContainer.destroy();
 		}
 
-		// Wire up refresh button procedure
-		const refreshButton = this._window.findChildByName?.('refreshButton');
+		// Tile entry template and tile container template
+		const tileContainerEl = windowContainer.findChildByName('navigator_entry_tile_container');
+
+		if(tileContainerEl && this._roomEntryElementFactory)
+		{
+			const tileContainerClone = tileContainerEl.clone() as IItemListWindow;
+			const tileEntry = tileContainerClone.getListItemByName?.('navigator_entry_tile');
+
+			if(tileEntry)
+			{
+				this._roomEntryElementFactory.tileEntryTemplate = tileEntry.clone() as IWindowContainer;
+			}
+
+			tileContainerClone.destroyListItems();
+			this._roomEntryElementFactory.tileContainerTemplate = tileContainerClone;
+		}
+
+		// Clear category_content template items
+		const categoryContent = windowContainer.findChildByName('category_content') as IItemListWindow | null;
+
+		if(categoryContent)
+		{
+			categoryContent.destroyListItems();
+		}
+
+		// Category template (open)
+		const categoryContainer = windowContainer.findChildByName('category_container') as IWindowContainer | null;
+
+		if(categoryContainer && this._categoryElementFactory)
+		{
+			this._categoryElementFactory.categoryTemplate = categoryContainer.clone() as IWindowContainer;
+
+			const blockResults = windowContainer.findChildByName('block_results') as IItemListWindow | null;
+
+			if(blockResults)
+			{
+				blockResults.removeListItemAt(0);
+			}
+
+			categoryContainer.destroy();
+		}
+
+		// Collapsed category template
+		const collapsedCategory = windowContainer.findChildByName('category_container_collapsed') as IWindowContainer | null;
+
+		if(collapsedCategory && this._categoryElementFactory)
+		{
+			this._categoryElementFactory.collapsedCategoryTemplate = collapsedCategory.clone() as IWindowContainer;
+
+			const blockResults = windowContainer.findChildByName('block_results') as IItemListWindow | null;
+
+			if(blockResults)
+			{
+				blockResults.removeListItemAt(0);
+			}
+
+			collapsedCategory.destroy();
+		}
+
+		// No results template
+		const noResultsContainer = windowContainer.findChildByName('no_results_container') as IWindowContainer | null;
+
+		if(noResultsContainer && this._categoryElementFactory)
+		{
+			this._categoryElementFactory.noResultsTemplate = noResultsContainer.clone() as IWindowContainer;
+
+			const blockResults = windowContainer.findChildByName('block_results') as IItemListWindow | null;
+
+			if(blockResults)
+			{
+				blockResults.removeListItemAt(0);
+			}
+
+			noResultsContainer.destroy();
+		}
+
+		// --- Wire sub-views to their containers ---
+
+		// Block results list
+		if(this._blockResultsView)
+		{
+			const blockResultsList = windowContainer.findChildByName('block_results') as IItemListWindow | null;
+
+			if(blockResultsList)
+			{
+				this._blockResultsView.itemList = blockResultsList;
+			}
+		}
+
+		// Search tools container
+		if(this._searchView)
+		{
+			const searchTools = windowContainer.findChildByName('search_tools') as IWindowContainer | null;
+
+			if(searchTools)
+			{
+				this._searchView.container = searchTools;
+			}
+		}
+
+		// Quick links
+		if(this._quickLinksView)
+		{
+			const quickLink = windowContainer.findChildByName('quick_link') as IWindowContainer | null;
+
+			if(quickLink)
+			{
+				const linkText = quickLink.findChildByName('quick_link_text');
+
+				if(linkText)
+				{
+					linkText.caption = '';
+				}
+
+				this._quickLinksView.template = quickLink.clone() as IWindowContainer;
+			}
+
+			const quickLinksList = windowContainer.findChildByName('quicklinks_list') as IItemListWindow | null;
+
+			if(quickLinksList)
+			{
+				this._quickLinksView.itemList = quickLinksList;
+				quickLinksList.removeListItems();
+			}
+
+			if(quickLink)
+			{
+				quickLink.destroy();
+			}
+		}
+
+		// Top view selector tabs
+		if(this._topViewSelector)
+		{
+			const tabContext = windowContainer.findChildByName('top_view_select_tab_context') as ITabContextWindow | null;
+
+			if(tabContext)
+			{
+				const firstTab = tabContext.getTabItemAt(0);
+
+				if(firstTab)
+				{
+					this._topViewSelector.template = firstTab.clone() as ITabButtonWindow;
+					tabContext.removeTabItem(firstTab);
+				}
+
+				this._topViewSelector.tabContext = tabContext;
+				this._topViewSelector.refresh();
+			}
+		}
+
+		// --- Wire button procedures ---
+
+		// Store left pane margin
+		const leftPaneEl = windowContainer.findChildByName('left_pane');
+
+		if(leftPaneEl)
+		{
+			this._leftPaneMargin = leftPaneEl.x;
+		}
+
+		// Refresh button
+		const refreshButton = windowContainer.findChildByName('refreshButton');
 
 		if(refreshButton)
 		{
-			refreshButton.addEventListener(WindowMouseEvent.CLICK, this.onRefreshClick);
+			refreshButton.procedure = this.refreshSearchResults;
 		}
+
+		// Close button
+		const closeButton = windowContainer.findChildByName('header_button_close');
+
+		if(closeButton)
+		{
+			closeButton.procedure = this.headerProcedure;
+		}
+
+		// Left pane show/hide toggle
+		this._leftPaneMarginConst = LEFT_PANE_MARGIN_CONST;
+
+		const tempBack = windowContainer.findChildByName('temp_back');
+
+		if(tempBack)
+		{
+			tempBack.procedure = this.leftPaneShowHideProcedure;
+		}
+
+		// Store right pane reference for left pane toggling
+		this._rightPane = windowContainer.findChildByName('right_pane');
+
+		if(this._rightPane)
+		{
+			this._rightPaneOriginalX = this._rightPane.x;
+		}
+
+		// Store window reference
+		this._window = windowContainer;
+
+		// Start with left pane hidden
+		this.setLeftPaneVisibility(false);
+
+		// Apply initial dimensions from server or use defaults
+		if(this._lastWindowX === -1 && this._lastWindowY === -1)
+		{
+			this._lastWindowX = this._window.x;
+			this._lastWindowY = this._window.y;
+			this._lastWindowWidth = this._window.width;
+			this._lastWindowHeight = this._window.height;
+		}
+		else
+		{
+			if(this._lastLeftPaneHidden)
+			{
+				this.setLeftPaneVisibility(true);
+			}
+
+			this._window.x = this._lastWindowX;
+			this._window.y = this._lastWindowY;
+			this._window.height = this._lastWindowHeight;
+		}
+
+		log.info(`Navigator window created: ${this._window.width}x${this._window.height} at (${this._window.x}, ${this._window.y})`);
 	}
 
-	/**
-	 * Handle close button click.
-	 *
-	 * @see source_as_win63/habbo/navigator/view/NavigatorView.as headerProcedure()
-	 */
-	private onCloseClick = (_event: WindowEvent): void =>
+	private refreshSearchResults = (event: WindowEvent, window: IWindow): void =>
 	{
-		this.visible = false;
-		this._navigator.close();
+		if(event.type === 'WME_CLICK' && window.name === 'refreshButton')
+		{
+			this._navigator.performLastSearch();
+		}
 	};
 
-	/**
-	 * Handle refresh button click.
-	 *
-	 * @see source_as_win63/habbo/navigator/view/NavigatorView.as refreshSearchResults()
-	 */
-	private onRefreshClick = (_event: WindowEvent): void =>
+	private headerProcedure = (event: WindowEvent, window: IWindow): void =>
 	{
-		this._navigator.performLastSearch();
+		if(event.type === 'WME_CLICK')
+		{
+			if(window.name === 'header_button_close')
+			{
+				this.visible = false;
+			}
+		}
+	};
+
+	private createRoomProcedure = (event: WindowEvent, _window: IWindow): void =>
+	{
+		if(event.type === 'WME_CLICK')
+		{
+			// Room creation would go here
+			if(this._roomInfoPopup)
+			{
+				this._roomInfoPopup.show(false);
+			}
+		}
+	};
+
+	private promoteRoomProcedure = (event: WindowEvent, _window: IWindow): void =>
+	{
+		if(event.type === 'WME_CLICK')
+		{
+			// Catalog link event for room_ad would go here
+			if(this._roomInfoPopup)
+			{
+				this._roomInfoPopup.show(false);
+			}
+		}
+	};
+
+	private randomRoomProcedure = (event: WindowEvent, _window: IWindow): void =>
+	{
+		if(event.type === 'WME_CLICK')
+		{
+			// Random room navigation would go here
+			if(this._roomInfoPopup)
+			{
+				this._roomInfoPopup.show(false);
+			}
+
+			this.visible = false;
+		}
+	};
+
+	private leftPaneShowHideProcedure = (event: WindowEvent, _window: IWindow): void =>
+	{
+		if(event.type === 'WME_CLICK')
+		{
+			if(this._window)
+			{
+				const leftPane = this._window.findChildByName('left_pane');
+
+				if(leftPane)
+				{
+					this.setLeftPaneVisibility(!leftPane.visible);
+				}
+			}
+
+			if(this._roomInfoPopup)
+			{
+				this._roomInfoPopup.show(false);
+			}
+		}
 	};
 }
