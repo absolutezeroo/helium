@@ -149,11 +149,6 @@ export class RoomPreviewerWidget implements IRoomPreviewerWidget
 		];
 	}
 
-	public showPreview(imageUrl: string): void
-	{
-		this._previewImageUrl = imageUrl;
-	}
-
 	public set properties(values: PropertyStruct[])
 	{
 		for(const prop of values)
@@ -176,24 +171,9 @@ export class RoomPreviewerWidget implements IRoomPreviewerWidget
 		}
 	}
 
-	/**
-	 * Handle click on the room preview canvas.
-	 *
-	 * In AS3, forwards click coordinates to the RoomPreviewer.
-	 */
-	private onClickRoomView(): void
+	public showPreview(imageUrl: string): void
 	{
-		// TODO: Forward click to RoomPreviewer when integrated
-	}
-
-	/**
-	 * Handle resize of the room preview canvas.
-	 *
-	 * In AS3, updates the RoomPreviewer canvas dimensions.
-	 */
-	private onResizeCanvas(): void
-	{
-		// TODO: Update RoomPreviewer dimensions when integrated
+		this._previewImageUrl = imageUrl;
 	}
 
 	public dispose(): void
@@ -218,5 +198,25 @@ export class RoomPreviewerWidget implements IRoomPreviewerWidget
 		this._widgetWindow = null;
 		this._windowManager = null;
 		this._roomPreviewer = null;
+	}
+
+	/**
+	 * Handle click on the room preview canvas.
+	 *
+	 * In AS3, forwards click coordinates to the RoomPreviewer.
+	 */
+	private onClickRoomView(): void
+	{
+		// TODO: Forward click to RoomPreviewer when integrated
+	}
+
+	/**
+	 * Handle resize of the room preview canvas.
+	 *
+	 * In AS3, updates the RoomPreviewer canvas dimensions.
+	 */
+	private onResizeCanvas(): void
+	{
+		// TODO: Update RoomPreviewer dimensions when integrated
 	}
 }

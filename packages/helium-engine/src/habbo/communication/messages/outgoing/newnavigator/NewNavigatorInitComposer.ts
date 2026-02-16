@@ -21,5 +21,4 @@ export class NewNavigatorInitComposer extends MessageComposer<ConstructorParamet
 	{
 		return this._data;
 	}
-
 }

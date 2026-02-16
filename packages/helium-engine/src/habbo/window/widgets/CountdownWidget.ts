@@ -150,6 +150,28 @@ export class CountdownWidget implements IWidget
 		];
 	}
 
+	public set properties(values: PropertyStruct[])
+	{
+		for(const prop of values)
+		{
+			switch(prop.key)
+			{
+				case CountdownWidget.RUNNING_KEY:
+					this.running = Boolean(prop.value);
+					break;
+				case CountdownWidget.DIGITS_KEY:
+					this.digits = Number(prop.value);
+					break;
+				case CountdownWidget.SECONDS_KEY:
+					this.seconds = Number(prop.value);
+					break;
+				case CountdownWidget.COLOR_STYLE_KEY:
+					this.colorStyle = Number(prop.value);
+					break;
+			}
+		}
+	}
+
 	/**
 	 * Determine the maximum unit index for the given digit count and total seconds.
 	 */
@@ -189,28 +211,6 @@ export class CountdownWidget implements IWidget
 		}
 
 		return result;
-	}
-
-	public set properties(values: PropertyStruct[])
-	{
-		for(const prop of values)
-		{
-			switch(prop.key)
-			{
-				case CountdownWidget.RUNNING_KEY:
-					this.running = Boolean(prop.value);
-					break;
-				case CountdownWidget.DIGITS_KEY:
-					this.digits = Number(prop.value);
-					break;
-				case CountdownWidget.SECONDS_KEY:
-					this.seconds = Number(prop.value);
-					break;
-				case CountdownWidget.COLOR_STYLE_KEY:
-					this.colorStyle = Number(prop.value);
-					break;
-			}
-		}
 	}
 
 	public dispose(): void

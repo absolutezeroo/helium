@@ -1,10 +1,10 @@
-import type { IWidget } from './IWidget';
-import type { IWidgetWindow } from '@core/window/components/IWidgetWindow';
-import type { IHabboWindowManager } from '../IHabboWindowManager';
-import type { IWindowContainer } from '@core/window/IWindowContainer';
-import type { IWindow } from '@core/window/IWindow';
-import { WindowMouseEvent } from '@core/window/events/WindowMouseEvent';
-import { PropertyStruct } from '@core/window/utils/PropertyStruct';
+import type {IWidget} from './IWidget';
+import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
+import type {IHabboWindowManager} from '../IHabboWindowManager';
+import type {IWindowContainer} from '@core/window/IWindowContainer';
+import type {IWindow} from '@core/window/IWindow';
+import {WindowMouseEvent} from '@core/window/events/WindowMouseEvent';
+import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
  * Furniture image widget.
@@ -155,28 +155,6 @@ export class FurnitureImageWidget implements IWidget
 		}
 	}
 
-	/**
-	 * Refresh the furniture bitmap rendering.
-	 *
-	 * In AS3, this fetches the furniture image from the room engine and
-	 * draws to the bitmap wrapper. Stubbed for now — the UI layer handles
-	 * furniture rendering.
-	 */
-	private refresh(): void
-	{
-		// TODO: furniture bitmap rendering (Flash BitmapData logic)
-	}
-
-	/**
-	 * Handle click on the furniture region.
-	 *
-	 * In AS3, this method is empty (no-op).
-	 */
-	private onClick(_event: WindowMouseEvent): void
-	{
-		// AS3: empty onClick handler
-	}
-
 	public dispose(): void
 	{
 		if(this._disposed) return;
@@ -204,5 +182,27 @@ export class FurnitureImageWidget implements IWidget
 
 		this._windowManager = null;
 		this._disposed = true;
+	}
+
+	/**
+	 * Refresh the furniture bitmap rendering.
+	 *
+	 * In AS3, this fetches the furniture image from the room engine and
+	 * draws to the bitmap wrapper. Stubbed for now — the UI layer handles
+	 * furniture rendering.
+	 */
+	private refresh(): void
+	{
+		// TODO: furniture bitmap rendering (Flash BitmapData logic)
+	}
+
+	/**
+	 * Handle click on the furniture region.
+	 *
+	 * In AS3, this method is empty (no-op).
+	 */
+	private onClick(_event: WindowMouseEvent): void
+	{
+		// AS3: empty onClick handler
 	}
 }

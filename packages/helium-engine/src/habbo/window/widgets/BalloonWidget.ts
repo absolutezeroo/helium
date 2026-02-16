@@ -149,6 +149,42 @@ export class BalloonWidget implements IWidget
 		this._batchUpdate = false;
 	}
 
+	public dispose(): void
+	{
+		if(this._disposed) return;
+
+		this._disposed = true;
+
+		if(this._widgetWindow)
+		{
+			this._widgetWindow.removeEventListener(WindowEvent.WE_RESIZE, this._onChangeBound);
+			this._widgetWindow.removeEventListener(WindowEvent.WE_RESIZED, this._onChangeBound);
+		}
+
+		if(this._border)
+		{
+			this._border.removeEventListener(WindowEvent.WE_RESIZE, this._onChangeBound);
+			this._border.removeEventListener(WindowEvent.WE_RESIZED, this._onChangeBound);
+			this._border = null;
+		}
+
+		this._arrowBitmap = null;
+
+		if(this._root)
+		{
+			this._root.dispose();
+			this._root = null;
+		}
+
+		if(this._widgetWindow)
+		{
+			this._widgetWindow.rootWindow = null;
+		}
+
+		this._widgetWindow = null;
+		this._windowManager = null;
+	}
+
 	/**
 	 * Sync param flags from widgetWindow to border.
 	 */
@@ -200,41 +236,5 @@ export class BalloonWidget implements IWidget
 	private refresh(): void
 	{
 		// TODO: Implement full arrow positioning logic from AS3
-	}
-
-	public dispose(): void
-	{
-		if(this._disposed) return;
-
-		this._disposed = true;
-
-		if(this._widgetWindow)
-		{
-			this._widgetWindow.removeEventListener(WindowEvent.WE_RESIZE, this._onChangeBound);
-			this._widgetWindow.removeEventListener(WindowEvent.WE_RESIZED, this._onChangeBound);
-		}
-
-		if(this._border)
-		{
-			this._border.removeEventListener(WindowEvent.WE_RESIZE, this._onChangeBound);
-			this._border.removeEventListener(WindowEvent.WE_RESIZED, this._onChangeBound);
-			this._border = null;
-		}
-
-		this._arrowBitmap = null;
-
-		if(this._root)
-		{
-			this._root.dispose();
-			this._root = null;
-		}
-
-		if(this._widgetWindow)
-		{
-			this._widgetWindow.rootWindow = null;
-		}
-
-		this._widgetWindow = null;
-		this._windowManager = null;
 	}
 }

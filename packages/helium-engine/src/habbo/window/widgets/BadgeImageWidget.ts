@@ -1,10 +1,10 @@
-import type { IBadgeImageWidget } from './IBadgeImageWidget';
-import type { IWidgetWindow } from '@core/window/components/IWidgetWindow';
-import type { IHabboWindowManager } from '../IHabboWindowManager';
-import type { IWindowContainer } from '@core/window/IWindowContainer';
-import type { IWindow } from '@core/window/IWindow';
-import { WindowMouseEvent } from '@core/window/events/WindowMouseEvent';
-import { PropertyStruct } from '@core/window/utils/PropertyStruct';
+import type {IBadgeImageWidget} from './IBadgeImageWidget';
+import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
+import type {IHabboWindowManager} from '../IHabboWindowManager';
+import type {IWindowContainer} from '@core/window/IWindowContainer';
+import type {IWindow} from '@core/window/IWindow';
+import {WindowMouseEvent} from '@core/window/events/WindowMouseEvent';
+import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
  * Badge image rendering widget.
@@ -157,29 +157,6 @@ export class BadgeImageWidget implements IBadgeImageWidget
 		this.refresh();
 	}
 
-	/**
-	 * Refresh the badge bitmap rendering.
-	 *
-	 * In AS3, sets assetUri on the IStaticBitmapWrapperWindow and invalidates.
-	 * Stubbed for now — the UI layer handles badge rendering.
-	 */
-	private refresh(): void
-	{
-		if(this._batchUpdate) return;
-
-		// TODO: set _bitmap.assetUri and invalidate (Flash rendering logic)
-	}
-
-	/**
-	 * Handle click on the badge region.
-	 *
-	 * In AS3, sends GetHabboGroupDetailsMessageComposer if groupId > 0.
-	 */
-	private onClick(_event: WindowMouseEvent): void
-	{
-		// TODO: send GetHabboGroupDetailsMessageComposer if groupId > 0
-	}
-
 	public dispose(): void
 	{
 		if(this._disposed) return;
@@ -209,5 +186,28 @@ export class BadgeImageWidget implements IBadgeImageWidget
 
 		this._windowManager = null;
 		this._disposed = true;
+	}
+
+	/**
+	 * Refresh the badge bitmap rendering.
+	 *
+	 * In AS3, sets assetUri on the IStaticBitmapWrapperWindow and invalidates.
+	 * Stubbed for now — the UI layer handles badge rendering.
+	 */
+	private refresh(): void
+	{
+		if(this._batchUpdate) return;
+
+		// TODO: set _bitmap.assetUri and invalidate (Flash rendering logic)
+	}
+
+	/**
+	 * Handle click on the badge region.
+	 *
+	 * In AS3, sends GetHabboGroupDetailsMessageComposer if groupId > 0.
+	 */
+	private onClick(_event: WindowMouseEvent): void
+	{
+		// TODO: send GetHabboGroupDetailsMessageComposer if groupId > 0
 	}
 }

@@ -123,25 +123,6 @@ export class SeparatorWidget implements ISeparatorWidget
 		}
 	}
 
-	/**
-	 * Called when the canvas resizes or children change.
-	 * Triggers a refresh of the separator rendering.
-	 */
-	private onChange(): void
-	{
-		this.refresh();
-	}
-
-	/**
-	 * Refresh the separator rendering based on current layout.
-	 */
-	private refresh(): void
-	{
-		// AS3: Redraws the separator BitmapData with tiled border images
-		// and punch-through holes for children. In TS, the UI layer
-		// handles rendering based on stored state.
-	}
-
 	public dispose(): void
 	{
 		if(this._disposed) return;
@@ -177,5 +158,24 @@ export class SeparatorWidget implements ISeparatorWidget
 
 		this._widgetWindow = null;
 		this._windowManager = null;
+	}
+
+	/**
+	 * Called when the canvas resizes or children change.
+	 * Triggers a refresh of the separator rendering.
+	 */
+	private onChange(): void
+	{
+		this.refresh();
+	}
+
+	/**
+	 * Refresh the separator rendering based on current layout.
+	 */
+	private refresh(): void
+	{
+		// AS3: Redraws the separator BitmapData with tiled border images
+		// and punch-through holes for children. In TS, the UI layer
+		// handles rendering based on stored state.
 	}
 }

@@ -57,8 +57,6 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	private _lastFiltering: string = '';
 	private _roomSessionManager: IRoomSessionManager | null = null;
 	private _toolbar: IHabboToolbar | null = null;
-	private _windowManager: IHabboWindowManager | null = null;
-	private _view: NavigatorView | null = null;
 
 	constructor(context: IContext)
 	{
@@ -69,6 +67,8 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		this._cache = new NavigatorCache();
 	}
 
+	private _windowManager: IHabboWindowManager | null = null;
+
 	/**
 	 * The window manager.
 	 *
@@ -78,6 +78,8 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	{
 		return this._windowManager;
 	}
+
+	private _view: NavigatorView | null = null;
 
 	/**
 	 * The navigator view.
@@ -255,6 +257,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	initialize(topLevelContexts: NavigatorTopLevelContext[]): void
 	{
 		this._contextContainer.initialize(topLevelContexts);
+
 		this.data.topLevelContexts = topLevelContexts;
 
 		this._isReady = true;
@@ -567,6 +570,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		this._view = new NavigatorView(this);
 
 		this.send(new NewNavigatorInitComposer());
+
 		this._isInitialized = true;
 
 		log.info('New Navigator initialized');

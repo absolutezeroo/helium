@@ -44,11 +44,8 @@ export class BottomBarLeft
 	private static readonly ICON_LABEL_HEIGHT: number = 20;
 	private static readonly WINDOW_RIGHT_PADDING: number = 10;
 	private static readonly COLLAPSED_MARGIN: number = 185;
-
-	private _disposed: boolean = false;
 	private _toolbar: HabboToolbar | null;
 	private _windowManager: IHabboWindowManager | null;
-	private _window: IWindowContainer | null = null;
 	private _buttonContainer: IWindow | null = null;
 	private _leftArrow: IWindow | null = null;
 	private _rightArrow: IWindow | null = null;
@@ -57,11 +54,7 @@ export class BottomBarLeft
 	private _unseenItemCounters: Map<string, unknown> = new Map();
 	private _newItemsNotificationEnabled: boolean = false;
 	private _newItemsLabelVisible: boolean = false;
-	private _collapsed: boolean = false;
 	private _lastState: string = '';
-	private _unseenAchievementCount: number = 0;
-	private _unseenMiniMailMessageCount: number = 0;
-	private _unseenForumsCount: number = 0;
 	private _meMenuController: MeMenuNewController | null = null;
 	private _meMenuIcon: IBitmapWrapperWindow | null = null;
 
@@ -155,6 +148,8 @@ export class BottomBarLeft
 		log.debug('BottomBarLeft constructed with IWindow tree');
 	}
 
+	private _disposed: boolean = false;
+
 	/**
 	 * Whether the view is disposed
 	 */
@@ -163,12 +158,95 @@ export class BottomBarLeft
 		return this._disposed;
 	}
 
+	private _window: IWindowContainer | null = null;
+
 	/**
 	 * The root window of the toolbar
 	 */
 	get window(): IWindow | null
 	{
 		return this._window;
+	}
+
+	private _collapsed: boolean = false;
+
+	/**
+	 * Whether the bar is collapsed
+	 */
+	get collapsed(): boolean
+	{
+		return this._collapsed;
+	}
+
+	private _unseenAchievementCount: number = 0;
+
+	/**
+	 * Set the unseen achievement count
+	 */
+	set unseenAchievementCount(value: number)
+	{
+		this._unseenAchievementCount = value;
+	}
+
+	private _unseenMiniMailMessageCount: number = 0;
+
+	/**
+	 * Set the unseen mini mail message count
+	 */
+	set unseenMiniMailMessageCount(value: number)
+	{
+		this._unseenMiniMailMessageCount = value;
+	}
+
+	private _unseenForumsCount: number = 0;
+
+	/**
+	 * Set the unseen forums count
+	 */
+	set unseenForumsCount(value: number)
+	{
+		this._unseenForumsCount = value;
+	}
+
+	/**
+	 * Set the on duty state
+	 *
+	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as set onDuty()
+	 */
+	set onDuty(value: boolean)
+	{
+		if(!this._window) return;
+
+		const guideIcon = (this._window as IWindowContainer).findChildByName('guide_icon');
+
+		if(guideIcon)
+		{
+			guideIcon.visible = value;
+		}
+	}
+
+	/**
+	 * Total unseen count across me-menu categories
+	 */
+	get unseenMeMenuCount(): number
+	{
+		return this._unseenMiniMailMessageCount + this._unseenAchievementCount + this._unseenForumsCount;
+	}
+
+	/**
+	 * Get the me menu controller
+	 */
+	get memenu(): MeMenuNewController | null
+	{
+		return this._meMenuController;
+	}
+
+	/**
+	 * The link pattern for toolbar links
+	 */
+	get linkPattern(): string
+	{
+		return 'toolbar/';
 	}
 
 	/**
@@ -397,71 +475,6 @@ export class BottomBarLeft
 	}
 
 	/**
-	 * Set the on duty state
-	 *
-	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as set onDuty()
-	 */
-	set onDuty(value: boolean)
-	{
-		if(!this._window) return;
-
-		const guideIcon = (this._window as IWindowContainer).findChildByName('guide_icon');
-
-		if(guideIcon)
-		{
-			guideIcon.visible = value;
-		}
-	}
-
-	/**
-	 * Set the unseen achievement count
-	 */
-	set unseenAchievementCount(value: number)
-	{
-		this._unseenAchievementCount = value;
-	}
-
-	/**
-	 * Set the unseen mini mail message count
-	 */
-	set unseenMiniMailMessageCount(value: number)
-	{
-		this._unseenMiniMailMessageCount = value;
-	}
-
-	/**
-	 * Set the unseen forums count
-	 */
-	set unseenForumsCount(value: number)
-	{
-		this._unseenForumsCount = value;
-	}
-
-	/**
-	 * Total unseen count across me-menu categories
-	 */
-	get unseenMeMenuCount(): number
-	{
-		return this._unseenMiniMailMessageCount + this._unseenAchievementCount + this._unseenForumsCount;
-	}
-
-	/**
-	 * Get the me menu controller
-	 */
-	get memenu(): MeMenuNewController | null
-	{
-		return this._meMenuController;
-	}
-
-	/**
-	 * The link pattern for toolbar links
-	 */
-	get linkPattern(): string
-	{
-		return 'toolbar/';
-	}
-
-	/**
 	 * Handle a received link event
 	 *
 	 * @param link The link string
@@ -505,14 +518,6 @@ export class BottomBarLeft
 		return this._collapsed
 			? BottomBarLeft.COLLAPSED_MARGIN
 			: this._lineSeparator.x + this._lineSeparator.parent.x;
-	}
-
-	/**
-	 * Whether the bar is collapsed
-	 */
-	get collapsed(): boolean
-	{
-		return this._collapsed;
 	}
 
 	/**
@@ -640,6 +645,65 @@ export class BottomBarLeft
 		);
 
 		return Motions.runMotion(flyMotion);
+	}
+
+	/**
+	 * Set bitmap data for a toolbar icon.
+	 *
+	 * In AS3, this sets BitmapData on the MEMENU's icon_me_menu child,
+	 * caching the previous bitmap for hover state restoration.
+	 *
+	 * @param iconId - The icon identifier (e.g. 'HTIE_ICON_MEMENU')
+	 * @param bitmap - The ImageBitmap to set
+	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as setIconBitmap()
+	 */
+	public setIconBitmap(iconId: string, bitmap: ImageBitmap | null): void
+	{
+		if(iconId !== 'HTIE_ICON_MEMENU') return;
+
+		if(this._meMenuIcon)
+		{
+			this._meMenuIcon.bitmapData = bitmap;
+			(this._meMenuIcon as unknown as IWindow).invalidate();
+		}
+	}
+
+	/**
+	 * Dispose of this view and all its resources
+	 *
+	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as dispose()
+	 */
+	public dispose(): void
+	{
+		if(this._disposed) return;
+
+		if(this._meMenuController)
+		{
+			this._meMenuController.dispose();
+			this._meMenuController = null;
+		}
+
+		if(this._window)
+		{
+			this._window.dispose();
+			this._window = null;
+		}
+
+		if(this._newItemsLabel)
+		{
+			this._newItemsLabel.dispose();
+			this._newItemsLabel = null;
+		}
+
+		this._unseenItemCounters.clear();
+		this._buttonContainer = null;
+		this._leftArrow = null;
+		this._rightArrow = null;
+		this._meMenuIcon = null;
+		this._lineSeparator = null;
+		this._toolbar = null;
+		this._windowManager = null;
+		this._disposed = true;
 	}
 
 	/**
@@ -856,64 +920,5 @@ export class BottomBarLeft
 		};
 
 		resourceManager.retrieveAsset('icons_toolbar_me_menu_placeholder', receiver);
-	}
-
-	/**
-	 * Set bitmap data for a toolbar icon.
-	 *
-	 * In AS3, this sets BitmapData on the MEMENU's icon_me_menu child,
-	 * caching the previous bitmap for hover state restoration.
-	 *
-	 * @param iconId - The icon identifier (e.g. 'HTIE_ICON_MEMENU')
-	 * @param bitmap - The ImageBitmap to set
-	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as setIconBitmap()
-	 */
-	public setIconBitmap(iconId: string, bitmap: ImageBitmap | null): void
-	{
-		if(iconId !== 'HTIE_ICON_MEMENU') return;
-
-		if(this._meMenuIcon)
-		{
-			this._meMenuIcon.bitmapData = bitmap;
-			(this._meMenuIcon as unknown as IWindow).invalidate();
-		}
-	}
-
-	/**
-	 * Dispose of this view and all its resources
-	 *
-	 * @see sources/win63_version/habbo/toolbar/BottomBarLeft.as dispose()
-	 */
-	public dispose(): void
-	{
-		if(this._disposed) return;
-
-		if(this._meMenuController)
-		{
-			this._meMenuController.dispose();
-			this._meMenuController = null;
-		}
-
-		if(this._window)
-		{
-			this._window.dispose();
-			this._window = null;
-		}
-
-		if(this._newItemsLabel)
-		{
-			this._newItemsLabel.dispose();
-			this._newItemsLabel = null;
-		}
-
-		this._unseenItemCounters.clear();
-		this._buttonContainer = null;
-		this._leftArrow = null;
-		this._rightArrow = null;
-		this._meMenuIcon = null;
-		this._lineSeparator = null;
-		this._toolbar = null;
-		this._windowManager = null;
-		this._disposed = true;
 	}
 }

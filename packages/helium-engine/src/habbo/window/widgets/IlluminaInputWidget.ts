@@ -175,19 +175,6 @@ export class IlluminaInputWidget implements IIlluminaInputWidget
 		];
 	}
 
-	/**
-	 * Submit the current message via the handler.
-	 *
-	 * @param widgetId - The widget identifier
-	 */
-	public submitMessage(widgetId: string): void
-	{
-		if(this._submitHandler)
-		{
-			this._submitHandler.onInput(widgetId, this._message);
-		}
-	}
-
 	public set properties(values: PropertyStruct[])
 	{
 		for(const prop of values)
@@ -208,6 +195,46 @@ export class IlluminaInputWidget implements IIlluminaInputWidget
 					break;
 			}
 		}
+	}
+
+	/**
+	 * Submit the current message via the handler.
+	 *
+	 * @param widgetId - The widget identifier
+	 */
+	public submitMessage(widgetId: string): void
+	{
+		if(this._submitHandler)
+		{
+			this._submitHandler.onInput(widgetId, this._message);
+		}
+	}
+
+	public dispose(): void
+	{
+		if(this._disposed) return;
+
+		this._disposed = true;
+
+		if(this._root)
+		{
+			this._root.procedure = null;
+			this._root.dispose();
+			this._root = null;
+		}
+
+		this._submitButton = null;
+		this._input = null;
+		this._emptyMessageLabel = null;
+
+		if(this._widgetWindow)
+		{
+			this._widgetWindow.rootWindow = null;
+		}
+
+		this._widgetWindow = null;
+		this._windowManager = null;
+		this._submitHandler = null;
 	}
 
 	/**
@@ -289,32 +316,5 @@ export class IlluminaInputWidget implements IIlluminaInputWidget
 		{
 			this._emptyMessageLabel.visible = (this._message.length === 0);
 		}
-	}
-
-	public dispose(): void
-	{
-		if(this._disposed) return;
-
-		this._disposed = true;
-
-		if(this._root)
-		{
-			this._root.procedure = null;
-			this._root.dispose();
-			this._root = null;
-		}
-
-		this._submitButton = null;
-		this._input = null;
-		this._emptyMessageLabel = null;
-
-		if(this._widgetWindow)
-		{
-			this._widgetWindow.rootWindow = null;
-		}
-
-		this._widgetWindow = null;
-		this._windowManager = null;
-		this._submitHandler = null;
 	}
 }

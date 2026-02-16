@@ -145,28 +145,6 @@ export class RunningNumberWidget implements IRunningNumberWidget
 		];
 	}
 
-	/**
-	 * Update the animation by the given elapsed milliseconds.
-	 *
-	 * @param elapsed - Milliseconds since last update
-	 */
-	public update(elapsed: number): void
-	{
-		if(this._displayedNumber < this._number)
-		{
-			this._millisSinceLastUpdate += elapsed;
-
-			if(this._millisSinceLastUpdate > this._updateFrequency)
-			{
-				this._displayedNumber = Math.min(
-					this._number,
-					this._displayedNumber + this._millisSinceLastUpdate / this._updateFrequency
-				);
-				this._millisSinceLastUpdate -= this._updateFrequency;
-			}
-		}
-	}
-
 	public set properties(values: PropertyStruct[])
 	{
 		for(const prop of values)
@@ -185,6 +163,28 @@ export class RunningNumberWidget implements IRunningNumberWidget
 				case RunningNumberWidget.UPDATE_FREQUENCY_KEY:
 					this.updateFrequency = Number(prop.value);
 					break;
+			}
+		}
+	}
+
+	/**
+	 * Update the animation by the given elapsed milliseconds.
+	 *
+	 * @param elapsed - Milliseconds since last update
+	 */
+	public update(elapsed: number): void
+	{
+		if(this._displayedNumber < this._number)
+		{
+			this._millisSinceLastUpdate += elapsed;
+
+			if(this._millisSinceLastUpdate > this._updateFrequency)
+			{
+				this._displayedNumber = Math.min(
+					this._number,
+					this._displayedNumber + this._millisSinceLastUpdate / this._updateFrequency
+				);
+				this._millisSinceLastUpdate -= this._updateFrequency;
 			}
 		}
 	}

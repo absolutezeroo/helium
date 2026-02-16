@@ -200,6 +200,37 @@ export class IlluminaChatBubbleWidget implements IIlluminaChatBubbleWidget
 		];
 	}
 
+	public set properties(values: PropertyStruct[])
+	{
+		for(const prop of values)
+		{
+			switch(prop.key)
+			{
+				case IlluminaChatBubbleWidget.FLIPPED_KEY:
+					this.flipped = Boolean(prop.value);
+					break;
+				case IlluminaChatBubbleWidget.USER_NAME_KEY:
+					this.userName = String(prop.value);
+					break;
+				case IlluminaChatBubbleWidget.FIGURE_KEY:
+					this.figure = String(prop.value);
+					break;
+				case IlluminaChatBubbleWidget.MESSAGE_KEY:
+				{
+					const msgs = IlluminaChatBubbleWidget.getMessagesFromProperty(String(prop.value));
+					this._messages = [];
+					this._confirmationIds = [];
+
+					for(const msg of msgs)
+					{
+						this.appendMessage(msg);
+					}
+					break;
+				}
+			}
+		}
+	}
+
 	/**
 	 * Parse messages from a tab-separated property string.
 	 */
@@ -271,51 +302,6 @@ export class IlluminaChatBubbleWidget implements IIlluminaChatBubbleWidget
 		return this._confirmationIds[messageIndex] ?? 0;
 	}
 
-	public set properties(values: PropertyStruct[])
-	{
-		for(const prop of values)
-		{
-			switch(prop.key)
-			{
-				case IlluminaChatBubbleWidget.FLIPPED_KEY:
-					this.flipped = Boolean(prop.value);
-					break;
-				case IlluminaChatBubbleWidget.USER_NAME_KEY:
-					this.userName = String(prop.value);
-					break;
-				case IlluminaChatBubbleWidget.FIGURE_KEY:
-					this.figure = String(prop.value);
-					break;
-				case IlluminaChatBubbleWidget.MESSAGE_KEY:
-				{
-					const msgs = IlluminaChatBubbleWidget.getMessagesFromProperty(String(prop.value));
-					this._messages = [];
-					this._confirmationIds = [];
-
-					for(const msg of msgs)
-					{
-						this.appendMessage(msg);
-					}
-					break;
-				}
-			}
-		}
-	}
-
-	/**
-	 * Root procedure for handling window events on the chat bubble tree.
-	 *
-	 * @param event - The window event
-	 * @param window - The source window
-	 */
-	private rootProcedure(event: WindowEvent, window: IWindow): void
-	{
-		if(this._disposed) return;
-
-		// Event handling for chat bubble interactions
-		// Most visual logic is handled by the client UI layer
-	}
-
 	public dispose(): void
 	{
 		if(this._disposed) return;
@@ -354,5 +340,19 @@ export class IlluminaChatBubbleWidget implements IIlluminaChatBubbleWidget
 		this._windowManager = null;
 		this._messages = [];
 		this._confirmationIds = [];
+	}
+
+	/**
+	 * Root procedure for handling window events on the chat bubble tree.
+	 *
+	 * @param event - The window event
+	 * @param window - The source window
+	 */
+	private rootProcedure(event: WindowEvent, window: IWindow): void
+	{
+		if(this._disposed) return;
+
+		// Event handling for chat bubble interactions
+		// Most visual logic is handled by the client UI layer
 	}
 }

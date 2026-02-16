@@ -114,6 +114,28 @@ export class ProgressIndicatorWidget implements IWidget
 		];
 	}
 
+	public set properties(values: PropertyStruct[])
+	{
+		for(const prop of values)
+		{
+			switch(prop.key)
+			{
+				case ProgressIndicatorWidget.STYLE_KEY:
+					this.style = String(prop.value);
+					break;
+				case ProgressIndicatorWidget.SIZE_KEY:
+					this.size = Number(prop.value);
+					break;
+				case ProgressIndicatorWidget.POSITION_KEY:
+					this.position = Number(prop.value);
+					break;
+				case ProgressIndicatorWidget.MODE_KEY:
+					this.mode = String(prop.value);
+					break;
+			}
+		}
+	}
+
 	/**
 	 * Get the active state of each disk for rendering.
 	 *
@@ -149,28 +171,6 @@ export class ProgressIndicatorWidget implements IWidget
 		const active = this.getDiskStates()[index] ?? false;
 
 		return 'progress_disk_' + this._style + (active ? '_on' : '_off');
-	}
-
-	public set properties(values: PropertyStruct[])
-	{
-		for(const prop of values)
-		{
-			switch(prop.key)
-			{
-				case ProgressIndicatorWidget.STYLE_KEY:
-					this.style = String(prop.value);
-					break;
-				case ProgressIndicatorWidget.SIZE_KEY:
-					this.size = Number(prop.value);
-					break;
-				case ProgressIndicatorWidget.POSITION_KEY:
-					this.position = Number(prop.value);
-					break;
-				case ProgressIndicatorWidget.MODE_KEY:
-					this.mode = String(prop.value);
-					break;
-			}
-		}
 	}
 
 	public dispose(): void

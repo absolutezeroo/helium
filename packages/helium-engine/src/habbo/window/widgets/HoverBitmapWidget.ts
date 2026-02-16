@@ -169,6 +169,29 @@ export class HoverBitmapWidget implements IWidget
 		}
 	}
 
+	public dispose(): void
+	{
+		if(this._disposed) return;
+
+		this._disposed = true;
+
+		if(this._bitmap)
+		{
+			this._bitmap.removeEventListener(WindowMouseEvent.OVER, this._onMouseOverBound);
+			this._bitmap.removeEventListener(WindowMouseEvent.OUT, this._onMouseOutBound);
+			this._bitmap.dispose();
+			this._bitmap = null;
+		}
+
+		if(this._widgetWindow)
+		{
+			this._widgetWindow.rootWindow = null;
+		}
+
+		this._widgetWindow = null;
+		this._windowManager = null;
+	}
+
 	/**
 	 * Handle mouse over event. Switches to hover asset.
 	 */
@@ -193,28 +216,5 @@ export class HoverBitmapWidget implements IWidget
 		{
 			this._bitmap.assetUri = this._normalAsset;
 		}
-	}
-
-	public dispose(): void
-	{
-		if(this._disposed) return;
-
-		this._disposed = true;
-
-		if(this._bitmap)
-		{
-			this._bitmap.removeEventListener(WindowMouseEvent.OVER, this._onMouseOverBound);
-			this._bitmap.removeEventListener(WindowMouseEvent.OUT, this._onMouseOutBound);
-			this._bitmap.dispose();
-			this._bitmap = null;
-		}
-
-		if(this._widgetWindow)
-		{
-			this._widgetWindow.rootWindow = null;
-		}
-
-		this._widgetWindow = null;
-		this._windowManager = null;
 	}
 }

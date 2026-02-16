@@ -62,14 +62,14 @@ export class RoomThumbnailWidget implements IRoomThumbnailWidget
 		return [];
 	}
 
-	public reset(): void
-	{
-		this._flatId = 0;
-	}
-
 	public set properties(_values: PropertyStruct[])
 	{
 		// AS3: properties setter is a no-op for this widget
+	}
+
+	public reset(): void
+	{
+		this._flatId = 0;
 	}
 
 	public dispose(): void

@@ -324,24 +324,6 @@ export class IlluminaBorderWidget implements IIlluminaBorderWidget
 		this._batchUpdate = false;
 	}
 
-	/**
-	 * Handle change events. Calls refresh to redraw the border.
-	 */
-	private onChange(): void
-	{
-		this.refresh();
-	}
-
-	/**
-	 * Refresh the border rendering.
-	 *
-	 * Border drawing is handled by the CSS layer in the TypeScript port.
-	 */
-	private refresh(): void
-	{
-		// TODO: Border drawing stub - CSS layer handles it
-	}
-
 	public dispose(): void
 	{
 		if(this._disposed) return;
@@ -377,5 +359,23 @@ export class IlluminaBorderWidget implements IIlluminaBorderWidget
 
 		this._widgetWindow = null;
 		this._windowManager = null;
+	}
+
+	/**
+	 * Handle change events. Calls refresh to redraw the border.
+	 */
+	private onChange(): void
+	{
+		this.refresh();
+	}
+
+	/**
+	 * Refresh the border rendering.
+	 *
+	 * Border drawing is handled by the CSS layer in the TypeScript port.
+	 */
+	private refresh(): void
+	{
+		// TODO: Border drawing stub - CSS layer handles it
 	}
 }

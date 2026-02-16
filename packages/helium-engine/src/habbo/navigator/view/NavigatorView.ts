@@ -1,7 +1,7 @@
 import {Logger} from '@core/utils/Logger';
-import {WindowManagerEvents} from '../../window/IHabboWindowManager';
-import type {IWindowInstance} from '../../window/IWindowInstance';
-import type {IWindowLayout} from '../../window/IWindowLayout';
+import type {IWindowContainer} from '@core/window/IWindowContainer';
+import {WindowMouseEvent} from '@core/window/events/WindowMouseEvent';
+import type {WindowEvent} from '@core/window/events/WindowEvent';
 import type {HabboNewNavigator} from '../HabboNewNavigator';
 import type {NavigatorSearchResultSet} from '../../communication/messages/incoming/newnavigator';
 
@@ -12,94 +12,28 @@ const LAYOUT_NAME = 'navigator_frame_2';
 /**
  * Navigator view — manages the navigator window via the window manager.
  *
- * This mirrors the AS3 NavigatorView which used `windowManager.buildFromXML()`
- * to create the navigator window and handled all element interactions.
- *
- * In our architecture, the window manager creates instances and the client's
- * WindowLayerManager + WindowLayoutRenderer handles the actual rendering.
- * This class controls the lifecycle: create, show, hide, close.
+ * Builds the navigator window tree from the registered layout asset
+ * using `windowManager.buildWidgetLayout()` (equivalent to AS3's
+ * `windowManager.buildFromXML()`). The resulting IWindow tree is
+ * rendered by the WindowRenderer just like BottomBarLeft.
  *
  * @see source_as_win63/habbo/navigator/view/NavigatorView.as
  */
 export class NavigatorView
 {
 	private _navigator: HabboNewNavigator;
-	private _window: IWindowInstance | null = null;
-	private _visible: boolean = false;
-	private _isBusy: boolean = false;
+	private _window: IWindowContainer | null = null;
 
 	constructor(navigator: HabboNewNavigator)
 	{
 		this._navigator = navigator;
-
-		// Listen for window close events (close button clicked by user)
-		const windowManager = this._navigator.windowManager;
-
-		if(windowManager)
-		{
-			windowManager.windowEvents.on(WindowManagerEvents.WINDOW_CLOSE, this.onWindowClose.bind(this));
-			windowManager.windowEvents.on(WindowManagerEvents.WINDOW_ELEMENT_CLICK, this.onElementClick.bind(this));
-		}
 	}
 
-	/**
-	 * Show or hide the navigator window.
-	 *
-	 * On first show, creates the window via windowManager.openWindow().
-	 * Mirrors AS3's `set visible()` which called `createMainWindow()` lazily.
-	 *
-	 * @see source_as_win63/habbo/navigator/view/NavigatorView.as set visible()
-	 */
-	set visible(value: boolean)
+	private _isBusy: boolean = false;
+
+	get isBusy(): boolean
 	{
-		const windowManager = this._navigator.windowManager;
-
-		if(!windowManager) return;
-
-		if(value && this._navigator.isReady)
-		{
-			if(this._window === null)
-			{
-				this.createMainWindow();
-			}
-
-			if(this._navigator.currentResults !== null)
-			{
-				this.onSearchResults(this._navigator.currentResults);
-			}
-			else if(!this._isBusy)
-			{
-				this._navigator.performSearch('official_view');
-			}
-		}
-
-		if(this._window !== null)
-		{
-			if(value && !this._visible)
-			{
-				// Window already exists but was hidden — re-open it
-				if(!windowManager.getWindow(this._window.id))
-				{
-					this.createMainWindow();
-				}
-			}
-			else if(!value && this._visible)
-			{
-				// Hide — close the window
-				windowManager.closeWindow(this._window.id);
-				this._window = null;
-			}
-		}
-
-		this._visible = value;
-	}
-
-	/**
-	 * Whether the navigator window is visible.
-	 */
-	get visible(): boolean
-	{
-		return this._visible;
+		return this._isBusy;
 	}
 
 	/**
@@ -112,9 +46,66 @@ export class NavigatorView
 		this._isBusy = value;
 	}
 
-	get isBusy(): boolean
+	/**
+	 * Whether the navigator window is visible.
+	 *
+	 * @see source_as_win63/habbo/navigator/view/NavigatorView.as get visible()
+	 */
+	get visible(): boolean
 	{
-		return this._isBusy;
+		if(this._window)
+		{
+			return this._window.visible;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Show or hide the navigator window.
+	 *
+	 * On first show, creates the window via buildWidgetLayout().
+	 * Mirrors AS3's `set visible()` which called `createMainWindow()` lazily.
+	 *
+	 * @see source_as_win63/habbo/navigator/view/NavigatorView.as set visible()
+	 */
+	set visible(value: boolean)
+	{
+		const windowManager = this._navigator.windowManager;
+
+		if(!windowManager)
+		{
+			log.warn('WindowManager not available');
+
+			return;
+		}
+
+		log.debug(`set visible(${value}), isReady=${this._navigator.isReady}, hasWindow=${this._window !== null}`);
+
+		if(value)
+		{
+			if(this._window === null)
+			{
+				this.createMainWindow();
+			}
+
+			if(this._window)
+			{
+				if(this._navigator.currentResults !== null)
+				{
+					this.onSearchResults(this._navigator.currentResults);
+				}
+				else if(!this._isBusy)
+				{
+					this._navigator.performSearch('official_view');
+				}
+			}
+		}
+
+		if(this._window)
+		{
+			this._window.visible = value;
+		}
 	}
 
 	/**
@@ -170,10 +161,24 @@ export class NavigatorView
 	}
 
 	/**
+	 * Dispose the view and clean up.
+	 *
+	 * @see source_as_win63/habbo/navigator/view/NavigatorView.as dispose()
+	 */
+	dispose(): void
+	{
+		if(this._window)
+		{
+			this._window.dispose();
+			this._window = null;
+		}
+	}
+
+	/**
 	 * Create the main navigator window via the window manager.
 	 *
-	 * Mirrors AS3's `createMainWindow()` which called
-	 * `windowManager.buildFromXML(XML(assets.getAssetByName("navigator_frame_2_xml").content))`.
+	 * Uses `buildWidgetLayout()` to create a real IWindow tree
+	 * (equivalent to AS3's `buildFromXML(assets.getAssetByName("navigator_frame_2_xml").content)`).
 	 *
 	 * @see source_as_win63/habbo/navigator/view/NavigatorView.as createMainWindow()
 	 */
@@ -183,91 +188,56 @@ export class NavigatorView
 
 		if(!windowManager) return;
 
-		const layout: IWindowLayout | null = windowManager.getLayout(LAYOUT_NAME);
+		log.debug(`Building layout: ${LAYOUT_NAME}`);
 
-		if(!layout)
+		const built = windowManager.buildWidgetLayout(LAYOUT_NAME);
+
+		if(!built)
 		{
 			log.warn(`Layout not found: ${LAYOUT_NAME}`);
 
 			return;
 		}
 
-		this._window = windowManager.openWindow(layout);
+		this._window = built as IWindowContainer;
 
-		log.debug(`Navigator window created (id=${this._window.id})`);
+		log.info(`Navigator window created: ${this._window.width}x${this._window.height} at (${this._window.x}, ${this._window.y})`);
+
+		// Wire up close button procedure
+		const closeButton = this._window.findChildByName?.('header_button_close');
+
+		if(closeButton)
+		{
+			closeButton.addEventListener(WindowMouseEvent.CLICK, this.onCloseClick);
+		}
+
+		// Wire up refresh button procedure
+		const refreshButton = this._window.findChildByName?.('refreshButton');
+
+		if(refreshButton)
+		{
+			refreshButton.addEventListener(WindowMouseEvent.CLICK, this.onRefreshClick);
+		}
 	}
 
 	/**
-	 * Handle window close events from the window manager.
-	 *
-	 * When the user clicks the close button, the window system emits WINDOW_CLOSE.
-	 * We sync back to the engine navigator.
-	 */
-	private onWindowClose(instance: IWindowInstance): void
-	{
-		if(!this._window || instance.id !== this._window.id) return;
-
-		this._window = null;
-		this._visible = false;
-
-		this._navigator.close();
-	}
-
-	/**
-	 * Handle element click events on the navigator window.
-	 *
-	 * Mirrors AS3's window procedure callbacks:
-	 * - header_button_close → close
-	 * - refreshButton → performLastSearch
+	 * Handle close button click.
 	 *
 	 * @see source_as_win63/habbo/navigator/view/NavigatorView.as headerProcedure()
-	 * @see source_as_win63/habbo/navigator/view/NavigatorView.as refreshSearchResults()
 	 */
-	private onElementClick(data: { windowId: number; elementName: string }): void
+	private onCloseClick = (_event: WindowEvent): void =>
 	{
-		if(!this._window || data.windowId !== this._window.id) return;
-
-		switch(data.elementName)
-		{
-			case 'header_button_close':
-				this.visible = false;
-				break;
-
-			case 'refreshButton':
-				this._navigator.performLastSearch();
-				break;
-
-			case 'create_room':
-				log.debug('Create room clicked');
-				break;
-
-			case 'random_room':
-				log.debug('Random room clicked');
-				break;
-		}
-	}
+		this.visible = false;
+		this._navigator.close();
+	};
 
 	/**
-	 * Dispose the view and clean up.
+	 * Handle refresh button click.
 	 *
-	 * @see source_as_win63/habbo/navigator/view/NavigatorView.as dispose()
+	 * @see source_as_win63/habbo/navigator/view/NavigatorView.as refreshSearchResults()
 	 */
-	dispose(): void
+	private onRefreshClick = (_event: WindowEvent): void =>
 	{
-		const windowManager = this._navigator.windowManager;
-
-		if(windowManager)
-		{
-			windowManager.windowEvents.off(WindowManagerEvents.WINDOW_CLOSE, this.onWindowClose.bind(this));
-			windowManager.windowEvents.off(WindowManagerEvents.WINDOW_ELEMENT_CLICK, this.onElementClick.bind(this));
-
-			if(this._window)
-			{
-				windowManager.closeWindow(this._window.id);
-				this._window = null;
-			}
-		}
-
-		this._visible = false;
-	}
+		this._navigator.performLastSearch();
+	};
 }

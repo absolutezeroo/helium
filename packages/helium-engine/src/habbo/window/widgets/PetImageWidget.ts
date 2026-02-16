@@ -1,9 +1,9 @@
-import type { IWidget } from './IWidget';
-import type { IWidgetWindow } from '@core/window/components/IWidgetWindow';
-import type { IHabboWindowManager } from '../IHabboWindowManager';
-import type { IWindowContainer } from '@core/window/IWindowContainer';
-import type { IWindow } from '@core/window/IWindow';
-import { PropertyStruct } from '@core/window/utils/PropertyStruct';
+import type {IWidget} from './IWidget';
+import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
+import type {IHabboWindowManager} from '../IHabboWindowManager';
+import type {IWindowContainer} from '@core/window/IWindowContainer';
+import type {IWindow} from '@core/window/IWindow';
+import {PropertyStruct} from '@core/window/utils/PropertyStruct';
 
 /**
  * Pet image rendering widget.
@@ -177,16 +177,6 @@ export class PetImageWidget implements IWidget
 		];
 	}
 
-	/**
-	 * Clean up a pet figure string, replacing NaN values.
-	 */
-	private static cleanupAvatarString(figure: string): string
-	{
-		if(!figure) return PetImageWidget.FIGURE_DEFAULT;
-
-		return figure.replace(/NaN/g, '');
-	}
-
 	public set properties(values: PropertyStruct[])
 	{
 		for(const prop of values)
@@ -216,15 +206,13 @@ export class PetImageWidget implements IWidget
 	}
 
 	/**
-	 * Refresh the pet bitmap rendering.
-	 *
-	 * In AS3, this fetches the pet image from the room engine and draws
-	 * to the bitmap wrapper. Stubbed for now — the UI layer handles
-	 * pet rendering.
+	 * Clean up a pet figure string, replacing NaN values.
 	 */
-	private refresh(): void
+	private static cleanupAvatarString(figure: string): string
 	{
-		// TODO: pet bitmap rendering (Flash BitmapData logic)
+		if(!figure) return PetImageWidget.FIGURE_DEFAULT;
+
+		return figure.replace(/NaN/g, '');
 	}
 
 	public dispose(): void
@@ -253,5 +241,17 @@ export class PetImageWidget implements IWidget
 
 		this._windowManager = null;
 		this._disposed = true;
+	}
+
+	/**
+	 * Refresh the pet bitmap rendering.
+	 *
+	 * In AS3, this fetches the pet image from the room engine and draws
+	 * to the bitmap wrapper. Stubbed for now — the UI layer handles
+	 * pet rendering.
+	 */
+	private refresh(): void
+	{
+		// TODO: pet bitmap rendering (Flash BitmapData logic)
 	}
 }

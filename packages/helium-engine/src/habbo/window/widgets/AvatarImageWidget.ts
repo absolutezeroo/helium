@@ -7,7 +7,9 @@ import type {IWindow} from '@core/window/IWindow';
 import type {IBitmapWrapperWindow} from '@core/window/components/IBitmapWrapperWindow';
 import {WindowMouseEvent} from '@core/window/events/WindowMouseEvent';
 import {PropertyStruct} from '@core/window/utils/PropertyStruct';
-import {GetExtendedProfileMessageComposer} from '@habbo/communication/messages/outgoing/users/GetExtendedProfileMessageComposer';
+import {
+	GetExtendedProfileMessageComposer
+} from '@habbo/communication/messages/outgoing/users/GetExtendedProfileMessageComposer';
 
 /**
  * Avatar image rendering widget.
@@ -264,6 +266,35 @@ export class AvatarImageWidget implements IAvatarImageWidget, IAvatarImageListen
 		}
 	}
 
+	public dispose(): void
+	{
+		if(this._disposed) return;
+
+		if(this._region)
+		{
+			this._region.removeEventListener(WindowMouseEvent.CLICK, this._onClickBound);
+			this._region.dispose();
+			this._region = null;
+		}
+
+		this._bitmap = null;
+
+		if(this._root)
+		{
+			this._root.dispose();
+			this._root = null;
+		}
+
+		if(this._widgetWindow)
+		{
+			this._widgetWindow.rootWindow = null;
+			this._widgetWindow = null;
+		}
+
+		this._windowManager = null;
+		this._disposed = true;
+	}
+
 	/**
 	 * Refresh the avatar bitmap rendering.
 	 *
@@ -337,34 +368,5 @@ export class AvatarImageWidget implements IAvatarImageWidget, IAvatarImageListen
 				communication.connection.send(new GetExtendedProfileMessageComposer(this._userId));
 			}
 		}
-	}
-
-	public dispose(): void
-	{
-		if(this._disposed) return;
-
-		if(this._region)
-		{
-			this._region.removeEventListener(WindowMouseEvent.CLICK, this._onClickBound);
-			this._region.dispose();
-			this._region = null;
-		}
-
-		this._bitmap = null;
-
-		if(this._root)
-		{
-			this._root.dispose();
-			this._root = null;
-		}
-
-		if(this._widgetWindow)
-		{
-			this._widgetWindow.rootWindow = null;
-			this._widgetWindow = null;
-		}
-
-		this._windowManager = null;
-		this._disposed = true;
 	}
 }
