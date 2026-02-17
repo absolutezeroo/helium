@@ -4,6 +4,7 @@ import type {IAssetReceiver} from '../IAssetReceiver';
 import type {IResourceManager} from '../IResourceManager';
 import type {IStaticBitmapWrapperWindow} from './IStaticBitmapWrapperWindow';
 import {BitmapDataController} from './BitmapDataController';
+import {PropertyStruct} from '../utils/PropertyStruct';
 import {WindowEvent} from '../events/WindowEvent';
 
 /**
@@ -41,11 +42,7 @@ export class StaticBitmapWrapperController extends BitmapDataController implemen
 
 	/**
 	 * The asset URI for this static bitmap.
-	 *
 	 * Setting this triggers an asset request via the ResourceManager.
-	 * When the asset is loaded, `receiveAsset()` is called.
-	 *
-	 * In AS3: `StaticBitmapWrapperController._assetUri`
 	 */
 	public get assetUri(): string
 	{
@@ -54,14 +51,13 @@ export class StaticBitmapWrapperController extends BitmapDataController implemen
 
 	public set assetUri(value: string)
 	{
-		if (this._assetUri === value) return;
+		if(this._assetUri === value) return;
 
 		this._assetUri = value ?? '';
 
-		if (!this._assetUri)
+		if(!this._assetUri)
 		{
-			// Clear bitmap
-			if (this._ownsBitmapData && this._bitmapData)
+			if(this._ownsBitmapData && this._bitmapData)
 			{
 				this._bitmapData.close();
 			}
@@ -73,12 +69,11 @@ export class StaticBitmapWrapperController extends BitmapDataController implemen
 			return;
 		}
 
-		// Request asset from resource manager
 		const resourceManager = (this._context as unknown as {
 			getResourceManager(): IResourceManager | null
 		}).getResourceManager();
 
-		if (resourceManager)
+		if(resourceManager)
 		{
 			resourceManager.retrieveAsset(this._assetUri, this);
 		}
@@ -86,29 +81,17 @@ export class StaticBitmapWrapperController extends BitmapDataController implemen
 
 	/**
 	 * Callback from ResourceManager when the asset is loaded.
-	 *
-	 * The bitmap is owned by the ResourceManager cache — we must NOT
-	 * close it, otherwise the cache entry becomes unusable. In AS3 the
-	 * ResourceManager provided cloned BitmapData; here we share the
-	 * same ImageBitmap instance, so `_ownsBitmapData` stays `false`.
-	 *
-	 * In AS3: `receiveAsset(asset: IAsset, name: String)`
-	 *
-	 * @param bitmap - The decoded bitmap
-	 * @param uri - The resolved asset URI
 	 */
 	public receiveAsset(bitmap: ImageBitmap, uri: string): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
-		// Verify the URI still matches (asset may have changed while loading)
 		const resourceManager = (this._context as unknown as {
 			getResourceManager(): IResourceManager | null
 		}).getResourceManager();
 
-		if (resourceManager && !resourceManager.isSameAsset(this._assetUri, uri)) return;
+		if(resourceManager && !resourceManager.isSameAsset(this._assetUri, uri)) return;
 
-		// Do NOT close old bitmap — it belongs to the ResourceManager cache
 		this._bitmapData = bitmap;
 		this._ownsBitmapData = false;
 
@@ -116,11 +99,35 @@ export class StaticBitmapWrapperController extends BitmapDataController implemen
 		this._context.invalidate(this, null, 1);
 	}
 
+	public override get properties(): unknown[]
+	{
+		const props = super.properties;
+
+		props.unshift(this.createProperty('asset_uri', this._assetUri));
+
+		return props;
+	}
+
+	public override set properties(value: unknown[])
+	{
+		for(const item of value)
+		{
+			const prop = item as PropertyStruct;
+
+			if(prop.key === 'asset_uri')
+			{
+				this.assetUri = (prop.value as string) ?? '';
+			}
+		}
+
+		super.properties = value;
+	}
+
 	public override dispose(): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
-		if (this._ownsBitmapData && this._bitmapData)
+		if(this._ownsBitmapData && this._bitmapData)
 		{
 			this._bitmapData.close();
 			this._bitmapData = null;

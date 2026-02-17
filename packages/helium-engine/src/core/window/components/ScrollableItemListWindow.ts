@@ -102,6 +102,76 @@ export class ScrollableItemListWindow extends ContainerController implements ISc
 		return this.itemList?.lastListItem ?? null;
 	}
 
+	public get isPartOfGridWindow(): boolean
+	{
+		return this.itemList?.isPartOfGridWindow ?? false;
+	}
+
+	public set isPartOfGridWindow(value: boolean)
+	{
+		if(this.itemList) this.itemList.isPartOfGridWindow = value;
+	}
+
+	public get scrollH(): number
+	{
+		return this.itemList?.scrollH ?? 0;
+	}
+
+	public set scrollH(value: number)
+	{
+		if(this.itemList) this.itemList.scrollH = value;
+	}
+
+	public get scrollV(): number
+	{
+		return this.itemList?.scrollV ?? 0;
+	}
+
+	public set scrollV(value: number)
+	{
+		if(this.itemList) this.itemList.scrollV = value;
+	}
+
+	public get scrollStepH(): number
+	{
+		return this.itemList?.scrollStepH ?? 25;
+	}
+
+	public set scrollStepH(value: number)
+	{
+		if(this.itemList) this.itemList.scrollStepH = value;
+	}
+
+	public get scrollStepV(): number
+	{
+		return this.itemList?.scrollStepV ?? 25;
+	}
+
+	public set scrollStepV(value: number)
+	{
+		if(this.itemList) this.itemList.scrollStepV = value;
+	}
+
+	public get maxScrollH(): number
+	{
+		return this.itemList?.maxScrollH ?? 0;
+	}
+
+	public get maxScrollV(): number
+	{
+		return this.itemList?.maxScrollV ?? 0;
+	}
+
+	public get visibleRegion(): { x: number; y: number; width: number; height: number }
+	{
+		return this.itemList?.visibleRegion ?? { x: 0, y: 0, width: this.width, height: this.height };
+	}
+
+	public get scrollableRegion(): { x: number; y: number; width: number; height: number }
+	{
+		return this.itemList?.scrollableRegion ?? { x: 0, y: 0, width: 0, height: 0 };
+	}
+
 	// ── IItemListWindow delegation ──────────────────────────────────
 
 	public get disableAutodrag(): boolean
@@ -111,7 +181,7 @@ export class ScrollableItemListWindow extends ContainerController implements ISc
 
 	public set disableAutodrag(value: boolean)
 	{
-		if (this.itemList) this.itemList.disableAutodrag = value;
+		if(this.itemList) this.itemList.disableAutodrag = value;
 	}
 
 	/**

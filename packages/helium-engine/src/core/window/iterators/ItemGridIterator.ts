@@ -2,30 +2,39 @@ import type {IWindow} from '../IWindow';
 import type {IIterator} from '../utils/IIterator';
 
 /**
+ * Iterator interface for ItemGridController.
+ * Uses duck-typing to avoid circular imports.
+ */
+interface IItemGridHost
+{
+	numGridItems: number;
+	getGridItemAt(index: number): IWindow | null;
+	getGridItemIndex(item: IWindow): number;
+}
+
+/**
  * Iterator for traversing items in an ItemGrid window.
  *
- * In AS3 this extended Proxy and delegated to ItemGridController methods
- * (numGridItems, getGridItemAt, getGridItemIndex). In TypeScript we
- * implement the simplified IIterator interface over a plain array of
- * child windows.
+ * In AS3, extends Proxy and delegates to ItemGridController methods
+ * (numGridItems, getGridItemAt, getGridItemIndex).
  *
- * @see sources/win63_2021_version/com/sulake/core/window/iterators/ItemGridIterator.as
+ * @see sources/win63_version/com/sulake/core/window/iterators/ItemGridIterator.as
  */
 export class ItemGridIterator implements IIterator
 {
-	private _children: IWindow[];
+	private _grid: IItemGridHost;
 	private _index: number = 0;
 
-	constructor(children: IWindow[])
+	constructor(grid: IItemGridHost)
 	{
-		this._children = children;
+		this._grid = grid;
 	}
 
 	public next(): IWindow | null
 	{
-		if (this._index < this._children.length)
+		if(this._index < this._grid.numGridItems)
 		{
-			return this._children[this._index++];
+			return this._grid.getGridItemAt(this._index++);
 		}
 
 		return null;
@@ -38,6 +47,6 @@ export class ItemGridIterator implements IIterator
 
 	public count(): number
 	{
-		return this._children.length;
+		return this._grid.numGridItems;
 	}
 }

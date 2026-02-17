@@ -2,6 +2,7 @@ import type {IWindow} from '../IWindow';
 import type {IWindowContext} from '../IWindowContext';
 import type {IBitmapWrapperWindow} from './IBitmapWrapperWindow';
 import {BitmapDataController} from './BitmapDataController';
+import {PropertyStruct} from '../utils/PropertyStruct';
 import {WindowEvent} from '../events/WindowEvent';
 
 /**
@@ -10,11 +11,7 @@ import {WindowEvent} from '../events/WindowEvent';
  * Extends BitmapDataController with programmatic bitmap setting.
  * Used for dynamic bitmaps set by code (e.g. avatar rendering).
  *
- * In AS3, the `bitmap` setter disposed the old BitmapData if
- * `disposesBitmap` was true, called `fitSize()`, and invalidated.
- *
  * @see sources/win63_version/core/window/components/BitmapWrapperController.as
- * @see sources/flash_version/com/sulake/core/window/components/BitmapWrapperController.as
  */
 export class BitmapWrapperController extends BitmapDataController implements IBitmapWrapperWindow
 {
@@ -40,8 +37,6 @@ export class BitmapWrapperController extends BitmapDataController implements IBi
 
 	/**
 	 * Whether this window owns the bitmap and should dispose it.
-	 *
-	 * In AS3: `disposesBitmap` — read from theme property `"handle_bitmap_disposing"`.
 	 */
 	public get disposesBitmap(): boolean
 	{
@@ -53,10 +48,23 @@ export class BitmapWrapperController extends BitmapDataController implements IBi
 		this._disposesBitmap = value;
 	}
 
+	private _bitmapAssetName: string = '';
+
+	/**
+	 * The asset name used to reference this bitmap.
+	 */
+	public get bitmapAssetName(): string
+	{
+		return this._bitmapAssetName;
+	}
+
+	public set bitmapAssetName(value: string)
+	{
+		this._bitmapAssetName = value;
+	}
+
 	/**
 	 * The programmatic bitmap for this window.
-	 *
-	 * In AS3: `BitmapWrapperController.bitmap` (BitmapData).
 	 * Disposes the old bitmap if `_disposesBitmap` is true.
 	 */
 	public get bitmap(): ImageBitmap | null
@@ -66,7 +74,7 @@ export class BitmapWrapperController extends BitmapDataController implements IBi
 
 	public set bitmap(value: ImageBitmap | null)
 	{
-		if (this._disposesBitmap && this._bitmapData && this._bitmapData !== value)
+		if(this._disposesBitmap && this._bitmapData && this._bitmapData !== value)
 		{
 			this._bitmapData.close();
 		}
@@ -77,13 +85,60 @@ export class BitmapWrapperController extends BitmapDataController implements IBi
 		this._context.invalidate(this, null, 1);
 	}
 
+	/**
+	 * Overrides bitmapData setter to delegate to bitmap setter.
+	 */
+	public override get bitmapData(): ImageBitmap | null
+	{
+		return this._bitmapData;
+	}
+
+	public override set bitmapData(value: ImageBitmap | null)
+	{
+		this.bitmap = value;
+	}
+
+	public override get properties(): unknown[]
+	{
+		const props = super.properties;
+
+		props.unshift(this.createProperty('handle_bitmap_disposing', this._disposesBitmap));
+		props.unshift(this.createProperty('bitmap_asset_name', this._bitmapAssetName));
+
+		return props;
+	}
+
+	public override set properties(value: unknown[])
+	{
+		for(const item of value)
+		{
+			const prop = item as PropertyStruct;
+
+			switch(prop.key)
+			{
+				case 'handle_bitmap_disposing':
+					this._disposesBitmap = !!prop.value;
+					break;
+				case 'bitmap_asset_name':
+					this._bitmapAssetName = (prop.value as string) ?? '';
+					break;
+			}
+		}
+
+		super.properties = value;
+	}
+
 	public override dispose(): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
-		if (this._disposesBitmap && this._bitmapData)
+		if(this._bitmapData)
 		{
-			this._bitmapData.close();
+			if(this._disposesBitmap)
+			{
+				this._bitmapData.close();
+			}
+
 			this._bitmapData = null;
 		}
 

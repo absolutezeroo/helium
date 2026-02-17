@@ -1,24 +1,34 @@
 import type {IWindow} from '../IWindow';
 import type {IWindowContext} from '../IWindowContext';
 import type {IItemGridWindow} from './IItemGridWindow';
-import {ContainerController} from './ContainerController';
+import type {IItemListWindow} from './IItemListWindow';
+import type {IIterator} from '../utils/IIterator';
+import {WindowController} from '../WindowController';
 import {WindowEvent} from '../events/WindowEvent';
+import {WindowMouseEvent} from '../events/WindowMouseEvent';
+import {PropertyStruct} from '../utils/PropertyStruct';
+import {ItemListController} from './ItemListController';
+import {ItemGridIterator} from '../iterators/ItemGridIterator';
 
 /**
  * Controller for item grid windows.
  *
  * An item grid arranges children in a two-dimensional grid layout
- * by distributing items across column lists.
+ * by distributing items across column lists. Each column is an
+ * IItemListWindow child of the parent ItemListController.
  *
- * @see sources/win63_2021_version/com/sulake/core/window/components/ItemGridController.as
+ * In AS3, extends ItemListController. The grid stores items in
+ * column sub-lists and provides grid-level indexing across them.
+ *
+ * @see sources/win63_version/com/sulake/core/window/components/ItemGridController.as
  */
-export class ItemGridController extends ContainerController implements IItemGridWindow
+export class ItemGridController extends ItemListController implements IItemGridWindow
 {
-	private _columnCount: number = 0;
-	private _rowCount: number = 0;
-	private _isRebuilding: boolean = false;
-	private _isHorizontal: boolean = false;
+	private _containerResizeToColumns: boolean = false;
 	private _hasCustomVerticalSpacing: boolean = false;
+	private _verticalSpacing: number = 0;
+	private _shouldRebuildGridOnResize: boolean = true;
+	private _isRebuilding: boolean = false;
 
 	constructor(
 		name: string,
@@ -35,334 +45,234 @@ export class ItemGridController extends ContainerController implements IItemGrid
 		dynamicStyle: string = ''
 	)
 	{
-		super(name, type, style, param, context, rect, parent, procedure, tags, properties, id);
+		super(name, type, style, param, context, rect, parent, procedure, tags, properties, id, dynamicStyle);
 
 		this._isHorizontal = (type !== 54);
 		this._scaleToFitItems = true;
+
+		if(!this._isHorizontal)
+		{
+			throw new Error('Horizontal item grid not yet implemented!');
+		}
 	}
 
-	private _columnWidth: number = 0;
-
 	/**
-	 * Gets the column width.
+	 * Sets the spacing for all column sub-lists.
 	 */
-	public get columnWidth(): number
+	public override get spacing(): number
 	{
-		return this._columnWidth;
+		return super.spacing;
+	}
+
+	public override set spacing(value: number)
+	{
+		if(!this._hasCustomVerticalSpacing)
+		{
+			let count = this.numListItems;
+
+			while(count-- > 0)
+			{
+				const col = this.getListItemAt(count) as unknown as IItemListWindow;
+
+				if(col) col.spacing = value;
+			}
+		}
+
+		super.spacing = value;
+	}
+
+	public override get background(): boolean
+	{
+		return super.background;
 	}
 
 	/**
-	 * Sets the column width.
+	 * Propagates background setting to all column sub-lists.
 	 */
-	public set columnWidth(value: number)
+	public override set background(value: boolean)
 	{
-		this._columnWidth = value;
+		super.background = value;
+
+		for(let i = 0; i < this.numListItems; i++)
+		{
+			const col = this.getListItemAt(i);
+
+			if(col) col.background = value;
+		}
 	}
 
-	private _rowHeight: number = 0;
+	public override get color(): number
+	{
+		return super.color;
+	}
 
 	/**
-	 * Gets the row height.
+	 * Propagates color setting to all column sub-lists.
 	 */
-	public get rowHeight(): number
+	public override set color(value: number)
 	{
-		return this._rowHeight;
+		super.color = value;
+
+		for(let i = 0; i < this.numListItems; i++)
+		{
+			const col = this.getListItemAt(i);
+
+			if(col) col.color = value;
+		}
+	}
+
+	public override get autoArrangeItems(): boolean
+	{
+		return super.autoArrangeItems;
 	}
 
 	/**
-	 * Sets the row height.
+	 * Propagates autoArrangeItems setting to all column sub-lists.
 	 */
-	public set rowHeight(value: number)
+	public override set autoArrangeItems(value: boolean)
 	{
-		this._rowHeight = value;
-	}
+		super.autoArrangeItems = value;
 
-	private _containerResizeToColumns: boolean = false;
+		for(let i = 0; i < this.numColumns; i++)
+		{
+			const col = this.getListItemAt(i) as unknown as IItemListWindow;
 
-	/**
-	 * Gets whether columns resize to fit content.
-	 */
-	public get containerResizeToColumns(): boolean
-	{
-		return this._containerResizeToColumns;
+			if(col) col.autoArrangeItems = value;
+		}
 	}
 
 	/**
-	 * Sets whether columns resize to fit content.
-	 */
-	public set containerResizeToColumns(value: boolean)
-	{
-		this._containerResizeToColumns = value;
-	}
-
-	private _shouldRebuildGridOnResize: boolean = true;
-
-	/**
-	 * Gets whether the grid should rebuild on resize.
+	 * Whether the grid should rebuild its structure on resize.
 	 */
 	public get shouldRebuildGridOnResize(): boolean
 	{
 		return this._shouldRebuildGridOnResize;
 	}
 
-	/**
-	 * Sets whether the grid should rebuild on resize.
-	 */
 	public set shouldRebuildGridOnResize(value: boolean)
 	{
 		this._shouldRebuildGridOnResize = value;
 	}
 
-	private _spacing: number = 0;
-
 	/**
-	 * Gets the spacing between items.
-	 */
-	public get spacing(): number
-	{
-		return this._spacing;
-	}
-
-	/**
-	 * Sets the spacing between items.
-	 */
-	public set spacing(value: number)
-	{
-		this._spacing = value;
-	}
-
-	private _verticalSpacing: number = 0;
-
-	/**
-	 * Gets the vertical spacing.
+	 * Sets the vertical spacing for column sub-lists, overriding
+	 * the default spacing value.
 	 */
 	public get verticalSpacing(): number
 	{
 		return this._verticalSpacing;
 	}
 
-	/**
-	 * Sets the vertical spacing for grid columns.
-	 */
 	public set verticalSpacing(value: number)
 	{
 		this._verticalSpacing = value;
 		this._hasCustomVerticalSpacing = true;
+
+		let count = this.numListItems;
+
+		while(count-- > 0)
+		{
+			const col = this.getListItemAt(count) as unknown as IItemListWindow;
+
+			if(col) col.spacing = value;
+		}
 	}
 
-	private _scaleToFitItems: boolean = true;
-
 	/**
-	 * Gets whether items are scaled to fit.
+	 * Returns an iterator over all grid items.
 	 */
-	public get scaleToFitItems(): boolean
+	public override iterator(): IIterator
 	{
-		return this._scaleToFitItems;
+		return new ItemGridIterator(this);
 	}
 
 	/**
-	 * Sets whether items are scaled to fit.
+	 * Handles resize and wheel events.
 	 */
-	public set scaleToFitItems(value: boolean)
+	public override update(source: WindowController, event: WindowEvent): boolean
 	{
-		this._scaleToFitItems = value;
-	}
+		const result = super.update(source, event);
 
-	private _autoArrangeItems: boolean = true;
+		switch(event.type)
+		{
+			case 'WE_RESIZED':
+				if(this._shouldRebuildGridOnResize)
+				{
+					this.rebuildGridStructure();
+				}
+				break;
+			case 'WME_WHEEL':
+				this.scrollWithWheel((event as WindowMouseEvent).delta * 0.5);
+				return true;
+		}
 
-	/**
-	 * Gets whether items are auto-arranged.
-	 */
-	public get autoArrangeItems(): boolean
-	{
-		return this._autoArrangeItems;
-	}
-
-	/**
-	 * Sets whether items are auto-arranged.
-	 */
-	public set autoArrangeItems(value: boolean)
-	{
-		this._autoArrangeItems = value;
-	}
-
-	private _resizeOnItemUpdate: boolean = false;
-
-	/**
-	 * Gets whether the list resizes on item update.
-	 */
-	public get resizeOnItemUpdate(): boolean
-	{
-		return this._resizeOnItemUpdate;
+		return result;
 	}
 
 	/**
-	 * Sets whether the list resizes on item update.
-	 */
-	public set resizeOnItemUpdate(value: boolean)
-	{
-		this._resizeOnItemUpdate = value;
-	}
-
-	private _scrollH: number = 0;
-
-	/**
-	 * Gets the horizontal scroll position (0..1).
-	 */
-	public get scrollH(): number
-	{
-		return this._scrollH;
-	}
-
-	/**
-	 * Sets the horizontal scroll position (0..1).
-	 */
-	public set scrollH(value: number)
-	{
-		if (value < 0) value = 0;
-		if (value > 1) value = 1;
-
-		this._scrollH = value;
-	}
-
-	private _scrollV: number = 0;
-
-	/**
-	 * Gets the vertical scroll position (0..1).
-	 */
-	public get scrollV(): number
-	{
-		return this._scrollV;
-	}
-
-	/**
-	 * Sets the vertical scroll position (0..1).
-	 */
-	public set scrollV(value: number)
-	{
-		if (value < 0) value = 0;
-		if (value > 1) value = 1;
-
-		this._scrollV = value;
-	}
-
-	private _scrollStepH: number = -1;
-
-	/**
-	 * Gets the horizontal scroll step size.
-	 */
-	public get scrollStepH(): number
-	{
-		if (this._scrollStepH >= 0) return this._scrollStepH;
-
-		return this._isHorizontal
-			? (0.1 * this.scrollableRegion.height)
-			: (this.scrollableRegion.width / Math.max(1, this._columnCount));
-	}
-
-	/**
-	 * Sets the horizontal scroll step size.
-	 */
-	public set scrollStepH(value: number)
-	{
-		this._scrollStepH = value;
-	}
-
-	private _scrollStepV: number = -1;
-
-	/**
-	 * Gets the vertical scroll step size.
-	 */
-	public get scrollStepV(): number
-	{
-		if (this._scrollStepV >= 0) return this._scrollStepV;
-
-		return this._isHorizontal
-			? (this.scrollableRegion.height / Math.max(1, this._rowCount))
-			: (0.1 * this.scrollableRegion.width);
-	}
-
-	/**
-	 * Sets the vertical scroll step size.
-	 */
-	public set scrollStepV(value: number)
-	{
-		this._scrollStepV = value;
-	}
-
-	/**
-	 * Gets the number of columns in the grid.
+	 * The number of columns in the grid.
 	 */
 	public get numColumns(): number
 	{
-		return this._columnCount;
+		return this.numListItems;
 	}
 
 	/**
-	 * Gets the number of rows in the grid.
+	 * The number of rows (max items in any column).
 	 */
 	public get numRows(): number
 	{
-		return this._rowCount;
+		let max = 0;
+
+		for(let i = 0; i < this.numColumns; i++)
+		{
+			const col = this.getListItemAt(i) as unknown as IItemListWindow;
+
+			if(col)
+			{
+				max = Math.max(max, col.numListItems);
+			}
+		}
+
+		return max;
 	}
 
 	/**
-	 * Gets the total number of items across all grid columns.
+	 * The total number of items across all columns.
 	 */
 	public get numGridItems(): number
 	{
-		return this._columnCount * this._rowCount;
+		let count = 0;
+
+		for(let i = this.numListItems - 1; i >= 0; i--)
+		{
+			const col = this.getListItemAt(i) as unknown as IItemListWindow;
+
+			if(col) count += col.numListItems;
+		}
+
+		return count;
 	}
 
 	/**
-	 * Gets the maximum horizontal scroll value.
+	 * Whether columns resize to fit content.
 	 */
-	public get maxScrollH(): number
+	public get containerResizeToColumns(): boolean
 	{
-		return Math.max(0, (this._columnCount * this._columnWidth) - this.width);
+		return this._containerResizeToColumns;
+	}
+
+	public set containerResizeToColumns(value: boolean)
+	{
+		this._containerResizeToColumns = value;
 	}
 
 	/**
-	 * Gets the maximum vertical scroll value.
-	 */
-	public get maxScrollV(): number
-	{
-		return Math.max(0, (this._rowCount * this._rowHeight) - this.height);
-	}
-
-	/**
-	 * Gets the visible region rectangle.
-	 */
-	public get visibleRegion(): { x: number; y: number; width: number; height: number }
-	{
-		return {
-			x: this._scrollH * this.maxScrollH,
-			y: this._scrollV * this.maxScrollV,
-			width: this.width,
-			height: this.height
-		};
-	}
-
-	/**
-	 * Gets the scrollable region rectangle.
-	 */
-	public get scrollableRegion(): { x: number; y: number; width: number; height: number }
-	{
-		return {
-			x: 0,
-			y: 0,
-			width: this._columnCount * this._columnWidth,
-			height: this._rowCount * this._rowHeight
-		};
-	}
-
-	/**
-	 * Adds an item to the grid.
+	 * Adds an item to the grid at the next available column position.
 	 */
 	public addGridItem(item: IWindow): IWindow
 	{
-		this.addChild(item);
-		this.recalculateGrid();
+		this.resolveColumnForNextItem(item);
 
 		return item;
 	}
@@ -372,8 +282,7 @@ export class ItemGridController extends ContainerController implements IItemGrid
 	 */
 	public addGridItemAt(item: IWindow, index: number): IWindow
 	{
-		this.addChildAt(item, Math.min(this.numChildren, index));
-		this.recalculateGrid();
+		this.offsetGridItemsForwards(item, Math.min(this.numGridItems, index));
 
 		return item;
 	}
@@ -383,31 +292,71 @@ export class ItemGridController extends ContainerController implements IItemGrid
 	 */
 	public getGridItemAt(index: number): IWindow | null
 	{
-		return this.getChildAt(index);
+		const col = this.resolveColumnByIndex(index);
+
+		if(!col) return null;
+
+		return col.getListItemAt(Math.floor(index / this.numColumns));
 	}
 
 	/**
-	 * Gets the item with the specified ID.
+	 * Gets the item with the specified ID by searching all columns.
 	 */
 	public getGridItemByID(id: number): IWindow | null
 	{
-		return this.getChildByID(id);
+		for(let i = 0; i < this.numColumns; i++)
+		{
+			const col = this.getListItemAt(i) as unknown as IItemListWindow;
+
+			if(col)
+			{
+				const item = col.getListItemByID(id);
+
+				if(item) return item;
+			}
+		}
+
+		return null;
 	}
 
 	/**
-	 * Gets the item with the specified name.
+	 * Gets the item with the specified name by searching all columns.
 	 */
 	public getGridItemByName(name: string): IWindow | null
 	{
-		return this.getChildByName(name);
+		for(let i = 0; i < this.numColumns; i++)
+		{
+			const col = this.getListItemAt(i) as unknown as IItemListWindow;
+
+			if(col)
+			{
+				const item = col.getListItemByName(name);
+
+				if(item) return item;
+			}
+		}
+
+		return null;
 	}
 
 	/**
-	 * Gets the item with the specified tag.
+	 * Gets the item with the specified tag by searching all columns.
 	 */
 	public getGridItemByTag(tag: string): IWindow | null
 	{
-		return this.getChildByTag(tag);
+		for(let i = 0; i < this.numColumns; i++)
+		{
+			const col = this.getChildAt(i) as unknown as IItemListWindow;
+
+			if(col)
+			{
+				const item = col.getListItemByTag(tag);
+
+				if(item) return item;
+			}
+		}
+
+		return null;
 	}
 
 	/**
@@ -415,19 +364,44 @@ export class ItemGridController extends ContainerController implements IItemGrid
 	 */
 	public getGridItemIndex(item: IWindow): number
 	{
-		return this.getChildIndex(item);
+		const col = this.resolveColumnByItem(item);
+
+		if(!col) return -1;
+
+		return col.getListItemIndex(item) * this.numColumns + this.getColumnIndex(col);
 	}
 
 	/**
-	 * Removes an item from the grid.
+	 * Removes an item from the grid, shifting subsequent items backwards.
 	 */
 	public removeGridItem(item: IWindow): IWindow | null
 	{
-		const result = this.removeChild(item);
+		const index = this.getGridItemIndex(item);
 
-		if (result) this.recalculateGrid();
+		if(index === -1) return null;
 
-		return result;
+		const removed = this.offsetGridItemsBackwards(index);
+
+		if(removed !== item)
+		{
+			throw new Error('Item grid is out of order!');
+		}
+
+		const col = this.resolveColumnByIndex(index);
+
+		if(col)
+		{
+			if(!this._isHorizontal)
+			{
+				(col as unknown as IWindow).width = col.scrollableRegion.width;
+			}
+			else
+			{
+				(col as unknown as IWindow).height = col.scrollableRegion.height;
+			}
+		}
+
+		return item;
 	}
 
 	/**
@@ -435,11 +409,11 @@ export class ItemGridController extends ContainerController implements IItemGrid
 	 */
 	public removeGridItemAt(index: number): IWindow | null
 	{
-		const result = this.removeChildAt(index);
+		const item = this.getGridItemAt(index);
 
-		if (result) this.recalculateGrid();
+		if(!item) return null;
 
-		return result;
+		return this.removeGridItem(item);
 	}
 
 	/**
@@ -447,17 +421,20 @@ export class ItemGridController extends ContainerController implements IItemGrid
 	 */
 	public setGridItemIndex(item: IWindow, index: number): void
 	{
-		this.setChildIndex(item, index);
-		this.recalculateGrid();
+		if(this.removeGridItem(item) === null)
+		{
+			throw new Error('Item not found in grid!');
+		}
+
+		this.addGridItemAt(item, index);
 	}
 
 	/**
-	 * Swaps two items in the grid.
+	 * Swaps two items in the grid (unimplemented per AS3).
 	 */
-	public swapGridItems(a: IWindow, b: IWindow): void
+	public swapGridItems(_a: IWindow, _b: IWindow): void
 	{
-		this.swapChildren(a, b);
-		this.recalculateGrid();
+		throw new Error('ItemGridWindow / Unimplemented method!');
 	}
 
 	/**
@@ -465,91 +442,499 @@ export class ItemGridController extends ContainerController implements IItemGrid
 	 */
 	public swapGridItemsAt(indexA: number, indexB: number): void
 	{
-		this.swapChildrenAt(indexA, indexB);
-		this.recalculateGrid();
+		this.swapGridItems(this.getGridItemAt(indexA)!, this.getGridItemAt(indexB)!);
 	}
 
 	/**
-	 * Removes all items from the grid.
+	 * Removes all items from all columns without disposing them.
 	 */
 	public removeGridItems(): void
 	{
-		while (this.numChildren > 0)
+		for(let i = 0; i < this.numColumns; i++)
 		{
-			this.removeChildAt(0);
-		}
+			const col = this.getListItemAt(i) as unknown as IItemListWindow;
 
-		this.recalculateGrid();
+			if(col)
+			{
+				col.removeListItems();
+
+				if(!this._isHorizontal)
+				{
+					(col as unknown as IWindow).width = 0;
+				}
+				else
+				{
+					(col as unknown as IWindow).height = 0;
+				}
+			}
+		}
 	}
 
 	/**
-	 * Destroys all items in the grid.
+	 * Removes and destroys all items from all columns, then destroys columns.
 	 */
 	public destroyGridItems(): void
 	{
-		while (this.numChildren > 0)
+		for(let i = 0; i < this.numColumns; i++)
 		{
-			const child = this.removeChildAt(0);
+			const col = this.getListItemAt(i) as unknown as IItemListWindow;
 
-			if (child) child.destroy();
+			if(col)
+			{
+				col.destroyListItems();
+
+				if(!this._isHorizontal)
+				{
+					(col as unknown as IWindow).width = 0;
+				}
+				else
+				{
+					(col as unknown as IWindow).height = 0;
+				}
+			}
 		}
 
-		this.recalculateGrid();
-	}
-
-	/**
-	 * Rebuilds the grid structure from the current items.
-	 */
-	public rebuildGridStructure(): void
-	{
-		if (this._isRebuilding) return;
-
-		this._isRebuilding = true;
-		this.recalculateGrid();
-		this._isRebuilding = false;
+		this.destroyListItems();
 	}
 
 	/**
 	 * Populates the grid with the given items.
 	 */
-	public populate(items: IWindow[]): void
+	public override populate(items: IWindow[]): void
 	{
-		for (const item of items)
+		const savedAutoArrange = this.autoArrangeItems;
+
+		this.autoArrangeItems = false;
+
+		let totalItems = this.numGridItems;
+		let colCount = this.numColumns;
+
+		for(const item of items)
+		{
+			if(colCount === 0)
+			{
+				this.addColumnForItem(item);
+				colCount++;
+			}
+			else
+			{
+				let col: IItemListWindow | null;
+
+				if(totalItems > 0)
+				{
+					const lastCol = this.resolveColumnByIndex(totalItems > 0 ? totalItems - 1 : 0);
+					const lastColIndex = lastCol ? this.getListItemIndex(lastCol as unknown as IWindow) : -1;
+					const isLastColumn = lastColIndex > -1 ? lastColIndex === colCount - 1 : true;
+
+					if(isLastColumn && lastCol && lastCol.numListItems === 1)
+					{
+						if((lastCol as unknown as IWindow).right + item.width <= this._width)
+						{
+							this.addColumnForItem(item);
+							continue;
+						}
+					}
+
+					col = this.getListItemAt(isLastColumn ? 0 : lastColIndex + 1) as unknown as IItemListWindow;
+				}
+				else
+				{
+					col = this.getListItemAt(0) as unknown as IItemListWindow;
+				}
+
+				if(col)
+				{
+					col.addListItem(item);
+					totalItems++;
+
+					if(item.width > (col as unknown as IWindow).width)
+					{
+						(col as unknown as IWindow).width = item.width;
+					}
+
+					if(item.bottom > (col as unknown as IWindow).height)
+					{
+						(col as unknown as IWindow).height = item.bottom;
+					}
+				}
+			}
+		}
+
+		this.autoArrangeItems = savedAutoArrange;
+	}
+
+	/**
+	 * Rebuilds the grid structure by extracting all items and re-adding them.
+	 */
+	public rebuildGridStructure(): void
+	{
+		if(this._isRebuilding) return;
+
+		this._isRebuilding = true;
+
+		let itemCount = this.numGridItems;
+		const colCount = this.numColumns;
+		const savedAutoArrange = this.autoArrangeItems;
+
+		this.autoArrangeItems = false;
+
+		const items: IWindow[] = [];
+
+		while(itemCount > 0)
+		{
+			for(let c = 0; c < colCount; c++)
+			{
+				const col = this.getListItemAt(c) as unknown as IItemListWindow;
+
+				if(col)
+				{
+					const item = col.removeListItemAt(0);
+
+					if(item) items.push(item);
+
+					itemCount--;
+
+					if(itemCount < 1) break;
+				}
+			}
+		}
+
+		this.destroyListItems();
+		this.autoArrangeItems = savedAutoArrange;
+
+		for(const item of items)
 		{
 			this.addGridItem(item);
+		}
+
+		if(this._containerResizeToColumns)
+		{
+			let maxHeight = 0;
+
+			for(let c = 0; c < this.numColumns; c++)
+			{
+				const col = this.getListItemAt(c) as unknown as IItemListWindow;
+
+				if(col)
+				{
+					col.autoArrangeItems = true;
+					(col as unknown as IWindow).height = col.scrollableRegion.height;
+					maxHeight = Math.max(maxHeight, (col as unknown as IWindow).height);
+				}
+			}
+
+			if(this._container)
+			{
+				(this._container as unknown as IWindow).height = maxHeight;
+			}
+		}
+
+		this._isRebuilding = false;
+	}
+
+	/**
+	 * Gets the column number for a grid item index.
+	 */
+	public getColumnNumberByItemIndex(index: number): number
+	{
+		return index % this.numColumns;
+	}
+
+	/**
+	 * Gets the row number for a grid item index.
+	 */
+	public getRowNumberByItemIndex(index: number): number
+	{
+		return Math.floor(index / this.numColumns);
+	}
+
+	public override get properties(): unknown[]
+	{
+		const props = super.properties;
+
+		props.push(this.createProperty('container_resize_to_columns', this._containerResizeToColumns));
+
+		return props;
+	}
+
+	public override set properties(value: unknown[])
+	{
+		for(const item of value)
+		{
+			const prop = item as PropertyStruct;
+
+			if(prop.key === 'container_resize_to_columns')
+			{
+				this._containerResizeToColumns = !!prop.value;
+			}
+		}
+
+		super.properties = value;
+	}
+
+	/**
+	 * Gets the column index of a column sub-list.
+	 */
+	protected getColumnIndex(col: IItemListWindow): number
+	{
+		return this.getListItemIndex(col as unknown as IWindow);
+	}
+
+	/**
+	 * Resolves the column sub-list for a given grid item index.
+	 */
+	protected resolveColumnByIndex(index: number): IItemListWindow | null
+	{
+		return this.getListItemAt(index % this.numColumns) as unknown as IItemListWindow | null;
+	}
+
+	/**
+	 * Finds which column contains the given item.
+	 */
+	protected resolveColumnByItem(item: IWindow): IItemListWindow | null
+	{
+		let i = this.numColumns;
+
+		while(i-- > 0)
+		{
+			const col = this.getListItemAt(i) as unknown as IItemListWindow;
+
+			if(col && col.getListItemIndex(item) > -1)
+			{
+				return col;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Resolves or creates the column for the next item to be added.
+	 */
+	protected resolveColumnForNextItem(item: IWindow): IItemListWindow
+	{
+		if(this.numColumns === 0)
+		{
+			return this.addColumnForItem(item);
+		}
+
+		const totalItems = this.numGridItems;
+		let col: IItemListWindow | null;
+
+		if(totalItems > 0)
+		{
+			const lastCol = this.resolveColumnByIndex(totalItems > 0 ? totalItems - 1 : 0);
+			const lastColIndex = lastCol ? this.getListItemIndex(lastCol as unknown as IWindow) : -1;
+			const isLastColumn = lastColIndex > -1 ? lastColIndex === this.numColumns - 1 : true;
+
+			if(isLastColumn && lastCol && lastCol.numListItems === 1)
+			{
+				if((lastCol as unknown as IWindow).right + item.width <= this._width)
+				{
+					return this.addColumnForItem(item);
+				}
+			}
+
+			col = this.getListItemAt(isLastColumn ? 0 : lastColIndex + 1) as unknown as IItemListWindow;
+		}
+		else
+		{
+			col = this.getListItemAt(0) as unknown as IItemListWindow;
+		}
+
+		if(col)
+		{
+			col.addListItem(item);
+
+			if(item.width > (col as unknown as IWindow).width)
+			{
+				(col as unknown as IWindow).width = item.width;
+			}
+
+			if(item.bottom > (col as unknown as IWindow).height)
+			{
+				(col as unknown as IWindow).height = item.bottom;
+			}
+		}
+
+		return col!;
+	}
+
+	/**
+	 * Creates a new column sub-list for the given item.
+	 */
+	protected addColumnForItem(item: IWindow): IItemListWindow
+	{
+		const colName = this._name + '_COLUMN_' + this.numListItems;
+		const colWidth = Math.max(item.width, 0);
+		const colHeight = Math.max(item.height, 0);
+
+		const col = this._context.create(
+			colName,
+			'',
+			50,
+			0,
+			0x10 | 0x01,
+			{ x: 0, y: 0, width: colWidth, height: colHeight },
+			this.listEventProc.bind(this) as (event: unknown, window: IWindow) => void,
+			null,
+			this.numListItems,
+			['_INTERNAL', '_EXCLUDE'],
+			''
+		) as unknown as IItemListWindow;
+
+		col.isPartOfGridWindow = true;
+		(col as unknown as IWindow).background = this.background;
+		(col as unknown as IWindow).color = this.color;
+		col.spacing = this._hasCustomVerticalSpacing ? this._verticalSpacing : this._spacing;
+
+		this.addListItem(col as unknown as IWindow);
+		col.addListItem(item);
+
+		return col;
+	}
+
+	/**
+	 * Event procedure for column sub-lists.
+	 */
+	protected listEventProc(_event: WindowEvent, _window: IWindow): void
+	{
+		// No-op per AS3
+	}
+
+	/**
+	 * Shifts grid items forwards to make room at the given index.
+	 */
+	protected offsetGridItemsForwards(item: IWindow, index: number): void
+	{
+		const totalItems = this.numGridItems;
+		const colCount = this.numColumns;
+
+		for(let c = 0; c < colCount; c++)
+		{
+			const col = this.getListItemAt(c) as unknown as IItemListWindow;
+
+			if(col) col.autoArrangeItems = false;
+		}
+
+		if(totalItems <= index)
+		{
+			this.resolveColumnForNextItem(item);
+		}
+		else
+		{
+			let last = totalItems - 1;
+
+			if(this.numRows === 1)
+			{
+				const lastItem = this.getGridItemAt(last);
+
+				if(lastItem) this.resolveColumnForNextItem(lastItem);
+
+				last--;
+			}
+
+			while(last >= index)
+			{
+				const shiftItem = this.getGridItemAt(last);
+				const row = this.getRowNumberByItemIndex(last + 1);
+				const targetCol = this.resolveColumnByIndex(last + 1);
+
+				if(shiftItem && targetCol)
+				{
+					targetCol.addListItemAt(shiftItem, row);
+				}
+
+				last--;
+			}
+
+			const insertCol = this.resolveColumnByIndex(index);
+
+			if(insertCol)
+			{
+				insertCol.addListItemAt(item, Math.floor(index / this.numColumns));
+			}
+		}
+
+		let maxHeight = 0;
+
+		for(let c = 0; c < this.numColumns; c++)
+		{
+			const col = this.getListItemAt(c) as unknown as IItemListWindow;
+
+			if(col)
+			{
+				col.autoArrangeItems = true;
+				(col as unknown as IWindow).height = col.scrollableRegion.height;
+				maxHeight = Math.max(maxHeight, (col as unknown as IWindow).height);
+			}
+		}
+
+		if(this._container)
+		{
+			(this._container as unknown as IWindow).height = maxHeight;
 		}
 	}
 
 	/**
-	 * Recalculates the grid layout based on current items and dimensions.
+	 * Shifts grid items backwards after removing from the given index.
+	 * Returns the removed item.
 	 */
-	private recalculateGrid(): void
+	protected offsetGridItemsBackwards(index: number): IWindow | null
 	{
-		const count = this.numChildren;
+		const row = this.getRowNumberByItemIndex(index);
+		const col = this.resolveColumnByIndex(index);
 
-		if (this._columnWidth > 0)
+		if(!col) return null;
+
+		const removed = col.removeListItemAt(row);
+
+		if(!removed) return null;
+
+		const totalItems = this.numGridItems;
+
+		for(let c = 0; c < this.numColumns; c++)
 		{
-			this._columnCount = Math.max(1, Math.floor(this.width / this._columnWidth));
+			const column = this.getListItemAt(c) as unknown as IItemListWindow;
+
+			if(column) column.autoArrangeItems = false;
 		}
-		else
+
+		let current = index;
+
+		while(current < totalItems)
 		{
-			this._columnCount = Math.max(1, count);
-		}
+			const shiftRow = this.getRowNumberByItemIndex(current);
+			const shiftItem = this.getGridItemAt(current + 1);
+			const targetCol = this.resolveColumnByIndex(current);
 
-		this._rowCount = Math.ceil(count / Math.max(1, this._columnCount));
-
-		for (let i = 0; i < count; i++)
-		{
-			const child = this.getChildAt(i);
-
-			if (child)
+			if(shiftItem && targetCol)
 			{
-				const col = i % this._columnCount;
-				const row = Math.floor(i / this._columnCount);
+				targetCol.addListItemAt(shiftItem, shiftRow);
+			}
 
-				child.x = col * (this._columnWidth > 0 ? this._columnWidth : child.width) + col * this._spacing;
-				child.y = row * (this._rowHeight > 0 ? this._rowHeight : child.height) + row * (this._hasCustomVerticalSpacing ? this._verticalSpacing : this._spacing);
+			current++;
+		}
+
+		let maxHeight = 0;
+
+		for(let c = 0; c < this.numColumns; c++)
+		{
+			const column = this.getListItemAt(c) as unknown as IItemListWindow;
+
+			if(column)
+			{
+				column.autoArrangeItems = true;
+				(column as unknown as IWindow).height = column.scrollableRegion.height;
+				maxHeight = Math.max(maxHeight, (column as unknown as IWindow).height);
 			}
 		}
+
+		if(this._container)
+		{
+			(this._container as unknown as IWindow).height = maxHeight;
+		}
+
+		return removed;
 	}
 }

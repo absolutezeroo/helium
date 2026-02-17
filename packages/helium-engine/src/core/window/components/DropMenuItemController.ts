@@ -2,8 +2,8 @@ import type {IWindow} from '../IWindow';
 import type {IWindowContext} from '../IWindowContext';
 import type {IDropListItemWindow} from './IDropListItemWindow';
 import type {IDropMenuWindow} from './IDropMenuWindow';
+import {ButtonController} from './ButtonController';
 import {WindowEvent} from '../events/WindowEvent';
-import {InteractiveController} from './InteractiveController';
 
 /**
  * Controller for drop menu item windows.
@@ -11,9 +11,9 @@ import {InteractiveController} from './InteractiveController';
  * A text-based menu item used inside a DropMenuController.
  * Unlike DropListItemController, the value is the item itself.
  *
- * @see sources/win63_2021_version/com/sulake/core/window/components/DropMenuItemController.as
+ * @see sources/win63_version/com/sulake/core/window/components/DropMenuItemController.as
  */
-export class DropMenuItemController extends InteractiveController implements IDropListItemWindow
+export class DropMenuItemController extends ButtonController implements IDropListItemWindow
 {
 	constructor(
 		name: string,
