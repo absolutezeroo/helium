@@ -58,6 +58,12 @@ Tant que cette phase n'est pas complète, l'écriture de code est INTERDITE.
 
 - [ ] Vérifier la compilation avec `pnpm dev`
 - [ ] Mettre à jour `docs/IMPLEMENTATION_STATUS.md` (changer ❌ → ✅, maj pourcentages)
+- [ ] Vérifier les règles de performance (voir `docs/STYLEGUIDE.md` section **Performance**) :
+  - Pas de `Array.includes()`/`indexOf()` pour les lookups fréquents → utiliser `Set`/`Map`
+  - Pas d'allocation d'objets dans les boucles de rendu ou les handlers haute-fréquence
+  - Pas de `new OffscreenCanvas()` / `Texture.from()` sans cache
+  - Pas de `getImageData`/`putImageData` pour les transformations de couleur → utiliser le GPU
+  - Tous les listeners ont un `removeEventListener`/`off()` dans `dispose()`
 
 ## Frontières d'architecture
 
@@ -113,3 +119,4 @@ Voir `docs/PATTERNS.md` pour les templates complets avec exemples de code.
 2. **Utiliser `createObjectInternal()`** pas `createRoomObject()` depuis les classes container (récursion infinie)
 3. **La frontière engine ↔ client est stricte** : l'engine a ZÉRO connaissance UI
 4. **Les fichiers VIEW AS3 sont IGNORÉS** : SolidJS remplace l'UI Flash
+5. **Performance** : `Set`/`Map` pour les lookups, pas d'allocation dans les boucles de rendu, cacher les textures, culling viewport. Voir `docs/STYLEGUIDE.md` section Performance et `docs/PATTERNS.md` section 0

@@ -474,6 +474,86 @@ export const navigatorStore = {
 
 ## Pièges à éviter
 
+### 0. Anti-patterns de performance
+
+Ces patterns sont fréquents lors du portage AS3→TypeScript. L'AS3 utilisait Flash Player avec un GC différent ; en JavaScript, ces patterns causent des freezes et une consommation mémoire excessive.
+
+#### a) Array.includes/indexOf pour les lookups fréquents
+
+```typescript
+// FAUX — O(n) à chaque message reçu
+private _pendingTypes: string[] = [];
+
+if(!this._pendingTypes.includes(type))
+{
+    this._pendingTypes.push(type);
+}
+
+// CORRECT — O(1)
+private _pendingTypes: Set<string> = new Set();
+
+if(!this._pendingTypes.has(type))
+{
+    this._pendingTypes.add(type);
+}
+```
+
+**Règle** : si une collection est consultée par `includes()`, `indexOf()` ou `find()` ET qu'elle peut dépasser 10 éléments, la remplacer par `Set` ou `Map`.
+
+#### b) Allocation d'objets dans les parsers
+
+```typescript
+// FAUX — nouveau Map temporaire à chaque parse
+parse(wrapper: IMessageDataWrapper): boolean
+{
+    const ownerMap = new Map<number, string>();  // GC après chaque appel
+    // ...
+}
+
+// CORRECT — réutiliser un champ
+private _ownerMap: Map<number, string> = new Map();
+
+parse(wrapper: IMessageDataWrapper): boolean
+{
+    this._ownerMap.clear();
+    // ...
+}
+```
+
+#### c) Remplacement de tableau au lieu de vidage
+
+```typescript
+// FAUX — flush() et parse() créent tous les deux un nouveau tableau
+flush(): boolean
+{
+    this._objects = [];  // ancien tableau → déchet GC
+    return true;
+}
+
+// CORRECT — vider en place
+flush(): boolean
+{
+    this._objects.length = 0;
+    return true;
+}
+```
+
+#### d) Textures et OffscreenCanvas dans la boucle de rendu
+
+Le portage AS3 `BitmapData` → `OffscreenCanvas` est correct conceptuellement, mais `new OffscreenCanvas()` + `Texture.from()` à chaque frame crée une fuite de mémoire GPU. Toujours cacher les résultats.
+
+#### e) Tri à chaque frame sans dirty flag
+
+Si l'ordre Z ne change pas, ne pas re-trier. Utiliser un flag `_zOrderDirty` mis à `true` uniquement quand un objet est ajouté, retiré, ou change de Z.
+
+#### f) Absence de viewport culling
+
+Tout objet hors écran doit être ignoré par la boucle de rendu. Vérifier les bornes (AABB) avant d'appeler `renderObject()` ou `updateVisualization()`.
+
+Référence complète : section **Performance** de `docs/STYLEGUIDE.md`.
+
+---
+
 ### 1. Override de `get events()` dans Component
 
 ```typescript

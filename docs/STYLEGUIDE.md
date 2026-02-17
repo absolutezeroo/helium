@@ -456,3 +456,164 @@ private _data: any;
 private _data: Map<number, RoomData>;
 private _data: Record<string, unknown>;  // Si le type est vraiment inconnu
 ```
+
+---
+
+## Performance
+
+Ces règles sont obligatoires pour tout code dans les chemins critiques (boucle de rendu, parsing de messages, gestion de souris).
+
+### Collections : Set/Map pour les lookups (OBLIGATOIRE)
+
+Ne JAMAIS utiliser `Array.includes()`, `Array.indexOf()`, ou `Array.find()` pour tester l'appartenance ou chercher par clé. Utiliser `Set` ou `Map` qui offrent un accès O(1).
+
+```typescript
+// FAUX — O(n) par appel
+private _ignoredUsers: number[] = [];
+
+isIgnored(userId: number): boolean
+{
+    return this._ignoredUsers.includes(userId);
+}
+
+// CORRECT — O(1)
+private _ignoredUsers: Set<number> = new Set();
+
+isIgnored(userId: number): boolean
+{
+    return this._ignoredUsers.has(userId);
+}
+```
+
+**Exception** : les tableaux dont l'ordre est important ET qui ne sont jamais recherchés peuvent rester des `Array`.
+
+### Allocations dans les boucles (INTERDIT)
+
+Ne JAMAIS créer d'objets, tableaux, ou closures à l'intérieur d'une boucle de rendu ou d'un handler appelé fréquemment (tick, mouse move, animation frame).
+
+```typescript
+// FAUX — alloue un nouveau tableau à chaque frame
+const sortSlice = this._sprites.slice(0, count);
+sortSlice.sort((a, b) => b.z - a.z);
+
+// CORRECT — trier en place, utiliser un dirty flag
+if(this._zOrderDirty)
+{
+    this._sprites.sort((a, b) => b.z - a.z);
+    this._zOrderDirty = false;
+}
+```
+
+### Réutiliser les collections au lieu de remplacer
+
+Vider une collection existante au lieu de remplacer la référence. Cela évite de créer un déchet pour le GC.
+
+```typescript
+// FAUX — crée un nouveau tableau, l'ancien devient un déchet
+this._objects = [];
+
+// CORRECT — vide le tableau existant
+this._objects.length = 0;
+
+// FAUX — crée une nouvelle Map
+this._cache = new Map();
+
+// CORRECT — vide la Map existante
+this._cache.clear();
+```
+
+### Concaténation de chaînes dans les boucles (INTERDIT)
+
+```typescript
+// FAUX — crée des chaînes intermédiaires
+let result = '';
+for(const action of actions)
+{
+    result += action.type + action.param;
+}
+
+// CORRECT — collecter puis joindre
+const parts: string[] = [];
+for(const action of actions)
+{
+    parts.push(action.type, action.param);
+}
+const result = parts.join('');
+```
+
+### Array.concat() (INTERDIT en boucle)
+
+`concat()` crée un nouveau tableau. Utiliser `push()` pour ajouter en place.
+
+```typescript
+// FAUX — alloue un nouveau tableau
+this._items = this._items.concat(newItems);
+
+// CORRECT — ajoute en place
+this._items.push(...newItems);
+```
+
+### Textures et Canvas : cacher et réutiliser
+
+- Ne JAMAIS créer un `OffscreenCanvas`, `HTMLCanvasElement`, ou `Texture.from()` à chaque frame
+- Cacher les textures par clé de contenu (direction, action, frame d'animation)
+- Redimensionner un canvas existant au lieu d'en créer un nouveau
+- Implémenter une politique d'éviction (LRU) pour les caches de textures
+
+```typescript
+// FAUX — nouveau canvas et nouvelle texture à chaque appel
+const offscreen = new OffscreenCanvas(w, h);
+// ... dessiner ...
+return Texture.from({ resource: offscreen });
+
+// CORRECT — vérifier le cache d'abord
+const cacheKey = `${direction}_${action}_${frame}`;
+const cached = this._textureCache.get(cacheKey);
+if(cached) return cached;
+// ... dessiner et stocker dans le cache ...
+```
+
+### Culling : ne pas traiter les objets invisibles
+
+Tout objet hors du viewport ne doit PAS exécuter sa logique de visualisation ou d'animation.
+
+```typescript
+// FAUX — traiter tous les objets à chaque frame
+for(const [id, entry] of this._visualizations)
+{
+    this.renderObject(entry.visualization, ...);
+}
+
+// CORRECT — vérifier la visibilité d'abord
+for(const [id, entry] of this._visualizations)
+{
+    if(!this.isInViewport(entry.bounds)) continue;
+
+    this.renderObject(entry.visualization, ...);
+}
+```
+
+### Transformations de couleur : utiliser le GPU
+
+Ne JAMAIS utiliser `getImageData`/`putImageData` avec une boucle pixel-par-pixel pour des transformations de couleur. Utiliser les filtres PixiJS ou `globalCompositeOperation`.
+
+```typescript
+// FAUX — readback GPU→CPU, boucle, re-upload CPU→GPU
+const imageData = ctx.getImageData(0, 0, w, h);
+for(let i = 0; i < imageData.data.length; i += 4)
+{
+    imageData.data[i] = Math.round(imageData.data[i] * rMul);
+    // ...
+}
+ctx.putImageData(imageData, 0, 0);
+
+// CORRECT — transformation GPU via compositing
+ctx.globalCompositeOperation = 'multiply';
+ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+ctx.fillRect(0, 0, w, h);
+ctx.globalCompositeOperation = 'source-over';
+```
+
+### Listeners : toujours nettoyer
+
+Tout `addEventListener` ou `emitter.on()` DOIT avoir un `removeEventListener` / `emitter.off()` correspondant dans `dispose()`. Un listener orphelin empêche le GC de collecter l'objet.
