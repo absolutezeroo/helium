@@ -55,6 +55,7 @@ export class ComponentContext extends Component implements IContext
 	private readonly _updateReceivers: UpdateReceiverEntry[] = [];
 	private _updateReceiversDirty: boolean = false;
 	private readonly _linkEventTrackers: ILinkEventTracker[] = [];
+	private readonly _unlockHandlers: Map<Component, () => void> = new Map();
 
 	constructor(parentContext?: IContext)
 	{
@@ -174,10 +175,13 @@ export class ComponentContext extends Component implements IContext
 		// Listen for unlock event
 		if (component.locked)
 		{
-			component.events.once(ComponentEvents.UNLOCKED, () =>
+			const unlockHandler = () =>
 			{
+				this._unlockHandlers.delete(component);
 				this.onComponentUnlocked(component, interfaces);
-			});
+			};
+			this._unlockHandlers.set(component, unlockHandler);
+			component.events.once(ComponentEvents.UNLOCKED, unlockHandler);
 		}
 		else
 		{
@@ -203,7 +207,13 @@ export class ComponentContext extends Component implements IContext
 		{
 			this._attachedComponents.splice(index, 1);
 
-			component.events.off(ComponentEvents.UNLOCKED);
+			const unlockHandler = this._unlockHandlers.get(component);
+
+			if (unlockHandler)
+			{
+				component.events.off(ComponentEvents.UNLOCKED, unlockHandler);
+				this._unlockHandlers.delete(component);
+			}
 		}
 	}
 
@@ -408,7 +418,7 @@ export class ComponentContext extends Component implements IContext
 	 */
 	private addToQueue<T>(iid: IID<T>, callback: InterfaceCallback<T>): void
 	{
-		let queue = this._interfaceQueues.get(iid) as InterfaceQueue<T> | undefined;
+		let queue = (this._interfaceQueues.get(iid) ?? null) as InterfaceQueue<T> | null;
 
 		if (!queue)
 		{
@@ -447,7 +457,7 @@ export class ComponentContext extends Component implements IContext
 	 */
 	private announceInterfaceAvailability<T>(iid: IID<T>, provider: Component | T): void
 	{
-		const queue = this._interfaceQueues.get(iid) as InterfaceQueue<T> | undefined;
+		const queue = (this._interfaceQueues.get(iid) ?? null) as InterfaceQueue<T> | null;
 
 		if (!queue) return;
 

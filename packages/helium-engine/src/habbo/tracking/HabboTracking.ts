@@ -45,8 +45,6 @@ export class HabboTracking extends Component implements IHabboTracking, IUpdateR
 {
 	private static readonly ERROR_DATA_FLAG_COUNT: number = 11;
 
-	private static _instance: HabboTracking | null = null;
-
 	private _communication: IHabboCommunicationManager | null = null;
 	private _messageEvents: IMessageEvent[] = [];
 	private _errorContextFlags: number[] = [];
@@ -69,20 +67,6 @@ export class HabboTracking extends Component implements IHabboTracking, IUpdateR
 	constructor(context: IContext, flags: number = 0, assetLibrary: IAssetLibrary | null = null)
 	{
 		super(context, flags, assetLibrary);
-
-		if (HabboTracking._instance === null)
-		{
-			HabboTracking._instance = this;
-		}
-
-		// Initialize error context flags array
-		for (let i = 0; i < HabboTracking.ERROR_DATA_FLAG_COUNT; i++)
-		{
-			this._errorContextFlags.push(0);
-		}
-
-		// Register for frame updates
-		this.registerUpdateReceiver(this, 1);
 	}
 
 	/**
@@ -100,14 +84,6 @@ export class HabboTracking extends Component implements IHabboTracking, IUpdateR
 				true
 			),
 		];
-	}
-
-	/**
-	 * Get the singleton instance
-	 */
-	static getInstance(): HabboTracking | null
-	{
-		return HabboTracking._instance;
 	}
 
 	/**
@@ -307,11 +283,6 @@ export class HabboTracking extends Component implements IHabboTracking, IUpdateR
 			return;
 		}
 
-		if (HabboTracking._instance === this)
-		{
-			HabboTracking._instance = null;
-		}
-
 		this.removeUpdateReceiver(this);
 
 		if (this._messageEvents.length > 0 && this._communication)
@@ -322,7 +293,7 @@ export class HabboTracking extends Component implements IHabboTracking, IUpdateR
 			}
 		}
 
-		this._messageEvents = [];
+		this._messageEvents.length = 0;
 		this._framerateTracker = null;
 		this._toolbarClickTracker = null;
 		this._performanceTracker = null;
@@ -343,6 +314,15 @@ export class HabboTracking extends Component implements IHabboTracking, IUpdateR
 	 */
 	protected override initComponent(): void
 	{
+		// Initialize error context flags array
+		for (let i = 0; i < HabboTracking.ERROR_DATA_FLAG_COUNT; i++)
+		{
+			this._errorContextFlags.push(0);
+		}
+
+		// Register for frame updates
+		this.registerUpdateReceiver(this, 1);
+
 		this._latencyTracker = new LatencyTracker(this);
 		this._framerateTracker = new FramerateTracker(this);
 		this._lagWarningLogger = new LagWarningLogger(this);

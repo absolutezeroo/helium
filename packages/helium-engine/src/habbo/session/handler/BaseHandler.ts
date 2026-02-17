@@ -46,9 +46,12 @@ export class BaseHandler
 
 	dispose(): void
 	{
+		if(this._disposed) return;
+
+		this._disposed = true;
+
 		this._connection = null;
 		// @ts-expect-error - Nullifying for disposal
 		this._listener = null;
-		this._disposed = true;
 	}
 }

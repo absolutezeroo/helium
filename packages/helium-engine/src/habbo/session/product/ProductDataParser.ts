@@ -89,7 +89,7 @@ export class ProductDataParser
 	 */
 	private parseJsonFormat(data: Record<string, unknown>): void
 	{
-		const productdata = data.productdata as Record<string, unknown> | undefined;
+		const productdata = (data.productdata ?? null) as Record<string, unknown> | null;
 
 		if (!productdata?.product) return;
 

@@ -34,8 +34,8 @@ export class StringArrayStuffData extends StuffDataBase
 		return this._data[0] ?? '';
 	}
 
-	getValue(index: number): string | undefined
+	getValue(index: number): string | null
 	{
-		return this._data[index];
+		return this._data[index] ?? null;
 	}
 }

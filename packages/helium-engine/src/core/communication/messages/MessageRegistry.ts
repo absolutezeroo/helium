@@ -125,9 +125,9 @@ export class MessageRegistry
 	/**
 	 * Get all event handlers for a message ID
 	 */
-	getMessageEventsForId(id: number): IMessageEvent[] | undefined
+	getMessageEventsForId(id: number): IMessageEvent[] | null
 	{
-		return this.idToEvents.get(id);
+		return this.idToEvents.get(id) ?? null;
 	}
 
 	/**

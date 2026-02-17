@@ -4,7 +4,7 @@ import type {NavigatorData} from './domain';
 import type {ContextContainer, SearchContextHistoryManager} from './context';
 import type {NavigatorCache} from './cache';
 import type {NavigatorSearchResultSet} from '../communication/messages/incoming/newnavigator';
-import {IDisposable} from "@core";
+import type {IDisposable} from "@core";
 
 /**
  * New Navigator interface
@@ -55,7 +55,7 @@ export interface IHabboNewNavigator extends IDisposable
 	/**
 	 * Get collapsed categories
 	 */
-	readonly collapsedCategories: string[];
+	readonly collapsedCategories: Set<string>;
 
 	/**
 	 * Open the navigator

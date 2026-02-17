@@ -12,6 +12,7 @@ export class BadgesModel implements IBadgesModel
 	private static readonly MAX_ACTIVE_BADGE_COUNT = 5;
 	private _allBadges: Badge[] = [];
 	private _activeBadges: Badge[] = [];
+	private _activeBadgeSet: Set<Badge> = new Set();
 	private _badgeSlots: Map<string, number> = new Map();
 
 	private _disposed: boolean = false;
@@ -338,15 +339,17 @@ export class BadgesModel implements IBadgesModel
 			badge.dispose();
 		}
 
-		this._allBadges = [];
-		this._activeBadges = [];
+		this._allBadges.length = 0;
+		this._activeBadges.length = 0;
+		this._activeBadgeSet.clear();
 		this._badgeSlots.clear();
 	}
 
 	private startWearingBadge(badge: Badge): void
 	{
-		if (!this._activeBadges.includes(badge))
+		if (!this._activeBadgeSet.has(badge))
 		{
+			this._activeBadgeSet.add(badge);
 			this._activeBadges.push(badge);
 		}
 
@@ -355,11 +358,14 @@ export class BadgesModel implements IBadgesModel
 
 	private stopWearingBadge(badge: Badge): void
 	{
-		const index = this._activeBadges.indexOf(badge);
-
-		if (index > -1)
+		if (this._activeBadgeSet.delete(badge))
 		{
-			this._activeBadges.splice(index, 1);
+			const index = this._activeBadges.indexOf(badge);
+
+			if (index > -1)
+			{
+				this._activeBadges.splice(index, 1);
+			}
 		}
 
 		badge.isInUse = false;

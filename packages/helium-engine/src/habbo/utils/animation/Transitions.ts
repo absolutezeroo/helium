@@ -33,16 +33,16 @@ export class Transitions
 	 * Get a transition function by name.
 	 *
 	 * @param name The transition name (e.g. "linear", "easeIn")
-	 * @returns The transition function, or undefined if not found
+	 * @returns The transition function, or null if not found
 	 */
-	static getTransition(name: string): ((ratio: number) => number) | undefined
+	static getTransition(name: string): ((ratio: number) => number) | null
 	{
 		if (Transitions._transitions === null)
 		{
 			Transitions.registerDefaults();
 		}
 
-		return Transitions._transitions!.get(name);
+		return Transitions._transitions!.get(name) ?? null;
 	}
 
 	/**

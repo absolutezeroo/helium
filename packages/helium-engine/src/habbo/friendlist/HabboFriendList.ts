@@ -107,7 +107,7 @@ import {
 	FindNewFriendsMessageComposer
 } from '@habbo/communication/messages/outgoing/friendlist/FindNewFriendsMessageComposer';
 import {HabboSearchMessageComposer} from '@habbo/communication/messages/outgoing/friendlist/HabboSearchMessageComposer';
-import {IMessageComposer} from "@core";
+import type {IMessageComposer} from "@core";
 
 const log = Logger.getLogger('HabboFriendList');
 

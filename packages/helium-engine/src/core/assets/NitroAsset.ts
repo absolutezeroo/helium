@@ -112,17 +112,17 @@ export class NitroAsset implements ILazyAsset
 	/**
 	 * Get the asset name from JSON data
 	 */
-	get name(): string | undefined
+	get name(): string | null
 	{
-		return this._jsonData?.name;
+		return this._jsonData?.name ?? null;
 	}
 
 	/**
 	 * Get the asset type from JSON data
 	 */
-	get type(): string | undefined
+	get type(): string | null
 	{
-		return this._jsonData?.type;
+		return this._jsonData?.type ?? null;
 	}
 
 	dispose(): void

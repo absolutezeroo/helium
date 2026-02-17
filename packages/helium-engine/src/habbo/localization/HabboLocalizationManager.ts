@@ -30,6 +30,7 @@ export class HabboLocalizationManager extends CoreLocalizationManager implements
 	private _configurationManager: IHabboConfigurationManager | null = null;
 	private _communicationManager: IHabboCommunicationManager | null = null;
 	private _skipExternals: boolean = false;
+	private _boundOnLoginStep: ((step: HabboCommunicationEventType) => void) | null = null;
 
 	constructor(context: IContext)
 	{
@@ -60,13 +61,14 @@ export class HabboLocalizationManager extends CoreLocalizationManager implements
 		else
 		{
 			// Listen for AUTHENTICATED event to trigger localization loading
-			this._communicationManager.events.on('loginStep', (step: HabboCommunicationEventType) =>
+			this._boundOnLoginStep = (step: HabboCommunicationEventType) =>
 			{
 				if (step === HabboCommunicationEvent.AUTHENTICATED)
 				{
 					this.onAuthenticated();
 				}
-			});
+			};
+			this._communicationManager.events.on('loginStep', this._boundOnLoginStep);
 		}
 	}
 

@@ -375,21 +375,21 @@ Converts the entire room Map to an array just to access one element by index.
 
 ## Summary by Priority
 
-| #  | Issue                                  | Severity | Location                       | Fix Effort |
-|----|----------------------------------------|----------|--------------------------------|------------|
-| 1  | Texture recreation per avatar frame    | Critical | AvatarImage.ts:640             | Medium     |
-| 2  | Array sort + slice every render frame  | Critical | RoomRenderingCanvas.ts:283     | Low        |
-| 3  | No viewport culling                    | Critical | RoomRenderingCanvas.ts:277     | Medium     |
-| 4  | CPU pixel loop for color transforms    | Critical | PlaneVisualizationLayer.ts:158 | Medium     |
-| 5  | Offscreen avatars keep animating       | Critical | AvatarVisualization.ts:308     | Medium     |
-| 6  | Array.includes() in hot paths          | High     | Multiple files                 | Low        |
-| 7  | String concatenation in loop           | High     | AvatarImage.ts:926             | Low        |
-| 8  | Array.concat() in animation loop       | High     | AvatarImage.ts:1043            | Low        |
-| 9  | Unbounded image cache                  | High     | AvatarImage.ts:801             | Medium     |
-| 10 | Canvas element recreation              | High     | PlaneVisualizationLayer.ts:118 | Low        |
-| 11 | ByteArray allocation per message       | Medium   | WireFormatter.ts               | Medium     |
-| 12 | Redundant array replacement in parsers | Medium   | Multiple parsers               | Low        |
-| 13 | Temporary Map per room load            | Medium   | ObjectsMessageParser.ts        | Low        |
-| 14 | Juggler indexOf for membership         | Medium   | Juggler.ts:36                  | Low        |
-| 15 | Resize listener leak                   | Medium   | RoomEngine.ts                  | Low        |
-| 16 | Map-to-Array for index access          | Medium   | RoomManager.ts:207             | Low        |
+| #  | Issue                                  | Severity | Location                       | Fix Effort | Status |
+|----|----------------------------------------|----------|--------------------------------|------------|--------|
+| 1  | Texture recreation per avatar frame    | Critical | AvatarImage.ts:640             | Medium     | TODO   |
+| 2  | Array sort + slice every render frame  | Critical | RoomRenderingCanvas.ts:283     | Low        | FIXED  |
+| 3  | No viewport culling                    | Critical | RoomRenderingCanvas.ts:277     | Medium     | TODO   |
+| 4  | CPU pixel loop for color transforms    | Critical | PlaneVisualizationLayer.ts:158 | Medium     | FIXED  |
+| 5  | Offscreen avatars keep animating       | Critical | AvatarVisualization.ts:308     | Medium     | TODO   |
+| 6  | Array.includes() in hot paths          | High     | Multiple files                 | Low        | FIXED  |
+| 7  | String concatenation in loop           | High     | AvatarImage.ts:926             | Low        | FIXED  |
+| 8  | Array.concat() in animation loop       | High     | AvatarImage.ts:1043            | Low        | FIXED  |
+| 9  | Unbounded image cache                  | High     | AvatarImage.ts:801             | Medium     | TODO   |
+| 10 | Canvas element recreation              | High     | PlaneVisualizationLayer.ts:118 | Low        | FIXED  |
+| 11 | ByteArray allocation per message       | Medium   | WireFormatter.ts               | Medium     | TODO   |
+| 12 | Redundant array replacement in parsers | Medium   | Multiple parsers               | Low        | FIXED  |
+| 13 | Temporary Map per room load            | Medium   | ObjectsMessageParser.ts        | Low        | FIXED  |
+| 14 | Juggler indexOf for membership         | Medium   | Juggler.ts:36                  | Low        | FIXED  |
+| 15 | Resize listener leak                   | Medium   | RoomEngine.ts                  | Low        | FIXED  |
+| 16 | Map-to-Array for index access          | Medium   | RoomManager.ts:207             | Low        | FIXED  |

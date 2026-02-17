@@ -96,9 +96,9 @@ export class RoomObjectManager implements IRoomObjectManager
 	disposeObject(id: number): boolean
 	{
 		const idKey = String(id);
-		const object = this._objects.get(idKey) as RoomObject | undefined;
+		const object = (this._objects.get(idKey) ?? null) as RoomObject | null;
 
-		if (object !== undefined)
+		if (object !== null)
 		{
 			const type = object.getType();
 			const typeMap = this.getObjectsForType(type, false);

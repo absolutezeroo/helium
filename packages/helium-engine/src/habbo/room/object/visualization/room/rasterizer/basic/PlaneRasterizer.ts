@@ -325,8 +325,8 @@ export class PlaneRasterizer implements IPlaneRasterizer
 
 			for (const matrixData of matrices)
 			{
-				const repeatMode = this.parseRepeatMode(matrixData.repeatMode);
-				const align = this.parseAlign(matrixData.align);
+				const repeatMode = this.parseRepeatMode(matrixData.repeatMode ?? null);
+				const align = this.parseAlign(matrixData.align ?? null);
 				const normalMinX = matrixData.normalMinX ?? -1;
 				const normalMaxX = matrixData.normalMaxX ?? 1;
 				const normalMinY = matrixData.normalMinY ?? -1;
@@ -360,7 +360,7 @@ export class PlaneRasterizer implements IPlaneRasterizer
 	{
 		if (columnData === null || matrix === null) return;
 
-		const repeatMode = this.parseColumnRepeatMode(columnData.repeatMode);
+		const repeatMode = this.parseColumnRepeatMode(columnData.repeatMode ?? null);
 		const width = columnData.width ?? 1;
 		const cells = this.parsePlaneMaterialCells(columnData.cells ?? []);
 
@@ -384,7 +384,7 @@ export class PlaneRasterizer implements IPlaneRasterizer
 		return cells.length === 0 ? null : cells;
 	}
 
-	private parseRepeatMode(mode: string | undefined): number
+	private parseRepeatMode(mode: string | null): number
 	{
 		switch (mode)
 		{
@@ -403,7 +403,7 @@ export class PlaneRasterizer implements IPlaneRasterizer
 		}
 	}
 
-	private parseColumnRepeatMode(mode: string | undefined): number
+	private parseColumnRepeatMode(mode: string | null): number
 	{
 		switch (mode)
 		{
@@ -422,7 +422,7 @@ export class PlaneRasterizer implements IPlaneRasterizer
 		}
 	}
 
-	private parseAlign(align: string | undefined): number
+	private parseAlign(align: string | null): number
 	{
 		switch (align)
 		{

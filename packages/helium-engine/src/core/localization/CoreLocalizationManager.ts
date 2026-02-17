@@ -31,7 +31,7 @@ export class CoreLocalizationManager extends Component implements ICoreLocalizat
 	protected _nonExistingKeys: string[] = [];
 	protected _activeDefinitionId: string = '';
 	protected _activeEnvironmentId: string = '';
-	protected _gameDataResources: GameDataResources | undefined;
+	protected _gameDataResources: GameDataResources | null = null;
 
 	constructor(context: IContext)
 	{
@@ -69,12 +69,12 @@ export class CoreLocalizationManager extends Component implements ICoreLocalizat
 		return this._definitions;
 	}
 
-	public getLocalizationDefinition(id: string): ILocalizationDefinition | undefined
+	public getLocalizationDefinition(id: string): ILocalizationDefinition | null
 	{
-		return this._definitions.get(id);
+		return this._definitions.get(id) ?? null;
 	}
 
-	public getActiveLocalizationDefinition(): ILocalizationDefinition | undefined
+	public getActiveLocalizationDefinition(): ILocalizationDefinition | null
 	{
 		return this.getLocalizationDefinition(this._activeDefinitionId);
 	}
@@ -299,9 +299,9 @@ export class CoreLocalizationManager extends Component implements ICoreLocalizat
 		return localization.value;
 	}
 
-	public getLocalizationRaw(key: string): ILocalization | undefined
+	public getLocalizationRaw(key: string): ILocalization | null
 	{
-		return this._localizations.get(key);
+		return this._localizations.get(key) ?? null;
 	}
 
 	public getKeys(): string[]
@@ -322,7 +322,7 @@ export class CoreLocalizationManager extends Component implements ICoreLocalizat
 		}
 	}
 
-	public getGameDataResources(): IGameDataResources | undefined
+	public getGameDataResources(): IGameDataResources | null
 	{
 		return this._gameDataResources;
 	}

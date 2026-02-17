@@ -18,7 +18,7 @@ export class Localization implements ILocalization
 	private readonly _manager: ICoreLocalizationManager;
 	private readonly _key: string;
 	private _parameters: Map<string, ParameterData> | null = null;
-	private _listeners: ILocalizable[] | null = null;
+	private _listeners: Set<ILocalizable> | null = null;
 
 	constructor(manager: ICoreLocalizationManager, key: string, value: string | null = null)
 	{
@@ -54,13 +54,10 @@ export class Localization implements ILocalization
 	{
 		if (!this._listeners)
 		{
-			this._listeners = [];
+			this._listeners = new Set();
 		}
 
-		if (this._listeners.indexOf(listener) === -1)
-		{
-			this._listeners.push(listener);
-		}
+		this._listeners.add(listener);
 
 		listener.localization = this._manager.interpolate(this.value);
 	}
@@ -69,11 +66,7 @@ export class Localization implements ILocalization
 	{
 		if (this._listeners)
 		{
-			const index = this._listeners.indexOf(listener);
-			if (index >= 0)
-			{
-				this._listeners.splice(index, 1);
-			}
+			this._listeners.delete(listener);
 		}
 	}
 

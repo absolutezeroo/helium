@@ -42,11 +42,11 @@ export class AvatarSet
 			}
 		}
 
-		let all = [...this._bodyPartIds];
+		const all = [...this._bodyPartIds];
 
 		for (const subSet of this._subSets.values())
 		{
-			all = all.concat(subSet.getBodyParts());
+			all.push(...subSet.getBodyParts());
 		}
 
 		this._allBodyPartIds = all;

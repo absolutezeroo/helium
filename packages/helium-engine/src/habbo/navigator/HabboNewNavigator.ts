@@ -48,7 +48,7 @@ import {
 import {
 	GetExtendedProfileMessageComposer
 } from '../communication/messages/outgoing/users/GetExtendedProfileMessageComposer';
-import type {IMessageComposer} from "@core";
+import type {IMessageComposer} from '@core';
 import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
 import {IID_HabboNavigator} from "@iid/IIDHabboNavigator";
 
@@ -158,7 +158,8 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 
 	get legacyNavigator(): IHabboNavigator
 	{
-		return this._legacyNavigator!;
+		if(this._legacyNavigator === null) throw new Error('[HabboNewNavigator] legacyNavigator not initialized');
+		return this._legacyNavigator;
 	}
 
 	private _contextContainer: ContextContainer;
@@ -194,9 +195,9 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		return this._currentResults;
 	}
 
-	private _collapsedCategories: string[] = [];
+	private _collapsedCategories: Set<string> = new Set();
 
-	get collapsedCategories(): string[]
+	get collapsedCategories(): Set<string>
 	{
 		return this._collapsedCategories;
 	}
@@ -217,7 +218,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	 */
 	get data(): NavigatorData
 	{
-		return this._legacyNavigator!.data;
+		return this.legacyNavigator.data;
 	}
 
 	protected override get dependencies(): Array<ComponentDependency<any>>
@@ -373,7 +374,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 
 	onCollapsedCategories(categories: string[]): void
 	{
-		this._collapsedCategories = categories;
+		this._collapsedCategories = new Set(categories);
 
 		this._navigatorEvents.emit('navigator:collapsed', categories);
 
@@ -551,27 +552,19 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	{
 		this.send(new NavigatorAddCollapsedCategoryMessageComposer(category));
 
-		if (!this._collapsedCategories.includes(category))
-		{
-			this._collapsedCategories.push(category);
-		}
+		this._collapsedCategories.add(category);
 	}
 
 	removeCollapsedCategory(category: string): void
 	{
 		this.send(new NavigatorRemoveCollapsedCategoryMessageComposer(category));
 
-		const index = this._collapsedCategories.indexOf(category);
-
-		if (index !== -1)
-		{
-			this._collapsedCategories.splice(index, 1);
-		}
+		this._collapsedCategories.delete(category);
 	}
 
 	isCategoryCollapsed(category: string): boolean
 	{
-		return this._collapsedCategories.includes(category);
+		return this._collapsedCategories.has(category);
 	}
 
 	setSearchCodeViewMode(searchCode: string, viewMode: number): void

@@ -37,7 +37,9 @@ export class AvatarAssetDownloadManager extends EventEmitter
 	private _incompleteFigures: Map<string, AvatarAssetDownloadLibrary[]>;
 	private _listeners: Map<string, IAvatarImageListener[]>;
 	private _pendingDownloadQueue: AvatarAssetDownloadLibrary[];
+	private _pendingDownloadSet: Set<AvatarAssetDownloadLibrary>;
 	private _currentDownloads: AvatarAssetDownloadLibrary[];
+	private _currentDownloadSet: Set<AvatarAssetDownloadLibrary>;
 	private _initDownloadBuffer: [IAvatarFigureContainer, IAvatarImageListener | null][];
 	private _isReady: boolean;
 	private _downloadUrl: string;
@@ -63,7 +65,9 @@ export class AvatarAssetDownloadManager extends EventEmitter
 		this._incompleteFigures = new Map();
 		this._listeners = new Map();
 		this._pendingDownloadQueue = [];
+		this._pendingDownloadSet = new Set();
 		this._currentDownloads = [];
+		this._currentDownloadSet = new Set();
 		this._initDownloadBuffer = [];
 		this._isReady = false;
 		this._mandatoryLibs = [
@@ -206,9 +210,11 @@ export class AvatarAssetDownloadManager extends EventEmitter
 		this._figureMap.clear();
 		this._incompleteFigures.clear();
 		this._listeners.clear();
-		this._pendingDownloadQueue = [];
-		this._currentDownloads = [];
-		this._initDownloadBuffer = [];
+		this._pendingDownloadQueue.length = 0;
+		this._pendingDownloadSet.clear();
+		this._currentDownloads.length = 0;
+		this._currentDownloadSet.clear();
+		this._initDownloadBuffer.length = 0;
 	}
 
 	/**
@@ -307,6 +313,7 @@ export class AvatarAssetDownloadManager extends EventEmitter
 	private getLibsToDownload(figure: IAvatarFigureContainer): AvatarAssetDownloadLibrary[]
 	{
 		const result: AvatarAssetDownloadLibrary[] = [];
+		const resultSet: Set<AvatarAssetDownloadLibrary> = new Set();
 
 		if (!this._structure) return result;
 		if (!figure) return result;
@@ -350,8 +357,9 @@ export class AvatarAssetDownloadManager extends EventEmitter
 				{
 					for (const lib of libs)
 					{
-						if (lib && !lib.isReady && result.indexOf(lib) === -1)
+						if (lib && !lib.isReady && !resultSet.has(lib))
 						{
+							resultSet.add(lib);
 							result.push(lib);
 						}
 					}
@@ -372,11 +380,14 @@ export class AvatarAssetDownloadManager extends EventEmitter
 	private onLibraryComplete(library: AvatarAssetDownloadLibrary): void
 	{
 		// Remove from current downloads
-		const downloadIndex = this._currentDownloads.indexOf(library);
-
-		if (downloadIndex !== -1)
+		if (this._currentDownloadSet.delete(library))
 		{
-			this._currentDownloads.splice(downloadIndex, 1);
+			const downloadIndex = this._currentDownloads.indexOf(library);
+
+			if (downloadIndex !== -1)
+			{
+				this._currentDownloads.splice(downloadIndex, 1);
+			}
 		}
 
 		// Register assets and aliases from the loaded library
@@ -439,8 +450,9 @@ export class AvatarAssetDownloadManager extends EventEmitter
 	 */
 	private addToQueue(library: AvatarAssetDownloadLibrary): void
 	{
-		if (!library.isReady && this._pendingDownloadQueue.indexOf(library) === -1 && this._currentDownloads.indexOf(library) === -1)
+		if (!library.isReady && !this._pendingDownloadSet.has(library) && !this._currentDownloadSet.has(library))
 		{
+			this._pendingDownloadSet.add(library);
 			this._pendingDownloadQueue.push(library);
 		}
 	}
@@ -455,7 +467,9 @@ export class AvatarAssetDownloadManager extends EventEmitter
 		while (this._pendingDownloadQueue.length > 0 && this._currentDownloads.length < AvatarAssetDownloadManager.MAX_SIMULTANEOUS_DOWNLOADS)
 		{
 			const library = this._pendingDownloadQueue.shift()!;
+			this._pendingDownloadSet.delete(library);
 
+			this._currentDownloadSet.add(library);
 			this._currentDownloads.push(library);
 			library.startDownloading();
 		}

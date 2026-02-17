@@ -32,7 +32,9 @@ export class EffectAssetDownloadManager extends EventEmitter
 	private _incompleteEffects: Map<string, EffectAssetDownloadLibrary[]>;
 	private _listeners: Map<string, IAvatarEffectListener[]>;
 	private _pendingDownloadQueue: EffectAssetDownloadLibrary[];
+	private _pendingDownloadSet: Set<EffectAssetDownloadLibrary>;
 	private _currentDownloads: EffectAssetDownloadLibrary[];
+	private _currentDownloadSet: Set<EffectAssetDownloadLibrary>;
 	private _initDownloadBuffer: [number, IAvatarEffectListener | null][];
 	private _isReady: boolean;
 	private _downloadUrl: string;
@@ -53,7 +55,9 @@ export class EffectAssetDownloadManager extends EventEmitter
 		this._incompleteEffects = new Map();
 		this._listeners = new Map();
 		this._pendingDownloadQueue = [];
+		this._pendingDownloadSet = new Set();
 		this._currentDownloads = [];
+		this._currentDownloadSet = new Set();
 		this._initDownloadBuffer = [];
 		this._isReady = false;
 	}
@@ -218,6 +222,7 @@ export class EffectAssetDownloadManager extends EventEmitter
 	private getLibsToDownload(effectId: number): EffectAssetDownloadLibrary[]
 	{
 		const result: EffectAssetDownloadLibrary[] = [];
+		const resultSet: Set<EffectAssetDownloadLibrary> = new Set();
 
 		if (!this._structure) return result;
 
@@ -227,8 +232,9 @@ export class EffectAssetDownloadManager extends EventEmitter
 
 		for (const lib of libs)
 		{
-			if (lib && !lib.isReady && result.indexOf(lib) === -1)
+			if (lib && !lib.isReady && !resultSet.has(lib))
 			{
+				resultSet.add(lib);
 				result.push(lib);
 			}
 		}
@@ -285,11 +291,14 @@ export class EffectAssetDownloadManager extends EventEmitter
 		}
 
 		// Remove from current downloads
-		const downloadIndex = this._currentDownloads.indexOf(library);
-
-		if (downloadIndex !== -1)
+		if (this._currentDownloadSet.delete(library))
 		{
-			this._currentDownloads.splice(downloadIndex, 1);
+			const downloadIndex = this._currentDownloads.indexOf(library);
+
+			if (downloadIndex !== -1)
+			{
+				this._currentDownloads.splice(downloadIndex, 1);
+			}
 		}
 
 		if (completedEffects.length > 0)
@@ -307,8 +316,9 @@ export class EffectAssetDownloadManager extends EventEmitter
 	 */
 	private addToQueue(library: EffectAssetDownloadLibrary): void
 	{
-		if (!library.isReady && this._pendingDownloadQueue.indexOf(library) === -1 && this._currentDownloads.indexOf(library) === -1)
+		if (!library.isReady && !this._pendingDownloadSet.has(library) && !this._currentDownloadSet.has(library))
 		{
+			this._pendingDownloadSet.add(library);
 			this._pendingDownloadQueue.push(library);
 			this.processPending();
 		}
@@ -324,7 +334,9 @@ export class EffectAssetDownloadManager extends EventEmitter
 		while (this._pendingDownloadQueue.length > 0 && this._currentDownloads.length < EffectAssetDownloadManager.MAX_SIMULTANEOUS_DOWNLOADS)
 		{
 			const library = this._pendingDownloadQueue.shift()!;
+			this._pendingDownloadSet.delete(library);
 
+			this._currentDownloadSet.add(library);
 			library.startDownloading();
 			this._currentDownloads.push(library);
 		}

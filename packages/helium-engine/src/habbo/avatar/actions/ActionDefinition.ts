@@ -242,7 +242,16 @@ export class ActionDefinition implements IActionDefinition
 	 */
 	public getPrevents(id: string = ''): string[]
 	{
-		return this._prevents.concat(this._getTypePrevents(id));
+		const typePrevents = this._getTypePrevents(id);
+
+		if (typePrevents.length === 0) return this._prevents;
+
+		if (this._prevents.length === 0) return typePrevents;
+
+		const result = [...this._prevents];
+		result.push(...typePrevents);
+
+		return result;
 	}
 
 	/**

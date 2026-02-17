@@ -174,6 +174,8 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 	{
 		if (this._disposed) return;
 
+		this._disposed = true;
+
 		this._floorItems.clear();
 		this._wallItems.clear();
 		this._pets.clear();
@@ -192,8 +194,6 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 		this._loadedTypes.clear();
 		this._loadingTypes.clear();
 		this._contentEvents.removeAllListeners();
-
-		this._disposed = true;
 	}
 
 	getObjectCategory(type: string): number
@@ -554,7 +554,7 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 		// Create GraphicAssetCollection from bundle textures and asset definitions
 		const collection = new GraphicAssetCollection();
 		const textures = asset.textures;
-		const assetDefs = jsonData.assets as Record<string, Record<string, unknown>> | undefined;
+		const assetDefs = (jsonData.assets ?? null) as Record<string, Record<string, unknown>> | null;
 
 		if (textures && assetDefs)
 		{

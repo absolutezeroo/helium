@@ -118,16 +118,16 @@ export class GeometryBodyPart extends Node3D
 
 	public hasPart(id: string, avatar: IAvatarImage): boolean
 	{
-		let item: GeometryItem | undefined = this._items.get(id);
+		let item: GeometryItem | null = this._items.get(id) ?? null;
 
 		if (!item)
 		{
 			const dynamicMap = this._dynamicItems.get(avatar);
 
-			if (dynamicMap) item = dynamicMap.get(id);
+			if (dynamicMap) item = dynamicMap.get(id) ?? null;
 		}
 
-		return item != null;
+		return item !== null;
 	}
 
 	public getParts(matrix: Matrix4x4, camera: Vector3D, _param: any[], avatar: IAvatarImage): string[]

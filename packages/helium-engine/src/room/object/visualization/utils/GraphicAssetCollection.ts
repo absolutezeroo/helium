@@ -108,14 +108,14 @@ export class GraphicAssetCollection implements IGraphicAssetCollection
 			return false;
 		}
 
-		const palettes = data['palettes'] as Record<string, Record<string, unknown>> | undefined;
+		const palettes = (data['palettes'] ?? null) as Record<string, Record<string, unknown>> | null;
 
 		if (palettes)
 		{
 			this.definePalettes(palettes);
 		}
 
-		const assets = data['assets'] as Record<string, Record<string, unknown>> | undefined;
+		const assets = (data['assets'] ?? null) as Record<string, Record<string, unknown>> | null;
 
 		if (!assets)
 		{
@@ -165,11 +165,11 @@ export class GraphicAssetCollection implements IGraphicAssetCollection
 			// For now, return the original asset as palette support requires
 			// canvas-based pixel manipulation at runtime.
 			const libraryKey = original.libraryAssetName + '@' + paletteName;
-			let palettizedTexture = this._textures.get(libraryKey);
+			let palettizedTexture: Texture | null = this._textures.get(libraryKey) ?? null;
 
 			if (!palettizedTexture && original.texture)
 			{
-				palettizedTexture = this.colorizePalette(original.texture, palette) ?? undefined;
+				palettizedTexture = this.colorizePalette(original.texture, palette);
 
 				if (palettizedTexture)
 				{
@@ -356,7 +356,7 @@ export class GraphicAssetCollection implements IGraphicAssetCollection
 			}
 
 			// In Nitro bundles, palette data comes as an array of RGB values
-			const paletteData = paletteDef['rgb'] as number[] | undefined;
+			const paletteData = (paletteDef['rgb'] ?? null) as number[] | null;
 
 			if (!paletteData)
 			{

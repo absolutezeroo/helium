@@ -1,4 +1,5 @@
-import {Component, ComponentDependency, IContext} from '@core/runtime';
+import {Component, ComponentDependency} from '@core/runtime';
+import type {IContext} from '@core/runtime';
 import {Logger} from '@core/utils/Logger';
 import type {IConnection} from '@core/communication/connection/IConnection';
 import {IncomingMessages} from './IncomingMessages';

@@ -66,10 +66,10 @@ export class HabboToolbarIconEnum
 	 * Get the human-readable name for a toolbar icon ID
 	 *
 	 * @param iconId The icon identifier string
-	 * @returns The icon name, or undefined if not found
+	 * @returns The icon name, or null if not found
 	 */
-	public static getIconName(iconId: string): string | undefined
+	public static getIconName(iconId: string): string | null
 	{
-		return HabboToolbarIconEnum._TOOLBAR_NAMES.get(iconId);
+		return HabboToolbarIconEnum._TOOLBAR_NAMES.get(iconId) ?? null;
 	}
 }

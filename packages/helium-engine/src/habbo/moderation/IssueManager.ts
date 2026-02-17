@@ -257,7 +257,7 @@ export class IssueManager
 
 		const issueIds = bundle.getIssueIds();
 		this.sendPick(issueIds, autoRetry, retryCount, reason);
-		this._pendingPickIssueIds = this._pendingPickIssueIds.concat(issueIds);
+		this._pendingPickIssueIds.push(...issueIds);
 	}
 
 	/**
@@ -307,7 +307,7 @@ export class IssueManager
 		{
 			if (bundle.state === IssueBundle.STATE_PICKED && bundle.pickerUserId === userId)
 			{
-				issueIds = issueIds.concat(bundle.getIssueIds());
+				issueIds.push(...bundle.getIssueIds());
 			}
 		}
 
@@ -663,7 +663,7 @@ export class IssueManager
 		}
 
 		this._manager.connection.send(new ReleaseIssuesMessageComposer(issueIds));
-		this._pendingReleaseIssueIds = this._pendingReleaseIssueIds.concat(issueIds);
+		this._pendingReleaseIssueIds.push(...issueIds);
 	}
 
 	/**

@@ -265,7 +265,7 @@ export class FurnitureVisualizationData implements IRoomObjectVisualizationData
 
 	protected defineVisualizations(data: Record<string, unknown>): boolean
 	{
-		const visualizations = data['visualizations'] as Record<string, unknown>[] | undefined;
+		const visualizations = (data['visualizations'] ?? null) as Record<string, unknown>[] | null;
 
 		if (!visualizations || !Array.isArray(visualizations) || visualizations.length === 0)
 		{
@@ -373,7 +373,7 @@ export class FurnitureVisualizationData implements IRoomObjectVisualizationData
 
 		for (const name of elementNames)
 		{
-			const elementData = vizDef[name] as Record<string, unknown> | undefined;
+			const elementData = (vizDef[name] ?? null) as Record<string, unknown> | null;
 
 			if (elementData)
 			{

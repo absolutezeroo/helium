@@ -90,8 +90,8 @@ export class MapStuffData extends StuffDataBase implements IStuffData
 		return false;
 	}
 
-	getValue(key: string): string | undefined
+	getValue(key: string): string | null
 	{
-		return this._data.get(key);
+		return this._data.get(key) ?? null;
 	}
 }

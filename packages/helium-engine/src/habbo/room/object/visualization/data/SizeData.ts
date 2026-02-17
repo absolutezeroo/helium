@@ -120,7 +120,7 @@ export class SizeData
 			directionData.copyValues(this._defaultDirection);
 
 			const dirDef = directions[idStr];
-			const layers = dirDef['layers'] as Record<string, Record<string, unknown>> | undefined;
+			const layers = (dirDef['layers'] ?? null) as Record<string, Record<string, unknown>> | null;
 
 			if (layers)
 			{
@@ -158,7 +158,7 @@ export class SizeData
 
 			const colorDef = colors[colorId];
 			const colorData = new ColorData(this._layerCount);
-			const layers = colorDef['layers'] as Record<string, Record<string, unknown>> | undefined;
+			const layers = (colorDef['layers'] ?? null) as Record<string, Record<string, unknown>> | null;
 
 			if (layers)
 			{
@@ -337,14 +337,14 @@ export class SizeData
 
 			const layerDef = layers[idStr];
 
-			const tag = layerDef['tag'] as string | undefined;
+			const tag = (layerDef['tag'] ?? null) as string | null;
 
 			if (tag && tag.length > 0)
 			{
 				directionData.setTag(layerIndex, tag);
 			}
 
-			const ink = layerDef['ink'] as string | undefined;
+			const ink = (layerDef['ink'] ?? null) as string | null;
 
 			if (ink)
 			{
@@ -374,37 +374,37 @@ export class SizeData
 				}
 			}
 
-			const alpha = layerDef['alpha'] as number | undefined;
+			const alpha = (layerDef['alpha'] ?? null) as number | null;
 
-			if (alpha !== undefined)
+			if (alpha !== null)
 			{
 				directionData.setAlpha(layerIndex, alpha);
 			}
 
-			const ignoreMouse = layerDef['ignoreMouse'] as number | undefined;
+			const ignoreMouse = (layerDef['ignoreMouse'] ?? null) as number | null;
 
-			if (ignoreMouse !== undefined)
+			if (ignoreMouse !== null)
 			{
 				directionData.setIgnoreMouse(layerIndex, ignoreMouse !== 0);
 			}
 
-			const x = layerDef['x'] as number | undefined;
+			const x = (layerDef['x'] ?? null) as number | null;
 
-			if (x !== undefined)
+			if (x !== null)
 			{
 				directionData.setXOffset(layerIndex, x);
 			}
 
-			const y = layerDef['y'] as number | undefined;
+			const y = (layerDef['y'] ?? null) as number | null;
 
-			if (y !== undefined)
+			if (y !== null)
 			{
 				directionData.setYOffset(layerIndex, y);
 			}
 
-			const z = layerDef['z'] as number | undefined;
+			const z = (layerDef['z'] ?? null) as number | null;
 
-			if (z !== undefined)
+			if (z !== null)
 			{
 				directionData.setZOffset(layerIndex, z / -1000);
 			}

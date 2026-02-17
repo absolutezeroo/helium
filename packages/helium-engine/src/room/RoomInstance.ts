@@ -44,7 +44,7 @@ export class RoomInstance implements IRoomInstance
 
 		this._managers.clear();
 		this._container = null;
-		this._updateCategories = [];
+		this._updateCategories.length = 0;
 		this._numbers.clear();
 		this._strings.clear();
 		this._immutableNumbers.clear();

@@ -174,6 +174,7 @@ export class NavigatorData
 	}
 
 	private _allCategories: FlatCategory[] = [];
+	private _categoryByNodeId: Map<number, FlatCategory> = new Map();
 
 	get allCategories(): FlatCategory[]
 	{
@@ -188,6 +189,7 @@ export class NavigatorData
 	}
 
 	private _allEventCategories: EventCategory[] = [];
+	private _eventCategoryById: Map<number, EventCategory> = new Map();
 
 	get allEventCategories(): EventCategory[]
 	{
@@ -403,6 +405,12 @@ export class NavigatorData
 	set categories(value: FlatCategory[])
 	{
 		this._allCategories = value;
+		this._categoryByNodeId.clear();
+
+		for (const cat of value)
+		{
+			this._categoryByNodeId.set(cat.nodeId, cat);
+		}
 
 		this._visibleCategories = value.filter((cat) => cat.visible);
 	}
@@ -410,6 +418,12 @@ export class NavigatorData
 	set eventCategories(value: EventCategory[])
 	{
 		this._allEventCategories = value;
+		this._eventCategoryById.clear();
+
+		for (const cat of value)
+		{
+			this._eventCategoryById.set(cat.categoryId, cat);
+		}
 
 		this._visibleEventCategories = value.filter((cat) => cat.visible);
 	}
@@ -439,12 +453,12 @@ export class NavigatorData
 
 	getCategoryById(nodeId: number): FlatCategory | null
 	{
-		return this._allCategories.find((cat) => cat.nodeId === nodeId) || null;
+		return this._categoryByNodeId.get(nodeId) ?? null;
 	}
 
 	getEventCategoryById(categoryId: number): EventCategory | null
 	{
-		return this._allEventCategories.find((cat) => cat.categoryId === categoryId) || null;
+		return this._eventCategoryById.get(categoryId) ?? null;
 	}
 
 	onFavourites(limit: number, roomIds: number[]): void
@@ -534,10 +548,12 @@ export class NavigatorData
 
 		this._favouriteRoomIds.clear();
 
-		this._allCategories = [];
-		this._visibleCategories = [];
-		this._allEventCategories = [];
-		this._visibleEventCategories = [];
+		this._allCategories.length = 0;
+		this._categoryByNodeId.clear();
+		this._visibleCategories.length = 0;
+		this._allEventCategories.length = 0;
+		this._eventCategoryById.clear();
+		this._visibleEventCategories.length = 0;
 	}
 
 	private disposeCurrentMessage(): void

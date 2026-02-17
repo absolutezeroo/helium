@@ -37,6 +37,7 @@ export class FurniModel implements IFurniModel
 	}
 
 	private _furniData: GroupItem[] = [];
+	private _furniDataSet: Set<GroupItem> = new Set();
 
 	get furniData(): GroupItem[]
 	{
@@ -59,7 +60,8 @@ export class FurniModel implements IFurniModel
 			group.dispose();
 		}
 
-		this._furniData = [];
+		this._furniData.length = 0;
+		this._furniDataSet.clear();
 		this._categorySelections.clear();
 		this._disposed = true;
 	}
@@ -166,6 +168,7 @@ export class FurniModel implements IFurniModel
 				// If group is empty, remove it
 				if (groupItem.getTotalCount() <= 0)
 				{
+					this._furniDataSet.delete(groupItem);
 					this._furniData.splice(i, 1);
 
 					// If this was selected, select first item
@@ -191,7 +194,8 @@ export class FurniModel implements IFurniModel
 			group.dispose();
 		}
 
-		this._furniData = [];
+		this._furniData.length = 0;
+		this._furniDataSet.clear();
 		this._isListInitialized = false;
 	}
 
@@ -534,21 +538,26 @@ export class FurniModel implements IFurniModel
 
 	private addItemToTop(groupItem: GroupItem): void
 	{
+		this._furniDataSet.add(groupItem);
 		this._furniData.unshift(groupItem);
 	}
 
 	private addItemToBottom(groupItem: GroupItem): void
 	{
+		this._furniDataSet.add(groupItem);
 		this._furniData.push(groupItem);
 	}
 
 	private removeItem(groupItem: GroupItem): void
 	{
-		const index = this._furniData.indexOf(groupItem);
-
-		if (index > -1)
+		if (this._furniDataSet.delete(groupItem))
 		{
-			this._furniData.splice(index, 1);
+			const index = this._furniData.indexOf(groupItem);
+
+			if (index > -1)
+			{
+				this._furniData.splice(index, 1);
+			}
 		}
 	}
 
@@ -564,7 +573,7 @@ export class FurniModel implements IFurniModel
 
 		const savedSelection = this._categorySelections.get(this._currentCategory);
 
-		if (savedSelection && this._furniData.indexOf(savedSelection) > -1)
+		if (savedSelection && this._furniDataSet.has(savedSelection))
 		{
 			savedSelection.isSelected = true;
 			savedSelection.selectedItemIndex = -1;

@@ -34,8 +34,8 @@ export class IntArrayStuffData extends StuffDataBase
 		return this._data[0]?.toString() ?? '';
 	}
 
-	getValue(index: number): number | undefined
+	getValue(index: number): number | null
 	{
-		return this._data[index];
+		return this._data[index] ?? null;
 	}
 }

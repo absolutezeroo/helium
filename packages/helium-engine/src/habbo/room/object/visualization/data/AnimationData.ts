@@ -90,7 +90,7 @@ export class AnimationData
 	{
 		this._randomStart = ((data['randomStart'] as number) || 0) !== 0;
 
-		const layers = data['layers'] as Record<string, Record<string, unknown>> | undefined;
+		const layers = (data['layers'] ?? null) as Record<string, Record<string, unknown>> | null;
 
 		if (!layers)
 		{
@@ -169,7 +169,7 @@ export class AnimationData
 	{
 		const layerData = new AnimationLayerData(loopCount, frameRepeat, isRandom);
 
-		const frameSequences = layerDef['frameSequences'] as Record<string, Record<string, unknown>> | undefined;
+		const frameSequences = (layerDef['frameSequences'] ?? null) as Record<string, Record<string, unknown>> | null;
 
 		if (frameSequences)
 		{
@@ -181,7 +181,7 @@ export class AnimationData
 
 				const sequence: AnimationFrameSequenceData = layerData.addFrameSequence(seqLoopCount, seqRandom);
 
-				const frames = seqDef['frames'] as Record<string, Record<string, unknown>> | undefined;
+				const frames = (seqDef['frames'] ?? null) as Record<string, Record<string, unknown>> | null;
 
 				if (frames)
 				{
@@ -221,7 +221,7 @@ export class AnimationData
 
 	private readDirectionalOffsets(frameDef: Record<string, unknown>): DirectionalOffsetData | null
 	{
-		const offsets = frameDef['offsets'] as Record<string, Record<string, unknown>> | undefined;
+		const offsets = (frameDef['offsets'] ?? null) as Record<string, Record<string, unknown>> | null;
 
 		if (!offsets)
 		{
@@ -233,9 +233,9 @@ export class AnimationData
 		for (const offsetKey in offsets)
 		{
 			const offsetDef = offsets[offsetKey];
-			const direction = (offsetDef['direction'] as number);
+			const direction = (offsetDef['direction'] ?? null) as number | null;
 
-			if (direction === undefined)
+			if (direction === null)
 			{
 				continue;
 			}

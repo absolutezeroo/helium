@@ -72,17 +72,17 @@ export class AnimationSizeData extends SizeData
 
 			let isTransition = false;
 
-			const transitionTo = animDef['transitionTo'] as number | undefined;
+			const transitionTo = (animDef['transitionTo'] ?? null) as number | null;
 
-			if (transitionTo !== undefined)
+			if (transitionTo !== null)
 			{
 				animationId = AnimationData.getTransitionToAnimationId(transitionTo);
 				isTransition = true;
 			}
 
-			const transitionFrom = animDef['transitionFrom'] as number | undefined;
+			const transitionFrom = (animDef['transitionFrom'] ?? null) as number | null;
 
-			if (transitionFrom !== undefined)
+			if (transitionFrom !== null)
 			{
 				animationId = AnimationData.getTransitionFromAnimationId(transitionFrom);
 				isTransition = true;
@@ -96,7 +96,7 @@ export class AnimationSizeData extends SizeData
 				return false;
 			}
 
-			const immediateChangeFrom = animDef['immediateChangeFrom'] as string | undefined;
+			const immediateChangeFrom = (animDef['immediateChangeFrom'] ?? null) as string | null;
 
 			if (immediateChangeFrom && immediateChangeFrom.length > 0)
 			{

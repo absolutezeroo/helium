@@ -63,7 +63,7 @@ export class LatencyTracker
 		}
 
 		this._latencyMap = new Map();
-		this._latencies = [];
+		this._latencies.length = 0;
 		this._isTracking = true;
 	}
 
@@ -129,7 +129,7 @@ export class LatencyTracker
 		this._isTracking = false;
 
 		this._latencyMap.clear();
-		this._latencies = [];
+		this._latencies.length = 0;
 		this._habboTracking = null;
 		this._disposed = true;
 	}
@@ -179,7 +179,7 @@ export class LatencyTracker
 
 		if (validLatencies === 0)
 		{
-			this._latencies = [];
+			this._latencies.length = 0;
 			return;
 		}
 
@@ -201,6 +201,6 @@ export class LatencyTracker
 			}
 		}
 
-		this._latencies = [];
+		this._latencies.length = 0;
 	}
 }

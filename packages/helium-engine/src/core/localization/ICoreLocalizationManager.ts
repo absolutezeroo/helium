@@ -74,7 +74,7 @@ export interface ICoreLocalizationManager
 	/**
 	 * Get raw localization object
 	 */
-	getLocalizationRaw(key: string): ILocalization | undefined;
+	getLocalizationRaw(key: string): ILocalization | null;
 
 	/**
 	 * Get all localization keys
@@ -99,12 +99,12 @@ export interface ICoreLocalizationManager
 	/**
 	 * Get a specific localization definition
 	 */
-	getLocalizationDefinition(id: string): ILocalizationDefinition | undefined;
+	getLocalizationDefinition(id: string): ILocalizationDefinition | null;
 
 	/**
 	 * Get the currently active localization definition
 	 */
-	getActiveLocalizationDefinition(): ILocalizationDefinition | undefined;
+	getActiveLocalizationDefinition(): ILocalizationDefinition | null;
 
 	/**
 	 * Print all non-existing keys that were requested
@@ -114,7 +114,7 @@ export interface ICoreLocalizationManager
 	/**
 	 * Get game data resources (hashes)
 	 */
-	getGameDataResources(): IGameDataResources | undefined;
+	getGameDataResources(): IGameDataResources | null;
 
 	/**
 	 * Interpolate a string, replacing ${key} with localization values

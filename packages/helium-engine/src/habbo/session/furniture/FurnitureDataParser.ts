@@ -102,8 +102,8 @@ export class FurnitureDataParser
 	 */
 	private parseJsonFormat(data: Record<string, unknown>): void
 	{
-		const roomItemTypes = data.roomitemtypes as Record<string, unknown> | undefined;
-		const wallItemTypes = data.wallitemtypes as Record<string, unknown> | undefined;
+		const roomItemTypes = (data.roomitemtypes ?? null) as Record<string, unknown> | null;
+		const wallItemTypes = (data.wallitemtypes ?? null) as Record<string, unknown> | null;
 
 		if (roomItemTypes?.furnitype)
 		{

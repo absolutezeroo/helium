@@ -75,7 +75,7 @@ export class StringUtil
 	 * @param str The string to check
 	 * @returns The string, or empty string if null/undefined
 	 */
-	static nonNull(str: string | null | undefined): string
+	static nonNull(str: string | null): string
 	{
 		return str ?? '';
 	}
@@ -86,9 +86,9 @@ export class StringUtil
 	 * @param str The string to check
 	 * @returns True if the string is empty
 	 */
-	static isEmpty(str: string | null | undefined): boolean
+	static isEmpty(str: string | null): boolean
 	{
-		return str === null || str === undefined || str.length === 0;
+		return str === null || str.length === 0;
 	}
 
 	/**
@@ -97,9 +97,9 @@ export class StringUtil
 	 * @param str The string to check
 	 * @returns True if the string is blank
 	 */
-	static isBlank(str: string | null | undefined): boolean
+	static isBlank(str: string | null): boolean
 	{
-		if (str === null || str === undefined)
+		if (str === null)
 		{
 			return true;
 		}

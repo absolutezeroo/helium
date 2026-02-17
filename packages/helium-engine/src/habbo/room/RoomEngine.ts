@@ -105,6 +105,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 	private _sessionDataManager: ISessionDataManager | null = null;
 	private _contentLoader: RoomContentLoader;
 	private _contentLoaderEvents: EventEmitter = new EventEmitter();
+	private _boundOnContentLoaded: ((type: string) => void);
 	private _pendingFurnitureViz: Map<string, Array<{
 		roomId: number;
 		objectId: number;
@@ -128,12 +129,6 @@ export class RoomEngine extends Component implements IRoomEngine,
 
 		// Listen to object events from factory
 		this._roomObjectFactory.addObjectEventListener(this.onRoomObjectEvent.bind(this));
-
-		// Listen for content loader ready events
-		this._contentLoaderEvents.on(RoomContentLoader.CONTENT_LOADER_READY, (type: string) =>
-		{
-			this.onContentLoaded(type);
-		});
 	}
 
 	private _roomManager: IRoomManager | null = null;
@@ -1801,6 +1796,10 @@ export class RoomEngine extends Component implements IRoomEngine,
 	 */
 	protected override initComponent(): void
 	{
+		// Listen for content loader ready events
+		this._boundOnContentLoaded = this.onContentLoaded.bind(this);
+		this._contentLoaderEvents.on(RoomContentLoader.CONTENT_LOADER_READY, this._boundOnContentLoaded);
+
 		// Register to receive update calls from the context
 		this.registerUpdateReceiver(this, 10);
 	}
@@ -1920,7 +1919,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 
 		// Extract room visualization data from bundle JSON
 		// The room.nitro bundle contains a "roomVisualization" key with floor/wall/landscape data
-		const vizData = (jsonData as Record<string, unknown>).roomVisualization as IAssetRoomVisualizationData | undefined;
+		const vizData = ((jsonData as Record<string, unknown>).roomVisualization ?? null) as IAssetRoomVisualizationData | null;
 
 		if (!vizData)
 		{

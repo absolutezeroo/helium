@@ -429,7 +429,7 @@ export class AvatarStructure
 
 			if (!partSet) continue;
 
-			hiddenLayers = hiddenLayers.concat(partSet.hiddenLayers);
+			hiddenLayers.push(...partSet.hiddenLayers);
 
 			for (const part of partSet.parts)
 			{

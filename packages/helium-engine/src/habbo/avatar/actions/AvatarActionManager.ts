@@ -155,7 +155,7 @@ export class AvatarActionManager
 
 	private filterActions(actions: IActiveActionData[]): IActiveActionData[]
 	{
-		let prevents: string[] = [];
+		const prevents: Set<string> = new Set();
 
 		for (const action of actions)
 		{
@@ -163,7 +163,10 @@ export class AvatarActionManager
 
 			if (definition)
 			{
-				prevents = prevents.concat(definition.getPrevents(action.actionParameter));
+				for (const p of definition.getPrevents(action.actionParameter))
+				{
+					prevents.add(p);
+				}
 			}
 		}
 
@@ -178,7 +181,7 @@ export class AvatarActionManager
 				key += '.' + action.actionParameter;
 			}
 
-			if (prevents.indexOf(key) === -1)
+			if (!prevents.has(key))
 			{
 				result.push(action);
 			}

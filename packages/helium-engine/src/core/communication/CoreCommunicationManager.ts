@@ -94,7 +94,7 @@ export class CoreCommunicationManager extends Component implements ICoreCommunic
 			connection.dispose();
 		}
 
-		this._connections = [];
+		this._connections.length = 0;
 		super.dispose();
 	}
 

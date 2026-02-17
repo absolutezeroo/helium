@@ -107,7 +107,7 @@ export class IgnoredUsersManager implements IIgnoredUsersManager
 			this._communication?.removeMessageEvent(event);
 		}
 
-		this._messageEvents = [];
+		this._messageEvents.length = 0;
 		this._ignoredUserIds.clear();
 		this._communication = null;
 		this._sendCallback = null;
