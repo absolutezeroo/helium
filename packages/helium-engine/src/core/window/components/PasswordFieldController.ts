@@ -29,31 +29,6 @@ export class PasswordFieldController extends TextFieldController
 	{
 		super(name, type, style, param, context, rect, parent, procedure, tags, properties, id);
 
-		this._displayAsPassword = true;
-
-		if (this._inputElement)
-		{
-			(this._inputElement as HTMLInputElement).type = 'password';
-		}
-	}
-
-	protected _displayAsPassword: boolean = false;
-
-	/**
-	 * Whether the text is displayed as a password (masked).
-	 */
-	public get displayAsPassword(): boolean
-	{
-		return this._displayAsPassword;
-	}
-
-	public set displayAsPassword(value: boolean)
-	{
-		this._displayAsPassword = value;
-
-		if (this._inputElement && this._inputElement instanceof HTMLInputElement)
-		{
-			this._inputElement.type = value ? 'password' : 'text';
-		}
+		this.displayAsPassword = true;
 	}
 }
