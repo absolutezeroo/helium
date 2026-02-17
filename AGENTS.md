@@ -1,122 +1,124 @@
 # AGENTS.md — Helium
 
-Instructions universelles pour tout assistant IA (Cursor, Windsurf, Codex, Copilot, Claude, etc.)
+Universal instructions for all AI assistants (Cursor, Windsurf, Codex, Copilot, Claude, etc.)
 
-## Projet
+## Project
 
-Helium : port TypeScript/PixiJS v8 du client Habbo Hotel Flash. Monorepo pnpm avec `helium-engine` (moteur, zéro UI) et `helium-client` (SolidJS).
+Helium: TypeScript/PixiJS v8 port of the Habbo Hotel Flash client. pnpm monorepo with `helium-engine` (engine, zero UI) and `helium-client` (SolidJS).
 
 ```bash
-pnpm install && pnpm dev    # Serveur de développement
-pnpm build                   # Build de production
+pnpm install && pnpm dev    # Dev server
+pnpm build                   # Production build
 ```
 
-## La règle fondamentale
+## The fundamental rule
 
-**Lire le code source AS3 avant d'écrire TOUTE implémentation.**
+**Read the AS3 source code before writing ANY implementation.**
 
-- Primaire : `sources/win63_version/habbo/<module>/<Classe>.as`
-- Secondaire : `sources/flash_version/com/sulake/habbo/<module>/<Classe>.as`
+- Primary: `sources/win63_version/habbo/<module>/<Class>.as`
+- Secondary: `sources/flash_version/com/sulake/habbo/<module>/<Class>.as`
 
-Pas de source AS3 lue = implémentation invalide. Point final.
+No AS3 source read = invalid implementation. Period.
 
-## Protocole de travail (phases obligatoires)
+We fully reuse the lifecycle system from the original AS3 source. The class hierarchy, dispose patterns, flush/parse cycles, and object management must match the AS3 architecture. The only divergences allowed are JS-specific performance optimizations documented in `docs/STYLEGUIDE.md` section **Performance**.
 
-Inspiré de la méthode BMAD (Breakthrough Method for Agile AI Driven Development). Chaque tâche d'implémentation DOIT suivre ces phases dans l'ordre. Aucune phase ne peut être sautée.
+## Work protocol (mandatory phases)
 
-### Phase 1 — Recherche (BLOQUANTE)
+Inspired by the BMAD method (Breakthrough Method for Agile AI Driven Development). Every implementation task MUST follow these phases in order. No phase may be skipped.
 
-Tant que cette phase n'est pas complète, l'écriture de code est INTERDITE.
+### Phase 1 — Research (BLOCKING)
 
-- [ ] Lire `docs/CONTEXT.md` pour comprendre l'architecture
-- [ ] Trouver et lire INTÉGRALEMENT le fichier AS3 source :
-  - Déclaration de classe (`extends`, `implements`)
-  - Tous les imports (révèlent les dépendances)
-  - TOUTES les méthodes et leur implémentation complète
-  - TOUTES les propriétés
-  - La logique du constructeur
-- [ ] Lire l'interface AS3 (`I<Classe>.as`)
-- [ ] Vérifier les patterns handler/listener dans le sous-dossier `handler/`
-- [ ] Consulter `docs/IMPLEMENTATION_STATUS.md` pour le statut actuel
+Until this phase is complete, writing code is FORBIDDEN.
+
+- [ ] Read `docs/CONTEXT.md` to understand the architecture
+- [ ] Find and read the AS3 source file IN ITS ENTIRETY:
+  - Class declaration (`extends`, `implements`)
+  - All imports (reveal dependencies)
+  - ALL methods and their complete implementation
+  - ALL properties
+  - Constructor logic
+- [ ] Read the AS3 interface (`I<Class>.as`)
+- [ ] Check for handler/listener patterns in the `handler/` subdirectory
+- [ ] Check `docs/IMPLEMENTATION_STATUS.md` for current status
 
 ### Phase 2 — Plan
 
-- [ ] Identifier toutes les classes, interfaces et relations depuis l'AS3
-- [ ] Mapper l'héritage AS3 vers les équivalents TypeScript
-- [ ] Identifier les fichiers ENGINE à porter (ignorer les fichiers VIEW)
-- [ ] Lister les dépendances nécessaires
+- [ ] Identify all classes, interfaces, and relationships from the AS3
+- [ ] Map AS3 inheritance to TypeScript equivalents
+- [ ] Identify ENGINE files to port (ignore VIEW files)
+- [ ] List required dependencies
 
-### Phase 3 — Implémentation
+### Phase 3 — Implementation
 
-- [ ] Suivre les conventions de `docs/STYLEGUIDE.md` (Allman, nommage, etc.)
-- [ ] Suivre les templates de `docs/PATTERNS.md` pour Composers/Parsers/Events/Managers
-- [ ] Code engine → `packages/helium-engine/src/`
-- [ ] Code client → `packages/helium-client/src/`
-- [ ] Respecter les noms de classes, méthodes, interfaces et chaînes d'héritage AS3
+- [ ] Follow conventions from `docs/STYLEGUIDE.md` (Allman, naming, etc.)
+- [ ] Follow templates from `docs/PATTERNS.md` for Composers/Parsers/Events/Managers
+- [ ] Engine code → `packages/helium-engine/src/`
+- [ ] Client code → `packages/helium-client/src/`
+- [ ] Preserve AS3 class names, method names, interfaces, and inheritance chains
 
 ### Phase 4 — Validation
 
-- [ ] Vérifier la compilation avec `pnpm dev`
-- [ ] Mettre à jour `docs/IMPLEMENTATION_STATUS.md` (changer ❌ → ✅, maj pourcentages)
-- [ ] Vérifier les règles de performance (voir `docs/STYLEGUIDE.md` section **Performance**) :
-  - Pas de `Array.includes()`/`indexOf()` pour les lookups fréquents → utiliser `Set`/`Map`
-  - Pas d'allocation d'objets dans les boucles de rendu ou les handlers haute-fréquence
-  - Pas de `new OffscreenCanvas()` / `Texture.from()` sans cache
-  - Pas de `getImageData`/`putImageData` pour les transformations de couleur → utiliser le GPU
-  - Tous les listeners ont un `removeEventListener`/`off()` dans `dispose()`
+- [ ] Verify compilation with `pnpm dev`
+- [ ] Update `docs/IMPLEMENTATION_STATUS.md` (change ❌ → ✅, update percentages)
+- [ ] Check performance rules (see `docs/STYLEGUIDE.md` section **Performance**):
+  - No `Array.includes()`/`indexOf()` for frequent lookups → use `Set`/`Map`
+  - No object allocation in render loops or high-frequency handlers
+  - No `new OffscreenCanvas()` / `Texture.from()` without caching
+  - No `getImageData`/`putImageData` for color transforms → use GPU
+  - All listeners have a matching `removeEventListener`/`off()` in `dispose()`
 
-## Frontières d'architecture
+## Architecture boundaries
 
 ```
-helium-engine (ZÉRO connaissance UI)         helium-client (dépend de engine)
-├── core/    Bas-niveau, communication       ├── components/  Composants SolidJS
-├── habbo/   Logique de jeu                  ├── stores/      État réactif
-├── room/    Moteur de room                  ├── hooks/       Hooks SolidJS
-└── iid/     Symboles DI                     └── api/         Pont engine ↔ UI
+helium-engine (ZERO UI knowledge)              helium-client (depends on engine)
+├── core/    Low-level, communication          ├── components/  SolidJS components
+├── habbo/   Game logic                        ├── stores/      Reactive state
+├── room/    Room engine                       ├── hooks/       SolidJS hooks
+└── iid/     DI symbols                        └── api/         Engine ↔ UI bridge
 ```
 
-**CRITIQUE** : L'engine ne doit JAMAIS importer du client. Le flux va uniquement client → engine.
+**CRITICAL**: The engine must NEVER import from the client. The flow is strictly client → engine.
 
-Pattern de données : `Engine émet un event → Store écoute et met à jour un signal → Composant lit le signal`
+Data pattern: `Engine emits event → Store listens and updates signal → Component reads signal`
 
-## Style de code (résumé)
+## Code style (summary)
 
-- Accolades **Allman** (ouvrante sur sa propre ligne)
-- Interfaces : `I` + PascalCase (`IRoomSession`)
-- Champs privés : `_` + camelCase (`_roomId`)
-- Constantes : UPPER_SNAKE_CASE
-- Named exports uniquement (jamais `export default`)
-- `import type` pour les imports de types
-- `dispose()` toujours en dernière méthode, vérifie `_disposed`
+- **Allman** braces (opening brace on its own line)
+- Interfaces: `I` + PascalCase (`IRoomSession`)
+- Private fields: `_` + camelCase (`_roomId`)
+- Constants: UPPER_SNAKE_CASE
+- Named exports only (never `export default`)
+- `import type` for type-only imports
+- `dispose()` always last method, checks `_disposed`
 
-Référence complète : `docs/STYLEGUIDE.md`
+Full reference: `docs/STYLEGUIDE.md`
 
-## Sources AS3
+## AS3 sources
 
-| Dossier                  | Priorité   | Racine des packages | Fichiers |
-|--------------------------|------------|---------------------|----------|
-| `sources/win63_version/` | PRIMAIRE   | `habbo/`, `room/`   | ~4 465   |
-| `sources/flash_version/` | Secondaire | `com/sulake/habbo/` | ~7 160   |
+| Directory                | Priority  | Package roots       | Files  |
+|--------------------------|-----------|---------------------|--------|
+| `sources/win63_version/` | PRIMARY   | `habbo/`, `room/`   | ~4,465 |
+| `sources/flash_version/` | Secondary | `com/sulake/habbo/` | ~7,160 |
 
-Classification des fichiers AS3 :
-- **ENGINE** : Logique métier, modèles de données, handlers, parsers, composers → **À IMPLÉMENTER**
-- **VIEW** : Fenêtres UI, dialogs, composants d'affichage → **À IGNORER** (SolidJS remplace)
+AS3 file classification:
+- **ENGINE**: Business logic, data models, handlers, parsers, composers → **TO IMPLEMENT**
+- **VIEW**: UI windows, dialogs, display components → **TO IGNORE** (SolidJS replaces them)
 
-Consulter `docs/architectures/<module>-architecture.md` pour la classification de chaque fichier.
+See `docs/architectures/<module>-architecture.md` for per-file classification.
 
-## Patterns clés
+## Key patterns
 
-Voir `docs/PATTERNS.md` pour les templates complets avec exemples de code.
+See `docs/PATTERNS.md` for full templates with code examples.
 
-- **Composers** : `extends MessageComposer<TupleType>` avec `_data` et `getMessageArray()`
-- **Parsers** : `implements IMessageParser` avec `flush()` + `parse(wrapper)`
-- **Events** : `extends MessageEvent implements IMessageEvent` avec paramètre `callback` dans le constructeur
-- **Managers** : DI Component avec enregistrement IID
+- **Composers**: `extends MessageComposer<TupleType>` with `_data` and `getMessageArray()`
+- **Parsers**: `implements IMessageParser` with `flush()` + `parse(wrapper)`
+- **Events**: `extends MessageEvent implements IMessageEvent` with `callback` parameter in constructor
+- **Managers**: DI Component with IID registration
 
-## Pièges connus
+## Known pitfalls
 
-1. **Ne jamais overrider `get events()`** dans les sous-classes de Component (casse le système d'events DI — utiliser un nom de propriété différent comme `sessionEvents`)
-2. **Utiliser `createObjectInternal()`** pas `createRoomObject()` depuis les classes container (récursion infinie)
-3. **La frontière engine ↔ client est stricte** : l'engine a ZÉRO connaissance UI
-4. **Les fichiers VIEW AS3 sont IGNORÉS** : SolidJS remplace l'UI Flash
-5. **Performance** : `Set`/`Map` pour les lookups, pas d'allocation dans les boucles de rendu, cacher les textures, culling viewport. Voir `docs/STYLEGUIDE.md` section Performance et `docs/PATTERNS.md` section 0
+1. **Never override `get events()`** in Component subclasses (breaks the DI event system — use a different property name like `sessionEvents`)
+2. **Use `createObjectInternal()`** not `createRoomObject()` from container classes (infinite recursion)
+3. **The engine ↔ client boundary is strict**: the engine has ZERO UI knowledge
+4. **AS3 VIEW files are IGNORED**: SolidJS replaces the Flash UI
+5. **Performance**: `Set`/`Map` for lookups, no allocation in render loops, cache textures, viewport culling. See `docs/STYLEGUIDE.md` section Performance and `docs/PATTERNS.md` section 0

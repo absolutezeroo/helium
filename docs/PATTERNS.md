@@ -1,8 +1,8 @@
-# Patterns d'implémentation Helium
+# Helium Implementation Patterns
 
-Templates détaillés pour chaque type de classe. Toujours utiliser ces patterns comme base lors de l'implémentation.
+Detailed templates for each class type. Always use these patterns as a base during implementation.
 
-## Table des matières
+## Table of contents
 
 1. [MessageComposer](#messagecomposer)
 2. [MessageParser](#messageparser)
@@ -11,15 +11,15 @@ Templates détaillés pour chaque type de classe. Toujours utiliser ces patterns
 5. [Handler (BaseHandler)](#handler-basehandler)
 6. [Data class](#data-class)
 7. [Interface](#interface)
-8. [Enregistrement de messages](#enregistrement-de-messages)
-9. [Store SolidJS (client)](#store-solidjs-client)
-10. [Pièges à éviter](#pièges-à-éviter)
+8. [Message registration](#message-registration)
+9. [SolidJS Store (client)](#solidjs-store-client)
+10. [Pitfalls to avoid](#pitfalls-to-avoid)
 
 ---
 
 ## MessageComposer
 
-Les Composers sérialisent les données pour l'envoi au serveur.
+Composers serialize data for sending to the server.
 
 ### Template
 
@@ -48,15 +48,15 @@ export class OpenFlatConnectionMessageComposer extends MessageComposer<Construct
 }
 ```
 
-### Règles
+### Rules
 
-- Le type générique de `MessageComposer<T>` est un tuple correspondant aux données envoyées
-- Le champ `_data` est privé et typé avec le même tuple
-- Le constructeur appelle `super()` puis assigne `_data`
-- `getMessageArray()` retourne simplement `_data`
-- Pas de logique complexe dans le composer — juste du packaging de données
+- The generic type of `MessageComposer<T>` is a tuple matching the sent data
+- The `_data` field is private and typed with the same tuple
+- The constructor calls `super()` then assigns `_data`
+- `getMessageArray()` simply returns `_data`
+- No complex logic in the composer — just data packaging
 
-### Exemples de types tuple
+### Tuple type examples
 
 ```typescript
 extends MessageComposer<ConstructorParameters<typeof MyMessageComposer>>
@@ -66,7 +66,7 @@ extends MessageComposer<ConstructorParameters<typeof MyMessageComposer>>
 
 ## MessageParser
 
-Les Parsers désérialisent les données reçues du serveur.
+Parsers deserialize data received from the server.
 
 ### Template
 
@@ -113,32 +113,32 @@ export class RoomInfoParser implements IMessageParser
 }
 ```
 
-### Règles
+### Rules
 
-- Implémente `IMessageParser` avec `flush()` et `parse(wrapper)`
-- `flush()` réinitialise TOUS les champs à leurs valeurs par défaut et retourne `true`
-- `parse()` vérifie `if(!wrapper) return false` en premier
-- L'ordre de lecture dans `parse()` DOIT correspondre exactement à l'ordre d'envoi du serveur (voir l'AS3)
-- Getters publics pour chaque champ parsé
-- Pas de logique métier dans le parser — juste de l'extraction de données
+- Implements `IMessageParser` with `flush()` and `parse(wrapper)`
+- `flush()` resets ALL fields to their default values and returns `true`
+- `parse()` checks `if(!wrapper) return false` first
+- The read order in `parse()` MUST match exactly the server's send order (see AS3)
+- Public getters for each parsed field
+- No business logic in the parser — just data extraction
 
-### Méthodes de lecture disponibles
+### Available read methods
 
 ```typescript
-wrapper.readInt()       // Entier 32-bit signé
-wrapper.readShort()     // Entier 16-bit signé
-wrapper.readByte()      // Octet signé
-wrapper.readString()    // String (longueur-préfixée)
-wrapper.readBoolean()   // Booléen (1 octet)
-wrapper.readLong()      // Entier 64-bit (BigInt converti en number)
-wrapper.readFloat()     // Flottant 32-bit
+wrapper.readInt()       // 32-bit signed integer
+wrapper.readShort()     // 16-bit signed integer
+wrapper.readByte()      // Signed byte
+wrapper.readString()    // String (length-prefixed)
+wrapper.readBoolean()   // Boolean (1 byte)
+wrapper.readLong()      // 64-bit integer (BigInt converted to number)
+wrapper.readFloat()     // 32-bit float
 ```
 
 ---
 
 ## MessageEvent
 
-Les Events lient un Parser à un callback pour le traitement des messages entrants.
+Events bind a Parser to a callback for incoming message handling.
 
 ### Template
 
@@ -161,18 +161,18 @@ export class RoomInfoEvent extends MessageEvent implements IMessageEvent
 }
 ```
 
-### Règles
+### Rules
 
-- Étend `MessageEvent` et implémente `IMessageEvent`
-- Le constructeur prend un seul paramètre `callBack: Function`
-- Passe la classe Parser (pas une instance) à `super()`
-- Le getter `parser` cast `getParser()` vers le type concret du parser
+- Extends `MessageEvent` and implements `IMessageEvent`
+- Constructor takes a single `callBack: Function` parameter
+- Passes the Parser class (not an instance) to `super()`
+- The `parser` getter casts `getParser()` to the concrete parser type
 
 ---
 
 ## Manager (Component DI)
 
-Les Managers sont les classes de logique métier principales, enregistrées dans le système DI.
+Managers are the main business logic classes, registered in the DI system.
 
 ### Template
 
@@ -200,7 +200,7 @@ export class RoomManager extends Component implements IRoomManager
      */
     protected override onUnlock(): void
     {
-        // Initialisation post-DI
+        // Post-DI initialization
     }
 
     public createRoom(roomId: string): IRoomInstance | null
@@ -244,19 +244,19 @@ export class RoomManager extends Component implements IRoomManager
 }
 ```
 
-### Règles
+### Rules
 
-- Étend `Component` et implémente une interface `I*`
-- **NE JAMAIS overrider `get events()`** — utiliser un nom différent pour les events custom
-- `dispose()` est TOUJOURS la dernière méthode
-- `dispose()` vérifie `_disposed` pour éviter les doubles appels
-- Les IIDs sont enregistrés dans `packages/helium-engine/src/iid/index.ts`
+- Extends `Component` and implements an `I*` interface
+- **NEVER override `get events()`** — use a different name for custom events
+- `dispose()` is ALWAYS the last method
+- `dispose()` checks `_disposed` to avoid double calls
+- IIDs are registered in `packages/helium-engine/src/iid/index.ts`
 
 ---
 
 ## Handler (BaseHandler)
 
-Les Handlers écoutent les messages du serveur et délèguent à un listener.
+Handlers listen to server messages and delegate to a listener.
 
 ### Template
 
@@ -290,7 +290,7 @@ export class RoomDataHandler
 
         if(!parser) return;
 
-        // Traiter les données et appeler le listener
+        // Process data and call listener
         this._listener.onRoomInfo(parser.roomId, parser.roomName);
     }
 
@@ -313,19 +313,19 @@ export class RoomDataHandler
 }
 ```
 
-### Règles
+### Rules
 
-- Prend une `IConnection` et un listener dans le constructeur
-- Enregistre des MessageEvents sur la connexion
-- Chaque handler de message vérifie `if(!event)` et `if(!parser)`
-- Délègue le traitement au listener, ne contient PAS de logique métier
-- Le pattern listener correspond aux interfaces `I*Listener` ou `I*HandlerListener` de l'AS3
+- Takes an `IConnection` and a listener in the constructor
+- Registers MessageEvents on the connection
+- Each message handler checks `if(!event)` and `if(!parser)`
+- Delegates processing to the listener, contains NO business logic
+- The listener pattern matches `I*Listener` or `I*HandlerListener` interfaces from AS3
 
 ---
 
 ## Data class
 
-Les classes de données représentent les structures du protocole.
+Data classes represent protocol structures.
 
 ### Template
 
@@ -365,12 +365,12 @@ export class RoomDataParser
 }
 ```
 
-### Règles
+### Rules
 
-- Le constructeur prend un `IMessageDataWrapper` et lit les données
-- L'ordre de lecture DOIT correspondre exactement à l'AS3
-- Getters publics, pas de setters (immutable après construction)
-- Peut avoir une méthode statique `parse()` si l'AS3 l'a
+- Constructor takes an `IMessageDataWrapper` and reads the data
+- Read order MUST match exactly the AS3
+- Public getters, no setters (immutable after construction)
+- May have a static `parse()` method if the AS3 has one
 
 ---
 
@@ -395,42 +395,42 @@ export interface IRoomManager
 }
 ```
 
-### Règles
+### Rules
 
-- Préfixe `I` + PascalCase
-- Doit correspondre exactement aux méthodes publiques de l'AS3
-- Fichier séparé de l'implémentation (`IRoomManager.ts` ≠ `RoomManager.ts`)
+- `I` + PascalCase prefix
+- Must match exactly the AS3 public methods
+- Separate file from the implementation (`IRoomManager.ts` ≠ `RoomManager.ts`)
 
 ---
 
-## Enregistrement de messages
+## Message registration
 
-Les messages sont enregistrés dans `HabboMessages.ts`.
+Messages are registered in `HabboMessages.ts`.
 
 ### Template
 
 ```typescript
-// Dans HabboMessages.ts, méthode registerMessages()
+// In HabboMessages.ts, registerMessages() method
 
-// Messages entrants (serveur → client)
+// Incoming messages (server → client)
 this.registerMessageEvent(new RoomInfoEvent(null), IncomingHeader.ROOM_INFO);
 this.registerMessageEvent(new RoomReadyEvent(null), IncomingHeader.ROOM_READY);
 
-// Messages sortants (client → serveur)
+// Outgoing messages (client → server)
 this.registerComposer(OpenFlatConnectionMessageComposer, OutgoingHeader.OPEN_FLAT_CONNECTION);
 ```
 
-### Règles
+### Rules
 
-- Les events entrants sont instanciés avec `null` comme callback (le handler le remplace)
-- Les composers sortants sont enregistrés par classe (pas par instance)
-- Les IDs de messages sont dans `IncomingHeader` et `OutgoingHeader`
+- Incoming events are instantiated with `null` as callback (the handler replaces it)
+- Outgoing composers are registered by class (not by instance)
+- Message IDs are in `IncomingHeader` and `OutgoingHeader`
 
 ---
 
-## Store SolidJS (client)
+## SolidJS Store (client)
 
-Les stores connectent l'engine à l'UI SolidJS.
+Stores connect the engine to the SolidJS UI.
 
 ### Template
 
@@ -438,11 +438,11 @@ Les stores connectent l'engine à l'UI SolidJS.
 import { createSignal } from 'solid-js';
 import type { IRoomData } from '@habbo/navigator/IRoomData';
 
-// Signaux réactifs
+// Reactive signals
 const [currentRoom, setCurrentRoom] = createSignal<IRoomData | null>(null);
 const [isNavigatorOpen, setIsNavigatorOpen] = createSignal(false);
 
-// Fonction d'initialisation (appelée après bootstrap engine)
+// Initialization function (called after engine bootstrap)
 export function initNavigatorStore(navigator: IHabboNewNavigator): void
 {
     navigator.on('roomSelected', (room: IRoomData) =>
@@ -454,7 +454,7 @@ export function initNavigatorStore(navigator: IHabboNewNavigator): void
     navigator.on('closed', () => setIsNavigatorOpen(false));
 }
 
-// Exports pour les composants
+// Exports for components
 export const navigatorStore = {
     currentRoom,
     isNavigatorOpen,
@@ -462,26 +462,26 @@ export const navigatorStore = {
 };
 ```
 
-### Règles
+### Rules
 
-- Les stores sont dans `packages/helium-client/src/stores/`
-- Utilisent `createSignal` de SolidJS
-- Écoutent les events de l'engine via EventEmitter3
-- Exportent un objet avec les signaux et les setters nécessaires
-- Le store ne connaît PAS les composants (séparation stricte)
+- Stores go in `packages/helium-client/src/stores/`
+- Use `createSignal` from SolidJS
+- Listen to engine events via EventEmitter3
+- Export an object with the needed signals and setters
+- The store does NOT know about components (strict separation)
 
 ---
 
-## Pièges à éviter
+## Pitfalls to avoid
 
-### 0. Anti-patterns de performance
+### 0. Performance anti-patterns
 
-Ces patterns sont fréquents lors du portage AS3→TypeScript. L'AS3 utilisait Flash Player avec un GC différent ; en JavaScript, ces patterns causent des freezes et une consommation mémoire excessive.
+These patterns are common when porting AS3→TypeScript. AS3 used Flash Player with a different GC; in JavaScript, these patterns cause freezes and excessive memory usage. The AS3 lifecycle (dispose, flush/parse, object management) is preserved — these rules target JS-runtime-specific pitfalls within that lifecycle.
 
-#### a) Array.includes/indexOf pour les lookups fréquents
+#### a) Array.includes/indexOf for frequent lookups
 
 ```typescript
-// FAUX — O(n) à chaque message reçu
+// WRONG — O(n) on every received message
 private _pendingTypes: string[] = [];
 
 if(!this._pendingTypes.includes(type))
@@ -498,19 +498,19 @@ if(!this._pendingTypes.has(type))
 }
 ```
 
-**Règle** : si une collection est consultée par `includes()`, `indexOf()` ou `find()` ET qu'elle peut dépasser 10 éléments, la remplacer par `Set` ou `Map`.
+**Rule**: if a collection is queried via `includes()`, `indexOf()`, or `find()` AND it can exceed 10 elements, replace it with `Set` or `Map`.
 
-#### b) Allocation d'objets dans les parsers
+#### b) Object allocation in parsers
 
 ```typescript
-// FAUX — nouveau Map temporaire à chaque parse
+// WRONG — new temporary Map on every parse
 parse(wrapper: IMessageDataWrapper): boolean
 {
-    const ownerMap = new Map<number, string>();  // GC après chaque appel
+    const ownerMap = new Map<number, string>();  // GC'd after every call
     // ...
 }
 
-// CORRECT — réutiliser un champ
+// CORRECT — reuse a field
 private _ownerMap: Map<number, string> = new Map();
 
 parse(wrapper: IMessageDataWrapper): boolean
@@ -520,17 +520,17 @@ parse(wrapper: IMessageDataWrapper): boolean
 }
 ```
 
-#### c) Remplacement de tableau au lieu de vidage
+#### c) Array replacement instead of clearing
 
 ```typescript
-// FAUX — flush() et parse() créent tous les deux un nouveau tableau
+// WRONG — flush() and parse() both create a new array
 flush(): boolean
 {
-    this._objects = [];  // ancien tableau → déchet GC
+    this._objects = [];  // old array → GC garbage
     return true;
 }
 
-// CORRECT — vider en place
+// CORRECT — clear in place
 flush(): boolean
 {
     this._objects.length = 0;
@@ -538,33 +538,33 @@ flush(): boolean
 }
 ```
 
-#### d) Textures et OffscreenCanvas dans la boucle de rendu
+#### d) Textures and OffscreenCanvas in the render loop
 
-Le portage AS3 `BitmapData` → `OffscreenCanvas` est correct conceptuellement, mais `new OffscreenCanvas()` + `Texture.from()` à chaque frame crée une fuite de mémoire GPU. Toujours cacher les résultats.
+Porting AS3 `BitmapData` → `OffscreenCanvas` is conceptually correct, but `new OffscreenCanvas()` + `Texture.from()` on every frame creates a GPU memory leak. Always cache the results.
 
-#### e) Tri à chaque frame sans dirty flag
+#### e) Sorting every frame without a dirty flag
 
-Si l'ordre Z ne change pas, ne pas re-trier. Utiliser un flag `_zOrderDirty` mis à `true` uniquement quand un objet est ajouté, retiré, ou change de Z.
+If Z-order hasn't changed, don't re-sort. Use a `_zOrderDirty` flag set to `true` only when objects are added, removed, or change Z-index.
 
-#### f) Absence de viewport culling
+#### f) Missing viewport culling
 
-Tout objet hors écran doit être ignoré par la boucle de rendu. Vérifier les bornes (AABB) avant d'appeler `renderObject()` ou `updateVisualization()`.
+Any offscreen object should be skipped by the render loop. Check bounds (AABB) before calling `renderObject()` or `updateVisualization()`.
 
-Référence complète : section **Performance** de `docs/STYLEGUIDE.md`.
+Full reference: **Performance** section of `docs/STYLEGUIDE.md`.
 
 ---
 
-### 1. Override de `get events()` dans Component
+### 1. Overriding `get events()` in Component
 
 ```typescript
-// FAUX — casse le système DI
+// WRONG — breaks the DI system
 class MyManager extends Component
 {
     private _myEvents = new EventEmitter();
-    get events() { return this._myEvents; }  // CASSE LA RÉSOLUTION DI
+    get events() { return this._myEvents; }  // BREAKS DI RESOLUTION
 }
 
-// CORRECT — utiliser un nom différent
+// CORRECT — use a different name
 class MyManager extends Component
 {
     private _myEvents = new EventEmitter();
@@ -572,20 +572,20 @@ class MyManager extends Component
 }
 ```
 
-Le système DI utilise `Component.events` (via `this._events`) pour la résolution des dépendances. L'overrider déconnecte les listeners DI.
+The DI system uses `Component.events` (via `this._events`) for dependency resolution. Overriding it disconnects the DI listeners.
 
-### 2. Récursion infinie avec createRoomObject
+### 2. Infinite recursion with createRoomObject
 
 ```typescript
-// FAUX — RoomInstance.createRoomObject() appelle container.createRoomObject()
-// qui rappelle room.createRoomObject() → boucle infinie
+// WRONG — RoomInstance.createRoomObject() calls container.createRoomObject()
+// which calls room.createRoomObject() again → infinite loop
 createRoomObject(roomId, objectId, type, category)
 {
     const room = this._rooms.get(roomId);
-    return room.createRoomObject(objectId, type, category);  // RÉCURSION
+    return room.createRoomObject(objectId, type, category);  // RECURSION
 }
 
-// CORRECT — utiliser createObjectInternal
+// CORRECT — use createObjectInternal
 createRoomObject(roomId, objectId, type, category)
 {
     const room = this._rooms.get(roomId);
@@ -593,22 +593,22 @@ createRoomObject(roomId, objectId, type, category)
 }
 ```
 
-### 3. Imports engine → client
+### 3. Engine → client imports
 
 ```typescript
-// FAUX — l'engine ne doit JAMAIS connaître le client
-import { navigatorStore } from '@ui/stores/navigatorStore';  // INTERDIT
+// WRONG — the engine must NEVER know about the client
+import { navigatorStore } from '@ui/stores/navigatorStore';  // FORBIDDEN
 
-// CORRECT — l'engine émet des events, le client écoute
-this.emit('searchResults', results);  // L'engine émet
+// CORRECT — the engine emits events, the client listens
+this.emit('searchResults', results);  // Engine emits
 ```
 
-### 4. Oublier de lire l'AS3
+### 4. Forgetting to read the AS3
 
-Avant CHAQUE implémentation, vérifier :
-- As-tu lu le fichier AS3 source ?
-- As-tu vérifié les `implements` ?
-- As-tu vérifié le dossier `handler/` ?
-- As-tu lu l'interface `I<Classe>.as` ?
+Before EVERY implementation, verify:
+- Did you read the AS3 source file?
+- Did you check the `implements`?
+- Did you check the `handler/` directory?
+- Did you read the `I<Class>.as` interface?
 
-Si la réponse est non à l'une de ces questions, STOP et lis d'abord.
+If the answer is no to any of these, STOP and read first.

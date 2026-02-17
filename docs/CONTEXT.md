@@ -1,151 +1,153 @@
-# Contexte du projet Helium
+# Helium Project Context
 
-Ce document fournit le contexte complet de l'architecture et du projet. À lire AVANT toute implémentation.
+This document provides the complete architecture and project context. Read BEFORE any implementation.
 
-## Vue d'ensemble
+## Overview
 
-**Helium** est un port TypeScript/PixiJS v8 du client Habbo Hotel Flash, organisé en monorepo pnpm. L'objectif est de créer un client plus léger que Nitro tout en restant fidèle à l'architecture AS3 d'origine.
+**Helium** is a TypeScript/PixiJS v8 port of the Habbo Hotel Flash client, organized as a pnpm monorepo. The goal is to create a lighter client than Nitro while staying faithful to the original AS3 architecture.
 
-### Stack technique
+We fully reuse the lifecycle system from the original AS3 source. The class hierarchy, dispose patterns, flush/parse cycles, and object management must match the AS3 architecture.
 
-| Technologie | Rôle |
-|-------------|------|
-| TypeScript | Langage principal (strict mode) |
-| PixiJS v8 | Rendu 2D (rooms, avatars, mobilier) |
-| SolidJS | Framework UI réactif (remplace les fenêtres Flash) |
-| EventEmitter3 | Communication inter-composants dans l'engine |
-| pnpm workspaces | Gestion du monorepo |
-| Vite | Bundler et serveur de développement |
+### Tech stack
+
+| Technology | Role |
+|------------|------|
+| TypeScript | Primary language (strict mode) |
+| PixiJS v8 | 2D rendering (rooms, avatars, furniture) |
+| SolidJS | Reactive UI framework (replaces Flash windows) |
+| EventEmitter3 | Inter-component communication in the engine |
+| pnpm workspaces | Monorepo management |
+| Vite | Bundler and dev server |
 
 ### Monorepo
 
 ```
 helium/
 ├── packages/
-│   ├── helium-engine/     Moteur (zéro connaissance UI)
-│   └── helium-client/     Client (SolidJS, dépend de engine)
+│   ├── helium-engine/     Engine (zero UI knowledge)
+│   └── helium-client/     Client (SolidJS, depends on engine)
 ├── sources/
-│   ├── source_as_win63/   Source AS3 primaire (~4 465 fichiers)
-│   └── source_as_flash/   Source AS3 secondaire (~7 160 fichiers)
+│   ├── source_as_win63/   Primary AS3 source (~4,465 files)
+│   └── source_as_flash/   Secondary AS3 source (~7,160 files)
 ├── docs/
-│   ├── CONTEXT.md          Ce fichier
-│   ├── PATTERNS.md         Templates d'implémentation
-│   ├── STYLEGUIDE.md       Guide de style complet
-│   ├── IMPLEMENTATION_STATUS.md  Suivi d'avancement
-│   └── architectures/     Architecture AS3 par module
-├── CLAUDE.md              Instructions Claude Code
-└── AGENTS.md              Instructions agents IA universelles
+│   ├── CONTEXT.md          This file
+│   ├── PATTERNS.md         Implementation templates
+│   ├── STYLEGUIDE.md       Complete style guide
+│   ├── IMPLEMENTATION_STATUS.md  Progress tracking
+│   └── architectures/     Per-module AS3 architecture
+├── CLAUDE.md              Claude Code instructions
+└── AGENTS.md              Universal AI agent instructions
 ```
 
-## Architecture engine
+## Engine architecture
 
-### Structure des couches
+### Layer structure
 
 ```
 packages/helium-engine/src/
 │
-├── core/                   @core/    BAS-NIVEAU
-│   ├── communication/      WebSocket, protocole, encryption
-│   │   ├── connections/    SocketConnection, gestion de pool
+├── core/                   @core/    LOW-LEVEL
+│   ├── communication/      WebSocket, protocol, encryption
+│   │   ├── connections/    SocketConnection, pool management
 │   │   ├── encryption/     Diffie-Hellman, ArcFour
 │   │   └── messages/       MessageComposer, MessageParser, MessageEvent
-│   ├── assets/             Chargement et gestion des assets
+│   ├── assets/             Asset loading and management
 │   │   ├── loaders/        AssetManager, GraphicAssetCollection
 │   │   └── content/        RoomContentLoader
-│   ├── di/                 Système d'injection de dépendances
-│   │   ├── Component.ts    Classe de base pour tous les managers
-│   │   └── ComponentContext.ts  Résolution de dépendances
-│   ├── common/             Utilitaires partagés (Point, Vector3d, etc.)
+│   ├── di/                 Dependency injection system
+│   │   ├── Component.ts    Base class for all managers
+│   │   └── ComponentContext.ts  Dependency resolution
+│   ├── common/             Shared utilities (Point, Vector3d, etc.)
 │   └── utils/              ByteArray, compression, crypto
 │
-├── habbo/                  @habbo/   LOGIQUE DE JEU
+├── habbo/                  @habbo/   GAME LOGIC
 │   ├── communication/      HabboCommunicationManager, HabboMessages
 │   ├── session/            SessionDataManager, RoomSessionManager
 │   ├── avatar/             AvatarRenderManager, figure, animations
-│   ├── catalog/            CatalogManager, pages, offres
+│   ├── catalog/            CatalogManager, pages, offers
 │   ├── inventory/          InventoryManager, trading, marketplace
-│   ├── navigator/          HabboNewNavigator, recherche, filtres
-│   ├── room/               HabboRoomFactory (pont habbo ↔ room engine)
-│   └── [autres modules]/   friendlist, sound, groups, etc.
+│   ├── navigator/          HabboNewNavigator, search, filters
+│   ├── room/               HabboRoomFactory (bridge habbo ↔ room engine)
+│   └── [other modules]/    friendlist, sound, groups, etc.
 │
-├── room/                   @room/    MOTEUR DE ROOM
-│   ├── RoomManager.ts      Gestion des instances de room
-│   ├── RoomInstance.ts      Instance individuelle d'une room
-│   ├── object/             Objets de room (furniture, avatars, tiles)
-│   │   ├── RoomObject.ts   Objet de base
-│   │   ├── logic/          Logiques d'objets (FurnitureLogic, AvatarLogic)
-│   │   └── visualization/  Visualisations (FurnitureVisualization, etc.)
-│   ├── renderer/           Rendu PixiJS (RoomRenderer, RoomSpriteCanvas)
-│   ├── utils/              Géométrie, stacking, cameras
-│   └── floorplan/          Parsing et rendu du plan de sol
+├── room/                   @room/    ROOM ENGINE
+│   ├── RoomManager.ts      Room instance management
+│   ├── RoomInstance.ts      Individual room instance
+│   ├── object/             Room objects (furniture, avatars, tiles)
+│   │   ├── RoomObject.ts   Base object
+│   │   ├── logic/          Object logic (FurnitureLogic, AvatarLogic)
+│   │   └── visualization/  Visualizations (FurnitureVisualization, etc.)
+│   ├── renderer/           PixiJS rendering (RoomRenderer, RoomSpriteCanvas)
+│   ├── utils/              Geometry, stacking, cameras
+│   └── floorplan/          Floor plan parsing and rendering
 │
-└── iid/                    @iid/     SYMBOLES DI
-    └── index.ts            Tous les IIDs (Symbol) pour le système Component
+└── iid/                    @iid/     DI SYMBOLS
+    └── index.ts            All IIDs (Symbol) for the Component system
 ```
 
-### Injection de dépendances (système Component)
+### Dependency injection (Component system)
 
-Le projet utilise un système DI custom basé sur `Component` :
+The project uses a custom DI system based on `Component`:
 
 ```typescript
-// Définition d'un IID
+// IID definition
 export const IID_IRoomEngine = Symbol('IRoomEngine');
 
-// Un manager est un Component
+// A manager is a Component
 export class RoomEngine extends Component implements IRoomEngine
 {
-    // Les dépendances sont résolues via le ComponentContext
-    // Component.unlock() est appelé quand toutes les deps sont prêtes
+    // Dependencies are resolved via ComponentContext
+    // Component.unlock() is called when all deps are ready
 }
 ```
 
-**Règle critique** : Ne JAMAIS overrider `get events()` dans une sous-classe de Component. Le getter `events` est utilisé par le système DI pour la résolution de dépendances.
+**Critical rule**: NEVER override `get events()` in a Component subclass. The `events` getter is used by the DI system for dependency resolution.
 
-### Protocole de communication
+### Communication protocol
 
 ```
 Client WebSocket
     → SocketConnection (WebSocket + EventEmitter3)
-    → CoreCommunicationManager (pool de connexions)
-    → HabboCommunicationManager (couche protocole Habbo)
-    → Message Registry (ID serveur → Event/Composer)
+    → CoreCommunicationManager (connection pool)
+    → HabboCommunicationManager (Habbo protocol layer)
+    → Message Registry (server ID → Event/Composer)
 ```
 
-- **Encryption** : Diffie-Hellman key exchange + ArcFour
-- **Messages entrants** : Le serveur envoie un ID → le registre trouve l'Event correspondant → le Parser extrait les données
-- **Messages sortants** : Le code crée un Composer → `getMessageArray()` sérialise → envoi via WebSocket
-- **Registre** : `HabboMessages.ts` mappe les IDs serveur aux classes Event/Composer
+- **Encryption**: Diffie-Hellman key exchange + ArcFour
+- **Incoming messages**: The server sends an ID → the registry finds the matching Event → the Parser extracts data
+- **Outgoing messages**: Code creates a Composer → `getMessageArray()` serializes → sent via WebSocket
+- **Registry**: `HabboMessages.ts` maps server IDs to Event/Composer classes
 
-### Alias de chemins
+### Path aliases
 
-| Alias | Engine résout vers | Client résout vers |
+| Alias | Engine resolves to | Client resolves to |
 |-------|-------------------|-------------------|
 | `@core/` | `src/core/` | `../helium-engine/src/core/` |
 | `@habbo/` | `src/habbo/` | `../helium-engine/src/habbo/` |
 | `@room/` | `src/room/` | `../helium-engine/src/room/` |
 | `@iid/` | `src/iid/` | `../helium-engine/src/iid/` |
-| `@ui/` | N/A (interdit dans engine) | `src/` |
-| `@/` | N/A (interdit dans engine) | `src/` |
+| `@ui/` | N/A (forbidden in engine) | `src/` |
+| `@/` | N/A (forbidden in engine) | `src/` |
 
-## Architecture client
+## Client architecture
 
 ### Structure
 
 ```
 packages/helium-client/src/
-├── Helium.ts          Shell applicatif singleton, bootstrap engine + PixiJS + UI
-├── HeliumMain.ts      Orchestrateur engine (crée et enregistre tous les managers)
-├── App.tsx            Composant SolidJS racine
-├── api/               Pont engine ↔ UI (accès typé aux managers)
-├── components/        Composants SolidJS (rooms, navigation, chat, etc.)
-├── hooks/             Hooks SolidJS personnalisés
-└── stores/            Stores réactifs (bridge events engine → signaux SolidJS)
+├── Helium.ts          Application singleton shell, bootstraps engine + PixiJS + UI
+├── HeliumMain.ts      Engine orchestrator (creates and registers all managers)
+├── App.tsx            Root SolidJS component
+├── api/               Engine ↔ UI bridge (typed access to managers)
+├── components/        SolidJS components (rooms, navigation, chat, etc.)
+├── hooks/             Custom SolidJS hooks
+└── stores/            Reactive stores (bridge engine events → SolidJS signals)
 ```
 
-### Pattern Engine → Store → UI
+### Engine → Store → UI pattern
 
 ```typescript
-// 1. Engine class émet un event
+// 1. Engine class emits an event
 class HabboNewNavigator extends Component
 {
     onSearchResults(data: SearchResultData): void
@@ -154,11 +156,11 @@ class HabboNewNavigator extends Component
     }
 }
 
-// 2. Store écoute et met à jour un signal SolidJS
+// 2. Store listens and updates a SolidJS signal
 const [searchResults, setSearchResults] = createSignal<SearchResultData | null>(null);
 navigator.on('searchResults', (data) => setSearchResults(data));
 
-// 3. Composant lit le signal et rend
+// 3. Component reads the signal and renders
 function NavigatorResults()
 {
     const results = searchResults();
@@ -166,58 +168,58 @@ function NavigatorResults()
 }
 ```
 
-L'engine ne sait JAMAIS rien des stores ou composants. La séparation est stricte.
+The engine NEVER knows about stores or components. The separation is strict.
 
-## Sources AS3
+## AS3 sources
 
-### Deux dossiers disponibles
+### Two available directories
 
-| Dossier | Fichiers | Racine des packages | Usage |
-|---------|----------|---------------------|-------|
-| `sources/win63_version/` | ~4 465 | `habbo/`, `room/` | **PRIMAIRE** — contient tout le moteur core |
-| `sources/flash_version/` | ~7 160 | `com/sulake/habbo/` | **SECONDAIRE** — version Nitro, plus détaillée |
+| Directory | Files | Package roots | Usage |
+|-----------|-------|---------------|-------|
+| `sources/win63_version/` | ~4,465 | `habbo/`, `room/` | **PRIMARY** — contains entire core engine |
+| `sources/flash_version/` | ~7,160 | `com/sulake/habbo/` | **SECONDARY** — Nitro version, more detailed |
 
-### Mapping des chemins
+### Path mapping
 
 ```
 sources/win63_version/habbo/<module>/   ↔   sources/flash_version/com/sulake/habbo/<module>/
 sources/win63_version/room/             ↔   sources/flash_version/com/sulake/room/
 ```
 
-### Classification ENGINE vs VIEW
+### ENGINE vs VIEW classification
 
-Chaque fichier AS3 est classé comme ENGINE ou VIEW dans `docs/architectures/<module>-architecture.md` :
+Each AS3 file is classified as ENGINE or VIEW in `docs/architectures/<module>-architecture.md`:
 
-- **ENGINE** : Logique métier, modèles de données, handlers, message parsers/composers, managers → **À implémenter en TypeScript**
-- **VIEW** : Fenêtres UI, dialogs, composants visuels d'interface → **À ignorer** (SolidJS les remplace)
+- **ENGINE**: Business logic, data models, handlers, message parsers/composers, managers → **To implement in TypeScript**
+- **VIEW**: UI windows, dialogs, visual interface components → **To ignore** (SolidJS replaces them)
 
-### Statistiques globales
+### Global statistics
 
-~1 000 fichiers ENGINE à implémenter, ~1 000 fichiers VIEW à ignorer.
+~1,000 ENGINE files to implement, ~1,000 VIEW files to ignore.
 
-## Documentation par module
+## Per-module documentation
 
 | Doc | ENGINE | VIEW | Description |
 |-----|--------|------|-------------|
-| `room-architecture.md` | 313 | 0 | Moteur de room (CORE) |
-| `session-architecture.md` | 77 | 0 | Gestion des sessions |
-| `ui-architecture.md` | 95 | 274 | Handlers UI, events, messages |
-| `avatar-architecture.md` | ~70 | ~50 | Système de rendu avatar |
-| `catalog-architecture.md` | 62 | 43 | Système de catalogue |
-| `inventory-architecture.md` | 33 | 18 | Gestion d'inventaire |
-| `sound-architecture.md` | 28 | 0 | Système audio |
-| `navigator-architecture.md` | 25 | 45+ | Navigateur de rooms |
+| `room-architecture.md` | 313 | 0 | Room engine (CORE) |
+| `session-architecture.md` | 77 | 0 | Session management |
+| `ui-architecture.md` | 95 | 274 | UI handlers, events, messages |
+| `avatar-architecture.md` | ~70 | ~50 | Avatar rendering system |
+| `catalog-architecture.md` | 62 | 43 | Catalog system |
+| `inventory-architecture.md` | 33 | 18 | Inventory management |
+| `sound-architecture.md` | 28 | 0 | Audio system |
+| `navigator-architecture.md` | 25 | 45+ | Room navigator |
 | `game-architecture.md` | 42 | 16 | SnowWar |
-| Autres (20+ modules) | ~200 | ~500 | Voir `docs/architectures/` |
+| Others (20+ modules) | ~200 | ~500 | See `docs/architectures/` |
 
-## Points d'entrée clés
+## Key entry points
 
-| Fichier | Rôle |
-|---------|------|
-| `packages/helium-client/index.html` | Point d'entrée HTML |
-| `packages/helium-client/src/Helium.ts` | Singleton applicatif, bootstrap |
-| `packages/helium-client/src/HeliumMain.ts` | Enregistrement des managers engine |
-| `packages/helium-engine/src/habbo/communication/HabboMessages.ts` | Registre de tous les messages |
-| `packages/helium-engine/src/habbo/communication/HabboCommunicationManager.ts` | Couche protocole |
-| `packages/helium-engine/src/room/RoomManager.ts` | Gestionnaire de rooms |
-| `packages/helium-engine/src/iid/index.ts` | Tous les symboles DI |
+| File | Role |
+|------|------|
+| `packages/helium-client/index.html` | HTML entry point |
+| `packages/helium-client/src/Helium.ts` | Application singleton, bootstrap |
+| `packages/helium-client/src/HeliumMain.ts` | Engine manager registration |
+| `packages/helium-engine/src/habbo/communication/HabboMessages.ts` | All message registry |
+| `packages/helium-engine/src/habbo/communication/HabboCommunicationManager.ts` | Protocol layer |
+| `packages/helium-engine/src/room/RoomManager.ts` | Room manager |
+| `packages/helium-engine/src/iid/index.ts` | All DI symbols |
