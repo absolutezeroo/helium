@@ -4,6 +4,8 @@ import type {ILabelWindow} from './ILabelWindow';
 import {WindowController} from '../WindowController';
 import {WindowEvent} from '../events/WindowEvent';
 import {PropertyStruct} from '../utils/PropertyStruct';
+import {TextStyleManager} from '../utils/TextStyleManager';
+import {resolveLocalizationTokens} from '../utils/WindowParser';
 
 /**
  * Controller for label windows.
@@ -27,6 +29,13 @@ export class TextLabelController extends WindowController implements ILabelWindo
 	private _marginTop: number = 0;
 	private _marginRight: number = 0;
 	private _marginBottom: number = 0;
+	private _fontFace: string = '';
+	private _fontSize: number = 12;
+	private _bold: boolean = false;
+	private _italic: boolean = false;
+	private _underline: boolean = false;
+	private _etchingColor: number = 0;
+	private _etchingPosition: string = 'bottom';
 
 	constructor(
 		name: string,
@@ -57,8 +66,8 @@ export class TextLabelController extends WindowController implements ILabelWindo
 	{
 		if(value == null) return;
 
-		this._caption = value;
-		this._text = value;
+		this._text = resolveLocalizationTokens(value);
+		this._caption = this._text;
 		this.refresh();
 	}
 
@@ -127,27 +136,37 @@ export class TextLabelController extends WindowController implements ILabelWindo
 
 	public get bold(): boolean
 	{
-		return false;
+		return this._bold;
 	}
 
 	public get italic(): boolean
 	{
-		return false;
+		return this._italic;
 	}
 
 	public get underline(): boolean
 	{
-		return false;
+		return this._underline;
 	}
 
 	public get fontFace(): string
 	{
-		return '';
+		return this._fontFace;
 	}
 
 	public get fontSize(): number
 	{
-		return 12;
+		return this._fontSize;
+	}
+
+	public get etchingColor(): number
+	{
+		return this._etchingColor;
+	}
+
+	public get etchingPosition(): string
+	{
+		return this._etchingPosition;
 	}
 
 	public get length(): number
@@ -205,8 +224,25 @@ export class TextLabelController extends WindowController implements ILabelWindo
 			switch(prop.key)
 			{
 				case 'text_style':
+				{
 					this._textStyleName = prop.value as string;
+
+					const resolved = TextStyleManager.getStyle(this._textStyleName);
+
+					if(resolved)
+					{
+						if(resolved.fontFamily != null) this._fontFace = resolved.fontFamily;
+						if(resolved.fontSize != null) this._fontSize = resolved.fontSize;
+						if(resolved.fontWeight === 'bold') this._bold = true;
+						if(resolved.fontStyle === 'italic') this._italic = true;
+						if(resolved.textDecoration === 'underline') this._underline = true;
+						if(resolved.color != null && this._textColor === null) this._textColor = resolved.color;
+						if(resolved.etchingColor != null) this._etchingColor = resolved.etchingColor;
+						if(resolved.etchingPosition != null) this._etchingPosition = resolved.etchingPosition;
+					}
+
 					break;
+				}
 				case 'text_color':
 					this._textColor = prop.value as number;
 					break;
@@ -229,24 +265,101 @@ export class TextLabelController extends WindowController implements ILabelWindo
 		}
 
 		super.properties = value;
+		this.refresh();
 	}
 
 	/**
-	 * Refreshes text layout, recalculating dimensions and invalidating.
-	 *
-	 * In AS3, this uses TextFieldCache to get a shared TextField,
-	 * measures the text, then auto-sizes the window. Here we
-	 * estimate and let the renderer handle final layout.
+	 * Shared canvas for text measurement.
 	 */
-	private refresh(_fromResize: boolean = false): void
+	private static _measureCtx: OffscreenCanvasRenderingContext2D | null = null;
+
+	private static getMeasureCtx(): OffscreenCanvasRenderingContext2D
+	{
+		if(!TextLabelController._measureCtx)
+		{
+			TextLabelController._measureCtx = new OffscreenCanvas(1, 1).getContext('2d')!;
+		}
+
+		return TextLabelController._measureCtx;
+	}
+
+	/**
+	 * Refreshes text layout, recalculating dimensions and auto-sizing.
+	 *
+	 * Port of AS3 TextLabelController.refresh(). Gets a configured TextField
+	 * via TextFieldCache, measures text, then auto-sizes the window to fit
+	 * text content + margins.
+	 *
+	 * @see sources/win63_version/core/window/components/TextLabelController.as refresh()
+	 */
+	private refresh(fromResize: boolean = false): void
 	{
 		if(this._refreshing) return;
 
 		this._refreshing = true;
 
-		// Estimate text dimensions (actual measurement deferred to renderer)
-		this._textWidth = this._width;
-		this._textHeight = this._height;
+		if(!this._text)
+		{
+			this._textWidth = 0;
+			this._textHeight = 0;
+			this._refreshing = false;
+			this._context.invalidate(this, null, 1);
+
+			return;
+		}
+
+		// Measure text using shared canvas context
+		const ctx = TextLabelController.getMeasureCtx();
+		let fontStr = '';
+
+		if(this._italic) fontStr += 'italic ';
+		if(this._bold) fontStr += 'bold ';
+		fontStr += `${this._fontSize}px ${this._fontFace || 'Ubuntu, Arial, sans-serif'}`;
+		ctx.font = fontStr;
+
+		const metrics = ctx.measureText(this._text);
+		const measuredWidth = Math.ceil(metrics.width);
+		const measuredHeight = this._fontSize;
+
+		this._textWidth = measuredWidth;
+		this._textHeight = measuredHeight;
+
+		// Auto-size: AS3 compares textField dimensions to available space and resizes
+		const hMargins = this._marginLeft + this._marginRight;
+		const vMargins = this._marginTop + this._marginBottom;
+		const availWidth = this._width - hMargins;
+		const availHeight = this._height - vMargins;
+
+		let resized = false;
+
+		if(!this._vertical)
+		{
+			if(measuredWidth !== availWidth)
+			{
+				this.setRectangle(this._x, this._y, measuredWidth + hMargins, Math.floor(measuredHeight) + vMargins);
+				resized = true;
+			}
+
+			if(measuredHeight > availHeight && !resized)
+			{
+				this.setRectangle(this._x, this._y, measuredWidth + hMargins, Math.floor(measuredHeight) + vMargins);
+				resized = true;
+			}
+		}
+		else
+		{
+			if(measuredWidth !== availHeight)
+			{
+				this.setRectangle(this._x, this._y, Math.floor(measuredHeight) + hMargins, measuredWidth + vMargins);
+				resized = true;
+			}
+
+			if(measuredHeight > availWidth && !resized)
+			{
+				this.setRectangle(this._x, this._y, Math.floor(measuredHeight) + hMargins, measuredWidth + vMargins);
+				resized = true;
+			}
+		}
 
 		this._refreshing = false;
 		this._context.invalidate(this, null, 1);

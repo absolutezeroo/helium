@@ -407,7 +407,12 @@ export class NavigatorView
 		{
 			leftPane.visible = false;
 			this._rightPane.x = this._leftPaneMarginConst;
-			this._window.width = this._window.width - offset + this._leftPaneMarginConst;
+
+			const newWidth = this._window.width - offset + this._leftPaneMarginConst;
+
+			this._window.limits.minWidth = newWidth;
+			this._window.limits.maxWidth = newWidth;
+			this._window.width = newWidth;
 		}
 		else
 		{
@@ -417,6 +422,8 @@ export class NavigatorView
 			const newWidth = this._window.width + offset - this._leftPaneMarginConst;
 			const clampedWidth = newWidth > MAX_WINDOW_WIDTH ? MAX_WINDOW_WIDTH : newWidth;
 
+			this._window.limits.minWidth = clampedWidth;
+			this._window.limits.maxWidth = clampedWidth;
 			this._window.width = clampedWidth;
 		}
 

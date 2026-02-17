@@ -167,7 +167,7 @@ export class Classes
 		// ── Tabs ────────────────────────────────────────────────────
 		Classes.register(WindowType.TAB_CONTENT, ContainerController as any);
 		Classes.register(WindowType.TAB_CONTEXT, TabContextController as any);
-		Classes.register(WindowType.TAB_SELECTOR, SelectorController as any);
+		Classes.register(WindowType.TAB_SELECTOR, SelectorListController as any);
 		Classes.register(WindowType.TAB_BUTTON, TabButtonController as any);
 		Classes.register(WindowType.TAB_CONTAINER_BUTTON, TabContainerButtonController as any);
 

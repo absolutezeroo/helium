@@ -438,6 +438,16 @@ export class WindowParser implements IWindowParser
 					case 'background_color':
 						props.push(new PropertyStruct(key, val));
 						break;
+					case 'margins':
+					{
+						const m = val as Record<string, number>;
+
+						if(m.left !== undefined) props.push(new PropertyStruct('margin_left', m.left));
+						if(m.top !== undefined) props.push(new PropertyStruct('margin_top', m.top));
+						if(m.right !== undefined) props.push(new PropertyStruct('margin_right', m.right));
+						if(m.bottom !== undefined) props.push(new PropertyStruct('margin_bottom', m.bottom));
+						break;
+					}
 				}
 			}
 

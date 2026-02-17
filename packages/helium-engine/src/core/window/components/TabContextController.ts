@@ -168,6 +168,26 @@ export class TabContextController extends WindowController implements ITabContex
 	}
 
 	/**
+	 * Redirects layout children to the internal _SELECTOR.
+	 *
+	 * When the layout parser creates tab_button children inside a tab_context,
+	 * they must be added to the selector (not to the tab context itself).
+	 * Without this override, getTabItemAt() returns null because tab buttons
+	 * end up as direct children of the tab context rather than the selector.
+	 */
+	public override getLayoutChildTarget(): IWindow
+	{
+		const sel = this.selector;
+
+		if(sel)
+		{
+			return sel as unknown as IWindow;
+		}
+
+		return this;
+	}
+
+	/**
 	 * Handles selection events from the selector.
 	 */
 	private selectorEventProc(event: WindowEvent, _window: IWindow): void
