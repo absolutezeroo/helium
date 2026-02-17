@@ -1,21 +1,19 @@
 import type {IWindow} from '../IWindow';
 import type {IWindowContext} from '../IWindowContext';
 import type {IDesktopWindow} from './IDesktopWindow';
-import {ContainerController} from './ContainerController';
+import {ActivatorController} from './ActivatorController';
 import {WindowEvent} from '../events/WindowEvent';
 
 /**
  * Desktop controller — the root container for all windows in a context.
  *
- * Manages the active window, provides mouse position tracking,
- * and handles parameter-filtered child lookups.
+ * Extends ActivatorController to manage the active window via the inherited
+ * activation system. Provides mouse position tracking and child lookup.
  *
- * @see sources/win63_2021_version/com/sulake/core/window/components/DesktopController.as
+ * @see sources/win63_version/com/sulake/core/window/components/DesktopController.as
  */
-export class DesktopController extends ContainerController implements IDesktopWindow
+export class DesktopController extends ActivatorController implements IDesktopWindow
 {
-	private _activeWindow: IWindow | null = null;
-
 	constructor(
 		name: string,
 		type: number,
@@ -31,7 +29,7 @@ export class DesktopController extends ContainerController implements IDesktopWi
 		dynamicStyle: string = ''
 	)
 	{
-		super(name, type, style, param, context, rect, parent, procedure, tags, properties, id);
+		super(name, type, style, param, context, rect, parent, procedure ?? DesktopController.defaultProcedure, tags, properties, id);
 	}
 
 	private _mouseX: number = 0;
@@ -48,18 +46,30 @@ export class DesktopController extends ContainerController implements IDesktopWi
 		return this._mouseY;
 	}
 
-	public getActiveWindow(): IWindow
+	public override get host(): IWindow
 	{
-		return this._activeWindow ?? this;
+		return this;
 	}
 
+	public override get desktop(): IWindow
+	{
+		return this;
+	}
+
+	/**
+	 * Returns the currently active window (delegates to getActiveChild).
+	 */
+	public getActiveWindow(): IWindow
+	{
+		return this.getActiveChild() ?? this;
+	}
+
+	/**
+	 * Sets the active window (delegates to setActiveChild).
+	 */
 	public setActiveWindow(window: IWindow): IWindow
 	{
-		const previous = this._activeWindow;
-
-		this._activeWindow = window;
-
-		return previous ?? this;
+		return this.setActiveChild(window) ?? this;
 	}
 
 	public groupParameterFilteredChildrenUnderPoint(
@@ -68,13 +78,13 @@ export class DesktopController extends ContainerController implements IDesktopWi
 		paramFilter: number = 0
 	): void
 	{
-		for (let i = this.numChildren - 1; i >= 0; i--)
+		for(let i = this.numChildren - 1; i >= 0; i--)
 		{
 			const child = this.getChildAt(i);
 
-			if (child && child.visible && child.hitTestLocalPoint(point))
+			if(child && child.visible && child.hitTestLocalPoint(point))
 			{
-				if (paramFilter === 0 || child.testParamFlag(paramFilter))
+				if(paramFilter === 0 || child.testParamFlag(paramFilter))
 				{
 					result.push(child);
 				}
@@ -82,7 +92,7 @@ export class DesktopController extends ContainerController implements IDesktopWi
 		}
 	}
 
-	public setDisplayObject(displayObject: unknown): void
+	public setDisplayObject(_displayObject: unknown): void
 	{
 		// No-op in TypeScript port — rendering handled by client layer
 	}
@@ -92,12 +102,23 @@ export class DesktopController extends ContainerController implements IDesktopWi
 		return null;
 	}
 
+	/**
+	 * Desktop invalidation is a no-op per AS3.
+	 */
+	public override invalidate(): void
+	{
+		// No-op
+	}
+
 	public override dispose(): void
 	{
-		if (this._disposed) return;
-
-		this._activeWindow = null;
+		if(this._disposed) return;
 
 		super.dispose();
+	}
+
+	private static defaultProcedure(_event: WindowEvent, _window: IWindow): void
+	{
+		// No-op default procedure
 	}
 }
