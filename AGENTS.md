@@ -4,7 +4,7 @@ Universal instructions for all AI assistants (Cursor, Windsurf, Codex, Copilot, 
 
 ## Project
 
-Helium: TypeScript/PixiJS v8 port of the Habbo Hotel Flash client. pnpm monorepo with `helium-engine` (engine, zero UI) and `helium-client` (SolidJS).
+Helium: Full TypeScript/PixiJS v8 port of the Habbo Hotel Flash client. pnpm monorepo with `helium-engine` (engine) and `helium-client` (display, UI). The entire Flash client is ported — both logic and display — with original XML layouts converted to JSON.
 
 ```bash
 pnpm install && pnpm dev    # Dev server
@@ -20,7 +20,7 @@ pnpm build                   # Production build
 
 No AS3 source read = invalid implementation. Period.
 
-We fully reuse the lifecycle system from the original AS3 source. The class hierarchy, dispose patterns, flush/parse cycles, and object management must match the AS3 architecture. The only divergences allowed are JS-specific performance optimizations documented in `docs/STYLEGUIDE.md` section **Performance**.
+We fully reuse the lifecycle system from the original AS3 source. The class hierarchy, dispose patterns, flush/parse cycles, object management, and display system must match the AS3 architecture. ALL AS3 files are ported — both logic and display. The original Flash XML layouts are converted to JSON. The only divergences allowed are JS-specific performance optimizations documented in `docs/STYLEGUIDE.md` section **Performance**.
 
 ## Work protocol (mandatory phases)
 
@@ -45,7 +45,7 @@ Until this phase is complete, writing code is FORBIDDEN.
 
 - [ ] Identify all classes, interfaces, and relationships from the AS3
 - [ ] Map AS3 inheritance to TypeScript equivalents
-- [ ] Identify ENGINE files to port (ignore VIEW files)
+- [ ] Identify all files to port (logic AND display)
 - [ ] List required dependencies
 
 ### Phase 3 — Implementation
@@ -55,6 +55,7 @@ Until this phase is complete, writing code is FORBIDDEN.
 - [ ] Engine code → `packages/helium-engine/src/`
 - [ ] Client code → `packages/helium-client/src/`
 - [ ] Preserve AS3 class names, method names, interfaces, and inheritance chains
+- [ ] Flash XML layouts → JSON format
 
 ### Phase 4 — Validation
 
@@ -70,16 +71,25 @@ Until this phase is complete, writing code is FORBIDDEN.
 ## Architecture boundaries
 
 ```
-helium-engine (ZERO UI knowledge)              helium-client (depends on engine)
-├── core/    Low-level, communication          ├── components/  SolidJS components
-├── habbo/   Game logic                        ├── stores/      Reactive state
-├── room/    Room engine                       ├── hooks/       SolidJS hooks
-└── iid/     DI symbols                        └── api/         Engine ↔ UI bridge
+helium-engine                                   helium-client (depends on engine)
+├── core/    Low-level, communication          ├── ui/          Flash UI classes (ported)
+├── habbo/   Game logic                        ├── window/      Window system (from Flash)
+├── room/    Room engine                       ├── display/     Display components (PixiJS)
+└── iid/     DI symbols                        └── layouts/     JSON layouts (converted from XML)
 ```
 
 **CRITICAL**: The engine must NEVER import from the client. The flow is strictly client → engine.
 
-Data pattern: `Engine emits event → Store listens and updates signal → Component reads signal`
+Data pattern: `Engine emits event → Client display class listens and updates`
+
+## Display system
+
+The entire Flash display system is ported to TypeScript/PixiJS:
+
+- **Flash XML layouts** are converted to **JSON** and loaded at runtime
+- **Flash UI windows/dialogs** (IWindow, IFrameWindow, etc.) are ported as TypeScript classes using PixiJS
+- **Flash display components** (buttons, text fields, scrollbars, etc.) are ported as PixiJS display objects
+- The original AS3 class hierarchy for UI is preserved
 
 ## Code style (summary)
 
@@ -100,11 +110,9 @@ Full reference: `docs/STYLEGUIDE.md`
 | `sources/win63_version/` | PRIMARY   | `habbo/`, `room/`   | ~4,465 |
 | `sources/flash_version/` | Secondary | `com/sulake/habbo/` | ~7,160 |
 
-AS3 file classification:
-- **ENGINE**: Business logic, data models, handlers, parsers, composers → **TO IMPLEMENT**
-- **VIEW**: UI windows, dialogs, display components → **TO IGNORE** (SolidJS replaces them)
+ALL AS3 files are to be ported — both logic and display classes.
 
-See `docs/architectures/<module>-architecture.md` for per-file classification.
+See `docs/architectures/<module>-architecture.md` for per-file details.
 
 ## Key patterns
 
@@ -114,11 +122,11 @@ See `docs/PATTERNS.md` for full templates with code examples.
 - **Parsers**: `implements IMessageParser` with `flush()` + `parse(wrapper)`
 - **Events**: `extends MessageEvent implements IMessageEvent` with `callback` parameter in constructor
 - **Managers**: DI Component with IID registration
+- **UI Windows**: Ported from AS3 IWindow/IFrameWindow hierarchy using PixiJS + JSON layouts
 
 ## Known pitfalls
 
 1. **Never override `get events()`** in Component subclasses (breaks the DI event system — use a different property name like `sessionEvents`)
 2. **Use `createObjectInternal()`** not `createRoomObject()` from container classes (infinite recursion)
 3. **The engine ↔ client boundary is strict**: the engine has ZERO UI knowledge
-4. **AS3 VIEW files are IGNORED**: SolidJS replaces the Flash UI
-5. **Performance**: `Set`/`Map` for lookups, no allocation in render loops, cache textures, viewport culling. See `docs/STYLEGUIDE.md` section Performance and `docs/PATTERNS.md` section 0
+4. **Performance**: `Set`/`Map` for lookups, no allocation in render loops, cache textures, viewport culling. See `docs/STYLEGUIDE.md` section Performance and `docs/PATTERNS.md` section 0

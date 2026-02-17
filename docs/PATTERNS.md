@@ -12,7 +12,7 @@ Detailed templates for each class type. Always use these patterns as a base duri
 6. [Data class](#data-class)
 7. [Interface](#interface)
 8. [Message registration](#message-registration)
-9. [SolidJS Store (client)](#solidjs-store-client)
+9. [UI Window (ported from Flash)](#ui-window-ported-from-flash)
 10. [Pitfalls to avoid](#pitfalls-to-avoid)
 
 ---
@@ -428,47 +428,62 @@ this.registerComposer(OpenFlatConnectionMessageComposer, OutgoingHeader.OPEN_FLA
 
 ---
 
-## SolidJS Store (client)
+## UI Window (ported from Flash)
 
-Stores connect the engine to the SolidJS UI.
+The Flash window/UI system is fully ported. UI windows are TypeScript classes using PixiJS for rendering, with JSON layouts (converted from Flash XML).
 
-### Template
+### Approach
 
 ```typescript
-import { createSignal } from 'solid-js';
-import type { IRoomData } from '@habbo/navigator/IRoomData';
-
-// Reactive signals
-const [currentRoom, setCurrentRoom] = createSignal<IRoomData | null>(null);
-const [isNavigatorOpen, setIsNavigatorOpen] = createSignal(false);
-
-// Initialization function (called after engine bootstrap)
-export function initNavigatorStore(navigator: IHabboNewNavigator): void
+/**
+ * Navigator search results window.
+ *
+ * @see sources/win63_version/habbo/navigator/NavigatorSearchResultsView.as
+ */
+export class NavigatorSearchResultsView
 {
-    navigator.on('roomSelected', (room: IRoomData) =>
+    private _window: IFrameWindow;
+    private _navigator: IHabboNewNavigator;
+    private _disposed: boolean = false;
+
+    constructor(navigator: IHabboNewNavigator, windowManager: IWindowManager)
     {
-        setCurrentRoom(room);
-    });
+        this._navigator = navigator;
 
-    navigator.on('opened', () => setIsNavigatorOpen(true));
-    navigator.on('closed', () => setIsNavigatorOpen(false));
+        // Load JSON layout (converted from original Flash XML)
+        this._window = windowManager.createWindow('navigator_search', layoutJson);
+
+        // Listen to engine events
+        this._navigator.on('searchResults', this.onSearchResults.bind(this));
+    }
+
+    private onSearchResults(data: SearchResultData): void
+    {
+        // Update the PixiJS display objects in the window
+        this._window.findChildByName('resultsList').update(data);
+    }
+
+    dispose(): void
+    {
+        if(this._disposed) return;
+
+        this._disposed = true;
+
+        this._navigator.off('searchResults', this.onSearchResults);
+        this._window.dispose();
+        this._window = null;
+        this._navigator = null;
+    }
 }
-
-// Exports for components
-export const navigatorStore = {
-    currentRoom,
-    isNavigatorOpen,
-    setIsNavigatorOpen,
-};
 ```
 
 ### Rules
 
-- Stores go in `packages/helium-client/src/stores/`
-- Use `createSignal` from SolidJS
-- Listen to engine events via EventEmitter3
-- Export an object with the needed signals and setters
-- The store does NOT know about components (strict separation)
+- Port the AS3 UI class hierarchy faithfully (IWindow, IFrameWindow, etc.)
+- Flash XML layouts are converted to JSON and loaded at runtime
+- UI classes listen to engine events via EventEmitter3
+- UI classes have `dispose()` that cleans up listeners and display objects
+- The engine NEVER knows about UI classes (strict separation)
 
 ---
 
@@ -597,7 +612,7 @@ createRoomObject(roomId, objectId, type, category)
 
 ```typescript
 // WRONG — the engine must NEVER know about the client
-import { navigatorStore } from '@ui/stores/navigatorStore';  // FORBIDDEN
+import { NavigatorWindow } from '@ui/navigator/NavigatorWindow';  // FORBIDDEN
 
 // CORRECT — the engine emits events, the client listens
 this.emit('searchResults', results);  // Engine emits

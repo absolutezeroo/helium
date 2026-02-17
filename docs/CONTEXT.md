@@ -4,17 +4,16 @@ This document provides the complete architecture and project context. Read BEFOR
 
 ## Overview
 
-**Helium** is a TypeScript/PixiJS v8 port of the Habbo Hotel Flash client, organized as a pnpm monorepo. The goal is to create a lighter client than Nitro while staying faithful to the original AS3 architecture.
+**Helium** is a full TypeScript/PixiJS v8 port of the Habbo Hotel Flash client, organized as a pnpm monorepo. The goal is to create a lighter client than Nitro while staying faithful to the original AS3 architecture.
 
-We fully reuse the lifecycle system from the original AS3 source. The class hierarchy, dispose patterns, flush/parse cycles, and object management must match the AS3 architecture.
+We fully reuse the lifecycle system AND the display system from the original AS3 source. The class hierarchy, dispose patterns, flush/parse cycles, object management, and UI window system must match the AS3 architecture. The original Flash XML layouts are converted to JSON.
 
 ### Tech stack
 
 | Technology | Role |
 |------------|------|
 | TypeScript | Primary language (strict mode) |
-| PixiJS v8 | 2D rendering (rooms, avatars, furniture) |
-| SolidJS | Reactive UI framework (replaces Flash windows) |
+| PixiJS v8 | 2D rendering (rooms, avatars, furniture, UI) |
 | EventEmitter3 | Inter-component communication in the engine |
 | pnpm workspaces | Monorepo management |
 | Vite | Bundler and dev server |
@@ -24,8 +23,8 @@ We fully reuse the lifecycle system from the original AS3 source. The class hier
 ```
 helium/
 ├── packages/
-│   ├── helium-engine/     Engine (zero UI knowledge)
-│   └── helium-client/     Client (SolidJS, depends on engine)
+│   ├── helium-engine/     Engine (logic, protocol, data)
+│   └── helium-client/     Client (display, UI, PixiJS rendering)
 ├── sources/
 │   ├── source_as_win63/   Primary AS3 source (~4,465 files)
 │   └── source_as_flash/   Secondary AS3 source (~7,160 files)
@@ -131,20 +130,28 @@ Client WebSocket
 
 ## Client architecture
 
+### Display system
+
+The entire Flash display and UI system is ported to TypeScript/PixiJS. There is no third-party UI framework — the Flash window system (IWindow, IFrameWindow, etc.) is faithfully ported.
+
+### XML → JSON layouts
+
+The original Flash XML layout files that defined UI structure (window positions, element layouts, sizes, etc.) are converted to JSON and loaded at runtime. The JSON structure mirrors the original XML hierarchy.
+
 ### Structure
 
 ```
 packages/helium-client/src/
-├── Helium.ts          Application singleton shell, bootstraps engine + PixiJS + UI
+├── Helium.ts          Application singleton shell, bootstraps engine + PixiJS
 ├── HeliumMain.ts      Engine orchestrator (creates and registers all managers)
-├── App.tsx            Root SolidJS component
-├── api/               Engine ↔ UI bridge (typed access to managers)
-├── components/        SolidJS components (rooms, navigation, chat, etc.)
-├── hooks/             Custom SolidJS hooks
-└── stores/            Reactive stores (bridge engine events → SolidJS signals)
+├── ui/                Flash UI system ported (IWindow, IFrameWindow, etc.)
+├── window/            Window management (from AS3 window framework)
+├── display/           PixiJS display components (buttons, text, scrollbars, etc.)
+├── layouts/           JSON layouts (converted from Flash XML)
+└── api/               Engine ↔ UI bridge (typed access to managers)
 ```
 
-### Engine → Store → UI pattern
+### Data flow
 
 ```typescript
 // 1. Engine class emits an event
@@ -156,19 +163,20 @@ class HabboNewNavigator extends Component
     }
 }
 
-// 2. Store listens and updates a SolidJS signal
-const [searchResults, setSearchResults] = createSignal<SearchResultData | null>(null);
-navigator.on('searchResults', (data) => setSearchResults(data));
-
-// 3. Component reads the signal and renders
-function NavigatorResults()
+// 2. UI class listens and updates display
+class NavigatorWindow extends FrameWindow
 {
-    const results = searchResults();
-    return <div>{results?.rooms.map(room => <RoomCard room={room} />)}</div>;
+    constructor(navigator: IHabboNewNavigator)
+    {
+        navigator.on('searchResults', (data: SearchResultData) =>
+        {
+            this.updateResults(data);
+        });
+    }
 }
 ```
 
-The engine NEVER knows about stores or components. The separation is strict.
+The engine NEVER knows about UI classes. The separation is strict.
 
 ## AS3 sources
 
@@ -186,31 +194,28 @@ sources/win63_version/habbo/<module>/   ↔   sources/flash_version/com/sulake/h
 sources/win63_version/room/             ↔   sources/flash_version/com/sulake/room/
 ```
 
-### ENGINE vs VIEW classification
+### Full port
 
-Each AS3 file is classified as ENGINE or VIEW in `docs/architectures/<module>-architecture.md`:
-
-- **ENGINE**: Business logic, data models, handlers, message parsers/composers, managers → **To implement in TypeScript**
-- **VIEW**: UI windows, dialogs, visual interface components → **To ignore** (SolidJS replaces them)
+ALL AS3 files are ported — both logic and display classes. The original ENGINE/VIEW distinction no longer applies; everything is implemented in TypeScript.
 
 ### Global statistics
 
-~1,000 ENGINE files to implement, ~1,000 VIEW files to ignore.
+~2,000+ AS3 files to implement (logic + display combined).
 
 ## Per-module documentation
 
-| Doc | ENGINE | VIEW | Description |
-|-----|--------|------|-------------|
-| `room-architecture.md` | 313 | 0 | Room engine (CORE) |
-| `session-architecture.md` | 77 | 0 | Session management |
-| `ui-architecture.md` | 95 | 274 | UI handlers, events, messages |
-| `avatar-architecture.md` | ~70 | ~50 | Avatar rendering system |
-| `catalog-architecture.md` | 62 | 43 | Catalog system |
-| `inventory-architecture.md` | 33 | 18 | Inventory management |
-| `sound-architecture.md` | 28 | 0 | Audio system |
-| `navigator-architecture.md` | 25 | 45+ | Room navigator |
-| `game-architecture.md` | 42 | 16 | SnowWar |
-| Others (20+ modules) | ~200 | ~500 | See `docs/architectures/` |
+| Doc | Files | Description |
+|-----|-------|-------------|
+| `room-architecture.md` | 313+ | Room engine (CORE) |
+| `session-architecture.md` | 77 | Session management |
+| `ui-architecture.md` | 369 | UI handlers, events, messages, windows |
+| `avatar-architecture.md` | ~120 | Avatar rendering system |
+| `catalog-architecture.md` | 105 | Catalog system |
+| `inventory-architecture.md` | 51 | Inventory management |
+| `sound-architecture.md` | 28 | Audio system |
+| `navigator-architecture.md` | 70+ | Room navigator |
+| `game-architecture.md` | 58 | SnowWar |
+| Others (20+ modules) | ~700 | See `docs/architectures/` |
 
 ## Key entry points
 

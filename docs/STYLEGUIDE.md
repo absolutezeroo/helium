@@ -425,10 +425,9 @@ source_as_win63/habbo/session/
 
 ## Habbo-specific conventions
 
-### ENGINE vs VIEW classification
+### Full AS3 port
 
-- **ENGINE**: To implement — business logic, models, handlers, parsers
-- **VIEW**: To ignore — UI windows, dialogs, Flash display components (SolidJS replaces them)
+ALL AS3 files are ported — both logic and display classes. The Flash UI system (windows, dialogs, display components) is faithfully ported using PixiJS. Flash XML layouts are converted to JSON.
 
 ### AS3 → TypeScript mapping
 
@@ -446,6 +445,9 @@ source_as_win63/habbo/session/
 | `null` | `null` (not `undefined`) |
 | `Event` | `MessageEvent` or specific event |
 | `EventDispatcher` | `EventEmitter` (EventEmitter3) |
+| `BitmapData` | `OffscreenCanvas` / PixiJS `Texture` |
+| `Sprite` / `MovieClip` | PixiJS `Container` / `Sprite` |
+| `XML` | JSON (converted from original XML layouts) |
 
 ### Avoid `any`
 
