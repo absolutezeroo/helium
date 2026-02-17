@@ -82,14 +82,14 @@ Path mapping: `sources/win63_version/habbo/<module>/` ↔ `sources/flash_version
 
 ## Documentation
 
-| File                                       | Content                                        |
-|--------------------------------------------|------------------------------------------------|
-| `AGENTS.md`                                | Universal AI agent instructions (all editors)  |
-| `.claude/rules/`                           | Auto-loaded enforcement rules for Claude Code  |
-| `docs/CONTEXT.md`                          | Full architecture and project context          |
-| `docs/PATTERNS.md`                         | Implementation templates with code examples    |
-| `docs/STYLEGUIDE.md`                       | Complete code style reference + performance    |
-| `docs/IMPLEMENTATION_STATUS.md`            | Progress tracking (~35% overall, ~710+ files)  |
-| `docs/PERFORMANCE_ANALYSIS.md`            | Identified performance issues (16 items)       |
-| `docs/VIOLATIONS.md`                       | Code violations audit (111 items)              |
-| `docs/architectures/<module>-architecture.md` | Per-module AS3 architecture analysis        |
+| File                                          | Content                                       |
+|-----------------------------------------------|-----------------------------------------------|
+| `AGENTS.md`                                   | Universal AI agent instructions (all editors) |
+| `.claude/rules/`                              | Auto-loaded enforcement rules for Claude Code |
+| `docs/CONTEXT.md`                             | Full architecture and project context         |
+| `docs/PATTERNS.md`                            | Implementation templates with code examples   |
+| `docs/STYLEGUIDE.md`                          | Complete code style reference + performance   |
+| `docs/IMPLEMENTATION_STATUS.md`               | Progress tracking (~35% overall, ~710+ files) |
+| `docs/PERFORMANCE_ANALYSIS.md`                | Identified performance issues (16 items)      |
+| `docs/VIOLATIONS.md`                          | Code violations audit (111 items)             |
+| `docs/architectures/<module>-architecture.md` | Per-module AS3 architecture analysis          |
