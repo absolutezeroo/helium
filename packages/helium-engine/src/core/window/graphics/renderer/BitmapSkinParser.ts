@@ -101,34 +101,90 @@ export class BitmapSkinParser
 	 * Algorithm (port of AS3 BitmapSkinParser.parseSkinDescription):
 	 * 1. Parse variables (for variable substitution)
 	 * 2. Parse templates → SkinTemplate + SkinTemplateEntity
-	 * 3. Parse layouts → SkinLayout + SkinLayoutEntity
-	 * 4. Parse states → map state name → flag, register layout/template per state
+	 * 3. Parse layouts → SkinLayout + SkinLayoutEntity (filtered by layoutFilter)
+	 * 4. Parse states → map state name → flag, register layout/template per state (filtered by layoutFilter)
+	 *
+	 * When layoutFilter is provided (non-empty), only the matching layout and
+	 * states referencing that layout are parsed. This matches the AS3 pattern
+	 * where each element descriptor gets its own renderer filtered to its
+	 * specific layout. Without filtering, skins with multiple component types
+	 * (e.g. scrollbar) would overwrite each other's state→layout mappings.
 	 *
 	 * @param skinData - The skin JSON data
 	 * @param atlases - Map of asset name → ImageBitmap
+	 * @param layoutFilter - Optional layout name to filter by (from element descriptor)
 	 * @returns The configured BitmapSkinRenderer
 	 */
-	public static parse(skinData: ISkinData, atlases: Map<string, ImageBitmap>): BitmapSkinRenderer
+	public static parse(skinData: ISkinData, atlases: Map<string, ImageBitmap>, layoutFilter?: string): BitmapSkinRenderer
 	{
 		const renderer = new BitmapSkinRenderer(skinData.name);
 		const variables = skinData.variables ?? {};
+		const filter = layoutFilter && layoutFilter.length > 0 ? layoutFilter : null;
 
-		// Parse templates
+		// Parse templates (always parse all — templates are referenced by name)
 		if (skinData.templates)
 		{
 			BitmapSkinParser.parseTemplateList(renderer, skinData.templates, variables, atlases);
 		}
 
-		// Parse layouts
+		// Parse layouts (filtered when layoutFilter is provided)
 		if (skinData.layouts)
 		{
-			BitmapSkinParser.parseLayoutList(renderer, skinData.layouts, variables);
+			if (filter)
+			{
+				// AS3: only parse the single layout matching the filter
+				for (const layoutData of skinData.layouts)
+				{
+					const name = BitmapSkinParser.resolveVariable(layoutData.name, variables);
+
+					if (name === filter)
+					{
+						const transparent = layoutData.transparent ?? false;
+						const blendMode = layoutData.blendMode ?? '';
+						const layout = new SkinLayout(name, transparent, blendMode);
+
+						if (layoutData.entities)
+						{
+							for (const entityData of layoutData.entities)
+							{
+								const entity = BitmapSkinParser.parseLayoutEntity(entityData, variables);
+
+								layout.addEntity(entity);
+							}
+						}
+
+						renderer.addLayout(layout);
+
+						break;
+					}
+				}
+			}
+			else
+			{
+				BitmapSkinParser.parseLayoutList(renderer, skinData.layouts, variables);
+			}
 		}
 
-		// Parse states
+		// Parse states (filtered when layoutFilter is provided)
 		if (skinData.states)
 		{
-			BitmapSkinParser.parseStateList(renderer, skinData.states, variables);
+			if (filter)
+			{
+				// AS3: only parse states whose layout attribute matches the filter
+				for (const stateData of skinData.states)
+				{
+					const stateLayout = BitmapSkinParser.resolveVariable(stateData.layout, variables);
+
+					if (stateLayout === filter)
+					{
+						BitmapSkinParser.parseState(renderer, stateData, variables);
+					}
+				}
+			}
+			else
+			{
+				BitmapSkinParser.parseStateList(renderer, skinData.states, variables);
+			}
 		}
 
 		return renderer;

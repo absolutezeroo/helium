@@ -792,8 +792,6 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 
 		for (const [skinId, skinData] of skins)
 		{
-			const renderer = BitmapSkinParser.parse(skinData, atlases);
-
 			// Find all element descriptors that reference this skin asset
 			const descriptors = this._elementRegistry.getDescriptorsByAsset(skinId);
 
@@ -802,12 +800,25 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 				continue;
 			}
 
+			// Cache renderers by layout filter to avoid re-parsing identical configs.
+			// AS3 creates a separate renderer per descriptor, filtered to its layout.
+			const rendererCache = new Map<string, ReturnType<typeof BitmapSkinParser.parse>>();
+
 			for (const descriptor of descriptors)
 			{
 				const defaults = this._skinContainer.getDefaultAttributesByTypeAndStyle(descriptor.typeId, descriptor.style);
 
 				if (defaults)
 				{
+					const layoutFilter = (descriptor.layout && descriptor.layout !== 'null') ? descriptor.layout : '';
+					let renderer = rendererCache.get(layoutFilter);
+
+					if (!renderer)
+					{
+						renderer = BitmapSkinParser.parse(skinData, atlases, layoutFilter);
+						rendererCache.set(layoutFilter, renderer);
+					}
+
 					this._skinContainer.addSkinRenderer(
 						descriptor.typeId,
 						descriptor.style,
@@ -818,8 +829,6 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 					);
 
 					loaded++;
-
-					// log.debug(`Skin "${ skinId }" → type=${ descriptor.typeId } style=${ descriptor.style } (stateDrawable[0]=${ renderer.isStateDrawable(0) })`);
 				}
 			}
 		}
