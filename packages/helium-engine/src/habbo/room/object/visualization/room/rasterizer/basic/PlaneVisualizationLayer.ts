@@ -106,18 +106,14 @@ export class PlaneVisualizationLayer
 
 			if (result !== null && result !== canvas)
 			{
-				// Clone the result for caching
-				if (this._cachedBitmap !== null)
-				{
-					if (this._cachedBitmap.width !== result.width || this._cachedBitmap.height !== result.height)
-					{
-						this._cachedBitmap = null;
-					}
-				}
-
+				// Reuse existing cached canvas — just resize if dimensions differ
 				if (this._cachedBitmap === null)
 				{
 					this._cachedBitmap = document.createElement('canvas');
+				}
+
+				if (this._cachedBitmap.width !== result.width || this._cachedBitmap.height !== result.height)
+				{
 					this._cachedBitmap.width = result.width;
 					this._cachedBitmap.height = result.height;
 				}
@@ -152,24 +148,22 @@ export class PlaneVisualizationLayer
 			result = canvas;
 		}
 
-		// Apply color transform
+		// Apply color transform using GPU compositing (no CPU pixel loop)
 		if (result !== null && needsColorTransform)
 		{
 			const ctx = result.getContext('2d')!;
-			const imageData = ctx.getImageData(0, 0, result.width, result.height);
-			const data = imageData.data;
-			const rMul = r / 255;
-			const gMul = g / 255;
-			const bMul = b / 255;
 
-			for (let i = 0; i < data.length; i += 4)
-			{
-				data[i] = Math.round(data[i] * rMul);
-				data[i + 1] = Math.round(data[i + 1] * gMul);
-				data[i + 2] = Math.round(data[i + 2] * bMul);
-			}
+			// Use 'multiply' composite to tint the image on the GPU
+			ctx.globalCompositeOperation = 'multiply';
+			ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+			ctx.fillRect(0, 0, result.width, result.height);
 
-			ctx.putImageData(imageData, 0, 0);
+			// Restore original alpha by compositing with 'destination-in'
+			// (multiply affects alpha, so we need to mask back to the original shape)
+			ctx.globalCompositeOperation = 'destination-in';
+			ctx.drawImage(result, 0, 0);
+
+			ctx.globalCompositeOperation = 'source-over';
 
 			// Copy onto canvas if needed
 			if (canvas !== null && result !== canvas)

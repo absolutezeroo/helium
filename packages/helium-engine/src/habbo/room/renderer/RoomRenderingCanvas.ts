@@ -59,6 +59,7 @@ export class RoomRenderingCanvas
 	private _renderTimeStamp: number = -1;
 	private _skipObjectUpdate: boolean = false;
 	private _visualizations: Map<string, VisualizationEntry> = new Map();
+	private _zOrderDirty: boolean = true;
 
 	private readonly _master: Container;
 	private readonly _display: Container;
@@ -225,6 +226,7 @@ export class RoomRenderingCanvas
 	{
 		const objectId = `${object.getId()}_${object.getType()}`;
 		this._visualizations.set(objectId, {visualization, object});
+		this._zOrderDirty = true;
 	}
 
 	/**
@@ -233,6 +235,7 @@ export class RoomRenderingCanvas
 	removeVisualization(objectId: string): void
 	{
 		this._visualizations.delete(objectId);
+		this._zOrderDirty = true;
 	}
 
 	/**
@@ -242,6 +245,7 @@ export class RoomRenderingCanvas
 	{
 		const objectId = `${object.getId()}_${object.getType()}`;
 		this._visualizations.delete(objectId);
+		this._zOrderDirty = true;
 	}
 
 	/**
@@ -280,15 +284,27 @@ export class RoomRenderingCanvas
 		}
 
 		// Sort by z descending (AS3: sortOn("z", DESCENDING|NUMERIC))
-		if (spriteIndex > 0)
+		// Only re-sort when z-order may have changed (dirty flag)
+		if (spriteIndex > 0 && this._zOrderDirty)
 		{
-			const sortSlice = this._sortableSpriteList.slice(0, spriteIndex);
-			sortSlice.sort((a, b) => b.z - a.z);
-
-			for (let i = 0; i < spriteIndex; i++)
+			// Sort in-place up to spriteIndex using a compare on the sub-range
+			const list = this._sortableSpriteList;
+			// Insertion sort is efficient for nearly-sorted data (typical frame-to-frame)
+			for (let i = 1; i < spriteIndex; i++)
 			{
-				this._sortableSpriteList[i] = sortSlice[i];
+				const temp = list[i];
+				let j = i - 1;
+
+				while (j >= 0 && list[j].z < temp.z)
+				{
+					list[j + 1] = list[j];
+					j--;
+				}
+
+				list[j + 1] = temp;
 			}
+
+			this._zOrderDirty = false;
 		}
 
 		// Trim excess sortable sprites
@@ -419,8 +435,9 @@ export class RoomRenderingCanvas
 			return 0;
 		}
 
-		// Update the visualization
+		// Update the visualization (may change sprite z-values)
 		visualization.update(this._geometry, time, true, false);
+		this._zOrderDirty = true;
 
 		const spriteCount = visualization.spriteCount;
 
@@ -671,7 +688,7 @@ export class RoomRenderingCanvas
 	): boolean
 	{
 		let wasHit = false;
-		const hitObjectIds: string[] = [];
+		const hitObjectIds: Set<string> = new Set();
 
 		// Iterate from frontmost to backmost (AS3: i from _activeSpriteCount-1 downto 0)
 		for (let i = this._activeSpriteCount - 1; i >= 0; i--)
@@ -700,7 +717,7 @@ export class RoomRenderingCanvas
 
 			const objectId = extSprite.identifier;
 
-			if (hitObjectIds.includes(objectId))
+			if (hitObjectIds.has(objectId))
 			{
 				continue;
 			}
@@ -762,7 +779,7 @@ export class RoomRenderingCanvas
 				this.bufferMouseEvent(event, objectId);
 			}
 
-			hitObjectIds.push(objectId);
+			hitObjectIds.add(objectId);
 			wasHit = true;
 		}
 
@@ -772,7 +789,7 @@ export class RoomRenderingCanvas
 
 		for (const [objectId, data] of this._mouseActiveObjects)
 		{
-			if (!hitObjectIds.includes(objectId))
+			if (!hitObjectIds.has(objectId))
 			{
 				const rollOutEvent = this.createMouseEvent(
 					0, 0, 0, 0, 'roll_out', data.spriteTag,

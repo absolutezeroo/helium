@@ -12,7 +12,7 @@ export class IgnoredUsersManager implements IIgnoredUsersManager
 {
 	private _communication: IHabboCommunicationManager | null = null;
 	private _sendCallback: ((composer: IMessageComposer<unknown[]>) => void) | null = null;
-	private _ignoredUserIds: number[] = [];
+	private _ignoredUserIds: Set<number> = new Set();
 	private _messageEvents: IMessageEvent[] = [];
 
 	constructor(communication: IHabboCommunicationManager | null, sendCallback: ((composer: IMessageComposer<unknown[]>) => void) | null)
@@ -57,7 +57,7 @@ export class IgnoredUsersManager implements IIgnoredUsersManager
 
 	isIgnored(userId: number): boolean
 	{
-		return this._ignoredUserIds.includes(userId);
+		return this._ignoredUserIds.has(userId);
 	}
 
 	/**
@@ -65,7 +65,7 @@ export class IgnoredUsersManager implements IIgnoredUsersManager
 	 */
 	setIgnoredUsers(userIds: number[]): void
 	{
-		this._ignoredUserIds = [...userIds];
+		this._ignoredUserIds = new Set(userIds);
 	}
 
 	/**
@@ -86,7 +86,10 @@ export class IgnoredUsersManager implements IIgnoredUsersManager
 			case IgnoreResult.IGNORED_LIST_FULL:
 				// Add user but remove oldest
 				this.addUserToIgnoreList(userId);
-				this._ignoredUserIds.shift();
+				{
+					const oldest = this._ignoredUserIds.values().next().value;
+					if(oldest !== undefined) this._ignoredUserIds.delete(oldest);
+				}
 				break;
 
 			case IgnoreResult.UNIGNORED:
@@ -105,27 +108,19 @@ export class IgnoredUsersManager implements IIgnoredUsersManager
 		}
 
 		this._messageEvents = [];
-		this._ignoredUserIds = [];
+		this._ignoredUserIds.clear();
 		this._communication = null;
 		this._sendCallback = null;
 	}
 
 	private addUserToIgnoreList(userId: number): void
 	{
-		if (!this._ignoredUserIds.includes(userId))
-		{
-			this._ignoredUserIds.push(userId);
-		}
+		this._ignoredUserIds.add(userId);
 	}
 
 	private removeUserFromIgnoreList(userId: number): void
 	{
-		const index = this._ignoredUserIds.indexOf(userId);
-
-		if (index >= 0)
-		{
-			this._ignoredUserIds.splice(index, 1);
-		}
+		this._ignoredUserIds.delete(userId);
 	}
 
 	private registerMessageEvents(): void

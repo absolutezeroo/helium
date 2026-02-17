@@ -15,6 +15,7 @@ export class Juggler implements IAnimatable
 	public static readonly REMOVE_FROM_JUGGLER: string = 'REMOVE_FROM_JUGGLER';
 
 	private _animatables: (IAnimatable | null)[] = [];
+	private _animatableSet: Set<IAnimatable> = new Set();
 	private _elapsedTime: number = 0;
 
 	/**
@@ -33,8 +34,9 @@ export class Juggler implements IAnimatable
 	 */
 	add(animatable: IAnimatable | null): void
 	{
-		if (animatable && this._animatables.indexOf(animatable) === -1)
+		if (animatable && !this._animatableSet.has(animatable))
 		{
+			this._animatableSet.add(animatable);
 			this._animatables[this._animatables.length] = animatable;
 
 			if (animatable instanceof DelayedCall)
@@ -52,7 +54,7 @@ export class Juggler implements IAnimatable
 	 */
 	contains(animatable: IAnimatable): boolean
 	{
-		return this._animatables.indexOf(animatable) !== -1;
+		return this._animatableSet.has(animatable);
 	}
 
 	/**
@@ -70,6 +72,11 @@ export class Juggler implements IAnimatable
 		if (animatable instanceof DelayedCall)
 		{
 			animatable.onRemove = null;
+		}
+
+		if (!this._animatableSet.delete(animatable))
+		{
+			return;
 		}
 
 		const index = this._animatables.indexOf(animatable);
@@ -96,6 +103,8 @@ export class Juggler implements IAnimatable
 
 			this._animatables[i] = null;
 		}
+
+		this._animatableSet.clear();
 	}
 
 	/**

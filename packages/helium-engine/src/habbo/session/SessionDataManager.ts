@@ -176,7 +176,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	private _customData: string = '';
 	private _directMail: boolean = false;
 	private _mysteryBoxKeyColor: string = '';
-	private _nftChatStyleIds: number[] = [];
+	private _nftChatStyleIds: Set<number> = new Set();
 	// Furniture data - owned by SessionDataManager (AS3 pattern)
 	private _floorItems: Map<number, IFurnitureData> = new Map();
 	private _wallItems: Map<number, IFurnitureData> = new Map();
@@ -185,12 +185,12 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	private _furnitureDataParser: FurnitureDataParser | null = null;
 	private _loadingFurnitureDataParser: FurnitureDataParser | null = null;
 	private _furniDataReady: boolean = false;
-	private _furniDataListeners: IFurniDataListener[] = [];
+	private _furniDataListeners: Set<IFurniDataListener> = new Set();
 	// Product data - owned by SessionDataManager (AS3 pattern)
 	private _products: Map<string, IProductData> = new Map();
 	private _productDataParser: ProductDataParser | null = null;
 	private _productDataReady: boolean = false;
-	private _productDataListeners: IProductDataListener[] = [];
+	private _productDataListeners: Set<IProductDataListener> = new Set();
 
 	constructor(context: IContext)
 	{
@@ -885,9 +885,9 @@ export class SessionDataManager extends Component implements ISessionDataManager
 			return true;
 		}
 
-		if (listener && this._productDataListeners.indexOf(listener) === -1)
+		if (listener)
 		{
-			this._productDataListeners.push(listener);
+			this._productDataListeners.add(listener);
 		}
 
 		// Actually trigger loading if not already in progress
@@ -906,10 +906,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	{
 		if (this._floorItems.size === 0 && this._wallItems.size === 0)
 		{
-			if (this._furniDataListeners.indexOf(listener) === -1)
-			{
-				this._furniDataListeners.push(listener);
-			}
+			this._furniDataListeners.add(listener);
 
 			return [];
 		}
@@ -941,10 +938,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 			return;
 		}
 
-		if (this._productDataListeners.indexOf(listener) === -1)
-		{
-			this._productDataListeners.push(listener);
-		}
+		this._productDataListeners.add(listener);
 	}
 
 	/**
@@ -954,12 +948,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 	{
 		if (!this._furniDataListeners) return;
 
-		const index = this._furniDataListeners.indexOf(listener);
-
-		if (index > -1)
-		{
-			this._furniDataListeners.splice(index, 1);
-		}
+		this._furniDataListeners.delete(listener);
 	}
 
 	/**
@@ -1073,7 +1062,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 
 	hasNftChatStyle(styleId: number): boolean
 	{
-		return this._nftChatStyleIds.indexOf(styleId) !== -1;
+		return this._nftChatStyleIds.has(styleId);
 	}
 
 	sendSpecialCommandMessage(command: string): void
@@ -1272,7 +1261,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 			}
 		}
 
-		this._productDataListeners = [];
+		this._productDataListeners.clear();
 
 		log.info(`Product data ready: ${this._products.size} products`);
 	}
@@ -1691,7 +1680,7 @@ export class SessionDataManager extends Component implements ISessionDataManager
 
 		if (!parser) return;
 
-		this._nftChatStyleIds = [...parser.chatStyleIds];
+		this._nftChatStyleIds = new Set(parser.chatStyleIds);
 
 		// log.debug(`NFT chat styles: ${this._nftChatStyleIds.length}`);
 	}

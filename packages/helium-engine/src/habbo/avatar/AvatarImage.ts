@@ -968,9 +968,11 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener
 		{
 			this._canvasOffsets = this._structure.getCanvasOffsets(this._sortedActions, this._scale, this._mainDirection) || [0, 0, 0];
 
+			const actionParts: string[] = [];
+
 			for (const action of this._sortedActions)
 			{
-				this._currentActionsString += action.actionType + action.actionParameter;
+				actionParts.push(action.actionType, action.actionParameter);
 
 				if (action.actionType === AvatarAction.EFFECT)
 				{
@@ -1000,6 +1002,8 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener
 			{
 				this._cache.disposeInactiveActions(0);
 			}
+
+			this._currentActionsString = actionParts.join('');
 
 			if (this._lastActionsString !== this._currentActionsString)
 			{
@@ -1087,7 +1091,7 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener
 
 					if (spriteData)
 					{
-						this._animationSpriteData = this._animationSpriteData.concat(spriteData);
+						this._animationSpriteData.push(...spriteData);
 					}
 
 					if (animation.hasDirectionData())

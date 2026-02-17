@@ -38,8 +38,8 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	private _objectFactory: IRoomObjectFactory | null = null;
 	private _visualizationFactory: IRoomObjectVisualizationFactory | null = null;
 	private _listener: IRoomManagerListener | null = null;
-	private _updateCategories: number[] = [];
-	private _pendingTypes: string[] = [];
+	private _updateCategories: Set<number> = new Set();
+	private _pendingTypes: Set<string> = new Set();
 
 	constructor(context: IContext)
 	{
@@ -93,17 +93,17 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 
 		for (const type of placeHolderTypes)
 		{
-			if (!this._pendingTypes.includes(type))
+			if (!this._pendingTypes.has(type))
 			{
 				this._contentLoader.loadObjectContent(type, this.events);
-				this._pendingTypes.push(type);
+				this._pendingTypes.add(type);
 			}
 		}
 
 		this._state = RoomManagerState.INITIALIZING;
 
 		// If no pending types, mark as initialized immediately
-		if (this._pendingTypes.length === 0)
+		if (this._pendingTypes.size === 0)
 		{
 			this._state = RoomManagerState.INITIALIZED;
 
@@ -134,12 +134,12 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	 */
 	addObjectUpdateCategory(category: number): void
 	{
-		if (this._updateCategories.includes(category))
+		if (this._updateCategories.has(category))
 		{
 			return;
 		}
 
-		this._updateCategories.push(category);
+		this._updateCategories.add(category);
 
 		// Add to all existing rooms
 		for (const room of this._rooms.values())
@@ -153,14 +153,10 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	 */
 	removeObjectUpdateCategory(category: number): void
 	{
-		const index = this._updateCategories.indexOf(category);
-
-		if (index < 0)
+		if (!this._updateCategories.delete(category))
 		{
 			return;
 		}
-
-		this._updateCategories.splice(index, 1);
 
 		// Remove from all existing rooms
 		for (const room of this._rooms.values())
@@ -204,11 +200,17 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	 */
 	getRoomWithIndex(index: number): IRoomInstance | null
 	{
-		const rooms = Array.from(this._rooms.values());
-
-		if (index >= 0 && index < rooms.length)
+		if (index < 0 || index >= this._rooms.size)
 		{
-			return rooms[index];
+			return null;
+		}
+
+		let i = 0;
+
+		for (const room of this._rooms.values())
+		{
+			if (i === index) return room;
+			i++;
 		}
 
 		return null;
@@ -399,8 +401,8 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 		this._listener = null;
 		this._objectFactory = null;
 		this._visualizationFactory = null;
-		this._updateCategories = [];
-		this._pendingTypes = [];
+		this._updateCategories.clear();
+		this._pendingTypes.clear();
 
 		super.dispose();
 	}

@@ -13,6 +13,7 @@ import {FurnitureDataParser} from './FurnitureDataParser';
 export class ObjectsMessageParser implements IMessageParser
 {
 	private _objects: FurnitureFloorData[] = [];
+	private _ownerMap: Map<number, string> = new Map();
 
 	get objectCount(): number
 	{
@@ -38,7 +39,7 @@ export class ObjectsMessageParser implements IMessageParser
 
 	flush(): boolean
 	{
-		this._objects = [];
+		this._objects.length = 0;
 		return true;
 	}
 
@@ -49,10 +50,11 @@ export class ObjectsMessageParser implements IMessageParser
 			return false;
 		}
 
-		this._objects = [];
+		this._objects.length = 0;
 
-		// Read owner name map
-		const ownerMap = new Map<number, string>();
+		// Read owner name map (reuse field to avoid allocation)
+		this._ownerMap.clear();
+		const ownerMap = this._ownerMap;
 		const ownerCount = wrapper.readInt();
 
 		for (let i = 0; i < ownerCount; i++)
