@@ -4,6 +4,7 @@ import type {ITextWindow} from './ITextWindow';
 import {WindowController} from '../WindowController';
 import {WindowEvent} from '../events/WindowEvent';
 import {PropertyStruct} from '../utils/PropertyStruct';
+import {TextStyleManager} from '../utils/TextStyleManager';
 import {resolveLocalizationTokens} from '../utils/WindowParser';
 
 /**
@@ -558,6 +559,20 @@ export class TextController extends WindowController implements ITextWindow
 			'text_style': (ctrl, v) =>
 			{
 				ctrl._textStyleName = v as string;
+
+				const resolved = TextStyleManager.getStyle(ctrl._textStyleName);
+
+				if(resolved)
+				{
+					if(resolved.fontFamily != null) ctrl._fontFace = resolved.fontFamily;
+					if(resolved.fontSize != null) ctrl._fontSize = resolved.fontSize;
+					if(resolved.fontWeight === 'bold') ctrl._bold = true;
+					if(resolved.fontStyle === 'italic') ctrl._italic = true;
+					if(resolved.textDecoration === 'underline') ctrl._underline = true;
+					if(resolved.color != null) ctrl._textColor = resolved.color;
+					if(resolved.etchingColor != null) ctrl._etchingColor = resolved.etchingColor;
+					if(resolved.etchingPosition != null) ctrl._etchingPosition = resolved.etchingPosition;
+				}
 			},
 			'etching_color': (ctrl, v) =>
 			{

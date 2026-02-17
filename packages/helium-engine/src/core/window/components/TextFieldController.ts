@@ -632,6 +632,7 @@ export class TextFieldController extends TextController implements ITextFieldWin
 
 		this._text = this._inputElement.value;
 		this._caption = this._text;
+		this._context.invalidate(this, null, 1);
 		this.onChangeEvent();
 	}
 
@@ -644,6 +645,7 @@ export class TextFieldController extends TextController implements ITextFieldWin
 		{
 			this._caption = this._inputElement?.value ?? this._text;
 			this._text = this._caption;
+			this._context.invalidate(this, null, 1);
 
 			const wke = WindowKeyboardEvent.allocateKeyboard(
 				WindowKeyboardEvent.KEY_DOWN,
@@ -683,6 +685,7 @@ export class TextFieldController extends TextController implements ITextFieldWin
 		{
 			this._caption = this._inputElement?.value ?? this._text;
 			this._text = this._caption;
+			this._context.invalidate(this, null, 1);
 
 			const wke = WindowKeyboardEvent.allocateKeyboard(
 				WindowKeyboardEvent.KEY_UP,

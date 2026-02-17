@@ -588,6 +588,12 @@ export class WindowRenderer implements IWindowRenderer
 			underline?: boolean;
 			multiline?: boolean;
 			wordWrap?: boolean;
+			etchingColor?: number;
+			etchingPosition?: string;
+			_marginLeft?: number;
+			_marginTop?: number;
+			_marginRight?: number;
+			_marginBottom?: number;
 		};
 
 		const fontSize = tw.fontSize ?? 12;
@@ -612,8 +618,12 @@ export class WindowRenderer implements IWindowRenderer
 		ctx.fillStyle = `rgb(${r},${g},${b})`;
 		ctx.textBaseline = 'top';
 
-		const margin = 2;
-		const maxWidth = w - margin * 2;
+		// Margins from TextController
+		const marginL = tw._marginLeft ?? 2;
+		const marginT = tw._marginTop ?? 2;
+		const marginR = tw._marginRight ?? 2;
+		const marginB = tw._marginBottom ?? 2;
+		const maxWidth = w - marginL - marginR;
 
 		if (maxWidth <= 0) return;
 
@@ -625,6 +635,10 @@ export class WindowRenderer implements IWindowRenderer
 			displayText = '\u2022'.repeat(text.length);
 		}
 
+		// Etching (shadow text) support for il_* styles
+		const etchColor = tw.etchingColor ?? 0;
+		const hasEtching = etchColor !== 0 && ((etchColor >>> 24) & 0xFF) > 0;
+
 		// Underline support for link windows
 		if (type === WindowType.LINK || tw.underline)
 		{
@@ -634,7 +648,12 @@ export class WindowRenderer implements IWindowRenderer
 			const textW = Math.min(metrics.width, maxWidth);
 			const textY = absY + Math.max(0, Math.floor((h - fontSize) / 2));
 
-			ctx.fillText(displayText, absX + margin, textY, maxWidth);
+			if (hasEtching)
+			{
+				this.drawEtching(ctx, displayText, absX + marginL, textY, maxWidth, etchColor, tw.etchingPosition);
+			}
+
+			ctx.fillText(displayText, absX + marginL, textY, maxWidth);
 
 			// Draw underline
 			const underlineY = textY + fontSize + 1;
@@ -642,8 +661,8 @@ export class WindowRenderer implements IWindowRenderer
 			ctx.strokeStyle = `rgb(${r},${g},${b})`;
 			ctx.lineWidth = 1;
 			ctx.beginPath();
-			ctx.moveTo(absX + margin, underlineY);
-			ctx.lineTo(absX + margin + textW, underlineY);
+			ctx.moveTo(absX + marginL, underlineY);
+			ctx.lineTo(absX + marginL + textW, underlineY);
 			ctx.stroke();
 			ctx.restore();
 
@@ -653,7 +672,7 @@ export class WindowRenderer implements IWindowRenderer
 		// Multiline / word-wrap rendering
 		if ((tw.multiline || tw.wordWrap) && (type === WindowType.TEXT || type === WindowType.FORMATTED_TEXT || type === WindowType.HTML))
 		{
-			this.compositeTextMultiline(ctx, displayText, absX + margin, absY + margin, maxWidth, h - margin * 2, fontSize, tw.wordWrap ?? false);
+			this.compositeTextMultiline(ctx, displayText, absX + marginL, absY + marginT, maxWidth, h - marginT - marginB, fontSize, tw.wordWrap ?? false, hasEtching ? etchColor : 0, tw.etchingPosition);
 
 			return;
 		}
@@ -661,7 +680,12 @@ export class WindowRenderer implements IWindowRenderer
 		// Single-line rendering: vertically centered
 		const textY = absY + Math.max(0, Math.floor((h - fontSize) / 2));
 
-		ctx.fillText(displayText, absX + margin, textY, maxWidth);
+		if (hasEtching)
+		{
+			this.drawEtching(ctx, displayText, absX + marginL, textY, maxWidth, etchColor, tw.etchingPosition);
+		}
+
+		ctx.fillText(displayText, absX + marginL, textY, maxWidth);
 	}
 
 	/**
@@ -684,12 +708,15 @@ export class WindowRenderer implements IWindowRenderer
 		maxWidth: number,
 		maxHeight: number,
 		fontSize: number,
-		wordWrap: boolean
+		wordWrap: boolean,
+		etchingColor: number = 0,
+		etchingPosition?: string
 	): void
 	{
 		const lineHeight = fontSize + 2;
 		const lines = text.split('\n');
 		let currentY = y;
+		const hasEtching = etchingColor !== 0 && ((etchingColor >>> 24) & 0xFF) > 0;
 
 		for (const line of lines)
 		{
@@ -707,6 +734,7 @@ export class WindowRenderer implements IWindowRenderer
 
 					if (ctx.measureText(testLine).width > maxWidth && currentLine)
 					{
+						if (hasEtching) this.drawEtching(ctx, currentLine, x, currentY, maxWidth, etchingColor, etchingPosition);
 						ctx.fillText(currentLine, x, currentY, maxWidth);
 						currentY += lineHeight;
 
@@ -722,16 +750,94 @@ export class WindowRenderer implements IWindowRenderer
 
 				if (currentLine && currentY + lineHeight <= y + maxHeight)
 				{
+					if (hasEtching) this.drawEtching(ctx, currentLine, x, currentY, maxWidth, etchingColor, etchingPosition);
 					ctx.fillText(currentLine, x, currentY, maxWidth);
 					currentY += lineHeight;
 				}
 			}
 			else
 			{
+				if (hasEtching) this.drawEtching(ctx, line, x, currentY, maxWidth, etchingColor, etchingPosition);
 				ctx.fillText(line, x, currentY, maxWidth);
 				currentY += lineHeight;
 			}
 		}
+	}
+
+	/**
+	 * Draws an etching (shadow) effect behind text.
+	 *
+	 * The etching is a 1px offset text in the given color, typically used
+	 * by `il_*` styles to give a subtle raised/sunken appearance.
+	 *
+	 * @param ctx - The 2D rendering context
+	 * @param text - The text to etch
+	 * @param x - Text X position
+	 * @param y - Text Y position
+	 * @param maxWidth - Maximum text width
+	 * @param color - ARGB etching color
+	 * @param position - Etching direction (default: "bottom")
+	 */
+	private drawEtching(
+		ctx: OffscreenCanvasRenderingContext2D,
+		text: string,
+		x: number,
+		y: number,
+		maxWidth: number,
+		color: number,
+		position?: string
+	): void
+	{
+		const a = ((color >>> 24) & 0xFF) / 255;
+		const er = (color >> 16) & 0xFF;
+		const eg = (color >> 8) & 0xFF;
+		const eb = color & 0xFF;
+
+		let dx = 0;
+		let dy = 1;
+
+		switch (position)
+		{
+			case 'top':
+				dx = 0;
+				dy = -1;
+				break;
+			case 'top-left':
+				dx = -1;
+				dy = -1;
+				break;
+			case 'top-right':
+				dx = 1;
+				dy = -1;
+				break;
+			case 'left':
+				dx = -1;
+				dy = 0;
+				break;
+			case 'right':
+				dx = 1;
+				dy = 0;
+				break;
+			case 'bottom-left':
+				dx = -1;
+				dy = 1;
+				break;
+			case 'bottom-right':
+				dx = 1;
+				dy = 1;
+				break;
+			case 'bottom':
+			default:
+				dx = 0;
+				dy = 1;
+				break;
+		}
+
+		const prevFill = ctx.fillStyle;
+
+		ctx.fillStyle = `rgba(${er},${eg},${eb},${a})`;
+		ctx.fillText(text, x + dx, y + dy, maxWidth);
+		ctx.fillStyle = prevFill;
 	}
 
 	/**

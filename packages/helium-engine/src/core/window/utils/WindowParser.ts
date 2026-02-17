@@ -428,6 +428,14 @@ export class WindowParser implements IWindowParser
 					case 'auto_size':
 					case 'spacing':
 					case 'leading':
+					case 'margin_left':
+					case 'margin_top':
+					case 'margin_right':
+					case 'margin_bottom':
+					case 'etching_color':
+					case 'etching_position':
+					case 'background':
+					case 'background_color':
 						props.push(new PropertyStruct(key, val));
 						break;
 				}

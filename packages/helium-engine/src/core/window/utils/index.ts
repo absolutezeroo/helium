@@ -12,5 +12,7 @@ export {MouseEventQueue} from './MouseEventQueue';
 export type {MouseEventEntry} from './MouseEventQueue';
 export {PropertyStruct} from './PropertyStruct';
 export {TextMargins} from './TextMargins';
+export {TextStyle} from './TextStyle';
+export {TextStyleManager} from './TextStyleManager';
 export {WindowParser} from './WindowParser';
 export {WindowRectLimits} from './WindowRectLimits';
