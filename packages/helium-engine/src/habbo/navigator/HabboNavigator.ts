@@ -541,6 +541,16 @@ export class HabboNavigator extends Component implements IHabboNavigator
 	}
 
 	/**
+	 * Get the current user's name from the session data.
+	 *
+	 * @returns The user name, or empty string if not available
+	 */
+	getCurrentUserName(): string
+	{
+		return this._sessionData?.userName ?? '';
+	}
+
+	/**
 	 * Tracks a Google Analytics event.
 	 *
 	 * @param category - The event category

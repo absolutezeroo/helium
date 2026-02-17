@@ -150,26 +150,37 @@ export class CategoryElementFactory
 			bgEl.height = 12 + this._roomEntryElementFactory.rowEntryTemplateHeight * (guestRooms.length + 1);
 		}
 
-		// Wire toggle tiles/rows buttons
+		// Wire toggle tiles/rows buttons (AS3: only if perk allowed)
 		const headerControls = container.findChildByName('category_controls_itemlist') as IItemListWindow | null;
 
 		if (headerControls)
 		{
-			const toggleTiles = headerControls.getListItemByName?.('category_toggle_tiles');
-			const toggleRows = headerControls.getListItemByName?.('category_toggle_rows');
-
-			if (toggleTiles)
+			if(this._navigator.isPerkAllowed('NAVIGATOR_ROOM_THUMBNAIL_CAMERA'))
 			{
-				toggleTiles.addEventListener('WME_CLICK', (e: WindowEvent) => this._blockResultsView?.onCategoryToggleModeClicked(e));
-				toggleTiles.id = showMoreId;
-				toggleTiles.visible = resultMode === 0;
+				const toggleTiles = headerControls.getListItemByName?.('category_toggle_tiles');
+				const toggleRows = headerControls.getListItemByName?.('category_toggle_rows');
+
+				if (toggleTiles)
+				{
+					toggleTiles.addEventListener('WME_CLICK', (e: WindowEvent) => this._blockResultsView?.onCategoryToggleModeClicked(e));
+					toggleTiles.id = showMoreId;
+					toggleTiles.visible = resultMode === 0;
+				}
+
+				if (toggleRows)
+				{
+					toggleRows.addEventListener('WME_CLICK', (e: WindowEvent) => this._blockResultsView?.onCategoryToggleModeClicked(e));
+					toggleRows.id = showMoreId;
+					toggleRows.visible = resultMode === 1;
+				}
 			}
-
-			if (toggleRows)
+			else
 			{
-				toggleRows.addEventListener('WME_CLICK', (e: WindowEvent) => this._blockResultsView?.onCategoryToggleModeClicked(e));
-				toggleRows.id = showMoreId;
-				toggleRows.visible = resultMode === 1;
+				const toggleTiles = headerControls.getListItemByName?.('category_toggle_tiles');
+				const toggleRows = headerControls.getListItemByName?.('category_toggle_rows');
+
+				if(toggleTiles) headerControls.removeListItem(toggleTiles);
+				if(toggleRows) headerControls.removeListItem(toggleRows);
 			}
 
 			headerControls.arrangeItems();

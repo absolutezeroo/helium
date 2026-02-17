@@ -1,5 +1,6 @@
 import type {IWindowContainer} from '@core/window/IWindowContainer';
 import type {ITextFieldWindow} from '@core/window/components/ITextFieldWindow';
+import type {IStaticBitmapWrapperWindow} from '@core/window/components/IStaticBitmapWrapperWindow';
 import type {IDropMenuWindow} from '@core/window/components/IDropMenuWindow';
 import type {WindowEvent} from '@core/window/events/WindowEvent';
 import type {WindowKeyboardEvent} from '@core/window/events/WindowKeyboardEvent';
@@ -167,23 +168,35 @@ export class SearchView
 			this.setInputFieldTextFormattingToPlaceholder(false);
 		}
 
-		// Show/hide refresh button based on content
-		if (this._inputField && this._inputField.caption.length !== 0 && this._inputField.caption !== this._placeholderText)
+		// Show/hide refresh button and toggle clear icon based on content
+		const clearIcon = this._container?.findChildByName('search.clear.icon') as unknown as IStaticBitmapWrapperWindow | null;
+
+		if(this._inputField && this._inputField.caption.length !== 0 && this._inputField.caption !== this._placeholderText)
 		{
 			const refreshContainer = this._container?.findChildByName('refreshButtonContainer');
 
-			if (refreshContainer)
+			if(refreshContainer)
 			{
 				refreshContainer.visible = true;
+			}
+
+			if(clearIcon)
+			{
+				clearIcon.assetUri = 'icons_close';
 			}
 		}
 		else
 		{
 			const refreshContainer = this._container?.findChildByName('refreshButtonContainer');
 
-			if (refreshContainer)
+			if(refreshContainer)
 			{
 				refreshContainer.visible = false;
+			}
+
+			if(clearIcon)
+			{
+				clearIcon.assetUri = 'common_small_pen';
 			}
 		}
 	}
@@ -220,9 +233,10 @@ export class SearchView
 	 */
 	private setInputFieldTextFormattingToPlaceholder(isPlaceholder: boolean): void
 	{
-		if (this._inputField)
+		if(this._inputField)
 		{
 			this._inputField.textColor = isPlaceholder ? SearchView.INPUT_PLACEHOLDER_TEXTCOLOR : SearchView.INPUT_TEXTCOLOR;
+			(this._inputField as any).italic = isPlaceholder;
 		}
 	}
 
@@ -255,9 +269,21 @@ export class SearchView
 
 	private onClearSearch = (_event: WindowEvent): void =>
 	{
-		if (this._inputField)
+		if(this._inputField)
 		{
+			(this._inputField as any).focus?.();
 			this._inputField.caption = '';
+		}
+
+		// Reset clear icon to pen icon (AS3: search.clear.icon = common_small_pen)
+		if(this._container)
+		{
+			const clearIcon = this._container.findChildByName('search.clear.icon') as unknown as IStaticBitmapWrapperWindow | null;
+
+			if(clearIcon)
+			{
+				clearIcon.assetUri = 'common_small_pen';
+			}
 		}
 	};
 }

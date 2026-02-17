@@ -573,6 +573,41 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	}
 
 	/**
+	 * Checks if a perk is allowed for the current user.
+	 *
+	 * Delegates to the legacy navigator's session data manager.
+	 *
+	 * @param perkCode - The perk code to check
+	 * @returns Whether the perk is allowed
+	 * @see sources/win63_version/habbo/navigator/HabboNewNavigator.as sessionData.isPerkAllowed()
+	 */
+	isPerkAllowed(perkCode: string): boolean
+	{
+		if(this._legacyNavigator)
+		{
+			return (this._legacyNavigator as HabboNavigator).isPerkAllowed(perkCode);
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get the current user's name.
+	 *
+	 * @returns The user name, or empty string if not available
+	 * @see sources/win63_version/habbo/navigator/HabboNewNavigator.as sessionData.userName
+	 */
+	getCurrentUserName(): string
+	{
+		if(this._legacyNavigator)
+		{
+			return (this._legacyNavigator as HabboNavigator).getCurrentUserName();
+		}
+
+		return '';
+	}
+
+	/**
 	 * Get a localized text string.
 	 *
 	 * @param key - The localization key
@@ -662,8 +697,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	 */
 	sendWindowPreferences(_x: number, _y: number, _width: number, _height: number, _leftPaneHidden: boolean, _tabIndex: number): void
 	{
-		// SetNewNavigatorWindowPreferencesMessageComposer not yet available
-		log.debug('sendWindowPreferences');
+		// this.send(new SetNewNavigatorWindowPreferencesMessageComposer(x, y, width, height, leftPanelHidden, tabIndex))
 	}
 
 	/**

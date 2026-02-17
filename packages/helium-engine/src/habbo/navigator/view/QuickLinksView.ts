@@ -99,13 +99,62 @@ export class QuickLinksView
 
 	private listItemProcedure = (event: WindowEvent, window: IWindow): void =>
 	{
-		if (event.type === 'WME_CLICK')
+		if(event.type === 'WME_CLICK')
 		{
-			if (this._searchContexts.length > window.id)
-			{
-				const context = this._searchContexts[window.id];
+			// Check if click is on the delete button (child at index 1)
+			const parent = window.parent;
 
-				this._navigator.performSearch(context.searchCode, context.filtering);
+			if(parent && window.name !== 'quick_link_text' && (parent as unknown as IWindowContainer).numChildren > 1)
+			{
+				// Clicked on the close/delete button
+				const parentId = parent.id;
+
+				if(parentId >= 0 && parentId < this._searchIds.length)
+				{
+					this._navigator.deleteSavedSearch(this._searchIds[parentId]);
+				}
+			}
+			else
+			{
+				// Clicked on the region itself
+				const id = parent ? parent.id : window.id;
+
+				if(id >= 0 && id < this._searchContexts.length)
+				{
+					const context = this._searchContexts[id];
+
+					this._navigator.performSearch(context.searchCode, context.filtering);
+				}
+			}
+		}
+		else if(event.type === 'WME_OVER')
+		{
+			// Show delete button on hover (AS3: getChildAt(1).visible = true)
+			const container = window as unknown as IWindowContainer;
+
+			if(container.getChildAt)
+			{
+				const closeBtn = container.getChildAt(1);
+
+				if(closeBtn)
+				{
+					closeBtn.visible = true;
+				}
+			}
+		}
+		else if(event.type === 'WME_OUT')
+		{
+			// Hide delete button on mouse out (AS3: getChildAt(1).visible = false)
+			const container = window as unknown as IWindowContainer;
+
+			if(container.getChildAt)
+			{
+				const closeBtn = container.getChildAt(1);
+
+				if(closeBtn)
+				{
+					closeBtn.visible = false;
+				}
 			}
 		}
 	};

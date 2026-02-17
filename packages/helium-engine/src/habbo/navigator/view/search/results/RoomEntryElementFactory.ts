@@ -1,5 +1,6 @@
 import type {IWindowContainer} from '@core/window/IWindowContainer';
 import type {IItemListWindow} from '@core/window/components/IItemListWindow';
+import type {IStaticBitmapWrapperWindow} from '@core/window/components/IStaticBitmapWrapperWindow';
 import type {WindowEvent} from '@core/window/events/WindowEvent';
 import type {GuestRoomData} from '@habbo/communication/messages/incoming/navigator/GuestRoomData';
 import type {HabboNewNavigator} from '../../../HabboNewNavigator';
@@ -139,18 +140,18 @@ export class RoomEntryElementFactory
 			}
 		}
 
-		// Set room thumbnail
-		const picPlaceholder = entry.findChildByName('room_pic_placeholder');
+		// Set room thumbnail (AS3: IStaticBitmapWrapperWindow.assetUri with URL)
+		const picPlaceholder = entry.findChildByName('room_pic_placeholder') as unknown as IStaticBitmapWrapperWindow | null;
 
-		if (picPlaceholder)
+		if(picPlaceholder)
 		{
-			if (roomData.officialRoomPicRef != null)
+			if(roomData.officialRoomPicRef != null)
 			{
-				picPlaceholder.caption = roomData.officialRoomPicRef;
+				picPlaceholder.assetUri = roomData.officialRoomPicRef;
 			}
 			else
 			{
-				picPlaceholder.caption = 'navigator_default_room';
+				picPlaceholder.assetUri = roomData.flatId + '.png';
 			}
 		}
 
@@ -197,18 +198,20 @@ export class RoomEntryElementFactory
 
 		const goToRoomRegion = container.findChildByName('go_to_room_region');
 
-		if (goToRoomRegion)
+		if(goToRoomRegion)
 		{
 			goToRoomRegion.id = roomData.flatId;
 			goToRoomRegion.addEventListener('WME_CLICK', this.onGoButtonClicked);
+			goToRoomRegion.addEventListener('WME_OVER', isTile ? this.onTileGoToRoomMouseOver : this.onGoToRoomMouseOver);
 		}
 
 		const infoPopupRegion = container.findChildByName('info_popup_click_region');
 
-		if (infoPopupRegion)
+		if(infoPopupRegion)
 		{
 			infoPopupRegion.id = roomData.flatId;
 			infoPopupRegion.addEventListener('WME_CLICK', this.onMouseClicked);
+			infoPopupRegion.addEventListener('WME_OVER', this.onRoomInfoMouseOver);
 		}
 
 		// Set user count color indicator
@@ -219,17 +222,12 @@ export class RoomEntryElementFactory
 			usercountBorder.color = RoomEntryElementFactory.getUserCountColor(roomData.userCount, roomData.maxUserCount);
 		}
 
-		// Set door mode icon
-		const doorModeIcon = container.findChildByName('doormode_icon');
+		// Set door mode icon (AS3: IStaticBitmapWrapperWindow.assetUri)
+		const doorModeIcon = container.findChildByName('doormode_icon') as unknown as IStaticBitmapWrapperWindow | null;
 
-		if (doorModeIcon)
+		if(doorModeIcon)
 		{
-			const asset = RoomEntryUtils.getDoorModeIconAsset(roomData.doorMode);
-
-			if (asset)
-			{
-				doorModeIcon.caption = asset;
-			}
+			doorModeIcon.assetUri = RoomEntryUtils.getDoorModeIconAsset(roomData.doorMode);
 		}
 	}
 
@@ -243,13 +241,64 @@ export class RoomEntryElementFactory
 
 	private onMouseClicked = (event: WindowEvent): void =>
 	{
-		if (event.window)
+		if(event.window)
 		{
+			const rect = { x: 0, y: 0, width: 0, height: 0 };
+			event.window.getGlobalRectangle(rect);
+
 			const roomData = this._navigator.currentResults?.findGuestRoom(event.window.id);
 
-			if (roomData)
+			if(roomData)
 			{
-				this._navigator.view?.showRoomInfoBubbleAt(roomData, 0, 0);
+				this._navigator.view?.showRoomInfoBubbleAt(roomData, rect.x + rect.width, (rect.height) / 2 + rect.y);
+			}
+		}
+	};
+
+	private onRoomInfoMouseOver = (event: WindowEvent): void =>
+	{
+		if(this._navigator.view?.isRoomInfoBubbleVisible && event.window)
+		{
+			const rect = { x: 0, y: 0, width: 0, height: 0 };
+			event.window.getGlobalRectangle(rect);
+
+			const roomData = this._navigator.currentResults?.findGuestRoom(event.window.id);
+
+			if(roomData)
+			{
+				this._navigator.view?.showRoomInfoBubbleAt(roomData, rect.x + rect.width, (rect.height) / 2 + rect.y, true);
+			}
+		}
+	};
+
+	private onTileGoToRoomMouseOver = (event: WindowEvent): void =>
+	{
+		if(this._navigator.view?.isRoomInfoBubbleVisible && event.window)
+		{
+			const rect = { x: 0, y: 0, width: 0, height: 0 };
+			event.window.getGlobalRectangle(rect);
+
+			const roomData = this._navigator.currentResults?.findGuestRoom(event.window.id);
+
+			if(roomData)
+			{
+				this._navigator.view?.showRoomInfoBubbleAt(roomData, rect.x + rect.width - 6, (rect.height) / 2 + rect.y + 56, true);
+			}
+		}
+	};
+
+	private onGoToRoomMouseOver = (event: WindowEvent): void =>
+	{
+		if(this._navigator.view?.isRoomInfoBubbleVisible && event.window)
+		{
+			const rect = { x: 0, y: 0, width: 0, height: 0 };
+			event.window.getGlobalRectangle(rect);
+
+			const roomData = this._navigator.currentResults?.findGuestRoom(event.window.id);
+
+			if(roomData)
+			{
+				this._navigator.view?.showRoomInfoBubbleAt(roomData, rect.x + rect.width + 20, (rect.height) / 2 + rect.y, true);
 			}
 		}
 	};

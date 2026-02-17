@@ -238,7 +238,10 @@ export class BlockResultsView
 
 		if (isExpanded)
 		{
-			const viewMode = block.viewMode;
+			const viewMode = !this._navigator.isPerkAllowed('NAVIGATOR_ROOM_THUMBNAIL_CAMERA')
+				&& this._navigator.currentResults?.searchCode !== 'official_view'
+				? 0
+				: block.viewMode;
 
 			return this._categoryElementFactory!.getOpenCategoryElement(
 				block.guestRooms,

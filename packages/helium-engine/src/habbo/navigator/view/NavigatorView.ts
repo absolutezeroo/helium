@@ -18,6 +18,7 @@ import {TopViewSelector} from './TopViewSelector';
 import {QuickLinksView} from './QuickLinksView';
 import {LiftView} from './LiftView';
 import {RoomInfoPopup} from './RoomInfoPopup';
+import {IUpdateReceiver} from "@core";
 
 const log = Logger.getLogger('NavigatorView');
 
@@ -36,11 +37,11 @@ const LEFT_PANE_MARGIN_CONST = 7;
  *
  * @see sources/win63_version/habbo/navigator/view/NavigatorView.as
  */
-export class NavigatorView
+export class NavigatorView implements IUpdateReceiver
 {
+	disposed?: boolean | undefined;
 	private _navigator: HabboNewNavigator;
 	private _window: IWindowContainer | null = null;
-
 	// Sub-views
 	private _searchView: SearchView | null = null;
 	private _blockResultsView: BlockResultsView | null = null;
@@ -56,6 +57,8 @@ export class NavigatorView
 	private _lastWindowHeight: number = -1;
 	private _lastLeftPaneHidden: boolean = false;
 	private _waitingForGroupDetails: number = -1;
+	private _popupHideDelay: number = 4000;
+	private _lastPreferencesSaveTime: number = 0;
 	// Left pane
 	private _rightPane: IWindow | null = null;
 	private _rightPaneOriginalX: number = 0;
@@ -187,6 +190,54 @@ export class NavigatorView
 	}
 
 	/**
+	 * Check if window position/size has changed since last save.
+	 *
+	 * @see sources/win63_version/habbo/navigator/view/NavigatorView.as get windowPreferencesChanged()
+	 */
+	private get windowPreferencesChanged(): boolean
+	{
+		if(!this._window) return false;
+
+		const leftPane = this._window.findChildByName('left_pane');
+
+		if(leftPane && this._lastLeftPaneHidden !== leftPane.visible) return true;
+		if(this._lastWindowX !== this._window.x) return true;
+		if(this._lastWindowY !== this._window.y) return true;
+		if(this._lastWindowHeight !== this._window.height) return true;
+
+		return false;
+	}
+
+	/**
+	 * Update loop — saves window preferences and auto-hides room info popup.
+	 *
+	 * @see sources/win63_version/habbo/navigator/view/NavigatorView.as update()
+	 */
+	update(deltaTime: number): void
+	{
+		if(!this._window) return;
+
+		const now = performance.now();
+
+		// Save window preferences if changed (every 5 seconds)
+		if(this.windowPreferencesChanged && now - this._lastPreferencesSaveTime > 5000)
+		{
+			this.sendWindowPreferences();
+		}
+
+		// Keep window inside screen
+		this.keepWindowInsideScreenRegion();
+
+		// Auto-hide room info popup after delay
+		this._popupHideDelay -= deltaTime;
+
+		if(this.isRoomInfoBubbleVisible && this._popupHideDelay < 0)
+		{
+			this._roomInfoPopup!.show(false);
+		}
+	}
+
+	/**
 	 * Get the current text in the search input.
 	 *
 	 * @see sources/win63_version/habbo/navigator/view/NavigatorView.as currentFilterText()
@@ -267,12 +318,12 @@ export class NavigatorView
 			}
 		}
 
-		// Update create/promote/random buttons
-		if (this._window)
+		// Update create/promote/random buttons (AS3 lines 224-236)
+		if(this._window)
 		{
 			const createRoom = this._window.findChildByName('create_room');
 
-			if (createRoom)
+			if(createRoom)
 			{
 				createRoom.procedure = this.createRoomProcedure;
 			}
@@ -280,26 +331,28 @@ export class NavigatorView
 			const randomBorder = this._window.findChildByName('random_room_border');
 			const promoteBorder = this._window.findChildByName('promote_room_border');
 
-			if (results.searchCode === 'roomads_view' || results.searchCode === 'myworld_view')
+			// AS3: both hidden first, then conditional
+			if(randomBorder) randomBorder.visible = false;
+			if(promoteBorder) promoteBorder.visible = false;
+
+			if(results.searchCode === 'roomads_view' || results.searchCode === 'myworld_view')
 			{
-				if (promoteBorder) promoteBorder.visible = true;
-				if (randomBorder) randomBorder.visible = false;
+				if(promoteBorder) promoteBorder.visible = true;
 
 				const promoteRoom = this._window.findChildByName('promote_room');
 
-				if (promoteRoom)
+				if(promoteRoom)
 				{
 					promoteRoom.procedure = this.promoteRoomProcedure;
 				}
 			}
 			else
 			{
-				if (promoteBorder) promoteBorder.visible = false;
-				if (randomBorder) randomBorder.visible = true;
+				if(randomBorder) randomBorder.visible = true;
 
 				const randomRoom = this._window.findChildByName('random_room');
 
-				if (randomRoom)
+				if(randomRoom)
 				{
 					randomRoom.procedure = this.randomRoomProcedure;
 				}
@@ -312,7 +365,7 @@ export class NavigatorView
 			this._searchView.setTextAndSearchModeFromFilter(results.filteringData, source);
 		}
 
-		this._isBusy = false;
+		this.isBusy = false;
 
 		if (this._roomInfoPopup)
 		{
@@ -453,19 +506,21 @@ export class NavigatorView
 	 */
 	dispose(): void
 	{
-		if (this._roomInfoPopup)
+		this._navigator.removeUpdateReceiver(this);
+
+		if(this._roomInfoPopup)
 		{
 			this._roomInfoPopup.dispose();
 			this._roomInfoPopup = null;
 		}
 
-		if (this._liftView)
+		if(this._liftView)
 		{
 			this._liftView.dispose();
 			this._liftView = null;
 		}
 
-		if (this._window)
+		if(this._window)
 		{
 			this._window.dispose();
 			this._window = null;
@@ -743,6 +798,10 @@ export class NavigatorView
 		// Store window reference
 		this._window = windowContainer;
 
+		// Register update receiver for periodic preference saving and popup auto-hide
+		this._navigator.registerUpdateReceiver(this, 1000);
+		this._lastPreferencesSaveTime = performance.now();
+
 		// Start with left pane hidden
 		this.setLeftPaneVisibility(false);
 
@@ -790,10 +849,11 @@ export class NavigatorView
 
 	private createRoomProcedure = (event: WindowEvent, _window: IWindow): void =>
 	{
-		if (event.type === 'WME_CLICK')
+		if(event.type === 'WME_CLICK')
 		{
-			// Room creation would go here
-			if (this._roomInfoPopup)
+			this._navigator.createRoom();
+
+			if(this._roomInfoPopup)
 			{
 				this._roomInfoPopup.show(false);
 			}
@@ -802,10 +862,11 @@ export class NavigatorView
 
 	private promoteRoomProcedure = (event: WindowEvent, _window: IWindow): void =>
 	{
-		if (event.type === 'WME_CLICK')
+		if(event.type === 'WME_CLICK')
 		{
-			// Catalog link event for room_ad would go here
-			if (this._roomInfoPopup)
+			this._navigator.context.createLinkEvent('catalog/open/room_ad');
+
+			if(this._roomInfoPopup)
 			{
 				this._roomInfoPopup.show(false);
 			}
@@ -814,10 +875,11 @@ export class NavigatorView
 
 	private randomRoomProcedure = (event: WindowEvent, _window: IWindow): void =>
 	{
-		if (event.type === 'WME_CLICK')
+		if(event.type === 'WME_CLICK')
 		{
-			// Random room navigation would go here
-			if (this._roomInfoPopup)
+			this._navigator.context.createLinkEvent('navigator/goto/random_friending_room');
+
+			if(this._roomInfoPopup)
 			{
 				this._roomInfoPopup.show(false);
 			}
@@ -828,22 +890,70 @@ export class NavigatorView
 
 	private leftPaneShowHideProcedure = (event: WindowEvent, _window: IWindow): void =>
 	{
-		if (event.type === 'WME_CLICK')
+		if(event.type === 'WME_CLICK')
 		{
-			if (this._window)
+			if(this._window)
 			{
 				const leftPane = this._window.findChildByName('left_pane');
 
-				if (leftPane)
+				if(leftPane)
 				{
 					this.setLeftPaneVisibility(!leftPane.visible);
 				}
 			}
 
-			if (this._roomInfoPopup)
+			if(this._roomInfoPopup)
 			{
 				this._roomInfoPopup.show(false);
 			}
 		}
 	};
+
+	/**
+	 * Send current window preferences to server.
+	 *
+	 * @see sources/win63_version/habbo/navigator/view/NavigatorView.as sendWindowPreferences()
+	 */
+	private sendWindowPreferences(): void
+	{
+		if(!this._window) return;
+
+		this._lastWindowX = this._window.x;
+		this._lastWindowY = this._window.y;
+		this._lastWindowWidth = this._window.width;
+		this._lastWindowHeight = this._window.height;
+
+		const leftPane = this._window.findChildByName('left_pane');
+		this._lastLeftPaneHidden = leftPane ? leftPane.visible : false;
+
+		this._lastPreferencesSaveTime = performance.now();
+
+		this._navigator.sendWindowPreferences(
+			this._lastWindowX,
+			this._lastWindowY,
+			this._lastWindowWidth,
+			this._lastWindowHeight,
+			this._lastLeftPaneHidden,
+			0
+		);
+	}
+
+	/**
+	 * Keep the window inside the screen bounds.
+	 *
+	 * @see sources/win63_version/habbo/navigator/view/NavigatorView.as keepWindowInsideScreenRegion()
+	 */
+	private keepWindowInsideScreenRegion(): void
+	{
+		if(!this._window) return;
+
+		this._window.x = Math.max(0, this._window.x);
+		this._window.y = Math.max(0, this._window.y);
+
+		if(this._window.desktop)
+		{
+			this._window.x = Math.min(this._window.desktop.width - this._window.width, this._window.x);
+			this._window.y = Math.min(this._window.desktop.height - this._window.height, this._window.y);
+		}
+	}
 }
