@@ -1,19 +1,20 @@
 import type {IWindow} from '../IWindow';
 import type {IWindowContext} from '../IWindowContext';
 import type {IHTMLTextWindow} from './IHTMLTextWindow';
-import {WindowController} from '../WindowController';
+import {TextFieldController} from './TextFieldController';
+import {InteractiveController} from './InteractiveController';
 import {WindowEvent} from '../events/WindowEvent';
 import {PropertyStruct} from '../utils/PropertyStruct';
 
 /**
  * Controller for HTML text windows with link support.
  *
- * Extends WindowController with HTML text rendering and link event
- * handling. In AS3, this extended TextFieldController.
+ * Extends TextFieldController with HTML rendering, link event handling,
+ * and CSS stylesheet support. In AS3, this is the richest text controller.
  *
- * @see sources/win63_2021_version/com/sulake/core/window/components/HTMLTextController.as
+ * @see sources/win63_version/core/window/components/HTMLTextController.as
  */
-export class HTMLTextController extends WindowController implements IHTMLTextWindow
+export class HTMLTextController extends TextFieldController implements IHTMLTextWindow
 {
 	private static readonly HTML_STYLESHEET_KEY: string = 'html_stylesheet';
 
@@ -28,12 +29,12 @@ export class HTMLTextController extends WindowController implements IHTMLTextWin
 		procedure: ((event: WindowEvent, window: IWindow) => void) | null = null,
 		tags: string[] | null = null,
 		properties: unknown[] | null = null,
-		id: number = 0
+		id: number = 0,
+		dynamicStyle: string = ''
 	)
 	{
-		super(name, type, style, param, context, rect, parent, procedure, tags, properties, id);
+		super(name, type, style, param, context, rect, parent, procedure, tags, properties, id, dynamicStyle);
 
-		this._hasVisualContent = true;
 		this.immediateClickMode = true;
 	}
 
@@ -52,24 +53,21 @@ export class HTMLTextController extends WindowController implements IHTMLTextWin
 		HTMLTextController._defaultLinkTarget = value;
 	}
 
-	private _html: string = '';
+	private _htmlContent: string = '';
 
 	/**
 	 * The HTML content.
 	 */
 	public get html(): string
 	{
-		return this._html;
+		return this._htmlContent;
 	}
 
 	public set html(value: string)
 	{
-		if (value === null)
-		{
-			return;
-		}
+		if(value === null) return;
 
-		this._html = value;
+		this._htmlContent = value;
 	}
 
 	private _linkTarget: string = 'default';
@@ -102,10 +100,44 @@ export class HTMLTextController extends WindowController implements IHTMLTextWin
 		this._htmlStyleSheetString = value;
 	}
 
+	/**
+	 * Converts link URLs to event: protocol for internal handling.
+	 *
+	 * In AS3, this replaced `<a href="http://...">` with `<a href="event:http://...">`.
+	 */
+	private static convertLinksToEvents(html: string): string
+	{
+		html = html.replace(/<a[^>]+(http:\/\/[^"']+)['"][^>]*>(.*?)<\/a>/gi, "<a href='event:$1'>$2</a>");
+		html = html.replace(/<a[^>]+(https:\/\/[^"']+)['"][^>]*>(.*?)<\/a>/gi, "<a href='event:$1'>$2</a>");
+
+		return html;
+	}
+
+	/**
+	 * Sets text content as HTML with link conversion.
+	 */
+	public override get text(): string
+	{
+		return super.text;
+	}
+
+	public override set text(value: string)
+	{
+		if(value == null) return;
+
+		this._htmlContent = value;
+		this._caption = value;
+		this._text = value;
+		this._context.invalidate(this, null, 1);
+	}
+
 	public override get properties(): unknown[]
 	{
-		const props = super.properties;
+		const props = InteractiveController.writeInteractiveWindowProperties(this, super.properties);
 
+		props.push(this.createProperty('editable', this.editable));
+		props.push(this.createProperty('selectable', this.selectable));
+		props.push(this.createProperty('display_as_password', this.displayAsPassword));
 		props.push(this.createProperty('link_target', this._linkTarget));
 
 		return props;
@@ -113,11 +145,11 @@ export class HTMLTextController extends WindowController implements IHTMLTextWin
 
 	public override set properties(value: unknown[])
 	{
-		for (const item of value)
+		for(const item of value)
 		{
 			const prop = item as PropertyStruct;
 
-			switch (prop.key)
+			switch(prop.key)
 			{
 				case 'link_target':
 					this._linkTarget = prop.value as string;

@@ -2,18 +2,29 @@ import type {IWindow} from '../IWindow';
 import type {IWindowContext} from '../IWindowContext';
 import type {ITextLinkWindow} from './ITextLinkWindow';
 import {TextController} from './TextController';
+import {InteractiveController} from './InteractiveController';
+import {WindowController} from '../WindowController';
 import {WindowEvent} from '../events/WindowEvent';
+import {PropertyStruct} from '../utils/PropertyStruct';
 
 /**
  * Controller for text link windows.
  *
- * Extends TextController with a link property representing
- * the URL or action target associated with the clickable text.
+ * Extends TextController with interactive features (tooltip, cursor)
+ * by delegating to InteractiveController static methods. In AS3, this
+ * sets immediateClickMode and mouseThreshold in the constructor and
+ * calls InteractiveController.processInteractiveWindowEvents in update().
  *
- * @see sources/win63_2021_version/com/sulake/core/window/components/TextLinkController.as
+ * @see sources/win63_version/core/window/components/TextLinkController.as
  */
 export class TextLinkController extends TextController implements ITextLinkWindow
 {
+	private _toolTipDelay: number = 0;
+	private _toolTipCaption: string = '';
+	private _toolTipIsDynamic: boolean = false;
+	private _interactiveCursorDisabled: boolean = false;
+	protected _mouseCursorMap: Map<number, number> | null = null;
+
 	constructor(
 		name: string,
 		type: number,
@@ -29,7 +40,10 @@ export class TextLinkController extends TextController implements ITextLinkWindo
 		dynamicStyle: string = ''
 	)
 	{
-		super(name, type, style, param, context, rect, parent, procedure, tags, properties, id, dynamicStyle);
+		super(name, type, style, (param | 0x01) & ~0x10, context, rect, parent, procedure, tags, properties, id, dynamicStyle);
+
+		this.immediateClickMode = true;
+		this.mouseThreshold = 0;
 	}
 
 	private _link: string = '';
@@ -42,5 +56,128 @@ export class TextLinkController extends TextController implements ITextLinkWindo
 	public set link(value: string)
 	{
 		this._link = value ?? '';
+	}
+
+	public get toolTipCaption(): string
+	{
+		return this._toolTipCaption;
+	}
+
+	public set toolTipCaption(value: string)
+	{
+		this._toolTipCaption = value == null ? '' : value;
+	}
+
+	public get toolTipDelay(): number
+	{
+		return this._toolTipDelay;
+	}
+
+	public set toolTipDelay(value: number)
+	{
+		this._toolTipDelay = value;
+	}
+
+	public get toolTipIsDynamic(): boolean
+	{
+		return this._toolTipIsDynamic;
+	}
+
+	public set toolTipIsDynamic(value: boolean)
+	{
+		this._toolTipIsDynamic = value;
+	}
+
+	public get interactiveCursorDisabled(): boolean
+	{
+		return this._interactiveCursorDisabled;
+	}
+
+	public set interactiveCursorDisabled(value: boolean)
+	{
+		this._interactiveCursorDisabled = value;
+	}
+
+	public get mouseCursorType(): number
+	{
+		return 0;
+	}
+
+	public set mouseCursorType(_value: number)
+	{
+		// No-op per AS3
+	}
+
+	/**
+	 * Sets a mouse cursor for a specific state.
+	 */
+	public setMouseCursorForState(state: number, cursor: number): number
+	{
+		if(!this._mouseCursorMap)
+		{
+			this._mouseCursorMap = new Map();
+		}
+
+		const old = this._mouseCursorMap.get(state) ?? 0;
+
+		if(cursor === 0 || cursor === 0xFFFFFFFF)
+		{
+			this._mouseCursorMap.delete(state);
+		}
+		else
+		{
+			this._mouseCursorMap.set(state, cursor);
+		}
+
+		return old;
+	}
+
+	/**
+	 * Gets the mouse cursor for a specific state.
+	 */
+	public getMouseCursorByState(state: number): number
+	{
+		if(!this._mouseCursorMap) return 0;
+
+		return this._mouseCursorMap.get(state) ?? 0;
+	}
+
+	public showToolTip(_toolTip: unknown): void
+	{
+		throw new Error('Unimplemented method!');
+	}
+
+	public hideToolTip(): void
+	{
+		throw new Error('Unimplemented method!');
+	}
+
+	/**
+	 * Handles events, delegating interactive processing to InteractiveController.
+	 *
+	 * In AS3, calls super.update() then InteractiveController.processInteractiveWindowEvents()
+	 * when the source is this window.
+	 */
+	public override update(source: WindowController, event: WindowEvent): boolean
+	{
+		const result = super.update(source, event);
+
+		if(source === (this as unknown as WindowController))
+		{
+			InteractiveController.processInteractiveWindowEvents(this, event);
+		}
+
+		return result;
+	}
+
+	public override get properties(): unknown[]
+	{
+		return InteractiveController.writeInteractiveWindowProperties(this, super.properties);
+	}
+
+	public override set properties(value: unknown[])
+	{
+		InteractiveController.readInteractiveWindowProperties(this, value);
+		super.properties = value;
 	}
 }

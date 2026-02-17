@@ -1,5 +1,6 @@
 import type {IWindow} from '../IWindow';
 import type {IWindowContext} from '../IWindowContext';
+import type {IBoxSizerWindow} from './IBoxSizerWindow';
 import {WindowController} from '../WindowController';
 import {WindowEvent} from '../events/WindowEvent';
 import {PropertyStruct} from '../utils/PropertyStruct';
@@ -11,9 +12,9 @@ import {ContainerController} from './ContainerController';
  * Auto-layouts children horizontally or vertically with configurable
  * spacing and padding. Supports relative sizing via child tags.
  *
- * @see sources/win63_2021_version/com/sulake/core/window/components/BoxSizerController.as
+ * @see sources/win63_version/core/window/components/BoxSizerController.as
  */
-export class BoxSizerController extends ContainerController
+export class BoxSizerController extends ContainerController implements IBoxSizerWindow
 {
 	private _spacing: number = 5;
 	private _paddingHorizontal: number = 8;

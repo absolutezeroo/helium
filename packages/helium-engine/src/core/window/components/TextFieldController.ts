@@ -168,77 +168,8 @@ export class TextFieldController extends TextController implements ITextFieldWin
 		this._displayRaw = value;
 	}
 
-	private _textBackground: boolean = false;
-
-	public get textBackground(): boolean
-	{
-		return this._textBackground;
-	}
-
-	public set textBackground(value: boolean)
-	{
-		this._textBackground = value;
-	}
-
-	private _textBackgroundColor: number = 0xFFFFFF;
-
-	public get textBackgroundColor(): number
-	{
-		return this._textBackgroundColor;
-	}
-
-	public set textBackgroundColor(value: number)
-	{
-		this._textBackgroundColor = value;
-	}
-
-	private _scrollH: number = 0;
-
-	public get scrollH(): number
-	{
-		return this._scrollH;
-	}
-
-	public set scrollH(value: number)
-	{
-		this._scrollH = value;
-	}
-
-	private _scrollV: number = 0;
-
-	public get scrollV(): number
-	{
-		return this._scrollV;
-	}
-
-	public set scrollV(value: number)
-	{
-		this._scrollV = value;
-	}
-
-	private _scrollStepH: number = 1;
-
-	public get scrollStepH(): number
-	{
-		return this._scrollStepH;
-	}
-
-	public set scrollStepH(value: number)
-	{
-		this._scrollStepH = value;
-	}
-
-	private _scrollStepV: number = 1;
-
-	public get scrollStepV(): number
-	{
-		return this._scrollStepV;
-	}
-
-	public set scrollStepV(value: number)
-	{
-		this._scrollStepV = value;
-	}
+	// textBackground, textBackgroundColor, scrollH, scrollV, scrollStepH, scrollStepV
+	// inherited from TextController
 
 	private _toolTipCaption: string = '';
 
@@ -276,52 +207,8 @@ export class TextFieldController extends TextController implements ITextFieldWin
 		this._toolTipIsDynamic = value;
 	}
 
-	public override get bold(): boolean
-	{
-		return this._bold;
-	}
-
-	public override get italic(): boolean
-	{
-		return this._italic;
-	}
-
-	public override get underline(): boolean
-	{
-		return this._underline;
-	}
-
-	public override get fontFace(): string
-	{
-		return this._fontFace;
-	}
-
-	public override get fontSize(): number
-	{
-		return this._fontSize;
-	}
-
-	public get length(): number
-	{
-		return this._text.length;
-	}
-
-	public get numLines(): number
-	{
-		if (!this._text) return 1;
-
-		return this._text.split('\n').length;
-	}
-
-	public get textHeight(): number
-	{
-		return this._height;
-	}
-
-	public get textWidth(): number
-	{
-		return this._width;
-	}
+	// bold, italic, underline, fontFace, fontSize, length, numLines,
+	// textHeight, textWidth inherited from TextController
 
 	public override get properties(): unknown[]
 	{
@@ -401,25 +288,7 @@ export class TextFieldController extends TextController implements ITextFieldWin
 			: this._fillColor & 0xFFFFFF;
 	}
 
-	public get maxScrollH(): number
-	{
-		return 0;
-	}
-
-	public get maxScrollV(): number
-	{
-		return 0;
-	}
-
-	public get visibleRegion(): { x: number; y: number; width: number; height: number }
-	{
-		return {x: 0, y: 0, width: this._width, height: this._height};
-	}
-
-	public get scrollableRegion(): { x: number; y: number; width: number; height: number }
-	{
-		return {x: 0, y: 0, width: this._width, height: this._height};
-	}
+	// maxScrollH, maxScrollV, visibleRegion, scrollableRegion inherited from TextController
 
 	/**
 	 * Returns word boundary positions for the given text.

@@ -105,27 +105,31 @@ export class ScrollBarLiftController extends InteractiveController implements ID
 		// No-op per AS3
 	}
 
-	public override update(source: WindowController, event: WindowEvent): boolean
+	/**
+	 * Overrides offset to recalculate scrollbar positions and
+	 * notify the scrollbar of the position change.
+	 *
+	 * In AS3, the offset() override is the primary mechanism for
+	 * updating scrollbar offsets during drag operations.
+	 */
+	public override offset(dx: number, dy: number): void
 	{
-		if (event.type === 'WE_RELOCATED')
+		super.offset(dx, dy);
+
+		this._scrollbarOffsetX = (this.x !== 0 && this._parent)
+			? (this.x / (this._parent.width - this.width))
+			: 0;
+
+		this._scrollbarOffsetY = (this.y !== 0 && this._parent)
+			? (this.y / (this._parent.height - this.height))
+			: 0;
+
+		if(this._scrollBar && this._parent !== (this._scrollBar as unknown as IWindow))
 		{
-			this._scrollbarOffsetX = (this.x !== 0 && this._parent)
-				? (this.x / (this._parent.width - this.width))
-				: 0;
+			const relocated = WindowEvent.allocate('WE_CHILD_RELOCATED', this, null);
 
-			this._scrollbarOffsetY = (this.y !== 0 && this._parent)
-				? (this.y / (this._parent.height - this.height))
-				: 0;
-
-			if (this._scrollBar && this._parent !== this._scrollBar)
-			{
-				const relocated = WindowEvent.allocate('WE_CHILD_RELOCATED', this, null);
-
-				this._scrollBar.update(this as unknown as WindowController, relocated);
-				relocated.recycle();
-			}
+			this._scrollBar.update(this as unknown as WindowController, relocated);
+			relocated.recycle();
 		}
-
-		return super.update(source, event);
 	}
 }

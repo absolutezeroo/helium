@@ -53,6 +53,7 @@ export {WidgetWindowController} from './WidgetWindowController';
 
 // Types
 export type {IBitmapWrapperWindow} from './IBitmapWrapperWindow';
+export type {IBoxSizerWindow} from './IBoxSizerWindow';
 export type {IBubbleWindow} from './IBubbleWindow';
 export type {IDesktopWindow} from './IDesktopWindow';
 export type {IDisplayObjectWrapper} from './IDisplayObjectWrapper';
