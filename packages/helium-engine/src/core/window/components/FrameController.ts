@@ -122,7 +122,8 @@ export class FrameController extends ContainerController implements IFrameWindow
 				this.content.left,
 				this.content.top,
 				this.content.right,
-				this.content.bottom
+				this.content.bottom,
+				this.marginsCallback.bind(this)
 			);
 		}
 

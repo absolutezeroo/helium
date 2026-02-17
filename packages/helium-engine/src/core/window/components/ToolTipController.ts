@@ -2,17 +2,16 @@ import type {IWindow} from '../IWindow';
 import type {IWindowContext} from '../IWindowContext';
 import type {IToolTipWindow} from './IToolTipWindow';
 import {WindowEvent} from '../events/WindowEvent';
-import {ContainerController} from './ContainerController';
+import {ButtonController} from './ButtonController';
 
 /**
  * Controller for tooltip windows.
  *
- * A container-based tooltip that sets the top-level param flag to
- * ensure it floats above other content.
+ * Extends ButtonController with the expand-to-accommodate flag set.
  *
- * @see sources/win63_2021_version/com/sulake/core/window/components/ToolTipController.as
+ * @see sources/win63_version/com/sulake/core/window/components/ToolTipController.as
  */
-export class ToolTipController extends ContainerController implements IToolTipWindow
+export class ToolTipController extends ButtonController implements IToolTipWindow
 {
 	constructor(
 		name: string,

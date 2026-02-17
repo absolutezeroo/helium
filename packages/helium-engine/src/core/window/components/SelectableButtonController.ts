@@ -4,17 +4,17 @@ import type {ISelectableWindow} from './ISelectableWindow';
 import type {ISelectorWindow} from './ISelectorWindow';
 import {WindowController} from '../WindowController';
 import {WindowEvent} from '../events/WindowEvent';
-import {InteractiveController} from './InteractiveController';
+import {ButtonController} from './ButtonController';
 
 /**
  * Controller for selectable button windows.
  *
- * Like SelectableController but extends InteractiveController with
- * button-styled behavior while implementing ISelectableWindow.
+ * Extends ButtonController with select/unselect behavior and
+ * optional integration with a parent ISelectorWindow for mutual exclusion.
  *
- * @see sources/win63_2021_version/com/sulake/core/window/components/SelectableButtonController.as
+ * @see sources/win63_version/com/sulake/core/window/components/SelectableButtonController.as
  */
-export class SelectableButtonController extends InteractiveController implements ISelectableWindow
+export class SelectableButtonController extends ButtonController implements ISelectableWindow
 {
 	constructor(
 		name: string,

@@ -1,22 +1,21 @@
 import type {IWindow} from '../IWindow';
-import type {IWindowContainer} from '../IWindowContainer';
 import type {IWindowContext} from '../IWindowContext';
 import type {IBubbleWindow} from './IBubbleWindow';
 import {WindowController} from '../WindowController';
 import {WindowEvent} from '../events/WindowEvent';
 import {PropertyStruct} from '../utils/PropertyStruct';
-import {ContainerController} from './ContainerController';
+import {FrameController} from './FrameController';
 
 /**
  * Controller for bubble windows with directional pointers.
  *
- * A container with pointer elements (up, down, left, right) that can
- * be positioned relative to the bubble. Used for speech bubbles,
+ * Extends FrameController with pointer elements (up, down, left, right)
+ * that can be positioned relative to the bubble. Used for speech bubbles,
  * tooltips with arrows, etc.
  *
- * @see sources/win63_2021_version/com/sulake/core/window/components/BubbleController.as
+ * @see sources/win63_version/com/sulake/core/window/components/BubbleController.as
  */
-export class BubbleController extends ContainerController implements IBubbleWindow
+export class BubbleController extends FrameController implements IBubbleWindow
 {
 	private static readonly TAG_POINTER_UP_ELEMENT: string = '_POINTER_UP';
 	private static readonly TAG_POINTER_DOWN_ELEMENT: string = '_POINTER_DOWN';
@@ -103,14 +102,6 @@ export class BubbleController extends ContainerController implements IBubbleWind
 		}
 
 		this._pointerOffset = value;
-	}
-
-	/**
-	 * The bubble content container.
-	 */
-	public get content(): IWindowContainer | null
-	{
-		return this.findChildByTag('_CONTENT') as unknown as IWindowContainer | null;
 	}
 
 	public override get properties(): unknown[]

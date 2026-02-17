@@ -1,6 +1,7 @@
 import type {IWindow} from '../IWindow';
 import type {IWindowContext} from '../IWindowContext';
 import type {IRadioButtonWindow} from './IRadioButtonWindow';
+import type {ITextWindow} from './ITextWindow';
 import {WindowEvent} from '../events/WindowEvent';
 import {SelectableController} from './SelectableController';
 
@@ -49,6 +50,21 @@ export class RadioButtonController extends SelectableController implements IRadi
 		if (textChild !== null)
 		{
 			textChild.caption = this.caption;
+		}
+	}
+
+	/**
+	 * Syncs the _CAPTION_TEXT child width when the rectangle changes.
+	 */
+	public override setRectangle(x: number, y: number, width: number, height: number): void
+	{
+		super.setRectangle(x, y, width, height);
+
+		const textChild = this.getChildByName('_CAPTION_TEXT') as ITextWindow | null;
+
+		if(textChild !== null)
+		{
+			textChild.width = width;
 		}
 	}
 }

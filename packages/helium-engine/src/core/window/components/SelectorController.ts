@@ -1,10 +1,12 @@
 import type {IWindow} from '../IWindow';
 import type {IWindowContext} from '../IWindowContext';
+import type {IIterator} from '../utils/IIterator';
 import type {ISelectableWindow} from './ISelectableWindow';
 import type {ISelectorWindow} from './ISelectorWindow';
+import {SelectorIterator} from '../iterators/SelectorIterator';
 import {WindowController} from '../WindowController';
 import {WindowEvent} from '../events/WindowEvent';
-import {ContainerController} from './ContainerController';
+import {InteractiveController} from './InteractiveController';
 
 /**
  * Controller for selector windows.
@@ -12,9 +14,9 @@ import {ContainerController} from './ContainerController';
  * Manages mutual exclusion of selectable children: when one child is
  * selected, the previously selected child is deselected.
  *
- * @see sources/win63_2021_version/com/sulake/core/window/components/SelectorController.as
+ * @see sources/win63_version/com/sulake/core/window/components/SelectorController.as
  */
-export class SelectorController extends ContainerController implements ISelectorWindow
+export class SelectorController extends InteractiveController implements ISelectorWindow
 {
 	protected _bringToFront: boolean = true;
 	private _selected: ISelectableWindow | null = null;
@@ -34,6 +36,14 @@ export class SelectorController extends ContainerController implements ISelector
 	)
 	{
 		super(name, type, style, param, context, rect, parent, procedure, tags, properties, id);
+	}
+
+	/**
+	 * Returns an iterator over the selectable children.
+	 */
+	public iterator(): IIterator
+	{
+		return new SelectorIterator(this._children ?? []);
 	}
 
 	/**
