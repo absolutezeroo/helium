@@ -4,6 +4,7 @@ Detailed templates for each class type. Always use these patterns as a base duri
 
 ## Table of contents
 
+### Class patterns
 1. [MessageComposer](#messagecomposer)
 2. [MessageParser](#messageparser)
 3. [MessageEvent](#messageevent)
@@ -13,7 +14,26 @@ Detailed templates for each class type. Always use these patterns as a base duri
 7. [Interface](#interface)
 8. [Message registration](#message-registration)
 9. [UI Window (ported from Flash)](#ui-window-ported-from-flash)
-10. [Pitfalls to avoid](#pitfalls-to-avoid)
+
+### Architecture patterns
+10. [Component Lifecycle](#component-lifecycle)
+11. [IID / Dependency Registration](#iid--dependency-registration)
+12. [Immutability-via-Interface](#immutability-via-interface)
+13. [Singleton](#singleton)
+
+### Code conventions
+14. [Disposed Guard](#disposed-guard)
+15. [Guarded Getter (throw-if-null)](#guarded-getter-throw-if-null)
+16. [Lazy Initialization](#lazy-initialization)
+17. [EventEmitter Conventions](#eventemitter-conventions)
+18. [Null Safety](#null-safety)
+19. [Logger Convention](#logger-convention)
+20. [import type Convention](#import-type-convention)
+21. [Static Instance Counter](#static-instance-counter)
+22. [AS3 Reference JSDoc](#as3-reference-jsdoc)
+
+### Safety
+23. [Pitfalls to avoid](#pitfalls-to-avoid)
 
 ---
 
@@ -177,8 +197,10 @@ Managers are the main business logic classes, registered in the DI system.
 ### Template
 
 ```typescript
-import { Component } from '@core/di/Component';
-import type { IRoomEngine } from '@room/IRoomEngine';
+import { Component } from '@core/runtime/Component';
+import { ComponentDependency } from '@core/runtime/ComponentDependency';
+import { IID_HabboCommunicationManager } from '@iid/IIDHabboCommunicationManager';
+import type { IHabboCommunicationManager } from '@habbo/communication/IHabboCommunicationManager';
 
 /**
  * Manages room instances and their lifecycle.
@@ -187,20 +209,31 @@ import type { IRoomEngine } from '@room/IRoomEngine';
  */
 export class RoomManager extends Component implements IRoomManager
 {
+    private _communicationManager: IHabboCommunicationManager | null = null;
     private _rooms: Map<string, IRoomInstance> = new Map();
-    private _disposed: boolean = false;
 
-    constructor()
+    constructor(context: IContext)
     {
-        super();
+        super(context);
+    }
+
+    protected get dependencies(): ComponentDependency[]
+    {
+        return [
+            new ComponentDependency(
+                IID_HabboCommunicationManager,
+                (m) => this._communicationManager = m,
+                true
+            ),
+        ];
     }
 
     /**
-     * Called when all dependencies are resolved.
+     * Called when all required dependencies are resolved.
      */
-    protected override onUnlock(): void
+    protected override initComponent(): void
     {
-        // Post-DI initialization
+        // Safe to use this._communicationManager here
     }
 
     public createRoom(roomId: string): IRoomInstance | null
@@ -240,6 +273,7 @@ export class RoomManager extends Component implements IRoomManager
         }
 
         this._rooms.clear();
+        super.dispose();
     }
 }
 ```
@@ -247,9 +281,12 @@ export class RoomManager extends Component implements IRoomManager
 ### Rules
 
 - Extends `Component` and implements an `I*` interface
+- Constructor always takes `context: IContext` and calls `super(context)`
+- Declare dependencies via `protected get dependencies()` (see [Component Lifecycle](#component-lifecycle))
+- Override `initComponent()` for post-DI initialization (NOT constructor)
 - **NEVER override `get events()`** — use a different name for custom events
-- `dispose()` is ALWAYS the last method
-- `dispose()` checks `_disposed` to avoid double calls
+- `dispose()` is ALWAYS the last method, calls `super.dispose()`
+- `dispose()` checks `_disposed` to avoid double calls (inherited from `Component`)
 - IIDs are registered in `packages/helium-engine/src/iid/index.ts`
 
 ---
@@ -484,6 +521,600 @@ export class NavigatorSearchResultsView
 - UI classes listen to engine events via EventEmitter3
 - UI classes have `dispose()` that cleans up listeners and display objects
 - The engine NEVER knows about UI classes (strict separation)
+
+---
+
+## Component Lifecycle
+
+Every manager and service extends `Component`. The lifecycle follows a strict sequence.
+
+### Lifecycle hooks (in order)
+
+1. **`constructor(context)`** — call `super(context)`, declare field defaults
+2. **`get dependencies()`** — return `ComponentDependency[]` (called during construction)
+3. **`initComponent()`** — all required dependencies are resolved, safe to use them
+4. **`purge()`** — optional cache clearing (called externally when memory pressure)
+5. **`dispose()`** — clean up resources, call `super.dispose()`
+
+### Template
+
+```typescript
+import { Component } from '@core/runtime/Component';
+import { ComponentDependency } from '@core/runtime/ComponentDependency';
+import { IID_HabboConfigurationManager } from '@iid/IIDHabboConfigurationManager';
+import type { IContext } from '@core/runtime/IContext';
+import type { IHabboConfigurationManager } from '@habbo/configuration/IHabboConfigurationManager';
+
+export class MyManager extends Component implements IMyManager
+{
+    private _configurationManager: IHabboConfigurationManager | null = null;
+    private _cache: Map<string, string> = new Map();
+
+    constructor(context: IContext)
+    {
+        super(context);
+    }
+
+    protected get dependencies(): ComponentDependency[]
+    {
+        return [
+            new ComponentDependency(
+                IID_HabboConfigurationManager,
+                (m) => this._configurationManager = m,
+                true  // required — initComponent waits for this
+            ),
+        ];
+    }
+
+    protected override initComponent(): void
+    {
+        // All required dependencies are now available
+        const url = this._configurationManager!.getProperty('my.url');
+        // ...
+    }
+
+    purge(): void
+    {
+        this._cache.clear();
+    }
+
+    dispose(): void
+    {
+        if(this._disposed) return;
+
+        this._cache.clear();
+        super.dispose();
+    }
+}
+```
+
+### Rules
+
+- `initComponent()` is called automatically when ALL required dependencies resolve
+- Dependencies can resolve synchronously (provider already attached) or asynchronously (provider attached later)
+- The `Component` base class manages `_disposed`, `_locked`, `events`, and the DI wiring
+- `super.dispose()` emits `ComponentEvents.DISPOSING`, removes all listeners, and sets `_disposed = true`
+- **Never** use dependency references in the constructor — they are not yet resolved
+
+---
+
+## IID / Dependency Registration
+
+Every injectable service has a unique Interface Identifier (`IID<T>`) for type-safe dependency injection.
+
+### IID declaration
+
+One file per IID in `packages/helium-engine/src/iid/`:
+
+```typescript
+// IIDRoomEngine.ts
+import { createIID } from '@core/runtime/IID';
+import type { IRoomEngine } from '@habbo/room/IRoomEngine';
+
+export const IID_RoomEngine = createIID<IRoomEngine>('IRoomEngine');
+```
+
+### Registration (in HeliumMain)
+
+```typescript
+// Create the component
+this._roomEngine = new RoomEngine(ctx, this._core!.assets);
+
+// Register it on the context with its IID(s)
+ctx.attachComponent(this._roomEngine, [IID_RoomEngine]);
+```
+
+### Consumption (in another Component)
+
+```typescript
+protected get dependencies(): ComponentDependency[]
+{
+    return [
+        new ComponentDependency(
+            IID_RoomEngine,
+            (engine) => this._roomEngine = engine,
+            true
+        ),
+    ];
+}
+```
+
+### Rules
+
+- `IID<T>` = `symbol & { __type?: T }` — phantom type for compile-time safety
+- `createIID<T>(name)` uses `Symbol.for('IID:' + name)` — globally unique
+- One IID per interface, one file per IID
+- Naming: `IID_` + interface name without `I` prefix → `IID_RoomEngine` for `IRoomEngine`
+- Registration order in `HeliumMain.initHabboManagers()` matters — dependencies must be registered before consumers
+
+---
+
+## Immutability-via-Interface
+
+The codebase uses a two-tier interface pattern: a read-only interface for consumers and a read-write controller interface for owners.
+
+### Template
+
+```typescript
+// IRoomObject.ts — read-only (consumers see this)
+export interface IRoomObject
+{
+    getId(): number;
+    getLocation(): IVector3d;
+    getDirection(): IVector3d;
+    getModel(): IRoomObjectModel;
+}
+
+// IRoomObjectController.ts — read-write (owners see this)
+export interface IRoomObjectController extends IRoomObject
+{
+    dispose(): void;
+    setLocation(location: IVector3d): void;
+    setDirection(direction: IVector3d): void;
+    setState(state: number, index: number): boolean;
+}
+```
+
+### Another example (value types)
+
+```typescript
+// IVector3d.ts — read-only
+export interface IVector3d
+{
+    readonly x: number;
+    readonly y: number;
+    readonly z: number;
+    readonly length: number;
+}
+
+// Vector3d.ts — mutable implementation
+export class Vector3d implements IVector3d
+{
+    private _x: number;
+    set x(value: number) { this._x = value; this._length = NaN; }
+    get x(): number { return this._x; }
+    // ...
+}
+```
+
+### Rules
+
+- Consumer APIs accept/return the read-only interface (`IRoomObject`)
+- Manager internals use the controller interface (`IRoomObjectController`)
+- For value types, use `readonly` in the interface, mutable setters in the class
+- Naming: `I<Name>` (read-only) vs `I<Name>Controller` (read-write)
+
+---
+
+## Singleton
+
+Used for the application shell and global utilities.
+
+### Template
+
+```typescript
+export class Helium
+{
+    private static _instance: Helium;
+
+    public static get instance(): Helium
+    {
+        if(!this._instance)
+        {
+            this._instance = new Helium();
+        }
+
+        return this._instance;
+    }
+}
+```
+
+### Rules
+
+- `private static _instance` + `static get instance()`
+- Lazy creation on first access
+- Used only for true application globals (`Helium`, `Logger`)
+- Managers and services use Component DI instead — **never** make a manager a singleton
+
+---
+
+## Disposed Guard
+
+Every class that owns resources uses an idempotent disposed guard.
+
+### Template
+
+```typescript
+protected _disposed: boolean = false;
+
+get disposed(): boolean
+{
+    return this._disposed;
+}
+
+dispose(): void
+{
+    if(this._disposed) return;
+
+    this._disposed = true;
+
+    // 1. Remove event listeners
+    this._events.removeAllListeners();
+
+    // 2. Dispose owned children
+    for(const child of this._children.values())
+    {
+        child.dispose();
+    }
+
+    // 3. Clear collections
+    this._children.clear();
+
+    // 4. Nullify references
+    this._connection = null;
+    this._listener = null;
+
+    // 5. Call super if extends Component
+    super.dispose();
+}
+```
+
+### Rules
+
+- `_disposed` check is ALWAYS the first line of `dispose()`
+- Set `_disposed = true` immediately after the check (before any cleanup)
+- Disposal order: listeners → children → collections → references → super
+- `dispose()` is ALWAYS the last method in the class body
+- In `Component` subclasses, `_disposed` is inherited — no need to redeclare
+
+---
+
+## Guarded Getter (throw-if-null)
+
+Used in orchestrator classes (`HeliumMain`, `Helium`) where fields are `null` before initialization.
+
+### Template
+
+```typescript
+private _roomEngine: RoomEngine | null = null;
+
+get roomEngine(): RoomEngine
+{
+    if(!this._roomEngine)
+    {
+        throw new Error('[HabboMain] Not initialized');
+    }
+
+    return this._roomEngine;
+}
+```
+
+### Rules
+
+- Field typed as `T | null`, initialized to `null`
+- Getter returns `T` (non-null) or throws
+- Error message format: `[ClassName] Not initialized`
+- Used for fields that are guaranteed to be set after `init()` but not in the constructor
+- Callers can trust the non-null return type after initialization
+
+---
+
+## Lazy Initialization
+
+Three variants used throughout the codebase.
+
+### A. Cached collection (invalidated on mutation)
+
+```typescript
+// RoomObjectManager
+private _cachedValues: IRoomObjectController[] | null = null;
+
+private getCachedValues(): IRoomObjectController[]
+{
+    if(this._cachedValues === null)
+    {
+        this._cachedValues = Array.from(this._objects.values());
+    }
+
+    return this._cachedValues;
+}
+
+// Invalidate on any mutation:
+this._cachedValues = null;
+```
+
+### B. NaN sentinel for computed properties
+
+```typescript
+// Vector3d
+private _length: number = NaN;
+
+get length(): number
+{
+    if(isNaN(this._length))
+    {
+        this._length = Math.sqrt(this._x * this._x + this._y * this._y + this._z * this._z);
+    }
+
+    return this._length;
+}
+
+// Invalidate in setters:
+set x(value: number) { this._x = value; this._length = NaN; }
+```
+
+### C. Lazy sub-object creation
+
+```typescript
+private _binLibrary: AssetLibrary | null = null;
+
+private get binLibrary(): AssetLibrary
+{
+    if(!this._binLibrary)
+    {
+        this._binLibrary = new AssetLibrary(this.context, 'bin');
+    }
+
+    return this._binLibrary;
+}
+```
+
+### Rules
+
+- Use `null` as sentinel for object/array caches, `NaN` for numeric caches
+- Always invalidate the cache when the underlying data changes
+- Never use lazy init for data that changes every frame — compute it directly
+
+---
+
+## EventEmitter Conventions
+
+The project uses `eventemitter3` (not Node.js EventEmitter). Three event patterns coexist.
+
+### A. ComponentEvents (lifecycle)
+
+```typescript
+import { ComponentEvents } from '@core/runtime/Component';
+
+// Defined as const object
+export const ComponentEvents = {
+    RUNNING: 'component:running',
+    DISPOSING: 'component:disposing',
+    UNLOCKED: 'component:unlocked',
+    ERROR: 'component:error',
+} as const;
+
+// Emitting
+this._events.emit(ComponentEvents.UNLOCKED, this);
+
+// Listening
+component.events.on(ComponentEvents.UNLOCKED, (comp) => { ... });
+```
+
+### B. Domain events (via Component.events)
+
+```typescript
+// Manager emits on its own events getter
+this.events.emit('configurationLoaded');
+this.events.emit('searchResults', results);
+
+// Listener (via ComponentDependency eventListeners)
+new ComponentDependency(
+    IID_HabboConfigurationManager,
+    (m) => this._config = m,
+    true,
+    [{ type: 'configurationLoaded', callback: this.onConfigLoaded.bind(this) }]
+),
+```
+
+### C. Static event name constants (custom event classes)
+
+```typescript
+export class UserNameUpdateEvent
+{
+    public static readonly NAME_UPDATE = 'unue_name_updated';
+    // ...
+}
+```
+
+### Rules
+
+- Always use `eventemitter3`, never Node.js `events`
+- Component lifecycle events use the `ComponentEvents` const object
+- Custom events use `string` names (not enums)
+- Event listeners MUST be cleaned up in `dispose()` — use `removeAllListeners()` or explicit `off()`
+- Bind callbacks with `.bind(this)` in the constructor, not with arrow functions in `on()`
+
+---
+
+## Null Safety
+
+Consistent null-handling idioms across the codebase.
+
+### A. Prefer `| null` over `| undefined`
+
+```typescript
+// CORRECT
+private _visualization: IRoomObjectVisualization | null = null;
+
+// AVOID
+private _visualization: IRoomObjectVisualization | undefined;
+```
+
+### B. Nullish coalescing for Map lookups
+
+```typescript
+return this._objects.get(String(id)) ?? null;     // Map → null
+return this._strings.get(key) ?? '';               // Map → empty string
+return this._numbers.get(key) ?? NaN;              // Map → NaN
+```
+
+### C. Optional chaining for nullable chains
+
+```typescript
+return this._assets?.getAssetByName(name) ?? null;
+return this._context.configuration?.getProperty(key) ?? '';
+```
+
+### D. Explicit null checks (not truthy/falsy)
+
+```typescript
+if(this._visualization !== null)
+if(object !== null)
+if(location === null) return;
+```
+
+### Rules
+
+- Fields are typed `T | null` and initialized to `null` — never leave `undefined`
+- `Map.get()` returns `undefined`, always convert with `?? null` (or `?? default`)
+- Use `=== null` / `!== null` for explicit null checks
+- Exception: parser guard shorthand `if(!wrapper) return false` is acceptable (falsy check)
+
+---
+
+## Logger Convention
+
+Named loggers with colored output. One logger per module.
+
+### Template
+
+```typescript
+import { Logger } from '@core/utils/Logger';
+
+const log = Logger.getLogger('RoomEngine');
+
+// Usage
+log.debug('Loading room:', roomId);
+log.info('Room created');
+log.warn('Missing asset:', assetName);
+log.error('Failed to load:', error);
+log.success('Room ready!');      // Green ✓ prefix
+log.failure('Room load failed'); // Red ✗ prefix
+```
+
+### Rules
+
+- Declare `const log = Logger.getLogger('Name')` at module scope (top of file)
+- The logger name matches the class/module name
+- Levels: `debug` → `info` → `warn` → `error`
+- `success()` / `failure()` are styled variants of `info` / `error`
+- Log message format: plain string, no brackets (the logger adds `[Name]` prefix automatically)
+- Never use `console.log()` directly — always use `Logger`
+
+---
+
+## import type Convention
+
+The codebase enforces separation of type-only imports from value imports.
+
+### Template
+
+```typescript
+// Value imports (used at runtime)
+import { Component } from '@core/runtime/Component';
+import { EventEmitter } from 'eventemitter3';
+
+// Type-only imports (erased at compile time)
+import type { IContext } from '@core/runtime/IContext';
+import type { IRoomObject } from '@room/object/IRoomObject';
+import type { IMessageDataWrapper } from '@core/communication/messages/IMessageDataWrapper';
+```
+
+### Rules
+
+- Use `import type` for interfaces, type aliases, and any symbol used only in type positions
+- Use regular `import` for classes, functions, constants, and enums used at runtime
+- Group value imports first, then type imports
+- This is enforced across 100% of the codebase
+
+---
+
+## Static Instance Counter
+
+Used to give objects unique IDs without an external generator.
+
+### Template
+
+```typescript
+export class RoomObject
+{
+    private static _instanceCounter: number = 0;
+
+    private _instanceId: number;
+
+    constructor(...)
+    {
+        this._instanceId = RoomObject._instanceCounter++;
+    }
+
+    getInstanceId(): number
+    {
+        return this._instanceId;
+    }
+}
+```
+
+### Rules
+
+- `private static _instanceCounter` on the class, starts at `0`
+- Incremented in the constructor with `ClassName._instanceCounter++`
+- Instance ID is read-only after construction
+
+---
+
+## AS3 Reference JSDoc
+
+Every class references its AS3 source for traceability.
+
+### Class-level
+
+```typescript
+/**
+ * RoomObject
+ *
+ * Based on AS3: com.sulake.room.object.RoomObject
+ *
+ * Base implementation of a room object.
+ */
+export class RoomObject implements IRoomObjectController
+{
+```
+
+### Method-level (when referencing a specific AS3 file)
+
+```typescript
+/**
+ * @see sources/win63_version/habbo/communication/messages/parser/handshake/AuthenticationOKMessageParser.as
+ */
+```
+
+### Rules
+
+- Every class doc starts with "Based on AS3: `com.sulake.package.ClassName`"
+- Use `@see sources/win63_version/...` for specific file references
+- IID files reference their AS3 counterpart: "Based on AS3: `com.sulake.iid.IIDRoomEngine`"
+- If no AS3 counterpart exists (new TypeScript-only class), omit the AS3 reference
 
 ---
 
