@@ -125,6 +125,7 @@ export class WindowRendererItem
 			renderType = WindowRendererItem.RENDER_TYPE_SKIN;
 		}
 
+
 		const renderWidth = Math.max(window.renderingWidth, 1);
 		const renderHeight = Math.max(window.renderingHeight, 1);
 

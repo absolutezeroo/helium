@@ -17,6 +17,7 @@ const SCALE_TYPE =
     fixed: 0,
     move: 1,
     strech: 2,
+    stretch: 2,
     tiled: 4,
     center: 8
 };

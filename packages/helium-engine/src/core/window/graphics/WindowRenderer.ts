@@ -283,6 +283,7 @@ export class WindowRenderer implements IWindowRenderer
 			}
 		}
 
+
 		return this._compositeBuffer;
 	}
 

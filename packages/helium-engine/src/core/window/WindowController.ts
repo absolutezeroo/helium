@@ -1082,6 +1082,21 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 
 	// ── Build from JSON (adapted from AS3 buildFromXML) ──────────────
 
+	/**
+	 * Returns the target window where layout children should be added.
+	 *
+	 * Base implementation returns `this`. Compound elements (FrameController,
+	 * TabContextController) override to redirect children to their content
+	 * container, matching AS3 `buildFromXML()` behavior where FrameController
+	 * passes `content` instead of `this` to `parseAndConstruct()`.
+	 *
+	 * @see sources/win63_2021_version/com/sulake/core/window/components/FrameController.as line 127
+	 */
+	public getLayoutChildTarget(): IWindow
+	{
+		return this;
+	}
+
 	/** Centers this window within its parent. */
 	public center(): void
 	{

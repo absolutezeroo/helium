@@ -36,7 +36,7 @@
           "colorize": true,
           "color": 0,
           "blend": 4294967295,
-          "scaleH": 0,
+          "scaleH": 2,
           "scaleV": 0,
           "region": {
             "x": 0,

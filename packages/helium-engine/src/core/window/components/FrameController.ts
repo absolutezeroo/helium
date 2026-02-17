@@ -273,6 +273,21 @@ export class FrameController extends ContainerController implements IFrameWindow
 		super.properties = value;
 	}
 
+	/**
+	 * Redirects layout children to the content container.
+	 *
+	 * In AS3, FrameController.buildFromXML() passes `content` to
+	 * parseAndConstruct() instead of `this`, so that children defined
+	 * in the parent layout (e.g. navigator_frame_2) are added to the
+	 * content area, not directly to the frame.
+	 *
+	 * @see sources/win63_2021_version/com/sulake/core/window/components/FrameController.as line 127
+	 */
+	public override getLayoutChildTarget(): IWindow
+	{
+		return (this.content as unknown as IWindow) ?? this;
+	}
+
 	public override iterator(): IIterator
 	{
 		if (this.content !== null && this._constructed)

@@ -73,6 +73,17 @@ export interface IWindow
 
 	readonly disposed: boolean;
 
+	/**
+	 * Returns the target window where layout children should be added.
+	 *
+	 * Compound elements (frames, tab contexts) override this to redirect
+	 * children to their content container instead of themselves.
+	 *
+	 * @see FrameController.getLayoutChildTarget
+	 * @see TabContextController.getLayoutChildTarget
+	 */
+	getLayoutChildTarget(): IWindow;
+
 	dispose(): void;
 
 	destroy(): boolean;

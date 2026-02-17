@@ -62,9 +62,15 @@ export class BitmapSkinRenderer extends SkinRenderer
 			template = this.getTemplateForState(0);
 		}
 
-		if (!layout || !template) return;
+		if (!layout || !template)
+		{
+			return;
+		}
 
-		if (!template.atlas) return;
+		if (!template.atlas)
+		{
+			return;
+		}
 
 		const targetWidth = rect.width;
 		const targetHeight = rect.height;

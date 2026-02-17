@@ -228,10 +228,15 @@ export class WindowParser implements IWindowParser
 			namedWindows.set(name, window);
 		}
 
-		// Parse children recursively
+		// Parse children recursively.
+		// Compound elements (frames, tab contexts) redirect children to their
+		// content container via getLayoutChildTarget(), matching AS3 behavior
+		// where FrameController.buildFromXML() passes `content` to parseAndConstruct().
+		const childTarget = window.getLayoutChildTarget();
+
 		for (const child of children)
 		{
-			this.parseNode(child, window, namedWindows);
+			this.parseNode(child, childTarget, namedWindows);
 		}
 
 		// Apply specific vars as properties (AS3 <variables> → PropertyStruct).
