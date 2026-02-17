@@ -34,19 +34,7 @@ export class WindowContext implements IWindowContext
 	 * Set by HabboWindowManager when the renderer is created.
 	 */
 	private static _renderer: IWindowRenderer | null = null;
-
-	/**
-	 * Sets the shared window renderer for all contexts.
-	 *
-	 * @param renderer - The window renderer
-	 */
-	public static setRenderer(renderer: IWindowRenderer | null): void
-	{
-		WindowContext._renderer = renderer;
-	}
-
 	public inputEventTrackers: IInputEventTracker[] = [];
-
 	protected _services: IInternalWindowServices | null = null;
 	protected _parser: IWindowParser | null = null;
 	protected _factory: IWindowFactory;
@@ -81,6 +69,16 @@ export class WindowContext implements IWindowContext
 	public get name(): string
 	{
 		return this._name;
+	}
+
+	/**
+	 * Sets the shared window renderer for all contexts.
+	 *
+	 * @param renderer - The window renderer
+	 */
+	public static setRenderer(renderer: IWindowRenderer | null): void
+	{
+		WindowContext._renderer = renderer;
 	}
 
 	public setDesktop(desktop: IWindow): void
@@ -235,9 +233,9 @@ export class WindowContext implements IWindowContext
 		height: number
 	} | null, flags: number): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
-		if(WindowContext._renderer)
+		if (WindowContext._renderer)
 		{
 			WindowContext._renderer.addToRenderQueue(window, rect, flags);
 		}

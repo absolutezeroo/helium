@@ -16,7 +16,7 @@ configurations/
 mockup/
 tools/flash2html/output/
 CLAUDE.md
-
+*.png
 
 # Davia
 .davia/

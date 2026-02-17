@@ -1,4 +1,5 @@
 import type {IWindow} from '../../IWindow';
+import type {IDisposable} from "../../../runtime/IDisposable";
 
 /**
  * Interface for skin renderers.
@@ -9,17 +10,12 @@ import type {IWindow} from '../../IWindow';
  *
  * @see sources/flash_version/com/sulake/core/window/graphics/renderer/ISkinRenderer.as
  */
-export interface ISkinRenderer
+export interface ISkinRenderer extends IDisposable
 {
 	/**
 	 * The renderer name.
 	 */
 	readonly name: string;
-
-	/**
-	 * Whether this renderer has been disposed.
-	 */
-	readonly disposed: boolean;
 
 	/**
 	 * Draws the window skin onto the given canvas context.
@@ -45,9 +41,4 @@ export interface ISkinRenderer
 	 * @returns True if the state can be drawn
 	 */
 	isStateDrawable(state: number): boolean;
-
-	/**
-	 * Disposes all cached resources.
-	 */
-	dispose(): void;
 }

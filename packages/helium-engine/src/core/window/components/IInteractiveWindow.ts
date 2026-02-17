@@ -12,6 +12,7 @@ export interface IInteractiveWindow extends IWindow
 	toolTipCaption: string;
 	toolTipDelay: number;
 	toolTipIsDynamic: boolean;
+	interactiveCursorDisabled: boolean;
 
 	showToolTip(toolTip: IToolTipWindow): void;
 

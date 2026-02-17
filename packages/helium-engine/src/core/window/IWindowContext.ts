@@ -1,7 +1,7 @@
 import type {IWindow} from './IWindow';
 import type {IWindowParser} from './utils/IWindowParser';
 import type {IResourceManager} from './IResourceManager';
-// Forward declarations for interfaces defined elsewhere
+import type {IDisposable} from "../runtime/IDisposable";
 import type {IInputEventTracker} from './IInputEventTracker';
 import type {IInternalWindowServices} from './services/IInternalWindowServices';
 import type {IWindowFactory} from './IWindowFactory';
@@ -15,9 +15,9 @@ import type {IWidgetFactory} from './IWidgetFactory';
  *
  * @see sources/win63_2021_version/com/sulake/core/window/IWindowContext.as
  */
-export interface IWindowContext
+export interface IWindowContext extends IDisposable
 {
-	readonly disposed: boolean;
+	inputEventTrackers: IInputEventTracker[];
 
 	getWindowServices(): IInternalWindowServices;
 
@@ -69,12 +69,12 @@ export interface IWindowContext
 
 	getLastErrorCode(): number;
 
+	handleError(code: number, error: Error): void;
+
 	flushError(): void;
 
 	addMouseEventTracker(tracker: IInputEventTracker): void;
 
 	removeMouseEventTracker(tracker: IInputEventTracker): void;
-
-	dispose(): void;
 }
 

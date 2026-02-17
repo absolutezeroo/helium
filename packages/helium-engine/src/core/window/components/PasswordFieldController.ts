@@ -1,17 +1,17 @@
 import type {IWindow} from '../IWindow';
 import type {IWindowContext} from '../IWindowContext';
-import {WindowController} from '../WindowController';
+import {TextFieldController} from './TextFieldController';
 import {WindowEvent} from '../events/WindowEvent';
 
 /**
  * Controller for password field windows.
  *
- * Extends WindowController with masked text input behavior. The stored
- * text is kept as-is but displayed masked.
+ * Extends TextFieldController with password display mode. The hidden
+ * input element is set to type="password" so text is masked in the DOM.
  *
- * @see sources/win63_2021_version/com/sulake/core/window/components/PasswordFieldController.as
+ * @see sources/win63_version/com/sulake/core/window/components/PasswordFieldController.as
  */
-export class PasswordFieldController extends WindowController
+export class PasswordFieldController extends TextFieldController
 {
 	constructor(
 		name: string,
@@ -29,25 +29,15 @@ export class PasswordFieldController extends WindowController
 	{
 		super(name, type, style, param, context, rect, parent, procedure, tags, properties, id);
 
-		this._hasVisualContent = true;
+		this._displayAsPassword = true;
+
+		if (this._inputElement)
+		{
+			(this._inputElement as HTMLInputElement).type = 'password';
+		}
 	}
 
-	private _text: string = '';
-
-	/**
-	 * The actual text value (stored unmasked).
-	 */
-	public get text(): string
-	{
-		return this._text;
-	}
-
-	public set text(value: string)
-	{
-		this._text = value ?? '';
-	}
-
-	private _displayAsPassword: boolean = true;
+	protected _displayAsPassword: boolean = false;
 
 	/**
 	 * Whether the text is displayed as a password (masked).
@@ -60,18 +50,10 @@ export class PasswordFieldController extends WindowController
 	public set displayAsPassword(value: boolean)
 	{
 		this._displayAsPassword = value;
-	}
 
-	/**
-	 * Returns the masked display text.
-	 */
-	public get maskedText(): string
-	{
-		if (this._displayAsPassword)
+		if (this._inputElement && this._inputElement instanceof HTMLInputElement)
 		{
-			return '\u2022'.repeat(this._text.length);
+			this._inputElement.type = value ? 'password' : 'text';
 		}
-
-		return this._text;
 	}
 }

@@ -9,6 +9,7 @@ import {
 	NavigatorMetaDataMessageEvent,
 	NavigatorSavedSearchesMessageEvent,
 	NavigatorSearchResultSetMessageEvent,
+	NavigatorWindowSettingsMessageEvent,
 } from '../communication/messages/incoming/newnavigator';
 
 import {RoomEntryInfoMessageEvent} from '../communication/messages/incoming/room/engine/RoomEntryInfoMessageEvent';
@@ -20,6 +21,7 @@ import {
 	NavigatorMetaDataMessageParser,
 	NavigatorSavedSearchesMessageParser,
 	NavigatorSearchResultSetMessageParser,
+	NavigatorWindowSettingsMessageParser,
 } from '../communication/messages/parser/newnavigator';
 
 import {RoomEntryInfoMessageParser} from '../communication/messages/parser/room/engine/RoomEntryInfoMessageParser';
@@ -82,6 +84,9 @@ export class NewIncomingMessages
 
 		// Room entry - triggers actual room entry
 		this.addMessageEvent(new RoomEntryInfoMessageEvent(this.onRoomEntryInfo.bind(this)));
+
+		// Window Settings
+		this.addMessageEvent(new NavigatorWindowSettingsMessageEvent(this.onNavigatorPreferences.bind(this)));
 	}
 
 	private addMessageEvent(event: IMessageEvent): void
@@ -172,5 +177,16 @@ export class NewIncomingMessages
 		{
 			connection.send(new GetGuestRoomMessageComposer(parser.guestRoomId, true, false));
 		}
+	}
+
+	private onNavigatorPreferences(event: IMessageEvent): void
+	{
+		if (!event) return;
+
+		const parser = event.parser as NavigatorWindowSettingsMessageParser;
+
+		if (!parser) return;
+
+		this._navigator.onPreferences(parser.windowX, parser.windowY, parser.windowHeight, parser.leftPaneHidden, parser.resultsMode);
 	}
 }

@@ -1,5 +1,6 @@
 import type {DefaultAttStruct} from '../utils/DefaultAttStruct';
 import type {ISkinRenderer} from './renderer/ISkinRenderer';
+import type {IDisposable} from "../../runtime/IDisposable";
 
 /**
  * Interface for a container of skin renderers indexed by window type and style.
@@ -9,10 +10,8 @@ import type {ISkinRenderer} from './renderer/ISkinRenderer';
  *
  * @see sources/win63_2021_version/com/sulake/core/window/graphics/ISkinContainer.as
  */
-export interface ISkinContainer
+export interface ISkinContainer extends IDisposable
 {
-	readonly disposed: boolean;
-
 	/**
 	 * Returns the skin renderer for the given window type and style.
 	 *
@@ -40,6 +39,4 @@ export interface ISkinContainer
 	 * @returns The resolved drawable state
 	 */
 	getTheActualState(type: number, style: number, state: number): number;
-
-	dispose(): void;
 }

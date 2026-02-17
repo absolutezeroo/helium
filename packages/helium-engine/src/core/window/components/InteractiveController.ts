@@ -72,6 +72,18 @@ export class InteractiveController extends WindowController implements IInteract
 		this._toolTipIsDynamic = value;
 	}
 
+	protected _interactiveCursorDisabled: boolean = false;
+
+	public get interactiveCursorDisabled(): boolean
+	{
+		return this._interactiveCursorDisabled;
+	}
+
+	public set interactiveCursorDisabled(value: boolean)
+	{
+		this._interactiveCursorDisabled = value;
+	}
+
 	public override get properties(): unknown[]
 	{
 		return InteractiveController.writeInteractiveWindowProperties(this, super.properties);
@@ -148,6 +160,12 @@ export class InteractiveController extends WindowController implements IInteract
 						window.toolTipIsDynamic = prop.value as boolean;
 					}
 					break;
+				case 'interactive_cursor_disabled':
+					if (prop.value !== window.interactiveCursorDisabled)
+					{
+						window.interactiveCursorDisabled = prop.value as boolean;
+					}
+					break;
 			}
 		}
 	}
@@ -160,6 +178,7 @@ export class InteractiveController extends WindowController implements IInteract
 		props.push(window.createProperty('tool_tip_caption', window.toolTipCaption));
 		props.push(window.createProperty('tool_tip_delay', window.toolTipDelay));
 		props.push(window.createProperty('tool_tip_is_dynamic', window.toolTipIsDynamic));
+		props.push(window.createProperty('interactive_cursor_disabled', window.interactiveCursorDisabled));
 
 		return props;
 	}

@@ -1,4 +1,5 @@
 import type {IAssetReceiver} from './IAssetReceiver';
+import type {IDisposable} from "../runtime/IDisposable";
 
 /**
  * Interface for the window resource manager.
@@ -7,10 +8,8 @@ import type {IAssetReceiver} from './IAssetReceiver';
  *
  * @see sources/win63_version/habbo/window/ResourceManager.as
  */
-export interface IResourceManager
+export interface IResourceManager extends IDisposable
 {
-	readonly disposed: boolean;
-
 	/**
 	 * Retrieves an asset by URI and delivers it to the receiver.
 	 *
@@ -49,6 +48,4 @@ export interface IResourceManager
 	 * @param url - The URL to fetch the image from
 	 */
 	registerAssetUrl(name: string, url: string): void;
-
-	dispose(): void;
 }

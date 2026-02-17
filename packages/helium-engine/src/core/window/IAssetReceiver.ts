@@ -1,3 +1,5 @@
+import type {IDisposable} from "../runtime/IDisposable";
+
 /**
  * Interface for objects that can receive loaded bitmap assets.
  *
@@ -6,10 +8,8 @@
  *
  * @see sources/win63_version/core/window/components/StaticBitmapWrapperController.as
  */
-export interface IAssetReceiver
+export interface IAssetReceiver extends IDisposable
 {
-	readonly disposed: boolean;
-
 	/**
 	 * Called when an asset has been loaded and is ready for use.
 	 *

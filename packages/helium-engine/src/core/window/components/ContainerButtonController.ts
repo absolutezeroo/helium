@@ -35,7 +35,7 @@ export class ContainerButtonController extends InteractiveController
 	/**
 	 * Returns an iterator over children.
 	 */
-	public iterator(): IIterator
+	public get iterator(): IIterator
 	{
 		return new ContainerIterator(this._children ?? []);
 	}

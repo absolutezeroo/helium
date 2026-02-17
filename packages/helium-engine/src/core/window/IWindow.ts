@@ -2,6 +2,7 @@ import type {IRectLimiter} from './utils/IRectLimiter';
 import type {PropertyStruct} from './utils/PropertyStruct';
 import type {IWindowContext} from './IWindowContext';
 import type {WindowEvent} from './events/WindowEvent';
+import type {IDisposable} from "../runtime/IDisposable";
 
 /**
  * Core window interface.
@@ -11,7 +12,7 @@ import type {WindowEvent} from './events/WindowEvent';
  *
  * @see sources/win63_2021_version/com/sulake/core/window/IWindow.as
  */
-export interface IWindow
+export interface IWindow extends IDisposable
 {
 	x: number;
 	y: number;
@@ -61,6 +62,7 @@ export interface IWindow
 
 	procedure: ((event: WindowEvent, window: IWindow) => void) | null;
 	mouseThreshold: number;
+	ignoreMouseEvents: boolean;
 	immediateClickMode: boolean;
 	properties: unknown[];
 	etching: unknown[];
@@ -70,8 +72,6 @@ export interface IWindow
 	readonly desktop: IWindow | null;
 	readonly host: IWindow;
 	readonly limits: IRectLimiter;
-
-	readonly disposed: boolean;
 
 	/**
 	 * Returns the target window where layout children should be added.
@@ -83,8 +83,6 @@ export interface IWindow
 	 * @see TabContextController.getLayoutChildTarget
 	 */
 	getLayoutChildTarget(): IWindow;
-
-	dispose(): void;
 
 	destroy(): boolean;
 

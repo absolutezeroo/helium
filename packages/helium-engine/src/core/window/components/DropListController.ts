@@ -4,6 +4,7 @@ import type {IIterator} from '../utils/IIterator';
 import type {IDropListWindow} from './IDropListWindow';
 import {WindowEvent} from '../events/WindowEvent';
 import {DropBaseController} from './DropBaseController';
+import {DropListIterator} from '../iterators/DropListIterator';
 
 /**
  * Controller for drop list windows.
@@ -11,7 +12,7 @@ import {DropBaseController} from './DropBaseController';
  * Extends DropBaseController with IDropListWindow compliance: menu
  * item management (add, remove, get) with IWindow values.
  *
- * @see sources/win63_2021_version/com/sulake/core/window/components/DropListController.as
+ * @see sources/win63_version/com/sulake/core/window/components/DropListController.as
  */
 export class DropListController extends DropBaseController implements IDropListWindow
 {
@@ -37,28 +38,7 @@ export class DropListController extends DropBaseController implements IDropListW
 	 */
 	public iterator(): IIterator
 	{
-		let index = 0;
-		const items = this._itemArray;
-
-		return {
-			next(): IWindow | null
-			{
-				if (index < items.length)
-				{
-					return items[index++];
-				}
-
-				return null;
-			},
-			reset(): void
-			{
-				index = 0;
-			},
-			count(): number
-			{
-				return items.length;
-			}
-		};
+		return new DropListIterator(this._itemArray);
 	}
 
 	/**
@@ -71,12 +51,49 @@ export class DropListController extends DropBaseController implements IDropListW
 
 	/**
 	 * Adds a menu item at the specified index.
+	 *
+	 * In AS3, special named children (_DROPLIST_TITLETEXT, _DROPLIST_ITEMLIST,
+	 * _DROPLIST_REGION) are redirected to addChild() instead of the item array.
 	 */
-	public addMenuItemAt(item: IWindow, index: number): IWindow | null
+	public addMenuItemAt(item: IWindow, _index: number): IWindow | null
 	{
 		if (item && this._itemArray.indexOf(item) === -1)
 		{
-			this._itemArray.splice(index, 0, item);
+			if (!this.getTitleLabel())
+			{
+				if ('text' in item && item.name === '_DROPLIST_TITLETEXT')
+				{
+					return this.addChild(item);
+				}
+			}
+
+			if (!this.getItemList())
+			{
+				if ('addListItem' in item && item.name === '_DROPLIST_ITEMLIST')
+				{
+					return this.addChild(item);
+				}
+			}
+
+			if (!this.getRegion())
+			{
+				if (item.name === '_DROPLIST_REGION')
+				{
+					return this.addChild(item);
+				}
+			}
+
+			if (this._menuIsOpen)
+			{
+				this.closeExpandedMenuView();
+				this._itemArray.push(item);
+				this.openExpandedMenuView();
+			}
+			else
+			{
+				this._itemArray.push(item);
+			}
+
 			return item;
 		}
 
@@ -111,6 +128,13 @@ export class DropListController extends DropBaseController implements IDropListW
 			}
 
 			this._itemArray.splice(index, 1);
+
+			if (this._menuIsOpen)
+			{
+				this.closeExpandedMenuView();
+				this.openExpandedMenuView();
+			}
+
 			return item;
 		}
 

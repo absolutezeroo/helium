@@ -1,10 +1,14 @@
 import type {IWindow} from '../IWindow';
+import type {IWindowContainer} from '../IWindowContainer';
 import type {IWindowContext} from '../IWindowContext';
 import type {IScrollbarWindow} from './IScrollbarWindow';
 import type {IScrollableWindow} from './IScrollableWindow';
 import {InteractiveController} from './InteractiveController';
+import {ScrollBarLiftController} from './ScrollBarLiftController';
 import {WindowController} from '../WindowController';
 import {WindowEvent} from '../events/WindowEvent';
+import {WindowMouseEvent} from '../events/WindowMouseEvent';
+import {PropertyStruct} from '../utils/PropertyStruct';
 
 /**
  * Controller for scrollbar windows.
@@ -12,7 +16,7 @@ import {WindowEvent} from '../events/WindowEvent';
  * Manages scroll state, lift (thumb) positioning, increment/decrement
  * buttons, and binding to a scrollable target window.
  *
- * @see sources/win63_2021_version/com/sulake/core/window/components/ScrollBarController.as
+ * @see sources/win63_version/com/sulake/core/window/components/ScrollBarController.as
  */
 export class ScrollBarController extends InteractiveController implements IScrollbarWindow
 {
@@ -25,6 +29,9 @@ export class ScrollBarController extends InteractiveController implements IScrol
 	protected _scrollStep: number = 0.1;
 	private _targetName: string | null = null;
 	private _isUpdatingLift: boolean = false;
+	private _boundScrollButtonEventProc: ((event: WindowEvent, window: IWindow) => void);
+	private _boundOnScrollableResized: ((event: WindowEvent) => void);
+	private _boundOnScrollableScrolled: ((event: WindowEvent) => void);
 
 	constructor(
 		name: string,
@@ -46,13 +53,17 @@ export class ScrollBarController extends InteractiveController implements IScrol
 		this._hasVisualContent = false;
 		this._horizontal = (type === 130);
 
+		this._boundScrollButtonEventProc = this.scrollButtonEventProc.bind(this);
+		this._boundOnScrollableResized = this.onScrollableResized.bind(this);
+		this._boundOnScrollableScrolled = this.onScrollableScrolled.bind(this);
+
 		const internals: IWindow[] = [];
 
 		this.groupChildrenWithTag('_INTERNAL', internals, -1);
 
 		for (const child of internals)
 		{
-			child.procedure = this.scrollButtonEventProc.bind(this);
+			child.procedure = this._boundScrollButtonEventProc;
 		}
 
 		this.updateLiftSizeAndPosition();
@@ -69,22 +80,22 @@ export class ScrollBarController extends InteractiveController implements IScrol
 	}
 
 	/**
-	 * Sets the scrollable target window.
+	 * Sets the scrollable target window. Binds resize/scroll event listeners.
 	 */
 	public set scrollable(value: IScrollableWindow | null)
 	{
 		if (this._scrollable !== null && !this._scrollable.disposed)
 		{
-			(this._scrollable as unknown as IWindow).removeEventListener('WE_RESIZED', this.onScrollableResized.bind(this));
-			(this._scrollable as unknown as IWindow).removeEventListener('WE_SCROLL', this.onScrollableScrolled.bind(this));
+			(this._scrollable as unknown as IWindow).removeEventListener('WE_RESIZED', this._boundOnScrollableResized);
+			(this._scrollable as unknown as IWindow).removeEventListener('WE_SCROLL', this._boundOnScrollableScrolled);
 		}
 
 		this._scrollable = value;
 
 		if (this._scrollable !== null && !this._scrollable.disposed)
 		{
-			(this._scrollable as unknown as IWindow).addEventListener('WE_RESIZED', this.onScrollableResized.bind(this));
-			(this._scrollable as unknown as IWindow).addEventListener('WE_SCROLL', this.onScrollableScrolled.bind(this));
+			(this._scrollable as unknown as IWindow).addEventListener('WE_RESIZED', this._boundOnScrollableResized);
+			(this._scrollable as unknown as IWindow).addEventListener('WE_SCROLL', this._boundOnScrollableScrolled);
 			this.updateLiftSizeAndPosition();
 		}
 	}
@@ -100,7 +111,15 @@ export class ScrollBarController extends InteractiveController implements IScrol
 	}
 
 	/**
-	 * Gets the horizontal scroll position.
+	 * Gets whether this scrollbar is vertical.
+	 */
+	public get vertical(): boolean
+	{
+		return !this._horizontal;
+	}
+
+	/**
+	 * Gets the horizontal scroll position (0..1).
 	 */
 	public get scrollH(): number
 	{
@@ -114,7 +133,7 @@ export class ScrollBarController extends InteractiveController implements IScrol
 	{
 		if (this._horizontal)
 		{
-			if (this.setScrollPosition(value))
+			if (this.setScrollPosition(value, true))
 			{
 				this.updateLiftSizeAndPosition();
 			}
@@ -122,7 +141,7 @@ export class ScrollBarController extends InteractiveController implements IScrol
 	}
 
 	/**
-	 * Gets the vertical scroll position.
+	 * Gets the vertical scroll position (0..1).
 	 */
 	public get scrollV(): number
 	{
@@ -136,19 +155,55 @@ export class ScrollBarController extends InteractiveController implements IScrol
 	{
 		if (!this._horizontal)
 		{
-			if (this.setScrollPosition(value))
+			if (this.setScrollPosition(value, true))
 			{
 				this.updateLiftSizeAndPosition();
 			}
 		}
 	}
 
-	/**
-	 * Gets whether this scrollbar is vertical.
-	 */
-	public get vertical(): boolean
+	public override get properties(): unknown[]
 	{
-		return !this._horizontal;
+		const props = super.properties;
+		let targetStr: string | null = null;
+
+		if (this._scrollable !== null)
+		{
+			targetStr = (this._scrollable as unknown as IWindow).name;
+		}
+		else if (this._targetName !== null)
+		{
+			targetStr = this._targetName;
+		}
+
+		if (targetStr === null)
+		{
+			props.push(this.getDefaultProperty('scrollable'));
+		}
+		else
+		{
+			props.push(this.createProperty('scrollable', targetStr));
+		}
+
+		return props;
+	}
+
+	public override set properties(value: unknown[])
+	{
+		for (const item of value)
+		{
+			const prop = item as PropertyStruct;
+
+			switch (prop.key)
+			{
+				case 'scrollable':
+					this._targetName = prop.value as string;
+					this._scrollable = null;
+					break;
+			}
+		}
+
+		super.properties = value;
 	}
 
 	/**
@@ -160,7 +215,7 @@ export class ScrollBarController extends InteractiveController implements IScrol
 	}
 
 	/**
-	 * Gets the lift (thumb) child window.
+	 * Gets the lift (thumb) child window inside the track.
 	 */
 	protected get lift(): WindowController | null
 	{
@@ -169,6 +224,125 @@ export class ScrollBarController extends InteractiveController implements IScrol
 		if (!trackWindow) return null;
 
 		return trackWindow.findChildByName(ScrollBarController.SCROLL_SLIDER_BAR) as WindowController | null;
+	}
+
+	/**
+	 * Enables the scrollbar and all _INTERNAL children.
+	 */
+	public override enable(): boolean
+	{
+		if (super.enable())
+		{
+			const internals: IWindow[] = [];
+
+			this.groupChildrenWithTag('_INTERNAL', internals, -1);
+
+			for (let i = 0; i < internals.length; i++)
+			{
+				internals[i].enable();
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Disables the scrollbar and all _INTERNAL children.
+	 */
+	public override disable(): boolean
+	{
+		if (super.disable())
+		{
+			const internals: IWindow[] = [];
+
+			this.groupChildrenWithTag('_INTERNAL', internals, -1);
+
+			for (let i = 0; i < internals.length; i++)
+			{
+				internals[i].disable();
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Handles slider bar relocation, resize, wheel events, and parent add.
+	 */
+	public override update(source: WindowController, event: WindowEvent): boolean
+	{
+		if (source.name === ScrollBarController.SCROLL_SLIDER_BAR)
+		{
+			if (event.type === 'WE_CHILD_RELOCATED')
+			{
+				if (!this._isUpdatingLift)
+				{
+					const liftCtrl = source as unknown as ScrollBarLiftController;
+
+					if (this._horizontal)
+					{
+						this.setScrollPosition(liftCtrl.scrollbarOffsetX, true);
+					}
+					else
+					{
+						this.setScrollPosition(liftCtrl.scrollbarOffsetY, true);
+					}
+				}
+			}
+		}
+
+		const result = super.update(source, event);
+
+		if (event.type === 'WE_PARENT_ADDED')
+		{
+			if (this._scrollable === null)
+			{
+				this.resolveScrollTarget();
+			}
+		}
+
+		if (source === (this as unknown as WindowController))
+		{
+			if (event.type === 'WE_RESIZED')
+			{
+				this.updateLiftSizeAndPosition();
+			}
+			else if (event.type === 'WME_WHEEL')
+			{
+				const mouseEvent = event as WindowMouseEvent;
+
+				if (mouseEvent.delta > 0)
+				{
+					if (this._horizontal)
+					{
+						this.scrollH -= this._scrollStep;
+					}
+					else
+					{
+						this.scrollV -= this._scrollStep;
+					}
+				}
+				else
+				{
+					if (this._horizontal)
+					{
+						this.scrollH += this._scrollStep;
+					}
+					else
+					{
+						this.scrollV += this._scrollStep;
+					}
+				}
+
+				return true;
+			}
+		}
+
+		return result;
 	}
 
 	public override dispose(): void
@@ -181,11 +355,11 @@ export class ScrollBarController extends InteractiveController implements IScrol
 	}
 
 	/**
-	 * Sets the scroll position and syncs to the scrollable target.
+	 * Sets the scroll position and optionally syncs to the scrollable target.
 	 *
 	 * @returns Whether the position actually changed
 	 */
-	protected setScrollPosition(value: number): boolean
+	protected setScrollPosition(value: number, syncTarget: boolean): boolean
 	{
 		if (this._scrollable === null || this._scrollable.disposed)
 		{
@@ -199,22 +373,25 @@ export class ScrollBarController extends InteractiveController implements IScrol
 
 		let changed = false;
 
-		if (this._horizontal)
+		if (syncTarget)
 		{
-			changed = this._scrollable!.scrollH !== this._offset;
-
-			if (changed)
+			if (this._horizontal)
 			{
-				this._scrollable!.scrollH = this._offset;
+				changed = this._scrollable!.scrollH !== this._offset;
+
+				if (changed)
+				{
+					this._scrollable!.scrollH = this._offset;
+				}
 			}
-		}
-		else
-		{
-			changed = this._scrollable!.scrollV !== this._offset;
-
-			if (changed)
+			else
 			{
-				this._scrollable!.scrollV = this._offset;
+				changed = this._scrollable!.scrollV !== this._offset;
+
+				if (changed)
+				{
+					this._scrollable!.scrollV = this._offset;
+				}
 			}
 		}
 
@@ -235,6 +412,8 @@ export class ScrollBarController extends InteractiveController implements IScrol
 		const liftWindow = this.lift;
 
 		if (!trackWindow || !liftWindow) return;
+
+		this._isUpdatingLift = true;
 
 		let ratio: number;
 
@@ -261,6 +440,8 @@ export class ScrollBarController extends InteractiveController implements IScrol
 			liftWindow.y = Math.round(this._scrollable!.scrollV * (trackWindow.height - liftWindow.height));
 		}
 
+		this._isUpdatingLift = false;
+
 		if (ratio === 1)
 		{
 			this.disable();
@@ -272,21 +453,183 @@ export class ScrollBarController extends InteractiveController implements IScrol
 	}
 
 	/**
-	 * Handles scroll button events (increment, decrement, track click).
+	 * Handles scroll button events for increment, decrement, and track click.
 	 */
-	private scrollButtonEventProc(_event: WindowEvent, _window: IWindow): void
+	private scrollButtonEventProc(event: WindowEvent, window: IWindow): void
 	{
-		// Stub - scroll button event handling
+		let updateLift = false;
+
+		if (event.type === 'WME_DOWN')
+		{
+			if (window.name === ScrollBarController.SCROLL_BUTTON_INCREMENT)
+			{
+				if (this._scrollable)
+				{
+					this._isUpdatingLift = true;
+
+					if (this._horizontal)
+					{
+						this.scrollH += this._scrollable.scrollStepH / Math.max(1, this._scrollable.maxScrollH);
+					}
+					else
+					{
+						this.scrollV += this._scrollable.scrollStepV / Math.max(1, this._scrollable.maxScrollV);
+					}
+
+					this._isUpdatingLift = false;
+				}
+			}
+			else if (window.name === ScrollBarController.SCROLL_BUTTON_DECREMENT)
+			{
+				if (this._scrollable)
+				{
+					this._isUpdatingLift = true;
+
+					if (this._horizontal)
+					{
+						this.scrollH -= this._scrollable.scrollStepH / Math.max(1, this._scrollable.maxScrollH);
+					}
+					else
+					{
+						this.scrollV -= this._scrollable.scrollStepV / Math.max(1, this._scrollable.maxScrollV);
+					}
+
+					this._isUpdatingLift = false;
+				}
+			}
+			else if (window.name === ScrollBarController.SCROLL_SLIDER_TRACK)
+			{
+				const mouseEvent = event as WindowMouseEvent;
+				const localX = mouseEvent.localX | 0;
+				const localY = mouseEvent.localY | 0;
+				const bar = (window as WindowController).getChildByName(ScrollBarController.SCROLL_SLIDER_BAR);
+
+				if (bar && this._scrollable)
+				{
+					if (this._horizontal)
+					{
+						if (localX < bar.x)
+						{
+							this.scrollH -= (this._scrollable.visibleRegion.width - this._scrollable.scrollStepH) / Math.max(1, this._scrollable.maxScrollH);
+						}
+						else if (localX > bar.right)
+						{
+							this.scrollH += (this._scrollable.visibleRegion.width - this._scrollable.scrollStepH) / Math.max(1, this._scrollable.maxScrollH);
+						}
+					}
+					else
+					{
+						if (localY < bar.y)
+						{
+							this.scrollV -= (this._scrollable.visibleRegion.height - this._scrollable.scrollStepV) / Math.max(1, this._scrollable.maxScrollV);
+						}
+						else if (localY > bar.bottom)
+						{
+							this.scrollV += (this._scrollable.visibleRegion.height - this._scrollable.scrollStepV) / Math.max(1, this._scrollable.maxScrollV);
+						}
+					}
+
+					updateLift = true;
+				}
+			}
+		}
+
+		if (event.type === 'WME_WHEEL')
+		{
+			const mouseEvent = event as WindowMouseEvent;
+
+			if (mouseEvent.delta > 0)
+			{
+				if (this._horizontal)
+				{
+					this.scrollH -= this._scrollStep;
+				}
+				else
+				{
+					this.scrollV -= this._scrollStep;
+				}
+			}
+			else
+			{
+				if (this._horizontal)
+				{
+					this.scrollH += this._scrollStep;
+				}
+				else
+				{
+					this.scrollV += this._scrollStep;
+				}
+			}
+
+			updateLift = true;
+		}
+
+		if (updateLift)
+		{
+			this.updateLiftSizeAndPosition();
+		}
 	}
 
 	/**
 	 * Attempts to resolve the scroll target from the parent hierarchy.
+	 *
+	 * Searches by name first, then checks if parent is scrollable,
+	 * then checks parent's siblings.
 	 */
 	private resolveScrollTarget(): boolean
 	{
-		if (this._scrollable !== null && !this._scrollable.disposed)
+		if (this._scrollable !== null)
 		{
+			if (!this._scrollable.disposed)
+			{
+				return true;
+			}
+		}
+
+		if (this._targetName !== null)
+		{
+			const found = this.findParentByName(this._targetName) as unknown as IScrollableWindow | null;
+
+			if (found === null && this._parent !== null)
+			{
+				const container = this._parent as unknown as IWindowContainer;
+
+				if (container.findChildByName)
+				{
+					const sibling = container.findChildByName(this._targetName) as unknown as IScrollableWindow | null;
+
+					if (sibling)
+					{
+						this.scrollable = sibling;
+						return true;
+					}
+				}
+			}
+		}
+
+		if (this._parent !== null && 'scrollH' in this._parent && 'scrollV' in this._parent)
+		{
+			this.scrollable = this._parent as unknown as IScrollableWindow;
 			return true;
+		}
+
+		if (this._parent !== null)
+		{
+			const container = this._parent as unknown as IWindowContainer;
+
+			if (container.numChildren !== undefined)
+			{
+				for (let i = 0; i < container.numChildren; i++)
+				{
+					const child = container.getChildAt(i);
+
+					if (child && 'scrollH' in child && 'scrollV' in child && 'visibleRegion' in child)
+					{
+						this.scrollable = child as unknown as IScrollableWindow;
+						return true;
+					}
+				}
+			}
 		}
 
 		return false;
@@ -298,7 +641,7 @@ export class ScrollBarController extends InteractiveController implements IScrol
 	private onScrollableResized(_event: WindowEvent): void
 	{
 		this.updateLiftSizeAndPosition();
-		this.setScrollPosition(this._offset);
+		this.setScrollPosition(this._offset, false);
 	}
 
 	/**

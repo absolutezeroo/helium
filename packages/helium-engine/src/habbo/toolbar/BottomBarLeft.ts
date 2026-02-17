@@ -916,6 +916,10 @@ export class BottomBarLeft
 						iconWindow.bitmapData = bitmap;
 						(iconWindow as unknown as IWindow).invalidate();
 					}
+				},
+				dispose(): void
+				{
+					(this as { disposed: boolean }).disposed = true;
 				}
 			};
 

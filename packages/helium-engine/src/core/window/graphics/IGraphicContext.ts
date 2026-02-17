@@ -1,3 +1,5 @@
+import type {IDisposable} from "../../runtime/IDisposable";
+
 /**
  * Interface for a graphic context that manages rendering metadata.
  *
@@ -6,14 +8,13 @@
  *
  * @see sources/win63_2021_version/com/sulake/core/window/graphics/IGraphicContext.as
  */
-export interface IGraphicContext
+export interface IGraphicContext extends IDisposable
 {
 	filters: unknown[];
 	visible: boolean;
 	blend: number;
 	mouse: boolean;
 
-	readonly disposed: boolean;
 	readonly numChildContexts: number;
 
 	offset(x: number, y: number): void;
@@ -39,6 +40,4 @@ export interface IGraphicContext
 	swapChildContexts(a: IGraphicContext, b: IGraphicContext): void;
 
 	swapChildContextsAt(indexA: number, indexB: number): void;
-
-	dispose(): void;
 }

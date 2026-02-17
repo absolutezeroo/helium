@@ -1,5 +1,6 @@
 import type {IWindow} from '../IWindow';
 import type {IWindowContext} from '../IWindowContext';
+import type {IDisposable} from "../../runtime/IDisposable";
 
 /**
  * Interface for the window rendering pipeline.
@@ -10,10 +11,8 @@ import type {IWindowContext} from '../IWindowContext';
  *
  * @see sources/win63_2021_version/com/sulake/core/window/graphics/IWindowRenderer.as
  */
-export interface IWindowRenderer
+export interface IWindowRenderer extends IDisposable
 {
-	readonly disposed: boolean;
-
 	/**
 	 * Enables or disables debug rendering.
 	 */
@@ -66,6 +65,4 @@ export interface IWindowRenderer
 	 * @param recursive - Whether to recurse into children
 	 */
 	purge(window?: IWindow | null, recursive?: boolean): void;
-
-	dispose(): void;
 }

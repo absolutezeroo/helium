@@ -127,7 +127,11 @@ import {
 import {RoomEntryTileMessageEvent,} from './messages/incoming/room/layout';
 
 // Incoming Events - Room Permissions
-import {YouAreControllerMessageEvent, YouAreOwnerMessageEvent,} from './messages/incoming/room/permissions';
+import {
+	YouAreControllerMessageEvent,
+	YouAreNotControllerMessageEvent,
+	YouAreOwnerMessageEvent,
+} from './messages/incoming/room/permissions';
 
 // Incoming Events - Room Engine
 import {
@@ -184,7 +188,11 @@ import {ChangeUserNameResultMessageEvent, UserNameChangedMessageEvent,} from './
 import {ErrorReportEvent} from './messages/incoming/error';
 
 // Incoming Events - Users
-import {EmailStatusResultEvent, InClientLinkMessageEvent} from './messages/incoming/users';
+import {
+	EmailStatusResultEvent,
+	HabboGroupBadgesMessageEvent,
+	InClientLinkMessageEvent
+} from './messages/incoming/users';
 
 // Incoming Events - Preferences
 import {AccountPreferencesEvent} from './messages/incoming/preferences';
@@ -598,6 +606,7 @@ export class HabboMessages implements IMessageConfiguration
 
 		// === ROOM PERMISSIONS ===
 		this._events.set(3116, YouAreControllerMessageEvent);
+		this._events.set(817, YouAreNotControllerMessageEvent);
 		this._events.set(3915, YouAreOwnerMessageEvent);
 
 		// === ROOM ENGINE ===
@@ -643,6 +652,7 @@ export class HabboMessages implements IMessageConfiguration
 		this._events.set(546, OpenPetPackageResultMessageEvent);
 
 		// === USERS ===
+		this._events.set(2798, HabboGroupBadgesMessageEvent);
 		this._events.set(2437, InClientLinkMessageEvent);
 		this._events.set(712, EmailStatusResultEvent);
 
