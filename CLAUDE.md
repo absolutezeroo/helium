@@ -90,6 +90,4 @@ Path mapping: `sources/win63_version/habbo/<module>/` ↔ `sources/flash_version
 | `docs/PATTERNS.md`                            | Implementation templates with code examples   |
 | `docs/STYLEGUIDE.md`                          | Complete code style reference + performance   |
 | `docs/IMPLEMENTATION_STATUS.md`               | Progress tracking (~35% overall, ~710+ files) |
-| `docs/PERFORMANCE_ANALYSIS.md`                | Identified performance issues (16 items)      |
-| `docs/VIOLATIONS.md`                          | Code violations audit (111 items)             |
 | `docs/architectures/<module>-architecture.md` | Per-module AS3 architecture analysis          |
