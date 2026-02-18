@@ -111,6 +111,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		objectId: number;
 		category: number
 	}>> = new Map();
+	private _initializedRooms: Set<number> = new Set();
 	private _canvasElement: HTMLCanvasElement | null = null;
 	private _boundOnPointerMove: ((e: PointerEvent) => void) | null = null;
 	private _boundOnPointerDown: ((e: PointerEvent) => void) | null = null;
@@ -394,6 +395,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 
 		this._roomData.delete(roomIdStr);
 		this._ownUserIds.delete(roomId);
+		this._initializedRooms.delete(roomId);
 
 		// Clean up visualizations for this room
 		const keysToDelete: string[] = [];
@@ -1080,6 +1082,14 @@ export class RoomEngine extends Component implements IRoomEngine,
 		doorDir?: number
 	): void
 	{
+		// Guard against double initialization (server can send height map twice)
+		if(this._initializedRooms.has(roomId))
+		{
+			log.debug(`[RoomEngine] Room ${roomId} already initialized, skipping`);
+
+			return;
+		}
+
 		// Create room instance if it doesn't exist
 		let room = this.getRoomInstance(roomId);
 
@@ -1195,6 +1205,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 			this.loadFurnitureContent(roomId, OBJECT_ID_TILE_CURSOR, OBJECT_TYPE_TILE_CURSOR, RoomObjectCategoryEnum.OBJECT_CATEGORY_ROOM);
 		}
 
+		this._initializedRooms.add(roomId);
 		this.setActiveRoom(roomId);
 		this.events.emit(RoomEngineEvent.REE_INITIALIZED, new RoomEngineEvent(RoomEngineEvent.REE_INITIALIZED, roomId));
 	}

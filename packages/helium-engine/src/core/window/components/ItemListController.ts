@@ -752,6 +752,43 @@ export class ItemListController extends WindowController implements IItemListWin
 		return handled;
 	}
 
+	/**
+	 * Routes layout children to the internal container.
+	 *
+	 * In AS3, the WindowParser checks `parent is IIterable` and adds children
+	 * via the iterator (which calls `addListItem`). In TypeScript, we achieve
+	 * the same by routing parsed children to `_container` so that
+	 * `getListItemByName` and `numListItems` can find them.
+	 *
+	 * @see sources/win63_version/core/window/utils/WindowParser.as line 294, 364-391
+	 */
+	public override getLayoutChildTarget(): IWindow
+	{
+		return this._container as unknown as IWindow ?? this;
+	}
+
+	/**
+	 * Clones list items into the target via `addListItem`.
+	 *
+	 * In AS3, `cloneChildWindows` is overridden to iterate `numListItems`
+	 * and clone each item via `addListItem` on the target, ensuring cloned
+	 * children end up in the internal `_container` of the clone.
+	 *
+	 * @see sources/win63_version/core/window/components/ItemListController.as line 352-361
+	 */
+	protected override cloneChildWindows(target: WindowController): void
+	{
+		for(let i = 0; i < this.numListItems; i++)
+		{
+			const item = this.getListItemAt(i);
+
+			if(item)
+			{
+				(target as unknown as IItemListWindow).addListItem(item.clone());
+			}
+		}
+	}
+
 	public override dispose(): void
 	{
 		if(this._disposed) return;

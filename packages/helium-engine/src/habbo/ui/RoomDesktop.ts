@@ -256,6 +256,14 @@ export class RoomDesktop implements IRoomDesktop, IRoomWidgetMessageListener, IR
 	 */
 	public createRoomView(canvasId: number): void
 	{
+		// Guard against double initialization (server can send height map twice)
+		if(this._canvasIds.includes(canvasId))
+		{
+			log.debug(`Room view already created for canvas ${canvasId}, skipping`);
+
+			return;
+		}
+
 		if(!this._roomEngine || !this._windowManager)
 		{
 			log.warn('Cannot create room view — missing roomEngine or windowManager');

@@ -311,12 +311,12 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
 		const needsSpriteUpdate = objectUpdated || modelChanged || scaleChanged;
 		const shouldAnimate = (this._isAnimating || this._currentAngleDeg > 0) && update;
 
-		if (needsSpriteUpdate)
+		if (needsSpriteUpdate || needsNewImage)
 		{
 			this._currentAngleDeg = SPRITE_INDEX_AVATAR;
 		}
 
-		if (needsSpriteUpdate || shouldAnimate)
+		if (needsSpriteUpdate || shouldAnimate || needsNewImage)
 		{
 			this.increaseUpdateId();
 			this._currentAngleDeg--;
