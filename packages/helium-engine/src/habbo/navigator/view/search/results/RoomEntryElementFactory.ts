@@ -66,19 +66,24 @@ export class RoomEntryElementFactory
 	 *
 	 * @param userCount - Current number of users
 	 * @param maxUserCount - Maximum capacity
-	 * @returns A color value (green/yellow/red gradient)
+	 * @returns A color value (ARGB)
+	 *
+	 * @see sources/win63_version/habbo/window/utils/class_3822.as getUserCountColor()
 	 */
 	private static getUserCountColor(userCount: number, maxUserCount: number): number
 	{
-		if (maxUserCount <= 0) return 0xFF00FF00;
+		let percentage = 0;
 
-		const ratio = userCount / maxUserCount;
+		if(maxUserCount > 0)
+		{
+			percentage = (100 * (userCount / maxUserCount)) | 0;
+		}
 
-		if (ratio >= 1.0) return 0xFFFF0000;
-		if (ratio >= 0.8) return 0xFFFF8800;
-		if (ratio >= 0.5) return 0xFFFFFF00;
+		if(percentage >= 92) return 0xFFC2332C;
+		if(percentage >= 50) return 0xFFFFB11B;
+		if(userCount > 0) return 0xFF63B162;
 
-		return 0xFF00FF00;
+		return 0xFFCBCAC1;
 	}
 
 	/**

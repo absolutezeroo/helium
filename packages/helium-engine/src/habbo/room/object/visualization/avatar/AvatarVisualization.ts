@@ -115,6 +115,7 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
 	private _isLaying: boolean = false;
 	private _activeAvatarImage: IAvatarImage | null = null;
 	private _isOwnAvatar: boolean = false;
+	private _forceUpdate: boolean = false;
 
 	constructor()
 	{
@@ -227,6 +228,12 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
 		const previousEffectType = this._effectType;
 		let effectChanged = false;
 		const modelChanged = this.updateModel(model, scale, update);
+
+		if (this._forceUpdate)
+		{
+			this.resetImages();
+			this._forceUpdate = false;
+		}
 
 		if (modelChanged || scale !== this._scale || this._activeAvatarImage == null)
 		{
@@ -349,7 +356,7 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
 	 */
 	avatarImageReady(figureString: string): void
 	{
-		this.resetImages();
+		this._forceUpdate = true;
 	}
 
 	/**
@@ -359,7 +366,7 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
 	 */
 	avatarEffectReady(effectId: number): void
 	{
-		this.resetImages();
+		this._forceUpdate = true;
 	}
 
 	/**

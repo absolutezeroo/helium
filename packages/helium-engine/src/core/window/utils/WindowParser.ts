@@ -372,6 +372,7 @@ export class WindowParser implements IWindowParser
 		// to prevent redundant layout passes (AS3 lines 398-411).
 		const childTarget = window.getLayoutChildTarget();
 		const isBoxSizer = typeof (window as unknown as BoxSizerController).setAutoRearrange === 'function';
+		const isItemList = typeof (window as unknown as { arrangeItems(): void }).arrangeItems === 'function';
 
 		if (isBoxSizer)
 		{
@@ -386,6 +387,17 @@ export class WindowParser implements IWindowParser
 		if (isBoxSizer)
 		{
 			(window as unknown as BoxSizerController).setAutoRearrange(true);
+		}
+
+		// ── IIterable arrangement (AS3 lines 362-391) ────────────────
+		// In AS3, when the parent is IIterable (e.g. ItemListController),
+		// children are added via the iterator's addListItemAt(), which
+		// positions items and updates the scroll area. In TypeScript,
+		// children go to _container via getLayoutChildTarget() + addChild,
+		// so we trigger arrangement after all children are parsed.
+		if (isItemList)
+		{
+			(window as unknown as { arrangeItems(): void }).arrangeItems();
 		}
 
 		// ── 10. Apply vars as PropertyStruct ────────────────────────
