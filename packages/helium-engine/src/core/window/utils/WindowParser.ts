@@ -458,6 +458,11 @@ export class WindowParser implements IWindowParser
 					case 'wrap_y':
 					case 'greyscale':
 					case 'rotation':
+					case 'scale_to_fit_items':
+					case 'resize_on_item_update':
+					case 'auto_arrange_items':
+					case 'scroll_step_h':
+					case 'scroll_step_v':
 						props.push(new PropertyStruct(key, val));
 						break;
 					case 'margins':

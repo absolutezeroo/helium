@@ -10,12 +10,14 @@
 <div id="helium-ui"></div>
 
 <script type="module">
+    const ssoTicket = new URLSearchParams(window.location.search).get('ssoTicket') || null;
+
     window.HeliumConfig = {
         connection: {
             host: 'localhost',
             ports: [30001],
-            ssoTicket: (new URLSearchParams(window.location.search).get('ssoTicket') || null),
-            autoConnect: true,
+            ssoTicket: ssoTicket,
+            autoConnect: !!ssoTicket,
         },
         configurationUrl: 'http://habbo-swf.local/gamedata/external_renderer_variables/1'
     };

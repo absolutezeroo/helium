@@ -12,6 +12,7 @@ import type {RoomUI} from '@habbo/ui/RoomUI';
 import type {RoomDesktop} from '@habbo/ui/RoomDesktop';
 import type {HeliumLoadingScreen} from './HeliumLoadingScreen';
 import {AssetBundle} from './AssetBundle';
+import {LoginFlow} from './login/LoginFlow';
 import './_index.scss';
 
 /** Atlas spritesheet names that need to be decoded as ImageBitmaps. */
@@ -169,27 +170,82 @@ export class HeliumApp
 			this._loadingScreen = null;
 		}
 
-		// 5. Create the canvas and set desktop sizes BEFORE creating windows
+		// 5. Show login flow if no SSO ticket was provided
+		// AS3: HabboAir creates LoginFlow when no SSO ticket in FlashVars.
+		// LoginFlow runs as a standalone overlay before the main client starts.
+		const ssoTicket = window.HeliumConfig?.connection?.ssoTicket;
+
+		if(!ssoTicket)
+		{
+			await this.showLoginFlow();
+		}
+
+		// 6. Create the canvas and set desktop sizes BEFORE creating windows
 		this.createCanvas();
 
-		// 6. Register all image blob URLs with the resource manager
+		// 7. Register all image blob URLs with the resource manager
 		this.registerImageAssets();
 
-		// 7. Initialize the Friend Bar (landing view) — desktops are now sized
+		// 8. Initialize the Friend Bar (landing view) — desktops are now sized
 		helium.initFriendBar();
 
-		// 8. Activate the toolbar (hotel view by default)
+		// 9. Activate the toolbar (hotel view by default)
 		helium.toolbar.setToolbarState(HabboToolbarEnum.TOOLBAR_STATE_HOTEL_VIEW);
 
-		// 9. Listen for room state changes to track when we are in a room
+		// 10. Listen for room state changes to track when we are in a room
 		this.setupRoomStateTracking();
 
-		// 10. Flush microtasks
+		// 11. Flush microtasks
 		await Promise.resolve();
 
-		// 11. Start input and render loop
+		// 12. Start input and render loop
 		this.setupMouseEvents();
 		this.startRenderLoop();
+	}
+
+	/**
+	 * Shows the login flow overlay and waits for the user to complete login.
+	 *
+	 * AS3: HabboAir creates LoginFlow when no SSO ticket is in FlashVars.
+	 * The LoginFlow runs as a standalone Sprite before the main client starts.
+	 * When complete, it provides an SSO token that is passed to the engine.
+	 *
+	 * @see sources/win63_2021_version/login/LoginFlow.as
+	 * @returns Promise that resolves when the login flow finishes
+	 */
+	private showLoginFlow(): Promise<void>
+	{
+		return new Promise((resolve) =>
+		{
+			const helium = Helium.instance;
+			const loginFlow = new LoginFlow(helium.configuration);
+
+			loginFlow.init();
+
+			loginFlow.loginEvents.once(LoginFlow.LOGIN_FLOW_FINISHED_EVENT, () =>
+			{
+				const token = loginFlow.ssoToken;
+
+				loginFlow.dispose();
+
+				if(token)
+				{
+					// Set the SSO ticket on the communication manager
+					helium.habboCommunication.ssoTicket = token;
+
+					// Update the global config so connect() picks it up
+					if(window.HeliumConfig?.connection)
+					{
+						window.HeliumConfig.connection.ssoTicket = token;
+					}
+
+					// Trigger the connection
+					helium.connect();
+				}
+
+				resolve();
+			});
+		});
 	}
 
 	/**

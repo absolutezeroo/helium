@@ -16,6 +16,7 @@ configurations/
 mockup/
 tools/flash2html/output/
 *.png
+NUL
 
 # Davia
 .davia/
