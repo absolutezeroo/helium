@@ -123,6 +123,19 @@ export class StaticBitmapWrapperController extends BitmapDataController implemen
 		super.properties = value;
 	}
 
+	public override clone(): IWindow
+	{
+		const cloned = super.clone() as StaticBitmapWrapperController;
+
+		if(this._assetUri)
+		{
+			cloned._assetUri = this._assetUri;
+			cloned._ownsBitmapData = false;
+		}
+
+		return cloned;
+	}
+
 	public override dispose(): void
 	{
 		if(this._disposed) return;

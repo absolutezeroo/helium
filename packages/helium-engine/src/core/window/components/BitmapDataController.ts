@@ -304,6 +304,28 @@ export class BitmapDataController extends WindowController
 		super.properties = value;
 	}
 
+	public override clone(): IWindow
+	{
+		const cloned = super.clone() as BitmapDataController;
+
+		cloned._bitmapData = this._bitmapData;
+		cloned._pivot = this._pivot;
+		cloned._stretchedX = this._stretchedX;
+		cloned._stretchedY = this._stretchedY;
+		cloned._zoomX = this._zoomX;
+		cloned._zoomY = this._zoomY;
+		cloned._fitSizeToContents = this._fitSizeToContents;
+		cloned._greyscale = this._greyscale;
+		cloned._etchingColor = this._etchingColor;
+		cloned._etchingPointX = this._etchingPointX;
+		cloned._etchingPointY = this._etchingPointY;
+		cloned._wrapX = this._wrapX;
+		cloned._wrapY = this._wrapY;
+		cloned._rotation = this._rotation;
+
+		return cloned;
+	}
+
 	public override dispose(): void
 	{
 		if(this._disposed) return;

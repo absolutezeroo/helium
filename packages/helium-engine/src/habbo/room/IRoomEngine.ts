@@ -5,9 +5,11 @@
  *
  * Main interface for the Habbo room engine.
  */
+import type {Container} from 'pixi.js';
 import type {EventEmitter} from 'eventemitter3';
 import type {IDisposable} from '@core/runtime/IDisposable';
 import type {IRoomInstance} from '@room/IRoomInstance';
+import type {IRoomGeometry} from '@room/utils/IRoomGeometry';
 import type {IRoomObject} from '@room/object/IRoomObject';
 import type {IVector3d} from '@room/utils/IVector3d';
 
@@ -111,4 +113,73 @@ export interface IRoomEngine extends IDisposable
 	getRoomOwnObjectId(roomId: number): number;
 
 	setRoomOwnObjectId(roomId: number, objectId: number): void;
+
+	// Canvas management
+
+	/**
+	 * Creates a rendering canvas for a room.
+	 *
+	 * @returns The PixiJS Container for the canvas, or null on failure
+	 */
+	createRoomCanvas(roomId: number, canvasId: number, width: number, height: number, scale: number): Container | null;
+
+	/**
+	 * Modifies the dimensions of an existing room canvas.
+	 */
+	modifyRoomCanvas(roomId: number, canvasId: number, width: number, height: number): boolean;
+
+	/**
+	 * Handles a mouse event on the room canvas.
+	 */
+	handleRoomCanvasMouseEvent(
+		canvasId: number,
+		x: number,
+		y: number,
+		type: string,
+		altKey: boolean,
+		ctrlKey: boolean,
+		shiftKey: boolean,
+		buttonDown: boolean
+	): void;
+
+	/**
+	 * Gets the room geometry for a canvas.
+	 */
+	getRoomCanvasGeometry(roomId: number, canvasId?: number): IRoomGeometry | null;
+
+	/**
+	 * Gets the screen offset of a room canvas.
+	 */
+	getRoomCanvasScreenOffset(roomId: number, canvasId?: number): { x: number; y: number } | null;
+
+	/**
+	 * Sets the screen offset of a room canvas.
+	 */
+	setRoomCanvasScreenOffset(roomId: number, canvasId: number, point: { x: number; y: number }): boolean;
+
+	/**
+	 * Sets the scale of a room canvas, optionally centering on a point.
+	 */
+	setRoomCanvasScale(
+		roomId: number,
+		canvasId: number,
+		scale: number,
+		point?: { x: number; y: number } | null,
+		offset?: { x: number; y: number } | null
+	): void;
+
+	/**
+	 * Gets the scale of a room canvas.
+	 */
+	getRoomCanvasScale(roomId: number, canvasId?: number): number;
+
+	/**
+	 * The currently active room ID.
+	 */
+	readonly activeRoomId: number;
+
+	/**
+	 * Whether the room is currently in game mode.
+	 */
+	readonly isGameMode: boolean;
 }

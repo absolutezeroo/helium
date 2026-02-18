@@ -11,6 +11,9 @@ export class RoomEngineEvent
 	public static readonly REE_DISPOSED = 'REE_DISPOSED';
 	public static readonly REE_ENGINE_INITIALIZED = 'REE_ENGINE_INITIALIZED';
 	public static readonly REE_ROOM_ZOOMED = 'REE_ROOM_ZOOMED';
+	public static readonly REE_OBJECTS_INITIALIZED = 'REE_OBJECTS_INITIALIZED';
+	public static readonly REE_NORMAL_MODE = 'REE_NORMAL_MODE';
+	public static readonly REE_GAME_MODE = 'REE_GAME_MODE';
 
 	constructor(type: string, roomId: number)
 	{

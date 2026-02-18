@@ -1,12 +1,15 @@
 import type {IHeliumConfig} from 'helium-engine';
 import {Helium} from 'helium-engine';
 import {HabboToolbarEnum} from '@habbo/toolbar/HabboToolbarEnum';
+import {RoomEngineEvent} from '@habbo/room/events/RoomEngineEvent';
 import type {ISkinData} from '@core/window';
 import type {IWindow} from '@core/window/IWindow';
 import {WindowController} from '@core/window/WindowController';
 import {WindowMouseEvent} from '@core/window/events/WindowMouseEvent';
 import type {WindowMouseOperator} from '@core/window/services/WindowMouseOperator';
 import type {IElementDescriptionData} from '@habbo/window';
+import type {RoomUI} from '@habbo/ui/RoomUI';
+import type {RoomDesktop} from '@habbo/ui/RoomDesktop';
 import type {HeliumLoadingScreen} from './HeliumLoadingScreen';
 import {AssetBundle} from './AssetBundle';
 import './_index.scss';
@@ -65,6 +68,12 @@ export class HeliumApp
 	/** Document-level mouseup handler (for drag/scale). */
 	private _docUpHandler: ((e: MouseEvent) => void) | null = null;
 
+	/** Whether we are currently in a room (for mouse event routing). */
+	private _isInRoom: boolean = false;
+
+	/** Active room ID for mouse routing. */
+	private _activeRoomId: number = -1;
+
 	constructor(loadingScreen?: HeliumLoadingScreen)
 	{
 		this._loadingScreen = loadingScreen ?? null;
@@ -81,9 +90,6 @@ export class HeliumApp
 	public async init(): Promise<void>
 	{
 		// 1. Bootstrap engine + load asset bundle in parallel
-		// AS3: HabboAir passes loadingScreen to HabboAirMain.
-		// Asset loading progress maps to [0.0 - 0.6] range (AS3: SWF preloading).
-		// Engine init progress maps to [0.6 - 1.0] range (AS3: HabboAirMain.updateProgressBar).
 		const CORE_RATIO = 0.6;
 
 		const [, bundle] = await Promise.all([
@@ -175,10 +181,13 @@ export class HeliumApp
 		// 8. Activate the toolbar (hotel view by default)
 		helium.toolbar.setToolbarState(HabboToolbarEnum.TOOLBAR_STATE_HOTEL_VIEW);
 
-		// 9. Flush microtasks
+		// 9. Listen for room state changes to track when we are in a room
+		this.setupRoomStateTracking();
+
+		// 10. Flush microtasks
 		await Promise.resolve();
 
-		// 10. Start input and render loop
+		// 11. Start input and render loop
 		this.setupMouseEvents();
 		this.startRenderLoop();
 	}
@@ -234,6 +243,57 @@ export class HeliumApp
 		this._ctx = null;
 		this._lastHoveredWindow = null;
 		this._mouseDownWindow = null;
+		this._isInRoom = false;
+		this._activeRoomId = -1;
+	}
+
+	/**
+	 * Sets up room state tracking by listening to room engine events.
+	 * Updates `_isInRoom` to control mouse event routing.
+	 */
+	private setupRoomStateTracking(): void
+	{
+		const helium = Helium.instance;
+
+		helium.roomEngine.events.on(RoomEngineEvent.REE_INITIALIZED, (event: any) =>
+		{
+			this._isInRoom = true;
+			this._activeRoomId = event.roomId;
+		});
+
+		helium.roomEngine.events.on(RoomEngineEvent.REE_DISPOSED, (_event: any) =>
+		{
+			this._isInRoom = false;
+			this._activeRoomId = -1;
+		});
+	}
+
+	/**
+	 * Forwards a mouse event to the room engine via RoomDesktop.
+	 * Called when no UI window intercepted the event and we are in a room.
+	 */
+	private forwardToRoomEngine(x: number, y: number, type: string, e: MouseEvent): void
+	{
+		const helium = Helium.instance;
+
+		try
+		{
+			const roomUI = helium.roomUI as RoomUI;
+			const desktop = roomUI.getDesktopForRoom(this._activeRoomId) as RoomDesktop | null;
+
+			if(desktop)
+			{
+				desktop.canvasMouseHandler(
+					x, y, type,
+					e.altKey, e.ctrlKey, e.shiftKey,
+					e.buttons > 0
+				);
+			}
+		}
+		catch
+		{
+			// RoomUI not yet initialized
+		}
 	}
 
 	/**
@@ -417,7 +477,16 @@ export class HeliumApp
 		const helium = Helium.instance;
 		const hit = helium.windowManager.findWindowAtPoint(x, y);
 
-		if (!hit) return;
+		if (!hit)
+		{
+			// No UI window hit — forward to room engine if in a room
+			if (this._isInRoom)
+			{
+				this.forwardToRoomEngine(x, y, 'mouse_down', e);
+			}
+
+			return;
+		}
 
 		this._mouseDown = true;
 		this._mouseDownWindow = hit;
@@ -572,6 +641,12 @@ export class HeliumApp
 			moveEvent.recycle();
 		}
 
+		// Forward to room engine if no UI window hit and in a room
+		if (!hit && this._isInRoom)
+		{
+			this.forwardToRoomEngine(x, y, 'mouse_move', e);
+		}
+
 		// Update cursor: pointer on mouse-event-enabled windows
 		if (this._canvas)
 		{
@@ -589,7 +664,16 @@ export class HeliumApp
 		const helium = Helium.instance;
 		const hit = helium.windowManager.findWindowAtPoint(x, y);
 
-		if (!hit) return;
+		if (!hit)
+		{
+			// Forward click to room engine if in a room
+			if (this._isInRoom)
+			{
+				this.forwardToRoomEngine(x, y, 'click', e);
+			}
+
+			return;
+		}
 
 		const globalPos = {x: 0, y: 0};
 
@@ -618,7 +702,29 @@ export class HeliumApp
 		const helium = Helium.instance;
 		const hit = helium.windowManager.findWindowAtPoint(x, y);
 
-		if (!hit) return;
+		if (!hit)
+		{
+			// Forward wheel to room desktop for zoom if in a room and Ctrl held
+			if (this._isInRoom && e.ctrlKey)
+			{
+				try
+				{
+					const roomUI = helium.roomUI as RoomUI;
+					const desktop = roomUI.getDesktopForRoom(this._activeRoomId) as RoomDesktop | null;
+
+					if (desktop)
+					{
+						desktop.handleMouseWheel(e.deltaY, x, y);
+					}
+				}
+				catch
+				{
+					// RoomUI not yet initialized
+				}
+			}
+
+			return;
+		}
 
 		const globalPos = {x: 0, y: 0};
 

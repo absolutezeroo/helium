@@ -20,6 +20,7 @@ import {HabboFreeFlowChat} from '@habbo/freeflowchat/HabboFreeFlowChat';
 import {AvatarRenderManager} from '@habbo/avatar/AvatarRenderManager';
 import {HabboWindowManager} from '@habbo/window/HabboWindowManager';
 import {HabboFriendBar} from '@habbo/friendbar/HabboFriendBar';
+import {RoomUI} from '@habbo/ui/RoomUI';
 import {Logger} from '@core/utils/Logger';
 import type {IHeliumConfig} from './Helium';
 import {Helium} from './Helium';
@@ -36,6 +37,7 @@ import {IID_RoomSessionManager} from '@iid/IIDRoomSessionManager';
 import {IID_SessionDataManager} from '@iid/IIDSessionDataManager';
 import {IID_AvatarRenderManager} from '@iid/IIDAvatarRenderManager';
 import {IID_HabboWindowManager} from '@iid/IIDHabboWindowManager';
+import {IID_RoomUI} from '@iid/IIDRoomUI';
 import {HabboProperty} from '@habbo/configuration';
 
 import type {HeliumCore} from '@core/HeliumCore';
@@ -127,6 +129,7 @@ export class HeliumMain implements IHeliumMain
 	private _notifications: HabboNotifications | null = null;
 	private _freeFlowChat: HabboFreeFlowChat | null = null;
 	private _friendBar: HabboFriendBar | null = null;
+	private _roomUI: RoomUI | null = null;
 
 	/**
 	 * AS3: HabboAirMain(_arg_1:IHabboLoadingScreen, _arg_2:Dictionary)
@@ -323,6 +326,16 @@ export class HeliumMain implements IHeliumMain
 		return this._habboCommunicationManager;
 	}
 
+	get roomUI(): RoomUI
+	{
+		if(!this._roomUI)
+		{
+			throw new Error('[HabboMain] Not initialized');
+		}
+
+		return this._roomUI;
+	}
+
 	// ── Initialization ───────────────────────────────────────────────
 
 	/**
@@ -382,6 +395,7 @@ export class HeliumMain implements IHeliumMain
 
 		// 3. Nullify Habbo manager refs (inverse init order)
 		this._friendBar = null;
+		this._roomUI = null;
 		this._windowManager = null;
 		this._freeFlowChat = null;
 		this._toolbar = null;
@@ -560,10 +574,16 @@ export class HeliumMain implements IHeliumMain
 		this._windowManager = new HabboWindowManager(ctx);
 		ctx.attachComponent(this._windowManager, [IID_HabboWindowManager]);
 
+		// 12j. Room UI
+		this._roomUI = new RoomUI(ctx, 0, this._core!.assets);
+		ctx.attachComponent(this._roomUI, [IID_RoomUI]);
+
 		// Set PixiJS stage on room engine for rendering
 		this._roomEngine.setStage(this._core!.application.stage);
 
-		// Wire DOM mouse events to room engine
+		// NOTE: Mouse events are now routed via App.ts (Canvas2D overlay),
+		// not directly on the PixiJS canvas. setCanvasElement() is kept
+		// as a fallback if App.ts doesn't handle routing.
 		this._roomEngine.setCanvasElement(this._core!.application.canvas as HTMLCanvasElement);
 
 		// 12. Room Message Handler - bridges communication to room engine

@@ -439,6 +439,11 @@ export class RoomEngine extends Component implements IRoomEngine,
 		return this._activeRoomId;
 	}
 
+	get activeRoomId(): number
+	{
+		return this._activeRoomId;
+	}
+
 	addRoomObjectUser(
 		roomId: number,
 		id: number,
@@ -1737,6 +1742,150 @@ export class RoomEngine extends Component implements IRoomEngine,
 	getContentLoader(): RoomContentLoader
 	{
 		return this._contentLoader;
+	}
+
+	// ── Canvas management API (used by RoomDesktop) ─────────────────
+
+	/**
+	 * Creates a rendering canvas for a room with explicit dimensions.
+	 * Unlike getRenderingCanvas(), this does NOT auto-attach a resize listener.
+	 * RoomDesktop manages resize instead.
+	 *
+	 * @returns The PixiJS Container for the canvas, or null on failure
+	 */
+	createRoomCanvas(roomId: number, canvasId: number, width: number, height: number, scale: number): Container | null
+	{
+		const key = roomId * 1000 + canvasId;
+
+		if(this._renderingCanvases.has(key))
+		{
+			log.warn(`Canvas already exists for room ${roomId}, canvas ${canvasId}`);
+
+			return this._renderingCanvases.get(key)!.container;
+		}
+
+		const canvas = new RoomRenderingCanvas(canvasId, width, height, scale);
+
+		this._renderingCanvases.set(key, canvas);
+
+		if(this._pixiStage)
+		{
+			this._pixiStage.addChild(canvas.container);
+		}
+
+		return canvas.container;
+	}
+
+	/**
+	 * Modifies the dimensions of an existing room canvas.
+	 */
+	modifyRoomCanvas(roomId: number, canvasId: number, width: number, height: number): boolean
+	{
+		const key = roomId * 1000 + canvasId;
+		const canvas = this._renderingCanvases.get(key);
+
+		if(!canvas)
+		{
+			return false;
+		}
+
+		canvas.initialize(width, height);
+
+		return true;
+	}
+
+	/**
+	 * Handles a mouse event forwarded from the client UI layer.
+	 */
+	handleRoomCanvasMouseEvent(
+		canvasId: number,
+		x: number,
+		y: number,
+		type: string,
+		altKey: boolean,
+		ctrlKey: boolean,
+		shiftKey: boolean,
+		buttonDown: boolean
+	): void
+	{
+		if(this._activeRoomId < 0) return;
+
+		const key = this._activeRoomId * 1000 + canvasId;
+		const canvas = this._renderingCanvases.get(key);
+
+		if(canvas)
+		{
+			canvas.handleMouseEvent(x, y, type, altKey, ctrlKey, shiftKey, buttonDown);
+		}
+	}
+
+	/**
+	 * Gets the room geometry for a canvas.
+	 */
+	getRoomCanvasGeometry(roomId: number, canvasId: number = 1): import('@room/utils/IRoomGeometry').IRoomGeometry | null
+	{
+		const key = roomId * 1000 + canvasId;
+		const canvas = this._renderingCanvases.get(key);
+
+		return canvas?.geometry ?? null;
+	}
+
+	/**
+	 * Gets the screen offset of a room canvas.
+	 */
+	getRoomCanvasScreenOffset(roomId: number, canvasId: number = 1): { x: number; y: number } | null
+	{
+		const key = roomId * 1000 + canvasId;
+		const canvas = this._renderingCanvases.get(key);
+
+		if(!canvas) return null;
+
+		return { x: canvas.screenOffsetX, y: canvas.screenOffsetY };
+	}
+
+	/**
+	 * Sets the screen offset of a room canvas.
+	 */
+	setRoomCanvasScreenOffset(roomId: number, canvasId: number, point: { x: number; y: number }): boolean
+	{
+		const key = roomId * 1000 + canvasId;
+		const canvas = this._renderingCanvases.get(key);
+
+		if(!canvas) return false;
+
+		canvas.setScreenOffset(point.x, point.y);
+
+		return true;
+	}
+
+	/**
+	 * Sets the scale of a room canvas.
+	 */
+	setRoomCanvasScale(
+		roomId: number,
+		canvasId: number,
+		scale: number,
+		_point?: { x: number; y: number } | null,
+		_offset?: { x: number; y: number } | null
+	): void
+	{
+		const key = roomId * 1000 + canvasId;
+		const canvas = this._renderingCanvases.get(key);
+
+		if(!canvas) return;
+
+		canvas.setScale(scale);
+	}
+
+	/**
+	 * Gets the scale of a room canvas.
+	 */
+	getRoomCanvasScale(roomId: number, canvasId: number = 1): number
+	{
+		const key = roomId * 1000 + canvasId;
+		const canvas = this._renderingCanvases.get(key);
+
+		return canvas?.scale ?? 1;
 	}
 
 	/**

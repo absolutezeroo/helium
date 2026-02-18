@@ -128,6 +128,16 @@ export class BitmapWrapperController extends BitmapDataController implements IBi
 		super.properties = value;
 	}
 
+	public override clone(): IWindow
+	{
+		const cloned = super.clone() as BitmapWrapperController;
+
+		cloned._disposesBitmap = false;
+		cloned._bitmapAssetName = this._bitmapAssetName;
+
+		return cloned;
+	}
+
 	public override dispose(): void
 	{
 		if(this._disposed) return;
