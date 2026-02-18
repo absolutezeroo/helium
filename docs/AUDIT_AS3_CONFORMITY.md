@@ -155,12 +155,12 @@ Méthodes manquantes dans `RoomInstance.ts` :
 
 ## Bugs détectés
 
-| Fichier                    | Ligne           | Bug                                                                                  | Sévérité |
-|----------------------------|-----------------|--------------------------------------------------------------------------------------|----------|
-| `RoomGeometry.ts`          | ~201            | `Vector3d.sum()` résultat non assigné (orphelin) — la rotation Z ne fonctionne pas   | CRITIQUE |
-| `RoomSession.ts`           | dimmer          | Couleur passée comme nombre au lieu de hex string (`"#RRGGBB"`)                      | CRITIQUE |
-| `RoomSessionManager.ts`    | deps            | `_habboTracking` toujours `null` (dépendance jamais injectée)                        | CRITIQUE |
-| `AvatarFigureContainer.ts` | getPartColorIds | Retourne `[]` au lieu de `null` quand le type n'existe pas                           | MINEUR   |
+| Fichier                    | Ligne           | Bug                                                                                | Sévérité | Statut      |
+|----------------------------|-----------------|------------------------------------------------------------------------------------|----------|-------------|
+| `RoomGeometry.ts`          | ~201            | `Vector3d.sum()` résultat non assigné (orphelin) — la rotation Z ne fonctionne pas | CRITIQUE | **CORRIGÉ** |
+| `RoomSession.ts`           | dimmer          | Couleur passée comme nombre au lieu de hex string (`"#RRGGBB"`)                    | CRITIQUE | **CORRIGÉ** |
+| `RoomSessionManager.ts`    | deps            | `_habboTracking` toujours `null` (dépendance jamais injectée)                      | CRITIQUE | **CORRIGÉ** |
+| `AvatarFigureContainer.ts` | getPartColorIds | Retourne `[]` au lieu de `null` quand le type n'existe pas                         | MINEUR   | **CORRIGÉ** |
 
 ---
 
@@ -452,10 +452,10 @@ Aucune donnée critique manquante.
 1. Porter **habbo/catalog** (boutique — 50+ classes)
 2. Porter **habbo/sound** (audio — 29 classes)
 3. Porter **room/renderer/** (rendu des objets — 10+ fichiers)
-4. Fixer **RoomGeometry.setDepthVector()** (bug d'assignation Vector3d)
+4. ~~Fixer **RoomGeometry.setDepthVector()** (bug d'assignation Vector3d)~~ **CORRIGÉ**
 5. Créer les **27 IID symbols manquants**
-6. Fixer **RoomSessionManager._habboTracking** injection de dépendance
-7. Fixer **RoomSession.ts** couleur dimmer (nombre → hex string)
+6. ~~Fixer **RoomSessionManager._habboTracking** injection de dépendance~~ **CORRIGÉ**
+7. ~~Fixer **RoomSession.ts** couleur dimmer (nombre → hex string)~~ **CORRIGÉ**
 
 ### HAUTE PRIORITÉ
 
@@ -485,6 +485,6 @@ Aucune donnée critique manquante.
 25. Compléter **habbo/tracking** (10+ event handlers supplémentaires)
 26. Porter **habbo/friendbar** sous-composants
 27. Ajouter support **tablet/tactile** dans core/window
-28. Aligner **AvatarFigureContainer.getPartColorIds()** retour `null` vs `[]`
+28. ~~Aligner **AvatarFigureContainer.getPartColorIds()** retour `null` vs `[]`~~ **CORRIGÉ**
 29. Refactorer **IIDRoomUI.ts** vers `createIID()` pattern
 30. Documenter les cuts intentionnels (advertisement, campaign)

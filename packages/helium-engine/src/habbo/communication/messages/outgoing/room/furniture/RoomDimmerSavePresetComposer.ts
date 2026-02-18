@@ -11,7 +11,7 @@ export class RoomDimmerSavePresetComposer extends MessageComposer<ConstructorPar
 {
 	private _data: ConstructorParameters<typeof RoomDimmerSavePresetComposer>;
 
-	constructor(presetNumber: number, effectTypeId: number, color: number, brightness: number, apply: boolean)
+	constructor(presetNumber: number, effectTypeId: number, color: string, brightness: number, apply: boolean)
 	{
 		super();
 		this._data = [presetNumber, effectTypeId, color, brightness, apply];

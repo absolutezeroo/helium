@@ -29,6 +29,7 @@ import {RoomEngineEvent} from '../room/events/RoomEngineEvent';
 import {Logger} from '@core/utils/Logger';
 import type {IRoomEngine} from '@habbo/room';
 import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
+import {IID_HabboTracking} from '@iid/IIDHabboTracking';
 
 const log = Logger.getLogger('RoomSessionManager');
 
@@ -96,6 +97,14 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 					this._communication = manager;
 				},
 				true
+			),
+			new ComponentDependency(
+				IID_HabboTracking,
+				(tracking: IHabboTracking | null) =>
+				{
+					this._habboTracking = tracking;
+				},
+				false
 			),
 			new ComponentDependency(
 				IID_RoomEngine,

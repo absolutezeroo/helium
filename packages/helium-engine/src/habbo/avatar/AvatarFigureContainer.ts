@@ -60,18 +60,18 @@ export class AvatarFigureContainer implements IAvatarFigureContainer
 	 * Gets the color ids for a given part type.
 	 *
 	 * @param type - The part type identifier
-	 * @returns The color id array, or an empty array if not found
+	 * @returns The color id array, or null if not found
 	 */
-	public getPartColorIds(type: string): number[]
+	public getPartColorIds(type: string): number[] | null
 	{
 		const part = this._parts.get(type);
 
-		if (part)
+		if(part)
 		{
 			return part.colorIds;
 		}
 
-		return [];
+		return null;
 	}
 
 	/**
@@ -112,9 +112,12 @@ export class AvatarFigureContainer implements IAvatarFigureContainer
 			parts.push(this.getPartSetId(type));
 
 			const colorIds = this.getPartColorIds(type);
-			for (const colorId of colorIds)
+			if(colorIds)
 			{
-				parts.push(colorId);
+				for(const colorId of colorIds)
+				{
+					parts.push(colorId);
+				}
 			}
 
 			segments.push(parts.join('-'));

@@ -198,8 +198,8 @@ export class RoomGeometry implements IRoomGeometry
 			const cosZ = Math.cos(angleZ);
 			const sinZ = Math.sin(angleZ);
 
-			Vector3d.sum(Vector3d.product(finalY, cosZ), Vector3d.product(finalZ2, sinZ));
-			Vector3d.sum(Vector3d.product(finalY, -sinZ), Vector3d.product(finalZ2, cosZ));
+			const _finalY2 = Vector3d.sum(Vector3d.product(finalY, cosZ), Vector3d.product(finalZ2, sinZ));
+			const _finalZ3 = Vector3d.sum(Vector3d.product(finalY, -sinZ), Vector3d.product(finalZ2, cosZ));
 
 			const finalX3 = new Vector3d(finalX2.x, finalX2.y, finalX2.z);
 

@@ -11,7 +11,7 @@ export interface IAvatarFigureContainer
 
 	getPartSetId(type: string): number;
 
-	getPartColorIds(type: string): number[];
+	getPartColorIds(type: string): number[] | null;
 
 	updatePart(type: string, setId: number, colorIds: number[]): void;
 
