@@ -33,6 +33,17 @@ export const HabboProperty = {
 	LOGOUT_URL: 'logout.url',
 	LOGOUT_DISCONNECT_URL: 'logout.disconnect.url',
 
+	// Dynamic download
+	DYNAMIC_DOWNLOAD_URL: 'flash.dynamic.download.url',
+	DYNAMIC_DOWNLOAD_NAME_TEMPLATE: 'flash.dynamic.download.name.template',
+	DYNAMIC_AVATAR_DOWNLOAD_CONFIGURATION: 'flash.dynamic.avatar.download.configuration',
+	DYNAMIC_AVATAR_DOWNLOAD_URL: 'flash.dynamic.avatar.download.url',
+
+	// External APIs
+	POCKET_API: 'pocket.api',
+	WEB_API: 'web.api',
+	FACEBOOK_APPLICATION_ID: 'facebook.application.id',
+
 	// External files
 	EXTERNAL_RENDERER_VARIABLES: 'external.renderer.variables.json',
 	EXTERNAL_UI_VARIABLES: 'external.ui.variables.json',

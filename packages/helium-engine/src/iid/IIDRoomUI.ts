@@ -1,4 +1,9 @@
+import {createIID} from '@core/runtime/IID';
 import type {IRoomUI} from '@habbo/ui/IRoomUI';
 
-export const IID_RoomUI: unique symbol = Symbol('IIDRoomUI') as any;
-export type IID_RoomUI = IRoomUI;
+/**
+ * IID for Room UI
+ *
+ * Based on AS3: com.sulake.iid.IIDHabboRoomUI
+ */
+export const IID_RoomUI = createIID<IRoomUI>('IRoomUI');
