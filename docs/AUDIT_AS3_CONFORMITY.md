@@ -41,7 +41,7 @@
 | 29 | `habbo/utils`                           | ~80%       | MINEUR       |
 | 30 | `habbo/window`                          | ~85%       | MINEUR       |
 | 31 | `room/` (engine)                        | ~67%       | CRITIQUE     |
-| 32 | `iid/`                                  | **44%**    | CRITIQUE     |
+| 32 | `iid/`                                  | **100%**   | **CONFORME** |
 | 33 | `habbo/advertisement`                   | ~85%       | MINEUR       |
 | 34 | `habbo/campaign`                        | ~70%       | MINEUR       |
 | 35 | **BinaryData/XML → JSON**               | **100%**   | **CONFORME** |
@@ -64,39 +64,11 @@
 
 ## Problèmes critiques transversaux
 
-### 1. IID Symbols — 27/48 manquants (44% couverture)
+### ~~1. IID Symbols — 27/48 manquants (44% couverture)~~ **CORRIGÉ**
 
-Symbols manquants dans `packages/helium-engine/src/iid/` :
+**50/50 symbols** créés et exportés dans `packages/helium-engine/src/iid/index.ts`.
 
-- `IIDCollectiblesController`
-- `IIDCoreLocalizationManager`
-- `IIDCoreWindowManager`
-- `IIDHabboAdManager`
-- `IIDHabboAvatarEditor`
-- `IIDHabboCampaigns`
-- `IIDHabboCatalog`
-- `IIDHabboClubCenter`
-- `IIDHabboEpicPopupView`
-- `IIDHabboFreeFlowChat`
-- `IIDHabboFriendBarData`
-- `IIDHabboFriendBarView`
-- `IIDHabboGameManager`
-- `IIDHabboGroupForumController`
-- `IIDHabboGroupsManager`
-- `IIDHabboHelp`
-- `IIDHabboMessenger`
-- `IIDHabboModeration`
-- `IIDHabboNotifications`
-- `IIDHabboNuxDialogs`
-- `IIDHabboPhoneNumber`
-- `IIDHabboQuestEngine`
-- `IIDHabboSoundManager`
-- `IIDHabboTalent`
-- `IIDHabboUserDefinedRoomEvents`
-- `IIDRoomObjectFactory`
-- `IIDRoomRendererFactory`
-- `IIDVaultController`
-- `IIDWiredMenuController`
+29 fichiers IID ajoutés, `IIDRoomUI.ts` refactoré vers `createIID()`, tous typés avec leurs interfaces quand disponibles.
 
 ### 2. IRoomHandlerListener — contrat d'interface cassé
 
@@ -254,8 +226,8 @@ AS3 contient 50+ classes : HabboCatalog, HabboCatalogUtils, ClubBuyController, C
   - Dépendance localization manquante
   - `resetAll()` absent
 
-- **HabboProperty enum** :
-  - Propriétés manquantes : `flash.dynamic.download.url`, `flash.dynamic.download.name.template`, `flash.dynamic.avatar.download.configuration`, `flash.dynamic.avatar.download.url`, `pocket.api`, `web.api`, `facebook.application.id`, `logout.url`, `logout.disconnect.url`
+- ~~**HabboProperty enum** :~~
+  - ~~Propriétés manquantes~~ **CORRIGÉ** — 7 propriétés ajoutées (`flash.dynamic.download.*`, `pocket.api`, `web.api`, `facebook.application.id`). `logout.url` et `logout.disconnect.url` existaient déjà.
 
 - **AuthenticationOKMessageParser** :
   - `suggestedLoginActions` non extrait
@@ -409,9 +381,9 @@ Manquent : HabboSoundManagerFlash10, HabboMusicController, JukeboxPlayListContro
 
 ### iid/
 
-**44% couverture** (21/48 symbols exportés). 27 IID symbols manquants.
+**100% couverture** (50/50 symbols exportés). Tous les IID symbols créés et typés.
 
-`IIDRoomUI.ts` utilise une syntaxe non-standard (`Symbol()` direct au lieu de `createIID()`).
+`IIDRoomUI.ts` refactoré vers `createIID()` pattern standard.
 
 ### habbo/advertisement
 
@@ -453,7 +425,7 @@ Aucune donnée critique manquante.
 2. Porter **habbo/sound** (audio — 29 classes)
 3. Porter **room/renderer/** (rendu des objets — 10+ fichiers)
 4. ~~Fixer **RoomGeometry.setDepthVector()** (bug d'assignation Vector3d)~~ **CORRIGÉ**
-5. Créer les **27 IID symbols manquants**
+5. ~~Créer les **27 IID symbols manquants**~~ **CORRIGÉ** (50/50 symbols, 100%)
 6. ~~Fixer **RoomSessionManager._habboTracking** injection de dépendance~~ **CORRIGÉ**
 7. ~~Fixer **RoomSession.ts** couleur dimmer (nombre → hex string)~~ **CORRIGÉ**
 
@@ -486,5 +458,5 @@ Aucune donnée critique manquante.
 26. Porter **habbo/friendbar** sous-composants
 27. Ajouter support **tablet/tactile** dans core/window
 28. ~~Aligner **AvatarFigureContainer.getPartColorIds()** retour `null` vs `[]`~~ **CORRIGÉ**
-29. Refactorer **IIDRoomUI.ts** vers `createIID()` pattern
+29. ~~Refactorer **IIDRoomUI.ts** vers `createIID()` pattern~~ **CORRIGÉ**
 30. Documenter les cuts intentionnels (advertisement, campaign)
