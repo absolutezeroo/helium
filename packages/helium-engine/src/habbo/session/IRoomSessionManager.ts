@@ -11,9 +11,12 @@ import type {EventEmitter} from 'eventemitter3';
 export interface IRoomSessionManager
 {
 	/**
-	 * Event emitter for session events (RSE_CREATED, RSE_STARTED, RSE_ENDED)
+	 * Event emitter for session lifecycle events (RSE_CREATED, RSE_STARTED, RSE_ENDED).
+	 *
+	 * This is separate from Component.events (DI emitter) to avoid the
+	 * EventEmitter override bug. Consumers must use sessionEvents, not events.
 	 */
-	readonly events: EventEmitter;
+	readonly sessionEvents: EventEmitter;
 
 	/**
 	 * Whether a session is currently starting

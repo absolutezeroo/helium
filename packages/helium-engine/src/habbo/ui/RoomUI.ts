@@ -19,6 +19,8 @@ import {IID_RoomSessionManager} from '@iid/IIDRoomSessionManager';
 import {IID_SessionDataManager} from '@iid/IIDSessionDataManager';
 import {IID_HabboConfigurationManager} from '@iid/IIDHabboConfigurationManager';
 import {IID_HabboLocalizationManager} from '@iid/IIDHabboLocalizationManager';
+import {IID_HabboToolbar} from '@iid/IIDHabboToolbar';
+import {IID_HabboLandingView} from '@iid/IIDHabboLandingView';
 
 // Interfaces
 import type {IHabboWindowManager} from '@habbo/window/IHabboWindowManager';
@@ -27,6 +29,9 @@ import type {IRoomSessionManager} from '@habbo/session/IRoomSessionManager';
 import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
 import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
 import type {IHabboLocalizationManager} from '@habbo/localization/IHabboLocalizationManager';
+import type {IHabboToolbar} from '@habbo/toolbar/IHabboToolbar';
+import {HabboToolbarEnum} from '@habbo/toolbar/HabboToolbarEnum';
+import type {IHabboLandingView} from '@habbo/friendbar/IHabboLandingView';
 import type {IRoomSession} from '@habbo/session/IRoomSession';
 
 // Events
@@ -52,6 +57,8 @@ export class RoomUI extends Component implements IRoomUI, IUpdateReceiver
 	private _sessionDataManager: ISessionDataManager | null = null;
 	private _config: IHabboConfigurationManager | null = null;
 	private _localization: IHabboLocalizationManager | null = null;
+	private _toolbar: IHabboToolbar | null = null;
+	private _landingView: IHabboLandingView | null = null;
 	private _widgetFactory: RoomWidgetFactory;
 	private _desktops: Map<string, RoomDesktop> = new Map();
 	private _isInRoom: boolean = false;
@@ -105,9 +112,9 @@ export class RoomUI extends Component implements IRoomUI, IUpdateReceiver
 
 					if(mgr)
 					{
-						mgr.events.on(RoomSessionEvent.RSE_CREATED, this.roomSessionStateEventHandler, this);
-						mgr.events.on(RoomSessionEvent.RSE_STARTED, this.roomSessionStateEventHandler, this);
-						mgr.events.on(RoomSessionEvent.RSE_ENDED, this.roomSessionStateEventHandler, this);
+						mgr.sessionEvents.on(RoomSessionEvent.RSE_CREATED, this.roomSessionStateEventHandler, this);
+						mgr.sessionEvents.on(RoomSessionEvent.RSE_STARTED, this.roomSessionStateEventHandler, this);
+						mgr.sessionEvents.on(RoomSessionEvent.RSE_ENDED, this.roomSessionStateEventHandler, this);
 					}
 				},
 				true
@@ -133,6 +140,22 @@ export class RoomUI extends Component implements IRoomUI, IUpdateReceiver
 				(loc: IHabboLocalizationManager | null) =>
 				{
 					this._localization = loc;
+				},
+				false
+			),
+			new ComponentDependency(
+				IID_HabboToolbar,
+				(toolbar: IHabboToolbar | null) =>
+				{
+					this._toolbar = toolbar;
+				},
+				false
+			),
+			new ComponentDependency(
+				IID_HabboLandingView,
+				(lv: IHabboLandingView | null) =>
+				{
+					this._landingView = lv;
 				},
 				false
 			),
@@ -260,6 +283,21 @@ export class RoomUI extends Component implements IRoomUI, IUpdateReceiver
 
 				this.createDesktop(event.session);
 
+				// For game sessions, hide toolbar and landing view immediately
+				// AS3: RoomUI.roomSessionStateEventHandler RSE_CREATED
+				if(event.session.isGameSession)
+				{
+					if(this._toolbar)
+					{
+						this._toolbar.setToolbarState(HabboToolbarEnum.TOOLBAR_STATE_HIDDEN);
+					}
+
+					if(this._landingView)
+					{
+						this._landingView.disable();
+					}
+				}
+
 				break;
 			}
 
@@ -267,8 +305,19 @@ export class RoomUI extends Component implements IRoomUI, IUpdateReceiver
 			{
 				log.info(`Session started for room ${event.session.roomId}`);
 
-				// The session has started (room data received, connection open)
-				// Toolbar state would be updated here
+				// Switch toolbar to room view mode
+				// AS3: RoomUI.defineToolbarState()
+				if(this._toolbar)
+				{
+					this._toolbar.setToolbarState(HabboToolbarEnum.TOOLBAR_STATE_ROOM_VIEW);
+				}
+
+				// Disable the landing view (hotel view page)
+				if(this._landingView)
+				{
+					this._landingView.disable();
+				}
+
 				break;
 			}
 
@@ -281,6 +330,19 @@ export class RoomUI extends Component implements IRoomUI, IUpdateReceiver
 				this.disposeDesktop(identifier);
 
 				this._isInRoom = false;
+
+				// Restore toolbar to hotel view mode
+				// AS3: RoomUI RSE_ENDED → toolbar state + landingView.activate()
+				if(this._toolbar)
+				{
+					this._toolbar.setToolbarState(HabboToolbarEnum.TOOLBAR_STATE_HOTEL_VIEW);
+				}
+
+				// Re-enable landing view
+				if(this._landingView)
+				{
+					this._landingView.activate();
+				}
 
 				break;
 			}
@@ -480,9 +542,9 @@ export class RoomUI extends Component implements IRoomUI, IUpdateReceiver
 
 		if(this._roomSessionManager)
 		{
-			this._roomSessionManager.events.off(RoomSessionEvent.RSE_CREATED, this.roomSessionStateEventHandler, this);
-			this._roomSessionManager.events.off(RoomSessionEvent.RSE_STARTED, this.roomSessionStateEventHandler, this);
-			this._roomSessionManager.events.off(RoomSessionEvent.RSE_ENDED, this.roomSessionStateEventHandler, this);
+			this._roomSessionManager.sessionEvents.off(RoomSessionEvent.RSE_CREATED, this.roomSessionStateEventHandler, this);
+			this._roomSessionManager.sessionEvents.off(RoomSessionEvent.RSE_STARTED, this.roomSessionStateEventHandler, this);
+			this._roomSessionManager.sessionEvents.off(RoomSessionEvent.RSE_ENDED, this.roomSessionStateEventHandler, this);
 		}
 
 		// Dispose all desktops

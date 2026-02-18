@@ -3370,7 +3370,7 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 			null,
 			this._procedure,
 			this._tags ? this._tags.concat() : null,
-			null,
+			this.properties,
 			this._id,
 			this._dynamicStyleName
 		);

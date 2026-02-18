@@ -436,6 +436,16 @@ export class WindowParser implements IWindowParser
 					case 'etching_position':
 					case 'background':
 					case 'background_color':
+					case 'pivot_point':
+					case 'stretched_x':
+					case 'stretched_y':
+					case 'fit_size_to_contents':
+					case 'zoom_x':
+					case 'zoom_y':
+					case 'wrap_x':
+					case 'wrap_y':
+					case 'greyscale':
+					case 'rotation':
 						props.push(new PropertyStruct(key, val));
 						break;
 					case 'margins':
