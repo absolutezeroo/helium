@@ -16,6 +16,7 @@ import type {IHabboLocalizationManager} from '../localization/IHabboLocalization
 import type {IHabboTracking} from '../tracking/IHabboTracking';
 import {NavigatorData} from './domain';
 import {NavigatorCache} from './cache';
+import {LiftDataContainer} from './lift';
 import {ContextContainer, SearchContext, SearchContextHistoryManager} from './context';
 import {NavigatorView} from './view/NavigatorView';
 import {NewIncomingMessages} from './NewIncomingMessages';
@@ -84,6 +85,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		this._contextContainer = new ContextContainer();
 		this._historyManager = new SearchContextHistoryManager();
 		this._cache = new NavigatorCache();
+		this._liftDataContainer = new LiftDataContainer();
 	}
 
 	private _newResultsRendered: boolean = false;
@@ -181,6 +183,18 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	get cache(): NavigatorCache
 	{
 		return this._cache;
+	}
+
+	private _liftDataContainer: LiftDataContainer;
+
+	/**
+	 * Container for promoted/lifted room data.
+	 *
+	 * @see sources/win63_version/habbo/navigator/HabboNewNavigator.as get liftDataContainer()
+	 */
+	get liftDataContainer(): LiftDataContainer
+	{
+		return this._liftDataContainer;
 	}
 
 	get isReady(): boolean
@@ -350,7 +364,12 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 
 	onLiftedRooms(rooms: NavigatorLiftedRoomData[]): void
 	{
-		// log.debug(`Lifted rooms: ${rooms.length}`);
+		this._liftDataContainer.setLiftedRooms(rooms);
+
+		if(this._view)
+		{
+			this._view.refreshLiftedRooms();
+		}
 	}
 
 	/**

@@ -498,16 +498,21 @@ export class WindowRenderer implements IWindowRenderer
 			ctx.fillRect(absX, absY, w, h);
 		}
 
-		// Draw the skin buffer
-		const buffer = this.getDrawBufferForRenderable(window);
+		// Draw the skin buffer (skip for bitmap wrappers — their content is drawn via bitmapData below)
+		const isBitmapWrapper = window.type === WindowType.BITMAP_WRAPPER || window.type === WindowType.STATIC_BITMAP_WRAPPER;
 
-		if (buffer && buffer.width > 0 && buffer.height > 0)
+		if(!isBitmapWrapper)
 		{
-			ctx.drawImage(buffer, absX, absY);
+			const buffer = this.getDrawBufferForRenderable(window);
+
+			if(buffer && buffer.width > 0 && buffer.height > 0)
+			{
+				ctx.drawImage(buffer, absX, absY);
+			}
 		}
 
 		// Draw bitmapData content (from BitmapDataController hierarchy)
-		if (window.type === WindowType.BITMAP_WRAPPER || window.type === WindowType.STATIC_BITMAP_WRAPPER)
+		if(isBitmapWrapper)
 		{
 			const bmp = (window as unknown as { bitmapData?: ImageBitmap | null }).bitmapData;
 
