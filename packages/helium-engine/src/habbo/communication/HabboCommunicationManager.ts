@@ -16,6 +16,9 @@ import type {IKeyExchange} from '@core/communication/handshake/IKeyExchange';
 import type {IMessageDataWrapper} from '@core/communication/messages/IMessageDataWrapper';
 import type {ISessionDataManager} from '../session/ISessionDataManager';
 import type {IConnectionActions} from './IConnectionActions';
+import type {IHabboWebApiListener} from './IHabboWebApiListener';
+import type {IHabboWebApiSession} from './IHabboWebApiSession';
+import {HabboWebApiSession} from './HabboWebApiSession';
 import {IID_CoreCommunicationManager} from "@iid/IIDCoreCommunicationManager";
 
 const log = Logger.getLogger('Communication');
@@ -257,6 +260,80 @@ export class HabboCommunicationManager extends Component implements IHabboCommun
 		{
 			this._connection?.off('messageEvent', listener);
 		};
+	}
+
+	// ── Web API Session ────────────────────────────────────────────
+
+	private _webApiSession: HabboWebApiSession | null = null;
+	private _host: string = '';
+	private _ports: number[] = [];
+
+	/**
+	 * AS3: updateHostParameters()
+	 * Reads connection.info.host and connection.info.port from configuration
+	 * and updates the internal host/port list.
+	 */
+	updateHostParameters(): void
+	{
+		const configuration = this.context.configuration;
+
+		if(!configuration)
+		{
+			return;
+		}
+
+		const host = configuration.getProperty('connection.info.host');
+
+		if(!host)
+		{
+			log.error('connection.info.host not set');
+
+			return;
+		}
+
+		const portStr = configuration.getProperty('connection.info.port');
+
+		if(!portStr)
+		{
+			log.error('connection.info.port not set');
+
+			return;
+		}
+
+		this._ports = portStr.split(',').map(p => parseInt(p.trim(), 10));
+		this._host = host;
+	}
+
+	/**
+	 * AS3: createHabboWebApiSession(listener, server)
+	 * Creates a new HabboWebApiSession for HTTP API requests.
+	 */
+	createHabboWebApiSession(listener: IHabboWebApiListener, server: string): IHabboWebApiSession
+	{
+		if(this._webApiSession)
+		{
+			this._webApiSession.removeListener(listener);
+			this._webApiSession.dispose();
+			this._webApiSession = null;
+		}
+
+		const session = new HabboWebApiSession(server);
+
+		session.addListener(listener);
+
+		this._webApiSession = session;
+		this.events.emit('HABBO_POCKET_SESSION_CREATED');
+
+		return session;
+	}
+
+	/**
+	 * AS3: getHabboWebApiSession()
+	 * Returns the current HabboWebApiSession, or null if not created.
+	 */
+	getHabboWebApiSession(): IHabboWebApiSession | null
+	{
+		return this._webApiSession;
 	}
 
 	// IConnectionCallback

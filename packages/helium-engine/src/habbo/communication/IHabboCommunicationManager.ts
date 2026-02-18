@@ -5,6 +5,8 @@ import type {IEncryption} from '@core/communication/encryption/IEncryption';
 import type {IKeyExchange} from '@core/communication/handshake/IKeyExchange';
 import type {ISessionDataManager} from '../session/ISessionDataManager';
 import type {HabboCommunicationEventType} from './enum';
+import type {IHabboWebApiListener} from './IHabboWebApiListener';
+import type {IHabboWebApiSession} from './IHabboWebApiSession';
 
 /**
  * Events emitted by HabboCommunicationManager
@@ -85,4 +87,27 @@ export interface IHabboCommunicationManager
 	 * @returns Unsubscribe function
 	 */
 	onMessage(listener: (event: IMessageEvent) => void): () => void;
+
+	/**
+	 * AS3: updateHostParameters()
+	 * Reads connection.info.host and connection.info.port from configuration
+	 * and updates the internal host/port list.
+	 */
+	updateHostParameters(): void;
+
+	/**
+	 * AS3: createHabboWebApiSession(listener, server)
+	 * Creates a new HabboWebApiSession for HTTP API requests.
+	 *
+	 * @param listener - IHabboWebApiListener to receive API callbacks
+	 * @param server - Base server URL (e.g., 'https://www.habbo.com')
+	 * @returns The created IHabboWebApiSession
+	 */
+	createHabboWebApiSession(listener: IHabboWebApiListener, server: string): IHabboWebApiSession;
+
+	/**
+	 * AS3: getHabboWebApiSession()
+	 * Returns the current HabboWebApiSession, or null if not created.
+	 */
+	getHabboWebApiSession(): IHabboWebApiSession | null;
 }

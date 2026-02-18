@@ -20,11 +20,15 @@
 import {EventEmitter} from 'eventemitter3';
 import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
 import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommunicationManager';
+import {HabboCommunicationManager} from '@habbo/communication/HabboCommunicationManager';
 import type {IHabboLocalizationManager} from '@habbo/localization/IHabboLocalizationManager';
+import {HabboLocalizationManager} from '@habbo/localization/HabboLocalizationManager';
+import {Logger} from '@core/utils/Logger';
 import type {ILoginViewer} from '@habbo/communication/login/ILoginViewer';
 import type {ILoginProvider} from '@habbo/communication/login/ILoginProvider';
 import {WebApiLoginProvider} from '@habbo/communication/login/WebApiLoginProvider';
 import type {AvatarData} from '@habbo/communication/login/AvatarData';
+import {FakeContext} from './FakeContext';
 import type {ILoginContext} from './ILoginContext';
 import {LoginBackground} from './LoginBackground';
 import {SsoTokenView} from './SsoTokenView';
@@ -41,6 +45,8 @@ import habboLogoUrl from '../assets/images/habbo_logo.png';
  *
  * @see sources/win63_2021_version/login/LoginFlow.as lines 41-48
  */
+const log = Logger.getLogger('LoginFlow');
+
 const LOGO_AREA_HEIGHT = 50;
 const MAIN_AREA_MARGIN = 5;
 
@@ -53,6 +59,11 @@ export class LoginFlow implements ILoginContext, ILoginViewer
 	static readonly SCREEN_SSO_TOKEN = 4;
 
 	private _events: EventEmitter = new EventEmitter();
+
+	/**
+	 * AS3: _SafeStr_4563 — FakeContext (stub IContext for standalone managers)
+	 */
+	private _fakeContext: FakeContext | null = null;
 
 	/**
 	 * AS3: _configuration — HabboConfigurationManager created by createConfiguration()
@@ -142,7 +153,11 @@ export class LoginFlow implements ILoginContext, ILoginViewer
 	 */
 	public initLoginWithSsoToken(envId: string, token: string): void
 	{
-		this.updateEnvironment(envId, false);
+		if(envId && envId.length > 0)
+		{
+			this.updateEnvironment(envId, false);
+		}
+
 		this._ssoToken = token;
 		this._events.emit(LoginFlow.LOGIN_FLOW_FINISHED_EVENT);
 	}
@@ -210,15 +225,56 @@ export class LoginFlow implements ILoginContext, ILoginViewer
 
 	/**
 	 * AS3: updateEnvironment(envId, previewOnly)
+	 *
+	 * @see sources/win63_2021_version/login/LoginFlow.as lines 561-578
 	 */
-	public updateEnvironment(envId: string, _previewOnly: boolean): void
+	public updateEnvironment(envId: string, previewOnly: boolean): void
 	{
-		// In full AS3, previewOnly=true only reloads localization.
-		// previewOnly=false also writes to SOL and updates host params.
-		// Since we don't have localization or SOL, we just update the view.
+		// AS3: previewOnly=true → only reload localization
+		if(previewOnly)
+		{
+			if(this._localization)
+			{
+				this._localization.loadDefaultEmbedLocalizations(envId);
+			}
+
+			return;
+		}
+
+		// AS3: CommunicationUtils.writeSOLProperty("environment", envId)
+		// (No SOL equivalent in browser — skipped)
+
+		// AS3: _configuration.updateEnvironmentId(envId)
+		if(this._configuration && typeof (this._configuration as any).updateEnvironmentId === 'function')
+		{
+			(this._configuration as any).updateEnvironmentId(envId);
+		}
+
 		if(this._environmentView)
 		{
 			this._environmentView.updateEnvironment();
+		}
+
+		// AS3: _localization.loadDefaultEmbedLocalizations(_configuration.getProperty("environment.id"))
+		if(this._localization)
+		{
+			const currentEnvId = this.getProperty('environment.id') ?? envId;
+
+			this._localization.loadDefaultEmbedLocalizations(currentEnvId);
+		}
+
+		log.info(`Updated environment to: ${envId}`);
+
+		// AS3: _communication.updateHostParameters()
+		if(this._communication)
+		{
+			this._communication.updateHostParameters();
+		}
+
+		// AS3: _localization.requestLocalizationInit()
+		if(this._localization)
+		{
+			this._localization.requestLocalizationInit();
 		}
 	}
 
@@ -423,6 +479,14 @@ export class LoginFlow implements ILoginContext, ILoginViewer
 		this._mainContainer = null;
 		this._viewContainer = null;
 		this._errorBalloon = null;
+
+		// AS3: dispose context and managers
+		if(this._fakeContext)
+		{
+			this._fakeContext.dispose();
+			this._fakeContext = null;
+		}
+
 		this._communication = null;
 		this._localization = null;
 	}
@@ -438,15 +502,23 @@ export class LoginFlow implements ILoginContext, ILoginViewer
 	 * 3. createLocalization(context) → HabboLocalizationManager
 	 * 4. createCommunication(context) → HabboCommunicationManager
 	 * 5. WebApiLoginProvider(this)
-	 *
-	 * In our port, the config manager is passed in from the engine (already loaded),
-	 * localization and communication are null since we use DOM text and fetch() directly.
 	 */
 	private createFakeContext(): void
 	{
+		// AS3: _SafeStr_4563 = new FakeContext(_arg_1)
+		this._fakeContext = new FakeContext();
+
 		this._configuration = this.createConfiguration();
 		this._localization = this.createLocalization();
 		this._communication = this.createCommunication();
+
+		// AS3: _localization.loadDefaultEmbedLocalizations(_configuration.getProperty("environment.id"))
+		if(this._localization)
+		{
+			const envId = this.getProperty('environment.id') ?? 'en';
+
+			this._localization.loadDefaultEmbedLocalizations(envId);
+		}
 
 		// AS3: _SafeStr_597 = new WebApiLoginProvider(this)
 		this._provider = new WebApiLoginProvider(this);
@@ -463,8 +535,6 @@ export class LoginFlow implements ILoginContext, ILoginViewer
 	 * In AS3, creates a standalone HabboConfigurationManager from the embedded
 	 * HabboConfigurationCom manifest resource. In our port, we reuse the engine's
 	 * already-loaded configuration manager which has the same properties.
-	 *
-	 * @returns The configuration manager instance
 	 */
 	private createConfiguration(): IHabboConfigurationManager
 	{
@@ -476,21 +546,17 @@ export class LoginFlow implements ILoginContext, ILoginViewer
 	 *
 	 * @see sources/win63_2021_version/login/LoginFlow.as lines 138-147
 	 *
-	 * In AS3, creates a standalone HabboLocalizationManager from the embedded
-	 * HabboLocalizationCom manifest resource. Sets LocalizedSprite.localizationManager
-	 * and LocalizedTextField.localizationManager. Then calls
-	 * _localization.loadDefaultEmbedLocalizations(environment.id).
-	 *
-	 * In our port, localized strings for the DOM-based login views are hardcoded
-	 * in English. When a full localization system is added, this method will create
-	 * and return a localization manager instance.
-	 *
-	 * @returns The localization manager instance, or null
+	 * Creates a standalone HabboLocalizationManager using the FakeContext.
+	 * Sets the configuration manager reference so localization definitions
+	 * can be resolved.
 	 */
-	private createLocalization(): IHabboLocalizationManager | null
+	private createLocalization(): IHabboLocalizationManager
 	{
-		// TODO: Create standalone localization manager when localization system is implemented
-		return null;
+		const localization = new HabboLocalizationManager(this._fakeContext!);
+
+		localization.setConfigurationManager(this._configuration);
+
+		return localization;
 	}
 
 	/**
@@ -498,19 +564,15 @@ export class LoginFlow implements ILoginContext, ILoginViewer
 	 *
 	 * @see sources/win63_2021_version/login/LoginFlow.as lines 149-158
 	 *
-	 * In AS3, creates a standalone HabboCommunicationManager from the embedded
-	 * HabboCommunicationCom manifest resource. The communication manager provides
-	 * IHabboWebApiSession which WebApiLoginProvider.init() uses for HTTP requests.
-	 *
-	 * In our port, WebApiLoginProvider uses the Fetch API directly instead of
-	 * going through HabboWebApiSession, so a full communication manager is not needed.
-	 *
-	 * @returns The communication manager instance, or null
+	 * Creates a standalone HabboCommunicationManager using the FakeContext.
+	 * Provides IHabboWebApiSession which WebApiLoginProvider.init() uses
+	 * for HTTP API requests.
 	 */
-	private createCommunication(): IHabboCommunicationManager | null
+	private createCommunication(): IHabboCommunicationManager
 	{
-		// WebApiLoginProvider uses fetch() directly — no need for HabboWebApiSession
-		return null;
+		const communication = new HabboCommunicationManager(this._fakeContext!);
+
+		return communication;
 	}
 
 	/**

@@ -55,6 +55,39 @@ export class SsoTokenView
 	}
 
 	/**
+	 * AS3: ready()
+	 * Enable the Play button (called when the environment is ready).
+	 */
+	public ready(): void
+	{
+		if(this._saveButton)
+		{
+			this._saveButton.disabled = false;
+		}
+	}
+
+	/**
+	 * Focus the token input when the view is shown.
+	 */
+	public focus(): void
+	{
+		setTimeout(() => this._tokenInput.focus(), 50);
+	}
+
+	public dispose(): void
+	{
+		if(this._disposed) return;
+
+		this._disposed = true;
+
+		this._tokenInput.removeEventListener('input', this._onInputChange);
+		this._tokenInput.removeEventListener('keydown', this._onInputKeydown);
+		this._cancelButton.removeEventListener('click', this._onCancel);
+		this._saveButton.removeEventListener('click', this._onLogin);
+		this._root.remove();
+	}
+
+	/**
 	 * AS3: addTitleField()
 	 * Creates the title text: "${connection.login.title}" → "Habbo Login"
 	 */
@@ -122,7 +155,7 @@ export class SsoTokenView
 
 	/**
 	 * AS3: onInputKeyboardEvent()
-	 * Enter key triggers login if button is active.
+	 * an Enter key triggers login if the button is active.
 	 */
 	private _onInputKeydown = (e: KeyboardEvent): void =>
 	{
@@ -142,7 +175,11 @@ export class SsoTokenView
 
 		if(result)
 		{
-			this._context.updateEnvironment(result.envId, true);
+			if(result.envId)
+			{
+				this._context.updateEnvironment(result.envId, true);
+			}
+
 			this._saveButton.disabled = false;
 		}
 		else
@@ -161,7 +198,7 @@ export class SsoTokenView
 
 		if(result)
 		{
-			this._context.initLoginWithSsoToken(result.envId, result.part1 + '.' + result.part2);
+			this._context.initLoginWithSsoToken(result.envId ?? '', result.token);
 		}
 		else
 		{
@@ -172,75 +209,51 @@ export class SsoTokenView
 	/**
 	 * AS3: validateToken()
 	 *
-	 * Validates the SSO token format: "hh<env>.<uuid1>.<uuid2>"
-	 * Transforms environment prefix:
-	 * - Strip "hh" prefix
-	 * - "br" → "pt"
-	 * - "us" → "en"
+	 * Validates the SSO token. Supports two formats:
 	 *
-	 * @returns Parsed token parts or null if invalid
+	 * 1. Habbo format: "hh<env>.<uuid1>.<uuid2>"
+	 *    - Extracts environment from prefix (strip "hh", "br"→"pt", "us"→"en")
+	 *    - Token sent to server: "<uuid1>.<uuid2>"
+	 *
+	 * 2. Generic format: any non-empty string
+	 *    - No environment detection
+	 *    - Token sent to server as-is
+	 *
+	 * @returns Parsed token data or null if empty
 	 */
-	private validateToken(): { envId: string; part1: string; part2: string } | null
+	private validateToken(): { envId: string | null; token: string } | null
 	{
-		const text = this._tokenInput.value;
+		const text = this._tokenInput.value.trim();
 
 		if(!text || text.length === 0) return null;
 
 		const parts = text.split('.');
 
-		if(parts.length !== 3) return null;
+		// AS3 format: hh<env>.<uuid1>.<uuid2>
+		if(parts.length === 3 && parts[0].startsWith('hh'))
+		{
+			// AS3: _local_2 = _local_3[0].replace("hh", "")
+			let envId = parts[0].replace('hh', '');
 
-		// AS3: _local_2 = _local_3[0].replace("hh", "")
-		let envId = parts[0].replace('hh', '');
+			// AS3: _local_2 = _local_2.replace("br", "pt")
+			envId = envId.replace('br', 'pt');
 
-		// AS3: _local_2 = _local_2.replace("br", "pt")
-		envId = envId.replace('br', 'pt');
+			// AS3: _local_2 = _local_2.replace("us", "en")
+			envId = envId.replace('us', 'en');
 
-		// AS3: _local_2 = _local_2.replace("us", "en")
-		envId = envId.replace('us', 'en');
+			return { envId, token: parts[1] + '.' + parts[2] };
+		}
 
-		return { envId, part1: parts[1], part2: parts[2] };
+		// Generic token: accept any non-empty string
+		return { envId: null, token: text };
 	}
 
 	/**
 	 * AS3: onCancel()
-	 * Go back to Environment screen.
+	 * Go back to the Environment screen.
 	 */
 	private _onCancel = (): void =>
 	{
 		this._context.showScreen(1);
 	};
-
-	/**
-	 * AS3: ready()
-	 * Enable the Play button (called when environment is ready).
-	 */
-	public ready(): void
-	{
-		if(this._saveButton)
-		{
-			this._saveButton.disabled = false;
-		}
-	}
-
-	/**
-	 * Focus the token input when the view is shown.
-	 */
-	public focus(): void
-	{
-		setTimeout(() => this._tokenInput.focus(), 50);
-	}
-
-	public dispose(): void
-	{
-		if(this._disposed) return;
-
-		this._disposed = true;
-
-		this._tokenInput.removeEventListener('input', this._onInputChange);
-		this._tokenInput.removeEventListener('keydown', this._onInputKeydown);
-		this._cancelButton.removeEventListener('click', this._onCancel);
-		this._saveButton.removeEventListener('click', this._onLogin);
-		this._root.remove();
-	}
 }
