@@ -200,9 +200,13 @@ import {
 	ApproveNameMessageEvent,
 	ChangeEmailResultEvent,
 	EmailStatusResultEvent,
+	GroupDetailsChangedMessageEvent,
 	ExtendedProfileChangedMessageEvent,
 	ExtendedProfileMessageEvent,
 	HabboGroupBadgesMessageEvent,
+	HabboGroupDeactivatedMessageEvent,
+	HabboGroupDetailsMessageEvent,
+	HabboGroupJoinFailedMessageEvent,
 	HabboUserBadgesMessageEvent,
 	HandItemReceivedMessageEvent,
 	IgnoredUsersMessageEvent,
@@ -455,13 +459,17 @@ import {
 import {
 	ApproveNameMessageComposer,
 	ChangeEmailComposer,
+	DeselectFavouriteHabboGroupMessageComposer,
 	GetEmailStatusComposer,
 	GetExtendedProfileByNameMessageComposer,
+	GetHabboGroupDetailsMessageComposer,
 	GetIgnoredUsersMessageComposer,
 	GetSelectedBadgesMessageComposer,
 	IgnoreUserMessageComposer,
+	JoinHabboGroupMessageComposer,
 	ScrGetKickbackInfoMessageComposer,
 	ScrGetUserInfoMessageComposer,
+	SelectFavouriteHabboGroupMessageComposer,
 	UnignoreUserMessageComposer
 } from './messages/outgoing/users';
 
@@ -694,6 +702,10 @@ export class HabboMessages implements IMessageConfiguration
 		this._events.set(1682, ApproveNameMessageEvent);
 		this._events.set(586, ChangeEmailResultEvent);
 		this._events.set(2798, HabboGroupBadgesMessageEvent);
+		this._events.set(1569, HabboGroupDetailsMessageEvent);
+		this._events.set(341, GroupDetailsChangedMessageEvent);
+		this._events.set(2260, HabboGroupDeactivatedMessageEvent);
+		this._events.set(1124, HabboGroupJoinFailedMessageEvent);
 		this._events.set(3975, HabboUserBadgesMessageEvent);
 		this._events.set(889, HandItemReceivedMessageEvent);
 		this._events.set(2437, InClientLinkMessageEvent);
@@ -936,13 +948,17 @@ export class HabboMessages implements IMessageConfiguration
 		// === USERS ===
 		this._composers.set(737, ApproveNameMessageComposer);
 		this._composers.set(2460, ChangeEmailComposer);
+		this._composers.set(2131, DeselectFavouriteHabboGroupMessageComposer);
 		this._composers.set(3596, GetEmailStatusComposer);
 		this._composers.set(1037, GetExtendedProfileByNameMessageComposer);
+		this._composers.set(1630, GetHabboGroupDetailsMessageComposer);
 		this._composers.set(1601, GetIgnoredUsersMessageComposer);
 		this._composers.set(68, GetSelectedBadgesMessageComposer);
 		this._composers.set(2249, IgnoreUserMessageComposer);
+		this._composers.set(51, JoinHabboGroupMessageComposer);
 		this._composers.set(2496, ScrGetKickbackInfoMessageComposer);
 		this._composers.set(1909, ScrGetUserInfoMessageComposer);
+		this._composers.set(3566, SelectFavouriteHabboGroupMessageComposer);
 		this._composers.set(3881, UnignoreUserMessageComposer);
 
 		// === CAMPAIGN ===

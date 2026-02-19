@@ -81,6 +81,13 @@
   - `HabboMessages.ts`: IDs entrants/sortants enregistrés
   - Wiring: `UserDataManager.getUserBadges()` envoie désormais `GetSelectedBadgesMessageComposer`, `RoomUsersHandler` traite `HabboUserBadgesMessageEvent`
 
+- Batch `users` (group/guild details) porté:
+  - `incoming/users`: `HabboGroupDetailsMessageEvent`, `GroupDetailsChangedMessageEvent`, `HabboGroupDeactivatedMessageEvent`, `HabboGroupJoinFailedMessageEvent` + data class `HabboGroupDetailsData`
+  - `parser/users`: parsers correspondants
+  - `outgoing/users`: `GetHabboGroupDetailsMessageComposer`, `JoinHabboGroupMessageComposer`, `SelectFavouriteHabboGroupMessageComposer`, `DeselectFavouriteHabboGroupMessageComposer`
+  - `HabboMessages.ts`: IDs entrants/sortants enregistrés
+  - Wiring: `HabboGroupsManager.openGroupInfo()` et `showExtendedProfile()` envoient désormais leurs composers AS3, listeners groupes de base branchés
+
 4. **Batch Moderation + Help + Sound**
 - Finaliser événements outils modération, CFH, audio
 

@@ -1,6 +1,8 @@
 import {Component, ComponentDependency, type IContext} from '@core/runtime';
 import type {ILinkEventTracker} from '@core/runtime/events/ILinkEventTracker';
 import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommunicationManager';
+import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
 import {Logger} from '@core/utils/Logger';
 import type {IHabboGroupsManager} from './IHabboGroupsManager';
 import {IID_HabboCommunicationManager} from '@iid/IIDHabboCommunicationManager';
@@ -21,6 +23,17 @@ import type {IHabboFriendList} from '@habbo/friendlist/IHabboFriendList';
 import type {IHabboToolbar} from '@habbo/toolbar/IHabboToolbar';
 import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
 import type {IHabboTracking} from '@habbo/tracking/IHabboTracking';
+import {
+	GroupDetailsChangedMessageEvent,
+	HabboGroupDeactivatedMessageEvent,
+	HabboGroupDetailsMessageEvent,
+	HabboGroupJoinFailedMessageEvent,
+	type HabboGroupDetailsData
+} from '@habbo/communication/messages/incoming/users';
+import {
+	GetExtendedProfileMessageComposer,
+	GetHabboGroupDetailsMessageComposer
+} from '@habbo/communication/messages/outgoing/users';
 
 const log = Logger.getLogger('Groups');
 
@@ -50,6 +63,8 @@ export class HabboGroupsManager extends Component implements IHabboGroupsManager
 	private _toolbar: IHabboToolbar | null = null;
 	private _sessionDataManager: ISessionDataManager | null = null;
 	private _habboTracking: IHabboTracking | null = null;
+	private _messageEvents: IMessageEvent[] = [];
+	private _groupDetailsById: Map<number, HabboGroupDetailsData> = new Map();
 
 	constructor(context: IContext)
 	{
@@ -188,7 +203,7 @@ export class HabboGroupsManager extends Component implements IHabboGroupsManager
 	openGroupInfo(groupId: number): void
 	{
 		log.debug('openGroupInfo:', groupId);
-		// TODO: send GetHabboGroupDetailsMessageComposer(groupId, true)
+		this.send(new GetHabboGroupDetailsMessageComposer(groupId, true));
 	}
 
 	/**
@@ -209,11 +224,7 @@ export class HabboGroupsManager extends Component implements IHabboGroupsManager
 	showExtendedProfile(userId: number): void
 	{
 		log.debug('showExtendedProfile:', userId);
-		// TODO: send GetExtendedProfileMessageComposer(userId)
-		// if (this._sendCallback)
-		// {
-		//     this._sendCallback(new GetExtendedProfileMessageComposer(userId));
-		// }
+		this.send(new GetExtendedProfileMessageComposer(userId));
 	}
 
 	/**
@@ -230,6 +241,13 @@ export class HabboGroupsManager extends Component implements IHabboGroupsManager
 	{
 		if (this._disposed) return;
 
+		for(const event of this._messageEvents)
+		{
+			this._communicationManager?.removeMessageEvent(event);
+		}
+
+		this._messageEvents.length = 0;
+		this._groupDetailsById.clear();
 		this.context.removeLinkEventTracker(this);
 		this._communicationManager = null;
 
@@ -239,7 +257,85 @@ export class HabboGroupsManager extends Component implements IHabboGroupsManager
 	protected override initComponent(): void
 	{
 		this.context.addLinkEventTracker(this);
+		this.addMessageEvent(new HabboGroupDetailsMessageEvent(this.onGroupDetails.bind(this)));
+		this.addMessageEvent(new GroupDetailsChangedMessageEvent(this.onGroupDetailsChanged.bind(this)));
+		this.addMessageEvent(new HabboGroupDeactivatedMessageEvent(this.onGroupDeactivated.bind(this)));
+		this.addMessageEvent(new HabboGroupJoinFailedMessageEvent(this.onGroupJoinFailed.bind(this)));
 
 		log.debug('Groups manager initialized');
+	}
+
+	private send(composer: IMessageComposer<unknown[]>): void
+	{
+		this._communicationManager?.connection?.send(composer);
+	}
+
+	private addMessageEvent(event: IMessageEvent): void
+	{
+		if(!this._communicationManager)
+		{
+			return;
+		}
+
+		this._communicationManager.addMessageEvent(event);
+		this._messageEvents.push(event);
+	}
+
+	private onGroupDetails(event: IMessageEvent): void
+	{
+		const detailsEvent = event as HabboGroupDetailsMessageEvent;
+
+		if(detailsEvent === null)
+		{
+			return;
+		}
+
+		const data = detailsEvent.data;
+
+		if(data === null)
+		{
+			return;
+		}
+
+		this._groupDetailsById.set(data.groupId, data);
+	}
+
+	private onGroupDetailsChanged(event: IMessageEvent): void
+	{
+		const changedEvent = event as GroupDetailsChangedMessageEvent;
+
+		if(changedEvent === null)
+		{
+			return;
+		}
+
+		if(this._groupDetailsById.has(changedEvent.groupId))
+		{
+			this.send(new GetHabboGroupDetailsMessageComposer(changedEvent.groupId, false));
+		}
+	}
+
+	private onGroupDeactivated(event: IMessageEvent): void
+	{
+		const deactivatedEvent = event as HabboGroupDeactivatedMessageEvent;
+
+		if(deactivatedEvent === null)
+		{
+			return;
+		}
+
+		this._groupDetailsById.delete(deactivatedEvent.groupId);
+	}
+
+	private onGroupJoinFailed(event: IMessageEvent): void
+	{
+		const failedEvent = event as HabboGroupJoinFailedMessageEvent;
+
+		if(failedEvent === null)
+		{
+			return;
+		}
+
+		log.warn(`Group join failed with reason ${failedEvent.reason}`);
 	}
 }

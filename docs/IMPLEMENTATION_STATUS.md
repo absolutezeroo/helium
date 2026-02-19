@@ -143,6 +143,7 @@ AS3: 77 files | TS: 77 files
 | ✅      | IgnoredUsersManager: IgnoreResult/IgnoredUsers events + Get/Ignore/Unignore composers ported and wired (AS3 flow restored)                                             |
 | ✅      | Users messages batch: ApproveName/ChangeEmail/ExtendedProfile/HabboUserBadges/HandItem/RelationshipStatus/SCR user+kickback events+parsers and related composers ported |
 | ✅      | UserDataManager + RoomUsersHandler: GetSelectedBadges composer call restored and HabboUserBadges event flow wired to RoomSessionUserBadgesEvent                         |
+| ✅      | Users/Guild batch: GroupDetails/GroupChanged/GroupDeactivated/JoinFailed events+parsers and GroupDetails/Join/Favorite composers ported + HabboGroupsManager wiring     |
 
 ### 1.7 Navigator — Logic (100%)
 ```
