@@ -1,14 +1,20 @@
-import {Component, type IContext} from '@core/runtime';
+import {Component} from '@core/runtime/Component';
 import {SocketConnection} from './connection/SocketConnection';
 import type {ICoreCommunicationManager} from './ICoreCommunicationManager';
 import type {IConnection} from './connection/IConnection';
 import type {IConnectionCallback} from './connection/IConnectionCallback';
+import type {IContext, IUpdateReceiver} from '@core/runtime/IContext';
 
 /**
- * Core communication manager
- * Manages all network connections and their lifecycle
+ * Core communication manager.
+ *
+ * Manages all network connections and their lifecycle.
+ * Registers as an IUpdateReceiver so processReceivedData()
+ * is called each frame by the CoreComponentContext update loop.
+ *
+ * @see sources/win63_version/core/communication/CoreCommunicationManager.as
  */
-export class CoreCommunicationManager extends Component implements ICoreCommunicationManager
+export class CoreCommunicationManager extends Component implements ICoreCommunicationManager, IUpdateReceiver
 {
 	constructor(context: IContext)
 	{
@@ -30,7 +36,7 @@ export class CoreCommunicationManager extends Component implements ICoreCommunic
 	 */
 	createConnection(callback?: IConnectionCallback): IConnection
 	{
-		if (this.disposed)
+		if(this._disposed)
 		{
 			throw new Error('CommunicationManager has been disposed');
 		}
@@ -42,27 +48,24 @@ export class CoreCommunicationManager extends Component implements ICoreCommunic
 	}
 
 	/**
-	 * Update all connections (call from main update loop)
+	 * Update all connections — called each frame by CoreComponentContext.
+	 *
+	 * Processes received WebSocket data and dispatches message events.
 	 */
 	update(_deltaTime: number): void
 	{
-		if (this.disposed)
-		{
-			return;
-		}
+		if(this._disposed) return;
 
-		// Process each connection and remove disposed ones
-		for (let i = this._connections.length - 1; i >= 0; i--)
+		for(let i = this._connections.length - 1; i >= 0; i--)
 		{
 			const connection = this._connections[i];
 
-			if (connection.disposed)
+			if(connection.disposed)
 			{
 				this._connections.splice(i, 1);
 				continue;
 			}
 
-			// Process received data
 			connection.processReceivedData();
 		}
 	}
@@ -73,10 +76,16 @@ export class CoreCommunicationManager extends Component implements ICoreCommunic
 	removeConnection(connection: IConnection): void
 	{
 		const index = this._connections.indexOf(connection);
-		if (index !== -1)
+
+		if(index !== -1)
 		{
 			this._connections.splice(index, 1);
 		}
+	}
+
+	protected override initComponent(): void
+	{
+		this.context.registerUpdateReceiver(this, 0);
 	}
 
 	/**
@@ -84,22 +93,16 @@ export class CoreCommunicationManager extends Component implements ICoreCommunic
 	 */
 	override dispose(): void
 	{
-		if (this.disposed)
-		{
-			return;
-		}
+		if(this._disposed) return;
 
-		for (const connection of this._connections)
+		this.context.removeUpdateReceiver(this);
+
+		for(const connection of this._connections)
 		{
 			connection.dispose();
 		}
 
 		this._connections.length = 0;
 		super.dispose();
-	}
-
-	protected override initComponent(): void
-	{
-		// No initialization needed
 	}
 }

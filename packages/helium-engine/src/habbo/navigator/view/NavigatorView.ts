@@ -39,10 +39,8 @@ const LEFT_PANE_MARGIN_CONST = 7;
  */
 export class NavigatorView implements IUpdateReceiver
 {
-	disposed?: boolean | undefined;
 	private _navigator: HabboNewNavigator;
 	private _window: IWindowContainer | null = null;
-	// Sub-views
 	private _searchView: SearchView | null = null;
 	private _blockResultsView: BlockResultsView | null = null;
 	private _roomEntryElementFactory: RoomEntryElementFactory | null = null;
@@ -59,7 +57,6 @@ export class NavigatorView implements IUpdateReceiver
 	private _waitingForGroupDetails: number = -1;
 	private _popupHideDelay: number = 4000;
 	private _lastPreferencesSaveTime: number = 0;
-	// Left pane
 	private _rightPane: IWindow | null = null;
 	private _rightPaneOriginalX: number = 0;
 	private _leftPaneMarginConst: number = LEFT_PANE_MARGIN_CONST;
@@ -68,6 +65,16 @@ export class NavigatorView implements IUpdateReceiver
 	constructor(navigator: HabboNewNavigator)
 	{
 		this._navigator = navigator;
+	}
+
+	private _disposed: boolean = false;
+
+	/**
+	 * Whether this struct has been disposed
+	 */
+	get disposed(): boolean
+	{
+		return this._disposed;
 	}
 
 	// State

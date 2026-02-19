@@ -853,6 +853,7 @@ export class HeliumMain implements IHeliumMain
 		{
 			ctx.update(ticker.deltaMS);
 		}
+
 	}
 
 	// ── Initialization progress listeners (AS3: HabboAirMain) ────────

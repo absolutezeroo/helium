@@ -126,13 +126,8 @@ export interface IContext extends IDisposable
  *
  * Based on AS3: com.sulake.core.runtime.IUpdateReceiver
  */
-export interface IUpdateReceiver
+export interface IUpdateReceiver extends IDisposable
 {
-	/**
-	 * Whether this receiver is currently disposed
-	 */
-	readonly disposed?: boolean;
-
 	/**
 	 * Called each frame with delta time
 	 */
