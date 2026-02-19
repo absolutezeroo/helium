@@ -67,6 +67,7 @@ import {IID_AvatarRenderManager} from '@iid/IIDAvatarRenderManager';
 import type {IAvatarRenderManager} from '@habbo/avatar/IAvatarRenderManager';
 import {EventEmitter} from 'eventemitter3';
 import {RoomContentLoader} from './RoomContentLoader';
+import {RoomContentLoadedEvent} from '@room/events/RoomContentLoadedEvent';
 import {RoomObjectTileCursorUpdateMessage} from './messages/RoomObjectTileCursorUpdateMessage';
 import {MoveAvatarMessageComposer} from '@habbo/communication/messages/outgoing/room/engine/MoveAvatarMessageComposer';
 import {RoomObjectRoomMaskUpdateMessage} from './messages/RoomObjectRoomMaskUpdateMessage';
@@ -1958,9 +1959,9 @@ export class RoomEngine extends Component implements IRoomEngine,
 	 */
 	protected override initComponent(): void
 	{
-		// Listen for content loader ready events
+		// Listen for content load success events (AS3: "RCLE_SUCCESS")
 		this._boundOnContentLoaded = this.onContentLoaded.bind(this);
-		this._contentLoaderEvents.on(RoomContentLoader.CONTENT_LOADER_READY, this._boundOnContentLoaded);
+		this._contentLoaderEvents.on(RoomContentLoadedEvent.CONTENT_LOAD_SUCCESS, this._boundOnContentLoaded);
 
 		// Register to receive update calls from the context
 		this.registerUpdateReceiver(this, 10);

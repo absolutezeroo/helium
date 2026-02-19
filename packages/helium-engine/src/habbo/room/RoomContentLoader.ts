@@ -20,6 +20,7 @@ import type {IFurniDataListener} from '@habbo/session/furniture/IFurniDataListen
 import type {NitroAsset} from '@core/assets/NitroAsset';
 import {AssetLoaderEvent, AssetLoaderEventType} from '@core/assets/loaders/AssetLoaderEvent';
 import {GraphicAssetCollection} from '@room/object/visualization/utils/GraphicAssetCollection';
+import {RoomContentLoadedEvent} from '@room/events/RoomContentLoadedEvent';
 import {RoomObjectCategoryEnum} from './object/RoomObjectCategoryEnum';
 import {getVisualizationType} from './object/RoomObjectUserTypes';
 import {Logger} from '@core';
@@ -55,6 +56,7 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 		'place_holder',
 		'place_holder_wall',
 		'place_holder_pet',
+		'room',
 		'tile_cursor',
 		'selection_arrow',
 	]);
@@ -295,8 +297,8 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 	{
 		if (this._loadedTypes.get(type))
 		{
-			// Already loaded - emit ready immediately
-			events.emit(RoomContentLoader.CONTENT_LOADER_READY, type);
+			// Already loaded - emit success immediately
+			events.emit(RoomContentLoadedEvent.CONTENT_LOAD_SUCCESS, type);
 			return true;
 		}
 
@@ -305,7 +307,7 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 			// Already loading - wait for it to finish then emit
 			this._loadingTypes.get(type)!.then(() =>
 			{
-				events.emit(RoomContentLoader.CONTENT_LOADER_READY, type);
+				events.emit(RoomContentLoadedEvent.CONTENT_LOAD_SUCCESS, type);
 			});
 
 			return true;
@@ -582,7 +584,7 @@ export class RoomContentLoader implements IRoomContentLoader, IFurniDataListener
 
 		// log.debug(`Loaded ${type}: vizType=${vizType}, logicType=${logicType}`);
 
-		// Emit ready event
-		events.emit(RoomContentLoader.CONTENT_LOADER_READY, type);
+		// Emit success event (AS3: new RoomContentLoadedEvent("RCLE_SUCCESS", type))
+		events.emit(RoomContentLoadedEvent.CONTENT_LOAD_SUCCESS, type);
 	}
 }

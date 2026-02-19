@@ -22,6 +22,7 @@ import type {IRoomObjectFactory} from './IRoomObjectFactory';
 import type {IRoomObjectVisualizationFactory} from './object/IRoomObjectVisualizationFactory';
 import type {IRoomObjectSpriteVisualization} from './object/visualization/IRoomObjectSpriteVisualization';
 import {RoomInstance} from './RoomInstance';
+import {RoomContentLoadedEvent} from './events/RoomContentLoadedEvent';
 
 const log = Logger.getLogger('RoomManager');
 
@@ -179,9 +180,9 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 		this._listener = listener;
 
 		// Register content load event listeners
-		this.events.on('RCLE_SUCCESS', this.onContentLoaded, this);
-		this.events.on('RCLE_FAILURE', this.onContentLoaded, this);
-		this.events.on('RCLE_CANCEL', this.onContentLoaded, this);
+		this.events.on(RoomContentLoadedEvent.CONTENT_LOAD_SUCCESS, this.onContentLoaded, this);
+		this.events.on(RoomContentLoadedEvent.CONTENT_LOAD_FAILURE, this.onContentLoaded, this);
+		this.events.on(RoomContentLoadedEvent.CONTENT_LOAD_CANCEL, this.onContentLoaded, this);
 
 		// Load placeholder types
 		const placeHolderTypes = this._contentLoader.getPlaceHolderTypes();
@@ -492,9 +493,9 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 		if (this.disposed) return;
 
 		// Remove event listeners
-		this.events.off('RCLE_SUCCESS', this.onContentLoaded, this);
-		this.events.off('RCLE_FAILURE', this.onContentLoaded, this);
-		this.events.off('RCLE_CANCEL', this.onContentLoaded, this);
+		this.events.off(RoomContentLoadedEvent.CONTENT_LOAD_SUCCESS, this.onContentLoaded, this);
+		this.events.off(RoomContentLoadedEvent.CONTENT_LOAD_FAILURE, this.onContentLoaded, this);
+		this.events.off(RoomContentLoadedEvent.CONTENT_LOAD_CANCEL, this.onContentLoaded, this);
 
 		// Dispose all rooms
 		for (const room of this._rooms.values())
