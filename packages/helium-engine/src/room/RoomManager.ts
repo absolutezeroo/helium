@@ -81,6 +81,20 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 
 	private _state: number = RoomManagerState.LOADING;
 
+	/**
+	 * Pending init data — stored when initialize() is called before initComponent().
+	 *
+	 * @see AS3 RoomManager var_3149
+	 */
+	private _pendingInitData: unknown = null;
+
+	/**
+	 * Pending listener — stored when initialize() is called before initComponent().
+	 *
+	 * @see AS3 RoomManager var_85
+	 */
+	private _pendingListener: IRoomManagerListener | null = null;
+
 	get state(): number
 	{
 		return this._state;
@@ -105,18 +119,59 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	}
 
 	/**
+	 * Called when the component is unlocked (all DI dependencies resolved).
+	 *
+	 * Sets state to LOADED and processes any pending initialize() call
+	 * that arrived before the component was ready.
+	 *
+	 * @see AS3 RoomManager.initComponent() lines 96-106
+	 */
+	protected override initComponent(): void
+	{
+		this._state = RoomManagerState.LOADED;
+
+		if(this._pendingInitData !== null || this._pendingListener !== null)
+		{
+			const data = this._pendingInitData;
+			const listener = this._pendingListener;
+
+			this._pendingInitData = null;
+			this._pendingListener = null;
+
+			this.initialize(data, listener!);
+		}
+	}
+
+	/**
 	 * Initialize the room manager.
+	 *
+	 * If called before initComponent() (state == LOADING), stores data
+	 * for deferred initialization. Otherwise proceeds immediately.
 	 *
 	 * @see AS3 RoomManager.initialize() lines 133-175
 	 */
 	initialize(data: unknown, listener: IRoomManagerListener): boolean
 	{
-		if (this._state >= RoomManagerState.INITIALIZING)
+		// AS3: if state == 0 (LOADING), buffer for later
+		if(this._state === RoomManagerState.LOADING)
+		{
+			if(this._pendingInitData !== null)
+			{
+				return false;
+			}
+
+			this._pendingInitData = data;
+			this._pendingListener = listener;
+
+			return true;
+		}
+
+		if(this._state >= RoomManagerState.INITIALIZING)
 		{
 			return false;
 		}
 
-		if (this._contentLoader === null)
+		if(this._contentLoader === null)
 		{
 			return false;
 		}
@@ -131,9 +186,9 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 		// Load placeholder types
 		const placeHolderTypes = this._contentLoader.getPlaceHolderTypes();
 
-		for (const type of placeHolderTypes)
+		for(const type of placeHolderTypes)
 		{
-			if (!this._pendingTypes.has(type))
+			if(!this._pendingTypes.has(type))
 			{
 				this._contentLoader.loadObjectContent(type, this.events);
 				this._pendingTypes.add(type);
@@ -143,11 +198,11 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 		this._state = RoomManagerState.INITIALIZING;
 
 		// If no pending types, mark as initialized immediately
-		if (this._pendingTypes.size === 0)
+		if(this._pendingTypes.size === 0)
 		{
 			this._state = RoomManagerState.INITIALIZED;
 
-			if (this._listener)
+			if(this._listener)
 			{
 				this._listener.roomManagerInitialized(true);
 			}

@@ -2350,6 +2350,13 @@ export class RoomEngine extends Component implements IRoomEngine,
 
 			this._contentLoader.loadObjectContent(type, this._contentLoaderEvents);
 		}
+
+		// AS3: onContentLoaderReady() → _roomManager.initialize(<nothing/>, this)
+		// Initialize the room manager now that the content loader is ready.
+		if(this._roomManager)
+		{
+			this._roomManager.initialize(null, this);
+		}
 	}
 
 	/**

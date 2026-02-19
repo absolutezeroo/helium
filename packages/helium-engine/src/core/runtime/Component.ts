@@ -1,7 +1,7 @@
 import {EventEmitter} from 'eventemitter3';
 import {getIIDName, type IID} from './IID';
 import type {IDisposable} from './IDisposable';
-import type {IContext, InterfaceCallback} from './IContext';
+import type {IContext, InterfaceCallback, IUpdateReceiver} from './IContext';
 import type {ComponentDependency} from './ComponentDependency';
 import type {AssetLoaderStruct, IAsset, IAssetLibrary} from '@core/assets';
 import {Logger} from '@core/utils/Logger';
@@ -439,9 +439,9 @@ export class Component implements IDisposable
 	/**
 	 * Register this component to receive updates
 	 */
-	registerUpdateReceiver(receiver: { update: (dt: number) => void; disposed?: boolean }, priority: number): void
+	registerUpdateReceiver(receiver: IUpdateReceiver, priority: number): void
 	{
-		if (!this._disposed)
+		if(!this._disposed)
 		{
 			this._context.registerUpdateReceiver(receiver, priority);
 		}
@@ -450,9 +450,9 @@ export class Component implements IDisposable
 	/**
 	 * Remove this component from update receivers
 	 */
-	removeUpdateReceiver(receiver: { update: (dt: number) => void; disposed?: boolean }): void
+	removeUpdateReceiver(receiver: IUpdateReceiver): void
 	{
-		if (!this._disposed)
+		if(!this._disposed)
 		{
 			this._context.removeUpdateReceiver(receiver);
 		}
