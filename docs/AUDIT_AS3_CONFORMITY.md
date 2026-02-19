@@ -108,20 +108,23 @@ Méthodes manquantes dans `RoomInstance.ts` :
 - `setRenderer()` / `getRenderer()`
 - `feedRoomObject()` / `removeRoomObject()`
 
-### 5. core/window — Services critiques manquants
+### ~~5. core/window — Services critiques manquants~~ **PARTIELLEMENT CORRIGÉ**
 
-| Service manquant      | Rôle                               | Sévérité |
-|-----------------------|------------------------------------|----------|
-| `FocusManager`        | Gestion du focus entre fenêtres    | CRITIQUE |
-| `WindowMouseListener` | Événements souris sur les fenêtres | CRITIQUE |
-| `WindowToolTipAgent`  | Affichage des tooltips             | CRITIQUE |
-| `BitmapDataRenderer`  | Rendu bitmap                       | CRITIQUE |
-| `LabelRenderer`       | Rendu texte/labels                 | CRITIQUE |
-| `ShapeSkinRenderer`   | Rendu formes/shapes                | CRITIQUE |
-| `TextSkinRenderer`    | Rendu texte avancé                 | CRITIQUE |
-| `TextFieldCache`      | Cache de TextFields                | CRITIQUE |
-| Dossier `tablet/`     | Support tactile/mobile             | CRITIQUE |
-| Dossier `tools/`      | Profiling/debug                    | MINEUR   |
+| Service               | Rôle                               | Statut                                                              |
+|-----------------------|------------------------------------|---------------------------------------------------------------------|
+| `FocusManager`        | Gestion du focus entre fenêtres    | **CORRIGÉ** — implémenté dans `services/FocusManager.ts`            |
+| `WindowMouseListener` | Événements souris sur les fenêtres | **CORRIGÉ** — implémenté dans `services/WindowMouseListener.ts`     |
+| `WindowToolTipAgent`  | Affichage des tooltips             | **CORRIGÉ** — implémenté dans `services/WindowToolTipAgent.ts`      |
+| `BitmapDataRenderer`  | Rendu bitmap                       | **INTENTIONNEL** — Flash-specific, remplacé par BitmapSkinRenderer  |
+| `LabelRenderer`       | Rendu texte/labels                 | **INTENTIONNEL** — Flash TextField, remplacé par canvas text        |
+| `ShapeSkinRenderer`   | Rendu formes/shapes                | **INTENTIONNEL** — classe vide en AS3 (12 lignes), non nécessaire   |
+| `TextSkinRenderer`    | Rendu texte avancé                 | **INTENTIONNEL** — Flash TextField + CSS, non applicable            |
+| `TextFieldCache`      | Cache de TextFields                | **INTENTIONNEL** — Flash TextField pooling, non nécessaire          |
+| Dossier `tablet/`     | Support tactile/mobile             | DIFFÉRÉ — basse priorité                                            |
+| Dossier `tools/`      | Profiling/debug                    | DIFFÉRÉ — basse priorité                                            |
+
+Les 3 services (FocusManager, MouseListener, ToolTipAgent) sont câblés dans `ServiceManager.ts`.
+Les 5 renderers sont des artefacts Flash — le système TS utilise déjà des renderers canvas natifs.
 
 ---
 
@@ -174,13 +177,13 @@ Méthodes manquantes dans `RoomInstance.ts` :
 
 ### core/window
 
-**3 services critiques manquants :** FocusManager, WindowMouseListener, WindowToolTipAgent
+~~**3 services critiques manquants :**~~ **CORRIGÉ** — FocusManager, WindowMouseListener, WindowToolTipAgent implémentés et câblés dans ServiceManager.
 
-**4 renderers graphiques manquants :** BitmapDataRenderer, LabelRenderer, ShapeSkinRenderer, TextSkinRenderer
+**4 renderers graphiques :** BitmapDataRenderer, LabelRenderer, ShapeSkinRenderer, TextSkinRenderer — **INTENTIONNELLEMENT OMIS** (artefacts Flash, remplacés par le système canvas TS existant : BitmapSkinRenderer, FillSkinRenderer, NullSkinRenderer).
 
-**Dossier tablet/ entièrement absent :** ITouchAwareWindow, TabletEventProcessor, TabletEventQueue
+**Dossier tablet/ entièrement absent :** ITouchAwareWindow, TabletEventProcessor, TabletEventQueue — DIFFÉRÉ (basse priorité)
 
-**~30+ contrôleurs** sans implémentation d'interfaces tactiles (ITouchAwareWindow)
+**~30+ contrôleurs** sans implémentation d'interfaces tactiles (ITouchAwareWindow) — DIFFÉRÉ
 
 **10+ utilitaires/interfaces manquants :** GenericEventQueue, IChildEntityArray, IEventProcessor, IEventQueue, IInputProcessorRoot, INotify, ITextFieldContainer, TextFieldCache, XMLPropertyArrayParser
 
@@ -433,7 +436,7 @@ Aucune donnée critique manquante.
 
 8. Porter **habbo/roomevents** (wired system — 70+ classes)
 9. Porter **habbo/game** (snowwar — 30+ classes)
-10. Compléter **core/window services** (FocusManager, 4 renderers, mouse listener, tooltips)
+10. ~~Compléter **core/window services** (FocusManager, 4 renderers, mouse listener, tooltips)~~ **CORRIGÉ** (3 services implémentés, 5 renderers Flash intentionnellement omis)
 11. Compléter **habbo/groups** (message handlers, opérations, 22 events)
 12. Compléter **habbo/help** (5 controllers, 10 message events)
 13. ~~Aligner **IRoomHandlerListener** (events vs sessionEvents)~~ **INTENTIONNEL** (Component DI protège `events`)

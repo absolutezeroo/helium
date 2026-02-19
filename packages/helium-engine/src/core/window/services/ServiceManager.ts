@@ -5,15 +5,17 @@ import type {IMouseListenerService} from './IMouseListenerService';
 import type {IFocusManagerService} from './IFocusManagerService';
 import type {IToolTipAgentService} from './IToolTipAgentService';
 import type {IGestureAgentService} from './IGestureAgentService';
-import type {IWindow} from '../IWindow';
 import {WindowMouseDragger} from './WindowMouseDragger';
 import {WindowMouseScaler} from './WindowMouseScaler';
+import {FocusManager} from './FocusManager';
+import {WindowMouseListener} from './WindowMouseListener';
+import {WindowToolTipAgent} from './WindowToolTipAgent';
 
 /**
  * Aggregates all internal window services.
  *
- * Creates and owns the mouse dragger, scaler, and stubs for
- * listener, focus, tooltip, and gesture services.
+ * Creates and owns the mouse dragger, scaler, focus manager,
+ * mouse listener, tooltip agent, and gesture agent.
  *
  * @see sources/win63_version/core/window/services/ServiceManager.as
  */
@@ -21,47 +23,20 @@ export class ServiceManager implements IInternalWindowServices
 {
 	private _dragger: WindowMouseDragger;
 	private _scaler: WindowMouseScaler;
-	private _mouseListener: IMouseListenerService;
-	private _focusManager: IFocusManagerService;
-	private _toolTipAgent: IToolTipAgentService;
+	private _mouseListener: WindowMouseListener;
+	private _focusManager: FocusManager;
+	private _toolTipAgent: WindowToolTipAgent;
 	private _gestureAgent: IGestureAgentService;
 
 	constructor()
 	{
 		this._dragger = new WindowMouseDragger();
 		this._scaler = new WindowMouseScaler();
+		this._mouseListener = new WindowMouseListener();
+		this._focusManager = new FocusManager();
+		this._toolTipAgent = new WindowToolTipAgent();
 
-		// Stub services — will be replaced by real implementations later
-		this._mouseListener = {
-			eventTypes: [],
-			areaLimit: 0,
-			begin(_window: IWindow): void
-			{ /* stub */
-			},
-			end(_window: IWindow): void
-			{ /* stub */
-			},
-		};
-
-		this._focusManager = {
-			setFocus(_window: IWindow | null): void
-			{ /* stub */
-			},
-			getFocus(): IWindow | null
-			{
-				return null;
-			},
-		};
-
-		this._toolTipAgent = {
-			show(_window: IWindow, _text: string): void
-			{ /* stub */
-			},
-			hide(): void
-			{ /* stub */
-			},
-		};
-
+		// Gesture agent stub — touch/gesture support deferred
 		this._gestureAgent = {
 			disposed: false,
 			dispose(): void
@@ -109,11 +84,14 @@ export class ServiceManager implements IInternalWindowServices
 
 	public dispose(): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
 		this._disposed = true;
 
 		this._dragger.dispose();
 		this._scaler.dispose();
+		this._mouseListener.dispose();
+		this._focusManager.dispose();
+		this._toolTipAgent.dispose();
 	}
 }
