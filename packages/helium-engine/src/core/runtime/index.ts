@@ -18,4 +18,5 @@ export type {ICoreConfiguration} from './ICoreConfiguration';
 export type {ICoreErrorLogger} from './ICoreErrorLogger';
 export type {ICoreErrorReporter} from './ICoreErrorReporter';
 export type {IDisposable} from './IDisposable';
+export type {IFileProxy} from './IFileProxy';
 export type {IID} from './IID';

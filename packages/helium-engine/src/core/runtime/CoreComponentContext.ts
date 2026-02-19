@@ -1,10 +1,13 @@
+import type {EventEmitter} from 'eventemitter3';
 import type {IUpdateReceiver} from './IContext';
 import type {ICore} from './ICore';
 import type {ICoreErrorReporter} from './ICoreErrorReporter';
 import type {ICoreErrorLogger} from './ICoreErrorLogger';
+import type {IFileProxy} from './IFileProxy';
 import {ComponentContext} from './ComponentContext';
 import {ComponentEvents} from './Component';
 import {DefaultErrorReporter} from './DefaultErrorReporter';
+import {LibraryProgressEvent} from './events/LibraryProgressEvent';
 import {Logger} from '@core/utils/Logger';
 
 const log = Logger.getLogger('CoreComponentContext');
@@ -24,25 +27,25 @@ const NUM_UPDATE_RECEIVER_LEVELS = 3;
  * @see sources/win63_version/core/class_79.as
  */
 export const CoreSetup =
-	{
-		/** Simple update loop — iterates all receivers every frame */
-		FRAME_UPDATE_SIMPLE: 0,
+{
+	/** Simple update loop — iterates all receivers every frame */
+	FRAME_UPDATE_SIMPLE: 0,
 
-		/** Complex update loop — time-sliced, skips lower priority when behind */
-		FRAME_UPDATE_COMPLEX: 1,
+	/** Complex update loop — time-sliced, skips lower priority when behind */
+	FRAME_UPDATE_COMPLEX: 1,
 
-		/** Profiler update loop — wraps updates with profiler timing */
-		FRAME_UPDATE_PROFILER: 2,
+	/** Profiler update loop — wraps updates with profiler timing */
+	FRAME_UPDATE_PROFILER: 2,
 
-		/** Experimental update loop — per-receiver frame skipping via UpdateDelegate */
-		FRAME_UPDATE_EXPERIMENT: 4,
+	/** Experimental update loop — per-receiver frame skipping via UpdateDelegate */
+	FRAME_UPDATE_EXPERIMENT: 4,
 
-		/** Bitmask for extracting frame update mode from setup flags */
-		FRAME_UPDATE_MASK: 15,
+	/** Bitmask for extracting frame update mode from setup flags */
+	FRAME_UPDATE_MASK: 15,
 
-		/** Debug mode — all features enabled */
-		DEBUG: 15,
-	} as const;
+	/** Debug mode — all features enabled */
+	DEBUG: 15,
+} as const;
 
 /**
  * Core Component Context
@@ -53,14 +56,17 @@ export const CoreSetup =
  * - Reboot mechanism
  * - Error reporting delegation
  * - Library loading pipeline (adapted for fetch-based web loading)
+ * - File proxy for persistent storage
  *
  * In AS3 this was the root context created by Core.instantiate().
- * In TypeScript, HeliumCore creates this as the root context.
  *
  * @see sources/win63_version/core/runtime/CoreComponentContext.as
  */
 export class CoreComponentContext extends ComponentContext implements ICore
 {
+	/** Static file proxy instance (AS3: var_1203) */
+	private static _fileProxy: IFileProxy | null = null;
+
 	/** Update receivers organized by priority level */
 	private _updateReceiversByPriority: (IUpdateReceiver | null)[][] = [];
 
@@ -87,10 +93,28 @@ export class CoreComponentContext extends ComponentContext implements ICore
 
 	/** Whether to reboot on next frame */
 	private _rebootOnNextFrame: boolean = false;
+
+	/** Core arguments */
+	private _arguments: Map<string, unknown> = new Map();
+
 	/** Number of files in config */
 	private _numberOfFilesInConfig: number = 0;
+
 	/** Number of files still pending */
 	private _filesPending: number = 0;
+
+	/** Target FPS for frame budget calculation */
+	private _targetFps: number = 60;
+
+	/**
+	 * Loading event delegate — receives progress/complete events during library loading.
+	 *
+	 * AS3: _loadingEventDelegate: IEventDispatcher
+	 * In web: an EventEmitter to dispatch LibraryProgressEvent and "complete" events.
+	 *
+	 * @see CoreComponentContext.as line 44
+	 */
+	private _loadingEventDelegate: EventEmitter | null = null;
 
 	constructor(
 		errorReporter?: ICoreErrorReporter,
@@ -105,7 +129,7 @@ export class CoreComponentContext extends ComponentContext implements ICore
 		this._arguments = args ?? new Map();
 
 		// Initialize priority-level receiver arrays
-		for (let i = 0; i < NUM_UPDATE_RECEIVER_LEVELS; i++)
+		for(let i = 0; i < NUM_UPDATE_RECEIVER_LEVELS; i++)
 		{
 			this._updateReceiversByPriority.push([]);
 			this._frameSkipCounters.push(0);
@@ -116,7 +140,7 @@ export class CoreComponentContext extends ComponentContext implements ICore
 		// Select frame update handler based on setup flags
 		const mode = setupFlags & CoreSetup.FRAME_UPDATE_MASK;
 
-		switch (mode)
+		switch(mode)
 		{
 			case CoreSetup.FRAME_UPDATE_SIMPLE:
 				log.debug('Core: using simple frame update handler');
@@ -140,23 +164,7 @@ export class CoreComponentContext extends ComponentContext implements ICore
 		}
 	}
 
-	/** Core arguments */
-	private _arguments: Map<string, unknown> = new Map();
-
-	get arguments(): Map<string, unknown>
-	{
-		return this._arguments;
-	}
-
-	/** Target FPS for frame budget calculation */
-	private _targetFps: number = 60;
-
-	get targetFps(): number
-	{
-		return this._targetFps;
-	}
-
-	// ─── ICore implementation ──────────────────────────────────────────
+	// ─── Properties ───────────────────────────────────────────────────
 
 	/**
 	 * Set the target FPS for frame budget calculations.
@@ -166,26 +174,47 @@ export class CoreComponentContext extends ComponentContext implements ICore
 		this._targetFps = fps;
 	}
 
+	get targetFps(): number
+	{
+		return this._targetFps;
+	}
+
+	get arguments(): Map<string, unknown>
+	{
+		return this._arguments;
+	}
+
 	set errorLogger(logger: ICoreErrorLogger | null)
 	{
-		if (this._errorReporter)
+		if(this._errorReporter)
 		{
 			this._errorReporter.errorLogger = logger;
 		}
 	}
 
-	private get hibernating(): boolean
+	// ─── File proxy ───────────────────────────────────────────────────
+
+	/**
+	 * Get the file proxy for persistent storage.
+	 *
+	 * @see CoreComponentContext.as line 159 (get fileProxy)
+	 */
+	get fileProxy(): IFileProxy | null
 	{
-		return this._hibernationLevel > -1;
+		return CoreComponentContext._fileProxy;
 	}
 
 	/**
-	 * Max priority to process (limited during hibernation).
+	 * Set the file proxy for persistent storage.
+	 *
+	 * @see CoreComponentContext.as line 155 (set fileProxy)
 	 */
-	private get maxPriority(): number
+	set fileProxy(proxy: IFileProxy | null)
 	{
-		return this.hibernating ? this._hibernationLevel + 1 : NUM_UPDATE_RECEIVER_LEVELS;
+		CoreComponentContext._fileProxy = proxy;
 	}
+
+	// ─── ICore implementation ──────────────────────────────────────────
 
 	/**
 	 * Initialize the core. Waits for all locked components, then starts.
@@ -194,11 +223,11 @@ export class CoreComponentContext extends ComponentContext implements ICore
 	 */
 	initialize(): void
 	{
-		if (this.hasLockedComponents())
+		if(this.hasLockedComponents())
 		{
 			const handler = () =>
 			{
-				if (!this.hasLockedComponents())
+				if(!this.hasLockedComponents())
 				{
 					this.events.off(ComponentEvents.UNLOCKED, handler);
 					this.doInitialize();
@@ -210,6 +239,24 @@ export class CoreComponentContext extends ComponentContext implements ICore
 		{
 			this.doInitialize();
 		}
+	}
+
+	/**
+	 * Check if any attached components are still locked.
+	 *
+	 * @see CoreComponentContext.as lines 199-208
+	 */
+	hasLockedComponents(): boolean
+	{
+		for(const component of this.getAttachedComponents())
+		{
+			if(component.locked)
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	clearArguments(): void
@@ -240,7 +287,7 @@ export class CoreComponentContext extends ComponentContext implements ICore
 	 */
 	hibernate(priority: number, updateFrequency: number = 1): void
 	{
-		if (!this.hibernating)
+		if(!this.hibernating)
 		{
 			this._hibernationLevel = priority;
 			this._hibernationUpdateFrequency = 1000 / updateFrequency;
@@ -255,14 +302,12 @@ export class CoreComponentContext extends ComponentContext implements ICore
 	 */
 	resume(): void
 	{
-		if (this.hibernating)
+		if(this.hibernating)
 		{
 			this._hibernationLevel = -1;
 			log.debug('Core: resuming from hibernation');
 		}
 	}
-
-	// ─── ICoreConfiguration proxy (delegates to configuration) ─────────
 
 	setProfilerMode(_enabled: boolean): void
 	{
@@ -280,6 +325,282 @@ export class CoreComponentContext extends ComponentContext implements ICore
 	{
 		this._rebootOnNextFrame = true;
 	}
+
+	// ─── Library loading pipeline ─────────────────────────────────────
+
+	/**
+	 * Read a config document and set up library loading.
+	 *
+	 * In AS3, this parsed XML config with asset/service/component library
+	 * nodes and created LibraryLoader instances for each SWF.
+	 *
+	 * In the web version, this sets up the loading pipeline for
+	 * asset files and notifies progress via the loading event delegate.
+	 *
+	 * @param config - Configuration object describing libraries to load
+	 * @param eventDelegate - Optional EventEmitter to receive progress/complete events
+	 *
+	 * @see CoreComponentContext.as lines 257-285
+	 */
+	readConfigDocument(config: Record<string, unknown>, eventDelegate?: EventEmitter): void
+	{
+		log.debug('Parsing config document');
+
+		this._loadingEventDelegate = eventDelegate ?? null;
+
+		// In AS3, this parsed XML for asset-libraries, service-libraries,
+		// component-libraries. In the web version, libraries are ES modules
+		// loaded at build time. This method is kept for API compatibility
+		// and to support dynamic asset loading if needed.
+
+		const assetLibraries = config['asset-libraries'] as string[] | undefined;
+		const serviceLibraries = config['service-libraries'] as string[] | undefined;
+		const componentLibraries = config['component-libraries'] as string[] | undefined;
+
+		const allUrls: string[] = [
+			...(assetLibraries ?? []),
+			...(serviceLibraries ?? []),
+			...(componentLibraries ?? []),
+		];
+
+		this._numberOfFilesInConfig += allUrls.length;
+		this._filesPending += allUrls.length;
+
+		if(!this.disposed)
+		{
+			this.updateLoadingProcess();
+		}
+	}
+
+	/**
+	 * Dispatch loading progress for an individual file.
+	 *
+	 * @param fileName - The file/URL being loaded
+	 * @param bytesLoaded - Bytes loaded so far
+	 * @param bytesTotal - Total bytes to load
+	 * @param elapsedTime - Time elapsed since load started
+	 *
+	 * @see CoreComponentContext.as lines 371-377 (updateLoadingProgress)
+	 */
+	updateLoadingProgress(fileName: string, bytesLoaded: number, bytesTotal: number, elapsedTime: number): void
+	{
+		if(this._loadingEventDelegate !== null)
+		{
+			this._loadingEventDelegate.emit('progress', new LibraryProgressEvent(
+				fileName, bytesLoaded, bytesTotal, elapsedTime
+			));
+		}
+	}
+
+	/**
+	 * Handle library loading completion/progress.
+	 *
+	 * Dispatches progress events and checks if all libraries are loaded.
+	 * When all libraries are done, calls finalizeLoadingEventDelegate().
+	 *
+	 * @param fileName - Optional file that completed (null for initial check)
+	 * @param status - 'complete' or 'error'
+	 *
+	 * @see CoreComponentContext.as lines 379-404 (updateLoadingProcess)
+	 */
+	updateLoadingProcess(fileName?: string, status?: 'complete' | 'error'): void
+	{
+		if(fileName)
+		{
+			if(this._filesPending > 0)
+			{
+				this._filesPending--;
+			}
+
+			log.debug(`Loading library "${fileName}" ${status === 'complete' ? 'ready' : 'failed'}`);
+
+			if(!this.disposed && this._loadingEventDelegate !== null)
+			{
+				this._loadingEventDelegate.emit('progress', new LibraryProgressEvent(
+					fileName,
+					this._numberOfFilesInConfig - this._filesPending,
+					this._numberOfFilesInConfig,
+					0
+				));
+			}
+		}
+
+		if(!this.disposed)
+		{
+			if(this._filesPending === 0)
+			{
+				this.finalizeLoadingEventDelegate();
+				log.debug('All libraries loaded');
+			}
+		}
+	}
+
+	/**
+	 * Handle an error during library loading.
+	 *
+	 * @param url - The URL that failed
+	 * @param httpStatus - HTTP status code
+	 * @param bytesLoaded - Bytes loaded before failure
+	 * @param bytesTotal - Total bytes expected
+	 * @param errorMsg - Error message
+	 *
+	 * @see CoreComponentContext.as lines 356-362 (errorInLoadingProcess)
+	 */
+	errorInLoadingProcess(url: string, httpStatus: number, bytesLoaded: number, bytesTotal: number, errorMsg: string): void
+	{
+		this.error(
+			`Failed to download library "${url}" HTTP status ${httpStatus} bytes loaded ${bytesLoaded}/${bytesTotal} : ${errorMsg}`,
+			true,
+			2
+		);
+
+		if(!this.disposed)
+		{
+			this.updateLoadingProcess(url, 'error');
+		}
+	}
+
+	// ─── Proxy methods (persistent storage) ───────────────────────────
+
+	/**
+	 * Read a string value from the file proxy.
+	 *
+	 * @param key - Storage key
+	 * @returns The string value, or null if not found
+	 *
+	 * @see CoreComponentContext.as lines 319-336 (readStringFromProxy)
+	 */
+	readStringFromProxy(key: string): string | null
+	{
+		try
+		{
+			const proxy = CoreComponentContext._fileProxy;
+
+			if(proxy)
+			{
+				return proxy.readCache(key);
+			}
+
+			return null;
+		}
+		catch(e)
+		{
+			log.error(`Caught error when reading string (${key}) from IFileProxy: ${e}`);
+			return null;
+		}
+	}
+
+	/**
+	 * Write a string value to the file proxy.
+	 *
+	 * @param key - Storage key
+	 * @param value - String value to store
+	 * @returns True if successful
+	 *
+	 * @see CoreComponentContext.as lines 338-354 (writeStringToProxy)
+	 */
+	writeStringToProxy(key: string, value: string): boolean
+	{
+		try
+		{
+			const proxy = CoreComponentContext._fileProxy;
+
+			if(proxy)
+			{
+				proxy.writeCache(key, value);
+				return true;
+			}
+
+			return false;
+		}
+		catch(e)
+		{
+			log.error(`Caught error when writing string (${key}) to IFileProxy: ${e}`);
+			return false;
+		}
+	}
+
+	/**
+	 * Write a dictionary/object to the file proxy as JSON.
+	 *
+	 * AS3: writeDictionaryToProxy wraps writeObjectToProxy with ByteArray.writeObject().
+	 * Web: we serialize to JSON.
+	 *
+	 * @param key - Storage key
+	 * @param data - Data to store
+	 * @returns True if successful
+	 *
+	 * @see CoreComponentContext.as lines 303-305 (writeDictionaryToProxy)
+	 */
+	writeDictionaryToProxy(key: string, data: Record<string, unknown>): boolean
+	{
+		try
+		{
+			return this.writeStringToProxy(key, JSON.stringify(data));
+		}
+		catch(e)
+		{
+			log.error(`Caught error when writing Dictionary (${key}) to IFileProxy: ${e}`);
+			return false;
+		}
+	}
+
+	/**
+	 * Read a dictionary/object from the file proxy (JSON deserialized).
+	 *
+	 * @param key - Storage key
+	 * @returns The deserialized object, or null if not found
+	 *
+	 * @see CoreComponentContext.as lines 307-309 (readDictionaryFromProxy)
+	 */
+	readDictionaryFromProxy(key: string): Record<string, unknown> | null
+	{
+		try
+		{
+			const str = this.readStringFromProxy(key);
+
+			if(str)
+			{
+				return JSON.parse(str) as Record<string, unknown>;
+			}
+
+			return null;
+		}
+		catch(e)
+		{
+			log.error(`Caught error when reading Dictionary (${key}) from IFileProxy: ${e}`);
+			return null;
+		}
+	}
+
+	/**
+	 * Write an XML string to the file proxy.
+	 *
+	 * @param key - Storage key
+	 * @param xml - XML string to store
+	 * @returns True if successful
+	 *
+	 * @see CoreComponentContext.as lines 311-313 (writeXMLToProxy)
+	 */
+	writeXMLToProxy(key: string, xml: string): boolean
+	{
+		return this.writeStringToProxy(key, xml);
+	}
+
+	/**
+	 * Read an XML string from the file proxy.
+	 *
+	 * @param key - Storage key
+	 * @returns The XML string, or null if not found
+	 *
+	 * @see CoreComponentContext.as lines 315-317 (readXMLFromProxy)
+	 */
+	readXMLFromProxy(key: string): string | null
+	{
+		return this.readStringFromProxy(key);
+	}
+
+	// ─── ICoreConfiguration proxy (delegates to configuration) ─────────
 
 	propertyExists(key: string): boolean
 	{
@@ -306,8 +627,6 @@ export class CoreComponentContext extends ComponentContext implements ICore
 		return this.configuration?.getInteger(key, defaultValue) ?? defaultValue;
 	}
 
-	// ─── Update receiver management ────────────────────────────────────
-
 	interpolate(value: string): string
 	{
 		return this.configuration?.interpolate(value) ?? value;
@@ -318,10 +637,10 @@ export class CoreComponentContext extends ComponentContext implements ICore
 		return this.configuration?.updateUrlProtocol(url) ?? url;
 	}
 
-	// ─── Update loop ───────────────────────────────────────────────────
+	// ─── Update receiver management ────────────────────────────────────
 
 	/**
-	 * Register an update receiver at the given priority level (0–2).
+	 * Register an update receiver at the given priority level (0-2).
 	 *
 	 * Clamps priority to [0, NUM_UPDATE_RECEIVER_LEVELS - 1].
 	 * Removes receiver from any existing level first.
@@ -339,8 +658,6 @@ export class CoreComponentContext extends ComponentContext implements ICore
 		this._updateReceiversByPriority[priority].push(receiver);
 	}
 
-	// ─── Error handling ────────────────────────────────────────────────
-
 	/**
 	 * Remove an update receiver from all priority levels.
 	 *
@@ -348,14 +665,14 @@ export class CoreComponentContext extends ComponentContext implements ICore
 	 */
 	override removeUpdateReceiver(receiver: IUpdateReceiver): void
 	{
-		if (this.disposed) return;
+		if(this.disposed) return;
 
-		for (let level = 0; level < NUM_UPDATE_RECEIVER_LEVELS; level++)
+		for(let level = 0; level < NUM_UPDATE_RECEIVER_LEVELS; level++)
 		{
 			const receivers = this._updateReceiversByPriority[level];
 			const index = receivers.indexOf(receiver);
 
-			if (index > -1)
+			if(index > -1)
 			{
 				receivers[index] = null;
 				return;
@@ -363,10 +680,10 @@ export class CoreComponentContext extends ComponentContext implements ICore
 		}
 	}
 
-	// ─── Dispose ───────────────────────────────────────────────────────
+	// ─── Update loop ───────────────────────────────────────────────────
 
 	/**
-	 * Main update method. Called each frame by the PixiJS ticker (via HeliumCore).
+	 * Main update method. Called each frame by the PixiJS ticker.
 	 *
 	 * Handles reboot, hibernation throttling, and delegates to the
 	 * active frame update handler.
@@ -375,10 +692,10 @@ export class CoreComponentContext extends ComponentContext implements ICore
 	 */
 	override update(deltaTime: number): void
 	{
-		if (this.disposed) return;
+		if(this.disposed) return;
 
 		// Handle reboot
-		if (this._rebootOnNextFrame)
+		if(this._rebootOnNextFrame)
 		{
 			this._rebootOnNextFrame = false;
 			this.events.emit(CoreComponentContextEvents.REBOOT);
@@ -389,7 +706,7 @@ export class CoreComponentContext extends ComponentContext implements ICore
 		const elapsed = now - this._lastUpdateTimeMs;
 
 		// Hibernation throttling
-		if (this.hibernating && elapsed < this._hibernationUpdateFrequency)
+		if(this.hibernating && elapsed < this._hibernationUpdateFrequency)
 		{
 			return;
 		}
@@ -398,7 +715,7 @@ export class CoreComponentContext extends ComponentContext implements ICore
 		this._lastUpdateTimeMs = now;
 	}
 
-	// ─── Private helpers ───────────────────────────────────────────────
+	// ─── Error handling ────────────────────────────────────────────────
 
 	/**
 	 * Report an error. Delegates to the error reporter.
@@ -412,11 +729,13 @@ export class CoreComponentContext extends ComponentContext implements ICore
 
 		this._errorReporter.logError(message, fatal, code, error);
 
-		if (fatal && code !== 2015)
+		if(fatal && code !== 2015)
 		{
 			this.dispose();
 		}
 	}
+
+	// ─── Dispose ───────────────────────────────────────────────────────
 
 	/**
 	 * Dispose the core context and all update receivers.
@@ -425,43 +744,43 @@ export class CoreComponentContext extends ComponentContext implements ICore
 	 */
 	override dispose(): void
 	{
-		if (this.disposed) return;
+		if(this.disposed) return;
 
 		log.debug('Disposing core');
 
 		try
 		{
-			for (let level = 0; level < NUM_UPDATE_RECEIVER_LEVELS; level++)
+			for(let level = 0; level < NUM_UPDATE_RECEIVER_LEVELS; level++)
 			{
 				const receivers = this._updateReceiversByPriority[level];
 				receivers.length = 0;
 			}
 		}
-		catch (e)
+		catch(e)
 		{
 			log.error('Error disposing update receivers:', e);
 		}
 
 		this._updateReceiversByPriority = [];
 		this._frameSkipCounters = [];
+		this._loadingEventDelegate = null;
 
 		super.dispose();
 	}
 
-	/**
-	 * Check if any attached components are still locked.
-	 */
-	private hasLockedComponents(): boolean
-	{
-		for (const component of this.getAttachedComponents())
-		{
-			if (component.locked)
-			{
-				return true;
-			}
-		}
+	// ─── Private helpers ───────────────────────────────────────────────
 
-		return false;
+	private get hibernating(): boolean
+	{
+		return this._hibernationLevel > -1;
+	}
+
+	/**
+	 * Max priority to process (limited during hibernation).
+	 */
+	private get maxPriority(): number
+	{
+		return this.hibernating ? this._hibernationLevel + 1 : NUM_UPDATE_RECEIVER_LEVELS;
 	}
 
 	/**
@@ -473,19 +792,30 @@ export class CoreComponentContext extends ComponentContext implements ICore
 		log.info('Core is now running');
 	}
 
+	/**
+	 * Finalize the loading event delegate by emitting "complete".
+	 *
+	 * @see CoreComponentContext.as lines 364-369 (finalizeLoadingEventDelegate)
+	 */
+	private finalizeLoadingEventDelegate(): void
+	{
+		if(this._loadingEventDelegate !== null)
+		{
+			this._loadingEventDelegate.emit('complete');
+			this._loadingEventDelegate = null;
+		}
+	}
+
 	// ─── Frame update handlers ─────────────────────────────────────────
 
 	/**
 	 * Simple frame update handler.
 	 *
-	 * Iterates through all receivers at each priority level, every frame.
-	 * Removes null/disposed receivers during iteration.
-	 *
 	 * @see CoreComponentContext.as lines 481-516
 	 */
 	private simpleFrameUpdateHandler(_timeMs: number, deltaMs: number): void
 	{
-		for (let level = 0; level < this.maxPriority; level++)
+		for(let level = 0; level < this.maxPriority; level++)
 		{
 			this._frameSkipCounters[level] = 0;
 
@@ -493,11 +823,11 @@ export class CoreComponentContext extends ComponentContext implements ICore
 			let i = 0;
 			let len = receivers.length;
 
-			while (i < len)
+			while(i < len)
 			{
 				const receiver = receivers[i];
 
-				if (receiver === null || receiver.disposed)
+				if(receiver === null || receiver.disposed)
 				{
 					receivers.splice(i, 1);
 					len--;
@@ -508,13 +838,13 @@ export class CoreComponentContext extends ComponentContext implements ICore
 					{
 						receiver.update(deltaMs);
 					}
-					catch (e)
+					catch(e)
 					{
 						log.error(`Error in update receiver: ${e}`);
 						this.error(
 							`Error in update receiver: ${(e as Error).message}`,
 							true,
-							(e as Error).name === 'TypeError' ? -1 : -1,
+							-1,
 							e as Error
 						);
 						return;
@@ -528,9 +858,6 @@ export class CoreComponentContext extends ComponentContext implements ICore
 	/**
 	 * Complex frame update handler.
 	 *
-	 * Time-sliced: if execution exceeds the frame budget, lower-priority
-	 * receivers are skipped (up to `level` times).
-	 *
 	 * @see CoreComponentContext.as lines 518-561
 	 */
 	private complexFrameUpdateHandler(timeMs: number, deltaMs: number): void
@@ -538,21 +865,21 @@ export class CoreComponentContext extends ComponentContext implements ICore
 		const frameBudget = 1000 / this._targetFps;
 		let ok = true;
 
-		for (let level = 0; level < this.maxPriority; level++)
+		for(let level = 0; level < this.maxPriority; level++)
 		{
 			const elapsed = performance.now() - timeMs;
 			let skip = false;
 
-			if (elapsed > frameBudget)
+			if(elapsed > frameBudget)
 			{
-				if (this._frameSkipCounters[level] < level)
+				if(this._frameSkipCounters[level] < level)
 				{
 					this._frameSkipCounters[level]++;
 					skip = true;
 				}
 			}
 
-			if (!skip)
+			if(!skip)
 			{
 				this._frameSkipCounters[level] = 0;
 
@@ -560,11 +887,11 @@ export class CoreComponentContext extends ComponentContext implements ICore
 				let i = 0;
 				let len = receivers.length;
 
-				while (i < len && ok)
+				while(i < len && ok)
 				{
 					const receiver = receivers[i];
 
-					if (receiver === null || receiver.disposed)
+					if(receiver === null || receiver.disposed)
 					{
 						receivers.splice(i, 1);
 						len--;
@@ -575,7 +902,7 @@ export class CoreComponentContext extends ComponentContext implements ICore
 						{
 							receiver.update(deltaMs);
 						}
-						catch (e)
+						catch(e)
 						{
 							log.error(`Error in update receiver: ${e}`);
 							this.error(
@@ -596,22 +923,19 @@ export class CoreComponentContext extends ComponentContext implements ICore
 	/**
 	 * Experimental frame update handler.
 	 *
-	 * Only cleans up disposed receivers. Actual updates are handled
-	 * independently by each receiver's own scheduling.
-	 *
 	 * @see CoreComponentContext.as lines 601-617
 	 */
 	private experimentalFrameUpdateHandler(_timeMs: number, _deltaMs: number): void
 	{
-		for (let level = 0; level < NUM_UPDATE_RECEIVER_LEVELS; level++)
+		for(let level = 0; level < NUM_UPDATE_RECEIVER_LEVELS; level++)
 		{
 			const receivers = this._updateReceiversByPriority[level];
 
-			for (let i = receivers.length - 1; i >= 0; i--)
+			for(let i = receivers.length - 1; i >= 0; i--)
 			{
 				const receiver = receivers[i];
 
-				if (receiver === null || receiver.disposed)
+				if(receiver === null || receiver.disposed)
 				{
 					receivers.splice(i, 1);
 				}
@@ -622,14 +946,11 @@ export class CoreComponentContext extends ComponentContext implements ICore
 	/**
 	 * Debug frame update handler.
 	 *
-	 * Like simple, but without try/catch — errors propagate directly
-	 * for easier debugging.
-	 *
 	 * @see CoreComponentContext.as lines 619-643
 	 */
 	private debugFrameUpdateHandler(_timeMs: number, deltaMs: number): void
 	{
-		for (let level = 0; level < this.maxPriority; level++)
+		for(let level = 0; level < this.maxPriority; level++)
 		{
 			this._frameSkipCounters[level] = 0;
 
@@ -637,11 +958,11 @@ export class CoreComponentContext extends ComponentContext implements ICore
 			let i = 0;
 			let len = receivers.length;
 
-			while (i < len)
+			while(i < len)
 			{
 				const receiver = receivers[i];
 
-				if (receiver === null || receiver.disposed)
+				if(receiver === null || receiver.disposed)
 				{
 					receivers.splice(i, 1);
 					len--;
@@ -661,10 +982,10 @@ export class CoreComponentContext extends ComponentContext implements ICore
  * Core component context event constants.
  */
 export const CoreComponentContextEvents =
-	{
-		/** Emitted when all components are unlocked and core is running */
-		RUNNING: 'COMPONENT_EVENT_RUNNING',
+{
+	/** Emitted when all components are unlocked and core is running */
+	RUNNING: 'COMPONENT_EVENT_RUNNING',
 
-		/** Emitted when core is about to reboot */
-		REBOOT: 'COMPONENT_EVENT_REBOOT',
-	} as const;
+	/** Emitted when core is about to reboot */
+	REBOOT: 'COMPONENT_EVENT_REBOOT',
+} as const;

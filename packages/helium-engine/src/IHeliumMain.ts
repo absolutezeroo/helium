@@ -1,16 +1,17 @@
-import type {HeliumCore, IDisposable, IGameDataResources} from "@core";
-import {IHabboCommunicationDemo, IHabboCommunicationManager} from "@habbo/communication";
-import {IHabboLocalizationManager} from "@habbo/localization";
-import {IHabboNavigator, IHabboNewNavigator} from "@habbo/navigator";
-import {IHabboInventory} from "@habbo/inventory";
-import {IHabboConfigurationManager} from "@habbo/configuration";
-import {IRoomManager} from "@room";
-import {IRoomSessionManager, ISessionDataManager} from "@habbo/session";
-import {IRoomEngine} from "@habbo/room";
-import {IHeliumConfig} from "./Helium";
-import {IRoomMessageHandler} from "@habbo/room/IRoomMessageHandler";
+import type {IDisposable, IGameDataResources} from "@core";
+import type {IHabboCommunicationDemo, IHabboCommunicationManager} from "@habbo/communication";
+import type {IHabboLocalizationManager} from "@habbo/localization";
+import type {IHabboNavigator, IHabboNewNavigator} from "@habbo/navigator";
+import type {IHabboInventory} from "@habbo/inventory";
+import type {IHabboConfigurationManager} from "@habbo/configuration";
+import type {IRoomManager} from "@room";
+import type {IRoomSessionManager, ISessionDataManager} from "@habbo/session";
+import type {IRoomEngine} from "@habbo/room";
+import type {IHeliumConfig} from "./Helium";
+import type {IRoomMessageHandler} from "@habbo/room/IRoomMessageHandler";
 import type {IHabboWindowManager} from "@habbo/window/IHabboWindowManager";
 import type {IHabboToolbar} from "@habbo/toolbar/IHabboToolbar";
+import type {Application} from 'pixi.js';
 
 export interface IHeliumMain extends IDisposable
 {
@@ -30,12 +31,14 @@ export interface IHeliumMain extends IDisposable
 	readonly toolbar: IHabboToolbar;
 
 	/**
-	 * Initialize the engine orchestrator
+	 * Initialize the engine orchestrator.
 	 *
-	 * @param core - The HeliumCore instance (created by Helium shell)
+	 * @param application - The PixiJS Application (created by Helium shell)
 	 * @param config - Optional Helium configuration
+	 *
+	 * @see sources/win63_2021_version/HabboAirMain.as prepareCore()
 	 */
-	init(core: HeliumCore, config?: IHeliumConfig): Promise<void>;
+	init(application: Application, config?: IHeliumConfig): Promise<void>;
 
 	/**
 	 * Create Core and prepare all components.

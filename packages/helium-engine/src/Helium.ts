@@ -1,9 +1,10 @@
 import {EventEmitter} from 'eventemitter3';
 import {Application} from 'pixi.js';
-import {HeliumCore} from '@core/HeliumCore';
-import {ComponentContext} from '@core/runtime';
+import {Core} from '@core/Core';
 import {HeliumMain} from './HeliumMain';
+import {IID_CoreCommunicationManager} from '@iid/IIDCoreCommunicationManager';
 import {Logger} from '@core/utils/Logger';
+import type {CoreComponentContext} from '@core/runtime/CoreComponentContext';
 import type {ICoreCommunicationManager} from '@core/communication/ICoreCommunicationManager';
 import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
 import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
@@ -18,11 +19,27 @@ import type {IHabboLocalizationManager} from '@habbo/localization/IHabboLocaliza
 import type {IHabboWindowManager} from '@habbo/window/IHabboWindowManager';
 import type {IHabboToolbar} from '@habbo/toolbar/IHabboToolbar';
 import type {IRoomUI} from '@habbo/ui/IRoomUI';
-import {IHelium} from "./IHelium";
-import {IHeliumCoreConfig} from "@core";
+import type {IHelium} from './IHelium';
 import type {IHeliumLoadingScreen} from './IHeliumLoadingScreen';
 
 const log = Logger.getLogger('Helium');
+
+/**
+ * PixiJS application configuration options.
+ */
+export interface IHeliumCoreConfig
+{
+	/** Background color */
+	background?: string;
+	/** Element to resize to */
+	resizeTo?: HTMLElement | Window;
+	/** Enable antialiasing */
+	antialias?: boolean;
+	/** Pixel resolution */
+	resolution?: number;
+	/** Canvas container element */
+	canvas?: HTMLElement;
+}
 
 /**
  * Connection configuration
@@ -76,17 +93,16 @@ export interface ICrashReport
  * Helium
  *
  * Application shell for the Helium Habbo client.
- * Owns HeliumCore (engine fundamentals) and HabboMain (engine orchestrator).
- * Handles singleton lifecycle, UI mounting, and connection management.
+ * Equivalent to HabboAir.as in AS3.
  *
- * Follows the AS3 pattern where Habbo.as is the entry shell
- * and HabboMain.as is the engine orchestrator.
+ * Owns the PixiJS Application (= Flash stage) and HeliumMain (= HabboAirMain).
+ * Handles singleton lifecycle, crash reporting, and connection management.
  *
- * @see source_as_win63/habbo/Habbo.as
+ * @see sources/win63_2021_version/HabboAir.as
  */
 export class Helium implements IHelium
 {
-	// Engine orchestrator
+	// Engine orchestrator (= HabboAirMain)
 	private _habboMain: HeliumMain | null = null;
 
 	/**
@@ -95,6 +111,14 @@ export class Helium implements IHelium
 	 * @see sources/win63_2021_version/HabboAir.as _loadingScreen
 	 */
 	private _loadingScreen: IHeliumLoadingScreen | null = null;
+
+	/**
+	 * PixiJS Application — equivalent to the Flash stage.
+	 * Owned directly by Helium (not by a separate core layer).
+	 *
+	 * @see sources/win63_2021_version/HabboAir.as (stage setup in tryInit)
+	 */
+	private _application: Application | null = null;
 
 	// State
 	private _ready: boolean = false;
@@ -108,12 +132,14 @@ export class Helium implements IHelium
 	// Singleton
 	private static _instance: Helium;
 
+	protected _disposed: boolean = false;
+
 	/**
 	 * Get the singleton instance
 	 */
 	public static get instance(): Helium
 	{
-		if (!this._instance)
+		if(!this._instance)
 		{
 			this._instance = new Helium();
 		}
@@ -121,39 +147,45 @@ export class Helium implements IHelium
 		return this._instance;
 	}
 
-	// Core layer
-	private _core: HeliumCore | null = null;
-
-	get core(): HeliumCore
-	{
-		if (!this._core)
-		{
-			throw new Error('[Helium] Not initialized');
-		}
-
-		return this._core;
-	}
-
-	protected _disposed: boolean = false;
-
 	get disposed(): boolean
 	{
 		return this._disposed;
 	}
 
-	get context(): ComponentContext
+	/**
+	 * Get the CoreComponentContext (= ICore).
+	 *
+	 * In AS3, HabboAirMain stored _core: ICore which was the CoreComponentContext
+	 * created by Core.instantiate(). Here we expose it from Core.instance.
+	 */
+	get context(): CoreComponentContext
 	{
-		return this.core.context;
+		const ctx = Core.instance;
+
+		if(!ctx)
+		{
+			throw new Error('[Helium] Core not initialized');
+		}
+
+		return ctx as CoreComponentContext;
 	}
 
+	/**
+	 * Get the PixiJS Application.
+	 */
 	get application(): Application
 	{
-		return this.core.application;
+		if(!this._application)
+		{
+			throw new Error('[Helium] Not initialized');
+		}
+
+		return this._application;
 	}
 
 	get communication(): ICoreCommunicationManager
 	{
-		return this.core.communication;
+		return this.context.queueInterface(IID_CoreCommunicationManager)!;
 	}
 
 	get isReady(): boolean
@@ -238,7 +270,7 @@ export class Helium implements IHelium
 	 * Bootstrap the application.
 	 *
 	 * @param config - Optional configuration
-	 * @param loadingScreen - Optional loading screen (passed to HabboAirMain like AS3)
+	 * @param loadingScreen - Optional loading screen (passed to HeliumMain like AS3)
 	 *
 	 * @see sources/win63_2021_version/HabboAir.as finalizePreloading()
 	 */
@@ -254,7 +286,7 @@ export class Helium implements IHelium
 	/**
 	 * Track a login step for analytics and debugging.
 	 *
-	 * @see sources/win63_version/Habbo.as trackLoginStep()
+	 * @see sources/win63_2021_version/HabboAir.as trackLoginStep()
 	 */
 	public static trackLoginStep(step: string, extra?: string): void
 	{
@@ -262,7 +294,7 @@ export class Helium implements IHelium
 
 		log.debug(`Login step: ${message}`);
 
-		if (this._instance)
+		if(this._instance)
 		{
 			this._instance._events.emit('loginStep', step, extra);
 		}
@@ -271,7 +303,7 @@ export class Helium implements IHelium
 	/**
 	 * Report a crash or error.
 	 *
-	 * @see sources/win63_version/Habbo.as reportCrash()
+	 * @see sources/win63_2021_version/HabboAir.as reportCrash()
 	 */
 	public static reportCrash(message: string, category: string, isFatal: boolean, error?: Error): void
 	{
@@ -285,12 +317,12 @@ export class Helium implements IHelium
 
 		log.error(`Crash [${category}]: ${message}${isFatal ? ' (FATAL)' : ''}`);
 
-		if (error)
+		if(error)
 		{
 			log.error(error.stack ?? error.message);
 		}
 
-		if (this._instance)
+		if(this._instance)
 		{
 			this._instance._events.emit('crash', report);
 		}
@@ -308,20 +340,11 @@ export class Helium implements IHelium
 	/**
 	 * Connect to the Habbo server (manual).
 	 *
-	 * When autoConnect is configured, the connection is started automatically
-	 * by HabboCommunicationDemo.initComponent() during component initialization
-	 * (AS3 pattern: SSO ticket available from FlashVars Dictionary).
-	 *
-	 * This method is only needed for manual connection when autoConnect is false.
-	 *
-	 * Uses HabboCommunicationDemo (AS3 pattern) to manage the login flow:
-	 * setSSOTicket → initGameSocket → initConnection → IncomingMessages → handshake
-	 *
 	 * @see sources/win63_2021_version/HabboAirMain.as
 	 */
 	connect(): void
 	{
-		if (!this._habboMain)
+		if(!this._habboMain)
 		{
 			throw new Error('[Helium] Not initialized');
 		}
@@ -330,7 +353,7 @@ export class Helium implements IHelium
 
 		// If connection already exists (started by HabboCommunicationDemo.initComponent),
 		// just wire remaining handlers and return.
-		if (comm.connection)
+		if(comm.connection)
 		{
 			this.wireRoomMessageHandler();
 			return;
@@ -341,7 +364,7 @@ export class Helium implements IHelium
 		const demo = this._habboMain.communicationDemo;
 		const ssoTicket = comm.ssoTicket;
 
-		if (ssoTicket)
+		if(ssoTicket)
 		{
 			demo.setSSOTicket(ssoTicket);
 		}
@@ -362,22 +385,20 @@ export class Helium implements IHelium
 	}
 
 	/**
-	 * Dispose the application
+	 * Dispose the application.
 	 *
-	 * Order: HabboMain (managers) → Core (context.dispose() disposes all Components)
-	 *
-	 * @see sources/win63_version/Habbo.as
+	 * @see sources/win63_2021_version/HabboAir.as dispose()
 	 */
 	public dispose(): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
 		this._disposed = true;
 
 		log.info('Disposing Helium...');
 
 		// Remove unload listener
-		if (this._unloadHandler)
+		if(this._unloadHandler)
 		{
 			window.removeEventListener('beforeunload', this._unloadHandler);
 			this._unloadHandler = null;
@@ -387,9 +408,12 @@ export class Helium implements IHelium
 		this._habboMain?.dispose();
 		this._habboMain = null;
 
-		// 2. Dispose core
-		this._core?.dispose();
-		this._core = null;
+		// 2. Dispose core (disposes context and all components)
+		Core.dispose();
+
+		// 3. Dispose PixiJS application
+		this._application?.destroy(true);
+		this._application = null;
 
 		this._ready = false;
 
@@ -405,16 +429,12 @@ export class Helium implements IHelium
 	 * 3. HabboAirMain.prepareCore() — create Core, register all components
 	 * 4. HabboAirMain.addInitializationProgressListeners() — track progress
 	 *
-	 * The SSO ticket is available from FlashVars (Dictionary) before any
-	 * component initializes. HabboCommunicationDemo.initComponent() reads
-	 * the ticket and starts the connection automatically.
-	 *
 	 * @see sources/win63_2021_version/HabboAir.as tryInit(), finalizePreloading()
 	 * @see sources/win63_2021_version/HabboAirMain.as prepareCore()
 	 */
 	async init(config?: IHeliumConfig, loadingScreen?: IHeliumLoadingScreen): Promise<void>
 	{
-		if (this._ready)
+		if(this._ready)
 		{
 			log.warn('Already initialized');
 			return;
@@ -428,15 +448,25 @@ export class Helium implements IHelium
 		{
 			log.info('Initializing Helium...');
 
-			// 1. Create and init core
-			this._core = new HeliumCore();
+			// 1. Create PixiJS application (= AS3 stage setup in HabboAir.tryInit)
+			this._application = new Application();
 
-			await this._core.init(config);
+			await this._application.init({
+				background: config?.background ?? '#000000',
+				resizeTo: config?.resizeTo ?? window,
+				antialias: config?.antialias ?? true,
+				resolution: config?.resolution ?? window.devicePixelRatio,
+				autoDensity: true,
+			});
 
-			// 2. Create and init engine orchestrator.
+			// Append canvas to target
+			const target = config?.canvas ?? document.body;
+			target.appendChild(this._application.canvas);
+
+			// 2. Create and init engine orchestrator (= HabboAirMain)
 			this._habboMain = new HeliumMain(this._loadingScreen);
 
-			await this._habboMain.init(this._core, config);
+			await this._habboMain.init(this._application, config);
 
 			this._ready = true;
 
@@ -449,7 +479,7 @@ export class Helium implements IHelium
 
 			log.success('Ready!');
 		}
-		catch (error)
+		catch(error)
 		{
 			Helium.trackLoginStep('client.init.core.fail');
 			Helium.reportCrash(
@@ -466,22 +496,18 @@ export class Helium implements IHelium
 	/**
 	 * Handle browser unload event.
 	 *
-	 * AS3: Called via ExternalInterface when the browser is unloading.
-	 * Dispatches "unload" event on core, then disposes.
-	 *
 	 * @see sources/win63_2021_version/HabboAirMain.as unloading()
-	 * @see sources/win63_2021_version/HabboAir.as (ExternalInterface callback)
 	 */
 	unloading(): void
 	{
 		try
 		{
-			if (this._core && !this._disposed)
+			if(Core.instance && !this._disposed)
 			{
 				this._events.emit('unload');
 			}
 		}
-		catch (error)
+		catch(error)
 		{
 			// AS3: catch(error:Error) {} — silently ignore errors during unload
 		}
@@ -494,12 +520,12 @@ export class Helium implements IHelium
 	 */
 	private wireRoomMessageHandler(): void
 	{
-		if (!this._habboMain) return;
+		if(!this._habboMain) return;
 
 		const comm = this._habboMain.habboCommunication;
 		const handler = this._habboMain.roomMessageHandler;
 
-		if (comm.connection)
+		if(comm.connection)
 		{
 			handler.connection = comm.connection;
 			this._habboMain.roomEngine.connection = comm.connection;

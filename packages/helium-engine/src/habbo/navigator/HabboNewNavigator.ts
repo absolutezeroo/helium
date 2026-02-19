@@ -437,11 +437,17 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	 */
 	toggle(): void
 	{
-		if (this._view === null) return;
+		if(this._view === null)
+		{
+			log.warn('toggle() called but _view is null');
+			return;
+		}
+
+		log.debug(`toggle() isReady=${this.isReady}, contextContainer.size=${this._contextContainer.getTopLevelSearches().length}`);
 
 		this._view.visible = !this._view.visible;
 
-		if (this._view.visible)
+		if(this._view.visible)
 		{
 			this.performLastSearch();
 		}

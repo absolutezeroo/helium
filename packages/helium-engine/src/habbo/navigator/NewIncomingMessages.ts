@@ -107,6 +107,8 @@ export class NewIncomingMessages
 
 		if (!parser) return;
 
+		log.info(`NavigatorMetaData received: ${parser.topLevelContexts.length} top-level contexts`);
+
 		this._navigator.initialize(parser.topLevelContexts);
 	}
 

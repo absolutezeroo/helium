@@ -1,21 +1,22 @@
-import {ComponentContext, HeliumCore, type ICoreCommunicationManager, IDisposable} from "@core";
-import {Application, Renderer} from "pixi.js";
-import type {IHabboConfigurationManager} from "@habbo/configuration";
-import type {HabboCommunicationManager} from "@habbo/communication";
-import type {RoomEngine} from "@habbo/room";
-import type {IRoomSessionManager, ISessionDataManager} from "@habbo/session";
-import type {IHabboNavigator, IHabboNewNavigator} from "@habbo/navigator";
-import type {IHabboInventory} from "@habbo/inventory";
-import type {IHabboLocalizationManager} from "@habbo/localization";
-import type {IHabboWindowManager} from "@habbo/window/IHabboWindowManager";
-import type {IHabboToolbar} from "@habbo/toolbar/IHabboToolbar";
-import {IHeliumConfig} from "./Helium";
-import type {IHeliumLoadingScreen} from "./IHeliumLoadingScreen";
+import type {CoreComponentContext} from '@core/runtime/CoreComponentContext';
+import type {ICoreCommunicationManager} from '@core/communication/ICoreCommunicationManager';
+import type {IDisposable} from '@core/runtime/IDisposable';
+import type {Application, Renderer} from 'pixi.js';
+import type {IHabboConfigurationManager} from '@habbo/configuration';
+import type {HabboCommunicationManager} from '@habbo/communication';
+import type {RoomEngine} from '@habbo/room';
+import type {IRoomSessionManager, ISessionDataManager} from '@habbo/session';
+import type {IHabboNavigator, IHabboNewNavigator} from '@habbo/navigator';
+import type {IHabboInventory} from '@habbo/inventory';
+import type {IHabboLocalizationManager} from '@habbo/localization';
+import type {IHabboWindowManager} from '@habbo/window/IHabboWindowManager';
+import type {IHabboToolbar} from '@habbo/toolbar/IHabboToolbar';
+import type {IHeliumConfig} from './Helium';
+import type {IHeliumLoadingScreen} from './IHeliumLoadingScreen';
 
 export interface IHelium extends IDisposable
 {
-	readonly core: HeliumCore;
-	readonly context: ComponentContext;
+	readonly context: CoreComponentContext;
 	readonly application: Application<Renderer>;
 	readonly communication: ICoreCommunicationManager;
 	readonly isReady: boolean;
@@ -33,9 +34,6 @@ export interface IHelium extends IDisposable
 
 	/**
 	 * Connect to the Habbo server
-	 *
-	 * Uses HabboCommunicationDemo (AS3 pattern) to manage the login flow:
-	 * setSSOTicket → initGameSocket → initConnection → IncomingMessages → handshake
 	 */
 	connect(): void;
 
