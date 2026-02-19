@@ -20,29 +20,19 @@ import {ItemListIterator} from '../iterators/ItemListIterator';
  */
 export class ItemListController extends WindowController implements IItemListWindow
 {
-	private _disableAutodragFlag: boolean = false;
-	private _isPartOfGridWindow: boolean = false;
-
-	protected _scrollH: number = 0;
-	protected _scrollV: number = 0;
 	protected _scrollAreaWidth: number = 0;
 	protected _scrollAreaHeight: number = 0;
 	protected _container: IWindowContainer | null = null;
 	protected _isResizing: boolean = false;
 	protected _isUpdating: boolean = false;
-	protected _spacing: number = 0;
 	protected _isHorizontal: boolean = false;
 	protected _arrangeListItems: boolean = true;
-	protected _scaleToFitItems: boolean = false;
-	protected _resizeOnItemUpdate: boolean = false;
-	protected _scrollStepH: number = 25;
-	protected _scrollStepV: number = 25;
+	private _disableAutodragFlag: boolean = false;
 	private _isDragging: boolean = false;
 	private _dragStartX: number = 0;
 	private _dragStartY: number = 0;
 	private _dragScrollStartH: number = 0;
 	private _dragScrollStartV: number = 0;
-
 	// Scroll wheel animation state
 	private _scrollWheelStartTime: number = 0;
 	private _scrollWheelOriginPos: number = 0;
@@ -84,7 +74,7 @@ export class ItemListController extends WindowController implements IItemListWin
 			''
 		) as unknown as IWindowContainer;
 
-		if(this._container)
+		if (this._container)
 		{
 			(this._container as unknown as IWindow).addEventListener('WE_RESIZED', this._containerEventHandler.bind(this));
 			(this._container as unknown as IWindow).addEventListener('WE_CHILD_REMOVED', this._containerEventHandler.bind(this));
@@ -96,25 +86,19 @@ export class ItemListController extends WindowController implements IItemListWin
 		this.resizeOnItemUpdate = this._resizeOnItemUpdate;
 	}
 
-	/**
-	 * Gets the spacing between list items.
-	 */
-	public get spacing(): number
+	private _isPartOfGridWindow: boolean = false;
+
+	public get isPartOfGridWindow(): boolean
 	{
-		return this._spacing;
+		return this._isPartOfGridWindow;
 	}
 
-	/**
-	 * Sets the spacing between list items.
-	 */
-	public set spacing(value: number)
+	public set isPartOfGridWindow(value: boolean)
 	{
-		if(value !== this._spacing)
-		{
-			this._spacing = value;
-			this.updateScrollAreaRegion();
-		}
+		this._isPartOfGridWindow = value;
 	}
+
+	protected _scrollH: number = 0;
 
 	/**
 	 * Gets the horizontal scroll position (0..1).
@@ -132,6 +116,8 @@ export class ItemListController extends WindowController implements IItemListWin
 		this.setScrollH(value, false);
 	}
 
+	protected _scrollV: number = 0;
+
 	/**
 	 * Gets the vertical scroll position (0..1).
 	 */
@@ -148,21 +134,83 @@ export class ItemListController extends WindowController implements IItemListWin
 		this.setScrollV(value, false);
 	}
 
+	protected _spacing: number = 0;
+
 	/**
-	 * Gets the maximum horizontal scroll value in pixels.
+	 * Gets the spacing between list items.
 	 */
-	public get maxScrollH(): number
+	public get spacing(): number
 	{
-		return Math.max(0, this._scrollAreaWidth - this.width);
+		return this._spacing;
 	}
 
 	/**
-	 * Gets the maximum vertical scroll value in pixels.
+	 * Sets the spacing between list items.
 	 */
-	public get maxScrollV(): number
+	public set spacing(value: number)
 	{
-		return Math.max(0, this._scrollAreaHeight - this.height);
+		if (value !== this._spacing)
+		{
+			this._spacing = value;
+			this.updateScrollAreaRegion();
+		}
 	}
+
+	protected _scaleToFitItems: boolean = false;
+
+	/**
+	 * Gets whether items are scaled to fit the list.
+	 */
+	public get scaleToFitItems(): boolean
+	{
+		return this._scaleToFitItems;
+	}
+
+	/**
+	 * Sets whether items are scaled to fit the list.
+	 */
+	public set scaleToFitItems(value: boolean)
+	{
+		if (this._scaleToFitItems !== value)
+		{
+			this._scaleToFitItems = value;
+			this.updateScrollAreaRegion();
+		}
+	}
+
+	protected _resizeOnItemUpdate: boolean = false;
+
+	/**
+	 * Gets whether the list resizes when items are updated.
+	 */
+	public get resizeOnItemUpdate(): boolean
+	{
+		return this._resizeOnItemUpdate;
+	}
+
+	/**
+	 * Sets whether the list resizes when items are updated.
+	 */
+	public set resizeOnItemUpdate(value: boolean)
+	{
+		this._resizeOnItemUpdate = value;
+
+		if (this._container)
+		{
+			const containerWin = this._container as unknown as IWindow;
+
+			if (this._isHorizontal)
+			{
+				containerWin.setParamFlag(0x400000, value);
+			}
+			else
+			{
+				containerWin.setParamFlag(0x800000, value);
+			}
+		}
+	}
+
+	protected _scrollStepH: number = 25;
 
 	/**
 	 * Gets the horizontal scroll step size.
@@ -180,6 +228,8 @@ export class ItemListController extends WindowController implements IItemListWin
 		this._scrollStepH = value;
 	}
 
+	protected _scrollStepV: number = 25;
+
 	/**
 	 * Gets the vertical scroll step size.
 	 */
@@ -196,14 +246,20 @@ export class ItemListController extends WindowController implements IItemListWin
 		this._scrollStepV = value;
 	}
 
-	public get isPartOfGridWindow(): boolean
+	/**
+	 * Gets the maximum horizontal scroll value in pixels.
+	 */
+	public get maxScrollH(): number
 	{
-		return this._isPartOfGridWindow;
+		return Math.max(0, this._scrollAreaWidth - this.width);
 	}
 
-	public set isPartOfGridWindow(value: boolean)
+	/**
+	 * Gets the maximum vertical scroll value in pixels.
+	 */
+	public get maxScrollV(): number
 	{
-		this._isPartOfGridWindow = value;
+		return Math.max(0, this._scrollAreaHeight - this.height);
 	}
 
 	public get scrollableWindow(): IWindow
@@ -229,7 +285,7 @@ export class ItemListController extends WindowController implements IItemListWin
 	 */
 	public get scrollableRegion(): { x: number; y: number; width: number; height: number }
 	{
-		if(this._container)
+		if (this._container)
 		{
 			return {
 				x: 0,
@@ -240,26 +296,6 @@ export class ItemListController extends WindowController implements IItemListWin
 		}
 
 		return {x: 0, y: 0, width: this._scrollAreaWidth, height: this._scrollAreaHeight};
-	}
-
-	/**
-	 * Gets whether items are scaled to fit the list.
-	 */
-	public get scaleToFitItems(): boolean
-	{
-		return this._scaleToFitItems;
-	}
-
-	/**
-	 * Sets whether items are scaled to fit the list.
-	 */
-	public set scaleToFitItems(value: boolean)
-	{
-		if(this._scaleToFitItems !== value)
-		{
-			this._scaleToFitItems = value;
-			this.updateScrollAreaRegion();
-		}
 	}
 
 	/**
@@ -277,41 +313,6 @@ export class ItemListController extends WindowController implements IItemListWin
 	{
 		this._arrangeListItems = value;
 		this.updateScrollAreaRegion();
-	}
-
-	/**
-	 * Gets whether the list resizes when items are updated.
-	 */
-	public get resizeOnItemUpdate(): boolean
-	{
-		return this._resizeOnItemUpdate;
-	}
-
-	/**
-	 * Sets whether the list resizes when items are updated.
-	 */
-	public set resizeOnItemUpdate(value: boolean)
-	{
-		this._resizeOnItemUpdate = value;
-
-		if(this._container)
-		{
-			const containerWin = this._container as unknown as IWindow;
-
-			if(this._isHorizontal)
-			{
-				containerWin.setParamFlag(0x400000, value);
-			}
-			else
-			{
-				containerWin.setParamFlag(0x800000, value);
-			}
-		}
-	}
-
-	public iterator(): IIterator
-	{
-		return new ItemListIterator(this._container ? this._getContainerChildren() : []);
 	}
 
 	/**
@@ -338,19 +339,19 @@ export class ItemListController extends WindowController implements IItemListWin
 		this._disableAutodragFlag = value;
 	}
 
+	public override get clipping(): boolean
+	{
+		return super.clipping;
+	}
+
 	public override set clipping(value: boolean)
 	{
 		super.clipping = value;
 
-		if(this._container)
+		if (this._container)
 		{
 			this._container.clipping = value;
 		}
-	}
-
-	public override get clipping(): boolean
-	{
-		return super.clipping;
 	}
 
 	public override get properties(): unknown[]
@@ -369,11 +370,11 @@ export class ItemListController extends WindowController implements IItemListWin
 
 	public override set properties(value: unknown[])
 	{
-		for(const item of value)
+		for (const item of value)
 		{
 			const prop = item as PropertyStruct;
 
-			switch(prop.key)
+			switch (prop.key)
 			{
 				case 'spacing':
 					this.spacing = prop.value as number;
@@ -408,15 +409,31 @@ export class ItemListController extends WindowController implements IItemListWin
 	}
 
 	/**
+	 * Smooth interpolation for scroll wheel animation.
+	 */
+	private static smoothInterpolation(start: number, end: number, t: number): number
+	{
+		if (t > 1) t = 1;
+		if (t < 0) t = 0;
+
+		return start + (end - start) * t;
+	}
+
+	public iterator(): IIterator
+	{
+		return new ItemListIterator(this._container ? this._getContainerChildren() : []);
+	}
+
+	/**
 	 * Adds an item to the end of the list.
 	 */
 	public addListItem(item: IWindow): IWindow
 	{
-		if(!this._container) return item;
+		if (!this._container) return item;
 
 		this._isUpdating = true;
 
-		if(this._isHorizontal)
+		if (this._isHorizontal)
 		{
 			item.x = this._scrollAreaWidth + (this.numListItems > 0 ? this._spacing : 0);
 			this._scrollAreaWidth = item.right;
@@ -424,7 +441,7 @@ export class ItemListController extends WindowController implements IItemListWin
 		}
 		else
 		{
-			if(this._arrangeListItems)
+			if (this._arrangeListItems)
 			{
 				item.y = this._scrollAreaHeight + (this.numListItems > 0 ? this._spacing : 0);
 				this._scrollAreaHeight = item.bottom;
@@ -448,7 +465,7 @@ export class ItemListController extends WindowController implements IItemListWin
 	 */
 	public addListItemAt(item: IWindow, index: number): IWindow
 	{
-		if(!this._container) return item;
+		if (!this._container) return item;
 
 		item = this._container.addChildAt(item, index);
 		this.updateScrollAreaRegion();
@@ -501,11 +518,11 @@ export class ItemListController extends WindowController implements IItemListWin
 	 */
 	public removeListItem(item: IWindow): IWindow | null
 	{
-		if(!this._container) return null;
+		if (!this._container) return null;
 
 		const result = this._container.removeChild(item);
 
-		if(result)
+		if (result)
 		{
 			this.updateScrollAreaRegion();
 		}
@@ -526,7 +543,7 @@ export class ItemListController extends WindowController implements IItemListWin
 	 */
 	public setListItemIndex(item: IWindow, index: number): void
 	{
-		if(this._container)
+		if (this._container)
 		{
 			this._container.setChildIndex(item, index);
 		}
@@ -537,7 +554,7 @@ export class ItemListController extends WindowController implements IItemListWin
 	 */
 	public swapListItems(a: IWindow, b: IWindow): void
 	{
-		if(this._container)
+		if (this._container)
 		{
 			this._container.swapChildren(a, b);
 			this.updateScrollAreaRegion();
@@ -549,7 +566,7 @@ export class ItemListController extends WindowController implements IItemListWin
 	 */
 	public swapListItemsAt(indexA: number, indexB: number): void
 	{
-		if(this._container)
+		if (this._container)
 		{
 			this._container.swapChildrenAt(indexA, indexB);
 			this.updateScrollAreaRegion();
@@ -577,11 +594,11 @@ export class ItemListController extends WindowController implements IItemListWin
 	 */
 	public removeListItems(): void
 	{
-		if(!this._container) return;
+		if (!this._container) return;
 
 		this._isUpdating = true;
 
-		while(this.numListItems > 0)
+		while (this.numListItems > 0)
 		{
 			this._container.removeChildAt(0);
 		}
@@ -595,15 +612,15 @@ export class ItemListController extends WindowController implements IItemListWin
 	 */
 	public destroyListItems(): void
 	{
-		if(!this._container) return;
+		if (!this._container) return;
 
 		this._isUpdating = true;
 
-		while(this.numListItems > 0)
+		while (this.numListItems > 0)
 		{
 			const child = this._container.removeChildAt(0);
 
-			if(child) child.destroy();
+			if (child) child.destroy();
 		}
 
 		this._isUpdating = false;
@@ -631,7 +648,7 @@ export class ItemListController extends WindowController implements IItemListWin
 	 */
 	public scrollWithWheel(delta: number): void
 	{
-		if(this._scrollWheelTimer !== null && ((this._scrollWheelAccum > 0 && delta < 0) || (this._scrollWheelAccum < 0 && delta > 0)))
+		if (this._scrollWheelTimer !== null && ((this._scrollWheelAccum > 0 && delta < 0) || (this._scrollWheelAccum < 0 && delta > 0)))
 		{
 			this.endScrollWheel();
 		}
@@ -640,7 +657,7 @@ export class ItemListController extends WindowController implements IItemListWin
 		this._scrollWheelOriginPos = this._isHorizontal ? this._scrollH : this._scrollV;
 		this._scrollWheelAccum += delta;
 
-		if(this._scrollWheelTimer !== null)
+		if (this._scrollWheelTimer !== null)
 		{
 			clearInterval(this._scrollWheelTimer);
 		}
@@ -651,7 +668,7 @@ export class ItemListController extends WindowController implements IItemListWin
 
 	public override populate(items: IWindow[]): void
 	{
-		if(this._container)
+		if (this._container)
 		{
 			(this._container as unknown as WindowController).populate(items);
 		}
@@ -666,17 +683,17 @@ export class ItemListController extends WindowController implements IItemListWin
 	{
 		const result = super.update(source, event);
 
-		switch(event.type)
+		switch (event.type)
 		{
 			case 'WE_RESIZE':
 				this._isResizing = true;
 				break;
 			case 'WE_RESIZED':
-				if(this._container)
+				if (this._container)
 				{
-					if(!this._scaleToFitItems)
+					if (!this._scaleToFitItems)
 					{
-						if(this._isHorizontal)
+						if (this._isHorizontal)
 						{
 							(this._container as unknown as IWindow).height = this._height;
 						}
@@ -691,7 +708,7 @@ export class ItemListController extends WindowController implements IItemListWin
 				this._isResizing = false;
 				break;
 			default:
-				if(event instanceof WindowMouseEvent)
+				if (event instanceof WindowMouseEvent)
 				{
 					return this.process(event);
 				}
@@ -710,7 +727,7 @@ export class ItemListController extends WindowController implements IItemListWin
 		const localX = event.localX | 0;
 		const localY = event.localY | 0;
 
-		switch(event.type)
+		switch (event.type)
 		{
 			case 'WME_WHEEL':
 				this.handleScrollWheelEvent(event);
@@ -725,9 +742,9 @@ export class ItemListController extends WindowController implements IItemListWin
 				handled = true;
 				break;
 			case 'WME_MOVE':
-				if(this._isDragging && !this._disableAutodragFlag)
+				if (this._isDragging && !this._disableAutodragFlag)
 				{
-					if(this._isHorizontal)
+					if (this._isHorizontal)
 					{
 						this.scrollH = (this._dragScrollStartH + this._dragStartX - localX) / Math.max(1, this.maxScrollH);
 					}
@@ -741,7 +758,7 @@ export class ItemListController extends WindowController implements IItemListWin
 				break;
 			case 'WME_UP':
 			case 'WME_UP_OUTSIDE':
-				if(this._isDragging)
+				if (this._isDragging)
 				{
 					this._isDragging = false;
 					handled = true;
@@ -767,39 +784,17 @@ export class ItemListController extends WindowController implements IItemListWin
 		return this._container as unknown as IWindow ?? this;
 	}
 
-	/**
-	 * Clones list items into the target via `addListItem`.
-	 *
-	 * In AS3, `cloneChildWindows` is overridden to iterate `numListItems`
-	 * and clone each item via `addListItem` on the target, ensuring cloned
-	 * children end up in the internal `_container` of the clone.
-	 *
-	 * @see sources/win63_version/core/window/components/ItemListController.as line 352-361
-	 */
-	protected override cloneChildWindows(target: WindowController): void
-	{
-		for(let i = 0; i < this.numListItems; i++)
-		{
-			const item = this.getListItemAt(i);
-
-			if(item)
-			{
-				(target as unknown as IItemListWindow).addListItem(item.clone());
-			}
-		}
-	}
-
 	public override dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
-		if(this._scrollWheelTimer !== null)
+		if (this._scrollWheelTimer !== null)
 		{
 			clearInterval(this._scrollWheelTimer);
 			this._scrollWheelTimer = null;
 		}
 
-		if(this._container)
+		if (this._container)
 		{
 			(this._container as unknown as IWindow).removeEventListener('WE_RESIZED', this._containerEventHandler.bind(this));
 			(this._container as unknown as IWindow).removeEventListener('WE_CHILD_REMOVED', this._containerEventHandler.bind(this));
@@ -811,26 +806,152 @@ export class ItemListController extends WindowController implements IItemListWin
 	}
 
 	/**
+	 * Clones list items into the target via `addListItem`.
+	 *
+	 * In AS3, `cloneChildWindows` is overridden to iterate `numListItems`
+	 * and clone each item via `addListItem` on the target, ensuring cloned
+	 * children end up in the internal `_container` of the clone.
+	 *
+	 * @see sources/win63_version/core/window/components/ItemListController.as line 352-361
+	 */
+	protected override cloneChildWindows(target: WindowController): void
+	{
+		for (let i = 0; i < this.numListItems; i++)
+		{
+			const item = this.getListItemAt(i);
+
+			if (item)
+			{
+				(target as unknown as IItemListWindow).addListItem(item.clone());
+			}
+		}
+	}
+
+	/**
+	 * Handles a scroll wheel event by initiating smooth scroll animation.
+	 */
+	protected handleScrollWheelEvent(event: WindowMouseEvent): void
+	{
+		this.scrollWithWheel(event.delta);
+	}
+
+	/**
+	 * Recalculates the scroll area dimensions and repositions items.
+	 */
+	protected updateScrollAreaRegion(): void
+	{
+		if (!this._arrangeListItems || this._isUpdating || !this._container) return;
+
+		this._isUpdating = true;
+
+		const numChildren = this._container.numChildren;
+
+		if (this._isHorizontal)
+		{
+			this._scrollAreaWidth = 0;
+			this._scrollAreaHeight = this._height;
+
+			for (let i = 0; i < numChildren; i++)
+			{
+				const child = this._container.getChildAt(i);
+
+				if (child && child.visible)
+				{
+					child.x = this._scrollAreaWidth;
+					this._scrollAreaWidth += child.width + this._spacing;
+
+					if (this._scaleToFitItems)
+					{
+						const bottom = child.height + child.y;
+						this._scrollAreaHeight = Math.max(this._scrollAreaHeight, bottom);
+					}
+				}
+			}
+
+			if (numChildren > 0)
+			{
+				this._scrollAreaWidth -= this._spacing;
+			}
+		}
+		else
+		{
+			this._scrollAreaWidth = this._width;
+			this._scrollAreaHeight = 0;
+
+			for (let i = 0; i < numChildren; i++)
+			{
+				const child = this._container.getChildAt(i);
+
+				if (child && child.visible)
+				{
+					child.y = this._scrollAreaHeight;
+					this._scrollAreaHeight += child.height + this._spacing;
+
+					if (this._scaleToFitItems)
+					{
+						const right = child.width + child.x;
+						this._scrollAreaWidth = Math.max(this._scrollAreaWidth, right);
+					}
+				}
+			}
+
+			if (numChildren > 0)
+			{
+				this._scrollAreaHeight -= this._spacing;
+			}
+		}
+
+		if (this._scrollH > 0)
+		{
+			if (this._scrollAreaWidth <= this._width)
+			{
+				this.scrollH = 0;
+			}
+			else
+			{
+				(this._container as unknown as IWindow).x = -(this._scrollH * this.maxScrollH);
+			}
+		}
+
+		if (this._scrollV > 0)
+		{
+			if (this._scrollAreaHeight <= this._height)
+			{
+				this.scrollV = 0;
+			}
+			else
+			{
+				(this._container as unknown as IWindow).y = -(this._scrollV * this.maxScrollV);
+			}
+		}
+
+		(this._container as unknown as IWindow).height = this._scrollAreaHeight;
+		(this._container as unknown as IWindow).width = this._scrollAreaWidth;
+
+		this._isUpdating = false;
+	}
+
+	/**
 	 * Internal scrollH setter that can suppress wheel animation.
 	 */
 	private setScrollH(value: number, fromWheel: boolean): void
 	{
-		if(value < 0) value = 0;
-		if(value > 1) value = 1;
+		if (value < 0) value = 0;
+		if (value > 1) value = 1;
 
 		const diff = value - this._scrollH;
 
-		if(value !== this._scrollH)
+		if (value !== this._scrollH)
 		{
 			this._scrollH = value;
 
-			if(this._container)
+			if (this._container)
 			{
 				(this._container as unknown as IWindow).x = -(this._scrollH * this.maxScrollH);
 				this._context.invalidate(this._container as unknown as IWindow, this.visibleRegion, 1);
 			}
 
-			if(this._eventDispatcher)
+			if (this._eventDispatcher)
 			{
 				const scrollEvent = WindowEvent.allocate('WE_SCROLL', this, null);
 				this._eventDispatcher.dispatchEvent(scrollEvent);
@@ -838,7 +959,7 @@ export class ItemListController extends WindowController implements IItemListWin
 			}
 		}
 
-		if(!fromWheel && this._scrollWheelTimer !== null)
+		if (!fromWheel && this._scrollWheelTimer !== null)
 		{
 			this._scrollWheelOriginPos += diff;
 		}
@@ -849,22 +970,22 @@ export class ItemListController extends WindowController implements IItemListWin
 	 */
 	private setScrollV(value: number, fromWheel: boolean): void
 	{
-		if(value < 0) value = 0;
-		if(value > 1) value = 1;
+		if (value < 0) value = 0;
+		if (value > 1) value = 1;
 
 		const diff = value - this._scrollV;
 
-		if(value !== this._scrollV)
+		if (value !== this._scrollV)
 		{
 			this._scrollV = value;
 
-			if(this._container)
+			if (this._container)
 			{
 				(this._container as unknown as IWindow).y = -(this._scrollV * this.maxScrollV);
 				this._context.invalidate(this._container as unknown as IWindow, this.visibleRegion, 1);
 			}
 
-			if(this._eventDispatcher)
+			if (this._eventDispatcher)
 			{
 				const scrollEvent = WindowEvent.allocate('WE_SCROLL', this, null);
 				this._eventDispatcher.dispatchEvent(scrollEvent);
@@ -872,21 +993,10 @@ export class ItemListController extends WindowController implements IItemListWin
 			}
 		}
 
-		if(!fromWheel && this._scrollWheelTimer !== null)
+		if (!fromWheel && this._scrollWheelTimer !== null)
 		{
 			this._scrollWheelOriginPos += diff;
 		}
-	}
-
-	/**
-	 * Smooth interpolation for scroll wheel animation.
-	 */
-	private static smoothInterpolation(start: number, end: number, t: number): number
-	{
-		if(t > 1) t = 1;
-		if(t < 0) t = 0;
-
-		return start + (end - start) * t;
 	}
 
 	/**
@@ -904,7 +1014,7 @@ export class ItemListController extends WindowController implements IItemListWin
 
 		const interpolated = ItemListController.smoothInterpolation(this._scrollWheelOriginPos, target, progress);
 
-		if(this._isHorizontal)
+		if (this._isHorizontal)
 		{
 			this.setScrollH(interpolated, true);
 		}
@@ -913,7 +1023,7 @@ export class ItemListController extends WindowController implements IItemListWin
 			this.setScrollV(interpolated, true);
 		}
 
-		if(isComplete)
+		if (isComplete)
 		{
 			this.endScrollWheel();
 		}
@@ -924,7 +1034,7 @@ export class ItemListController extends WindowController implements IItemListWin
 	 */
 	private endScrollWheel(): void
 	{
-		if(this._scrollWheelTimer === null) return;
+		if (this._scrollWheelTimer === null) return;
 
 		this._scrollWheelStartTime = 0;
 		this._scrollWheelOriginPos = 0;
@@ -935,25 +1045,17 @@ export class ItemListController extends WindowController implements IItemListWin
 	}
 
 	/**
-	 * Handles a scroll wheel event by initiating smooth scroll animation.
-	 */
-	protected handleScrollWheelEvent(event: WindowMouseEvent): void
-	{
-		this.scrollWithWheel(event.delta);
-	}
-
-	/**
 	 * Handles events from the internal container child.
 	 */
 	private _containerEventHandler(event: WindowEvent): void
 	{
-		switch(event.type)
+		switch (event.type)
 		{
 			case 'WE_CHILD_REMOVED':
 				this.updateScrollAreaRegion();
 				break;
 			case 'WE_CHILD_RESIZED':
-				if(!this._isResizing)
+				if (!this._isResizing)
 				{
 					this.updateScrollAreaRegion();
 				}
@@ -962,7 +1064,7 @@ export class ItemListController extends WindowController implements IItemListWin
 				this.updateScrollAreaRegion();
 				break;
 			case 'WE_RESIZED':
-				if(this._eventDispatcher)
+				if (this._eventDispatcher)
 				{
 					const resizedEvent = WindowEvent.allocate('WE_RESIZED', this, null);
 					this._eventDispatcher.dispatchEvent(resizedEvent);
@@ -973,115 +1075,19 @@ export class ItemListController extends WindowController implements IItemListWin
 	}
 
 	/**
-	 * Recalculates the scroll area dimensions and repositions items.
-	 */
-	protected updateScrollAreaRegion(): void
-	{
-		if(!this._arrangeListItems || this._isUpdating || !this._container) return;
-
-		this._isUpdating = true;
-
-		const numChildren = this._container.numChildren;
-
-		if(this._isHorizontal)
-		{
-			this._scrollAreaWidth = 0;
-			this._scrollAreaHeight = this._height;
-
-			for(let i = 0; i < numChildren; i++)
-			{
-				const child = this._container.getChildAt(i);
-
-				if(child && child.visible)
-				{
-					child.x = this._scrollAreaWidth;
-					this._scrollAreaWidth += child.width + this._spacing;
-
-					if(this._scaleToFitItems)
-					{
-						const bottom = child.height + child.y;
-						this._scrollAreaHeight = Math.max(this._scrollAreaHeight, bottom);
-					}
-				}
-			}
-
-			if(numChildren > 0)
-			{
-				this._scrollAreaWidth -= this._spacing;
-			}
-		}
-		else
-		{
-			this._scrollAreaWidth = this._width;
-			this._scrollAreaHeight = 0;
-
-			for(let i = 0; i < numChildren; i++)
-			{
-				const child = this._container.getChildAt(i);
-
-				if(child && child.visible)
-				{
-					child.y = this._scrollAreaHeight;
-					this._scrollAreaHeight += child.height + this._spacing;
-
-					if(this._scaleToFitItems)
-					{
-						const right = child.width + child.x;
-						this._scrollAreaWidth = Math.max(this._scrollAreaWidth, right);
-					}
-				}
-			}
-
-			if(numChildren > 0)
-			{
-				this._scrollAreaHeight -= this._spacing;
-			}
-		}
-
-		if(this._scrollH > 0)
-		{
-			if(this._scrollAreaWidth <= this._width)
-			{
-				this.scrollH = 0;
-			}
-			else
-			{
-				(this._container as unknown as IWindow).x = -(this._scrollH * this.maxScrollH);
-			}
-		}
-
-		if(this._scrollV > 0)
-		{
-			if(this._scrollAreaHeight <= this._height)
-			{
-				this.scrollV = 0;
-			}
-			else
-			{
-				(this._container as unknown as IWindow).y = -(this._scrollV * this.maxScrollV);
-			}
-		}
-
-		(this._container as unknown as IWindow).height = this._scrollAreaHeight;
-		(this._container as unknown as IWindow).width = this._scrollAreaWidth;
-
-		this._isUpdating = false;
-	}
-
-	/**
 	 * Returns the children of the internal container as an array.
 	 */
 	private _getContainerChildren(): IWindow[]
 	{
-		if(!this._container) return [];
+		if (!this._container) return [];
 
 		const children: IWindow[] = [];
 
-		for(let i = 0; i < this._container.numChildren; i++)
+		for (let i = 0; i < this._container.numChildren; i++)
 		{
 			const child = this._container.getChildAt(i);
 
-			if(child) children.push(child);
+			if (child) children.push(child);
 		}
 
 		return children;

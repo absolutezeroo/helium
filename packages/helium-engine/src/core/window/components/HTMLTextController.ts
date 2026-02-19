@@ -17,6 +17,7 @@ import {PropertyStruct} from '../utils/PropertyStruct';
 export class HTMLTextController extends TextFieldController implements IHTMLTextWindow
 {
 	private static readonly HTML_STYLESHEET_KEY: string = 'html_stylesheet';
+	private _htmlContent: string = '';
 
 	constructor(
 		name: string,
@@ -53,8 +54,6 @@ export class HTMLTextController extends TextFieldController implements IHTMLText
 		HTMLTextController._defaultLinkTarget = value;
 	}
 
-	private _htmlContent: string = '';
-
 	/**
 	 * The HTML content.
 	 */
@@ -65,7 +64,7 @@ export class HTMLTextController extends TextFieldController implements IHTMLText
 
 	public set html(value: string)
 	{
-		if(value === null) return;
+		if (value === null) return;
 
 		this._htmlContent = value;
 	}
@@ -101,19 +100,6 @@ export class HTMLTextController extends TextFieldController implements IHTMLText
 	}
 
 	/**
-	 * Converts link URLs to event: protocol for internal handling.
-	 *
-	 * In AS3, this replaced `<a href="http://...">` with `<a href="event:http://...">`.
-	 */
-	private static convertLinksToEvents(html: string): string
-	{
-		html = html.replace(/<a[^>]+(http:\/\/[^"']+)['"][^>]*>(.*?)<\/a>/gi, "<a href='event:$1'>$2</a>");
-		html = html.replace(/<a[^>]+(https:\/\/[^"']+)['"][^>]*>(.*?)<\/a>/gi, "<a href='event:$1'>$2</a>");
-
-		return html;
-	}
-
-	/**
 	 * Sets text content as HTML with link conversion.
 	 */
 	public override get text(): string
@@ -123,7 +109,7 @@ export class HTMLTextController extends TextFieldController implements IHTMLText
 
 	public override set text(value: string)
 	{
-		if(value == null) return;
+		if (value == null) return;
 
 		this._htmlContent = value;
 		this._caption = value;
@@ -145,11 +131,11 @@ export class HTMLTextController extends TextFieldController implements IHTMLText
 
 	public override set properties(value: unknown[])
 	{
-		for(const item of value)
+		for (const item of value)
 		{
 			const prop = item as PropertyStruct;
 
-			switch(prop.key)
+			switch (prop.key)
 			{
 				case 'link_target':
 					this._linkTarget = prop.value as string;
@@ -161,5 +147,18 @@ export class HTMLTextController extends TextFieldController implements IHTMLText
 		}
 
 		super.properties = value;
+	}
+
+	/**
+	 * Converts link URLs to event: protocol for internal handling.
+	 *
+	 * In AS3, this replaced `<a href="http://...">` with `<a href="event:http://...">`.
+	 */
+	private static convertLinksToEvents(html: string): string
+	{
+		html = html.replace(/<a[^>]+(http:\/\/[^"']+)['"][^>]*>(.*?)<\/a>/gi, "<a href='event:$1'>$2</a>");
+		html = html.replace(/<a[^>]+(https:\/\/[^"']+)['"][^>]*>(.*?)<\/a>/gi, "<a href='event:$1'>$2</a>");
+
+		return html;
 	}
 }

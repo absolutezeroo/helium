@@ -15,6 +15,11 @@ import type {ICoreErrorLogger} from './ICoreErrorLogger';
 export interface ICore extends IContext, ICoreConfiguration
 {
 	/**
+	 * Core arguments dictionary.
+	 */
+	readonly arguments: Map<string, unknown>;
+
+	/**
 	 * Initialize the core. Waits for all locked components to unlock,
 	 * then dispatches COMPONENT_EVENT_RUNNING.
 	 */
@@ -52,11 +57,6 @@ export interface ICore extends IContext, ICoreConfiguration
 	 * Enable or disable profiler mode.
 	 */
 	setProfilerMode(enabled: boolean): void;
-
-	/**
-	 * Core arguments dictionary.
-	 */
-	readonly arguments: Map<string, unknown>;
 
 	/**
 	 * Clear core arguments.

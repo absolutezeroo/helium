@@ -19,12 +19,13 @@ import {WindowMouseOperator} from './WindowMouseOperator';
 export class WindowMouseListener extends WindowMouseOperator implements IMouseListenerService
 {
 	private _eventTypes: string[] = [];
-	private _areaLimit: number = 0;
 
 	get eventTypes(): string[]
 	{
 		return this._eventTypes;
 	}
+
+	private _areaLimit: number = 0;
 
 	get areaLimit(): number
 	{
@@ -45,7 +46,7 @@ export class WindowMouseListener extends WindowMouseOperator implements IMouseLi
 	 */
 	public override end(window: IWindow): IWindow | null
 	{
-		while(this._eventTypes.length > 0)
+		while (this._eventTypes.length > 0)
 		{
 			this._eventTypes.pop();
 		}
@@ -62,17 +63,17 @@ export class WindowMouseListener extends WindowMouseOperator implements IMouseLi
 	 */
 	public passesAreaFilter(stageX: number, stageY: number): boolean
 	{
-		if(!this._active || !this._window || this._window.disposed) return false;
+		if (!this._active || !this._window || this._window.disposed) return false;
 
-		if(this._areaLimit === 0) return true;
+		if (this._areaLimit === 0) return true;
 
 		const isInside = this._window.hitTestGlobalPoint({x: stageX, y: stageY});
 
 		// Area limit = 1: inside only
-		if(this._areaLimit === 1 && !isInside) return false;
+		if (this._areaLimit === 1 && !isInside) return false;
 
 		// Area limit = 3: outside only
-		if(this._areaLimit === 3 && isInside) return false;
+		if (this._areaLimit === 3 && isInside) return false;
 
 		return true;
 	}

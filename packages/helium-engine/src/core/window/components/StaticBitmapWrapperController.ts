@@ -51,13 +51,13 @@ export class StaticBitmapWrapperController extends BitmapDataController implemen
 
 	public set assetUri(value: string)
 	{
-		if(this._assetUri === value) return;
+		if (this._assetUri === value) return;
 
 		this._assetUri = value ?? '';
 
-		if(!this._assetUri)
+		if (!this._assetUri)
 		{
-			if(this._ownsBitmapData && this._bitmapData)
+			if (this._ownsBitmapData && this._bitmapData)
 			{
 				this._bitmapData.close();
 			}
@@ -73,30 +73,10 @@ export class StaticBitmapWrapperController extends BitmapDataController implemen
 			getResourceManager(): IResourceManager | null
 		}).getResourceManager();
 
-		if(resourceManager)
+		if (resourceManager)
 		{
 			resourceManager.retrieveAsset(this._assetUri, this);
 		}
-	}
-
-	/**
-	 * Callback from ResourceManager when the asset is loaded.
-	 */
-	public receiveAsset(bitmap: ImageBitmap, uri: string): void
-	{
-		if(this._disposed) return;
-
-		const resourceManager = (this._context as unknown as {
-			getResourceManager(): IResourceManager | null
-		}).getResourceManager();
-
-		if(resourceManager && !resourceManager.isSameAsset(this._assetUri, uri)) return;
-
-		this._bitmapData = bitmap;
-		this._ownsBitmapData = false;
-
-		this.fitSize();
-		this._context.invalidate(this, null, 1);
 	}
 
 	public override get properties(): unknown[]
@@ -110,11 +90,11 @@ export class StaticBitmapWrapperController extends BitmapDataController implemen
 
 	public override set properties(value: unknown[])
 	{
-		for(const item of value)
+		for (const item of value)
 		{
 			const prop = item as PropertyStruct;
 
-			if(prop.key === 'asset_uri')
+			if (prop.key === 'asset_uri')
 			{
 				this.assetUri = (prop.value as string) ?? '';
 			}
@@ -123,11 +103,31 @@ export class StaticBitmapWrapperController extends BitmapDataController implemen
 		super.properties = value;
 	}
 
+	/**
+	 * Callback from ResourceManager when the asset is loaded.
+	 */
+	public receiveAsset(bitmap: ImageBitmap, uri: string): void
+	{
+		if (this._disposed) return;
+
+		const resourceManager = (this._context as unknown as {
+			getResourceManager(): IResourceManager | null
+		}).getResourceManager();
+
+		if (resourceManager && !resourceManager.isSameAsset(this._assetUri, uri)) return;
+
+		this._bitmapData = bitmap;
+		this._ownsBitmapData = false;
+
+		this.fitSize();
+		this._context.invalidate(this, null, 1);
+	}
+
 	public override clone(): IWindow
 	{
 		const cloned = super.clone() as StaticBitmapWrapperController;
 
-		if(this._assetUri)
+		if (this._assetUri)
 		{
 			cloned._assetUri = this._assetUri;
 			cloned._ownsBitmapData = false;
@@ -138,9 +138,9 @@ export class StaticBitmapWrapperController extends BitmapDataController implemen
 
 	public override dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
-		if(this._ownsBitmapData && this._bitmapData)
+		if (this._ownsBitmapData && this._bitmapData)
 		{
 			this._bitmapData.close();
 			this._bitmapData = null;

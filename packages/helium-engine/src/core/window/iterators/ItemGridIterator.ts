@@ -8,7 +8,9 @@ import type {IIterator} from '../utils/IIterator';
 interface IItemGridHost
 {
 	numGridItems: number;
+
 	getGridItemAt(index: number): IWindow | null;
+
 	getGridItemIndex(item: IWindow): number;
 }
 
@@ -32,7 +34,7 @@ export class ItemGridIterator implements IIterator
 
 	public next(): IWindow | null
 	{
-		if(this._index < this._grid.numGridItems)
+		if (this._index < this._grid.numGridItems)
 		{
 			return this._grid.getGridItemAt(this._index++);
 		}

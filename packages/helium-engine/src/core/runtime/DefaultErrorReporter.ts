@@ -15,23 +15,6 @@ export class DefaultErrorReporter implements ICoreErrorReporter
 {
 	private _errorLogger: ICoreErrorLogger | null = null;
 
-	logError(message: string, critical: boolean, category: number = -1, error: Error | null = null): void
-	{
-		log.error(message, error?.stack ?? '');
-
-		if(this._errorLogger)
-		{
-			if(critical)
-			{
-				this._errorLogger.logCrash(message);
-			}
-			else
-			{
-				this._errorLogger.logError(message);
-			}
-		}
-	}
-
 	get errorLogger(): ICoreErrorLogger | null
 	{
 		return this._errorLogger;
@@ -40,5 +23,22 @@ export class DefaultErrorReporter implements ICoreErrorReporter
 	set errorLogger(value: ICoreErrorLogger | null)
 	{
 		this._errorLogger = value;
+	}
+
+	logError(message: string, critical: boolean, category: number = -1, error: Error | null = null): void
+	{
+		log.error(message, error?.stack ?? '');
+
+		if (this._errorLogger)
+		{
+			if (critical)
+			{
+				this._errorLogger.logCrash(message);
+			}
+			else
+			{
+				this._errorLogger.logError(message);
+			}
+		}
 	}
 }

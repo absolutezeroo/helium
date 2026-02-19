@@ -73,20 +73,20 @@ export class IconController extends WindowController implements IIconWindow
 			}
 		}).getWindowFactory();
 
-		if(!factory) return;
+		if (!factory) return;
 
 		const renderer = factory.getRendererByTypeAndStyle(1, this.style);
 
-		if(!renderer || !renderer.getLayoutByState) return;
+		if (!renderer || !renderer.getLayoutByState) return;
 
 		const layout = renderer.getLayoutByState(this.state);
 
-		if(!layout) return;
+		if (!layout) return;
 
 		const layoutWidth = layout.width | 0;
 		const layoutHeight = layout.height | 0;
 
-		if(layoutWidth !== this._width || layoutHeight !== this._height)
+		if (layoutWidth !== this._width || layoutHeight !== this._height)
 		{
 			this.setRectangle(this._x, this._y, layoutWidth, layoutHeight);
 		}

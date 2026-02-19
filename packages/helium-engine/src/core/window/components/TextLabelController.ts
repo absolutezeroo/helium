@@ -18,24 +18,16 @@ import {resolveLocalizationTokens} from '../utils/WindowParser';
  */
 export class TextLabelController extends WindowController implements ILabelWindow
 {
+	/**
+	 * Shared canvas for text measurement.
+	 */
+	private static _measureCtx: OffscreenCanvasRenderingContext2D | null = null;
 	private _textStyleName: string = '';
-	private _text: string = '';
-	private _textColor: number | null = null;
-	private _textWidth: number = 0;
-	private _textHeight: number = 0;
 	private _refreshing: boolean = false;
-	private _vertical: boolean = false;
 	private _marginLeft: number = 0;
 	private _marginTop: number = 0;
 	private _marginRight: number = 0;
 	private _marginBottom: number = 0;
-	private _fontFace: string = '';
-	private _fontSize: number = 12;
-	private _bold: boolean = false;
-	private _italic: boolean = false;
-	private _underline: boolean = false;
-	private _etchingColor: number = 0;
-	private _etchingPosition: string = 'bottom';
 
 	constructor(
 		name: string,
@@ -57,6 +49,8 @@ export class TextLabelController extends WindowController implements ILabelWindo
 		this._hasVisualContent = true;
 	}
 
+	private _text: string = '';
+
 	public get text(): string
 	{
 		return this._text;
@@ -64,11 +58,103 @@ export class TextLabelController extends WindowController implements ILabelWindo
 
 	public set text(value: string)
 	{
-		if(value == null) return;
+		if (value == null) return;
 
 		this._text = resolveLocalizationTokens(value);
 		this._caption = this._text;
 		this.refresh();
+	}
+
+	private _textColor: number | null = null;
+
+	public get textColor(): number
+	{
+		return this._textColor ?? 0;
+	}
+
+	public set textColor(value: number)
+	{
+		if (value !== this._textColor)
+		{
+			this._textColor = value;
+			this.refresh();
+		}
+	}
+
+	private _textWidth: number = 0;
+
+	public get textWidth(): number
+	{
+		return this._textWidth;
+	}
+
+	private _textHeight: number = 0;
+
+	public get textHeight(): number
+	{
+		return this._textHeight;
+	}
+
+	private _vertical: boolean = false;
+
+	public get vertical(): boolean
+	{
+		return this._vertical;
+	}
+
+	public set vertical(value: boolean)
+	{
+		this._vertical = value;
+		this.refresh();
+	}
+
+	private _fontFace: string = '';
+
+	public get fontFace(): string
+	{
+		return this._fontFace;
+	}
+
+	private _fontSize: number = 12;
+
+	public get fontSize(): number
+	{
+		return this._fontSize;
+	}
+
+	private _bold: boolean = false;
+
+	public get bold(): boolean
+	{
+		return this._bold;
+	}
+
+	private _italic: boolean = false;
+
+	public get italic(): boolean
+	{
+		return this._italic;
+	}
+
+	private _underline: boolean = false;
+
+	public get underline(): boolean
+	{
+		return this._underline;
+	}
+
+	private _etchingColor: number = 0;
+
+	public get etchingColor(): number
+	{
+		return this._etchingColor;
+	}
+
+	private _etchingPosition: string = 'bottom';
+
+	public get etchingPosition(): string
+	{
+		return this._etchingPosition;
 	}
 
 	public override get caption(): string
@@ -79,20 +165,6 @@ export class TextLabelController extends WindowController implements ILabelWindo
 	public override set caption(value: string)
 	{
 		this.text = value;
-	}
-
-	public get textColor(): number
-	{
-		return this._textColor ?? 0;
-	}
-
-	public set textColor(value: number)
-	{
-		if(value !== this._textColor)
-		{
-			this._textColor = value;
-			this.refresh();
-		}
 	}
 
 	/**
@@ -123,65 +195,9 @@ export class TextLabelController extends WindowController implements ILabelWindo
 		this.color = value;
 	}
 
-	public get vertical(): boolean
-	{
-		return this._vertical;
-	}
-
-	public set vertical(value: boolean)
-	{
-		this._vertical = value;
-		this.refresh();
-	}
-
-	public get bold(): boolean
-	{
-		return this._bold;
-	}
-
-	public get italic(): boolean
-	{
-		return this._italic;
-	}
-
-	public get underline(): boolean
-	{
-		return this._underline;
-	}
-
-	public get fontFace(): string
-	{
-		return this._fontFace;
-	}
-
-	public get fontSize(): number
-	{
-		return this._fontSize;
-	}
-
-	public get etchingColor(): number
-	{
-		return this._etchingColor;
-	}
-
-	public get etchingPosition(): string
-	{
-		return this._etchingPosition;
-	}
-
 	public get length(): number
 	{
 		return this._text.length;
-	}
-
-	public get textHeight(): number
-	{
-		return this._textHeight;
-	}
-
-	public get textWidth(): number
-	{
-		return this._textWidth;
 	}
 
 	/**
@@ -217,11 +233,11 @@ export class TextLabelController extends WindowController implements ILabelWindo
 
 	public override set properties(value: unknown[])
 	{
-		for(const item of value)
+		for (const item of value)
 		{
 			const prop = item as PropertyStruct;
 
-			switch(prop.key)
+			switch (prop.key)
 			{
 				case 'text_style':
 				{
@@ -229,16 +245,16 @@ export class TextLabelController extends WindowController implements ILabelWindo
 
 					const resolved = TextStyleManager.getStyle(this._textStyleName);
 
-					if(resolved)
+					if (resolved)
 					{
-						if(resolved.fontFamily != null) this._fontFace = resolved.fontFamily;
-						if(resolved.fontSize != null) this._fontSize = resolved.fontSize;
-						if(resolved.fontWeight === 'bold') this._bold = true;
-						if(resolved.fontStyle === 'italic') this._italic = true;
-						if(resolved.textDecoration === 'underline') this._underline = true;
-						if(resolved.color != null && this._textColor === null) this._textColor = resolved.color;
-						if(resolved.etchingColor != null) this._etchingColor = resolved.etchingColor;
-						if(resolved.etchingPosition != null) this._etchingPosition = resolved.etchingPosition;
+						if (resolved.fontFamily != null) this._fontFace = resolved.fontFamily;
+						if (resolved.fontSize != null) this._fontSize = resolved.fontSize;
+						if (resolved.fontWeight === 'bold') this._bold = true;
+						if (resolved.fontStyle === 'italic') this._italic = true;
+						if (resolved.textDecoration === 'underline') this._underline = true;
+						if (resolved.color != null && this._textColor === null) this._textColor = resolved.color;
+						if (resolved.etchingColor != null) this._etchingColor = resolved.etchingColor;
+						if (resolved.etchingPosition != null) this._etchingPosition = resolved.etchingPosition;
 					}
 
 					break;
@@ -268,19 +284,21 @@ export class TextLabelController extends WindowController implements ILabelWindo
 		this.refresh();
 	}
 
-	/**
-	 * Shared canvas for text measurement.
-	 */
-	private static _measureCtx: OffscreenCanvasRenderingContext2D | null = null;
-
 	private static getMeasureCtx(): OffscreenCanvasRenderingContext2D
 	{
-		if(!TextLabelController._measureCtx)
+		if (!TextLabelController._measureCtx)
 		{
 			TextLabelController._measureCtx = new OffscreenCanvas(1, 1).getContext('2d')!;
 		}
 
 		return TextLabelController._measureCtx;
+	}
+
+	public override dispose(): void
+	{
+		if (this._disposed) return;
+
+		super.dispose();
 	}
 
 	/**
@@ -294,11 +312,11 @@ export class TextLabelController extends WindowController implements ILabelWindo
 	 */
 	private refresh(fromResize: boolean = false): void
 	{
-		if(this._refreshing) return;
+		if (this._refreshing) return;
 
 		this._refreshing = true;
 
-		if(!this._text)
+		if (!this._text)
 		{
 			this._textWidth = 0;
 			this._textHeight = 0;
@@ -312,8 +330,8 @@ export class TextLabelController extends WindowController implements ILabelWindo
 		const ctx = TextLabelController.getMeasureCtx();
 		let fontStr = '';
 
-		if(this._italic) fontStr += 'italic ';
-		if(this._bold) fontStr += 'bold ';
+		if (this._italic) fontStr += 'italic ';
+		if (this._bold) fontStr += 'bold ';
 		fontStr += `${this._fontSize}px ${this._fontFace || 'Ubuntu, Arial, sans-serif'}`;
 		ctx.font = fontStr;
 
@@ -332,15 +350,15 @@ export class TextLabelController extends WindowController implements ILabelWindo
 
 		let resized = false;
 
-		if(!this._vertical)
+		if (!this._vertical)
 		{
-			if(measuredWidth !== availWidth)
+			if (measuredWidth !== availWidth)
 			{
 				this.setRectangle(this._x, this._y, measuredWidth + hMargins, Math.floor(measuredHeight) + vMargins);
 				resized = true;
 			}
 
-			if(measuredHeight > availHeight && !resized)
+			if (measuredHeight > availHeight && !resized)
 			{
 				this.setRectangle(this._x, this._y, measuredWidth + hMargins, Math.floor(measuredHeight) + vMargins);
 				resized = true;
@@ -348,13 +366,13 @@ export class TextLabelController extends WindowController implements ILabelWindo
 		}
 		else
 		{
-			if(measuredWidth !== availHeight)
+			if (measuredWidth !== availHeight)
 			{
 				this.setRectangle(this._x, this._y, Math.floor(measuredHeight) + hMargins, measuredWidth + vMargins);
 				resized = true;
 			}
 
-			if(measuredHeight > availWidth && !resized)
+			if (measuredHeight > availWidth && !resized)
 			{
 				this.setRectangle(this._x, this._y, Math.floor(measuredHeight) + hMargins, measuredWidth + vMargins);
 				resized = true;
@@ -363,12 +381,5 @@ export class TextLabelController extends WindowController implements ILabelWindo
 
 		this._refreshing = false;
 		this._context.invalidate(this, null, 1);
-	}
-
-	public override dispose(): void
-	{
-		if(this._disposed) return;
-
-		super.dispose();
 	}
 }

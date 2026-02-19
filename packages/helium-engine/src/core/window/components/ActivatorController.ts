@@ -43,11 +43,11 @@ export class ActivatorController extends ContainerController
 	 */
 	public override update(source: WindowController, event: WindowEvent): boolean
 	{
-		if(event.type === 'WE_CHILD_ACTIVATED')
+		if (event.type === 'WE_CHILD_ACTIVATED')
 		{
 			this.setActiveChild(source as unknown as IWindow);
 		}
-		else if(event.type === 'WE_PARENT_ACTIVATED')
+		else if (event.type === 'WE_PARENT_ACTIVATED')
 		{
 			return true;
 		}
@@ -75,27 +75,27 @@ export class ActivatorController extends ContainerController
 	{
 		let target = window;
 
-		if(target.parent !== (this as unknown as IWindow))
+		if (target.parent !== (this as unknown as IWindow))
 		{
 			do
 			{
 				target = target.parent!;
 
-				if(target === null)
+				if (target === null)
 				{
 					throw new Error('Window passed to activator is not a child!');
 				}
 			}
-			while(target.parent !== (this as unknown as IWindow));
+			while (target.parent !== (this as unknown as IWindow));
 		}
 
 		const previous = this._activeChild;
 
-		if(this._activeChild !== target)
+		if (this._activeChild !== target)
 		{
-			if(this._activeChild !== null)
+			if (this._activeChild !== null)
 			{
-				if(!this._activeChild.disposed)
+				if (!this._activeChild.disposed)
 				{
 					this._activeChild.deactivate();
 				}
@@ -103,7 +103,7 @@ export class ActivatorController extends ContainerController
 
 			this._activeChild = target;
 
-			if(this.getChildIndex(target) !== this.numChildren - 1)
+			if (this.getChildIndex(target) !== this.numChildren - 1)
 			{
 				this.setChildIndex(target, this.numChildren - 1);
 			}

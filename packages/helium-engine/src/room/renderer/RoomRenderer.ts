@@ -20,12 +20,13 @@ export class RoomRenderer implements IRoomRenderer, IRoomSpriteCanvasContainer
 	private _objectKeys: string[] = [];
 	private _canvases: Map<string, IRoomRenderingCanvas> = new Map();
 	private _disposed: boolean = false;
-	private _roomObjectVariableAccurateZ: string | null = null;
 
 	get disposed(): boolean
 	{
 		return this._disposed;
 	}
+
+	private _roomObjectVariableAccurateZ: string | null = null;
 
 	get roomObjectVariableAccurateZ(): string | null
 	{
@@ -44,9 +45,9 @@ export class RoomRenderer implements IRoomRenderer, IRoomSpriteCanvasContainer
 	 */
 	dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
-		for(const canvas of this._canvases.values())
+		for (const canvas of this._canvases.values())
 		{
 			canvas.dispose();
 		}
@@ -75,7 +76,7 @@ export class RoomRenderer implements IRoomRenderer, IRoomSpriteCanvasContainer
 	 */
 	getRoomObjectIdentifier(object: IRoomObject): string | null
 	{
-		if(object !== null)
+		if (object !== null)
 		{
 			return String(object.getInstanceId());
 		}
@@ -90,13 +91,13 @@ export class RoomRenderer implements IRoomRenderer, IRoomSpriteCanvasContainer
 	 */
 	feedRoomObject(object: IRoomObject): void
 	{
-		if(object === null) return;
+		if (object === null) return;
 
 		const id = this.getRoomObjectIdentifier(object);
 
-		if(id === null) return;
+		if (id === null) return;
 
-		if(!this._objects.has(id))
+		if (!this._objects.has(id))
 		{
 			this._objectKeys.push(id);
 		}
@@ -113,21 +114,21 @@ export class RoomRenderer implements IRoomRenderer, IRoomSpriteCanvasContainer
 	{
 		const id = this.getRoomObjectIdentifier(object);
 
-		if(id === null) return;
+		if (id === null) return;
 
 		this._objects.delete(id);
 
 		const keyIndex = this._objectKeys.indexOf(id);
 
-		if(keyIndex >= 0)
+		if (keyIndex >= 0)
 		{
 			this._objectKeys.splice(keyIndex, 1);
 		}
 
 		// Notify canvases that an object was removed
-		for(const canvas of this._canvases.values())
+		for (const canvas of this._canvases.values())
 		{
-			if('roomObjectRemoved' in canvas && typeof (canvas as any).roomObjectRemoved === 'function')
+			if ('roomObjectRemoved' in canvas && typeof (canvas as any).roomObjectRemoved === 'function')
 			{
 				(canvas as any).roomObjectRemoved(id);
 			}
@@ -151,7 +152,7 @@ export class RoomRenderer implements IRoomRenderer, IRoomSpriteCanvasContainer
 	 */
 	getRoomObjectWithIndex(index: number): IRoomObject | null
 	{
-		if(index < 0 || index >= this._objectKeys.length) return null;
+		if (index < 0 || index >= this._objectKeys.length) return null;
 
 		return this._objects.get(this._objectKeys[index]) ?? null;
 	}
@@ -163,7 +164,7 @@ export class RoomRenderer implements IRoomRenderer, IRoomSpriteCanvasContainer
 	 */
 	getRoomObjectIdWithIndex(index: number): string | null
 	{
-		if(index < 0 || index >= this._objectKeys.length) return null;
+		if (index < 0 || index >= this._objectKeys.length) return null;
 
 		return this._objectKeys[index];
 	}
@@ -187,7 +188,7 @@ export class RoomRenderer implements IRoomRenderer, IRoomSpriteCanvasContainer
 	{
 		const time = performance.now();
 
-		for(const canvas of this._canvases.values())
+		for (const canvas of this._canvases.values())
 		{
 			canvas.render(time);
 		}
@@ -203,7 +204,7 @@ export class RoomRenderer implements IRoomRenderer, IRoomSpriteCanvasContainer
 		const key = String(id);
 		const existing = this._canvases.get(key);
 
-		if(existing)
+		if (existing)
 		{
 			existing.initialize(width, height);
 			existing.setScale(scale);
@@ -216,19 +217,6 @@ export class RoomRenderer implements IRoomRenderer, IRoomSpriteCanvasContainer
 		this._canvases.set(key, canvas);
 
 		return canvas;
-	}
-
-	/**
-	 * Create a canvas instance. Protected to allow subclasses to override
-	 * with custom canvas types (e.g., HabboRoomSpriteCanvas).
-	 *
-	 * @see AS3 class_3447 lines 183-186
-	 */
-	protected createCanvasInstance(_id: number, _width: number, _height: number, _scale: number): IRoomRenderingCanvas
-	{
-		// Base implementation returns null — subclasses or external code must provide canvas creation.
-		// In practice, HabboRoomRenderer overrides this to create RoomRenderingCanvas instances.
-		throw new Error('[RoomRenderer] createCanvasInstance must be overridden');
 	}
 
 	/**
@@ -251,7 +239,7 @@ export class RoomRenderer implements IRoomRenderer, IRoomSpriteCanvasContainer
 		const key = String(id);
 		const canvas = this._canvases.get(key);
 
-		if(canvas)
+		if (canvas)
 		{
 			canvas.dispose();
 			this._canvases.delete(key);
@@ -269,9 +257,22 @@ export class RoomRenderer implements IRoomRenderer, IRoomSpriteCanvasContainer
 	{
 		this.render();
 
-		for(const canvas of this._canvases.values())
+		for (const canvas of this._canvases.values())
 		{
 			canvas.update();
 		}
+	}
+
+	/**
+	 * Create a canvas instance. Protected to allow subclasses to override
+	 * with custom canvas types (e.g., HabboRoomSpriteCanvas).
+	 *
+	 * @see AS3 class_3447 lines 183-186
+	 */
+	protected createCanvasInstance(_id: number, _width: number, _height: number, _scale: number): IRoomRenderingCanvas
+	{
+		// Base implementation returns null — subclasses or external code must provide canvas creation.
+		// In practice, HabboRoomRenderer overrides this to create RoomRenderingCanvas instances.
+		throw new Error('[RoomRenderer] createCanvasInstance must be overridden');
 	}
 }

@@ -7,11 +7,6 @@
  */
 export class LibraryProgressEvent
 {
-	private _fileName: string;
-	private _bytesLoaded: number;
-	private _bytesTotal: number;
-	private _elapsedTime: number;
-
 	constructor(fileName: string, bytesLoaded: number = 0, bytesTotal: number = 0, elapsedTime: number = 0)
 	{
 		this._fileName = fileName;
@@ -20,20 +15,28 @@ export class LibraryProgressEvent
 		this._elapsedTime = elapsedTime;
 	}
 
+	private _fileName: string;
+
 	get fileName(): string
 	{
 		return this._fileName;
 	}
+
+	private _bytesLoaded: number;
 
 	get bytesLoaded(): number
 	{
 		return this._bytesLoaded;
 	}
 
+	private _bytesTotal: number;
+
 	get bytesTotal(): number
 	{
 		return this._bytesTotal;
 	}
+
+	private _elapsedTime: number;
 
 	get elapsedTime(): number
 	{

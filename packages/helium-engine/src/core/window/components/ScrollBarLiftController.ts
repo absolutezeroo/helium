@@ -124,7 +124,7 @@ export class ScrollBarLiftController extends InteractiveController implements ID
 			? (this.y / (this._parent.height - this.height))
 			: 0;
 
-		if(this._scrollBar && this._parent !== (this._scrollBar as unknown as IWindow))
+		if (this._scrollBar && this._parent !== (this._scrollBar as unknown as IWindow))
 		{
 			const relocated = WindowEvent.allocate('WE_CHILD_RELOCATED', this, null);
 

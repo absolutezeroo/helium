@@ -25,14 +25,6 @@ export class WindowToolTipAgent extends WindowMouseOperator implements IToolTipA
 	private _delay: number = 500;
 
 	/**
-	 * Check if a window implements IInteractiveWindow
-	 */
-	private isInteractiveWindow(window: IWindow): window is IInteractiveWindow
-	{
-		return 'toolTipCaption' in window && 'toolTipDelay' in window;
-	}
-
-	/**
 	 * Begin tooltip tracking for a window.
 	 *
 	 * @param window - The window to track
@@ -41,9 +33,9 @@ export class WindowToolTipAgent extends WindowMouseOperator implements IToolTipA
 	 */
 	public override begin(window: IWindow, flags: number = 0): IWindow | null
 	{
-		if(window && !window.disposed)
+		if (window && !window.disposed)
 		{
-			if(this.isInteractiveWindow(window))
+			if (this.isInteractiveWindow(window))
 			{
 				this._caption = window.toolTipCaption;
 				this._delay = window.toolTipDelay;
@@ -56,7 +48,7 @@ export class WindowToolTipAgent extends WindowMouseOperator implements IToolTipA
 
 			this.getMousePositionRelativeTo(window, this._mouse, this._pointerOffset);
 
-			if(this._timer !== null)
+			if (this._timer !== null)
 			{
 				clearTimeout(this._timer);
 			}
@@ -75,7 +67,7 @@ export class WindowToolTipAgent extends WindowMouseOperator implements IToolTipA
 	 */
 	public override end(window: IWindow): IWindow | null
 	{
-		if(this._timer !== null)
+		if (this._timer !== null)
 		{
 			clearTimeout(this._timer);
 			this._timer = null;
@@ -94,13 +86,13 @@ export class WindowToolTipAgent extends WindowMouseOperator implements IToolTipA
 	 */
 	public override operate(x: number, y: number): void
 	{
-		if(this._window && !this._window.disposed)
+		if (this._window && !this._window.disposed)
 		{
 			this._mouse.x = x;
 			this._mouse.y = y;
 			this.getMousePositionRelativeTo(this._window, this._mouse, this._pointerOffset);
 
-			if(this._tooltipWindow !== null && !this._tooltipWindow.disposed)
+			if (this._tooltipWindow !== null && !this._tooltipWindow.disposed)
 			{
 				this._tooltipWindow.x = x + this._toolTipOffset.x;
 				this._tooltipWindow.y = y + this._toolTipOffset.y;
@@ -125,10 +117,70 @@ export class WindowToolTipAgent extends WindowMouseOperator implements IToolTipA
 	 */
 	public hide(): void
 	{
-		if(this._window)
+		if (this._window)
 		{
 			this.end(this._window);
 		}
+	}
+
+	/**
+	 * Update the tooltip caption if it has changed.
+	 *
+	 * @param window - The window whose caption may have changed
+	 */
+	public updateCaption(window: IWindow): void
+	{
+		if (window === null || window.disposed || this._tooltipWindow === null || this._tooltipWindow.disposed)
+		{
+			return;
+		}
+
+		let newCaption: string;
+
+		if (this.isInteractiveWindow(window))
+		{
+			newCaption = window.toolTipCaption;
+		}
+		else
+		{
+			newCaption = window.caption;
+		}
+
+		if (newCaption !== this._caption)
+		{
+			this._caption = newCaption;
+
+			if (newCaption === null || newCaption.length === 0)
+			{
+				this._tooltipWindow.visible = false;
+			}
+			else
+			{
+				this._tooltipWindow.caption = newCaption;
+				this._tooltipWindow.visible = true;
+			}
+		}
+	}
+
+	public override dispose(): void
+	{
+		if (this._timer !== null)
+		{
+			clearTimeout(this._timer);
+			this._timer = null;
+		}
+
+		this.hideToolTip();
+
+		super.dispose();
+	}
+
+	/**
+	 * Check if a window implements IInteractiveWindow
+	 */
+	private isInteractiveWindow(window: IWindow): window is IInteractiveWindow
+	{
+		return 'toolTipCaption' in window && 'toolTipDelay' in window;
 	}
 
 	/**
@@ -136,16 +188,16 @@ export class WindowToolTipAgent extends WindowMouseOperator implements IToolTipA
 	 */
 	private showToolTip(): void
 	{
-		if(this._timer !== null)
+		if (this._timer !== null)
 		{
 			clearTimeout(this._timer);
 			this._timer = null;
 		}
 
-		if(!this._window || this._window.disposed) return;
+		if (!this._window || this._window.disposed) return;
 
 		// Refresh caption from window
-		if(this.isInteractiveWindow(this._window))
+		if (this.isInteractiveWindow(this._window))
 		{
 			this._caption = this._window.toolTipCaption;
 		}
@@ -155,14 +207,14 @@ export class WindowToolTipAgent extends WindowMouseOperator implements IToolTipA
 		}
 
 		// Create tooltip via the window's context if not already created
-		if(this._tooltipWindow === null || this._tooltipWindow.disposed)
+		if (this._tooltipWindow === null || this._tooltipWindow.disposed)
 		{
 			// Create tooltip via the window context
 			// AS3: context.create(name + "::ToolTip", caption, type=8, style, 32, ...)
 			// TS:  context.create(layerName, name, type, style, param, rect, ...)
 			const context = this._window.context;
 
-			if(context)
+			if (context)
 			{
 				this._tooltipWindow = context.create(
 					'',
@@ -174,14 +226,14 @@ export class WindowToolTipAgent extends WindowMouseOperator implements IToolTipA
 					null, null, 0, null, undefined, null
 				);
 
-				if(this._tooltipWindow)
+				if (this._tooltipWindow)
 				{
 					this._tooltipWindow.caption = this._caption;
 				}
 			}
 		}
 
-		if(this._tooltipWindow)
+		if (this._tooltipWindow)
 		{
 			const globalPos = {x: 0, y: 0};
 
@@ -197,62 +249,10 @@ export class WindowToolTipAgent extends WindowMouseOperator implements IToolTipA
 	 */
 	private hideToolTip(): void
 	{
-		if(this._tooltipWindow !== null && !this._tooltipWindow.disposed)
+		if (this._tooltipWindow !== null && !this._tooltipWindow.disposed)
 		{
 			this._tooltipWindow.dispose();
 			this._tooltipWindow = null;
 		}
-	}
-
-	/**
-	 * Update the tooltip caption if it has changed.
-	 *
-	 * @param window - The window whose caption may have changed
-	 */
-	public updateCaption(window: IWindow): void
-	{
-		if(window === null || window.disposed || this._tooltipWindow === null || this._tooltipWindow.disposed)
-		{
-			return;
-		}
-
-		let newCaption: string;
-
-		if(this.isInteractiveWindow(window))
-		{
-			newCaption = window.toolTipCaption;
-		}
-		else
-		{
-			newCaption = window.caption;
-		}
-
-		if(newCaption !== this._caption)
-		{
-			this._caption = newCaption;
-
-			if(newCaption === null || newCaption.length === 0)
-			{
-				this._tooltipWindow.visible = false;
-			}
-			else
-			{
-				this._tooltipWindow.caption = newCaption;
-				this._tooltipWindow.visible = true;
-			}
-		}
-	}
-
-	public override dispose(): void
-	{
-		if(this._timer !== null)
-		{
-			clearTimeout(this._timer);
-			this._timer = null;
-		}
-
-		this.hideToolTip();
-
-		super.dispose();
 	}
 }

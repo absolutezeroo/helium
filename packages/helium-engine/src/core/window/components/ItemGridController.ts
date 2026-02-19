@@ -24,10 +24,7 @@ import {ItemGridIterator} from '../iterators/ItemGridIterator';
  */
 export class ItemGridController extends ItemListController implements IItemGridWindow
 {
-	private _containerResizeToColumns: boolean = false;
 	private _hasCustomVerticalSpacing: boolean = false;
-	private _verticalSpacing: number = 0;
-	private _shouldRebuildGridOnResize: boolean = true;
 	private _isRebuilding: boolean = false;
 
 	constructor(
@@ -50,10 +47,66 @@ export class ItemGridController extends ItemListController implements IItemGridW
 		this._isHorizontal = (type !== 54);
 		this._scaleToFitItems = true;
 
-		if(!this._isHorizontal)
+		if (!this._isHorizontal)
 		{
 			throw new Error('Horizontal item grid not yet implemented!');
 		}
+	}
+
+	private _containerResizeToColumns: boolean = false;
+
+	/**
+	 * Whether columns resize to fit content.
+	 */
+	public get containerResizeToColumns(): boolean
+	{
+		return this._containerResizeToColumns;
+	}
+
+	public set containerResizeToColumns(value: boolean)
+	{
+		this._containerResizeToColumns = value;
+	}
+
+	private _verticalSpacing: number = 0;
+
+	/**
+	 * Sets the vertical spacing for column sub-lists, overriding
+	 * the default spacing value.
+	 */
+	public get verticalSpacing(): number
+	{
+		return this._verticalSpacing;
+	}
+
+	public set verticalSpacing(value: number)
+	{
+		this._verticalSpacing = value;
+		this._hasCustomVerticalSpacing = true;
+
+		let count = this.numListItems;
+
+		while (count-- > 0)
+		{
+			const col = this.getListItemAt(count) as unknown as IItemListWindow;
+
+			if (col) col.spacing = value;
+		}
+	}
+
+	private _shouldRebuildGridOnResize: boolean = true;
+
+	/**
+	 * Whether the grid should rebuild its structure on resize.
+	 */
+	public get shouldRebuildGridOnResize(): boolean
+	{
+		return this._shouldRebuildGridOnResize;
+	}
+
+	public set shouldRebuildGridOnResize(value: boolean)
+	{
+		this._shouldRebuildGridOnResize = value;
 	}
 
 	/**
@@ -66,15 +119,15 @@ export class ItemGridController extends ItemListController implements IItemGridW
 
 	public override set spacing(value: number)
 	{
-		if(!this._hasCustomVerticalSpacing)
+		if (!this._hasCustomVerticalSpacing)
 		{
 			let count = this.numListItems;
 
-			while(count-- > 0)
+			while (count-- > 0)
 			{
 				const col = this.getListItemAt(count) as unknown as IItemListWindow;
 
-				if(col) col.spacing = value;
+				if (col) col.spacing = value;
 			}
 		}
 
@@ -93,11 +146,11 @@ export class ItemGridController extends ItemListController implements IItemGridW
 	{
 		super.background = value;
 
-		for(let i = 0; i < this.numListItems; i++)
+		for (let i = 0; i < this.numListItems; i++)
 		{
 			const col = this.getListItemAt(i);
 
-			if(col) col.background = value;
+			if (col) col.background = value;
 		}
 	}
 
@@ -113,11 +166,11 @@ export class ItemGridController extends ItemListController implements IItemGridW
 	{
 		super.color = value;
 
-		for(let i = 0; i < this.numListItems; i++)
+		for (let i = 0; i < this.numListItems; i++)
 		{
 			const col = this.getListItemAt(i);
 
-			if(col) col.color = value;
+			if (col) col.color = value;
 		}
 	}
 
@@ -133,80 +186,12 @@ export class ItemGridController extends ItemListController implements IItemGridW
 	{
 		super.autoArrangeItems = value;
 
-		for(let i = 0; i < this.numColumns; i++)
+		for (let i = 0; i < this.numColumns; i++)
 		{
 			const col = this.getListItemAt(i) as unknown as IItemListWindow;
 
-			if(col) col.autoArrangeItems = value;
+			if (col) col.autoArrangeItems = value;
 		}
-	}
-
-	/**
-	 * Whether the grid should rebuild its structure on resize.
-	 */
-	public get shouldRebuildGridOnResize(): boolean
-	{
-		return this._shouldRebuildGridOnResize;
-	}
-
-	public set shouldRebuildGridOnResize(value: boolean)
-	{
-		this._shouldRebuildGridOnResize = value;
-	}
-
-	/**
-	 * Sets the vertical spacing for column sub-lists, overriding
-	 * the default spacing value.
-	 */
-	public get verticalSpacing(): number
-	{
-		return this._verticalSpacing;
-	}
-
-	public set verticalSpacing(value: number)
-	{
-		this._verticalSpacing = value;
-		this._hasCustomVerticalSpacing = true;
-
-		let count = this.numListItems;
-
-		while(count-- > 0)
-		{
-			const col = this.getListItemAt(count) as unknown as IItemListWindow;
-
-			if(col) col.spacing = value;
-		}
-	}
-
-	/**
-	 * Returns an iterator over all grid items.
-	 */
-	public override iterator(): IIterator
-	{
-		return new ItemGridIterator(this);
-	}
-
-	/**
-	 * Handles resize and wheel events.
-	 */
-	public override update(source: WindowController, event: WindowEvent): boolean
-	{
-		const result = super.update(source, event);
-
-		switch(event.type)
-		{
-			case 'WE_RESIZED':
-				if(this._shouldRebuildGridOnResize)
-				{
-					this.rebuildGridStructure();
-				}
-				break;
-			case 'WME_WHEEL':
-				this.scrollWithWheel((event as WindowMouseEvent).delta * 0.5);
-				return true;
-		}
-
-		return result;
 	}
 
 	/**
@@ -224,11 +209,11 @@ export class ItemGridController extends ItemListController implements IItemGridW
 	{
 		let max = 0;
 
-		for(let i = 0; i < this.numColumns; i++)
+		for (let i = 0; i < this.numColumns; i++)
 		{
 			const col = this.getListItemAt(i) as unknown as IItemListWindow;
 
-			if(col)
+			if (col)
 			{
 				max = Math.max(max, col.numListItems);
 			}
@@ -244,27 +229,69 @@ export class ItemGridController extends ItemListController implements IItemGridW
 	{
 		let count = 0;
 
-		for(let i = this.numListItems - 1; i >= 0; i--)
+		for (let i = this.numListItems - 1; i >= 0; i--)
 		{
 			const col = this.getListItemAt(i) as unknown as IItemListWindow;
 
-			if(col) count += col.numListItems;
+			if (col) count += col.numListItems;
 		}
 
 		return count;
 	}
 
-	/**
-	 * Whether columns resize to fit content.
-	 */
-	public get containerResizeToColumns(): boolean
+	public override get properties(): unknown[]
 	{
-		return this._containerResizeToColumns;
+		const props = super.properties;
+
+		props.push(this.createProperty('container_resize_to_columns', this._containerResizeToColumns));
+
+		return props;
 	}
 
-	public set containerResizeToColumns(value: boolean)
+	public override set properties(value: unknown[])
 	{
-		this._containerResizeToColumns = value;
+		for (const item of value)
+		{
+			const prop = item as PropertyStruct;
+
+			if (prop.key === 'container_resize_to_columns')
+			{
+				this._containerResizeToColumns = !!prop.value;
+			}
+		}
+
+		super.properties = value;
+	}
+
+	/**
+	 * Returns an iterator over all grid items.
+	 */
+	public override iterator(): IIterator
+	{
+		return new ItemGridIterator(this);
+	}
+
+	/**
+	 * Handles resize and wheel events.
+	 */
+	public override update(source: WindowController, event: WindowEvent): boolean
+	{
+		const result = super.update(source, event);
+
+		switch (event.type)
+		{
+			case 'WE_RESIZED':
+				if (this._shouldRebuildGridOnResize)
+				{
+					this.rebuildGridStructure();
+				}
+				break;
+			case 'WME_WHEEL':
+				this.scrollWithWheel((event as WindowMouseEvent).delta * 0.5);
+				return true;
+		}
+
+		return result;
 	}
 
 	/**
@@ -294,7 +321,7 @@ export class ItemGridController extends ItemListController implements IItemGridW
 	{
 		const col = this.resolveColumnByIndex(index);
 
-		if(!col) return null;
+		if (!col) return null;
 
 		return col.getListItemAt(Math.floor(index / this.numColumns));
 	}
@@ -304,15 +331,15 @@ export class ItemGridController extends ItemListController implements IItemGridW
 	 */
 	public getGridItemByID(id: number): IWindow | null
 	{
-		for(let i = 0; i < this.numColumns; i++)
+		for (let i = 0; i < this.numColumns; i++)
 		{
 			const col = this.getListItemAt(i) as unknown as IItemListWindow;
 
-			if(col)
+			if (col)
 			{
 				const item = col.getListItemByID(id);
 
-				if(item) return item;
+				if (item) return item;
 			}
 		}
 
@@ -324,15 +351,15 @@ export class ItemGridController extends ItemListController implements IItemGridW
 	 */
 	public getGridItemByName(name: string): IWindow | null
 	{
-		for(let i = 0; i < this.numColumns; i++)
+		for (let i = 0; i < this.numColumns; i++)
 		{
 			const col = this.getListItemAt(i) as unknown as IItemListWindow;
 
-			if(col)
+			if (col)
 			{
 				const item = col.getListItemByName(name);
 
-				if(item) return item;
+				if (item) return item;
 			}
 		}
 
@@ -344,15 +371,15 @@ export class ItemGridController extends ItemListController implements IItemGridW
 	 */
 	public getGridItemByTag(tag: string): IWindow | null
 	{
-		for(let i = 0; i < this.numColumns; i++)
+		for (let i = 0; i < this.numColumns; i++)
 		{
 			const col = this.getChildAt(i) as unknown as IItemListWindow;
 
-			if(col)
+			if (col)
 			{
 				const item = col.getListItemByTag(tag);
 
-				if(item) return item;
+				if (item) return item;
 			}
 		}
 
@@ -366,7 +393,7 @@ export class ItemGridController extends ItemListController implements IItemGridW
 	{
 		const col = this.resolveColumnByItem(item);
 
-		if(!col) return -1;
+		if (!col) return -1;
 
 		return col.getListItemIndex(item) * this.numColumns + this.getColumnIndex(col);
 	}
@@ -378,20 +405,20 @@ export class ItemGridController extends ItemListController implements IItemGridW
 	{
 		const index = this.getGridItemIndex(item);
 
-		if(index === -1) return null;
+		if (index === -1) return null;
 
 		const removed = this.offsetGridItemsBackwards(index);
 
-		if(removed !== item)
+		if (removed !== item)
 		{
 			throw new Error('Item grid is out of order!');
 		}
 
 		const col = this.resolveColumnByIndex(index);
 
-		if(col)
+		if (col)
 		{
-			if(!this._isHorizontal)
+			if (!this._isHorizontal)
 			{
 				(col as unknown as IWindow).width = col.scrollableRegion.width;
 			}
@@ -411,7 +438,7 @@ export class ItemGridController extends ItemListController implements IItemGridW
 	{
 		const item = this.getGridItemAt(index);
 
-		if(!item) return null;
+		if (!item) return null;
 
 		return this.removeGridItem(item);
 	}
@@ -421,7 +448,7 @@ export class ItemGridController extends ItemListController implements IItemGridW
 	 */
 	public setGridItemIndex(item: IWindow, index: number): void
 	{
-		if(this.removeGridItem(item) === null)
+		if (this.removeGridItem(item) === null)
 		{
 			throw new Error('Item not found in grid!');
 		}
@@ -450,15 +477,15 @@ export class ItemGridController extends ItemListController implements IItemGridW
 	 */
 	public removeGridItems(): void
 	{
-		for(let i = 0; i < this.numColumns; i++)
+		for (let i = 0; i < this.numColumns; i++)
 		{
 			const col = this.getListItemAt(i) as unknown as IItemListWindow;
 
-			if(col)
+			if (col)
 			{
 				col.removeListItems();
 
-				if(!this._isHorizontal)
+				if (!this._isHorizontal)
 				{
 					(col as unknown as IWindow).width = 0;
 				}
@@ -475,15 +502,15 @@ export class ItemGridController extends ItemListController implements IItemGridW
 	 */
 	public destroyGridItems(): void
 	{
-		for(let i = 0; i < this.numColumns; i++)
+		for (let i = 0; i < this.numColumns; i++)
 		{
 			const col = this.getListItemAt(i) as unknown as IItemListWindow;
 
-			if(col)
+			if (col)
 			{
 				col.destroyListItems();
 
-				if(!this._isHorizontal)
+				if (!this._isHorizontal)
 				{
 					(col as unknown as IWindow).width = 0;
 				}
@@ -509,9 +536,9 @@ export class ItemGridController extends ItemListController implements IItemGridW
 		let totalItems = this.numGridItems;
 		let colCount = this.numColumns;
 
-		for(const item of items)
+		for (const item of items)
 		{
-			if(colCount === 0)
+			if (colCount === 0)
 			{
 				this.addColumnForItem(item);
 				colCount++;
@@ -520,15 +547,15 @@ export class ItemGridController extends ItemListController implements IItemGridW
 			{
 				let col: IItemListWindow | null;
 
-				if(totalItems > 0)
+				if (totalItems > 0)
 				{
 					const lastCol = this.resolveColumnByIndex(totalItems > 0 ? totalItems - 1 : 0);
 					const lastColIndex = lastCol ? this.getListItemIndex(lastCol as unknown as IWindow) : -1;
 					const isLastColumn = lastColIndex > -1 ? lastColIndex === colCount - 1 : true;
 
-					if(isLastColumn && lastCol && lastCol.numListItems === 1)
+					if (isLastColumn && lastCol && lastCol.numListItems === 1)
 					{
-						if((lastCol as unknown as IWindow).right + item.width <= this._width)
+						if ((lastCol as unknown as IWindow).right + item.width <= this._width)
 						{
 							this.addColumnForItem(item);
 							continue;
@@ -542,17 +569,17 @@ export class ItemGridController extends ItemListController implements IItemGridW
 					col = this.getListItemAt(0) as unknown as IItemListWindow;
 				}
 
-				if(col)
+				if (col)
 				{
 					col.addListItem(item);
 					totalItems++;
 
-					if(item.width > (col as unknown as IWindow).width)
+					if (item.width > (col as unknown as IWindow).width)
 					{
 						(col as unknown as IWindow).width = item.width;
 					}
 
-					if(item.bottom > (col as unknown as IWindow).height)
+					if (item.bottom > (col as unknown as IWindow).height)
 					{
 						(col as unknown as IWindow).height = item.bottom;
 					}
@@ -568,7 +595,7 @@ export class ItemGridController extends ItemListController implements IItemGridW
 	 */
 	public rebuildGridStructure(): void
 	{
-		if(this._isRebuilding) return;
+		if (this._isRebuilding) return;
 
 		this._isRebuilding = true;
 
@@ -580,21 +607,21 @@ export class ItemGridController extends ItemListController implements IItemGridW
 
 		const items: IWindow[] = [];
 
-		while(itemCount > 0)
+		while (itemCount > 0)
 		{
-			for(let c = 0; c < colCount; c++)
+			for (let c = 0; c < colCount; c++)
 			{
 				const col = this.getListItemAt(c) as unknown as IItemListWindow;
 
-				if(col)
+				if (col)
 				{
 					const item = col.removeListItemAt(0);
 
-					if(item) items.push(item);
+					if (item) items.push(item);
 
 					itemCount--;
 
-					if(itemCount < 1) break;
+					if (itemCount < 1) break;
 				}
 			}
 		}
@@ -602,20 +629,20 @@ export class ItemGridController extends ItemListController implements IItemGridW
 		this.destroyListItems();
 		this.autoArrangeItems = savedAutoArrange;
 
-		for(const item of items)
+		for (const item of items)
 		{
 			this.addGridItem(item);
 		}
 
-		if(this._containerResizeToColumns)
+		if (this._containerResizeToColumns)
 		{
 			let maxHeight = 0;
 
-			for(let c = 0; c < this.numColumns; c++)
+			for (let c = 0; c < this.numColumns; c++)
 			{
 				const col = this.getListItemAt(c) as unknown as IItemListWindow;
 
-				if(col)
+				if (col)
 				{
 					col.autoArrangeItems = true;
 					(col as unknown as IWindow).height = col.scrollableRegion.height;
@@ -623,7 +650,7 @@ export class ItemGridController extends ItemListController implements IItemGridW
 				}
 			}
 
-			if(this._container)
+			if (this._container)
 			{
 				(this._container as unknown as IWindow).height = maxHeight;
 			}
@@ -646,30 +673,6 @@ export class ItemGridController extends ItemListController implements IItemGridW
 	public getRowNumberByItemIndex(index: number): number
 	{
 		return Math.floor(index / this.numColumns);
-	}
-
-	public override get properties(): unknown[]
-	{
-		const props = super.properties;
-
-		props.push(this.createProperty('container_resize_to_columns', this._containerResizeToColumns));
-
-		return props;
-	}
-
-	public override set properties(value: unknown[])
-	{
-		for(const item of value)
-		{
-			const prop = item as PropertyStruct;
-
-			if(prop.key === 'container_resize_to_columns')
-			{
-				this._containerResizeToColumns = !!prop.value;
-			}
-		}
-
-		super.properties = value;
 	}
 
 	/**
@@ -695,11 +698,11 @@ export class ItemGridController extends ItemListController implements IItemGridW
 	{
 		let i = this.numColumns;
 
-		while(i-- > 0)
+		while (i-- > 0)
 		{
 			const col = this.getListItemAt(i) as unknown as IItemListWindow;
 
-			if(col && col.getListItemIndex(item) > -1)
+			if (col && col.getListItemIndex(item) > -1)
 			{
 				return col;
 			}
@@ -713,7 +716,7 @@ export class ItemGridController extends ItemListController implements IItemGridW
 	 */
 	protected resolveColumnForNextItem(item: IWindow): IItemListWindow
 	{
-		if(this.numColumns === 0)
+		if (this.numColumns === 0)
 		{
 			return this.addColumnForItem(item);
 		}
@@ -721,15 +724,15 @@ export class ItemGridController extends ItemListController implements IItemGridW
 		const totalItems = this.numGridItems;
 		let col: IItemListWindow | null;
 
-		if(totalItems > 0)
+		if (totalItems > 0)
 		{
 			const lastCol = this.resolveColumnByIndex(totalItems > 0 ? totalItems - 1 : 0);
 			const lastColIndex = lastCol ? this.getListItemIndex(lastCol as unknown as IWindow) : -1;
 			const isLastColumn = lastColIndex > -1 ? lastColIndex === this.numColumns - 1 : true;
 
-			if(isLastColumn && lastCol && lastCol.numListItems === 1)
+			if (isLastColumn && lastCol && lastCol.numListItems === 1)
 			{
-				if((lastCol as unknown as IWindow).right + item.width <= this._width)
+				if ((lastCol as unknown as IWindow).right + item.width <= this._width)
 				{
 					return this.addColumnForItem(item);
 				}
@@ -742,16 +745,16 @@ export class ItemGridController extends ItemListController implements IItemGridW
 			col = this.getListItemAt(0) as unknown as IItemListWindow;
 		}
 
-		if(col)
+		if (col)
 		{
 			col.addListItem(item);
 
-			if(item.width > (col as unknown as IWindow).width)
+			if (item.width > (col as unknown as IWindow).width)
 			{
 				(col as unknown as IWindow).width = item.width;
 			}
 
-			if(item.bottom > (col as unknown as IWindow).height)
+			if (item.bottom > (col as unknown as IWindow).height)
 			{
 				(col as unknown as IWindow).height = item.bottom;
 			}
@@ -775,7 +778,7 @@ export class ItemGridController extends ItemListController implements IItemGridW
 			50,
 			0,
 			0x10 | 0x01,
-			{ x: 0, y: 0, width: colWidth, height: colHeight },
+			{x: 0, y: 0, width: colWidth, height: colHeight},
 			this.listEventProc.bind(this) as (event: unknown, window: IWindow) => void,
 			null,
 			this.numListItems,
@@ -810,14 +813,14 @@ export class ItemGridController extends ItemListController implements IItemGridW
 		const totalItems = this.numGridItems;
 		const colCount = this.numColumns;
 
-		for(let c = 0; c < colCount; c++)
+		for (let c = 0; c < colCount; c++)
 		{
 			const col = this.getListItemAt(c) as unknown as IItemListWindow;
 
-			if(col) col.autoArrangeItems = false;
+			if (col) col.autoArrangeItems = false;
 		}
 
-		if(totalItems <= index)
+		if (totalItems <= index)
 		{
 			this.resolveColumnForNextItem(item);
 		}
@@ -825,22 +828,22 @@ export class ItemGridController extends ItemListController implements IItemGridW
 		{
 			let last = totalItems - 1;
 
-			if(this.numRows === 1)
+			if (this.numRows === 1)
 			{
 				const lastItem = this.getGridItemAt(last);
 
-				if(lastItem) this.resolveColumnForNextItem(lastItem);
+				if (lastItem) this.resolveColumnForNextItem(lastItem);
 
 				last--;
 			}
 
-			while(last >= index)
+			while (last >= index)
 			{
 				const shiftItem = this.getGridItemAt(last);
 				const row = this.getRowNumberByItemIndex(last + 1);
 				const targetCol = this.resolveColumnByIndex(last + 1);
 
-				if(shiftItem && targetCol)
+				if (shiftItem && targetCol)
 				{
 					targetCol.addListItemAt(shiftItem, row);
 				}
@@ -850,7 +853,7 @@ export class ItemGridController extends ItemListController implements IItemGridW
 
 			const insertCol = this.resolveColumnByIndex(index);
 
-			if(insertCol)
+			if (insertCol)
 			{
 				insertCol.addListItemAt(item, Math.floor(index / this.numColumns));
 			}
@@ -858,11 +861,11 @@ export class ItemGridController extends ItemListController implements IItemGridW
 
 		let maxHeight = 0;
 
-		for(let c = 0; c < this.numColumns; c++)
+		for (let c = 0; c < this.numColumns; c++)
 		{
 			const col = this.getListItemAt(c) as unknown as IItemListWindow;
 
-			if(col)
+			if (col)
 			{
 				col.autoArrangeItems = true;
 				(col as unknown as IWindow).height = col.scrollableRegion.height;
@@ -870,7 +873,7 @@ export class ItemGridController extends ItemListController implements IItemGridW
 			}
 		}
 
-		if(this._container)
+		if (this._container)
 		{
 			(this._container as unknown as IWindow).height = maxHeight;
 		}
@@ -885,30 +888,30 @@ export class ItemGridController extends ItemListController implements IItemGridW
 		const row = this.getRowNumberByItemIndex(index);
 		const col = this.resolveColumnByIndex(index);
 
-		if(!col) return null;
+		if (!col) return null;
 
 		const removed = col.removeListItemAt(row);
 
-		if(!removed) return null;
+		if (!removed) return null;
 
 		const totalItems = this.numGridItems;
 
-		for(let c = 0; c < this.numColumns; c++)
+		for (let c = 0; c < this.numColumns; c++)
 		{
 			const column = this.getListItemAt(c) as unknown as IItemListWindow;
 
-			if(column) column.autoArrangeItems = false;
+			if (column) column.autoArrangeItems = false;
 		}
 
 		let current = index;
 
-		while(current < totalItems)
+		while (current < totalItems)
 		{
 			const shiftRow = this.getRowNumberByItemIndex(current);
 			const shiftItem = this.getGridItemAt(current + 1);
 			const targetCol = this.resolveColumnByIndex(current);
 
-			if(shiftItem && targetCol)
+			if (shiftItem && targetCol)
 			{
 				targetCol.addListItemAt(shiftItem, shiftRow);
 			}
@@ -918,11 +921,11 @@ export class ItemGridController extends ItemListController implements IItemGridW
 
 		let maxHeight = 0;
 
-		for(let c = 0; c < this.numColumns; c++)
+		for (let c = 0; c < this.numColumns; c++)
 		{
 			const column = this.getListItemAt(c) as unknown as IItemListWindow;
 
-			if(column)
+			if (column)
 			{
 				column.autoArrangeItems = true;
 				(column as unknown as IWindow).height = column.scrollableRegion.height;
@@ -930,7 +933,7 @@ export class ItemGridController extends ItemListController implements IItemGridW
 			}
 		}
 
-		if(this._container)
+		if (this._container)
 		{
 			(this._container as unknown as IWindow).height = maxHeight;
 		}

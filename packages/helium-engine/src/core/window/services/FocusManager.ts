@@ -33,7 +33,7 @@ export class FocusManager implements IFocusManagerService
 	 */
 	setFocus(window: IWindow | null): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		this._focusedWindow = window;
 	}
@@ -55,13 +55,13 @@ export class FocusManager implements IFocusManagerService
 	 */
 	registerFocusWindow(window: IWindow): void
 	{
-		if(window === null || this._disposed) return;
+		if (window === null || this._disposed) return;
 
-		if(this._focusWindows.indexOf(window) === -1)
+		if (this._focusWindows.indexOf(window) === -1)
 		{
 			this._focusWindows.push(window);
 
-			if(this._focusedWindow === null)
+			if (this._focusedWindow === null)
 			{
 				this._focusedWindow = window;
 			}
@@ -75,20 +75,29 @@ export class FocusManager implements IFocusManagerService
 	 */
 	removeFocusWindow(window: IWindow): void
 	{
-		if(window === null || this._disposed) return;
+		if (window === null || this._disposed) return;
 
 		const index = this._focusWindows.indexOf(window);
 
-		if(index > -1)
+		if (index > -1)
 		{
 			this._focusWindows.splice(index, 1);
 		}
 
-		if(this._focusedWindow === window)
+		if (this._focusedWindow === window)
 		{
 			this._focusedWindow = null;
 			this.resolveNextFocusTarget();
 		}
+	}
+
+	dispose(): void
+	{
+		if (this._disposed) return;
+
+		this._disposed = true;
+		this._focusedWindow = null;
+		this._focusWindows = [];
 	}
 
 	/**
@@ -98,11 +107,11 @@ export class FocusManager implements IFocusManagerService
 	{
 		let i = this._focusWindows.length;
 
-		while(i-- > 0)
+		while (i-- > 0)
 		{
 			const window = this._focusWindows[i];
 
-			if(!window.disposed)
+			if (!window.disposed)
 			{
 				this._focusedWindow = window;
 				return;
@@ -110,14 +119,5 @@ export class FocusManager implements IFocusManagerService
 
 			this._focusWindows.splice(i, 1);
 		}
-	}
-
-	dispose(): void
-	{
-		if(this._disposed) return;
-
-		this._disposed = true;
-		this._focusedWindow = null;
-		this._focusWindows = [];
 	}
 }

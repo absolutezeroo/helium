@@ -1,6 +1,5 @@
-import type {IContext, IUpdateReceiver} from './IContext';
+import type {IUpdateReceiver} from './IContext';
 import type {ICore} from './ICore';
-import type {ICoreConfiguration} from './ICoreConfiguration';
 import type {ICoreErrorReporter} from './ICoreErrorReporter';
 import type {ICoreErrorLogger} from './ICoreErrorLogger';
 import {ComponentContext} from './ComponentContext';
@@ -25,25 +24,25 @@ const NUM_UPDATE_RECEIVER_LEVELS = 3;
  * @see sources/win63_version/core/class_79.as
  */
 export const CoreSetup =
-{
-	/** Simple update loop — iterates all receivers every frame */
-	FRAME_UPDATE_SIMPLE: 0,
+	{
+		/** Simple update loop — iterates all receivers every frame */
+		FRAME_UPDATE_SIMPLE: 0,
 
-	/** Complex update loop — time-sliced, skips lower priority when behind */
-	FRAME_UPDATE_COMPLEX: 1,
+		/** Complex update loop — time-sliced, skips lower priority when behind */
+		FRAME_UPDATE_COMPLEX: 1,
 
-	/** Profiler update loop — wraps updates with profiler timing */
-	FRAME_UPDATE_PROFILER: 2,
+		/** Profiler update loop — wraps updates with profiler timing */
+		FRAME_UPDATE_PROFILER: 2,
 
-	/** Experimental update loop — per-receiver frame skipping via UpdateDelegate */
-	FRAME_UPDATE_EXPERIMENT: 4,
+		/** Experimental update loop — per-receiver frame skipping via UpdateDelegate */
+		FRAME_UPDATE_EXPERIMENT: 4,
 
-	/** Bitmask for extracting frame update mode from setup flags */
-	FRAME_UPDATE_MASK: 15,
+		/** Bitmask for extracting frame update mode from setup flags */
+		FRAME_UPDATE_MASK: 15,
 
-	/** Debug mode — all features enabled */
-	DEBUG: 15,
-} as const;
+		/** Debug mode — all features enabled */
+		DEBUG: 15,
+	} as const;
 
 /**
  * Core Component Context
@@ -88,18 +87,10 @@ export class CoreComponentContext extends ComponentContext implements ICore
 
 	/** Whether to reboot on next frame */
 	private _rebootOnNextFrame: boolean = false;
-
-	/** Core arguments */
-	private _arguments: Map<string, unknown> = new Map();
-
 	/** Number of files in config */
 	private _numberOfFilesInConfig: number = 0;
-
 	/** Number of files still pending */
 	private _filesPending: number = 0;
-
-	/** Target FPS for frame budget calculation */
-	private _targetFps: number = 60;
 
 	constructor(
 		errorReporter?: ICoreErrorReporter,
@@ -114,7 +105,7 @@ export class CoreComponentContext extends ComponentContext implements ICore
 		this._arguments = args ?? new Map();
 
 		// Initialize priority-level receiver arrays
-		for(let i = 0; i < NUM_UPDATE_RECEIVER_LEVELS; i++)
+		for (let i = 0; i < NUM_UPDATE_RECEIVER_LEVELS; i++)
 		{
 			this._updateReceiversByPriority.push([]);
 			this._frameSkipCounters.push(0);
@@ -125,7 +116,7 @@ export class CoreComponentContext extends ComponentContext implements ICore
 		// Select frame update handler based on setup flags
 		const mode = setupFlags & CoreSetup.FRAME_UPDATE_MASK;
 
-		switch(mode)
+		switch (mode)
 		{
 			case CoreSetup.FRAME_UPDATE_SIMPLE:
 				log.debug('Core: using simple frame update handler');
@@ -149,13 +140,16 @@ export class CoreComponentContext extends ComponentContext implements ICore
 		}
 	}
 
-	/**
-	 * Set the target FPS for frame budget calculations.
-	 */
-	set targetFps(fps: number)
+	/** Core arguments */
+	private _arguments: Map<string, unknown> = new Map();
+
+	get arguments(): Map<string, unknown>
 	{
-		this._targetFps = fps;
+		return this._arguments;
 	}
+
+	/** Target FPS for frame budget calculation */
+	private _targetFps: number = 60;
 
 	get targetFps(): number
 	{
@@ -165,17 +159,46 @@ export class CoreComponentContext extends ComponentContext implements ICore
 	// ─── ICore implementation ──────────────────────────────────────────
 
 	/**
+	 * Set the target FPS for frame budget calculations.
+	 */
+	set targetFps(fps: number)
+	{
+		this._targetFps = fps;
+	}
+
+	set errorLogger(logger: ICoreErrorLogger | null)
+	{
+		if (this._errorReporter)
+		{
+			this._errorReporter.errorLogger = logger;
+		}
+	}
+
+	private get hibernating(): boolean
+	{
+		return this._hibernationLevel > -1;
+	}
+
+	/**
+	 * Max priority to process (limited during hibernation).
+	 */
+	private get maxPriority(): number
+	{
+		return this.hibernating ? this._hibernationLevel + 1 : NUM_UPDATE_RECEIVER_LEVELS;
+	}
+
+	/**
 	 * Initialize the core. Waits for all locked components, then starts.
 	 *
 	 * @see CoreComponentContext.as lines 179-208
 	 */
 	initialize(): void
 	{
-		if(this.hasLockedComponents())
+		if (this.hasLockedComponents())
 		{
 			const handler = () =>
 			{
-				if(!this.hasLockedComponents())
+				if (!this.hasLockedComponents())
 				{
 					this.events.off(ComponentEvents.UNLOCKED, handler);
 					this.doInitialize();
@@ -187,11 +210,6 @@ export class CoreComponentContext extends ComponentContext implements ICore
 		{
 			this.doInitialize();
 		}
-	}
-
-	get arguments(): Map<string, unknown>
-	{
-		return this._arguments;
 	}
 
 	clearArguments(): void
@@ -222,7 +240,7 @@ export class CoreComponentContext extends ComponentContext implements ICore
 	 */
 	hibernate(priority: number, updateFrequency: number = 1): void
 	{
-		if(!this.hibernating)
+		if (!this.hibernating)
 		{
 			this._hibernationLevel = priority;
 			this._hibernationUpdateFrequency = 1000 / updateFrequency;
@@ -237,26 +255,20 @@ export class CoreComponentContext extends ComponentContext implements ICore
 	 */
 	resume(): void
 	{
-		if(this.hibernating)
+		if (this.hibernating)
 		{
 			this._hibernationLevel = -1;
 			log.debug('Core: resuming from hibernation');
 		}
 	}
 
+	// ─── ICoreConfiguration proxy (delegates to configuration) ─────────
+
 	setProfilerMode(_enabled: boolean): void
 	{
 		// Profiler mode is not applicable in the web version.
 		// The browser DevTools serve this purpose.
 		log.debug('Core: profiler mode not supported in web version, use browser DevTools');
-	}
-
-	set errorLogger(logger: ICoreErrorLogger | null)
-	{
-		if(this._errorReporter)
-		{
-			this._errorReporter.errorLogger = logger;
-		}
 	}
 
 	/**
@@ -268,8 +280,6 @@ export class CoreComponentContext extends ComponentContext implements ICore
 	{
 		this._rebootOnNextFrame = true;
 	}
-
-	// ─── ICoreConfiguration proxy (delegates to configuration) ─────────
 
 	propertyExists(key: string): boolean
 	{
@@ -296,6 +306,8 @@ export class CoreComponentContext extends ComponentContext implements ICore
 		return this.configuration?.getInteger(key, defaultValue) ?? defaultValue;
 	}
 
+	// ─── Update receiver management ────────────────────────────────────
+
 	interpolate(value: string): string
 	{
 		return this.configuration?.interpolate(value) ?? value;
@@ -306,7 +318,7 @@ export class CoreComponentContext extends ComponentContext implements ICore
 		return this.configuration?.updateUrlProtocol(url) ?? url;
 	}
 
-	// ─── Update receiver management ────────────────────────────────────
+	// ─── Update loop ───────────────────────────────────────────────────
 
 	/**
 	 * Register an update receiver at the given priority level (0–2).
@@ -327,6 +339,8 @@ export class CoreComponentContext extends ComponentContext implements ICore
 		this._updateReceiversByPriority[priority].push(receiver);
 	}
 
+	// ─── Error handling ────────────────────────────────────────────────
+
 	/**
 	 * Remove an update receiver from all priority levels.
 	 *
@@ -334,14 +348,14 @@ export class CoreComponentContext extends ComponentContext implements ICore
 	 */
 	override removeUpdateReceiver(receiver: IUpdateReceiver): void
 	{
-		if(this.disposed) return;
+		if (this.disposed) return;
 
-		for(let level = 0; level < NUM_UPDATE_RECEIVER_LEVELS; level++)
+		for (let level = 0; level < NUM_UPDATE_RECEIVER_LEVELS; level++)
 		{
 			const receivers = this._updateReceiversByPriority[level];
 			const index = receivers.indexOf(receiver);
 
-			if(index > -1)
+			if (index > -1)
 			{
 				receivers[index] = null;
 				return;
@@ -349,7 +363,7 @@ export class CoreComponentContext extends ComponentContext implements ICore
 		}
 	}
 
-	// ─── Update loop ───────────────────────────────────────────────────
+	// ─── Dispose ───────────────────────────────────────────────────────
 
 	/**
 	 * Main update method. Called each frame by the PixiJS ticker (via HeliumCore).
@@ -361,10 +375,10 @@ export class CoreComponentContext extends ComponentContext implements ICore
 	 */
 	override update(deltaTime: number): void
 	{
-		if(this.disposed) return;
+		if (this.disposed) return;
 
 		// Handle reboot
-		if(this._rebootOnNextFrame)
+		if (this._rebootOnNextFrame)
 		{
 			this._rebootOnNextFrame = false;
 			this.events.emit(CoreComponentContextEvents.REBOOT);
@@ -375,7 +389,7 @@ export class CoreComponentContext extends ComponentContext implements ICore
 		const elapsed = now - this._lastUpdateTimeMs;
 
 		// Hibernation throttling
-		if(this.hibernating && elapsed < this._hibernationUpdateFrequency)
+		if (this.hibernating && elapsed < this._hibernationUpdateFrequency)
 		{
 			return;
 		}
@@ -384,7 +398,7 @@ export class CoreComponentContext extends ComponentContext implements ICore
 		this._lastUpdateTimeMs = now;
 	}
 
-	// ─── Error handling ────────────────────────────────────────────────
+	// ─── Private helpers ───────────────────────────────────────────────
 
 	/**
 	 * Report an error. Delegates to the error reporter.
@@ -398,13 +412,11 @@ export class CoreComponentContext extends ComponentContext implements ICore
 
 		this._errorReporter.logError(message, fatal, code, error);
 
-		if(fatal && code !== 2015)
+		if (fatal && code !== 2015)
 		{
 			this.dispose();
 		}
 	}
-
-	// ─── Dispose ───────────────────────────────────────────────────────
 
 	/**
 	 * Dispose the core context and all update receivers.
@@ -413,19 +425,19 @@ export class CoreComponentContext extends ComponentContext implements ICore
 	 */
 	override dispose(): void
 	{
-		if(this.disposed) return;
+		if (this.disposed) return;
 
 		log.debug('Disposing core');
 
 		try
 		{
-			for(let level = 0; level < NUM_UPDATE_RECEIVER_LEVELS; level++)
+			for (let level = 0; level < NUM_UPDATE_RECEIVER_LEVELS; level++)
 			{
 				const receivers = this._updateReceiversByPriority[level];
 				receivers.length = 0;
 			}
 		}
-		catch(e)
+		catch (e)
 		{
 			log.error('Error disposing update receivers:', e);
 		}
@@ -436,29 +448,14 @@ export class CoreComponentContext extends ComponentContext implements ICore
 		super.dispose();
 	}
 
-	// ─── Private helpers ───────────────────────────────────────────────
-
-	private get hibernating(): boolean
-	{
-		return this._hibernationLevel > -1;
-	}
-
-	/**
-	 * Max priority to process (limited during hibernation).
-	 */
-	private get maxPriority(): number
-	{
-		return this.hibernating ? this._hibernationLevel + 1 : NUM_UPDATE_RECEIVER_LEVELS;
-	}
-
 	/**
 	 * Check if any attached components are still locked.
 	 */
 	private hasLockedComponents(): boolean
 	{
-		for(const component of this.getAttachedComponents())
+		for (const component of this.getAttachedComponents())
 		{
-			if(component.locked)
+			if (component.locked)
 			{
 				return true;
 			}
@@ -488,7 +485,7 @@ export class CoreComponentContext extends ComponentContext implements ICore
 	 */
 	private simpleFrameUpdateHandler(_timeMs: number, deltaMs: number): void
 	{
-		for(let level = 0; level < this.maxPriority; level++)
+		for (let level = 0; level < this.maxPriority; level++)
 		{
 			this._frameSkipCounters[level] = 0;
 
@@ -496,11 +493,11 @@ export class CoreComponentContext extends ComponentContext implements ICore
 			let i = 0;
 			let len = receivers.length;
 
-			while(i < len)
+			while (i < len)
 			{
 				const receiver = receivers[i];
 
-				if(receiver === null || receiver.disposed)
+				if (receiver === null || receiver.disposed)
 				{
 					receivers.splice(i, 1);
 					len--;
@@ -511,7 +508,7 @@ export class CoreComponentContext extends ComponentContext implements ICore
 					{
 						receiver.update(deltaMs);
 					}
-					catch(e)
+					catch (e)
 					{
 						log.error(`Error in update receiver: ${e}`);
 						this.error(
@@ -541,21 +538,21 @@ export class CoreComponentContext extends ComponentContext implements ICore
 		const frameBudget = 1000 / this._targetFps;
 		let ok = true;
 
-		for(let level = 0; level < this.maxPriority; level++)
+		for (let level = 0; level < this.maxPriority; level++)
 		{
 			const elapsed = performance.now() - timeMs;
 			let skip = false;
 
-			if(elapsed > frameBudget)
+			if (elapsed > frameBudget)
 			{
-				if(this._frameSkipCounters[level] < level)
+				if (this._frameSkipCounters[level] < level)
 				{
 					this._frameSkipCounters[level]++;
 					skip = true;
 				}
 			}
 
-			if(!skip)
+			if (!skip)
 			{
 				this._frameSkipCounters[level] = 0;
 
@@ -563,11 +560,11 @@ export class CoreComponentContext extends ComponentContext implements ICore
 				let i = 0;
 				let len = receivers.length;
 
-				while(i < len && ok)
+				while (i < len && ok)
 				{
 					const receiver = receivers[i];
 
-					if(receiver === null || receiver.disposed)
+					if (receiver === null || receiver.disposed)
 					{
 						receivers.splice(i, 1);
 						len--;
@@ -578,7 +575,7 @@ export class CoreComponentContext extends ComponentContext implements ICore
 						{
 							receiver.update(deltaMs);
 						}
-						catch(e)
+						catch (e)
 						{
 							log.error(`Error in update receiver: ${e}`);
 							this.error(
@@ -606,15 +603,15 @@ export class CoreComponentContext extends ComponentContext implements ICore
 	 */
 	private experimentalFrameUpdateHandler(_timeMs: number, _deltaMs: number): void
 	{
-		for(let level = 0; level < NUM_UPDATE_RECEIVER_LEVELS; level++)
+		for (let level = 0; level < NUM_UPDATE_RECEIVER_LEVELS; level++)
 		{
 			const receivers = this._updateReceiversByPriority[level];
 
-			for(let i = receivers.length - 1; i >= 0; i--)
+			for (let i = receivers.length - 1; i >= 0; i--)
 			{
 				const receiver = receivers[i];
 
-				if(receiver === null || receiver.disposed)
+				if (receiver === null || receiver.disposed)
 				{
 					receivers.splice(i, 1);
 				}
@@ -632,7 +629,7 @@ export class CoreComponentContext extends ComponentContext implements ICore
 	 */
 	private debugFrameUpdateHandler(_timeMs: number, deltaMs: number): void
 	{
-		for(let level = 0; level < this.maxPriority; level++)
+		for (let level = 0; level < this.maxPriority; level++)
 		{
 			this._frameSkipCounters[level] = 0;
 
@@ -640,11 +637,11 @@ export class CoreComponentContext extends ComponentContext implements ICore
 			let i = 0;
 			let len = receivers.length;
 
-			while(i < len)
+			while (i < len)
 			{
 				const receiver = receivers[i];
 
-				if(receiver === null || receiver.disposed)
+				if (receiver === null || receiver.disposed)
 				{
 					receivers.splice(i, 1);
 					len--;
@@ -664,10 +661,10 @@ export class CoreComponentContext extends ComponentContext implements ICore
  * Core component context event constants.
  */
 export const CoreComponentContextEvents =
-{
-	/** Emitted when all components are unlocked and core is running */
-	RUNNING: 'COMPONENT_EVENT_RUNNING',
+	{
+		/** Emitted when all components are unlocked and core is running */
+		RUNNING: 'COMPONENT_EVENT_RUNNING',
 
-	/** Emitted when core is about to reboot */
-	REBOOT: 'COMPONENT_EVENT_REBOOT',
-} as const;
+		/** Emitted when core is about to reboot */
+		REBOOT: 'COMPONENT_EVENT_REBOOT',
+	} as const;

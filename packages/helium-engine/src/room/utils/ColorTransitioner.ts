@@ -10,7 +10,6 @@ import {ColorConverter} from './ColorConverter';
 
 export class ColorTransitioner
 {
-	private _color: number;
 	private _lightness: number;
 	private _originalColor: number;
 	private _originalLightness: number;
@@ -27,6 +26,24 @@ export class ColorTransitioner
 		this._originalLightness = lightness;
 		this._targetColor = color;
 		this._targetLightness = lightness;
+	}
+
+	private _color: number;
+
+	/**
+	 * Gets the current interpolated color after HSL conversion.
+	 *
+	 * Converts the current RGB to HSL, replaces the lightness component,
+	 * then converts back to RGB.
+	 */
+	public get color(): number
+	{
+		const hsl = ColorConverter.rgbToHSL(this._color);
+		const h = (hsl >> 16) & 0xFF;
+		const s = (hsl >> 8) & 0xFF;
+		const newHSL = (h << 16) | (s << 8) | (this._lightness & 0xFF);
+
+		return ColorConverter.hslToRGB(newHSL);
 	}
 
 	/**
@@ -55,14 +72,14 @@ export class ColorTransitioner
 	 */
 	public updateColor(currentTime: number): boolean
 	{
-		if(this._colorTransitionLength <= 0)
+		if (this._colorTransitionLength <= 0)
 		{
 			return false;
 		}
 
 		const elapsed = currentTime - this._colorChangedTime;
 
-		if(elapsed >= this._colorTransitionLength)
+		if (elapsed >= this._colorTransitionLength)
 		{
 			this._color = this._targetColor;
 			this._lightness = this._targetLightness;
@@ -89,21 +106,5 @@ export class ColorTransitioner
 		this._lightness = Math.round(this._originalLightness + (this._targetLightness - this._originalLightness) * factor);
 
 		return true;
-	}
-
-	/**
-	 * Gets the current interpolated color after HSL conversion.
-	 *
-	 * Converts the current RGB to HSL, replaces the lightness component,
-	 * then converts back to RGB.
-	 */
-	public get color(): number
-	{
-		const hsl = ColorConverter.rgbToHSL(this._color);
-		const h = (hsl >> 16) & 0xFF;
-		const s = (hsl >> 8) & 0xFF;
-		const newHSL = (h << 16) | (s << 8) | (this._lightness & 0xFF);
-
-		return ColorConverter.hslToRGB(newHSL);
 	}
 }

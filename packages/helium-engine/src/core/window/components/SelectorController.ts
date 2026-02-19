@@ -39,19 +39,19 @@ export class SelectorController extends InteractiveController implements ISelect
 	}
 
 	/**
-	 * Returns an iterator over the selectable children.
-	 */
-	public iterator(): IIterator
-	{
-		return new SelectorIterator(this._children ?? []);
-	}
-
-	/**
 	 * The number of selectable children.
 	 */
 	public get numSelectables(): number
 	{
 		return this.numChildren;
+	}
+
+	/**
+	 * Returns an iterator over the selectable children.
+	 */
+	public iterator(): IIterator
+	{
+		return new SelectorIterator(this._children ?? []);
 	}
 
 	public override update(source: WindowController, event: WindowEvent): boolean

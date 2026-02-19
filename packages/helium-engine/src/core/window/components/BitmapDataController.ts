@@ -15,6 +15,8 @@ import {PropertyStruct} from '../utils/PropertyStruct';
 export class BitmapDataController extends WindowController
 {
 	private _pivot: number = 0;
+	private _etchingPointX: number = 0;
+	private _etchingPointY: number = -1;
 
 	constructor(
 		name: string,
@@ -159,15 +161,12 @@ export class BitmapDataController extends WindowController
 		this._etchingColor = value;
 	}
 
-	private _etchingPointX: number = 0;
-	private _etchingPointY: number = -1;
-
 	/**
 	 * Returns the etching offset point as [x, y].
 	 */
 	public get etchingPoint(): { x: number; y: number }
 	{
-		return { x: this._etchingPointX, y: this._etchingPointY };
+		return {x: this._etchingPointX, y: this._etchingPointY};
 	}
 
 	/**
@@ -259,11 +258,11 @@ export class BitmapDataController extends WindowController
 
 	public override set properties(value: unknown[])
 	{
-		for(const item of value)
+		for (const item of value)
 		{
 			const prop = item as PropertyStruct;
 
-			switch(prop.key)
+			switch (prop.key)
 			{
 				case 'pivot_point':
 					this._pivot = typeof prop.value === 'number' ? prop.value : 0;
@@ -328,7 +327,7 @@ export class BitmapDataController extends WindowController
 
 	public override dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		this._bitmapData = null;
 
@@ -340,7 +339,7 @@ export class BitmapDataController extends WindowController
 	 */
 	protected fitSize(): void
 	{
-		if(!this._fitSizeToContents || !this._bitmapData) return;
+		if (!this._fitSizeToContents || !this._bitmapData) return;
 
 		this.width = Math.abs(this._bitmapData.width * this._zoomX);
 		this.height = Math.abs(this._bitmapData.height * this._zoomY);

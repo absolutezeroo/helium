@@ -7,12 +7,12 @@
  */
 export class WarningEvent
 {
-	private _message: string;
-
 	constructor(message: string)
 	{
 		this._message = message ?? 'undefined';
 	}
+
+	private _message: string;
 
 	get message(): string
 	{

@@ -5,13 +5,21 @@
  */
 export class Exception extends Error
 {
-	private _cause: Error | null;
-
 	constructor(message: string, id: number = 0, cause: Error | null = null)
 	{
 		super(message);
 		this.name = this.constructor.name;
 		this._cause = cause;
+	}
+
+	private _cause: Error | null;
+
+	/**
+	 * The underlying cause of this exception
+	 */
+	get cause(): Error | null
+	{
+		return this._cause;
 	}
 
 	/**
@@ -21,13 +29,13 @@ export class Exception extends Error
 	{
 		let out: string | null = null;
 
-		while(error !== null)
+		while (error !== null)
 		{
 			const stacktrace = error.stack ?? null;
 
-			if(stacktrace !== null)
+			if (stacktrace !== null)
 			{
-				if(out === null)
+				if (out === null)
 				{
 					out = stacktrace;
 				}
@@ -38,7 +46,7 @@ export class Exception extends Error
 				}
 			}
 
-			if(error instanceof Exception)
+			if (error instanceof Exception)
 			{
 				error = error.cause;
 			}
@@ -51,19 +59,11 @@ export class Exception extends Error
 		return out ?? '';
 	}
 
-	/**
-	 * The underlying cause of this exception
-	 */
-	get cause(): Error | null
-	{
-		return this._cause;
-	}
-
 	override toString(): string
 	{
 		let msg = `${this.constructor.name}: ${this.message}`;
 
-		if(this._cause !== null)
+		if (this._cause !== null)
 		{
 			msg += ', caused by ';
 			msg += this._cause.toString();

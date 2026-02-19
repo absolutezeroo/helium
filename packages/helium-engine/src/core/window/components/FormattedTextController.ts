@@ -55,7 +55,7 @@ export class FormattedTextController extends TextController
 
 	public override set text(value: string)
 	{
-		if(value == null) return;
+		if (value == null) return;
 
 		this._htmlText = value;
 		this._text = value;

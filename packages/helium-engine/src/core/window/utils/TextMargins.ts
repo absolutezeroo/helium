@@ -10,12 +10,7 @@ import type {IMargins} from './IMargins';
  */
 export class TextMargins implements IMargins
 {
-	private _left: number;
-	private _top: number;
-	private _right: number;
-	private _bottom: number;
 	private _callback: ((margins: IMargins) => void) | null;
-	private _disposed: boolean = false;
 
 	constructor(left: number = 0, top: number = 0, right: number = 0, bottom: number = 0, callback: ((margins: IMargins) => void) | null = null)
 	{
@@ -26,6 +21,8 @@ export class TextMargins implements IMargins
 		this._callback = callback ?? TextMargins.nullCallback;
 	}
 
+	private _left: number;
+
 	public get left(): number
 	{
 		return this._left;
@@ -35,11 +32,13 @@ export class TextMargins implements IMargins
 	{
 		this._left = value;
 
-		if(this._callback)
+		if (this._callback)
 		{
 			this._callback(this);
 		}
 	}
+
+	private _top: number;
 
 	public get top(): number
 	{
@@ -50,11 +49,13 @@ export class TextMargins implements IMargins
 	{
 		this._top = value;
 
-		if(this._callback)
+		if (this._callback)
 		{
 			this._callback(this);
 		}
 	}
+
+	private _right: number;
 
 	public get right(): number
 	{
@@ -65,11 +66,13 @@ export class TextMargins implements IMargins
 	{
 		this._right = value;
 
-		if(this._callback)
+		if (this._callback)
 		{
 			this._callback(this);
 		}
 	}
+
+	private _bottom: number;
 
 	public get bottom(): number
 	{
@@ -80,11 +83,13 @@ export class TextMargins implements IMargins
 	{
 		this._bottom = value;
 
-		if(this._callback)
+		if (this._callback)
 		{
 			this._callback(this);
 		}
 	}
+
+	private _disposed: boolean = false;
 
 	public get disposed(): boolean
 	{
@@ -97,6 +102,11 @@ export class TextMargins implements IMargins
 	public get isZeroes(): boolean
 	{
 		return this._left === 0 && this._right === 0 && this._top === 0 && this._bottom === 0;
+	}
+
+	private static nullCallback(_margins: IMargins): void
+	{
+		// No-op
 	}
 
 	/**
@@ -120,10 +130,5 @@ export class TextMargins implements IMargins
 	{
 		this._callback = null;
 		this._disposed = true;
-	}
-
-	private static nullCallback(_margins: IMargins): void
-	{
-		// No-op
 	}
 }

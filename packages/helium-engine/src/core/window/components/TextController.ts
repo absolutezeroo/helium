@@ -254,15 +254,15 @@ export class TextController extends WindowController implements ITextWindow
 		return this._overflowReplace;
 	}
 
-	public get isOverflowReplaceOn(): boolean
-	{
-		return this._overflowReplace !== '';
-	}
-
 	public set overflowReplace(value: string)
 	{
 		this._overflowReplace = value;
 		this.refreshTextImage();
+	}
+
+	public get isOverflowReplaceOn(): boolean
+	{
+		return this._overflowReplace !== '';
 	}
 
 	protected _autoSize: string = 'none';
@@ -291,7 +291,7 @@ export class TextController extends WindowController implements ITextWindow
 	 */
 	public get numLines(): number
 	{
-		if(!this._text) return 1;
+		if (!this._text) return 1;
 
 		return this._text.split('\n').length;
 	}
@@ -420,63 +420,6 @@ export class TextController extends WindowController implements ITextWindow
 
 	// ── Methods ─────────────────────────────────────────────────────
 
-	/**
-	 * Limits a string to maxChars length.
-	 */
-	protected limitStringLength(value: string): string
-	{
-		return this._maxChars > 0 ? value.substring(0, this._maxChars) : value;
-	}
-
-	/**
-	 * Refreshes text image / invalidates rendering.
-	 *
-	 * In AS3, this recalculates text field dimensions, handles overflow
-	 * replace, and auto-sizing. Here we invalidate for the renderer.
-	 */
-	protected refreshTextImage(_fromResize: boolean = false): void
-	{
-		if(this._drawing) return;
-
-		this._context.invalidate(this, null, 1);
-	}
-
-	/**
-	 * Appends text to the current content.
-	 */
-	public appendText(value: string): void
-	{
-		this._text += value;
-		this._caption = this._text;
-		this.refreshTextImage();
-	}
-
-	/**
-	 * Replaces a range of text content.
-	 */
-	public replaceText(beginIndex: number, endIndex: number, newText: string): void
-	{
-		this._text = this._text.substring(0, beginIndex) + newText + this._text.substring(endIndex);
-		this._caption = this._text;
-		this.refreshTextImage();
-	}
-
-	/**
-	 * Handles WE_RESIZED to refresh text layout.
-	 */
-	public override update(source: WindowController, event: WindowEvent): boolean
-	{
-		if(!this._drawing)
-		{
-			if(event.type === 'WE_RESIZED')
-			{
-				this.refreshTextImage(true);
-			}
-		}
-
-		return super.update(source, event);
-	}
-
 	public override get properties(): unknown[]
 	{
 		const props = super.properties;
@@ -562,16 +505,16 @@ export class TextController extends WindowController implements ITextWindow
 
 				const resolved = TextStyleManager.getStyle(ctrl._textStyleName);
 
-				if(resolved)
+				if (resolved)
 				{
-					if(resolved.fontFamily != null) ctrl._fontFace = resolved.fontFamily;
-					if(resolved.fontSize != null) ctrl._fontSize = resolved.fontSize;
-					if(resolved.fontWeight === 'bold') ctrl._bold = true;
-					if(resolved.fontStyle === 'italic') ctrl._italic = true;
-					if(resolved.textDecoration === 'underline') ctrl._underline = true;
-					if(resolved.color != null) ctrl._textColor = resolved.color;
-					if(resolved.etchingColor != null) ctrl._etchingColor = resolved.etchingColor;
-					if(resolved.etchingPosition != null) ctrl._etchingPosition = resolved.etchingPosition;
+					if (resolved.fontFamily != null) ctrl._fontFace = resolved.fontFamily;
+					if (resolved.fontSize != null) ctrl._fontSize = resolved.fontSize;
+					if (resolved.fontWeight === 'bold') ctrl._bold = true;
+					if (resolved.fontStyle === 'italic') ctrl._italic = true;
+					if (resolved.textDecoration === 'underline') ctrl._underline = true;
+					if (resolved.color != null) ctrl._textColor = resolved.color;
+					if (resolved.etchingColor != null) ctrl._etchingColor = resolved.etchingColor;
+					if (resolved.etchingPosition != null) ctrl._etchingPosition = resolved.etchingPosition;
 				}
 			},
 			'etching_color': (ctrl, v) =>
@@ -639,5 +582,62 @@ export class TextController extends WindowController implements ITextWindow
 				ctrl._marginBottom = v as number;
 			},
 		};
+	}
+
+	/**
+	 * Appends text to the current content.
+	 */
+	public appendText(value: string): void
+	{
+		this._text += value;
+		this._caption = this._text;
+		this.refreshTextImage();
+	}
+
+	/**
+	 * Replaces a range of text content.
+	 */
+	public replaceText(beginIndex: number, endIndex: number, newText: string): void
+	{
+		this._text = this._text.substring(0, beginIndex) + newText + this._text.substring(endIndex);
+		this._caption = this._text;
+		this.refreshTextImage();
+	}
+
+	/**
+	 * Handles WE_RESIZED to refresh text layout.
+	 */
+	public override update(source: WindowController, event: WindowEvent): boolean
+	{
+		if (!this._drawing)
+		{
+			if (event.type === 'WE_RESIZED')
+			{
+				this.refreshTextImage(true);
+			}
+		}
+
+		return super.update(source, event);
+	}
+
+	/**
+	 * Limits a string to maxChars length.
+	 */
+	protected limitStringLength(value: string): string
+	{
+		return this._maxChars > 0 ? value.substring(0, this._maxChars) : value;
+	}
+
+	/**
+	 * Refreshes text image / invalidates rendering.
+	 *
+	 * In AS3, this recalculates text field dimensions, handles overflow
+	 * replace, and auto-sizing. Here we invalidate for the renderer.
+	 */
+	protected refreshTextImage(_fromResize: boolean = false): void
+	{
+		if (this._drawing) return;
+
+		this._context.invalidate(this, null, 1);
 	}
 }

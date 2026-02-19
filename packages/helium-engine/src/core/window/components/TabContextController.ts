@@ -179,7 +179,7 @@ export class TabContextController extends WindowController implements ITabContex
 	{
 		const sel = this.selector;
 
-		if(sel)
+		if (sel)
 		{
 			return sel as unknown as IWindow;
 		}

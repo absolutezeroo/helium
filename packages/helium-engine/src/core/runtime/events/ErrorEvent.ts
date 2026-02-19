@@ -9,10 +9,6 @@ import {WarningEvent} from './WarningEvent';
  */
 export class ErrorEvent extends WarningEvent
 {
-	private _category: number;
-	private _critical: boolean;
-	private _error: Error | null;
-
 	constructor(message: string, critical: boolean, category: number, error: Error | null = null)
 	{
 		super(message);
@@ -21,15 +17,21 @@ export class ErrorEvent extends WarningEvent
 		this._error = error;
 	}
 
+	private _category: number;
+
 	get category(): number
 	{
 		return this._category;
 	}
 
+	private _critical: boolean;
+
 	get critical(): boolean
 	{
 		return this._critical;
 	}
+
+	private _error: Error | null;
 
 	get error(): Error | null
 	{

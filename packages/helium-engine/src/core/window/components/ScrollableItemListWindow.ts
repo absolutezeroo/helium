@@ -109,7 +109,7 @@ export class ScrollableItemListWindow extends ContainerController implements ISc
 
 	public set isPartOfGridWindow(value: boolean)
 	{
-		if(this.itemList) this.itemList.isPartOfGridWindow = value;
+		if (this.itemList) this.itemList.isPartOfGridWindow = value;
 	}
 
 	public get scrollH(): number
@@ -119,7 +119,7 @@ export class ScrollableItemListWindow extends ContainerController implements ISc
 
 	public set scrollH(value: number)
 	{
-		if(this.itemList) this.itemList.scrollH = value;
+		if (this.itemList) this.itemList.scrollH = value;
 	}
 
 	public get scrollV(): number
@@ -129,7 +129,7 @@ export class ScrollableItemListWindow extends ContainerController implements ISc
 
 	public set scrollV(value: number)
 	{
-		if(this.itemList) this.itemList.scrollV = value;
+		if (this.itemList) this.itemList.scrollV = value;
 	}
 
 	public get scrollStepH(): number
@@ -139,7 +139,7 @@ export class ScrollableItemListWindow extends ContainerController implements ISc
 
 	public set scrollStepH(value: number)
 	{
-		if(this.itemList) this.itemList.scrollStepH = value;
+		if (this.itemList) this.itemList.scrollStepH = value;
 	}
 
 	public get scrollStepV(): number
@@ -149,7 +149,7 @@ export class ScrollableItemListWindow extends ContainerController implements ISc
 
 	public set scrollStepV(value: number)
 	{
-		if(this.itemList) this.itemList.scrollStepV = value;
+		if (this.itemList) this.itemList.scrollStepV = value;
 	}
 
 	public get maxScrollH(): number
@@ -164,12 +164,12 @@ export class ScrollableItemListWindow extends ContainerController implements ISc
 
 	public get visibleRegion(): { x: number; y: number; width: number; height: number }
 	{
-		return this.itemList?.visibleRegion ?? { x: 0, y: 0, width: this.width, height: this.height };
+		return this.itemList?.visibleRegion ?? {x: 0, y: 0, width: this.width, height: this.height};
 	}
 
 	public get scrollableRegion(): { x: number; y: number; width: number; height: number }
 	{
-		return this.itemList?.scrollableRegion ?? { x: 0, y: 0, width: 0, height: 0 };
+		return this.itemList?.scrollableRegion ?? {x: 0, y: 0, width: 0, height: 0};
 	}
 
 	// ── IItemListWindow delegation ──────────────────────────────────
@@ -181,7 +181,7 @@ export class ScrollableItemListWindow extends ContainerController implements ISc
 
 	public set disableAutodrag(value: boolean)
 	{
-		if(this.itemList) this.itemList.disableAutodrag = value;
+		if (this.itemList) this.itemList.disableAutodrag = value;
 	}
 
 	/**

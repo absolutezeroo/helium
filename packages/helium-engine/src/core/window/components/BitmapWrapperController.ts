@@ -74,7 +74,7 @@ export class BitmapWrapperController extends BitmapDataController implements IBi
 
 	public set bitmap(value: ImageBitmap | null)
 	{
-		if(this._disposesBitmap && this._bitmapData && this._bitmapData !== value)
+		if (this._disposesBitmap && this._bitmapData && this._bitmapData !== value)
 		{
 			this._bitmapData.close();
 		}
@@ -110,11 +110,11 @@ export class BitmapWrapperController extends BitmapDataController implements IBi
 
 	public override set properties(value: unknown[])
 	{
-		for(const item of value)
+		for (const item of value)
 		{
 			const prop = item as PropertyStruct;
 
-			switch(prop.key)
+			switch (prop.key)
 			{
 				case 'handle_bitmap_disposing':
 					this._disposesBitmap = !!prop.value;
@@ -140,11 +140,11 @@ export class BitmapWrapperController extends BitmapDataController implements IBi
 
 	public override dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
-		if(this._bitmapData)
+		if (this._bitmapData)
 		{
-			if(this._disposesBitmap)
+			if (this._disposesBitmap)
 			{
 				this._bitmapData.close();
 			}

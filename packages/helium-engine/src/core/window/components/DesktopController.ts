@@ -56,6 +56,11 @@ export class DesktopController extends ActivatorController implements IDesktopWi
 		return this;
 	}
 
+	private static defaultProcedure(_event: WindowEvent, _window: IWindow): void
+	{
+		// No-op default procedure
+	}
+
 	/**
 	 * Returns the currently active window (delegates to getActiveChild).
 	 */
@@ -78,13 +83,13 @@ export class DesktopController extends ActivatorController implements IDesktopWi
 		paramFilter: number = 0
 	): void
 	{
-		for(let i = this.numChildren - 1; i >= 0; i--)
+		for (let i = this.numChildren - 1; i >= 0; i--)
 		{
 			const child = this.getChildAt(i);
 
-			if(child && child.visible && child.hitTestLocalPoint(point))
+			if (child && child.visible && child.hitTestLocalPoint(point))
 			{
-				if(paramFilter === 0 || child.testParamFlag(paramFilter))
+				if (paramFilter === 0 || child.testParamFlag(paramFilter))
 				{
 					result.push(child);
 				}
@@ -112,13 +117,8 @@ export class DesktopController extends ActivatorController implements IDesktopWi
 
 	public override dispose(): void
 	{
-		if(this._disposed) return;
+		if (this._disposed) return;
 
 		super.dispose();
-	}
-
-	private static defaultProcedure(_event: WindowEvent, _window: IWindow): void
-	{
-		// No-op default procedure
 	}
 }

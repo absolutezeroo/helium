@@ -22,11 +22,6 @@ export class RegionController extends ContainerController implements IRegionWind
 	protected static readonly DEF_TOOLTIP_CAPTION: string = '';
 	protected static readonly KEY_TOOLTIP_DELAY: string = 'tool_tip_delay';
 	protected static readonly DEF_TOOLTIP_DELAY: number = 500;
-
-	protected _toolTipDelay: number = 500;
-	protected _toolTipCaption: string = '';
-	protected _toolTipIsDynamic: boolean = false;
-	private _interactiveCursorDisabled: boolean = false;
 	protected _cursorMap: Map<number, number> | null = null;
 
 	constructor(
@@ -47,15 +42,7 @@ export class RegionController extends ContainerController implements IRegionWind
 		super(name, type, style, param, context, rect, parent, procedure, tags, properties, id);
 	}
 
-	public get toolTipCaption(): string
-	{
-		return this._toolTipCaption;
-	}
-
-	public set toolTipCaption(value: string)
-	{
-		this._toolTipCaption = value === null ? '' : value;
-	}
+	protected _toolTipDelay: number = 500;
 
 	public get toolTipDelay(): number
 	{
@@ -67,6 +54,20 @@ export class RegionController extends ContainerController implements IRegionWind
 		this._toolTipDelay = value;
 	}
 
+	protected _toolTipCaption: string = '';
+
+	public get toolTipCaption(): string
+	{
+		return this._toolTipCaption;
+	}
+
+	public set toolTipCaption(value: string)
+	{
+		this._toolTipCaption = value === null ? '' : value;
+	}
+
+	protected _toolTipIsDynamic: boolean = false;
+
 	public get toolTipIsDynamic(): boolean
 	{
 		return this._toolTipIsDynamic;
@@ -77,6 +78,8 @@ export class RegionController extends ContainerController implements IRegionWind
 		this._toolTipIsDynamic = value;
 	}
 
+	private _interactiveCursorDisabled: boolean = false;
+
 	public get interactiveCursorDisabled(): boolean
 	{
 		return this._interactiveCursorDisabled;
@@ -85,6 +88,17 @@ export class RegionController extends ContainerController implements IRegionWind
 	public set interactiveCursorDisabled(value: boolean)
 	{
 		this._interactiveCursorDisabled = value;
+	}
+
+	public override get properties(): unknown[]
+	{
+		return InteractiveController.writeInteractiveWindowProperties(this as unknown as IInteractiveWindow, super.properties);
+	}
+
+	public override set properties(value: unknown[])
+	{
+		InteractiveController.readInteractiveWindowProperties(this as unknown as IInteractiveWindow, value);
+		super.properties = value;
 	}
 
 	public showToolTip(_toolTip: IToolTipWindow): void
@@ -104,14 +118,14 @@ export class RegionController extends ContainerController implements IRegionWind
 	 */
 	public setMouseCursorForState(state: number, cursor: number): number
 	{
-		if(!this._cursorMap)
+		if (!this._cursorMap)
 		{
 			this._cursorMap = new Map();
 		}
 
 		const previous = this._cursorMap.get(state) ?? 0;
 
-		if(cursor === 0 || cursor === -1)
+		if (cursor === 0 || cursor === -1)
 		{
 			this._cursorMap.delete(state);
 		}
@@ -128,12 +142,12 @@ export class RegionController extends ContainerController implements IRegionWind
 	 */
 	public getMouseCursorByState(state: number): number
 	{
-		if(this.testStateFlag(32))
+		if (this.testStateFlag(32))
 		{
 			return 1;
 		}
 
-		if(!this._cursorMap)
+		if (!this._cursorMap)
 		{
 			return 0;
 		}
@@ -145,22 +159,11 @@ export class RegionController extends ContainerController implements IRegionWind
 	{
 		const result = super.update(source, event);
 
-		if(source === (this as unknown))
+		if (source === (this as unknown))
 		{
 			InteractiveController.processInteractiveWindowEvents(this as unknown as IInteractiveWindow, event);
 		}
 
 		return result;
-	}
-
-	public override get properties(): unknown[]
-	{
-		return InteractiveController.writeInteractiveWindowProperties(this as unknown as IInteractiveWindow, super.properties);
-	}
-
-	public override set properties(value: unknown[])
-	{
-		InteractiveController.readInteractiveWindowProperties(this as unknown as IInteractiveWindow, value);
-		super.properties = value;
 	}
 }

@@ -96,21 +96,21 @@ export class TextStyle
 	{
 		let out = this.name + ' {\n';
 
-		if(this.color != null) out += `\tcolor: #${this.color.toString(16).padStart(6, '0')};\n`;
-		if(this.fontFamily != null) out += `\tfont-family: ${this.fontFamily};\n`;
-		if(this.fontSize != null) out += `\tfont-size: ${this.fontSize};\n`;
-		if(this.fontStyle != null) out += `\tfont-style: ${this.fontStyle};\n`;
-		if(this.fontWeight != null) out += `\tfont-weight: ${this.fontWeight};\n`;
-		if(this.kerning != null) out += `\tkerning: ${this.kerning};\n`;
-		if(this.leading != null) out += `\tleading: ${this.leading};\n`;
-		if(this.letterSpacing != null) out += `\tletter-spacing: ${this.letterSpacing};\n`;
-		if(this.textDecoration != null) out += `\ttext-decoration: ${this.textDecoration};\n`;
-		if(this.textIndent != null) out += `\ttext-indent: ${this.textIndent};\n`;
-		if(this.antiAliasType != null) out += `\tanti-alias-type: ${this.antiAliasType};\n`;
-		if(this.sharpness != null) out += `\tsharpness: ${this.sharpness};\n`;
-		if(this.thickness != null) out += `\tthickness: ${this.thickness};\n`;
-		if(this.etchingColor != null) out += `\tetching-color: #${this.etchingColor.toString(16).padStart(8, '0')};\n`;
-		if(this.etchingPosition != null) out += `\tetching-position: ${this.etchingPosition};\n`;
+		if (this.color != null) out += `\tcolor: #${this.color.toString(16).padStart(6, '0')};\n`;
+		if (this.fontFamily != null) out += `\tfont-family: ${this.fontFamily};\n`;
+		if (this.fontSize != null) out += `\tfont-size: ${this.fontSize};\n`;
+		if (this.fontStyle != null) out += `\tfont-style: ${this.fontStyle};\n`;
+		if (this.fontWeight != null) out += `\tfont-weight: ${this.fontWeight};\n`;
+		if (this.kerning != null) out += `\tkerning: ${this.kerning};\n`;
+		if (this.leading != null) out += `\tleading: ${this.leading};\n`;
+		if (this.letterSpacing != null) out += `\tletter-spacing: ${this.letterSpacing};\n`;
+		if (this.textDecoration != null) out += `\ttext-decoration: ${this.textDecoration};\n`;
+		if (this.textIndent != null) out += `\ttext-indent: ${this.textIndent};\n`;
+		if (this.antiAliasType != null) out += `\tanti-alias-type: ${this.antiAliasType};\n`;
+		if (this.sharpness != null) out += `\tsharpness: ${this.sharpness};\n`;
+		if (this.thickness != null) out += `\tthickness: ${this.thickness};\n`;
+		if (this.etchingColor != null) out += `\tetching-color: #${this.etchingColor.toString(16).padStart(8, '0')};\n`;
+		if (this.etchingPosition != null) out += `\tetching-position: ${this.etchingPosition};\n`;
 
 		out += '}';
 

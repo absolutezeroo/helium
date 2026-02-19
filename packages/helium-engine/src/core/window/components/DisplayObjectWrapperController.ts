@@ -47,12 +47,12 @@ export class DisplayObjectWrapperController extends WindowController implements 
 	 */
 	public override getGraphicContext(create: boolean): IGraphicContext | null
 	{
-		if(create && !this._graphicContext)
+		if (create && !this._graphicContext)
 		{
 			this._graphicContext = new GraphicContext(
 				'GC {' + this._name + '}',
 				GraphicContext.GC_TYPE_CONTAINER,
-				{ x: this._x, y: this._y, width: this._width, height: this._height }
+				{x: this._x, y: this._y, width: this._width, height: this._height}
 			);
 		}
 

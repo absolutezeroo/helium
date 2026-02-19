@@ -62,7 +62,7 @@ export class RadioButtonController extends SelectableController implements IRadi
 
 		const textChild = this.getChildByName('_CAPTION_TEXT') as ITextWindow | null;
 
-		if(textChild !== null)
+		if (textChild !== null)
 		{
 			textChild.width = width;
 		}
