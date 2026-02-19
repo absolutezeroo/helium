@@ -1,6 +1,6 @@
 # Helium - Implementation Status
 
-> **Last updated**: 2026-02-17
+> **Last updated**: 2026-02-19
 > **Method**: Exhaustive AS3 → TS audit (comparing `source_as_win63/` vs `src/`)
 > **Total AS3 files**: ~2,000+ (logic + display) | **Total TS implemented**: ~710+ files
 > **Approach**: Full port — all AS3 files (logic AND display) are implemented. Flash XML layouts converted to JSON.
@@ -25,7 +25,7 @@ Overall progress: ████████░░░░░░░░░░░░ ~
 | **navigator**                      | 70+       | 28      | 40%  | 🔄 Logic complete, display pending     |
 | **communication** (root/demo/enum) | 10        | 5       | 50%  | 🔄 Partial (WebApi=SKIP)               |
 | **communication/messages**         | 1150      | 404     | 35%  | 🔄 Partial                             |
-| **room** (total)                   | 313       | 321     | 100% | ✅ Complete                             |
+| **room** (total)                   | 313       | 330     | 100% | ✅ Complete                             |
 | **avatar**                         | 120       | 83      | 69%  | 🔄 Logic complete, display pending     |
 | **catalog**                        | 105       | 0       | 0%   | ❌ Not started                          |
 | **sound**                          | 28        | 0       | 0%   | ❌ Not started                          |
@@ -286,7 +286,15 @@ AS3: 313 files | TS: 321 files
 - ✅ 35 specialized furniture visualizations (trivial, medium, complex, particle system, stubs)
 - ✅ RoomObjectVisualizationEnum + RoomObjectFactory updated with all visualization type mappings
 
-### 3.4 Completed (Rendering & Interaction Phase)
+### 3.4 Completed (Renderer Layer + Pipeline Phase)
+- ✅ room/renderer/ layer ported: IRoomRendererBase, IRoomRenderer, IRoomRenderingCanvas, IRoomRenderingCanvasMouseListener, IRoomSpriteCanvasContainer, IRoomRendererFactory (6 interfaces)
+- ✅ RoomRenderer (class_3447): object registry, canvas management, render/update pipeline
+- ✅ RoomRendererFactory (class_2015): Component-based factory creating RoomRenderer instances
+- ✅ RoomRenderingCanvas: implements IRoomRenderingCanvas, mouse listener interface extracted to room/renderer/
+- ✅ RoomInstance: setRenderer/getRenderer, auto feedRoomObject on createObjectInternal, auto removeRoomObject on dispose
+- ✅ RoomManager: content processing pipeline (40ms frame budget throttling), processLoadedContentTypes, updateObjectContents, onContentLoaded events, state machine aligned to AS3
+
+### 3.5 Completed (Rendering & Interaction Phase)
 - ✅ Textured plane rendering wired in RoomPlane.render() (getTexture→renderTexture pipeline)
 - ✅ RoomVisualization: updatePlaneTexturesAndVisibilities(), updateMasksAndColors(), updatePlaneMasks()
 - ✅ RoomPlaneBitmapMaskParser + RoomPlaneBitmapMaskData (door/window bitmap mask system)
@@ -299,7 +307,7 @@ AS3: 313 files | TS: 321 files
 - ✅ RoomCamera (smooth camera following with sinusoidal easing)
 - ✅ SelectedRoomObjectData (selected object state container)
 
-### 3.5 Completed (Rasterizer + Viz Phase)
+### 3.6 Completed (Rasterizer + Viz Phase)
 - ✅ Avatar visualization (15 files — AvatarVisualization, AvatarVisualizationData, 11 additions + barrel exports)
 - ✅ Animated / landscape rasterizers (5 files: AnimationItem, PlaneVisualizationAnimationLayer, LandscapePlane, LandscapeRasterizer, WallAdRasterizer)
 - ✅ FurnitureCuboidVisualization + FurniturePlane (2 files)
@@ -403,6 +411,7 @@ AS3: 32 files | TS: 8 files
 - ✅ **Session module fixed**: WhisperComposer, RoomSession (11 fixes), RoomSessionManager (3 fixes), SessionDataManager (4 groups)
 - ✅ **9 new composers**: UseFurniture, NewUserExperienceScriptProceed, RoomNetworkOpenConnection, Game2GameChat, GiveStarGem, CreditVaultStatus, WithdrawCreditVault, IncomeRewardStatus, IncomeRewardClaim
 - ✅ **Room viz complete**: AnimationItem, LandscapePlane, LandscapeRasterizer, WallAdRasterizer, FurniturePlane, FurnitureCuboidVisualization, AnimatedPetVisualization (stub), AnimatedPetVisualizationData (stub)
+- ✅ **Room renderer layer**: 8 files in room/renderer/ (6 interfaces + RoomRenderer + RoomRendererFactory), RoomInstance renderer management, RoomManager content processing pipeline (40ms throttle)
 
 ---
 

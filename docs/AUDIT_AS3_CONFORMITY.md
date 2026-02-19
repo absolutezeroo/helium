@@ -40,7 +40,7 @@
 | 28 | `habbo/userclassification`              | **0%**     | CRITIQUE     |
 | 29 | `habbo/utils`                           | ~80%       | MINEUR       |
 | 30 | `habbo/window`                          | ~85%       | MINEUR       |
-| 31 | `room/` (engine)                        | ~67%       | CRITIQUE     |
+| 31 | `room/` (engine)                        | ~80%       | CRITIQUE     |
 | 32 | `iid/`                                  | **100%**   | **CONFORME** |
 | 33 | `habbo/advertisement`                   | ~85%       | MINEUR       |
 | 34 | `habbo/campaign`                        | ~70%       | MINEUR       |
@@ -92,21 +92,21 @@ Toutes les dépendances AS3 ont été injectées dans les 6 managers listés (ho
 | HabboNavigator     | 10      | 10       | **ALIGNÉ** |
 | HabboNotifications | 11      | 11       | **ALIGNÉ** |
 
-### 4. Room Engine — Renderer layer 100% absent
+### ~~4. Room Engine — Renderer layer 100% absent~~ **CORRIGÉ**
 
-Fichiers AS3 non portés dans `room/renderer/` :
+8 fichiers créés dans `room/renderer/` :
+- `IRoomRendererBase.ts`, `IRoomRenderer.ts`, `IRoomRendererFactory.ts`
+- `IRoomRenderingCanvas.ts`, `IRoomRenderingCanvasMouseListener.ts`, `IRoomSpriteCanvasContainer.ts`
+- `RoomRenderer.ts` (class_3447), `RoomRendererFactory.ts` (class_2015)
+- Barrel `index.ts`
 
-- `IRoomRenderer.as`
-- `IRoomRendererBase.as`
-- `IRoomRendererFactory.as`
-- `IRoomRenderingCanvas.as`
-- `IRoomRenderingCanvasMouseListener.as`
-- `class_2015.as`, `class_3446.as`, `class_3447.as`, `class_3650.as`, `class_3656.as`
-- Tous les fichiers `cache/` et `utils/`
+`RoomInstance.ts` : `setRenderer()` / `getRenderer()` implémentés, objets feedés/retirés du renderer automatiquement.
 
-Méthodes manquantes dans `RoomInstance.ts` :
-- `setRenderer()` / `getRenderer()`
-- `feedRoomObject()` / `removeRoomObject()`
+`RoomManager.ts` : content processing pipeline complet (40ms throttle, `processLoadedContentTypes()`, `updateObjectContents()`, state machine AS3 conforme).
+
+`RoomRenderingCanvas.ts` : implémente `IRoomRenderingCanvas`, mouse listener interface extraite.
+
+**Intentionnellement omis :** `cache/` (Flash BitmapData caching — PixiJS GPU natif), `class_3656` (rotation/shaking effects — ajout ultérieur), `class_3815` (ExtendedBitmapData — Flash-specific).
 
 ### ~~5. core/window — Services critiques manquants~~ **PARTIELLEMENT CORRIGÉ**
 
@@ -374,13 +374,13 @@ Manquent : HabboSoundManagerFlash10, HabboMusicController, JukeboxPlayListContro
 
 ### room/ (Room Engine)
 
-**~67% conforme.**
+**~80% conforme.**
 
-- **Renderer layer 100% absent** (~10+ fichiers)
-- **RoomManager.ts** : state machine oversimplifiée, event listeners manquants, `processLoadedContentTypes()` absent, pas de throttling (frame budget 40ms)
-- **RoomInstance.ts** : `setRenderer()`/`getRenderer()` absents
-- **RoomGeometry.ts** : bug `setDepthVector()` — `Vector3d.sum()` orphelin
-- 17+ fichiers AS3 non portés (renderer, visualization interfaces, utils : NumberBank, PointMath, RoomEnterEffect, RoomRotatingEffect, RoomShakingEffect)
+- ~~**Renderer layer 100% absent**~~ **CORRIGÉ** — 8 fichiers créés (6 interfaces + RoomRenderer + RoomRendererFactory + barrel)
+- ~~**RoomManager.ts** : state machine oversimplifiée~~ **CORRIGÉ** — content processing pipeline complet (40ms throttle, processLoadedContentTypes, updateObjectContents, onContentLoaded events)
+- ~~**RoomInstance.ts** : `setRenderer()`/`getRenderer()` absents~~ **CORRIGÉ** — renderer management + auto feed/remove objects
+- ~~**RoomGeometry.ts** : bug `setDepthVector()` — `Vector3d.sum()` orphelin~~ **CORRIGÉ**
+- ~8 fichiers AS3 restants non portés (cache/ : Flash BitmapData caching, utils : NumberBank, PointMath, RoomEnterEffect, RoomRotatingEffect, RoomShakingEffect)
 
 ### iid/
 
@@ -426,7 +426,7 @@ Aucune donnée critique manquante.
 
 1. Porter **habbo/catalog** (boutique — 50+ classes)
 2. Porter **habbo/sound** (audio — 29 classes)
-3. Porter **room/renderer/** (rendu des objets — 10+ fichiers)
+3. ~~Porter **room/renderer/** (rendu des objets — 10+ fichiers)~~ **CORRIGÉ** (8 fichiers créés + barrel, RoomRenderer, RoomRendererFactory, 6 interfaces)
 4. ~~Fixer **RoomGeometry.setDepthVector()** (bug d'assignation Vector3d)~~ **CORRIGÉ**
 5. ~~Créer les **27 IID symbols manquants**~~ **CORRIGÉ** (50/50 symbols, 100%)
 6. ~~Fixer **RoomSessionManager._habboTracking** injection de dépendance~~ **CORRIGÉ**
@@ -440,8 +440,8 @@ Aucune donnée critique manquante.
 11. Compléter **habbo/groups** (message handlers, opérations, 22 events)
 12. Compléter **habbo/help** (5 controllers, 10 message events)
 13. ~~Aligner **IRoomHandlerListener** (events vs sessionEvents)~~ **INTENTIONNEL** (Component DI protège `events`)
-14. Implémenter **RoomInstance.setRenderer()** / `getRenderer()`
-15. Implémenter **RoomManager** state machine + content processing + throttling
+14. ~~Implémenter **RoomInstance.setRenderer()** / `getRenderer()`~~ **CORRIGÉ** (+ feedRoomObject/removeRoomObject dans createObjectInternal/disposeObject/disposeObjects)
+15. ~~Implémenter **RoomManager** state machine + content processing + throttling~~ **CORRIGÉ** (processLoadedContentTypes, updateObjectContents, 40ms frame budget, onContentLoaded events)
 
 ### MOYENNE PRIORITÉ
 
