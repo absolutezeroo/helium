@@ -3,6 +3,12 @@ import {IgnoreResult} from './IIgnoredUsersManager';
 import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
 import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
 import type {IHabboCommunicationManager} from '../communication/IHabboCommunicationManager';
+import {
+	GetIgnoredUsersMessageComposer,
+	IgnoreUserMessageComposer,
+	UnignoreUserMessageComposer,
+} from '../communication/messages/outgoing/users';
+import {IgnoreResultMessageEvent, IgnoredUsersMessageEvent} from '../communication/messages/incoming/users';
 
 /**
  * Ignored users manager
@@ -30,29 +36,26 @@ export class IgnoredUsersManager implements IIgnoredUsersManager
 
 	initIgnoreList(): void
 	{
-		// TODO: Send GetIgnoredUsersMessageComposer when implemented
-		// if (this._sendCallback)
-		// {
-		//     this._sendCallback(new GetIgnoredUsersMessageComposer());
-		// }
+		if (this._sendCallback)
+		{
+			this._sendCallback(new GetIgnoredUsersMessageComposer());
+		}
 	}
 
 	ignoreUser(userId: number): void
 	{
-		// TODO: Send IgnoreUserMessageComposer when implemented
-		// if (this._sendCallback)
-		// {
-		//     this._sendCallback(new IgnoreUserMessageComposer(userId));
-		// }
+		if (this._sendCallback)
+		{
+			this._sendCallback(new IgnoreUserMessageComposer(userId));
+		}
 	}
 
 	unignoreUser(userId: number): void
 	{
-		// TODO: Send UnignoreUserMessageComposer when implemented
-		// if (this._sendCallback)
-		// {
-		//     this._sendCallback(new UnignoreUserMessageComposer(userId));
-		// }
+		if (this._sendCallback)
+		{
+			this._sendCallback(new UnignoreUserMessageComposer(userId));
+		}
 	}
 
 	isIgnored(userId: number): boolean
@@ -125,16 +128,39 @@ export class IgnoredUsersManager implements IIgnoredUsersManager
 
 	private registerMessageEvents(): void
 	{
-		// TODO: Register IgnoreResultMessageEvent and IgnoredUsersMessageEvent when implemented
-		// if (this._communication)
-		// {
-		//     const ignoreResultEvent = new IgnoreResultMessageEvent(this.onIgnoreResult.bind(this));
-		//     this._communication.addMessageEvent(ignoreResultEvent);
-		//     this._messageEvents.push(ignoreResultEvent);
-		//
-		//     const ignoredUsersEvent = new IgnoredUsersMessageEvent(this.onIgnoredUsers.bind(this));
-		//     this._communication.addMessageEvent(ignoredUsersEvent);
-		//     this._messageEvents.push(ignoredUsersEvent);
-		// }
+		if (this._communication)
+		{
+			const ignoreResultEvent = new IgnoreResultMessageEvent(this.onIgnoreResult.bind(this));
+			this._communication.addMessageEvent(ignoreResultEvent);
+			this._messageEvents.push(ignoreResultEvent);
+
+			const ignoredUsersEvent = new IgnoredUsersMessageEvent(this.onIgnoredUsers.bind(this));
+			this._communication.addMessageEvent(ignoredUsersEvent);
+			this._messageEvents.push(ignoredUsersEvent);
+		}
+	}
+
+	private onIgnoredUsers(event: IMessageEvent): void
+	{
+		const ignoredUsersEvent = event as IgnoreResultMessageEvent | IgnoredUsersMessageEvent;
+
+		if (!(ignoredUsersEvent instanceof IgnoredUsersMessageEvent))
+		{
+			return;
+		}
+
+		this.setIgnoredUsers(ignoredUsersEvent.ignoredUserIds);
+	}
+
+	private onIgnoreResult(event: IMessageEvent): void
+	{
+		const ignoreResultEvent = event as IgnoreResultMessageEvent | IgnoredUsersMessageEvent;
+
+		if (!(ignoreResultEvent instanceof IgnoreResultMessageEvent))
+		{
+			return;
+		}
+
+		this.handleIgnoreResult(ignoreResultEvent.result, ignoreResultEvent.userId);
 	}
 }

@@ -8,10 +8,10 @@
 
 | Type      | AS3      | TS      | Manquants |
 |-----------|----------|---------|-----------|
-| outgoing  | 518      | 221     | 297       |
-| incoming  | 656      | 255     | 401       |
-| parser    | 588      | 252     | 336       |
-| **Total** | **1762** | **728** | **1034**  |
+| outgoing  | 518      | 224     | 294       |
+| incoming  | 656      | 262     | 394       |
+| parser    | 588      | 259     | 329       |
+| **Total** | **1762** | **745** | **1017**  |
 
 ## Top catégories manquantes (priorité par impact)
 
@@ -19,7 +19,7 @@
 | Catégorie             | AS3 | TS | Manquants |
 |-----------------------|-----|----|-----------|
 | room                  | 97  | 46 | 51        |
-| users                 | 40  | 2  | 38        |
+| users                 | 40  | 5  | 35        |
 | catalog               | 37  | 1  | 36        |
 | game                  | 27  | 0  | 27        |
 | moderator             | 21  | 0  | 21        |
@@ -27,13 +27,13 @@
 | collectibles          | 13  | 0  | 13        |
 | groupforums           | 12  | 0  | 12        |
 | marketplace           | 10  | 0  | 10        |
-| help                  | 32  | 22 | 10        |
+| camera                | 10  | 0  | 10        |
 
 ### incoming
 | Catégorie             | AS3 | TS | Manquants |
 |-----------------------|-----|----|-----------|
-| room                  | 107 | 48 | 59        |
-| users                 | 51  | 3  | 48        |
+| room                  | 107 | 53 | 54        |
+| users                 | 51  | 5  | 46        |
 | userdefinedroomevents | 44  | 0  | 44        |
 | game                  | 44  | 3  | 41        |
 | catalog               | 43  | 2  | 41        |
@@ -47,9 +47,9 @@
 | Catégorie             | AS3 | TS | Manquants |
 |-----------------------|-----|----|-----------|
 | game                  | 70  | 3  | 67        |
-| room                  | 103 | 46 | 57        |
-| users                 | 35  | 3  | 32        |
+| room                  | 103 | 51 | 52        |
 | catalog               | 34  | 2  | 32        |
+| users                 | 35  | 5  | 30        |
 | inventory             | 51  | 21 | 30        |
 | userdefinedroomevents | 19  | 0  | 19        |
 | collectibles          | 19  | 0  | 19        |
@@ -59,24 +59,20 @@
 
 ## Batchs recommandés
 
-1. **Batch Room/Core Session**
-- Terminer `incoming/room/session` + `parser/room/session` restants
-- Synchroniser les handlers `habbo/session/handler/*`
-- Vérifier tous les IDs room dans `HabboMessages.ts`
+1. **Batch Users + Inventory**
+- Continuer `incoming/users`, `outgoing/users`, `parser/users`
+- Finir `incoming/inventory`, `parser/inventory`, `outgoing/inventory`
+- Brancher les managers/session listeners associés
 
-2. **Batch Users + Inventory**
-- `incoming/users`, `outgoing/users`, `parser/users`
-- `incoming/inventory`, `parser/inventory`, `outgoing/inventory` manquants
-
-3. **Batch Catalog + Marketplace + Collectibles**
+2. **Batch Catalog + Marketplace + Collectibles**
 - Cohérence complète des triplets event/parser/composer
 - Wiring dans managers catalog/inventory
 
-4. **Batch Game + Wired + RoomSettings**
+3. **Batch Game + Wired + RoomSettings**
 - `game`, `userdefinedroomevents`, `roomsettings`
 - Brancher listeners dans handlers/managers dédiés
 
-5. **Batch Moderation + Help + Sound**
+4. **Batch Moderation + Help + Sound**
 - Finaliser événements outils modération, CFH, audio
 
 ## Règle de port (obligatoire)

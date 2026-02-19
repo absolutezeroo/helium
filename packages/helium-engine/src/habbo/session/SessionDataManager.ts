@@ -1139,6 +1139,8 @@ export class SessionDataManager extends Component implements ISessionDataManager
 		this._ignoredUsersManager = new IgnoredUsersManager(this._communicationManager, sendCallback);
 		this._groupInfoManager = new HabboGroupInfoManager(this._communicationManager, sendCallback);
 
+		this._ignoredUsersManager.initIgnoreList();
+
 		// Initialize furniture/product data maps (loading triggered later by onConfigurationComplete)
 		this._products = new Map();
 		this._floorItems = new Map();

@@ -199,6 +199,8 @@ import {ErrorReportEvent} from './messages/incoming/error';
 import {
 	EmailStatusResultEvent,
 	HabboGroupBadgesMessageEvent,
+	IgnoredUsersMessageEvent,
+	IgnoreResultMessageEvent,
 	InClientLinkMessageEvent
 } from './messages/incoming/users';
 
@@ -441,6 +443,11 @@ import {
 	SetRelationshipStatusMessageComposer,
 	VisitUserMessageComposer,
 } from './messages/outgoing/friendlist';
+import {
+	GetIgnoredUsersMessageComposer,
+	IgnoreUserMessageComposer,
+	UnignoreUserMessageComposer
+} from './messages/outgoing/users';
 
 // Outgoing Composers - Campaign
 import {OpenCampaignCalendarDoorAsStaffComposer, OpenCampaignCalendarDoorComposer,} from './messages/outgoing/campaign';
@@ -671,6 +678,8 @@ export class HabboMessages implements IMessageConfiguration
 		this._events.set(2798, HabboGroupBadgesMessageEvent);
 		this._events.set(2437, InClientLinkMessageEvent);
 		this._events.set(712, EmailStatusResultEvent);
+		this._events.set(2936, IgnoreResultMessageEvent);
+		this._events.set(3326, IgnoredUsersMessageEvent);
 
 		// === HELP (name change) ===
 		this._events.set(2879, UserNameChangedMessageEvent);
@@ -898,6 +907,11 @@ export class HabboMessages implements IMessageConfiguration
 		this._composers.set(1645, RequestFriendMessageComposer);
 		this._composers.set(366, SendRoomInviteMessageComposer);
 		this._composers.set(1666, SetRelationshipStatusMessageComposer);
+
+		// === USERS ===
+		this._composers.set(1601, GetIgnoredUsersMessageComposer);
+		this._composers.set(2249, IgnoreUserMessageComposer);
+		this._composers.set(3881, UnignoreUserMessageComposer);
 
 		// === CAMPAIGN ===
 		this._composers.set(3165, OpenCampaignCalendarDoorComposer);

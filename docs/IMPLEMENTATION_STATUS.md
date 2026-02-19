@@ -139,7 +139,8 @@ AS3: 77 files | TS: 77 files
 | ✅      | RoomSession: 11 fixes (sendSignMessage guard, game session chat, lag detection, openConnectionComposer, playTestMode, classification messages, plantSeed, etc.)       |
 | ✅      | RoomSessionManager: handler order aligned to AS3, gotoRoomNetwork() uncommented, habboTracking propagated                                                             |
 | ✅      | SessionDataManager: room actions via sendSpecialCommandMessage(), giveStarGem, credit vault, income reward, setRoomCameraFollowDisabled fix                           |
-| ✅      | RoomSessionHandler: RoomQueueStatusMessageEvent and YouAreSpectatorMessageEvent wired (queue dispatch + spectator mode update)                                          |
+| ✅      | Room session messages: queue/spectator wired in RoomSessionHandler, and remaining incoming/parser room-session classes ported and registered in HabboMessages            |
+| ✅      | IgnoredUsersManager: IgnoreResult/IgnoredUsers events + Get/Ignore/Unignore composers ported and wired (AS3 flow restored)                                             |
 
 ### 1.7 Navigator — Logic (100%)
 ```
