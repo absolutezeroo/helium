@@ -211,14 +211,13 @@ export class WindowToolTipAgent extends WindowMouseOperator implements IToolTipA
 		{
 			// Create tooltip via the window context
 			// AS3: context.create(name + "::ToolTip", caption, type=8, style, 32, ...)
-			// TS:  context.create(layerName, name, type, style, param, rect, ...)
 			const context = this._window.context;
 
 			if (context)
 			{
 				this._tooltipWindow = context.create(
-					'',
 					this._window.name + '::ToolTip',
+					this._caption,
 					8, // WindowType.TOOLTIP
 					this._window.style,
 					32, // WindowParam flags

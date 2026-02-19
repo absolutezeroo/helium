@@ -176,8 +176,8 @@ export class DropMenuController extends DropBaseController implements IDropMenuW
 			}
 
 			const menuItem = this._context.create(
-				'',
 				this._name + '::menuItem[' + i + ']',
+				'',
 				103,
 				this._style,
 				0x10 | 0x01,
@@ -217,8 +217,8 @@ export class DropMenuController extends DropBaseController implements IDropMenuW
 		}
 
 		const padding = this._context.create(
-			'',
 			this._name + '::padding',
+			'',
 			4,
 			this._style,
 			0x10,

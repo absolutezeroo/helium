@@ -91,6 +91,8 @@ export class ResourceManager implements IResourceManager
 
 		const resolvedName = this.resolveAssetName(uri);
 
+		if (!resolvedName) return;
+
 		// Check bitmap cache first
 		const cached = this._assets.get(resolvedName);
 
@@ -135,6 +137,34 @@ export class ResourceManager implements IResourceManager
 	}
 
 	/**
+	 * Registers an asset content object under a name.
+	 *
+	 * AS3 exposes createAsset(name, assetClass, content). In the TS port
+	 * StaticBitmapWrapperController consumes ImageBitmap directly, so this
+	 * method only persists ImageBitmap payloads.
+	 */
+	public createAsset(name: string, _assetClass: new (...args: unknown[]) => unknown, content: unknown): void
+	{
+		if (content instanceof ImageBitmap)
+		{
+			this.registerAsset(name, content);
+		}
+	}
+
+	/**
+	 * Removes an asset from all local caches.
+	 */
+	public removeAsset(name: string): void
+	{
+		const resolvedName = this.resolveAssetName(name);
+
+		this._assets.delete(resolvedName);
+		this._assetUrls.delete(resolvedName);
+		this._pendingReceivers.delete(resolvedName);
+		this._loading.delete(resolvedName);
+	}
+
+	/**
 	 * Dispose the resource manager.
 	 */
 	public dispose(): void
@@ -152,14 +182,18 @@ export class ResourceManager implements IResourceManager
 	 * Resolves an asset name through window manager interpolation.
 	 *
 	 * In AS3, this used `_windowManager.interpolate()` for variable
-	 * substitution. For now, returns the URI as-is.
+	 * substitution.
 	 *
 	 * @param uri - The raw asset URI
 	 * @returns The resolved asset name
 	 */
 	private resolveAssetName(uri: string): string
 	{
-		return uri;
+		const interpolatingManager = this._windowManager as unknown as {
+			interpolate?: (value: string) => string
+		};
+
+		return interpolatingManager.interpolate?.(uri) ?? uri;
 	}
 
 	/**

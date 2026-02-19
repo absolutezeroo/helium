@@ -1,6 +1,7 @@
 import type {IWindow} from '@core/window/IWindow';
 import type {IHabboWindowManager} from './IHabboWindowManager';
 import {HintTarget} from './HintTarget';
+import type {IUpdateReceiver} from '@core/runtime/IContext';
 
 /**
  * Manages hint windows that point to registered UI elements.
@@ -11,6 +12,7 @@ import {HintTarget} from './HintTarget';
  * @see sources/win63_version/habbo/window/HintManager.as
  */
 export class HintManager
+	implements IUpdateReceiver
 {
 	private static readonly VERTICAL_PADDING: number = 10;
 	private static readonly ANIMATION_DURATION: number = 400;
@@ -19,9 +21,14 @@ export class HintManager
 	private _windowManager: IHabboWindowManager;
 	private _registeredWindows: Map<string, HintTarget> = new Map();
 	private _activeHint: HintTarget | null = null;
-	private _hint: IWindow | null = null;
+	private _hint: IHintWindow | null = null;
 	private _targetRect: { x: number; y: number; width: number; height: number } | null = null;
 	private _currentRect: { x: number; y: number; width: number; height: number } | null = null;
+	private _animationStartTime: number = 0;
+	private _animationDuration: number = 0;
+	private _animationFromRect: { x: number; y: number; width: number; height: number } | null = null;
+	private _animationToRect: { x: number; y: number; width: number; height: number } | null = null;
+	private _animationActive: boolean = false;
 
 	constructor(windowManager: IHabboWindowManager)
 	{
@@ -48,6 +55,11 @@ export class HintManager
 	 */
 	public registerWindow(key: string, window: IWindow, style: number = 0): void
 	{
+		if (this._registeredWindows.has(key))
+		{
+			this.unregisterWindow(key);
+		}
+
 		this._registeredWindows.set(key, new HintTarget(window, key, style));
 	}
 
@@ -71,17 +83,50 @@ export class HintManager
 	{
 		const target = this._registeredWindows.get(key);
 
-		if (!target) return;
+		if (!target || !target.window || key === this.activeKey) return;
+
+		this.hideHint();
+
+		const hint = target.window.context.create(
+			'',
+			'',
+			23,
+			0,
+			0,
+			{x: 0, y: 0, width: 0, height: 0},
+			null,
+			null,
+			0
+		) as unknown as IHintWindow | null;
+
+		if (!hint) return;
+
+		hint.fitSizeToContents = true;
+		hint.visible = false;
+
+		switch (target.style - 1)
+		{
+			case 0:
+				hint.assetUri = 'common_green_arrow_vertical';
+				break;
+			default:
+				hint.assetUri = 'common_green_arrow_horizontal';
+		}
+
+		this._hint = hint;
 
 		this._activeHint = target;
+		this._targetRect = rect;
+		this._currentRect = this.getTargetRect(target.window);
 
-		if (rect)
+		if (rect && this._currentRect)
 		{
-			this._targetRect = rect;
+			this.animateHint(rect);
 		}
 		else
 		{
-			this._targetRect = this.getTargetRect(target.window);
+			this.registerForUpdates();
+			this.update(0);
 		}
 	}
 
@@ -90,14 +135,21 @@ export class HintManager
 	 */
 	public hideHint(): void
 	{
+		this.unregisterFromUpdates();
 		if (this._hint)
 		{
-			this._hint.visible = false;
+			this._hint.dispose();
+			this._hint = null;
 		}
 
 		this._activeHint = null;
 		this._targetRect = null;
 		this._currentRect = null;
+		this._animationActive = false;
+		this._animationFromRect = null;
+		this._animationToRect = null;
+		this._animationStartTime = 0;
+		this._animationDuration = 0;
 	}
 
 	/**
@@ -116,27 +168,114 @@ export class HintManager
 	 */
 	public update(_time: number): void
 	{
-		if (!this._activeHint || !this._hint) return;
+		if (!this._activeHint || !this._hint || !this._activeHint.window) return;
 
-		const target = this._activeHint;
-		const targetRect = this._targetRect ?? this.getTargetRect(target.window);
+		const globalPos = {x: 0, y: 0};
+		this._activeHint.window.getGlobalPosition(globalPos);
 
-		if (!targetRect) return;
-
-		const oscillation = Math.sin(Date.now() * 0.003);
-
-		if (target.style === 1)
+		if (globalPos.x === 0 && globalPos.y === 0)
 		{
-			// Vertical style
-			this._hint.x = targetRect.x + (targetRect.width - this._hint.width) / 2;
-			this._hint.y = targetRect.y - this._hint.height - HintManager.VERTICAL_PADDING + (oscillation * 3);
+			return;
 		}
-		else
+
+		if (this._animationActive && this._animationFromRect && this._animationToRect)
 		{
-			// Horizontal style
-			this._hint.x = targetRect.x + targetRect.width + HintManager.VERTICAL_PADDING + (oscillation * 3);
-			this._hint.y = targetRect.y + (targetRect.height - this._hint.height) / 2;
+			const elapsed = performance.now() - this._animationStartTime;
+			const t = Math.min(1, elapsed / Math.max(1, this._animationDuration));
+			const eased = 1 - Math.pow(1 - t, 2);
+
+			this._hint.x = this._animationFromRect.x + ((this._animationToRect.x - this._animationFromRect.x) * eased);
+			this._hint.y = this._animationFromRect.y + ((this._animationToRect.y - this._animationFromRect.y) * eased);
+			this._hint.width = this._animationFromRect.width + ((this._animationToRect.width - this._animationFromRect.width) * eased);
+			this._hint.height = this._animationFromRect.height + ((this._animationToRect.height - this._animationFromRect.height) * eased);
+			this._hint.visible = true;
+
+			if (t >= 1)
+			{
+				this._animationActive = false;
+				this._animationFromRect = null;
+				this._animationToRect = null;
+			}
 		}
+
+		const previousZoomX = this._hint.zoomX;
+		const previousZoomY = this._hint.zoomY;
+		const oscillation = 5 * Math.abs(Math.sin(Date.now() * 0.003));
+
+		switch (this._activeHint.style - 1)
+		{
+			case 0:
+			{
+				if (globalPos.y - this._hint.height - HintManager.VERTICAL_PADDING > 0)
+				{
+					const targetY = globalPos.y - this._hint.height;
+
+					if (this._hint.y === 0)
+					{
+						this._hint.y = Math.max(targetY - HintManager.ANIMATION_DURATION, HintManager.MIN_DISTANCE);
+					}
+
+					if (targetY - this._hint.y > HintManager.MIN_DISTANCE + HintManager.VERTICAL_PADDING)
+					{
+						this._hint.y += HintManager.MIN_DISTANCE;
+					}
+					else
+					{
+						this._hint.y = targetY - HintManager.VERTICAL_PADDING - oscillation;
+					}
+
+					this._hint.zoomY = 1;
+				}
+				else
+				{
+					const targetBottom = globalPos.y + this._activeHint.window.height;
+					const desktopHeight = this._activeHint.window.desktop?.height ?? 0;
+
+					if (this._hint.y === 0)
+					{
+						this._hint.y = Math.min(desktopHeight - this._hint.height, this._hint.y + HintManager.ANIMATION_DURATION);
+					}
+
+					if (targetBottom - this._hint.y > HintManager.MIN_DISTANCE + HintManager.VERTICAL_PADDING)
+					{
+						this._hint.y -= HintManager.MIN_DISTANCE;
+					}
+					else
+					{
+						this._hint.y = targetBottom + HintManager.VERTICAL_PADDING + oscillation;
+					}
+
+					this._hint.zoomY = -1;
+				}
+
+				this._hint.x = globalPos.x + ((this._activeHint.window.width - this._hint.width) / 2);
+				break;
+			}
+			default:
+			{
+				const desktopWidth = this._activeHint.window.desktop?.width ?? 0;
+
+				if (globalPos.x + (this._activeHint.window.width / 2) > (desktopWidth / 2))
+				{
+					this._hint.x = globalPos.x - this._hint.width - HintManager.VERTICAL_PADDING - oscillation;
+					this._hint.zoomX = 1;
+				}
+				else
+				{
+					this._hint.x = globalPos.x + this._activeHint.window.width + HintManager.VERTICAL_PADDING + oscillation;
+					this._hint.zoomX = -1;
+				}
+
+				this._hint.y = globalPos.y + ((this._activeHint.window.height - this._hint.height) / 2);
+			}
+		}
+
+		if (this._hint.zoomX !== previousZoomX || this._hint.zoomY !== previousZoomY)
+		{
+			this._hint.invalidate();
+		}
+
+		this._hint.visible = this._activeHint.window.visible;
 	}
 
 	/**
@@ -150,7 +289,6 @@ export class HintManager
 
 		this.hideHint();
 		this._registeredWindows.clear();
-		this._hint = null;
 	}
 
 	/**
@@ -158,11 +296,120 @@ export class HintManager
 	 */
 	private getTargetRect(window: IWindow): { x: number; y: number; width: number; height: number }
 	{
-		return {
-			x: window.x,
-			y: window.y,
-			width: window.width,
-			height: window.height
-		};
+		const globalPos = {x: 0, y: 0};
+		window.getGlobalPosition(globalPos);
+
+		if (!this._hint || !this._activeHint)
+		{
+			return {
+				x: globalPos.x,
+				y: globalPos.y,
+				width: window.width,
+				height: window.height
+			};
+		}
+
+		const rect = {x: 0, y: 0, width: this._hint.width, height: this._hint.height};
+
+		switch (this._activeHint.style - 1)
+		{
+			case 0:
+				if (globalPos.y - this._hint.height - HintManager.VERTICAL_PADDING > 0)
+				{
+					rect.y = globalPos.y - this._hint.height - HintManager.VERTICAL_PADDING;
+				}
+				else
+				{
+					rect.y = globalPos.y + window.height + HintManager.VERTICAL_PADDING;
+				}
+
+				rect.x = globalPos.x + ((window.width - this._hint.width) / 2);
+				break;
+			default:
+				if (globalPos.x + (window.width / 2) > ((window.desktop?.width ?? 0) / 2))
+				{
+					rect.x = globalPos.x - this._hint.width - HintManager.VERTICAL_PADDING;
+				}
+				else
+				{
+					rect.x = globalPos.x + window.width + HintManager.VERTICAL_PADDING;
+				}
+
+				rect.y = globalPos.y + ((window.height - this._hint.height) / 2);
+		}
+
+		return rect;
 	}
+
+	private animateHint(rect: { x: number; y: number; width: number; height: number }): void
+	{
+		if (!this._hint || !this._currentRect) return;
+
+		this._hint.x = rect.x;
+		this._hint.y = rect.y;
+		this._hint.visible = true;
+
+		const dx = rect.x - this._currentRect.x;
+		const dy = rect.y - this._currentRect.y;
+		const distance = Math.sqrt((dx * dx) + (dy * dy));
+		const duration = 500 - Math.abs((1 / Math.max(1, distance)) * 100 * 500 * 0.5);
+
+		const targetWidth = this._hint.width;
+		const targetHeight = this._hint.height;
+
+		this._hint.width *= 0.4;
+		this._hint.height *= 0.4;
+
+		this._animationFromRect = {
+			x: rect.x,
+			y: rect.y,
+			width: this._hint.width,
+			height: this._hint.height
+		};
+		this._animationToRect = {
+			x: this._currentRect.x,
+			y: this._currentRect.y,
+			width: targetWidth,
+			height: targetHeight
+		};
+		this._animationDuration = duration;
+		this._animationStartTime = performance.now();
+		this._animationActive = true;
+
+		this.registerForUpdates();
+	}
+
+	private registerForUpdates(): void
+	{
+		const updateAwareManager = this._windowManager as unknown as {
+			registerUpdateReceiver?: (receiver: IUpdateReceiver, priority: number) => void
+			context?: {
+				registerUpdateReceiver?: (receiver: IUpdateReceiver, priority: number) => void
+			}
+		};
+
+		updateAwareManager.registerUpdateReceiver?.(this, 10);
+		updateAwareManager.context?.registerUpdateReceiver?.(this, 10);
+	}
+
+	private unregisterFromUpdates(): void
+	{
+		const updateAwareManager = this._windowManager as unknown as {
+			removeUpdateReceiver?: (receiver: IUpdateReceiver) => void
+			context?: {
+				removeUpdateReceiver?: (receiver: IUpdateReceiver) => void
+			}
+		};
+
+		updateAwareManager.removeUpdateReceiver?.(this);
+		updateAwareManager.context?.removeUpdateReceiver?.(this);
+	}
+}
+
+interface IHintWindow extends IWindow
+{
+	assetUri: string;
+	fitSizeToContents: boolean;
+	zoomX: number;
+	zoomY: number;
 }

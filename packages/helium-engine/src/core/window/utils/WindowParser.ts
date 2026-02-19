@@ -241,7 +241,7 @@ export class WindowParser implements IWindowParser
 		// ── 4. Create the window ────────────────────────────────────
 		// AS3 line 294: context.create(...)
 		const window = parent.context.create(
-			'', name, typeId, style, param, rect,
+			name, caption, typeId, style, param, rect,
 			null, parent, id, tags, dynamicStyle, null
 		);
 
@@ -519,7 +519,7 @@ export class WindowParser implements IWindowParser
 		const rect = {x, y, width, height};
 
 		const window = parent.context.create(
-			'', name, type, style, param, rect,
+			name, caption, type, style, param, rect,
 			null, parent, id,
 			layoutTags.length > 0 ? layoutTags : null,
 			dynamicStyle || undefined, null

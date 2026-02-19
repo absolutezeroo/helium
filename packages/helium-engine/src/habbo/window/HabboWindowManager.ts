@@ -33,13 +33,16 @@ import {HabboWidgetFactory} from './HabboWidgetFactory';
 import {ComponentDependency} from '@core/runtime/ComponentDependency';
 import {IID_AvatarRenderManager} from '@iid/IIDAvatarRenderManager';
 import {IID_HabboCommunicationManager} from '@iid/IIDHabboCommunicationManager';
+import {IID_HabboLocalizationManager} from '@iid/IIDHabboLocalizationManager';
 import type {IAvatarRenderManager} from '@habbo/avatar/IAvatarRenderManager';
 import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommunicationManager';
+import type {IHabboLocalizationManager} from '@habbo/localization/IHabboLocalizationManager';
 import type {IContext} from '@core/runtime/IContext';
 import type {IAssetLibrary} from '@core/assets/IAssetLibrary';
 import type {IModalDialog} from './utils/IModalDialog';
 import {ModalDialog} from './utils/ModalDialog';
 import {ResourceManager} from './ResourceManager';
+import {HintManager} from './HintManager';
 
 const log = Logger.getLogger('HabboWindowManager');
 
@@ -78,6 +81,8 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 	private _windowRenderer: WindowRenderer | null = null;
 	private _serviceManager: ServiceManager | null = null;
 	private _resourceManager: ResourceManager | null = null;
+	private _hintManager: HintManager | null = null;
+	private _localization: IHabboLocalizationManager | null = null;
 	private _initialized: boolean = false;
 
 	constructor(context: IContext, flags: number = 0, assetLibrary: IAssetLibrary | null = null)
@@ -149,6 +154,17 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 					this._communication = manager;
 				},
 				false // optional — window manager can work without communication
+			),
+			new ComponentDependency(
+				IID_HabboLocalizationManager,
+				(manager: IHabboLocalizationManager | null) =>
+				{
+					this._localization = manager;
+					WindowParser.localizationResolver = manager
+						? ((key: string) => manager.getLocalization(key, key))
+						: null;
+				},
+				false // optional — layouts still parse without localization
 			),
 		];
 	}
@@ -547,9 +563,20 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 	/**
 	 * Register a localization parameter.
 	 */
-	public registerLocalizationParameter(_key: string, _parameter: string, _value: string, _delimiter: string = '%'): void
+	public registerLocalizationParameter(key: string, parameter: string, value: string, delimiter: string = '%'): void
 	{
-		// Localization integration - to be connected when IHabboLocalizationManager is available
+		this._localization?.registerParameter(key, parameter, value, delimiter);
+	}
+
+	/**
+	 * Interpolates a string against runtime configuration values.
+	 *
+	 * AS3 ResourceManager resolves asset names through
+	 * HabboWindowManagerComponent.interpolate().
+	 */
+	public interpolate(value: string): string
+	{
+		return this.context.configuration?.interpolate(value) ?? value;
 	}
 
 	/**
@@ -557,32 +584,31 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 	 */
 	public createUnseenItemCounter(): IWindowContainer | null
 	{
-		// Requires asset system integration
-		return null;
+		return this.buildWidgetLayout('unseen_item_counter') as IWindowContainer | null;
 	}
 
 	/**
 	 * Register a hint window.
 	 */
-	public registerHintWindow(_hintId: string, _window: IWindow, _direction: number = 1): void
+	public registerHintWindow(hintId: string, window: IWindow, direction: number = 1): void
 	{
-		// HintManager integration - to be connected
+		this._hintManager?.registerWindow(hintId, window, direction);
 	}
 
 	/**
 	 * Unregister a hint window.
 	 */
-	public unregisterHintWindow(_hintId: string): void
+	public unregisterHintWindow(hintId: string): void
 	{
-		// HintManager integration - to be connected
+		this._hintManager?.unregisterWindow(hintId);
 	}
 
 	/**
 	 * Show a hint by ID.
 	 */
-	public showHint(_hintId: string, _rect?: { x: number; y: number; width: number; height: number } | null): void
+	public showHint(hintId: string, rect?: { x: number; y: number; width: number; height: number } | null): void
 	{
-		// HintManager integration - to be connected
+		this._hintManager?.showHint(hintId, rect);
 	}
 
 	/**
@@ -590,15 +616,15 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 	 */
 	public hideHint(): void
 	{
-		// HintManager integration - to be connected
+		this._hintManager?.hideHint();
 	}
 
 	/**
 	 * Hide a hint matching the given ID.
 	 */
-	public hideMatchingHint(_hintId: string): void
+	public hideMatchingHint(hintId: string): void
 	{
-		// HintManager integration - to be connected
+		this._hintManager?.hideMatchingHint(hintId);
 	}
 
 	/**
@@ -615,6 +641,26 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 	public displayFloorPlanEditor(): void
 	{
 		// BCFloorPlanEditor integration - to be connected
+	}
+
+	/**
+	 * Per-frame window update.
+	 *
+	 * Mirrors AS3 update ordering:
+	 * - Process input/update from top-most context to bottom
+	 * - Render from bottom context to top-most
+	 */
+	public update(deltaTime: number): void
+	{
+		for (let i = this._windowContextArray.length - 1; i >= 0; i--)
+		{
+			this._windowContextArray[i].update(deltaTime);
+		}
+
+		for (let i = 0; i < this._windowContextArray.length; i++)
+		{
+			this._windowContextArray[i].render(deltaTime);
+		}
 	}
 
 	/**
@@ -843,6 +889,7 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 	{
 		if (this._disposed) return;
 
+		this.removeUpdateReceiver(this);
 		this._disposed = true;
 
 		// Dispose window contexts
@@ -868,6 +915,12 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 			this._resourceManager = null;
 		}
 
+		if (this._hintManager)
+		{
+			this._hintManager.dispose();
+			this._hintManager = null;
+		}
+
 		// Clean up skin container and theme manager
 		this._skinContainer.dispose();
 		this._themeManager = null;
@@ -878,6 +931,8 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 		// Clean up component dependencies
 		this._avatarRenderer = null;
 		this._communication = null;
+		this._localization = null;
+		WindowParser.localizationResolver = null;
 
 		// Clean up declarative window system
 		this._windows.clear();
@@ -906,9 +961,11 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 		const serviceManager = new ServiceManager();
 		const widgetFactory = new HabboWidgetFactory(this);
 		const resourceManager = new ResourceManager(this);
+		const hintManager = new HintManager(this);
 
 		this._serviceManager = serviceManager;
 		this._resourceManager = resourceManager;
+		this._hintManager = hintManager;
 
 		for (let i = 0; i < HabboWindowManager.NUMBER_OF_CONTEXT_LAYERS; i++)
 		{
@@ -946,6 +1003,11 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 		this._defaultContext = this._windowContextArray[HabboWindowManager.DEFAULT_CONTEXT_LAYER_INDEX];
 
 		log.info(`Window manager initialized with ${HabboWindowManager.NUMBER_OF_CONTEXT_LAYERS} context layers (${Classes.getRegisteredTypes().length} types registered)`);
+	}
+
+	protected override initComponent(): void
+	{
+		this.registerUpdateReceiver(this, 0);
 	}
 
 	/**

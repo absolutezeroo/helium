@@ -42,8 +42,8 @@ export interface IWindowContext extends IDisposable
 	groupChildrenWithTag(tag: string, result: IWindow[], depth?: number): number;
 
 	create(
-		layerName: string,
 		name: string,
+		caption: string,
 		type: number,
 		style: number,
 		param: number,
@@ -55,6 +55,10 @@ export interface IWindowContext extends IDisposable
 		dynamicStyle?: string,
 		properties?: unknown[] | null
 	): IWindow;
+
+	update(deltaTime: number): void;
+
+	render(deltaTime: number): void;
 
 	destroy(window: IWindow): boolean;
 

@@ -61,8 +61,8 @@ export class ItemListController extends WindowController implements IItemListWin
 		this._hasVisualContent = this._background || !this.testParamFlag(16);
 
 		this._container = this._context.create(
-			'',
 			'_CONTAINER',
+			'',
 			4,
 			0,
 			0x10,

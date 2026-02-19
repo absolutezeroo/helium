@@ -515,8 +515,8 @@ export class DropBaseController extends InteractiveController
 			const item = items[i];
 
 			const menuItem = this._context.create(
-				'',
 				this._name + '::menuItem[' + i + ']',
+				'',
 				106,
 				this._style,
 				0x10 | 0x01,
@@ -564,8 +564,8 @@ export class DropBaseController extends InteractiveController
 		}
 
 		const padding = this._context.create(
-			'',
 			this._name + '::padding',
+			'',
 			4,
 			this._style,
 			0x10,
@@ -732,8 +732,8 @@ export class DropBaseController extends InteractiveController
 			const paramFlags = 0x20000 | (this._openUpward ? 0x100000 : 0);
 
 			this._subMenu = this._context.create(
-				'',
 				this._name + '::subMenu',
+				'',
 				this._type,
 				this._style,
 				paramFlags,

@@ -8,6 +8,7 @@ import type {IInternalWindowServices} from './services/IInternalWindowServices';
 import type {IInputEventTracker} from './IInputEventTracker';
 import type {IResourceManager} from './IResourceManager';
 import {Classes} from './Classes';
+import {SubstituteParentController} from './components/SubstituteParentController';
 
 /**
  * Window context implementation.
@@ -34,16 +35,20 @@ export class WindowContext implements IWindowContext
 	 * Set by HabboWindowManager when the renderer is created.
 	 */
 	private static _renderer: IWindowRenderer | null = null;
+	private static _inputMode: number = WindowContext.INPUT_MODE_MOUSE;
 	public inputEventTrackers: IInputEventTracker[] = [];
 	protected _services: IInternalWindowServices | null = null;
 	protected _parser: IWindowParser | null = null;
 	protected _factory: IWindowFactory;
 	protected _widgetFactory: IWidgetFactory | null = null;
 	protected _desktop: IWindow | null = null;
+	protected _substituteParent: IWindow | null = null;
 	protected _resourceManager: IResourceManager | null = null;
 	protected _throwErrors: boolean = true;
 	protected _lastError: Error | null = null;
 	protected _lastErrorCode: number = -1;
+	protected _updating: boolean = false;
+	protected _rendering: boolean = false;
 
 	constructor(
 		name: string,
@@ -53,6 +58,7 @@ export class WindowContext implements IWindowContext
 	{
 		this._name = name;
 		this._factory = factory;
+		this._substituteParent = new SubstituteParentController(this);
 
 		// Desktop and parser are lazily initialized or set externally
 	}
@@ -79,6 +85,25 @@ export class WindowContext implements IWindowContext
 	public static setRenderer(renderer: IWindowRenderer | null): void
 	{
 		WindowContext._renderer = renderer;
+	}
+
+	public static get inputMode(): number
+	{
+		return WindowContext._inputMode;
+	}
+
+	public static set inputMode(value: number)
+	{
+		switch (value)
+		{
+			case WindowContext.INPUT_MODE_MOUSE:
+			case WindowContext.INPUT_MODE_TOUCH:
+				WindowContext._inputMode = value;
+				break;
+			default:
+				WindowContext._inputMode = WindowContext.INPUT_MODE_MOUSE;
+				throw new Error(`Unknown input mode ${value}`);
+		}
 	}
 
 	public setDesktop(desktop: IWindow): void
@@ -168,8 +193,8 @@ export class WindowContext implements IWindowContext
 	}
 
 	public create(
-		_layerName: string,
 		name: string,
+		caption: string,
 		type: number,
 		style: number,
 		param: number,
@@ -198,7 +223,7 @@ export class WindowContext implements IWindowContext
 		{
 			if (param & 0x10) // USE_PARENT_GRAPHIC_CONTEXT
 			{
-				parent = this._desktop;
+				parent = this._substituteParent;
 			}
 		}
 
@@ -207,6 +232,11 @@ export class WindowContext implements IWindowContext
 			parent ?? this._desktop,
 			procedure, tags, null, id, dynamicStyle
 		) as unknown as IWindow;
+
+		if (caption && caption.length > 0)
+		{
+			window.caption = caption;
+		}
 
 		return window;
 	}
@@ -239,6 +269,33 @@ export class WindowContext implements IWindowContext
 		{
 			WindowContext._renderer.addToRenderQueue(window, rect, flags);
 		}
+	}
+
+	public update(_deltaTime: number): void
+	{
+		this._updating = true;
+
+		if (this._lastError)
+		{
+			const error = this._lastError;
+			this._lastError = null;
+			this._updating = false;
+			throw error;
+		}
+
+		this._updating = false;
+	}
+
+	public render(_deltaTime: number): void
+	{
+		this._rendering = true;
+
+		if (WindowContext._renderer)
+		{
+			WindowContext._renderer.render();
+		}
+
+		this._rendering = false;
 	}
 
 	public getLastError(): Error | null
@@ -302,6 +359,12 @@ export class WindowContext implements IWindowContext
 			{
 				this._parser.dispose();
 				this._parser = null;
+			}
+
+			if (this._substituteParent)
+			{
+				this._substituteParent.destroy();
+				this._substituteParent = null;
 			}
 
 			this._services = null;
