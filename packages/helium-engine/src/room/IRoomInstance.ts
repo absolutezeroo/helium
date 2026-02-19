@@ -4,8 +4,11 @@
  * Based on AS3: com.sulake.room.IRoomInstance
  *
  * Interface for a room instance that manages objects.
+ *
+ * @see sources/win63_version/room/RoomInstance.as
  */
 import type {IRoomObject} from './object/IRoomObject';
+import type {IRoomRendererBase} from './renderer/IRoomRendererBase';
 
 export interface IRoomInstance
 {
@@ -26,6 +29,10 @@ export interface IRoomInstance
 	addObjectUpdateCategory(category: number): void;
 
 	removeObjectUpdateCategory(category: number): void;
+
+	setRenderer(renderer: IRoomRendererBase | null): void;
+
+	getRenderer(): IRoomRendererBase | null;
 
 	createRoomObject(id: number, type: string, category: number): IRoomObject | null;
 

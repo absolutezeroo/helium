@@ -5,8 +5,11 @@
  *
  * Manages room instances and their objects. Implements IRoomInstanceContainer
  * to create room objects with proper logic and visualization.
+ *
+ * @see sources/win63_version/room/RoomManager.as
  */
 import {Component, type IContext} from '@core/runtime';
+import {Logger} from '@core';
 import type {IRoomManager} from './IRoomManager';
 import type {IRoomInstance} from './IRoomInstance';
 import type {IRoomInstanceContainer} from './IRoomInstanceContainer';
@@ -20,8 +23,12 @@ import type {IRoomObjectVisualizationFactory} from './object/IRoomObjectVisualiz
 import type {IRoomObjectSpriteVisualization} from './object/visualization/IRoomObjectSpriteVisualization';
 import {RoomInstance} from './RoomInstance';
 
+const log = Logger.getLogger('RoomManager');
+
 /**
- * Room manager states
+ * Room manager states.
+ *
+ * @see AS3 RoomManager lines 22-30
  */
 export const RoomManagerState = {
 	ERROR: -1,
@@ -30,6 +37,13 @@ export const RoomManagerState = {
 	INITIALIZING: 2,
 	INITIALIZED: 3,
 } as const;
+
+/**
+ * Content processing time limit per frame (ms).
+ *
+ * @see AS3 RoomManager line 32
+ */
+const CONTENT_PROCESSING_TIME_LIMIT = 40;
 
 export class RoomManager extends Component implements IRoomManager, IRoomInstanceContainer
 {
@@ -40,13 +54,16 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	private _listener: IRoomManagerListener | null = null;
 	private _updateCategories: Set<number> = new Set();
 	private _pendingTypes: Set<string> = new Set();
+	private _loadedContentTypes: string[] = [];
+	private _skipContentProcessing: boolean = false;
+	private _limitContentProcessing: boolean = true;
 
 	constructor(context: IContext)
 	{
 		super(context);
 	}
 
-	private _state: number = RoomManagerState.INITIALIZED;
+	private _state: number = RoomManagerState.LOADING;
 
 	get state(): number
 	{
@@ -54,7 +71,22 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	}
 
 	/**
-	 * Set the object factory used to create room object logic
+	 * Whether to throttle content processing to 40ms per frame.
+	 *
+	 * @see AS3 RoomManager lines 80-82
+	 */
+	get limitContentProcessing(): boolean
+	{
+		return this._limitContentProcessing;
+	}
+
+	set limitContentProcessing(value: boolean)
+	{
+		this._limitContentProcessing = value;
+	}
+
+	/**
+	 * Set the object factory used to create room object logic.
 	 */
 	setObjectFactory(factory: IRoomObjectFactory): void
 	{
@@ -72,28 +104,35 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	}
 
 	/**
-	 * Initialize the room manager
+	 * Initialize the room manager.
+	 *
+	 * @see AS3 RoomManager.initialize() lines 133-175
 	 */
 	initialize(data: unknown, listener: IRoomManagerListener): boolean
 	{
-		if (this._state >= RoomManagerState.INITIALIZING)
+		if(this._state >= RoomManagerState.INITIALIZING)
 		{
 			return false;
 		}
 
-		if (this._contentLoader === null)
+		if(this._contentLoader === null)
 		{
 			return false;
 		}
 
 		this._listener = listener;
 
+		// Register content load event listeners
+		this.events.on('RCLE_SUCCESS', this.onContentLoaded, this);
+		this.events.on('RCLE_FAILURE', this.onContentLoaded, this);
+		this.events.on('RCLE_CANCEL', this.onContentLoaded, this);
+
 		// Load placeholder types
 		const placeHolderTypes = this._contentLoader.getPlaceHolderTypes();
 
-		for (const type of placeHolderTypes)
+		for(const type of placeHolderTypes)
 		{
-			if (!this._pendingTypes.has(type))
+			if(!this._pendingTypes.has(type))
 			{
 				this._contentLoader.loadObjectContent(type, this.events);
 				this._pendingTypes.add(type);
@@ -103,11 +142,11 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 		this._state = RoomManagerState.INITIALIZING;
 
 		// If no pending types, mark as initialized immediately
-		if (this._pendingTypes.size === 0)
+		if(this._pendingTypes.size === 0)
 		{
 			this._state = RoomManagerState.INITIALIZED;
 
-			if (this._listener)
+			if(this._listener)
 			{
 				this._listener.roomManagerInitialized(true);
 			}
@@ -117,11 +156,11 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	}
 
 	/**
-	 * Set the content loader
+	 * Set the content loader.
 	 */
 	setContentLoader(loader: IRoomContentLoader): void
 	{
-		if (this._contentLoader)
+		if(this._contentLoader)
 		{
 			this._contentLoader.dispose();
 		}
@@ -130,11 +169,11 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	}
 
 	/**
-	 * Add an object update category
+	 * Add an object update category.
 	 */
 	addObjectUpdateCategory(category: number): void
 	{
-		if (this._updateCategories.has(category))
+		if(this._updateCategories.has(category))
 		{
 			return;
 		}
@@ -142,35 +181,42 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 		this._updateCategories.add(category);
 
 		// Add to all existing rooms
-		for (const room of this._rooms.values())
+		for(const room of this._rooms.values())
 		{
 			room.addObjectUpdateCategory(category);
 		}
 	}
 
 	/**
-	 * Remove an object update category
+	 * Remove an object update category.
 	 */
 	removeObjectUpdateCategory(category: number): void
 	{
-		if (!this._updateCategories.delete(category))
+		if(!this._updateCategories.delete(category))
 		{
 			return;
 		}
 
 		// Remove from all existing rooms
-		for (const room of this._rooms.values())
+		for(const room of this._rooms.values())
 		{
 			room.removeObjectUpdateCategory(category);
 		}
 	}
 
 	/**
-	 * Create a new room instance
+	 * Create a new room instance.
 	 */
 	createRoom(id: string, data: unknown): IRoomInstance | null
 	{
-		if (this._rooms.has(id))
+		if(this._state < RoomManagerState.INITIALIZED)
+		{
+			log.warn('Cannot create room — manager not initialized (state: %d)', this._state);
+
+			return null;
+		}
+
+		if(this._rooms.has(id))
 		{
 			return null;
 		}
@@ -179,7 +225,7 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 		this._rooms.set(id, room);
 
 		// Add update categories to the new room
-		for (const category of this._updateCategories)
+		for(const category of this._updateCategories)
 		{
 			room.addObjectUpdateCategory(category);
 		}
@@ -188,7 +234,7 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	}
 
 	/**
-	 * Get a room by ID
+	 * Get a room by ID.
 	 */
 	getRoom(id: string): IRoomInstance | null
 	{
@@ -196,20 +242,20 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	}
 
 	/**
-	 * Get a room by index
+	 * Get a room by index.
 	 */
 	getRoomWithIndex(index: number): IRoomInstance | null
 	{
-		if (index < 0 || index >= this._rooms.size)
+		if(index < 0 || index >= this._rooms.size)
 		{
 			return null;
 		}
 
 		let i = 0;
 
-		for (const room of this._rooms.values())
+		for(const room of this._rooms.values())
 		{
-			if (i === index) return room;
+			if(i === index) return room;
 			i++;
 		}
 
@@ -217,7 +263,7 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	}
 
 	/**
-	 * Get the number of rooms
+	 * Get the number of rooms.
 	 */
 	getRoomCount(): number
 	{
@@ -225,16 +271,17 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	}
 
 	/**
-	 * Dispose a room
+	 * Dispose a room.
 	 */
 	disposeRoom(id: string): boolean
 	{
 		const room = this._rooms.get(id);
 
-		if (room)
+		if(room)
 		{
 			room.dispose();
 			this._rooms.delete(id);
+
 			return true;
 		}
 
@@ -242,11 +289,11 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	}
 
 	/**
-	 * Check if content is available for a type
+	 * Check if content is available for a type.
 	 */
 	isContentAvailable(type: string): boolean
 	{
-		if (this._contentLoader)
+		if(this._contentLoader)
 		{
 			return this._contentLoader.hasInternalContent(type);
 		}
@@ -255,11 +302,15 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	}
 
 	/**
-	 * Update all rooms
+	 * Update all rooms. Processes loaded content first (with throttling).
+	 *
+	 * @see AS3 RoomManager.update() lines 593-608
 	 */
 	update(time: number): void
 	{
-		for (const room of this._rooms.values())
+		this.processLoadedContentTypes();
+
+		for(const room of this._rooms.values())
 		{
 			room.update();
 		}
@@ -271,20 +322,13 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	 * This is called by RoomInstance.createRoomObject() to actually create the object.
 	 * Uses createObjectInternal() on the room to avoid recursion.
 	 *
-	 * Matches AS3 RoomManager.createRoomObject() flow:
-	 * 1. Resolve content (or use placeholder if not loaded yet)
-	 * 2. Create internal object
-	 * 3. Create visualization via visualization factory
-	 * 4. Create + cache visualization data via visualization factory
-	 * 5. Create logic via object factory
-	 *
-	 * @see source_as_win63/room/RoomManager.as lines 278-363
+	 * @see sources/win63_version/room/RoomManager.as lines 278-363
 	 */
 	createRoomObject(roomId: string, objectId: number, type: string, category: number): IRoomObject | null
 	{
 		const room = this.getRoom(roomId);
 
-		if (!room)
+		if(!room)
 		{
 			return null;
 		}
@@ -294,25 +338,28 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 
 		// Resolve content types. For content that has internal handling (users, etc.),
 		// use the type directly. Otherwise resolve from content loader.
-		let contentType: string = type;
+		const contentType: string = type;
 		let visualizationType: string | null = type;
 		let logicType: string | null = type;
-		let isPlaceholder = false;
+		let notInternalContent = false;
 
-		if (this._contentLoader && !this._contentLoader.hasInternalContent(type))
+		if(this._contentLoader && !this._contentLoader.hasInternalContent(type))
 		{
 			const contentVizType = this._contentLoader.getVisualizationType(type);
 			const contentLogicType = this._contentLoader.getLogicType(type);
 
-			if (contentVizType) visualizationType = contentVizType;
-			if (contentLogicType) logicType = contentLogicType;
+			if(contentVizType) visualizationType = contentVizType;
+			if(contentLogicType) logicType = contentLogicType;
+
+			// If content is not yet loaded, trigger load and use placeholder
+			notInternalContent = true;
 		}
 
 		// Create the object using createObjectInternal (not createRoomObject to avoid recursion)
 		const stateCount = 1;
 		const object = roomInstance.createObjectInternal(objectId, stateCount, type, category);
 
-		if (!object)
+		if(!object)
 		{
 			return null;
 		}
@@ -320,12 +367,11 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 		const controller = object as IRoomObjectController;
 
 		// Create visualization
-		// AS3 RoomManager.createRoomObject() lines 335-350
-		if (this._visualizationFactory && visualizationType)
+		if(this._visualizationFactory && visualizationType)
 		{
 			const visualization = this._visualizationFactory.createRoomObjectVisualization(visualizationType);
 
-			if (visualization)
+			if(visualization)
 			{
 				const spriteViz = visualization as IRoomObjectSpriteVisualization;
 
@@ -334,7 +380,7 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 					contentType, visualizationType, null
 				);
 
-				if (vizData)
+				if(vizData)
 				{
 					spriteViz.initialize(vizData);
 				}
@@ -344,12 +390,11 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 		}
 
 		// Create and assign logic
-		// AS3: logic is created, event handler set, then initialized with config data
-		if (this._objectFactory && logicType)
+		if(this._objectFactory && logicType)
 		{
 			const logic = this._objectFactory.createRoomObjectLogic(logicType);
 
-			if (logic)
+			if(logic)
 			{
 				controller.setEventHandler(logic);
 				logic.object = controller;
@@ -357,8 +402,14 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 			}
 		}
 
+		// Mark as initialized only if content was already available
+		if(!notInternalContent)
+		{
+			controller.setInitialized(true);
+		}
+
 		// Notify content loader
-		if (this._contentLoader)
+		if(this._contentLoader)
 		{
 			this._contentLoader.roomObjectCreated(object, roomId);
 		}
@@ -367,11 +418,11 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 	}
 
 	/**
-	 * Create a room object manager
+	 * Create a room object manager.
 	 */
 	createRoomObjectManager(): IRoomObjectManager
 	{
-		if (this._objectFactory)
+		if(this._objectFactory)
 		{
 			return this._objectFactory.createRoomObjectManager();
 		}
@@ -380,19 +431,221 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 		throw new Error('[RoomManager] No object factory available');
 	}
 
+	/**
+	 * Handle content load completion events.
+	 *
+	 * @see AS3 RoomManager.onContentLoaded() lines 425-444
+	 */
+	private onContentLoaded(type: string | null): void
+	{
+		if(type === null)
+		{
+			if(this._listener)
+			{
+				this._listener.contentLoaded('', false);
+			}
+
+			return;
+		}
+
+		this._loadedContentTypes.push(type);
+	}
+
+	/**
+	 * Process queued content types with frame budget throttling.
+	 * Re-initializes existing objects when their content becomes available.
+	 *
+	 * @see AS3 RoomManager.processLoadedContentTypes() lines 446-494
+	 */
+	private processLoadedContentTypes(): void
+	{
+		if(this._skipContentProcessing)
+		{
+			this._skipContentProcessing = false;
+
+			return;
+		}
+
+		if(this._loadedContentTypes.length === 0)
+		{
+			return;
+		}
+
+		const startTime = performance.now();
+
+		while(this._loadedContentTypes.length > 0)
+		{
+			const type = this._loadedContentTypes.shift()!;
+
+			// Re-initialize existing objects of this type
+			this.updateObjectContents(type);
+
+			// Notify listener
+			if(this._listener)
+			{
+				this._listener.contentLoaded(type, true);
+			}
+
+			// Check if still waiting for placeholder content
+			this.processInitialContentLoad(type);
+
+			// Throttle: defer to next frame if over budget
+			if(this._limitContentProcessing && (performance.now() - startTime) >= CONTENT_PROCESSING_TIME_LIMIT)
+			{
+				this._skipContentProcessing = true;
+
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Check if a loaded placeholder type completes initialization.
+	 *
+	 * @see AS3 RoomManager.processInitialContentLoad() lines 386-423
+	 */
+	private processInitialContentLoad(type: string): void
+	{
+		if(this._state >= RoomManagerState.INITIALIZED)
+		{
+			return;
+		}
+
+		this._pendingTypes.delete(type);
+
+		if(this._pendingTypes.size === 0)
+		{
+			this._state = RoomManagerState.INITIALIZED;
+
+			if(this._listener)
+			{
+				this._listener.roomManagerInitialized(true);
+			}
+		}
+	}
+
+	/**
+	 * Re-initialize all existing objects of a given type when content becomes available.
+	 *
+	 * @see AS3 RoomManager.updateObjectContents() lines 496-591
+	 */
+	private updateObjectContents(contentType: string): void
+	{
+		if(!this._contentLoader || !this._visualizationFactory || !this._objectFactory)
+		{
+			return;
+		}
+
+		const visualizationType = this._contentLoader.getVisualizationType(contentType);
+		const logicType = this._contentLoader.getLogicType(contentType);
+
+		for(const room of this._rooms.values())
+		{
+			const roomInstance = room as RoomInstance;
+			const managerIds = roomInstance.getObjectManagerIds();
+			let allInitialized = true;
+
+			for(const categoryId of managerIds)
+			{
+				const objectCount = room.getObjectCount(categoryId);
+
+				for(let j = objectCount - 1; j >= 0; j--)
+				{
+					const object = room.getObjectWithIndex(j, categoryId);
+
+					if(!object || object.getType() !== contentType)
+					{
+						continue;
+					}
+
+					if(object.isInitialized())
+					{
+						continue;
+					}
+
+					const controller = object as IRoomObjectController;
+
+					// Create new visualization
+					if(visualizationType)
+					{
+						const visualization = this._visualizationFactory.createRoomObjectVisualization(visualizationType);
+
+						if(visualization)
+						{
+							const spriteViz = visualization as IRoomObjectSpriteVisualization;
+							const vizData = this._visualizationFactory.getRoomObjectVisualizationData(
+								contentType, visualizationType, null
+							);
+
+							if(vizData)
+							{
+								spriteViz.initialize(vizData);
+							}
+
+							controller.setVisualization(visualization);
+						}
+					}
+
+					// Create new logic handler
+					if(logicType)
+					{
+						const logic = this._objectFactory.createRoomObjectLogic(logicType);
+
+						if(logic)
+						{
+							controller.setEventHandler(logic);
+							logic.object = controller;
+							logic.initialize(null);
+						}
+					}
+
+					controller.setInitialized(true);
+
+					if(this._listener)
+					{
+						this._listener.objectInitialized(room.id, object.getId(), categoryId);
+					}
+				}
+
+				// Check if all objects in category are initialized
+				for(let j = room.getObjectCount(categoryId) - 1; j >= 0; j--)
+				{
+					const obj = room.getObjectWithIndex(j, categoryId);
+
+					if(obj && !obj.isInitialized())
+					{
+						allInitialized = false;
+
+						break;
+					}
+				}
+			}
+
+			if(allInitialized && this._listener)
+			{
+				this._listener.objectsInitialized(contentType);
+			}
+		}
+	}
+
 	override dispose(): void
 	{
-		if (this.disposed) return;
+		if(this.disposed) return;
+
+		// Remove event listeners
+		this.events.off('RCLE_SUCCESS', this.onContentLoaded, this);
+		this.events.off('RCLE_FAILURE', this.onContentLoaded, this);
+		this.events.off('RCLE_CANCEL', this.onContentLoaded, this);
 
 		// Dispose all rooms
-		for (const room of this._rooms.values())
+		for(const room of this._rooms.values())
 		{
 			room.dispose();
 		}
 
 		this._rooms.clear();
 
-		if (this._contentLoader)
+		if(this._contentLoader)
 		{
 			this._contentLoader.dispose();
 			this._contentLoader = null;
@@ -403,6 +656,7 @@ export class RoomManager extends Component implements IRoomManager, IRoomInstanc
 		this._visualizationFactory = null;
 		this._updateCategories.clear();
 		this._pendingTypes.clear();
+		this._loadedContentTypes.length = 0;
 
 		super.dispose();
 	}

@@ -1,7 +1,7 @@
 /**
  * RoomRenderingCanvas
  *
- * Based on AS3: com.sulake.room.renderer.RoomSpriteCanvas
+ * Based on AS3: com.sulake.room.renderer.RoomSpriteCanvas (class_3650)
  *
  * Main rendering canvas for room visualization.
  * Owns a flat display list of ExtendedSprite children.
@@ -9,12 +9,14 @@
  * sorts by Z, and creates/updates canvas-owned ExtendedSprite display objects.
  * Hit-testing iterates ExtendedSprite children backwards (front to back).
  *
- * @see sources/flash_version/com/sulake/room/renderer/RoomSpriteCanvas.as
+ * @see sources/win63_version/room/renderer/class_3650.as
  */
 import {Container} from 'pixi.js';
 import type {IRoomGeometry} from '@room/utils/IRoomGeometry';
 import type {IRoomObjectSpriteVisualization} from '@room/object/visualization/IRoomObjectSpriteVisualization';
 import type {IRoomObject} from '@room/object/IRoomObject';
+import type {IRoomRenderingCanvas as IRoomRenderingCanvasInterface} from '@room/renderer/IRoomRenderingCanvas';
+import type {IRoomRenderingCanvasMouseListener} from '@room/renderer/IRoomRenderingCanvasMouseListener';
 import {RoomGeometry} from '@room/utils/RoomGeometry';
 import {RoomSpriteMouseEvent} from '@room/events/RoomSpriteMouseEvent';
 import {Vector3d} from '@room/utils/Vector3d';
@@ -22,14 +24,7 @@ import {ExtendedSprite} from './utils/ExtendedSprite';
 import {SortableSprite} from './utils/SortableSprite';
 import {ObjectMouseData} from './utils/ObjectMouseData';
 
-/**
- * Listener interface for processing canvas mouse events.
- * Based on AS3 IRoomRenderingCanvasMouseListener.
- */
-export interface IRoomRenderingCanvasMouseListener
-{
-	processRoomCanvasMouseEvent(event: RoomSpriteMouseEvent, object: IRoomObject, geometry: IRoomGeometry): void;
-}
+export type {IRoomRenderingCanvasMouseListener};
 
 /**
  * Stored visualization entry — visualization + its room object.
@@ -40,7 +35,7 @@ interface VisualizationEntry
 	object: IRoomObject;
 }
 
-export class RoomRenderingCanvas
+export class RoomRenderingCanvas implements IRoomRenderingCanvasInterface
 {
 
 	private _sortableSpriteList: SortableSprite[] = [];
@@ -365,14 +360,24 @@ export class RoomRenderingCanvas
 	}
 
 	/**
+	 * Get the canvas ID.
+	 *
+	 * @see AS3 class_3650 line 1271
+	 */
+	getId(): number
+	{
+		return this._id;
+	}
+
+	/**
 	 * Per-frame update for mouse event processing.
 	 * Based on AS3 RoomSpriteCanvas.update()
 	 *
-	 * @see sources/flash_version/com/sulake/room/renderer/RoomSpriteCanvas.as line 1222
+	 * @see sources/win63_version/room/renderer/class_3650.as line 1251
 	 */
-	updateMouseState(): void
+	update(): void
 	{
-		if (this._mouseCheckCount === 0)
+		if(this._mouseCheckCount === 0)
 		{
 			this.checkMouseHits(
 				Math.floor(this._mouseLocationX),
@@ -383,6 +388,14 @@ export class RoomRenderingCanvas
 
 		this._mouseCheckCount = 0;
 		this._eventId++;
+	}
+
+	/**
+	 * @deprecated Use update() instead. Kept for backward compatibility.
+	 */
+	updateMouseState(): void
+	{
+		this.update();
 	}
 
 	dispose(): void
