@@ -3,6 +3,7 @@ import type {IMessageEvent} from '@core/communication/messages/IMessageEvent';
 import type {IRoomHandlerListener} from '../IRoomHandlerListener';
 import {BaseHandler} from './BaseHandler';
 import {RoomSessionDoorbellEvent} from '../events/RoomSessionDoorbellEvent';
+import {RoomSessionQueueEvent} from '../events/RoomSessionQueueEvent';
 
 // Message events
 import {
@@ -15,6 +16,12 @@ import {RoomReadyMessageEvent} from '../../communication/messages/incoming/room/
 import {
 	CloseConnectionMessageEvent
 } from '../../communication/messages/incoming/room/session/CloseConnectionMessageEvent';
+import {
+	RoomQueueStatusMessageEvent
+} from '../../communication/messages/incoming/room/session/RoomQueueStatusMessageEvent';
+import {
+	YouAreSpectatorMessageEvent
+} from '../../communication/messages/incoming/room/session/YouAreSpectatorMessageEvent';
 import {
 	FlatAccessDeniedMessageEvent
 } from '../../communication/messages/incoming/navigator/FlatAccessDeniedMessageEvent';
@@ -30,6 +37,12 @@ import type {RoomReadyMessageParser} from '../../communication/messages/parser/r
 import type {
 	FlatAccessDeniedMessageParser
 } from '../../communication/messages/parser/navigator/FlatAccessDeniedMessageParser';
+import type {
+	RoomQueueStatusMessageParser
+} from '../../communication/messages/parser/room/session/RoomQueueStatusMessageParser';
+import type {
+	YouAreSpectatorMessageParser
+} from '../../communication/messages/parser/room/session/YouAreSpectatorMessageParser';
 
 import {Logger} from '@core/utils/Logger';
 
@@ -71,7 +84,8 @@ export class RoomSessionHandler extends BaseHandler
 		this.addMessageEvent(connection, new RoomReadyMessageEvent(this.onRoomReady.bind(this)));
 		this.addMessageEvent(connection, new CloseConnectionMessageEvent(this.onRoomDisconnected.bind(this)));
 		this.addMessageEvent(connection, new FlatAccessDeniedMessageEvent(this.onFlatAccessDenied.bind(this)));
-		// TODO: RoomQueueStatusMessageEvent, YouAreSpectatorMessageEvent
+		this.addMessageEvent(connection, new RoomQueueStatusMessageEvent(this.onRoomQueueStatus.bind(this)));
+		this.addMessageEvent(connection, new YouAreSpectatorMessageEvent(this.onYouAreSpectator.bind(this)));
 	}
 
 	override dispose(): void
@@ -206,5 +220,75 @@ export class RoomSessionHandler extends BaseHandler
 		}
 
 		log.debug(`Room disconnected: ${roomId}`);
+	}
+
+	private onRoomQueueStatus(event: IMessageEvent): void
+	{
+		if (!this.listener || !this.listener.sessionEvents)
+		{
+			return;
+		}
+
+		const parser = event.parser as RoomQueueStatusMessageParser;
+		if (!parser)
+		{
+			return;
+		}
+
+		const session = this.listener.getSession(parser.flatId);
+		if (!session)
+		{
+			return;
+		}
+
+		const targets = parser.getQueueSetTargets();
+		const activeTarget = parser.activeTarget;
+
+		for (const target of targets)
+		{
+			const queueSet = parser.getQueueSet(target);
+			if (!queueSet)
+			{
+				continue;
+			}
+
+			const queueEvent = new RoomSessionQueueEvent(
+				session,
+				queueSet.name,
+				queueSet.target,
+				queueSet.target === activeTarget
+			);
+
+			const queueTypes = queueSet.queueTypes;
+
+			for (const queueType of queueTypes)
+			{
+				queueEvent.addQueue(queueType, queueSet.getQueueSize(queueType));
+			}
+
+			this.listener.sessionEvents.emit(RoomSessionQueueEvent.QUEUE_STATUS, queueEvent);
+		}
+	}
+
+	private onYouAreSpectator(event: IMessageEvent): void
+	{
+		if (!this.listener)
+		{
+			return;
+		}
+
+		const parser = event.parser as YouAreSpectatorMessageParser;
+		if (!parser)
+		{
+			return;
+		}
+
+		const session = this.listener.getSession(parser.flatId);
+		if (!session)
+		{
+			return;
+		}
+
+		session.isSpectatorMode = true;
 	}
 }

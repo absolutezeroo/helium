@@ -120,7 +120,10 @@ import {
 	CloseConnectionMessageEvent,
 	FlatAccessibleMessageEvent,
 	OpenConnectionMessageEvent,
+	RoomQueueStatusMessageEvent,
 	RoomReadyMessageEvent,
+	YouAreNotSpectatorMessageEvent,
+	YouAreSpectatorMessageEvent,
 } from './messages/incoming/room/session';
 
 // Incoming Events - Room Layout
@@ -603,6 +606,9 @@ export class HabboMessages implements IMessageConfiguration
 		this._events.set(327, OpenConnectionMessageEvent);
 		this._events.set(431, FlatAccessibleMessageEvent);
 		this._events.set(2893, CloseConnectionMessageEvent);
+		this._events.set(3088, RoomQueueStatusMessageEvent);
+		this._events.set(2799, YouAreSpectatorMessageEvent);
+		this._events.set(2111, YouAreNotSpectatorMessageEvent);
 
 		// === ROOM PERMISSIONS ===
 		this._events.set(3116, YouAreControllerMessageEvent);

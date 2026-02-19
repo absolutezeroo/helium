@@ -218,9 +218,9 @@ export class RoomEngine extends Component implements IRoomEngine,
 				{
 					this._sessionDataManager = sessionData;
 
-					if (sessionData)
+					if(sessionData)
 					{
-						this._contentLoader.initFurnitureData(sessionData);
+						this._contentLoader.sessionDataManager = sessionData;
 					}
 				},
 				false // Optional - needed for furniture className lookup
@@ -2326,25 +2326,31 @@ export class RoomEngine extends Component implements IRoomEngine,
 	}
 
 	/**
-	 * Initialize the content loader with the asset library and configuration manager.
+	 * Initialize the content loader and set up room manager.
+	 *
+	 * @see AS3 RoomEngine.onConfigurationComplete() lines 3554-3578
 	 */
 	private initializeContentLoader(): void
 	{
-		if (!this.assets || !this._configurationManager)
+		if(!this.assets || !this._configurationManager)
 		{
 			return;
 		}
 
-		this._contentLoader.initialize(this.assets, this._configurationManager);
+		// AS3: var_1634.initialize(events, this)
+		this._contentLoader.initialize(this.events, this.assets, this._configurationManager);
 
-		// Pre-load placeholder content types so they're available when objects are created.
-		// Based on AS3 RoomEngine loading PLACE_HOLDER_TYPES at initialization.
+		if(this._sessionDataManager)
+		{
+			this._contentLoader.sessionDataManager = this._sessionDataManager;
+		}
+
+		// Pre-load placeholder content types
 		const placeHolderTypes = this._contentLoader.getPlaceHolderTypes();
 
-		for (const type of placeHolderTypes)
+		for(const type of placeHolderTypes)
 		{
-			// 'room' is loaded separately via loadRoomContent()
-			if (type === 'room')
+			if(type === 'room')
 			{
 				continue;
 			}
@@ -2352,7 +2358,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 			this._contentLoader.loadObjectContent(type, this._contentLoaderEvents);
 		}
 
-		// AS3: RoomEngine sets up roomManager before content loader is ready
+		// Set up room manager categories, content loader, and initialize
 		if(this._roomManager)
 		{
 			this._roomManager.addObjectUpdateCategory(10);
@@ -2362,7 +2368,10 @@ export class RoomEngine extends Component implements IRoomEngine,
 			this._roomManager.addObjectUpdateCategory(0);
 			this._roomManager.setContentLoader(this._contentLoader);
 
-			// AS3: onContentLoaderReady() → _roomManager.initialize(<nothing/>, this)
+			// In AS3, _roomManager.initialize() is called from onContentLoaderReady()
+			// after RCL_LOADER_READY. In our TS app, DI resolution is async and room
+			// data arrives before furniture data is loaded. Initialize immediately —
+			// the room manager loads placeholders and transitions independently.
 			this._roomManager.initialize(null, this);
 		}
 	}
@@ -2485,9 +2494,6 @@ export class RoomEngine extends Component implements IRoomEngine,
 		}
 
 		// Get visualization type from content loader.
-		// For tile_cursor and selection_arrow, force className as vizType so the factory
-		// creates the specialized class (TileCursorVisualization). For everything else
-		// (including placeholders), use the bundle's declared visualizationType.
 		let vizType: string;
 
 		if (className === OBJECT_TYPE_TILE_CURSOR || className === 'selection_arrow')
@@ -2518,7 +2524,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		const spriteVisualization = visualization as IRoomObjectSpriteVisualization;
 
 		// Set asset collection from content loader
-		const assetCollection = this._contentLoader.getAssetCollection(className);
+		const assetCollection = this._contentLoader.getGraphicAssetCollection(className);
 
 		if (assetCollection)
 		{
