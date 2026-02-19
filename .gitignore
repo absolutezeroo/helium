@@ -17,7 +17,4 @@ mockup/
 tools/flash2html/output/
 *.png
 NUL
-
-# Davia
-.davia/
-.claude\skills\davia-documentation\SKILL.md
+tmp/
