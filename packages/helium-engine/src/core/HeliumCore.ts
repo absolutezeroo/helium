@@ -1,14 +1,16 @@
 import {Application, ApplicationOptions, Ticker} from 'pixi.js';
-import {ComponentContext} from '@core/runtime';
+import {CoreComponentContext, CoreSetup} from '@core/runtime/CoreComponentContext';
+import {Core} from '@core/Core';
 import {AssetLibrary} from '@core/assets/AssetLibrary';
 import {CoreCommunicationManager} from '@core/communication/CoreCommunicationManager';
 import {Logger} from '@core/utils/Logger';
 import {IID_AssetLibrary} from '@iid/IIDAssetLibrary';
 import {IID_CoreCommunicationManager} from '@iid/IIDCoreCommunicationManager';
+import {IID_Core} from '@iid/IIDCore';
 
 import type {IAssetLibrary} from '@core/assets/IAssetLibrary';
 import type {ICoreCommunicationManager} from '@core/communication/ICoreCommunicationManager';
-import {IHeliumCore, IHeliumCoreConfig} from "@core/IHeliumCore";
+import type {IHeliumCore, IHeliumCoreConfig} from '@core/IHeliumCore';
 
 const log = Logger.getLogger('HeliumCore');
 
@@ -17,12 +19,15 @@ const log = Logger.getLogger('HeliumCore');
  *
  * Core layer of the Helium engine. Contains fundamental components that are
  * not specific to Habbo and could be reused for other projects:
- * - ComponentContext (dependency injection)
+ * - CoreComponentContext (DI container with priority update loop)
  * - PixiJS Application
  * - AssetLibrary
  * - CoreCommunicationManager
  *
  * This layer is initialized first, before any Habbo-specific managers.
+ *
+ * Uses CoreComponentContext (AS3 equivalent) instead of plain ComponentContext,
+ * providing 3-tier priority update loop, hibernation, and reboot support.
  */
 export class HeliumCore implements IHeliumCore
 {
@@ -36,11 +41,11 @@ export class HeliumCore implements IHeliumCore
 	}
 
 	// Core components
-	private _context: ComponentContext | null = null;
+	private _context: CoreComponentContext | null = null;
 
-	get context(): ComponentContext
+	get context(): CoreComponentContext
 	{
-		if (!this._context)
+		if(!this._context)
 		{
 			throw new Error('[HeliumCore] Not initialized');
 		}
@@ -52,7 +57,7 @@ export class HeliumCore implements IHeliumCore
 
 	get application(): Application
 	{
-		if (!this._application)
+		if(!this._application)
 		{
 			throw new Error('[HeliumCore] Not initialized');
 		}
@@ -64,7 +69,7 @@ export class HeliumCore implements IHeliumCore
 
 	get assets(): IAssetLibrary
 	{
-		if (!this._assets)
+		if(!this._assets)
 		{
 			throw new Error('[HeliumCore] Not initialized');
 		}
@@ -76,7 +81,7 @@ export class HeliumCore implements IHeliumCore
 
 	get communication(): ICoreCommunicationManager
 	{
-		if (!this._communication)
+		if(!this._communication)
 		{
 			throw new Error('[HeliumCore] Not initialized');
 		}
@@ -94,7 +99,7 @@ export class HeliumCore implements IHeliumCore
 	 */
 	async init(config?: IHeliumCoreConfig): Promise<void>
 	{
-		if (this._ready)
+		if(this._ready)
 		{
 			log.warn('Already initialized');
 			return;
@@ -102,8 +107,15 @@ export class HeliumCore implements IHeliumCore
 
 		log.info('Initializing core...');
 
-		// 1. Create Component Context (dependency injection container)
-		this._context = new ComponentContext();
+		// 1. Create CoreComponentContext (full DI container with priority update loop)
+		//    This is the AS3 CoreComponentContext equivalent — manages all components,
+		//    update receivers with 3-tier priority, hibernation, and reboot.
+		this._context = Core.instantiate(
+			CoreSetup.FRAME_UPDATE_SIMPLE
+		) as CoreComponentContext;
+
+		// Set target FPS (will be updated from ticker)
+		this._context.targetFps = 60;
 
 		// 2. Initialize PixiJS application
 		this._application = new Application();
@@ -122,7 +134,13 @@ export class HeliumCore implements IHeliumCore
 		const target = config?.canvas ?? document.body;
 		target.appendChild(this._application.canvas);
 
-		// 3. Create core components (order matters!)
+		// Update target FPS from ticker
+		this._context.targetFps = this._application.ticker.maxFPS || 60;
+
+		// 3. Register core itself as IID_Core so components can depend on it
+		this._context.registerInterface(IID_Core, this._context);
+
+		// 4. Create core components (order matters!)
 
 		// Asset Library - manages all game assets
 		this._assets = new AssetLibrary(this._context);
@@ -132,8 +150,11 @@ export class HeliumCore implements IHeliumCore
 		this._communication = new CoreCommunicationManager(this._context);
 		this._context.attachComponent(this._communication, [IID_CoreCommunicationManager]);
 
-		// 4. Set up update loop
+		// 5. Set up update loop — PixiJS ticker drives the CoreComponentContext
 		this._application.ticker.add(this.update, this);
+
+		// 6. Initialize the core (waits for locked components, then emits RUNNING)
+		this._context.initialize();
 
 		this._ready = true;
 		log.info('Core initialized');
@@ -144,15 +165,15 @@ export class HeliumCore implements IHeliumCore
 	 */
 	dispose(): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
 		log.info('Disposing core...');
 
 		// Stop update loop
 		this._application?.ticker.remove(this.update, this);
 
-		// Dispose context (disposes all attached components)
-		this._context?.dispose();
+		// Dispose via Core singleton (cleans up context and all components)
+		Core.dispose();
 		this._context = null;
 
 		// Dispose PixiJS
@@ -168,18 +189,24 @@ export class HeliumCore implements IHeliumCore
 	}
 
 	/**
-	 * Main update loop - updates context and communication
+	 * Main update loop — PixiJS ticker calls this each frame.
+	 *
+	 * Delegates to CoreComponentContext.update() which handles
+	 * priority-based update receivers, hibernation throttling, and reboot.
 	 */
 	update(ticker: Ticker): void
 	{
-		if (this._disposed) return;
+		if(this._disposed) return;
 
 		const deltaTime = ticker.deltaMS;
 
-		// Update context (processes all update receivers)
+		// CoreComponentContext.update() handles the full priority update loop
+		// including all registered update receivers and hibernation.
 		this._context?.update(deltaTime);
 
 		// Process communication queue
+		// TODO: CoreCommunicationManager should register as an update receiver
+		// instead of being called separately.
 		this._communication?.update(deltaTime);
 	}
 }

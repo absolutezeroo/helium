@@ -1,6 +1,6 @@
 import type {Application, Renderer, Ticker} from 'pixi.js';
 import type {IDisposable} from './runtime/IDisposable';
-import type {ComponentContext} from './runtime/ComponentContext';
+import type {CoreComponentContext} from './runtime/CoreComponentContext';
 import type {IAssetLibrary} from './assets/IAssetLibrary';
 import type {ICoreCommunicationManager} from './communication/ICoreCommunicationManager';
 
@@ -23,7 +23,7 @@ export interface IHeliumCoreConfig
 
 export interface IHeliumCore extends IDisposable
 {
-	readonly context: ComponentContext;
+	readonly context: CoreComponentContext;
 	readonly application: Application<Renderer>;
 	readonly assets: IAssetLibrary;
 	readonly communication: ICoreCommunicationManager;

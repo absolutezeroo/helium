@@ -17,7 +17,7 @@ Overall progress: ████████░░░░░░░░░░░░ ~
 |------------------------------------|-----------|---------|------|----------------------------------------|
 | **core/communication**             | 22        | 31      | 100% | ✅ Complete (obfuscated internals only) |
 | **core/assets**                    | 25        | 23      | 100% | ✅ Complete                             |
-| **core/runtime**                   | 32        | 8       | 25%  | 🔄 Partial                             |
+| **core/runtime**                   | 32        | 22      | 69%  | 🔄 Advanced                            |
 | **configuration**                  | 2         | 8       | 100% | ✅ Complete                             |
 | **localization**                   | 3         | 7       | 100% | ✅ Complete                             |
 | **inventory**                      | 51        | 33      | 65%  | 🔄 Logic complete, display pending     |
@@ -316,26 +316,32 @@ AS3: 313 files | TS: 321 files
 
 ---
 
-## 4. Core Runtime (~25%)
+## 4. Core Runtime (~69%)
 
 ```
-Progress: █████░░░░░░░░░░░░░░░ ~25%
-AS3: 32 files | TS: 8 files
+Progress: █████████████░░░░░░░ ~69%
+AS3: 32 files | TS: 22 files
 ```
 
-| Status | Element                                    |
-|--------|--------------------------------------------|
-| ✅      | Component (complete base class)            |
-| ✅      | ComponentContext, ComponentDependency      |
-| ✅      | IContext, IDisposable, IID                 |
-| ✅      | ICoreConfiguration                         |
-| ❌      | CoreComponentContext (registry/container)  |
-| ❌      | ComponentInterfaceQueue, InterfaceStruct   |
-| ❌      | EventDispatcherWrapper (AS3 compatibility) |
-| ❌      | IUpdateReceiver (game loop integration)    |
-| ❌      | ICore, IIDCore                             |
-| ❌      | IProfiler, Profiler                        |
-| ❌      | ~8 missing event classes                   |
+| Status | Element                                          |
+|--------|--------------------------------------------------|
+| ✅      | Component (complete base class)                  |
+| ✅      | ComponentContext, ComponentDependency             |
+| ✅      | IContext, IDisposable, IID                        |
+| ✅      | ICoreConfiguration                                |
+| ✅      | CoreComponentContext (3-tier priority update loop) |
+| ✅      | Core singleton (class_79 equivalent)              |
+| ✅      | ICore, IIDCore                                    |
+| ✅      | ICoreErrorReporter, ICoreErrorLogger               |
+| ✅      | DefaultErrorReporter (class_516 equivalent)        |
+| ✅      | Exception, InvalidComponentException, ComponentDisposedException |
+| ✅      | WarningEvent, ErrorEvent, LibraryProgressEvent     |
+| ✅      | HotelViewEvent, ILinkEventTracker                  |
+| ✅      | ErrorReportStorage                                 |
+| ⏭️      | EventDispatcherWrapper (Flash-specific, uses EventEmitter3) |
+| ⏭️      | InterfaceStruct/InterfaceStructList (simplified in TS with Map) |
+| ⏭️      | Profiler/IProfiler (use browser DevTools instead)  |
+| ⏭️      | ComponentInterfaceQueue (simplified in ComponentContext) |
 
 ---
 
@@ -425,7 +431,7 @@ AS3: 32 files | TS: 8 files
 | Complete modules (100%)    | Configuration, Localization, Campaign, Advertisement, Notifications, Messenger, FreeFlowChat, Session, Room, core/comm, core/assets, Tracking |
 | Logic-complete modules     | Inventory, Navigator, Avatar, Toolbar (display pending)                                                                                       |
 | Advanced modules (50-90%)  | Groups (57%), Utils (74%)                                                                                                                     |
-| In-progress modules (<50%) | core/runtime (25%), Communication messages (35%)                                                                                              |
+| In-progress modules (<50%) | Communication messages (35%)                                                                                              |
 | Not started modules        | catalog, sound, help, moderation, quest, game, roomevents, friendbar, friendlist, nux, phonenumber, window, ui (window system)                |
 
 ---

@@ -93,7 +93,6 @@ export class RoomEngine extends Component implements IRoomEngine,
 	private _roomObjectFactory: RoomObjectFactory;
 	private _visualizationFactory: RoomObjectVisualizationFactory;
 	private _roomData: Map<string, unknown>;
-	private _activeRoomId: number = -1;
 	private _ownUserIds: Map<number, number>;
 	private _roomObjectAliases: Map<string, string>;
 	private _renderingCanvases: Map<number, RoomRenderingCanvas> = new Map();
@@ -130,6 +129,13 @@ export class RoomEngine extends Component implements IRoomEngine,
 
 		// Listen to object events from factory
 		this._roomObjectFactory.addObjectEventListener(this.onRoomObjectEvent.bind(this));
+	}
+
+	private _activeRoomId: number = -1;
+
+	get activeRoomId(): number
+	{
+		return this._activeRoomId;
 	}
 
 	private _roomManager: IRoomManager | null = null;
@@ -428,6 +434,7 @@ export class RoomEngine extends Component implements IRoomEngine,
 		}
 
 		const roomIdStr = this.getRoomIdentifier(roomId);
+
 		return this._roomManager.getRoom(roomIdStr);
 	}
 
@@ -437,11 +444,6 @@ export class RoomEngine extends Component implements IRoomEngine,
 	}
 
 	getActiveRoomId(): number
-	{
-		return this._activeRoomId;
-	}
-
-	get activeRoomId(): number
 	{
 		return this._activeRoomId;
 	}
