@@ -2,9 +2,22 @@ import {EventEmitter} from 'eventemitter3';
 import {Component, ComponentDependency, type IContext,} from '@core/runtime';
 import {IID_SessionDataManager} from '@iid/IIDSessionDataManager';
 import {IID_RoomSessionManager} from '@iid/IIDRoomSessionManager';
+import {IID_HabboInventory} from '@iid/IIDHabboInventory';
+import {IID_HabboFriendList} from '@iid/IIDHabboFriendList';
+import {IID_RoomEngine} from '@iid/IIDRoomEngine';
+import {IID_HabboCatalog} from '@iid/IIDHabboCatalog';
+import {IID_HabboToolbar} from '@iid/IIDHabboToolbar';
+import {IID_HabboWindowManager} from '@iid/IIDHabboWindowManager';
+import {IID_HabboHelp} from '@iid/IIDHabboHelp';
 import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommunicationManager';
 import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
 import type {IRoomSessionManager} from '@habbo/session/IRoomSessionManager';
+import type {IHabboInventory} from '@habbo/inventory/IHabboInventory';
+import type {IHabboFriendList} from '@habbo/friendlist/IHabboFriendList';
+import type {IRoomEngine} from '@habbo/room';
+import type {IHabboToolbar} from '@habbo/toolbar/IHabboToolbar';
+import type {IHabboWindowManager} from '@habbo/window/IHabboWindowManager';
+import type {IHabboHelp} from '@habbo/help/IHabboHelp';
 import type {IHabboNotifications} from './IHabboNotifications';
 import {SingularNotificationController} from './singular/SingularNotificationController';
 import {NotificationMessageHandler} from './NotificationMessageHandler';
@@ -47,6 +60,13 @@ export interface HabboNotificationEvents
 export class HabboNotifications extends Component implements IHabboNotifications
 {
 	private _messageHandler: NotificationMessageHandler | null = null;
+	private _inventory: IHabboInventory | null = null;
+	private _friendList: IHabboFriendList | null = null;
+	private _roomEngine: IRoomEngine | null = null;
+	private _catalog: unknown | null = null;
+	private _toolbar: IHabboToolbar | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
+	private _habboHelp: IHabboHelp | null = null;
 
 	constructor(context: IContext)
 	{
@@ -152,6 +172,62 @@ export class HabboNotifications extends Component implements IHabboNotifications
 				(manager: IRoomSessionManager | null) =>
 				{
 					this._roomSessionManager = manager;
+				},
+				false
+			),
+			new ComponentDependency(
+				IID_HabboInventory,
+				(inventory: IHabboInventory | null) =>
+				{
+					this._inventory = inventory;
+				},
+				false
+			),
+			new ComponentDependency(
+				IID_HabboFriendList,
+				(friendList: IHabboFriendList | null) =>
+				{
+					this._friendList = friendList;
+				},
+				false
+			),
+			new ComponentDependency(
+				IID_RoomEngine,
+				(engine: IRoomEngine | null) =>
+				{
+					this._roomEngine = engine;
+				},
+				false
+			),
+			new ComponentDependency(
+				IID_HabboCatalog,
+				(catalog: unknown | null) =>
+				{
+					this._catalog = catalog;
+				},
+				false
+			),
+			new ComponentDependency(
+				IID_HabboToolbar,
+				(toolbar: IHabboToolbar | null) =>
+				{
+					this._toolbar = toolbar;
+				},
+				false
+			),
+			new ComponentDependency(
+				IID_HabboWindowManager,
+				(manager: IHabboWindowManager | null) =>
+				{
+					this._windowManager = manager;
+				},
+				false
+			),
+			new ComponentDependency(
+				IID_HabboHelp,
+				(help: IHabboHelp | null) =>
+				{
+					this._habboHelp = help;
 				},
 				false
 			),

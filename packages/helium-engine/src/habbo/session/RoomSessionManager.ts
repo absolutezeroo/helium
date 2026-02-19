@@ -1,8 +1,12 @@
 import {EventEmitter} from 'eventemitter3';
 import {Component, ComponentDependency, type IContext} from '@core/runtime';
 import {IID_RoomEngine} from '@iid/IIDRoomEngine';
+import {IID_HabboFreeFlowChat} from '@iid/IIDHabboFreeFlowChat';
+import {IID_AvatarRenderManager} from '@iid/IIDAvatarRenderManager';
 import type {IHabboCommunicationManager} from '../communication/IHabboCommunicationManager';
 import type {IHabboTracking} from '../tracking/IHabboTracking';
+import type {IHabboFreeFlowChat} from '../freeflowchat/IHabboFreeFlowChat';
+import type {IAvatarRenderManager} from '../avatar/IAvatarRenderManager';
 import type {IRoomSessionManager} from './IRoomSessionManager';
 import type {IRoomHandlerListener} from './IRoomHandlerListener';
 import type {IRoomSession} from './IRoomSession';
@@ -53,6 +57,8 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 	private _communication: IHabboCommunicationManager | null = null;
 	private _roomEngine: IRoomEngine | null = null;
 	private _habboTracking: IHabboTracking | null = null;
+	private _freeFlowChat: IHabboFreeFlowChat | null = null;
+	private _avatarRenderer: IAvatarRenderManager | null = null;
 	private _handlers: BaseHandler[] = [];
 	private _sessions: Map<string, RoomSession> = new Map();
 	private _pendingSession: RoomSession | null = null;
@@ -107,6 +113,14 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 				false
 			),
 			new ComponentDependency(
+				IID_HabboFreeFlowChat,
+				(chat: IHabboFreeFlowChat | null) =>
+				{
+					this._freeFlowChat = chat;
+				},
+				false
+			),
+			new ComponentDependency(
 				IID_RoomEngine,
 				(engine: IRoomEngine | null) =>
 				{
@@ -119,6 +133,14 @@ export class RoomSessionManager extends Component implements IRoomSessionManager
 						callback: this.onRoomEngineInitialized.bind(this),
 					},
 				]
+			),
+			new ComponentDependency(
+				IID_AvatarRenderManager,
+				(renderer: IAvatarRenderManager | null) =>
+				{
+					this._avatarRenderer = renderer;
+				},
+				false
 			),
 		];
 	}

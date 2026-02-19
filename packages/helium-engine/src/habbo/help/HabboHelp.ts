@@ -16,8 +16,24 @@ import {GuideHelpManager} from './GuideHelpManager';
 import {NameChangeController} from './NameChangeController';
 import {SanctionInfo} from './SanctionInfo';
 import {HelpMessageHandler} from './HelpMessageHandler';
-import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
-import type {IMessageComposer} from "@core";
+import {IID_HabboCommunicationManager} from '@iid/IIDHabboCommunicationManager';
+import {IID_HabboWindowManager} from '@iid/IIDHabboWindowManager';
+import {IID_SessionDataManager} from '@iid/IIDSessionDataManager';
+import {IID_HabboToolbar} from '@iid/IIDHabboToolbar';
+import {IID_HabboLocalizationManager} from '@iid/IIDHabboLocalizationManager';
+import {IID_RoomSessionManager} from '@iid/IIDRoomSessionManager';
+import {IID_HabboNavigator} from '@iid/IIDHabboNavigator';
+import {IID_HabboTracking} from '@iid/IIDHabboTracking';
+import {IID_HabboFriendList} from '@iid/IIDHabboFriendList';
+import type {IHabboWindowManager} from '@habbo/window/IHabboWindowManager';
+import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
+import type {IHabboToolbar} from '@habbo/toolbar/IHabboToolbar';
+import type {IHabboLocalizationManager} from '@habbo/localization/IHabboLocalizationManager';
+import type {IRoomSessionManager} from '@habbo/session/IRoomSessionManager';
+import type {IHabboNavigator} from '@habbo/navigator/IHabboNavigator';
+import type {IHabboTracking} from '@habbo/tracking/IHabboTracking';
+import type {IHabboFriendList} from '@habbo/friendlist/IHabboFriendList';
+import type {IMessageComposer} from '@core';
 
 const log = Logger.getLogger('HabboHelp');
 
@@ -42,6 +58,14 @@ export class HabboHelp extends Component implements IHabboHelp, ILinkEventTracke
 	public static readonly REPORT_TYPE_PHOTO: number = 9;
 
 	private _communication: IHabboCommunicationManager | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
+	private _sessionDataManager: ISessionDataManager | null = null;
+	private _toolbar: IHabboToolbar | null = null;
+	private _localizationManager: IHabboLocalizationManager | null = null;
+	private _roomSessionManager: IRoomSessionManager | null = null;
+	private _navigator: IHabboNavigator | null = null;
+	private _tracking: IHabboTracking | null = null;
+	private _friendList: IHabboFriendList | null = null;
 	private _imRegistry: InstantMessageRegistry;
 	private _chatEventHandler: ChatEventHandler | null = null;
 	private _imEventHandler: InstantMessageEventHandler | null = null;
@@ -160,12 +184,73 @@ export class HabboHelp extends Component implements IHabboHelp, ILinkEventTracke
 	{
 		return [
 			new ComponentDependency(
+				IID_HabboWindowManager,
+				(manager: IHabboWindowManager | null) =>
+				{
+					this._windowManager = manager;
+				}
+			),
+			new ComponentDependency(
+				IID_SessionDataManager,
+				(manager: ISessionDataManager | null) =>
+				{
+					this._sessionDataManager = manager;
+				},
+				false
+			),
+			new ComponentDependency(
 				IID_HabboCommunicationManager,
 				(manager: IHabboCommunicationManager | null) =>
 				{
 					this._communication = manager;
 				},
 				true
+			),
+			new ComponentDependency(
+				IID_HabboToolbar,
+				(toolbar: IHabboToolbar | null) =>
+				{
+					this._toolbar = toolbar;
+				},
+				false
+			),
+			new ComponentDependency(
+				IID_HabboLocalizationManager,
+				(manager: IHabboLocalizationManager | null) =>
+				{
+					this._localizationManager = manager;
+				}
+			),
+			new ComponentDependency(
+				IID_RoomSessionManager,
+				(manager: IRoomSessionManager | null) =>
+				{
+					this._roomSessionManager = manager;
+				}
+			),
+			new ComponentDependency(
+				IID_HabboNavigator,
+				(navigator: IHabboNavigator | null) =>
+				{
+					this._navigator = navigator;
+				},
+				false
+			),
+			new ComponentDependency(
+				IID_HabboTracking,
+				(tracking: IHabboTracking | null) =>
+				{
+					this._tracking = tracking;
+				},
+				false
+			),
+			new ComponentDependency(
+				IID_HabboFriendList,
+				(friendList: IHabboFriendList | null) =>
+				{
+					this._friendList = friendList;
+				},
+				false
 			),
 		];
 	}

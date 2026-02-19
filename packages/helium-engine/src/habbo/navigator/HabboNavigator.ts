@@ -5,6 +5,9 @@ import {IID_HabboToolbar} from '@iid/IIDHabboToolbar';
 import {IID_HabboWindowManager} from '@iid/IIDHabboWindowManager';
 import {IID_HabboLocalizationManager} from '@iid/IIDHabboLocalizationManager';
 import {IID_HabboTracking} from '@iid/IIDHabboTracking';
+import {IID_HabboCatalog} from '@iid/IIDHabboCatalog';
+import {IID_AvatarRenderManager} from '@iid/IIDAvatarRenderManager';
+import {IID_HabboHelp} from '@iid/IIDHabboHelp';
 import type {IWindow} from '@core/window/IWindow';
 import type {IWindowContainer} from '@core/window/IWindowContainer';
 import type {IHabboNavigator} from './IHabboNavigator';
@@ -14,6 +17,8 @@ import type {IHabboToolbar} from '../toolbar/IHabboToolbar';
 import type {IHabboWindowManager} from '../window/IHabboWindowManager';
 import type {IHabboLocalizationManager} from '../localization/IHabboLocalizationManager';
 import type {IHabboTracking} from '../tracking/IHabboTracking';
+import type {IAvatarRenderManager} from '../avatar/IAvatarRenderManager';
+import type {IHabboHelp} from '../help/IHabboHelp';
 import {HabboToolbarEvent} from '../toolbar/events/HabboToolbarEvent';
 import {HabboToolbarIconEnum} from '../toolbar/HabboToolbarIconEnum';
 import {NavigatorData} from './domain';
@@ -54,6 +59,9 @@ export class HabboNavigator extends Component implements IHabboNavigator
 	private _localization: IHabboLocalizationManager | null = null;
 	private _sessionData: ISessionDataManager | null = null;
 	private _tracking: IHabboTracking | null = null;
+	private _catalog: unknown | null = null;
+	private _avatarManager: IAvatarRenderManager | null = null;
+	private _habboHelp: IHabboHelp | null = null;
 
 	constructor(context: IContext)
 	{
@@ -168,6 +176,29 @@ export class HabboNavigator extends Component implements IHabboNavigator
 				{
 					this._tracking = tracking;
 				}
+			),
+			new ComponentDependency(
+				IID_HabboCatalog,
+				(catalog: unknown | null) =>
+				{
+					this._catalog = catalog;
+				},
+				false
+			),
+			new ComponentDependency(
+				IID_AvatarRenderManager,
+				(manager: IAvatarRenderManager | null) =>
+				{
+					this._avatarManager = manager;
+				}
+			),
+			new ComponentDependency(
+				IID_HabboHelp,
+				(help: IHabboHelp | null) =>
+				{
+					this._habboHelp = help;
+				},
+				false
 			),
 		];
 	}

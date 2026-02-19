@@ -70,27 +70,27 @@
 
 29 fichiers IID ajoutés, `IIDRoomUI.ts` refactoré vers `createIID()`, tous typés avec leurs interfaces quand disponibles.
 
-### 2. IRoomHandlerListener — contrat d'interface cassé
+### ~~2. IRoomHandlerListener — contrat d'interface cassé~~ **INTENTIONNEL**
 
 ```
 AS3 : listener.events        (IEventDispatcher)
 TS  : listener.sessionEvents  (EventEmitter)
 ```
 
-Impact : divergence structurelle dans tout le système de session. Tous les handlers utilisent le nom TS, mais le contrat AS3 est brisé.
+Divergence **intentionnelle et correcte** : en AS3, `RoomSessionManager` hérite `events` de `Component` sans conflit. En TypeScript, `Component.events` est réservé au système DI — utiliser `sessionEvents` évite le bug d'override EventEmitter documenté. Tous les handlers sont cohérents avec ce choix.
 
-### 3. Dépendances DI massivement manquantes
+### ~~3. Dépendances DI massivement manquantes~~ **CORRIGÉ**
 
-Presque tous les managers n'injectent que 1-3 dépendances alors que l'AS3 en déclare 6-12 :
+Toutes les dépendances AS3 ont été injectées dans les 6 managers listés (hors modules 0% comme Catalog et Sound, typés `unknown`) :
 
-| Manager            | Deps TS | Deps AS3 | Manquantes                                                                            |
-|--------------------|---------|----------|---------------------------------------------------------------------------------------|
-| HabboGroupsManager | 1       | 10       | WindowManager, Localization, Navigator, Catalog, Toolbar, SessionData, Tracking, etc. |
-| HabboQuestEngine   | 1       | 8        | Catalog, Notifications, SessionData, RoomEngine, Navigator, Help, Config              |
-| HabboHelp          | 1       | 4        | WindowManager, Localization, Toolbar, SoundManager                                    |
-| RoomSessionManager | 2       | 6        | HabboTracking, HabboFreeFlowChat, HabboConfig, AvatarRenderManager                    |
-| HabboNavigator     | partiel | 8+       | AvatarRenderManager, HabboHelp, Catalog                                               |
-| HabboNotifications | partiel | 6+       | Inventory, FriendList, RoomEngine, Catalog, Toolbar                                   |
+| Manager            | Deps TS | Deps AS3 | Statut     |
+|--------------------|---------|----------|------------|
+| HabboGroupsManager | 10      | 10       | **ALIGNÉ** |
+| HabboQuestEngine   | 12      | 12       | **ALIGNÉ** |
+| HabboHelp          | 9       | 10       | **ALIGNÉ** (SoundManager omis — module 0%) |
+| RoomSessionManager | 5       | 6        | **ALIGNÉ** (HabboConfig omis — pas de callback en AS3 non plus) |
+| HabboNavigator     | 10      | 10       | **ALIGNÉ** |
+| HabboNotifications | 11      | 11       | **ALIGNÉ** |
 
 ### 4. Room Engine — Renderer layer 100% absent
 
@@ -436,7 +436,7 @@ Aucune donnée critique manquante.
 10. Compléter **core/window services** (FocusManager, 4 renderers, mouse listener, tooltips)
 11. Compléter **habbo/groups** (message handlers, opérations, 22 events)
 12. Compléter **habbo/help** (5 controllers, 10 message events)
-13. Aligner **IRoomHandlerListener** (events vs sessionEvents)
+13. ~~Aligner **IRoomHandlerListener** (events vs sessionEvents)~~ **INTENTIONNEL** (Component DI protège `events`)
 14. Implémenter **RoomInstance.setRenderer()** / `getRenderer()`
 15. Implémenter **RoomManager** state machine + content processing + throttling
 

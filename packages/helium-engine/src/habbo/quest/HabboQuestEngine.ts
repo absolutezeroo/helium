@@ -1,7 +1,27 @@
 import type {ILinkEventTracker} from '@core/runtime';
 import {Component, ComponentDependency, type IContext,} from '@core/runtime';
 import {IID_HabboCommunicationManager} from '@iid/IIDHabboCommunicationManager';
+import {IID_HabboWindowManager} from '@iid/IIDHabboWindowManager';
+import {IID_HabboLocalizationManager} from '@iid/IIDHabboLocalizationManager';
+import {IID_HabboConfigurationManager} from '@iid/IIDHabboConfigurationManager';
+import {IID_HabboToolbar} from '@iid/IIDHabboToolbar';
+import {IID_HabboCatalog} from '@iid/IIDHabboCatalog';
+import {IID_HabboNotifications} from '@iid/IIDHabboNotifications';
+import {IID_HabboHelp} from '@iid/IIDHabboHelp';
+import {IID_HabboNewNavigator} from '@iid/IIDHabboNewNavigator';
+import {IID_SessionDataManager} from '@iid/IIDSessionDataManager';
+import {IID_RoomEngine} from '@iid/IIDRoomEngine';
+import {IID_HabboTracking} from '@iid/IIDHabboTracking';
 import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommunicationManager';
+import type {IHabboWindowManager} from '@habbo/window/IHabboWindowManager';
+import type {IHabboLocalizationManager} from '@habbo/localization/IHabboLocalizationManager';
+import type {IHabboToolbar} from '@habbo/toolbar/IHabboToolbar';
+import type {IHabboNotifications} from '@habbo/notifications/IHabboNotifications';
+import type {IHabboHelp} from '@habbo/help/IHabboHelp';
+import type {IHabboNewNavigator} from '@habbo/navigator/IHabboNewNavigator';
+import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
+import type {IRoomEngine} from '@habbo/room';
+import type {IHabboTracking} from '@habbo/tracking/IHabboTracking';
 import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
 import type {IHabboQuestEngine} from './IHabboQuestEngine';
 import {QuestController} from './QuestController';
@@ -26,6 +46,17 @@ export class HabboQuestEngine extends Component implements IHabboQuestEngine, IL
 	private _resolutionController: AchievementsResolutionController | null = null;
 	private _competitionController: RoomCompetitionController | null = null;
 	private _messageHandler: QuestMessageHandler | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
+	private _localization: IHabboLocalizationManager | null = null;
+	private _configuration: unknown | null = null;
+	private _toolbar: IHabboToolbar | null = null;
+	private _catalog: unknown | null = null;
+	private _notifications: IHabboNotifications | null = null;
+	private _habboHelp: IHabboHelp | null = null;
+	private _navigator: IHabboNewNavigator | null = null;
+	private _sessionDataManager: ISessionDataManager | null = null;
+	private _roomEngine: IRoomEngine | null = null;
+	private _tracking: IHabboTracking | null = null;
 
 	constructor(context: IContext)
 	{
@@ -121,6 +152,90 @@ export class HabboQuestEngine extends Component implements IHabboQuestEngine, IL
 					this._communicationManager = manager;
 				},
 				true
+			),
+			new ComponentDependency(
+				IID_HabboWindowManager,
+				(manager: IHabboWindowManager | null) =>
+				{
+					this._windowManager = manager;
+				}
+			),
+			new ComponentDependency(
+				IID_HabboLocalizationManager,
+				(manager: IHabboLocalizationManager | null) =>
+				{
+					this._localization = manager;
+				}
+			),
+			new ComponentDependency(
+				IID_HabboConfigurationManager,
+				(config: unknown | null) =>
+				{
+					this._configuration = config;
+				}
+			),
+			new ComponentDependency(
+				IID_HabboToolbar,
+				(toolbar: IHabboToolbar | null) =>
+				{
+					this._toolbar = toolbar;
+				},
+				false
+			),
+			new ComponentDependency(
+				IID_HabboCatalog,
+				(catalog: unknown | null) =>
+				{
+					this._catalog = catalog;
+				},
+				false
+			),
+			new ComponentDependency(
+				IID_HabboNotifications,
+				(notifications: IHabboNotifications | null) =>
+				{
+					this._notifications = notifications;
+				},
+				false
+			),
+			new ComponentDependency(
+				IID_HabboHelp,
+				(help: IHabboHelp | null) =>
+				{
+					this._habboHelp = help;
+				},
+				false
+			),
+			new ComponentDependency(
+				IID_HabboNewNavigator,
+				(navigator: IHabboNewNavigator | null) =>
+				{
+					this._navigator = navigator;
+				},
+				false
+			),
+			new ComponentDependency(
+				IID_SessionDataManager,
+				(manager: ISessionDataManager | null) =>
+				{
+					this._sessionDataManager = manager;
+				}
+			),
+			new ComponentDependency(
+				IID_RoomEngine,
+				(engine: IRoomEngine | null) =>
+				{
+					this._roomEngine = engine;
+				},
+				false
+			),
+			new ComponentDependency(
+				IID_HabboTracking,
+				(tracking: IHabboTracking | null) =>
+				{
+					this._tracking = tracking;
+				},
+				false
 			),
 		];
 	}

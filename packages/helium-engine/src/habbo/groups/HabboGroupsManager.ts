@@ -3,7 +3,24 @@ import type {ILinkEventTracker} from '@core/runtime/events/ILinkEventTracker';
 import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommunicationManager';
 import {Logger} from '@core/utils/Logger';
 import type {IHabboGroupsManager} from './IHabboGroupsManager';
-import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
+import {IID_HabboCommunicationManager} from '@iid/IIDHabboCommunicationManager';
+import {IID_HabboWindowManager} from '@iid/IIDHabboWindowManager';
+import {IID_HabboLocalizationManager} from '@iid/IIDHabboLocalizationManager';
+import {IID_HabboNavigator} from '@iid/IIDHabboNavigator';
+import {IID_HabboNewNavigator} from '@iid/IIDHabboNewNavigator';
+import {IID_HabboFriendList} from '@iid/IIDHabboFriendList';
+import {IID_HabboCatalog} from '@iid/IIDHabboCatalog';
+import {IID_HabboToolbar} from '@iid/IIDHabboToolbar';
+import {IID_SessionDataManager} from '@iid/IIDSessionDataManager';
+import {IID_HabboTracking} from '@iid/IIDHabboTracking';
+import type {IHabboWindowManager} from '@habbo/window/IHabboWindowManager';
+import type {IHabboLocalizationManager} from '@habbo/localization/IHabboLocalizationManager';
+import type {IHabboNavigator} from '@habbo/navigator/IHabboNavigator';
+import type {IHabboNewNavigator} from '@habbo/navigator/IHabboNewNavigator';
+import type {IHabboFriendList} from '@habbo/friendlist/IHabboFriendList';
+import type {IHabboToolbar} from '@habbo/toolbar/IHabboToolbar';
+import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
+import type {IHabboTracking} from '@habbo/tracking/IHabboTracking';
 
 const log = Logger.getLogger('Groups');
 
@@ -24,6 +41,15 @@ export class HabboGroupsManager extends Component implements IHabboGroupsManager
 	public static readonly GROUPS_TRACKING_CATEGORY: string = 'HabboGroups';
 
 	private _communicationManager: IHabboCommunicationManager | null = null;
+	private _windowManager: IHabboWindowManager | null = null;
+	private _localization: IHabboLocalizationManager | null = null;
+	private _navigator: IHabboNavigator | null = null;
+	private _newNavigator: IHabboNewNavigator | null = null;
+	private _friendList: IHabboFriendList | null = null;
+	private _catalog: unknown | null = null;
+	private _toolbar: IHabboToolbar | null = null;
+	private _sessionDataManager: ISessionDataManager | null = null;
+	private _habboTracking: IHabboTracking | null = null;
 
 	constructor(context: IContext)
 	{
@@ -44,12 +70,76 @@ export class HabboGroupsManager extends Component implements IHabboGroupsManager
 		return [
 			...super.dependencies,
 			new ComponentDependency(
+				IID_HabboWindowManager,
+				(manager: IHabboWindowManager | null) =>
+				{
+					this._windowManager = manager;
+				}
+			),
+			new ComponentDependency(
 				IID_HabboCommunicationManager,
 				(manager: IHabboCommunicationManager | null) =>
 				{
 					this._communicationManager = manager;
 				},
 				true
+			),
+			new ComponentDependency(
+				IID_HabboLocalizationManager,
+				(manager: IHabboLocalizationManager | null) =>
+				{
+					this._localization = manager;
+				}
+			),
+			new ComponentDependency(
+				IID_HabboNavigator,
+				(navigator: IHabboNavigator | null) =>
+				{
+					this._navigator = navigator;
+				}
+			),
+			new ComponentDependency(
+				IID_HabboNewNavigator,
+				(navigator: IHabboNewNavigator | null) =>
+				{
+					this._newNavigator = navigator;
+				}
+			),
+			new ComponentDependency(
+				IID_HabboFriendList,
+				(friendList: IHabboFriendList | null) =>
+				{
+					this._friendList = friendList;
+				}
+			),
+			new ComponentDependency(
+				IID_HabboCatalog,
+				(catalog: unknown | null) =>
+				{
+					this._catalog = catalog;
+				},
+				false
+			),
+			new ComponentDependency(
+				IID_HabboToolbar,
+				(toolbar: IHabboToolbar | null) =>
+				{
+					this._toolbar = toolbar;
+				}
+			),
+			new ComponentDependency(
+				IID_SessionDataManager,
+				(manager: ISessionDataManager | null) =>
+				{
+					this._sessionDataManager = manager;
+				}
+			),
+			new ComponentDependency(
+				IID_HabboTracking,
+				(tracking: IHabboTracking | null) =>
+				{
+					this._habboTracking = tracking;
+				}
 			),
 		];
 	}
