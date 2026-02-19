@@ -197,11 +197,20 @@ import {ErrorReportEvent} from './messages/incoming/error';
 
 // Incoming Events - Users
 import {
+	ApproveNameMessageEvent,
+	ChangeEmailResultEvent,
 	EmailStatusResultEvent,
+	ExtendedProfileChangedMessageEvent,
+	ExtendedProfileMessageEvent,
 	HabboGroupBadgesMessageEvent,
+	HabboUserBadgesMessageEvent,
+	HandItemReceivedMessageEvent,
 	IgnoredUsersMessageEvent,
 	IgnoreResultMessageEvent,
-	InClientLinkMessageEvent
+	InClientLinkMessageEvent,
+	RelationshipStatusInfoEvent,
+	ScrSendKickbackInfoMessageEvent,
+	ScrSendUserInfoEvent,
 } from './messages/incoming/users';
 
 // Incoming Events - Preferences
@@ -444,8 +453,15 @@ import {
 	VisitUserMessageComposer,
 } from './messages/outgoing/friendlist';
 import {
+	ApproveNameMessageComposer,
+	ChangeEmailComposer,
+	GetEmailStatusComposer,
+	GetExtendedProfileByNameMessageComposer,
 	GetIgnoredUsersMessageComposer,
+	GetSelectedBadgesMessageComposer,
 	IgnoreUserMessageComposer,
+	ScrGetKickbackInfoMessageComposer,
+	ScrGetUserInfoMessageComposer,
 	UnignoreUserMessageComposer
 } from './messages/outgoing/users';
 
@@ -675,8 +691,17 @@ export class HabboMessages implements IMessageConfiguration
 		this._events.set(546, OpenPetPackageResultMessageEvent);
 
 		// === USERS ===
+		this._events.set(1682, ApproveNameMessageEvent);
+		this._events.set(586, ChangeEmailResultEvent);
 		this._events.set(2798, HabboGroupBadgesMessageEvent);
+		this._events.set(3975, HabboUserBadgesMessageEvent);
+		this._events.set(889, HandItemReceivedMessageEvent);
 		this._events.set(2437, InClientLinkMessageEvent);
+		this._events.set(919, ExtendedProfileMessageEvent);
+		this._events.set(3410, ExtendedProfileChangedMessageEvent);
+		this._events.set(3538, RelationshipStatusInfoEvent);
+		this._events.set(2969, ScrSendKickbackInfoMessageEvent);
+		this._events.set(937, ScrSendUserInfoEvent);
 		this._events.set(712, EmailStatusResultEvent);
 		this._events.set(2936, IgnoreResultMessageEvent);
 		this._events.set(3326, IgnoredUsersMessageEvent);
@@ -909,8 +934,15 @@ export class HabboMessages implements IMessageConfiguration
 		this._composers.set(1666, SetRelationshipStatusMessageComposer);
 
 		// === USERS ===
+		this._composers.set(737, ApproveNameMessageComposer);
+		this._composers.set(2460, ChangeEmailComposer);
+		this._composers.set(3596, GetEmailStatusComposer);
+		this._composers.set(1037, GetExtendedProfileByNameMessageComposer);
 		this._composers.set(1601, GetIgnoredUsersMessageComposer);
+		this._composers.set(68, GetSelectedBadgesMessageComposer);
 		this._composers.set(2249, IgnoreUserMessageComposer);
+		this._composers.set(2496, ScrGetKickbackInfoMessageComposer);
+		this._composers.set(1909, ScrGetUserInfoMessageComposer);
 		this._composers.set(3881, UnignoreUserMessageComposer);
 
 		// === CAMPAIGN ===

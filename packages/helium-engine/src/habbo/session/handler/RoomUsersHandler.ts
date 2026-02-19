@@ -7,17 +7,20 @@ import {BaseHandler} from './BaseHandler';
 import {UsersMessageEvent} from '../../communication/messages/incoming/room/engine/UsersMessageEvent';
 import {UserRemoveMessageEvent} from '../../communication/messages/incoming/room/engine/UserRemoveMessageEvent';
 import {DoorbellMessageEvent} from '../../communication/messages/incoming/navigator/DoorbellMessageEvent';
+import {HabboUserBadgesMessageEvent} from '../../communication/messages/incoming/users/HabboUserBadgesMessageEvent';
 
 // Parsers
 import type {UsersMessageParser} from '../../communication/messages/parser/room/engine/UsersMessageParser';
 import type {UserRemoveMessageParser} from '../../communication/messages/parser/room/engine/UserRemoveMessageParser';
 import type {DoorbellMessageParser} from '../../communication/messages/parser/navigator/DoorbellMessageParser';
+import type {HabboUserBadgesMessageParser} from '../../communication/messages/parser/users/HabboUserBadgesMessageParser';
 
 // Events
 import {RoomSessionUserDataUpdateEvent} from '../events/RoomSessionUserDataUpdateEvent';
 import {RoomSessionDoorbellEvent} from '../events/RoomSessionDoorbellEvent';
-import {IUserData, UserData} from "@habbo/session";
-import {RoomUserData} from "@habbo/communication";
+import {RoomSessionUserBadgesEvent} from '../events/RoomSessionUserBadgesEvent';
+import {IUserData, UserData} from '@habbo/session';
+import {RoomUserData} from '@habbo/communication';
 
 /**
  * Room users handler
@@ -28,7 +31,6 @@ import {RoomUserData} from "@habbo/communication";
  * This is a simplified implementation focusing on core functionality.
  *
  * TODO: Implement additional handlers:
- * - HabboUserBadgesMessageEvent (user badges)
  * - UserChangeMessageEvent (figure updates)
  * - UserNameChangedMessageEvent
  * - PetInfoMessageEvent, PetCommandsMessageEvent, etc. (pet-related)
@@ -51,10 +53,10 @@ export class RoomUsersHandler extends BaseHandler
 		// Register core message events
 		this.addMessageEvent(connection, new UsersMessageEvent(this.onUsers.bind(this)));
 		this.addMessageEvent(connection, new UserRemoveMessageEvent(this.onUserRemove.bind(this)));
+		this.addMessageEvent(connection, new HabboUserBadgesMessageEvent(this.onUserBadges.bind(this)));
 		this.addMessageEvent(connection, new DoorbellMessageEvent(this.onDoorbell.bind(this)));
 
 		// TODO: Register additional message events when implemented
-		// this.addMessageEvent(connection, new HabboUserBadgesMessageEvent(this.onUserBadges.bind(this)));
 		// this.addMessageEvent(connection, new UserChangeMessageEvent(this.onUserChange.bind(this)));
 		// this.addMessageEvent(connection, new DanceMessageEvent(this.onDance.bind(this)));
 	}
@@ -228,9 +230,45 @@ export class RoomUsersHandler extends BaseHandler
 		}
 	}
 
+	/**
+	 * Handle user badges update
+	 */
+	private onUserBadges(event: IMessageEvent): void
+	{
+		const badgesEvent = event as HabboUserBadgesMessageEvent;
+
+		if(badgesEvent === null)
+		{
+			return;
+		}
+
+		const parser = badgesEvent.parser as HabboUserBadgesMessageParser;
+
+		if(parser === null)
+		{
+			return;
+		}
+
+		const session = this.listener.getSession(this.roomId);
+
+		if(session === null)
+		{
+			return;
+		}
+
+		session.userDataManager.setUserBadges(parser.userId, parser.badges);
+
+		if(this.listener.sessionEvents)
+		{
+			this.listener.sessionEvents.emit(
+				RoomSessionUserBadgesEvent.RSUBE_BADGES,
+				new RoomSessionUserBadgesEvent(session, parser.userId, parser.badges)
+			);
+		}
+	}
+
 	// TODO: Implement additional handlers
 
-	// private onUserBadges(event: IMessageEvent): void { ... }
 	// private onUserChange(event: IMessageEvent): void { ... }
 	// private onDance(event: IMessageEvent): void { ... }
 }

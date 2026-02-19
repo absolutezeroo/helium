@@ -2,6 +2,7 @@ import type {IUserDataManager} from './IUserDataManager';
 import type {IUserData} from './IUserData';
 import {UserDataType} from './UserData';
 import type {IMessageComposer} from '@core/communication/messages/IMessageComposer';
+import {GetSelectedBadgesMessageComposer} from '../communication/messages/outgoing/users/GetSelectedBadgesMessageComposer';
 
 /**
  * Room user data manager
@@ -84,11 +85,10 @@ export class UserDataManager implements IUserDataManager
 
 	getUserBadges(userId: number): string[]
 	{
-		// TODO: Send GetSelectedBadgesMessageComposer when implemented
-		// if (this._sendCallback)
-		// {
-		//     this._sendCallback(new GetSelectedBadgesMessageComposer(userId));
-		// }
+		if(this._sendCallback)
+		{
+			this._sendCallback(new GetSelectedBadgesMessageComposer(userId));
+		}
 
 		const badges = this._userBadges.get(userId);
 

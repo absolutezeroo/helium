@@ -72,6 +72,15 @@
 - `game`, `userdefinedroomevents`, `roomsettings`
 - Brancher listeners dans handlers/managers dédiés
 
+## Avancement récent (2026-02-19)
+
+- Batch `users` (profil/email/badges/SCR) porté:
+  - `incoming/users`: `ApproveNameMessageEvent`, `ChangeEmailResultEvent`, `ExtendedProfileMessageEvent`, `ExtendedProfileChangedMessageEvent`, `HabboUserBadgesMessageEvent`, `HandItemReceivedMessageEvent`, `RelationshipStatusInfoEvent`, `ScrSendKickbackInfoMessageEvent`, `ScrSendUserInfoEvent`
+  - `parser/users`: parsers correspondants + data classes (`ExtendedProfileData`, `HabboGroupEntryData`, `RelationshipStatusInfo`, `ScrKickbackData`)
+  - `outgoing/users`: `ApproveNameMessageComposer`, `ChangeEmailComposer`, `GetEmailStatusComposer`, `GetExtendedProfileByNameMessageComposer`, `GetSelectedBadgesMessageComposer`, `ScrGetKickbackInfoMessageComposer`, `ScrGetUserInfoMessageComposer`
+  - `HabboMessages.ts`: IDs entrants/sortants enregistrés
+  - Wiring: `UserDataManager.getUserBadges()` envoie désormais `GetSelectedBadgesMessageComposer`, `RoomUsersHandler` traite `HabboUserBadgesMessageEvent`
+
 4. **Batch Moderation + Help + Sound**
 - Finaliser événements outils modération, CFH, audio
 

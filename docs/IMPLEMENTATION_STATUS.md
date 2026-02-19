@@ -141,6 +141,8 @@ AS3: 77 files | TS: 77 files
 | ✅      | SessionDataManager: room actions via sendSpecialCommandMessage(), giveStarGem, credit vault, income reward, setRoomCameraFollowDisabled fix                           |
 | ✅      | Room session messages: queue/spectator wired in RoomSessionHandler, and remaining incoming/parser room-session classes ported and registered in HabboMessages            |
 | ✅      | IgnoredUsersManager: IgnoreResult/IgnoredUsers events + Get/Ignore/Unignore composers ported and wired (AS3 flow restored)                                             |
+| ✅      | Users messages batch: ApproveName/ChangeEmail/ExtendedProfile/HabboUserBadges/HandItem/RelationshipStatus/SCR user+kickback events+parsers and related composers ported |
+| ✅      | UserDataManager + RoomUsersHandler: GetSelectedBadges composer call restored and HabboUserBadges event flow wired to RoomSessionUserBadgesEvent                         |
 
 ### 1.7 Navigator — Logic (100%)
 ```
