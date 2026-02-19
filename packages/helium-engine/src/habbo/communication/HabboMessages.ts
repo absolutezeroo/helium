@@ -117,12 +117,17 @@ import {CommunityGoalHallOfFameMessageEvent,} from './messages/incoming/quest';
 
 // Incoming Events - Room Session
 import {
+	CantConnectMessageEvent,
 	CloseConnectionMessageEvent,
 	FlatAccessibleMessageEvent,
+	GamePlayerValueMessageEvent,
+	HanditemConfigurationMessageEvent,
 	OpenConnectionMessageEvent,
 	RoomQueueStatusMessageEvent,
+	RoomForwardMessageEvent,
 	RoomReadyMessageEvent,
 	YouAreNotSpectatorMessageEvent,
+	YouArePlayingGameMessageEvent,
 	YouAreSpectatorMessageEvent,
 } from './messages/incoming/room/session';
 
@@ -609,6 +614,11 @@ export class HabboMessages implements IMessageConfiguration
 		this._events.set(3088, RoomQueueStatusMessageEvent);
 		this._events.set(2799, YouAreSpectatorMessageEvent);
 		this._events.set(2111, YouAreNotSpectatorMessageEvent);
+		this._events.set(1009, HanditemConfigurationMessageEvent);
+		this._events.set(2190, RoomForwardMessageEvent);
+		this._events.set(2376, GamePlayerValueMessageEvent);
+		this._events.set(2495, YouArePlayingGameMessageEvent);
+		this._events.set(858, CantConnectMessageEvent);
 
 		// === ROOM PERMISSIONS ===
 		this._events.set(3116, YouAreControllerMessageEvent);
