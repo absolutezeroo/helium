@@ -51,8 +51,7 @@ export interface IAlertDialog extends IDisposable
  * is set.
  *
  * In AS3 this implemented `class_3348` (IAlertDialog) and `INotify`.
- * The window was built from XML via `buildFromXML`. In the TS port,
- * we use `buildFromJSON` with the same layout structure.
+ * The window is built from XML via `buildFromXML`.
  *
  * @see sources/win63_version/habbo/window/utils/AlertDialog.as
  * @see sources/flash_version/com/sulake/habbo/window/utils/AlertDialog.as
@@ -74,7 +73,7 @@ export class AlertDialog implements IAlertDialog
 	 * Creates a new alert dialog.
 	 *
 	 * @param windowManager - The Habbo window manager
-	 * @param json - The JSON layout definition
+	 * @param xml - The XML layout definition
 	 * @param title - Dialog title
 	 * @param summary - Dialog summary text
 	 * @param flags - Bitwise HabboAlertDialogFlag values controlling which elements appear
@@ -83,7 +82,7 @@ export class AlertDialog implements IAlertDialog
 	 */
 	constructor(
 		windowManager: IHabboWindowManager,
-		json: unknown,
+		xml: string,
 		title: string,
 		summary: string,
 		flags: number,
@@ -96,13 +95,13 @@ export class AlertDialog implements IAlertDialog
 		if (modal)
 		{
 			// Build as modal: creates dimmed background + centered window
-			this._modalDialog = windowManager.buildModalDialogFromJSON(json);
+			this._modalDialog = windowManager.buildModalDialogFromXML(xml);
 			this._window = this._modalDialog?.rootWindow as IWindowContainer ?? null;
 		}
 		else
 		{
 			// Build as non-modal in the dialog layer (2)
-			this._window = windowManager.buildFromJSON(json, 2) as IWindowContainer;
+			this._window = windowManager.buildFromXML(xml, 2) as IWindowContainer;
 		}
 
 		// Default flags: BUTTON_OK | TEXT_TITLE | TEXT_SUMMARY

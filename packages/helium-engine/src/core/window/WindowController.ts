@@ -4,6 +4,7 @@ import type {IGraphicContext} from './graphics/IGraphicContext';
 import type {IGraphicContextHost} from './graphics/IGraphicContextHost';
 import type {IRectLimiter} from './utils/IRectLimiter';
 import type {IPropertyMap} from './theme/IPropertyMap';
+import {GraphicContext} from './graphics/GraphicContext';
 import {WindowModel} from './WindowModel';
 import {WindowEvent} from './events/WindowEvent';
 import {WindowMouseEvent} from './events/WindowMouseEvent';
@@ -38,6 +39,7 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 		width: 0,
 		height: 0
 	};
+	private static readonly _POINT_ZERO: { x: number; y: number } = {x: 0, y: 0};
 	protected _eventDispatcher: WindowEventDispatcher | null = null;
 	protected _graphicContext: IGraphicContext | null = null;
 	protected _hasVisualContent: boolean = true;
@@ -47,6 +49,10 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 	private _propertyMap: IPropertyMap | null = null;
 	private _graphicsSetup: boolean = false;
 	private _dynamicStyleInstance: import('./dynamicstyle/DynamicStyle').DynamicStyle | null = null;
+	private readonly _immediateClickHandlerBound: (event: unknown) => void = (event: unknown): void =>
+	{
+		this.immediateClickHandler(event);
+	};
 
 	constructor(
 		name: string,
@@ -95,8 +101,9 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 					{
 						// Set to layout's natural size before creating children
 						// (AS3 lines 95-100)
-						const layoutWidth = (layout as Record<string, unknown>).layoutWidth as number ?? 0;
-						const layoutHeight = (layout as Record<string, unknown>).layoutHeight as number ?? 0;
+						const dimensions = WindowController.resolveLayoutDimensions(layout);
+						const layoutWidth = dimensions.width;
+						const layoutHeight = dimensions.height;
 
 						this._initialRect.x = 0;
 						this._initialRect.y = 0;
@@ -111,7 +118,7 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 						this._width = layoutWidth;
 						this._height = layoutHeight;
 
-						parser.parseAndConstruct(layout, this, null);
+						parser.parseAndConstruct(layout as string | Document | Element, this, null);
 
 						// Resize to requested size (AS3 lines 102-105)
 						const savedParam = this._param;
@@ -183,12 +190,113 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 		// Step 7: Set procedure (AS3 line 133)
 		this._procedure = procedure;
 
+		// AS3: ensure graphic context exists when window does not share parent context.
+		if (!this._graphicContext)
+		{
+			this._graphicContext = this.getGraphicContext(!this.testParamFlag(16));
+		}
+
 		// Step 8: Set parent (AS3 lines 134-142)
 		if (parent !== null)
 		{
 			this._parent = parent as WindowController;
 			(parent as WindowController).addChild(this);
+
+			if (this._graphicContext)
+			{
+				this._context.invalidate(this, null, 1);
+			}
 		}
+	}
+
+	private static resolveLayoutDimensions(layout: unknown): { width: number; height: number }
+	{
+		// Legacy object payload support.
+		if (layout && typeof layout === 'object' && !(layout instanceof Document) && !(layout instanceof Element))
+		{
+			const source = layout as Record<string, unknown>;
+
+			return {
+				width: typeof source.layoutWidth === 'number' ? source.layoutWidth : 0,
+				height: typeof source.layoutHeight === 'number' ? source.layoutHeight : 0
+			};
+		}
+
+		const root = WindowController.resolveLayoutRootElement(layout);
+
+		if (!root)
+		{
+			return {width: 0, height: 0};
+		}
+
+		const width = WindowController.readIntAttribute(root, 'width');
+		const height = WindowController.readIntAttribute(root, 'height');
+
+		return {width, height};
+	}
+
+	private static resolveLayoutRootElement(layout: unknown): Element | null
+	{
+		if (layout instanceof Element)
+		{
+			if (layout.nodeName === 'layout')
+			{
+				for (let i = 0; i < layout.children.length; i++)
+				{
+					const child = layout.children.item(i);
+
+					if (child && child.nodeName === 'window')
+					{
+						return child;
+					}
+				}
+
+				return null;
+			}
+
+			return layout;
+		}
+
+		if (layout instanceof Document)
+		{
+			return WindowController.resolveLayoutRootElement(layout.documentElement);
+		}
+
+		if (typeof layout === 'string')
+		{
+			try
+			{
+				const doc = new DOMParser().parseFromString(layout, 'text/xml');
+				const parserError = doc.getElementsByTagName('parsererror');
+
+				if (parserError.length > 0)
+				{
+					return null;
+				}
+
+				return WindowController.resolveLayoutRootElement(doc.documentElement);
+			}
+			catch (_)
+			{
+				return null;
+			}
+		}
+
+		return null;
+	}
+
+	private static readIntAttribute(element: Element, name: string): number
+	{
+		const raw = element.getAttribute(name);
+
+		if (!raw)
+		{
+			return 0;
+		}
+
+		const parsed = Number.parseInt(raw, 10);
+
+		return Number.isFinite(parsed) ? parsed : 0;
 	}
 
 	private _ignoreMouseEvents: boolean = false;
@@ -213,7 +321,7 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 
 		if (this._parent !== null) return this._parent.procedure;
 
-		return WindowController._nullEventProc;
+		return WindowController.nullEventProc;
 	}
 
 	public set procedure(value: ((event: WindowEvent, window: IWindow) => void) | null)
@@ -324,6 +432,27 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 		if (value !== this._immediateClickMode)
 		{
 			this._immediateClickMode = value;
+
+			const gc = this.getGraphicContext(false);
+
+			if (gc)
+			{
+				gc.mouse = this._immediateClickMode;
+
+				const interactiveGc = gc as unknown as {
+					addEventListener?: (type: string, listener: (event: unknown) => void) => void;
+					removeEventListener?: (type: string, listener: (event: unknown) => void) => void;
+				};
+
+				if (this._immediateClickMode)
+				{
+					interactiveGc.addEventListener?.('click', this._immediateClickHandlerBound);
+				}
+				else
+				{
+					interactiveGc.removeEventListener?.('click', this._immediateClickHandlerBound);
+				}
+			}
 		}
 	}
 
@@ -914,7 +1043,7 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 	/**
 	 * No-op event procedure used as fallback when no procedure is set.
 	 */
-	private static _nullEventProc(_event: WindowEvent, _window: IWindow): void
+	private static nullEventProc(_event: WindowEvent, _window: IWindow): void
 	{
 		// Intentionally empty
 	}
@@ -935,12 +1064,67 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 	{
 		if (createIfMissing && !this._graphicContext)
 		{
-			// In the engine-only environment we do not create actual GraphicContext
-			// objects. The rendering layer (client) provides these if needed.
-			return null;
+			this._graphicContext = new GraphicContext(
+				`GC {${this._name}}`,
+				GraphicContext.GC_TYPE_BITMAP,
+				{x: this._x, y: this._y, width: this._width, height: this._height}
+			);
+			this._graphicContext.visible = this._visible;
+
+			if (this._immediateClickMode)
+			{
+				this._graphicContext.mouse = true;
+
+				const interactiveGc = this._graphicContext as unknown as {
+					addEventListener?: (type: string, listener: (event: unknown) => void) => void;
+				};
+				interactiveGc.addEventListener?.('click', this._immediateClickHandlerBound);
+			}
 		}
 
 		return this._graphicContext;
+	}
+
+	public setupGraphicsContext(): IGraphicContext | null
+	{
+		this._graphicContext = this.getGraphicContext(true);
+
+		if (!this._graphicContext)
+		{
+			return null;
+		}
+
+		if (this._parent)
+		{
+			(this._parent as WindowController).setupGraphicsContext();
+		}
+
+		if (this._children && this._children.length > 0)
+		{
+			if (this._graphicContext.numChildContexts !== this.numChildren)
+			{
+				let index: number = 0;
+
+				for (const child of this._children)
+				{
+					const childGc = (child as WindowController).getGraphicContext(true);
+
+					if (childGc)
+					{
+						this._graphicContext.addChildContextAt(childGc, index++);
+					}
+				}
+			}
+		}
+
+		this._graphicsSetup = true;
+
+		return this._graphicContext;
+	}
+
+	public releaseGraphicsContext(): void
+	{
+		this._graphicsSetup = false;
 	}
 
 	/**
@@ -1151,13 +1335,13 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 	}
 
 	/**
-	 * Builds child windows from a JSON layout definition.
+	 * Builds child windows from an XML layout definition.
 	 *
-	 * @param layout - The JSON layout object
+	 * @param layout - The XML layout payload
 	 * @param namedWindows - Optional map to collect named windows
 	 * @returns `true` if construction succeeded
 	 */
-	public buildFromJSON(layout: Record<string, unknown>, namedWindows: Map<string, IWindow> | null = null): boolean
+	public buildFromXML(layout: string | Document | Element, namedWindows: Map<string, IWindow> | null = null): boolean
 	{
 		try
 		{
@@ -1630,6 +1814,11 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 		);
 	}
 
+	public validateLocalPointIntersection(point: { x: number; y: number }, drawBuffer: unknown): boolean
+	{
+		return this.testLocalPointHitAgainstAlpha(point, drawBuffer, this._mouseThreshold);
+	}
+
 	/**
 	 * Gets the global position of this window by accumulating parent positions.
 	 *
@@ -1765,6 +1954,16 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 		);
 	}
 
+	public validateGlobalPointIntersection(point: { x: number; y: number }, drawBuffer: unknown): boolean
+	{
+		const local: { x: number; y: number } = {x: 0, y: 0};
+		this.getGlobalPosition(local);
+		local.x = point.x - local.x;
+		local.y = point.y - local.y;
+
+		return this.testLocalPointHitAgainstAlpha(local, drawBuffer, this._mouseThreshold);
+	}
+
 	/**
 	 * Converts a point from local space to global space.
 	 *
@@ -1837,12 +2036,14 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 	public getRelativeMousePosition(out: { x: number; y: number }): void
 	{
 		this.getGlobalPosition(out);
-		const desktop = this._context.getDesktopWindow();
+		const desktop = this._context.getDesktopWindow() as unknown as { mouseX?: number; mouseY?: number; x?: number; y?: number } | null;
 
 		if (desktop)
 		{
-			out.x = (desktop as WindowController)._x - out.x;
-			out.y = (desktop as WindowController)._y - out.y;
+			const mouseX = (typeof desktop.mouseX === 'number') ? desktop.mouseX : (desktop.x ?? 0);
+			const mouseY = (typeof desktop.mouseY === 'number') ? desktop.mouseY : (desktop.y ?? 0);
+			out.x = mouseX - out.x;
+			out.y = mouseY - out.y;
 		}
 	}
 
@@ -1853,12 +2054,12 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 	 */
 	public getAbsoluteMousePosition(out: { x: number; y: number }): void
 	{
-		const desktop = this._context.getDesktopWindow();
+		const desktop = this._context.getDesktopWindow() as unknown as { mouseX?: number; mouseY?: number; x?: number; y?: number } | null;
 
 		if (desktop)
 		{
-			out.x = (desktop as WindowController)._x;
-			out.y = (desktop as WindowController)._y;
+			out.x = (typeof desktop.mouseX === 'number') ? desktop.mouseX : (desktop.x ?? 0);
+			out.y = (typeof desktop.mouseY === 'number') ? desktop.mouseY : (desktop.y ?? 0);
 		}
 	}
 
@@ -1933,6 +2134,84 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 		return point.x >= 0 && point.x < this._width && point.y >= 0 && point.y < this._height;
 	}
 
+	protected testLocalPointHitAgainstAlpha(point: { x: number; y: number }, drawBuffer: unknown, threshold: number): boolean
+	{
+		if (this._width < 1 || this._height < 1)
+		{
+			return false;
+		}
+
+		if (this._hasVisualContent && this._mouseThreshold > 0)
+		{
+			if (!this.testParamFlag(16))
+			{
+				if (point.x <= this._width && point.y <= this._height)
+				{
+					const gcBuffer = this.getGraphicContext(true)?.fetchDrawBuffer();
+					const hit = this.hitTestDrawBuffer(gcBuffer, threshold, point);
+
+					if (hit !== null)
+					{
+						return hit;
+					}
+				}
+			}
+			else
+			{
+				const hit = this.hitTestDrawBuffer(drawBuffer, threshold, point);
+
+				if (hit !== null)
+				{
+					return hit;
+				}
+
+				return false;
+			}
+		}
+
+		return this.isInWindowBounds(point);
+	}
+
+	private hitTestDrawBuffer(buffer: unknown, threshold: number, point: { x: number; y: number }): boolean | null
+	{
+		if (!buffer)
+		{
+			return null;
+		}
+
+		const bitmapLike = buffer as {
+			hitTest?: (origin: { x: number; y: number }, alphaThreshold: number, testPoint: { x: number; y: number }) => boolean;
+		};
+
+		if (typeof bitmapLike.hitTest === 'function')
+		{
+			return bitmapLike.hitTest(WindowController._POINT_ZERO, threshold, point);
+		}
+
+		return null;
+	}
+
+	protected requiresOwnGraphicContext(): boolean
+	{
+		if (this.testParamFlag(16))
+		{
+			if (this._children)
+			{
+				for (const child of this._children)
+				{
+					if ((child as WindowController).requiresOwnGraphicContext())
+					{
+						return true;
+					}
+				}
+			}
+
+			return false;
+		}
+
+		return true;
+	}
+
 	/**
 	 * Returns whether this window can use a shared graphic context.
 	 *
@@ -1988,7 +2267,7 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 			}
 
 			// Check self
-			if (this.hitTestGlobalPoint(point))
+			if (this.validateGlobalPointIntersection(point, null))
 			{
 				return this;
 			}
@@ -2206,16 +2485,15 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 
 		if (this._param !== previous)
 		{
-			// Handle graphic context creation/destruction based on param flag 0x10
 			if (!(this._param & 0x10))
 			{
 				if (!this._graphicContext)
 				{
-					// Graphic context needed but not present
+					this.setupGraphicsContext();
 					this._context.invalidate(this, null, 1);
 				}
 			}
-			else
+			else if (this._param & 0x10)
 			{
 				if (this._graphicContext)
 				{
@@ -2791,6 +3069,78 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 		}
 	}
 
+	protected immediateClickHandler(event: unknown): void
+	{
+		const nativeMouseEvent = event as {
+			stageX?: number;
+			stageY?: number;
+			altKey?: boolean;
+			ctrlKey?: boolean;
+			shiftKey?: boolean;
+			buttonDown?: boolean;
+			delta?: number;
+			stopImmediatePropagation?: () => void;
+		};
+
+		const stageX = nativeMouseEvent.stageX ?? 0;
+		const stageY = nativeMouseEvent.stageY ?? 0;
+		const point: { x: number; y: number } = {x: stageX, y: stageY};
+		const windowsUnderPoint: IWindow[] = [];
+		const desktop = this.desktop as WindowController | null;
+
+		desktop?.groupChildrenUnderPoint(point, windowsUnderPoint);
+
+		while (windowsUnderPoint.length > 0)
+		{
+			const current = windowsUnderPoint.pop()!;
+
+			if (current === this)
+			{
+				break;
+			}
+
+			if (current.getParamFlag(1))
+			{
+				return;
+			}
+		}
+
+		this.getRelativeMousePosition(point);
+
+		const windowEvent = WindowMouseEvent.allocateMouse(
+			WindowMouseEvent.CLICK,
+			this,
+			null,
+			point.x,
+			point.y,
+			stageX,
+			stageY,
+			nativeMouseEvent.altKey ?? false,
+			nativeMouseEvent.ctrlKey ?? false,
+			nativeMouseEvent.shiftKey ?? false,
+			nativeMouseEvent.buttonDown ?? false,
+			nativeMouseEvent.delta ?? 0
+		);
+
+		if (this._eventDispatcher)
+		{
+			this._eventDispatcher.dispatchEvent(windowEvent);
+		}
+
+		if (!windowEvent.isWindowOperationPrevented())
+		{
+			const proc = this.procedure;
+
+			if (proc !== null)
+			{
+				proc(windowEvent, this);
+			}
+		}
+
+		nativeMouseEvent.stopImmediatePropagation?.();
+		windowEvent.recycle();
+	}
+
 	/**
 	 * Adds a child window. Removes it from its previous parent first.
 	 *
@@ -2813,6 +3163,17 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 
 		this._children.push(wc);
 		wc.parent = this;
+
+		if (this._graphicsSetup || wc.hasGraphicsContext())
+		{
+			const parentGc = this.setupGraphicsContext();
+			const childGc = wc.getGraphicContext(true);
+
+			if (parentGc && childGc && parentGc.getChildContextIndex(childGc) === -1)
+			{
+				parentGc.addChildContext(childGc);
+			}
+		}
 
 		const event = WindowEvent.allocate(WindowEvent.WE_CHILD_ADDED, this, child);
 		this.update(this, event);
@@ -2844,6 +3205,17 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 
 		this._children.splice(index, 0, wc);
 		wc.parent = this;
+
+		if (this._graphicsSetup || wc.hasGraphicsContext())
+		{
+			const parentGc = this.setupGraphicsContext();
+			const childGc = wc.getGraphicContext(true);
+
+			if (parentGc && childGc && parentGc.getChildContextIndex(childGc) === -1)
+			{
+				parentGc.addChildContextAt(childGc, index);
+			}
+		}
 
 		const event = WindowEvent.allocate(WindowEvent.WE_CHILD_ADDED, this, child);
 		this.update(this, event);
@@ -3006,6 +3378,18 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 		this._children.splice(index, 1);
 		child.parent = null;
 
+		const childGraphicHost = child as unknown as IGraphicContextHost;
+
+		if (this._graphicContext && childGraphicHost && childGraphicHost.hasGraphicsContext())
+		{
+			const childGc = childGraphicHost.getGraphicContext(true);
+
+			if (childGc)
+			{
+				this._graphicContext.removeChildContext(childGc);
+			}
+		}
+
 		const event = WindowEvent.allocate(WindowEvent.WE_CHILD_REMOVED, this, child);
 		this.update(this, event);
 		event.recycle();
@@ -3042,6 +3426,18 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 		{
 			this._children.splice(currentIndex, 1);
 			this._children.splice(index, 0, child);
+
+			const wc = child as WindowController;
+
+			if (this._graphicContext && wc.hasGraphicsContext())
+			{
+				const childGc = wc.getGraphicContext(true);
+
+				if (childGc)
+				{
+					this._graphicContext.setChildContextIndex(childGc, this.getChildIndex(wc));
+				}
+			}
 		}
 	}
 
@@ -3076,6 +3472,20 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 		this._children.splice(indexA, 1);
 		this._children.splice(indexA, 0, childB);
 		this._children.splice(indexB, 0, childA);
+
+		const childAWindow = childA as WindowController;
+		const childBWindow = childB as WindowController;
+
+		if (this._graphicContext && (childAWindow.hasGraphicsContext() || childBWindow.hasGraphicsContext()))
+		{
+			const gcA = childAWindow.getGraphicContext(true);
+			const gcB = childBWindow.getGraphicContext(true);
+
+			if (gcA && gcB)
+			{
+				this._graphicContext.swapChildContexts(gcA, gcB);
+			}
+		}
 	}
 
 	/**
@@ -3094,6 +3504,11 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 		if (childA && childB)
 		{
 			this.swapChildren(childA, childB);
+
+			if (this._graphicContext)
+			{
+				this._graphicContext.swapChildContextsAt(indexA, indexB);
+			}
 		}
 	}
 
@@ -3166,6 +3581,8 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 	 */
 	public populate(children: IWindow[]): void
 	{
+		let hasGraphicChildren: boolean = false;
+
 		if (!this._children)
 		{
 			this._children = [];
@@ -3179,7 +3596,13 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 			{
 				this._children.push(wc);
 				wc.parent = this;
+				hasGraphicChildren = hasGraphicChildren || wc.hasGraphicsContext();
 			}
+		}
+
+		if (this._graphicsSetup || hasGraphicChildren)
+		{
+			this.setupGraphicsContext();
 		}
 	}
 
@@ -3351,7 +3774,7 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 	{
 		if (!this._disposed)
 		{
-			this._immediateClickMode = false;
+			this.immediateClickMode = false;
 			this._procedure = null;
 
 			// Deactivate if not a child window and context is still alive

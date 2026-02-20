@@ -3,31 +3,24 @@ import type {IWindow} from '../IWindow';
 import type {IStaticBitmapWrapperWindow} from '../components/IStaticBitmapWrapperWindow';
 import type {BoxSizerController} from '../components/BoxSizerController';
 import {PropertyStruct} from './PropertyStruct';
-import {WindowType} from '../enum/WindowType';
+import {WindowType, TYPE_CODE_TO_NAME, TYPE_NAME_TO_CODE} from '../enum/WindowType';
+import {PARAM_NAME_TO_FLAG, WindowParam} from '../enum/WindowParam';
+
+type XmlLayoutInput = string | Document | Element;
+
+interface IParsedVar
+{
+	key: string;
+	value: unknown;
+}
 
 /**
- * JSON-based window parser.
+ * XML window parser.
  *
- * Faithful port of AS3 `WindowParser`. Parses JSON layout definitions
- * (converted from the original XML layouts) to construct window trees.
+ * Faithful AS3-oriented implementation of `WindowParser`.
+ * Parses XML layouts and builds a window tree through `WindowContext.create`.
  *
- * The AS3 version parsed XML via `parseSingleWindowEntity()`. This
- * TypeScript port parses JSON nodes with the same attribute handling,
- * property application order, and child routing logic.
- *
- * Key behaviors ported from AS3:
- * - Size limits (`width_min`, `width_max`, `height_min`, `height_max`)
- *   are applied post-creation and enforced via `limits.limit()`.
- * - `blend` (opacity), `treshold` (mouse threshold), `background`,
- *   `clipping`, and `color` are only set when they differ from defaults.
- * - Caption inherits from parent when the `inherit_caption` flag
- *   (`0x80000000`) is set in params.
- * - Layout-level filters (e.g. DropShadowFilter) are applied to the
- *   parent window in `parseAndConstruct()`.
- * - BoxSizer children disable auto-rearrange during child parsing
- *   to avoid redundant layout passes.
- *
- * @see sources/win63_2021_version/com/sulake/core/window/utils/WindowParser.as
+ * @see sources/win63_version/core/window/utils/WindowParser.as
  */
 export class WindowParser implements IWindowParser
 {
@@ -35,8 +28,7 @@ export class WindowParser implements IWindowParser
 	 * Localization resolver callback.
 	 *
 	 * When set, `${key}` tokens in captions and string properties
-	 * are resolved through this function. If the function returns null
-	 * for a key, the raw key is used as fallback.
+	 * are resolved through this function.
 	 */
 	public static localizationResolver: ((key: string) => string | null) | null = null;
 
@@ -47,92 +39,217 @@ export class WindowParser implements IWindowParser
 		return this._disposed;
 	}
 
-	/**
-	 * Parses a JSON layout definition and constructs a window tree.
-	 *
-	 * Port of AS3 `WindowParser.parseAndConstruct()`.
-	 *
-	 * Handles three entry formats:
-	 * 1. **Top-level layout**: `{ name, window: { ... }, filters: [...] }`
-	 *    — the "layout" wrapper. Filters at this level are applied to
-	 *    the parent window. The `window` child is then parsed.
-	 * 2. **Virtual root**: `{ tag: "window", typeId: -1, children: [...] }`
-	 *    — skips creation, attaches children directly to parent.
-	 * 3. **Concrete node**: `{ tag: "frame", typeId: 35, ... }`
-	 *    — creates a single window via `parseSingleWindowEntity()`.
-	 *
-	 * @param layout - The JSON layout definition
-	 * @param parent - The parent window to attach children to
-	 * @param namedWindows - Optional map to collect named windows by name
-	 * @returns The last created window, or null if nothing was created
-	 */
-	public parseAndConstruct(
-		layout: Record<string, unknown>,
-		parent: IWindow,
-		namedWindows: Map<string, IWindow> | null
-	): IWindow | null
+	public parseAndConstruct(layout: XmlLayoutInput, parent: IWindow, namedWindows: Map<string, IWindow> | null): IWindow | null
 	{
-		if (!layout) return null;
+		const root = this.resolveLayoutRoot(layout);
 
-		// ── Top-level layout wrapper ────────────────────────────────
-		// AS3 lines 167-208: if localName == "layout"
-		if (layout.window)
+		if (!root)
 		{
-			// Apply layout-level filters to the parent window.
-			// AS3 lines 182-192: filters defined at layout level
-			// (e.g. DropShadowFilter on frame_3) are set on the parent.
-			const filters = layout.filters as LayoutFilter[] | undefined;
+			return null;
+		}
 
-			if (filters && filters.length > 0 && parent)
+		const sharedVars = new Map<string, unknown>();
+
+		if (root.nodeName === 'layout')
+		{
+			const variablesNode = getDirectChildByName(root, 'variables');
+
+			if (variablesNode)
 			{
-				parent.filters = filters.map(buildDropShadowFilterFromJSON);
+				const vars = this.parseSharedVariables(variablesNode);
+
+				for (const [key, value] of vars)
+				{
+					sharedVars.set(key, value);
+				}
 			}
 
-			const rootNode = layout.window as LayoutNode;
+			const filtersNode = getDirectChildByName(root, 'filters');
 
-			return this.parseNode(rootNode, parent, namedWindows);
+			if (filtersNode)
+			{
+				const filters = this.parseFilters(filtersNode, sharedVars);
+
+				if (filters.length > 0)
+				{
+					parent.filters = filters;
+				}
+			}
+
+			const windowNodes = getDirectChildrenByName(root, 'window');
+
+			if (windowNodes.length === 0)
+			{
+				return null;
+			}
+
+			if (windowNodes.length === 1)
+			{
+				return this.parseAndConstruct(windowNodes[0], parent, namedWindows);
+			}
+
+			let last: IWindow | null = null;
+
+			for (const node of windowNodes)
+			{
+				const created = this.parseSingleWindowEntity(node, parent, sharedVars, namedWindows);
+
+				if (created)
+				{
+					last = created;
+				}
+			}
+
+			return last;
 		}
 
-		// ── Already a concrete or virtual node ──────────────────────
-		if (layout.tag !== undefined || layout.typeId !== undefined)
+		if (root.nodeName === 'window')
 		{
-			return this.parseNode(layout as unknown as LayoutNode, parent, namedWindows);
+			const children = getDirectChildElements(root);
+
+			if (children.length === 0)
+			{
+				return null;
+			}
+
+			if (children.length > 1)
+			{
+				let last: IWindow | null = null;
+
+				for (const node of children)
+				{
+					const created = this.parseSingleWindowEntity(node, parent, sharedVars, namedWindows);
+
+					if (created)
+					{
+						last = created;
+					}
+				}
+
+				return last;
+			}
+
+			return this.parseSingleWindowEntity(children[0], parent, sharedVars, namedWindows);
 		}
 
-		// ── Legacy flat format fallback ─────────────────────────────
-		return this.parseFlatNode(layout, parent, namedWindows);
+		return this.parseSingleWindowEntity(root, parent, sharedVars, namedWindows);
 	}
 
-	/**
-	 * Serializes a window tree to a JSON layout string.
-	 *
-	 * @param window - The root window to serialize
-	 * @returns JSON string representation
-	 */
-	public windowToLayoutString(window: IWindow): string
+	public windowToXMLString(window: IWindow): string
 	{
-		const layout: Record<string, unknown> = {
-			name: window.name,
-			type: window.type,
-			style: window.style,
-			param: window.param,
-			x: window.x,
-			y: window.y,
-			width: window.width,
-			height: window.height,
-		};
+		const typeName = TYPE_CODE_TO_NAME[window.type] ?? 'null';
+		let xml = '';
+
+		xml += `<${typeName}`;
+		xml += ` x="${window.x}"`;
+		xml += ` y="${window.y}"`;
+		xml += ` width="${window.width}"`;
+		xml += ` height="${window.height}"`;
+		xml += ` params="${window.param}"`;
+		xml += ` style="${window.style}"`;
+
+		if (window.dynamicStyle)
+		{
+			xml += ` dynamic_style="${escapeXml(window.dynamicStyle)}"`;
+		}
+
+		if (window.name)
+		{
+			xml += ` name="${escapeXml(window.name)}"`;
+		}
 
 		if (window.caption)
 		{
-			layout.caption = window.caption;
+			xml += ` caption="${escapeXml(window.caption)}"`;
 		}
 
-		if (window.tags && window.tags.length > 0)
+		if (window.id !== 0)
 		{
-			layout.tags = window.tags;
+			xml += ` id="${window.id}"`;
 		}
 
-		return JSON.stringify(layout);
+		if (window.color !== 0x00FFFFFF)
+		{
+			xml += ` color="0x${window.alpha.toString(16)}${window.color.toString(16)}"`;
+		}
+
+		if (window.blend !== 1)
+		{
+			xml += ` blend="${window.blend}"`;
+		}
+
+		if (window.visible !== true)
+		{
+			xml += ` visible="${window.visible}"`;
+		}
+
+		if (window.clipping !== true)
+		{
+			xml += ` clipping="${window.clipping}"`;
+		}
+
+		if (window.background !== false)
+		{
+			xml += ` background="${window.background}"`;
+		}
+
+		if (window.mouseThreshold !== 10)
+		{
+			xml += ` treshold="${window.mouseThreshold}"`;
+		}
+
+		if (window.tags.length > 0)
+		{
+			xml += ` tags="${escapeXml(window.tags.join(','))}"`;
+		}
+
+		if (window.limits.minWidth > -2147483648)
+		{
+			xml += ` width_min="${window.limits.minWidth}"`;
+		}
+
+		if (window.limits.maxWidth < 2147483647)
+		{
+			xml += ` width_max="${window.limits.maxWidth}"`;
+		}
+
+		if (window.limits.minHeight > -2147483648)
+		{
+			xml += ` height_min="${window.limits.minHeight}"`;
+		}
+
+		if (window.limits.maxHeight < 2147483647)
+		{
+			xml += ` height_max="${window.limits.maxHeight}"`;
+		}
+
+		xml += '>\r';
+
+		if (window.filters && window.filters.length > 0)
+		{
+			xml += '\t<filters>\r';
+
+			for (const filter of window.filters)
+			{
+				const serialized = this.filterToXMLString(filter);
+
+				if (serialized)
+				{
+					xml += `\t\t${serialized}\r`;
+				}
+			}
+
+			xml += '\t</filters>\r';
+		}
+
+		const childrenXml = this.serializeChildren(window);
+
+		if (childrenXml.length > 0)
+		{
+			xml += `\t<children>\r${childrenXml}\t</children>\r`;
+		}
+
+		return `${xml}</${typeName}>\r`;
 	}
 
 	public dispose(): void
@@ -143,150 +260,120 @@ export class WindowParser implements IWindowParser
 		}
 	}
 
-	/**
-	 * Parses a single JSON node and constructs the corresponding window.
-	 *
-	 * Faithful port of AS3 `parseSingleWindowEntity()` (lines 227-414).
-	 *
-	 * The method follows this exact order (matching AS3):
-	 * 1. Parse basic attributes (name, style, params, rect, visible, id)
-	 * 2. Parse caption with `inherit_caption` flag support
-	 * 3. Split and trim tags
-	 * 4. Create the window via `context.create()`
-	 * 5. Apply size limits (`width_min/max`, `height_min/max`) + `limit()`
-	 * 6. Parse and apply: background, blend, clipping, color, treshold
-	 * 7. Set each property only if it differs from the window's default
-	 * 8. Parse per-window filters (DropShadowFilter)
-	 * 9. Recurse into children (with BoxSizer auto-rearrange guard)
-	 * 10. Apply vars as PropertyStruct array
-	 *
-	 * @param node - The JSON layout node
-	 * @param parent - The parent window
-	 * @param namedWindows - Optional map to collect named windows
-	 * @returns The created window, or null
-	 */
-	private parseNode(
-		node: LayoutNode,
+	private parseSingleWindowEntity(
+		node: Element,
 		parent: IWindow,
+		sharedVars: Map<string, unknown>,
 		namedWindows: Map<string, IWindow> | null
 	): IWindow | null
 	{
-		if (!node) return null;
+		const resolvedType = TYPE_NAME_TO_CODE[node.nodeName];
+		const typeId = resolvedType !== undefined ? resolvedType : WindowType.NULL;
+		const defaultStyle = parent ? parent.style : 0;
 
-		const typeId = node.typeId ?? 0;
-		const attrs = node.attributes ?? {};
-		const children = node.children ?? [];
+		const name = decodeEscaped(String(this.parseAttribute(node, 'name', sharedVars, '')));
+		const style = parseInteger(this.parseAttribute(node, 'style', sharedVars, String(defaultStyle)));
+		const dynamicStyle = String(this.parseAttribute(node, 'dynamic_style', sharedVars, ''));
+		let param = parseInteger(this.parseAttribute(node, 'params', sharedVars, '0'));
+		let tagsText = decodeEscaped(String(this.parseAttribute(node, 'tags', sharedVars, '')));
+		const x = parseNumber(this.parseAttribute(node, 'x', sharedVars, '0'));
+		const y = parseNumber(this.parseAttribute(node, 'y', sharedVars, '0'));
+		const width = parseNumber(this.parseAttribute(node, 'width', sharedVars, '0'));
+		const height = parseNumber(this.parseAttribute(node, 'height', sharedVars, '0'));
+		const visible = String(this.parseAttribute(node, 'visible', sharedVars, 'true')) === 'true';
+		const id = parseInteger(this.parseAttribute(node, 'id', sharedVars, '0'));
 
-		// ── Virtual root (typeId -1): skip creation ─────────────────
-		// AS3 lines 210-223: if localName == "window"
-		if (typeId < 0)
+		const paramsNode = getDirectChildByName(node, 'params');
+
+		if (paramsNode)
 		{
-			let lastChild: IWindow | null = null;
-
-			for (const child of children)
+			for (const paramNode of getDirectChildElements(paramsNode))
 			{
-				const created = this.parseNode(child, parent, namedWindows);
+				const paramName = String(this.parseAttribute(paramNode, 'name', sharedVars, '')).toLowerCase();
+				const mappedParam = PARAM_NAME_TO_FLAG[paramName];
 
-				if (created)
+				if (mappedParam === undefined)
 				{
-					lastChild = created;
+					throw new Error(`Unknown window parameter "${paramName}"!`);
 				}
-			}
 
-			return lastChild;
+				param |= mappedParam;
+			}
 		}
 
-		// ── 1. Parse basic attributes ───────────────────────────────
-		// AS3 lines 249-265
-		const name = attrs.name ?? '';
-		const style = attrs.style !== undefined ? parseIntSafe(attrs.style) : (parent ? parent.style : 0);
-		const param = parseIntSafe(attrs.params);
-		const dynamicStyle = attrs.dynamic_style ?? '';
-		const x = parseNumberSafe(attrs.x);
-		const y = parseNumberSafe(attrs.y);
-		const width = parseNumberSafe(attrs.width);
-		const height = parseNumberSafe(attrs.height);
-		const visible = attrs.visible !== 'false';
-		const id = parseIntSafe(attrs.id);
-
-		// ── 2. Parse caption with inherit_caption support ────────────
-		// AS3 lines 282-283: if param flag 0x80000000 (inherit_caption)
-		// is set AND parent exists, default caption is parent's caption.
-		const INHERIT_CAPTION = 0x80000000;
 		let caption = '';
 
-		if ((param & INHERIT_CAPTION) !== 0 && parent)
+		if ((param & WindowParam.INHERIT_CAPTION) !== 0)
 		{
-			caption = parent.caption ?? '';
+			caption = parent ? parent.caption : '';
 		}
 
-		if (attrs.caption !== undefined)
-		{
-			caption = attrs.caption;
-		}
-
+		caption = decodeEscaped(String(this.parseAttribute(node, 'caption', sharedVars, caption)));
 		caption = resolveLocalizationTokens(caption);
 
-		// ── 3. Split and trim tags ──────────────────────────────────
-		// AS3 lines 284-292
 		let tags: string[] | null = null;
 
-		if (attrs.tags)
+		if (tagsText !== '')
 		{
-			tags = attrs.tags.split(',').map((t: string) => t.trim()).filter(Boolean);
+			tags = tagsText.split(',').map((tag) => tag.trim()).filter((tag) => tag.length > 0);
 		}
 
-		const rect = {x, y, width, height};
+		const variablesNode = getDirectChildByName(node, 'variables');
+		const properties = this.parseProperties(variablesNode, sharedVars);
 
-		// ── 4. Create the window ────────────────────────────────────
-		// AS3 line 294: context.create(...)
 		const window = parent.context.create(
-			name, caption, typeId, style, param, rect,
-			null, parent, id, tags, dynamicStyle, null
+			name,
+			'',
+			typeId,
+			style,
+			param,
+			{x, y, width, height},
+			null,
+			parent,
+			id,
+			tags,
+			dynamicStyle,
+			properties
 		);
 
-		if (!window) return null;
-
-		// ── 5. Apply size limits ────────────────────────────────────
-		// AS3 lines 295-311: only set if attribute exists, then limit()
-		const limits = window.limits;
-
-		if (attrs.width_min !== undefined)
+		if (!window)
 		{
-			limits.minWidth = parseIntSafe(attrs.width_min);
+			return null;
 		}
 
-		if (attrs.width_max !== undefined)
+		if (this.hasAttribute(node, 'width_min'))
 		{
-			limits.maxWidth = parseIntSafe(attrs.width_max);
+			window.limits.minWidth = parseInteger(this.parseAttribute(node, 'width_min', sharedVars, String(window.limits.minWidth)));
 		}
 
-		if (attrs.height_min !== undefined)
+		if (this.hasAttribute(node, 'width_max'))
 		{
-			limits.minHeight = parseIntSafe(attrs.height_min);
+			window.limits.maxWidth = parseInteger(this.parseAttribute(node, 'width_max', sharedVars, String(window.limits.maxWidth)));
 		}
 
-		if (attrs.height_max !== undefined)
+		if (this.hasAttribute(node, 'height_min'))
 		{
-			limits.maxHeight = parseIntSafe(attrs.height_max);
+			window.limits.minHeight = parseInteger(this.parseAttribute(node, 'height_min', sharedVars, String(window.limits.minHeight)));
 		}
 
-		if (attrs.width_min !== undefined || attrs.width_max !== undefined ||
-			attrs.height_min !== undefined || attrs.height_max !== undefined)
+		if (this.hasAttribute(node, 'height_max'))
 		{
-			(limits as unknown as { limit(): void }).limit();
+			window.limits.maxHeight = parseInteger(this.parseAttribute(node, 'height_max', sharedVars, String(window.limits.maxHeight)));
 		}
 
-		// ── 6. Parse rendering attributes ───────────────────────────
-		// AS3 lines 312-316: parse with window defaults as fallback
-		const background = attrs.background === 'true';
-		const blend = attrs.blend !== undefined ? parseNumberSafe(attrs.blend) : window.blend;
-		const clipping = attrs.clipping !== undefined ? (attrs.clipping === 'true') : window.clipping;
-		const color = attrs.color !== undefined ? parseColorSafe(attrs.color) : window.color;
-		const threshold = attrs.treshold !== undefined ? parseIntSafe(attrs.treshold) : window.mouseThreshold;
+		const limitFn = (window.limits as unknown as { limit?: () => void }).limit;
 
-		// ── 7. Apply only if different from defaults ────────────────
-		// AS3 lines 317-345: each property is guarded by an inequality check
+		if (typeof limitFn === 'function')
+		{
+			limitFn.call(window.limits);
+		}
+
+		const background = String(this.parseAttribute(node, 'background', sharedVars, String(window.background))) === 'true';
+		const blend = parseNumber(this.parseAttribute(node, 'blend', sharedVars, String(window.blend)));
+		const clipping = String(this.parseAttribute(node, 'clipping', sharedVars, String(window.clipping))) === 'true';
+		const colorRaw = String(this.parseAttribute(node, 'color', sharedVars, String(window.color)));
+		const threshold = parseInteger(this.parseAttribute(node, 'treshold', sharedVars, String(window.mouseThreshold)));
+
 		if (window.caption !== caption)
 		{
 			window.caption = caption;
@@ -317,367 +404,527 @@ export class WindowParser implements IWindowParser
 			window.mouseThreshold = threshold;
 		}
 
+		const color = parseColor(colorRaw);
+
 		if (window.color !== color)
 		{
 			window.color = color;
 		}
 
-		// ── 8. Per-window filters ───────────────────────────────────
-		// AS3 lines 346-358: parse <filters> children on the element
-		if (node.filters && node.filters.length > 0)
-		{
-			const builtFilters = (node.filters as LayoutFilter[])
-				.map(buildDropShadowFilterFromJSON)
-				.filter(Boolean);
+		const filtersNode = getDirectChildByName(node, 'filters');
 
-			if (builtFilters.length > 0)
+		if (filtersNode)
+		{
+			const filters = this.parseFilters(filtersNode, sharedVars);
+
+			if (filters.length > 0)
 			{
-				window.filters = builtFilters;
+				window.filters = filters;
 			}
 		}
 
-		// ── Static bitmap asset URI ─────────────────────────────────
-		// Custom TypeScript extension (no AS3 equivalent): set assetUri
-		// on STATIC_BITMAP_WRAPPER windows for ResourceManager loading.
 		if (window.type === WindowType.STATIC_BITMAP_WRAPPER)
 		{
-			const vars = node.vars;
-			const assetUri = vars?.asset_uri as string | undefined;
+			let assetUri: string | null = null;
+
+			for (const property of properties)
+			{
+				if (property.key === 'asset_uri' && typeof property.value === 'string')
+				{
+					assetUri = property.value;
+					break;
+				}
+			}
+
+			if (!assetUri && name)
+			{
+				assetUri = `${name}_normal`;
+			}
 
 			if (assetUri)
 			{
 				(window as unknown as IStaticBitmapWrapperWindow).assetUri = assetUri;
 			}
-			else if (name)
-			{
-				(window as unknown as IStaticBitmapWrapperWindow).assetUri = name + '_normal';
-			}
 		}
 
-		// ── Collect named windows ───────────────────────────────────
 		if (namedWindows && name)
 		{
 			namedWindows.set(name, window);
 		}
 
-		// ── 9. Parse children recursively ───────────────────────────
-		// AS3 lines 395-412
-		//
-		// Compound elements (frames) redirect children to their content
-		// container via getLayoutChildTarget(), matching AS3 behavior
-		// where FrameController.buildFromXML() passes `content` to
-		// parseAndConstruct() (AS3 FrameController.as line 127).
-		//
-		// BoxSizer windows disable auto-rearrange during child parsing
-		// to prevent redundant layout passes (AS3 lines 398-411).
-		const childTarget = window.getLayoutChildTarget();
-		const isBoxSizer = typeof (window as unknown as BoxSizerController).setAutoRearrange === 'function';
-		const isItemList = typeof (window as unknown as { arrangeItems(): void }).arrangeItems === 'function';
+		const childrenNode = getDirectChildByName(node, 'children');
 
-		if (isBoxSizer)
+		if (childrenNode)
 		{
-			(window as unknown as BoxSizerController).setAutoRearrange(false);
-		}
+			const childNodes = getDirectChildElements(childrenNode);
+			const target = window.getLayoutChildTarget();
+			const boxSizer = window as unknown as BoxSizerController;
+			const isBoxSizer = typeof boxSizer.setAutoRearrange === 'function';
+			const isItemList = typeof (window as unknown as { arrangeItems: () => void }).arrangeItems === 'function';
 
-		for (const child of children)
-		{
-			this.parseNode(child, childTarget, namedWindows);
-		}
-
-		if (isBoxSizer)
-		{
-			(window as unknown as BoxSizerController).setAutoRearrange(true);
-		}
-
-		// ── IIterable arrangement (AS3 lines 362-391) ────────────────
-		// In AS3, when the parent is IIterable (e.g. ItemListController),
-		// children are added via the iterator's addListItemAt(), which
-		// positions items and updates the scroll area. In TypeScript,
-		// children go to _container via getLayoutChildTarget() + addChild,
-		// so we trigger arrangement after all children are parsed.
-		if (isItemList)
-		{
-			(window as unknown as { arrangeItems(): void }).arrangeItems();
-		}
-
-		// ── 10. Apply vars as PropertyStruct ────────────────────────
-		// AS3 line 294 passes parseProperties(variables) to create().
-		// In TypeScript, vars are applied post-creation as PropertyStruct
-		// array via the `properties` setter.
-		if (node.vars)
-		{
-			const props: PropertyStruct[] = [];
-
-			for (const [key, val] of Object.entries(node.vars))
+			if (isBoxSizer)
 			{
-				if (val === null || val === undefined) continue;
+				boxSizer.setAutoRearrange(false);
+			}
 
-				switch (key)
+			for (const childNode of childNodes)
+			{
+				this.parseSingleWindowEntity(childNode, target, sharedVars, namedWindows);
+			}
+
+			if (isBoxSizer)
+			{
+				boxSizer.setAutoRearrange(true);
+			}
+
+			if (isItemList)
+			{
+				(window as unknown as { arrangeItems: () => void }).arrangeItems();
+			}
+		}
+
+		return window;
+	}
+
+	private resolveLayoutRoot(layout: XmlLayoutInput): Element | null
+	{
+		if (layout instanceof Element)
+		{
+			return layout;
+		}
+
+		if (layout instanceof Document)
+		{
+			return layout.documentElement;
+		}
+
+		try
+		{
+			const doc = new DOMParser().parseFromString(layout, 'text/xml');
+			const parserError = doc.getElementsByTagName('parsererror');
+
+			if (parserError.length > 0)
+			{
+				throw new Error(parserError[0].textContent ?? 'Failed to parse XML');
+			}
+
+			return doc.documentElement;
+		}
+		catch (error)
+		{
+			throw new Error(`WindowParser failed to parse XML layout: ${String(error)}`);
+		}
+	}
+
+	private parseSharedVariables(variablesNode: Element): Map<string, unknown>
+	{
+		const map = new Map<string, unknown>();
+
+		for (const varNode of getDirectChildrenByName(variablesNode, 'var'))
+		{
+			const parsed = this.parseVarNode(varNode, map);
+
+			if (parsed.key.length > 0)
+			{
+				map.set(parsed.key, parsed.value);
+			}
+		}
+
+		return map;
+	}
+
+	private parseProperties(variablesNode: Element | null, sharedVars: Map<string, unknown>): PropertyStruct[]
+	{
+		if (!variablesNode)
+		{
+			return [];
+		}
+
+		const properties: PropertyStruct[] = [];
+
+		for (const varNode of getDirectChildrenByName(variablesNode, 'var'))
+		{
+			const parsed = this.parseVarNode(varNode, sharedVars);
+
+			if (parsed.key.length > 0)
+			{
+				properties.push(new PropertyStruct(parsed.key, parsed.value));
+			}
+		}
+
+		return properties;
+	}
+
+	private parseVarNode(node: Element, sharedVars: Map<string, unknown>): IParsedVar
+	{
+		const key = node.getAttribute('key') ?? node.getAttribute('name') ?? '';
+		const type = node.getAttribute('type') ?? '';
+		let value: unknown = node.getAttribute('value');
+		const children = getDirectChildElements(node);
+
+		if ((value === null || value === undefined || value === '') && children.length > 0)
+		{
+			let valueNode: Element | null = children[0];
+
+			if (valueNode && valueNode.nodeName === 'value')
+			{
+				const wrapped = getDirectChildElements(valueNode);
+				valueNode = wrapped.length > 0 ? wrapped[0] : null;
+			}
+
+			if (valueNode)
+			{
+				switch (valueNode.nodeName)
 				{
-					case 'item_array':
-					{
-						const resolved = Array.isArray(val)
-							? val.map(item => typeof item === 'string' ? resolveLocalizationTokens(item) : item)
-							: val;
-
-						props.push(new PropertyStruct(key, resolved));
+					case 'Point':
+						value = this.parsePoint(valueNode);
 						break;
-					}
-					case 'open_upward':
-					case 'keep_open_on_deactivate':
-					case 'bold':
-					case 'italic':
-					case 'underline':
-					case 'font_face':
-					case 'font_size':
-					case 'text_color':
-					case 'text_style':
-					case 'multiline':
-					case 'word_wrap':
-					case 'max_chars':
-					case 'max_lines':
-					case 'overflow_replace':
-					case 'auto_size':
-					case 'spacing':
-					case 'leading':
-					case 'margin_left':
-					case 'margin_top':
-					case 'margin_right':
-					case 'margin_bottom':
-					case 'etching_color':
-					case 'etching_position':
-					case 'background':
-					case 'background_color':
-					case 'pivot_point':
-					case 'stretched_x':
-					case 'stretched_y':
-					case 'fit_size_to_contents':
-					case 'zoom_x':
-					case 'zoom_y':
-					case 'wrap_x':
-					case 'wrap_y':
-					case 'greyscale':
-					case 'rotation':
-					case 'scale_to_fit_items':
-					case 'resize_on_item_update':
-					case 'auto_arrange_items':
-					case 'scroll_step_h':
-					case 'scroll_step_v':
-						props.push(new PropertyStruct(key, val));
+					case 'Rectangle':
+						value = this.parseRectangle(valueNode);
 						break;
-					case 'margins':
+					case 'Array':
+						value = getDirectChildrenByName(valueNode, 'var').map((child) => this.parseVarNode(child, sharedVars).value);
+						break;
+					case 'Map':
 					{
-						const m = val as Record<string, number>;
+						const mapped: Record<string, unknown> = {};
 
-						if (m.left !== undefined) props.push(new PropertyStruct('margin_left', m.left));
-						if (m.top !== undefined) props.push(new PropertyStruct('margin_top', m.top));
-						if (m.right !== undefined) props.push(new PropertyStruct('margin_right', m.right));
-						if (m.bottom !== undefined) props.push(new PropertyStruct('margin_bottom', m.bottom));
+						for (const child of getDirectChildrenByName(valueNode, 'var'))
+						{
+							const parsed = this.parseVarNode(child, sharedVars);
+							mapped[parsed.key] = parsed.value;
+						}
+
+						value = mapped;
 						break;
 					}
 				}
 			}
+		}
 
-			if (props.length > 0)
+		if (typeof value === 'string' && value.startsWith('$'))
+		{
+			const resolved = sharedVars.get(value.slice(1));
+
+			if (resolved !== undefined)
 			{
-				window.properties = props;
+				value = resolved;
 			}
 		}
 
-		return window;
+		return {
+			key,
+			value: castValue(value, type)
+		};
 	}
 
-	/**
-	 * Legacy flat format parser (original parseAndConstruct logic).
-	 *
-	 * Used for programmatically created layouts that are already in
-	 * object form (not the compiled XML→JSON format).
-	 */
-	private parseFlatNode(
-		layout: Record<string, unknown>,
-		parent: IWindow,
-		namedWindows: Map<string, IWindow> | null
-	): IWindow | null
+	private parsePoint(node: Element): { x: number; y: number }
 	{
-		const name = (layout.name as string) ?? '';
-		const type = (layout.type as number) ?? 0;
-		const style = (layout.style as number) ?? 0;
-		const param = (layout.param as number) ?? 0;
-		const layoutTags = (layout.tags as string[]) ?? [];
-		const dynamicStyle = (layout.dynamicStyle as string) ?? '';
-		const x = (layout.x as number) ?? 0;
-		const y = (layout.y as number) ?? 0;
-		const width = (layout.width as number) ?? 0;
-		const height = (layout.height as number) ?? 0;
-		const caption = (layout.caption as string) ?? '';
-		const id = (layout.id as number) ?? 0;
-		const visible = layout.visible !== false;
-		const color = (layout.color as number) ?? 0;
-		const clipping = (layout.clipping as boolean) ?? false;
-		const background = (layout.background as boolean) ?? false;
+		return {
+			x: parseNumber(node.getAttribute('x')),
+			y: parseNumber(node.getAttribute('y'))
+		};
+	}
 
-		const rect = {x, y, width, height};
+	private parseRectangle(node: Element): { x: number; y: number; width: number; height: number }
+	{
+		return {
+			x: parseNumber(node.getAttribute('x')),
+			y: parseNumber(node.getAttribute('y')),
+			width: parseNumber(node.getAttribute('width')),
+			height: parseNumber(node.getAttribute('height'))
+		};
+	}
 
-		const window = parent.context.create(
-			name, caption, type, style, param, rect,
-			null, parent, id,
-			layoutTags.length > 0 ? layoutTags : null,
-			dynamicStyle || undefined, null
-		);
+	private parseFilters(filtersNode: Element, sharedVars: Map<string, unknown>): Record<string, unknown>[]
+	{
+		const filters: Record<string, unknown>[] = [];
 
-		if (!window) return null;
-
-		window.caption = caption;
-		window.visible = visible;
-		window.color = color;
-		window.clipping = clipping;
-		window.background = background;
-
-		if (namedWindows && name)
+		for (const filterNode of getDirectChildElements(filtersNode))
 		{
-			namedWindows.set(name, window);
-		}
+			const built = this.buildBitmapFilter(filterNode, sharedVars);
 
-		const children = layout.children as Record<string, unknown>[] | undefined;
-
-		if (children)
-		{
-			for (const childLayout of children)
+			if (built)
 			{
-				this.parseFlatNode(childLayout, window, namedWindows);
+				filters.push(built);
 			}
 		}
 
-		return window;
+		return filters;
+	}
+
+	private buildBitmapFilter(filterNode: Element, sharedVars: Map<string, unknown>): Record<string, unknown> | null
+	{
+		if (filterNode.nodeName !== 'DropShadowFilter')
+		{
+			return null;
+		}
+
+		return {
+			type: 'DropShadowFilter',
+			distance: parseNumber(this.parseAttribute(filterNode, 'distance', sharedVars, '0')),
+			angle: parseNumber(this.parseAttribute(filterNode, 'angle', sharedVars, '45')),
+			color: parseColor(String(this.parseAttribute(filterNode, 'color', sharedVars, '0'))),
+			alpha: parseNumber(this.parseAttribute(filterNode, 'alpha', sharedVars, '1')),
+			blurX: parseNumber(this.parseAttribute(filterNode, 'blurX', sharedVars, '0')),
+			blurY: parseNumber(this.parseAttribute(filterNode, 'blurY', sharedVars, '0')),
+			strength: parseNumber(this.parseAttribute(filterNode, 'strength', sharedVars, '1')),
+			quality: parseInteger(this.parseAttribute(filterNode, 'quality', sharedVars, '1')),
+			inner: String(this.parseAttribute(filterNode, 'inner', sharedVars, 'false')) === 'true',
+			knockout: String(this.parseAttribute(filterNode, 'knockout', sharedVars, 'false')) === 'true',
+			hideObject: String(this.parseAttribute(filterNode, 'hideObject', sharedVars, 'false')) === 'true'
+		};
+	}
+
+	private filterToXMLString(filter: unknown): string
+	{
+		if (!filter || typeof filter !== 'object')
+		{
+			return '';
+		}
+
+		const data = filter as Record<string, unknown>;
+
+		if (data.type !== 'DropShadowFilter')
+		{
+			return '';
+		}
+
+		let xml = '<DropShadowFilter';
+		xml += data.distance !== 0 ? ` distance="${data.distance}"` : '';
+		xml += data.angle !== 45 ? ` angle="${data.angle}"` : '';
+		xml += data.color !== 0 ? ` color="${data.color}"` : '';
+		xml += data.alpha !== 1 ? ` alpha="${data.alpha}"` : '';
+		xml += data.blurX !== 0 ? ` blurX="${data.blurX}"` : '';
+		xml += data.blurY !== 0 ? ` blurY="${data.blurY}"` : '';
+		xml += data.strength !== 1 ? ` strength="${data.strength}"` : '';
+		xml += data.quality !== 1 ? ` quality="${data.quality}"` : '';
+		xml += data.inner === true ? ` inner="${data.inner}"` : '';
+		xml += data.knockout === true ? ` knockout="${data.knockout}"` : '';
+		xml += data.hideObject === true ? ` hideObject="${data.hideObject}"` : '';
+		xml += ' />';
+
+		return xml;
+	}
+
+	private serializeChildren(window: IWindow): string
+	{
+		const container = window as unknown as { numChildren?: number; getChildAt?: (index: number) => IWindow | null };
+
+		if (typeof container.numChildren !== 'number' || typeof container.getChildAt !== 'function' || container.numChildren <= 0)
+		{
+			return '';
+		}
+
+		let xml = '';
+
+		for (let i = 0; i < container.numChildren; i++)
+		{
+			const child = container.getChildAt(i);
+
+			if (!child)
+			{
+				continue;
+			}
+
+			if (child.tags.indexOf('_EXCLUDE') !== -1)
+			{
+				continue;
+			}
+
+			xml += this.windowToXMLString(child);
+		}
+
+		return xml;
+	}
+
+	private parseAttribute(
+		node: Element,
+		name: string,
+		sharedVars: Map<string, unknown>,
+		defaultValue: unknown
+	): unknown
+	{
+		if (!node.hasAttribute(name))
+		{
+			return defaultValue;
+		}
+
+		const raw = node.getAttribute(name);
+
+		if (raw === null)
+		{
+			return defaultValue;
+		}
+
+		if (raw.startsWith('$'))
+		{
+			const key = raw.slice(1);
+			const resolved = sharedVars.get(key);
+
+			if (resolved === undefined || resolved === null)
+			{
+				throw new Error(`Shared variable not defined: "${raw}"!`);
+			}
+
+			return resolved;
+		}
+
+		return raw;
+	}
+
+	private hasAttribute(node: Element, name: string): boolean
+	{
+		return node.hasAttribute(name);
 	}
 }
 
-// ── JSON layout node type ───────────────────────────────────────────
-
-interface LayoutNode
+function getDirectChildElements(node: Element): Element[]
 {
-	tag?: string;
-	typeId?: number;
-	attributes?: Record<string, string>;
-	children?: LayoutNode[];
-	vars?: Record<string, unknown>;
-	filters?: LayoutFilter[];
+	const elements: Element[] = [];
+
+	for (let i = 0; i < node.children.length; i++)
+	{
+		const child = node.children.item(i);
+
+		if (child)
+		{
+			elements.push(child);
+		}
+	}
+
+	return elements;
 }
 
-/**
- * JSON representation of a bitmap filter (from compile-window-layouts).
- *
- * Currently only DropShadowFilter is supported, matching AS3
- * `WindowParser.buildBitmapFilter()` which only handles
- * DropShadowFilter and returns null for all other types.
- */
-interface LayoutFilter
+function getDirectChildrenByName(node: Element, name: string): Element[]
 {
-	type: string;
-	attributes: Record<string, string>;
+	return getDirectChildElements(node).filter((child) => child.nodeName === name);
 }
 
-// ── Utility helpers ─────────────────────────────────────────────────
-
-/**
- * Parses a string to an integer, returns 0 for invalid values.
- *
- * Equivalent of AS3 `uint(parseAttribute(...))` or `int(parseAttribute(...))`.
- */
-function parseIntSafe(value: string | undefined): number
+function getDirectChildByName(node: Element, name: string): Element | null
 {
-	if (!value) return 0;
+	const children = getDirectChildrenByName(node, name);
 
-	const n = parseInt(value, 10);
-
-	return isNaN(n) ? 0 : n;
+	return children.length > 0 ? children[0] : null;
 }
 
-/**
- * Parses a string to a floating-point number, returns 0 for invalid values.
- *
- * Equivalent of AS3 `Number(parseAttribute(...))`.
- * Used for `blend` (opacity) and position attributes.
- */
-function parseNumberSafe(value: string | undefined): number
+function parseInteger(value: unknown): number
 {
-	if (!value) return 0;
+	const parsed = Number.parseInt(String(value ?? '0'), 10);
 
-	const n = Number(value);
-
-	return isNaN(n) ? 0 : n;
+	return Number.isFinite(parsed) ? parsed : 0;
 }
 
-/**
- * Parses a color string to a numeric value.
- *
- * Handles both hex (`"0xff418db0"`) and decimal formats.
- * Matches AS3 color parsing (line 341):
- * `uint(_loc5_.charAt(1) == "x" ? parseInt(_loc5_, 16) : uint(_loc5_))`
- *
- * @param value - The color string
- * @returns The parsed color as an unsigned integer
- */
-function parseColorSafe(value: string | undefined): number
+function parseNumber(value: unknown): number
 {
-	if (!value) return 0;
+	if (value === null || value === undefined)
+	{
+		return 0;
+	}
+
+	const parsed = Number(value);
+
+	return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function parseColor(value: string): number
+{
+	if (!value)
+	{
+		return 0;
+	}
 
 	if (value.length > 1 && value.charAt(1) === 'x')
 	{
-		const n = parseInt(value, 16);
+		const parsedHex = Number.parseInt(value, 16);
 
-		return isNaN(n) ? 0 : n >>> 0;
+		return Number.isFinite(parsedHex) ? (parsedHex >>> 0) : 0;
 	}
 
-	const n = parseInt(value, 10);
+	const parsed = Number.parseInt(value, 10);
 
-	return isNaN(n) ? 0 : n >>> 0;
+	return Number.isFinite(parsed) ? (parsed >>> 0) : 0;
 }
 
-/**
- * Builds a DropShadowFilter-like object from a JSON filter definition.
- *
- * Port of AS3 `WindowParser.buildBitmapFilter()` (lines 535-545).
- * Only DropShadowFilter is supported; other types return null.
- *
- * @param filter - The JSON filter definition
- * @returns A filter descriptor object, or null for unsupported types
- */
-function buildDropShadowFilterFromJSON(filter: LayoutFilter): Record<string, unknown> | null
+function castValue(value: unknown, type: string): unknown
 {
-	if (!filter || filter.type !== 'DropShadowFilter') return null;
+	switch (type.toLowerCase())
+	{
+		case 'boolean':
+			return String(value).toLowerCase() === 'true';
+		case 'int':
+		case 'number':
+			return parseNumber(value);
+		case 'uint':
+			return parseInteger(value) >>> 0;
+		case 'hex':
+		{
+			const raw = String(value ?? '0');
 
-	const a = filter.attributes;
+			return Number.parseInt(raw.replace(/^0x/i, ''), 16) >>> 0;
+		}
+		case 'array':
+			return String(value ?? '').split(',').map((entry) => entry.trim()).filter((entry) => entry.length > 0);
+		default:
+		{
+			if (typeof value === 'string')
+			{
+				return decodeEscaped(value);
+			}
 
-	return {
-		type: 'DropShadowFilter',
-		distance: parseNumberSafe(a.distance),
-		angle: parseNumberSafe(a.angle) || 45,
-		color: parseIntSafe(a.color),
-		alpha: a.alpha !== undefined ? parseNumberSafe(a.alpha) : 1,
-		blurX: parseNumberSafe(a.blurX),
-		blurY: parseNumberSafe(a.blurY),
-		strength: a.strength !== undefined ? parseNumberSafe(a.strength) : 1,
-		quality: a.quality !== undefined ? parseIntSafe(a.quality) : 1,
-		inner: a.inner === 'true',
-		knockout: a.knockout === 'true',
-		hideObject: a.hideObject === 'true'
-	};
+			return value;
+		}
+	}
+}
+
+function decodeEscaped(value: string): string
+{
+	if (!value)
+	{
+		return '';
+	}
+
+	let decoded = value;
+	let previous = '';
+
+	while (decoded !== previous)
+	{
+		previous = decoded;
+
+		try
+		{
+			decoded = decodeURIComponent(decoded);
+		}
+		catch (_)
+		{
+			break;
+		}
+	}
+
+	return decoded;
+}
+
+function escapeXml(value: string): string
+{
+	return value
+		.replace(/&/g, '&amp;')
+		.replace(/"/g, '&quot;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;');
 }
 
 /**
  * Resolves `${key}` localization tokens in a string.
- *
- * Exported for use by window controllers that need to resolve
- * tokens in dynamic property assignments (e.g. `window.caption =
- * '${navigator.title}'`).
  *
  * @param value - The string potentially containing `${key}` tokens
  * @returns The resolved string, or the original if no resolver or no match
  */
 export function resolveLocalizationTokens(value: string): string
 {
-	if (!value || !WindowParser.localizationResolver) return value;
+	if (!value || !WindowParser.localizationResolver)
+	{
+		return value;
+	}
 
 	return value.replace(/\$\{([^}]+)\}/g, (_match, key) =>
 	{

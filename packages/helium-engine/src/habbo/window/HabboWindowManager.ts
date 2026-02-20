@@ -100,7 +100,7 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 	private _windowContextArray: IWindowContext[] = [];
 	private _defaultContext: IWindowContext | null = null;
 
-	private _widgetLayouts: Map<string, unknown> = new Map();
+	private _widgetLayouts: Map<string, string> = new Map();
 
 	private _windowRenderer: WindowRenderer | null = null;
 	private _windowComposite: WindowComposite | null = null;
@@ -442,24 +442,22 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 	}
 
 	/**
-	 * AS3-compatible alias for parser serialization.
+	 * AS3-compatible parser serialization.
 	 */
-	public windowToJSONString(window: IWindow): string
+	public windowToXMLString(window: IWindow): string
 	{
 		if (!this._defaultContext)
 		{
 			return '';
 		}
 
-		return this._defaultContext.getWindowParser().windowToLayoutString(window);
+		return this._defaultContext.getWindowParser().windowToXMLString(window);
 	}
 
 	/**
-	 * Build a window tree from a JSON layout definition.
-	 *
-	 * In AS3 this was buildFromXML. We use JSON instead.
+	 * Build a window tree from an XML layout definition.
 	 */
-	public buildFromJSON(json: unknown, layer: number = 1, _vars?: Map<string, string> | null): IWindow
+	public buildFromXML(xml: string | Document | Element, layer: number = 1, _vars?: Map<string, string> | null): IWindow
 	{
 		const context = this.getWindowContext(layer);
 		const parser = context.getWindowParser();
@@ -467,7 +465,7 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 
 		if (parser && desktop)
 		{
-			return parser.parseAndConstruct(json as Record<string, unknown>, desktop, null) as IWindow;
+			return parser.parseAndConstruct(xml, desktop, null) as IWindow;
 		}
 
 		throw new Error('Window parser or desktop not available');
@@ -564,18 +562,14 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 	}
 
 	/**
-	 * Register a widget layout JSON asset by name.
-	 *
-	 * In AS3, widget layouts were stored as XML assets in the SWF asset library.
-	 * Here we register JSON layout objects by name so widgets can build their
-	 * internal window trees via buildWidgetLayout().
+	 * Register a widget layout XML asset by name.
 	 *
 	 * @param name - The layout asset name (e.g. "hover_bitmap", "avatar_image")
-	 * @param json - The JSON layout object
+	 * @param xml - The XML layout source
 	 */
-	public registerWidgetLayout(name: string, json: unknown): void
+	public registerWidgetLayout(name: string, xml: string): void
 	{
-		this._widgetLayouts.set(name, json);
+		this._widgetLayouts.set(name, xml);
 	}
 
 	/**
@@ -590,20 +584,20 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 	 */
 	public buildWidgetLayout(name: string, layer: number = 1): IWindow | null
 	{
-		const json = this._widgetLayouts.get(name);
+		const xml = this._widgetLayouts.get(name);
 
-		if (!json)
+		if (!xml)
 		{
 			log.warn(`Widget layout not found: ${name}`);
 
 			return null;
 		}
 
-		return this.buildFromJSON(json, layer);
+		return this.buildFromXML(xml, layer);
 	}
 
 	/**
-	 * Build a modal dialog from a JSON layout definition.
+	 * Build a modal dialog from an XML layout definition.
 	 *
 	 * Creates a dimmed background overlay and a centered content
 	 * window. Delegates to ModalDialog which manages the shared
@@ -611,9 +605,9 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 	 *
 	 * In AS3: buildModalDialogFromXML(xml: XML): IModalDialog
 	 */
-	public buildModalDialogFromJSON(json: unknown): IModalDialog
+	public buildModalDialogFromXML(xml: string): IModalDialog
 	{
-		return new ModalDialog(this, json);
+		return new ModalDialog(this, xml);
 	}
 
 	/**
@@ -1096,7 +1090,7 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 	 * @param style - The window style
 	 * @returns The layout object, or null
 	 */
-	public getLayoutByTypeAndStyle(type: number, style: number): Record<string, unknown> | null
+	public getLayoutByTypeAndStyle(type: number, style: number): string | null
 	{
 		const layout = this._skinContainer.getWindowLayoutByTypeAndStyle(type, style);
 
@@ -1107,7 +1101,7 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 
 		if(descriptor?.windowLayout)
 		{
-			return (this._widgetLayouts.get(descriptor.windowLayout) as Record<string, unknown>) ?? null;
+			return this._widgetLayouts.get(descriptor.windowLayout) ?? null;
 		}
 
 		return null;
@@ -1134,7 +1128,7 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 	}
 
 	/**
-	 * Loads skin assets and creates BitmapSkinRenderers from skin JSON data.
+	 * Loads skin assets and creates BitmapSkinRenderers from skin XML data.
 	 *
 	 * For each skin JSON, the parser creates a BitmapSkinRenderer with all
 	 * templates, layouts, and state mappings. The renderer is then registered
@@ -1336,7 +1330,7 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 	 * Initialize the 4 window context layers.
 	 *
 	 * Creates a WindowContext per layer, each with its own DesktopController
-	 * root and WindowParser for JSON layout building.
+	 * root and WindowParser for XML layout building.
 	 */
 	private initContexts(): void
 	{
@@ -1385,7 +1379,7 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 
 			context.setDesktop(desktop);
 
-			// Create parser for JSON layout building
+			// Create parser for XML layout building
 			const parser = new WindowParser();
 
 			context.setParser(parser);
@@ -1398,7 +1392,7 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 		log.info(`Window manager initialized with ${HabboWindowManager.NUMBER_OF_CONTEXT_LAYERS} context layers (${Classes.getRegisteredTypes().length} types registered)`);
 	}
 
-	private requireWidgetLayout(name: string, purpose: string): unknown
+	private requireWidgetLayout(name: string, purpose: string): string
 	{
 		const layout = this._widgetLayouts.get(name);
 

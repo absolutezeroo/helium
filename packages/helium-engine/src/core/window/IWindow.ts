@@ -98,7 +98,7 @@ export interface IWindow extends IDisposable
 
 	scale(sx: number, sy: number): void;
 
-	buildFromJSON(layout: Record<string, unknown>, namedWindows?: Map<string, IWindow> | null): boolean;
+	buildFromXML(layout: string | Document | Element, namedWindows?: Map<string, IWindow> | null): boolean;
 
 	fetchDrawBuffer(): unknown;
 

@@ -1,13 +1,18 @@
 /**
  * Runtime loader for the packed asset bundle.
  *
- * Fetches a single `.bundle` file containing all images and JSONs,
+ * Fetches a single `.bundle` file containing packed binary/text assets,
  * parses the manifest header, and provides methods to extract individual
- * assets as blob URLs, ImageBitmaps, or parsed JSON objects.
+ * assets as blob URLs, ImageBitmaps, or raw text.
  *
- * Bundle format:
- *   [4 bytes: manifest length (uint32 big-endian)]
- *   [N bytes: manifest JSON (UTF-8)]
+ * Bundle format (binary manifest):
+ *   [4 bytes: version (uint32 big-endian)]
+ *   [4 bytes: entry count (uint32 big-endian)]
+ *   repeated N times:
+ *     [2 bytes: key length (uint16 big-endian)]
+ *     [K bytes: key UTF-8]
+ *     [4 bytes: data offset (uint32 big-endian)]
+ *     [4 bytes: data size (uint32 big-endian)]
  *   [remaining: concatenated file data]
  *
  * @see tools/bundle-assets.mjs
@@ -35,9 +40,9 @@ interface BundleManifest
  *
  * Usage:
  * ```typescript
- * const bundle = await AssetBundle.load('/assets.bundle', ratio => { ... });
+ * const bundle = await AssetBundle.load('/assets-images.bundle', ratio => { ... });
  * const bitmap = await bundle.getImageBitmap('images/habbo_blue_skin.png');
- * const json = bundle.getJson('window-skins/element-description.json');
+ * const xml = bundle.getText('window-layouts/main_window.xml');
  * const url = bundle.getUrl('images/icon_name.png');
  * bundle.dispose();
  * ```
@@ -151,17 +156,58 @@ export class AssetBundle
 	private static parse(buffer: ArrayBuffer): AssetBundle
 	{
 		const view = new DataView(buffer);
+		const decoder = new TextDecoder();
+		let cursor = 0;
 
-		// Read manifest length (4 bytes, big-endian uint32)
-		const manifestLength = view.getUint32(0, false);
+		if (view.byteLength < 8)
+		{
+			throw new Error('[AssetBundle] Invalid bundle: header is too short');
+		}
 
-		// Read manifest JSON
-		const manifestBytes = new Uint8Array(buffer, 4, manifestLength);
-		const manifestJson = new TextDecoder().decode(manifestBytes);
-		const manifest: BundleManifest = JSON.parse(manifestJson);
+		const version = view.getUint32(cursor, false);
+		cursor += 4;
 
-		// Data section starts after header + manifest
-		const dataOffset = 4 + manifestLength;
+		if (version !== 1)
+		{
+			throw new Error(`[AssetBundle] Unsupported bundle version: ${version}`);
+		}
+
+		const entryCount = view.getUint32(cursor, false);
+		cursor += 4;
+		const entries: Record<string, BundleEntry> = {};
+
+		for (let i = 0; i < entryCount; i++)
+		{
+			if ((cursor + 2) > view.byteLength)
+			{
+				throw new Error('[AssetBundle] Invalid bundle: truncated key length');
+			}
+
+			const keyLength = view.getUint16(cursor, false);
+			cursor += 2;
+
+			if ((cursor + keyLength + 8) > view.byteLength)
+			{
+				throw new Error('[AssetBundle] Invalid bundle: truncated entry data');
+			}
+
+			const keyBytes = new Uint8Array(buffer, cursor, keyLength);
+			const key = decoder.decode(keyBytes);
+			cursor += keyLength;
+			const offset = view.getUint32(cursor, false);
+			cursor += 4;
+			const size = view.getUint32(cursor, false);
+			cursor += 4;
+
+			entries[key] = {offset, size};
+		}
+
+		const manifest: BundleManifest =
+			{
+				version,
+				entries
+			};
+		const dataOffset = cursor;
 
 		return new AssetBundle(manifest, buffer, dataOffset);
 	}
@@ -194,7 +240,7 @@ export class AssetBundle
 
 		if (!entry) return null;
 
-		const type = mimeType || (key.endsWith('.png') ? 'image/png' : 'application/octet-stream');
+		const type = mimeType || this.getMimeType(key);
 
 		// Use ArrayBuffer.slice to avoid Uint8Array<ArrayBufferLike> typing issues
 		const slice = this._data.slice(
@@ -247,20 +293,18 @@ export class AssetBundle
 	}
 
 	/**
-	 * Parses a JSON entry from the bundle.
+	 * Reads a text entry from the bundle.
 	 *
-	 * @param key - Entry key (e.g., "window-skins/element-description.json")
-	 * @returns The parsed JSON object, or null if not found
+	 * @param key - Entry key (e.g., "window-layouts/main_window.xml")
+	 * @returns The decoded UTF-8 text, or null if not found
 	 */
-	public getJson<T = unknown>(key: string): T | null
+	public getText(key: string): string | null
 	{
 		const bytes = this.getBytes(key);
 
 		if (!bytes) return null;
 
-		const text = new TextDecoder().decode(bytes);
-
-		return JSON.parse(text) as T;
+		return new TextDecoder().decode(bytes);
 	}
 
 	/**
@@ -276,6 +320,21 @@ export class AssetBundle
 		if (!prefix) return keys;
 
 		return keys.filter(k => k.startsWith(prefix));
+	}
+
+	/**
+	 * Infers a MIME type from the file extension.
+	 */
+	private getMimeType(key: string): string
+	{
+		if (key.endsWith('.png')) return 'image/png';
+		if (key.endsWith('.xml')) return 'text/xml';
+		if (key.endsWith('.ttf')) return 'font/ttf';
+		if (key.endsWith('.otf')) return 'font/otf';
+		if (key.endsWith('.woff')) return 'font/woff';
+		if (key.endsWith('.woff2')) return 'font/woff2';
+
+		return 'application/octet-stream';
 	}
 
 	/**

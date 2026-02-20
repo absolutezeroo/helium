@@ -41,7 +41,7 @@ export class AlertDialogWithLink extends AlertDialog implements IAlertDialogWith
 	 * Creates a new alert dialog with a link.
 	 *
 	 * @param windowManager - The Habbo window manager
-	 * @param json - The JSON layout definition
+	 * @param xml - The XML layout definition
 	 * @param title - Dialog title
 	 * @param summary - Dialog summary text
 	 * @param linkTitle - Display text for the link button
@@ -51,7 +51,7 @@ export class AlertDialogWithLink extends AlertDialog implements IAlertDialogWith
 	 */
 	constructor(
 		windowManager: IHabboWindowManager,
-		json: unknown,
+		xml: string,
 		title: string,
 		summary: string,
 		linkTitle: string,
@@ -60,7 +60,7 @@ export class AlertDialogWithLink extends AlertDialog implements IAlertDialogWith
 		callback: AlertDialogCallback | null
 	)
 	{
-		super(windowManager, json, title, summary, flags, callback, false);
+		super(windowManager, xml, title, summary, flags, callback, false);
 		this.linkTitle = linkTitle;
 		this.linkUrl = linkUrl;
 	}

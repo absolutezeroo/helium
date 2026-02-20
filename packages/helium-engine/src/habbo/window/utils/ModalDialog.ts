@@ -10,7 +10,7 @@ const log = Logger.getLogger('ModalDialog');
  * Base modal dialog implementation.
  *
  * Creates a modal overlay that dims the background and presents a
- * centered root window built from a JSON layout definition. In AS3,
+ * centered root window built from an XML layout definition. In AS3,
  * this used BitmapData to capture and darken the desktop layers.
  * In the TS port, the background dimming is handled as metadata
  * emitted to the UI layer; Flash rendering calls become stubs.
@@ -34,9 +34,9 @@ export class ModalDialog implements IModalDialog
 	 * Creates a new modal dialog.
 	 *
 	 * @param windowManager - The Habbo window manager
-	 * @param json - The JSON layout definition for the dialog content
+	 * @param xml - The XML layout definition for the dialog content
 	 */
-	constructor(windowManager: IHabboWindowManager, json: unknown)
+	constructor(windowManager: IHabboWindowManager, xml: string)
 	{
 		ModalDialog.initialiseStaticMembers(windowManager);
 
@@ -52,8 +52,8 @@ export class ModalDialog implements IModalDialog
 			ModalDialog._container.addChild(this._background);
 		}
 
-		// Build the root window from JSON layout
-		this._rootWindow = ModalDialog._windowManager!.buildFromJSON(json, ModalDialog.MODAL_DIALOG_LAYER);
+		// Build the root window from XML layout
+		this._rootWindow = ModalDialog._windowManager!.buildFromXML(xml, ModalDialog.MODAL_DIALOG_LAYER);
 
 		if (ModalDialog._container && this._rootWindow)
 		{

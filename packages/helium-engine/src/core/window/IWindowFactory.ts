@@ -29,15 +29,15 @@ export interface IWindowFactory
 
 	destroy(window: IWindow): void;
 
-	buildFromJSON(
-		layout: Record<string, unknown>,
+	buildFromXML(
+		layout: string | Document | Element,
 		contextLayer?: number,
 		namedWindows?: Map<string, IWindow> | null
 	): IWindow | null;
 
-	windowToLayoutString(window: IWindow): string;
+	windowToXMLString(window: IWindow): string;
 
-	getLayoutByTypeAndStyle(type: number, style: number): Record<string, unknown> | null;
+	getLayoutByTypeAndStyle(type: number, style: number): string | null;
 
 	getDefaultsByTypeAndStyle(type: number, style: number): DefaultAttStruct | null;
 

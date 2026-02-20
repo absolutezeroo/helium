@@ -1,6 +1,6 @@
 # Helium - Implementation Status
 
-> **Last updated**: 2026-02-19
+> **Last updated**: 2026-02-20
 > **Method**: Exhaustive AS3 → TS audit (comparing `source_as_win63/` vs `src/`)
 > **Total AS3 files**: ~2,000+ (logic + display) | **Total TS implemented**: ~710+ files
 > **Approach**: Full port — all AS3 files (logic AND display) are implemented. Flash XML layouts converted to JSON.
@@ -427,6 +427,7 @@ AS3: 32 files | TS: 22 files
 - ✅ **WindowComposite extracted**: web canvas composition + hit-test bridge moved from `WindowRenderer` into `core/window/graphics/WindowComposite.ts` to keep `WindowRenderer` aligned to AS3 responsibilities
 - ✅ **HabboWindowManager AS3 parity pass**: restored AS3-compatible API surface (`buildFromXML/windowToXMLString`, alerts/confirms/simpleAlert, groupWindowsWithTag, input tracking callback), reintroduced Session/Room/Config dependencies and link/element-pointer handler lifecycle wiring in `habbo/window/HabboWindowManager.ts`
 - ✅ **core/window/WindowContext + MouseEventProcessor (win63 parity)**: restored queued input processing (`process(state, queue)`), hover/down/click-away state tracking, `WME_UP_OUTSIDE`/cursor resolution flow, localization listener wiring in context, and localization propagation to all contexts from `HabboWindowManager`
+- ✅ **core/window/WindowController (win63 parity)**: restored missing AS3 behaviors for graphic-context lifecycle (`setupGraphicsContext/releaseGraphicsContext`), local/global alpha hit validation (`validate*PointIntersection`), immediate click routing (`immediateClickMode` + handler), child-context reindex/swap synchronization, and desktop mouse position usage
 
 ---
 

@@ -17,7 +17,7 @@ export class SkinContainer implements ISkinContainer
 	private static readonly MAX_STYLE_COUNT: number = 100;
 	private _renderers: Map<number, (ISkinRenderer | null)[]> = new Map();
 	private _defaults: Map<number, (DefaultAttStruct | null)[]> = new Map();
-	private _layouts: Map<number, (Record<string, unknown> | null)[]> = new Map();
+	private _layouts: Map<number, (string | null)[]> = new Map();
 	private _intents: Map<number, (string | null)[]> = new Map();
 
 	constructor()
@@ -42,10 +42,10 @@ export class SkinContainer implements ISkinContainer
 	 * @param style - The window style
 	 * @param intent - The intent string
 	 * @param renderer - The skin renderer
-	 * @param layout - The window layout definition
+	 * @param layout - The window layout XML
 	 * @param defaults - The default attributes
 	 */
-	public addSkinRenderer(type: number, style: number, intent: string, renderer: ISkinRenderer, layout: Record<string, unknown> | null, defaults: DefaultAttStruct): void
+	public addSkinRenderer(type: number, style: number, intent: string, renderer: ISkinRenderer, layout: string | null, defaults: DefaultAttStruct): void
 	{
 		if (!this._renderers.has(type))
 		{
@@ -149,9 +149,9 @@ export class SkinContainer implements ISkinContainer
 	 *
 	 * @param type - The window type
 	 * @param style - The window style
-	 * @returns The layout object, or null
+	 * @returns The layout XML, or null
 	 */
-	public getWindowLayoutByTypeAndStyle(type: number, style: number): Record<string, unknown> | null
+	public getWindowLayoutByTypeAndStyle(type: number, style: number): string | null
 	{
 		const bucket = this._layouts.get(type);
 

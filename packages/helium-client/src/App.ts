@@ -7,12 +7,12 @@ import type {IWindow} from '@core/window/IWindow';
 import {WindowController} from '@core/window/WindowController';
 import {WindowMouseEvent} from '@core/window/events/WindowMouseEvent';
 import type {WindowMouseOperator} from '@core/window/services/WindowMouseOperator';
-import type {IElementDescriptionData} from '@habbo/window';
 import type {RoomUI} from '@habbo/ui/RoomUI';
 import type {RoomDesktop} from '@habbo/ui/RoomDesktop';
 import type {HeliumLoadingScreen} from './HeliumLoadingScreen';
 import {AssetBundle} from './AssetBundle';
 import {LoginFlow} from './login/LoginFlow';
+import {parseElementDescriptionXml, parseSkinXml, parseWindowLayoutXml} from './window/WindowXmlAssetParser';
 import './_index.scss';
 
 /** Atlas spritesheet names that need to be decoded as ImageBitmaps. */
@@ -52,7 +52,8 @@ export class HeliumApp
 	private _animFrameId: number = 0;
 	private _disposed: boolean = false;
 	private _loadingScreen: HeliumLoadingScreen | null;
-	private _bundle: AssetBundle | null = null;
+	private _imageBundle: AssetBundle | null = null;
+	private _xmlBundle: AssetBundle | null = null;
 
 	/** Last hovered window for OVER/OUT tracking. */
 	private _lastHoveredWindow: IWindow | null = null;
@@ -90,39 +91,61 @@ export class HeliumApp
 	 */
 	public async init(): Promise<void>
 	{
-		// 1. Bootstrap engine + load asset bundle in parallel
+		// 1. Bootstrap engine + load bundles in parallel
 		const CORE_RATIO = 0.6;
+		const bundleProgress =
+			{
+				images: 0,
+				xml: 0
+			};
+		const updateBundleProgress = (): void =>
+		{
+			const ratio = (bundleProgress.images + bundleProgress.xml) / 2;
 
-		const [, bundle] = await Promise.all([
+			this._loadingScreen?.updateLoadingBar(ratio * CORE_RATIO);
+		};
+
+		const [, imageBundle, xmlBundle] = await Promise.all([
 			Helium.bootstrap(window.HeliumConfig, this._loadingScreen ?? undefined).catch(error =>
 			{
 				console.warn('[HeliumApp] Bootstrap error (connection may have failed):', error);
 			}),
-			AssetBundle.load('/assets.bundle', (ratio: number) =>
+			AssetBundle.load('/assets-images.bundle', (ratio: number) =>
 			{
-				this._loadingScreen?.updateLoadingBar(ratio * CORE_RATIO);
+				bundleProgress.images = ratio;
+				updateBundleProgress();
+			}),
+			AssetBundle.load('/assets-xml.bundle', (ratio: number) =>
+			{
+				bundleProgress.xml = ratio;
+				updateBundleProgress();
 			}),
 		]);
 
-		this._bundle = bundle;
+		this._imageBundle = imageBundle;
+		this._xmlBundle = xmlBundle;
 
 		const helium = Helium.instance;
 
 		// 2. Load element descriptions + atlas bitmaps from bundle
 		try
 		{
-			const elementDescription = bundle.getJson<IElementDescriptionData>(
-				'window-skins/element-description.json'
-			);
+			const elementDescriptionXml = xmlBundle.getText('window-skins/element-description.xml');
 
-			if (elementDescription)
+			if (elementDescriptionXml)
 			{
+				const elementDescription = parseElementDescriptionXml(
+					elementDescriptionXml,
+					'habbo_element_description',
+					'window-skins/element-description.xml'
+				);
+
 				helium.windowManager.loadElementDescription(elementDescription);
 			}
 
 			// Decode atlas spritesheets as ImageBitmaps
 			const bitmaps = await Promise.all(
-				ATLAS_NAMES.map(name => bundle.getImageBitmap(`images/${name}.png`))
+				ATLAS_NAMES.map(name => imageBundle.getImageBitmap(`images/${name}.png`))
 			);
 
 			const atlases = new Map<string, ImageBitmap>();
@@ -134,12 +157,20 @@ export class HeliumApp
 				if (bmp) atlases.set(ATLAS_NAMES[i], bmp);
 			}
 
-			// Load all skin JSONs from bundle
+			// Load all skin XMLs from bundle
 			const skins = new Map<string, ISkinData>();
 
-			for (const key of bundle.listKeys('window-skins/habbo_skin_'))
+			for (const key of xmlBundle.listKeys('window-skins/habbo_skin_'))
 			{
-				const skin = bundle.getJson<ISkinData>(key);
+				const skinXml = xmlBundle.getText(key);
+
+				if (!skinXml)
+				{
+					continue;
+				}
+
+				const skinId = key.split('/').pop()!.replace('.xml', '');
+				const skin = parseSkinXml(skinXml, skinId, key);
 
 				if (skin) skins.set(skin.id, skin);
 			}
@@ -151,15 +182,37 @@ export class HeliumApp
 			console.warn('[HeliumApp] Failed to load skin/element assets:', error);
 		}
 
-		// 3. Register all window layouts from bundle
-		for (const key of bundle.listKeys('window-layouts/'))
+		// 3. Register all window layouts from XML bundle
+		for (const key of xmlBundle.listKeys('window-layouts/'))
 		{
-			const name = key.split('/').pop()!.replace('.json', '');
-			const layout = bundle.getJson(key);
+			const layoutXml = xmlBundle.getText(key);
 
-			if (layout)
+			if (!layoutXml)
 			{
-				helium.windowManager.registerWidgetLayout(name, layout);
+				continue;
+			}
+
+			const layoutBaseName = key.split('/').pop()!.replace('.xml', '');
+			let layouts = [];
+
+			try
+			{
+				layouts = parseWindowLayoutXml(layoutXml, layoutBaseName, key);
+			}
+			catch (error)
+			{
+				console.warn(`[HeliumApp] Failed to parse layout XML: ${key}`, error);
+				continue;
+			}
+
+			for (const layout of layouts)
+			{
+				const name = layout.name;
+
+				if (typeof name === 'string' && name.length > 0)
+				{
+					helium.windowManager.registerWidgetLayout(name, layout.xml);
+				}
 			}
 		}
 
@@ -287,10 +340,16 @@ export class HeliumApp
 		}
 
 		// Revoke blob URLs
-		if (this._bundle)
+		if (this._imageBundle)
 		{
-			this._bundle.dispose();
-			this._bundle = null;
+			this._imageBundle.dispose();
+			this._imageBundle = null;
+		}
+
+		if (this._xmlBundle)
+		{
+			this._xmlBundle.dispose();
+			this._xmlBundle = null;
 		}
 
 		// Remove canvas from DOM
@@ -363,15 +422,15 @@ export class HeliumApp
 	 */
 	private registerImageAssets(): void
 	{
-		if (!this._bundle) return;
+		if (!this._imageBundle) return;
 
 		const helium = Helium.instance;
 
-		for (const key of this._bundle.listKeys('images/'))
+		for (const key of this._imageBundle.listKeys('images/'))
 		{
 			// Extract asset name: 'images/icons_toolbar_reception_normal.png' → 'icons_toolbar_reception_normal'
 			const name = key.split('/').pop()!.replace('.png', '');
-			const url = this._bundle.getUrl(key);
+			const url = this._imageBundle.getUrl(key);
 
 			if (url)
 			{

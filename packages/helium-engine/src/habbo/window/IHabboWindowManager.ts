@@ -41,7 +41,7 @@ export const WindowManagerEvents =
 /**
  * Interface for the Habbo Window Manager.
  *
- * Manages the lifecycle of declarative windows: opening from JSON layouts,
+ * Manages the lifecycle of declarative windows: opening from XML layouts,
  * resolving variables, tracking instances, and emitting events for the UI layer.
  *
  * Also provides the AS3-compatible ICoreWindowManager + IHabboWindowManager API
@@ -185,21 +185,21 @@ export interface IHabboWindowManager extends IDisposable
 	): IWindow;
 
 	/**
-	 * Build a window tree from a JSON layout definition.
+	 * Build a window tree from an XML layout definition.
 	 *
-	 * @param layout - The JSON layout object
+	 * @param layout - The XML layout payload
 	 * @param layer - Context layer (default 1)
 	 * @param vars - Variable map
 	 * @returns The root IWindow
 	 */
-	buildFromJSON(layout: unknown, layer?: number, vars?: Map<string, string> | null): IWindow;
+	buildFromXML(layout: string | Document | Element, layer?: number, vars?: Map<string, string> | null): IWindow;
 
 	/**
 	 * Serialize a window tree.
 	 *
 	 * AS3 method name kept for API parity.
 	 */
-	windowToJSONString(window: IWindow): string;
+	windowToXMLString(window: IWindow): string;
 
 	/**
 	 * Destroy a window.
@@ -248,16 +248,12 @@ export interface IHabboWindowManager extends IDisposable
 	confirmWithModal(title: string, message: string, flags: number, callback: AlertDialogCallback | null): IConfirmDialog;
 
 	/**
-	 * Register a widget layout JSON asset by name.
-	 *
-	 * In AS3, widget layouts were stored as XML assets in the SWF asset library.
-	 * Here we register JSON layout objects by name so widgets can build their
-	 * internal window trees.
+	 * Register a widget layout XML asset by name.
 	 *
 	 * @param name - The layout asset name (e.g. "hover_bitmap", "avatar_image")
-	 * @param json - The JSON layout object
+	 * @param xml - The XML layout source
 	 */
-	registerWidgetLayout(name: string, json: unknown): void;
+	registerWidgetLayout(name: string, xml: string): void;
 
 	/**
 	 * Build a widget's internal window tree from a registered layout asset.
@@ -400,7 +396,7 @@ export interface IHabboWindowManager extends IDisposable
 	openHelpPage(pageId: string): void;
 
 	/**
-	 * Build a modal dialog from a JSON layout definition.
+	 * Build a modal dialog from an XML layout definition.
 	 *
 	 * Creates a dimmed background overlay and a centered content
 	 * window from the provided layout. Returns an IModalDialog
@@ -408,10 +404,10 @@ export interface IHabboWindowManager extends IDisposable
 	 *
 	 * In AS3: buildModalDialogFromXML(xml: XML): IModalDialog
 	 *
-	 * @param layout - The JSON layout object
+	 * @param layout - The XML layout source
 	 * @returns The modal dialog instance
 	 */
-	buildModalDialogFromJSON(layout: unknown): IModalDialog;
+	buildModalDialogFromXML(layout: string): IModalDialog;
 
 	/**
 	 * Registers a bitmap asset with the resource manager.
@@ -436,7 +432,7 @@ export interface IHabboWindowManager extends IDisposable
 	registerAssetUrl(name: string, url: string): void;
 
 	/**
-	 * Loads skin assets and creates BitmapSkinRenderers from skin JSON data.
+	 * Loads skin assets and creates BitmapSkinRenderers from skin XML data.
 	 *
 	 * @param skins - Map of skin id → skin JSON data
 	 * @param atlases - Map of atlas asset name → ImageBitmap

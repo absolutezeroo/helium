@@ -13,7 +13,7 @@ const log = Logger.getLogger('SimpleAlertDialog');
  * Simplified alert dialog with optional subtitle, link, and illustration.
  *
  * Unlike {@link AlertDialog}, this dialog uses a fixed layout asset
- * (`simple_alert_json`) and provides a streamlined constructor that
+ * (`simple_alert_xml`) and provides a streamlined constructor that
  * accepts all content parameters at once. It always displays as a
  * modal dialog with no close button in the header.
  *
@@ -25,9 +25,8 @@ const log = Logger.getLogger('SimpleAlertDialog');
  * - Close button at the bottom
  *
  * In AS3, the layout was loaded from the `simple_alert_xml` asset.
- * In the TS port, we use `simple_alert_json`. The illustration resize
- * handling (which adjusted layout based on bitmap dimensions) is
- * adapted to work with the JSON layout system.
+ * The illustration resize handling (which adjusted layout based on
+ * bitmap dimensions) is preserved for the XML layout system.
  *
  * @see sources/win63_version/habbo/window/utils/SimpleAlertDialog.as
  * @see sources/flash_version/com/sulake/habbo/window/utils/SimpleAlertDialog.as
@@ -80,10 +79,17 @@ export class SimpleAlertDialog implements IDisposable
 		this._closeCallback = closeCallback;
 		this._windowManager = windowManager;
 
-		// In AS3: loads "simple_alert_xml" asset and builds modal dialog from it.
-		// In TS: we use buildModalDialogFromJSON with a layout name.
-		const layoutJson = windowManager.getLayout('simple_alert');
-		this._modalDialog = windowManager.buildModalDialogFromJSON(layoutJson ?? {});
+		// In AS3: loads "simple_alert_xml" asset and builds a modal dialog from it.
+		const layout = windowManager.getLayout('simple_alert') as unknown;
+		const layoutXml = typeof layout === 'string' ? layout : '';
+
+		if (!layoutXml)
+		{
+			log.warn('Missing simple_alert XML layout');
+			return;
+		}
+
+		this._modalDialog = windowManager.buildModalDialogFromXML(layoutXml);
 		this._window = this._modalDialog?.rootWindow as IWindowContainer ?? null;
 
 		if (!this._window)

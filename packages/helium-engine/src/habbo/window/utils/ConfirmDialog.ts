@@ -37,7 +37,7 @@ export class ConfirmDialog extends AlertDialog
 	 * Creates a new confirm dialog.
 	 *
 	 * @param windowManager - The Habbo window manager
-	 * @param json - The JSON layout definition
+	 * @param xml - The XML layout definition
 	 * @param title - Dialog title
 	 * @param summary - Dialog summary text
 	 * @param flags - Bitwise HabboAlertDialogFlag values
@@ -46,7 +46,7 @@ export class ConfirmDialog extends AlertDialog
 	 */
 	constructor(
 		windowManager: IHabboWindowManager,
-		json: unknown,
+		xml: string,
 		title: string,
 		summary: string,
 		flags: number,
@@ -54,7 +54,7 @@ export class ConfirmDialog extends AlertDialog
 		modal: boolean
 	)
 	{
-		super(windowManager, json, title, summary, flags, callback, modal);
+		super(windowManager, xml, title, summary, flags, callback, modal);
 	}
 
 	/**
