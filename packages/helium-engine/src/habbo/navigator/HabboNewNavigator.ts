@@ -941,11 +941,15 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	{
 		this._roomNames.clear();
 
-		for (const block of results.blocks)
+		const blocks = Array.isArray(results.blocks) ? results.blocks : [];
+
+		for (const block of blocks)
 		{
-			if (block.guestRooms)
+			const guestRooms = Array.isArray(block.guestRooms) ? block.guestRooms : [];
+
+			if (guestRooms.length > 0)
 			{
-				for (const room of block.guestRooms)
+				for (const room of guestRooms)
 				{
 					this._roomNames.set(room.flatId, room.roomName);
 				}

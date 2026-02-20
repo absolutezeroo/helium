@@ -4,6 +4,7 @@ export * from './renderer';
 // Exports
 export {GraphicContext} from './GraphicContext';
 export {SkinContainer} from './SkinContainer';
+export {WindowComposite} from './WindowComposite';
 export {WindowRenderer} from './WindowRenderer';
 export {WindowRendererItem} from './WindowRendererItem';
 

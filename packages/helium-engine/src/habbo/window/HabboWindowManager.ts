@@ -14,16 +14,23 @@ import type {IWindowContext} from '@core/window/IWindowContext';
 import type {IInputEventTracker} from '@core/window/IInputEventTracker';
 import type {IWindowContainer} from '@core/window/IWindowContainer';
 import type {IWindowFactory} from '@core/window/IWindowFactory';
+import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
+import type {IWidget} from '@core/window/IWidget';
 import type {IThemeManager} from '@core/window/theme/IThemeManager';
 import {WindowContext} from '@core/window/WindowContext';
 import {Classes} from '@core/window/Classes';
 import {WindowType} from '@core/window/enum/WindowType';
 import {DesktopController} from '@core/window/components/DesktopController';
 import {WindowParser} from '@core/window/utils/WindowParser';
+import {MouseCursorControl} from '@core/window/utils/MouseCursorControl';
+import type {WindowEvent} from '@core/window/events/WindowEvent';
+import {WindowMouseEvent} from '@core/window/events/WindowMouseEvent';
 import {SkinContainer} from '@core/window/graphics/SkinContainer';
+import {WindowComposite} from '@core/window/graphics/WindowComposite';
 import {WindowRenderer} from '@core/window/graphics/WindowRenderer';
 import {FillSkinRenderer} from '@core/window/graphics/renderer/FillSkinRenderer';
 import {NullSkinRenderer} from '@core/window/graphics/renderer/NullSkinRenderer';
+import type {ISkinRenderer} from '@core/window/graphics/renderer/ISkinRenderer';
 import type {ISkinData} from '@core/window/graphics/renderer/BitmapSkinParser';
 import {BitmapSkinParser} from '@core/window/graphics/renderer/BitmapSkinParser';
 import {DefaultAttStruct} from '@core/window/utils/DefaultAttStruct';
@@ -31,18 +38,34 @@ import {ThemeManager} from './theme/ThemeManager';
 import {ServiceManager} from '@core/window/services/ServiceManager';
 import {HabboWidgetFactory} from './HabboWidgetFactory';
 import {ComponentDependency} from '@core/runtime/ComponentDependency';
+import {ErrorReportStorage} from '@core/utils/ErrorReportStorage';
 import {IID_AvatarRenderManager} from '@iid/IIDAvatarRenderManager';
 import {IID_HabboCommunicationManager} from '@iid/IIDHabboCommunicationManager';
 import {IID_HabboLocalizationManager} from '@iid/IIDHabboLocalizationManager';
+import {IID_HabboConfigurationManager} from '@iid/IIDHabboConfigurationManager';
+import {IID_SessionDataManager} from '@iid/IIDSessionDataManager';
+import {IID_RoomEngine} from '@iid/IIDRoomEngine';
 import type {IAvatarRenderManager} from '@habbo/avatar/IAvatarRenderManager';
 import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommunicationManager';
 import type {IHabboLocalizationManager} from '@habbo/localization/IHabboLocalizationManager';
+import type {IHabboConfigurationManager} from '@habbo/configuration/IHabboConfigurationManager';
+import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
+import type {IRoomEngine} from '@habbo/room/IRoomEngine';
 import type {IContext} from '@core/runtime/IContext';
 import type {IAssetLibrary} from '@core/assets/IAssetLibrary';
 import type {IModalDialog} from './utils/IModalDialog';
 import {ModalDialog} from './utils/ModalDialog';
 import {ResourceManager} from './ResourceManager';
 import {HintManager} from './HintManager';
+import type {IAlertDialog, AlertDialogCallback} from './utils/AlertDialog';
+import {AlertDialog} from './utils/AlertDialog';
+import type {IAlertDialogWithLink} from './utils/AlertDialogWithLink';
+import {AlertDialogWithLink} from './utils/AlertDialogWithLink';
+import type {IConfirmDialog} from './utils/ConfirmDialog';
+import {ConfirmDialog} from './utils/ConfirmDialog';
+import {SimpleAlertDialog} from './utils/SimpleAlertDialog';
+import {HabbletLinkHandler} from './handlers/HabbletLinkHandler';
+import {ElementPointerHandler} from './utils/ElementPointerHandler';
 
 const log = Logger.getLogger('HabboWindowManager');
 
@@ -79,6 +102,7 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 	private _widgetLayouts: Map<string, unknown> = new Map();
 
 	private _windowRenderer: WindowRenderer | null = null;
+	private _windowComposite: WindowComposite | null = null;
 	private _serviceManager: ServiceManager | null = null;
 	private _resourceManager: ResourceManager | null = null;
 	private _hintManager: HintManager | null = null;
@@ -666,7 +690,7 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 	/**
 	 * Composites all window layers into a single OffscreenCanvas buffer.
 	 *
-	 * Delegates to WindowRenderer.composite() with the full context array.
+	 * Delegates to WindowComposite.composite() with the full context array.
 	 *
 	 * @param width - The target buffer width
 	 * @param height - The target buffer height
@@ -674,18 +698,18 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 	 */
 	public compositeToBuffer(width: number, height: number): OffscreenCanvas | null
 	{
-		if(!this._windowRenderer) return null;
+		if(!this._windowRenderer || !this._windowComposite) return null;
 
 		// Process the render queue first (AS3: context.render() → renderer.render())
 		this._windowRenderer.render();
 
-		return this._windowRenderer.composite(this._windowContextArray, width, height);
+		return this._windowComposite.composite(this._windowContextArray, width, height);
 	}
 
 	/**
 	 * Finds the deepest visible window at the given screen point.
 	 *
-	 * Delegates to WindowRenderer.findWindowAtPoint() with the full context array.
+	 * Delegates to WindowComposite.findWindowAtPoint() with the full context array.
 	 *
 	 * @param x - The global X coordinate
 	 * @param y - The global Y coordinate
@@ -693,9 +717,9 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 	 */
 	public findWindowAtPoint(x: number, y: number): IWindow | null
 	{
-		if (!this._windowRenderer) return null;
+		if (!this._windowComposite) return null;
 
-		return this._windowRenderer.findWindowAtPoint(this._windowContextArray, x, y);
+		return this._windowComposite.findWindowAtPoint(this._windowContextArray, x, y);
 	}
 
 	/**
@@ -829,6 +853,7 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 		if (!this._windowRenderer)
 		{
 			this._windowRenderer = new WindowRenderer(this._skinContainer);
+			this._windowComposite = new WindowComposite((window: IWindow) => this._windowRenderer?.getDrawBufferForRenderable(window) ?? null);
 
 			// Connect renderer to all WindowContexts (AS3: static var_1836)
 			WindowContext.setRenderer(this._windowRenderer);
@@ -906,6 +931,19 @@ export class HabboWindowManager extends Component implements IHabboWindowManager
 		{
 			this._serviceManager.dispose();
 			this._serviceManager = null;
+		}
+
+		if(this._windowComposite)
+		{
+			this._windowComposite.dispose();
+			this._windowComposite = null;
+		}
+
+		if(this._windowRenderer)
+		{
+			this._windowRenderer.dispose();
+			this._windowRenderer = null;
+			WindowContext.setRenderer(null);
 		}
 
 		// Clean up resource manager

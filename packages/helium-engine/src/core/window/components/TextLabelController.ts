@@ -28,6 +28,8 @@ export class TextLabelController extends WindowController implements ILabelWindo
 	private _marginTop: number = 0;
 	private _marginRight: number = 0;
 	private _marginBottom: number = 0;
+	private _spacing: number = 0;
+	private _leading: number = 0;
 
 	constructor(
 		name: string,
@@ -249,13 +251,15 @@ export class TextLabelController extends WindowController implements ILabelWindo
 					{
 						if (resolved.fontFamily != null) this._fontFace = resolved.fontFamily;
 						if (resolved.fontSize != null) this._fontSize = resolved.fontSize;
-						if (resolved.fontWeight === 'bold') this._bold = true;
-						if (resolved.fontStyle === 'italic') this._italic = true;
-						if (resolved.textDecoration === 'underline') this._underline = true;
-						if (resolved.color != null && this._textColor === null) this._textColor = resolved.color;
-						if (resolved.etchingColor != null) this._etchingColor = resolved.etchingColor;
-						if (resolved.etchingPosition != null) this._etchingPosition = resolved.etchingPosition;
-					}
+					if (resolved.fontWeight === 'bold') this._bold = true;
+					if (resolved.fontStyle === 'italic') this._italic = true;
+					if (resolved.textDecoration === 'underline') this._underline = true;
+					if (resolved.color != null && this._textColor === null) this._textColor = resolved.color;
+					if (resolved.etchingColor != null) this._etchingColor = resolved.etchingColor;
+					if (resolved.etchingPosition != null) this._etchingPosition = resolved.etchingPosition;
+					if (resolved.letterSpacing != null) this._spacing = resolved.letterSpacing;
+					if (resolved.leading != null) this._leading = resolved.leading;
+				}
 
 					break;
 				}
@@ -336,8 +340,8 @@ export class TextLabelController extends WindowController implements ILabelWindo
 		ctx.font = fontStr;
 
 		const metrics = ctx.measureText(this._text);
-		const measuredWidth = Math.ceil(metrics.width);
-		const measuredHeight = this._fontSize;
+		const measuredWidth = Math.ceil(metrics.width + (Math.max(0, this._text.length - 1) * this._spacing));
+		const measuredHeight = Math.ceil(this._fontSize + Math.max(0, this._leading));
 
 		this._textWidth = measuredWidth;
 		this._textHeight = measuredHeight;

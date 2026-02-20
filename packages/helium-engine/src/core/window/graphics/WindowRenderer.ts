@@ -3,914 +3,830 @@ import type {ISkinContainer} from './ISkinContainer';
 import type {IWindow} from '../IWindow';
 import type {IWindowContext} from '../IWindowContext';
 import type {IWindowContainer} from '../IWindowContainer';
-import {WindowType} from '../enum/WindowType';
+import type {IGraphicContextHost} from './IGraphicContextHost';
+import {WindowParam} from '../enum/WindowParam';
+import {WindowDisposeEvent} from '../events/WindowDisposeEvent';
 import {WindowRendererItem} from './WindowRendererItem';
+
+type Point = { x: number; y: number };
+type Rectangle = { x: number; y: number; width: number; height: number };
 
 /**
  * Window renderer managing per-window draw buffers and compositing.
  *
- * In AS3, WindowRenderer managed BitmapData draw buffers, dirty region
- * merging, and composited the full tree into a single BitmapData displayed
- * as a Bitmap on the Stage. In TypeScript, each window gets its own
- * OffscreenCanvas buffer; composite() merges them all into a single buffer.
+ * The render queue, dirty-region merge, branch traversal, and clipping logic
+ * follow the AS3 win63 implementation.
  *
- * @see sources/win63_2021_version/com/sulake/core/window/graphics/WindowRenderer.as
+ * @see sources/win63_version/core/window/graphics/WindowRenderer.as
  */
 export class WindowRenderer implements IWindowRenderer
 {
-	private _skinContainer: ISkinContainer;
-	private _renderQueue: IWindow[] = [];
-	private _dirtyRegions: ({ x: number; y: number; width: number; height: number }[])[] = [];
-	/** Per-window renderer items (AS3: Dictionary keyed by IWindow). */
-	private _rendererItems: Map<IWindow, WindowRendererItem> = new Map();
-	/** Composite buffer for full-scene rendering. */
-	private _compositeBuffer: OffscreenCanvas | null = null;
-	private _compositeCtx: OffscreenCanvasRenderingContext2D | null = null;
+    private static readonly RECT: Rectangle = {x: 0, y: 0, width: 0, height: 0};
+    private static readonly MAX_DIRTY_REGIONS_PER_WINDOW: number = 3;
+    private static readonly MAX_DISTANCE_BEFORE_COMBINE: number = 10;
 
-	constructor(skinContainer: ISkinContainer)
-	{
-		this._skinContainer = skinContainer;
-	}
+    private _debug: boolean = false;
+    private _disposed: boolean = false;
 
-	private _disposed: boolean = false;
+    private _skinContainer: ISkinContainer;
+    private _rendererItems: Map<IWindow, WindowRendererItem>;
 
-	public get disposed(): boolean
-	{
-		return this._disposed;
-	}
+    private _renderQueue: IWindow[];
+    private _dirtyRegions: Rectangle[][];
+    private _renderQueueIndices: Map<IWindow, number>;
 
-	private _debug: boolean = false;
+    private _drawLocation: Point;
+    private _clipRegion: Rectangle;
+    private _dirtyRegion: Rectangle;
+    private _visibleRegion: Rectangle;
 
-	public get debug(): boolean
-	{
-		return this._debug;
-	}
+    private _windowDisposedCallback: (event: WindowDisposeEvent) => void;
 
-	public set debug(value: boolean)
-	{
-		this._debug = value;
-	}
+    constructor(skinContainer: ISkinContainer)
+    {
+        this._skinContainer = skinContainer;
+        this._rendererItems = new Map<IWindow, WindowRendererItem>();
 
-	/**
-	 * Renders all queued dirty windows.
-	 *
-	 * Port of AS3 WindowRenderer.render(). Processes the render queue,
-	 * rendering each window and its children via renderWindowBranch().
-	 */
-	public render(): void
-	{
-		while (this._renderQueue.length > 0)
-		{
-			const window = this._renderQueue.pop()!;
-			const dirtyRects = this._dirtyRegions.pop()!;
+        this._renderQueue = [];
+        this._dirtyRegions = [];
+        this._renderQueueIndices = new Map<IWindow, number>();
 
-			if (window.disposed) continue;
+        this._drawLocation = {x: 0, y: 0};
+        this._clipRegion = {x: 0, y: 0, width: 0, height: 0};
+        this._dirtyRegion = {x: 0, y: 0, width: 0, height: 0};
+        this._visibleRegion = {x: 0, y: 0, width: 0, height: 0};
 
-			for (const dirtyRect of dirtyRects)
-			{
-				this.renderWindowBranch(window, dirtyRect);
-			}
-		}
-	}
+        this._windowDisposedCallback = this.windowDisposedCallback.bind(this);
+    }
 
-	/**
-	 * Adds a window to the render queue with a dirty region.
-	 *
-	 * @param window - The window to render
-	 * @param rect - The dirty rectangle, or null for full window
-	 * @param flags - Invalidation flags
-	 */
-	public addToRenderQueue(window: IWindow, rect: {
-		x: number;
-		y: number;
-		width: number;
-		height: number
-	} | null, flags: number): void
-	{
-		const dirtyRect = rect
-			? {...rect}
-			: {x: 0, y: 0, width: window.renderingWidth, height: window.renderingHeight};
+    public get disposed(): boolean
+    {
+        return this._disposed;
+    }
 
-		// Invalidate the renderer item
-		const item = this.getWindowRendererItem(window);
+    public get debug(): boolean
+    {
+        return this._debug;
+    }
 
-		if (!item.invalidate(window, flags)) return;
+    public set debug(value: boolean)
+    {
+        this._debug = value;
+    }
 
-		const index = this._renderQueue.indexOf(window);
+    private static areRectanglesCloseEnough(a: Rectangle, b: Rectangle, distance: number): boolean
+    {
+        if((a.x < (b.x + b.width))
+            && ((a.x + a.width) > b.x)
+            && (a.y < (b.y + b.height))
+            && ((a.y + a.height) > b.y))
+        {
+            return true;
+        }
 
-		if (index > -1)
-		{
-			this._dirtyRegions[index].push(dirtyRect);
-		}
-		else
-		{
-			this._renderQueue.push(window);
-			this._dirtyRegions.push([dirtyRect]);
-		}
-	}
+        const dx = (a.x > b.x) ? (a.x - (b.x + b.width)) : (b.x - (a.x + a.width));
+        const dy = (a.y > b.y) ? (a.y - (b.y + b.height)) : (b.y - (a.y + a.height));
 
-	/**
-	 * Clears the render queue without rendering.
-	 */
-	public flushRenderQueue(): void
-	{
-		this._renderQueue.length = 0;
-		this._dirtyRegions.length = 0;
-	}
+        return (dx <= distance) && (dy <= distance);
+    }
 
-	/**
-	 * Invalidates all windows in the given context.
-	 *
-	 * @param context - The window context to invalidate
-	 * @param _rect - The invalidation rectangle
-	 */
-	public invalidate(context: IWindowContext, _rect: { x: number; y: number; width: number; height: number }): void
-	{
-		const desktop = context.getDesktopWindow();
+    private static childRectToClippedDrawRegion(window: IWindow, drawLocation: Point, clipRegion: Rectangle): boolean
+    {
+        if(window.testParamFlag(WindowParam.USE_PARENT_GRAPHIC_CONTEXT))
+        {
+            const renderingX = window.renderingX;
+            const renderingY = window.renderingY;
 
-		if (!desktop) return;
+            drawLocation.x += renderingX;
+            drawLocation.y += renderingY;
 
-		this.addToRenderQueue(desktop, null, 1);
-	}
+            if(window.clipping)
+            {
+                if(drawLocation.x < renderingX)
+                {
+                    const delta = renderingX - drawLocation.x;
 
-	/**
-	 * Returns the draw buffer for the given window.
-	 *
-	 * Port of AS3 WindowRenderer.getDrawBufferForRenderable().
-	 * Creates and renders a buffer if one doesn't exist yet.
-	 *
-	 * @param window - The window to get the buffer for
-	 * @returns The OffscreenCanvas buffer, or null
-	 */
-	public getDrawBufferForRenderable(window: IWindow): OffscreenCanvas | null
-	{
-		let item = this._rendererItems.get(window);
+                    clipRegion.x += delta;
+                    clipRegion.width -= delta;
+                    drawLocation.x = renderingX;
+                }
 
-		if (!item)
-		{
-			item = new WindowRendererItem(this._skinContainer);
-			item.invalidate(window, 1);
-			item.render(window);
-			this._rendererItems.set(window, item);
-		}
+                if(drawLocation.x < 0)
+                {
+                    clipRegion.x -= drawLocation.x;
+                    clipRegion.width += drawLocation.x;
+                    drawLocation.x = 0;
+                }
 
-		return item.buffer;
-	}
+                if(drawLocation.y < renderingY)
+                {
+                    const delta = renderingY - drawLocation.y;
 
-	/**
-	 * Purges cached render data.
-	 *
-	 * @param window - The window to purge, or null for all
-	 * @param recursive - Whether to recurse into children
-	 */
-	public purge(window?: IWindow | null, recursive?: boolean): void
-	{
-		if (window)
-		{
-			const item = this._rendererItems.get(window);
+                    clipRegion.y += delta;
+                    clipRegion.height -= delta;
+                    drawLocation.y = renderingY;
+                }
 
-			if (item)
-			{
-				if (!window.visible || !recursive)
-				{
-					item.dispose();
-					this._rendererItems.delete(window);
-				}
-				else
-				{
-					item.purge();
-				}
-			}
+                if(drawLocation.y < 0)
+                {
+                    clipRegion.y -= drawLocation.y;
+                    clipRegion.height += drawLocation.y;
+                    drawLocation.y = 0;
+                }
 
-			// Recurse into children
-			if (recursive)
-			{
-				const container = window as unknown as IWindowContainer;
+                if((drawLocation.x + clipRegion.width) > (renderingX + window.renderingWidth))
+                {
+                    clipRegion.width -= ((drawLocation.x + clipRegion.width) - (renderingX + window.renderingWidth));
+                }
 
-				if (typeof container.numChildren === 'number')
-				{
-					for (let i = 0; i < container.numChildren; i++)
-					{
-						const child = container.getChildAt(i);
+                if((drawLocation.y + clipRegion.height) > (renderingY + window.renderingHeight))
+                {
+                    clipRegion.height -= ((drawLocation.y + clipRegion.height) - (renderingY + window.renderingHeight));
+                }
+            }
 
-						if (child)
-						{
-							this.purge(child, recursive);
-						}
-					}
-				}
-			}
-		}
-		else
-		{
-			// Purge all
-			for (const [win, item] of this._rendererItems)
-			{
-				if (!win.visible || !recursive)
-				{
-					item.dispose();
-					this._rendererItems.delete(win);
-				}
-			}
-		}
-	}
+            if(window.parent)
+            {
+                WindowRenderer.childRectToClippedDrawRegion(window.parent, drawLocation, clipRegion);
+            }
+        }
+        else if(window.clipping)
+        {
+            if(drawLocation.x < 0)
+            {
+                const delta = drawLocation.x;
 
-	/**
-	 * Removes renderer data for a disposed window.
-	 *
-	 * @param window - The window to remove
-	 */
-	public removeRenderable(window: IWindow): void
-	{
-		const item = this._rendererItems.get(window);
+                clipRegion.x -= delta;
+                clipRegion.width += delta;
+                drawLocation.x = 0;
+            }
 
-		if (item)
-		{
-			item.dispose();
-			this._rendererItems.delete(window);
-		}
-	}
+            if(drawLocation.y < 0)
+            {
+                const delta = drawLocation.y;
 
-	/**
-	 * Composites all window layers into a single OffscreenCanvas buffer.
-	 *
-	 * Walks each context layer (0→3), retrieves its desktop window,
-	 * and recursively draws each window's skin buffer at its absolute position.
-	 * This mirrors AS3's WindowRenderer.renderWindowBranch() compositing
-	 * into a single BitmapData displayed as a Bitmap on the Stage.
-	 *
-	 * @param contexts - The array of window contexts (one per layer)
-	 * @param width - The target buffer width
-	 * @param height - The target buffer height
-	 * @returns The composited OffscreenCanvas buffer
-	 *
-	 * @see sources/win63_2021_version/com/sulake/core/window/graphics/WindowRenderer.as renderWindowBranch()
-	 */
-	public composite(contexts: IWindowContext[], width: number, height: number): OffscreenCanvas
-	{
-		// Create or resize the composite buffer
-		if (!this._compositeBuffer || this._compositeBuffer.width !== width || this._compositeBuffer.height !== height)
-		{
-			this._compositeBuffer = new OffscreenCanvas(width, height);
-			this._compositeCtx = this._compositeBuffer.getContext('2d');
-		}
+                clipRegion.y -= delta;
+                clipRegion.height += delta;
+                drawLocation.y = 0;
+            }
+        }
 
-		const ctx = this._compositeCtx!;
+        return (clipRegion.width > 0) && (clipRegion.height > 0);
+    }
 
-		ctx.imageSmoothingEnabled = false;
-		ctx.clearRect(0, 0, width, height);
+    private static getDrawLocationAndClipRegion(window: IWindow, dirtyRegion: Rectangle, drawLocation: Point, clipRegion: Rectangle): boolean
+    {
+        clipRegion.x = 0;
+        clipRegion.y = 0;
+        clipRegion.width = window.renderingWidth;
+        clipRegion.height = window.renderingHeight;
 
-		// Walk layers 0→3 (background → tooltips)
-		for (let i = 0; i < contexts.length; i++)
-		{
-			const desktop = contexts[i].getDesktopWindow();
+        let visible = true;
 
-			if (!desktop || !desktop.visible) continue;
+        if(!window.testParamFlag(WindowParam.USE_PARENT_GRAPHIC_CONTEXT))
+        {
+            if(window.parent && window.testParamFlag(WindowParam.FORCE_CLIPPING))
+            {
+                visible = WindowRenderer.childRectToClippedDrawRegion(window.parent, drawLocation, clipRegion);
+                drawLocation.x = clipRegion.x;
+                drawLocation.y = clipRegion.y;
+            }
+            else
+            {
+                drawLocation.x = 0;
+                drawLocation.y = 0;
+            }
+        }
+        else if(window.parent)
+        {
+            visible = WindowRenderer.childRectToClippedDrawRegion(window.parent, drawLocation, clipRegion);
+        }
+        else
+        {
+            drawLocation.x = 0;
+            drawLocation.y = 0;
+        }
 
-			// Render desktop's children (not the desktop itself — it's a root container)
-			const container = desktop as unknown as IWindowContainer;
+        if(dirtyRegion.x > clipRegion.x)
+        {
+            const delta = dirtyRegion.x - clipRegion.x;
 
-			if (typeof container.numChildren !== 'number') continue;
+            drawLocation.x += delta;
+            clipRegion.x += delta;
+            clipRegion.width -= delta;
+        }
 
-			for (let j = 0; j < container.numChildren; j++)
-			{
-				const child = container.getChildAt(j);
+        if(dirtyRegion.y > clipRegion.y)
+        {
+            const delta = dirtyRegion.y - clipRegion.y;
 
-				if (child)
-				{
-					this.compositeWindow(ctx, child, 0, 0);
-				}
-			}
-		}
+            drawLocation.y += delta;
+            clipRegion.y += delta;
+            clipRegion.height -= delta;
+        }
 
+        if((dirtyRegion.x + dirtyRegion.width) < (clipRegion.x + clipRegion.width))
+        {
+            const delta = (clipRegion.x + clipRegion.width) - (dirtyRegion.x + dirtyRegion.width);
 
-		return this._compositeBuffer;
-	}
+            clipRegion.width -= delta;
+        }
 
-	/**
-	 * Finds the deepest visible window at the given point.
-	 *
-	 * Iterates layers in REVERSE order (tooltips → background) so that
-	 * the topmost layer wins. Within each layer, children are tested in
-	 * reverse order (last child = visually on top).
-	 *
-	 * @param contexts - The array of window contexts (one per layer)
-	 * @param x - The global X coordinate
-	 * @param y - The global Y coordinate
-	 * @returns The deepest window at the point, or null
-	 *
-	 * @see sources/win63_2021_version/com/sulake/core/window/components/ContainerController.as getChildUnderPoint()
-	 */
-	public findWindowAtPoint(contexts: IWindowContext[], x: number, y: number): IWindow | null
-	{
-		// Iterate layers in REVERSE (tooltips → background)
-		for (let i = contexts.length - 1; i >= 0; i--)
-		{
-			const desktop = contexts[i].getDesktopWindow();
+        if((dirtyRegion.y + dirtyRegion.height) < (clipRegion.y + clipRegion.height))
+        {
+            const delta = (clipRegion.y + clipRegion.height) - (dirtyRegion.y + dirtyRegion.height);
 
-			if (!desktop || !desktop.visible) continue;
+            clipRegion.height -= delta;
+        }
 
-			const container = desktop as unknown as IWindowContainer;
+        return visible && (clipRegion.width > 0) && (clipRegion.height > 0);
+    }
 
-			if (typeof container.numChildren !== 'number') continue;
+    public render(): void
+    {
+        let renderQueueLength = this._renderQueue.length;
 
-			// Test children in reverse (topmost first)
-			for (let j = container.numChildren - 1; j >= 0; j--)
-			{
-				const child = container.getChildAt(j);
+        while(renderQueueLength-- > 0)
+        {
+            const window = this._renderQueue.pop();
+            const dirtyRegions = this._dirtyRegions.pop();
 
-				if (!child) continue;
+            if(!window || !dirtyRegions)
+            {
+                continue;
+            }
 
-				const hit = this.hitTestRecursive(child, x, y, 0, 0);
+            this._renderQueueIndices.delete(window);
 
-				if (hit) return hit;
-			}
-		}
+            if(window.disposed)
+            {
+                continue;
+            }
 
-		return null;
-	}
+            const drawBuffer = window.fetchDrawBuffer() as OffscreenCanvas | null;
 
+            for(const dirtyRegion of dirtyRegions)
+            {
+                this._visibleRegion.x = window.renderingX;
+                this._visibleRegion.y = window.renderingY;
+                this._visibleRegion.width = window.renderingWidth;
+                this._visibleRegion.height = window.renderingHeight;
+
+                this.renderWindowBranch(window, dirtyRegion, this._visibleRegion, drawBuffer);
+            }
+        }
+    }
+
+    public addToRenderQueue(window: IWindow, rect: Rectangle | null, flags: number): void
+    {
+        if(!rect)
+        {
+            rect = this._dirtyRegion;
+            this._dirtyRegion.x = 0;
+            this._dirtyRegion.y = 0;
+            this._dirtyRegion.width = window.renderingWidth;
+            this._dirtyRegion.height = window.renderingHeight;
+        }
+        else
+        {
+            this._dirtyRegion.x = rect.x;
+            this._dirtyRegion.y = rect.y;
+            this._dirtyRegion.width = rect.width;
+            this._dirtyRegion.height = rect.height;
+        }
+
+        if(this.isRectEmpty(rect))
+        {
+            return;
+        }
+
+        if(this.getWindowRendererItem(window).invalidate(window, flags))
+        {
+            if(window.testParamFlag(WindowParam.USE_PARENT_GRAPHIC_CONTEXT) || window.testParamFlag(WindowParam.FORCE_CLIPPING))
+            {
+                const desktop = window.context.getDesktopWindow();
+
+                while(true)
+                {
+                    const parent = window.parent;
+
+                    if(parent === null)
+                    {
+                        return;
+                    }
+
+                    if(parent === desktop)
+                    {
+                        break;
+                    }
+
+                    if(!parent.visible)
+                    {
+                        return;
+                    }
+
+                    const parentWidth = parent.renderingWidth;
+                    const parentHeight = parent.renderingHeight;
+
+                    this.offsetRect(this._dirtyRegion, window.renderingX, window.renderingY);
+
+                    if(parent.clipping)
+                    {
+                        const dirtyRight = this.rectRight(this._dirtyRegion);
+                        const dirtyBottom = this.rectBottom(this._dirtyRegion);
+
+                        if((this._dirtyRegion.x > parentWidth)
+                            || (this._dirtyRegion.y > parentHeight)
+                            || (dirtyRight < 0)
+                            || (dirtyBottom < 0))
+                        {
+                            return;
+                        }
+
+                        if(this._dirtyRegion.x < 0)
+                        {
+                            this._dirtyRegion.width += this._dirtyRegion.x;
+                            this._dirtyRegion.x = 0;
+                        }
+
+                        if(this._dirtyRegion.y < 0)
+                        {
+                            this._dirtyRegion.height += this._dirtyRegion.y;
+                            this._dirtyRegion.y = 0;
+                        }
+
+                        if(this.rectRight(this._dirtyRegion) > parentWidth)
+                        {
+                            this._dirtyRegion.width = Math.max(0, parentWidth - this._dirtyRegion.x);
+                        }
+
+                        if(this.rectBottom(this._dirtyRegion) > parentHeight)
+                        {
+                            this._dirtyRegion.height = Math.max(0, parentHeight - this._dirtyRegion.y);
+                        }
+                    }
+
+                    if(this.isRectEmpty(this._dirtyRegion))
+                    {
+                        return;
+                    }
+
+                    window = parent;
+
+                    if(!window.testParamFlag(WindowParam.USE_PARENT_GRAPHIC_CONTEXT) && !window.testParamFlag(WindowParam.FORCE_CLIPPING))
+                    {
+                        break;
+                    }
+                }
+            }
+
+            this.getWindowRendererItem(window).invalidate(window, 32);
+
+            const queueIndex = this._renderQueueIndices.get(window);
+
+            if(queueIndex !== undefined)
+            {
+                const dirtyRegions = this._dirtyRegions[queueIndex];
+                let mergedRegion = this._dirtyRegion;
+                let count = dirtyRegions.length;
+
+                if(count > WindowRenderer.MAX_DIRTY_REGIONS_PER_WINDOW)
+                {
+                    const popped = dirtyRegions.pop();
+
+                    if(popped)
+                    {
+                        mergedRegion = this.unionRect(mergedRegion, popped);
+                    }
+
+                    count--;
+                }
+
+                let index = 0;
+
+                while(index < count)
+                {
+                    const existing = dirtyRegions[index];
+
+                    if(WindowRenderer.areRectanglesCloseEnough(existing, mergedRegion, WindowRenderer.MAX_DISTANCE_BEFORE_COMBINE))
+                    {
+                        dirtyRegions.splice(index, 1);
+                        mergedRegion = this.unionRect(mergedRegion, existing);
+                        count--;
+                        index = 0;
+                    }
+                    else
+                    {
+                        index++;
+                    }
+                }
+
+                dirtyRegions.push((mergedRegion === this._dirtyRegion) ? this.cloneRect(mergedRegion) : mergedRegion);
+            }
+            else
+            {
+                const newIndex = this._renderQueue.length;
+
+                this._renderQueue.push(window);
+                this._dirtyRegions.push([this.cloneRect(this._dirtyRegion)]);
+                this._renderQueueIndices.set(window, newIndex);
+            }
+        }
+    }
+
+    public flushRenderQueue(): void
+    {
+        if(this._renderQueue.length || this._dirtyRegions.length)
+        {
+            this._renderQueue.length = 0;
+            this._dirtyRegions.length = 0;
+            this._renderQueueIndices.clear();
+        }
+    }
+
+    public invalidate(context: IWindowContext, _rect: Rectangle): void
+    {
+        const desktop = context.getDesktopWindow() as IWindowContainer | null;
+
+        if(!desktop)
+        {
+            return;
+        }
+
+        let childCount = desktop.numChildren;
+
+        while(childCount-- > 0)
+        {
+            const child = desktop.getChildAt(childCount);
+
+            if(child)
+            {
+                this.addToRenderQueue(child, null, 1);
+            }
+        }
+    }
+
+    public getDrawBufferForRenderable(window: IWindow): OffscreenCanvas | null
+    {
+        let item = this._rendererItems.get(window) ?? null;
+
+        if(!item)
+        {
+            item = this.registerRenderable(window);
+            item.invalidate(window, 1);
+            item.render(window);
+        }
+
+        return item ? item.buffer : null;
+    }
+
+    public purge(window: IWindow | null = null, recursive: boolean = true): void
+    {
+        if(window)
+        {
+            if(!window.visible || !recursive)
+            {
+                const item = this._rendererItems.get(window) ?? null;
+
+                if(item)
+                {
+                    item.dispose();
+                    this._rendererItems.delete(window);
+                }
+
+                recursive = false;
+            }
+
+            const container = window as unknown as IWindowContainer;
+
+            if(this.isWindowContainer(container))
+            {
+                for(let i = 0; i < container.numChildren; i++)
+                {
+                    const child = container.getChildAt(i);
+
+                    if(child)
+                    {
+                        this.purge(child, recursive);
+                    }
+                }
+            }
+        }
+        else
+        {
+            const purgeList: IWindow[] = [];
+
+            for(const candidate of this._rendererItems.keys())
+            {
+                if((!candidate.visible)
+                    || (!recursive)
+                    || ((candidate.parent === null) && !this.isDesktopWindow(candidate)))
+                {
+                    purgeList.push(candidate);
+                }
+            }
+
+            while(purgeList.length)
+            {
+                const candidate = purgeList.pop();
+
+                if(candidate)
+                {
+                    this.purge(candidate, recursive);
+                }
+            }
+        }
+    }
+
+    public registerRenderable(window: IWindow): WindowRendererItem
+    {
+        let item = this._rendererItems.get(window) ?? null;
+
+        if(item === null)
+        {
+            item = new WindowRendererItem(this._skinContainer);
+            this._rendererItems.set(window, item);
+            item.invalidate(window, 8);
+        }
+
+        if(!window.hasEventListener(WindowDisposeEvent.WE_DISPOSED))
+        {
+            window.addEventListener(WindowDisposeEvent.WE_DISPOSED, this._windowDisposedCallback);
+        }
+
+        return item;
+    }
+
+    public removeRenderable(window: IWindow): void
+    {
+        window.removeEventListener(WindowDisposeEvent.WE_DISPOSED, this._windowDisposedCallback);
+
+        const item = this._rendererItems.get(window) ?? null;
+
+        if(item !== null)
+        {
+            item.dispose();
+            this._rendererItems.delete(window);
+        }
+    }
+
+    private renderWindowBranch(window: IWindow, dirtyRegion: Rectangle, visibleRegion: Rectangle, drawBuffer: OffscreenCanvas | null): void
+    {
+        const graphicHost = window as unknown as IGraphicContextHost;
+        let graphicContext = graphicHost?.getGraphicContext?.(false) ?? null;
+
+        if(graphicContext)
+        {
+            graphicContext.visible = window.visible;
+        }
+
+        if(window.visible)
+        {
+            this._drawLocation.x = window.renderingX;
+            this._drawLocation.y = window.renderingY;
+
+            if(WindowRenderer.getDrawLocationAndClipRegion(window, dirtyRegion, this._drawLocation, this._clipRegion))
+            {
+                if(window.clipping)
+                {
+                    visibleRegion = this.intersectionRect(visibleRegion, window.renderingRectangle);
+                }
+
+                this.offsetRect(visibleRegion, -window.x, -window.y);
+                this.getWindowRendererItem(window).render(window);
+
+                const container = window as unknown as IWindowContainer;
+
+                if(!this.isWindowContainer(container))
+                {
+                    return;
+                }
+
+                if(window.clipping)
+                {
+                    dirtyRegion = this.cloneRect(dirtyRegion);
+
+                    if(dirtyRegion.x < 0)
+                    {
+                        dirtyRegion.width += dirtyRegion.x;
+                        dirtyRegion.x = 0;
+                    }
+
+                    if(dirtyRegion.y < 0)
+                    {
+                        dirtyRegion.height += dirtyRegion.y;
+                        dirtyRegion.y = 0;
+                    }
+
+                    if(dirtyRegion.width > window.width)
+                    {
+                        dirtyRegion.width = window.renderingWidth;
+                    }
+
+                    if(dirtyRegion.height > window.height)
+                    {
+                        dirtyRegion.height = window.renderingHeight;
+                    }
+                }
+
+                for(let i = 0; i < container.numChildren; i++)
+                {
+                    const child = container.getChildAt(i);
+
+                    if(!child)
+                    {
+                        continue;
+                    }
+
+                    WindowRenderer.RECT.x = child.x;
+                    WindowRenderer.RECT.y = child.y;
+                    WindowRenderer.RECT.width = child.width;
+                    WindowRenderer.RECT.height = child.height;
+
+                    if(this.intersectsRect(WindowRenderer.RECT, dirtyRegion))
+                    {
+                        if(child.testParamFlag(WindowParam.USE_PARENT_GRAPHIC_CONTEXT))
+                        {
+                            this.offsetRect(dirtyRegion, -child.x, -child.y);
+                            this.renderWindowBranch(child, dirtyRegion, visibleRegion, drawBuffer);
+                            this.offsetRect(dirtyRegion, child.x, child.y);
+                        }
+                        else if(child.testParamFlag(WindowParam.FORCE_CLIPPING))
+                        {
+                            this.offsetRect(dirtyRegion, -child.x, -child.y);
+                            this.renderWindowBranch(child, dirtyRegion, visibleRegion, child.fetchDrawBuffer() as OffscreenCanvas | null);
+                            this.offsetRect(dirtyRegion, child.x, child.y);
+                        }
+                        else if(child.visible)
+                        {
+                            const childGraphicHost = child as unknown as IGraphicContextHost;
+
+                            if(childGraphicHost?.hasGraphicsContext?.())
+                            {
+                                const childGraphicContext = childGraphicHost.getGraphicContext(true);
+
+                                if(childGraphicContext)
+                                {
+                                    childGraphicContext.visible = true;
+                                }
+                            }
+                        }
+                    }
+                    else if(!this.intersectsRect(WindowRenderer.RECT, visibleRegion))
+                    {
+                        const childGraphicHost = child as unknown as IGraphicContextHost;
+
+                        if(childGraphicHost?.hasGraphicsContext?.())
+                        {
+                            const childGraphicContext = childGraphicHost.getGraphicContext(true);
+
+                            if(childGraphicContext)
+                            {
+                                childGraphicContext.visible = false;
+                            }
+                        }
+                    }
+                }
+
+                this.offsetRect(visibleRegion, window.renderingX, window.renderingY);
+            }
+            else if(!window.testParamFlag(WindowParam.USE_PARENT_GRAPHIC_CONTEXT))
+            {
+                if(window.testParamFlag(WindowParam.FORCE_CLIPPING))
+                {
+                    if(!graphicContext)
+                    {
+                        graphicContext = graphicHost?.getGraphicContext?.(true) ?? null;
+                    }
+
+                    if(graphicContext)
+                    {
+                        graphicContext.visible = false;
+                    }
+                }
+            }
+        }
+    }
+
+    protected getWindowRendererItem(window: IWindow): WindowRendererItem
+    {
+        let item = this._rendererItems.get(window) ?? null;
+
+        if(item === null)
+        {
+            item = this.registerRenderable(window);
+        }
+
+        return item;
+    }
+
+    protected windowDisposedCallback(event: WindowDisposeEvent): void
+    {
+        if(event.window)
+        {
+            this.removeRenderable(event.window);
+        }
+    }
+
+    private isWindowContainer(target: unknown): target is IWindowContainer
+    {
+        return !!target
+            && (typeof (target as IWindowContainer).numChildren === 'number')
+            && (typeof (target as IWindowContainer).getChildAt === 'function');
+    }
+
+    private isDesktopWindow(window: IWindow): boolean
+    {
+        return window.context.getDesktopWindow() === window;
+    }
+
+    private cloneRect(rect: Rectangle): Rectangle
+    {
+        return {
+            x: rect.x,
+            y: rect.y,
+            width: rect.width,
+            height: rect.height,
+        };
+    }
+
+    private rectRight(rect: Rectangle): number
+    {
+        return rect.x + rect.width;
+    }
+
+    private rectBottom(rect: Rectangle): number
+    {
+        return rect.y + rect.height;
+    }
+
+    private isRectEmpty(rect: Rectangle): boolean
+    {
+        return (rect.width <= 0) || (rect.height <= 0);
+    }
+
+    private offsetRect(rect: Rectangle, dx: number, dy: number): void
+    {
+        rect.x += dx;
+        rect.y += dy;
+    }
+
+    private intersectsRect(a: Rectangle, b: Rectangle): boolean
+    {
+        return (a.x < this.rectRight(b))
+            && (this.rectRight(a) > b.x)
+            && (a.y < this.rectBottom(b))
+            && (this.rectBottom(a) > b.y);
+    }
+
+    private unionRect(a: Rectangle, b: Rectangle): Rectangle
+    {
+        const left = Math.min(a.x, b.x);
+        const top = Math.min(a.y, b.y);
+        const right = Math.max(this.rectRight(a), this.rectRight(b));
+        const bottom = Math.max(this.rectBottom(a), this.rectBottom(b));
+
+        return {
+            x: left,
+            y: top,
+            width: Math.max(0, right - left),
+            height: Math.max(0, bottom - top),
+        };
+    }
+
+    private intersectionRect(a: Rectangle, b: Rectangle): Rectangle
+    {
+        const left = Math.max(a.x, b.x);
+        const top = Math.max(a.y, b.y);
+        const right = Math.min(this.rectRight(a), this.rectRight(b));
+        const bottom = Math.min(this.rectBottom(a), this.rectBottom(b));
+
+        return {
+            x: left,
+            y: top,
+            width: Math.max(0, right - left),
+            height: Math.max(0, bottom - top),
+        };
+    }
 	public dispose(): void
-	{
-		if (!this._disposed)
-		{
-			this._disposed = true;
-
-			for (const item of this._rendererItems.values())
-			{
-				item.dispose();
-			}
-
-			this._rendererItems.clear();
-			this._renderQueue.length = 0;
-			this._dirtyRegions.length = 0;
-			this._compositeBuffer = null;
-			this._compositeCtx = null;
-		}
-	}
-
-	/**
-	 * Recursively renders a window and its children.
-	 *
-	 * Port of AS3 WindowRenderer.renderWindowBranch(). In AS3 this composited
-	 * into a parent BitmapData; in TS each window renders into its own buffer.
-	 *
-	 * @param window - The window to render
-	 * @param dirtyRegion - The dirty region to render
-	 */
-	private renderWindowBranch(
-		window: IWindow,
-		dirtyRegion: { x: number; y: number; width: number; height: number }
-	): void
-	{
-		if (!window.visible) return;
-
-		// Render this window's skin into its own buffer
-		const item = this.getWindowRendererItem(window);
-
-		item.render(window);
-
-		// Recurse into children if this is a container
-		const container = window as unknown as IWindowContainer;
-
-		if (typeof container.numChildren !== 'number') return;
-
-		for (let i = 0; i < container.numChildren; i++)
-		{
-			const child = container.getChildAt(i);
-
-			if (!child || !child.visible) continue;
-
-			// Check if child intersects dirty region
-			const childRect = {
-				x: child.x,
-				y: child.y,
-				width: child.width,
-				height: child.height
-			};
-
-			if (this.rectsIntersect(childRect, dirtyRegion))
-			{
-				// Offset dirty region to child's local space
-				const childDirty = {
-					x: dirtyRegion.x - child.x,
-					y: dirtyRegion.y - child.y,
-					width: dirtyRegion.width,
-					height: dirtyRegion.height
-				};
-
-				this.renderWindowBranch(child, childDirty);
-			}
-		}
-	}
-
-	/**
-	 * Returns the WindowRendererItem for a window, creating one if needed.
-	 *
-	 * Port of AS3 WindowRenderer.getWindowRendererItem().
-	 *
-	 * @param window - The window
-	 * @returns The renderer item
-	 */
-	private getWindowRendererItem(window: IWindow): WindowRendererItem
-	{
-		let item = this._rendererItems.get(window);
-
-		if (!item)
-		{
-			item = new WindowRendererItem(this._skinContainer);
-			this._rendererItems.set(window, item);
-		}
-
-		return item;
-	}
-
-	/**
-	 * Tests if two rectangles intersect.
-	 *
-	 * @param a - First rectangle
-	 * @param b - Second rectangle
-	 * @returns True if they intersect
-	 */
-	private rectsIntersect(
-		a: { x: number; y: number; width: number; height: number },
-		b: { x: number; y: number; width: number; height: number }
-	): boolean
-	{
-		return a.x < b.x + b.width
-			&& a.x + a.width > b.x
-			&& a.y < b.y + b.height
-			&& a.y + a.height > b.y;
-	}
-
-	/**
-	 * Recursively composites a window and its children onto the target context.
-	 *
-	 * @param ctx - The 2D rendering context to draw into
-	 * @param window - The window to composite
-	 * @param offsetX - The parent's absolute X offset
-	 * @param offsetY - The parent's absolute Y offset
-	 */
-	private compositeWindow(
-		ctx: OffscreenCanvasRenderingContext2D,
-		window: IWindow,
-		offsetX: number,
-		offsetY: number
-	): void
-	{
-		if (!window.visible) return;
-
-		const absX = offsetX + window.x + window.offsetX;
-		const absY = offsetY + window.y + window.offsetY;
-		const w = window.width;
-		const h = window.height;
-
-		if (w <= 0 || h <= 0) return;
-
-		ctx.save();
-
-		// Clip to window bounds
-		if (window.clipping)
-		{
-			ctx.beginPath();
-			ctx.rect(absX, absY, w, h);
-			ctx.clip();
-		}
-
-		// Apply blend (opacity)
-		const blend = window.blend;
-
-		if (blend < 1)
-		{
-			ctx.globalAlpha = blend;
-		}
-
-		// Draw background fill if the window has one
-		if (window.background)
-		{
-			const color = window.color;
-			const a = ((color >>> 24) & 0xFF) / 255;
-			const r = (color >> 16) & 0xFF;
-			const g = (color >> 8) & 0xFF;
-			const b = color & 0xFF;
-
-			ctx.fillStyle = `rgba(${r},${g},${b},${a})`;
-			ctx.fillRect(absX, absY, w, h);
-		}
-
-		// Draw the skin buffer (skip for bitmap wrappers — their content is drawn via bitmapData below)
-		const isBitmapWrapper = window.type === WindowType.BITMAP_WRAPPER || window.type === WindowType.STATIC_BITMAP_WRAPPER;
-
-		if (!isBitmapWrapper)
-		{
-			const buffer = this.getDrawBufferForRenderable(window);
-
-			if (buffer && buffer.width > 0 && buffer.height > 0)
-			{
-				ctx.drawImage(buffer, absX, absY);
-			}
-		}
-
-		// Draw bitmapData content (from BitmapDataController hierarchy)
-		if (isBitmapWrapper)
-		{
-			const bmp = (window as unknown as { bitmapData?: ImageBitmap | null }).bitmapData;
-
-			if (bmp)
-			{
-				ctx.drawImage(bmp, absX, absY, w, h);
-			}
-		}
-
-		// Draw text content for text-type windows
-		this.compositeText(ctx, window, absX, absY, w, h);
-
-		// Recurse into children
-		const container = window as unknown as IWindowContainer;
-
-		if (typeof container.numChildren === 'number')
-		{
-			for (let i = 0; i < container.numChildren; i++)
-			{
-				const child = container.getChildAt(i);
-
-				if (child)
-				{
-					this.compositeWindow(ctx, child, absX, absY);
-				}
-			}
-		}
-
-		ctx.restore();
-	}
-
-	/**
-	 * Renders text content for text-type windows.
-	 *
-	 * In AS3, text was rendered by native Flash TextFields which were then
-	 * composited as BitmapData via refreshTextImage(). In TypeScript, we
-	 * render text directly onto the composite canvas using fillText().
-	 *
-	 * @param ctx - The 2D rendering context
-	 * @param window - The window to render text for
-	 * @param absX - Absolute X position
-	 * @param absY - Absolute Y position
-	 * @param w - Window width
-	 * @param h - Window height
-	 *
-	 * @see sources/win63_2021_version/com/sulake/core/window/components/TextController.as refreshTextImage()
-	 */
-	private compositeText(
-		ctx: OffscreenCanvasRenderingContext2D,
-		window: IWindow,
-		absX: number,
-		absY: number,
-		w: number,
-		h: number
-	): void
-	{
-		const type = window.type;
-
-		if (type !== WindowType.TEXT && type !== WindowType.LABEL
-			&& type !== WindowType.LINK && type !== WindowType.FORMATTED_TEXT
-			&& type !== WindowType.TEXTFIELD && type !== WindowType.PASSWORD
-			&& type !== WindowType.HTML)
-		{
-			return;
-		}
-
-		const text = window.caption;
-
-		if (!text) return;
-
-		// Duck-type text properties from TextController
-		const tw = window as unknown as {
-			textColor?: number;
-			fontSize?: number;
-			fontFace?: string;
-			bold?: boolean;
-			italic?: boolean;
-			underline?: boolean;
-			multiline?: boolean;
-			wordWrap?: boolean;
-			etchingColor?: number;
-			etchingPosition?: string;
-			_marginLeft?: number;
-			_marginTop?: number;
-			_marginRight?: number;
-			_marginBottom?: number;
-		};
-
-		const fontSize = tw.fontSize ?? 12;
-		const fontFace = tw.fontFace || 'Ubuntu, Arial, sans-serif';
-		const isBold = tw.bold ?? false;
-		const isItalic = tw.italic ?? false;
-
-		// Text color from TextController.textColor (defaults to 0x000000 = black)
-		const textColor = tw.textColor ?? 0x000000;
-		const r = (textColor >> 16) & 0xFF;
-		const g = (textColor >> 8) & 0xFF;
-		const b = textColor & 0xFF;
-
-		// Build CSS font string
-		let fontStr = '';
-
-		if (isItalic) fontStr += 'italic ';
-		if (isBold) fontStr += 'bold ';
-		fontStr += `${fontSize}px ${fontFace}`;
-
-		ctx.font = fontStr;
-		ctx.fillStyle = `rgb(${r},${g},${b})`;
-		ctx.textBaseline = 'top';
-
-		// Margins from TextController
-		const marginL = tw._marginLeft ?? 2;
-		const marginT = tw._marginTop ?? 2;
-		const marginR = tw._marginRight ?? 2;
-		const marginB = tw._marginBottom ?? 2;
-		const maxWidth = w - marginL - marginR;
-
-		if (maxWidth <= 0) return;
-
-		// Determine display text
-		let displayText = text;
-
-		if (type === WindowType.PASSWORD)
-		{
-			displayText = '\u2022'.repeat(text.length);
-		}
-
-		// Etching (shadow text) support for il_* styles
-		const etchColor = tw.etchingColor ?? 0;
-		const hasEtching = etchColor !== 0 && ((etchColor >>> 24) & 0xFF) > 0;
-
-		// Underline support for link windows
-		if (type === WindowType.LINK || tw.underline)
-		{
-			ctx.save();
-
-			const metrics = ctx.measureText(displayText);
-			const textW = Math.min(metrics.width, maxWidth);
-			const textY = absY + Math.max(0, Math.floor((h - fontSize) / 2));
-
-			if (hasEtching)
-			{
-				this.drawEtching(ctx, displayText, absX + marginL, textY, maxWidth, etchColor, tw.etchingPosition);
-			}
-
-			ctx.fillText(displayText, absX + marginL, textY, maxWidth);
-
-			// Draw underline
-			const underlineY = textY + fontSize + 1;
-
-			ctx.strokeStyle = `rgb(${r},${g},${b})`;
-			ctx.lineWidth = 1;
-			ctx.beginPath();
-			ctx.moveTo(absX + marginL, underlineY);
-			ctx.lineTo(absX + marginL + textW, underlineY);
-			ctx.stroke();
-			ctx.restore();
-
-			return;
-		}
-
-		// Multiline / word-wrap rendering
-		if ((tw.multiline || tw.wordWrap) && (type === WindowType.TEXT || type === WindowType.FORMATTED_TEXT || type === WindowType.HTML))
-		{
-			this.compositeTextMultiline(ctx, displayText, absX + marginL, absY + marginT, maxWidth, h - marginT - marginB, fontSize, tw.wordWrap ?? false, hasEtching ? etchColor : 0, tw.etchingPosition);
-
-			return;
-		}
-
-		// Single-line rendering: vertically centered
-		const textY = absY + Math.max(0, Math.floor((h - fontSize) / 2));
-
-		if (hasEtching)
-		{
-			this.drawEtching(ctx, displayText, absX + marginL, textY, maxWidth, etchColor, tw.etchingPosition);
-		}
-
-		ctx.fillText(displayText, absX + marginL, textY, maxWidth);
-	}
-
-	/**
-	 * Renders multiline text with optional word wrapping.
-	 *
-	 * @param ctx - The 2D rendering context
-	 * @param text - The text to render
-	 * @param x - Start X position
-	 * @param y - Start Y position
-	 * @param maxWidth - Maximum line width
-	 * @param maxHeight - Maximum total height
-	 * @param fontSize - Font size for line height calculation
-	 * @param wordWrap - Whether to wrap at word boundaries
-	 */
-	private compositeTextMultiline(
-		ctx: OffscreenCanvasRenderingContext2D,
-		text: string,
-		x: number,
-		y: number,
-		maxWidth: number,
-		maxHeight: number,
-		fontSize: number,
-		wordWrap: boolean,
-		etchingColor: number = 0,
-		etchingPosition?: string
-	): void
-	{
-		const lineHeight = fontSize + 2;
-		const lines = text.split('\n');
-		let currentY = y;
-		const hasEtching = etchingColor !== 0 && ((etchingColor >>> 24) & 0xFF) > 0;
-
-		for (const line of lines)
-		{
-			if (currentY + lineHeight > y + maxHeight) break;
-
-			if (wordWrap && ctx.measureText(line).width > maxWidth)
-			{
-				// Word-wrap: break line at word boundaries
-				const words = line.split(' ');
-				let currentLine = '';
-
-				for (const word of words)
-				{
-					const testLine = currentLine ? currentLine + ' ' + word : word;
-
-					if (ctx.measureText(testLine).width > maxWidth && currentLine)
-					{
-						if (hasEtching) this.drawEtching(ctx, currentLine, x, currentY, maxWidth, etchingColor, etchingPosition);
-						ctx.fillText(currentLine, x, currentY, maxWidth);
-						currentY += lineHeight;
-
-						if (currentY + lineHeight > y + maxHeight) break;
-
-						currentLine = word;
-					}
-					else
-					{
-						currentLine = testLine;
-					}
-				}
-
-				if (currentLine && currentY + lineHeight <= y + maxHeight)
-				{
-					if (hasEtching) this.drawEtching(ctx, currentLine, x, currentY, maxWidth, etchingColor, etchingPosition);
-					ctx.fillText(currentLine, x, currentY, maxWidth);
-					currentY += lineHeight;
-				}
-			}
-			else
-			{
-				if (hasEtching) this.drawEtching(ctx, line, x, currentY, maxWidth, etchingColor, etchingPosition);
-				ctx.fillText(line, x, currentY, maxWidth);
-				currentY += lineHeight;
-			}
-		}
-	}
-
-	/**
-	 * Draws an etching (shadow) effect behind text.
-	 *
-	 * The etching is a 1px offset text in the given color, typically used
-	 * by `il_*` styles to give a subtle raised/sunken appearance.
-	 *
-	 * @param ctx - The 2D rendering context
-	 * @param text - The text to etch
-	 * @param x - Text X position
-	 * @param y - Text Y position
-	 * @param maxWidth - Maximum text width
-	 * @param color - ARGB etching color
-	 * @param position - Etching direction (default: "bottom")
-	 */
-	private drawEtching(
-		ctx: OffscreenCanvasRenderingContext2D,
-		text: string,
-		x: number,
-		y: number,
-		maxWidth: number,
-		color: number,
-		position?: string
-	): void
-	{
-		const a = ((color >>> 24) & 0xFF) / 255;
-		const er = (color >> 16) & 0xFF;
-		const eg = (color >> 8) & 0xFF;
-		const eb = color & 0xFF;
-
-		let dx = 0;
-		let dy = 1;
-
-		switch (position)
-		{
-			case 'top':
-				dx = 0;
-				dy = -1;
-				break;
-			case 'top-left':
-				dx = -1;
-				dy = -1;
-				break;
-			case 'top-right':
-				dx = 1;
-				dy = -1;
-				break;
-			case 'left':
-				dx = -1;
-				dy = 0;
-				break;
-			case 'right':
-				dx = 1;
-				dy = 0;
-				break;
-			case 'bottom-left':
-				dx = -1;
-				dy = 1;
-				break;
-			case 'bottom-right':
-				dx = 1;
-				dy = 1;
-				break;
-			case 'bottom':
-			default:
-				dx = 0;
-				dy = 1;
-				break;
-		}
-
-		const prevFill = ctx.fillStyle;
-
-		ctx.fillStyle = `rgba(${er},${eg},${eb},${a})`;
-		ctx.fillText(text, x + dx, y + dy, maxWidth);
-		ctx.fillStyle = prevFill;
-	}
-
-	/**
-	 * Recursively hit-tests a window tree.
-	 *
-	 * Returns the deepest window that has INPUT_EVENT_PROCESSOR (param flag 1).
-	 * Child windows without this flag (e.g. static bitmaps with param 208) are
-	 * tested for bounds but not returned as targets — their parent region is
-	 * returned instead. This mirrors AS3's event routing where mouse events
-	 * target the INPUT_EVENT_PROCESSOR container, not its passive children.
-	 *
-	 * @param window - The window to test
-	 * @param globalX - The global X coordinate
-	 * @param globalY - The global Y coordinate
-	 * @param offsetX - The parent's absolute X offset
-	 * @param offsetY - The parent's absolute Y offset
-	 * @returns The deepest INPUT_EVENT_PROCESSOR window at the point, or null
-	 */
-	private hitTestRecursive(
-		window: IWindow,
-		globalX: number,
-		globalY: number,
-		offsetX: number,
-		offsetY: number
-	): IWindow | null
-	{
-		if (!window.visible) return null;
-
-		// FLAG 9 = INTERNAL_EVENT_HANDLING → ignore mouse events
-		if (window.testParamFlag(9))
-		{
-			return null;
-		}
-
-		const absX = offsetX + window.x;
-		const absY = offsetY + window.y;
-		const w = window.width;
-		const h = window.height;
-
-		// AABB bounds test
-		if (globalX < absX || globalX >= absX + w || globalY < absY || globalY >= absY + h)
-		{
-			return null;
-		}
-
-		// Test children in reverse (topmost first)
-		const container = window as unknown as IWindowContainer;
-
-		if (typeof container.numChildren === 'number')
-		{
-			for (let i = container.numChildren - 1; i >= 0; i--)
-			{
-				const child = container.getChildAt(i);
-
-				if (!child) continue;
-
-				const hit = this.hitTestRecursive(child, globalX, globalY, absX, absY);
-
-				if (hit) return hit;
-			}
-		}
-
-		// Only return this window as a hit target if it is an INPUT_EVENT_PROCESSOR
-		if (window.testParamFlag(1))
-		{
-			return window;
-		}
-
-		return null;
-	}
+    {
+        if(this._disposed)
+        {
+            return;
+        }
+
+        this._disposed = true;
+
+        for(const [window, item] of this._rendererItems)
+        {
+            window.removeEventListener(WindowDisposeEvent.WE_DISPOSED, this._windowDisposedCallback);
+            item.dispose();
+        }
+
+        this._rendererItems.clear();
+        this._renderQueue.length = 0;
+        this._dirtyRegions.length = 0;
+        this._renderQueueIndices.clear();
+    }
 }
+

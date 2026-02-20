@@ -423,6 +423,8 @@ AS3: 32 files | TS: 22 files
 - ✅ **9 new composers**: UseFurniture, NewUserExperienceScriptProceed, RoomNetworkOpenConnection, Game2GameChat, GiveStarGem, CreditVaultStatus, WithdrawCreditVault, IncomeRewardStatus, IncomeRewardClaim
 - ✅ **Room viz complete**: AnimationItem, LandscapePlane, LandscapeRasterizer, WallAdRasterizer, FurniturePlane, FurnitureCuboidVisualization, AnimatedPetVisualization (stub), AnimatedPetVisualizationData (stub)
 - ✅ **Room renderer layer**: 8 files in room/renderer/ (6 interfaces + RoomRenderer + RoomRendererFactory), RoomInstance renderer management, RoomManager content processing pipeline (40ms throttle)
+- ✅ **core/window/graphics/WindowRenderer (win63 parity)**: dirty-region queue merge, parent clipping propagation, branch rendering recursion, purge/getDrawBuffer/register/remove behavior realigned with AS3 `sources/win63_version/core/window/graphics/WindowRenderer.as`
+- ✅ **WindowComposite extracted**: web canvas composition + hit-test bridge moved from `WindowRenderer` into `core/window/graphics/WindowComposite.ts` to keep `WindowRenderer` aligned to AS3 responsibilities
 
 ---
 

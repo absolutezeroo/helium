@@ -32,34 +32,47 @@ export class FormattedTextController extends TextController
 		super(name, type, style, param, context, rect, parent, procedure, tags, properties, id, dynamicStyle);
 	}
 
-	private _htmlText: string = '';
-
-	/**
-	 * The HTML text content.
-	 */
-	public get htmlText(): string
-	{
-		return this._htmlText;
-	}
-
 	/**
 	 * Sets text content as HTML.
 	 *
-	 * In AS3, this stored to `_caption`, resolved localization tokens,
-	 * then set `_field.htmlText` instead of `_field.text`.
+	 * In AS3 this mirrors TextController localization flow but writes html text.
 	 */
 	public override get text(): string
 	{
-		return this._text;
+		return this.htmlText;
 	}
 
 	public override set text(value: string)
 	{
 		if (value == null) return;
 
-		this._htmlText = value;
-		this._text = value;
+		if (this._localized)
+		{
+			this.removeLocalizationListenerForCaption();
+			this._localized = false;
+		}
+
 		this._caption = value;
-		this._context.invalidate(this, null, 1);
+
+		if (!this._displayRaw && this.isLocalizationKey(this._caption))
+		{
+			this._localized = true;
+			this.registerLocalizationListenerForCaption();
+
+			return;
+		}
+
+		this._htmlText = this._caption;
+		this._text = this._caption;
+		this.refreshTextImage();
+	}
+
+	public set localization(value: string)
+	{
+		if (value == null) return;
+
+		this._htmlText = this.limitStringLength(value);
+		this._text = this._htmlText;
+		this.refreshTextImage();
 	}
 }

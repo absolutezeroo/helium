@@ -156,8 +156,6 @@ export class TextFieldController extends TextController implements ITextFieldWin
 		this._interactiveCursorDisabled = value;
 	}
 
-	private _displayRaw: boolean = false;
-
 	public get displayRaw(): boolean
 	{
 		return this._displayRaw;

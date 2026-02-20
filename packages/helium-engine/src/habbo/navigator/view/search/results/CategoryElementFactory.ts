@@ -77,10 +77,11 @@ export class CategoryElementFactory
 		resultMode: number = -1
 	): IWindowContainer
 	{
+		const safeGuestRooms = Array.isArray(guestRooms) ? guestRooms : [];
 		const container = this._categoryTemplate!.clone() as IWindowContainer;
 
 		container.width = this._blockResultsView!.itemListWidth - CategoryElementFactory.MARGIN_LAYOUT_CATEGORY_CONTAINER;
-		container.height = 16 + this._roomEntryElementFactory.rowEntryTemplateHeight * (guestRooms.length + 1);
+		container.height = 16 + this._roomEntryElementFactory.rowEntryTemplateHeight * (safeGuestRooms.length + 1);
 
 		// Set category name
 		const nameEl = container.findChildByName('category_name');
@@ -147,7 +148,7 @@ export class CategoryElementFactory
 		if (bgEl)
 		{
 			bgEl.background = true;
-			bgEl.height = 12 + this._roomEntryElementFactory.rowEntryTemplateHeight * (guestRooms.length + 1);
+			bgEl.height = 12 + this._roomEntryElementFactory.rowEntryTemplateHeight * (safeGuestRooms.length + 1);
 		}
 
 		// Wire toggle tiles/rows buttons (AS3: only if perk allowed)
@@ -200,7 +201,7 @@ export class CategoryElementFactory
 			let colorModAccumulator = 1;
 			let currentTileContainer: IItemListWindow | null = null;
 
-			for (const guestRoom of guestRooms)
+			for (const guestRoom of safeGuestRooms)
 			{
 				const alternatingColor = colorModAccumulator % 2 === 0 ? -1 : colorMod;
 

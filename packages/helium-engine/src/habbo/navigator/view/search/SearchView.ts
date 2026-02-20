@@ -121,7 +121,8 @@ export class SearchView
 	 */
 	setTextAndSearchModeFromFilter(filteringData: string, source: string = ''): void
 	{
-		const filterMode = FilterMode.filterInInput(filteringData);
+		const safeFilteringData = filteringData ?? '';
+		const filterMode = FilterMode.filterInInput(safeFilteringData);
 
 		if (filterMode !== FilterMode.DEFAULT)
 		{
@@ -134,14 +135,14 @@ export class SearchView
 			{
 				const prefix = FilterMode.FILTER_PREFIX[filterMode];
 
-				this._inputField.caption = filteringData.substr(prefix.length, filteringData.length - prefix.length);
+				this._inputField.caption = safeFilteringData.substr(prefix.length, safeFilteringData.length - prefix.length);
 			}
 		}
 		else
 		{
 			if (this._inputField)
 			{
-				this._inputField.caption = filteringData;
+				this._inputField.caption = safeFilteringData;
 			}
 
 			if (this._filterDropMenu)
@@ -171,7 +172,9 @@ export class SearchView
 		// Show/hide refresh button and toggle clear icon based on content
 		const clearIcon = this._container?.findChildByName('search.clear.icon') as unknown as IStaticBitmapWrapperWindow | null;
 
-		if(this._inputField && this._inputField.caption.length !== 0 && this._inputField.caption !== this._placeholderText)
+		const inputCaption = this._inputField?.caption ?? '';
+
+		if(this._inputField && inputCaption.length !== 0 && inputCaption !== this._placeholderText)
 		{
 			const refreshContainer = this._container?.findChildByName('refreshButtonContainer');
 
@@ -212,8 +215,9 @@ export class SearchView
 	{
 		const selectorIndex = this._filterDropMenu?.selection ?? 0;
 		const filterMode = SearchView.FILTER_SELECTOR_INDEX_TO_MODE[selectorIndex];
+		const inputCaption = this._inputField?.caption ?? '';
 
-		return FilterMode.FILTER_PREFIX[filterMode] + (this._inputField?.caption ?? '');
+		return FilterMode.FILTER_PREFIX[filterMode] + inputCaption;
 	}
 
 	private setInputToFilterPlaceHolder(): void

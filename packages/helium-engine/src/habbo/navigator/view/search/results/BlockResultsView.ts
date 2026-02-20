@@ -77,16 +77,17 @@ export class BlockResultsView
 		this._itemList.destroyListItems();
 
 		const resultSet = this._navigator.currentResults;
+		const blocks = Array.isArray(resultSet.blocks) ? resultSet.blocks : [];
 
-		if (resultSet.blocks.length === 0)
+		if (blocks.length === 0)
 		{
 			this._itemList.addListItem(this._categoryElementFactory.getNoResultsElement());
 		}
 		else
 		{
-			for (let i = 0; i < resultSet.blocks.length; i++)
+			for (let i = 0; i < blocks.length; i++)
 			{
-				const block = resultSet.blocks[i];
+				const block = blocks[i];
 				const isExpanded = (!this.isMinimized(block.searchCode) || this.isSingleBlock(resultSet)) && !block.forceClosed;
 
 				const element = this.renderCurrentResultsBlock(i, isExpanded);
@@ -233,7 +234,15 @@ export class BlockResultsView
 	 */
 	private renderCurrentResultsBlock(blockIndex: number, isExpanded: boolean): IWindow
 	{
-		const block = this._navigator.currentResults!.blocks[blockIndex];
+		const resultSet = this._navigator.currentResults;
+		const blocks = resultSet ? resultSet.blocks : null;
+
+		if (!resultSet || !blocks || !blocks[blockIndex])
+		{
+			return this._categoryElementFactory!.getNoResultsElement();
+		}
+
+		const block = blocks[blockIndex];
 		const title = block.text === '' ? '${navigator.searchcode.title.' + block.searchCode + '}' : block.text;
 
 		if (isExpanded)
