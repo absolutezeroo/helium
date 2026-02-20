@@ -45,7 +45,7 @@ export class RoomCreateViewCtrl
 
 		if (!this._content)
 		{
-			const window = this._navigator.getJsonWindow('room_create');
+			const window = this._navigator.getJsonWindow('roc_create_room');
 
 			if (!window) return;
 
@@ -96,11 +96,9 @@ export class RoomCreateViewCtrl
 	{
 		if (!this._roomNameManager) return false;
 
-		const nameValid = this._roomNameManager.checkMandatory(
+		return this._roomNameManager.checkMandatory(
 			this._navigator?.getText('navigator.createroom.nameerr') ?? 'Name required'
 		);
-
-		return nameValid;
 	}
 
 	private onCreateButtonClick = (_event: WindowEvent): void =>

@@ -7,8 +7,14 @@ import type {IWindowRenderer} from './graphics/IWindowRenderer';
 import type {IInternalWindowServices} from './services/IInternalWindowServices';
 import type {IInputEventTracker} from './IInputEventTracker';
 import type {IResourceManager} from './IResourceManager';
+import type {ICoreLocalizationManager} from '../localization/ICoreLocalizationManager';
+import type {ILocalizable} from '../localization/ILocalizable';
+import type {ILinkEventTracker} from '../runtime/events/ILinkEventTracker';
 import {Classes} from './Classes';
 import {SubstituteParentController} from './components/SubstituteParentController';
+import {EventProcessorState} from './utils/EventProcessorState';
+import {MouseEventProcessor} from './utils/MouseEventProcessor';
+import {MouseEventQueue} from './utils/MouseEventQueue';
 
 /**
  * Window context implementation.
@@ -29,14 +35,15 @@ export class WindowContext implements IWindowContext
 	public static readonly ERROR_WINDOW_ALREADY_EXISTS: number = 3;
 	public static readonly ERROR_UNKNOWN_WINDOW_TYPE: number = 4;
 	public static readonly ERROR_DURING_EVENT_HANDLING: number = 5;
-
+	public static inputEventQueue: MouseEventQueue | null = null;
 	/**
 	 * Shared renderer reference (AS3: static var_1836).
 	 * Set by HabboWindowManager when the renderer is created.
 	 */
 	private static _renderer: IWindowRenderer | null = null;
-	private static _inputMode: number = WindowContext.INPUT_MODE_MOUSE;
+	private static _inputEventProcessor: MouseEventProcessor | null = null;
 	public inputEventTrackers: IInputEventTracker[] = [];
+	protected _localization: ICoreLocalizationManager | null = null;
 	protected _services: IInternalWindowServices | null = null;
 	protected _parser: IWindowParser | null = null;
 	protected _factory: IWindowFactory;
@@ -49,6 +56,7 @@ export class WindowContext implements IWindowContext
 	protected _lastErrorCode: number = -1;
 	protected _updating: boolean = false;
 	protected _rendering: boolean = false;
+	private _eventProcessorState: EventProcessorState;
 
 	constructor(
 		name: string,
@@ -59,8 +67,74 @@ export class WindowContext implements IWindowContext
 		this._name = name;
 		this._factory = factory;
 		this._substituteParent = new SubstituteParentController(this);
+		this._eventProcessorState = new EventProcessorState(
+			WindowContext._renderer,
+			null,
+			null,
+			null,
+			null,
+			null,
+			this.inputEventTrackers
+		);
+
+		if (!rect)
+		{
+			rect = {x: 0, y: 0, width: 800, height: 600};
+		}
+
+		if (!WindowContext.inputEventQueue || !WindowContext._inputEventProcessor)
+		{
+			WindowContext.inputMode = WindowContext.INPUT_MODE_MOUSE;
+		}
 
 		// Desktop and parser are lazily initialized or set externally
+	}
+
+	private static _inputMode: number = WindowContext.INPUT_MODE_MOUSE;
+
+	public static get inputMode(): number
+	{
+		return WindowContext._inputMode;
+	}
+
+	public static set inputMode(value: number)
+	{
+		if (WindowContext.inputEventQueue)
+		{
+			WindowContext.inputEventQueue.dispose();
+			WindowContext.inputEventQueue = null;
+		}
+
+		if (WindowContext._inputEventProcessor)
+		{
+			WindowContext._inputEventProcessor.dispose();
+			WindowContext._inputEventProcessor = null;
+		}
+
+		switch (value)
+		{
+			case WindowContext.INPUT_MODE_MOUSE:
+				WindowContext.inputEventQueue = new MouseEventQueue();
+				WindowContext._inputEventProcessor = new MouseEventProcessor();
+				WindowContext._inputMode = value;
+				break;
+			case WindowContext.INPUT_MODE_TOUCH:
+				// Touch pipeline is not ported yet; keep a functional queue/processor.
+				WindowContext.inputEventQueue = new MouseEventQueue();
+				WindowContext._inputEventProcessor = new MouseEventProcessor();
+				WindowContext._inputMode = value;
+				break;
+			default:
+				WindowContext.inputMode = WindowContext.INPUT_MODE_MOUSE;
+				throw new Error(`Unknown input mode ${value}`);
+		}
+	}
+
+	private _linkEventTrackers: ILinkEventTracker[] = [];
+
+	public get linkEventTrackers(): ILinkEventTracker[]
+	{
+		return this._linkEventTrackers;
 	}
 
 	private _disposed: boolean = false;
@@ -87,28 +161,15 @@ export class WindowContext implements IWindowContext
 		WindowContext._renderer = renderer;
 	}
 
-	public static get inputMode(): number
-	{
-		return WindowContext._inputMode;
-	}
-
-	public static set inputMode(value: number)
-	{
-		switch (value)
-		{
-			case WindowContext.INPUT_MODE_MOUSE:
-			case WindowContext.INPUT_MODE_TOUCH:
-				WindowContext._inputMode = value;
-				break;
-			default:
-				WindowContext._inputMode = WindowContext.INPUT_MODE_MOUSE;
-				throw new Error(`Unknown input mode ${value}`);
-		}
-	}
-
 	public setDesktop(desktop: IWindow): void
 	{
 		this._desktop = desktop;
+		this._eventProcessorState.desktop = desktop;
+
+		if (!this._eventProcessorState.hovered || this._eventProcessorState.hovered.disposed)
+		{
+			this._eventProcessorState.hovered = desktop;
+		}
 	}
 
 	public setServices(services: IInternalWindowServices): void
@@ -129,6 +190,11 @@ export class WindowContext implements IWindowContext
 	public setResourceManager(resourceManager: IResourceManager): void
 	{
 		this._resourceManager = resourceManager;
+	}
+
+	public setLocalizationManager(localization: ICoreLocalizationManager | null): void
+	{
+		this._localization = localization;
 	}
 
 	public getResourceManager(): IResourceManager | null
@@ -182,14 +248,24 @@ export class WindowContext implements IWindowContext
 		return (this._desktop as any).groupChildrenWithTag?.(tag, result, depth) ?? 0;
 	}
 
-	public registerLocalizationListener(_key: string, _window: IWindow): void
+	public registerLocalizationListener(key: string, window: IWindow): void
 	{
-		// Localization integration - to be connected later
+		if (!this._localization)
+		{
+			return;
+		}
+
+		this._localization.registerLocalizationListener(key, window as unknown as ILocalizable);
 	}
 
-	public removeLocalizationListener(_key: string, _window: IWindow): void
+	public removeLocalizationListener(key: string, window: IWindow): void
 	{
-		// Localization integration - to be connected later
+		if (!this._localization)
+		{
+			return;
+		}
+
+		this._localization.removeLocalizationListener(key, window as unknown as ILocalizable);
 	}
 
 	public create(
@@ -283,6 +359,20 @@ export class WindowContext implements IWindowContext
 			throw error;
 		}
 
+		if (WindowContext._inputEventProcessor && WindowContext.inputEventQueue)
+		{
+			this._eventProcessorState.renderer = WindowContext._renderer;
+			this._eventProcessorState.desktop = this._desktop;
+			this._eventProcessorState.eventTrackers = this.inputEventTrackers;
+
+			if (!this._eventProcessorState.hovered || this._eventProcessorState.hovered.disposed)
+			{
+				this._eventProcessorState.hovered = this._desktop;
+			}
+
+			WindowContext._inputEventProcessor.process(this._eventProcessorState, WindowContext.inputEventQueue);
+		}
+
 		this._updating = false;
 	}
 
@@ -370,7 +460,16 @@ export class WindowContext implements IWindowContext
 			this._services = null;
 			this._factory = null!;
 			this._widgetFactory = null;
+			this._resourceManager = null;
+			this._localization = null;
+			this.inputEventTrackers.length = 0;
+			this._linkEventTrackers = [];
+			this._eventProcessorState.desktop = null;
+			this._eventProcessorState.hovered = null;
+			this._eventProcessorState.lastClickTarget = null;
+			this._eventProcessorState.lastMouseDownTarget = null;
+			this._eventProcessorState.lastClickAwayTarget = null;
+			this._eventProcessorState.eventTrackers = this.inputEventTrackers;
 		}
 	}
 }
-

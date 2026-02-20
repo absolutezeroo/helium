@@ -649,13 +649,25 @@ export class CoreComponentContext extends ComponentContext implements ICore
 	 */
 	override registerUpdateReceiver(receiver: IUpdateReceiver, priority: number): void
 	{
+		if(this.disposed)
+		{
+			return;
+		}
+
 		// Remove from any existing level first
 		this.removeUpdateReceiver(receiver);
 
 		// Clamp priority
-		priority = Math.min(priority, NUM_UPDATE_RECEIVER_LEVELS - 1);
+		priority = Math.max(0, Math.min(priority, NUM_UPDATE_RECEIVER_LEVELS - 1));
 
-		this._updateReceiversByPriority[priority].push(receiver);
+		const receivers = this._updateReceiversByPriority[priority];
+
+		if(!receivers)
+		{
+			return;
+		}
+
+		receivers.push(receiver);
 	}
 
 	/**
@@ -670,6 +682,12 @@ export class CoreComponentContext extends ComponentContext implements ICore
 		for(let level = 0; level < NUM_UPDATE_RECEIVER_LEVELS; level++)
 		{
 			const receivers = this._updateReceiversByPriority[level];
+
+			if(!receivers)
+			{
+				continue;
+			}
+
 			const index = receivers.indexOf(receiver);
 
 			if(index > -1)
@@ -761,11 +779,12 @@ export class CoreComponentContext extends ComponentContext implements ICore
 			log.error('Error disposing update receivers:', e);
 		}
 
-		this._updateReceiversByPriority = [];
-		this._frameSkipCounters = [];
 		this._loadingEventDelegate = null;
 
 		super.dispose();
+
+		this._updateReceiversByPriority.length = 0;
+		this._frameSkipCounters.length = 0;
 	}
 
 	// ─── Private helpers ───────────────────────────────────────────────

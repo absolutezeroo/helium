@@ -425,6 +425,8 @@ AS3: 32 files | TS: 22 files
 - ✅ **Room renderer layer**: 8 files in room/renderer/ (6 interfaces + RoomRenderer + RoomRendererFactory), RoomInstance renderer management, RoomManager content processing pipeline (40ms throttle)
 - ✅ **core/window/graphics/WindowRenderer (win63 parity)**: dirty-region queue merge, parent clipping propagation, branch rendering recursion, purge/getDrawBuffer/register/remove behavior realigned with AS3 `sources/win63_version/core/window/graphics/WindowRenderer.as`
 - ✅ **WindowComposite extracted**: web canvas composition + hit-test bridge moved from `WindowRenderer` into `core/window/graphics/WindowComposite.ts` to keep `WindowRenderer` aligned to AS3 responsibilities
+- ✅ **HabboWindowManager AS3 parity pass**: restored AS3-compatible API surface (`buildFromXML/windowToXMLString`, alerts/confirms/simpleAlert, groupWindowsWithTag, input tracking callback), reintroduced Session/Room/Config dependencies and link/element-pointer handler lifecycle wiring in `habbo/window/HabboWindowManager.ts`
+- ✅ **core/window/WindowContext + MouseEventProcessor (win63 parity)**: restored queued input processing (`process(state, queue)`), hover/down/click-away state tracking, `WME_UP_OUTSIDE`/cursor resolution flow, localization listener wiring in context, and localization propagation to all contexts from `HabboWindowManager`
 
 ---
 

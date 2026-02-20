@@ -27,15 +27,10 @@ import {resolveLocalizationTokens} from './utils/WindowParser';
  */
 export class WindowController extends WindowModel implements IWindow, IGraphicContextHost
 {
-	// ── Static constants ─────────────────────────────────────────────
-
 	public static readonly TAG_EXCLUDE: string = '_EXCLUDE';
 	public static readonly TAG_INTERNAL: string = '_INTERNAL';
 	public static readonly TAG_COLORIZE: string = '_COLORIZE';
 	public static readonly TAG_IGNORE_INHERITED_STYLE: string = '_IGNORE_INHERITED_STYLE';
-
-	// ── Static state ─────────────────────────────────────────────────
-
 	private static _nextUniqueId: number = 0;
 	private static readonly _tempRect: { x: number; y: number; width: number; height: number } = {
 		x: 0,
@@ -43,9 +38,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 		width: 0,
 		height: 0
 	};
-
-	// ── Instance fields ──────────────────────────────────────────────
-
 	protected _eventDispatcher: WindowEventDispatcher | null = null;
 	protected _graphicContext: IGraphicContext | null = null;
 	protected _hasVisualContent: boolean = true;
@@ -71,16 +63,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 		dynamicStyle: string = ''
 	)
 	{
-		// AS3 constructor order (WindowController.as lines 77-143):
-		// 1. Get theme property defaults (before super)
-		// 2. super()
-		// 3. Init parent rect
-		// 4. Parse layout children (if layout exists)
-		// 5. Apply defaults (blend, threshold, bg, color, limits) — AFTER layout
-		// 6. Apply properties if provided
-		// 7. Set procedure
-		// 8. Set parent
-
 		super(id, name, type, style, param, context, rect, tags, dynamicStyle);
 
 		this._uniqueId = WindowController._nextUniqueId++;
@@ -228,19 +210,16 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 	public get procedure(): ((event: WindowEvent, window: IWindow) => void) | null
 	{
 		if (this._procedure !== null) return this._procedure;
+
 		if (this._parent !== null) return this._parent.procedure;
 
 		return WindowController._nullEventProc;
 	}
 
-	// ── Constructor ──────────────────────────────────────────────────
-
 	public set procedure(value: ((event: WindowEvent, window: IWindow) => void) | null)
 	{
 		this._procedure = value;
 	}
-
-	// ── Static helpers ───────────────────────────────────────────────
 
 	protected _parent: WindowController | null = null;
 
@@ -249,8 +228,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 	{
 		return this._parent;
 	}
-
-	// ── Getters & setters ────────────────────────────────────────────
 
 	public set parent(value: IWindow | null)
 	{
@@ -408,14 +385,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 		return [];
 	}
 
-	// ── Position & size ─────────────────────────────────────────────
-	//
-	// Getters MUST be redeclared here alongside setters.
-	// In JavaScript, defining only a setter on a subclass prototype
-	// creates a descriptor { set, get: undefined } that shadows the
-	// parent's getter. The lookup stops at this prototype level and
-	// returns undefined instead of continuing to WindowModel.
-
 	public set etching(_value: unknown[])
 	{
 		// Stub: etching is a visual feature not needed in engine
@@ -483,8 +452,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 		this.setRectangle(value.x, value.y, this._width, this._height);
 	}
 
-	// ── Visual properties ────────────────────────────────────────────
-
 	public get rectangle(): { x: number; y: number; width: number; height: number }
 	{
 		return {x: this._x, y: this._y, width: this._width, height: this._height};
@@ -547,8 +514,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 			this._context.invalidate(this, null, 16);
 		}
 	}
-
-	// ── Identity & type properties ──────────────────────────────────
 
 	public get visible(): boolean
 	{
@@ -772,8 +737,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 		return this._offsetY;
 	}
 
-	// ── IGraphicContextHost ──────────────────────────────────────────
-
 	public set offsetY(value: number)
 	{
 		this._offsetY = value;
@@ -784,8 +747,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 	{
 		return this._children ? this._children.length : 0;
 	}
-
-	// ── Core layout methods ──────────────────────────────────────────
 
 	/**
 	 * Expands the parent to accommodate a child that extends beyond its bounds.
@@ -1131,8 +1092,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 		}
 	}
 
-	// ── Build from JSON (adapted from AS3 buildFromXML) ──────────────
-
 	public override invalidate(rect: { x: number; y: number; width: number; height: number } | null = null): void
 	{
 		this._context.invalidate(this, rect, 1);
@@ -1143,8 +1102,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 	{
 		return 0;
 	}
-
-	// ── Draw buffer ──────────────────────────────────────────────────
 
 	/**
 	 * Returns the target window where layout children should be added.
@@ -1171,8 +1128,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 		}
 	}
 
-	// ── Core event routing ───────────────────────────────────────────
-
 	/**
 	 * Offsets the window position by the given deltas.
 	 *
@@ -1183,8 +1138,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 	{
 		this.setRectangle(this._x + dx, this._y + dy, this._width, this._height);
 	}
-
-	// ── Coordinate conversion ────────────────────────────────────────
 
 	/**
 	 * Scales the window by the given deltas (adds to current size).
@@ -1793,8 +1746,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 		);
 	}
 
-	// ── Mouse methods ────────────────────────────────────────────────
-
 	/**
 	 * Tests whether a global-space rectangle intersects this window's global bounds.
 	 *
@@ -1866,15 +1817,11 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 		point.y = globalY - point.y;
 	}
 
-	// ── Hierarchy search ─────────────────────────────────────────────
-
 	/** Returns the vertical scale relative to the initial size. */
 	public resolveVerticalScale(): number
 	{
 		return this._height / this._initialRect.height;
 	}
-
-	// ── State flag operations ────────────────────────────────────────
 
 	/** Returns the horizontal scale relative to the initial size. */
 	public resolveHorizontalScale(): number
@@ -2190,8 +2137,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 			this._context.invalidate(this, null, 8);
 		}
 	}
-
-	// ── Window state operations ──────────────────────────────────────
 
 	/**
 	 * Gets whether a style flag is set.
@@ -2567,8 +2512,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 		return true;
 	}
 
-	// ── Event listener management ────────────────────────────────────
-
 	/**
 	 * Sets focus on this window.
 	 *
@@ -2704,8 +2647,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 		}
 	}
 
-	// ── Property management ──────────────────────────────────────────
-
 	/**
 	 * Returns whether any listener is registered for the given type.
 	 *
@@ -2732,8 +2673,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 			this._eventDispatcher.removeEventListener(type, listener);
 		}
 	}
-
-	// ── Child utility methods ────────────────────────────────────────
 
 	/**
 	 * Creates a property struct with a custom value.
@@ -2806,8 +2745,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 			}
 		}
 	}
-
-	// ── Child management ─────────────────────────────────────────────
 
 	/**
 	 * Activates or deactivates children by name.
@@ -3246,8 +3183,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 		}
 	}
 
-	// ── Region properties ────────────────────────────────────────────
-
 	/**
 	 * Gets region property rectangles.
 	 *
@@ -3351,8 +3286,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 		}
 	}
 
-	// ── Clone ────────────────────────────────────────────────────────
-
 	/**
 	 * Creates a deep clone of this window and its children.
 	 *
@@ -3405,8 +3338,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 
 		return cloned;
 	}
-
-	// ── Protected methods ────────────────────────────────────────────
 
 	public override toString(): string
 	{
@@ -3605,8 +3536,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 		}
 	}
 
-	// ── String representation ────────────────────────────────────────
-
 	/**
 	 * Scales this window to accommodate all of its children.
 	 */
@@ -3685,8 +3614,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 		}
 	}
 
-	// ── Dispose ──────────────────────────────────────────────────────
-
 	/**
 	 * Returns whether this is a child window (not directly under desktop).
 	 */
@@ -3694,8 +3621,6 @@ export class WindowController extends WindowModel implements IWindow, IGraphicCo
 	{
 		return this._parent !== this._context.getDesktopWindow();
 	}
-
-	// ── Private helpers ──────────────────────────────────────────────
 
 	/**
 	 * Dispatches an event through the procedure and event listeners (no built-in handling).

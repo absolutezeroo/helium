@@ -83,18 +83,7 @@ export class DesktopController extends ActivatorController implements IDesktopWi
 		paramFilter: number = 0
 	): void
 	{
-		for (let i = this.numChildren - 1; i >= 0; i--)
-		{
-			const child = this.getChildAt(i);
-
-			if (child && child.visible && child.hitTestLocalPoint(point))
-			{
-				if (paramFilter === 0 || child.testParamFlag(paramFilter))
-				{
-					result.push(child);
-				}
-			}
-		}
+		super.groupParameterFilteredChildrenUnderPoint(point, result, paramFilter);
 	}
 
 	public setDisplayObject(_displayObject: unknown): void

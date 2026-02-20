@@ -12,8 +12,6 @@ import {WindowEvent} from './WindowEvent';
  */
 export class WindowMouseEvent extends WindowEvent
 {
-	// ── Event type constants ─────────────────────────────────────────
-
 	public static readonly CLICK: string = 'WME_CLICK';
 	public static readonly DOUBLE_CLICK: string = `WME_DOUBLE_CLICK`;
 	public static readonly DOWN: string = 'WME_DOWN';
@@ -32,12 +30,9 @@ export class WindowMouseEvent extends WindowEvent
 	public static readonly ROLL_OUT: string = 'WME_ROLL_OUT';
 	public static readonly ROLL_OVER: string = 'WME_ROLL_OVER';
 	public static readonly HOVERING: string = 'WME_HOVERING';
-
-	// ── Object pool ──────────────────────────────────────────────────
+	public static readonly CLICK_AWAY: string = 'WME_CLICK_AWAY';
 
 	private static readonly _mousePool: WindowMouseEvent[] = [];
-
-	// ── Instance fields ──────────────────────────────────────────────
 
 	public delta: number = 0;
 	public localX: number = 0;
@@ -48,8 +43,6 @@ export class WindowMouseEvent extends WindowEvent
 	public ctrlKey: boolean = false;
 	public shiftKey: boolean = false;
 	public buttonDown: boolean = false;
-
-	// ── Static factory ───────────────────────────────────────────────
 
 	/**
 	 * Allocates a WindowMouseEvent from the pool or creates a new one.
@@ -90,6 +83,7 @@ export class WindowMouseEvent extends WindowEvent
 		event._type = type;
 		event._window = window;
 		event._related = related;
+		event._cancelable = true;
 		event._recycled = false;
 		event._poolRef = WindowMouseEvent._mousePool;
 		event.localX = localX;
@@ -104,8 +98,6 @@ export class WindowMouseEvent extends WindowEvent
 
 		return event;
 	}
-
-	// ── Methods ──────────────────────────────────────────────────────
 
 	/**
 	 * Creates a clone of this mouse event via the pool.

@@ -8,13 +8,24 @@ import type {IWindow} from '@core/window/IWindow';
 import type {IWindowContext} from '@core/window/IWindowContext';
 import type {IInputEventTracker} from '@core/window/IInputEventTracker';
 import type {IWindowContainer} from '@core/window/IWindowContainer';
+import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
+import type {IWidget} from '@core/window/IWidget';
 import type {IWindowRenderer} from '@core/window/graphics/IWindowRenderer';
+import type {ISkinRenderer} from '@core/window/graphics/renderer/ISkinRenderer';
 import type {ISkinContainer} from '@core/window/graphics/ISkinContainer';
+import type {IResourceManager} from '@core/window/IResourceManager';
 import type {ISkinData} from '@core/window/graphics/renderer/BitmapSkinParser';
+import type {WindowEvent} from '@core/window/events/WindowEvent';
 import type {IModalDialog} from './utils/IModalDialog';
 import type {IInternalWindowServices} from "@core/window";
 import type {IAvatarRenderManager} from '@habbo/avatar/IAvatarRenderManager';
 import type {IHabboCommunicationManager} from '@habbo/communication/IHabboCommunicationManager';
+import type {ISessionDataManager} from '@habbo/session/ISessionDataManager';
+import type {IRoomEngine} from '@habbo/room/IRoomEngine';
+import type {IHabboLocalizationManager} from '@habbo/localization/IHabboLocalizationManager';
+import type {AlertDialogCallback, IAlertDialog} from './utils/AlertDialog';
+import type {IAlertDialogWithLink} from './utils/AlertDialogWithLink';
+import type {IConfirmDialog} from './utils/ConfirmDialog';
 
 /**
  * Events emitted by the window manager.
@@ -75,6 +86,36 @@ export interface IHabboWindowManager extends IDisposable
 	 * In AS3: HabboWindowManagerComponent.communication
 	 */
 	readonly communication: IHabboCommunicationManager | null;
+	/**
+	 * The session data manager.
+	 *
+	 * In AS3: HabboWindowManagerComponent.sessionDataManager
+	 */
+	readonly sessionDataManager: ISessionDataManager | null;
+	/**
+	 * The room engine reference.
+	 *
+	 * In AS3: HabboWindowManagerComponent.roomEngine
+	 */
+	readonly roomEngine: IRoomEngine | null;
+	/**
+	 * The resource manager.
+	 *
+	 * In AS3: IHabboWindowManager.resourceManager
+	 */
+	readonly resourceManager: IResourceManager | null;
+	/**
+	 * The localization manager reference.
+	 *
+	 * In AS3: HabboWindowManagerComponent.localization
+	 */
+	readonly localization: IHabboLocalizationManager | null;
+	/**
+	 * Habbopedia stylesheet accessor.
+	 *
+	 * In AS3 this returned HabboPagesViewer.styleSheet.
+	 */
+	readonly habboPagesStyleSheet: unknown | null;
 
 	/**
 	 * Load element description data into the registry.
@@ -144,19 +185,67 @@ export interface IHabboWindowManager extends IDisposable
 	): IWindow;
 
 	/**
+	 * Build a window tree from a JSON layout definition.
+	 *
+	 * @param layout - The JSON layout object
+	 * @param layer - Context layer (default 1)
+	 * @param vars - Variable map
+	 * @returns The root IWindow
+	 */
+	buildFromJSON(layout: unknown, layer?: number, vars?: Map<string, string> | null): IWindow;
+
+	/**
+	 * Serialize a window tree.
+	 *
+	 * AS3 method name kept for API parity.
+	 */
+	windowToJSONString(window: IWindow): string;
+
+	/**
 	 * Destroy a window.
 	 */
 	destroy(window: IWindow): void;
 
 	/**
-	 * Build a window tree from a JSON layout definition.
+	 * Show a notify dialog.
 	 *
-	 * @param json - The JSON layout object
-	 * @param layer - Context layer (default 1)
-	 * @param vars - Variable map
-	 * @returns The root IWindow
+	 * AS3: notify(title, message, callback, flags)
 	 */
-	buildFromJSON(json: unknown, layer?: number, vars?: Map<string, string> | null): IWindow;
+	notify(title: string, message: string, callback: AlertDialogCallback | null, flags?: number): IAlertDialog;
+
+	/**
+	 * Show an alert dialog.
+	 *
+	 * AS3: alert(title, message, flags, callback)
+	 */
+	alert(title: string, message: string, flags: number, callback: AlertDialogCallback | null): IAlertDialog;
+
+	/**
+	 * Show a modal alert dialog.
+	 */
+	alertWithModal(title: string, message: string, flags: number, callback: AlertDialogCallback | null): IAlertDialog;
+
+	/**
+	 * Show an alert dialog with link.
+	 */
+	alertWithLink(
+		title: string,
+		message: string,
+		linkTitle: string,
+		linkUrl: string,
+		flags: number,
+		callback: AlertDialogCallback | null
+	): IAlertDialogWithLink;
+
+	/**
+	 * Show a confirm dialog.
+	 */
+	confirm(title: string, message: string, flags: number, callback: AlertDialogCallback | null): IConfirmDialog;
+
+	/**
+	 * Show a modal confirm dialog.
+	 */
+	confirmWithModal(title: string, message: string, flags: number, callback: AlertDialogCallback | null): IConfirmDialog;
 
 	/**
 	 * Register a widget layout JSON asset by name.
@@ -251,6 +340,11 @@ export interface IHabboWindowManager extends IDisposable
 	findWindowByTag(tag: string): IWindow | null;
 
 	/**
+	 * Group windows with a given tag across contexts.
+	 */
+	groupWindowsWithTag(tag: string, windows: IWindow[], depth?: number): number;
+
+	/**
 	 * Add an input event tracker to all context layers.
 	 */
 	addMouseEventTracker(tracker: IInputEventTracker): void;
@@ -259,6 +353,11 @@ export interface IHabboWindowManager extends IDisposable
 	 * Remove an input event tracker from all context layers.
 	 */
 	removeMouseEventTracker(tracker: IInputEventTracker): void;
+
+	/**
+	 * Input tracking callback.
+	 */
+	eventReceived(event: WindowEvent, window: IWindow): void;
 
 	/**
 	 * Register a localization parameter.
@@ -309,10 +408,10 @@ export interface IHabboWindowManager extends IDisposable
 	 *
 	 * In AS3: buildModalDialogFromXML(xml: XML): IModalDialog
 	 *
-	 * @param json - The JSON layout object
+	 * @param layout - The JSON layout object
 	 * @returns The modal dialog instance
 	 */
-	buildModalDialogFromJSON(json: unknown): IModalDialog;
+	buildModalDialogFromJSON(layout: unknown): IModalDialog;
 
 	/**
 	 * Registers a bitmap asset with the resource manager.
@@ -355,6 +454,11 @@ export interface IHabboWindowManager extends IDisposable
 	getWindowRenderer(): IWindowRenderer | null;
 
 	/**
+	 * Returns the skin renderer for a given type/style.
+	 */
+	getRendererByTypeAndStyle(type: number, style: number): ISkinRenderer | null;
+
+	/**
 	 * Composites all window layers into a single OffscreenCanvas buffer.
 	 *
 	 * Walks each context layer, retrieves its desktop, and recursively
@@ -389,4 +493,24 @@ export interface IHabboWindowManager extends IDisposable
 	 * Used by the client renderer to forward DOM mouse events.
 	 */
 	getServiceManager(): IInternalWindowServices | null;
+
+	/**
+	 * Create a widget by type.
+	 */
+	createWidget(type: string, window: IWidgetWindow): IWidget | null;
+
+	/**
+	 * Show a simple alert dialog.
+	 */
+	simpleAlert(
+		title: string,
+		message: string,
+		subtitle: string,
+		linkCaption?: string | null,
+		linkUrl?: string | null,
+		parameters?: Map<string, string> | null,
+		illustrationUrl?: string | null,
+		linkClickCallback?: (() => void) | null,
+		closeCallback?: (() => void) | null
+	): void;
 }

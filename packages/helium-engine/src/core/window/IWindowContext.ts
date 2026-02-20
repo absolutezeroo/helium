@@ -6,6 +6,7 @@ import type {IInputEventTracker} from './IInputEventTracker';
 import type {IInternalWindowServices} from './services/IInternalWindowServices';
 import type {IWindowFactory} from './IWindowFactory';
 import type {IWidgetFactory} from './IWidgetFactory';
+import type {ICoreLocalizationManager} from '../localization/ICoreLocalizationManager';
 
 /**
  * Window context interface.
@@ -30,6 +31,8 @@ export interface IWindowContext extends IDisposable
 	getDesktopWindow(): IWindow | null;
 
 	getResourceManager(): IResourceManager | null;
+
+	setLocalizationManager(localization: ICoreLocalizationManager | null): void;
 
 	registerLocalizationListener(key: string, window: IWindow): void;
 

@@ -34,6 +34,16 @@ export class EventProcessorState
 	public lastClickTarget: IWindow | null;
 
 	/**
+	 * The window that received the most recent mouseDown event.
+	 */
+	public lastMouseDownTarget: IWindow | null;
+
+	/**
+	 * The current click-away target.
+	 */
+	public lastClickAwayTarget: IWindow | null;
+
+	/**
 	 * Active input event trackers.
 	 */
 	public eventTrackers: IInputEventTracker[];
@@ -43,6 +53,8 @@ export class EventProcessorState
 		desktop: IWindow | null,
 		hovered: IWindow | null,
 		lastClickTarget: IWindow | null,
+		lastMouseDownTarget: IWindow | null,
+		lastClickAwayTarget: IWindow | null,
 		eventTrackers: IInputEventTracker[]
 	)
 	{
@@ -50,6 +62,8 @@ export class EventProcessorState
 		this.desktop = desktop;
 		this.hovered = hovered;
 		this.lastClickTarget = lastClickTarget;
+		this.lastMouseDownTarget = lastMouseDownTarget;
+		this.lastClickAwayTarget = lastClickAwayTarget;
 		this.eventTrackers = eventTrackers;
 	}
 }

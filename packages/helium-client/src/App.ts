@@ -454,6 +454,14 @@ export class HeliumApp
 		{
 			if (this._disposed) return;
 
+			const helium = Helium.instance;
+
+			if (helium.disposed || !helium.isReady)
+			{
+				this._animFrameId = 0;
+				return;
+			}
+
 			this.renderFrame();
 
 			this._animFrameId = requestAnimationFrame(loop);
@@ -473,6 +481,12 @@ export class HeliumApp
 		if (!this._canvas || !this._ctx) return;
 
 		const helium = Helium.instance;
+
+		if (helium.disposed || !helium.isReady)
+		{
+			return;
+		}
+
 		const windowManager = helium.windowManager;
 		const renderer = windowManager.getWindowRenderer();
 
