@@ -4,6 +4,7 @@ import type {IHabboCommunicationManager} from '../communication/IHabboCommunicat
 import type {IHabboToolbar} from '../toolbar/IHabboToolbar';
 import type {IRoomSessionManager} from '../session/IRoomSessionManager';
 import type {IHabboWindowManager} from '../window/IHabboWindowManager';
+import type {IHabboHelp} from '../help/IHabboHelp';
 import type {IMessageComposer} from '@core';
 import type {IHabboNavigator} from './IHabboNavigator';
 import type {NavigatorData} from './domain';
@@ -41,6 +42,7 @@ export interface IHabboTransitionalNavigator extends IHabboNavigator
 	readonly roomEventViewCtrl: RoomEventViewCtrl | null;
 	readonly officialRoomEntryManager: OfficialRoomEntryManager | null;
 	readonly toolbar: IHabboToolbar | null;
+	readonly habboHelp: IHabboHelp | null;
 	readonly roomEventInfoCtrl: RoomEventInfoCtrl | null;
 	readonly roomFilterCtrl: RoomFilterCtrl | null;
 	readonly roomSessionManager: IRoomSessionManager | null;
@@ -48,7 +50,7 @@ export interface IHabboTransitionalNavigator extends IHabboNavigator
 
 	send(composer: IMessageComposer<unknown[]>): void;
 
-	getJsonWindow(jsonFileName: string, style?: number): IWindow | null;
+	getXmlWindow(xmlFileName: string, style?: number): IWindow | null;
 
 	getText(key: string): string;
 

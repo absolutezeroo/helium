@@ -28,6 +28,16 @@ export class NavigatorSearchResultSet
 		return this._searchCode;
 	}
 
+	/**
+	 * AS3 compatibility alias.
+	 *
+	 * @see sources/win63_version/habbo/communication/messages/incoming/newnavigator/class_1652.as
+	 */
+	get searchCodeOriginal(): string
+	{
+		return this._searchCode;
+	}
+
 	private _filteringData: string = '';
 
 	get filteringData(): string
@@ -40,6 +50,14 @@ export class NavigatorSearchResultSet
 	get blocks(): NavigatorSearchResultBlock[]
 	{
 		return this._blocks;
+	}
+
+	/**
+	 * AS3 compatibility alias (class_3439.resultSet).
+	 */
+	get resultSet(): NavigatorSearchResultSet
+	{
+		return this;
 	}
 
 	/**

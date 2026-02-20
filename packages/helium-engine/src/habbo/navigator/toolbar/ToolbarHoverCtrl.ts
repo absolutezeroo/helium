@@ -32,7 +32,7 @@ export class ToolbarHoverCtrl
 	{
 		this._navigator = navigator;
 
-		const xmlWindow = navigator.getJsonWindow('toolbar_hover');
+		const xmlWindow = navigator.getXmlWindow('toolbar_hover');
 
 		if (!xmlWindow) return;
 

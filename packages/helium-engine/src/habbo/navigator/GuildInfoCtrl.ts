@@ -44,7 +44,7 @@ export class GuildInfoCtrl implements IDisposable
 
 		if (!guildInfo)
 		{
-			const xmlWindow = this._navigator.getJsonWindow(GuildInfoCtrl.GUILD_INFO_NAME);
+			const xmlWindow = this._navigator.getXmlWindow(GuildInfoCtrl.GUILD_INFO_NAME);
 
 			if (!xmlWindow) return;
 

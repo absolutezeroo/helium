@@ -2,6 +2,7 @@ import type {IWindow} from '@core/window/IWindow';
 import type {IWindowContainer} from '@core/window/IWindowContainer';
 import type {IItemListWindow} from '@core/window/components/IItemListWindow';
 import type {IStaticBitmapWrapperWindow} from '@core/window/components/IStaticBitmapWrapperWindow';
+import type {IWidgetWindow} from '@core/window/components/IWidgetWindow';
 import type {WindowEvent} from '@core/window/events/WindowEvent';
 import type {GuestRoomData} from '@habbo/communication/messages/incoming/navigator/GuestRoomData';
 import {AddFavouriteRoomMessageComposer} from '@habbo/communication/messages/outgoing/navigator/AddFavouriteRoomMessageComposer';
@@ -9,6 +10,7 @@ import {DeleteFavouriteRoomMessageComposer} from '@habbo/communication/messages/
 import {UpdateHomeRoomMessageComposer} from '@habbo/communication/messages/outgoing/navigator/UpdateHomeRoomMessageComposer';
 import {getLocalizationKey} from '@habbo/session/enum/RoomTradingLevelEnum';
 import {FriendlyTime} from '@habbo/utils/FriendlyTime';
+import type {IBadgeImageWidget} from '@habbo/window/widgets/IBadgeImageWidget';
 import type {HabboNewNavigator} from '../HabboNewNavigator';
 import type {LegacyNavigator} from '../transitional/LegacyNavigator';
 
@@ -356,6 +358,13 @@ export class RoomInfoPopup
 
 		if(hasGroup)
 		{
+			const groupBadgeWidget = (this._window.findChildByName('room_group_badge') as IWidgetWindow | null)?.widget as IBadgeImageWidget | null;
+
+			if (groupBadgeWidget)
+			{
+				groupBadgeWidget.badgeId = this._roomData.groupBadgeCode;
+			}
+
 			const groupNameEl = this._window.findChildByName('group_name');
 
 			if(groupNameEl)
@@ -685,9 +694,11 @@ export class RoomInfoPopup
 	 */
 	private reportRegionProcedure = (event: WindowEvent, _window: IWindow): void =>
 	{
-		if(event.type === 'WME_CLICK')
+		if(event.type === 'WME_CLICK' && this._roomData)
 		{
-			// habboHelp.reportRoom() not yet available
+			const help = (this._navigator.legacyNavigator as unknown as { habboHelp?: { reportRoom: (roomId: number, roomName: string, roomDescription: string) => void } | null }).habboHelp;
+
+			help?.reportRoom(this._roomData.flatId, this._roomData.roomName, this._roomData.description);
 			this.destroy();
 		}
 	};

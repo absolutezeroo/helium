@@ -81,7 +81,7 @@ export class TagRenderer
 		{
 			if (!this._navigator) return;
 
-			const xmlWindow = this._navigator.getJsonWindow('iro_tag');
+			const xmlWindow = this._navigator.getXmlWindow('iro_tag');
 
 			if (!xmlWindow) return;
 

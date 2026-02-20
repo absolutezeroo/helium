@@ -131,7 +131,7 @@ export class AlertView implements IDisposable
 	{
 		if (!this._navigator) return null;
 
-		const window = this._navigator.getJsonWindow(this._xmlFileName, 2);
+		const window = this._navigator.getXmlWindow(this._xmlFileName, 2);
 
 		if (!window) return null;
 

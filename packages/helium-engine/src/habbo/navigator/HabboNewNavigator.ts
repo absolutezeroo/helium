@@ -49,6 +49,7 @@ import {
 import {
 	GetExtendedProfileMessageComposer
 } from '../communication/messages/outgoing/users/GetExtendedProfileMessageComposer';
+import {GetHabboGroupDetailsMessageComposer} from '../communication/messages/outgoing/users/GetHabboGroupDetailsMessageComposer';
 import type {IMessageComposer} from '@core';
 import {IID_HabboCommunicationManager} from "@iid/IIDHabboCommunicationManager";
 import {IID_HabboNavigator} from "@iid/IIDHabboNavigator";
@@ -345,18 +346,18 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		if (!this._noPushToHistoryDueToNavigation)
 		{
 			this._historyManager.addSearchContextAtCurrentOffset(
-				new SearchContext(results.searchCode, results.filteringData)
+				new SearchContext(results.searchCodeOriginal, results.filteringData)
 			);
 		}
 
-		this._cache.put(`${results.searchCode}/${results.filteringData}`, results);
+		this._cache.put(`${results.searchCodeOriginal}/${results.filteringData}`, results);
 
 		this._noPushToHistoryDueToNavigation = false;
 
 		// Update the view if visible (like AS3)
 		if (this._view && this._view.visible)
 		{
-			this._view.onSearchResults(results);
+			this._view.onSearchResults(results, this._lastSource);
 		}
 
 		// log.debug(`Search results: ${results.blocks.length} blocks`);
@@ -466,8 +467,6 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 		}
 
 		this._lastSource = source;
-		this._lastSearchCode = searchCode;
-		this._lastFiltering = filtering;
 
 		// Check cache first
 		const cached = this._cache.getEntry(`${searchCode}/${filtering}`);
@@ -479,7 +478,11 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 			return;
 		}
 
+		this._lastSearchCode = searchCode;
+		this._lastFiltering = filtering;
+
 		this.send(new NewNavigatorSearchComposer(searchCode, filtering));
+		this.trackEventLog('search', 'Search', HabboNewNavigator.getEventLogExtraStringFromSearch(searchCode, filtering));
 
 		this.open();
 
@@ -523,6 +526,8 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 
 			this.performSearch(context.searchCode, context.filtering);
 		}
+
+		this.trackEventLog('browse.back', 'Results');
 	}
 
 	goForward(): void
@@ -565,25 +570,30 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 
 	addSavedSearch(searchCode: string, filtering: string): void
 	{
-		this.send(new NavigatorAddSavedSearchComposer(searchCode, filtering));
+		if (this._currentResults)
+		{
+			this.send(new NavigatorAddSavedSearchComposer(searchCode, filtering));
+		}
+
+		this.trackEventLog('savedsearch.add', 'SavedSearch', HabboNewNavigator.getEventLogExtraStringFromSearch(searchCode, filtering));
+		this._view?.setLeftPaneVisibility(true);
 	}
 
 	deleteSavedSearch(id: number): void
 	{
 		this.send(new NavigatorDeleteSavedSearchComposer(id));
+		this.trackEventLog('savedsearch.delete', 'SavedSearch');
 	}
 
 	addCollapsedCategory(category: string): void
 	{
-		this.send(new NavigatorAddCollapsedCategoryMessageComposer(category));
-
+		this.sendAddCollapsedCategory(category);
 		this._collapsedCategories.add(category);
 	}
 
 	removeCollapsedCategory(category: string): void
 	{
-		this.send(new NavigatorRemoveCollapsedCategoryMessageComposer(category));
-
+		this.sendRemoveCollapsedCategory(category);
 		this._collapsedCategories.delete(category);
 	}
 
@@ -594,7 +604,23 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 
 	setSearchCodeViewMode(searchCode: string, viewMode: number): void
 	{
+		this.toggleSearchCodeViewMode(searchCode, viewMode);
+	}
+
+	sendAddCollapsedCategory(category: string): void
+	{
+		this.send(new NavigatorAddCollapsedCategoryMessageComposer(category));
+	}
+
+	sendRemoveCollapsedCategory(category: string): void
+	{
+		this.send(new NavigatorRemoveCollapsedCategoryMessageComposer(category));
+	}
+
+	toggleSearchCodeViewMode(searchCode: string, viewMode: number): void
+	{
 		this.send(new NavigatorSetSearchCodeViewModeMessageComposer(searchCode, viewMode));
+		this.trackEventLog('browse.toggleviewmode', 'ViewMode', '', viewMode);
 	}
 
 	/**
@@ -705,8 +731,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	 */
 	getGuildInfo(groupId: number, _flag: boolean = true): void
 	{
-		// GetHabboGroupDetailsMessageComposer not yet available
-		log.debug(`getGuildInfo: ${groupId}`);
+		this.send(new GetHabboGroupDetailsMessageComposer(groupId, _flag));
 	}
 
 	/**
@@ -855,7 +880,7 @@ export class HabboNewNavigator extends Component implements IHabboNewNavigator
 	{
 		if (this._tracking)
 		{
-			this._tracking.trackEventLog('Navigation', action, category, label, value);
+			this._tracking.trackEventLog('NewNavigator', category, action, label, value);
 		}
 	}
 

@@ -96,7 +96,7 @@ export class GuestRoomPasswordInput
 		if (this._window) return;
 		if (!this._navigator) return;
 
-		this._window = this._navigator.getJsonWindow('password_input_xml', 2);
+		this._window = this._navigator.getXmlWindow('password_input_xml', 2);
 
 		if (!this._window) return;
 

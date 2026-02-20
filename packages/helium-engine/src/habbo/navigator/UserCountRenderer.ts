@@ -38,7 +38,7 @@ export class UserCountRenderer
 
 		if (!userCountWindow)
 		{
-			const xmlWindow = this._navigator.getJsonWindow('grs_usercount');
+			const xmlWindow = this._navigator.getXmlWindow('grs_usercount');
 
 			if (!xmlWindow) return;
 

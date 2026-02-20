@@ -137,7 +137,7 @@ export class CategoryElementFactory
 			addQuickLink.id = showMoreId;
 			addQuickLink.addEventListener('WME_CLICK', (e: WindowEvent) => this._blockResultsView?.onCategoryAddQuickLinkClicked(e));
 
-			const searchCode = this._navigator.currentResults?.searchCode ?? '';
+			const searchCode = this._navigator.currentResults?.searchCodeOriginal ?? '';
 
 			addQuickLink.visible = searchCode.indexOf('official_view') === -1;
 		}
@@ -216,6 +216,13 @@ export class CategoryElementFactory
 					{
 						currentTileContainer = this._roomEntryElementFactory.getNewTileContainerElement();
 						roomList.addListItem(currentTileContainer as unknown as IWindow);
+						currentTileContainer.addEventListener('WME_WHEEL', (event: WindowEvent) =>
+							{
+								const delta = (event as unknown as { delta?: number }).delta ?? 0;
+								const list = this._blockResultsView?.itemList as unknown as { scrollWithWheel?: (value: number) => void } | null;
+
+								list?.scrollWithWheel?.(delta);
+							});
 					}
 
 					currentTileContainer.addListItem(
@@ -289,7 +296,7 @@ export class CategoryElementFactory
 			addQuickLink.addEventListener('WME_CLICK', (e: WindowEvent) => this._blockResultsView?.onCategoryAddQuickLinkClicked(e));
 			addQuickLink.id = showMoreId;
 
-			const searchCode = this._navigator.currentResults?.searchCode ?? '';
+			const searchCode = this._navigator.currentResults?.searchCodeOriginal ?? '';
 
 			addQuickLink.visible = searchCode.indexOf('official_view') === -1;
 		}

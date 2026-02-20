@@ -52,7 +52,7 @@ export class PopupCtrl
 
 		if (!this._popup)
 		{
-			const xmlWindow = this._navigator.getJsonWindow(this._xmlFileName);
+			const xmlWindow = this._navigator.getXmlWindow(this._xmlFileName);
 
 			if (!xmlWindow) return;
 

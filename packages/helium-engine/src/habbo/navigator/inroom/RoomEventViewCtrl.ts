@@ -33,7 +33,7 @@ export class RoomEventViewCtrl implements IDisposable
 
 		if (!this._window)
 		{
-			this._window = this._navigator.getJsonWindow('room_event_form');
+			this._window = this._navigator.getXmlWindow('room_event_form');
 		}
 
 		if (this._window)

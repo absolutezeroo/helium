@@ -42,7 +42,7 @@ export class OfficialRoomEntryManager implements IDisposable
 		if (!this._navigator) return null;
 
 		const xmlName = isWide ? 'orl_wide_entry' : 'orl_narrow_entry';
-		const window = this._navigator.getJsonWindow(xmlName);
+		const window = this._navigator.getXmlWindow(xmlName);
 
 		return window as unknown as IWindowContainer | null;
 	}

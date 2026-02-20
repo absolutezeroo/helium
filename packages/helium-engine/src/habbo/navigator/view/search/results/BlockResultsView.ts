@@ -118,6 +118,7 @@ export class BlockResultsView
 		if (searchCode)
 		{
 			this._navigator.performSearch(searchCode, this._navigator.currentResults?.filteringData ?? '');
+			this._navigator.trackEventLog('browse.expandsearch', 'Results', this.getEventLogExtra(searchCode));
 		}
 	};
 
@@ -146,6 +147,7 @@ export class BlockResultsView
 		{
 			this._navigator.addCollapsedCategory(searchCode);
 			this.replaceBlock(event.window.id, false);
+			this._navigator.trackEventLog('browse.collapsecategory', 'Results', this.getEventLogExtra(searchCode));
 		}
 	};
 
@@ -164,6 +166,7 @@ export class BlockResultsView
 		{
 			this._navigator.removeCollapsedCategory(searchCode);
 			this.replaceBlock(event.window.id, true);
+			this._navigator.trackEventLog('browse.uncollapsecategory', 'Results', this.getEventLogExtra(searchCode));
 		}
 	};
 
@@ -201,7 +204,7 @@ export class BlockResultsView
 
 		if (searchCode)
 		{
-			this._navigator.setSearchCodeViewMode(searchCode, newMode);
+			this._navigator.toggleSearchCodeViewMode(searchCode, newMode);
 		}
 
 		const currentResults = this._navigator.currentResults;
@@ -248,7 +251,7 @@ export class BlockResultsView
 		if (isExpanded)
 		{
 			const viewMode = !this._navigator.isPerkAllowed('NAVIGATOR_ROOM_THUMBNAIL_CAMERA')
-				&& this._navigator.currentResults?.searchCode !== 'official_view'
+				&& this._navigator.currentResults?.searchCodeOriginal !== 'official_view'
 				? 0
 				: block.viewMode;
 
@@ -292,5 +295,12 @@ export class BlockResultsView
 		this._itemList.addListItemAt(newElement, listIndex);
 
 		this._blockWindows.set(blockId, newElement);
+	}
+
+	private getEventLogExtra(searchCode: string): string
+	{
+		const filtering = this._navigator.currentResults?.filteringData ?? '';
+
+		return searchCode + (filtering === '' ? '' : ':' + filtering);
 	}
 }

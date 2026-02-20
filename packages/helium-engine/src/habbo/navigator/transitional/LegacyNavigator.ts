@@ -5,6 +5,7 @@ import type {IHabboCommunicationManager} from '../../communication/IHabboCommuni
 import type {IHabboToolbar} from '../../toolbar/IHabboToolbar';
 import type {IRoomSessionManager} from '../../session/IRoomSessionManager';
 import type {IHabboWindowManager} from '../../window/IHabboWindowManager';
+import type {IHabboHelp} from '../../help/IHabboHelp';
 import type {EventCategory, GuestRoomData} from '../../communication/messages/incoming/navigator';
 import type {IHabboTransitionalNavigator} from '../IHabboTransitionalNavigator';
 import type {ITransitionalMainViewCtrl} from '../mainview/ITransitionalMainViewCtrl';
@@ -154,6 +155,11 @@ export class LegacyNavigator implements IHabboTransitionalNavigator
 		return (this._oldNavigator as any)?._toolbar ?? null;
 	}
 
+	get habboHelp(): IHabboHelp | null
+	{
+		return (this._oldNavigator as any)?.habboHelp ?? null;
+	}
+
 	get roomSessionManager(): IRoomSessionManager | null
 	{
 		return (this._oldNavigator as any)?._roomSessionManager ?? null;
@@ -179,9 +185,9 @@ export class LegacyNavigator implements IHabboTransitionalNavigator
 		this._oldNavigator?.send(composer);
 	}
 
-	getJsonWindow(xmlFileName: string, style: number = 1): IWindow | null
+	getXmlWindow(xmlFileName: string, style: number = 1): IWindow | null
 	{
-		return this._oldNavigator?.getJsonWindow(xmlFileName, style) ?? null;
+		return this._oldNavigator?.getXmlWindow(xmlFileName, style) ?? null;
 	}
 
 	getText(key: string): string

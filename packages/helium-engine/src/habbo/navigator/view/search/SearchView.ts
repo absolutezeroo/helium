@@ -250,7 +250,7 @@ export class SearchView
 
 		if (kbEvent.keyCode === 13)
 		{
-			const searchCode = this._navigator.currentResults?.searchCode ?? 'official_view';
+			const searchCode = this._navigator.currentResults?.searchCodeOriginal ?? 'official_view';
 
 			this._navigator.performSearch(searchCode, this.getFilterParameter());
 		}

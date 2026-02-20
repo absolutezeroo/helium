@@ -61,12 +61,18 @@ export class HabboNavigator extends Component implements IHabboNavigator
 	private _tracking: IHabboTracking | null = null;
 	private _catalog: unknown | null = null;
 	private _avatarManager: IAvatarRenderManager | null = null;
-	private _habboHelp: IHabboHelp | null = null;
 
 	constructor(context: IContext)
 	{
 		super(context);
 		this._data = new NavigatorData();
+	}
+
+	private _habboHelp: IHabboHelp | null = null;
+
+	get habboHelp(): IHabboHelp | null
+	{
+		return this._habboHelp;
 	}
 
 	private _communication: IHabboCommunicationManager | null = null;
@@ -376,12 +382,12 @@ export class HabboNavigator extends Component implements IHabboNavigator
 		return this._data.isRoomFavourite(roomId);
 	}
 
+	// ── Transitional methods ─────────────────────────────────────────
+
 	isRoomHome(roomId: number): boolean
 	{
 		return this._data.isRoomHome(roomId);
 	}
-
-	// ── Transitional methods ─────────────────────────────────────────
 
 	/**
 	 * Sends a message composer.
@@ -407,21 +413,21 @@ export class HabboNavigator extends Component implements IHabboNavigator
 	 * @returns The window, or null
 	 * @see source_as_win63/habbo/navigator/HabboNavigator.as getXmlWindow()
 	 */
-	getJsonWindow(jsonFileName: string, layer: number = 1): IWindow | null
+	getXmlWindow(xmlFileName: string, layer: number = 1): IWindow | null
 	{
 		if (!this._windowManager)
 		{
-			log.error(`Cannot build window '${jsonFileName}': window manager not available`);
+			log.error(`Cannot build window '${xmlFileName}': window manager not available`);
 			return null;
 		}
 
 		try
 		{
-			return this._windowManager.buildWidgetLayout(jsonFileName, layer);
+			return this._windowManager.buildWidgetLayout(xmlFileName, layer);
 		}
 		catch (e)
 		{
-			log.error(`Failed to build window '${jsonFileName}':`, e);
+			log.error(`Failed to build window '${xmlFileName}':`, e);
 			return null;
 		}
 	}

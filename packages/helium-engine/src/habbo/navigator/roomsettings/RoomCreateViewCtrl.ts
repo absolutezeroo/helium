@@ -45,7 +45,7 @@ export class RoomCreateViewCtrl
 
 		if (!this._content)
 		{
-			const window = this._navigator.getJsonWindow('roc_create_room');
+			const window = this._navigator.getXmlWindow('roc_create_room');
 
 			if (!window) return;
 

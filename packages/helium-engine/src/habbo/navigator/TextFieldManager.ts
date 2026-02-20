@@ -98,7 +98,7 @@ export class TextFieldManager
 
 		if (!this._errorPopup)
 		{
-			const xmlWindow = this._navigator.getJsonWindow('nav_error_popup');
+			const xmlWindow = this._navigator.getXmlWindow('nav_error_popup');
 
 			if (!xmlWindow) return;
 

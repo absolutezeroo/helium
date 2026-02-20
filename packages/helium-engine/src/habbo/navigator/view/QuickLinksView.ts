@@ -124,6 +124,11 @@ export class QuickLinksView
 					const context = this._searchContexts[id];
 
 					this._navigator.performSearch(context.searchCode, context.filtering);
+					this._navigator.trackEventLog(
+						'savedsearch.execute',
+						'SavedSearch',
+						context.searchCode + (context.filtering === '' ? '' : ':' + context.filtering)
+					);
 				}
 			}
 		}

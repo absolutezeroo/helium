@@ -61,6 +61,7 @@ export class NavigatorView implements IUpdateReceiver
 	private _rightPaneOriginalX: number = 0;
 	private _leftPaneMarginConst: number = LEFT_PANE_MARGIN_CONST;
 	private _leftPaneMargin: number = 0;
+	private _roomInfoGlobalRectangle: { x: number; y: number; width: number; height: number } = { x: 0, y: 0, width: 0, height: 0 };
 
 	constructor(navigator: HabboNewNavigator)
 	{
@@ -240,7 +241,21 @@ export class NavigatorView implements IUpdateReceiver
 
 		if(this.isRoomInfoBubbleVisible && this._popupHideDelay < 0)
 		{
-			this._roomInfoPopup!.show(false);
+			this._roomInfoPopup!.getGlobalRectangle(this._roomInfoGlobalRectangle);
+
+			const desktop = this._window.desktop as unknown as { mouseX?: number; mouseY?: number } | null;
+			const mouseX = desktop?.mouseX ?? 0;
+			const mouseY = desktop?.mouseY ?? 0;
+			const rect = this._roomInfoGlobalRectangle;
+			const inside = mouseX >= rect.x
+				&& mouseX <= (rect.x + rect.width)
+				&& mouseY >= rect.y
+				&& mouseY <= (rect.y + rect.height);
+
+			if(!inside)
+			{
+				this._roomInfoPopup!.show(false);
+			}
 		}
 	}
 
@@ -286,12 +301,15 @@ export class NavigatorView implements IUpdateReceiver
 		{
 			this._roomInfoPopup.setData(roomData);
 
-			if (roomData.habboGroupId !== 0)
+			if (roomData.habboGroupId !== 0 && this._navigator.getCachedGroupDetails(roomData.habboGroupId) == null)
 			{
+				this._navigator.getGuildInfo(roomData.habboGroupId, false);
 				this._waitingForGroupDetails = roomData.habboGroupId;
 			}
 
 			this._roomInfoPopup.showAt(true, x, y);
+			this._navigator.trackEventLog('browse.openroominfo', 'Results', roomData.roomName, roomData.flatId);
+			this._popupHideDelay = 4000;
 		}
 	}
 
@@ -305,19 +323,24 @@ export class NavigatorView implements IUpdateReceiver
 	 */
 	onSearchResults(results: NavigatorSearchResultSet, source: string = ''): void
 	{
+		if (this._navigator.newResultsRendered)
+		{
+			return;
+		}
+
 		if (!this._roomEntryElementFactory || !this._blockResultsView)
 		{
 			return;
 		}
 
-		this._roomEntryElementFactory.viewMode = getViewMode(results.searchCode);
+		this._roomEntryElementFactory.viewMode = getViewMode(results.searchCodeOriginal);
 		this._blockResultsView.displayCurrentResults();
 
 		// Select the matching tab if this is a top-level search
-		if (this._navigator.contextContainer.hasContextFor(results.searchCode))
+		if (this._navigator.contextContainer.hasContextFor(results.searchCodeOriginal))
 		{
 			const topLevelSearches = this._navigator.contextContainer.getTopLevelSearches();
-			const index = topLevelSearches.indexOf(results.searchCode);
+			const index = topLevelSearches.indexOf(results.searchCodeOriginal);
 
 			if (index !== -1 && this._topViewSelector)
 			{
@@ -342,7 +365,7 @@ export class NavigatorView implements IUpdateReceiver
 			if(randomBorder) randomBorder.visible = false;
 			if(promoteBorder) promoteBorder.visible = false;
 
-			if(results.searchCode === 'roomads_view' || results.searchCode === 'myworld_view')
+			if(results.searchCodeOriginal === 'roomads_view' || results.searchCodeOriginal === 'myworld_view')
 			{
 				if(promoteBorder) promoteBorder.visible = true;
 
@@ -372,6 +395,7 @@ export class NavigatorView implements IUpdateReceiver
 			this._searchView.setTextAndSearchModeFromFilter(results.filteringData, source);
 		}
 
+		this._navigator.newResultsRendered = true;
 		this.isBusy = false;
 
 		if (this._roomInfoPopup)
@@ -943,6 +967,7 @@ export class NavigatorView implements IUpdateReceiver
 			this._lastLeftPaneHidden,
 			0
 		);
+		this._navigator.trackEventLog('windowsettings', 'Interface', this._window.width + ' x ' + this._window.height);
 	}
 
 	/**
